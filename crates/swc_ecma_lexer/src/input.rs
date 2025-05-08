@@ -309,11 +309,13 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
 
     #[cold]
     #[inline(never)]
-    pub fn dump_cur(&mut self) -> String {
+    fn dump_cur(&mut self) -> String {
         match self.cur() {
             Some(v) => format!("{v:?}"),
             None => "<eof>".to_string(),
         }
+    }
+
     #[inline(always)]
     fn set_next(&mut self, token: Option<TokenAndSpan>) {
         self.next = token;

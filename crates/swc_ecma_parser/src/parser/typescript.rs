@@ -23,191 +23,6 @@ use super::*;
 use crate::{lexer::Token, parser::Parser, token};
 
 impl<I: Tokens> Parser<I> {
-    /// `tsIsListTerminator`
-    fn is_ts_list_terminator(&mut self, kind: ParsingContext) -> PResult<bool> {
-        debug_assert!(self.input.syntax().typescript());
-
-        Ok(match kind {
-            ParsingContext::EnumMembers | ParsingContext::TypeMembers => is!(self, '}'),
-            ParsingContext::HeritageClauseElement => {
-                is!(self, '{') || is!(self, "implements") || is!(self, "extends")
-            }
-            ParsingContext::TupleElementTypes => is!(self, ']'),
-            ParsingContext::TypeParametersOrArguments => is!(self, '>'),
-        })
-    }
-
-    /// `tsParseList`
-    fn parse_ts_list<T, F>(&mut self, kind: ParsingContext, mut parse_element: F) -> PResult<Vec<T>>
-    where
-        F: FnMut(&mut Self) -> PResult<T>,
-    {
-        debug_assert!(self.input.syntax().typescript());
-
-        let mut buf = Vec::with_capacity(8);
-        while !self.is_ts_list_terminator(kind)? {
-            // Skipping "parseListElement" from the TS source since that's just for error
-            // handling.
-            buf.push(parse_element(self)?);
-        }
-        Ok(buf)
-    }
-
-    /// `tsParseDelimitedList`
-    fn parse_ts_delimited_list<T, F>(
-        &mut self,
-        kind: ParsingContext,
-        mut parse_element: F,
-    ) -> PResult<Vec<T>>
-    where
-        F: FnMut(&mut Self) -> PResult<T>,
-    {
-        self.parse_ts_delimited_list_inner(kind, |p| {
-            let start = p.input.cur_pos();
-
-            Ok((start, parse_element(p)?))
-        })
-    }
-
-    /// `tsParseDelimitedList`
-    fn parse_ts_delimited_list_inner<T, F>(
-        &mut self,
-        kind: ParsingContext,
-        mut parse_element: F,
-    ) -> PResult<Vec<T>>
-    where
-        F: FnMut(&mut Self) -> PResult<(BytePos, T)>,
-    {
-        debug_assert!(self.input.syntax().typescript());
-
-        let mut buf = Vec::new();
-
-        loop {
-            trace_cur!(self, parse_ts_delimited_list_inner__element);
-
-            if self.is_ts_list_terminator(kind)? {
-                break;
-            }
-            let (_, element) = parse_element(self)?;
-            buf.push(element);
-
-            if eat!(self, ',') {
-                continue;
-            }
-
-            if self.is_ts_list_terminator(kind)? {
-                break;
-            }
-
-            if kind == ParsingContext::EnumMembers {
-                let cur = match cur!(self, false).ok() {
-                    Some(tok) => format!("{tok:?}"),
-                    Some(tok) => tok.to_string(self.input.get_token_value()),
-                    None => "EOF".to_string(),
-                };
-                self.emit_err(
-                    self.input.cur_span(),
-                    SyntaxError::Expected(",".to_string(), cur),
-                );
-                continue;
-            }
-            // This will fail with an error about a missing comma
-            expect!(self, ',');
-        }
-
-        Ok(buf)
-    }
-
-    fn parse_ts_bracketed_list<T, F>(
-        &mut self,
-        kind: ParsingContext,
-        parse_element: F,
-        bracket: bool,
-        skip_first_token: bool,
-    ) -> PResult<Vec<T>>
-    where
-        F: FnMut(&mut Self) -> PResult<T>,
-    {
-        debug_assert!(self.input.syntax().typescript());
-
-        if !skip_first_token {
-            if bracket {
-                expect!(self, '[');
-            } else {
-                expect!(self, '<');
-            }
-        }
-
-        let result = self.parse_ts_delimited_list(kind, parse_element)?;
-
-        if bracket {
-            expect!(self, ']');
-        } else {
-            expect!(self, '>');
-        }
-
-        Ok(result)
-    }
-
-    /// `tsParseTypeReference`
-    fn parse_ts_type_ref(&mut self) -> PResult<TsTypeRef> {
-        trace_cur!(self, parse_ts_type_ref);
-        debug_assert!(self.input.syntax().typescript());
-
-        let start = cur_pos!(self);
-
-        let has_modifier = eat_any_ts_modifier(self)?;
-
-        let type_name = parse_ts_entity_name(self, /* allow_reserved_words */ true)?;
-        trace_cur!(self, parse_ts_type_ref__type_args);
-        let type_params = if !self.input.had_line_break_before_cur() && is!(self, '<') {
-            Some(
-                self.with_ctx(self.ctx() & !Context::ShouldNotLexLtOrGtAsType)
-                    .parse_ts_type_args()?,
-            )
-        } else {
-            None
-        };
-
-        if has_modifier {
-            self.emit_err(span!(self, start), SyntaxError::TS2369);
-        }
-
-        Ok(TsTypeRef {
-            span: span!(self, start),
-            type_name,
-            type_params,
-        })
-    }
-
-    /// `tsParseThisTypePredicate`
-    fn parse_ts_this_type_predicate(
-        &mut self,
-        start: BytePos,
-        has_asserts_keyword: bool,
-        lhs: TsThisType,
-    ) -> PResult<TsTypePredicate> {
-        debug_assert!(self.input.syntax().typescript());
-
-        let param_name = TsThisTypeOrIdent::TsThisType(lhs);
-        let type_ann = if eat!(self, "is") {
-            let cur_pos = cur_pos!(self);
-            Some(self.parse_ts_type_ann(
-                // eat_colon
-                false, cur_pos,
-            )?)
-        } else {
-            None
-        };
-
-        Ok(TsTypePredicate {
-            span: span!(self, start),
-            asserts: has_asserts_keyword,
-            param_name,
-            type_ann,
-        })
-    }
-
     /// `tsParseImportType`
     fn parse_ts_import_type(&mut self) -> PResult<TsImportType> {
         let start = cur_pos!(self);
@@ -511,7 +326,7 @@ impl<I: Tokens> Parser<I> {
         let (global, id) = if is!(self, "global") {
             let id = self.parse_ident_name()?;
             (true, TsModuleName::Ident(id.into()))
-        } else if matches!(cur!(self, true), Token::Str { .. }) {
+        } else if matches!(cur!(self, true), Token::Str) {
             let id = parse_lit(self).map(|lit| match lit {
                 Lit::Str(s) => TsModuleName::Str(s),
                 _ => unreachable!(),
@@ -811,7 +626,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, "require");
         expect!(self, '(');
         match cur!(self, true) {
-            Token::Str { .. } => {}
+            Token::Str => {}
             _ => unexpected!(self, "a string literal"),
         }
         let expr = match parse_lit(self)? {
@@ -986,7 +801,7 @@ impl<I: Tokens> Parser<I> {
             self.with_ctx(ctx).parse_with(|p| {
                 // We check if it's valid for it to be a private name when we push it.
                 let key = match cur!(p, true) {
-                    Token::Num { .. } | Token::Str { .. } => p.parse_new_expr(),
+                    Token::Num | Token::Str => p.parse_new_expr(),
                     _ => p.parse_maybe_private_name().map(|e| match e {
                         Either::Left(e) => {
                             p.emit_err(e.span(), SyntaxError::PrivateNameInInterface);
@@ -1681,9 +1496,9 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
             }
-            Token::BigInt { .. }
-            | Token::Str { .. }
-            | Token::Num { .. }
+            Token::BigInt
+            | Token::Str
+            | Token::Num
             | token!("true")
             | token!("false")
             | token!('`') => {
@@ -2151,7 +1966,7 @@ impl<I: Tokens> Parser<I> {
                     bump!(self);
                 }
 
-                if matches!(cur!(self, true), Token::Str { .. }) {
+                if matches!(cur!(self, true), Token::Str) {
                     return self
                         .parse_ts_ambient_external_module_decl(start)
                         .map(From::from)
@@ -2355,71 +2170,4 @@ mod tests {
 
         assert_eq_ignore_span!(actual, expected);
     }
-
-    // #[test]
-    // fn issue_726() {
-    //     crate::with_test_sess(
-    //         "type Test = (
-    // string | number);",
-    //         |handler, input| {
-    //             let lexer = Lexer::new(
-    //                 Syntax::Typescript(Default::default()),
-    //                 EsVersion::Es2019,
-    //                 input,
-    //                 None,
-    //             );
-    //             let lexer = Capturing::new(lexer);
-
-                let mut parser = Parser::new_from(lexer);
-                parser
-                    .parse_typescript_module()
-                    .map_err(|e| e.into_diagnostic(handler).emit())?;
-                let tokens: Vec<TokenAndSpan> = parser.input().take();
-                let tokens = tokens.into_iter().map(|t| t.token).collect::<Vec<_>>();
-                assert_eq!(tokens.len(), 9, "Tokens: {tokens:#?}");
-                Ok(())
-            },
-        )
-        .unwrap();
-    }
-    //             let mut parser = Parser::new_from(lexer);
-    //             parser
-    //                 .parse_typescript_module()
-    //                 .map_err(|e| e.into_diagnostic(handler).emit())?;
-    //             let tokens: Vec<TokenAndSpan> = parser.input().take();
-    //             let tokens = tokens.into_iter().map(|t|
-    // t.token).collect::<Vec<_>>();             assert_eq!(tokens.len(), 9,
-    // "Tokens: {:#?}", tokens);             Ok(())
-    //         },
-    //     )
-    //     .unwrap();
-    // }
-
-    // #[test]
-    // fn issue_751() {
-    //     crate::with_test_sess("t ? -(v >>> 1) : v >>> 1", |handler, input| {
-    //         let lexer = Lexer::new(
-    //             Syntax::Typescript(Default::default()),
-    //             EsVersion::Es2019,
-    //             input,
-    //             None,
-    //         );
-    //         let lexer = Capturing::new(lexer);
-
-    //         let mut parser = Parser::new_from(lexer);
-    //         parser
-    //             .parse_typescript_module()
-    //             .map_err(|e| e.into_diagnostic(handler).emit())?;
-    //         let tokens: Vec<TokenAndSpan> = parser.input().take();
-    //         let token = &tokens[10];
-    //         assert_eq!(
-    //             token.token,
-    //             Token::BinOp(BinOpToken::ZeroFillRShift),
-    //             "Token: {:#?}",
-    //             token.token
-    //         );
-    //         Ok(())
-    //     })
-    //     .unwrap();
-    // }
 }

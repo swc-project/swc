@@ -239,7 +239,7 @@ impl Lexer<'_> {
             }
         }
 
-        if let Some(TokenContext::Tpl {}) = self.state.context.current() {
+        if let Some(TokenContext::Tpl) = self.state.context.current() {
             let start = self.state.tpl_start;
             return self.read_tmpl_token(start).map(Some);
         }

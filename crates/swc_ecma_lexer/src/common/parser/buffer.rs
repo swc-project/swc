@@ -58,14 +58,8 @@ pub trait Buffer<'a> {
         self.get_cur().map(|it| it.token())
     }
 
-    #[cold]
-    #[inline(never)]
-    fn dump_cur(&mut self) -> String {
-        match self.cur() {
-            Some(v) => format!("{:?}", v),
-            None => "<eof>".to_string(),
-        }
-    }
+    fn dump_cur(&mut self) -> String;
+
     /// Returns current token.
     fn bump(&mut self) -> Self::Token {
         let prev = match self.get_cur_mut().take() {

@@ -152,7 +152,7 @@ pub fn is_ts_list_terminator<'a>(p: &mut impl Parser<'a>, kind: ParsingContext) 
     };
     Ok(match kind {
         ParsingContext::EnumMembers | ParsingContext::TypeMembers => cur.is_rbrace(),
-        ParsingContext::HeritageClauseElement { .. } => {
+        ParsingContext::HeritageClauseElement => {
             cur.is_lbrace() || cur.is_implements() || cur.is_extends()
         }
         ParsingContext::TupleElementTypes => cur.is_rbracket(),

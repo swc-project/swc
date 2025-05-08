@@ -1460,7 +1460,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
             match cur!(self, true) {
-                Token::JSXText { .. } => {
+                Token::JSXText => {
                     return self
                         .parse_jsx_text()
                         .map(Lit::JSXText)
