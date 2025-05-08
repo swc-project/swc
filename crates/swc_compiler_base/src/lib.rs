@@ -17,7 +17,7 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, SourceFile, SourceMap,
 };
-use swc_config::{file_pattern::FilePattern, is_module::IsModule};
+use swc_config::{file_pattern::FilePattern, is_module::IsModule, types::BoolOr};
 use swc_ecma_ast::{EsVersion, Ident, IdentName, Program};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter, Node};
 use swc_ecma_minifier::js::JsMinifyCommentOption;
