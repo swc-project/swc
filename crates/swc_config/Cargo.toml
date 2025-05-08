@@ -9,7 +9,6 @@ repository    = { workspace = true }
 version       = "2.0.0"
 
 [features]
-fast-glob    = ["dep:fast-glob"]
 file_pattern = ["glob", "regex"]
 glob         = ["dep:fast-glob", "dep:dashmap", "dep:rustc-hash", "dep:once_cell"]
 regex        = ["dep:regex", "dep:dashmap", "dep:rustc-hash", "dep:once_cell"]
