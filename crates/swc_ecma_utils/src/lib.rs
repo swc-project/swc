@@ -3590,7 +3590,7 @@ mod tests {
 
         use super::*;
 
-        let sources = vec![
+        let sources = [
             "let a = 1;",
             "let b = a + 2;",
             "const c = 5;",
