@@ -3,20 +3,20 @@ use std::{fmt::Write, ops::DerefMut};
 use either::Either;
 use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
-    expr::{parse_lit, parse_subscripts},
+    expr::parse_lit,
     ident::{parse_ident_name, parse_maybe_private_name},
     is_simple_param_list::IsSimpleParameterList,
     make_decl_declare,
     typescript::{
         eat_any_ts_modifier, expect_then_parse_ts_type, is_ts_start_of_construct_signature,
-        parse_ts_bracketed_list, parse_ts_delimited_list, parse_ts_entity_name, parse_ts_enum_decl,
-        parse_ts_list, parse_ts_lit_type_node, parse_ts_mapped_type_param, parse_ts_modifier,
-        parse_ts_this_type_node, parse_ts_this_type_predicate, parse_ts_type_ann,
-        parse_ts_type_args, parse_ts_type_member_semicolon, parse_ts_type_or_type_predicate_ann,
-        parse_ts_type_params, parse_ts_type_ref, parse_ts_union_or_intersection_type, try_parse_ts,
-        try_parse_ts_type, try_parse_ts_type_ann, try_parse_ts_type_or_type_predicate_ann,
-        try_parse_ts_type_params, ts_look_ahead, ParsingContext, SignatureParsingMode,
-        UnionOrIntersection,
+        parse_ts_bracketed_list, parse_ts_entity_name, parse_ts_enum_decl,
+        parse_ts_heritage_clause, parse_ts_list, parse_ts_lit_type_node,
+        parse_ts_mapped_type_param, parse_ts_modifier, parse_ts_this_type_node,
+        parse_ts_this_type_predicate, parse_ts_type_ann, parse_ts_type_args,
+        parse_ts_type_member_semicolon, parse_ts_type_or_type_predicate_ann, parse_ts_type_params,
+        parse_ts_type_ref, parse_ts_union_or_intersection_type, try_parse_ts, try_parse_ts_type,
+        try_parse_ts_type_ann, try_parse_ts_type_or_type_predicate_ann, try_parse_ts_type_params,
+        ts_look_ahead, ParsingContext, SignatureParsingMode, UnionOrIntersection,
     },
 };
 
@@ -349,53 +349,6 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    /// `tsParseHeritageClause`
-    pub(super) fn parse_ts_heritage_clause(&mut self) -> PResult<Vec<TsExprWithTypeArgs>> {
-        debug_assert!(self.input.syntax().typescript());
-
-        parse_ts_delimited_list(self, ParsingContext::HeritageClauseElement, |p| {
-            p.parse_ts_heritage_clause_element()
-        })
-    }
-
-    fn parse_ts_heritage_clause_element(&mut self) -> PResult<TsExprWithTypeArgs> {
-        debug_assert!(self.input.syntax().typescript());
-
-        let start = cur_pos!(self);
-        // Note: TS uses parseLeftHandSideExpressionOrHigher,
-        // then has grammar errors later if it's not an EntityName.
-
-        let ident = parse_ident_name(self)?.into();
-        let expr = parse_subscripts(self, Callee::Expr(ident), true, true)?;
-        if !matches!(
-            &*expr,
-            Expr::Ident(..) | Expr::Member(..) | Expr::TsInstantiation(..)
-        ) {
-            self.emit_err(span!(self, start), SyntaxError::TS2499);
-        }
-
-        match *expr {
-            Expr::TsInstantiation(v) => Ok(TsExprWithTypeArgs {
-                span: v.span,
-                expr: v.expr,
-                type_args: Some(v.type_args),
-            }),
-            _ => {
-                let type_args = if is!(self, '<') {
-                    Some(parse_ts_type_args(self)?)
-                } else {
-                    None
-                };
-
-                Ok(TsExprWithTypeArgs {
-                    span: span!(self, start),
-                    expr,
-                    type_args,
-                })
-            }
-        }
-    }
-
     /// `tsParseInterfaceDeclaration`
     pub(super) fn parse_ts_interface_decl(
         &mut self,
@@ -415,7 +368,7 @@ impl<I: Tokens> Parser<I> {
         let type_params = try_parse_ts_type_params(self, true, false)?;
 
         let extends = if eat!(self, "extends") {
-            self.parse_ts_heritage_clause()?
+            parse_ts_heritage_clause(self)?
         } else {
             Vec::new()
         };

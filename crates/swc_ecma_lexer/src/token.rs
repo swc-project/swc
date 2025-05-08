@@ -561,6 +561,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const NULL: Self = Token::Word(Word::Null);
     const NULLISH_ASSIGN: Self = tok!("??=");
     const NULLISH_COALESCING: Self = tok!("??");
+    const OF: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Of)));
     const PACKAGE: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Package)));
     const PLUS: Self = Token::BinOp(BinOpToken::Add);
     const PLUS_PLUS: Self = Self::PlusPlus;
@@ -571,6 +572,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const RBRACE: Self = Self::RBrace;
     const RBRACKET: Self = Self::RBracket;
     const READONLY: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Readonly)));
+    const RETURN: Self = Token::Word(Word::Keyword(Keyword::Return));
     const RPAREN: Self = Self::RParen;
     const RSHIFT: Self = Token::BinOp(BinOpToken::RShift);
     const RSHIFT_EQ: Self = Token::AssignOp(AssignOp::RShiftAssign);

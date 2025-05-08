@@ -2,12 +2,7 @@ use std::ops::DerefMut;
 
 use either::Either;
 use swc_common::{BytePos, Span, Spanned};
-use swc_ecma_ast::{
-    Ident, IdentName, JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement,
-    JSXClosingFragment, JSXElement, JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr,
-    JSXExprContainer, JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement,
-    JSXOpeningFragment, JSXSpreadChild, JSXText, SpreadElement,
-};
+use swc_ecma_ast::*;
 
 use super::{PResult, Parser};
 use crate::{

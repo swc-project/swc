@@ -17,6 +17,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
 
     const SATISFIES: Self;
     const AS: Self;
+    const RETURN: Self;
     const AT: Self;
     const EXPORT: Self;
     const ASSERTS: Self;
@@ -100,6 +101,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const VOID: Self;
     const EXTENDS: Self;
     const SEMI: Self;
+    const OF: Self;
 
     fn jsx_name(name: &'a str, lexer: &mut Self::Lexer) -> Self;
     fn is_jsx_name(&self) -> bool;
@@ -339,6 +341,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_typeof(&self) -> bool {
         Self::TYPEOF.eq(self)
+    }
+    #[inline(always)]
+    fn is_of(&self) -> bool {
+        Self::OF.eq(self)
     }
     #[inline(always)]
     fn is_void(&self) -> bool {

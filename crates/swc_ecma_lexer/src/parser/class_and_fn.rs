@@ -12,7 +12,7 @@ use crate::{
         is_simple_param_list::IsSimpleParameterList,
         output_type::OutputType,
         typescript::{
-            parse_ts_modifier, parse_ts_type_ann, parse_ts_type_args,
+            parse_ts_heritage_clause, parse_ts_modifier, parse_ts_type_ann, parse_ts_type_args,
             parse_ts_type_or_type_predicate_ann, parse_ts_type_params, try_parse_ts_type_ann,
             try_parse_ts_type_params,
         },
@@ -120,7 +120,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 let (super_class, super_type_params) = p.parse_super_class()?;
 
                 if p.syntax().typescript() && eat!(p, ',') {
-                    let exprs = p.parse_ts_heritage_clause()?;
+                    let exprs = parse_ts_heritage_clause(p)?;
 
                     for e in &exprs {
                         p.emit_err(e.span(), SyntaxError::TS1174);
@@ -140,7 +140,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             };
 
             let implements = if p.input.syntax().typescript() && eat!(p, "implements") {
-                p.parse_ts_heritage_clause()?
+                parse_ts_heritage_clause(p)?
             } else {
                 Vec::with_capacity(4)
             };
@@ -150,7 +150,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 if p.input.syntax().typescript() && eat!(p, "implements") {
                     p.emit_err(p.input.prev_span(), SyntaxError::TS1175);
 
-                    p.parse_ts_heritage_clause()?;
+                    parse_ts_heritage_clause(p)?;
                 }
             }
 
