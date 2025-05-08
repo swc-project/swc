@@ -9,12 +9,16 @@ repository    = { workspace = true }
 version       = "2.0.0"
 
 [features]
-is_module = []
-regex     = ["dep:regex"]
-sourcemap = ["dep:sourcemap"]
+fast-glob    = ["dep:fast-glob"]
+file_pattern = ["glob", "regex"]
+glob         = ["dep:fast-glob"]
+is_module    = []
+regex        = ["dep:regex"]
+sourcemap    = ["dep:sourcemap"]
 
 [dependencies]
 anyhow     = { workspace = true }
+fast-glob  = { workspace = true, optional = true }
 indexmap   = { workspace = true }
 regex      = { workspace = true, optional = true }
 serde      = { workspace = true, features = ["derive", "rc"] }
