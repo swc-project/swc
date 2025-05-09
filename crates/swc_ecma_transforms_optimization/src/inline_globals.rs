@@ -1,9 +1,9 @@
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::sync::Lrc;
+use swc_common::{sync::Lrc, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParVisitMut, Parallel};
-use swc_ecma_utils::{collect_decls, parallel::cpu_count, NodeIgnoringSpan};
+use swc_ecma_utils::{parallel::cpu_count, NodeIgnoringSpan};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 /// The key will be compared using [EqIgnoreSpan::eq_ignore_span], and matched
@@ -12,21 +12,12 @@ pub type GlobalExprMap = Lrc<FxHashMap<NodeIgnoringSpan<'static, Expr>, Expr>>;
 
 /// Create a global inlining pass, which replaces expressions with the specified
 /// value.
-pub fn inline_globals(
-    envs: Lrc<FxHashMap<Atom, Expr>>,
-    globals: Lrc<FxHashMap<Atom, Expr>>,
-    typeofs: Lrc<FxHashMap<Atom, Atom>>,
-) -> impl Pass {
-    inline_globals2(envs, globals, Default::default(), typeofs)
-}
-
-/// Create a global inlining pass, which replaces expressions with the specified
-/// value.
 ///
 /// See [GlobalExprMap] for description.
 ///
 /// Note: Values specified in `global_exprs` have higher precedence than
-pub fn inline_globals2(
+pub fn inline_globals(
+    unresolved_ctxt: SyntaxContext,
     envs: Lrc<FxHashMap<Atom, Expr>>,
     globals: Lrc<FxHashMap<Atom, Expr>>,
     global_exprs: GlobalExprMap,
@@ -37,7 +28,7 @@ pub fn inline_globals2(
         globals,
         global_exprs,
         typeofs,
-        bindings: Default::default(),
+        unresolved_ctxt,
     })
 }
 
@@ -49,7 +40,7 @@ struct InlineGlobals {
 
     typeofs: Lrc<FxHashMap<Atom, Atom>>,
 
-    bindings: Lrc<FxHashSet<Id>>,
+    unresolved_ctxt: SyntaxContext,
 }
 
 impl Parallel for InlineGlobals {
@@ -68,8 +59,9 @@ impl VisitMut for InlineGlobals {
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
-        if let Expr::Ident(Ident { ref sym, ctxt, .. }) = expr {
-            if self.bindings.contains(&(sym.clone(), *ctxt)) {
+        if let Expr::Ident(Ident { ctxt, .. }) = expr {
+            // Ignore declared variables
+            if *ctxt != self.unresolved_ctxt {
                 return;
             }
         }
@@ -106,7 +98,8 @@ impl VisitMut for InlineGlobals {
                     ..
                 }) = &**arg
                 {
-                    if self.bindings.contains(&(sym.clone(), *arg_ctxt)) {
+                    // It's a declared variable
+                    if *arg_ctxt != self.unresolved_ctxt {
                         return;
                     }
 
@@ -161,12 +154,6 @@ impl VisitMut for InlineGlobals {
         self.visit_mut_par(cpu_count(), n);
     }
 
-    fn visit_mut_module(&mut self, module: &mut Module) {
-        self.bindings = Lrc::new(collect_decls(&*module));
-
-        module.visit_mut_children_with(self);
-    }
-
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
         self.visit_mut_par(cpu_count(), n);
     }
@@ -175,7 +162,8 @@ impl VisitMut for InlineGlobals {
         p.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = p {
-            if self.bindings.contains(&i.to_id()) {
+            // Ignore declared variables
+            if i.ctxt != self.unresolved_ctxt {
                 return;
             }
 
@@ -192,12 +180,6 @@ impl VisitMut for InlineGlobals {
 
     fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
         self.visit_mut_par(cpu_count(), n);
-    }
-
-    fn visit_mut_script(&mut self, script: &mut Script) {
-        self.bindings = Lrc::new(collect_decls(&*script));
-
-        script.visit_mut_children_with(self);
     }
 }
 
