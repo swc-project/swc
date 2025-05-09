@@ -81,7 +81,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const REQUIRE: Self;
     const AWAIT: Self;
     const THIS: Self;
-    const KW_SUPER: Self;
+    const SUPER: Self;
     const LPAREN: Self;
     const RPAREN: Self;
     const LBRACKET: Self;
@@ -91,6 +91,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const FUNCTION: Self;
     const CLASS: Self;
     const NEW: Self;
+    const ABSTRACT: Self;
     const IMPORT: Self;
     const PLUS: Self;
     const MINUS: Self;
@@ -104,6 +105,9 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const EXTENDS: Self;
     const SEMI: Self;
     const OF: Self;
+    const KEYOF: Self;
+    const UNIQUE: Self;
+    const INFER: Self;
 
     fn jsx_name(name: &'a str, lexer: &mut Self::Lexer) -> Self;
     fn is_jsx_name(&self) -> bool;
@@ -270,7 +274,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     }
     #[inline(always)]
     fn is_super(&self) -> bool {
-        Self::KW_SUPER.eq(self)
+        Self::SUPER.eq(self)
     }
     #[inline(always)]
     fn is_backquote(&self) -> bool {

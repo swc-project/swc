@@ -4,6 +4,7 @@ use swc_common::Spanned;
 use swc_ecma_lexer::{
     common::parser::{
         class_and_fn::{parse_decorators, parse_maybe_opt_binding_ident},
+        expr::parse_assignment_expr,
         has_use_strict, is_constructor,
         is_invalid_class_name::IsInvalidClassName,
         is_not_this,
@@ -1007,7 +1008,7 @@ impl<I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let value = if is!(p, '=') {
                 assert_and_bump!(p, '=');
-                Some(p.parse_assignment_expr()?)
+                Some(parse_assignment_expr(p)?)
             } else {
                 None
             };
@@ -1418,7 +1419,7 @@ impl<I: Tokens> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
                 })
                 .map(Box::new)
         } else {
-            self.parse_assignment_expr()
+            parse_assignment_expr(self)
                 .map(BlockStmtOrExpr::Expr)
                 .map(Box::new)
         }

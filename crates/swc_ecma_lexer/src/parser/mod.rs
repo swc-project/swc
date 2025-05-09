@@ -62,16 +62,6 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     }
 
     #[inline(always)]
-    fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
-        self.parse_assignment_expr()
-    }
-
-    #[inline(always)]
-    fn parse_ts_type(&mut self) -> PResult<Box<TsType>> {
-        self.parse_ts_type()
-    }
-
-    #[inline(always)]
     fn try_parse_ts_generic_async_arrow_fn(
         &mut self,
         start: BytePos,
@@ -82,6 +72,15 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     #[inline(always)]
     fn mark_found_module_item(&mut self) {
         self.found_module_item = true;
+    }
+
+    #[inline(always)]
+    fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
+        self.parse_bin_expr()
+    }
+
+    fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>> {
+        self.parse_ts_non_array_type()
     }
 }
 

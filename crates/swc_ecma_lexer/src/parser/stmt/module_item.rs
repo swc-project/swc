@@ -501,7 +501,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             {
                 export_default = Some(Ident::new_no_ctxt("default".into(), self.input.prev_span()))
             } else {
-                let expr = self.include_in_expr(true).parse_assignment_expr()?;
+                let expr = parse_assignment_expr(self.include_in_expr(true).deref_mut())?;
                 expect!(self, ';');
                 return Ok(ExportDefaultExpr {
                     span: span!(self, start),

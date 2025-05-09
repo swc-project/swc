@@ -496,6 +496,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     type Buffer = crate::input::Buffer<I>;
     type Lexer = crate::Lexer<'a>;
 
+    const ABSTRACT: Self = Token::Abstract;
     const ARROW: Self = Token::Arrow;
     const AS: Self = Token::As;
     const ASSERTS: Self = Token::Asserts;
@@ -531,11 +532,12 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const IMPLEMENTS: Self = Token::Implements;
     const IMPORT: Self = Self::Import;
     const IN: Self = Self::In;
+    const INFER: Self = Token::Infer;
     const INTERFACE: Self = Token::Interface;
     const IS: Self = Token::Is;
     const JSX_TAG_END: Self = Token::JSXTagEnd;
     const JSX_TAG_START: Self = Token::JSXTagStart;
-    const KW_SUPER: Self = Self::Super;
+    const KEYOF: Self = Token::Keyof;
     const LBRACE: Self = Self::LBrace;
     const LBRACKET: Self = Self::LBracket;
     const LESS: Self = Token::Lt;
@@ -577,10 +579,12 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const SATISFIES: Self = Token::Satisfies;
     const SEMI: Self = Token::Semi;
     const STATIC: Self = Token::Static;
+    const SUPER: Self = Self::Super;
     const THIS: Self = Token::This;
     const TILDE: Self = Self::Tilde;
     const TRUE: Self = Token::True;
     const TYPEOF: Self = Self::TypeOf;
+    const UNIQUE: Self = Token::Unique;
     const VOID: Self = Self::Void;
     const YIELD: Self = Token::Yield;
     const ZERO_FILL_RSHIFT: Self = Token::ZeroFillRShift;

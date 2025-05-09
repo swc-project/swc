@@ -1,12 +1,16 @@
 use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
     class_and_fn::parse_decorators,
+    expr::parse_assignment_expr,
     ident::{parse_binding_ident, parse_label_ident},
     is_directive::IsDirective,
     pat::{parse_binding_pat_or_ident, reparse_expr_as_pat},
     pat_type::PatType,
     stmt::{parse_for_each_head, parse_normal_for_head, parse_return_stmt, TempForHead},
-    typescript::{parse_ts_enum_decl, try_parse_ts_type_ann, ts_look_ahead},
+    typescript::{
+        parse_ts_enum_decl, parse_ts_type, parse_ts_type_alias_decl, try_parse_ts_type_ann,
+        ts_look_ahead,
+    },
 };
 use typed_arena::Arena;
 
@@ -332,7 +336,7 @@ impl<'a, I: Tokens> Parser<I> {
                 {
                     let start = self.input.cur_pos();
                     bump!(self);
-                    return Ok(self.parse_ts_type_alias_decl(start)?.into());
+                    return Ok(parse_ts_type_alias_decl(self, start)?.into());
                 }
             }
 
@@ -709,7 +713,7 @@ impl<'a, I: Tokens> Parser<I> {
             if self.syntax().typescript() && eat!(self, ':') {
                 let ctx = self.ctx() | Context::InType;
 
-                let ty = self.with_ctx(ctx).parse_with(|p| p.parse_ts_type())?;
+                let ty = self.with_ctx(ctx).parse_with(parse_ts_type)?;
                 // self.emit_err(ty.span(), SyntaxError::TS1196);
 
                 match &mut pat {
@@ -821,7 +825,7 @@ impl<'a, I: Tokens> Parser<I> {
                         return Ok(false);
                     }
 
-                    p.parse_assignment_expr()?;
+                    parse_assignment_expr(p)?;
                     expect!(p, ')');
 
                     Ok(true)
@@ -947,7 +951,7 @@ impl<'a, I: Tokens> Parser<I> {
         //FIXME: This is wrong. Should check in/of only on first loop.
         let init = if !for_loop || !is_one_of!(self, "in", "of") {
             if eat!(self, '=') {
-                let expr = self.parse_assignment_expr()?;
+                let expr = parse_assignment_expr(self)?;
                 let expr = self.verify_expr(expr)?;
 
                 Some(expr)
