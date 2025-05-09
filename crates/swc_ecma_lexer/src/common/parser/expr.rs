@@ -15,7 +15,8 @@ use crate::{
             pat::reparse_expr_as_pat,
             pat_type::PatType,
             typescript::{
-                parse_ts_type_args, parse_ts_type_params, try_parse_ts, try_parse_ts_type_args,
+                next_then_parse_ts_type, parse_ts_type_args, parse_ts_type_assertion,
+                parse_ts_type_params, try_parse_ts, try_parse_ts_type_args,
             },
             unwrap_ts_non_null,
         },
@@ -490,7 +491,7 @@ fn parse_cond_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
 
     let start = p.cur_pos();
 
-    let test = p.parse_bin_expr()?;
+    let test = parse_bin_expr(p)?;
     return_if_arrow!(p, test);
 
     if p.input_mut().eat(&P::Token::QUESTION) {
@@ -1032,4 +1033,613 @@ fn parse_dynamic_import_call<'a>(
     });
 
     parse_subscripts(p, import, no_call, false)
+}
+
+/// `is_new_expr`: true iff we are parsing production 'NewExpression'.
+#[cfg_attr(
+    feature = "tracing-spans",
+    tracing::instrument(level = "debug", skip_all)
+)]
+pub fn parse_member_expr_or_new_expr<'a>(
+    p: &mut impl Parser<'a>,
+    is_new_expr: bool,
+) -> PResult<Box<Expr>> {
+    let ctx = p.ctx() | Context::ShouldNotLexLtOrGtAsType;
+
+    parse_member_expr_or_new_expr_inner(p.with_ctx(ctx).deref_mut(), is_new_expr)
+}
+
+fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
+    p: &mut P,
+    is_new_expr: bool,
+) -> PResult<Box<Expr>> {
+    trace_cur!(p, parse_member_expr_or_new_expr);
+
+    let start = p.cur_pos();
+    if p.input_mut().eat(&P::Token::NEW) {
+        if p.input_mut().eat(&P::Token::DOT) {
+            if p.input_mut().eat(&P::Token::TARGET) {
+                let span = p.span(start);
+                let expr = MetaPropExpr {
+                    span,
+                    kind: MetaPropKind::NewTarget,
+                }
+                .into();
+
+                let ctx = p.ctx();
+                if !ctx.contains(Context::InsideNonArrowFunctionScope)
+                    && !ctx.contains(Context::InParameters)
+                    && !ctx.contains(Context::InClass)
+                {
+                    p.emit_err(span, SyntaxError::InvalidNewTarget);
+                }
+
+                return parse_subscripts(p, Callee::Expr(expr), true, false);
+            }
+
+            unexpected!(p, "target")
+        }
+
+        // 'NewExpression' allows new call without paren.
+        let callee = parse_member_expr_or_new_expr(p, is_new_expr)?;
+        return_if_arrow!(p, callee);
+
+        if is_new_expr {
+            match *callee {
+                Expr::OptChain(OptChainExpr {
+                    span,
+                    optional: true,
+                    ..
+                }) => {
+                    syntax_error!(p, span, SyntaxError::OptChainCannotFollowConstructorCall)
+                }
+                Expr::Member(MemberExpr { ref obj, .. }) => {
+                    if let Expr::OptChain(OptChainExpr {
+                        span,
+                        optional: true,
+                        ..
+                    }) = **obj
+                    {
+                        syntax_error!(p, span, SyntaxError::OptChainCannotFollowConstructorCall)
+                    }
+                }
+                _ => {}
+            }
+        }
+
+        let type_args = if p.input().syntax().typescript()
+            && p.input_mut()
+                .cur()
+                .is_some_and(|cur| cur.is_less() || cur.is_lshift())
+        {
+            try_parse_ts(p, |p| {
+                let ctx = p.ctx() & !Context::ShouldNotLexLtOrGtAsType;
+
+                let args = parse_ts_type_args(p.with_ctx(ctx).deref_mut())?;
+                if !p.input_mut().is(&P::Token::LPAREN) {
+                    // This will fail
+                    expect!(p, &P::Token::LPAREN);
+                }
+                Ok(Some(args))
+            })
+        } else {
+            None
+        };
+
+        if !is_new_expr || p.input_mut().is(&P::Token::LPAREN) {
+            // Parsed with 'MemberExpression' production.
+            let args = parse_args(p, false).map(Some)?;
+
+            let new_expr = Callee::Expr(
+                NewExpr {
+                    span: p.span(start),
+                    callee,
+                    args,
+                    type_args,
+                    ..Default::default()
+                }
+                .into(),
+            );
+
+            // We should parse subscripts for MemberExpression.
+            // Because it's left recursive.
+            return parse_subscripts(p, new_expr, true, false);
+        }
+
+        // Parsed with 'NewExpression' production.
+
+        return Ok(NewExpr {
+            span: p.span(start),
+            callee,
+            args: None,
+            type_args,
+            ..Default::default()
+        }
+        .into());
+    }
+
+    if p.input_mut().eat(&P::Token::SUPER) {
+        let base = Callee::Super(Super {
+            span: p.span(start),
+        });
+        return parse_subscripts(p, base, true, false);
+    } else if p.input_mut().eat(&P::Token::IMPORT) {
+        return parse_dynamic_import_or_import_meta(p, start, true);
+    }
+    let obj = p.parse_primary_expr()?;
+    return_if_arrow!(p, obj);
+
+    let type_args = if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+        try_parse_ts_type_args(p)
+    } else {
+        None
+    };
+    let obj = if let Some(type_args) = type_args {
+        trace_cur!(p, parse_member_expr_or_new_expr__with_type_args);
+        TsInstantiation {
+            expr: obj,
+            type_args,
+            span: p.span(start),
+        }
+        .into()
+    } else {
+        obj
+    };
+
+    parse_subscripts(p, Callee::Expr(obj), true, false)
+}
+
+/// Parse `NewExpression`.
+/// This includes `MemberExpression`.
+#[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+pub fn parse_new_expr<'a>(p: &mut impl Parser<'a>) -> PResult<Box<Expr>> {
+    trace_cur!(p, parse_new_expr);
+    parse_member_expr_or_new_expr(p, true)
+}
+
+/// Name from spec: 'LogicalORExpression'
+pub fn parse_bin_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
+    trace_cur!(p, parse_bin_expr);
+
+    let ctx = p.ctx();
+
+    let left = match parse_unary_expr(p) {
+        Ok(v) => v,
+        Err(err) => {
+            trace_cur!(p, parse_bin_expr__recovery_unary_err);
+
+            let cur = cur!(p, true);
+            if (cur.is_in() && ctx.contains(Context::IncludeInExpr))
+                || cur.is_instanceof()
+                || cur.is_bin_op()
+            {
+                p.emit_err(p.input().cur_span(), SyntaxError::TS1109);
+                Invalid { span: err.span() }.into()
+            } else {
+                return Err(err);
+            }
+        }
+    };
+
+    return_if_arrow!(p, left);
+    parse_bin_op_recursively(p, left, 0)
+}
+
+/// Parse binary operators with the operator precedence parsing
+/// algorithm. `left` is the left-hand side of the operator.
+/// `minPrec` provides context that allows the function to stop and
+/// defer further parser to one of its callers when it encounters an
+/// operator that has a lower precedence than the set it is parsing.
+///
+/// `parseExprOp`
+pub fn parse_bin_op_recursively<'a>(
+    p: &mut impl Parser<'a>,
+    mut left: Box<Expr>,
+    mut min_prec: u8,
+) -> PResult<Box<Expr>> {
+    loop {
+        let (next_left, next_prec) = parse_bin_op_recursively_inner(p, left, min_prec)?;
+
+        match &*next_left {
+            Expr::Bin(BinExpr {
+                span,
+                left,
+                op: op!("&&"),
+                ..
+            })
+            | Expr::Bin(BinExpr {
+                span,
+                left,
+                op: op!("||"),
+                ..
+            }) => {
+                if let Expr::Bin(BinExpr { op: op!("??"), .. }) = &**left {
+                    p.emit_err(*span, SyntaxError::NullishCoalescingWithLogicalOp);
+                }
+            }
+            _ => {}
+        }
+
+        min_prec = match next_prec {
+            Some(v) => v,
+            None => return Ok(next_left),
+        };
+
+        left = next_left;
+    }
+}
+
+/// Returns `(left, Some(next_prec))` or `(expr, None)`.
+fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
+    p: &mut P,
+    left: Box<Expr>,
+    min_prec: u8,
+) -> PResult<(Box<Expr>, Option<u8>)> {
+    const PREC_OF_IN: u8 = 7;
+
+    if p.input().syntax().typescript()
+        && PREC_OF_IN > min_prec
+        && !p.input_mut().had_line_break_before_cur()
+        && p.input_mut().is(&P::Token::AS)
+    {
+        let start = left.span_lo();
+        let expr = left;
+        let node = if peek!(p).is_some_and(|cur| cur.is_const()) {
+            p.bump(); // as
+            let _ = cur!(p, false);
+            p.bump(); // const
+            TsConstAssertion {
+                span: p.span(start),
+                expr,
+            }
+            .into()
+        } else {
+            let type_ann = next_then_parse_ts_type(p)?;
+            TsAsExpr {
+                span: p.span(start),
+                expr,
+                type_ann,
+            }
+            .into()
+        };
+
+        return parse_bin_op_recursively_inner(p, node, min_prec);
+    }
+    if p.input().syntax().typescript()
+        && !p.input_mut().had_line_break_before_cur()
+        && p.input_mut().is(&P::Token::SATISFIES)
+    {
+        let start = left.span_lo();
+        let expr = left;
+        let node = {
+            let type_ann = next_then_parse_ts_type(p)?;
+            TsSatisfiesExpr {
+                span: p.span(start),
+                expr,
+                type_ann,
+            }
+            .into()
+        };
+
+        return parse_bin_op_recursively_inner(p, node, min_prec);
+    }
+
+    let ctx = p.ctx();
+    // Return left on eof
+    let word = match cur!(p, false) {
+        Ok(cur) => cur,
+        Err(..) => return Ok((left, None)),
+    };
+    let op = if word.is_in() && ctx.contains(Context::IncludeInExpr) {
+        op!("in")
+    } else if word.is_instanceof() {
+        op!("instanceof")
+    } else if let Some(op) = word.as_bin_op() {
+        op
+    } else {
+        return Ok((left, None));
+    };
+
+    if op.precedence() <= min_prec {
+        if cfg!(feature = "debug") {
+            tracing::trace!(
+                "returning {:?} without parsing {:?} because min_prec={}, prec={}",
+                left,
+                op,
+                min_prec,
+                op.precedence()
+            );
+        }
+
+        return Ok((left, None));
+    }
+    p.bump();
+    if cfg!(feature = "debug") {
+        tracing::trace!(
+            "parsing binary op {:?} min_prec={}, prec={}",
+            op,
+            min_prec,
+            op.precedence()
+        );
+    }
+    match *left {
+        // This is invalid syntax.
+        Expr::Unary { .. } | Expr::Await(..) if op == op!("**") => {
+            // Correct implementation would be returning Ok(left) and
+            // returning "unexpected token '**'" on next.
+            // But it's not useful error message.
+
+            syntax_error!(
+                p,
+                SyntaxError::UnaryInExp {
+                    // FIXME: Use display
+                    left: format!("{left:?}"),
+                    left_span: left.span(),
+                }
+            )
+        }
+        _ => {}
+    }
+
+    let right = {
+        let left_of_right = parse_unary_expr(p)?;
+        parse_bin_op_recursively(
+            p,
+            left_of_right,
+            if op == op!("**") {
+                // exponential operator is right associative
+                op.precedence() - 1
+            } else {
+                op.precedence()
+            },
+        )?
+    };
+    /* this check is for all ?? operators
+     * a ?? b && c for this example
+     * b && c => This is considered as a logical expression in the ast tree
+     * a => Identifier
+     * so for ?? operator we need to check in this case the right expression to
+     * have parenthesis second case a && b ?? c
+     * here a && b => This is considered as a logical expression in the ast tree
+     * c => identifier
+     * so now here for ?? operator we need to check the left expression to have
+     * parenthesis if the parenthesis is missing we raise an error and
+     * throw it
+     */
+    if op == op!("??") {
+        match *left {
+            Expr::Bin(BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
+                p.emit_err(span, SyntaxError::NullishCoalescingWithLogicalOp);
+            }
+            _ => {}
+        }
+
+        match *right {
+            Expr::Bin(BinExpr { span, op, .. }) if op == op!("&&") || op == op!("||") => {
+                p.emit_err(span, SyntaxError::NullishCoalescingWithLogicalOp);
+            }
+            _ => {}
+        }
+    }
+
+    let node = BinExpr {
+        span: Span::new(left.span_lo(), right.span_hi()),
+        op,
+        left,
+        right,
+    }
+    .into();
+
+    Ok((node, Some(min_prec)))
+}
+
+/// Parse unary expression and update expression.
+///
+/// spec: 'UnaryExpression'
+pub fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
+    trace_cur!(p, parse_unary_expr);
+    let start = p.cur_pos();
+
+    if !p.input().syntax().jsx()
+        && p.input().syntax().typescript()
+        && p.input_mut().eat(&P::Token::LESS)
+    {
+        if p.input_mut().eat(&P::Token::CONST) {
+            expect!(p, &P::Token::GREATER);
+            let expr = parse_unary_expr(p)?;
+            return Ok(TsConstAssertion {
+                span: p.span(start),
+                expr,
+            }
+            .into());
+        }
+
+        return parse_ts_type_assertion(p, start)
+            .map(Expr::from)
+            .map(Box::new);
+    }
+
+    // Parse update expression
+    if p.input_mut().is(&P::Token::PLUS_PLUS) || p.input_mut().is(&P::Token::MINUS_MINUS) {
+        let op = if p.bump() == P::Token::PLUS_PLUS {
+            op!("++")
+        } else {
+            op!("--")
+        };
+
+        let arg = parse_unary_expr(p)?;
+        let span = Span::new(start, arg.span_hi());
+        p.check_assign_target(&arg, false);
+
+        return Ok(UpdateExpr {
+            span,
+            prefix: true,
+            op,
+            arg,
+        }
+        .into());
+    }
+
+    // Parse unary expression
+
+    if p.input_mut().cur().is_some_and(|cur| {
+        cur.is_delete()
+            || cur.is_void()
+            || cur.is_typeof()
+            || cur.is_plus()
+            || cur.is_minus()
+            || cur.is_tilde()
+            || cur.is_bang()
+    }) {
+        let cur = p.bump();
+        let op = if cur.is_delete() {
+            op!("delete")
+        } else if cur.is_void() {
+            op!("void")
+        } else if cur.is_typeof() {
+            op!("typeof")
+        } else if cur.is_plus() {
+            op!(unary, "+")
+        } else if cur.is_minus() {
+            op!(unary, "-")
+        } else if cur.is_tilde() {
+            op!("~")
+        } else if cur.is_bang() {
+            op!("!")
+        } else {
+            unreachable!()
+        };
+        let arg_start = p.cur_pos() - BytePos(1);
+        let arg = match parse_unary_expr(p) {
+            Ok(expr) => expr,
+            Err(err) => {
+                p.emit_error(err);
+                Invalid {
+                    span: Span::new(arg_start, arg_start),
+                }
+                .into()
+            }
+        };
+
+        if op == op!("delete") {
+            if let Expr::Ident(ref i) = *arg {
+                p.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+            }
+        }
+
+        if p.input().syntax().typescript() && op == op!("delete") {
+            match arg.unwrap_parens() {
+                Expr::Member(..) => {}
+                Expr::OptChain(OptChainExpr { base, .. })
+                    if matches!(&**base, OptChainBase::Member(..)) => {}
+
+                expr => {
+                    p.emit_err(expr.span(), SyntaxError::TS2703);
+                }
+            }
+        }
+
+        return Ok(UnaryExpr {
+            span: Span::new(start, arg.span_hi()),
+            op,
+            arg,
+        }
+        .into());
+    }
+
+    if p.input_mut().is(&P::Token::AWAIT) {
+        return parse_await_expr(p, None);
+    }
+
+    // UpdateExpression
+    let expr = p.parse_lhs_expr()?;
+    return_if_arrow!(p, expr);
+
+    // Line terminator isn't allowed here.
+    if p.input_mut().had_line_break_before_cur() {
+        return Ok(expr);
+    }
+
+    if p.input_mut()
+        .cur()
+        .is_some_and(|cur| cur.is_plus_plus() || cur.is_minus_minus())
+    {
+        p.check_assign_target(&expr, false);
+
+        let op = if p.bump() == P::Token::PLUS_PLUS {
+            op!("++")
+        } else {
+            op!("--")
+        };
+
+        return Ok(UpdateExpr {
+            span: p.span(expr.span_lo()),
+            prefix: false,
+            op,
+            arg: expr,
+        }
+        .into());
+    }
+    Ok(expr)
+}
+
+pub fn parse_await_expr<'a, P: Parser<'a>>(
+    p: &mut P,
+    start_of_await_token: Option<BytePos>,
+) -> PResult<Box<Expr>> {
+    let start = start_of_await_token.unwrap_or_else(|| p.cur_pos());
+
+    if start_of_await_token.is_none() {
+        p.assert_and_bump(&P::Token::AWAIT)?;
+    }
+
+    let await_token = p.span(start);
+
+    if p.input_mut().is(&P::Token::MUL) {
+        syntax_error!(p, SyntaxError::AwaitStar);
+    }
+
+    let ctx = p.ctx();
+
+    let span = p.span(start);
+
+    if !ctx.contains(Context::InAsync)
+        && (p.is_general_semi()
+            || p.input_mut()
+                .cur()
+                .is_some_and(|cur| cur.is_rparen() || cur.is_rbracket() || cur.is_comma()))
+    {
+        if ctx.contains(Context::Module) {
+            p.emit_err(span, SyntaxError::InvalidIdentInAsync);
+        }
+
+        return Ok(Ident::new_no_ctxt("await".into(), span).into());
+    }
+
+    // This has been checked if start_of_await_token == true,
+    if start_of_await_token.is_none() && ctx.contains(Context::TopLevel) {
+        p.mark_found_module_item();
+        if !ctx.contains(Context::CanBeModule) {
+            p.emit_err(await_token, SyntaxError::TopLevelAwaitInScript);
+        }
+    }
+
+    if ctx.contains(Context::InFunction) && !ctx.contains(Context::InAsync) {
+        p.emit_err(await_token, SyntaxError::AwaitInFunction);
+    }
+
+    if ctx.contains(Context::InParameters) && !ctx.contains(Context::InFunction) {
+        p.emit_err(span, SyntaxError::AwaitParamInAsync);
+    }
+
+    let arg = parse_unary_expr(p)?;
+    Ok(AwaitExpr {
+        span: p.span(start),
+        arg,
+    }
+    .into())
+}
+
+pub(super) fn parse_for_head_prefix<'a>(p: &mut impl Parser<'a>) -> PResult<Box<Expr>> {
+    p.parse_expr()
 }

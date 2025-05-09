@@ -1,6 +1,6 @@
 use num_bigint::BigInt;
 use swc_atoms::Atom;
-use swc_ecma_ast::AssignOp;
+use swc_ecma_ast::{AssignOp, BinaryOp};
 
 use super::LexResult;
 use crate::common::{context::Context, input::Tokens};
@@ -15,7 +15,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         TokenAndSpan = TokenAndSpan,
     >;
 
+    const FOR: Self;
+    const INSTANCEOF: Self;
     const SATISFIES: Self;
+    const THROW: Self;
     const AS: Self;
     const RETURN: Self;
     const AT: Self;
@@ -30,6 +33,9 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const IS: Self;
     const CONST: Self;
     const DOT: Self;
+    const TARGET: Self;
+    const GET: Self;
+    const SET: Self;
     const DOTDOTDOT: Self;
     const NULLISH_ASSIGN: Self;
     const NULLISH_COALESCING: Self;
@@ -69,6 +75,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const ENUM: Self;
     const YIELD: Self;
     const LET: Self;
+    const VAR: Self;
     const STATIC: Self;
     const IMPLEMENTS: Self;
     const INTERFACE: Self;
@@ -89,6 +96,8 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const LBRACE: Self;
     const RBRACE: Self;
     const FUNCTION: Self;
+    const IF: Self;
+    const ELSE: Self;
     const CLASS: Self;
     const NEW: Self;
     const ABSTRACT: Self;
@@ -108,6 +117,8 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const KEYOF: Self;
     const UNIQUE: Self;
     const INFER: Self;
+    const USING: Self;
+    const WITH: Self;
 
     fn jsx_name(name: &'a str, lexer: &mut Self::Lexer) -> Self;
     fn is_jsx_name(&self) -> bool;
@@ -156,8 +167,11 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
 
     fn is_reserved(&self, ctx: super::Context) -> bool;
     fn into_atom(self, lexer: &mut Self::Lexer) -> Option<Atom>;
+    fn follows_keyword_let(&self) -> bool;
 
     fn is_bin_op(&self) -> bool;
+    fn as_bin_op(&self) -> Option<BinaryOp>;
+
     fn as_assign_op(&self) -> Option<AssignOp>;
 
     #[inline(always)]
@@ -193,6 +207,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         Self::NULL.eq(self)
     }
     #[inline(always)]
+    fn is_lshift(&self) -> bool {
+        Self::LSHIFT.eq(self)
+    }
+    #[inline(always)]
     fn is_rshift(&self) -> bool {
         Self::RSHIFT.eq(self)
     }
@@ -223,6 +241,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_let(&self) -> bool {
         Self::LET.eq(self)
+    }
+    #[inline(always)]
+    fn is_var(&self) -> bool {
+        Self::VAR.eq(self)
     }
     #[inline(always)]
     fn is_static(&self) -> bool {
@@ -427,5 +449,9 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_satisfies(&self) -> bool {
         Self::SATISFIES.eq(self)
+    }
+    #[inline(always)]
+    fn is_instanceof(&self) -> bool {
+        Self::INSTANCEOF.eq(self)
     }
 }

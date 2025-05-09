@@ -522,6 +522,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const DOLLAR_LBRACE: Self = Self::DollarLBrace;
     const DOT: Self = Self::Dot;
     const DOTDOTDOT: Self = Self::DotDotDot;
+    const ELSE: Self = Token::Word(Word::Keyword(Keyword::Else));
     const ENUM: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Enum)));
     const EQUAL: Self = Token::AssignOp(AssignOp::Assign);
     const EXP: Self = Token::BinOp(BinOpToken::Exp);
@@ -529,14 +530,18 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const EXP_EQ: Self = Token::AssignOp(AssignOp::ExpAssign);
     const EXTENDS: Self = Self::Word(Word::Keyword(Keyword::Extends));
     const FALSE: Self = Token::Word(Word::False);
+    const FOR: Self = Token::Word(Word::Keyword(Keyword::For));
     const FUNCTION: Self = Token::Word(Word::Keyword(Keyword::Function));
+    const GET: Self = Self::Word(Word::Ident(IdentLike::Known(KnownIdent::Get)));
     const GREATER: Self = Token::BinOp(BinOpToken::Gt);
     const GREATER_EQ: Self = Token::BinOp(BinOpToken::GtEq);
     const HASH: Self = Self::Hash;
+    const IF: Self = Token::Word(Word::Keyword(Keyword::If));
     const IMPLEMENTS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Implements)));
     const IMPORT: Self = Token::Word(Word::Keyword(Keyword::Import));
     const IN: Self = Token::Word(Word::Keyword(Keyword::In));
     const INFER: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Infer)));
+    const INSTANCEOF: Self = Token::Word(Word::Keyword(Keyword::InstanceOf));
     const INTERFACE: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Interface)));
     const IS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Is)));
     const JSX_TAG_END: Self = Self::JSXTagEnd;
@@ -582,14 +587,20 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const RSHIFT_EQ: Self = Token::AssignOp(AssignOp::RShiftAssign);
     const SATISFIES: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Satisfies)));
     const SEMI: Self = Self::Semi;
+    const SET: Self = Self::Word(Word::Ident(IdentLike::Known(KnownIdent::Set)));
     const STATIC: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Static)));
     const SUPER: Self = Token::Word(Word::Keyword(Keyword::Super));
+    const TARGET: Self = Self::Word(Word::Ident(IdentLike::Known(KnownIdent::Target)));
     const THIS: Self = Token::Word(Word::Keyword(Keyword::This));
+    const THROW: Self = Token::Word(Word::Keyword(Keyword::Throw));
     const TILDE: Self = Self::Tilde;
     const TRUE: Self = Token::Word(Word::True);
     const TYPEOF: Self = Token::Word(Word::Keyword(Keyword::TypeOf));
     const UNIQUE: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Unique)));
+    const USING: Self = Self::Word(Word::Ident(IdentLike::Known(KnownIdent::Using)));
+    const VAR: Self = Self::Word(Word::Keyword(Keyword::Var));
     const VOID: Self = Token::Word(Word::Keyword(Keyword::Void));
+    const WITH: Self = Token::Word(Word::Keyword(Keyword::With));
     const YIELD: Self = Token::Word(Word::Keyword(Keyword::Yield));
     const ZERO_FILL_RSHIFT: Self = Token::BinOp(BinOpToken::ZeroFillRShift);
     const ZERO_FILL_RSHIFT_EQ: Self = Token::AssignOp(AssignOp::ZeroFillRShiftAssign);
@@ -821,6 +832,19 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
             Self::AssignOp(op) => Some(*op),
             _ => None,
         }
+    }
+
+    #[inline(always)]
+    fn as_bin_op(&self) -> Option<BinaryOp> {
+        match self {
+            Self::BinOp(op) => Some((*op).into()),
+            _ => None,
+        }
+    }
+
+    #[inline(always)]
+    fn follows_keyword_let(&self) -> bool {
+        self.kind().follows_keyword_let(false)
     }
 }
 

@@ -518,6 +518,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const DOLLAR_LBRACE: Self = Token::DollarLBrace;
     const DOT: Self = Self::Dot;
     const DOTDOTDOT: Self = Self::DotDotDot;
+    const ELSE: Self = Self::Else;
     const ENUM: Self = Token::Enum;
     const EQUAL: Self = Token::Eq;
     const EXP: Self = Token::Exp;
@@ -525,14 +526,18 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const EXP_EQ: Self = Token::ExpEq;
     const EXTENDS: Self = Token::Extends;
     const FALSE: Self = Token::False;
+    const FOR: Self = Token::For;
     const FUNCTION: Self = Self::Function;
+    const GET: Self = Token::Get;
     const GREATER: Self = Token::Gt;
     const GREATER_EQ: Self = Token::GtEq;
     const HASH: Self = Self::Hash;
+    const IF: Self = Self::If;
     const IMPLEMENTS: Self = Token::Implements;
     const IMPORT: Self = Self::Import;
     const IN: Self = Self::In;
     const INFER: Self = Token::Infer;
+    const INSTANCEOF: Self = Token::InstanceOf;
     const INTERFACE: Self = Token::Interface;
     const IS: Self = Token::Is;
     const JSX_TAG_END: Self = Token::JSXTagEnd;
@@ -578,14 +583,20 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const RSHIFT_EQ: Self = Token::RShiftEq;
     const SATISFIES: Self = Token::Satisfies;
     const SEMI: Self = Token::Semi;
+    const SET: Self = Token::Set;
     const STATIC: Self = Token::Static;
     const SUPER: Self = Self::Super;
+    const TARGET: Self = Token::Target;
     const THIS: Self = Token::This;
+    const THROW: Self = Token::Throw;
     const TILDE: Self = Self::Tilde;
     const TRUE: Self = Token::True;
     const TYPEOF: Self = Self::TypeOf;
     const UNIQUE: Self = Token::Unique;
+    const USING: Self = Self::Using;
+    const VAR: Self = Self::Var;
     const VOID: Self = Self::Void;
+    const WITH: Self = Token::With;
     const YIELD: Self = Token::Yield;
     const ZERO_FILL_RSHIFT: Self = Token::ZeroFillRShift;
     const ZERO_FILL_RSHIFT_EQ: Self = Token::ZeroFillRShiftEq;
@@ -786,6 +797,16 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     #[inline(always)]
     fn as_assign_op(&self) -> Option<AssignOp> {
         (*self).as_assign_op()
+    }
+
+    #[inline(always)]
+    fn as_bin_op(&self) -> Option<swc_ecma_ast::BinaryOp> {
+        (*self).as_bin_op()
+    }
+
+    #[inline(always)]
+    fn follows_keyword_let(&self) -> bool {
+        (*self).follows_keyword_let()
     }
 }
 

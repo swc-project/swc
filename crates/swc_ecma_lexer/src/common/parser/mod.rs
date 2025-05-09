@@ -435,7 +435,7 @@ pub trait Parser<'a>: Sized + Clone {
         }
     }
 
-    fn parse_bin_expr(&mut self) -> PResult<Box<Expr>>;
+    fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>>;
 
     fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
@@ -461,6 +461,8 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>>;
+    fn parse_primary_expr(&mut self) -> PResult<Box<Expr>>;
+    fn parse_stmt(&mut self) -> PResult<Stmt>;
 
     fn try_parse_ts_generic_async_arrow_fn(&mut self, start: BytePos)
         -> PResult<Option<ArrowExpr>>;
@@ -473,6 +475,12 @@ pub trait Parser<'a>: Sized + Clone {
         self.input_mut()
             .cur()
             .is_some_and(|cur| cur.is_word() && !cur.is_reserved(ctx))
+    }
+
+    #[inline]
+    fn peek_is_ident_ref(&mut self) -> bool {
+        let ctx = self.ctx();
+        peek!(self).is_some_and(|peek| peek.is_word() && !peek.is_reserved(ctx))
     }
 
     #[inline(always)]

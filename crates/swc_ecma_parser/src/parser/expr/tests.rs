@@ -18,7 +18,7 @@ fn lhs(s: &'static str) -> Box<Expr> {
 }
 
 fn new_expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, syntax(), |p| p.parse_new_expr())
+    test_parser(s, syntax(), |p| parse_new_expr(p))
 }
 
 fn member_expr(s: &'static str) -> Box<Expr> {
