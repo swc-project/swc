@@ -40,7 +40,7 @@ fn build_plugin(dir: &Path, crate_name: &str) -> Result<PathBuf, Error> {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();
-        if s.eq_ignore_ascii_case(&format!("{}.wasm", crate_name)) {
+        if s.eq_ignore_ascii_case(&format!("{crate_name}.wasm")) {
             return Ok(entry.path());
         }
     }

@@ -19,7 +19,8 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, Globals, SourceMap, GLOBALS,
 };
-use swc_compiler_base::{IsModule, PrintArgs};
+use swc_compiler_base::PrintArgs;
+use swc_config::{file_pattern::FilePattern, is_module::IsModule};
 use swc_ecma_ast::*;
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
@@ -1024,7 +1025,9 @@ fn issue_6009() {
             let result = c.process_js_file(
                 get_fm(file),
                 &handler,
-                &get_options(Some(FileMatcher::Regex(".*\\.spec.ts$".into()))),
+                &get_options(Some(FileMatcher::Pattern(FilePattern::Regex(
+                    ".*\\.spec.ts$".into(),
+                )))),
             );
 
             match result {
@@ -1041,7 +1044,9 @@ fn issue_6009() {
 
         for file in files_to_exclude {
             let fm = get_fm(file);
-            let options = get_options(Some(FileMatcher::Regex(".*\\.spec.ts$".into())));
+            let options = get_options(Some(FileMatcher::Pattern(FilePattern::Regex(
+                ".*\\.spec.ts$".into(),
+            ))));
 
             let result = c.process_js_file(fm.clone(), &handler, &options);
 

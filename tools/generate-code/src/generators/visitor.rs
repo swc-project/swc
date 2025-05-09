@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use inflector::Inflector;
 use proc_macro2::{Span, TokenStream};
 use quote::{quote, ToTokens};
-use swc_cached::regex::CachedRegex;
+use swc_config::regex::CachedRegex;
 use syn::{
     parse_quote, Arm, Attribute, Expr, Field, Fields, File, GenericArgument, Ident, Item, Lit,
     LitInt, Path, PathArguments, Stmt, TraitItem, Type,

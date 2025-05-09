@@ -1,5 +1,5 @@
 use serde_json::Value;
-use swc_config::config_types::BoolConfig;
+use swc_config::types::BoolConfig;
 
 fn bool_config(v: Value) -> BoolConfig<false> {
     serde_json::from_value(v).unwrap()

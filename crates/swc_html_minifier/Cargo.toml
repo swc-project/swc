@@ -32,8 +32,8 @@ serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
 swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
-swc_cached = { version = "2.0.0", path = "../swc_cached" }
 swc_common = { version = "9.1.0", path = "../swc_common" }
+swc_config = { version = "2.0.0", path = "../swc_config", features = ["regex"] }
 swc_css_ast = { version = "9.0.0", path = "../swc_css_ast", optional = true }
 swc_css_codegen = { version = "9.0.0", path = "../swc_css_codegen", optional = true }
 swc_css_minifier = { version = "9.0.0", path = "../swc_css_minifier", optional = true }

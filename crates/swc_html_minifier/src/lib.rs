@@ -6,11 +6,11 @@ use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use serde_json::Value;
 use swc_atoms::{atom, Atom};
-use swc_cached::regex::CachedRegex;
 use swc_common::{
     comments::SingleThreadedComments, sync::Lrc, EqIgnoreSpan, FileName, FilePathMapping, Mark,
     SourceMap, DUMMY_SP,
 };
+use swc_config::regex::CachedRegex;
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
 use swc_html_utils::{HTML_ELEMENTS_AND_ATTRIBUTES, SVG_ELEMENTS_AND_ATTRIBUTES};

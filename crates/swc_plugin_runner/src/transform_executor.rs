@@ -74,10 +74,7 @@ impl PluginTransformState {
                             .expect("Should able to convert size"),
                     )
                     .unwrap_or_else(|_| {
-                        panic!(
-                            "Should able to allocate memory for the size of {}",
-                            serialized_len
-                        )
+                        panic!("Should able to allocate memory for the size of {serialized_len}")
                     })
             },
         );

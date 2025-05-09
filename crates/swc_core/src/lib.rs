@@ -284,11 +284,9 @@ pub mod css {
     }
 }
 
-#[cfg(feature = "__cached")]
-#[cfg_attr(docsrs, doc(cfg(feature = "__cached")))]
-pub mod cached {
-    pub use swc_cached::*;
-}
+#[cfg_attr(docsrs, doc(cfg(feature = "swc_config")))]
+#[cfg(feature = "swc_config")]
+pub extern crate swc_config as config;
 
 // This reexports generic testing utilities only.
 // For the feature-specific (i.e ecma_transform_testing), need to enable
