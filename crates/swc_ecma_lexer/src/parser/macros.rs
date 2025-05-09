@@ -212,20 +212,6 @@ macro_rules! expect {
     }};
 }
 
-macro_rules! expect_exact {
-    ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &token_including_semi!($t);
-        if !eat_exact!($p, $t) {
-            let cur = $p.input.dump_cur();
-            syntax_error!(
-                $p,
-                $p.input.cur_span(),
-                SyntaxError::Expected(format!("{TOKEN:?}"), cur)
-            )
-        }
-    }};
-}
-
 /// cur!($parser, required:bool)
 macro_rules! cur {
     ($p:expr, false) => {{

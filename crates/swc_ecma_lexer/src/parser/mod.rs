@@ -75,12 +75,23 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     }
 
     #[inline(always)]
-    fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
-        self.parse_bin_expr()
+    fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
+        self.parse_lhs_expr()
     }
 
+    #[inline(always)]
     fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>> {
         self.parse_ts_non_array_type()
+    }
+
+    #[inline(always)]
+    fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
+        self.parse_primary_expr()
+    }
+
+    #[inline(always)]
+    fn parse_stmt(&mut self) -> PResult<Stmt> {
+        self.parse_stmt()
     }
 }
 

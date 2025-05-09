@@ -7,8 +7,9 @@ use swc_ecma_lexer::common::parser::{
     assign_target_or_spread::AssignTargetOrSpread,
     class_and_fn::parse_decorators,
     expr::{
-        finish_assignment_expr, parse_args, parse_array_lit, parse_assignment_expr,
-        parse_dynamic_import_or_import_meta, parse_lit, parse_subscripts, parse_tpl,
+        finish_assignment_expr, parse_args, parse_array_lit, parse_assignment_expr, parse_bin_expr,
+        parse_bin_op_recursively, parse_dynamic_import_or_import_meta, parse_lit,
+        parse_member_expr_or_new_expr, parse_new_expr, parse_subscripts, parse_tpl,
     },
     ident::{parse_binding_ident, parse_ident, parse_ident_name},
     is_simple_param_list::IsSimpleParameterList,
@@ -18,7 +19,6 @@ use swc_ecma_lexer::common::parser::{
     typescript::{
         eat_any_ts_modifier, parse_ts_type, parse_ts_type_args,
         parse_ts_type_or_type_predicate_ann, try_parse_ts, try_parse_ts_type_ann,
-        try_parse_ts_type_args,
     },
     unwrap_ts_non_null,
 };
@@ -290,167 +290,7 @@ impl<I: Tokens> Parser<I> {
 
     #[allow(dead_code)]
     fn parse_member_expr(&mut self) -> PResult<Box<Expr>> {
-        self.parse_member_expr_or_new_expr(false)
-    }
-
-    /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
-        let ctx = self.ctx() | Context::ShouldNotLexLtOrGtAsType;
-        self.with_ctx(ctx)
-            .parse_member_expr_or_new_expr_inner(is_new_expr)
-    }
-
-    fn parse_member_expr_or_new_expr_inner(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
-        trace_cur!(self, parse_member_expr_or_new_expr);
-
-        let start = cur_pos!(self);
-        if eat!(self, "new") {
-            if eat!(self, '.') {
-                if eat!(self, "target") {
-                    let span = span!(self, start);
-                    let expr = MetaPropExpr {
-                        span,
-                        kind: MetaPropKind::NewTarget,
-                    }
-                    .into();
-
-                    let ctx = self.ctx();
-                    if !ctx.contains(Context::InsideNonArrowFunctionScope)
-                        && !ctx.contains(Context::InParameters)
-                        && !ctx.contains(Context::InClass)
-                    {
-                        self.emit_err(span, SyntaxError::InvalidNewTarget);
-                    }
-
-                    return parse_subscripts(self, Callee::Expr(expr), true, false);
-                }
-
-                unexpected!(self, "target")
-            }
-
-            // 'NewExpression' allows new call without paren.
-            let callee = self.parse_member_expr_or_new_expr(is_new_expr)?;
-            return_if_arrow!(self, callee);
-
-            if is_new_expr {
-                match *callee {
-                    Expr::OptChain(OptChainExpr {
-                        span,
-                        optional: true,
-                        ..
-                    }) => {
-                        syntax_error!(self, span, SyntaxError::OptChainCannotFollowConstructorCall)
-                    }
-                    Expr::Member(MemberExpr { ref obj, .. }) => {
-                        if let Expr::OptChain(OptChainExpr {
-                            span,
-                            optional: true,
-                            ..
-                        }) = **obj
-                        {
-                            syntax_error!(
-                                self,
-                                span,
-                                SyntaxError::OptChainCannotFollowConstructorCall
-                            )
-                        }
-                    }
-                    _ => {}
-                }
-            }
-
-            let type_args = if self.input.syntax().typescript() && is_one_of!(self, '<', "<<") {
-                try_parse_ts(self, |p| {
-                    let ctx = p.ctx() & !Context::ShouldNotLexLtOrGtAsType;
-
-                    let args = parse_ts_type_args(p.with_ctx(ctx).deref_mut())?;
-                    if !is!(p, '(') {
-                        // This will fail
-                        expect!(p, '(');
-                    }
-                    Ok(Some(args))
-                })
-            } else {
-                None
-            };
-
-            if !is_new_expr || is!(self, '(') {
-                // Parsed with 'MemberExpression' production.
-                let args = parse_args(self, false).map(Some)?;
-
-                let new_expr = Callee::Expr(
-                    NewExpr {
-                        span: span!(self, start),
-                        callee,
-                        args,
-                        type_args,
-                        ..Default::default()
-                    }
-                    .into(),
-                );
-
-                // We should parse subscripts for MemberExpression.
-                // Because it's left recursive.
-                return parse_subscripts(self, new_expr, true, false);
-            }
-
-            // Parsed with 'NewExpression' production.
-
-            return Ok(NewExpr {
-                span: span!(self, start),
-                callee,
-                args: None,
-                type_args,
-                ..Default::default()
-            }
-            .into());
-        }
-
-        if eat!(self, "super") {
-            let base = Callee::Super(Super {
-                span: span!(self, start),
-            });
-            return parse_subscripts(self, base, true, false);
-        } else if eat!(self, "import") {
-            return parse_dynamic_import_or_import_meta(self, start, true);
-        }
-        let obj = self.parse_primary_expr()?;
-        return_if_arrow!(self, obj);
-
-        let type_args = if self.syntax().typescript() && is!(self, '<') {
-            try_parse_ts_type_args(self)
-        } else {
-            None
-        };
-        let obj = if let Some(type_args) = type_args {
-            trace_cur!(self, parse_member_expr_or_new_expr__with_type_args);
-            TsInstantiation {
-                expr: obj,
-                type_args,
-                span: span!(self, start),
-            }
-            .into()
-        } else {
-            obj
-        };
-
-        parse_subscripts(self, Callee::Expr(obj), true, false)
-    }
-
-    /// Parse `NewExpression`.
-    /// This includes `MemberExpression`.
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    pub(super) fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
-        trace_cur!(self, parse_new_expr);
-
-        self.parse_member_expr_or_new_expr(true)
+        parse_member_expr_or_new_expr(self, false)
     }
 
     #[cfg_attr(
@@ -583,7 +423,7 @@ impl<I: Tokens> Parser<I> {
                     // ) is required
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                     let errorred_expr =
-                        self.parse_bin_op_recursively(Box::new(arrow_expr.into()), 0)?;
+                        parse_bin_op_recursively(self, Box::new(arrow_expr.into()), 0)?;
 
                     if !is!(self, ';') {
                         // ; is required
@@ -745,7 +585,7 @@ impl<I: Tokens> Parser<I> {
             return parse_dynamic_import_or_import_meta(self, start, false);
         }
 
-        let callee = self.parse_new_expr()?;
+        let callee = parse_new_expr(self)?;
         return_if_arrow!(self, callee);
 
         let type_args = if self.input.syntax().typescript() && is_one_of!(self, '<', "<<") {
@@ -829,10 +669,6 @@ impl<I: Tokens> Parser<I> {
         Ok(callee)
     }
 
-    pub(super) fn parse_for_head_prefix(&mut self) -> PResult<Box<Expr>> {
-        self.parse_expr()
-    }
-
     // Returns (args_or_pats, trailing_comma)
     #[cfg_attr(
         feature = "tracing-spans",
@@ -881,9 +717,9 @@ impl<I: Tokens> Parser<I> {
                     // At here, we use parse_bin_expr() instead of parse_assignment_expr()
                     // because `x?: number` should not be parsed as a conditional expression
                     let expr = if spread.is_some() {
-                        self.include_in_expr(true).parse_bin_expr()?
+                        parse_bin_expr(self)?
                     } else {
-                        let mut expr = self.parse_bin_expr()?;
+                        let mut expr = parse_bin_expr(self)?;
 
                         if cur!(self, false).is_ok_and(|t| t.is_assign_op()) {
                             expr = finish_assignment_expr(self, start, expr)?

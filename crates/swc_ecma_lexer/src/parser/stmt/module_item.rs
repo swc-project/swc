@@ -3,6 +3,7 @@ use std::ops::DerefMut;
 use super::*;
 use crate::common::parser::{
     ident::{parse_ident, parse_ident_name, parse_module_export_name},
+    stmt::parse_var_stmt,
     typescript::{parse_ts_enum_decl, parse_ts_import_equals_decl},
 };
 
@@ -471,9 +472,8 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 if is!(self, "interface") {
                     let interface_start = cur_pos!(self);
                     assert_and_bump!(self, "interface");
-                    let decl = self
-                        .parse_ts_interface_decl(interface_start)
-                        .map(DefaultDecl::from)?;
+                    let decl =
+                        parse_ts_interface_decl(self, interface_start).map(DefaultDecl::from)?;
                     return Ok(ExportDefaultDecl {
                         span: span!(self, start),
                         decl,
@@ -562,7 +562,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                         })
                         .unwrap_or(false))
         {
-            self.parse_var_stmt(false).map(Decl::Var)?
+            parse_var_stmt(self, false).map(Decl::Var)?
         } else {
             // ```javascript
             // export foo, * as bar, { baz } from "mod"; // *
