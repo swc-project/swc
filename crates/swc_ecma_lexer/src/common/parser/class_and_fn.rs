@@ -1,11 +1,11 @@
 use swc_common::Spanned;
-use swc_ecma_ast::{CallExpr, Callee, Decorator, Expr, Ident};
+use swc_ecma_ast::{Accessibility, CallExpr, Callee, Decorator, Expr, Ident};
 
 use super::{
     buffer::Buffer,
     expr::parse_args,
     ident::{parse_binding_ident, parse_opt_binding_ident},
-    typescript::parse_ts_type_args,
+    typescript::{parse_ts_modifier, parse_ts_type_args},
     PResult, Parser,
 };
 use crate::{
@@ -114,4 +114,20 @@ fn parse_decorator<'a, P: Parser<'a>>(p: &mut P) -> PResult<Decorator> {
         span: p.span(start),
         expr,
     })
+}
+
+pub fn parse_access_modifier<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Accessibility>> {
+    Ok(
+        parse_ts_modifier(p, &["public", "protected", "private", "in", "out"], false)?.and_then(
+            |s| match s {
+                "public" => Some(Accessibility::Public),
+                "protected" => Some(Accessibility::Protected),
+                "private" => Some(Accessibility::Private),
+                other => {
+                    p.emit_err(p.input().prev_span(), SyntaxError::TS1274(other.into()));
+                    None
+                }
+            },
+        ),
+    )
 }

@@ -21,7 +21,6 @@ mod macros;
 mod class_and_fn;
 mod expr;
 mod object;
-mod pat;
 mod stmt;
 #[cfg(feature = "typescript")]
 mod typescript;

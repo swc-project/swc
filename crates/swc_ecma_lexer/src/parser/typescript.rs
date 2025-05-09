@@ -10,6 +10,7 @@ use crate::{
         ident::{parse_ident_name, parse_maybe_private_name},
         is_simple_param_list::IsSimpleParameterList,
         make_decl_declare,
+        pat::parse_formal_params,
         typescript::{
             expect_then_parse_ts_type, is_ts_start_of_construct_signature, is_ts_start_of_fn_type,
             parse_ts_bracketed_list, parse_ts_entity_name, parse_ts_enum_decl,
@@ -916,7 +917,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
         debug_assert!(self.input.syntax().typescript());
 
-        let params = self.parse_formal_params()?;
+        let params = parse_formal_params(self)?;
         let mut list = Vec::with_capacity(4);
 
         for param in params {
@@ -1531,11 +1532,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 let type_params = parse_ts_type_params(p, false, false)?;
                 // Don't use overloaded parseFunctionParams which would look for "<" again.
                 expect!(p, '(');
-                let params: Vec<Pat> = p
-                    .parse_formal_params()?
-                    .into_iter()
-                    .map(|p| p.pat)
-                    .collect();
+                let params: Vec<Pat> = parse_formal_params(p)?.into_iter().map(|p| p.pat).collect();
                 expect!(p, ')');
                 let return_type = try_parse_ts_type_or_type_predicate_ann(p)?;
                 expect!(p, "=>");

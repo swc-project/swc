@@ -1,7 +1,15 @@
-use swc_common::{Span, Spanned};
+use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
-use super::{pat_type::PatType, PResult, Parser};
+use super::{
+    class_and_fn::{parse_access_modifier, parse_decorators},
+    is_not_this,
+    pat_type::PatType,
+    typescript::{
+        eat_any_ts_modifier, parse_ts_modifier, parse_ts_type_ann, try_parse_ts_type_ann,
+    },
+    PResult, Parser,
+};
 use crate::{
     common::{
         context::Context,
@@ -352,7 +360,7 @@ fn reparse_expr_as_pat_inner<'a>(
     }
 }
 
-pub fn parse_binding_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
+pub(super) fn parse_binding_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
     trace_cur!(p, parse_binding_element);
 
     let start = p.cur_pos();
@@ -453,4 +461,311 @@ pub fn parse_array_binding_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
         type_ann: None,
     }
     .into())
+}
+
+/// spec: 'FormalParameter'
+///
+/// babel: `parseAssignableListItem`
+fn parse_formal_param_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
+    let start = p.cur_pos();
+
+    let has_modifier = eat_any_ts_modifier(p)?;
+
+    let pat_start = p.cur_pos();
+    let mut pat = parse_binding_element(p)?;
+    let mut opt = false;
+
+    if p.input().syntax().typescript() {
+        if p.input_mut().eat(&P::Token::QUESTION) {
+            match pat {
+                Pat::Ident(BindingIdent {
+                    id: Ident {
+                        ref mut optional, ..
+                    },
+                    ..
+                })
+                | Pat::Array(ArrayPat {
+                    ref mut optional, ..
+                })
+                | Pat::Object(ObjectPat {
+                    ref mut optional, ..
+                }) => {
+                    *optional = true;
+                    opt = true;
+                }
+                _ if p.input().syntax().dts() || p.ctx().contains(Context::InDeclare) => {}
+                _ => {
+                    syntax_error!(
+                        p,
+                        p.input().prev_span(),
+                        SyntaxError::TsBindingPatCannotBeOptional
+                    );
+                }
+            }
+        }
+
+        match pat {
+            Pat::Array(ArrayPat {
+                ref mut type_ann,
+                ref mut span,
+                ..
+            })
+            | Pat::Object(ObjectPat {
+                ref mut type_ann,
+                ref mut span,
+                ..
+            })
+            | Pat::Rest(RestPat {
+                ref mut type_ann,
+                ref mut span,
+                ..
+            }) => {
+                let new_type_ann = try_parse_ts_type_ann(p)?;
+                if new_type_ann.is_some() {
+                    *span = Span::new(pat_start, p.input().prev_span().hi);
+                }
+                *type_ann = new_type_ann;
+            }
+
+            Pat::Ident(BindingIdent {
+                ref mut type_ann, ..
+            }) => {
+                let new_type_ann = try_parse_ts_type_ann(p)?;
+                *type_ann = new_type_ann;
+            }
+
+            Pat::Assign(AssignPat { ref mut span, .. }) => {
+                if (try_parse_ts_type_ann(p)?).is_some() {
+                    *span = Span::new(pat_start, p.input().prev_span().hi);
+                    p.emit_err(*span, SyntaxError::TSTypeAnnotationAfterAssign);
+                }
+            }
+            Pat::Invalid(..) => {}
+            _ => unreachable!("invalid syntax: Pat: {:?}", pat),
+        }
+    }
+
+    let pat = if p.input_mut().eat(&P::Token::EQUAL) {
+        // `=` cannot follow optional parameter.
+        if opt {
+            p.emit_err(pat.span(), SyntaxError::TS1015);
+        }
+
+        let right = p.parse_assignment_expr()?;
+        if p.ctx().contains(Context::InDeclare) {
+            p.emit_err(p.span(start), SyntaxError::TS2371);
+        }
+
+        AssignPat {
+            span: p.span(start),
+            left: Box::new(pat),
+            right,
+        }
+        .into()
+    } else {
+        pat
+    };
+
+    if has_modifier {
+        p.emit_err(p.span(start), SyntaxError::TS2369);
+        return Ok(pat);
+    }
+
+    Ok(pat)
+}
+
+fn parse_constructor_param<'a, P: Parser<'a>>(
+    p: &mut P,
+    param_start: BytePos,
+    decorators: Vec<Decorator>,
+) -> PResult<ParamOrTsParamProp> {
+    let (accessibility, is_override, readonly) = if p.input().syntax().typescript() {
+        let accessibility = parse_access_modifier(p)?;
+        (
+            accessibility,
+            parse_ts_modifier(p, &["override"], false)?.is_some(),
+            parse_ts_modifier(p, &["readonly"], false)?.is_some(),
+        )
+    } else {
+        (None, false, false)
+    };
+    if accessibility.is_none() && !is_override && !readonly {
+        let pat = parse_formal_param_pat(p)?;
+        Ok(ParamOrTsParamProp::Param(Param {
+            span: p.span(param_start),
+            decorators,
+            pat,
+        }))
+    } else {
+        let param = match parse_formal_param_pat(p)? {
+            Pat::Ident(i) => TsParamPropParam::Ident(i),
+            Pat::Assign(a) => TsParamPropParam::Assign(a),
+            node => syntax_error!(p, node.span(), SyntaxError::TsInvalidParamPropPat),
+        };
+        Ok(ParamOrTsParamProp::TsParamProp(TsParamProp {
+            span: p.span(param_start),
+            accessibility,
+            is_override,
+            readonly,
+            decorators,
+            param,
+        }))
+    }
+}
+
+pub fn parse_constructor_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<ParamOrTsParamProp>> {
+    let mut params = Vec::new();
+    let mut rest_span = Span::default();
+
+    while !eof!(p) && !p.input_mut().is(&P::Token::RPAREN) {
+        if !rest_span.is_dummy() {
+            p.emit_err(rest_span, SyntaxError::TS1014);
+        }
+
+        let param_start = p.cur_pos();
+        let decorators = parse_decorators(p, false)?;
+        let pat_start = p.cur_pos();
+
+        let mut is_rest = false;
+        if p.input_mut().eat(&P::Token::DOTDOTDOT) {
+            is_rest = true;
+            let dot3_token = p.span(pat_start);
+
+            let pat = parse_binding_pat_or_ident(p, false)?;
+            let type_ann = if p.input().syntax().typescript() && p.input_mut().is(&P::Token::COLON)
+            {
+                let cur_pos = p.cur_pos();
+                Some(parse_ts_type_ann(p, /* eat_colon */ true, cur_pos)?)
+            } else {
+                None
+            };
+
+            rest_span = p.span(pat_start);
+            let pat = RestPat {
+                span: rest_span,
+                dot3_token,
+                arg: Box::new(pat),
+                type_ann,
+            }
+            .into();
+            params.push(ParamOrTsParamProp::Param(Param {
+                span: p.span(param_start),
+                decorators,
+                pat,
+            }));
+        } else {
+            params.push(parse_constructor_param(p, param_start, decorators)?);
+        }
+
+        if !p.input_mut().is(&P::Token::RPAREN) {
+            expect!(p, &P::Token::COMMA);
+            if p.input_mut().is(&P::Token::RPAREN) && is_rest {
+                p.emit_err(p.input().prev_span(), SyntaxError::CommaAfterRestElement);
+            }
+        }
+    }
+
+    Ok(params)
+}
+
+pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> {
+    let mut params = Vec::new();
+    let mut rest_span = Span::default();
+
+    while !eof!(p) && !p.input_mut().is(&P::Token::RPAREN) {
+        if !rest_span.is_dummy() {
+            p.emit_err(rest_span, SyntaxError::TS1014);
+        }
+
+        let param_start = p.cur_pos();
+        let decorators = parse_decorators(p, false)?;
+        let pat_start = p.cur_pos();
+
+        let pat = if p.input_mut().eat(&P::Token::DOTDOTDOT) {
+            let dot3_token = p.span(pat_start);
+
+            let mut pat = parse_binding_pat_or_ident(p, false)?;
+
+            if p.input_mut().eat(&P::Token::EQUAL) {
+                let right = p.parse_assignment_expr()?;
+                p.emit_err(pat.span(), SyntaxError::TS1048);
+                pat = AssignPat {
+                    span: p.span(pat_start),
+                    left: Box::new(pat),
+                    right,
+                }
+                .into();
+            }
+
+            let type_ann = if p.input().syntax().typescript() && p.input_mut().is(&P::Token::COLON)
+            {
+                let cur_pos = p.cur_pos();
+                let ty = parse_ts_type_ann(p, /* eat_colon */ true, cur_pos)?;
+                Some(ty)
+            } else {
+                None
+            };
+
+            rest_span = p.span(pat_start);
+            let pat = RestPat {
+                span: rest_span,
+                dot3_token,
+                arg: Box::new(pat),
+                type_ann,
+            }
+            .into();
+
+            if p.syntax().typescript() && p.input_mut().eat(&P::Token::QUESTION) {
+                p.emit_err(p.input().prev_span(), SyntaxError::TS1047);
+                //
+            }
+
+            pat
+        } else {
+            parse_formal_param_pat(p)?
+        };
+        let is_rest = matches!(pat, Pat::Rest(_));
+
+        params.push(Param {
+            span: p.span(param_start),
+            decorators,
+            pat,
+        });
+
+        if !p.input_mut().is(&P::Token::RPAREN) {
+            expect!(p, &P::Token::COMMA);
+            if is_rest && p.input_mut().is(&P::Token::RPAREN) {
+                p.emit_err(p.input().prev_span(), SyntaxError::CommaAfterRestElement);
+            }
+        }
+    }
+
+    Ok(params)
+}
+
+#[allow(dead_code)]
+pub fn parse_setter_param<'a>(p: &mut impl Parser<'a>, key_span: Span) -> PResult<Param> {
+    let params = parse_formal_params(p)?;
+    let cnt = params.iter().filter(|p| is_not_this(p)).count();
+
+    if cnt != 1 {
+        p.emit_err(key_span, SyntaxError::SetterParam);
+    }
+
+    if !params.is_empty() {
+        if let Pat::Rest(..) = params[0].pat {
+            p.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
+        }
+    }
+
+    if params.is_empty() {
+        syntax_error!(p, SyntaxError::SetterParamRequired);
+    }
+
+    Ok(params.into_iter().next().unwrap())
+}
+
+pub fn parse_unique_formal_params<'a>(p: &mut impl Parser<'a>) -> PResult<Vec<Param>> {
+    // FIXME: This is wrong
+    parse_formal_params(p)
 }

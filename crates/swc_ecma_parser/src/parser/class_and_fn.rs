@@ -9,6 +9,7 @@ use swc_ecma_lexer::{
         is_not_this,
         is_simple_param_list::IsSimpleParameterList,
         output_type::OutputType,
+        pat::{parse_constructor_params, parse_formal_params, parse_unique_formal_params},
         typescript::{
             parse_ts_heritage_clause, parse_ts_modifier, parse_ts_type_ann, parse_ts_type_args,
             parse_ts_type_or_type_predicate_ann, parse_ts_type_params,
@@ -332,7 +333,7 @@ impl<I: Tokens> Parser<I> {
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_method(
-                    |p| p.parse_unique_formal_params(),
+                    parse_unique_formal_params,
                     MakeMethodArgs {
                         start,
                         accessibility,
@@ -406,7 +407,7 @@ impl<I: Tokens> Parser<I> {
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_method(
-                    |p| p.parse_unique_formal_params(),
+                    parse_unique_formal_params,
                     MakeMethodArgs {
                         start,
                         accessibility,
@@ -457,7 +458,7 @@ impl<I: Tokens> Parser<I> {
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_method(
-                    |p| p.parse_unique_formal_params(),
+                    parse_unique_formal_params,
                     MakeMethodArgs {
                         start,
                         accessibility,
@@ -664,7 +665,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             return self.make_method(
-                |p| p.parse_unique_formal_params(),
+                parse_unique_formal_params,
                 MakeMethodArgs {
                     start,
                     decorators,
@@ -732,7 +733,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 expect!(self, '(');
-                let params = self.parse_constructor_params()?;
+                let params = parse_constructor_params(self)?;
                 expect!(self, ')');
 
                 if self.syntax().typescript() && is!(self, ':') {
@@ -800,7 +801,7 @@ impl<I: Tokens> Parser<I> {
                 }));
             } else {
                 return self.make_method(
-                    |p| p.parse_formal_params(),
+                    parse_formal_params,
                     MakeMethodArgs {
                         start,
                         is_optional,
@@ -874,7 +875,7 @@ impl<I: Tokens> Parser<I> {
             // handle async foo(){}
             let is_optional = is_optional || self.input.syntax().typescript() && eat!(self, '?');
             return self.make_method(
-                |p| p.parse_unique_formal_params(),
+                parse_unique_formal_params,
                 MakeMethodArgs {
                     start,
                     static_token,
@@ -908,7 +909,7 @@ impl<I: Tokens> Parser<I> {
             return match &*i.sym {
                 "get" => self.make_method(
                     |p| {
-                        let params = p.parse_formal_params()?;
+                        let params = parse_formal_params(p)?;
 
                         if params.iter().filter(|p| is_not_this(p)).count() != 0 {
                             p.emit_err(key_span, SyntaxError::GetterParam);
@@ -932,7 +933,7 @@ impl<I: Tokens> Parser<I> {
                 ),
                 "set" => self.make_method(
                     |p| {
-                        let params = p.parse_formal_params()?;
+                        let params = parse_formal_params(p)?;
 
                         if params.iter().filter(|p| is_not_this(p)).count() != 1 {
                             p.emit_err(key_span, SyntaxError::SetterParam);
@@ -1135,7 +1136,7 @@ impl<I: Tokens> Parser<I> {
             let f = p.parse_fn_args_body(
                 decorators,
                 start,
-                |p| p.parse_formal_params(),
+                parse_formal_params,
                 is_async,
                 is_generator,
             )?;
