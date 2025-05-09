@@ -4,7 +4,11 @@ use swc_common::{Spanned, DUMMY_SP};
 
 use super::*;
 use crate::{
-    common::parser::{is_not_this, typescript::eat_any_ts_modifier},
+    common::parser::{
+        is_not_this,
+        pat::{parse_formal_params, parse_unique_formal_params},
+        typescript::eat_any_ts_modifier,
+    },
     tok,
 };
 
@@ -79,7 +83,7 @@ impl<I: Tokens<TokenAndSpan>> ParseObject<Expr> for Parser<I> {
                     // no decorator in an object literal
                     Vec::new(),
                     start,
-                    |p| p.parse_unique_formal_params(),
+                    parse_unique_formal_params,
                     false,
                     true,
                 )
@@ -133,7 +137,7 @@ impl<I: Tokens<TokenAndSpan>> ParseObject<Expr> for Parser<I> {
                     // no decorator in an object literal
                     Vec::new(),
                     start,
-                    |p| p.parse_unique_formal_params(),
+                    parse_unique_formal_params,
                     false,
                     false,
                 )
@@ -196,7 +200,7 @@ impl<I: Tokens<TokenAndSpan>> ParseObject<Expr> for Parser<I> {
                                 Vec::new(),
                                 start,
                                 |p| {
-                                    let params = p.parse_formal_params()?;
+                                    let params = parse_formal_params(p)?;
 
                                     if params.iter().filter(|p| is_not_this(p)).count() != 0 {
                                         p.emit_err(key_span, SyntaxError::GetterParam);
@@ -233,7 +237,7 @@ impl<I: Tokens<TokenAndSpan>> ParseObject<Expr> for Parser<I> {
                                     Vec::new(),
                                     start,
                                     |p| {
-                                        let params = p.parse_formal_params()?;
+                                        let params = parse_formal_params(p)?;
 
                                         if params.iter().filter(|p| is_not_this(p)).count() != 1 {
                                             p.emit_err(key_span, SyntaxError::SetterParam);
@@ -300,7 +304,7 @@ impl<I: Tokens<TokenAndSpan>> ParseObject<Expr> for Parser<I> {
                                 // no decorator in an object literal
                                 Vec::new(),
                                 start,
-                                |p| p.parse_unique_formal_params(),
+                                parse_unique_formal_params,
                                 true,
                                 is_generator,
                             )

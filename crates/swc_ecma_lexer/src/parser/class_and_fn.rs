@@ -5,12 +5,13 @@ use swc_common::Spanned;
 use super::*;
 use crate::{
     common::parser::{
-        class_and_fn::{parse_decorators, parse_maybe_opt_binding_ident},
+        class_and_fn::{parse_access_modifier, parse_decorators, parse_maybe_opt_binding_ident},
         has_use_strict, is_constructor,
         is_invalid_class_name::IsInvalidClassName,
         is_not_this,
         is_simple_param_list::IsSimpleParameterList,
         output_type::OutputType,
+        pat::{parse_constructor_params, parse_formal_params, parse_unique_formal_params},
         typescript::{
             parse_ts_heritage_clause, parse_ts_modifier, parse_ts_type_ann, parse_ts_type_args,
             parse_ts_type_or_type_predicate_ann, parse_ts_type_params,
@@ -293,23 +294,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         Ok(elems)
     }
 
-    pub(super) fn parse_access_modifier(&mut self) -> PResult<Option<Accessibility>> {
-        Ok(parse_ts_modifier(
-            self,
-            &["public", "protected", "private", "in", "out"],
-            false,
-        )?
-        .and_then(|s| match s {
-            "public" => Some(Accessibility::Public),
-            "protected" => Some(Accessibility::Protected),
-            "private" => Some(Accessibility::Private),
-            other => {
-                self.emit_err(self.input.prev_span(), SyntaxError::TS1274(other.into()));
-                None
-            }
-        }))
-    }
-
     fn parse_class_member(&mut self) -> PResult<ClassMember> {
         trace_cur!(self, parse_class_member);
 
@@ -317,7 +301,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let decorators = parse_decorators(self, false)?;
         let declare = self.syntax().typescript() && eat!(self, "declare");
         let accessibility = if self.input.syntax().typescript() {
-            self.parse_access_modifier()?
+            parse_access_modifier(self)?
         } else {
             None
         };
@@ -333,7 +317,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_method(
-                    |p| p.parse_unique_formal_params(),
+                    parse_unique_formal_params,
                     MakeMethodArgs {
                         start,
                         accessibility,
@@ -407,7 +391,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_method(
-                    |p| p.parse_unique_formal_params(),
+                    parse_unique_formal_params,
                     MakeMethodArgs {
                         start,
                         accessibility,
@@ -458,7 +442,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_method(
-                    |p| p.parse_unique_formal_params(),
+                    parse_unique_formal_params,
                     MakeMethodArgs {
                         start,
                         accessibility,
@@ -665,7 +649,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             }
 
             return self.make_method(
-                |p| p.parse_unique_formal_params(),
+                parse_unique_formal_params,
                 MakeMethodArgs {
                     start,
                     decorators,
@@ -733,7 +717,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 }
 
                 expect!(self, '(');
-                let params = self.parse_constructor_params()?;
+                let params = parse_constructor_params(self)?;
                 expect!(self, ')');
 
                 if self.syntax().typescript() && is!(self, ':') {
@@ -801,7 +785,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 }));
             } else {
                 return self.make_method(
-                    |p| p.parse_formal_params(),
+                    parse_formal_params,
                     MakeMethodArgs {
                         start,
                         is_optional,
@@ -875,7 +859,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             // handle async foo(){}
             let is_optional = is_optional || self.input.syntax().typescript() && eat!(self, '?');
             return self.make_method(
-                |p| p.parse_unique_formal_params(),
+                parse_unique_formal_params,
                 MakeMethodArgs {
                     start,
                     static_token,
@@ -909,7 +893,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             return match &*i.sym {
                 "get" => self.make_method(
                     |p| {
-                        let params = p.parse_formal_params()?;
+                        let params = parse_formal_params(p)?;
 
                         if params.iter().filter(|p| is_not_this(p)).count() != 0 {
                             p.emit_err(key_span, SyntaxError::GetterParam);
@@ -933,7 +917,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 ),
                 "set" => self.make_method(
                     |p| {
-                        let params = p.parse_formal_params()?;
+                        let params = parse_formal_params(p)?;
 
                         if params.iter().filter(|p| is_not_this(p)).count() != 1 {
                             p.emit_err(key_span, SyntaxError::SetterParam);
@@ -1136,7 +1120,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             let f = p.parse_fn_args_body(
                 decorators,
                 start,
-                |p| p.parse_formal_params(),
+                |p| parse_formal_params(p),
                 is_async,
                 is_generator,
             )?;
