@@ -8,13 +8,13 @@ use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::strip;
 
-fn tr() -> impl Pass {
+fn tr(unresolved_mark: Mark) -> impl Pass {
     Repeat::new(dce(
         Config {
             top_level: true,
             ..Default::default()
         },
-        Mark::new(),
+        unresolved_mark,
     ))
 }
 
@@ -25,7 +25,14 @@ macro_rules! to {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| (resolver(Mark::new(), Mark::new(), false), tr()),
+            |_| {
+                let unresolved_mark = Mark::new();
+
+                (
+                    resolver(unresolved_mark, Mark::new(), false),
+                    tr(unresolved_mark),
+                )
+            },
             $name,
             $src
         );
