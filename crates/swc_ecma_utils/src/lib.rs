@@ -1679,6 +1679,24 @@ impl Visit for IdentUsageFinder<'_> {
             self.found = true;
         }
     }
+
+    fn visit_module(&mut self, module: &Module) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, module.body.as_slice(), |v, item| {
+            item.visit_with(v);
+        });
+    }
+
+    fn visit_stmts(&mut self, stmts: &[Stmt]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, stmts, |v, stmt| {
+            stmt.visit_with(v);
+        });
+    }
+
+    fn visit_exprs(&mut self, exprs: &[Box<Expr>]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, exprs, |v, expr| {
+            expr.visit_with(v);
+        });
+    }
 }
 
 impl<'a> IdentUsageFinder<'a> {
@@ -1691,21 +1709,6 @@ impl<'a> IdentUsageFinder<'a> {
             found: false,
         };
         node.visit_with(&mut v);
-        v.found
-    }
-
-    pub fn find_parallel<N>(ident: &'a Id, n: &[N]) -> bool
-    where
-        N: VisitWith<Self> + Send + Sync,
-    {
-        let mut v = IdentUsageFinder {
-            ident,
-            found: false,
-        };
-
-        v.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, n| {
-            n.visit_with(v);
-        });
         v.found
     }
 }
@@ -3581,53 +3584,127 @@ mod tests {
         assert!(has_top_level_await("export const foo = await 1;"));
         assert!(has_top_level_await("export default await 1;"));
     }
-
     #[test]
-    fn test_ident_usage_finder_find_parallel() {
-        use swc_common::{input::StringInput, BytePos};
+    fn test_ident_usage_finder_find_on_module() {
+        use swc_atoms::Atom;
+        use swc_common::{input::StringInput, BytePos, SyntaxContext};
         use swc_ecma_ast::Module;
         use swc_ecma_parser::{Parser, Syntax};
 
         use super::*;
 
-        let sources = [
-            "let a = 1;",
-            "let b = a + 2;",
-            "const c = 5;",
-            "function test() { return b; }",
-        ];
-
-        let modules: Vec<Module> = sources
-            .iter()
-            .map(|src| {
-                let syntax = Syntax::Es(Default::default());
-                let mut parser = Parser::new(
-                    syntax,
-                    StringInput::new(src, BytePos(0), BytePos(src.len() as u32)),
-                    None,
-                );
-                parser.parse_module().expect("should parse module")
-            })
-            .collect();
+        // Module with multiple items, some referencing 'a'
+        let src = r#"
+        let a = 1;
+        let b = a + 2;
+        function foo() { return b; }
+        const c = 5;
+    "#;
+        let syntax = Syntax::Es(Default::default());
+        let mut parser = Parser::new(
+            syntax,
+            StringInput::new(src, BytePos(0), BytePos(src.len() as u32)),
+            None,
+        );
+        let module: Module = parser.parse_module().expect("should parse module");
 
         let ctxt = SyntaxContext::empty();
 
-        // Test finding 'a'
+        // Find usage of 'a'
         let id_a: Id = (Atom::from("a"), ctxt);
-        let found_a = IdentUsageFinder::find_parallel(&id_a, &modules);
+        let found_a = IdentUsageFinder::find(&id_a, &module);
+        assert!(
+            found_a,
+            "IdentUsageFinder should find usage of 'a' in module"
+        );
 
-        assert!(found_a);
-
-        // Test finding 'b'
+        // Find usage of 'b'
         let id_b: Id = (Atom::from("b"), ctxt);
-        let found_b = IdentUsageFinder::find_parallel(&id_b, &modules);
+        let found_b = IdentUsageFinder::find(&id_b, &module);
+        assert!(
+            found_b,
+            "IdentUsageFinder should find usage of 'b' in module"
+        );
 
-        assert!(found_b);
+        // Find usage of 'c'
+        let id_c: Id = (Atom::from("c"), ctxt);
+        let found_c = IdentUsageFinder::find(&id_c, &module);
+        assert!(
+            found_c,
+            "IdentUsageFinder should find usage of 'c' in module"
+        );
 
-        // Test finding 'z' (not present)
+        // Find usage of 'z' (should not be found)
         let id_z: Id = (Atom::from("z"), ctxt);
-        let found_z = IdentUsageFinder::find_parallel(&id_z, &modules);
+        let found_z = IdentUsageFinder::find(&id_z, &module);
+        assert!(
+            !found_z,
+            "IdentUsageFinder should not find usage of 'z' in module"
+        );
+    }
+    #[test]
+    fn test_ident_usage_finder_find_on_expr() {
+        use swc_atoms::Atom;
+        use swc_common::{input::StringInput, BytePos, SyntaxContext};
+        use swc_ecma_ast::Expr;
+        use swc_ecma_parser::{Parser, Syntax};
 
-        assert!(!found_z);
+        use super::*;
+
+        // Expression referencing 'foo'
+        let src = "foo + 1";
+        let syntax = Syntax::Es(Default::default());
+        let mut parser = Parser::new(
+            syntax,
+            StringInput::new(src, BytePos(0), BytePos(src.len() as u32)),
+            None,
+        );
+        let expr: Box<Expr> = parser.parse_expr().expect("should parse expr");
+
+        let ctxt = SyntaxContext::empty();
+        let id_foo: Id = (Atom::from("foo"), ctxt);
+        let found_foo = IdentUsageFinder::find(&id_foo, &expr);
+        assert!(
+            found_foo,
+            "IdentUsageFinder should find usage of 'foo' in expr"
+        );
+
+        let id_bar: Id = (Atom::from("bar"), ctxt);
+        let found_bar = IdentUsageFinder::find(&id_bar, &expr);
+        assert!(
+            !found_bar,
+            "IdentUsageFinder should not find usage of 'bar' in expr"
+        );
+    }
+    #[test]
+    fn test_ident_usage_finder_find_on_stmt() {
+        use swc_atoms::Atom;
+        use swc_common::{input::StringInput, BytePos, SyntaxContext};
+        use swc_ecma_ast::Stmt;
+        use swc_ecma_parser::{Parser, Syntax};
+
+        use super::*;
+
+        // Statement referencing 'x'
+        let src = "if (x > 0) { y = x; }";
+        let syntax = Syntax::Es(Default::default());
+        let mut parser = Parser::new(
+            syntax,
+            StringInput::new(src, BytePos(0), BytePos(src.len() as u32)),
+            None,
+        );
+        let stmt: Stmt = parser.parse_stmt().expect("should parse stmt");
+
+        let ctxt = SyntaxContext::empty();
+        let id_x: Id = (Atom::from("x"), ctxt);
+        let found_x = IdentUsageFinder::find(&id_x, &stmt);
+        assert!(found_x, "IdentUsageFinder should find usage of 'x' in stmt");
+
+        let id_z: Id = (Atom::from("z"), ctxt);
+        let found_z = IdentUsageFinder::find(&id_z, &stmt);
+        assert!(
+            !found_z,
+            "IdentUsageFinder should not find usage of 'z' in stmt"
+        );
     }
 }
