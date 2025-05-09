@@ -13,13 +13,14 @@ use crate::{
         pat::parse_formal_params,
         typescript::{
             expect_then_parse_ts_type, is_ts_start_of_construct_signature, is_ts_start_of_fn_type,
-            parse_ts_bracketed_list, parse_ts_entity_name, parse_ts_enum_decl,
-            parse_ts_heritage_clause, parse_ts_list, parse_ts_lit_type_node,
-            parse_ts_mapped_type_param, parse_ts_modifier, parse_ts_this_type_node,
-            parse_ts_this_type_predicate, parse_ts_type_args, parse_ts_type_member_semicolon,
+            is_ts_start_of_mapped_type, parse_ts_binding_list_for_signature, parse_ts_entity_name,
+            parse_ts_enum_decl, parse_ts_heritage_clause, parse_ts_list, parse_ts_lit_type_node,
+            parse_ts_mapped_type, parse_ts_modifier, parse_ts_parenthesized_type,
+            parse_ts_signature_member, parse_ts_this_type_node, parse_ts_this_type_predicate,
+            parse_ts_tuple_type, parse_ts_type_args, parse_ts_type_member_semicolon,
             parse_ts_type_or_type_predicate_ann, parse_ts_type_params, parse_ts_type_ref,
             parse_ts_union_or_intersection_type, try_parse_ts, try_parse_ts_index_signature,
-            try_parse_ts_type, try_parse_ts_type_ann, try_parse_ts_type_or_type_predicate_ann,
+            try_parse_ts_type_ann, try_parse_ts_type_or_type_predicate_ann,
             try_parse_ts_type_params, ts_look_ahead, ParsingContext, SignatureParsingMode,
             UnionOrIntersection,
         },
@@ -410,52 +411,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         }))
     }
 
-    /// `tsParseSignatureMember`
-    fn parse_ts_signature_member(
-        &mut self,
-        kind: SignatureParsingMode,
-    ) -> PResult<Either<TsCallSignatureDecl, TsConstructSignatureDecl>> {
-        debug_assert!(self.input.syntax().typescript());
-
-        let start = cur_pos!(self);
-
-        if kind == SignatureParsingMode::TSConstructSignatureDeclaration {
-            expect!(self, "new");
-        }
-
-        // ----- inlined self.tsFillSignature(tt.colon, node);
-        let type_params = try_parse_ts_type_params(self, false, true)?;
-        expect!(self, '(');
-        let params = self.parse_ts_binding_list_for_signature()?;
-        let type_ann = if is!(self, ':') {
-            Some(parse_ts_type_or_type_predicate_ann(self, &tok!(':'))?)
-        } else {
-            None
-        };
-        // -----
-
-        parse_ts_type_member_semicolon(self)?;
-
-        match kind {
-            SignatureParsingMode::TSCallSignatureDeclaration => {
-                Ok(Either::Left(TsCallSignatureDecl {
-                    span: span!(self, start),
-                    params,
-                    type_ann,
-                    type_params,
-                }))
-            }
-            SignatureParsingMode::TSConstructSignatureDeclaration => {
-                Ok(Either::Right(TsConstructSignatureDecl {
-                    span: span!(self, start),
-                    params,
-                    type_ann,
-                    type_params,
-                }))
-            }
-        }
-    }
-
     /// `parsePropertyName` in babel.
     ///
     /// Returns `(computed, key)`.
@@ -506,7 +461,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
             let type_params = try_parse_ts_type_params(self, false, true)?;
             expect!(self, '(');
-            let params = self.parse_ts_binding_list_for_signature()?;
+            let params = parse_ts_binding_list_for_signature(self)?;
             let type_ann = if is!(self, ':') {
                 parse_ts_type_or_type_predicate_ann(self, &tok!(':')).map(Some)?
             } else {
@@ -552,14 +507,18 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             }
         }
         if is_one_of!(self, '(', '<') {
-            return self
-                .parse_ts_signature_member(SignatureParsingMode::TSCallSignatureDeclaration)
-                .map(into_type_elem);
+            return parse_ts_signature_member(
+                self,
+                SignatureParsingMode::TSCallSignatureDeclaration,
+            )
+            .map(into_type_elem);
         }
         if is!(self, "new") && ts_look_ahead(self, is_ts_start_of_construct_signature)? {
-            return self
-                .parse_ts_signature_member(SignatureParsingMode::TSConstructSignatureDeclaration)
-                .map(into_type_elem);
+            return parse_ts_signature_member(
+                self,
+                SignatureParsingMode::TSConstructSignatureDeclaration,
+            )
+            .map(into_type_elem);
         }
         // Instead of fullStart, we create a node here.
         let start = cur_pos!(self);
@@ -601,7 +560,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 })))
             } else {
                 expect!(p, '(');
-                let params = p.parse_ts_binding_list_for_signature()?;
+                let params = parse_ts_binding_list_for_signature(p)?;
                 if params.is_empty() {
                     syntax_error!(p, SyntaxError::SetterParamRequired)
                 }
@@ -651,218 +610,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         Ok(members)
     }
 
-    /// `tsIsStartOfMappedType`
-    fn is_ts_start_of_mapped_type(&mut self) -> PResult<bool> {
-        debug_assert!(self.input.syntax().typescript());
-
-        bump!(self);
-        if eat!(self, '+') || eat!(self, '-') {
-            return Ok(is!(self, "readonly"));
-        }
-        if is!(self, "readonly") {
-            bump!(self);
-        }
-        if !is!(self, '[') {
-            return Ok(false);
-        }
-        bump!(self);
-        if !is!(self, IdentRef) {
-            return Ok(false);
-        }
-        bump!(self);
-
-        Ok(is!(self, "in"))
-    }
-
-    /// `tsParseMappedType`
-    fn parse_ts_mapped_type(&mut self) -> PResult<TsMappedType> {
-        debug_assert!(self.input.syntax().typescript());
-
-        let start = cur_pos!(self);
-        expect!(self, '{');
-        let mut readonly = None;
-        if is_one_of!(self, '+', '-') {
-            readonly = Some(if is!(self, '+') {
-                TruePlusMinus::Plus
-            } else {
-                TruePlusMinus::Minus
-            });
-            bump!(self);
-            expect!(self, "readonly")
-        } else if eat!(self, "readonly") {
-            readonly = Some(TruePlusMinus::True);
-        }
-
-        expect!(self, '[');
-        let type_param = parse_ts_mapped_type_param(self)?;
-        let name_type = if eat!(self, "as") {
-            Some(self.parse_ts_type()?)
-        } else {
-            None
-        };
-        expect!(self, ']');
-
-        let mut optional = None;
-        if is_one_of!(self, '+', '-') {
-            optional = Some(if is!(self, '+') {
-                TruePlusMinus::Plus
-            } else {
-                TruePlusMinus::Minus
-            });
-            bump!(self); // +, -
-            expect!(self, '?');
-        } else if eat!(self, '?') {
-            optional = Some(TruePlusMinus::True);
-        }
-
-        let type_ann = try_parse_ts_type(self)?;
-        expect!(self, ';');
-        expect!(self, '}');
-
-        Ok(TsMappedType {
-            span: span!(self, start),
-            readonly,
-            optional,
-            type_param,
-            name_type,
-            type_ann,
-        })
-    }
-
-    /// `tsParseTupleType`
-    fn parse_ts_tuple_type(&mut self) -> PResult<TsTupleType> {
-        debug_assert!(self.input.syntax().typescript());
-
-        let start = cur_pos!(self);
-        let elems = parse_ts_bracketed_list(
-            self,
-            ParsingContext::TupleElementTypes,
-            |p| p.parse_ts_tuple_element_type(),
-            /* bracket */ true,
-            /* skipFirstToken */ false,
-        )?;
-
-        // Validate the elementTypes to ensure:
-        //   No mandatory elements may follow optional elements
-        //   If there's a rest element, it must be at the end of the tuple
-
-        let mut seen_optional_element = false;
-
-        for elem in elems.iter() {
-            match *elem.ty {
-                TsType::TsRestType(..) => {}
-                TsType::TsOptionalType(..) => {
-                    seen_optional_element = true;
-                }
-                _ if seen_optional_element => {
-                    syntax_error!(
-                        self,
-                        span!(self, start),
-                        SyntaxError::TsRequiredAfterOptional
-                    )
-                }
-                _ => {}
-            }
-        }
-
-        Ok(TsTupleType {
-            span: span!(self, start),
-            elem_types: elems,
-        })
-    }
-
-    fn try_parse_ts_tuple_element_name(&mut self) -> Option<Pat> {
-        if !cfg!(feature = "typescript") {
-            return Default::default();
-        }
-
-        try_parse_ts(self, |p| {
-            let start = cur_pos!(p);
-
-            let rest = if eat!(p, "...") {
-                Some(p.input.prev_span())
-            } else {
-                None
-            };
-
-            let mut ident = parse_ident_name(p).map(Ident::from)?;
-            if eat!(p, '?') {
-                ident.optional = true;
-                ident.span = ident.span.with_hi(p.input.prev_span().hi);
-            }
-            expect!(p, ':');
-
-            Ok(Some(if let Some(dot3_token) = rest {
-                RestPat {
-                    span: span!(p, start),
-                    dot3_token,
-                    arg: ident.into(),
-                    type_ann: None,
-                }
-                .into()
-            } else {
-                ident.into()
-            }))
-        })
-    }
-
-    /// `tsParseTupleElementType`
-    fn parse_ts_tuple_element_type(&mut self) -> PResult<TsTupleElement> {
-        debug_assert!(self.input.syntax().typescript());
-
-        // parses `...TsType[]`
-        let start = cur_pos!(self);
-
-        let label = self.try_parse_ts_tuple_element_name();
-
-        if eat!(self, "...") {
-            let type_ann = self.parse_ts_type()?;
-            return Ok(TsTupleElement {
-                span: span!(self, start),
-                label,
-                ty: Box::new(TsType::TsRestType(TsRestType {
-                    span: span!(self, start),
-                    type_ann,
-                })),
-            });
-        }
-
-        let ty = self.parse_ts_type()?;
-        // parses `TsType?`
-        if eat!(self, '?') {
-            let type_ann = ty;
-            return Ok(TsTupleElement {
-                span: span!(self, start),
-                label,
-                ty: Box::new(TsType::TsOptionalType(TsOptionalType {
-                    span: span!(self, start),
-                    type_ann,
-                })),
-            });
-        }
-
-        Ok(TsTupleElement {
-            span: span!(self, start),
-            label,
-            ty,
-        })
-    }
-
-    /// `tsParseParenthesizedType`
-    fn parse_ts_parenthesized_type(&mut self) -> PResult<TsParenthesizedType> {
-        debug_assert!(self.input.syntax().typescript());
-        trace_cur!(self, parse_ts_parenthesized_type);
-
-        let start = cur_pos!(self);
-        expect!(self, '(');
-        let type_ann = self.parse_ts_type()?;
-        expect!(self, ')');
-        Ok(TsParenthesizedType {
-            span: span!(self, start),
-            type_ann,
-        })
-    }
-
     /// `tsParseFunctionOrConstructorType`
     fn parse_ts_fn_or_constructor_type(
         &mut self,
@@ -885,7 +632,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         // ----- inlined `self.tsFillSignature(tt.arrow, node)`
         let type_params = try_parse_ts_type_params(self, false, true)?;
         expect!(self, '(');
-        let params = self.parse_ts_binding_list_for_signature()?;
+        let params = parse_ts_binding_list_for_signature(self)?;
         let type_ann = parse_ts_type_or_type_predicate_ann(self, &tok!("=>"))?;
         // ----- end
 
@@ -905,37 +652,6 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 is_abstract,
             })
         })
-    }
-
-    /// `tsParseBindingListForSignature`
-    ///
-    /// Eats ')` at the end but does not eat `(` at start.
-    fn parse_ts_binding_list_for_signature(&mut self) -> PResult<Vec<TsFnParam>> {
-        if !cfg!(feature = "typescript") {
-            return Ok(Default::default());
-        }
-
-        debug_assert!(self.input.syntax().typescript());
-
-        let params = parse_formal_params(self)?;
-        let mut list = Vec::with_capacity(4);
-
-        for param in params {
-            let item = match param.pat {
-                Pat::Ident(pat) => TsFnParam::Ident(pat),
-                Pat::Array(pat) => TsFnParam::Array(pat),
-                Pat::Object(pat) => TsFnParam::Object(pat),
-                Pat::Rest(pat) => TsFnParam::Rest(pat),
-                _ => unexpected!(
-                    self,
-                    "an identifier, [ for an array pattern, { for an object patter or ... for a \
-                     rest pattern"
-                ),
-            };
-            list.push(item);
-        }
-        expect!(self, ')');
-        Ok(list)
     }
 
     /// `tsParseNonArrayType`
@@ -1092,18 +808,17 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             }
 
             tok!('{') => {
-                return if ts_look_ahead(self, |p| p.is_ts_start_of_mapped_type())? {
-                    self.parse_ts_mapped_type().map(TsType::from).map(Box::new)
+                return if ts_look_ahead(self, is_ts_start_of_mapped_type)? {
+                    parse_ts_mapped_type(self).map(TsType::from).map(Box::new)
                 } else {
                     self.parse_ts_type_lit().map(TsType::from).map(Box::new)
                 };
             }
             tok!('[') => {
-                return self.parse_ts_tuple_type().map(TsType::from).map(Box::new);
+                return parse_ts_tuple_type(self).map(TsType::from).map(Box::new);
             }
             tok!('(') => {
-                return self
-                    .parse_ts_parenthesized_type()
+                return parse_ts_parenthesized_type(self)
                     .map(TsType::from)
                     .map(Box::new);
             }

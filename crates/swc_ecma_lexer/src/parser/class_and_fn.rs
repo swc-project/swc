@@ -1120,7 +1120,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             let f = p.parse_fn_args_body(
                 decorators,
                 start,
-                |p| parse_formal_params(p),
+                parse_formal_params,
                 is_async,
                 is_generator,
             )?;

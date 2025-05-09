@@ -1,5 +1,6 @@
 use std::ops::DerefMut;
 
+use either::Either;
 use swc_atoms::atom;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::*;
@@ -13,7 +14,7 @@ use crate::{
             buffer::Buffer,
             expr::{parse_lit, parse_subscripts},
             ident::{parse_ident, parse_ident_name},
-            pat::parse_binding_pat_or_ident,
+            pat::{parse_binding_pat_or_ident, parse_formal_params},
         },
     },
     error::SyntaxError,
@@ -365,7 +366,7 @@ pub fn parse_ts_modifier<'a, P: Parser<'a>>(
     Ok(None)
 }
 
-pub fn parse_ts_bracketed_list<'a, P: Parser<'a>, T, F>(
+fn parse_ts_bracketed_list<'a, P: Parser<'a>, T, F>(
     p: &mut P,
     kind: ParsingContext,
     parse_element: F,
@@ -614,7 +615,7 @@ pub fn expect_then_parse_ts_type<'a, P: Parser<'a>>(
 }
 
 /// `tsParseMappedTypeParameter`
-pub fn parse_ts_mapped_type_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeParam> {
+fn parse_ts_mapped_type_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeParam> {
     debug_assert!(p.input().syntax().typescript());
 
     let start = p.input_mut().cur_pos();
@@ -767,7 +768,6 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
 ) -> PResult<Box<TsTypeAnn>> {
     debug_assert!(p.input().syntax().typescript());
 
-    dbg!(123);
     p.in_type().parse_with(|p| {
         let return_token_start = p.input_mut().cur_pos();
         if !p.input_mut().eat(return_token) {
@@ -891,7 +891,7 @@ pub fn try_parse_ts_type_args<'a, P: Parser<'a>>(
 }
 
 /// `tsTryParseType`
-pub fn try_parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box<TsType>>> {
+fn try_parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box<TsType>>> {
     if !cfg!(feature = "typescript") {
         return Ok(None);
     }
@@ -1354,4 +1354,295 @@ pub fn parse_ts_import_equals_decl<'a, P: Parser<'a>>(
         is_type_only,
         module_ref,
     }))
+}
+
+/// `tsParseBindingListForSignature`
+///
+/// Eats ')` at the end but does not eat `(` at start.
+pub fn parse_ts_binding_list_for_signature<'a, P: Parser<'a>>(
+    p: &mut P,
+) -> PResult<Vec<TsFnParam>> {
+    if !cfg!(feature = "typescript") {
+        return Ok(Default::default());
+    }
+
+    debug_assert!(p.input().syntax().typescript());
+
+    let params = parse_formal_params(p)?;
+    let mut list = Vec::with_capacity(4);
+
+    for param in params {
+        let item = match param.pat {
+            Pat::Ident(pat) => TsFnParam::Ident(pat),
+            Pat::Array(pat) => TsFnParam::Array(pat),
+            Pat::Object(pat) => TsFnParam::Object(pat),
+            Pat::Rest(pat) => TsFnParam::Rest(pat),
+            _ => unexpected!(
+                p,
+                "an identifier, [ for an array pattern, { for an object patter or ... for a rest \
+                 pattern"
+            ),
+        };
+        list.push(item);
+    }
+    expect!(p, &P::Token::RPAREN);
+    Ok(list)
+}
+
+/// `tsIsStartOfMappedType`
+pub fn is_ts_start_of_mapped_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool> {
+    debug_assert!(p.input().syntax().typescript());
+
+    p.bump();
+    if p.input_mut().eat(&P::Token::PLUS) || p.input_mut().eat(&P::Token::MINUS) {
+        return Ok(p.input_mut().is(&P::Token::READONLY));
+    }
+    if p.input_mut().is(&P::Token::READONLY) {
+        p.bump();
+    }
+    if !p.input_mut().is(&P::Token::LBRACKET) {
+        return Ok(false);
+    }
+    p.bump();
+    if !p.is_ident_ref() {
+        return Ok(false);
+    }
+    p.bump();
+
+    Ok(p.input_mut().is(&P::Token::IN))
+}
+
+/// `tsParseSignatureMember`
+pub fn parse_ts_signature_member<'a, P: Parser<'a>>(
+    p: &mut P,
+    kind: SignatureParsingMode,
+) -> PResult<Either<TsCallSignatureDecl, TsConstructSignatureDecl>> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let start = p.cur_pos();
+
+    if kind == SignatureParsingMode::TSConstructSignatureDeclaration {
+        expect!(p, &P::Token::NEW);
+    }
+
+    // ----- inlined p.tsFillSignature(tt.colon, node);
+    let type_params = try_parse_ts_type_params(p, false, true)?;
+    expect!(p, &P::Token::LPAREN);
+    let params = parse_ts_binding_list_for_signature(p)?;
+    let type_ann = if p.input_mut().is(&P::Token::COLON) {
+        Some(parse_ts_type_or_type_predicate_ann(p, &P::Token::COLON)?)
+    } else {
+        None
+    };
+    // -----
+
+    parse_ts_type_member_semicolon(p)?;
+
+    match kind {
+        SignatureParsingMode::TSCallSignatureDeclaration => Ok(Either::Left(TsCallSignatureDecl {
+            span: p.span(start),
+            params,
+            type_ann,
+            type_params,
+        })),
+        SignatureParsingMode::TSConstructSignatureDeclaration => {
+            Ok(Either::Right(TsConstructSignatureDecl {
+                span: p.span(start),
+                params,
+                type_ann,
+                type_params,
+            }))
+        }
+    }
+}
+
+fn try_parse_ts_tuple_element_name<'a, P: Parser<'a>>(p: &mut P) -> Option<Pat> {
+    if !cfg!(feature = "typescript") {
+        return Default::default();
+    }
+
+    try_parse_ts(p, |p| {
+        let start = p.cur_pos();
+
+        let rest = if p.input_mut().eat(&P::Token::DOTDOTDOT) {
+            Some(p.input().prev_span())
+        } else {
+            None
+        };
+
+        let mut ident = parse_ident_name(p).map(Ident::from)?;
+        if p.input_mut().eat(&P::Token::QUESTION) {
+            ident.optional = true;
+            ident.span = ident.span.with_hi(p.input().prev_span().hi);
+        }
+        expect!(p, &P::Token::COLON);
+
+        Ok(Some(if let Some(dot3_token) = rest {
+            RestPat {
+                span: p.span(start),
+                dot3_token,
+                arg: ident.into(),
+                type_ann: None,
+            }
+            .into()
+        } else {
+            ident.into()
+        }))
+    })
+}
+
+/// `tsParseTupleElementType`
+fn parse_ts_tuple_element_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTupleElement> {
+    debug_assert!(p.input().syntax().typescript());
+
+    // parses `...TsType[]`
+    let start = p.cur_pos();
+
+    let label = try_parse_ts_tuple_element_name(p);
+
+    if p.input_mut().eat(&P::Token::DOTDOTDOT) {
+        let type_ann = p.parse_ts_type()?;
+        return Ok(TsTupleElement {
+            span: p.span(start),
+            label,
+            ty: Box::new(TsType::TsRestType(TsRestType {
+                span: p.span(start),
+                type_ann,
+            })),
+        });
+    }
+
+    let ty = p.parse_ts_type()?;
+    // parses `TsType?`
+    if p.input_mut().eat(&P::Token::QUESTION) {
+        let type_ann = ty;
+        return Ok(TsTupleElement {
+            span: p.span(start),
+            label,
+            ty: Box::new(TsType::TsOptionalType(TsOptionalType {
+                span: p.span(start),
+                type_ann,
+            })),
+        });
+    }
+
+    Ok(TsTupleElement {
+        span: p.span(start),
+        label,
+        ty,
+    })
+}
+
+/// `tsParseTupleType`
+pub fn parse_ts_tuple_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTupleType> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let start = p.cur_pos();
+    let elems = parse_ts_bracketed_list(
+        p,
+        ParsingContext::TupleElementTypes,
+        parse_ts_tuple_element_type,
+        /* bracket */ true,
+        /* skipFirstToken */ false,
+    )?;
+
+    // Validate the elementTypes to ensure:
+    //   No mandatory elements may follow optional elements
+    //   If there's a rest element, it must be at the end of the tuple
+
+    let mut seen_optional_element = false;
+
+    for elem in elems.iter() {
+        match *elem.ty {
+            TsType::TsRestType(..) => {}
+            TsType::TsOptionalType(..) => {
+                seen_optional_element = true;
+            }
+            _ if seen_optional_element => {
+                syntax_error!(p, p.span(start), SyntaxError::TsRequiredAfterOptional)
+            }
+            _ => {}
+        }
+    }
+
+    Ok(TsTupleType {
+        span: p.span(start),
+        elem_types: elems,
+    })
+}
+
+/// `tsParseMappedType`
+pub fn parse_ts_mapped_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsMappedType> {
+    debug_assert!(p.input().syntax().typescript());
+
+    let start = p.cur_pos();
+    expect!(p, &P::Token::LBRACE);
+    let mut readonly = None;
+    if p.input_mut()
+        .cur()
+        .is_some_and(|cur| cur.is_plus() || cur.is_minus())
+    {
+        readonly = Some(if p.input_mut().cur().is_some_and(|cur| cur.is_plus()) {
+            TruePlusMinus::Plus
+        } else {
+            TruePlusMinus::Minus
+        });
+        p.bump();
+        expect!(p, &P::Token::READONLY)
+    } else if p.input_mut().eat(&P::Token::READONLY) {
+        readonly = Some(TruePlusMinus::True);
+    }
+
+    expect!(p, &P::Token::LBRACKET);
+    let type_param = parse_ts_mapped_type_param(p)?;
+    let name_type = if p.input_mut().eat(&P::Token::AS) {
+        Some(p.parse_ts_type()?)
+    } else {
+        None
+    };
+    expect!(p, &P::Token::RBRACKET);
+
+    let mut optional = None;
+    if p.input_mut()
+        .cur()
+        .is_some_and(|cur| cur.is_plus() || cur.is_minus())
+    {
+        optional = Some(if p.input_mut().cur().is_some_and(|cur| cur.is_plus()) {
+            TruePlusMinus::Plus
+        } else {
+            TruePlusMinus::Minus
+        });
+        p.bump(); // +, -
+        expect!(p, &P::Token::QUESTION);
+    } else if p.input_mut().eat(&P::Token::QUESTION) {
+        optional = Some(TruePlusMinus::True);
+    }
+
+    let type_ann = try_parse_ts_type(p)?;
+    p.expect_general_semi()?;
+    expect!(p, &P::Token::RBRACE);
+
+    Ok(TsMappedType {
+        span: p.span(start),
+        readonly,
+        optional,
+        type_param,
+        name_type,
+        type_ann,
+    })
+}
+
+/// `tsParseParenthesizedType`
+pub fn parse_ts_parenthesized_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsParenthesizedType> {
+    debug_assert!(p.input().syntax().typescript());
+    trace_cur!(p, parse_ts_parenthesized_type);
+
+    let start = p.cur_pos();
+    expect!(p, &P::Token::LPAREN);
+    let type_ann = p.parse_ts_type()?;
+    expect!(p, &P::Token::RPAREN);
+    Ok(TsParenthesizedType {
+        span: p.span(start),
+        type_ann,
+    })
 }
