@@ -124,3 +124,21 @@ macro_rules! eof {
         cur!($p, false).is_err()
     };
 }
+
+macro_rules! return_if_arrow {
+    ($p:expr, $expr:expr) => {{
+        // FIXME:
+        //
+        //
+
+        // let is_cur = match $p.state.potential_arrow_start {
+        //     Some(start) => $expr.span.lo() == start,
+        //     None => false
+        // };
+        // if is_cur {
+        if let Expr::Arrow { .. } = *$expr {
+            return Ok($expr);
+        }
+        // }
+    }};
+}

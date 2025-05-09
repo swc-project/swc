@@ -1,8 +1,8 @@
-use assign_target_or_spread::AssignTargetOrSpread;
+use std::ops::DerefMut;
+
+use expr::parse_assignment_expr;
 use expr_ext::ExprExt;
 use ident::parse_private_name;
-use pat::{pat_is_valid_argument_in_strict, reparse_expr_as_pat};
-use pat_type::PatType;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
@@ -329,83 +329,6 @@ pub trait Parser<'a>: Sized + Clone {
         })
     }
 
-    fn parse_paren_items_as_params(
-        &mut self,
-        mut exprs: Vec<AssignTargetOrSpread>,
-        trailing_comma: Option<Span>,
-    ) -> PResult<Vec<Pat>> {
-        let pat_ty = PatType::BindingPat;
-
-        let len = exprs.len();
-        if len == 0 {
-            return Ok(Vec::new());
-        }
-
-        let mut params = Vec::with_capacity(len);
-
-        for expr in exprs.drain(..len - 1) {
-            match expr {
-                AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
-                    spread: Some(..), ..
-                })
-                | AssignTargetOrSpread::Pat(Pat::Rest(..)) => {
-                    self.emit_err(expr.span(), SyntaxError::TS1014)
-                }
-                AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
-                    spread: None, expr, ..
-                }) => params.push(reparse_expr_as_pat(self, pat_ty, expr)?),
-                AssignTargetOrSpread::Pat(pat) => params.push(pat),
-            }
-        }
-
-        debug_assert_eq!(exprs.len(), 1);
-        let expr = exprs.into_iter().next().unwrap();
-        let outer_expr_span = expr.span();
-        let last = match expr {
-            // Rest
-            AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
-                spread: Some(dot3_token),
-                expr,
-            }) => {
-                if let Expr::Assign(_) = *expr {
-                    self.emit_err(outer_expr_span, SyntaxError::TS1048)
-                };
-                if let Some(trailing_comma) = trailing_comma {
-                    self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
-                }
-                let expr_span = expr.span();
-                reparse_expr_as_pat(self, pat_ty, expr).map(|pat| {
-                    RestPat {
-                        span: expr_span,
-                        dot3_token,
-                        arg: Box::new(pat),
-                        type_ann: None,
-                    }
-                    .into()
-                })?
-            }
-            AssignTargetOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
-                reparse_expr_as_pat(self, pat_ty, expr)?
-            }
-            AssignTargetOrSpread::Pat(pat) => {
-                if let Some(trailing_comma) = trailing_comma {
-                    if let Pat::Rest(..) = pat {
-                        self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
-                    }
-                }
-                pat
-            }
-        };
-        params.push(last);
-
-        if self.ctx().contains(Context::Strict) {
-            for param in params.iter() {
-                pat_is_valid_argument_in_strict(self, param)
-            }
-        }
-        Ok(params)
-    }
-
     /// spec: 'PropertyName'
     fn parse_prop_name(&mut self) -> PResult<PropName> {
         trace_cur!(self, parse_prop_name);
@@ -444,12 +367,12 @@ pub trait Parser<'a>: Sized + Clone {
             } else if cur.is_lbracket() {
                 p.bump();
                 let inner_start = p.input_mut().cur_pos();
-                let mut expr = p.include_in_expr(true).parse_assignment_expr()?;
+                let mut expr = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
                 if p.syntax().typescript() && p.input_mut().is(&Self::Token::COMMA) {
                     let mut exprs = vec![expr];
                     while p.input_mut().eat(&Self::Token::COMMA) {
                         //
-                        exprs.push(p.include_in_expr(true).parse_assignment_expr()?);
+                        exprs.push(parse_assignment_expr(p.include_in_expr(true).deref_mut())?);
                     }
                     p.emit_err(p.span(inner_start), SyntaxError::TS1171);
                     expr = Box::new(
@@ -483,8 +406,7 @@ pub trait Parser<'a>: Sized + Clone {
         if self.input_mut().eat(&Self::Token::DOTDOTDOT) {
             let spread_span = self.span(start);
             let spread = Some(spread_span);
-            self.include_in_expr(true)
-                .parse_assignment_expr()
+            parse_assignment_expr(self.include_in_expr(true).deref_mut())
                 .map_err(|err| {
                     Error::new(
                         err.span(),
@@ -497,8 +419,7 @@ pub trait Parser<'a>: Sized + Clone {
                 })
                 .map(|expr| ExprOrSpread { spread, expr })
         } else {
-            self.parse_assignment_expr()
-                .map(|expr| ExprOrSpread { spread: None, expr })
+            parse_assignment_expr(self).map(|expr| ExprOrSpread { spread: None, expr })
         }
     }
 
@@ -514,19 +435,19 @@ pub trait Parser<'a>: Sized + Clone {
         }
     }
 
-    fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>>;
+    fn parse_bin_expr(&mut self) -> PResult<Box<Expr>>;
 
     fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
         debug_tracing!(self, "parse_expr");
-        let expr = self.parse_assignment_expr()?;
+        let expr = parse_assignment_expr(self)?;
         let start = expr.span_lo();
 
         if self.input_mut().is(&Self::Token::COMMA) {
             let mut exprs = vec![expr];
 
             while self.input_mut().eat(&Self::Token::COMMA) {
-                exprs.push(self.parse_assignment_expr()?);
+                exprs.push(parse_assignment_expr(self)?);
             }
 
             return Ok(SeqExpr {
@@ -539,7 +460,7 @@ pub trait Parser<'a>: Sized + Clone {
         Ok(expr)
     }
 
-    fn parse_ts_type(&mut self) -> PResult<Box<TsType>>;
+    fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>>;
 
     fn try_parse_ts_generic_async_arrow_fn(&mut self, start: BytePos)
         -> PResult<Option<ArrowExpr>>;

@@ -1,6 +1,7 @@
 use std::ops::DerefMut;
 
 use swc_ecma_lexer::common::parser::{
+    expr::parse_assignment_expr,
     ident::{parse_ident, parse_ident_name, parse_module_export_name},
     typescript::parse_ts_import_equals_decl,
 };
@@ -507,7 +508,7 @@ impl<I: Tokens> Parser<I> {
             {
                 export_default = Some(Ident::new_no_ctxt("default".into(), self.input.prev_span()))
             } else {
-                let expr = self.include_in_expr(true).parse_assignment_expr()?;
+                let expr = parse_assignment_expr(self.include_in_expr(true).deref_mut())?;
                 expect!(self, ';');
                 return Ok(ExportDefaultExpr {
                     span: span!(self, start),

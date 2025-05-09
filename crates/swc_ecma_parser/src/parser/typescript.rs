@@ -3,22 +3,22 @@ use std::{fmt::Write, ops::DerefMut};
 use either::Either;
 use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
-    expr::parse_lit,
+    expr::{parse_assignment_expr, parse_lit},
     ident::{parse_ident_name, parse_maybe_private_name},
     is_simple_param_list::IsSimpleParameterList,
     make_decl_declare,
     pat::parse_formal_params,
     typescript::{
-        expect_then_parse_ts_type, is_ts_start_of_construct_signature, is_ts_start_of_fn_type,
-        is_ts_start_of_mapped_type, parse_ts_binding_list_for_signature, parse_ts_entity_name,
-        parse_ts_enum_decl, parse_ts_heritage_clause, parse_ts_list, parse_ts_lit_type_node,
-        parse_ts_mapped_type, parse_ts_modifier, parse_ts_parenthesized_type,
-        parse_ts_signature_member, parse_ts_this_type_node, parse_ts_this_type_predicate,
-        parse_ts_tuple_type, parse_ts_type_args, parse_ts_type_member_semicolon,
-        parse_ts_type_or_type_predicate_ann, parse_ts_type_params, parse_ts_type_ref,
-        parse_ts_union_or_intersection_type, try_parse_ts, try_parse_ts_index_signature,
-        try_parse_ts_type_ann, try_parse_ts_type_or_type_predicate_ann, try_parse_ts_type_params,
-        ts_look_ahead, ParsingContext, SignatureParsingMode, UnionOrIntersection,
+        is_ts_start_of_construct_signature, is_ts_start_of_mapped_type,
+        parse_ts_binding_list_for_signature, parse_ts_entity_name, parse_ts_enum_decl,
+        parse_ts_heritage_clause, parse_ts_list, parse_ts_lit_type_node, parse_ts_mapped_type,
+        parse_ts_modifier, parse_ts_parenthesized_type, parse_ts_signature_member,
+        parse_ts_this_type_node, parse_ts_this_type_predicate, parse_ts_tuple_type, parse_ts_type,
+        parse_ts_type_alias_decl, parse_ts_type_args, parse_ts_type_member_semicolon,
+        parse_ts_type_or_type_predicate_ann, parse_ts_type_params, parse_ts_type_ref, try_parse_ts,
+        try_parse_ts_index_signature, try_parse_ts_type_ann,
+        try_parse_ts_type_or_type_predicate_ann, try_parse_ts_type_params, ts_look_ahead,
+        ParsingContext, SignatureParsingMode,
     },
 };
 
@@ -250,74 +250,7 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_type(&mut self) -> PResult<Box<TsType>> {
         debug_assert!(self.input.syntax().typescript());
 
-        self.in_type().parse_ts_type()
-    }
-
-    /// Be sure to be in a type context before calling self.
-    ///
-    /// `tsParseType`
-    pub(super) fn parse_ts_type(&mut self) -> PResult<Box<TsType>> {
-        trace_cur!(self, parse_ts_type);
-
-        debug_assert!(self.input.syntax().typescript());
-
-        // Need to set `state.inType` so that we don't parse JSX in a type context.
-        debug_assert!(self.ctx().contains(Context::InType));
-
-        let start = cur_pos!(self);
-
-        let ctx = self.ctx() & !Context::DisallowConditionalTypes;
-        self.with_ctx(ctx).parse_with(|p| {
-            let ty = p.parse_ts_non_conditional_type()?;
-            if p.input.had_line_break_before_cur() || !eat!(p, "extends") {
-                return Ok(ty);
-            }
-
-            let check_type = ty;
-            let extends_type = {
-                p.with_ctx(p.ctx() | Context::DisallowConditionalTypes)
-                    .parse_ts_non_conditional_type()?
-            };
-
-            expect!(p, '?');
-
-            let true_type = p.parse_ts_type()?;
-
-            expect!(p, ':');
-
-            let false_type = p.parse_ts_type()?;
-
-            Ok(Box::new(TsType::TsConditionalType(TsConditionalType {
-                span: span!(p, start),
-                check_type,
-                extends_type,
-                true_type,
-                false_type,
-            })))
-        })
-    }
-
-    /// `tsParseNonConditionalType`
-    fn parse_ts_non_conditional_type(&mut self) -> PResult<Box<TsType>> {
-        trace_cur!(self, parse_ts_non_conditional_type);
-
-        debug_assert!(self.input.syntax().typescript());
-
-        if is_ts_start_of_fn_type(self)? {
-            return self
-                .parse_ts_fn_or_constructor_type(true)
-                .map(TsType::from)
-                .map(Box::new);
-        }
-        if (is!(self, "abstract") && peeked_is!(self, "new")) || is!(self, "new") {
-            // As in `new () => Date`
-            return self
-                .parse_ts_fn_or_constructor_type(false)
-                .map(TsType::from)
-                .map(Box::new);
-        }
-
-        self.parse_ts_union_type_or_higher()
+        parse_ts_type(self.in_type().deref_mut())
     }
 
     /// `tsParseTypeAssertion`
@@ -331,7 +264,7 @@ impl<I: Tokens> Parser<I> {
         // Not actually necessary to set state.inType because we never reach here if JSX
         // plugin is enabled, but need `tsInType` to satisfy the assertion in
         // `tsParseType`.
-        let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
+        let type_ann = self.in_type().parse_with(parse_ts_type)?;
         expect!(self, '>');
         let expr = self.parse_unary_expr()?;
         Ok(TsTypeAssertion {
@@ -394,32 +327,12 @@ impl<I: Tokens> Parser<I> {
         }))
     }
 
-    /// `tsParseTypeAliasDeclaration`
-    pub(super) fn parse_ts_type_alias_decl(
-        &mut self,
-        start: BytePos,
-    ) -> PResult<Box<TsTypeAliasDecl>> {
-        debug_assert!(self.input.syntax().typescript());
-
-        let id = parse_ident_name(self)?;
-        let type_params = try_parse_ts_type_params(self, true, false)?;
-        let type_ann = expect_then_parse_ts_type(self, &Token::Eq, "=")?;
-        expect!(self, ';');
-        Ok(Box::new(TsTypeAliasDecl {
-            declare: false,
-            span: span!(self, start),
-            id: id.into(),
-            type_params,
-            type_ann,
-        }))
-    }
-
     /// `parsePropertyName` in babel.
     ///
     /// Returns `(computed, key)`.
     fn parse_ts_property_name(&mut self) -> PResult<(bool, Box<Expr>)> {
         let (computed, key) = if eat!(self, '[') {
-            let key = self.parse_assignment_expr()?;
+            let key = parse_assignment_expr(self)?;
             expect!(self, ']');
             (true, key)
         } else {
@@ -613,52 +526,8 @@ impl<I: Tokens> Parser<I> {
         Ok(members)
     }
 
-    /// `tsParseFunctionOrConstructorType`
-    fn parse_ts_fn_or_constructor_type(
-        &mut self,
-        is_fn_type: bool,
-    ) -> PResult<TsFnOrConstructorType> {
-        trace_cur!(self, parse_ts_fn_or_constructor_type);
-
-        debug_assert!(self.input.syntax().typescript());
-
-        let start = cur_pos!(self);
-        let is_abstract = if !is_fn_type {
-            eat!(self, "abstract")
-        } else {
-            false
-        };
-        if !is_fn_type {
-            expect!(self, "new");
-        }
-
-        // ----- inlined `self.tsFillSignature(tt.arrow, node)`
-        let type_params = try_parse_ts_type_params(self, false, true)?;
-        expect!(self, '(');
-        let params = parse_ts_binding_list_for_signature(self)?;
-        let type_ann = parse_ts_type_or_type_predicate_ann(self, &Token::Arrow)?;
-        // ----- end
-
-        Ok(if is_fn_type {
-            TsFnOrConstructorType::TsFnType(TsFnType {
-                span: span!(self, start),
-                type_params,
-                params,
-                type_ann,
-            })
-        } else {
-            TsFnOrConstructorType::TsConstructorType(TsConstructorType {
-                span: span!(self, start),
-                type_params,
-                params,
-                type_ann,
-                is_abstract,
-            })
-        })
-    }
-
     /// `tsParseNonArrayType`
-    fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>> {
+    pub(super) fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>> {
         if !cfg!(feature = "typescript") {
             unreachable!()
         }
@@ -879,117 +748,6 @@ impl<I: Tokens> Parser<I> {
             "an identifier, void, yield, null, await, break, a string literal, a numeric literal, \
              true, false, `, -, import, this, typeof, {, [, ("
         )
-    }
-
-    /// `tsParseArrayTypeOrHigher`
-    fn parse_ts_array_type_or_higher(&mut self, readonly: bool) -> PResult<Box<TsType>> {
-        trace_cur!(self, parse_ts_array_type_or_higher);
-        debug_assert!(self.input.syntax().typescript());
-
-        let mut ty = self.parse_ts_non_array_type()?;
-
-        while !self.input.had_line_break_before_cur() && eat!(self, '[') {
-            if eat!(self, ']') {
-                ty = Box::new(TsType::TsArrayType(TsArrayType {
-                    span: span!(self, ty.span_lo()),
-                    elem_type: ty,
-                }));
-            } else {
-                let index_type = self.parse_ts_type()?;
-                expect!(self, ']');
-                ty = Box::new(TsType::TsIndexedAccessType(TsIndexedAccessType {
-                    span: span!(self, ty.span_lo()),
-                    readonly,
-                    obj_type: ty,
-                    index_type,
-                }))
-            }
-        }
-
-        Ok(ty)
-    }
-
-    /// `tsParseTypeOperator`
-    fn parse_ts_type_operator(&mut self, op: TsTypeOperatorOp) -> PResult<TsTypeOperator> {
-        debug_assert!(self.input.syntax().typescript());
-
-        let start = cur_pos!(self);
-        match op {
-            TsTypeOperatorOp::Unique => expect!(self, "unique"),
-            TsTypeOperatorOp::KeyOf => expect!(self, "keyof"),
-            TsTypeOperatorOp::ReadOnly => expect!(self, "readonly"),
-        }
-
-        let type_ann = self.parse_ts_type_operator_or_higher()?;
-        Ok(TsTypeOperator {
-            span: span!(self, start),
-            op,
-            type_ann,
-        })
-    }
-
-    /// `tsParseInferType`
-    fn parse_ts_infer_type(&mut self) -> PResult<TsInferType> {
-        debug_assert!(self.input.syntax().typescript());
-
-        let start = cur_pos!(self);
-        expect!(self, "infer");
-        let type_param_name = parse_ident_name(self)?;
-        let constraint = try_parse_ts(self, |p| {
-            expect!(p, "extends");
-            let constraint = p.parse_ts_non_conditional_type();
-            if p.ctx().contains(Context::DisallowConditionalTypes) || !is!(p, '?') {
-                constraint.map(Some)
-            } else {
-                Ok(None)
-            }
-        });
-        let type_param = TsTypeParam {
-            span: type_param_name.span(),
-            name: type_param_name.into(),
-            is_in: false,
-            is_out: false,
-            is_const: false,
-            constraint,
-            default: None,
-        };
-        Ok(TsInferType {
-            span: span!(self, start),
-            type_param,
-        })
-    }
-
-    /// `tsParseTypeOperatorOrHigher`
-    fn parse_ts_type_operator_or_higher(&mut self) -> PResult<Box<TsType>> {
-        trace_cur!(self, parse_ts_type_operator_or_higher);
-        debug_assert!(self.input.syntax().typescript());
-
-        let operator = if is!(self, "keyof") {
-            Some(TsTypeOperatorOp::KeyOf)
-        } else if is!(self, "unique") {
-            Some(TsTypeOperatorOp::Unique)
-        } else if is!(self, "readonly") {
-            Some(TsTypeOperatorOp::ReadOnly)
-        } else {
-            None
-        };
-
-        match operator {
-            Some(operator) => self
-                .parse_ts_type_operator(operator)
-                .map(TsType::from)
-                .map(Box::new),
-            None => {
-                trace_cur!(self, parse_ts_type_operator_or_higher__not_operator);
-
-                if is!(self, "infer") {
-                    self.parse_ts_infer_type().map(TsType::from).map(Box::new)
-                } else {
-                    let readonly = parse_ts_modifier(self, &["readonly"], false)?.is_some();
-                    self.parse_ts_array_type_or_higher(readonly)
-                }
-            }
-        }
     }
 
     /// `tsParseExpressionStatement`
@@ -1265,8 +1023,7 @@ impl<I: Tokens> Parser<I> {
                     if next {
                         bump!(self);
                     }
-                    return self
-                        .parse_ts_type_alias_decl(start)
+                    return parse_ts_type_alias_decl(self, start)
                         .map(From::from)
                         .map(Some);
                 }
@@ -1324,33 +1081,6 @@ impl<I: Tokens> Parser<I> {
                 ..Default::default()
             }))
         })
-    }
-
-    /// `tsParseIntersectionTypeOrHigher`
-    fn parse_ts_intersection_type_or_higher(&mut self) -> PResult<Box<TsType>> {
-        trace_cur!(self, parse_ts_intersection_type_or_higher);
-
-        debug_assert!(self.input.syntax().typescript());
-
-        parse_ts_union_or_intersection_type(
-            self,
-            UnionOrIntersection::Intersection,
-            |p| p.parse_ts_type_operator_or_higher(),
-            &Token::Ampersand,
-        )
-    }
-
-    /// `tsParseUnionTypeOrHigher`
-    fn parse_ts_union_type_or_higher(&mut self) -> PResult<Box<TsType>> {
-        trace_cur!(self, parse_ts_union_type_or_higher);
-        debug_assert!(self.input.syntax().typescript());
-
-        parse_ts_union_or_intersection_type(
-            self,
-            UnionOrIntersection::Union,
-            |p| p.parse_ts_intersection_type_or_higher(),
-            &Token::Pipe,
-        )
     }
 }
 

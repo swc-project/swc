@@ -1,6 +1,8 @@
+use std::ops::DerefMut;
+
 use swc_ecma_ast::*;
 
-use super::{buffer::Buffer, PResult, Parser};
+use super::{buffer::Buffer, expr::parse_assignment_expr, PResult, Parser};
 use crate::{
     common::{context::Context, lexer::token::TokenFactory},
     error::SyntaxError,
@@ -47,7 +49,7 @@ pub fn parse_normal_for_head<'a, P: Parser<'a>>(
 pub fn parse_for_each_head<'a, P: Parser<'a>>(p: &mut P, left: ForHead) -> PResult<TempForHead> {
     let is_of = p.bump().is_of();
     if is_of {
-        let right = p.include_in_expr(true).parse_assignment_expr()?;
+        let right = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
         Ok(TempForHead::ForOf { left, right })
     } else {
         if let ForHead::UsingDecl(d) = &left {

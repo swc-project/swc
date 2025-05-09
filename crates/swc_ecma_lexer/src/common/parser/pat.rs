@@ -1,7 +1,10 @@
+use std::ops::DerefMut;
+
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::{
+    assign_target_or_spread::AssignTargetOrSpread,
     class_and_fn::{parse_access_modifier, parse_decorators},
     is_not_this,
     pat_type::PatType,
@@ -15,7 +18,8 @@ use crate::{
         context::Context,
         lexer::token::TokenFactory,
         parser::{
-            buffer::Buffer, expr_ext::ExprExt, ident::parse_binding_ident, object::parse_object_pat,
+            buffer::Buffer, expr::parse_assignment_expr, expr_ext::ExprExt,
+            ident::parse_binding_ident, object::parse_object_pat,
         },
     },
     error::SyntaxError,
@@ -367,7 +371,7 @@ pub(super) fn parse_binding_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat
     let left = parse_binding_pat_or_ident(p, false)?;
 
     if p.input_mut().eat(&P::Token::EQUAL) {
-        let right = p.include_in_expr(true).parse_assignment_expr()?;
+        let right = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
 
         if p.ctx().contains(Context::InDeclare) {
             p.emit_err(p.span(start), SyntaxError::TS2371);
@@ -551,7 +555,7 @@ fn parse_formal_param_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
             p.emit_err(pat.span(), SyntaxError::TS1015);
         }
 
-        let right = p.parse_assignment_expr()?;
+        let right = parse_assignment_expr(p)?;
         if p.ctx().contains(Context::InDeclare) {
             p.emit_err(p.span(start), SyntaxError::TS2371);
         }
@@ -687,7 +691,7 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
             let mut pat = parse_binding_pat_or_ident(p, false)?;
 
             if p.input_mut().eat(&P::Token::EQUAL) {
-                let right = p.parse_assignment_expr()?;
+                let right = parse_assignment_expr(p)?;
                 p.emit_err(pat.span(), SyntaxError::TS1048);
                 pat = AssignPat {
                     span: p.span(pat_start),
@@ -768,4 +772,81 @@ pub fn parse_setter_param<'a>(p: &mut impl Parser<'a>, key_span: Span) -> PResul
 pub fn parse_unique_formal_params<'a>(p: &mut impl Parser<'a>) -> PResult<Vec<Param>> {
     // FIXME: This is wrong
     parse_formal_params(p)
+}
+
+pub fn parse_paren_items_as_params<'a, P: Parser<'a>>(
+    p: &mut P,
+    mut exprs: Vec<AssignTargetOrSpread>,
+    trailing_comma: Option<Span>,
+) -> PResult<Vec<Pat>> {
+    let pat_ty = PatType::BindingPat;
+
+    let len = exprs.len();
+    if len == 0 {
+        return Ok(Vec::new());
+    }
+
+    let mut params = Vec::with_capacity(len);
+
+    for expr in exprs.drain(..len - 1) {
+        match expr {
+            AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+                spread: Some(..), ..
+            })
+            | AssignTargetOrSpread::Pat(Pat::Rest(..)) => {
+                p.emit_err(expr.span(), SyntaxError::TS1014)
+            }
+            AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+                spread: None, expr, ..
+            }) => params.push(reparse_expr_as_pat(p, pat_ty, expr)?),
+            AssignTargetOrSpread::Pat(pat) => params.push(pat),
+        }
+    }
+
+    debug_assert_eq!(exprs.len(), 1);
+    let expr = exprs.into_iter().next().unwrap();
+    let outer_expr_span = expr.span();
+    let last = match expr {
+        // Rest
+        AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
+            spread: Some(dot3_token),
+            expr,
+        }) => {
+            if let Expr::Assign(_) = *expr {
+                p.emit_err(outer_expr_span, SyntaxError::TS1048)
+            };
+            if let Some(trailing_comma) = trailing_comma {
+                p.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
+            }
+            let expr_span = expr.span();
+            reparse_expr_as_pat(p, pat_ty, expr).map(|pat| {
+                RestPat {
+                    span: expr_span,
+                    dot3_token,
+                    arg: Box::new(pat),
+                    type_ann: None,
+                }
+                .into()
+            })?
+        }
+        AssignTargetOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
+            reparse_expr_as_pat(p, pat_ty, expr)?
+        }
+        AssignTargetOrSpread::Pat(pat) => {
+            if let Some(trailing_comma) = trailing_comma {
+                if let Pat::Rest(..) = pat {
+                    p.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
+                }
+            }
+            pat
+        }
+    };
+    params.push(last);
+
+    if p.ctx().contains(Context::Strict) {
+        for param in params.iter() {
+            pat_is_valid_argument_in_strict(p, param)
+        }
+    }
+    Ok(params)
 }

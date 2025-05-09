@@ -6,7 +6,7 @@ use crate::{common::parser::typescript::next_then_parse_ts_type, tok, token::Tok
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
-    pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(crate) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_bin_expr);
 
         let ctx = self.ctx();

@@ -3,27 +3,24 @@ use std::ops::DerefMut;
 use either::Either;
 use rustc_hash::FxHashMap;
 use swc_common::Spanned;
-use swc_ecma_lexer::{
-    common::parser::{
-        assign_target_or_spread::AssignTargetOrSpread,
-        class_and_fn::parse_decorators,
-        expr::{
-            finish_assignment_expr, parse_args, parse_array_lit,
-            parse_dynamic_import_or_import_meta, parse_lit, parse_subscripts, parse_tpl,
-            parse_yield_expr,
-        },
-        ident::{parse_binding_ident, parse_ident, parse_ident_name},
-        is_simple_param_list::IsSimpleParameterList,
-        jsx::{parse_jsx_element, parse_jsx_text},
-        pat::reparse_expr_as_pat,
-        pat_type::PatType,
-        typescript::{
-            eat_any_ts_modifier, parse_ts_type_args, parse_ts_type_or_type_predicate_ann,
-            parse_ts_type_params, try_parse_ts, try_parse_ts_type_ann, try_parse_ts_type_args,
-        },
-        unwrap_ts_non_null,
+use swc_ecma_lexer::common::parser::{
+    assign_target_or_spread::AssignTargetOrSpread,
+    class_and_fn::parse_decorators,
+    expr::{
+        finish_assignment_expr, parse_args, parse_array_lit, parse_assignment_expr,
+        parse_dynamic_import_or_import_meta, parse_lit, parse_subscripts, parse_tpl,
     },
-    lexer::TokenContext,
+    ident::{parse_binding_ident, parse_ident, parse_ident_name},
+    is_simple_param_list::IsSimpleParameterList,
+    jsx::{parse_jsx_element, parse_jsx_text},
+    pat::{parse_paren_items_as_params, reparse_expr_as_pat},
+    pat_type::PatType,
+    typescript::{
+        eat_any_ts_modifier, parse_ts_type, parse_ts_type_args,
+        parse_ts_type_or_type_predicate_ann, try_parse_ts, try_parse_ts_type_ann,
+        try_parse_ts_type_args,
+    },
+    unwrap_ts_non_null,
 };
 
 use super::*;
@@ -38,161 +35,6 @@ use crate::parser::Parser;
 impl<I: Tokens> Parser<I> {
     pub fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         ParserTrait::parse_expr(self)
-    }
-
-    ///`parseMaybeAssign` (overridden)
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    pub(super) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
-        trace_cur!(self, parse_assignment_expr);
-
-        if self.input.syntax().typescript() && is!(self, JSXTagStart) {
-            // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
-            // syntax.
-
-            let cur_context = self.input.token_context().current();
-            debug_assert_eq!(cur_context, Some(TokenContext::JSXOpeningTag));
-            // Only time j_oTag is pushed is right after j_expr.
-            debug_assert_eq!(
-                self.input.token_context().0[self.input.token_context().len() - 2],
-                TokenContext::JSXExpr
-            );
-
-            let res = try_parse_ts(self, |p| p.parse_assignment_expr_base().map(Some));
-            if let Some(res) = res {
-                return Ok(res);
-            } else {
-                debug_assert_eq!(
-                    self.input.token_context().current(),
-                    Some(TokenContext::JSXOpeningTag)
-                );
-                self.input.token_context_mut().pop();
-                debug_assert_eq!(
-                    self.input.token_context().current(),
-                    Some(TokenContext::JSXExpr)
-                );
-                self.input.token_context_mut().pop();
-            }
-        }
-
-        self.parse_assignment_expr_base()
-    }
-
-    /// Parse an assignment expression. This includes applications of
-    /// operators like `+=`.
-    ///
-    /// `parseMaybeAssign`
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    fn parse_assignment_expr_base(&mut self) -> PResult<Box<Expr>> {
-        trace_cur!(self, parse_assignment_expr_base);
-        let start = self.input.cur_span();
-
-        if self.input.syntax().typescript()
-            && (is_one_of!(self, '<', JSXTagStart))
-            && (peeked_is!(self, IdentName) || peeked_is!(self, JSXName))
-        {
-            let ctx = self.ctx() & !Context::WillExpectColonForCond;
-            let res = try_parse_ts(self.with_ctx(ctx).deref_mut(), |p| {
-                if is!(p, JSXTagStart) {
-                    if let Some(TokenContext::JSXOpeningTag) = p.input.token_context().current() {
-                        p.input.token_context_mut().pop();
-
-                        debug_assert_eq!(
-                            p.input.token_context().current(),
-                            Some(TokenContext::JSXExpr)
-                        );
-                        p.input.token_context_mut().pop();
-                    }
-                }
-
-                let type_parameters = parse_ts_type_params(p, false, true)?;
-                let mut arrow = p.parse_assignment_expr_base()?;
-                match *arrow {
-                    Expr::Arrow(ArrowExpr {
-                        ref mut span,
-                        ref mut type_params,
-                        ..
-                    }) => {
-                        *span = Span::new(type_parameters.span.lo, span.hi);
-                        *type_params = Some(type_parameters);
-                    }
-                    _ => unexpected!(p, "("),
-                }
-                Ok(Some(arrow))
-            });
-            if let Some(res) = res {
-                if self.input.syntax().disallow_ambiguous_jsx_like() {
-                    self.emit_err(start, SyntaxError::ReservedArrowTypeParam);
-                }
-                return Ok(res);
-            }
-        }
-
-        if self.ctx().contains(Context::InGenerator) && is!(self, "yield") {
-            return parse_yield_expr(self);
-        }
-
-        self.state.potential_arrow_start = match cur!(self, true) {
-            Token::Ident | token!('(') | token!("yield") => Some(cur_pos!(self)),
-            t if t.is_known_ident() => Some(cur_pos!(self)),
-            _ => None,
-        };
-
-        let start = cur_pos!(self);
-
-        // Try to parse conditional expression.
-        let cond = self.parse_cond_expr()?;
-
-        return_if_arrow!(self, cond);
-
-        match *cond {
-            // if cond is conditional expression but not left-hand-side expression,
-            // just return it.
-            Expr::Cond(..) | Expr::Bin(..) | Expr::Unary(..) | Expr::Update(..) => return Ok(cond),
-            _ => {}
-        }
-
-        finish_assignment_expr(self, start, cond)
-    }
-
-    /// Spec: 'ConditionalExpression'
-    #[cfg_attr(
-        feature = "tracing-spans",
-        tracing::instrument(level = "debug", skip_all)
-    )]
-    fn parse_cond_expr(&mut self) -> PResult<Box<Expr>> {
-        trace_cur!(self, parse_cond_expr);
-
-        let start = cur_pos!(self);
-
-        let test = self.parse_bin_expr()?;
-        return_if_arrow!(self, test);
-
-        if eat!(self, '?') {
-            let ctx = self.ctx()
-                | Context::InCondExpr
-                | Context::WillExpectColonForCond
-                | Context::IncludeInExpr;
-            let cons = self.with_ctx(ctx).parse_assignment_expr()?;
-            expect!(self, ':');
-            let ctx = (self.ctx() | Context::InCondExpr) & !Context::WillExpectColonForCond;
-            let alt = self.with_ctx(ctx).parse_assignment_expr()?;
-            let span = Span::new(start, alt.span_hi());
-            Ok(CondExpr {
-                span,
-                test,
-                cons,
-                alt,
-            }
-            .into())
-        } else {
-            Ok(test)
-        }
     }
 
     /// Parse a primary expression or arrow function
@@ -387,7 +229,7 @@ impl<I: Tokens> Parser<I> {
                 let ident = parse_binding_ident(self, false)?;
                 if self.input.syntax().typescript() && ident.sym == "as" && !is!(self, "=>") {
                     // async as type
-                    let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
+                    let type_ann = self.in_type().parse_with(parse_ts_type)?;
                     return Ok(TsAsExpr {
                         span: span!(self, start),
                         expr: Box::new(id.into()),
@@ -651,10 +493,10 @@ impl<I: Tokens> Parser<I> {
 
                 expect!(p, "=>");
 
-                let params: Vec<Pat> = p
-                    .parse_paren_items_as_params(items_ref.clone(), trailing_comma)?
-                    .into_iter()
-                    .collect();
+                let params: Vec<Pat> =
+                    parse_paren_items_as_params(p, items_ref.clone(), trailing_comma)?
+                        .into_iter()
+                        .collect();
 
                 let body: Box<BlockStmtOrExpr> = p.parse_fn_body(
                     async_span.is_some(),
@@ -717,8 +559,7 @@ impl<I: Tokens> Parser<I> {
             }
             expect!(self, "=>");
 
-            let params: Vec<Pat> = self
-                .parse_paren_items_as_params(paren_items, trailing_comma)?
+            let params: Vec<Pat> = parse_paren_items_as_params(self, paren_items, trailing_comma)?
                 .into_iter()
                 .collect();
 
@@ -1087,11 +928,11 @@ impl<I: Tokens> Parser<I> {
                             | Context::InCondExpr
                             | Context::WillExpectColonForCond
                             | Context::IncludeInExpr;
-                        let cons = self.with_ctx(ctx).parse_assignment_expr()?;
+                        let cons = parse_assignment_expr(self.with_ctx(ctx).deref_mut())?;
                         expect!(self, ':');
                         let ctx =
                             (self.ctx() | Context::InCondExpr) & !Context::WillExpectColonForCond;
-                        let alt = self.with_ctx(ctx).parse_assignment_expr()?;
+                        let alt = parse_assignment_expr(self.with_ctx(ctx).deref_mut())?;
 
                         arg = ExprOrSpread {
                             spread: None,
@@ -1178,7 +1019,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 if eat!(self, '=') {
-                    let right = self.parse_assignment_expr()?;
+                    let right = parse_assignment_expr(self)?;
                     pat = AssignPat {
                         span: span!(self, pat_start),
                         left: Box::new(pat),
@@ -1212,8 +1053,7 @@ impl<I: Tokens> Parser<I> {
                     _ => false,
                 }
             } {
-                let params: Vec<Pat> = self
-                    .parse_paren_items_as_params(items.clone(), None)?
+                let params: Vec<Pat> = parse_paren_items_as_params(self, items.clone(), None)?
                     .into_iter()
                     .collect();
 

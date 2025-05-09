@@ -500,6 +500,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     type Buffer = crate::input::Buffer<I>;
     type Lexer = crate::Lexer<'a>;
 
+    const ABSTRACT: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Abstract)));
     const ARROW: Self = Self::Arrow;
     const AS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::As)));
     const ASSERTS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Asserts)));
@@ -535,11 +536,12 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const IMPLEMENTS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Implements)));
     const IMPORT: Self = Token::Word(Word::Keyword(Keyword::Import));
     const IN: Self = Token::Word(Word::Keyword(Keyword::In));
+    const INFER: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Infer)));
     const INTERFACE: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Interface)));
     const IS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Is)));
     const JSX_TAG_END: Self = Self::JSXTagEnd;
     const JSX_TAG_START: Self = Self::JSXTagStart;
-    const KW_SUPER: Self = Token::Word(Word::Keyword(Keyword::Super));
+    const KEYOF: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Keyof)));
     const LBRACE: Self = Self::LBrace;
     const LBRACKET: Self = Self::LBracket;
     const LESS: Self = Token::BinOp(BinOpToken::Lt);
@@ -581,10 +583,12 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const SATISFIES: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Satisfies)));
     const SEMI: Self = Self::Semi;
     const STATIC: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Static)));
+    const SUPER: Self = Token::Word(Word::Keyword(Keyword::Super));
     const THIS: Self = Token::Word(Word::Keyword(Keyword::This));
     const TILDE: Self = Self::Tilde;
     const TRUE: Self = Token::Word(Word::True);
     const TYPEOF: Self = Token::Word(Word::Keyword(Keyword::TypeOf));
+    const UNIQUE: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Unique)));
     const VOID: Self = Token::Word(Word::Keyword(Keyword::Void));
     const YIELD: Self = Token::Word(Word::Keyword(Keyword::Yield));
     const ZERO_FILL_RSHIFT: Self = Token::BinOp(BinOpToken::ZeroFillRShift);

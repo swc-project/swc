@@ -14,11 +14,14 @@ use crate::{
             ident::parse_maybe_private_name,
             pat::reparse_expr_as_pat,
             pat_type::PatType,
-            typescript::{parse_ts_type_args, try_parse_ts, try_parse_ts_type_args},
+            typescript::{
+                parse_ts_type_args, parse_ts_type_params, try_parse_ts, try_parse_ts_type_args,
+            },
             unwrap_ts_non_null,
         },
     },
     error::{Error, SyntaxError},
+    TokenContext,
 };
 
 pub(super) fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bool {
@@ -90,7 +93,7 @@ pub fn at_possible_async<'a, P: Parser<'a>>(p: &P, expr: &Expr) -> PResult<bool>
     Ok(p.state().potential_arrow_start == Some(expr.span_lo()) && expr.is_ident_ref_to("async"))
 }
 
-pub fn parse_yield_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
+fn parse_yield_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     let start = p.input_mut().cur_pos();
     p.assert_and_bump(&P::Token::YIELD)?;
     debug_assert!(p.ctx().contains(Context::InGenerator));
@@ -106,7 +109,7 @@ pub fn parse_yield_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     let parse_with_arg = |p: &mut P| {
         let has_star = p.input_mut().eat(&P::Token::MUL);
         let err_span = p.span(start);
-        let arg = p.parse_assignment_expr().map_err(|err| {
+        let arg = parse_assignment_expr(p).map_err(|err| {
             Error::new(
                 err.span(),
                 SyntaxError::WithLabel {
@@ -294,6 +297,131 @@ pub fn parse_args<'a, P: Parser<'a>>(
     })
 }
 
+///`parseMaybeAssign` (overridden)
+#[cfg_attr(
+    feature = "tracing-spans",
+    tracing::instrument(level = "debug", skip_all)
+)]
+pub fn parse_assignment_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
+    trace_cur!(p, parse_assignment_expr);
+
+    if p.input().syntax().typescript() && p.input_mut().is(&P::Token::JSX_TAG_START) {
+        // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
+        // syntax.
+
+        let cur_context = p.input().token_context().current();
+        debug_assert_eq!(cur_context, Some(TokenContext::JSXOpeningTag));
+        // Only time j_oTag is pushed is right after j_expr.
+        debug_assert_eq!(
+            p.input().token_context().0[p.input().token_context().len() - 2],
+            TokenContext::JSXExpr
+        );
+
+        let res = try_parse_ts(p, |p| parse_assignment_expr_base(p).map(Some));
+        if let Some(res) = res {
+            return Ok(res);
+        } else {
+            debug_assert_eq!(
+                p.input_mut().token_context().current(),
+                Some(TokenContext::JSXOpeningTag)
+            );
+            p.input_mut().token_context_mut().pop();
+            debug_assert_eq!(
+                p.input_mut().token_context().current(),
+                Some(TokenContext::JSXExpr)
+            );
+            p.input_mut().token_context_mut().pop();
+        }
+    }
+
+    parse_assignment_expr_base(p)
+}
+
+/// Parse an assignment expression. This includes applications of
+/// operators like `+=`.
+///
+/// `parseMaybeAssign`
+#[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
+    trace_cur!(p, parse_assignment_expr_base);
+    let start = p.input().cur_span();
+
+    if p.input().syntax().typescript()
+        && (p
+            .input_mut()
+            .cur()
+            .is_some_and(|cur| cur.is_less() || cur.is_jsx_tag_start()))
+        && (peek!(p).is_some_and(|peek| peek.is_word() || peek.is_jsx_name()))
+    {
+        let ctx = p.ctx() & !Context::WillExpectColonForCond;
+        let res = try_parse_ts(p.with_ctx(ctx).deref_mut(), |p| {
+            if p.input_mut()
+                .cur()
+                .is_some_and(|cur| cur.is_jsx_tag_start())
+            {
+                if let Some(TokenContext::JSXOpeningTag) = p.input_mut().token_context().current() {
+                    p.input_mut().token_context_mut().pop();
+
+                    debug_assert_eq!(
+                        p.input_mut().token_context().current(),
+                        Some(TokenContext::JSXExpr)
+                    );
+                    p.input_mut().token_context_mut().pop();
+                }
+            }
+
+            let type_parameters = parse_ts_type_params(p, false, true)?;
+            let mut arrow = parse_assignment_expr_base(p)?;
+            match *arrow {
+                Expr::Arrow(ArrowExpr {
+                    ref mut span,
+                    ref mut type_params,
+                    ..
+                }) => {
+                    *span = Span::new(type_parameters.span.lo, span.hi);
+                    *type_params = Some(type_parameters);
+                }
+                _ => unexpected!(p, "("),
+            }
+            Ok(Some(arrow))
+        });
+        if let Some(res) = res {
+            if p.input().syntax().disallow_ambiguous_jsx_like() {
+                p.emit_err(start, SyntaxError::ReservedArrowTypeParam);
+            }
+            return Ok(res);
+        }
+    }
+
+    if p.ctx().contains(Context::InGenerator) && p.input_mut().is(&P::Token::YIELD) {
+        return parse_yield_expr(p);
+    }
+
+    let cur = cur!(p, true);
+    p.state_mut().potential_arrow_start =
+        if cur.is_known_ident() || cur.is_unknown_ident() || cur.is_yield() || cur.is_lparen() {
+            Some(p.cur_pos())
+        } else {
+            None
+        };
+
+    let start = p.cur_pos();
+
+    // Try to parse conditional expression.
+    let cond = parse_cond_expr(p)?;
+
+    return_if_arrow!(p, cond);
+
+    match *cond {
+        // if cond is conditional expression but not left-hand-side expression,
+        // just return it.
+        Expr::Cond(..) | Expr::Bin(..) | Expr::Unary(..) | Expr::Update(..) => return Ok(cond),
+        _ => {}
+    }
+
+    finish_assignment_expr(p, start, cond)
+}
+
 pub fn finish_assignment_expr<'a, P: Parser<'a>>(
     p: &mut P,
     start: BytePos,
@@ -338,7 +466,7 @@ pub fn finish_assignment_expr<'a, P: Parser<'a>>(
         };
 
         p.bump();
-        let right = p.parse_assignment_expr()?;
+        let right = parse_assignment_expr(p)?;
         Ok(AssignExpr {
             span: p.span(start),
             op,
@@ -349,6 +477,41 @@ pub fn finish_assignment_expr<'a, P: Parser<'a>>(
         .into())
     } else {
         Ok(cond)
+    }
+}
+
+/// Spec: 'ConditionalExpression'
+#[cfg_attr(
+    feature = "tracing-spans",
+    tracing::instrument(level = "debug", skip_all)
+)]
+fn parse_cond_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
+    trace_cur!(p, parse_cond_expr);
+
+    let start = p.cur_pos();
+
+    let test = p.parse_bin_expr()?;
+    return_if_arrow!(p, test);
+
+    if p.input_mut().eat(&P::Token::QUESTION) {
+        let ctx = p.ctx()
+            | Context::InCondExpr
+            | Context::WillExpectColonForCond
+            | Context::IncludeInExpr;
+        let cons = parse_assignment_expr(p.with_ctx(ctx).deref_mut())?;
+        expect!(p, &P::Token::COLON);
+        let ctx = (p.ctx() | Context::InCondExpr) & !Context::WillExpectColonForCond;
+        let alt = parse_assignment_expr(p.with_ctx(ctx).deref_mut())?;
+        let span = Span::new(start, alt.span_hi());
+        Ok(CondExpr {
+            span,
+            test,
+            cons,
+            alt,
+        }
+        .into())
+    } else {
+        Ok(test)
     }
 }
 

@@ -7,7 +7,7 @@ use crate::{lexer::Token, parser::Parser};
 
 impl<I: Tokens> Parser<I> {
     /// Name from spec: 'LogicalORExpression'
-    pub(super) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(crate) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_bin_expr);
 
         let ctx = self.ctx();

@@ -11,7 +11,7 @@ use crate::{
         lexer::token::TokenFactory,
         parser::{
             buffer::Buffer,
-            expr::parse_lit,
+            expr::{parse_assignment_expr, parse_lit},
             get_qualified_jsx_name,
             ident::parse_ident_ref,
             typescript::{parse_ts_type_args, try_parse_ts},
@@ -201,7 +201,7 @@ fn parse_jsx_attr<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrOrSpread> {
         let dot3_start = p.cur_pos();
         expect!(p, &P::Token::DOTDOTDOT);
         let dot3_token = p.span(dot3_start);
-        let expr = p.parse_assignment_expr()?;
+        let expr = parse_assignment_expr(p)?;
         expect!(p, &P::Token::RBRACE);
         return Ok(SpreadElement { dot3_token, expr }.into());
     }

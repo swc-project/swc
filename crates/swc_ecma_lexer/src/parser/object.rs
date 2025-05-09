@@ -1,10 +1,13 @@
 //! Parser for object literal.
 
+use std::ops::DerefMut;
+
 use swc_common::{Spanned, DUMMY_SP};
 
 use super::*;
 use crate::{
     common::parser::{
+        expr::parse_assignment_expr,
         is_not_this,
         pat::{parse_formal_params, parse_unique_formal_params},
         typescript::eat_any_ts_modifier,
@@ -70,7 +73,7 @@ impl<I: Tokens<TokenAndSpan>> ParseObject<Expr> for Parser<I> {
             // spread element
             let dot3_token = span!(self, start);
 
-            let expr = self.include_in_expr(true).parse_assignment_expr()?;
+            let expr = parse_assignment_expr(self.include_in_expr(true).deref_mut())?;
 
             return Ok(PropOrSpread::Spread(SpreadElement { dot3_token, expr }));
         }
@@ -122,7 +125,7 @@ impl<I: Tokens<TokenAndSpan>> ParseObject<Expr> for Parser<I> {
         // { 0: 1, }
         // { a: expr, }
         if eat!(self, ':') {
-            let value = self.include_in_expr(true).parse_assignment_expr()?;
+            let value = parse_assignment_expr(self.include_in_expr(true).deref_mut())?;
             return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                 key,
                 value,
@@ -164,7 +167,7 @@ impl<I: Tokens<TokenAndSpan>> ParseObject<Expr> for Parser<I> {
             }
 
             if eat!(self, '=') {
-                let value = self.include_in_expr(true).parse_assignment_expr()?;
+                let value = parse_assignment_expr(self.include_in_expr(true).deref_mut())?;
                 let span = span!(self, start);
                 return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
                     span,

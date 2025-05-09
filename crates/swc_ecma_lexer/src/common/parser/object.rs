@@ -1,7 +1,10 @@
+use std::ops::DerefMut;
+
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::{
+    expr::parse_assignment_expr,
     pat::{parse_binding_element, parse_binding_pat_or_ident},
     Parser,
 };
@@ -73,7 +76,7 @@ fn parse_binding_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<ObjectPatP
     };
 
     let value = if p.input_mut().eat(&P::Token::EQUAL) {
-        p.include_in_expr(true).parse_assignment_expr().map(Some)?
+        parse_assignment_expr(p.include_in_expr(true).deref_mut()).map(Some)?
     } else {
         if p.ctx().is_reserved_word(&key.sym) {
             p.emit_err(key.span, SyntaxError::ReservedWordInObjShorthandOrPat);
