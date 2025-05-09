@@ -1,6 +1,6 @@
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{sync::Lrc, SyntaxContext};
+use swc_common::{sync::Lrc, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParVisitMut, Parallel};
 use swc_ecma_utils::{parallel::cpu_count, NodeIgnoringSpan};
@@ -17,12 +17,14 @@ pub type GlobalExprMap = Lrc<FxHashMap<NodeIgnoringSpan<'static, Expr>, Expr>>;
 ///
 /// Note: Values specified in `global_exprs` have higher precedence than
 pub fn inline_globals(
-    unresolved_ctxt: SyntaxContext,
+    unresolved_mark: Mark,
     envs: Lrc<FxHashMap<Atom, Expr>>,
     globals: Lrc<FxHashMap<Atom, Expr>>,
     global_exprs: GlobalExprMap,
     typeofs: Lrc<FxHashMap<Atom, Atom>>,
 ) -> impl Pass {
+    let unresolved_ctxt = SyntaxContext::default().apply_mark(unresolved_mark);
+
     visit_mut_pass(InlineGlobals {
         envs,
         globals,
@@ -185,6 +187,8 @@ impl VisitMut for InlineGlobals {
 
 #[cfg(test)]
 mod tests {
+    use swc_common::Mark;
+    use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::{test, Tester};
     use swc_ecma_utils::{DropSpan, StmtOrModuleItem};
 
@@ -240,69 +244,147 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| inline_globals(envs(tester, &[]), globals(tester, &[]), Default::default(),),
+        |tester| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            (
+                resolver(unresolved_mark, top_level_mark, false),
+                inline_globals(
+                    unresolved_mark,
+                    envs(tester, &[]),
+                    globals(tester, &[]),
+                    Default::default(),
+                    Default::default(),
+                ),
+            )
+        },
         issue_215,
         r#"if (process.env.x === 'development') {}"#
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| inline_globals(
-            envs(tester, &[("NODE_ENV", "development")]),
-            globals(tester, &[]),
-            Default::default(),
-        ),
+        |tester| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            (
+                resolver(unresolved_mark, top_level_mark, false),
+                inline_globals(
+                    unresolved_mark,
+                    envs(tester, &[("NODE_ENV", "development")]),
+                    globals(tester, &[]),
+                    Default::default(),
+                    Default::default(),
+                ),
+            )
+        },
         node_env,
         r#"if (process.env.NODE_ENV === 'development') {}"#
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| inline_globals(
-            envs(tester, &[]),
-            globals(tester, &[("__DEBUG__", "true")]),
-            Default::default(),
-        ),
+        |tester| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            (
+                resolver(unresolved_mark, top_level_mark, false),
+                inline_globals(
+                    unresolved_mark,
+                    envs(tester, &[]),
+                    globals(tester, &[("__DEBUG__", "true")]),
+                    Default::default(),
+                    Default::default(),
+                ),
+            )
+        },
         globals_simple,
         r#"if (__DEBUG__) {}"#
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| inline_globals(
-            envs(tester, &[]),
-            globals(tester, &[("debug", "true")]),
-            Default::default(),
-        ),
+        |tester| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            (
+                resolver(unresolved_mark, top_level_mark, false),
+                inline_globals(
+                    unresolved_mark,
+                    envs(tester, &[]),
+                    globals(tester, &[("debug", "true")]),
+                    Default::default(),
+                    Default::default(),
+                ),
+            )
+        },
         non_global,
         r#"if (foo.debug) {}"#
     );
 
     test!(
         Default::default(),
-        |tester| inline_globals(envs(tester, &[]), globals(tester, &[]), Default::default(),),
+        |tester| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            (
+                resolver(unresolved_mark, top_level_mark, false),
+                inline_globals(
+                    unresolved_mark,
+                    envs(tester, &[]),
+                    globals(tester, &[]),
+                    Default::default(),
+                    Default::default(),
+                ),
+            )
+        },
         issue_417_1,
         "const test = process.env['x']"
     );
 
     test!(
         Default::default(),
-        |tester| inline_globals(
-            envs(tester, &[("x", "FOO")]),
-            globals(tester, &[]),
-            Default::default(),
-        ),
+        |tester| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            (
+                resolver(unresolved_mark, top_level_mark, false),
+                inline_globals(
+                    unresolved_mark,
+                    envs(tester, &[("x", "FOO")]),
+                    globals(tester, &[]),
+                    Default::default(),
+                    Default::default(),
+                ),
+            )
+        },
         issue_417_2,
         "const test = process.env['x']"
     );
 
     test!(
         Default::default(),
-        |tester| inline_globals(
-            envs(tester, &[("x", "BAR")]),
-            globals(tester, &[]),
-            Default::default(),
-        ),
+        |tester| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            (
+                resolver(unresolved_mark, top_level_mark, false),
+                inline_globals(
+                    unresolved_mark,
+                    envs(tester, &[("x", "BAR")]),
+                    globals(tester, &[]),
+                    Default::default(),
+                    Default::default(),
+                ),
+            )
+        },
         issue_2499_1,
         "process.env.x = 'foo'"
     );
