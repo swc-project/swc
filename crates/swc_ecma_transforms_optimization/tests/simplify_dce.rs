@@ -390,7 +390,7 @@ test!(
             }),
             resolver(unresolved_mark, top_level_mark, false),
             strip(unresolved_mark, top_level_mark),
-            tr(),
+            tr(unresolved_mark),
         )
     },
     issue_898_2,
@@ -422,7 +422,7 @@ test!(
             }),
             resolver(unresolved_mark, top_level_mark, false),
             strip(unresolved_mark, top_level_mark),
-            tr(),
+            tr(unresolved_mark),
         )
     },
     issue_1111,
@@ -441,7 +441,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        (resolver(unresolved_mark, top_level_mark, false), tr())
+        (
+            resolver(unresolved_mark, top_level_mark, false),
+            tr(unresolved_mark),
+        )
     },
     issue_1150_1,
     "
@@ -486,7 +489,7 @@ test!(
                 },
                 unresolved_mark,
             ),
-            tr(),
+            tr(unresolved_mark),
         )
     },
     issue_1156_1,
@@ -525,7 +528,7 @@ test!(
                 },
                 unresolved_mark,
             ),
-            tr(),
+            tr(unresolved_mark),
         )
     },
     issue_1156_2,
@@ -571,7 +574,7 @@ test!(
         (
             resolver(unresolved_mark, top_level_mark, false),
             strip(unresolved_mark, top_level_mark),
-            tr(),
+            tr(unresolved_mark),
         )
     },
     issue_1156_3,
@@ -607,7 +610,7 @@ test!(
                 },
                 unresolved_mark,
             ),
-            tr(),
+            tr(unresolved_mark),
         )
     },
     issue_1156_4,
