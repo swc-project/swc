@@ -5,10 +5,12 @@ use swc_common::Spanned;
 use super::*;
 use crate::{
     common::parser::{
+        class_and_fn::{parse_class_decl, parse_fn_decl},
         expr::parse_lit,
         ident::parse_ident_name,
         is_simple_param_list::IsSimpleParameterList,
         make_decl_declare,
+        object::parse_object_expr,
         pat::parse_formal_params,
         stmt::parse_var_stmt,
         typescript::{
@@ -99,7 +101,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         expect!(self, "with");
         expect!(self, ':');
 
-        let value = match self.parse_object::<Expr>()? {
+        let value = match parse_object_expr(self)? {
             Expr::Object(v) => v,
             _ => unreachable!(),
         };
@@ -501,8 +503,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let ctx = self.ctx() | Context::InDeclare;
         self.with_ctx(ctx).parse_with(|p| {
             if is!(p, "function") {
-                return p
-                    .parse_fn_decl(decorators)
+                return parse_fn_decl(p, decorators)
                     .map(|decl| match decl {
                         Decl::Fn(f) => FnDecl {
                             declare: true,
@@ -522,8 +523,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             }
 
             if is!(p, "class") {
-                return p
-                    .parse_class_decl(start, start, decorators, false)
+                return parse_class_decl(p, start, start, decorators, false)
                     .map(|decl| match decl {
                         Decl::Class(c) => ClassDecl {
                             declare: true,
@@ -636,7 +636,9 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                     if next {
                         bump!(self);
                     }
-                    return Ok(Some(self.parse_class_decl(start, start, decorators, true)?));
+                    return Ok(Some(parse_class_decl(
+                        self, start, start, decorators, true,
+                    )?));
                 }
             }
 
@@ -744,7 +746,12 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let is_generator = false;
             let is_async = true;
-            let body = p.parse_fn_body(true, false, true, params.is_simple_parameter_list())?;
+            let body = p.parse_fn_block_or_expr_body(
+                true,
+                false,
+                true,
+                params.is_simple_parameter_list(),
+            )?;
             Ok(Some(ArrowExpr {
                 span: span!(p, start),
                 body,

@@ -63,7 +63,7 @@ pub(super) fn pat_is_valid_argument_in_strict<'a>(p: &mut impl Parser<'a>, pat: 
 
 /// This does not return 'rest' pattern because non-last parameter cannot be
 /// rest.
-pub fn reparse_expr_as_pat<'a>(
+pub(super) fn reparse_expr_as_pat<'a>(
     p: &mut impl Parser<'a>,
     pat_ty: PatType,
     expr: Box<Expr>,

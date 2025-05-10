@@ -2,10 +2,12 @@ use std::{fmt::Write, ops::DerefMut};
 
 use swc_common::Spanned;
 use swc_ecma_lexer::common::parser::{
+    class_and_fn::{parse_class_decl, parse_fn_decl},
     expr::parse_lit,
     ident::parse_ident_name,
     is_simple_param_list::IsSimpleParameterList,
     make_decl_declare,
+    object::parse_object_expr,
     pat::parse_formal_params,
     stmt::parse_var_stmt,
     typescript::{
@@ -100,7 +102,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, "with");
         expect!(self, ':');
 
-        let value = match self.parse_object::<Expr>()? {
+        let value = match parse_object_expr(self)? {
             Expr::Object(v) => v,
             _ => unreachable!(),
         };
@@ -549,8 +551,7 @@ impl<I: Tokens> Parser<I> {
         let ctx = self.ctx() | Context::InDeclare;
         self.with_ctx(ctx).parse_with(|p| {
             if is!(p, "function") {
-                return p
-                    .parse_fn_decl(decorators)
+                return parse_fn_decl(p, decorators)
                     .map(|decl| match decl {
                         Decl::Fn(f) => FnDecl {
                             declare: true,
@@ -570,8 +571,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             if is!(p, "class") {
-                return p
-                    .parse_class_decl(start, start, decorators, false)
+                return parse_class_decl(p, start, start, decorators, false)
                     .map(|decl| match decl {
                         Decl::Class(c) => ClassDecl {
                             declare: true,
@@ -682,7 +682,9 @@ impl<I: Tokens> Parser<I> {
                     if next {
                         bump!(self);
                     }
-                    return Ok(Some(self.parse_class_decl(start, start, decorators, true)?));
+                    return Ok(Some(parse_class_decl(
+                        self, start, start, decorators, true,
+                    )?));
                 }
             }
 

@@ -1,9 +1,10 @@
-use std::ops::DerefMut;
-
 use swc_common::Spanned;
 use swc_ecma_lexer::{
     common::parser::{
-        class_and_fn::{parse_decorators, parse_maybe_opt_binding_ident},
+        class_and_fn::{
+            is_class_method, is_class_property, parse_class_prop_name, parse_decorators,
+            parse_maybe_opt_binding_ident, parse_super_class,
+        },
         expr::parse_assignment_expr,
         has_use_strict, is_constructor,
         is_invalid_class_name::IsInvalidClassName,
@@ -12,7 +13,7 @@ use swc_ecma_lexer::{
         output_type::OutputType,
         pat::{parse_constructor_params, parse_formal_params, parse_unique_formal_params},
         typescript::{
-            parse_ts_heritage_clause, parse_ts_modifier, parse_ts_type_ann, parse_ts_type_args,
+            parse_ts_heritage_clause, parse_ts_modifier, parse_ts_type_ann,
             parse_ts_type_or_type_predicate_ann, parse_ts_type_params,
             try_parse_ts_index_signature, try_parse_ts_type_ann, try_parse_ts_type_params,
         },
@@ -26,73 +27,6 @@ use crate::{lexer::Token, parser::Parser};
 
 /// Parser for function expression and function declaration.
 impl<I: Tokens> Parser<I> {
-    pub(super) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
-        let start = cur_pos!(self);
-        expect!(self, "async");
-        self.parse_fn(None, Some(start), Vec::new())
-    }
-
-    /// Parse function expression
-    pub(super) fn parse_fn_expr(&mut self) -> PResult<Box<Expr>> {
-        self.parse_fn(None, None, Vec::new())
-    }
-
-    pub(super) fn parse_async_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<Decl> {
-        let start = cur_pos!(self);
-        expect!(self, "async");
-        self.parse_fn(None, Some(start), decorators)
-    }
-
-    pub(super) fn parse_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<Decl> {
-        self.parse_fn(None, None, decorators)
-    }
-
-    pub(super) fn parse_default_async_fn(
-        &mut self,
-        start: BytePos,
-        decorators: Vec<Decorator>,
-    ) -> PResult<ExportDefaultDecl> {
-        let start_of_async = cur_pos!(self);
-        expect!(self, "async");
-        self.parse_fn(Some(start), Some(start_of_async), decorators)
-    }
-
-    pub(super) fn parse_default_fn(
-        &mut self,
-        start: BytePos,
-        decorators: Vec<Decorator>,
-    ) -> PResult<ExportDefaultDecl> {
-        self.parse_fn(Some(start), None, decorators)
-    }
-
-    pub(super) fn parse_class_decl(
-        &mut self,
-        start: BytePos,
-        class_start: BytePos,
-        decorators: Vec<Decorator>,
-        is_abstract: bool,
-    ) -> PResult<Decl> {
-        self.parse_class(start, class_start, decorators, is_abstract)
-    }
-
-    pub(super) fn parse_class_expr(
-        &mut self,
-        start: BytePos,
-        decorators: Vec<Decorator>,
-    ) -> PResult<Box<Expr>> {
-        self.parse_class(start, start, decorators, false)
-    }
-
-    pub(super) fn parse_default_class(
-        &mut self,
-        start: BytePos,
-        class_start: BytePos,
-        decorators: Vec<Decorator>,
-        is_abstract: bool,
-    ) -> PResult<ExportDefaultDecl> {
-        self.parse_class(start, class_start, decorators, is_abstract)
-    }
-
     /// Not generic
     fn parse_class_inner(
         &mut self,
@@ -118,7 +52,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             let (mut super_class, mut super_type_params) = if eat!(p, "extends") {
-                let (super_class, super_type_params) = p.parse_super_class()?;
+                let (super_class, super_type_params) = parse_super_class(p)?;
 
                 if p.syntax().typescript() && eat!(p, ',') {
                     let exprs = parse_ts_heritage_clause(p)?;
@@ -137,7 +71,7 @@ impl<I: Tokens> Parser<I> {
             if eat!(p, "extends") {
                 p.emit_err(p.input.prev_span(), SyntaxError::TS1172);
 
-                p.parse_super_class()?;
+                parse_super_class(p)?;
             };
 
             let implements = if p.input.syntax().typescript() && eat!(p, "implements") {
@@ -159,7 +93,7 @@ impl<I: Tokens> Parser<I> {
             if p.input.syntax().typescript() && eat!(p, "extends") {
                 p.emit_err(p.input.prev_span(), SyntaxError::TS1173);
 
-                let (sc, type_params) = p.parse_super_class()?;
+                let (sc, type_params) = parse_super_class(p)?;
 
                 if super_class.is_none() {
                     super_class = Some(sc);
@@ -202,7 +136,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_class<T>(
+    pub(super) fn parse_class<T>(
         &mut self,
         start: BytePos,
         class_start: BytePos,
@@ -239,26 +173,6 @@ impl<I: Tokens> Parser<I> {
         match T::finish_class(span!(self, start), ident, class) {
             Ok(v) => Ok(v),
             Err(kind) => syntax_error!(self, kind),
-        }
-    }
-
-    fn parse_super_class(&mut self) -> PResult<(Box<Expr>, Option<Box<TsTypeParamInstantiation>>)> {
-        let super_class = self.parse_lhs_expr()?;
-        match *super_class {
-            Expr::TsInstantiation(TsInstantiation {
-                expr, type_args, ..
-            }) => Ok((expr, Some(type_args))),
-            _ => {
-                // We still need to parse TS type arguments,
-                // because in some cases "super class" returned by `parse_lhs_expr`
-                // may not include `TsExprWithTypeArgs`
-                // but it's a super class with type params, for example, in JSX.
-                if self.syntax().typescript() && is!(self, '<') {
-                    Ok((super_class, parse_ts_type_args(self).map(Some)?))
-                } else {
-                    Ok((super_class, None))
-                }
-            }
         }
     }
 
@@ -327,7 +241,7 @@ impl<I: Tokens> Parser<I> {
 
         let declare_token = if declare {
             // Handle declare(){}
-            if self.is_class_method() {
+            if is_class_method(self) {
                 let key = Key::Public(PropName::Ident(IdentName::new(
                     "declare".into(),
                     span!(self, start),
@@ -349,7 +263,7 @@ impl<I: Tokens> Parser<I> {
                         kind: MethodKind::Method,
                     },
                 );
-            } else if self.is_class_property(/* asi */ true)
+            } else if is_class_property(self, /* asi */ true)
                 || (self.syntax().typescript() && is!(self, '?'))
             {
                 // Property named `declare`
@@ -401,7 +315,7 @@ impl<I: Tokens> Parser<I> {
 
         if let Some(accessor_token) = accessor_token {
             // Handle accessor(){}
-            if self.is_class_method() {
+            if is_class_method(self) {
                 let key = Key::Public(PropName::Ident(IdentName::new(
                     "accessor".into(),
                     accessor_token,
@@ -423,7 +337,7 @@ impl<I: Tokens> Parser<I> {
                         kind: MethodKind::Method,
                     },
                 );
-            } else if self.is_class_property(/* asi */ true)
+            } else if is_class_property(self, /* asi */ true)
                 || (self.syntax().typescript() && is!(self, '?'))
             {
                 // Property named `accessor`
@@ -452,7 +366,7 @@ impl<I: Tokens> Parser<I> {
 
         if let Some(static_token) = static_token {
             // Handle static(){}
-            if self.is_class_method() {
+            if is_class_method(self) {
                 let key = Key::Public(PropName::Ident(IdentName::new(
                     "static".into(),
                     static_token,
@@ -474,7 +388,7 @@ impl<I: Tokens> Parser<I> {
                         kind: MethodKind::Method,
                     },
                 );
-            } else if self.is_class_property(/* asi */ false)
+            } else if is_class_property(self, /* asi */ false)
                 || (self.syntax().typescript() && is!(self, '?'))
             {
                 // Property named `static`
@@ -657,7 +571,7 @@ impl<I: Tokens> Parser<I> {
 
         if eat!(self, '*') {
             // generator method
-            let key = self.parse_class_prop_name()?;
+            let key = parse_class_prop_name(self)?;
             if readonly.is_some() {
                 self.emit_err(span!(self, start), SyntaxError::ReadOnlyMethod);
             }
@@ -690,11 +604,11 @@ impl<I: Tokens> Parser<I> {
                 readonly.unwrap(),
             )))
         } else {
-            self.parse_class_prop_name()?
+            parse_class_prop_name(self)?
         };
         let is_optional = self.input.syntax().typescript() && eat!(self, '?');
 
-        if self.is_class_method() {
+        if is_class_method(self) {
             // handle a(){} / get(){} / set(){} / async(){}
 
             trace_cur!(self, parse_class_member_with_is_static__normal_class_method);
@@ -825,7 +739,7 @@ impl<I: Tokens> Parser<I> {
             // `get\n*` is an uninitialized property named 'get' followed by a generator.
             Key::Public(PropName::Ident(ref i))
                 if (i.sym == "get" || i.sym == "set")
-                    && !self.is_class_property(/* asi */ false)
+                    && !is_class_property(self, /* asi */ false)
                     && !is_next_line_generator =>
             {
                 Some(i)
@@ -833,7 +747,7 @@ impl<I: Tokens> Parser<I> {
             _ => None,
         };
 
-        if getter_or_setter_ident.is_none() && self.is_class_property(/* asi */ true) {
+        if getter_or_setter_ident.is_none() && is_class_property(self, /* asi */ true) {
             return self.make_property(
                 start,
                 decorators,
@@ -865,7 +779,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             let is_generator = eat!(self, '*');
-            let key = self.parse_class_prop_name()?;
+            let key = parse_class_prop_name(self)?;
             if is_constructor(&key) {
                 syntax_error!(self, key.span(), SyntaxError::AsyncConstructor)
             }
@@ -897,7 +811,7 @@ impl<I: Tokens> Parser<I> {
             let key_span = key.span();
 
             // handle get foo(){} / set foo(v){}
-            let key = self.parse_class_prop_name()?;
+            let key = parse_class_prop_name(self)?;
 
             if readonly.is_some() {
                 self.emit_err(key_span, SyntaxError::GetterSetterCannotBeReadonly);
@@ -1079,99 +993,6 @@ impl<I: Tokens> Parser<I> {
                 }
             })
         })
-    }
-
-    fn is_class_method(&mut self) -> bool {
-        is!(self, '(')
-            || (self.input.syntax().typescript() && is!(self, '<'))
-            || (self.input.syntax().typescript() && is!(self, JSXTagStart))
-    }
-
-    fn is_class_property(&mut self, asi: bool) -> bool {
-        (self.input.syntax().typescript() && is_one_of!(self, '!', ':'))
-            || is_one_of!(self, '=', '}')
-            || if asi {
-                is!(self, ';')
-            } else {
-                is_exact!(self, ';')
-            }
-    }
-
-    fn parse_fn_inner(
-        &mut self,
-        _start_of_output_type: Option<BytePos>,
-        start_of_async: Option<BytePos>,
-        decorators: Vec<Decorator>,
-        is_fn_expr: bool,
-        is_ident_required: bool,
-    ) -> PResult<(Option<Ident>, Box<Function>)> {
-        let start = start_of_async.unwrap_or_else(|| cur_pos!(self));
-        assert_and_bump!(self, "function");
-        let is_async = start_of_async.is_some();
-
-        let is_generator = eat!(self, '*');
-
-        let ident = if is_fn_expr {
-            let mut ctx = self.ctx() & !Context::AllowDirectSuper & !Context::InClassField;
-            ctx.set(Context::InAsync, is_async);
-            ctx.set(Context::InGenerator, is_generator);
-
-            parse_maybe_opt_binding_ident(self.with_ctx(ctx).deref_mut(), is_ident_required, false)?
-        } else {
-            // function declaration does not change context for `BindingIdentifier`.
-            parse_maybe_opt_binding_ident(
-                self.with_ctx(self.ctx() & !Context::AllowDirectSuper & !Context::InClassField)
-                    .deref_mut(),
-                is_ident_required,
-                false,
-            )?
-        };
-
-        self.with_ctx(
-            self.ctx()
-                & !Context::AllowDirectSuper
-                & !Context::InClassField
-                & !Context::WillExpectColonForCond,
-        )
-        .parse_with(|p| {
-            let f = p.parse_fn_args_body(
-                decorators,
-                start,
-                parse_formal_params,
-                is_async,
-                is_generator,
-            )?;
-
-            if is_fn_expr && f.body.is_none() {
-                unexpected!(p, "{");
-            }
-
-            Ok((ident, f))
-        })
-    }
-
-    fn parse_fn<T>(
-        &mut self,
-        start_of_output_type: Option<BytePos>,
-        start_of_async: Option<BytePos>,
-        decorators: Vec<Decorator>,
-    ) -> PResult<T>
-    where
-        T: OutputType,
-    {
-        let start = start_of_async.unwrap_or_else(|| cur_pos!(self));
-        let (ident, f) = self.parse_fn_inner(
-            start_of_output_type,
-            start_of_async,
-            decorators,
-            T::is_fn_expr(),
-            T::IS_IDENT_REQUIRED,
-        )?;
-
-        match T::finish_fn(span!(self, start_of_output_type.unwrap_or(start)), ident, f) {
-            Ok(v) => Ok(v),
-            Err(kind) => syntax_error!(self, kind),
-        }
     }
 
     /// `parse_args` closure should not eat '(' or ')'.
@@ -1466,12 +1287,13 @@ struct MakeMethodArgs {
 mod tests {
 
     use swc_common::DUMMY_SP as span;
+    use swc_ecma_lexer::common::parser::expr::parse_lhs_expr;
     use swc_ecma_visit::assert_eq_ignore_span;
 
     use super::*;
 
     fn lhs(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::default(), |p| p.parse_lhs_expr())
+        test_parser(s, Syntax::default(), |p| parse_lhs_expr(p))
     }
 
     fn expr(s: &'static str) -> Box<Expr> {

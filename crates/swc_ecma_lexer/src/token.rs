@@ -504,6 +504,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const ARROW: Self = Self::Arrow;
     const AS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::As)));
     const ASSERTS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Asserts)));
+    const ASYNC: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Async)));
     const AT: Self = Self::At;
     const AWAIT: Self = Token::Word(Word::Keyword(Keyword::Await));
     const BACKQUOTE: Self = Self::BackQuote;
@@ -519,6 +520,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const DELETE: Self = Token::Word(Word::Keyword(Keyword::Delete));
     const DIV: Self = Token::BinOp(BinOpToken::Div);
     const DIV_EQ: Self = Token::AssignOp(AssignOp::DivAssign);
+    const DO: Self = Token::Word(Word::Keyword(Keyword::Do));
     const DOLLAR_LBRACE: Self = Self::DollarLBrace;
     const DOT: Self = Self::Dot;
     const DOTDOTDOT: Self = Self::DotDotDot;
@@ -600,6 +602,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const USING: Self = Self::Word(Word::Ident(IdentLike::Known(KnownIdent::Using)));
     const VAR: Self = Self::Word(Word::Keyword(Keyword::Var));
     const VOID: Self = Token::Word(Word::Keyword(Keyword::Void));
+    const WHILE: Self = Token::Word(Word::Keyword(Keyword::While));
     const WITH: Self = Token::Word(Word::Keyword(Keyword::With));
     const YIELD: Self = Token::Word(Word::Keyword(Keyword::Yield));
     const ZERO_FILL_RSHIFT: Self = Token::BinOp(BinOpToken::ZeroFillRShift);
@@ -845,6 +848,19 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     #[inline(always)]
     fn follows_keyword_let(&self) -> bool {
         self.kind().follows_keyword_let(false)
+    }
+
+    #[inline(always)]
+    fn is_assign_op(&self) -> bool {
+        matches!(self, Self::AssignOp(_))
+    }
+
+    #[inline(always)]
+    fn take_regexp(self, _: &mut Self::Buffer) -> (Atom, Atom) {
+        match self {
+            Self::Regex(content, flags) => (content, flags),
+            _ => unreachable!(),
+        }
     }
 }
 

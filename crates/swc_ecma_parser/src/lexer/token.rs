@@ -500,6 +500,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const ARROW: Self = Token::Arrow;
     const AS: Self = Token::As;
     const ASSERTS: Self = Token::Asserts;
+    const ASYNC: Self = Token::Async;
     const AT: Self = Token::At;
     const AWAIT: Self = Token::Await;
     const BACKQUOTE: Self = Token::BackQuote;
@@ -515,6 +516,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const DELETE: Self = Self::Delete;
     const DIV: Self = Token::Slash;
     const DIV_EQ: Self = Token::DivEq;
+    const DO: Self = Token::Do;
     const DOLLAR_LBRACE: Self = Token::DollarLBrace;
     const DOT: Self = Self::Dot;
     const DOTDOTDOT: Self = Self::DotDotDot;
@@ -596,6 +598,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const USING: Self = Self::Using;
     const VAR: Self = Self::Var;
     const VOID: Self = Self::Void;
+    const WHILE: Self = Token::While;
     const WITH: Self = Token::With;
     const YIELD: Self = Token::Yield;
     const ZERO_FILL_RSHIFT: Self = Token::ZeroFillRShift;
@@ -807,6 +810,16 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     #[inline(always)]
     fn follows_keyword_let(&self) -> bool {
         (*self).follows_keyword_let()
+    }
+
+    #[inline(always)]
+    fn is_assign_op(&self) -> bool {
+        (*self).is_assign_op()
+    }
+
+    #[inline(always)]
+    fn take_regexp(self, buffer: &mut Self::Buffer) -> (Atom, Atom) {
+        buffer.expect_regex_token_value()
     }
 }
 

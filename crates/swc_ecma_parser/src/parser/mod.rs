@@ -5,9 +5,7 @@ use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::{
-    common::parser::{
-        buffer::Buffer as BufferTrait, parse_object::ParseObject, Parser as ParserTrait,
-    },
+    common::parser::{buffer::Buffer as BufferTrait, Parser as ParserTrait},
     error::SyntaxError,
 };
 
@@ -28,7 +26,6 @@ mod macros;
 mod class_and_fn;
 mod expr;
 pub mod input;
-mod object;
 mod pat;
 mod stmt;
 #[cfg(test)]
@@ -88,23 +85,53 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     }
 
     #[inline(always)]
-    fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
-        self.parse_lhs_expr()
-    }
-
-    #[inline(always)]
     fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>> {
         self.parse_ts_non_array_type()
     }
 
     #[inline(always)]
-    fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
-        self.parse_primary_expr()
-    }
-
-    #[inline(always)]
     fn parse_stmt(&mut self) -> PResult<Stmt> {
         self.parse_stmt()
+    }
+
+    fn parse_class<T: swc_ecma_lexer::common::parser::output_type::OutputType>(
+        &mut self,
+        start: BytePos,
+        class_start: BytePos,
+        decorators: Vec<Decorator>,
+        is_abstract: bool,
+    ) -> PResult<T> {
+        self.parse_class(start, class_start, decorators, is_abstract)
+    }
+
+    fn parse_fn_block_or_expr_body(
+        &mut self,
+        is_async: bool,
+        is_generator: bool,
+        is_arrow_function: bool,
+        is_simple_parameter_list: bool,
+    ) -> PResult<Box<BlockStmtOrExpr>> {
+        self.parse_fn_body(
+            is_async,
+            is_generator,
+            is_arrow_function,
+            is_simple_parameter_list,
+        )
+    }
+
+    fn parse_fn_block_body(
+        &mut self,
+        is_async: bool,
+        is_generator: bool,
+        is_arrow_function: bool,
+        is_simple_parameter_list: bool,
+    ) -> PResult<Option<BlockStmt>> {
+        self.parse_fn_body(
+            is_async,
+            is_generator,
+            is_arrow_function,
+            is_simple_parameter_list,
+        )
     }
 }
 

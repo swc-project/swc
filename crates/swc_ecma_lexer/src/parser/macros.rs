@@ -39,20 +39,6 @@ macro_rules! is {
         }
     }};
 
-    ($p:expr,Str) => {{
-        match $p.input.cur() {
-            Some(&Token::Str { .. }) => true,
-            _ => false,
-        }
-    }};
-
-    ($p:expr,Num) => {{
-        match $p.input.cur() {
-            Some(&Token::Num { .. }) => true,
-            _ => false,
-        }
-    }};
-
     ($p:expr,';') => {{
         match $p.input.cur() {
             Some(&Token::Semi) | None | Some(&tok!('}')) => true,
@@ -284,24 +270,6 @@ macro_rules! last_pos {
     ($p:expr) => {
         $p.input.prev_span().hi
     };
-}
-
-macro_rules! return_if_arrow {
-    ($p:expr, $expr:expr) => {{
-        // FIXME:
-        //
-        //
-
-        // let is_cur = match $p.state.potential_arrow_start {
-        //     Some(start) => $expr.span.lo() == start,
-        //     None => false
-        // };
-        // if is_cur {
-        if let Expr::Arrow { .. } = *$expr {
-            return Ok($expr);
-        }
-        // }
-    }};
 }
 
 macro_rules! trace_cur {

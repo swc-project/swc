@@ -2,7 +2,7 @@ use std::ops::DerefMut;
 
 use expr::parse_assignment_expr;
 use expr_ext::ExprExt;
-use ident::parse_private_name;
+use output_type::OutputType;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
@@ -33,7 +33,7 @@ pub mod class_and_fn;
 pub mod expr;
 pub mod ident;
 pub mod jsx;
-mod object;
+pub mod object;
 pub mod output_type;
 pub mod parse_object;
 pub mod pat;
@@ -423,20 +423,6 @@ pub trait Parser<'a>: Sized + Clone {
         }
     }
 
-    fn parse_class_prop_name(&mut self) -> PResult<Key> {
-        if self.input_mut().is(&Self::Token::HASH) {
-            let name = parse_private_name(self)?;
-            if name.name == "constructor" {
-                self.emit_err(name.span, SyntaxError::PrivateConstructor);
-            }
-            Ok(Key::Private(name))
-        } else {
-            self.parse_prop_name().map(Key::Public)
-        }
-    }
-
-    fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>>;
-
     fn parse_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_expr);
         debug_tracing!(self, "parse_expr");
@@ -461,8 +447,28 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>>;
-    fn parse_primary_expr(&mut self) -> PResult<Box<Expr>>;
     fn parse_stmt(&mut self) -> PResult<Stmt>;
+    fn parse_class<T: OutputType>(
+        &mut self,
+        start: BytePos,
+        class_start: BytePos,
+        decorators: Vec<Decorator>,
+        is_abstract: bool,
+    ) -> PResult<T>;
+    fn parse_fn_block_or_expr_body(
+        &mut self,
+        is_async: bool,
+        is_generator: bool,
+        is_arrow_function: bool,
+        is_simple_parameter_list: bool,
+    ) -> PResult<Box<BlockStmtOrExpr>>;
+    fn parse_fn_block_body(
+        &mut self,
+        is_async: bool,
+        is_generator: bool,
+        is_arrow_function: bool,
+        is_simple_parameter_list: bool,
+    ) -> PResult<Option<BlockStmt>>;
 
     fn try_parse_ts_generic_async_arrow_fn(&mut self, start: BytePos)
         -> PResult<Option<ArrowExpr>>;
