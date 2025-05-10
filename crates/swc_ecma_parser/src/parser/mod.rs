@@ -1,11 +1,16 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
+use std::ops::DerefMut;
+
 use swc_atoms::Atom;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::{
-    common::parser::{buffer::Buffer as BufferTrait, Parser as ParserTrait},
+    common::parser::{
+        buffer::Buffer as BufferTrait, module_item::parse_module_item_block_body,
+        stmt::parse_stmt_block_body, Parser as ParserTrait,
+    },
     error::SyntaxError,
 };
 
@@ -72,26 +77,8 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     }
 
     #[inline(always)]
-    fn try_parse_ts_generic_async_arrow_fn(
-        &mut self,
-        start: BytePos,
-    ) -> PResult<Option<ArrowExpr>> {
-        self.try_parse_ts_generic_async_arrow_fn(start)
-    }
-
-    #[inline(always)]
     fn mark_found_module_item(&mut self) {
         self.found_module_item = true;
-    }
-
-    #[inline(always)]
-    fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>> {
-        self.parse_ts_non_array_type()
-    }
-
-    #[inline(always)]
-    fn parse_stmt(&mut self) -> PResult<Stmt> {
-        self.parse_stmt()
     }
 
     fn parse_class<T: swc_ecma_lexer::common::parser::output_type::OutputType>(
@@ -180,7 +167,7 @@ impl<I: Tokens> Parser<I> {
 
         let shebang = self.parse_shebang()?;
 
-        self.parse_block_body(true, None).map(|body| Script {
+        parse_stmt_block_body(self, true, None).map(|body| Script {
             span: span!(self, start),
             body,
             shebang,
@@ -200,7 +187,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
 
-        self.parse_block_body(true, None).map(|body| Module {
+        parse_module_item_block_body(self, true, None).map(|body| Module {
             span: span!(self, start),
             body,
             shebang,
@@ -217,7 +204,8 @@ impl<I: Tokens> Parser<I> {
         let shebang = self.parse_shebang()?;
         let ctx = self.ctx() | Context::CanBeModule | Context::TopLevel;
 
-        let body: Vec<ModuleItem> = self.with_ctx(ctx).parse_block_body(true, None)?;
+        let body: Vec<ModuleItem> =
+            parse_module_item_block_body(self.with_ctx(ctx).deref_mut(), true, None)?;
         let has_module_item = self.found_module_item
             || body
                 .iter()
@@ -266,7 +254,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
 
-        self.parse_block_body(true, None).map(|body| Module {
+        parse_module_item_block_body(self, true, None).map(|body| Module {
             span: span!(self, start),
             body,
             shebang,

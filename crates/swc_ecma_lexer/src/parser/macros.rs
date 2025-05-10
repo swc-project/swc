@@ -16,36 +16,6 @@ macro_rules! unexpected {
 ///
 /// Returns bool.
 macro_rules! is {
-    ($p:expr, BindingIdent) => {{
-        let ctx = $p.ctx();
-        match $p.input.cur() {
-            Some(&Token::Word(ref w)) => !ctx.is_reserved(w),
-            _ => false,
-        }
-    }};
-
-    ($p:expr, IdentRef) => {{
-        let ctx = $p.ctx();
-        match $p.input.cur() {
-            Some(&Token::Word(ref w)) => !ctx.is_reserved(w),
-            _ => false,
-        }
-    }};
-
-    ($p:expr,IdentName) => {{
-        match $p.input.cur() {
-            Some(&Token::Word(..)) => true,
-            _ => false,
-        }
-    }};
-
-    ($p:expr,';') => {{
-        match $p.input.cur() {
-            Some(&Token::Semi) | None | Some(&tok!('}')) => true,
-            _ => $p.input.had_line_break_before_cur(),
-        }
-    }};
-
     ($p:expr, $t:tt) => {
         is_exact!($p, $t)
     };
@@ -335,19 +305,5 @@ macro_rules! syntax_error {
             );
         }
         return Err(err.into());
-    }};
-}
-
-macro_rules! debug_tracing {
-    ($p:expr, $name:tt) => {{
-        #[cfg(feature = "debug")]
-        {
-            tracing::span!(
-                tracing::Level::ERROR,
-                $name,
-                cur = tracing::field::debug(&$p.input.cur())
-            )
-            .entered()
-        }
     }};
 }

@@ -27,7 +27,8 @@ use crate::{
             typescript::{
                 eat_any_ts_modifier, next_then_parse_ts_type, parse_ts_type, parse_ts_type_args,
                 parse_ts_type_assertion, parse_ts_type_or_type_predicate_ann, parse_ts_type_params,
-                try_parse_ts, try_parse_ts_type_ann, try_parse_ts_type_args,
+                try_parse_ts, try_parse_ts_generic_async_arrow_fn, try_parse_ts_type_ann,
+                try_parse_ts_type_args,
             },
             unwrap_ts_non_null,
         },
@@ -144,7 +145,7 @@ fn parse_yield_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
             return parse_with_arg(p);
         };
         !cur.is_less()
-            && !cur.is_mul()
+            && !cur.is_star()
             && !cur.is_slash()
             && !cur.is_slash_eq()
             && !cur.starts_expr()
@@ -611,7 +612,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                 {
                     // Almost certainly this is a generic async function `async <T>() => ...
                     // But it might be a call with a type argument `async<T>();`
-                    let async_arrow_fn = p.try_parse_ts_generic_async_arrow_fn(start)?;
+                    let async_arrow_fn = try_parse_ts_generic_async_arrow_fn(p, start)?;
                     if let Some(async_arrow_fn) = async_arrow_fn {
                         return Ok(Some((async_arrow_fn.into(), true)));
                     }
@@ -2323,7 +2324,7 @@ pub(super) fn parse_primary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Ex
                 if let Some(res) = try_parse_ts(p, |p| {
                     let start = p.cur_pos();
                     p.assert_and_bump(&P::Token::ASYNC)?;
-                    p.try_parse_ts_generic_async_arrow_fn(start)
+                    try_parse_ts_generic_async_arrow_fn(p, start)
                 }) {
                     return Ok(res.into());
                 }

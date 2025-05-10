@@ -33,6 +33,7 @@ pub mod class_and_fn;
 pub mod expr;
 pub mod ident;
 pub mod jsx;
+pub mod module_item;
 pub mod object;
 pub mod output_type;
 pub mod parse_object;
@@ -446,8 +447,6 @@ pub trait Parser<'a>: Sized + Clone {
         Ok(expr)
     }
 
-    fn parse_ts_non_array_type(&mut self) -> PResult<Box<TsType>>;
-    fn parse_stmt(&mut self) -> PResult<Stmt>;
     fn parse_class<T: OutputType>(
         &mut self,
         start: BytePos,
@@ -469,9 +468,6 @@ pub trait Parser<'a>: Sized + Clone {
         is_arrow_function: bool,
         is_simple_parameter_list: bool,
     ) -> PResult<Option<BlockStmt>>;
-
-    fn try_parse_ts_generic_async_arrow_fn(&mut self, start: BytePos)
-        -> PResult<Option<ArrowExpr>>;
 
     fn mark_found_module_item(&mut self);
 

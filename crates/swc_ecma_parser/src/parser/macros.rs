@@ -16,31 +16,6 @@ macro_rules! unexpected {
 ///
 /// Returns bool.
 macro_rules! is {
-    ($p:expr, BindingIdent) => {{
-        let ctx = $p.ctx();
-        $p.input
-            .cur()
-            .is_some_and(|t| t.is_word() && !t.is_reserved(ctx))
-    }};
-
-    ($p:expr, IdentRef) => {{
-        let ctx = $p.ctx();
-        $p.input
-            .cur()
-            .is_some_and(|t| t.is_word() && !t.is_reserved(ctx))
-    }};
-
-    ($p:expr,IdentName) => {{
-        $p.input.cur().is_some_and(|t| t.is_word())
-    }};
-
-    ($p:expr,';') => {{
-        match $p.input.cur() {
-            Some(Token::Semi) | None | Some(Token::RBrace) => true,
-            _ => $p.input.had_line_break_before_cur(),
-        }
-    }};
-
     ($p:expr, $t:tt) => {
         is_exact!($p, $t)
     };
@@ -323,19 +298,5 @@ macro_rules! syntax_error {
             );
         }
         return Err(err.into());
-    }};
-}
-
-macro_rules! debug_tracing {
-    ($p:expr, $name:tt) => {{
-        #[cfg(feature = "debug")]
-        {
-            tracing::span!(
-                tracing::Level::ERROR,
-                $name,
-                cur = tracing::field::debug(&$p.input.cur())
-            )
-            .entered()
-        }
     }};
 }

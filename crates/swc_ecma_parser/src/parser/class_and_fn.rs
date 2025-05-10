@@ -1,3 +1,5 @@
+use std::ops::DerefMut;
+
 use swc_common::Spanned;
 use swc_ecma_lexer::{
     common::parser::{
@@ -12,6 +14,7 @@ use swc_ecma_lexer::{
         is_simple_param_list::IsSimpleParameterList,
         output_type::OutputType,
         pat::{parse_constructor_params, parse_formal_params, parse_unique_formal_params},
+        stmt::parse_block,
         typescript::{
             parse_ts_heritage_clause, parse_ts_modifier, parse_ts_type_ann,
             parse_ts_type_or_type_predicate_ann, parse_ts_type_params,
@@ -433,14 +436,16 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_static_block(&mut self, start: BytePos) -> PResult<ClassMember> {
-        let body = self
-            .with_ctx(
+        let body = parse_block(
+            self.with_ctx(
                 self.ctx()
                     | Context::InStaticBlock
                     | Context::InClassField
                     | Context::AllowUsingDecl,
             )
-            .parse_block(false)?;
+            .deref_mut(),
+            false,
+        )?;
 
         let span = span!(self, start);
         Ok(StaticBlock { span, body }.into())
@@ -1229,7 +1234,7 @@ impl<I: Tokens> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
         is_simple_parameter_list: bool,
     ) -> PResult<Box<BlockStmtOrExpr>> {
         if is!(self, '{') {
-            self.parse_block(false)
+            parse_block(self, false)
                 .map(|block_stmt| {
                     if !is_simple_parameter_list {
                         if let Some(span) = has_use_strict(&block_stmt) {
@@ -1256,7 +1261,7 @@ impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
         if self.input.syntax().typescript() && !is!(self, '{') && eat!(self, ';') {
             return Ok(None);
         }
-        let block = self.include_in_expr(true).parse_block(true);
+        let block = parse_block(self.include_in_expr(true).deref_mut(), true);
         block.map(|block_stmt| {
             if !is_simple_parameter_list {
                 if let Some(span) = has_use_strict(&block_stmt) {
