@@ -1348,10 +1348,10 @@ impl ModuleConfig {
                 cm,
                 resolver,
                 unresolved_mark,
+                config,
                 modules::umd::FeatureFlag {
                     support_block_scoping,
                 },
-                config,
             )),
             Some(ModuleConfig::Amd(config)) => Box::new(modules::amd::amd(
                 resolver,

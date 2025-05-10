@@ -38,6 +38,7 @@ pub struct Config {
     pub config: InnerConfig,
 }
 
+#[derive(Default)]
 pub struct FeatureFlag {
     pub support_block_scoping: bool,
     pub support_arrow: bool,

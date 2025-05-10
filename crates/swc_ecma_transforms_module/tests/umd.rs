@@ -27,10 +27,10 @@ fn tr(tester: &mut Tester<'_>, config: Config, typescript: bool) -> impl Pass {
             tester.cm.clone(),
             Default::default(),
             unresolved_mark,
-            FeatureFlag{
+            config,
+            FeatureFlag {
                 support_block_scoping: true,
-            }
-            true,
+            },
         ),
     )
 }

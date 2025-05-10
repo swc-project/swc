@@ -725,25 +725,12 @@ impl FeatureOrModule {
 
 impl Caniuse for EsVersion {
     fn caniuse(&self, feature: &Feature) -> bool {
-        // Every feature is supported in esnext
+        // EsNext supports all features
         if self == &EsVersion::EsNext {
             return true;
         }
 
         match feature {
-            // bugfix not exists in EsVsersion
-            Feature::BugfixAsyncArrowsInClass
-            | Feature::BugfixEdgeDefaultParam
-            | Feature::BugfixTaggedTemplateCaching
-            | Feature::BugfixSafariIdDestructuringCollisionInFunctionExpression
-            | Feature::BugfixTransformEdgeFunctionName
-            | Feature::BugfixTransformSafariBlockShadowing
-            | Feature::BugfixTransformSafariForShadowing
-            | Feature::BugfixTransformV8SpreadParametersInOptionalChaining
-            | Feature::BugfixTransformV8StaticClassFieldsRedefineReadonly
-            | Feature::BugfixTransformFirefoxClassInComputedClassKey
-            | Feature::BugfixTransformSafariClassFieldInitializerScope => true,
-
             // ES2022
             Feature::ClassProperties
             | Feature::ClassStaticBlock
@@ -797,6 +784,19 @@ impl Caniuse for EsVersion {
             Feature::PropertyLiterals
             | Feature::MemberExpressionLiterals
             | Feature::ReservedWords => self >= &EsVersion::Es5,
+
+            // bugfix not exists in EsVsersion
+            Feature::BugfixAsyncArrowsInClass
+            | Feature::BugfixEdgeDefaultParam
+            | Feature::BugfixTaggedTemplateCaching
+            | Feature::BugfixSafariIdDestructuringCollisionInFunctionExpression
+            | Feature::BugfixTransformEdgeFunctionName
+            | Feature::BugfixTransformSafariBlockShadowing
+            | Feature::BugfixTransformSafariForShadowing
+            | Feature::BugfixTransformV8SpreadParametersInOptionalChaining
+            | Feature::BugfixTransformV8StaticClassFieldsRedefineReadonly
+            | Feature::BugfixTransformFirefoxClassInComputedClassKey
+            | Feature::BugfixTransformSafariClassFieldInitializerScope => true,
 
             _ => true,
         }

@@ -27,6 +27,7 @@ use crate::{
 
 mod config;
 
+#[derive(Default)]
 pub struct FeatureFlag {
     pub support_block_scoping: bool,
 }
@@ -35,8 +36,8 @@ pub fn umd(
     cm: Lrc<SourceMap>,
     resolver: Resolver,
     unresolved_mark: Mark,
-    available_features: FeatureFlag,
     config: Config,
+    available_features: FeatureFlag,
 ) -> impl Pass {
     visit_mut_pass(Umd {
         config: config.build(cm.clone()),
