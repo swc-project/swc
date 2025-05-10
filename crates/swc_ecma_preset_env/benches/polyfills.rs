@@ -20,12 +20,15 @@ fn run(b: &mut Bencher, src: &str, config: Config) {
                 e.into_diagnostic(handler).emit()
             }
 
+            let (feature, corejs) = (&config).into();
+
             let mut folder = preset_env(
                 Mark::fresh(Mark::root()),
                 Some(SingleThreadedComments::default()),
                 config,
                 Default::default(),
-                &mut Default::default(),
+                feature,
+                corejs,
             );
 
             b.iter(|| black_box(Program::Module(module.clone()).apply(&mut folder)));

@@ -5,7 +5,7 @@ use swc_common::{
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
+use swc_ecma_transforms_base::helper_expr;
 use swc_ecma_utils::{
     is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory, IsDirective,
 };
@@ -27,6 +27,11 @@ use crate::{
 
 mod config;
 
+#[derive(Default)]
+pub struct FeatureFlag {
+    pub support_block_scoping: bool,
+}
+
 pub fn umd(
     cm: Lrc<SourceMap>,
     resolver: Resolver,
@@ -40,7 +45,7 @@ pub fn umd(
         cm,
         resolver,
 
-        const_var_kind: if caniuse!(available_features.BlockScoping) {
+        const_var_kind: if available_features.support_block_scoping {
             VarDeclKind::Const
         } else {
             VarDeclKind::Var
