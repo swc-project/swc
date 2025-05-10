@@ -16,7 +16,7 @@ use crate::{
         lexer::token::TokenFactory,
         parser::{
             expr::parse_for_head_prefix, ident::parse_binding_ident, pat::reparse_expr_as_pat,
-            pat_type::PatType,
+            pat_type::PatType, typescript::parse_ts_type,
         },
     },
     error::{Error, SyntaxError},
@@ -718,4 +718,74 @@ pub fn parse_with_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
     let span = p.span(start);
     Ok(WithStmt { span, obj, body }.into())
+}
+
+pub fn parse_while_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
+    let start = p.cur_pos();
+
+    p.assert_and_bump(&P::Token::WHILE)?;
+
+    expect!(p, &P::Token::LPAREN);
+    let test = p.include_in_expr(true).parse_expr()?;
+    expect!(p, &P::Token::RPAREN);
+
+    let ctx = (p.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed) & !Context::TopLevel;
+    let body = p.with_ctx(ctx).parse_stmt().map(Box::new)?;
+
+    let span = p.span(start);
+    Ok(WhileStmt { span, test, body }.into())
+}
+
+/// It's optional since es2019
+pub fn parse_catch_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Pat>> {
+    if p.input_mut().eat(&P::Token::LPAREN) {
+        let mut pat = parse_binding_pat_or_ident(p, false)?;
+
+        let type_ann_start = p.cur_pos();
+
+        if p.syntax().typescript() && p.input_mut().eat(&P::Token::COLON) {
+            let ctx = p.ctx() | Context::InType;
+
+            let ty = parse_ts_type(p.with_ctx(ctx).deref_mut())?;
+            // p.emit_err(ty.span(), SyntaxError::TS1196);
+
+            match &mut pat {
+                Pat::Ident(BindingIdent { type_ann, .. })
+                | Pat::Array(ArrayPat { type_ann, .. })
+                | Pat::Rest(RestPat { type_ann, .. })
+                | Pat::Object(ObjectPat { type_ann, .. }) => {
+                    *type_ann = Some(Box::new(TsTypeAnn {
+                        span: p.span(type_ann_start),
+                        type_ann: ty,
+                    }));
+                }
+                Pat::Assign(..) => {}
+                Pat::Invalid(_) => {}
+                Pat::Expr(_) => {}
+            }
+        }
+        expect!(p, &P::Token::RPAREN);
+        Ok(Some(pat))
+    } else {
+        Ok(None)
+    }
+}
+
+pub fn parse_do_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
+    let start = p.cur_pos();
+
+    p.assert_and_bump(&P::Token::DO)?;
+
+    let ctx = (p.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed) & !Context::TopLevel;
+    let body = p.with_ctx(ctx).parse_stmt().map(Box::new)?;
+    expect!(p, &P::Token::WHILE);
+    expect!(p, &P::Token::LPAREN);
+    let test = p.include_in_expr(true).parse_expr()?;
+    expect!(p, &P::Token::RPAREN);
+    // We *may* eat semicolon.
+    let _ = p.eat_general_semi();
+
+    let span = p.span(start);
+
+    Ok(DoWhileStmt { span, test, body }.into())
 }

@@ -1,5 +1,5 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum PatType {
+pub(super) enum PatType {
     BindingPat,
     BindingElement,
     /// AssignmentPattern

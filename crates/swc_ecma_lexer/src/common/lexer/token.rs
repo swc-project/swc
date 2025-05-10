@@ -89,6 +89,8 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const AWAIT: Self;
     const THIS: Self;
     const SUPER: Self;
+    const WHILE: Self;
+    const DO: Self;
     const LPAREN: Self;
     const RPAREN: Self;
     const LBRACKET: Self;
@@ -119,6 +121,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const INFER: Self;
     const USING: Self;
     const WITH: Self;
+    const ASYNC: Self;
 
     fn jsx_name(name: &'a str, lexer: &mut Self::Lexer) -> Self;
     fn is_jsx_name(&self) -> bool;
@@ -138,6 +141,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
 
     fn regexp(content: Atom, flags: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_regexp(&self) -> bool;
+    fn take_regexp(self, buffer: &mut Self::Buffer) -> (Atom, Atom);
 
     fn num(value: f64, raw: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_num(&self) -> bool;
@@ -172,6 +176,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn is_bin_op(&self) -> bool;
     fn as_bin_op(&self) -> Option<BinaryOp>;
 
+    fn is_assign_op(&self) -> bool;
     fn as_assign_op(&self) -> Option<AssignOp>;
 
     #[inline(always)]
@@ -453,5 +458,9 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_instanceof(&self) -> bool {
         Self::INSTANCEOF.eq(self)
+    }
+    #[inline(always)]
+    fn is_async(&self) -> bool {
+        Self::ASYNC.eq(self)
     }
 }

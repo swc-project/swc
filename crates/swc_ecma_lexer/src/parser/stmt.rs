@@ -6,18 +6,15 @@ use typed_arena::Arena;
 use super::*;
 use crate::{
     common::parser::{
-        class_and_fn::parse_decorators,
+        class_and_fn::{parse_async_fn_decl, parse_class_decl, parse_decorators, parse_fn_decl},
         expr::{parse_assignment_expr, parse_await_expr, parse_bin_op_recursively},
         ident::{parse_binding_ident, parse_label_ident},
         is_directive::IsDirective,
-        pat::parse_binding_pat_or_ident,
         stmt::{
-            parse_for_stmt, parse_if_stmt, parse_return_stmt, parse_throw_stmt, parse_using_decl,
-            parse_var_stmt, parse_with_stmt,
+            parse_catch_param, parse_do_stmt, parse_for_stmt, parse_if_stmt, parse_return_stmt,
+            parse_throw_stmt, parse_using_decl, parse_var_stmt, parse_while_stmt, parse_with_stmt,
         },
-        typescript::{
-            parse_ts_enum_decl, parse_ts_interface_decl, parse_ts_type, parse_ts_type_alias_decl,
-        },
+        typescript::{parse_ts_enum_decl, parse_ts_interface_decl, parse_ts_type_alias_decl},
     },
     error::SyntaxError,
     tok,
@@ -211,7 +208,7 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
             }
 
             tok!("do") => {
-                return self.parse_do_stmt();
+                return parse_do_stmt(self);
             }
 
             tok!("for") => {
@@ -223,16 +220,14 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
                     self.emit_err(self.input.cur_span(), SyntaxError::DeclNotAllowed);
                 }
 
-                return self.parse_fn_decl(decorators).map(Stmt::from);
+                return parse_fn_decl(self, decorators).map(Stmt::from);
             }
 
             tok!("class") => {
                 if !include_decl {
                     self.emit_err(self.input.cur_span(), SyntaxError::DeclNotAllowed);
                 }
-                return self
-                    .parse_class_decl(start, start, decorators, false)
-                    .map(Stmt::from);
+                return parse_class_decl(self, start, start, decorators, false).map(Stmt::from);
             }
 
             tok!("if") => {
@@ -289,7 +284,7 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
             }
 
             tok!("while") => {
-                return self.parse_while_stmt();
+                return parse_while_stmt(self);
             }
 
             tok!("var") => {
@@ -378,7 +373,7 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
             && peeked_is!(self, "function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
-            return self.parse_async_fn_decl(decorators).map(From::from);
+            return parse_async_fn_decl(self, decorators).map(From::from);
         }
 
         // If the statement does not start with a statement keyword or a
@@ -558,7 +553,7 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
         let start = cur_pos!(self);
 
         Ok(if eat!(self, "catch") {
-            let param = self.parse_catch_param()?;
+            let param = parse_catch_param(self)?;
 
             self.parse_block(false)
                 .map(|body| CatchClause {
@@ -578,78 +573,6 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
         } else {
             None
         })
-    }
-
-    /// It's optional since es2019
-    fn parse_catch_param(&mut self) -> PResult<Option<Pat>> {
-        if eat!(self, '(') {
-            let mut pat = parse_binding_pat_or_ident(self, false)?;
-
-            let type_ann_start = cur_pos!(self);
-
-            if self.syntax().typescript() && eat!(self, ':') {
-                let ctx = self.ctx() | Context::InType;
-
-                let ty = self.with_ctx(ctx).parse_with(parse_ts_type)?;
-                // self.emit_err(ty.span(), SyntaxError::TS1196);
-
-                match &mut pat {
-                    Pat::Ident(BindingIdent { type_ann, .. })
-                    | Pat::Array(ArrayPat { type_ann, .. })
-                    | Pat::Rest(RestPat { type_ann, .. })
-                    | Pat::Object(ObjectPat { type_ann, .. }) => {
-                        *type_ann = Some(Box::new(TsTypeAnn {
-                            span: span!(self, type_ann_start),
-                            type_ann: ty,
-                        }));
-                    }
-                    Pat::Assign(..) => {}
-                    Pat::Invalid(_) => {}
-                    Pat::Expr(_) => {}
-                }
-            }
-            expect!(self, ')');
-            Ok(Some(pat))
-        } else {
-            Ok(None)
-        }
-    }
-
-    fn parse_do_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!(self);
-
-        assert_and_bump!(self, "do");
-
-        let ctx = (self.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed)
-            & !Context::TopLevel;
-        let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
-        expect!(self, "while");
-        expect!(self, '(');
-        let test = self.include_in_expr(true).parse_expr()?;
-        expect!(self, ')');
-        // We *may* eat semicolon.
-        let _ = eat!(self, ';');
-
-        let span = span!(self, start);
-
-        Ok(DoWhileStmt { span, test, body }.into())
-    }
-
-    fn parse_while_stmt(&mut self) -> PResult<Stmt> {
-        let start = cur_pos!(self);
-
-        assert_and_bump!(self, "while");
-
-        expect!(self, '(');
-        let test = self.include_in_expr(true).parse_expr()?;
-        expect!(self, ')');
-
-        let ctx = (self.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed)
-            & !Context::TopLevel;
-        let body = self.with_ctx(ctx).parse_stmt().map(Box::new)?;
-
-        let span = span!(self, start);
-        Ok(WhileStmt { span, test, body }.into())
     }
 
     pub(super) fn parse_block(&mut self, allow_directives: bool) -> PResult<BlockStmt> {
@@ -686,7 +609,7 @@ impl<'a, I: Tokens<TokenAndSpan>> Parser<I> {
             p.state.labels.push(l.sym.clone());
 
             let body = Box::new(if is!(p, "function") {
-                let f = p.parse_fn_decl(Vec::new())?;
+                let f = parse_fn_decl(p, Vec::new())?;
                 if let Decl::Fn(FnDecl { function, .. }) = &f {
                     if p.ctx().contains(Context::Strict) {
                         p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)

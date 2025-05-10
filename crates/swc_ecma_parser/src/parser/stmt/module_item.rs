@@ -1,8 +1,13 @@
 use std::ops::DerefMut;
 
 use swc_ecma_lexer::common::parser::{
+    class_and_fn::{
+        parse_async_fn_decl, parse_class_decl, parse_default_async_fn, parse_default_class,
+        parse_default_fn, parse_fn_decl,
+    },
     expr::parse_assignment_expr,
     ident::{parse_ident, parse_ident_name, parse_module_export_name},
+    object::parse_object_expr,
     typescript::{parse_ts_import_equals_decl, parse_ts_interface_decl},
 };
 
@@ -66,7 +71,7 @@ impl<I: Tokens> Parser<I> {
                 && !self.input.had_line_break_before_cur()
                 && (eat!(self, "assert") || eat!(self, "with"))
             {
-                match self.parse_object::<Expr>()? {
+                match parse_object_expr(self)? {
                     Expr::Object(v) => Some(Box::new(v)),
                     _ => unreachable!(),
                 }
@@ -193,7 +198,7 @@ impl<I: Tokens> Parser<I> {
             && !self.input.had_line_break_before_cur()
             && (eat!(self, "assert") || eat!(self, "with"))
         {
-            match self.parse_object::<Expr>()? {
+            match parse_object_expr(self)? {
                 Expr::Object(v) => Some(Box::new(v)),
                 _ => unreachable!(),
             }
@@ -466,8 +471,7 @@ impl<I: Tokens> Parser<I> {
                     assert_and_bump!(self, "abstract");
                     let _ = cur!(self, true);
 
-                    return self
-                        .parse_default_class(start, class_start, decorators, true)
+                    return parse_default_class(self, start, class_start, decorators, true)
                         .map(ModuleDecl::ExportDefaultDecl);
                 }
                 if is!(self, "abstract") && peeked_is!(self, "interface") {
@@ -490,16 +494,16 @@ impl<I: Tokens> Parser<I> {
 
             if is!(self, "class") {
                 let class_start = cur_pos!(self);
-                let decl = self.parse_default_class(start, class_start, decorators, false)?;
+                let decl = parse_default_class(self, start, class_start, decorators, false)?;
                 return Ok(decl.into());
             } else if is!(self, "async")
                 && peeked_is!(self, "function")
                 && !self.input.has_linebreak_between_cur_and_peeked()
             {
-                let decl = self.parse_default_async_fn(start, decorators)?;
+                let decl = parse_default_async_fn(self, start, decorators)?;
                 return Ok(decl.into());
             } else if is!(self, "function") {
-                let decl = self.parse_default_fn(start, decorators)?;
+                let decl = parse_default_fn(self, start, decorators)?;
                 return Ok(decl.into());
             } else if self.input.syntax().export_default_from()
                 && ((is!(self, "from") && peeked_is!(self, Str))
@@ -530,15 +534,15 @@ impl<I: Tokens> Parser<I> {
 
         let decl = if !type_only && is!(self, "class") {
             let class_start = cur_pos!(self);
-            self.parse_class_decl(start, class_start, decorators, false)?
+            parse_class_decl(self, start, class_start, decorators, false)?
         } else if !type_only
             && is!(self, "async")
             && peeked_is!(self, "function")
             && !self.input.has_linebreak_between_cur_and_peeked()
         {
-            self.parse_async_fn_decl(decorators)?
+            parse_async_fn_decl(self, decorators)?
         } else if !type_only && is!(self, "function") {
-            self.parse_fn_decl(decorators)?
+            parse_fn_decl(self, decorators)?
         } else if !type_only
             && self.input.syntax().typescript()
             && is!(self, "const")
@@ -859,7 +863,7 @@ impl<I: Tokens> Parser<I> {
             && !self.input.had_line_break_before_cur()
             && (eat!(self, "assert") || eat!(self, "with"))
         {
-            match self.parse_object::<Expr>()? {
+            match parse_object_expr(self)? {
                 Expr::Object(v) => Some(Box::new(v)),
                 _ => unreachable!(),
             }
