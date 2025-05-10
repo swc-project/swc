@@ -16,6 +16,7 @@ use crate::{
         is_simple_param_list::IsSimpleParameterList,
         output_type::OutputType,
         pat::{parse_constructor_params, parse_formal_params, parse_unique_formal_params},
+        stmt::parse_block,
         typescript::{
             parse_ts_heritage_clause, parse_ts_modifier, parse_ts_type_ann,
             try_parse_ts_index_signature, try_parse_ts_type_ann, try_parse_ts_type_params,
@@ -417,14 +418,16 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
     }
 
     fn parse_static_block(&mut self, start: BytePos) -> PResult<ClassMember> {
-        let body = self
-            .with_ctx(
+        let body = parse_block(
+            self.with_ctx(
                 self.ctx()
                     | Context::InStaticBlock
                     | Context::InClassField
                     | Context::AllowUsingDecl,
             )
-            .parse_block(false)?;
+            .deref_mut(),
+            false,
+        )?;
 
         let span = span!(self, start);
         Ok(StaticBlock { span, body }.into())
@@ -1040,7 +1043,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
                 if p.input.syntax().typescript() && !is!(p, '{') && eat!(p, ';') {
                     return Ok(None);
                 }
-                let block = p.include_in_expr(true).parse_block(true);
+                let block = parse_block(p.include_in_expr(true).deref_mut(), true);
                 block.map(|block_stmt| {
                     if !is_simple_parameter_list {
                         if let Some(span) = has_use_strict(&block_stmt) {
@@ -1067,7 +1070,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
             is_simple_parameter_list,
             |p, is_simple_parameter_list| {
                 if is!(p, '{') {
-                    p.parse_block(false)
+                    parse_block(p, false)
                         .map(|block_stmt| {
                             if !is_simple_parameter_list {
                                 if let Some(span) = has_use_strict(&block_stmt) {

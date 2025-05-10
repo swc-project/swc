@@ -15,15 +15,19 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         TokenAndSpan = TokenAndSpan,
     >;
 
+    const FROM: Self;
     const FOR: Self;
     const INSTANCEOF: Self;
     const SATISFIES: Self;
     const THROW: Self;
     const AS: Self;
+    const NAMESPACE: Self;
     const RETURN: Self;
     const AT: Self;
     const EXPORT: Self;
+    const DECLARE: Self;
     const ASSERTS: Self;
+    const ASSERT: Self;
     const JSX_TAG_END: Self;
     const JSX_TAG_START: Self;
     const DOLLAR_LBRACE: Self;
@@ -62,6 +66,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const LSHIFT: Self;
     const LSHIFT_EQ: Self;
     const LESS: Self;
+    const GLOBAL: Self;
     const LESS_EQ: Self;
     const RSHIFT: Self;
     const RSHIFT_EQ: Self;
@@ -70,7 +75,19 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const ZERO_FILL_RSHIFT: Self;
     const ZERO_FILL_RSHIFT_EQ: Self;
     const NULL: Self;
+    const ANY: Self;
+    const BOOLEAN: Self;
+    const BIGINT: Self;
+    const NEVER: Self;
+    const NUMBER: Self;
+    const OBJECT: Self;
+    const STRING: Self;
+    const SYMBOL: Self;
+    const UNKNOWN: Self;
+    const UNDEFINED: Self;
+    const INTRINSIC: Self;
     const TRUE: Self;
+    const TRY: Self;
     const FALSE: Self;
     const ENUM: Self;
     const YIELD: Self;
@@ -79,6 +96,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const STATIC: Self;
     const IMPLEMENTS: Self;
     const INTERFACE: Self;
+    const TYPE: Self;
     const PACKAGE: Self;
     const PRIVATE: Self;
     const PROTECTED: Self;
@@ -87,6 +105,8 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const ARROW: Self;
     const REQUIRE: Self;
     const AWAIT: Self;
+    const BREAK: Self;
+    const CONTINUE: Self;
     const THIS: Self;
     const SUPER: Self;
     const WHILE: Self;
@@ -96,6 +116,9 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const LBRACKET: Self;
     const RBRACKET: Self;
     const LBRACE: Self;
+    const FINALLY: Self;
+    const CATCH: Self;
+    const SWITCH: Self;
     const RBRACE: Self;
     const FUNCTION: Self;
     const IF: Self;
@@ -122,6 +145,9 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const USING: Self;
     const WITH: Self;
     const ASYNC: Self;
+    const CASE: Self;
+    const DEFAULT: Self;
+    const DEBUGGER: Self;
 
     fn jsx_name(name: &'a str, lexer: &mut Self::Lexer) -> Self;
     fn is_jsx_name(&self) -> bool;
@@ -268,6 +294,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         Self::INTERFACE.eq(self)
     }
     #[inline(always)]
+    fn is_type(&self) -> bool {
+        Self::TYPE.eq(self)
+    }
+    #[inline(always)]
     fn is_package(&self) -> bool {
         Self::PACKAGE.eq(self)
     }
@@ -292,6 +322,14 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         Self::AWAIT.eq(self)
     }
     #[inline(always)]
+    fn is_break(&self) -> bool {
+        Self::BREAK.eq(self)
+    }
+    #[inline(always)]
+    fn is_continue(&self) -> bool {
+        Self::CONTINUE.eq(self)
+    }
+    #[inline(always)]
     fn is_arrow(&self) -> bool {
         Self::ARROW.eq(self)
     }
@@ -302,6 +340,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_super(&self) -> bool {
         Self::SUPER.eq(self)
+    }
+    #[inline(always)]
+    fn is_using(&self) -> bool {
+        Self::USING.eq(self)
     }
     #[inline(always)]
     fn is_backquote(&self) -> bool {
@@ -340,6 +382,42 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         Self::CLASS.eq(self)
     }
     #[inline(always)]
+    fn is_if(&self) -> bool {
+        Self::IF.eq(self)
+    }
+    #[inline(always)]
+    fn is_return(&self) -> bool {
+        Self::RETURN.eq(self)
+    }
+    #[inline(always)]
+    fn is_switch(&self) -> bool {
+        Self::SWITCH.eq(self)
+    }
+    #[inline(always)]
+    fn is_throw(&self) -> bool {
+        Self::THROW.eq(self)
+    }
+    #[inline(always)]
+    fn is_catch(&self) -> bool {
+        Self::CATCH.eq(self)
+    }
+    #[inline(always)]
+    fn is_finally(&self) -> bool {
+        Self::FINALLY.eq(self)
+    }
+    #[inline(always)]
+    fn is_try(&self) -> bool {
+        Self::TRY.eq(self)
+    }
+    #[inline(always)]
+    fn is_with(&self) -> bool {
+        Self::WITH.eq(self)
+    }
+    #[inline(always)]
+    fn is_while(&self) -> bool {
+        Self::WHILE.eq(self)
+    }
+    #[inline(always)]
     fn is_new(&self) -> bool {
         Self::NEW.eq(self)
     }
@@ -352,8 +430,24 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         Self::IMPORT.eq(self)
     }
     #[inline(always)]
+    fn is_export(&self) -> bool {
+        Self::EXPORT.eq(self)
+    }
+    #[inline(always)]
     fn is_dot(&self) -> bool {
         Self::DOT.eq(self)
+    }
+    #[inline(always)]
+    fn is_do(&self) -> bool {
+        Self::DO.eq(self)
+    }
+    #[inline(always)]
+    fn is_for(&self) -> bool {
+        Self::FOR.eq(self)
+    }
+    #[inline(always)]
+    fn is_from(&self) -> bool {
+        Self::FROM.eq(self)
     }
     #[inline(always)]
     fn is_dotdotdot(&self) -> bool {
@@ -420,10 +514,6 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         Self::SEMI.eq(self)
     }
     #[inline(always)]
-    fn is_mul(&self) -> bool {
-        Self::MUL.eq(self)
-    }
-    #[inline(always)]
     fn is_slash(&self) -> bool {
         Self::DIV.eq(self)
     }
@@ -462,5 +552,17 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_async(&self) -> bool {
         Self::ASYNC.eq(self)
+    }
+    #[inline(always)]
+    fn is_case(&self) -> bool {
+        Self::CASE.eq(self)
+    }
+    #[inline(always)]
+    fn is_default(&self) -> bool {
+        Self::DEFAULT.eq(self)
+    }
+    #[inline(always)]
+    fn is_debugger(&self) -> bool {
+        Self::DEBUGGER.eq(self)
     }
 }

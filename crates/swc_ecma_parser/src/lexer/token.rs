@@ -497,22 +497,33 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     type Lexer = crate::Lexer<'a>;
 
     const ABSTRACT: Self = Token::Abstract;
+    const ANY: Self = Token::Any;
     const ARROW: Self = Token::Arrow;
     const AS: Self = Token::As;
+    const ASSERT: Self = Token::Assert;
     const ASSERTS: Self = Token::Asserts;
     const ASYNC: Self = Token::Async;
     const AT: Self = Token::At;
     const AWAIT: Self = Token::Await;
     const BACKQUOTE: Self = Token::BackQuote;
     const BANG: Self = Self::Bang;
+    const BIGINT: Self = Token::Bigint;
     const BIT_AND: Self = Self::Ampersand;
     const BIT_AND_EQ: Self = Self::BitAndEq;
     const BIT_OR: Self = Self::Pipe;
     const BIT_OR_EQ: Self = Self::BitOrEq;
+    const BOOLEAN: Self = Token::Boolean;
+    const BREAK: Self = Token::Break;
+    const CASE: Self = Token::Case;
+    const CATCH: Self = Token::Catch;
     const CLASS: Self = Self::Class;
     const COLON: Self = Self::Colon;
     const COMMA: Self = Token::Comma;
     const CONST: Self = Self::Const;
+    const CONTINUE: Self = Token::Continue;
+    const DEBUGGER: Self = Token::Debugger;
+    const DECLARE: Self = Token::Declare;
+    const DEFAULT: Self = Token::Default;
     const DELETE: Self = Self::Delete;
     const DIV: Self = Token::Slash;
     const DIV_EQ: Self = Token::DivEq;
@@ -528,9 +539,12 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const EXP_EQ: Self = Token::ExpEq;
     const EXTENDS: Self = Token::Extends;
     const FALSE: Self = Token::False;
+    const FINALLY: Self = Token::Finally;
     const FOR: Self = Token::For;
+    const FROM: Self = Token::From;
     const FUNCTION: Self = Self::Function;
     const GET: Self = Token::Get;
+    const GLOBAL: Self = Token::Global;
     const GREATER: Self = Token::Gt;
     const GREATER_EQ: Self = Token::GtEq;
     const HASH: Self = Self::Hash;
@@ -541,6 +555,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const INFER: Self = Token::Infer;
     const INSTANCEOF: Self = Token::InstanceOf;
     const INTERFACE: Self = Token::Interface;
+    const INTRINSIC: Self = Token::Intrinsic;
     const IS: Self = Token::Is;
     const JSX_TAG_END: Self = Token::JSXTagEnd;
     const JSX_TAG_START: Self = Token::JSXTagStart;
@@ -563,10 +578,14 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const MOD_EQ: Self = Token::ModEq;
     const MUL: Self = Token::Asterisk;
     const MUL_EQ: Self = Token::MulEq;
+    const NAMESPACE: Self = Token::Namespace;
+    const NEVER: Self = Token::Never;
     const NEW: Self = Self::New;
     const NULL: Self = Token::Null;
     const NULLISH_ASSIGN: Self = Token::NullishEq;
     const NULLISH_COALESCING: Self = Token::NullishCoalescing;
+    const NUMBER: Self = Token::Number;
+    const OBJECT: Self = Token::Object;
     const OF: Self = Token::Of;
     const PACKAGE: Self = Token::Package;
     const PLUS: Self = Self::Plus;
@@ -587,14 +606,21 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const SEMI: Self = Token::Semi;
     const SET: Self = Token::Set;
     const STATIC: Self = Token::Static;
+    const STRING: Self = Token::String;
     const SUPER: Self = Self::Super;
+    const SWITCH: Self = Token::Switch;
+    const SYMBOL: Self = Token::Symbol;
     const TARGET: Self = Token::Target;
     const THIS: Self = Token::This;
     const THROW: Self = Token::Throw;
     const TILDE: Self = Self::Tilde;
     const TRUE: Self = Token::True;
+    const TRY: Self = Token::Try;
+    const TYPE: Self = Token::Type;
     const TYPEOF: Self = Self::TypeOf;
+    const UNDEFINED: Self = Token::Undefined;
     const UNIQUE: Self = Token::Unique;
+    const UNKNOWN: Self = Token::Unknown;
     const USING: Self = Self::Using;
     const VAR: Self = Self::Var;
     const VOID: Self = Self::Void;
@@ -1110,10 +1136,6 @@ impl Token {
             Token::Shebang => "#!",
         }
         .to_string()
-    }
-
-    pub(crate) fn into_atom(&self, value: Option<&TokenValue>) -> Atom {
-        self.as_word_atom(value).unwrap()
     }
 
     pub(crate) fn as_keyword_atom(&self) -> Option<Atom> {
