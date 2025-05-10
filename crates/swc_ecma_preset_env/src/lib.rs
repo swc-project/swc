@@ -58,7 +58,7 @@ where
             let f = transform_data::Feature::$feature;
             !exclude.contains(&f)
                 && (c.force_all_transforms
-                    || (is_any_target
+                    || (!is_any_target
                         || include.contains(&f)
                         || f.should_enable(&targets, c.bugfixes, $default)))
         }};
@@ -369,6 +369,9 @@ impl Polyfills {
             + VisitMutWith<corejs2::Entry>
             + VisitMutWith<corejs3::Entry>,
     {
+        if self.targets.is_any_target() {
+            return Default::default();
+        }
         let required = match self.mode {
             None => Default::default(),
             Some(Mode::Usage) => {
