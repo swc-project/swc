@@ -41,7 +41,6 @@ pub fn dce(
         in_block_stmt: false,
         var_decl_kind: None,
         data: Default::default(),
-        bindings: Default::default(),
     })
 }
 
@@ -89,8 +88,6 @@ struct TreeShaker {
     var_decl_kind: Option<VarDeclKind>,
 
     data: Arc<Data>,
-
-    bindings: Arc<FxHashSet<Id>>,
 }
 
 impl CompilerPass for TreeShaker {
@@ -564,7 +561,6 @@ impl Parallel for TreeShaker {
             expr_ctx: self.expr_ctx,
             data: self.data.clone(),
             config: self.config.clone(),
-            bindings: self.bindings.clone(),
             ..*self
         }
     }
@@ -644,7 +640,8 @@ impl TreeShaker {
             return false;
         }
 
-        self.bindings.contains(&name)
+        // If the name is unresolved, it should be preserved
+        self.expr_ctx.unresolved_ctxt != name.1
             && self
                 .data
                 .used_names
@@ -902,10 +899,6 @@ impl VisitMut for TreeShaker {
 
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
-        if self.bindings.is_empty() {
-            self.bindings = Arc::new(collect_decls(&*m))
-        }
-
         let mut data = Default::default();
 
         {
@@ -962,10 +955,6 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_script(&mut self, m: &mut Script) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
-
-        if self.bindings.is_empty() {
-            self.bindings = Arc::new(collect_decls(&*m))
-        }
 
         let mut data = Default::default();
 
