@@ -1,10 +1,17 @@
-const validate = require("sourcemap-validator");
-const fs = require("fs");
+const { explore } = require("source-map-explorer");
 
 const jsFile = process.argv[1];
 const mapFile = process.argv[2];
 
-const jsContent = fs.readFileSync(jsFile, "utf-8");
-const mapContent = fs.readFileSync(mapFile, "utf-8");
-
-validate(jsContent, mapContent);
+explore([
+    {
+        code: jsFile,
+        map: mapFile
+    }
+]).catch(({ errors }) => {
+    if (errors.length) {
+        const { code, message } = errors[0];
+        console.error(`${code} Error: ${message}`);
+        process.exit(1);
+    }
+});
