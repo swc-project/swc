@@ -1,4 +1,4 @@
-var _init_a, _init_b;
+var _init_a, _init_b, _initProto;
 const dec = ()=>{};
 var _a = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakMap();
 class Foo {
@@ -11,9 +11,10 @@ class Foo {
             writable: true,
             value: _init_b(this, 123)
         });
+        _initProto(this);
     }
 }
-({ e: [_init_a, _init_b] } = _apply_decs_2203_r(Foo, [
+({ e: [_init_a, _init_b, _initProto] } = _apply_decs_2203_r(Foo, [
     [
         dec,
         0,
