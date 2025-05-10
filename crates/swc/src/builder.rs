@@ -131,7 +131,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
     }
 
     pub fn inline_globals(self, c: GlobalPassOption) -> PassBuilder<'a, 'b, (P, impl Pass)> {
-        let pass = c.build(self.cm, self.handler);
+        let pass = c.build(self.cm, self.handler, self.unresolved_mark);
         self.then(pass)
     }
 
