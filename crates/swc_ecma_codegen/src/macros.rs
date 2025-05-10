@@ -4,7 +4,7 @@ macro_rules! opt_leading_space {
     ($emitter:expr, $e:expr) => {
         if let Some(ref e) = $e {
             formatting_space!($emitter);
-            emit!($emitter, e);
+            emit!(true, $emitter, e);
         }
     };
 }
@@ -12,17 +12,11 @@ macro_rules! opt_leading_space {
 macro_rules! opt {
     ($emitter:expr, $e:expr) => {{
         if let Some(ref expr) = $e {
-            emit!($emitter, expr);
+            emit!(true, $emitter, expr);
         }
     }};
     ($emitter:expr, $e:expr,) => {{
         opt!($emitter, $e)
-    }};
-}
-
-macro_rules! emit {
-    ($emitter:expr, $e:expr) => {{
-        crate::Node::emit_with(&$e, $emitter)?;
     }};
 }
 
@@ -129,8 +123,29 @@ macro_rules! srcmap {
     };
 }
 
-macro_rules! emit_node_inner {
-    ($emitter:expr, true, $n:expr) => {
+macro_rules! emit {
+    (true, $emitter:expr, $n:ident) => {
+        crate::Node::emit_with($n, $emitter)?
+    };
+    (true, $emitter:expr, $n:expr) => {
         crate::Node::emit_with(&$n, $emitter)?
+    };
+
+    (false, $emitter:expr, $n:ident) => {
+        crate::Node::with_new_span($n, $emitter)?
+    };
+
+    (false, $emitter:expr, $n:expr) => {
+        crate::Node::with_new_span(&$n, $emitter)?
+    };
+}
+
+macro_rules! only_new {
+    (true, $n:expr) => {
+        ()
+    };
+
+    (false, $n:expr) => {
+        $n
     };
 }

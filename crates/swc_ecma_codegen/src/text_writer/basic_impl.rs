@@ -4,7 +4,7 @@ use rustc_hash::FxBuildHasher;
 use swc_allocator::api::global::HashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
 
-use super::{Result, WriteJs};
+use super::{Result, SpannedWriteJs, WriteJs};
 
 ///
 /// -----
@@ -18,6 +18,7 @@ pub struct JsWriter<'a, W: Write> {
     line_start: bool,
     line_count: usize,
     line_pos: usize,
+    byte_pos: BytePos,
     new_line: &'a str,
     srcmap: Option<&'a mut Vec<(BytePos, LineCol)>>,
     srcmap_done: HashSet<(BytePos, u32, u32), FxBuildHasher>,
@@ -39,6 +40,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
             line_start: true,
             line_count: 0,
             line_pos: Default::default(),
+            byte_pos: Default::default(),
             new_line,
             srcmap,
             wr,
@@ -67,6 +69,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         if self.srcmap.is_some() {
             self.line_pos += self.indent_str.len() * self.indent;
         }
+        self.byte_pos.0 += self.indent_str.len() as u32 * self.indent as u32;
 
         Ok(())
     }
@@ -118,6 +121,8 @@ impl<'a, W: Write> JsWriter<'a, W> {
                 self.line_pos += chars;
             }
         }
+
+        self.byte_pos.0 += s.as_bytes().len() as u32;
     }
 
     #[inline]
@@ -200,6 +205,7 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
                 self.line_count += 1;
                 self.line_pos = 0;
             }
+            self.byte_pos.0 += self.new_line.len() as u32;
             self.line_start = true;
 
             if let Some(pending) = pending {
@@ -281,6 +287,12 @@ impl<W: Write> WriteJs for JsWriter<'_, W> {
     #[inline(always)]
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         false
+    }
+}
+
+impl<W: Write> SpannedWriteJs for JsWriter<'_, W> {
+    fn get_pos(&self) -> BytePos {
+        self.byte_pos
     }
 }
 
