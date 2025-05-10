@@ -1,6 +1,7 @@
 use std::hint::black_box;
 
 use swc_common::{FileName, SourceMap, DUMMY_SP as span};
+use swc_ecma_lexer::common::parser::expr::{parse_lhs_expr, parse_new_expr};
 use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
@@ -14,11 +15,11 @@ fn syntax() -> Syntax {
 }
 
 fn lhs(s: &'static str) -> Box<Expr> {
-    test_parser(s, syntax(), |p| p.parse_lhs_expr())
+    test_parser(s, syntax(), |p| parse_lhs_expr(p))
 }
 
 fn new_expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, syntax(), |p| p.parse_new_expr())
+    test_parser(s, syntax(), |p| parse_new_expr(p))
 }
 
 fn member_expr(s: &'static str) -> Box<Expr> {

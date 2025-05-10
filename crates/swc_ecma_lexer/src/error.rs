@@ -8,8 +8,6 @@ use swc_common::{
     Span, Spanned,
 };
 
-use crate::token::Token;
-
 /// Note: this struct is 8 bytes.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Error {
@@ -126,7 +124,7 @@ pub enum SyntaxError {
     },
     ReservedWordInImport,
     AssignProperty,
-    Expected(&'static Token, String),
+    Expected(String, String),
     ExpectedSemiForExprStmt {
         expr: Span,
     },
@@ -374,7 +372,7 @@ impl SyntaxError {
             SyntaxError::ReservedWordInImport => "cannot import as reserved word".into(),
             SyntaxError::AssignProperty => "assignment property is invalid syntax".into(),
             SyntaxError::Expected(token, ref got) => {
-                format!("Expected '{token:?}', got '{got}'").into()
+                format!("Expected '{token}', got '{got}'").into()
             }
             SyntaxError::ExpectedSemiForExprStmt { .. } => "Expected ';', '}' or <eof>".into(),
 

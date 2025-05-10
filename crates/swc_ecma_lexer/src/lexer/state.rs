@@ -5,23 +5,26 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 use tracing::trace;
 
-use super::{
-    comments_buffer::{BufferedComment, BufferedCommentKind},
-    Context, Input, Lexer,
-};
+use super::{Context, Input, Lexer, LexerTrait};
 use crate::{
+    common::{
+        input::Tokens,
+        lexer::{
+            char::CharExt,
+            comments_buffer::{BufferedComment, BufferedCommentKind},
+            state::State as StateTrait,
+        },
+    },
     error::{Error, SyntaxError},
-    input::Tokens,
-    lexer::util::CharExt,
     token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
-    Syntax, *,
+    *,
 };
 
 /// State of lexer.
 ///
 /// Ported from babylon.
 #[derive(Clone)]
-pub(super) struct State {
+pub struct State {
     pub is_expr_allowed: bool,
     pub next_regexp: Option<BytePos>,
     /// if line break exists between previous token and new token?
@@ -42,8 +45,93 @@ pub(super) struct State {
     token_type: Option<TokenType>,
 }
 
+impl common::lexer::state::State for State {
+    type TokenKind = crate::token::TokenKind;
+    type TokenType = self::TokenType;
+
+    #[inline(always)]
+    fn is_expr_allowed(&self) -> bool {
+        self.is_expr_allowed
+    }
+
+    #[inline(always)]
+    fn set_is_expr_allowed(&mut self, is_expr_allowed: bool) {
+        self.is_expr_allowed = is_expr_allowed;
+    }
+
+    #[inline(always)]
+    fn set_next_regexp(&mut self, start: Option<BytePos>) {
+        self.next_regexp = start;
+    }
+
+    #[inline(always)]
+    fn had_line_break(&self) -> bool {
+        self.had_line_break
+    }
+
+    #[inline(always)]
+    fn set_had_line_break(&mut self, had_line_break: bool) {
+        self.had_line_break = had_line_break;
+    }
+
+    #[inline(always)]
+    fn had_line_break_before_last(&self) -> bool {
+        self.had_line_break_before_last
+    }
+
+    #[inline(always)]
+    fn token_contexts(&self) -> &crate::TokenContexts {
+        &self.context
+    }
+
+    #[inline(always)]
+    fn mut_token_contexts(&mut self) -> &mut crate::TokenContexts {
+        &mut self.context
+    }
+
+    #[inline(always)]
+    fn set_token_type(&mut self, token_type: Self::TokenType) {
+        self.token_type = Some(token_type);
+    }
+
+    #[inline(always)]
+    fn token_type(&self) -> Option<Self::TokenType> {
+        self.token_type
+    }
+
+    #[inline(always)]
+    fn set_tpl_start(&mut self, start: BytePos) {
+        self.tpl_start = start;
+    }
+
+    #[inline(always)]
+    fn syntax(&self) -> crate::Syntax {
+        self.syntax
+    }
+
+    #[inline(always)]
+    fn prev_hi(&self) -> BytePos {
+        self.prev_hi
+    }
+
+    #[inline(always)]
+    fn start(&self) -> BytePos {
+        self.start
+    }
+
+    #[inline(always)]
+    fn add_current_line(&mut self, offset: usize) {
+        self.cur_line += offset;
+    }
+
+    #[inline(always)]
+    fn set_line_start(&mut self, line_start: BytePos) {
+        self.line_start = line_start;
+    }
+}
+
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
-enum TokenType {
+pub enum TokenType {
     Template,
     Dot,
     Colon,
@@ -64,7 +152,7 @@ enum TokenType {
 }
 impl TokenType {
     #[inline]
-    const fn before_expr(self) -> bool {
+    pub const fn before_expr(self) -> bool {
         match self {
             TokenType::JSXName
             | TokenType::JSXTagStart
@@ -122,7 +210,205 @@ impl From<TokenKind> for TokenType {
     }
 }
 
-impl Tokens for Lexer<'_> {
+impl crate::common::lexer::state::TokenKind for TokenType {
+    #[inline(always)]
+    fn is_dot(self) -> bool {
+        self == Self::Dot
+    }
+
+    #[inline(always)]
+    fn is_bin_op(self) -> bool {
+        matches!(self, Self::BinOp(_))
+    }
+
+    #[inline(always)]
+    fn is_semi(self) -> bool {
+        self == Self::Semi
+    }
+
+    #[inline(always)]
+    fn is_template(self) -> bool {
+        self == Self::Template
+    }
+
+    #[inline(always)]
+    fn is_keyword(self) -> bool {
+        matches!(self, Self::Keyword(_))
+    }
+
+    #[inline(always)]
+    fn is_colon(self) -> bool {
+        self == Self::Colon
+    }
+
+    #[inline(always)]
+    fn is_lbrace(self) -> bool {
+        self == Self::LBrace
+    }
+
+    #[inline(always)]
+    fn is_rbrace(self) -> bool {
+        unreachable!("RBrace is not a token type")
+    }
+
+    #[inline(always)]
+    fn is_lparen(self) -> bool {
+        unreachable!("LParen is not a token type")
+    }
+
+    #[inline(always)]
+    fn is_rparen(self) -> bool {
+        self == Self::RParen
+    }
+
+    #[inline(always)]
+    fn is_keyword_fn(self) -> bool {
+        self == Self::Keyword(Keyword::Function)
+    }
+
+    #[inline(always)]
+    fn is_keyword_return(self) -> bool {
+        self == Self::Keyword(Keyword::Return)
+    }
+
+    #[inline(always)]
+    fn is_keyword_yield(self) -> bool {
+        self == Self::Keyword(Keyword::Yield)
+    }
+
+    #[inline(always)]
+    fn is_keyword_else(self) -> bool {
+        self == Self::Keyword(Keyword::Else)
+    }
+
+    #[inline(always)]
+    fn is_keyword_class(self) -> bool {
+        self == Self::Keyword(Keyword::Class)
+    }
+
+    #[inline(always)]
+    fn is_keyword_let(self) -> bool {
+        self == Self::Keyword(Keyword::Let)
+    }
+
+    #[inline(always)]
+    fn is_keyword_var(self) -> bool {
+        self == Self::Keyword(Keyword::Var)
+    }
+
+    #[inline(always)]
+    fn is_keyword_const(self) -> bool {
+        self == Self::Keyword(Keyword::Const)
+    }
+
+    #[inline(always)]
+    fn is_keyword_if(self) -> bool {
+        self == Self::Keyword(Keyword::If)
+    }
+
+    #[inline(always)]
+    fn is_keyword_while(self) -> bool {
+        self == Self::Keyword(Keyword::While)
+    }
+
+    #[inline(always)]
+    fn is_keyword_for(self) -> bool {
+        self == Self::Keyword(Keyword::For)
+    }
+
+    #[inline(always)]
+    fn is_keyword_with(self) -> bool {
+        self == Self::Keyword(Keyword::With)
+    }
+
+    #[inline(always)]
+    fn is_lt(self) -> bool {
+        self == Self::BinOp(BinOpToken::Lt)
+    }
+
+    #[inline(always)]
+    fn is_gt(self) -> bool {
+        self == Self::BinOp(BinOpToken::Gt)
+    }
+
+    #[inline(always)]
+    fn is_arrow(self) -> bool {
+        self == Self::Arrow
+    }
+
+    #[inline(always)]
+    fn is_ident(self) -> bool {
+        unreachable!()
+    }
+
+    #[inline(always)]
+    fn is_known_ident_of(self) -> bool {
+        unreachable!()
+    }
+
+    #[inline(always)]
+    fn is_slash(self) -> bool {
+        self == Self::BinOp(BinOpToken::Div)
+    }
+
+    #[inline(always)]
+    fn is_dollar_lbrace(self) -> bool {
+        unreachable!()
+    }
+
+    #[inline(always)]
+    fn is_plus_plus(self) -> bool {
+        unreachable!()
+    }
+
+    #[inline(always)]
+    fn is_minus_minus(self) -> bool {
+        unreachable!()
+    }
+
+    #[inline(always)]
+    fn is_back_quote(self) -> bool {
+        unreachable!()
+    }
+
+    #[inline(always)]
+    fn before_expr(self) -> bool {
+        self.before_expr()
+    }
+
+    #[inline(always)]
+    fn is_jsx_tag_start(self) -> bool {
+        self == Self::JSXTagStart
+    }
+
+    #[inline(always)]
+    fn is_jsx_tag_end(self) -> bool {
+        self == Self::JSXTagEnd
+    }
+}
+
+impl crate::common::lexer::state::TokenType for TokenType {
+    #[inline(always)]
+    fn is_other_and_before_expr_is_false(self) -> bool {
+        match self {
+            TokenType::Other { before_expr, .. } => !before_expr,
+            _ => false,
+        }
+    }
+
+    #[inline(always)]
+    fn is_other_and_can_have_trailing_comment(self) -> bool {
+        match self {
+            TokenType::Other {
+                can_have_trailing_comment,
+                ..
+            } => can_have_trailing_comment,
+            _ => false,
+        }
+    }
+}
+
+impl Tokens<TokenAndSpan> for Lexer<'_> {
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {
@@ -154,7 +440,7 @@ impl Tokens for Lexer<'_> {
 
     #[inline]
     fn set_expr_allowed(&mut self, allow: bool) {
-        self.set_expr_allowed(allow)
+        self.state.is_expr_allowed = allow;
     }
 
     #[inline]
@@ -177,10 +463,12 @@ impl Tokens for Lexer<'_> {
         self.state.context = c;
     }
 
+    #[inline]
     fn add_error(&self, error: Error) {
         self.errors.borrow_mut().push(error);
     }
 
+    #[inline]
     fn add_module_mode_error(&self, error: Error) {
         if self.ctx.contains(Context::Module) {
             self.add_error(error);
@@ -189,64 +477,23 @@ impl Tokens for Lexer<'_> {
         self.module_errors.borrow_mut().push(error);
     }
 
+    #[inline]
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
 
+    #[inline]
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         take(&mut self.module_errors.borrow_mut())
     }
 
+    #[inline]
     fn end_pos(&self) -> BytePos {
         self.input.end_pos()
     }
 }
 
 impl Lexer<'_> {
-    /// Consume pending comments.
-    ///
-    /// This is called when the input is exhausted.
-    #[cold]
-    #[inline(never)]
-    fn consume_pending_comments(&mut self) {
-        if let Some(comments) = self.comments.as_mut() {
-            let comments_buffer = self.comments_buffer.as_mut().unwrap();
-            let last = self.state.prev_hi;
-
-            // move the pending to the leading or trailing
-            for c in comments_buffer.take_pending_leading() {
-                // if the file had no tokens and no shebang, then treat any
-                // comments in the leading comments buffer as leading.
-                // Otherwise treat them as trailing.
-                if last == self.start_pos {
-                    comments_buffer.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: last,
-                        comment: c,
-                    });
-                } else {
-                    comments_buffer.push(BufferedComment {
-                        kind: BufferedCommentKind::Trailing,
-                        pos: last,
-                        comment: c,
-                    });
-                }
-            }
-
-            // now fill the user's passed in comments
-            for comment in comments_buffer.take_comments() {
-                match comment.kind {
-                    BufferedCommentKind::Leading => {
-                        comments.add_leading(comment.pos, comment.comment);
-                    }
-                    BufferedCommentKind::Trailing => {
-                        comments.add_trailing(comment.pos, comment.comment);
-                    }
-                }
-            }
-        }
-    }
-
     fn next_token(&mut self, start: &mut BytePos) -> Result<Option<Token>, Error> {
         if let Some(start) = self.state.next_regexp {
             return Ok(Some(self.read_regexp(start)?));
@@ -413,340 +660,10 @@ impl State {
     }
 }
 
-impl State {
-    pub fn can_skip_space(&self) -> bool {
-        !self
-            .context
-            .current()
-            .map(|t| t.preserve_space())
-            .unwrap_or(false)
-    }
-
-    pub fn can_have_trailing_line_comment(&self) -> bool {
-        match self.token_type {
-            Some(TokenType::BinOp(..)) => false,
-            _ => true,
-        }
-    }
-
-    pub fn can_have_trailing_comment(&self) -> bool {
-        match self.token_type {
-            Some(TokenType::Keyword(..)) => false,
-            Some(TokenType::Semi) | Some(TokenType::LBrace) => true,
-            Some(TokenType::Other {
-                can_have_trailing_comment,
-                ..
-            }) => can_have_trailing_comment,
-            _ => false,
-        }
-    }
-
-    pub fn last_was_tpl_element(&self) -> bool {
-        matches!(self.token_type, Some(TokenType::Template))
-    }
-
-    fn update(&mut self, start: BytePos, next: TokenKind) {
-        if cfg!(feature = "debug") {
-            trace!(
-                "updating state: next={:?}, had_line_break={} ",
-                next,
-                self.had_line_break
-            );
-        }
-
-        let prev = self.token_type.take();
-        self.token_type = Some(TokenType::from(next));
-
-        self.is_expr_allowed = self.is_expr_allowed_on_next(prev, start, next);
-    }
-
-    /// `is_expr_allowed`: previous value.
-    /// `start`: start of newly produced token.
-    fn is_expr_allowed_on_next(
-        &mut self,
-        prev: Option<TokenType>,
-        start: BytePos,
-        next: TokenKind,
-    ) -> bool {
-        let State {
-            ref mut context,
-            had_line_break,
-            had_line_break_before_last,
-            is_expr_allowed,
-            syntax,
-            ..
-        } = *self;
-
-        let is_next_keyword = matches!(next, TokenKind::Word(WordKind::Keyword(..)));
-
-        if is_next_keyword && prev == Some(TokenType::Dot) {
-            false
-        } else {
-            // ported updateContext
-            match next {
-                TokenKind::RParen | TokenKind::RBrace => {
-                    // TODO: Verify
-                    if context.len() == 1 {
-                        return true;
-                    }
-
-                    let out = context.pop().unwrap();
-
-                    // let a = function(){}
-                    if out == TokenContext::BraceStmt
-                        && matches!(
-                            context.current(),
-                            Some(TokenContext::FnExpr | TokenContext::ClassExpr)
-                        )
-                    {
-                        context.pop();
-                        return false;
-                    }
-
-                    // ${} in template
-                    if out == TokenContext::TplQuasi {
-                        match context.current() {
-                            Some(TokenContext::Tpl) => return false,
-                            _ => return true,
-                        }
-                    }
-
-                    // expression cannot follow expression
-                    !out.is_expr()
-                }
-
-                TokenKind::Word(WordKind::Keyword(Keyword::Function)) => {
-                    // This is required to lex
-                    // `x = function(){}/42/i`
-                    if is_expr_allowed
-                        && !context.is_brace_block(prev, had_line_break, is_expr_allowed)
-                    {
-                        context.push(TokenContext::FnExpr);
-                    }
-                    false
-                }
-
-                TokenKind::Word(WordKind::Keyword(Keyword::Class)) => {
-                    if is_expr_allowed
-                        && !context.is_brace_block(prev, had_line_break, is_expr_allowed)
-                    {
-                        context.push(TokenContext::ClassExpr);
-                    }
-                    false
-                }
-
-                TokenKind::Colon
-                    if matches!(
-                        context.current(),
-                        Some(TokenContext::FnExpr | TokenContext::ClassExpr)
-                    ) =>
-                {
-                    // `function`/`class` keyword is object prop
-                    //
-                    // ```JavaScript
-                    // { function: expr, class: expr }
-                    // ```
-                    context.pop(); // Remove FnExpr or ClassExpr
-                    true
-                }
-
-                // for (a of b) {}
-                known_ident_token!("of")
-                    if Some(TokenContext::ParenStmt { is_for_loop: true }) == context.current() =>
-                {
-                    // e.g. for (a of _) => true
-                    !prev
-                        .expect("context.current() if ParenStmt, so prev token cannot be None")
-                        .before_expr()
-                }
-
-                TokenKind::Word(WordKind::Ident(..)) => {
-                    // variable declaration
-                    match prev {
-                        Some(prev) => match prev {
-                            // handle automatic semicolon insertion.
-                            TokenType::Keyword(Keyword::Let)
-                            | TokenType::Keyword(Keyword::Const)
-                            | TokenType::Keyword(Keyword::Var)
-                                if had_line_break_before_last =>
-                            {
-                                true
-                            }
-                            _ => false,
-                        },
-                        _ => false,
-                    }
-                }
-
-                TokenKind::LBrace => {
-                    let cur = context.current();
-                    if syntax.jsx() && cur == Some(TokenContext::JSXOpeningTag) {
-                        context.push(TokenContext::BraceExpr)
-                    } else if syntax.jsx() && cur == Some(TokenContext::JSXExpr) {
-                        context.push(TokenContext::TplQuasi);
-                    } else {
-                        let next_ctxt =
-                            if context.is_brace_block(prev, had_line_break, is_expr_allowed) {
-                                TokenContext::BraceStmt
-                            } else {
-                                TokenContext::BraceExpr
-                            };
-                        context.push(next_ctxt);
-                    }
-                    true
-                }
-
-                TokenKind::BinOp(BinOpToken::Div)
-                    if syntax.jsx() && prev == Some(TokenType::JSXTagStart) =>
-                {
-                    context.pop();
-                    context.pop(); // do not consider JSX expr -> JSX open tag -> ... anymore
-                    context.push(TokenContext::JSXClosingTag); // reconsider as closing tag context
-                    false
-                }
-
-                TokenKind::DollarLBrace => {
-                    context.push(TokenContext::TplQuasi);
-                    true
-                }
-
-                TokenKind::LParen => {
-                    // if, for, with, while is statement
-
-                    context.push(match prev {
-                        Some(TokenType::Keyword(k)) => match k {
-                            Keyword::If | Keyword::With | Keyword::While => {
-                                TokenContext::ParenStmt { is_for_loop: false }
-                            }
-                            Keyword::For => TokenContext::ParenStmt { is_for_loop: true },
-                            _ => TokenContext::ParenExpr,
-                        },
-                        _ => TokenContext::ParenExpr,
-                    });
-                    true
-                }
-
-                // remains unchanged.
-                TokenKind::PlusPlus | TokenKind::MinusMinus => is_expr_allowed,
-
-                TokenKind::BackQuote => {
-                    // If we are in template, ` terminates template.
-                    if let Some(TokenContext::Tpl) = context.current() {
-                        context.pop();
-                    } else {
-                        self.tpl_start = start;
-                        context.push(TokenContext::Tpl);
-                    }
-                    false
-                }
-
-                // tt.jsxTagStart.updateContext
-                TokenKind::JSXTagStart => {
-                    context.push(TokenContext::JSXExpr); // treat as beginning of JSX expression
-                    context.push(TokenContext::JSXOpeningTag); // start opening tag context
-                    false
-                }
-
-                // tt.jsxTagEnd.updateContext
-                TokenKind::JSXTagEnd => {
-                    let out = context.pop();
-                    if (out == Some(TokenContext::JSXOpeningTag)
-                        && prev == Some(TokenType::BinOp(BinOpToken::Div)))
-                        || out == Some(TokenContext::JSXClosingTag)
-                    {
-                        context.pop();
-                        context.current() == Some(TokenContext::JSXExpr)
-                    } else {
-                        true
-                    }
-                }
-
-                _ => next.before_expr(),
-            }
-        }
-    }
-}
-
 #[derive(Clone, Default)]
 pub struct TokenContexts(pub SmallVec<[TokenContext; 128]>);
 
 impl TokenContexts {
-    /// Returns true if following `LBrace` token is `block statement` according
-    /// to  `ctx`, `prev`, `is_expr_allowed`.
-    fn is_brace_block(
-        &self,
-        prev: Option<TokenType>,
-        had_line_break: bool,
-        is_expr_allowed: bool,
-    ) -> bool {
-        if let Some(TokenType::Colon) = prev {
-            match self.current() {
-                Some(TokenContext::BraceStmt) => return true,
-                // `{ a: {} }`
-                //     ^ ^
-                Some(TokenContext::BraceExpr) => return false,
-                _ => {}
-            };
-        }
-
-        match prev {
-            //  function a() {
-            //      return { a: "" };
-            //  }
-            //  function a() {
-            //      return
-            //      {
-            //          function b(){}
-            //      };
-            //  }
-            Some(TokenType::Keyword(Keyword::Return))
-            | Some(TokenType::Keyword(Keyword::Yield)) => {
-                return had_line_break;
-            }
-
-            Some(TokenType::Keyword(Keyword::Else))
-            | Some(TokenType::Semi)
-            | None
-            | Some(TokenType::RParen) => {
-                return true;
-            }
-
-            // If previous token was `{`
-            Some(TokenType::LBrace) => {
-                // https://github.com/swc-project/swc/issues/3241#issuecomment-1029584460
-                // <Blah blah={function (): void {}} />
-                if self.current() == Some(TokenContext::BraceExpr) {
-                    let len = self.len();
-                    if let Some(TokenContext::JSXOpeningTag) = self.0.get(len - 2) {
-                        return true;
-                    }
-                }
-
-                return self.current() == Some(TokenContext::BraceStmt);
-            }
-
-            // `class C<T> { ... }`
-            Some(TokenType::BinOp(BinOpToken::Lt)) | Some(TokenType::BinOp(BinOpToken::Gt)) => {
-                return true
-            }
-
-            // () => {}
-            Some(TokenType::Arrow) => return true,
-            _ => {}
-        }
-
-        if had_line_break {
-            if let Some(TokenType::Other {
-                before_expr: false, ..
-            }) = prev
-            {
-                return true;
-            }
-        }
-
-        !is_expr_allowed
-    }
-
     #[inline]
     pub fn len(&self) -> usize {
         self.0.len()
@@ -803,7 +720,7 @@ pub enum TokenContext {
 }
 
 impl TokenContext {
-    pub(crate) const fn is_expr(&self) -> bool {
+    pub const fn is_expr(&self) -> bool {
         matches!(
             self,
             Self::BraceExpr
@@ -816,7 +733,7 @@ impl TokenContext {
         )
     }
 
-    pub(crate) const fn preserve_space(&self) -> bool {
+    pub const fn preserve_space(&self) -> bool {
         match self {
             Self::Tpl | Self::JSXExpr => true,
             _ => false,

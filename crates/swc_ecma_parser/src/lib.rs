@@ -128,14 +128,19 @@
 pub use swc_common::input::{Input, StringInput};
 use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
 use swc_ecma_ast::*;
-use swc_ecma_lexer::error::Error;
+use swc_ecma_lexer::{common::parser::Parser as ParserTrait, error::Error};
+pub mod lexer;
+
+pub use lexer::Lexer;
+pub use swc_ecma_lexer::{
+    common::{
+        context::Context,
+        syntax::{EsSyntax, Syntax, TsSyntax},
+    },
+    error, token,
+};
 
 pub use self::parser::*;
-
-#[macro_use]
-mod macros;
-use swc_ecma_lexer::Lexer;
-pub use swc_ecma_lexer::{error, lexer, token, Context, EsSyntax, Syntax, TsSyntax};
 
 mod parser;
 
@@ -159,9 +164,9 @@ pub fn with_file_parser<T>(
     target: EsVersion,
     comments: Option<&dyn Comments>,
     recovered_errors: &mut Vec<Error>,
-    op: impl for<'aa> FnOnce(&mut Parser<Lexer>) -> PResult<T>,
+    op: impl for<'aa> FnOnce(&mut Parser<self::Lexer>) -> PResult<T>,
 ) -> PResult<T> {
-    let lexer = Lexer::new(syntax, target, SourceFileInput::from(fm), comments);
+    let lexer = self::Lexer::new(syntax, target, SourceFileInput::from(fm), comments);
     let mut p = Parser::new_from(lexer);
     let ret = op(&mut p);
 
@@ -194,30 +199,437 @@ macro_rules! expose {
 
 expose!(parse_file_as_expr, Box<Expr>, |p| {
     // This allow to parse `import.meta`
-    p.input().ctx.insert(Context::CanBeModule);
+    let ctx = p.ctx();
+    p.set_ctx(ctx.union(Context::CanBeModule));
     p.parse_expr()
 });
 expose!(parse_file_as_module, Module, |p| { p.parse_module() });
 expose!(parse_file_as_script, Script, |p| { p.parse_script() });
 expose!(parse_file_as_program, Program, |p| { p.parse_program() });
 
-#[inline(always)]
-#[cfg(any(
-    target_arch = "wasm32",
-    target_arch = "arm",
-    not(feature = "stacker"),
-    // miri does not work with stacker
-    miri
-))]
-fn maybe_grow<R, F: FnOnce() -> R>(_red_zone: usize, _stack_size: usize, callback: F) -> R {
-    callback()
+#[macro_export]
+macro_rules! token {
+    ('`') => {
+        $crate::lexer::Token::BackQuote
+    };
+    // (';') => { Token::Semi };
+    ('@') => {
+        $crate::lexer::Token::At
+    };
+    ('#') => {
+        $crate::lexer::Token::Hash
+    };
+    ('&') => {
+        $crate::lexer::Token::Ampersand
+    };
+    ('|') => {
+        $crate::lexer::Token::Pipe
+    };
+    ('^') => {
+        $crate::lexer::Token::Caret
+    };
+    ('+') => {
+        $crate::lexer::Token::Plus
+    };
+    ('-') => {
+        $crate::lexer::Token::Minus
+    };
+    ("??") => {
+        $crate::lexer::Token::NullishCoalescing
+    };
+    ('~') => {
+        $crate::lexer::Token::Tilde
+    };
+    ('!') => {
+        $crate::lexer::Token::Bang
+    };
+    ("&&") => {
+        $crate::lexer::Token::LogicalAnd
+    };
+    ("||") => {
+        $crate::lexer::Token::LogicalOr
+    };
+    ("&&=") => {
+        $crate::lexer::Token::LogicalAndEq
+    };
+    ("||=") => {
+        $crate::lexer::Token::LogicalOrEq
+    };
+    ("??=") => {
+        $crate::lexer::Token::NullishEq
+    };
+
+    ("==") => {
+        $crate::lexer::Token::EqEq
+    };
+    ("===") => {
+        $crate::lexer::Token::EqEqEq
+    };
+    ("!=") => {
+        $crate::lexer::Token::NotEq
+    };
+    ("!==") => {
+        $crate::lexer::Token::NotEqEq
+    };
+
+    (',') => {
+        $crate::lexer::Token::Comma
+    };
+    ('?') => {
+        $crate::lexer::Token::QuestionMark
+    };
+    (':') => {
+        $crate::lexer::Token::Colon
+    };
+    ('.') => {
+        $crate::lexer::Token::Dot
+    };
+    ("=>") => {
+        $crate::lexer::Token::Arrow
+    };
+    ("...") => {
+        $crate::lexer::Token::DotDotDot
+    };
+    ("${") => {
+        $crate::lexer::Token::DollarLBrace
+    };
+    ('*') => {
+        $crate::lexer::Token::Asterisk
+    };
+    ('/') => {
+        $crate::lexer::Token::Slash
+    };
+    ("/=") => {
+        $crate::lexer::Token::DivEq
+    };
+    ('%') => {
+        $crate::lexer::Token::Percent
+    };
+    ('<') => {
+        $crate::lexer::Token::Lt
+    };
+    ("<<") => {
+        $crate::lexer::Token::LShift
+    };
+    ("<=") => {
+        $crate::lexer::Token::LtEq
+    };
+    ("<<=") => {
+        $crate::lexer::Token::LShiftEq
+    };
+    ('>') => {
+        $crate::lexer::Token::Gt
+    };
+    (">>") => {
+        $crate::lexer::Token::RShift
+    };
+    (">>>") => {
+        $crate::lexer::Token::ZeroFillRShift
+    };
+    (">=") => {
+        $crate::lexer::Token::GtEq
+    };
+    (">>=") => {
+        $crate::lexer::Token::RShiftEq
+    };
+    (">>>=") => {
+        $crate::lexer::Token::ZeroFillRShiftEq
+    };
+
+    ("++") => {
+        $crate::lexer::Token::PlusPlus
+    };
+    ("--") => {
+        $crate::lexer::Token::MinusMinus
+    };
+
+    ('=') => {
+        $crate::lexer::Token::Eq
+    };
+
+    ('(') => {
+        $crate::lexer::Token::LParen
+    };
+    (')') => {
+        $crate::lexer::Token::RParen
+    };
+    ('{') => {
+        $crate::lexer::Token::LBrace
+    };
+    ('}') => {
+        $crate::lexer::Token::RBrace
+    };
+    ('[') => {
+        $crate::lexer::Token::LBracket
+    };
+    (']') => {
+        $crate::lexer::Token::RBracket
+    };
+
+    ("await") => {
+        $crate::lexer::Token::Await
+    };
+    ("break") => {
+        $crate::lexer::Token::Break
+    };
+    ("case") => {
+        $crate::lexer::Token::Case
+    };
+    ("catch") => {
+        $crate::lexer::Token::Catch
+    };
+    ("class") => {
+        $crate::lexer::Token::Class
+    };
+    ("const") => {
+        $crate::lexer::Token::Const
+    };
+    ("continue") => {
+        $crate::lexer::Token::Continue
+    };
+    ("debugger") => {
+        $crate::lexer::Token::Debugger
+    };
+    ("default") => {
+        $crate::lexer::Token::Default
+    };
+    ("delete") => {
+        $crate::lexer::Token::Delete
+    };
+    ("do") => {
+        $crate::lexer::Token::Do
+    };
+    ("else") => {
+        $crate::lexer::Token::Else
+    };
+    ("export") => {
+        $crate::lexer::Token::Export
+    };
+    ("extends") => {
+        $crate::lexer::Token::Extends
+    };
+    ("false") => {
+        $crate::lexer::Token::False
+    };
+    ("finally") => {
+        $crate::lexer::Token::Finally
+    };
+    ("for") => {
+        $crate::lexer::Token::For
+    };
+    ("function") => {
+        $crate::lexer::Token::Function
+    };
+    ("if") => {
+        $crate::lexer::Token::If
+    };
+    ("in") => {
+        $crate::lexer::Token::In
+    };
+    ("instanceof") => {
+        $crate::lexer::Token::InstanceOf
+    };
+    ("import") => {
+        $crate::lexer::Token::Import
+    };
+    ("let") => {
+        $crate::lexer::Token::Let
+    };
+    ("new") => {
+        $crate::lexer::Token::New
+    };
+    ("null") => {
+        $crate::lexer::Token::Null
+    };
+
+    ("return") => {
+        $crate::lexer::Token::Return
+    };
+    ("super") => {
+        $crate::lexer::Token::Super
+    };
+    ("switch") => {
+        $crate::lexer::Token::Switch
+    };
+    ("this") => {
+        $crate::lexer::Token::This
+    };
+    ("throw") => {
+        $crate::lexer::Token::Throw
+    };
+    ("true") => {
+        $crate::lexer::Token::True
+    };
+    ("try") => {
+        $crate::lexer::Token::Try
+    };
+    ("typeof") => {
+        $crate::lexer::Token::TypeOf
+    };
+    ("var") => {
+        $crate::lexer::Token::Var
+    };
+    ("void") => {
+        $crate::lexer::Token::Void
+    };
+    ("while") => {
+        $crate::lexer::Token::While
+    };
+    ("with") => {
+        $crate::lexer::Token::With
+    };
+    ("yield") => {
+        $crate::lexer::Token::Yield
+    };
+
+    // ----------
+    // JSX
+    // ----------
+    (JSXTagStart) => {
+        $crate::lexer::Token::JSXTagStart
+    };
+
+    (JSXTagEnd) => {
+        $crate::lexer::Token::JSXTagEnd
+    };
+
+    ("abstract") => {
+        $crate::lexer::Token::Abstract
+    };
+    ("as") => {
+        $crate::lexer::Token::As
+    };
+    ("async") => {
+        $crate::lexer::Token::Async
+    };
+    ("from") => {
+        $crate::lexer::Token::From
+    };
+    ("of") => {
+        $crate::lexer::Token::Of
+    };
+    ("type") => {
+        $crate::lexer::Token::Type
+    };
+    ("global") => {
+        $crate::lexer::Token::Global
+    };
+    ("static") => {
+        $crate::lexer::Token::Static
+    };
+    ("using") => {
+        $crate::lexer::Token::Using
+    };
+    ("readonly") => {
+        $crate::lexer::Token::Readonly
+    };
+    ("unique") => {
+        $crate::lexer::Token::Unique
+    };
+    ("keyof") => {
+        $crate::lexer::Token::Keyof
+    };
+    ("declare") => {
+        $crate::lexer::Token::Declare
+    };
+    ("enum") => {
+        $crate::lexer::Token::Enum
+    };
+    ("is") => {
+        $crate::lexer::Token::Is
+    };
+    ("infer") => {
+        $crate::lexer::Token::Infer
+    };
+    ("symbol") => {
+        $crate::lexer::Token::Symbol
+    };
+    ("undefined") => {
+        $crate::lexer::Token::Undefined
+    };
+    ("interface") => {
+        $crate::lexer::Token::Interface
+    };
+    ("implements") => {
+        $crate::lexer::Token::Implements
+    };
+    ("asserts") => {
+        $crate::lexer::Token::Asserts
+    };
+    ("require") => {
+        $crate::lexer::Token::Require
+    };
+    ("get") => {
+        $crate::lexer::Token::Get
+    };
+    ("set") => {
+        $crate::lexer::Token::Set
+    };
+    ("any") => {
+        $crate::lexer::Token::Any
+    };
+    ("intrinsic") => {
+        $crate::lexer::Token::Intrinsic
+    };
+    ("unknown") => {
+        $crate::lexer::Token::Unknown
+    };
+    ("string") => {
+        $crate::lexer::Token::String
+    };
+    ("object") => {
+        $crate::lexer::Token::Object
+    };
+    ("number") => {
+        $crate::lexer::Token::Number
+    };
+    ("bigint") => {
+        $crate::lexer::Token::Bigint
+    };
+    ("boolean") => {
+        $crate::lexer::Token::Boolean
+    };
+    ("never") => {
+        $crate::lexer::Token::Never
+    };
+    ("assert") => {
+        $crate::lexer::Token::Assert
+    };
+    ("namespace") => {
+        $crate::lexer::Token::Namespace
+    };
+    ("accessor") => {
+        $crate::lexer::Token::Accessor
+    };
+    ("meta") => {
+        $crate::lexer::Token::Meta
+    };
+    ("target") => {
+        $crate::lexer::Token::Target
+    };
+    ("satisfies") => {
+        $crate::lexer::Token::Satisfies
+    };
+    ("package") => {
+        $crate::lexer::Token::Package
+    };
+    ("protected") => {
+        $crate::lexer::Token::Protected
+    };
+    ("private") => {
+        $crate::lexer::Token::Private
+    };
+    ("public") => {
+        $crate::lexer::Token::Public
+    };
 }
 
-#[inline(always)]
-#[cfg(all(
-    not(any(target_arch = "wasm32", target_arch = "arm", miri)),
-    feature = "stacker"
-))]
-fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callback: F) -> R {
-    stacker::maybe_grow(red_zone, stack_size, callback)
+#[macro_export]
+macro_rules! token_including_semi {
+    (';') => {
+        Token::Semi
+    };
+    ($t:tt) => {
+        $crate::token!($t)
+    };
 }

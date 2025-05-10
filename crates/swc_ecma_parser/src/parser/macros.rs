@@ -16,64 +16,6 @@ macro_rules! unexpected {
 ///
 /// Returns bool.
 macro_rules! is {
-    ($p:expr, BindingIdent) => {{
-        let ctx = $p.ctx();
-        match $p.input.cur() {
-            Some(&Token::Word(ref w)) => !ctx.is_reserved(w),
-            _ => false,
-        }
-    }};
-
-    ($p:expr, IdentRef) => {{
-        let ctx = $p.ctx();
-        match $p.input.cur() {
-            Some(&Token::Word(ref w)) => !ctx.is_reserved(w),
-            _ => false,
-        }
-    }};
-
-    ($p:expr,IdentName) => {{
-        match $p.input.cur() {
-            Some(&Token::Word(..)) => true,
-            _ => false,
-        }
-    }};
-
-    ($p:expr,Str) => {{
-        match $p.input.cur() {
-            Some(&Token::Str { .. }) => true,
-            _ => false,
-        }
-    }};
-
-    ($p:expr,Num) => {{
-        match $p.input.cur() {
-            Some(&Token::Num { .. }) => true,
-            _ => false,
-        }
-    }};
-
-    ($p:expr,Regex) => {{
-        match $p.input.cur() {
-            Some(&Token::Regex { .. }) => true,
-            _ => false,
-        }
-    }};
-
-    ($p:expr,BigInt) => {{
-        match $p.input.cur() {
-            Some(&Token::BigInt { .. }) => true,
-            _ => false,
-        }
-    }};
-
-    ($p:expr,';') => {{
-        match $p.input.cur() {
-            Some(&Token::Semi) | None | Some(&tok!('}')) => true,
-            _ => $p.input.had_line_break_before_cur(),
-        }
-    }};
-
     ($p:expr, $t:tt) => {
         is_exact!($p, $t)
     };
@@ -83,37 +25,28 @@ macro_rules! is {
 macro_rules! peeked_is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
-        match peek!($p) {
-            Some(&Token::Word(ref w)) => !ctx.is_reserved(w),
-            _ => false,
-        }
+        peek!($p).is_some_and(|t| t.is_word() && !t.is_reserved(ctx))
     }};
 
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
-        match peek!($p) {
-            Some(&Token::Word(ref w)) => !ctx.is_reserved(w),
-            _ => false,
-        }
+        peek!($p).is_some_and(|t| t.is_word() && !t.is_reserved(ctx))
     }};
 
     ($p:expr,IdentName) => {{
-        match peek!($p) {
-            Some(&Token::Word(..)) => true,
-            _ => false,
-        }
+        peek!($p).is_some_and(|t| t.is_word())
     }};
 
     ($p:expr, JSXName) => {{
         match peek!($p) {
-            Some(&Token::JSXName { .. }) => true,
+            Some(Token::JSXName) => true,
             _ => false,
         }
     }};
 
     ($p:expr, Str) => {{
         match peek!($p) {
-            Some(&Token::Str { .. }) => true,
+            Some(Token::Str) => true,
             _ => false,
         }
     }};
@@ -124,7 +57,7 @@ macro_rules! peeked_is {
 
     ($p:expr, $t:tt) => {
         match peek!($p) {
-            Some(&token_including_semi!($t)) => true,
+            Some($crate::token_including_semi!($t)) => true,
             _ => false,
         }
     };
@@ -149,8 +82,8 @@ macro_rules! is_one_of {
 // This will panic if current != token
 macro_rules! assert_and_bump {
     ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &tok!($t);
         if cfg!(debug_assertions) && !is!($p, $t) {
+            const TOKEN: &Token = &crate::token!($t);
             unreachable!(
                 "assertion failed: expected {:?}, got {:?}",
                 TOKEN,
@@ -172,11 +105,11 @@ macro_rules! eat {
             tracing::trace!("eat(';'): cur={:?}", cur!($p, false));
         }
         match $p.input.cur() {
-            Some(&Token::Semi) => {
+            Some(Token::Semi) => {
                 $p.input.bump();
                 true
             }
-            None | Some(&tok!('}')) => true,
+            None | Some(Token::RBrace) => true,
             _ => $p.input.had_line_break_before_cur(),
         }
     }};
@@ -205,7 +138,7 @@ macro_rules! eat_exact {
 macro_rules! is_exact {
     ($p:expr, $t:tt) => {{
         match $p.input.cur() {
-            Some(&token_including_semi!($t)) => true,
+            Some(crate::token_including_semi!($t)) => true,
             _ => false,
         }
     }};
@@ -214,29 +147,15 @@ macro_rules! is_exact {
 /// This handles automatic semicolon insertion.
 macro_rules! expect {
     ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &token_including_semi!($t);
+        const TOKEN: &Token = &crate::token_including_semi!($t);
         if !eat!($p, $t) {
             let cur = $p.input.dump_cur();
-            syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN, cur))
+            syntax_error!(
+                $p,
+                $p.input.cur_span(),
+                SyntaxError::Expected(TOKEN.to_string($p.input.get_token_value()), cur)
+            )
         }
-    }};
-}
-
-macro_rules! expect_exact {
-    ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &token_including_semi!($t);
-        if !eat_exact!($p, $t) {
-            let cur = $p.input.dump_cur();
-            syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN, cur))
-        }
-    }};
-}
-
-macro_rules! store {
-    ($p:expr, $t:tt) => {{
-        const TOKEN: Token = token_including_semi!($t);
-
-        $p.input.store(TOKEN);
     }};
 }
 
@@ -260,8 +179,9 @@ macro_rules! cur {
     ($p:expr, true) => {{
         match $p.input.cur() {
             Some(c) => match c {
-                Token::Error(..) => match $p.input.bump() {
-                    $crate::token::Token::Error(e) => {
+                Token::Error => match $p.input.bump() {
+                    $crate::lexer::Token::Error => {
+                        let e = $p.input.expect_error_token_value();
                         return Err(e);
                     }
                     _ => unreachable!(),
@@ -314,24 +234,6 @@ macro_rules! last_pos {
     };
 }
 
-macro_rules! return_if_arrow {
-    ($p:expr, $expr:expr) => {{
-        // FIXME:
-        //
-        //
-
-        // let is_cur = match $p.state.potential_arrow_start {
-        //     Some(start) => $expr.span.lo() == start,
-        //     None => false
-        // };
-        // if is_cur {
-        if let Expr::Arrow { .. } = *$expr {
-            return Ok($expr);
-        }
-        // }
-    }};
-}
-
 macro_rules! trace_cur {
     ($p:expr, $name:ident) => {{
         if cfg!(feature = "debug") {
@@ -372,12 +274,13 @@ macro_rules! syntax_error {
 
         {
             let is_err_token = match $p.input.cur() {
-                Some(&$crate::token::Token::Error(..)) => true,
+                Some($crate::lexer::Token::Error) => true,
                 _ => false,
             };
             if is_err_token {
                 match $p.input.bump() {
-                    $crate::token::Token::Error(e) => {
+                    $crate::lexer::Token::Error => {
+                        let e = $p.input.expect_error_token_value();
                         $p.emit_error(e);
                     }
                     _ => unreachable!(),
@@ -395,19 +298,5 @@ macro_rules! syntax_error {
             );
         }
         return Err(err.into());
-    }};
-}
-
-macro_rules! debug_tracing {
-    ($p:expr, $name:tt) => {{
-        #[cfg(feature = "debug")]
-        {
-            tracing::span!(
-                tracing::Level::ERROR,
-                $name,
-                cur = tracing::field::debug(&$p.input.cur())
-            )
-            .entered()
-        }
     }};
 }

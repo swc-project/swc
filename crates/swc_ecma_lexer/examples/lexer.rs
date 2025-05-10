@@ -1,9 +1,10 @@
 use swc_common::{
     errors::{ColorConfig, Handler},
+    input::StringInput,
     sync::Lrc,
     FileName, SourceMap,
 };
-use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax};
+use swc_ecma_lexer::{lexer, lexer::Lexer, Syntax};
 
 fn main() {
     let cm: Lrc<SourceMap> = Default::default();
@@ -19,25 +20,15 @@ fn main() {
         "function foo() {}".into(),
     );
 
-    let lexer = Lexer::new(
+    let l = Lexer::new(
         Syntax::Es(Default::default()),
         Default::default(),
         StringInput::from(&*fm),
         None,
     );
 
-    let capturing = Capturing::new(lexer);
-
-    let mut parser = Parser::new_from(capturing);
-
-    for e in parser.take_errors() {
-        e.into_diagnostic(&handler).emit();
-    }
-
-    let _module = parser
-        .parse_module()
+    let tokens = lexer(l)
         .map_err(|e| e.into_diagnostic(&handler).emit())
-        .expect("Failed to parse module.");
-
-    println!("Tokens: {:?}", parser.input().take());
+        .expect("Failed to lex.");
+    println!("Tokens: {tokens:?}",);
 }

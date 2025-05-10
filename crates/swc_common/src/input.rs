@@ -72,7 +72,7 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
     }
 }
 
-impl Input for StringInput<'_> {
+impl<'a> Input for StringInput<'a> {
     #[inline]
     fn cur(&self) -> Option<char> {
         self.iter.clone().next()

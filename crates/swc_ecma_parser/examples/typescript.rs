@@ -3,7 +3,7 @@ use swc_common::{
     sync::Lrc,
     FileName, SourceMap,
 };
-use swc_ecma_parser::{lexer::Lexer, Capturing, Parser, StringInput, Syntax};
+use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 
 fn main() {
     let cm: Lrc<SourceMap> = Default::default();
@@ -26,9 +26,9 @@ fn main() {
         None,
     );
 
-    let capturing = Capturing::new(lexer);
+    // let capturing = Capturing::new(lexer);
 
-    let mut parser = Parser::new_from(capturing);
+    let mut parser = Parser::new_from(lexer);
 
     for e in parser.take_errors() {
         e.into_diagnostic(&handler).emit();
@@ -39,5 +39,5 @@ fn main() {
         .map_err(|e| e.into_diagnostic(&handler).emit())
         .expect("Failed to parse module.");
 
-    println!("Tokens: {:?}", parser.input().take());
+    // println!("Tokens: {:?}", parser.input().take());
 }
