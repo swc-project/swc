@@ -15,6 +15,8 @@ pub extern crate swc_ecma_ast;
 use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
 use number::ToJsString;
+use once_cell::sync::Lazy;
+use parallel::{Parallel, ParallelExt};
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
@@ -59,6 +61,9 @@ pub use node_ignore_span::NodeIgnoringSpan;
 pub struct ThisVisitor {
     found: bool,
 }
+
+pub(crate) static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
+pub(crate) static LIGHT_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 100);
 
 impl Visit for ThisVisitor {
     noop_visit_type!();
@@ -1651,6 +1656,19 @@ pub struct IdentUsageFinder<'a> {
     found: bool,
 }
 
+impl Parallel for IdentUsageFinder<'_> {
+    fn create(&self) -> Self {
+        Self {
+            ident: self.ident,
+            found: self.found,
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.found = self.found || other.found;
+    }
+}
+
 impl Visit for IdentUsageFinder<'_> {
     noop_visit_type!();
 
@@ -1660,6 +1678,50 @@ impl Visit for IdentUsageFinder<'_> {
         if i.ctxt == self.ident.1 && i.sym == self.ident.0 {
             self.found = true;
         }
+    }
+
+    fn visit_class_members(&mut self, n: &[ClassMember]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, item| {
+            item.visit_with(v);
+        });
+    }
+
+    fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, item| {
+            item.visit_with(v);
+        });
+    }
+
+    fn visit_exprs(&mut self, exprs: &[Box<Expr>]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, exprs, |v, expr| {
+            expr.visit_with(v);
+        });
+    }
+
+    fn visit_module_items(&mut self, n: &[ModuleItem]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, item| {
+            item.visit_with(v);
+        });
+    }
+
+    fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, item| {
+            if let Some(e) = item {
+                e.visit_with(v);
+            }
+        });
+    }
+
+    fn visit_stmts(&mut self, stmts: &[Stmt]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, stmts, |v, stmt| {
+            stmt.visit_with(v);
+        });
+    }
+
+    fn visit_var_declarators(&mut self, n: &[VarDeclarator]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, item| {
+            item.visit_with(v);
+        });
     }
 }
 
@@ -3547,5 +3609,109 @@ mod tests {
     fn top_level_export_await() {
         assert!(has_top_level_await("export const foo = await 1;"));
         assert!(has_top_level_await("export default await 1;"));
+    }
+}
+
+#[cfg(test)]
+mod ident_usage_finder_parallel_tests {
+    use swc_atoms::Atom;
+    use swc_common::SyntaxContext;
+    use swc_ecma_ast::*;
+
+    use super::*;
+
+    fn make_id(name: &str) -> Id {
+        (Atom::from(name), SyntaxContext::empty())
+    }
+
+    #[test]
+    fn test_visit_class_members() {
+        let id = make_id("foo");
+        let member = ClassMember::ClassProp(ClassProp {
+            key: PropName::Ident(quote_ident!("foo")),
+            value: Some(Box::new(Expr::Ident(quote_ident!("foo").into()))),
+            ..Default::default()
+        });
+        let found = IdentUsageFinder::find(&id, &vec![member.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![member]);
+        assert!(!not_found);
+    }
+
+    #[test]
+    fn test_visit_expr_or_spreads() {
+        let id = make_id("foo");
+        let expr = ExprOrSpread {
+            spread: None,
+            expr: Box::new(Expr::Ident(quote_ident!("foo").into())),
+        };
+        let found = IdentUsageFinder::find(&id, &vec![expr.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![expr]);
+        assert!(!not_found);
+    }
+
+    #[test]
+    fn test_visit_module_items() {
+        let id = make_id("foo");
+        let item = ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Ident(quote_ident!("foo").into())),
+        }));
+        let found = IdentUsageFinder::find(&id, &vec![item.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![item]);
+        assert!(!not_found);
+    }
+
+    #[test]
+    fn test_visit_stmts() {
+        let id = make_id("foo");
+        let stmt = Stmt::Expr(ExprStmt {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Ident(quote_ident!("foo").into())),
+        });
+        let found = IdentUsageFinder::find(&id, &vec![stmt.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![stmt]);
+        assert!(!not_found);
+    }
+
+    #[test]
+    fn test_visit_opt_vec_expr_or_spreads() {
+        let id = make_id("foo");
+        let expr = Some(ExprOrSpread {
+            spread: None,
+            expr: Box::new(Expr::Ident(quote_ident!("foo").into())),
+        });
+        let found = IdentUsageFinder::find(&id, &vec![expr.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![expr]);
+        assert!(!not_found);
+    }
+
+    #[test]
+    fn test_visit_var_declarators() {
+        let id = make_id("foo");
+        let decl = VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(quote_ident!("foo").into()),
+            init: None,
+            definite: false,
+        };
+        let found = IdentUsageFinder::find(&id, &vec![decl.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![decl]);
+        assert!(!not_found);
+    }
+
+    #[test]
+    fn test_visit_exprs() {
+        let id = make_id("foo");
+        let expr = Box::new(Expr::Ident(quote_ident!("foo").into()));
+        let found = IdentUsageFinder::find(&id, &vec![expr.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![expr]);
+        assert!(!not_found);
     }
 }
