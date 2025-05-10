@@ -3,7 +3,7 @@ use swc_common::{
     source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
+use swc_ecma_transforms_base::helper_expr;
 use swc_ecma_utils::{
     member_expr, private_ident, quote_expr, quote_ident, ExprFactory, FunctionFactory, IsDirective,
 };
@@ -23,6 +23,11 @@ use crate::{
     },
 };
 
+pub struct FeatureFlag {
+    pub support_block_scoping: bool,
+    pub support_arrow: bool,
+}
+
 pub fn common_js(
     resolver: Resolver,
     unresolved_mark: Mark,
@@ -33,9 +38,8 @@ pub fn common_js(
         config,
         resolver,
         unresolved_mark,
-        available_features,
-        support_arrow: caniuse!(available_features.ArrowFunctions),
-        const_var_kind: if caniuse!(available_features.BlockScoping) {
+        support_arrow: available_features.support_arrow,
+        const_var_kind: if available_features.support_block_scoping {
             VarDeclKind::Const
         } else {
             VarDeclKind::Var
@@ -47,7 +51,6 @@ pub struct Cjs {
     config: Config,
     resolver: Resolver,
     unresolved_mark: Mark,
-    available_features: FeatureFlag,
     support_arrow: bool,
     const_var_kind: VarDeclKind,
 }
@@ -362,17 +365,10 @@ impl Cjs {
         if !export_obj_prop_list.is_empty() && !is_export_assign {
             export_obj_prop_list.sort_by_cached_key(|(key, ..)| key.clone());
 
-            let mut features = self.available_features;
             let exports = self.exports();
 
-            if export_interop_annotation {
-                if export_obj_prop_list.len() > 1 {
-                    export_stmts.extend(self.emit_lexer_exports_init(&export_obj_prop_list));
-                } else {
-                    // `cjs-module-lexer` does not support `get: ()=> foo`
-                    // see https://github.com/nodejs/cjs-module-lexer/pull/74
-                    features -= FeatureFlag::ArrowFunctions;
-                }
+            if export_interop_annotation && export_obj_prop_list.len() > 1 {
+                export_stmts.extend(self.emit_lexer_exports_init(&export_obj_prop_list));
             }
 
             export_stmts.extend(emit_export_stmts(exports, export_obj_prop_list));
