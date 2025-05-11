@@ -213,6 +213,7 @@ where
             super_is_callable_constructor: loose || assumptions.super_is_callable_constructor,
         })
     );
+    let pass = add!(pass, NewTarget, es2015::new_target(), true);
     let pass = add!(
         pass,
         Spread,
@@ -220,8 +221,17 @@ where
         true
     );
     let pass = add!(pass, ObjectSuper, es2015::object_super());
-    let pass = add!(pass, FunctionName, es2015::function_name());
     let pass = add!(pass, ShorthandProperties, es2015::shorthand());
+    let pass = add!(pass, FunctionName, es2015::function_name());
+    let pass = add!(
+        pass,
+        ForOf,
+        es2015::for_of(es2015::for_of::Config {
+            loose,
+            assume_array: loose || assumptions.iterable_is_array
+        }),
+        true
+    );
     let pass = add!(
         pass,
         Parameters,
@@ -235,17 +245,8 @@ where
     let pass = add!(pass, ArrowFunctions, es2015::arrow(unresolved_mark));
     let pass = add!(pass, DuplicateKeys, es2015::duplicate_keys());
     let pass = add!(pass, StickyRegex, es2015::sticky_regex());
-
+    let pass = add!(pass, TypeOfSymbol, es2015::instance_of());
     let pass = add!(pass, TypeOfSymbol, es2015::typeof_symbol());
-    let pass = add!(
-        pass,
-        ForOf,
-        es2015::for_of(es2015::for_of::Config {
-            loose,
-            assume_array: loose || assumptions.iterable_is_array
-        }),
-        true
-    );
     let pass = add!(
         pass,
         ComputedProperties,
@@ -270,9 +271,6 @@ where
         generator(unresolved_mark, comments),
         true
     );
-
-    let pass = add!(pass, NewTarget, es2015::new_target(), true);
-    let pass = add!(pass, TypeOfSymbol, es2015::instance_of());
 
     // TODO:
     //    Literals,
