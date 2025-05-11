@@ -29,7 +29,7 @@ use crate::config::{GlobalPassOption, JsMinifyOptions, ModuleConfig};
 pub struct PassBuilder<'a, 'b, P: Pass> {
     cm: &'a Arc<SourceMap>,
     handler: &'b Handler,
-    env: Option<swc_ecma_preset_env::Config>,
+    env: Option<swc_ecma_preset_env::EnvConfig>,
     pass: P,
     /// [Mark] for top level bindings .
     top_level_mark: Mark,
@@ -141,7 +141,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
     }
 
     pub fn preset_env(mut self, env: Option<swc_ecma_preset_env::Config>) -> Self {
-        self.env = env;
+        self.env = env.map(Into::into);
         self
     }
 
@@ -186,15 +186,11 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
             | None => (false, true.into(), true),
         };
 
-        let env_config = self.env.map(Into::into);
-
-        let feature_config = env_config
-            .as_ref()
-            .map(|e: &swc_ecma_preset_env::EnvConfig| e.get_feature_config());
+        let feature_config = self.env.as_ref().map(|e| e.get_feature_config());
 
         // compat
         let compat_pass = {
-            if let Some(env_config) = env_config {
+            if let Some(env_config) = self.env {
                 Either::Left(swc_ecma_preset_env::transform_from_env(
                     self.unresolved_mark,
                     comments,
