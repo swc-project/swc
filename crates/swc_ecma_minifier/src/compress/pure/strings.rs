@@ -448,17 +448,22 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut r_first.cooked {
-                        // Directly create an Atom from the concatenated string using the Atom's from method
-                        // This avoids intermediate string allocations
-                        *cooked = swc_atoms::Atom::from(format!("{}{}", convert_str_value_to_tpl_cooked(&ls.value), cooked));
+                        let mut str_part = convert_str_value_to_tpl_cooked(&ls.value).into_owned();
+                        str_part.reserve(cooked.len());
+                        str_part.push_str(cooked);
+                        *cooked = swc_atoms::Atom::from(str_part);
                     }
 
-                    let raw_part = ls
+                    let raw_str_part= ls
                         .raw
                         .clone()
                         .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
                         .unwrap_or_else(|| convert_str_value_to_tpl_raw(&ls.value).into());
-                    r_first.raw = swc_atoms::Atom::from(format!("{}{}", raw_part, r_first.raw));
+
+                    let mut new_raw = String::with_capacity(raw_str_part.len() + r_first.raw.len());
+                    new_raw.push_str(&raw_str_part);
+                    new_raw.push_str(&r_first.raw);
+                    r_first.raw = new_raw.into();
 
                     l.take();
                 }
