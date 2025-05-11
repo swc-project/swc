@@ -34,7 +34,7 @@ mod regenerator;
 mod transform_data;
 
 pub trait Caniuse {
-    fn caniuse(&self, feature: &Feature) -> bool;
+    fn caniuse(&self, feature: Feature) -> bool;
 }
 
 fn transform_internal<C>(
@@ -44,7 +44,7 @@ fn transform_internal<C>(
     loose: bool,
     dynamic_import: bool,
     debug: bool,
-    caniuse: impl (Fn(&Feature) -> bool),
+    caniuse: impl (Fn(Feature) -> bool),
 ) -> impl Pass
 where
     C: Comments + Clone,
@@ -58,7 +58,7 @@ where
         ($prev:expr, $feature:ident, $pass:expr, $default:expr) => {{
             let f = transform_data::Feature::$feature;
 
-            let enable = !caniuse(&f);
+            let enable = !caniuse(f);
 
             if debug {
                 println!("{}: {:?}", f.as_str(), enable);
@@ -76,12 +76,12 @@ where
     );
 
     let pass = {
-        let enable_dot_all_regex = !caniuse(&Feature::DotAllRegex);
-        let enable_named_capturing_groups_regex = !caniuse(&Feature::NamedCapturingGroupsRegex);
-        let enable_sticky_regex = !caniuse(&Feature::StickyRegex);
-        let enable_unicode_property_regex = !caniuse(&Feature::UnicodePropertyRegex);
-        let enable_unicode_regex = !caniuse(&Feature::UnicodeRegex);
-        let enable_unicode_sets_regex = !caniuse(&Feature::UnicodeSetsRegex);
+        let enable_dot_all_regex = !caniuse(Feature::DotAllRegex);
+        let enable_named_capturing_groups_regex = !caniuse(Feature::NamedCapturingGroupsRegex);
+        let enable_sticky_regex = !caniuse(Feature::StickyRegex);
+        let enable_unicode_property_regex = !caniuse(Feature::UnicodePropertyRegex);
+        let enable_unicode_regex = !caniuse(Feature::UnicodeRegex);
+        let enable_unicode_sets_regex = !caniuse(Feature::UnicodeSetsRegex);
 
         let enable = enable_dot_all_regex
             || enable_named_capturing_groups_regex
@@ -706,8 +706,8 @@ impl EnvOptions {
 }
 
 impl Caniuse for FeatureData {
-    fn caniuse(&self, feature: &Feature) -> bool {
-        if self.exclude.contains(feature) {
+    fn caniuse(&self, feature: Feature) -> bool {
+        if self.exclude.contains(&feature) {
             return true;
         }
 
@@ -715,7 +715,7 @@ impl Caniuse for FeatureData {
             return false;
         }
 
-        if self.include.contains(feature) {
+        if self.include.contains(&feature) {
             return false;
         }
 
@@ -749,7 +749,7 @@ impl FeatureOrModule {
 }
 
 impl Caniuse for EsVersion {
-    fn caniuse(&self, feature: &Feature) -> bool {
+    fn caniuse(&self, feature: Feature) -> bool {
         // EsNext supports all features
         if self == &EsVersion::EsNext {
             return true;

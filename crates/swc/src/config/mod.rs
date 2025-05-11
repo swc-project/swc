@@ -1318,7 +1318,7 @@ impl ModuleConfig {
         config: Option<ModuleConfig>,
         unresolved_mark: Mark,
         resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
-        caniuse: impl (Fn(&Feature) -> bool),
+        caniuse: impl (Fn(Feature) -> bool),
     ) -> Box<dyn Pass + 'cmt> {
         let resolver = if let Some((base, resolver)) = resolver {
             Resolver::Real { base, resolver }
@@ -1326,8 +1326,8 @@ impl ModuleConfig {
             Resolver::Default
         };
 
-        let support_block_scoping = caniuse(&Feature::BlockScoping);
-        let support_arrow = caniuse(&Feature::ArrowFunctions);
+        let support_block_scoping = caniuse(Feature::BlockScoping);
+        let support_arrow = caniuse(Feature::ArrowFunctions);
 
         match config {
             None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
