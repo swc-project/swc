@@ -186,19 +186,19 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
             | None => (false, true.into(), true),
         };
 
-        // compat
-        let env_options = self.env.map(Into::into);
+        let env_config = self.env.map(Into::into);
 
-        let feature_data = env_options
+        let feature_config = env_config
             .as_ref()
-            .map(|e: &swc_ecma_preset_env::EnvOptions| e.get_feature_data());
+            .map(|e: &swc_ecma_preset_env::EnvConfig| e.get_feature_config());
 
+        // compat
         let compat_pass = {
-            if let Some(options) = env_options {
+            if let Some(env_config) = env_config {
                 Either::Left(swc_ecma_preset_env::transform_from_env(
                     self.unresolved_mark,
                     comments,
-                    options,
+                    env_config,
                     self.assumptions,
                 ))
             } else {
@@ -241,7 +241,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
                 self.unresolved_mark,
                 resolver,
                 |f| {
-                    feature_data
+                    feature_config
                         .as_ref()
                         .map_or_else(|| self.target.caniuse(f), |env| env.caniuse(f))
                 },

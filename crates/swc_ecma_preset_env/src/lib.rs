@@ -314,7 +314,7 @@ where
 pub fn transform_from_env<C>(
     unresolved_mark: Mark,
     comments: Option<C>,
-    options: EnvOptions,
+    env_config: EnvConfig,
     assumptions: Assumptions,
 ) -> impl Pass
 where
@@ -324,30 +324,30 @@ where
         unresolved_mark,
         comments,
         assumptions,
-        options.config.loose,
-        options.config.dynamic_import,
-        options.config.debug,
-        move |f| options.feature_data.caniuse(f),
+        env_config.config.loose,
+        env_config.config.dynamic_import,
+        env_config.config.debug,
+        move |f| env_config.feature_config.caniuse(f),
     );
 
-    if options.config.debug {
-        println!("Targets: {:?}", &options.config.targets);
+    if env_config.config.debug {
+        println!("Targets: {:?}", &env_config.core_js_config.targets);
     }
 
     (
         pass,
         visit_mut_pass(Polyfills {
-            mode: options.config.mode,
+            mode: env_config.config.mode,
             regenerator: false,
-            corejs: options.config.core_js.unwrap_or(Version {
+            corejs: env_config.config.core_js.unwrap_or(Version {
                 major: 3,
                 minor: 0,
                 patch: 0,
             }),
-            shipped_proposals: options.config.shipped_proposals,
-            targets: options.core_js_data.targets,
-            includes: options.core_js_data.included_modules,
-            excludes: options.core_js_data.excluded_modules,
+            shipped_proposals: env_config.config.shipped_proposals,
+            targets: env_config.core_js_config.targets,
+            includes: env_config.core_js_config.included_modules,
+            excludes: env_config.core_js_config.excluded_modules,
             unresolved_mark,
         }),
     )
@@ -648,7 +648,7 @@ pub struct Config {
 }
 
 #[derive(Debug, Clone, Default)]
-pub struct FeatureData {
+pub struct FeatureConfig {
     targets: Arc<Versions>,
     include: Vec<Feature>,
     exclude: Vec<Feature>,
@@ -657,19 +657,19 @@ pub struct FeatureData {
     bugfixes: bool,
 }
 
-struct CoreJSData {
+struct CoreJSConfig {
     targets: Arc<Versions>,
     included_modules: FxHashSet<String>,
     excluded_modules: FxHashSet<String>,
 }
 
-pub struct EnvOptions {
+pub struct EnvConfig {
     config: Config,
-    feature_data: Arc<FeatureData>,
-    core_js_data: CoreJSData,
+    feature_config: Arc<FeatureConfig>,
+    core_js_config: CoreJSConfig,
 }
 
-impl From<Config> for EnvOptions {
+impl From<Config> for EnvConfig {
     fn from(mut config: Config) -> Self {
         let targets = targets_to_versions(config.targets.take(), config.path.take())
             .expect("failed to parse targets");
@@ -678,7 +678,7 @@ impl From<Config> for EnvOptions {
         let (include, included_modules) = FeatureOrModule::split(config.include.clone());
         let (exclude, excluded_modules) = FeatureOrModule::split(config.exclude.clone());
 
-        let feature_data = FeatureData {
+        let feature_config = FeatureConfig {
             targets: Arc::clone(&targets),
             include,
             exclude,
@@ -686,26 +686,26 @@ impl From<Config> for EnvOptions {
             force_all_transforms: config.force_all_transforms,
             bugfixes: config.bugfixes,
         };
-        let core_js_data = CoreJSData {
+        let core_js_config = CoreJSConfig {
             targets: Arc::clone(&targets),
             included_modules,
             excluded_modules,
         };
         Self {
             config,
-            feature_data: Arc::new(feature_data),
-            core_js_data,
+            feature_config: Arc::new(feature_config),
+            core_js_config,
         }
     }
 }
 
-impl EnvOptions {
-    pub fn get_feature_data(&self) -> Arc<FeatureData> {
-        Arc::clone(&self.feature_data)
+impl EnvConfig {
+    pub fn get_feature_config(&self) -> Arc<FeatureConfig> {
+        Arc::clone(&self.feature_config)
     }
 }
 
-impl Caniuse for FeatureData {
+impl Caniuse for FeatureConfig {
     fn caniuse(&self, feature: Feature) -> bool {
         if self.exclude.contains(&feature) {
             return true;
