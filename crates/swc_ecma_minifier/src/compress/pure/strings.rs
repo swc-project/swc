@@ -454,7 +454,7 @@ impl Pure<'_> {
                         *cooked = swc_atoms::Atom::from(str_part);
                     }
 
-                    let raw_str_part= ls
+                    let raw_str_part = ls
                         .raw
                         .clone()
                         .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
