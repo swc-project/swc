@@ -15,7 +15,8 @@ use crate::{
         lexer::token::TokenFactory,
         parser::{
             class_and_fn::{
-                parse_async_fn_expr, parse_class_expr, parse_decorators, parse_fn_expr,
+                parse_async_fn_expr, parse_class_expr, parse_decorators,
+                parse_fn_block_or_expr_body, parse_fn_expr,
             },
             expr_ext::ExprExt,
             ident::{parse_binding_ident, parse_ident, parse_maybe_private_name},
@@ -2013,7 +2014,8 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                 .into_iter()
                 .collect();
 
-            let body: Box<BlockStmtOrExpr> = p.parse_fn_block_or_expr_body(
+            let body: Box<BlockStmtOrExpr> = parse_fn_block_or_expr_body(
+                p,
                 false,
                 false,
                 true,
@@ -2094,7 +2096,8 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
                     .into_iter()
                     .collect();
 
-            let body: Box<BlockStmtOrExpr> = p.parse_fn_block_or_expr_body(
+            let body: Box<BlockStmtOrExpr> = parse_fn_block_or_expr_body(
+                p,
                 async_span.is_some(),
                 false,
                 true,
@@ -2155,7 +2158,8 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
             .into_iter()
             .collect();
 
-        let body: Box<BlockStmtOrExpr> = p.parse_fn_block_or_expr_body(
+        let body: Box<BlockStmtOrExpr> = parse_fn_block_or_expr_body(
+            p,
             async_span.is_some(),
             false,
             true,
@@ -2472,7 +2476,8 @@ pub(super) fn parse_primary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Ex
             let arg = ident.into();
             let params = vec![arg];
             expect!(p, &P::Token::ARROW);
-            let body = p.parse_fn_block_or_expr_body(
+            let body = parse_fn_block_or_expr_body(
+                p,
                 true,
                 false,
                 true,
@@ -2496,7 +2501,8 @@ pub(super) fn parse_primary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Ex
                 p.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
             }
             let params = vec![id.into()];
-            let body = p.parse_fn_block_or_expr_body(
+            let body = parse_fn_block_or_expr_body(
+                p,
                 false,
                 false,
                 true,

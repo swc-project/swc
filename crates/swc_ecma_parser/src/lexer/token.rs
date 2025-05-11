@@ -497,6 +497,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     type Lexer = crate::Lexer<'a>;
 
     const ABSTRACT: Self = Token::Abstract;
+    const ACCESSOR: Self = Token::Accessor;
     const ANY: Self = Token::Any;
     const ARROW: Self = Token::Arrow;
     const AS: Self = Token::As;

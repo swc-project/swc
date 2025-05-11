@@ -2,7 +2,6 @@ use std::ops::DerefMut;
 
 use expr::parse_assignment_expr;
 use expr_ext::ExprExt;
-use output_type::OutputType;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
@@ -446,28 +445,6 @@ pub trait Parser<'a>: Sized + Clone {
 
         Ok(expr)
     }
-
-    fn parse_class<T: OutputType>(
-        &mut self,
-        start: BytePos,
-        class_start: BytePos,
-        decorators: Vec<Decorator>,
-        is_abstract: bool,
-    ) -> PResult<T>;
-    fn parse_fn_block_or_expr_body(
-        &mut self,
-        is_async: bool,
-        is_generator: bool,
-        is_arrow_function: bool,
-        is_simple_parameter_list: bool,
-    ) -> PResult<Box<BlockStmtOrExpr>>;
-    fn parse_fn_block_body(
-        &mut self,
-        is_async: bool,
-        is_generator: bool,
-        is_arrow_function: bool,
-        is_simple_parameter_list: bool,
-    ) -> PResult<Option<BlockStmt>>;
 
     fn mark_found_module_item(&mut self);
 

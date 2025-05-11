@@ -501,6 +501,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     type Lexer = crate::Lexer<'a>;
 
     const ABSTRACT: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Abstract)));
+    const ACCESSOR: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Accessor)));
     const ANY: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Any)));
     const ARROW: Self = Self::Arrow;
     const AS: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::As)));

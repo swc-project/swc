@@ -126,6 +126,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const CLASS: Self;
     const NEW: Self;
     const ABSTRACT: Self;
+    const ACCESSOR: Self;
     const IMPORT: Self;
     const PLUS: Self;
     const MINUS: Self;

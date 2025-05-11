@@ -4,7 +4,7 @@
 use std::ops::DerefMut;
 
 use swc_atoms::Atom;
-use swc_common::{BytePos, Span};
+use swc_common::Span;
 use swc_ecma_ast::*;
 
 use crate::{
@@ -15,7 +15,7 @@ use crate::{
             stmt::parse_stmt_block_body, Parser as ParserTrait,
         },
     },
-    error::{Error, SyntaxError},
+    error::Error,
     input::Buffer,
     token::{Token, TokenAndSpan},
     Context, Syntax, TsSyntax, *,
@@ -23,7 +23,6 @@ use crate::{
 
 #[macro_use]
 mod macros;
-mod class_and_fn;
 #[cfg(feature = "typescript")]
 mod typescript;
 
@@ -66,49 +65,6 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     #[inline(always)]
     fn mark_found_module_item(&mut self) {
         self.found_module_item = true;
-    }
-
-    #[inline(always)]
-    fn parse_class<T: common::parser::output_type::OutputType>(
-        &mut self,
-        start: BytePos,
-        class_start: BytePos,
-        decorators: Vec<Decorator>,
-        is_abstract: bool,
-    ) -> PResult<T> {
-        self.parse_class(start, class_start, decorators, is_abstract)
-    }
-
-    #[inline(always)]
-    fn parse_fn_block_or_expr_body(
-        &mut self,
-        is_async: bool,
-        is_generator: bool,
-        is_arrow_function: bool,
-        is_simple_parameter_list: bool,
-    ) -> PResult<Box<BlockStmtOrExpr>> {
-        self.parse_fn_block_or_expr_body(
-            is_async,
-            is_generator,
-            is_arrow_function,
-            is_simple_parameter_list,
-        )
-    }
-
-    #[inline(always)]
-    fn parse_fn_block_body(
-        &mut self,
-        is_async: bool,
-        is_generator: bool,
-        is_arrow_function: bool,
-        is_simple_parameter_list: bool,
-    ) -> PResult<Option<BlockStmt>> {
-        self.parse_fn_block_body(
-            is_async,
-            is_generator,
-            is_arrow_function,
-            is_simple_parameter_list,
-        )
     }
 }
 
@@ -170,7 +126,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let start = cur_pos!(self);
         let shebang = self.parse_shebang()?;
 
-        parse_module_item_block_body(true, None).map(|body| Module {
+        parse_module_item_block_body(self, true, None).map(|body| Module {
             span: span!(self, start),
             body,
             shebang,

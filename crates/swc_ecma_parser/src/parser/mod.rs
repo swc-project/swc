@@ -4,20 +4,17 @@
 use std::ops::DerefMut;
 
 use swc_atoms::Atom;
-use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
+use swc_common::{comments::Comments, input::StringInput, Span};
 use swc_ecma_ast::*;
-use swc_ecma_lexer::{
-    common::parser::{
-        buffer::Buffer as BufferTrait, module_item::parse_module_item_block_body,
-        stmt::parse_stmt_block_body, Parser as ParserTrait,
-    },
-    error::SyntaxError,
+use swc_ecma_lexer::common::parser::{
+    buffer::Buffer as BufferTrait, module_item::parse_module_item_block_body,
+    stmt::parse_stmt_block_body, Parser as ParserTrait,
 };
 
 use crate::{
     lexer::{Token, TokenAndSpan},
     parser::input::Tokens,
-    Context, EsVersion, Syntax, TsSyntax,
+    Context, Syntax, TsSyntax,
 };
 #[cfg(test)]
 extern crate test;
@@ -79,46 +76,6 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     #[inline(always)]
     fn mark_found_module_item(&mut self) {
         self.found_module_item = true;
-    }
-
-    fn parse_class<T: swc_ecma_lexer::common::parser::output_type::OutputType>(
-        &mut self,
-        start: BytePos,
-        class_start: BytePos,
-        decorators: Vec<Decorator>,
-        is_abstract: bool,
-    ) -> PResult<T> {
-        self.parse_class(start, class_start, decorators, is_abstract)
-    }
-
-    fn parse_fn_block_or_expr_body(
-        &mut self,
-        is_async: bool,
-        is_generator: bool,
-        is_arrow_function: bool,
-        is_simple_parameter_list: bool,
-    ) -> PResult<Box<BlockStmtOrExpr>> {
-        self.parse_fn_body(
-            is_async,
-            is_generator,
-            is_arrow_function,
-            is_simple_parameter_list,
-        )
-    }
-
-    fn parse_fn_block_body(
-        &mut self,
-        is_async: bool,
-        is_generator: bool,
-        is_arrow_function: bool,
-        is_simple_parameter_list: bool,
-    ) -> PResult<Option<BlockStmt>> {
-        self.parse_fn_body(
-            is_async,
-            is_generator,
-            is_arrow_function,
-            is_simple_parameter_list,
-        )
     }
 }
 

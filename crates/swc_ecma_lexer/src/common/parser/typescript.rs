@@ -6,7 +6,7 @@ use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 use super::{
-    class_and_fn::{parse_class_decl, parse_fn_decl},
+    class_and_fn::{parse_class_decl, parse_fn_block_or_expr_body, parse_fn_decl},
     expr::{is_start_of_left_hand_side_expr, parse_new_expr},
     ident::parse_maybe_private_name,
     is_simple_param_list::IsSimpleParameterList,
@@ -2908,7 +2908,7 @@ pub fn try_parse_ts_generic_async_arrow_fn<'a, P: Parser<'a>>(
         let is_generator = false;
         let is_async = true;
         let body =
-            p.parse_fn_block_or_expr_body(true, false, true, params.is_simple_parameter_list())?;
+            parse_fn_block_or_expr_body(p, true, false, true, params.is_simple_parameter_list())?;
         Ok(Some(ArrowExpr {
             span: p.span(start),
             body,

@@ -1,26 +1,3 @@
-macro_rules! unexpected {
-    ($p:expr, $expected:literal) => {{
-        let got = $p.input.dump_cur();
-        syntax_error!(
-            $p,
-            $p.input.cur_span(),
-            SyntaxError::Unexpected {
-                got,
-                expected: $expected
-            }
-        )
-    }};
-}
-
-/// This handles automatic semicolon insertion.
-///
-/// Returns bool.
-macro_rules! is {
-    ($p:expr, $t:tt) => {
-        is_exact!($p, $t)
-    };
-}
-
 #[allow(unused)]
 macro_rules! peeked_is {
     ($p:expr, BindingIdent) => {{
@@ -63,102 +40,6 @@ macro_rules! peeked_is {
     };
 }
 
-/// Returns true on eof.
-macro_rules! eof {
-    ($p:expr) => {
-        cur!($p, false).is_err()
-    };
-}
-
-macro_rules! is_one_of {
-    ($p:expr, $($t:tt),+) => {{
-        false
-        $(
-            || is!($p, $t)
-        )*
-    }};
-}
-
-// This will panic if current != token
-macro_rules! assert_and_bump {
-    ($p:expr, $t:tt) => {{
-        if cfg!(debug_assertions) && !is!($p, $t) {
-            const TOKEN: &Token = &crate::token!($t);
-            unreachable!(
-                "assertion failed: expected {:?}, got {:?}",
-                TOKEN,
-                $p.input.cur()
-            );
-        }
-        let _ = cur!($p, true);
-        bump!($p);
-    }};
-}
-
-/// This handles automatic semicolon insertion.
-///
-/// Returns bool if token is static, and Option<Token>
-///     if token has data like string.
-macro_rules! eat {
-    ($p:expr, ';') => {{
-        if cfg!(feature = "debug") {
-            tracing::trace!("eat(';'): cur={:?}", cur!($p, false));
-        }
-        match $p.input.cur() {
-            Some(Token::Semi) => {
-                $p.input.bump();
-                true
-            }
-            None | Some(Token::RBrace) => true,
-            _ => $p.input.had_line_break_before_cur(),
-        }
-    }};
-
-    ($p:expr, $t:tt) => {{
-        if is!($p, $t) {
-            bump!($p);
-            true
-        } else {
-            false
-        }
-    }};
-}
-
-macro_rules! eat_exact {
-    ($p:expr, $t:tt) => {{
-        if is_exact!($p, $t) {
-            bump!($p);
-            true
-        } else {
-            false
-        }
-    }};
-}
-
-macro_rules! is_exact {
-    ($p:expr, $t:tt) => {{
-        match $p.input.cur() {
-            Some(crate::token_including_semi!($t)) => true,
-            _ => false,
-        }
-    }};
-}
-
-/// This handles automatic semicolon insertion.
-macro_rules! expect {
-    ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &crate::token_including_semi!($t);
-        if !eat!($p, $t) {
-            let cur = $p.input.dump_cur();
-            syntax_error!(
-                $p,
-                $p.input.cur_span(),
-                SyntaxError::Expected(TOKEN.to_string($p.input.get_token_value()), cur)
-            )
-        }
-    }};
-}
-
 /// cur!($parser, required:bool)
 macro_rules! cur {
     ($p:expr, false) => {{
@@ -174,41 +55,6 @@ macro_rules! cur {
                 ))
             }
         }
-    }};
-
-    ($p:expr, true) => {{
-        match $p.input.cur() {
-            Some(c) => match c {
-                Token::Error => match $p.input.bump() {
-                    $crate::lexer::Token::Error => {
-                        let e = $p.input.expect_error_token_value();
-                        return Err(e);
-                    }
-                    _ => unreachable!(),
-                },
-
-                _ => c,
-            },
-            None => {
-                let pos = $p.input.end_pos();
-                let span = Span::new(pos, pos);
-                let err = crate::error::Error::new(span, crate::error::SyntaxError::Eof);
-                return Err(err);
-            }
-        }
-    }};
-}
-
-macro_rules! peek {
-    ($p:expr) => {{
-        debug_assert!(
-            $p.input.knows_cur(),
-            "parser should not call peek() without knowing current token.
-Current token is {:?}",
-            cur!($p, false),
-        );
-
-        $p.input.peek()
     }};
 }
 
@@ -255,48 +101,5 @@ macro_rules! span {
             )
         }
         ::swc_common::Span::new(start, end)
-    }};
-}
-
-macro_rules! make_error {
-    ($p:expr, $span:expr, $err:expr) => {{
-        crate::error::Error::new($span, $err)
-    }};
-}
-
-macro_rules! syntax_error {
-    ($p:expr, $err:expr) => {
-        syntax_error!($p, $p.input.cur_span(), $err)
-    };
-
-    ($p:expr, $span:expr, $err:expr) => {{
-        let err = make_error!($p, $span, $err);
-
-        {
-            let is_err_token = match $p.input.cur() {
-                Some($crate::lexer::Token::Error) => true,
-                _ => false,
-            };
-            if is_err_token {
-                match $p.input.bump() {
-                    $crate::lexer::Token::Error => {
-                        let e = $p.input.expect_error_token_value();
-                        $p.emit_error(e);
-                    }
-                    _ => unreachable!(),
-                }
-            }
-        }
-
-        if cfg!(feature = "debug") {
-            tracing::error!(
-                "Syntax error called from {}:{}:{}\nCurrent token = {:?}",
-                file!(),
-                line!(),
-                column!(),
-                $p.input.cur()
-            );
-        }
-        return Err(err.into());
     }};
 }

@@ -1,4 +1,5 @@
-use swc_common::comments::SingleThreadedComments;
+use swc_common::{comments::SingleThreadedComments, BytePos};
+use swc_ecma_lexer::error::SyntaxError;
 
 use super::*;
 use crate::EsSyntax;
@@ -309,7 +310,7 @@ fn illegal_language_mode_directive1() {
                         lo: BytePos(21),
                         hi: BytePos(34),
                     },
-                    crate::parser::SyntaxError::IllegalLanguageModeDirective
+                    SyntaxError::IllegalLanguageModeDirective
                 )]
             );
 
@@ -334,7 +335,7 @@ fn illegal_language_mode_directive2() {
                         lo: BytePos(22),
                         hi: BytePos(35),
                     },
-                    crate::parser::SyntaxError::IllegalLanguageModeDirective
+                    SyntaxError::IllegalLanguageModeDirective
                 )]
             );
 
@@ -362,7 +363,7 @@ fn parse_program_take_script_module_errors() {
                     lo: BytePos(1),
                     hi: BytePos(4),
                 },
-                crate::parser::SyntaxError::LegacyOctal
+                SyntaxError::LegacyOctal
             )]
         );
 
