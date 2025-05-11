@@ -187,27 +187,22 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
         };
 
         // compat
-        let env_and_data = self.env.map(|env| {
-            let (feature_data, core_js_data) = (&env).into();
-            (env, feature_data, core_js_data)
-        });
+        let env_options = self.env.map(Into::into);
 
-        let feature_data = env_and_data
+        let feature_data = env_options
             .as_ref()
-            .map(|(_, feature_data, _)| feature_data.clone());
+            .map(|e: &swc_ecma_preset_env::EnvOptions| e.get_feature_data());
 
         let compat_pass = {
-            if let Some((env, feature_data, core_js_data)) = env_and_data {
-                Either::Left(swc_ecma_preset_env::preset_env(
+            if let Some(options) = env_options {
+                Either::Left(swc_ecma_preset_env::transform_from_env(
                     self.unresolved_mark,
                     comments,
-                    env,
+                    options,
                     self.assumptions,
-                    feature_data,
-                    core_js_data,
                 ))
             } else {
-                Either::Right(swc_ecma_preset_env::lower_feature_with_es_version(
+                Either::Right(swc_ecma_preset_env::transform_from_es_version(
                     self.unresolved_mark,
                     comments,
                     self.target,
@@ -248,7 +243,7 @@ impl<'a, 'b, P: Pass> PassBuilder<'a, 'b, P> {
                 |f| {
                     feature_data
                         .as_ref()
-                        .map_or_else(|| self.target.caniuse(f), |data| data.caniuse(f))
+                        .map_or_else(|| self.target.caniuse(f), |env| env.caniuse(f))
                 },
             ),
             visit_mut_pass(MinifierPass {

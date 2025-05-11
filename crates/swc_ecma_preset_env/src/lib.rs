@@ -37,7 +37,7 @@ pub trait Caniuse {
     fn caniuse(&self, feature: &Feature) -> bool;
 }
 
-fn lower_feature<C>(
+fn transform_internal<C>(
     unresolved_mark: Mark,
     comments: Option<C>,
     assumptions: Assumptions,
@@ -313,51 +313,63 @@ where
     )
 }
 
-pub fn preset_env<C>(
+pub fn transform_from_env<C>(
     unresolved_mark: Mark,
     comments: Option<C>,
-    c: Config,
+    options: EnvOptions,
     assumptions: Assumptions,
-    feature_data: FeatureData,
-    core_js_data: CoreJSData,
 ) -> impl Pass
 where
     C: Comments + Clone,
 {
-    let pass = lower_feature(
+    let pass = transform_internal(
         unresolved_mark,
         comments,
         assumptions,
-        c.loose,
-        c.dynamic_import,
-        c.debug,
-        move |f| feature_data.caniuse(f),
+        options.config.loose,
+        options.config.dynamic_import,
+        options.config.debug,
+        move |f| options.feature_data.caniuse(f),
     );
 
-    if c.debug {
-        println!("Targets: {:?}", &core_js_data.targets);
+    if options.config.debug {
+        println!("Targets: {:?}", &options.config.targets);
     }
 
     (
         pass,
         visit_mut_pass(Polyfills {
-            mode: c.mode,
+            mode: options.config.mode,
             regenerator: false,
-            corejs: c.core_js.unwrap_or(Version {
+            corejs: options.config.core_js.unwrap_or(Version {
                 major: 3,
                 minor: 0,
                 patch: 0,
             }),
-            shipped_proposals: c.shipped_proposals,
-            targets: core_js_data.targets,
-            includes: core_js_data.included_modules,
-            excludes: core_js_data.excluded_modules,
+            shipped_proposals: options.config.shipped_proposals,
+            targets: options.core_js_data.targets,
+            includes: options.core_js_data.included_modules,
+            excludes: options.core_js_data.excluded_modules,
             unresolved_mark,
         }),
     )
 }
 
-pub fn lower_feature_with_es_version<C>(
+#[deprecated(note = "use transform_from_env instead")]
+pub fn preset_env<C>(
+    unresolved_mark: Mark,
+    comments: Option<C>,
+    c: Config,
+    assumptions: Assumptions,
+    _feature_set: &mut swc_ecma_transforms::feature::FeatureFlag,
+) -> impl Pass
+where
+    C: Comments + Clone,
+{
+    transform_from_env(unresolved_mark, comments, c.into(), assumptions)
+}
+
+pub fn transform_from_es_version<C>(
     unresolved_mark: Mark,
     comments: Option<C>,
     es_version: EsVersion,
@@ -367,7 +379,7 @@ pub fn lower_feature_with_es_version<C>(
 where
     C: Comments + Clone,
 {
-    lower_feature(
+    transform_internal(
         unresolved_mark,
         comments,
         assumptions,
@@ -640,43 +652,58 @@ pub struct Config {
 #[derive(Debug, Clone, Default)]
 pub struct FeatureData {
     targets: Arc<Versions>,
-    is_any_target: bool,
     include: Vec<Feature>,
     exclude: Vec<Feature>,
+    is_any_target: bool,
     force_all_transforms: bool,
     bugfixes: bool,
 }
 
-pub struct CoreJSData {
+struct CoreJSData {
     targets: Arc<Versions>,
     included_modules: FxHashSet<String>,
     excluded_modules: FxHashSet<String>,
 }
 
-impl From<&Config> for (FeatureData, CoreJSData) {
-    fn from(c: &Config) -> Self {
-        let targets = targets_to_versions(c.targets.clone(), c.path.clone())
+pub struct EnvOptions {
+    config: Config,
+    feature_data: Arc<FeatureData>,
+    core_js_data: CoreJSData,
+}
+
+impl From<Config> for EnvOptions {
+    fn from(mut config: Config) -> Self {
+        let targets = targets_to_versions(config.targets.take(), config.path.take())
             .expect("failed to parse targets");
         let is_any_target = targets.is_any_target();
 
-        let (include, included_modules) = FeatureOrModule::split(c.include.clone());
-        let (exclude, excluded_modules) = FeatureOrModule::split(c.exclude.clone());
+        let (include, included_modules) = FeatureOrModule::split(config.include.clone());
+        let (exclude, excluded_modules) = FeatureOrModule::split(config.exclude.clone());
 
-        (
-            FeatureData {
-                targets: Arc::clone(&targets),
-                is_any_target,
-                include,
-                exclude,
-                force_all_transforms: c.force_all_transforms,
-                bugfixes: c.bugfixes,
-            },
-            CoreJSData {
-                targets,
-                included_modules,
-                excluded_modules,
-            },
-        )
+        let feature_data = FeatureData {
+            targets: Arc::clone(&targets),
+            include,
+            exclude,
+            is_any_target,
+            force_all_transforms: config.force_all_transforms,
+            bugfixes: config.bugfixes,
+        };
+        let core_js_data = CoreJSData {
+            targets: Arc::clone(&targets),
+            included_modules,
+            excluded_modules,
+        };
+        Self {
+            config,
+            feature_data: Arc::new(feature_data),
+            core_js_data,
+        }
+    }
+}
+
+impl EnvOptions {
+    pub fn get_feature_data(&self) -> Arc<FeatureData> {
+        Arc::clone(&self.feature_data)
     }
 }
 
