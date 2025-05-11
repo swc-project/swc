@@ -759,30 +759,30 @@ impl Caniuse for EsVersion {
             // ES2022
             Feature::ClassProperties
             | Feature::ClassStaticBlock
-            | Feature::PrivatePropertyInObject => self >= &EsVersion::Es2022,
+            | Feature::PrivatePropertyInObject => *self >= EsVersion::Es2022,
 
             // ES2021
-            Feature::LogicalAssignmentOperators => self >= &EsVersion::Es2021,
+            Feature::LogicalAssignmentOperators => *self >= EsVersion::Es2021,
 
             // ES2020
             Feature::ExportNamespaceFrom
             | Feature::NullishCoalescing
-            | Feature::OptionalChaining => self >= &EsVersion::Es2020,
+            | Feature::OptionalChaining => *self >= EsVersion::Es2020,
 
             // ES2019
-            Feature::OptionalCatchBinding => self >= &EsVersion::Es2019,
+            Feature::OptionalCatchBinding => *self >= EsVersion::Es2019,
 
             // ES2018
             Feature::ObjectRestSpread
             | Feature::DotAllRegex
             | Feature::NamedCapturingGroupsRegex
-            | Feature::UnicodePropertyRegex => self >= &EsVersion::Es2018,
+            | Feature::UnicodePropertyRegex => *self >= EsVersion::Es2018,
 
             // ES2017
-            Feature::AsyncToGenerator => self >= &EsVersion::Es2017,
+            Feature::AsyncToGenerator => *self >= EsVersion::Es2017,
 
             // ES2016
-            Feature::ExponentiationOperator => self >= &EsVersion::Es2016,
+            Feature::ExponentiationOperator => *self >= EsVersion::Es2016,
 
             // ES2015
             Feature::ArrowFunctions
@@ -803,12 +803,12 @@ impl Caniuse for EsVersion {
             | Feature::StickyRegex
             | Feature::TemplateLiterals
             | Feature::TypeOfSymbol
-            | Feature::UnicodeRegex => self >= &EsVersion::Es2015,
+            | Feature::UnicodeRegex => *self >= EsVersion::Es2015,
 
             // ES5
             Feature::PropertyLiterals
             | Feature::MemberExpressionLiterals
-            | Feature::ReservedWords => self >= &EsVersion::Es5,
+            | Feature::ReservedWords => *self >= EsVersion::Es5,
 
             // bugfix not exists in EsVsersion
             Feature::BugfixAsyncArrowsInClass
