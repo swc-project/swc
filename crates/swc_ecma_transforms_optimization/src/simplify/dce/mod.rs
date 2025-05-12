@@ -1185,8 +1185,8 @@ impl VisitMut for TreeShaker {
             {
                 self.changed = true;
                 debug!("Dropping {} because it's not used", i);
-                v.name.take();
                 self.data.drop_ast_node(&*v);
+                v.name.take();
             }
         }
     }
