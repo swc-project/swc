@@ -113,6 +113,34 @@ struct Data {
 }
 
 impl Data {
+    fn drop_usage(&mut self, id: &Id) {
+        if let Some(e) = self.used_names.get_mut(id) {
+            // We use `saturating_sub` to avoid underflow.
+            // We subtract the cycle count from the occurence count, so the value is not
+            // correct representation of the actual usage.
+            e.usage = e.usage.saturating_sub(1);
+
+            if e.usage == 0 && e.assign == 0 {
+                let n = self.get_node(id);
+                self.graph.remove_node(n);
+            }
+        }
+    }
+
+    fn drop_assign(&mut self, id: &Id) {
+        if let Some(e) = self.used_names.get_mut(id) {
+            // We use `saturating_sub` to avoid underflow.
+            // We subtract the cycle count from the occurence count, so the value is not
+            // correct representation of the actual usage.
+            e.assign = e.assign.saturating_sub(1);
+
+            if e.usage == 0 && e.assign == 0 {
+                let n = self.get_node(id);
+                self.graph.remove_node(n);
+            }
+        }
+    }
+
     fn get_node(&self, id: &Id) -> u32 {
         self.graph_ix.get_index_of(id).unwrap() as _
     }
@@ -221,16 +249,20 @@ impl<'a> Visit for Dropper<'a> {
     fn visit_binding_ident(&mut self, node: &BindingIdent) {
         node.visit_children_with(self);
 
-        if let Some(e) = self.data.used_names.get_mut(&node.to_id()) {
-            // We use `saturating_sub` to avoid underflow.
-            // We subtract the cycle count from the occurence count, so the value is not
-            // correct representation of the actual usage.
-            e.assign = e.assign.saturating_sub(1);
+        self.data.drop_assign(&node.to_id());
+    }
 
-            if e.usage == 0 && e.assign == 0 {
-                let n = self.data.get_node(&node.to_id());
-                self.data.graph.remove_node(n);
-            }
+    fn visit_class_decl(&mut self, node: &ClassDecl) {
+        node.visit_children_with(self);
+
+        self.data.drop_assign(&node.ident.to_id());
+    }
+
+    fn visit_class_expr(&mut self, node: &ClassExpr) {
+        node.visit_children_with(self);
+
+        if let Some(i) = &node.ident {
+            self.data.drop_assign(&i.to_id());
         }
     }
 
@@ -238,16 +270,21 @@ impl<'a> Visit for Dropper<'a> {
         expr.visit_children_with(self);
 
         if let Expr::Ident(i) = expr {
-            if let Some(e) = self.data.used_names.get_mut(&i.to_id()) {
-                // We use `saturating_sub` to avoid underflow.
-                // We subtract the cycle count from the occurence count, so the value is not
-                // correct representation of the actual usage.
-                e.usage = e.usage.saturating_sub(1);
-                if e.usage == 0 && e.assign == 0 {
-                    let n = self.data.get_node(&i.to_id());
-                    self.data.graph.remove_node(n);
-                }
-            }
+            self.data.drop_usage(&i.to_id());
+        }
+    }
+
+    fn visit_fn_decl(&mut self, node: &FnDecl) {
+        node.visit_children_with(self);
+
+        self.data.drop_assign(&node.ident.to_id());
+    }
+
+    fn visit_fn_expr(&mut self, node: &FnExpr) {
+        node.visit_children_with(self);
+
+        if let Some(i) = &node.ident {
+            self.data.drop_assign(&i.to_id());
         }
     }
 }
