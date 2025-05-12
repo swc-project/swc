@@ -192,10 +192,6 @@ impl Data {
                 }
             }
         }
-
-        // We don't need to keep the graph
-        // But we need to keep `graph_ix` to because it's used.
-        self.graph.clear();
     }
 }
 
