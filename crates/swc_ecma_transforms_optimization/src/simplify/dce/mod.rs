@@ -191,6 +191,10 @@ impl Data {
                 }
             }
         }
+
+        // We don't need to keep the graph
+        self.graph.clear();
+        self.graph_ix.clear();
     }
 }
 
