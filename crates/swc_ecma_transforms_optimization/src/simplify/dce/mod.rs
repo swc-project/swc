@@ -98,6 +98,8 @@ impl CompilerPass for TreeShaker {
 
 #[derive(Default)]
 struct Data {
+    initialized: bool,
+
     used_names: FxHashMap<Id, VarInfo>,
 
     /// Variable usage graph
@@ -903,21 +905,26 @@ impl VisitMut for TreeShaker {
 
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
-        let mut data = Default::default();
-
-        {
-            let mut analyzer = Analyzer {
-                config: &self.config,
-                in_var_decl: false,
-                scope: Default::default(),
-                data: &mut data,
-                cur_class_id: Default::default(),
-                cur_fn_id: Default::default(),
+        if !self.data.initialized {
+            let mut data = Data {
+                initialized: true,
+                ..Default::default()
             };
-            m.visit_with(&mut analyzer);
+
+            {
+                let mut analyzer = Analyzer {
+                    config: &self.config,
+                    in_var_decl: false,
+                    scope: Default::default(),
+                    data: &mut data,
+                    cur_class_id: Default::default(),
+                    cur_fn_id: Default::default(),
+                };
+                m.visit_with(&mut analyzer);
+            }
+            data.subtract_cycles();
+            self.data = Arc::new(data);
         }
-        data.subtract_cycles();
-        self.data = Arc::new(data);
 
         m.visit_mut_children_with(self);
     }
@@ -960,21 +967,23 @@ impl VisitMut for TreeShaker {
     fn visit_mut_script(&mut self, m: &mut Script) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
-        let mut data = Default::default();
+        if !self.data.initialized {
+            let mut data = Default::default();
 
-        {
-            let mut analyzer = Analyzer {
-                config: &self.config,
-                in_var_decl: false,
-                scope: Default::default(),
-                data: &mut data,
-                cur_class_id: Default::default(),
-                cur_fn_id: Default::default(),
-            };
-            m.visit_with(&mut analyzer);
+            {
+                let mut analyzer = Analyzer {
+                    config: &self.config,
+                    in_var_decl: false,
+                    scope: Default::default(),
+                    data: &mut data,
+                    cur_class_id: Default::default(),
+                    cur_fn_id: Default::default(),
+                };
+                m.visit_with(&mut analyzer);
+            }
+            data.subtract_cycles();
+            self.data = Arc::new(data);
         }
-        data.subtract_cycles();
-        self.data = Arc::new(data);
 
         m.visit_mut_children_with(self);
     }
