@@ -733,6 +733,7 @@ impl VisitMut for TreeShaker {
             {
                 self.changed = true;
                 debug!("Dropping an assignment to `{}` because it's not used", id);
+                self.data.drop_ast_node(&n.left);
 
                 n.left.take();
             }
