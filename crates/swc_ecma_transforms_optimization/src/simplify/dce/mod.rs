@@ -557,7 +557,6 @@ impl Repeated for TreeShaker {
     fn reset(&mut self) {
         self.pass += 1;
         self.changed = false;
-        self.data = Default::default();
     }
 }
 
