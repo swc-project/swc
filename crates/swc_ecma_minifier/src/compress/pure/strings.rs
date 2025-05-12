@@ -408,24 +408,21 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut l_last.cooked {
-                        // Create a new string with sufficient capacity
-                        let mut new_cooked = String::with_capacity(cooked.len() + rs.value.len());
-                        new_cooked.push_str(cooked);
-                        new_cooked.push_str(&convert_str_value_to_tpl_cooked(&rs.value));
-                        *cooked = new_cooked.into();
+                        // Direct concatenation with format! to avoid unnecessary allocations
+                        *cooked =
+                            format!("{}{}", cooked, convert_str_value_to_tpl_cooked(&rs.value))
+                                .into();
                     }
 
-                    // Calculate the total length to avoid multiple allocations
+                    // Get the raw string part
                     let raw_str_part = rs
                         .raw
                         .clone()
                         .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
                         .unwrap_or_else(|| convert_str_value_to_tpl_raw(&rs.value).into());
 
-                    let mut new_raw = String::with_capacity(l_last.raw.len() + raw_str_part.len());
-                    new_raw.push_str(&l_last.raw);
-                    new_raw.push_str(&raw_str_part);
-                    l_last.raw = new_raw.into();
+                    // Direct concatenation with format! to avoid unnecessary allocations
+                    l_last.raw = format!("{}{}", l_last.raw, raw_str_part).into();
 
                     r.take();
                 }
@@ -448,22 +445,21 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut r_first.cooked {
-                        let mut str_part = convert_str_value_to_tpl_cooked(&ls.value).into_owned();
-                        str_part.reserve(cooked.len());
-                        str_part.push_str(cooked);
-                        *cooked = swc_atoms::Atom::from(str_part);
+                        // Prepend content directly to avoid extra allocations
+                        *cooked =
+                            format!("{}{}", convert_str_value_to_tpl_cooked(&ls.value), cooked)
+                                .into();
                     }
 
+                    // Get the raw string part
                     let raw_str_part = ls
                         .raw
                         .clone()
                         .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
                         .unwrap_or_else(|| convert_str_value_to_tpl_raw(&ls.value).into());
 
-                    let mut new_raw = String::with_capacity(raw_str_part.len() + r_first.raw.len());
-                    new_raw.push_str(&raw_str_part);
-                    new_raw.push_str(&r_first.raw);
-                    r_first.raw = new_raw.into();
+                    // Prepend content directly to avoid extra allocations
+                    r_first.raw = format!("{}{}", raw_str_part, r_first.raw).into();
 
                     l.take();
                 }
