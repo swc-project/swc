@@ -1060,6 +1060,10 @@ impl VisitMut for TreeShaker {
                     _ => false,
                 })
             {
+                for decl in v.decls.iter() {
+                    self.data.drop_ast_node(&decl.name);
+                }
+
                 let exprs = v
                     .decls
                     .take()
