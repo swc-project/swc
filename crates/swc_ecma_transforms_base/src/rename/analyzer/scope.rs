@@ -53,6 +53,18 @@ pub(super) struct ScopeData {
     queue: FxIndexSet<Id>,
 }
 
+pub(crate) struct PreparedScope<'a> {
+    pub(super) kind: ScopeKind,
+    pub(super) data: PreparedScopeData<'a>,
+
+    pub(super) children: Vec<PreparedScope<'a>>,
+}
+
+pub(crate) struct PreparedScopeData<'a> {
+    pub(super) all: &'a FxHashSet<Id>,
+    pub(super) queue: FxIndexSet<Id>,
+}
+
 impl Scope {
     pub(super) fn add_decl(&mut self, id: &Id, has_eval: bool, top_level_mark: Mark) {
         if id.0 == atom!("arguments") {
@@ -89,14 +101,25 @@ impl Scope {
     }
 
     /// Copy `children.data.all` to `self.data.all`.
-    pub(crate) fn prepare_renaming(&mut self) {
-        self.children.iter_mut().for_each(|child| {
-            child.prepare_renaming();
+    pub(crate) fn prepare_renaming(&mut self) -> PreparedScope<'_> {
+        let children = self
+            .children
+            .iter_mut()
+            .map(|child| child.prepare_renaming())
+            .collect::<Vec<_>>();
 
-            self.data.all.extend(child.data.all.iter().cloned());
-        });
+        PreparedScope {
+            kind: self.kind,
+            data: PreparedScopeData {
+                all: &self.data.all,
+                queue: take(&mut self.data.queue),
+            },
+            children,
+        }
     }
+}
 
+impl PreparedScope<'_> {
     pub(crate) fn rename_in_normal_mode<R>(
         &mut self,
         renamer: &R,

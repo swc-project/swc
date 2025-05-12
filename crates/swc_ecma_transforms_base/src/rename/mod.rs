@@ -157,7 +157,7 @@ where
             }
             v.scope
         };
-        scope.prepare_renaming();
+        let mut scope = scope.prepare_renaming();
 
         let mut map = RenameMap::default();
 
