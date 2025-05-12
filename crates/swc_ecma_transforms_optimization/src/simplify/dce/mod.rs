@@ -736,12 +736,14 @@ impl TreeShaker {
         };
 
         if b.op == op!("&&") && b.left.as_pure_bool(self.expr_ctx) == Known(false) {
+            self.data.drop_ast_node(&b.right);
             *n = *b.left.take();
             self.changed = true;
             return;
         }
 
         if b.op == op!("||") && b.left.as_pure_bool(self.expr_ctx) == Known(true) {
+            self.data.drop_ast_node(&b.right);
             *n = *b.left.take();
             self.changed = true;
         }
