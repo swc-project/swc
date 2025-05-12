@@ -1,6 +1,5 @@
 #![allow(non_upper_case_globals)]
 use bitflags::bitflags;
-use swc_ecma_ast::EsVersion::{self, *};
 
 bitflags! {
     #[derive(Default, Clone, Copy)]
@@ -155,92 +154,4 @@ bitflags! {
         /// `bugfix/transform-v8-spread-parameters-in-optional-chaining`
         const BugfixTransformV8SpreadParametersInOptionalChaining = 1 << 49; // TODO
     }
-}
-
-pub fn enable_available_feature_from_es_version(version: EsVersion) -> FeatureFlag {
-    let mut feature = FeatureFlag::empty();
-
-    if version < Es5 {
-        return feature;
-    }
-
-    feature |= FeatureFlag::PropertyLiterals
-        | FeatureFlag::MemberExpressionLiterals
-        | FeatureFlag::ReservedWords;
-
-    if version < Es2015 {
-        return feature;
-    }
-
-    feature |= FeatureFlag::ArrowFunctions
-        | FeatureFlag::BlockScopedFunctions
-        | FeatureFlag::BlockScoping
-        | FeatureFlag::Classes
-        | FeatureFlag::ComputedProperties
-        | FeatureFlag::Destructuring
-        | FeatureFlag::DuplicateKeys
-        | FeatureFlag::ForOf
-        | FeatureFlag::FunctionName
-        | FeatureFlag::NewTarget
-        | FeatureFlag::ObjectSuper
-        | FeatureFlag::Parameters
-        | FeatureFlag::Regenerator
-        | FeatureFlag::ShorthandProperties
-        | FeatureFlag::Spread
-        | FeatureFlag::StickyRegex
-        | FeatureFlag::TemplateLiterals
-        | FeatureFlag::TypeOfSymbol
-        | FeatureFlag::UnicodeRegex;
-
-    if version < Es2016 {
-        return feature;
-    }
-
-    feature |= FeatureFlag::ExponentiationOperator;
-
-    if version < Es2017 {
-        return feature;
-    }
-
-    // support `async`
-    feature |= FeatureFlag::AsyncToGenerator;
-
-    if version < Es2018 {
-        return feature;
-    }
-
-    feature |= FeatureFlag::ObjectRestSpread
-        | FeatureFlag::DotAllRegex
-        | FeatureFlag::NamedCapturingGroupsRegex
-        | FeatureFlag::UnicodePropertyRegex;
-
-    if version < Es2019 {
-        return feature;
-    }
-
-    feature |= FeatureFlag::OptionalCatchBinding;
-
-    if version < Es2020 {
-        return feature;
-    }
-
-    feature |= FeatureFlag::ExportNamespaceFrom
-        | FeatureFlag::NullishCoalescing
-        | FeatureFlag::OptionalChaining;
-
-    if version < Es2021 {
-        return feature;
-    }
-
-    feature |= FeatureFlag::LogicalAssignmentOperators;
-
-    if version < Es2022 {
-        return feature;
-    }
-
-    feature |= FeatureFlag::ClassProperties
-        | FeatureFlag::ClassStaticBlock
-        | FeatureFlag::PrivatePropertyInObject;
-
-    feature
 }

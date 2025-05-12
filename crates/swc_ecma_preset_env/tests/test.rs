@@ -19,7 +19,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, Syntax};
-use swc_ecma_preset_env::{preset_env, Config, FeatureOrModule, Mode, Targets, Version};
+use swc_ecma_preset_env::{transform_from_env, Config, FeatureOrModule, Mode, Targets, Version};
 use swc_ecma_transforms::{fixer, helpers};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{visit_mut_pass, VisitMut};
@@ -122,7 +122,7 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
     Tester::new()
         .print_errors(|cm, handler| {
             let pass = (
-                preset_env(
+                transform_from_env(
                     Mark::fresh(Mark::root()),
                     Some(SingleThreadedComments::default()),
                     Config {
@@ -148,9 +148,9 @@ fn exec(c: PresetConfig, dir: PathBuf) -> Result<(), Error> {
                         shipped_proposals: c.shipped_proposals,
                         targets: c.targets,
                         path: std::env::current_dir().ok(),
-                    },
+                    }
+                    .into(),
                     Default::default(),
-                    &mut Default::default(),
                 ),
                 fixer(None),
             );

@@ -267,13 +267,6 @@ pub(crate) fn object_define_enumerable(
     )
 }
 
-#[macro_export]
-macro_rules! caniuse {
-    ($feature_set:ident . $feature:ident) => {
-        $feature_set.intersects(swc_ecma_transforms_base::feature::FeatureFlag::$feature)
-    };
-}
-
 /// ```javascript
 /// function _export(target, all) {
 ///     for (var name in all)

@@ -38,9 +38,9 @@ use swc_ecma_loader::resolvers::{
 pub use swc_ecma_minifier::js::*;
 use swc_ecma_minifier::option::terser::TerserTopLevelOptions;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsSyntax};
+use swc_ecma_preset_env::Feature;
 pub use swc_ecma_transforms::proposals::DecoratorVersion;
 use swc_ecma_transforms::{
-    feature::FeatureFlag,
     hygiene,
     modules::{
         self,
@@ -1317,14 +1317,17 @@ impl ModuleConfig {
         comments: Option<&'cmt dyn Comments>,
         config: Option<ModuleConfig>,
         unresolved_mark: Mark,
-        available_features: FeatureFlag,
         resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
+        caniuse: impl (Fn(Feature) -> bool),
     ) -> Box<dyn Pass + 'cmt> {
         let resolver = if let Some((base, resolver)) = resolver {
             Resolver::Real { base, resolver }
         } else {
             Resolver::Default
         };
+
+        let support_block_scoping = caniuse(Feature::BlockScoping);
+        let support_arrow = caniuse(Feature::ArrowFunctions);
 
         match config {
             None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
@@ -1336,20 +1339,28 @@ impl ModuleConfig {
                 resolver,
                 unresolved_mark,
                 config,
-                available_features,
+                modules::common_js::FeatureFlag {
+                    support_block_scoping,
+                    support_arrow,
+                },
             )),
             Some(ModuleConfig::Umd(config)) => Box::new(modules::umd::umd(
                 cm,
                 resolver,
                 unresolved_mark,
                 config,
-                available_features,
+                modules::umd::FeatureFlag {
+                    support_block_scoping,
+                },
             )),
             Some(ModuleConfig::Amd(config)) => Box::new(modules::amd::amd(
                 resolver,
                 unresolved_mark,
                 config,
-                available_features,
+                modules::amd::FeatureFlag {
+                    support_block_scoping,
+                    support_arrow,
+                },
                 comments,
             )),
             Some(ModuleConfig::SystemJs(config)) => Box::new(modules::system_js::system_js(
