@@ -113,6 +113,10 @@ struct Data {
 }
 
 impl Data {
+    fn get_node(&self, id: &Id) -> u32 {
+        self.graph_ix.get_index_of(id).unwrap() as _
+    }
+
     fn node(&mut self, id: &Id) -> u32 {
         self.graph_ix.get_index_of(id).unwrap_or_else(|| {
             let ix = self.graph_ix.len();
@@ -218,7 +222,13 @@ impl<'a> Visit for Dropper<'a> {
         expr.visit_children_with(self);
 
         if let Expr::Ident(i) = expr {
-            self.data.used_names.entry(i.to_id()).or_default().usage -= 1;
+            let e = self.data.used_names.entry(i.to_id()).or_default();
+
+            e.usage -= 1;
+            if e.usage == 0 && e.assign == 0 {
+                let n = self.data.get_node(&i.to_id());
+                self.data.graph.remove_node(n);
+            }
         }
     }
 }
@@ -936,6 +946,8 @@ impl VisitMut for TreeShaker {
             }
             data.subtract_cycles();
             self.data = data;
+        } else {
+            self.data.subtract_cycles();
         }
 
         m.visit_mut_children_with(self);
@@ -980,7 +992,10 @@ impl VisitMut for TreeShaker {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
         if !self.data.initialized {
-            let mut data = Default::default();
+            let mut data = Data {
+                initialized: true,
+                ..Default::default()
+            };
 
             {
                 let mut analyzer = Analyzer {
@@ -995,6 +1010,8 @@ impl VisitMut for TreeShaker {
             }
             data.subtract_cycles();
             self.data = data;
+        } else {
+            self.data.subtract_cycles();
         }
 
         m.visit_mut_children_with(self);
