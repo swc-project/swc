@@ -218,16 +218,29 @@ struct Dropper<'a> {
 impl<'a> Visit for Dropper<'a> {
     noop_visit_type!(fail);
 
+    fn visit_binding_ident(&mut self, node: &BindingIdent) {
+        node.visit_children_with(self);
+
+        if let Some(e) = self.data.used_names.get_mut(&node.to_id()) {
+            e.assign -= 1;
+
+            if e.usage == 0 && e.assign == 0 {
+                let n = self.data.get_node(&node.to_id());
+                self.data.graph.remove_node(n);
+            }
+        }
+    }
+
     fn visit_expr(&mut self, expr: &Expr) {
         expr.visit_children_with(self);
 
         if let Expr::Ident(i) = expr {
-            let e = self.data.used_names.entry(i.to_id()).or_default();
-
-            e.usage -= 1;
-            if e.usage == 0 && e.assign == 0 {
-                let n = self.data.get_node(&i.to_id());
-                self.data.graph.remove_node(n);
+            if let Some(e) = self.data.used_names.get_mut(&i.to_id()) {
+                e.usage -= 1;
+                if e.usage == 0 && e.assign == 0 {
+                    let n = self.data.get_node(&i.to_id());
+                    self.data.graph.remove_node(n);
+                }
             }
         }
     }
