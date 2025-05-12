@@ -17,8 +17,7 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, SourceFile, SourceMap,
 };
-use swc_config::config_types::BoolOr;
-pub use swc_config::IsModule;
+use swc_config::{file_pattern::FilePattern, is_module::IsModule, types::BoolOr};
 use swc_ecma_ast::{EsVersion, Ident, IdentName, Program};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter, Node};
 use swc_ecma_minifier::js::JsMinifyCommentOption;
@@ -100,7 +99,7 @@ pub fn parse_js(
     })();
 
     if env::var("SWC_DEBUG").unwrap_or_default() == "1" {
-        res = res.with_context(|| format!("Parser config: {:?}", syntax));
+        res = res.with_context(|| format!("Parser config: {syntax:?}"));
     }
 
     res
@@ -120,6 +119,7 @@ pub struct PrintArgs<'a> {
     pub codegen_config: swc_ecma_codegen::Config,
     pub output: Option<FxHashMap<String, String>>,
     pub source_map_url: Option<&'a str>,
+    pub source_map_ignore_list: Option<FilePattern>,
 }
 
 impl Default for PrintArgs<'_> {
@@ -140,6 +140,7 @@ impl Default for PrintArgs<'_> {
             codegen_config: Default::default(),
             output: None,
             source_map_url: None,
+            source_map_ignore_list: None,
         }
     }
 }
@@ -171,6 +172,7 @@ pub fn print<T>(
         codegen_config,
         output,
         source_map_url,
+        source_map_ignore_list,
     }: PrintArgs,
 ) -> Result<TransformOutput, Error>
 where
@@ -220,7 +222,7 @@ where
         && src.lines().count() >= 3
         && option_env!("SWC_DEBUG") == Some("1")
     {
-        panic!("The module contains only dummy spans\n{}", src);
+        panic!("The module contains only dummy spans\n{src}");
     }
 
     let mut map = if source_map.enabled() {
@@ -233,6 +235,7 @@ where
                 names: source_map_names,
                 inline_sources_content,
                 emit_columns: emit_source_map_columns,
+                ignore_list: source_map_ignore_list,
             },
         ))
     } else {
@@ -299,6 +302,8 @@ struct SwcSourceMapConfig<'a> {
     inline_sources_content: bool,
 
     emit_columns: bool,
+
+    ignore_list: Option<FilePattern>,
 }
 
 impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
@@ -347,6 +352,20 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
             FileName::Internal(..) => true,
             FileName::Custom(s) => s.starts_with('<'),
             _ => false,
+        }
+    }
+
+    fn ignore_list(&self, f: &FileName) -> bool {
+        if let Some(ignore_list) = &self.ignore_list {
+            match f {
+                FileName::Real(path_buf) => {
+                    ignore_list.is_match(path_buf.to_string_lossy().as_ref())
+                }
+                FileName::Custom(s) => ignore_list.is_match(s),
+                _ => true,
+            }
+        } else {
+            false
         }
     }
 }

@@ -52,12 +52,12 @@ fn bench_document_fragment(b: &mut Bencher, src: &'static str) {
 }
 
 fn run_document(c: &mut Criterion, id: &str, src: &'static str) {
-    c.bench_function(&format!("html/parser/{}", id), |b| {
+    c.bench_function(&format!("html/parser/{id}"), |b| {
         bench_document(b, src);
     });
 }
 fn run_document_fragment(c: &mut Criterion, id: &str, src: &'static str) {
-    c.bench_function(&format!("html/parser/{}", id), |b| {
+    c.bench_function(&format!("html/parser/{id}"), |b| {
         bench_document_fragment(b, src);
     });
 }

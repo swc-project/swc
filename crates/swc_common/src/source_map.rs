@@ -633,7 +633,7 @@ impl SourceMap {
             Err(_) => None,
             Ok(source) => source
                 .split('\n')
-                .last()
+                .next_back()
                 .map(|last_line| last_line.len() - last_line.trim_start().len()),
         }
     }
@@ -993,7 +993,7 @@ impl SourceMap {
     }
 
     fn bytepos_to_file_charpos_with(&self, map: &SourceFile, bpos: BytePos) -> CharPos {
-        let total_extra_bytes = self.calc_utf16_offset(map, bpos, &mut Default::default());
+        let total_extra_bytes = calc_utf16_offset(map, bpos, &mut Default::default());
         assert!(
             map.start_pos.to_u32() + total_extra_bytes <= bpos.to_u32(),
             "map.start_pos = {:?}; total_extra_bytes = {}; bpos = {:?}",
@@ -1011,73 +1011,12 @@ impl SourceMap {
         let start_offset = file.start_pos;
 
         let mut state = ByteToCharPosState::default();
-        let start = span.lo.to_u32()
-            - start_offset.to_u32()
-            - self.calc_utf16_offset(file, span.lo, &mut state);
-        let end = span.hi.to_u32()
-            - start_offset.to_u32()
-            - self.calc_utf16_offset(file, span.hi, &mut state);
+        let start =
+            span.lo.to_u32() - start_offset.to_u32() - calc_utf16_offset(file, span.lo, &mut state);
+        let end =
+            span.hi.to_u32() - start_offset.to_u32() - calc_utf16_offset(file, span.hi, &mut state);
 
         (start, end)
-    }
-
-    /// Calculates the number of excess chars seen in the UTF-8 encoding of a
-    /// file compared with the UTF-16 encoding.
-    fn calc_utf16_offset(
-        &self,
-        file: &SourceFile,
-        bpos: BytePos,
-        state: &mut ByteToCharPosState,
-    ) -> u32 {
-        let mut total_extra_bytes = state.total_extra_bytes;
-        let mut index = state.mbc_index;
-        let analysis = file.analyze();
-        if bpos >= state.pos {
-            let range = index..analysis.multibyte_chars.len();
-            for i in range {
-                let mbc = &analysis.multibyte_chars[i];
-                debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
-                if mbc.pos >= bpos {
-                    break;
-                }
-                total_extra_bytes += mbc.byte_to_char_diff() as u32;
-                // We should never see a byte position in the middle of a
-                // character
-                debug_assert!(
-                    bpos.to_u32() >= mbc.pos.to_u32() + mbc.bytes as u32,
-                    "bpos = {:?}, mbc.pos = {:?}, mbc.bytes = {:?}",
-                    bpos,
-                    mbc.pos,
-                    mbc.bytes
-                );
-                index += 1;
-            }
-        } else {
-            let range = 0..index;
-            for i in range.rev() {
-                let mbc = &analysis.multibyte_chars[i];
-                debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
-                if mbc.pos < bpos {
-                    break;
-                }
-                total_extra_bytes -= mbc.byte_to_char_diff() as u32;
-                // We should never see a byte position in the middle of a
-                // character
-                debug_assert!(
-                    bpos.to_u32() <= mbc.pos.to_u32(),
-                    "bpos = {:?}, mbc.pos = {:?}",
-                    bpos,
-                    mbc.pos,
-                );
-                index -= 1;
-            }
-        }
-
-        state.pos = bpos;
-        state.total_extra_bytes = total_extra_bytes;
-        state.mbc_index = index;
-
-        total_extra_bytes
     }
 
     /// Return the index of the source_file (in self.files) which contains pos.
@@ -1254,119 +1193,201 @@ impl SourceMap {
         orig: Option<&sourcemap::SourceMap>,
         config: impl SourceMapGenConfig,
     ) -> sourcemap::SourceMap {
-        let mut builder = SourceMapBuilder::new(None);
-
-        let mut src_id = 0u32;
-
-        // // This method is optimized based on the fact that mapping is sorted.
-        // mappings.sort_by_key(|v| v.0);
-
-        let mut cur_file: Option<Lrc<SourceFile>> = None;
-
-        let mut prev_dst_line = u32::MAX;
-
-        let mut ch_state = ByteToCharPosState::default();
-        let mut line_state = ByteToCharPosState::default();
-
-        for (pos, lc) in mappings.iter() {
-            let pos = *pos;
-
-            if pos.is_reserved_for_comments() {
-                continue;
-            }
-
-            let lc = *lc;
-
-            // If pos is same as a DUMMY_SP (eg BytePos(0)) and if line and col are 0;
-            // ignore the mapping.
-            if lc.line == 0 && lc.col == 0 && pos.is_dummy() {
-                continue;
-            }
-
-            if pos == BytePos(u32::MAX) {
-                builder.add_raw(lc.line, lc.col, 0, 0, Some(src_id), None, false);
-                continue;
-            }
-
-            let f;
-            let f = match cur_file {
-                Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
-                _ => {
-                    f = self.try_lookup_source_file(pos).unwrap();
-                    if config.skip(&f.name) {
-                        continue;
-                    }
-                    src_id = builder.add_source(&config.file_name_to_source(&f.name));
-
-                    let inline_sources_content = config.inline_sources_content(&f.name);
-                    if inline_sources_content {
-                        builder.set_source_contents(src_id, Some(&f.src));
-                    }
-
-                    ch_state = ByteToCharPosState::default();
-                    line_state = ByteToCharPosState::default();
-
-                    cur_file = Some(f.clone());
-                    &f
-                }
-            };
-            if config.skip(&f.name) {
-                continue;
-            }
-
-            let emit_columns = config.emit_columns(&f.name);
-
-            if !emit_columns && lc.line == prev_dst_line {
-                continue;
-            }
-
-            let line = match f.lookup_line(pos) {
-                Some(line) => line as u32,
-                None => continue,
-            };
-
-            let analysis = f.analyze();
-            let linebpos = analysis.lines[line as usize];
-            debug_assert!(
-                pos >= linebpos,
-                "{}: bpos = {:?}; linebpos = {:?};",
-                f.name,
-                pos,
-                linebpos,
-            );
-
-            let linechpos =
-                linebpos.to_u32() - self.calc_utf16_offset(f, linebpos, &mut line_state);
-            let chpos = pos.to_u32() - self.calc_utf16_offset(f, pos, &mut ch_state);
-
-            debug_assert!(
-                chpos >= linechpos,
-                "{}: chpos = {:?}; linechpos = {:?};",
-                f.name,
-                chpos,
-                linechpos,
-            );
-
-            let col = chpos - linechpos;
-            let name = None;
-
-            let name_idx = name
-                .or_else(|| config.name_for_bytepos(pos))
-                .map(|name| builder.add_name(name));
-
-            builder.add_raw(lc.line, lc.col, line, col, Some(src_id), name_idx, false);
-            prev_dst_line = lc.line;
-        }
-
-        let map = builder.into_sourcemap();
-
-        if let Some(mut orig) = orig.cloned() {
-            orig.adjust_mappings(&map);
-            return orig;
-        }
-
-        map
+        build_source_map(self, mappings, orig, &config)
     }
+}
+
+/// Calculates the number of excess chars seen in the UTF-8 encoding of a
+/// file compared with the UTF-16 encoding.
+fn calc_utf16_offset(file: &SourceFile, bpos: BytePos, state: &mut ByteToCharPosState) -> u32 {
+    let mut total_extra_bytes = state.total_extra_bytes;
+    let mut index = state.mbc_index;
+    let analysis = file.analyze();
+    if bpos >= state.pos {
+        let range = index..analysis.multibyte_chars.len();
+        for i in range {
+            let mbc = &analysis.multibyte_chars[i];
+            debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
+            if mbc.pos >= bpos {
+                break;
+            }
+            total_extra_bytes += mbc.byte_to_char_diff() as u32;
+            // We should never see a byte position in the middle of a
+            // character
+            debug_assert!(
+                bpos.to_u32() >= mbc.pos.to_u32() + mbc.bytes as u32,
+                "bpos = {:?}, mbc.pos = {:?}, mbc.bytes = {:?}",
+                bpos,
+                mbc.pos,
+                mbc.bytes
+            );
+            index += 1;
+        }
+    } else {
+        let range = 0..index;
+        for i in range.rev() {
+            let mbc = &analysis.multibyte_chars[i];
+            debug!("{}-byte char at {:?}", mbc.bytes, mbc.pos);
+            if mbc.pos < bpos {
+                break;
+            }
+            total_extra_bytes -= mbc.byte_to_char_diff() as u32;
+            // We should never see a byte position in the middle of a
+            // character
+            debug_assert!(
+                bpos.to_u32() <= mbc.pos.to_u32(),
+                "bpos = {:?}, mbc.pos = {:?}",
+                bpos,
+                mbc.pos,
+            );
+            index -= 1;
+        }
+    }
+
+    state.pos = bpos;
+    state.total_extra_bytes = total_extra_bytes;
+    state.mbc_index = index;
+
+    total_extra_bytes
+}
+
+pub trait Files {
+    fn try_lookup_source_file(&self, pos: BytePos)
+        -> Result<Lrc<SourceFile>, SourceMapLookupError>;
+}
+
+impl Files for SourceMap {
+    fn try_lookup_source_file(
+        &self,
+        pos: BytePos,
+    ) -> Result<Lrc<SourceFile>, SourceMapLookupError> {
+        self.try_lookup_source_file(pos)
+    }
+}
+
+#[allow(clippy::ptr_arg)]
+#[cfg(feature = "sourcemap")]
+#[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
+pub fn build_source_map(
+    files: &impl Files,
+    mappings: &[(BytePos, LineCol)],
+    orig: Option<&sourcemap::SourceMap>,
+    config: &impl SourceMapGenConfig,
+) -> sourcemap::SourceMap {
+    let mut builder = SourceMapBuilder::new(None);
+
+    let mut src_id = 0u32;
+
+    // // This method is optimized based on the fact that mapping is sorted.
+    // mappings.sort_by_key(|v| v.0);
+
+    let mut cur_file: Option<Lrc<SourceFile>> = None;
+
+    let mut prev_dst_line = u32::MAX;
+
+    let mut ch_state = ByteToCharPosState::default();
+    let mut line_state = ByteToCharPosState::default();
+
+    for (pos, lc) in mappings.iter() {
+        let pos = *pos;
+
+        if pos.is_reserved_for_comments() {
+            continue;
+        }
+
+        let lc = *lc;
+
+        // If pos is same as a DUMMY_SP (eg BytePos(0)) and if line and col are 0;
+        // ignore the mapping.
+        if lc.line == 0 && lc.col == 0 && pos.is_dummy() {
+            continue;
+        }
+
+        if pos == BytePos(u32::MAX) {
+            builder.add_raw(lc.line, lc.col, 0, 0, Some(src_id), None, false);
+            continue;
+        }
+
+        let f;
+        let f = match cur_file {
+            Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
+            _ => {
+                f = files.try_lookup_source_file(pos).unwrap();
+                if config.skip(&f.name) {
+                    continue;
+                }
+                src_id = builder.add_source(&config.file_name_to_source(&f.name));
+                if config.ignore_list(&f.name) {
+                    builder.add_to_ignore_list(src_id);
+                }
+
+                let inline_sources_content = config.inline_sources_content(&f.name);
+                if inline_sources_content {
+                    builder.set_source_contents(src_id, Some(&f.src));
+                }
+
+                ch_state = ByteToCharPosState::default();
+                line_state = ByteToCharPosState::default();
+
+                cur_file = Some(f.clone());
+                &f
+            }
+        };
+        if config.skip(&f.name) {
+            continue;
+        }
+
+        let emit_columns = config.emit_columns(&f.name);
+
+        if !emit_columns && lc.line == prev_dst_line {
+            continue;
+        }
+
+        let line = match f.lookup_line(pos) {
+            Some(line) => line as u32,
+            None => continue,
+        };
+
+        let analysis = f.analyze();
+        let linebpos = analysis.lines[line as usize];
+        debug_assert!(
+            pos >= linebpos,
+            "{}: bpos = {:?}; linebpos = {:?};",
+            f.name,
+            pos,
+            linebpos,
+        );
+
+        let linechpos = linebpos.to_u32() - calc_utf16_offset(f, linebpos, &mut line_state);
+        let chpos = pos.to_u32() - calc_utf16_offset(f, pos, &mut ch_state);
+
+        debug_assert!(
+            chpos >= linechpos,
+            "{}: chpos = {:?}; linechpos = {:?};",
+            f.name,
+            chpos,
+            linechpos,
+        );
+
+        let col = chpos - linechpos;
+        let name = None;
+
+        let name_idx = name
+            .or_else(|| config.name_for_bytepos(pos))
+            .map(|name| builder.add_name(name));
+
+        builder.add_raw(lc.line, lc.col, line, col, Some(src_id), name_idx, false);
+        prev_dst_line = lc.line;
+    }
+
+    let map = builder.into_sourcemap();
+
+    if let Some(mut orig) = orig.cloned() {
+        orig.adjust_mappings(&map);
+        return orig;
+    }
+
+    map
 }
 
 impl SourceMapper for SourceMap {
@@ -1468,6 +1489,25 @@ pub trait SourceMapGenConfig {
     /// By default, we skip internal files.
     fn skip(&self, f: &FileName) -> bool {
         matches!(f, FileName::Internal(..))
+    }
+
+    /// If true, the file will be in the `ignoreList` of `SourceMap`.
+    ///
+    /// Specification for ignoreList: https://tc39.es/ecma426/#json-ignoreList
+    ///
+    /// > The ignoreList field is an optional list of indices of files that
+    /// > should be considered third party code, such as framework code or
+    /// > bundler-generated code. This allows developer tools to avoid code that
+    /// > developers likely don't want to see or step through, without requiring
+    /// > developers to configure this beforehand. It refers to the sources
+    /// > field and lists the indices of all the known third-party sources in
+    /// > the source map. Some browsers may also use the deprecated
+    /// > x_google_ignoreList field if ignoreList is not present.
+    ///
+    ///
+    /// By default, we ignore anonymous files and internal files.
+    fn ignore_list(&self, f: &FileName) -> bool {
+        matches!(f, FileName::Anon | FileName::Internal(..))
     }
 }
 
@@ -1731,7 +1771,7 @@ mod tests {
     }
 
     #[test]
-    fn calc_utf16_offset() {
+    fn test_calc_utf16_offset() {
         let input = "t¢e∆s💩t";
         let sm = SourceMap::new(FilePathMapping::empty());
         let file = sm.new_source_file(
@@ -1743,7 +1783,7 @@ mod tests {
         let mut bpos = file.start_pos;
         let mut cpos = CharPos(bpos.to_usize());
         for c in input.chars() {
-            let actual = bpos.to_u32() - sm.calc_utf16_offset(&file, bpos, &mut state);
+            let actual = bpos.to_u32() - calc_utf16_offset(&file, bpos, &mut state);
 
             assert_eq!(actual, cpos.to_u32());
 
@@ -1755,7 +1795,7 @@ mod tests {
             bpos = bpos - BytePos(c.len_utf8() as u32);
             cpos = cpos - CharPos(c.len_utf16());
 
-            let actual = bpos.to_u32() - sm.calc_utf16_offset(&file, bpos, &mut state);
+            let actual = bpos.to_u32() - calc_utf16_offset(&file, bpos, &mut state);
 
             assert_eq!(actual, cpos.to_u32());
         }

@@ -94,7 +94,7 @@ mod tests {
                       better_scoped_tls::tests::TESTTLS"]
     fn panic_on_with() {
         TESTTLS.with(|s| {
-            println!("S: {}", s);
+            println!("S: {s}");
         })
     }
     #[test]

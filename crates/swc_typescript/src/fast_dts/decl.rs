@@ -50,7 +50,7 @@ impl FastDts {
                         && decl
                             .name
                             .as_ident()
-                            .map_or(false, |ident| !self.used_refs.used_as_value(&ident.to_id()))
+                            .is_some_and(|ident| !self.used_refs.used_as_value(&ident.to_id()))
                     {
                         return;
                     }
@@ -63,7 +63,7 @@ impl FastDts {
                         && decl
                             .name
                             .as_ident()
-                            .map_or(false, |ident| !self.used_refs.used_as_value(&ident.to_id()))
+                            .is_some_and(|ident| !self.used_refs.used_as_value(&ident.to_id()))
                     {
                         return;
                     }
@@ -88,7 +88,7 @@ impl FastDts {
                     && ts_module
                         .id
                         .as_ident()
-                        .map_or(false, |ident| !self.used_refs.used_as_type(&ident.to_id()))
+                        .is_some_and(|ident| !self.used_refs.used_as_type(&ident.to_id()))
                 {
                     return;
                 }

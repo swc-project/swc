@@ -89,7 +89,7 @@ fn is_reserved(sym: &str) -> bool {
 fn rename_ident(sym: &mut Atom, _strict: bool) {
     // Es
     if is_reserved(&*sym) {
-        let s = format!("_{}", sym).into();
+        let s = format!("_{sym}").into();
         *sym = s;
     }
 }

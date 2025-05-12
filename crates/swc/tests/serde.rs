@@ -11,7 +11,7 @@ where
     ::testing::run_test(false, |cm, handler| {
         let fm = cm
             .load_file(Path::new(file_name))
-            .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name, e));
+            .unwrap_or_else(|e| panic!("failed to load {file_name}: {e}"));
 
         let lexer = Lexer::new(
             if file_name.ends_with(".ts") {

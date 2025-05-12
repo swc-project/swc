@@ -12,15 +12,12 @@ use wasmer_wasix::Runtime;
 static ENGINE: Lazy<Mutex<wasmer::Engine>> = Lazy::new(|| {
     // Use empty enumset to disable simd.
     use enumset::EnumSet;
-    use wasmer::{
-        sys::{BaseTunables, EngineBuilder},
-        CompilerConfig, Target, Triple,
-    };
+    use wasmer::sys::{BaseTunables, CompilerConfig, EngineBuilder, Target, Triple};
     let mut set = EnumSet::new();
 
     // [TODO]: Should we use is_x86_feature_detected! macro instead?
     #[cfg(target_arch = "x86_64")]
-    set.insert(wasmer::CpuFeature::SSE2);
+    set.insert(wasmer::sys::CpuFeature::SSE2);
     let target = Target::new(Triple::host(), set);
 
     let config = wasmer_compiler_cranelift::Cranelift::default();
@@ -81,6 +78,8 @@ pub fn build_wasi_runtime(
         module_cache: Arc::new(cache),
         http_client: None,
         package_loader: Arc::new(dummy_loader),
+        read_only_journals: vec![],
+        writable_journals: vec![],
     };
 
     Some(Arc::new(rt))

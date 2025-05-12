@@ -1382,7 +1382,7 @@ enum TempForHead {
 pub(super) trait IsDirective {
     fn as_ref(&self) -> Option<&Stmt>;
     fn is_use_strict(&self) -> bool {
-        self.as_ref().map_or(false, Stmt::is_use_strict)
+        self.as_ref().is_some_and(Stmt::is_use_strict)
     }
 }
 

@@ -27,7 +27,7 @@ impl NoCompareNegZero {
     }
 
     fn emit_report(&self, op: BinaryOp, span: Span) {
-        let message = format!("Do not use the '{}' to compare against -0", op);
+        let message = format!("Do not use the '{op}' to compare against -0");
 
         HANDLER.with(|handler| match self.expected_reaction {
             LintRuleReaction::Error => {

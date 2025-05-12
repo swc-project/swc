@@ -416,10 +416,10 @@ fn emit_error(name: &str, span: Span, prev_span: Span) {
         handler
             .struct_span_err(
                 span,
-                &format!("the name `{}` is defined multiple times", name),
+                &format!("the name `{name}` is defined multiple times"),
             )
-            .span_label(prev_span, format!("previous definition of `{}` here", name))
-            .span_label(span, format!("`{}` redefined here", name))
+            .span_label(prev_span, format!("previous definition of `{name}` here"))
+            .span_label(span, format!("`{name}` redefined here"))
             .emit();
     });
 }

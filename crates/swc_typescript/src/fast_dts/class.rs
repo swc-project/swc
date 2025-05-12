@@ -410,9 +410,7 @@ impl FastDts {
     }
 
     pub(crate) fn transform_class_property(&mut self, prop: &mut ClassProp) {
-        if prop.accessibility.map_or(true, |accessibility| {
-            accessibility != Accessibility::Private
-        }) {
+        if prop.accessibility != Some(Accessibility::Private) {
             if prop.type_ann.is_none() {
                 if let Some(value) = prop.value.as_ref() {
                     if prop.readonly {
@@ -475,7 +473,7 @@ impl FastDts {
                 || (method
                     .key
                     .as_computed()
-                    .map_or(false, |computed| Self::is_literal(&computed.expr)))
+                    .is_some_and(|computed| Self::is_literal(&computed.expr)))
             {
                 continue;
             }

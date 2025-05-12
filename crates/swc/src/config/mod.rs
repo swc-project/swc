@@ -12,7 +12,6 @@ use once_cell::sync::Lazy;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
-use swc_cached::regex::CachedRegex;
 #[allow(unused)]
 use swc_common::plugin::metadata::TransformPluginMetadataContext;
 use swc_common::{
@@ -20,10 +19,12 @@ use swc_common::{
     errors::Handler,
     FileName, Mark, SourceMap, SyntaxContext,
 };
-pub use swc_compiler_base::{IsModule, SourceMapsConfig};
+pub use swc_compiler_base::SourceMapsConfig;
+pub use swc_config::is_module::IsModule;
 use swc_config::{
-    config_types::{BoolConfig, BoolOr, BoolOrDataConfig, MergingOption},
+    file_pattern::FilePattern,
     merge::Merge,
+    types::{BoolConfig, BoolOr, BoolOrDataConfig, MergingOption},
 };
 use swc_ecma_ast::{noop_pass, EsVersion, Expr, Pass, Program};
 use swc_ecma_ext_transforms::jest;
@@ -59,7 +60,7 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{
-    inline_globals2,
+    inline_globals,
     simplify::{dce::Config as DceConfig, Config as SimplifyConfig},
     GlobalExprMap,
 };
@@ -222,6 +223,8 @@ impl Options {
         output_path: Option<&Path>,
         source_root: Option<String>,
         source_file_name: Option<String>,
+        source_map_ignore_list: Option<FilePattern>,
+
         handler: &Handler,
         config: Option<Config>,
         comments: Option<&'a SingleThreadedComments>,
@@ -495,7 +498,7 @@ impl Options {
         let optimization = {
             optimizer
                 .and_then(|o| o.globals)
-                .map(|opts| opts.build(cm, handler))
+                .map(|opts| opts.build(cm, handler, unresolved_mark))
         };
 
         let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
@@ -533,7 +536,7 @@ impl Options {
         // This is because minifier API is compatible with Terser, and Terser
         // defaults to true, while by default swc itself doesn't enable
         // inline_script by default.
-        let codegen_inline_script = js_minify.as_ref().map_or(false, |v| v.format.inline_script);
+        let codegen_inline_script = js_minify.as_ref().is_some_and(|v| v.format.inline_script);
 
         let preamble = if !cfg.jsc.output.preamble.is_empty() {
             cfg.jsc.output.preamble
@@ -761,6 +764,7 @@ impl Options {
             output_path: output_path.map(|v| v.to_path_buf()),
             source_root,
             source_file_name,
+            source_map_ignore_list,
             comments: comments.cloned(),
             preserve_comments,
             emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
@@ -836,7 +840,7 @@ impl Default for Rc {
             Config {
                 env: None,
                 test: None,
-                exclude: Some(FileMatcher::Regex("\\.tsx?$".into())),
+                exclude: Some(FileMatcher::Pattern(FilePattern::Regex("\\.tsx?$".into()))),
                 jsc: JscConfig {
                     syntax: Some(Default::default()),
                     ..Default::default()
@@ -845,7 +849,7 @@ impl Default for Rc {
             },
             Config {
                 env: None,
-                test: Some(FileMatcher::Regex("\\.tsx$".into())),
+                test: Some(FileMatcher::Pattern(FilePattern::Regex("\\.tsx$".into()))),
                 exclude: None,
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsSyntax {
@@ -858,7 +862,9 @@ impl Default for Rc {
             },
             Config {
                 env: None,
-                test: Some(FileMatcher::Regex("\\.(cts|mts)$".into())),
+                test: Some(FileMatcher::Pattern(FilePattern::Regex(
+                    "\\.(cts|mts)$".into(),
+                ))),
                 exclude: None,
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsSyntax {
@@ -872,7 +878,7 @@ impl Default for Rc {
             },
             Config {
                 env: None,
-                test: Some(FileMatcher::Regex("\\.ts$".into())),
+                test: Some(FileMatcher::Pattern(FilePattern::Regex("\\.ts$".into()))),
                 exclude: None,
                 jsc: JscConfig {
                     syntax: Some(Syntax::Typescript(TsSyntax {
@@ -954,6 +960,9 @@ pub struct Config {
     pub source_maps: Option<SourceMapsConfig>,
 
     #[serde(default)]
+    pub source_map_ignore_list: Option<FilePattern>,
+
+    #[serde(default)]
     pub inline_sources_content: BoolConfig<true>,
 
     #[serde(default)]
@@ -1000,7 +1009,7 @@ impl Config {
 #[serde(untagged)]
 pub enum FileMatcher {
     None,
-    Regex(CachedRegex),
+    Pattern(FilePattern),
     Multi(Vec<FileMatcher>),
 }
 
@@ -1015,7 +1024,7 @@ impl FileMatcher {
         match self {
             FileMatcher::None => Ok(false),
 
-            FileMatcher::Regex(re) => {
+            FileMatcher::Pattern(re) => {
                 let filename = if cfg!(target_os = "windows") {
                     filename.to_string_lossy().replace('\\', "/")
                 } else {
@@ -1075,6 +1084,7 @@ pub struct BuiltInput<P: Pass> {
 
     pub source_root: Option<String>,
     pub source_file_name: Option<String>,
+    pub source_map_ignore_list: Option<FilePattern>,
 
     pub comments: Option<SingleThreadedComments>,
     pub preserve_comments: BoolOr<JsMinifyCommentOption>,
@@ -1112,6 +1122,7 @@ where
             output_path: self.output_path,
             source_root: self.source_root,
             source_file_name: self.source_file_name,
+            source_map_ignore_list: self.source_map_ignore_list,
             comments: self.comments,
             preserve_comments: self.preserve_comments,
             inline_sources_content: self.inline_sources_content,
@@ -1249,7 +1260,7 @@ pub enum ErrorFormat {
 impl ErrorFormat {
     pub fn format(&self, err: &Error) -> String {
         match self {
-            ErrorFormat::Normal => format!("{:?}", err),
+            ErrorFormat::Normal => format!("{err:?}"),
             ErrorFormat::Json => {
                 let mut map = serde_json::Map::new();
 
@@ -1543,7 +1554,12 @@ impl Default for GlobalInliningPassEnvs {
 }
 
 impl GlobalPassOption {
-    pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Pass {
+    pub(crate) fn build(
+        self,
+        cm: &SourceMap,
+        handler: &Handler,
+        unresolved_mark: Mark,
+    ) -> impl 'static + Pass {
         type ValuesMap = Arc<FxHashMap<Atom, Expr>>;
 
         fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
@@ -1578,7 +1594,7 @@ impl GlobalPassOption {
 
             for (k, v) in values {
                 let v = if is_env {
-                    format!("'{}'", v)
+                    format!("'{v}'")
                 } else {
                     (*v).into()
                 };
@@ -1697,7 +1713,13 @@ impl GlobalPassOption {
             }
         };
 
-        inline_globals2(env_map, global_map, global_exprs, Arc::new(self.typeofs))
+        inline_globals(
+            unresolved_mark,
+            env_map,
+            global_map,
+            global_exprs,
+            Arc::new(self.typeofs),
+        )
     }
 }
 

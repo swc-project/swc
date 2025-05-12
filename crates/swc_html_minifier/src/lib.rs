@@ -6,11 +6,11 @@ use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use serde_json::Value;
 use swc_atoms::{atom, Atom};
-use swc_cached::regex::CachedRegex;
 use swc_common::{
     comments::SingleThreadedComments, sync::Lrc, EqIgnoreSpan, FileName, FilePathMapping, Mark,
     SourceMap, DUMMY_SP,
 };
+use swc_config::regex::CachedRegex;
 use swc_html_ast::*;
 use swc_html_parser::parser::ParserConfig;
 use swc_html_utils::{HTML_ELEMENTS_AND_ATTRIBUTES, SVG_ELEMENTS_AND_ATTRIBUTES};
@@ -1241,7 +1241,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
                                 {
                                     false
                                 } else if is_script_tag
-                                    && value.trim().to_ascii_lowercase() == "module"
+                                    && value.trim().eq_ignore_ascii_case("module")
                                 {
                                     true
                                 } else {
@@ -1283,7 +1283,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
                                 {
                                     false
                                 } else if is_script_tag
-                                    && value.trim().to_ascii_lowercase() == "module"
+                                    && value.trim().eq_ignore_ascii_case("module")
                                 {
                                     true
                                 } else {
@@ -1341,7 +1341,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
 
         if is_script_tag {
             let is_modules = if is_script_tag {
-                left.attributes.iter().any(|attribute| matches!(&attribute.value, Some(value) if value.trim().to_ascii_lowercase() == "module"))
+                left.attributes.iter().any(|attribute| matches!(&attribute.value, Some(value) if value.trim().eq_ignore_ascii_case("module")))
             } else {
                 false
             };
@@ -1793,10 +1793,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
             false => serde_json::to_string(&json),
         };
 
-        match result {
-            Ok(minified_json) => Some(minified_json),
-            _ => None,
-        }
+        result.ok()
     }
 
     fn need_minify_js(&self) -> bool {
@@ -2643,7 +2640,7 @@ impl<C: MinifyCss> VisitMut for Minifier<'_, C> {
     fn visit_mut_text(&mut self, n: &mut Text) {
         n.visit_mut_children_with(self);
 
-        if n.data.len() == 0 {
+        if n.data.is_empty() {
             return;
         }
 
@@ -2784,7 +2781,7 @@ impl<C: MinifyCss> VisitMut for Minifier<'_, C> {
             return;
         }
 
-        if self.is_conditional_comment(&n.data) && n.data.len() > 0 {
+        if self.is_conditional_comment(&n.data) && !n.data.is_empty() {
             let start_pos = match n.data.find("]>") {
                 Some(start_pos) => start_pos,
                 _ => return,

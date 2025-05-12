@@ -478,7 +478,7 @@ impl InjectHelpers {
             .as_callee(),
             args: vec![Str {
                 span: DUMMY_SP,
-                value: format!("@swc/helpers/_/_{}", name).into(),
+                value: format!("@swc/helpers/_/_{name}").into(),
                 raw: None,
             }
             .as_arg()],
@@ -489,7 +489,7 @@ impl InjectHelpers {
             kind: VarDeclKind::Var,
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(Ident::new(format!("_{}", name).into(), DUMMY_SP, ctxt).into()),
+                name: Pat::Ident(Ident::new(format!("_{name}").into(), DUMMY_SP, ctxt).into()),
                 init: Some(c.into()),
                 definite: false,
             }],
@@ -668,8 +668,8 @@ _throw();",
                     return Ok(());
                 }
 
-                println!(">>>>> Orig <<<<<\n{}", input);
-                println!(">>>>> Code <<<<<\n{}", actual_src);
+                println!(">>>>> Orig <<<<<\n{input}");
+                println!(">>>>> Code <<<<<\n{actual_src}");
                 assert_eq!(
                     DebugUsingDisplay(&actual_src),
                     DebugUsingDisplay(&expected_src)

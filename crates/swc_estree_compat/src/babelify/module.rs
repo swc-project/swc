@@ -194,7 +194,7 @@ impl Visit for CommentCollector {
         // For example, this happens when the first line in a file is a comment.
         if let Some(comments) = self.comments.leading.get(&sp.lo) {
             for comment in comments.iter() {
-                if !self.collected.iter().any(|c| *c == *comment) {
+                if !self.collected.contains(comment) {
                     span_comments.push(comment.clone());
                 }
             }
@@ -202,7 +202,7 @@ impl Visit for CommentCollector {
 
         if let Some(comments) = self.comments.trailing.get(&sp.hi) {
             for comment in comments.iter() {
-                if !self.collected.iter().any(|c| *c == *comment) {
+                if !self.collected.contains(comment) {
                     span_comments.push(comment.clone());
                 }
             }

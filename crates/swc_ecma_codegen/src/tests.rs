@@ -141,8 +141,8 @@ pub(crate) fn assert_pretty(from: &str, to: &str) {
         Syntax::default(),
     );
 
-    println!("Expected: {:?}", to);
-    println!("Actual:   {:?}", out);
+    println!("Expected: {to:?}");
+    println!("Actual:   {out:?}");
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
 }
 

@@ -152,6 +152,6 @@ struct TestConfig {}
 
 impl swc_css_modules::TransformConfig for TestConfig {
     fn new_name_for(&self, local: &Atom) -> Atom {
-        format!("__local__{}", local).into()
+        format!("__local__{local}").into()
     }
 }

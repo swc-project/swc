@@ -647,7 +647,7 @@ fn parse_again(input: PathBuf) {
             gen.emit(&stylesheet).unwrap();
         }
 
-        eprintln!("==== ==== Codegen ==== ====\n{}\n", css_str);
+        eprintln!("==== ==== Codegen ==== ====\n{css_str}\n");
 
         let new_fm = cm.new_source_file(Lrc::new(FileName::Anon), css_str);
         let mut parsed_errors = Vec::new();

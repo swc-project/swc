@@ -117,6 +117,7 @@
 #![cfg_attr(test, feature(test))]
 #![deny(clippy::all)]
 #![deny(unused)]
+#![allow(unexpected_cfgs)]
 #![allow(clippy::nonminimal_bool)]
 #![allow(clippy::too_many_arguments)]
 #![allow(clippy::unnecessary_unwrap)]

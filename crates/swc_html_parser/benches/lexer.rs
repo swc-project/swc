@@ -21,7 +21,7 @@ fn bench_document(b: &mut Bencher, src: &'static str) {
 }
 
 fn run(c: &mut Criterion, id: &str, src: &'static str) {
-    c.bench_function(&format!("html/lexer/{}", id), |b| {
+    c.bench_function(&format!("html/lexer/{id}"), |b| {
         bench_document(b, src);
     });
 }

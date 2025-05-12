@@ -39,7 +39,7 @@ impl NoObjCalls {
     }
 
     fn emit_report(&self, span: Span, name: &str) {
-        let message = format!("'{}' is not a function", name);
+        let message = format!("'{name}' is not a function");
 
         HANDLER.with(|handler| match self.expected_reaction {
             LintRuleReaction::Error => {

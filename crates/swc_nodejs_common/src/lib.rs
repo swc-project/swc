@@ -9,7 +9,7 @@ use serde::de::DeserializeOwned;
 pub trait MapErr<T>: Into<Result<T, anyhow::Error>> {
     fn convert_err(self) -> napi::Result<T> {
         self.into()
-            .map_err(|err| napi::Error::new(Status::GenericFailure, format!("{:?}", err)))
+            .map_err(|err| napi::Error::new(Status::GenericFailure, format!("{err:?}")))
     }
 }
 

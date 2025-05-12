@@ -137,11 +137,11 @@ fn move_to_data_dir(input_path: &Path) -> Result<PathBuf> {
     // acquire hash digest in the form of GenericArray,
     // which in this case is equivalent to [u8; 20]
     let result = hasher.finalize();
-    let hash_str = format!("{:x}", result);
+    let hash_str = format!("{result:x}");
 
-    create_dir_all(format!(".swc-reduce/{}", hash_str)).context("failed to create `.data`")?;
+    create_dir_all(format!(".swc-reduce/{hash_str}")).context("failed to create `.data`")?;
 
-    let to = PathBuf::from(format!(".swc-reduce/{}/input.js", hash_str));
+    let to = PathBuf::from(format!(".swc-reduce/{hash_str}/input.js"));
     fs::write(&to, src.as_bytes()).context("failed to write")?;
 
     Ok(to)

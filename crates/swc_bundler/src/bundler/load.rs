@@ -121,7 +121,7 @@ where
             let data = self
                 .loader
                 .load(file_name)
-                .with_context(|| format!("Bundler.loader.load({}) failed", file_name))?;
+                .with_context(|| format!("Bundler.loader.load({file_name}) failed"))?;
             self.scope.mark_as_loaded(module_id);
             Ok((module_id, data))
         })

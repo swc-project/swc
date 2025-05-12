@@ -346,7 +346,7 @@ impl VisitMut for TscDecorator {
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        let old = mem::replace(&mut self.class_name, Some(n.ident.clone()));
+        let old = self.class_name.replace(n.ident.clone());
 
         n.visit_mut_children_with(self);
 
@@ -393,7 +393,7 @@ impl VisitMut for TscDecorator {
             .get_or_insert_with(|| private_ident!("_class"))
             .clone();
 
-        let old = mem::replace(&mut self.class_name, Some(ident.clone()));
+        let old = self.class_name.replace(ident.clone());
 
         n.visit_mut_children_with(self);
 

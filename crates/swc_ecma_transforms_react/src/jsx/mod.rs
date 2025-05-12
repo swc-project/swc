@@ -406,7 +406,7 @@ fn cache_filename(name: &str) -> Lrc<FileName> {
         }
     }
 
-    let file = Lrc::new(FileName::Internal(format!("jsx-config-{}.js", name)));
+    let file = Lrc::new(FileName::Internal(format!("jsx-config-{name}.js")));
 
     {
         let mut cache = FILENAME_CACHE
@@ -1393,7 +1393,7 @@ fn jsx_text_to_str(t: Atom) -> Atom {
         } else {
             Cow::Borrowed(line.trim_end_matches(' '))
         };
-        if line.len() == 0 {
+        if line.is_empty() {
             continue;
         }
         if i != 0 && !buf.is_empty() {

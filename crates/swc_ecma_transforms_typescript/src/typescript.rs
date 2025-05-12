@@ -146,7 +146,7 @@ impl EsModuleDecl for ModuleDecl {
 impl EsModuleDecl for ModuleItem {
     fn is_es_module_decl(&self) -> bool {
         self.as_module_decl()
-            .map_or(false, ModuleDecl::is_es_module_decl)
+            .is_some_and(ModuleDecl::is_es_module_decl)
     }
 }
 

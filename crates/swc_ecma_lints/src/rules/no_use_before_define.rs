@@ -106,7 +106,7 @@ impl NoUseBeforeDefine {
     }
 
     fn emit_report(&self, es6_var_check: bool, span: Span, name: &str) {
-        let message = format!("'{}' was used before it was defined", name);
+        let message = format!("'{name}' was used before it was defined");
 
         let expected_reaction = if es6_var_check {
             LintRuleReaction::Error

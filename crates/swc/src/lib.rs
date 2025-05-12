@@ -135,7 +135,7 @@ use swc_common::{
     GLOBALS,
 };
 pub use swc_compiler_base::{PrintArgs, TransformOutput};
-pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
+pub use swc_config::types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{noop_pass, EsVersion, Pass, Program};
 use swc_ecma_codegen::{to_code_with_comments, Node};
 use swc_ecma_loader::resolvers::{
@@ -259,7 +259,7 @@ impl Compiler {
             let read_inline_sourcemap =
                 |data_url: &str| -> Result<Option<sourcemap::SourceMap>, Error> {
                     let url = Url::parse(data_url).with_context(|| {
-                        format!("failed to parse inline source map url\n{}", data_url)
+                        format!("failed to parse inline source map url\n{data_url}")
                     })?;
 
                     let idx = match url.path().find("base64,") {
@@ -367,8 +367,7 @@ impl Compiler {
                                         || {
                                             format!(
                                                 "failed to read input source map
-                                from file at {}",
-                                                path
+                                from file at {path}"
                                             )
                                         },
                                     )?))
@@ -572,7 +571,7 @@ impl Compiler {
                 }
             }
         })
-        .with_context(|| format!("failed to read .swcrc file for input file at `{}`", name))
+        .with_context(|| format!("failed to read .swcrc file for input file at `{name}`"))
     }
 
     /// This method returns [None] if a file should be skipped.
@@ -626,6 +625,7 @@ impl Compiler {
                 opts.output_path.as_deref(),
                 opts.source_root.clone(),
                 opts.source_file_name.clone(),
+                config.source_map_ignore_list.clone(),
                 handler,
                 Some(config),
                 comments,
@@ -903,6 +903,7 @@ impl Compiler {
                     output_path: opts.output_path.clone().map(From::from),
                     inline_sources_content: opts.inline_sources_content,
                     source_map,
+                    source_map_ignore_list: opts.source_map_ignore_list.clone(),
                     source_map_names: &source_map_names,
                     orig: orig.as_ref(),
                     comments: Some(&comments),
@@ -1047,6 +1048,7 @@ impl Compiler {
                 PrintArgs {
                     source_root: config.source_root.as_deref(),
                     source_file_name: config.source_file_name.as_deref(),
+                    source_map_ignore_list: config.source_map_ignore_list.clone(),
                     output_path: config.output_path,
                     inline_sources_content: config.inline_sources_content,
                     source_map: config.source_maps,
@@ -1134,8 +1136,7 @@ fn parse_swcrc(s: &str) -> Result<Rc, Error> {
             Category::Eof => "unexpected eof",
         };
         Error::new(e).context(format!(
-            "failed to deserialize .swcrc (json) file: {}: {}:{}",
-            msg, line, column
+            "failed to deserialize .swcrc (json) file: {msg}: {line}:{column}"
         ))
     }
 

@@ -30,8 +30,8 @@ impl CompareOptsCommand {
             let default_code = print_js(cm.clone(), &default_record.module, true)
                 .context("failed to convert ast to code")?;
 
-            eprintln!("default: {} bytes", default_code.as_bytes().len());
-            default_sum += default_code.as_bytes().len();
+            eprintln!("default: {} bytes", default_code.len());
+            default_sum += default_code.len();
 
             let new_record = get_minified_with_opts(
                 cm.clone(),
@@ -50,12 +50,12 @@ impl CompareOptsCommand {
             let new_code = print_js(cm.clone(), &new_record.module, true)
                 .context("failed to convert ast to code")?;
 
-            eprintln!("new: {} bytes", new_code.as_bytes().len());
-            new_sum += new_code.as_bytes().len();
+            eprintln!("new: {} bytes", new_code.len());
+            new_sum += new_code.len();
         }
 
-        eprintln!("default (total): {} bytes", default_sum);
-        eprintln!("new (total): {} bytes", new_sum);
+        eprintln!("default (total): {default_sum} bytes");
+        eprintln!("new (total): {new_sum} bytes");
 
         Ok(())
     }

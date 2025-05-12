@@ -38,7 +38,7 @@ pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
     if opts.cache {
         let hash = calc_hash(&format!("{:?}:{}", opts.args, js_code));
         let cache_dir = cargo_cache_root().join(".swc-node-exec-cache");
-        let cache_path = cache_dir.join(format!("{}.stdout", hash));
+        let cache_path = cache_dir.join(format!("{hash}.stdout"));
 
         if let Ok(s) = fs::read_to_string(&cache_path) {
             return Ok(s);

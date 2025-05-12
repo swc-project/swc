@@ -1,7 +1,7 @@
 use std::{borrow::Cow, sync::Arc};
 
 use indexmap::IndexSet;
-use petgraph::{algo::tarjan_scc, prelude::DiGraphMap, Direction::Incoming};
+use petgraph::{algo::tarjan_scc, prelude::GraphMap, Directed, Direction::Incoming};
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_atoms::{atom, Atom};
 use swc_common::{
@@ -41,7 +41,6 @@ pub fn dce(
         in_block_stmt: false,
         var_decl_kind: None,
         data: Default::default(),
-        bindings: Default::default(),
     })
 }
 
@@ -89,8 +88,6 @@ struct TreeShaker {
     var_decl_kind: Option<VarDeclKind>,
 
     data: Arc<Data>,
-
-    bindings: Arc<FxHashSet<Id>>,
 }
 
 impl CompilerPass for TreeShaker {
@@ -107,7 +104,7 @@ struct Data {
     ///
     /// We use `u32` because [FastDiGraphMap] stores types as `(N, 1 bit)` so if
     /// we use u32 it fits into the cache line of cpu.
-    graph: DiGraphMap<u32, VarInfo>,
+    graph: GraphMap<u32, VarInfo, Directed, FxBuildHasher>,
     /// Entrypoints.
     entries: FxHashSet<u32>,
 
@@ -564,7 +561,6 @@ impl Parallel for TreeShaker {
             expr_ctx: self.expr_ctx,
             data: self.data.clone(),
             config: self.config.clone(),
-            bindings: self.bindings.clone(),
             ..*self
         }
     }
@@ -644,7 +640,8 @@ impl TreeShaker {
             return false;
         }
 
-        self.bindings.contains(&name)
+        // If the name is unresolved, it should be preserved
+        self.expr_ctx.unresolved_ctxt != name.1
             && self
                 .data
                 .used_names
@@ -734,20 +731,20 @@ impl VisitMut for TreeShaker {
                                 && !m
                                     .value
                                     .as_deref()
-                                    .map_or(false, |e| e.may_have_side_effects(self.expr_ctx))
+                                    .is_some_and(|e| e.may_have_side_effects(self.expr_ctx))
                         }
                         ClassMember::AutoAccessor(m) => {
                             !matches!(m.key, Key::Public(PropName::Computed(..)))
                                 && !m
                                     .value
                                     .as_deref()
-                                    .map_or(false, |e| e.may_have_side_effects(self.expr_ctx))
+                                    .is_some_and(|e| e.may_have_side_effects(self.expr_ctx))
                         }
 
                         ClassMember::PrivateProp(m) => !m
                             .value
                             .as_deref()
-                            .map_or(false, |e| e.may_have_side_effects(self.expr_ctx)),
+                            .is_some_and(|e| e.may_have_side_effects(self.expr_ctx)),
 
                         ClassMember::StaticBlock(_) => false,
 
@@ -902,10 +899,6 @@ impl VisitMut for TreeShaker {
 
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
-        if self.bindings.is_empty() {
-            self.bindings = Arc::new(collect_decls(&*m))
-        }
-
         let mut data = Default::default();
 
         {
@@ -962,10 +955,6 @@ impl VisitMut for TreeShaker {
 
     fn visit_mut_script(&mut self, m: &mut Script) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
-
-        if self.bindings.is_empty() {
-            self.bindings = Arc::new(collect_decls(&*m))
-        }
 
         let mut data = Default::default();
 

@@ -51,19 +51,19 @@ impl Parallel for PrecompressOptimizer {
 impl VisitMut for PrecompressOptimizer {
     noop_visit_mut_type!();
 
+    fn visit_mut_class_members(&mut self, n: &mut Vec<ClassMember>) {
+        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         n.visit_mut_children_with(self);
 
         self.optimize_bin_expr(n);
     }
 
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
-    }
-
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });
@@ -75,13 +75,19 @@ impl VisitMut for PrecompressOptimizer {
         });
     }
 
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
+            n.visit_mut_with(v);
+        });
+    }
+
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });
     }
 
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });

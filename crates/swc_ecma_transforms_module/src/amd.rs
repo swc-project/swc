@@ -148,10 +148,7 @@ where
 
         let mut import_map = Default::default();
 
-        stmts.extend(
-            self.handle_import_export(&mut import_map, link, export, is_export_assign)
-                .map(From::from),
-        );
+        stmts.extend(self.handle_import_export(&mut import_map, link, export, is_export_assign));
 
         stmts.extend(n.body.take().into_iter().filter_map(|item| match item {
             ModuleItem::Stmt(stmt) if !stmt.is_empty() => Some(stmt),
@@ -197,7 +194,7 @@ where
                 let src_path = match &self.resolver {
                     Resolver::Real { resolver, base } => resolver
                         .resolve_import(base, &src_path)
-                        .with_context(|| format!("failed to resolve `{}`", src_path))
+                        .with_context(|| format!("failed to resolve `{src_path}`"))
                         .unwrap(),
                     Resolver::Default => src_path,
                 };

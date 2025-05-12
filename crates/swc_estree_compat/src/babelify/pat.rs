@@ -127,7 +127,7 @@ impl From<PatOutput> for Param {
             PatOutput::Array(p) => Param::Pat(Pattern::Array(p)),
             PatOutput::Object(p) => Param::Pat(Pattern::Object(p)),
             PatOutput::Assign(p) => Param::Pat(Pattern::Assignment(p)),
-            PatOutput::Expr(p) => panic!("Cannot convert {:?} to Param", p),
+            PatOutput::Expr(p) => panic!("Cannot convert {p:?} to Param"),
         }
     }
 }

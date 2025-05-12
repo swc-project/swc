@@ -77,7 +77,7 @@ impl PreferConst {
     }
 
     fn emit_report(&self, span: Span, var_name: &str) {
-        let message = format!("'{}' is never reassigned. Use 'const' insted", var_name);
+        let message = format!("'{var_name}' is never reassigned. Use 'const' insted");
 
         HANDLER.with(|handler| match self.expected_reaction {
             LintRuleReaction::Error => {

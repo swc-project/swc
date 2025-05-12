@@ -221,17 +221,17 @@ impl EnumValueComputer<'_> {
                 TsEnumRecordValue::Number(value)
             }
             (TsEnumRecordValue::String(left), TsEnumRecordValue::String(right), op!(bin, "+")) => {
-                TsEnumRecordValue::String(format!("{}{}", left, right).into())
+                TsEnumRecordValue::String(format!("{left}{right}").into())
             }
             (TsEnumRecordValue::Number(left), TsEnumRecordValue::String(right), op!(bin, "+")) => {
                 let left = left.to_js_string();
 
-                TsEnumRecordValue::String(format!("{}{}", left, right).into())
+                TsEnumRecordValue::String(format!("{left}{right}").into())
             }
             (TsEnumRecordValue::String(left), TsEnumRecordValue::Number(right), op!(bin, "+")) => {
                 let right = right.to_js_string();
 
-                TsEnumRecordValue::String(format!("{}{}", left, right).into())
+                TsEnumRecordValue::String(format!("{left}{right}").into())
             }
             (left, right, _) => {
                 let mut origin_expr = origin_expr;

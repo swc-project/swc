@@ -11,7 +11,7 @@ use common::{
 };
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
-use swc_config::IsModule;
+use swc_config::is_module::IsModule;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::resolver;

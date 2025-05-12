@@ -27,7 +27,7 @@ impl NoEmptyPattern {
     }
 
     fn emit_report(&self, span: Span, format_type: &str) {
-        let message = format!("Unexpected empty {} pattern", format_type);
+        let message = format!("Unexpected empty {format_type} pattern");
 
         HANDLER.with(|handler| match self.expected_reaction {
             LintRuleReaction::Error => {

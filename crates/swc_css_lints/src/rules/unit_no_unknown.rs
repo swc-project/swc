@@ -42,7 +42,7 @@ impl Visit for UnitNoUnknown {
         let unit = &unknown_dimension.unit.value;
 
         if self.ignored_units.iter().all(|item| !item.is_match(unit)) {
-            let message = format!("Unexpected unknown unit \"{}\".", unit);
+            let message = format!("Unexpected unknown unit \"{unit}\".");
             self.ctx.report(&unknown_dimension.unit, message);
         }
 
@@ -56,7 +56,7 @@ impl Visit for UnitNoUnknown {
                 _ => None,
             } {
                 if self.ignored_units.iter().all(|item| !item.is_match(unit)) {
-                    let message = format!("Unexpected unknown unit \"{}\".", unit);
+                    let message = format!("Unexpected unknown unit \"{unit}\".");
                     self.ctx.report(token_and_span, message);
                 }
             }

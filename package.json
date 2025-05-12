@@ -97,5 +97,8 @@
             "prettier --write"
         ]
     },
-    "version": "1.5.30-nightly-20240614.2"
+    "version": "1.5.30-nightly-20240614.2",
+    "engines": {
+        "node": ">= 20"
+    }
 }

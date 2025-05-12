@@ -37,7 +37,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
         });
         let actual_str = serde_json::to_string_pretty(&actual).unwrap();
 
-        println!("----- swc output -----\n{}", actual_str);
+        println!("----- swc output -----\n{actual_str}");
         let output = {
             let mut cmd = Command::new("node");
             cmd.arg("-e")
@@ -57,7 +57,7 @@ fn assert_flavor(flavor: Flavor, input: &Path, output_json_path: &Path) {
 
         {
             let mut expected = serde_json::from_str::<Value>(&expected)
-                .with_context(|| format!("acorn.js generated invalid json:\n {}", expected))
+                .with_context(|| format!("acorn.js generated invalid json:\n {expected}"))
                 .unwrap();
 
             println!(

@@ -5,7 +5,7 @@ use std::path::{Path, PathBuf};
 use anyhow::{bail, Context, Result};
 use clap::Parser;
 use proc_macro2::Span;
-use swc_cached::regex::CachedRegex;
+use swc_config::regex::CachedRegex;
 use syn::{Ident, Item};
 
 use crate::types::qualify_types;
@@ -51,16 +51,16 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excluded_types: &[String
         .context("faield to canonicalize input directory")?
         .join("src");
 
-    eprintln!("Generating visitor for crate in directory: {:?}", input_dir);
+    eprintln!("Generating visitor for crate in directory: {input_dir:?}");
     let input_files = collect_input_files(&input_dir)?;
     eprintln!("Found {} input files", input_files.len());
 
-    eprintln!("Generating visitor in directory: {:?}", output);
+    eprintln!("Generating visitor in directory: {output:?}");
 
     let inputs = input_files
         .iter()
         .map(|file| {
-            parse_rust_file(file).with_context(|| format!("failed to parse file: {:?}", file))
+            parse_rust_file(file).with_context(|| format!("failed to parse file: {file:?}"))
         })
         .map(|res| res.map(qualify_types))
         .collect::<Result<Vec<_>>>()?;
@@ -97,7 +97,7 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excluded_types: &[String
 
     std::fs::write(output, output_content).context("failed to write the output file")?;
 
-    eprintln!("Generated visitor code in file: {:?}", output);
+    eprintln!("Generated visitor code in file: {output:?}");
 
     run_cargo_fmt(output)?;
 
@@ -215,7 +215,7 @@ fn run_cargo_fmt(file: &Path) -> Result<()> {
     let mut cmd = std::process::Command::new("cargo");
     cmd.arg("fmt").arg("--").arg(file);
 
-    eprintln!("Running: {:?}", cmd);
+    eprintln!("Running: {cmd:?}");
     let status = cmd.status().context("failed to run cargo fmt")?;
 
     if !status.success() {

@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_ast"
 repository    = { workspace = true }
-version       = "8.1.2"
+version       = "9.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -53,7 +53,7 @@ unicode-id-start = { workspace = true }
 
 string_enum = { version = "1.0.0", path = "../string_enum" }
 swc_atoms   = { version = "5.0.0", path = "../swc_atoms" }
-swc_common  = { version = "8.1.1", path = "../swc_common" }
+swc_common  = { version = "9.2.0", path = "../swc_common" }
 swc_visit   = { version = "2.0.0", path = "../swc_visit" }
 
 [dev-dependencies]

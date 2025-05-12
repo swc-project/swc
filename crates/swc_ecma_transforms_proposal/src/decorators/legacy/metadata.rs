@@ -512,7 +512,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
             TsType::TsLitType(ty) => {
                 // TODO: Proper error reporting
-                panic!("Bad type for decoration: {:?}", ty);
+                panic!("Bad type for decoration: {ty:?}");
             }
 
             TsType::TsKeywordType(TsKeywordType {
@@ -550,7 +550,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
             TsType::TsTypeRef(ty) => serialize_type_ref(class_name, ty),
 
-            _ => panic!("Bad type for decorator: {:?}", ty),
+            _ => panic!("Bad type for decorator: {ty:?}"),
         }
     }
 
