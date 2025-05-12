@@ -3,6 +3,7 @@
 use std::{
     fmt::{Display, Formatter},
     hash::BuildHasherDefault,
+    iter::once,
     mem::{take, transmute_copy, ManuallyDrop},
 };
 
@@ -54,14 +55,13 @@ pub(super) struct ScopeData {
 }
 
 pub(crate) struct PreparedScope<'a> {
-    pub(super) kind: ScopeKind,
     pub(super) data: PreparedScopeData<'a>,
 
     pub(super) children: Vec<PreparedScope<'a>>,
 }
 
 pub(crate) struct PreparedScopeData<'a> {
-    pub(super) all: &'a FxHashSet<Id>,
+    pub(super) all: Vec<&'a FxHashSet<Id>>,
     pub(super) queue: FxIndexSet<Id>,
 }
 
@@ -108,10 +108,16 @@ impl Scope {
             .map(|child| child.prepare_renaming())
             .collect::<Vec<_>>();
 
+        let all = children
+            .iter()
+            .flat_map(|v| &v.data.all)
+            .copied()
+            .chain(once(&self.data.all))
+            .collect::<Vec<_>>();
+
         PreparedScope {
-            kind: self.kind,
             data: PreparedScopeData {
-                all: &self.data.all,
+                all,
                 queue: take(&mut self.data.queue),
             },
             children,
@@ -214,7 +220,7 @@ impl PreparedScope<'_> {
                 continue;
             }
 
-            if self.data.all.contains(left) {
+            if self.data.all.iter().any(|v| v.contains(left)) {
                 return false;
             }
         }
