@@ -222,7 +222,10 @@ impl<'a> Visit for Dropper<'a> {
         node.visit_children_with(self);
 
         if let Some(e) = self.data.used_names.get_mut(&node.to_id()) {
-            e.assign -= 1;
+            // We use `saturating_sub` to avoid underflow.
+            // We subtract the cycle count from the occurence count, so the value is not
+            // correct representation of the actual usage.
+            e.assign = e.assign.saturating_sub(1);
 
             if e.usage == 0 && e.assign == 0 {
                 let n = self.data.get_node(&node.to_id());
@@ -236,7 +239,10 @@ impl<'a> Visit for Dropper<'a> {
 
         if let Expr::Ident(i) = expr {
             if let Some(e) = self.data.used_names.get_mut(&i.to_id()) {
-                e.usage -= 1;
+                // We use `saturating_sub` to avoid underflow.
+                // We subtract the cycle count from the occurence count, so the value is not
+                // correct representation of the actual usage.
+                e.usage = e.usage.saturating_sub(1);
                 if e.usage == 0 && e.assign == 0 {
                     let n = self.data.get_node(&i.to_id());
                     self.data.graph.remove_node(n);
@@ -1138,7 +1144,7 @@ impl VisitMut for TreeShaker {
                 self.changed = true;
                 debug!("Dropping {} because it's not used", i);
                 v.name.take();
-                self.data.drop_ast_node(&v.init);
+                self.data.drop_ast_node(&*v);
             }
         }
     }
