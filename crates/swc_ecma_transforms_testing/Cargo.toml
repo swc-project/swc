@@ -23,7 +23,7 @@ sourcemap  = { workspace = true }
 tempfile   = { workspace = true }
 
 swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false }
-swc_common = { version = "9.1.0", path = "../swc_common", features = [
+swc_common = { version = "9.2.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "9.0.0", path = "../swc_ecma_ast" }
@@ -31,6 +31,6 @@ swc_ecma_codegen = { version = "11.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "12.0.0", path = "../swc_ecma_parser" }
 swc_ecma_testing = { version = "10.0.0", path = "../swc_ecma_testing" }
 swc_ecma_transforms_base = { version = "13.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils = { version = "13.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "13.1.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "9.0.0", path = "../swc_ecma_visit" }
 testing = { version = "10.0.0", path = "../testing" }

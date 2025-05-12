@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_utils"
 repository    = { workspace = true }
-version       = "13.0.0"
+version       = "13.1.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -32,7 +32,7 @@ tracing    = { workspace = true }
 unicode-id = { workspace = true }
 
 swc_atoms      = { version = "5.0.0", path = "../swc_atoms" }
-swc_common     = { version = "9.1.0", path = "../swc_common" }
+swc_common     = { version = "9.2.0", path = "../swc_common" }
 swc_ecma_ast   = { version = "9.0.0", path = "../swc_ecma_ast" }
 swc_ecma_visit = { version = "9.0.0", path = "../swc_ecma_visit" }
 
