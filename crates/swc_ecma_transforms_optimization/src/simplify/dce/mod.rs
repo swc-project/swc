@@ -201,30 +201,32 @@ impl Data {
 
 /// Graph modification
 impl Data {
-    fn drop_opt_expr(&mut self, init: Option<&Expr>) {
-        if let Some(init) = init {
-            self.drop_expr(init);
-        }
+    fn drop_ast_node<N>(&mut self, node: &N)
+    where
+        N: for<'aa> VisitWith<Dropper<'aa>>,
+    {
+        let mut dropper = Dropper { data: self };
+
+        node.visit_with(&mut dropper);
     }
+}
 
-    fn drop_expr(&mut self, expr: &Expr) {
-        match expr {
-            Expr::Ident(i) => {
-                self.used_names.entry(i.to_id()).or_default().usage -= 1;
-            }
+struct Dropper<'a> {
+    data: &'a mut Data,
+}
 
-            Expr::Member(m) => {
-                self.drop_expr(&m.obj);
+impl<'a> Visit for Dropper<'a> {
+    noop_visit_type!(fail);
 
-                if let Some(i) = m.prop.as_computed() {
-                    self.drop_expr(&i.expr);
-                }
-            }
+    fn visit_expr(&mut self, expr: &Expr) {
+        expr.visit_children_with(self);
 
-            _ => {}
+        if let Expr::Ident(i) = expr {
+            self.data.used_names.entry(i.to_id()).or_default().usage -= 1;
         }
     }
 }
+
 #[derive(Debug, Default)]
 struct VarInfo {
     /// This does not include self-references in a function.
@@ -732,6 +734,8 @@ impl VisitMut for TreeShaker {
                     debug!("Dropping function `{}` as it's not used", f.ident);
                     self.changed = true;
 
+                    self.data.drop_ast_node(&*f);
+
                     n.take();
                 }
             }
@@ -774,6 +778,7 @@ impl VisitMut for TreeShaker {
                     debug!("Dropping class `{}` as it's not used", c.ident);
                     self.changed = true;
 
+                    self.data.drop_ast_node(&*c);
                     n.take();
                 }
             }
@@ -1107,7 +1112,7 @@ impl VisitMut for TreeShaker {
                 self.changed = true;
                 debug!("Dropping {} because it's not used", i);
                 v.name.take();
-                self.data.drop_opt_expr(v.init.as_deref());
+                self.data.drop_ast_node(&v.init);
             }
         }
     }
