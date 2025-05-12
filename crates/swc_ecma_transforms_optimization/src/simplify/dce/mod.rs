@@ -1,4 +1,4 @@
-use std::{borrow::Cow, sync::Arc};
+use std::borrow::Cow;
 
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, prelude::GraphMap, Directed, Direction::Incoming};
@@ -10,10 +10,9 @@ use swc_common::{
     Mark, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::{cpu_count, Parallel};
+use swc_ecma_transforms_base::perf::cpu_count;
 use swc_ecma_utils::{
-    collect_decls, find_pat_ids, parallel::ParallelExt, ExprCtx, ExprExt, IsEmpty, ModuleItemLike,
-    StmtLike, Value::Known,
+    collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike, Value::Known,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -87,7 +86,7 @@ struct TreeShaker {
     in_block_stmt: bool,
     var_decl_kind: Option<VarDeclKind>,
 
-    data: Arc<Data>,
+    data: Data,
 }
 
 impl CompilerPass for TreeShaker {
@@ -200,6 +199,32 @@ impl Data {
     }
 }
 
+/// Graph modification
+impl Data {
+    fn drop_opt_expr(&mut self, init: Option<&Expr>) {
+        if let Some(init) = init {
+            self.drop_expr(init);
+        }
+    }
+
+    fn drop_expr(&mut self, expr: &Expr) {
+        match expr {
+            Expr::Ident(i) => {
+                self.used_names.entry(i.to_id()).or_default().usage -= 1;
+            }
+
+            Expr::Member(m) => {
+                self.drop_expr(&m.obj);
+
+                if let Some(i) = m.prop.as_computed() {
+                    self.drop_expr(&i.expr);
+                }
+            }
+
+            _ => {}
+        }
+    }
+}
 #[derive(Debug, Default)]
 struct VarInfo {
     /// This does not include self-references in a function.
@@ -560,21 +585,6 @@ impl Repeated for TreeShaker {
     }
 }
 
-impl Parallel for TreeShaker {
-    fn create(&self) -> Self {
-        Self {
-            expr_ctx: self.expr_ctx,
-            data: self.data.clone(),
-            config: self.config.clone(),
-            ..*self
-        }
-    }
-
-    fn merge(&mut self, other: Self) {
-        self.changed |= other.changed;
-    }
-}
-
 impl TreeShaker {
     fn visit_mut_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
@@ -673,11 +683,13 @@ impl TreeShaker {
         }
     }
 
-    fn visit_mut_par<N>(&mut self, threshold: usize, nodes: &mut [N])
+    fn visit_mut_par<N>(&mut self, _threshold: usize, nodes: &mut [N])
     where
         N: Send + Sync + VisitMutWith<Self>,
     {
-        self.maybe_par(threshold, nodes, |v, n| n.visit_mut_with(v));
+        for n in nodes {
+            n.visit_mut_with(self);
+        }
     }
 }
 
@@ -922,7 +934,7 @@ impl VisitMut for TreeShaker {
                 m.visit_with(&mut analyzer);
             }
             data.subtract_cycles();
-            self.data = Arc::new(data);
+            self.data = data;
         }
 
         m.visit_mut_children_with(self);
@@ -981,7 +993,7 @@ impl VisitMut for TreeShaker {
                 m.visit_with(&mut analyzer);
             }
             data.subtract_cycles();
-            self.data = Arc::new(data);
+            self.data = data;
         }
 
         m.visit_mut_children_with(self);
@@ -1095,6 +1107,7 @@ impl VisitMut for TreeShaker {
                 self.changed = true;
                 debug!("Dropping {} because it's not used", i);
                 v.name.take();
+                self.data.drop_opt_expr(v.init.as_deref());
             }
         }
     }
