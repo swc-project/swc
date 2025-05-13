@@ -1300,11 +1300,14 @@ pub fn build_source_map(
                     continue;
                 }
                 src_id = builder.add_source(&config.file_name_to_source(&f.name));
-                if config.ignore_list(&f.name) {
+                // orig.adjust_mappings below will throw this out if orig is Some
+                if orig.is_none() && config.ignore_list(&f.name) {
                     builder.add_to_ignore_list(src_id);
                 }
 
-                let inline_sources_content = config.inline_sources_content(&f.name);
+                // orig.adjust_mappings below will throw this out if orig is Some
+                let inline_sources_content =
+                    orig.is_none() && config.inline_sources_content(&f.name);
                 if inline_sources_content {
                     builder.set_source_contents(src_id, Some(&f.src));
                 }

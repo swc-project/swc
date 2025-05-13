@@ -1,7 +1,7 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::FileName;
+use swc_common::{source_map::DefaultSourceMapGenConfig, FileName};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 
@@ -112,7 +112,7 @@ fn bench_emitter(b: &mut Bencher, s: &str) {
                 let _ = emitter.emit_module(&module);
             }
             black_box(buf);
-            let srcmap = cm.build_source_map(&src_map_buf);
+            let srcmap = cm.build_source_map(&src_map_buf, None, DefaultSourceMapGenConfig);
             black_box(srcmap);
         });
         Ok(())

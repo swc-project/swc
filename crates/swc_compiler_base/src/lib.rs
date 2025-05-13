@@ -112,7 +112,7 @@ pub struct PrintArgs<'a> {
     pub inline_sources_content: bool,
     pub source_map: SourceMapsConfig,
     pub source_map_names: &'a FxHashMap<BytePos, Atom>,
-    pub orig: Option<&'a sourcemap::SourceMap>,
+    pub orig: Option<sourcemap::SourceMap>,
     pub comments: Option<&'a dyn Comments>,
     pub emit_source_map_columns: bool,
     pub preamble: &'a str,
@@ -226,7 +226,7 @@ where
     }
 
     let mut map = if source_map.enabled() {
-        Some(cm.build_source_map_with_config(
+        Some(cm.build_source_map(
             &src_map_buf,
             orig,
             SwcSourceMapConfig {
