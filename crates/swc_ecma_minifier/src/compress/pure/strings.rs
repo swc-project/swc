@@ -409,22 +409,26 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut l_last.cooked {
-                        // Direct concatenation with format! to avoid unnecessary allocations
-                        *cooked =
-                            format!("{}{}", cooked, convert_str_value_to_tpl_cooked(&rs.value))
-                                .into();
+                        let cooked_value = convert_str_value_to_tpl_cooked(&rs.value);
+                        // Pre-allocate additional space
+                        let mut owned_cooked = cooked.to_string();
+                        owned_cooked.reserve(cooked_value.len());
+                        // Append the new content
+                        owned_cooked.push_str(&cooked_value);
+                        *cooked = owned_cooked.into();
                     }
-
-                    // Get the raw string part
+                    // Calculate the total length to avoid multiple allocations
                     let raw_str_part = rs
                         .raw
                         .clone()
                         .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
                         .unwrap_or_else(|| convert_str_value_to_tpl_raw(&rs.value).into());
 
-                    // Direct concatenation with format! to avoid unnecessary allocations
-                    l_last.raw = format!("{}{}", l_last.raw, raw_str_part).into();
-
+                    // Convert to owned string, reserve space and append
+                    let mut owned_raw = l_last.raw.to_string();
+                    owned_raw.reserve(raw_str_part.len());
+                    owned_raw.push_str(&raw_str_part);
+                    l_last.raw = owned_raw.into();
                     r.take();
                 }
             }
@@ -446,10 +450,12 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut r_first.cooked {
-                        // Prepend content directly to avoid extra allocations
-                        *cooked =
-                            format!("{}{}", convert_str_value_to_tpl_cooked(&ls.value), cooked)
-                                .into();
+                        let cooked_value = convert_str_value_to_tpl_cooked(&ls.value);
+                        // Convert to owned string, reserve additional space and prepend
+                        let mut owned_cooked = cooked_value.into_owned();
+                        owned_cooked.reserve(cooked.len());
+                        owned_cooked.push_str(cooked);
+                        *cooked = swc_atoms::Atom::from(owned_cooked);
                     }
 
                     // Get the raw string part
@@ -459,9 +465,11 @@ impl Pure<'_> {
                         .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
                         .unwrap_or_else(|| convert_str_value_to_tpl_raw(&ls.value).into());
 
-                    // Prepend content directly to avoid extra allocations
-                    r_first.raw = format!("{}{}", raw_str_part, r_first.raw).into();
-
+                    // Convert to owned string, reserve additional space and prepend
+                    let mut owned_raw = raw_str_part.to_string();
+                    owned_raw.reserve(r_first.raw.len());
+                    owned_raw.push_str(&r_first.raw);
+                    r_first.raw = owned_raw.into();
                     l.take();
                 }
             }
@@ -474,11 +482,11 @@ impl Pure<'_> {
                     let l_last = l.quasis.pop().unwrap();
                     let r_first = rt.quasis.first_mut().unwrap();
 
-                    // Pre-allocate buffer with sufficient capacity
-                    let mut new_raw = String::with_capacity(l_last.raw.len() + r_first.raw.len());
-                    new_raw.push_str(&l_last.raw);
-                    new_raw.push_str(&r_first.raw);
-                    r_first.raw = new_raw.into();
+                    // Convert to owned string, reserve space and append
+                    let mut owned_raw = l_last.raw.to_string();
+                    owned_raw.reserve(r_first.raw.len());
+                    owned_raw.push_str(&r_first.raw);
+                    r_first.raw = owned_raw.into();
                 }
 
                 // Reserve capacity first to avoid multiple reallocations
@@ -525,7 +533,12 @@ impl Pure<'_> {
                         if let Value::Known(second_str) = left.right.as_pure_string(self.expr_ctx) {
                             if let Value::Known(third_str) = bin.right.as_pure_string(self.expr_ctx)
                             {
-                                let new_str = format!("{second_str}{third_str}");
+                                // Directly create a new string with the combined content
+                                let second_owned = second_str.into_owned();
+                                let mut new_str = String::with_capacity(second_owned.len() + third_str.len());
+                                new_str.push_str(&second_owned);
+                                new_str.push_str(&third_str);
+                                
                                 let left_span = left.span;
 
                                 self.changed = true;
