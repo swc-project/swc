@@ -49,8 +49,6 @@ pub fn async_to_generator(c: Config, unresolved_mark: Mark) -> impl Pass {
 #[serde(rename_all = "camelCase")]
 pub struct Config {
     #[serde(default)]
-    pub ignore_function_name: bool,
-    #[serde(default)]
     pub ignore_function_length: bool,
 }
 

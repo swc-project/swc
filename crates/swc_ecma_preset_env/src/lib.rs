@@ -182,7 +182,6 @@ where
         AsyncToGenerator,
         es2017::async_to_generator(
             es2017::async_to_generator::Config {
-                ignore_function_name: loose || assumptions.ignore_function_name,
                 ignore_function_length: loose || assumptions.ignore_function_length,
             },
             unresolved_mark
