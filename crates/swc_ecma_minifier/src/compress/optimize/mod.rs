@@ -3,8 +3,9 @@
 use std::iter::once;
 
 use bitflags::bitflags;
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
+use swc_auto_hash_map::{AutoMap, AutoSet};
 use swc_common::{pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -229,7 +230,7 @@ struct Optimizer<'a> {
 
     mode: &'a dyn Mode,
 
-    functions: Box<FxHashMap<Id, FnMetadata>>,
+    functions: Box<AutoMap<Id, FnMetadata>>,
 }
 
 #[derive(Default)]
@@ -240,7 +241,7 @@ struct Vars {
     lits: FxHashMap<Id, Box<Expr>>,
 
     /// Used for `hoist_props`.
-    hoisted_props: Box<FxHashMap<(Id, Atom), Ident>>,
+    hoisted_props: Box<AutoMap<(Id, Atom), Ident>>,
 
     /// Literals which are cheap to clone, but not sure if we can inline without
     /// making output bigger.
@@ -249,7 +250,7 @@ struct Vars {
     lits_for_cmp: FxHashMap<Id, Box<Expr>>,
 
     /// This stores [Expr::Array] if all elements are literals.
-    lits_for_array_access: FxHashMap<Id, Box<Expr>>,
+    lits_for_array_access: AutoMap<Id, Box<Expr>>,
 
     /// Used for copying functions.
     ///
@@ -259,7 +260,7 @@ struct Vars {
 
     /// Variables which should be removed by [Finalizer] because of the order of
     /// visit.
-    removed: FxHashSet<Id>,
+    removed: AutoSet<Id>,
 }
 
 impl Vars {
