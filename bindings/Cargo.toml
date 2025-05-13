@@ -144,3 +144,10 @@ strip = "symbols"
 
 [profile.dev.package."*"]
 debug-assertions = false
+
+[patch.crates-io]
+# Remove this once https://github.com/wasmerio/wasmer/pull/5564 is merged and released
+wasmer                    = { git = "https://github.com/kdy1/wasmer", branch = "build-deps" }
+wasmer-cache              = { git = "https://github.com/kdy1/wasmer", branch = "build-deps" }
+wasmer-compiler-cranelift = { git = "https://github.com/kdy1/wasmer", branch = "build-deps" }
+wasmer-wasix              = { git = "https://github.com/kdy1/wasmer", branch = "build-deps" }
