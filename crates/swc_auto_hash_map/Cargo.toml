@@ -10,4 +10,4 @@ version     = "0.1.0"
 hashbrown  = { workspace = true, features = ["serde"] }
 rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
-smallvec   = { workspace = true }
+smallvec   = { workspace = true, features = ["const_new"] }
