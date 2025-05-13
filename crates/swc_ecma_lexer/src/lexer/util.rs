@@ -104,7 +104,7 @@ impl Lexer<'_> {
                         self.state.had_line_break = true;
                     }
                     // Skip multibyte characters
-                    pos += c.len_utf8() - 1; // -1은 아래 증가분 고려
+                    pos += c.len_utf8() - 1; // `-1` will incrumented below
                 }
             }
 
@@ -113,7 +113,7 @@ impl Lexer<'_> {
         }
 
         // If we reached here, it's an unterminated block comment
-        self.input.bump_bytes(len); // 남은 입력 건너뛰기
+        self.input.bump_bytes(len); // skip remaining
         let end = self.input.end_pos();
         let span = Span::new(end, end);
         self.emit_error_span(span, SyntaxError::UnterminatedBlockComment)

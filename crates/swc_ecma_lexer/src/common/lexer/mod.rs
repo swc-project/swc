@@ -208,7 +208,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.state_mut().set_had_line_break(true);
                         break;
                     }
-                    idx += first_char.len_utf8() - 1; // -1은 아래 증가분 고려
+                    idx += first_char.len_utf8() - 1; // `-1` will incrumented
+                                                      // below
                 }
             }
             idx += 1;
