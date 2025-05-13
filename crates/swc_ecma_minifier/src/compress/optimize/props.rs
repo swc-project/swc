@@ -3,7 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
 
 use super::{unused::PropertyAccessOpts, BitCtx, Optimizer};
-use crate::util::deeply_contains_this_expr;
+use crate::{program_data::VarUsageInfoFlags, util::deeply_contains_this_expr};
 
 /// Methods related to the option `hoist_props`.
 impl Optimizer<'_> {
@@ -40,12 +40,14 @@ impl Optimizer<'_> {
             // smart.
             let usage = self.data.vars.get(&name.to_id())?;
             if usage.mutated()
-                || usage.used_in_cond
-                || usage.used_above_decl
-                || usage.used_as_ref
-                || usage.used_as_arg
-                || usage.indexed_with_dynamic_key
-                || usage.used_recursively
+                || usage.flags.intersects(
+                    VarUsageInfoFlags::USED_IN_COND
+                        .union(VarUsageInfoFlags::USED_ABOVE_DECL)
+                        .union(VarUsageInfoFlags::USED_AS_REF)
+                        .union(VarUsageInfoFlags::USED_AS_ARG)
+                        .union(VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY)
+                        .union(VarUsageInfoFlags::USED_RECURSIVELY),
+                )
             {
                 log_abort!("hoist_props: Variable `{}` is not a candidate", name.id);
                 return None;

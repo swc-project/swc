@@ -8,7 +8,7 @@ use swc_ecma_visit::VisitMutWith;
 use super::Optimizer;
 use crate::{
     compress::optimize::{util::is_valid_for_lhs, BitCtx},
-    program_data::VarUsageInfo,
+    program_data::{VarUsageInfo, VarUsageInfoFlags},
     util::{
         idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
     },
@@ -45,17 +45,24 @@ impl Optimizer<'_> {
 
         if let Some(usage) = self.data.vars.get(&ident.to_id()) {
             let ref_count = usage.ref_count - u32::from(can_drop && usage.ref_count > 1);
-            if !usage.var_initialized {
+            if !usage.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) {
                 return;
             }
 
-            if self.data.top.used_arguments && usage.declared_as_fn_param {
+            if self.data.top.used_arguments
+                && usage
+                    .flags
+                    .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+            {
                 return;
             }
-            if usage.declared_as_catch_param {
+            if usage
+                .flags
+                .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
+            {
                 return;
             }
-            if usage.inline_prevented {
+            if usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
                 return;
             }
 
@@ -67,7 +74,7 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if usage.used_above_decl {
+            if usage.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL) {
                 log_abort!("inline: [x] It's cond init or used before decl",);
                 return;
             }
@@ -98,13 +105,15 @@ impl Optimizer<'_> {
             // literal key.
             //
             // TODO: Allow `length` in usage.accessed_props
-            if usage.declared
+            if usage.flags.contains(VarUsageInfoFlags::DECLARED)
                 && !usage.mutated()
                 && usage.accessed_props.is_empty()
-                && !usage.indexed_with_dynamic_key
+                && !usage.flags.intersects(
+                    VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY
+                        .union(VarUsageInfoFlags::USED_AS_REF),
+                )
                 && !usage.is_infected()
                 && is_inline_enabled
-                && !usage.used_as_ref
             {
                 if let Expr::Array(arr) = init {
                     if arr.elems.len() < 32
@@ -130,7 +139,7 @@ impl Optimizer<'_> {
                 }
             }
 
-            if !usage.is_fn_local {
+            if !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL) {
                 match init {
                     Expr::Lit(..) | Expr::Ident(..) => {}
 
@@ -156,7 +165,7 @@ impl Optimizer<'_> {
                 }
             }
 
-            if !usage.reassigned {
+            if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                 match init {
                     Expr::Fn(..) | Expr::Arrow(..) | Expr::Class(..) => {
                         self.typeofs.insert(ident.to_id(), "function".into());
@@ -172,7 +181,7 @@ impl Optimizer<'_> {
                 self.mode.store(ident.to_id(), &*init);
             }
 
-            if usage.used_recursively {
+            if usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
                 return;
             }
 
@@ -181,16 +190,19 @@ impl Optimizer<'_> {
             if is_inline_enabled
                 && usage.declared_count == 1
                 && usage.assign_count == 1
-                && !usage.reassigned
-                && (usage.property_mutation_count == 0 || !usage.reassigned)
+                && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                && (usage.property_mutation_count == 0
+                    || !usage.flags.contains(VarUsageInfoFlags::REASSIGNED))
                 && match init {
                     Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => false,
 
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
-                        if !usage.assigned_fn_local {
+                        if !usage.flags.contains(VarUsageInfoFlags::ASSIGNED_FN_LOCAL) {
                             false
                         } else if let Some(u) = self.data.vars.get(&id.to_id()) {
-                            let mut should_inline = !u.reassigned && u.declared;
+                            let mut should_inline =
+                                !u.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                                    && u.flags.contains(VarUsageInfoFlags::DECLARED);
 
                             should_inline &=
                                 // Function declarations are hoisted
@@ -199,18 +211,23 @@ impl Optimizer<'_> {
                                 // See https://github.com/swc-project/swc/issues/6463
                                 //
                                 // We check callee_count of `usage` because we copy simple functions
-                                !u.used_above_decl
-                                    || !u.declared_as_fn_decl
+                                !u.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL)
+                                    || !u.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_DECL)
                                     || usage.callee_count == 0;
 
-                            if u.declared_as_for_init && !usage.is_fn_local {
+                            if u.flags.contains(VarUsageInfoFlags::DECLARED_AS_FOR_INIT)
+                                && !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
+                            {
                                 should_inline &= !matches!(
                                     u.var_kind,
                                     Some(VarDeclKind::Let | VarDeclKind::Const)
                                 )
                             }
 
-                            if u.declared_as_fn_decl || u.declared_as_fn_expr {
+                            if u.flags.intersects(
+                                VarUsageInfoFlags::DECLARED_AS_FN_DECL
+                                    .union(VarUsageInfoFlags::DECLARED_AS_FN_EXPR),
+                            ) {
                                 if self.options.keep_fnames
                                     || self.mangle_options.is_some_and(|v| v.keep_fn_names)
                                 {
@@ -218,7 +235,7 @@ impl Optimizer<'_> {
                                 }
                             }
 
-                            if u.declared_as_fn_expr {
+                            if u.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_EXPR) {
                                 if self.options.inline != 3 {
                                     return;
                                 }
@@ -248,12 +265,15 @@ impl Optimizer<'_> {
                     Expr::Unary(UnaryExpr {
                         op: op!("!"), arg, ..
                     }) => arg.is_lit(),
-                    Expr::This(..) => usage.is_fn_local,
+                    Expr::This(..) => usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL),
                     Expr::Arrow(arr) => {
                         is_arrow_simple_enough_for_copy(arr).is_some_and(|cost| cost <= 8)
                             && !(usage.property_mutation_count > 0
-                                || usage.executed_multiple_time
-                                || usage.used_as_arg && ref_count > 1)
+                                || usage
+                                    .flags
+                                    .contains(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME)
+                                || usage.flags.contains(VarUsageInfoFlags::USED_AS_ARG)
+                                    && ref_count > 1)
                             && ref_count - 1 <= usage.callee_count
                     }
                     _ => false,
@@ -267,36 +287,32 @@ impl Optimizer<'_> {
                 self.mode.store(id.clone(), &*init);
 
                 let VarUsageInfo {
-                    used_as_arg,
-                    used_as_ref,
-                    indexed_with_dynamic_key,
                     usage_count,
-                    has_property_access,
                     property_mutation_count,
-                    used_above_decl,
-                    executed_multiple_time,
-                    used_in_cond,
-                    used_recursively,
-                    no_side_effect_for_member_access,
+                    flags,
                     ..
                 } = **usage;
                 let mut inc_usage = || {
                     if let Expr::Ident(i) = &*init {
                         if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
-                            u.used_as_arg |= used_as_arg;
-                            u.used_as_ref |= used_as_ref;
-                            u.indexed_with_dynamic_key |= indexed_with_dynamic_key;
-                            u.has_property_access |= has_property_access;
-                            u.property_mutation_count += property_mutation_count;
-                            u.used_above_decl |= used_above_decl;
-                            u.executed_multiple_time |= executed_multiple_time;
-                            u.used_in_cond |= used_in_cond;
-                            u.used_recursively |= used_recursively;
+                            u.flags |= flags & VarUsageInfoFlags::USED_AS_ARG;
+                            u.flags |= flags & VarUsageInfoFlags::USED_AS_REF;
+                            u.flags |= flags & VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY;
+                            u.flags |= flags & VarUsageInfoFlags::HAS_PROPERTY_ACCESS;
+                            u.flags |= flags & VarUsageInfoFlags::USED_ABOVE_DECL;
+                            u.flags |= flags & VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME;
+                            u.flags |= flags & VarUsageInfoFlags::USED_IN_COND;
+                            u.flags |= flags & VarUsageInfoFlags::USED_RECURSIVELY;
 
-                            u.no_side_effect_for_member_access &= no_side_effect_for_member_access;
+                            if !flags.contains(VarUsageInfoFlags::NO_SIDE_EFFECT_FOR_MEMBER_ACCESS)
+                            {
+                                u.flags
+                                    .remove(VarUsageInfoFlags::NO_SIDE_EFFECT_FOR_MEMBER_ACCESS)
+                            }
 
                             u.ref_count += ref_count;
                             u.usage_count += usage_count;
+                            u.property_mutation_count += property_mutation_count;
                         }
                     }
                 };
@@ -341,10 +357,12 @@ impl Optimizer<'_> {
             // Single use => inlined
             if !self.ctx.bit_ctx.contains(BitCtx::IsExported)
                 && is_inline_enabled
-                && usage.declared
+                && usage.flags.contains(VarUsageInfoFlags::DECLARED)
                 && may_remove
-                && !usage.reassigned
-                && !usage.declared_as_for_init
+                && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                && !usage
+                    .flags
+                    .contains(VarUsageInfoFlags::DECLARED_AS_FOR_INIT)
                 && usage.assign_count == 1
                 && ref_count == 1
             {
@@ -367,14 +385,18 @@ impl Optimizer<'_> {
                     }) => return,
 
                     Expr::Lit(Lit::Regex(..)) => {
-                        if !usage.is_fn_local || usage.executed_multiple_time {
+                        if !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
+                            || usage
+                                .flags
+                                .contains(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME)
+                        {
                             return;
                         }
                     }
 
                     Expr::This(..) => {
                         // Don't inline this if it passes function boundaries.
-                        if !usage.is_fn_local {
+                        if !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL) {
                             return;
                         }
                     }
@@ -393,7 +415,7 @@ impl Optimizer<'_> {
                                 continue;
                             }
                             if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.reassigned {
+                                if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                     return;
                                 }
                             } else {
@@ -410,7 +432,7 @@ impl Optimizer<'_> {
                                 continue;
                             }
                             if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.reassigned {
+                                if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                     return;
                                 }
                             } else {
@@ -422,7 +444,7 @@ impl Optimizer<'_> {
                     Expr::Object(..) if self.options.pristine_globals => {
                         for id in idents_used_by_ignoring_nested(init) {
                             if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.reassigned {
+                                if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                     return;
                                 }
                             }
@@ -430,23 +452,34 @@ impl Optimizer<'_> {
                     }
 
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
-                        if !usage.assigned_fn_local {
+                        if !usage.flags.contains(VarUsageInfoFlags::ASSIGNED_FN_LOCAL) {
                             return;
                         }
 
                         if let Some(init_usage) = self.data.vars.get(&id.to_id()) {
-                            if init_usage.reassigned || !init_usage.declared {
+                            if init_usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                                || !init_usage.flags.contains(VarUsageInfoFlags::DECLARED)
+                            {
                                 return;
                             }
 
-                            if init_usage.declared_as_fn_decl || init_usage.declared_as_fn_expr {
+                            if init_usage
+                                .flags
+                                .contains(VarUsageInfoFlags::DECLARED_AS_FN_DECL)
+                                || init_usage
+                                    .flags
+                                    .contains(VarUsageInfoFlags::DECLARED_AS_FN_EXPR)
+                            {
                                 if self.options.keep_fnames
                                     || self.mangle_options.is_some_and(|v| v.keep_fn_names)
                                 {
                                     return;
                                 }
                             }
-                            if init_usage.declared_as_fn_expr {
+                            if init_usage
+                                .flags
+                                .contains(VarUsageInfoFlags::DECLARED_AS_FN_EXPR)
+                            {
                                 if self.options.inline != 3 {
                                     return;
                                 }
@@ -457,10 +490,11 @@ impl Optimizer<'_> {
                     _ => {
                         for id in idents_used_by(init) {
                             if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.reassigned
-                                    || v_usage.property_mutation_count
-                                        > usage.property_mutation_count
-                                    || v_usage.has_property_access
+                                if v_usage.property_mutation_count > usage.property_mutation_count
+                                    || v_usage.flags.intersects(
+                                        VarUsageInfoFlags::HAS_PROPERTY_ACCESS
+                                            .union(VarUsageInfoFlags::REASSIGNED),
+                                    )
                                 {
                                     return;
                                 }
@@ -469,13 +503,18 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if usage.used_as_arg && !usage.is_fn_local {
+                if usage.flags.contains(VarUsageInfoFlags::USED_AS_ARG)
+                    && !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
+                {
                     if let Expr::Fn(..) | Expr::Arrow(..) = init {
                         return;
                     }
                 }
 
-                if usage.executed_multiple_time {
+                if usage
+                    .flags
+                    .contains(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME)
+                {
                     match init {
                         Expr::Lit(..) => {}
                         Expr::Fn(f) => {
@@ -577,7 +616,7 @@ impl Optimizer<'_> {
         }
 
         if let Some(usage) = self.data.vars.get(&i.to_id()) {
-            if !usage.reassigned {
+            if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                 trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.ctxt);
                 match &*decl {
                     Decl::Fn(..) | Decl::Class(..) => {
@@ -633,21 +672,26 @@ impl Optimizer<'_> {
         }
 
         if let Some(usage) = self.data.vars.get(&i.to_id()) {
-            if usage.declared_as_catch_param {
+            if usage
+                .flags
+                .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
+            {
                 log_abort!("inline: Declared as a catch parameter");
                 return;
             }
 
-            if usage.used_as_arg && usage.ref_count > 1 {
+            if usage.flags.contains(VarUsageInfoFlags::USED_AS_ARG) && usage.ref_count > 1 {
                 log_abort!("inline: Used as an arugment");
                 return;
             }
 
-            if usage.reassigned || usage.inline_prevented {
+            if usage.flags.intersects(
+                VarUsageInfoFlags::REASSIGNED.union(VarUsageInfoFlags::INLINE_PREVENTED),
+            ) {
                 log_abort!(
                     "inline: [x] reassigned = {}, inline_prevented = {}",
-                    usage.reassigned,
-                    usage.inline_prevented
+                    usage.flags.contains(VarUsageInfoFlags::REASSIGNED),
+                    usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED)
                 );
                 return;
             }
@@ -657,7 +701,7 @@ impl Optimizer<'_> {
             match decl {
                 Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
                     if let Some(body) = &f.function.body {
-                        if !usage.used_recursively
+                        if !usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY)
                             // only callees can be inlined multiple times
                             && usage.callee_count > 0
                             // prefer single inline
@@ -712,7 +756,8 @@ impl Optimizer<'_> {
 
             // TODO(kdy1):
             //
-            // (usage.is_fn_local || self.options.inline == 3)
+            // (usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL) || self.options.inline
+            // == 3)
             //
             // seems like a correct check, but it's way to aggressive.
             // It does not break the code, but everything like _asyncToGenerator is inlined.
@@ -721,7 +766,7 @@ impl Optimizer<'_> {
                 && usage.ref_count == 1
                 && usage.can_inline_fn_once()
                 && (match decl {
-                    Decl::Class(..) => !usage.used_above_decl,
+                    Decl::Class(..) => !usage.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL),
                     Decl::Fn(..) => true,
                     _ => false,
                 })
@@ -775,7 +820,7 @@ impl Optimizer<'_> {
                     }
                     .into(),
                     Decl::Fn(f) => FnExpr {
-                        ident: if usage.used_recursively {
+                        ident: if usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
                             Some(f.ident)
                         } else {
                             None

@@ -10,7 +10,7 @@ use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    program_data::{ProgramData, ScopeData},
+    program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
     util::{idents_captured_by, make_number},
 };
 
@@ -184,7 +184,7 @@ impl Optimizer<'_> {
                 .data
                 .vars
                 .get(&ident.to_id())
-                .filter(|usage| usage.used_recursively)
+                .filter(|usage| usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY))
                 .is_some()
             {
                 log_abort!("iife: [x] Recursive?");
@@ -203,7 +203,7 @@ impl Optimizer<'_> {
                             continue;
                         }
                         if let Some(usage) = self.data.vars.get(&param.to_id()) {
-                            if usage.reassigned {
+                            if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                 continue;
                             }
                         }
@@ -247,9 +247,9 @@ impl Optimizer<'_> {
                     Pat::Rest(rest_pat) => {
                         if let Pat::Ident(param_id) = &*rest_pat.arg {
                             if let Some(usage) = self.data.vars.get(&param_id.to_id()) {
-                                if usage.reassigned
+                                if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                     || usage.ref_count != 1
-                                    || !usage.has_property_access
+                                    || !usage.flags.contains(VarUsageInfoFlags::HAS_PROPERTY_ACCESS)
                                 {
                                     continue;
                                 }
@@ -354,7 +354,7 @@ impl Optimizer<'_> {
                 .data
                 .vars
                 .get(&ident.to_id())
-                .filter(|usage| usage.used_recursively)
+                .filter(|usage| usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY))
                 .is_some()
             {
                 return;
@@ -507,7 +507,7 @@ impl Optimizer<'_> {
                         .data
                         .vars
                         .get(&i.to_id())
-                        .filter(|usage| usage.used_recursively)
+                        .filter(|usage| usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY))
                         .is_some()
                     {
                         log_abort!("iife: [x] Recursive?");
@@ -747,7 +747,10 @@ impl Optimizer<'_> {
         if !param_ids.is_empty() && !self.may_add_ident() {
             for pid in param_ids {
                 if let Some(usage) = self.data.vars.get(&pid.to_id()) {
-                    if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
+                    if usage.ref_count > 1
+                        || usage.assign_count > 0
+                        || usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED)
+                    {
                         log_abort!("iife: [x] Cannot inline because of usage of `{}`", pid);
                         return false;
                     }
@@ -908,7 +911,7 @@ impl Optimizer<'_> {
             if let Some(arg) = arg {
                 if let Some(usage) = self.data.vars.get_mut(&params[idx].to_id()) {
                     if usage.ref_count == 1
-                        && !usage.reassigned
+                        && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                         && usage.property_mutation_count == 0
                         && matches!(
                             &*arg,
@@ -964,7 +967,7 @@ impl Optimizer<'_> {
             if let Some(arg) = &mut arg {
                 if let Some(usage) = self.data.vars.get_mut(&params[idx].to_id()) {
                     if usage.ref_count == 1
-                        && !usage.reassigned
+                        && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                         && usage.property_mutation_count == 0
                         && matches!(
                             &**arg,

@@ -8,7 +8,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use super::util::drop_invalid_stmts;
 use crate::{
-    program_data::ProgramData,
+    program_data::{ProgramData, VarUsageInfoFlags},
     util::{is_hoisted_var_decl_without_init, sort::is_sorted_by, IsModuleItem, ModuleItemExt},
 };
 
@@ -61,7 +61,7 @@ impl Hoister<'_> {
                             self.data
                                 .vars
                                 .get(id)
-                                .map(|v| !v.used_above_decl)
+                                .map(|v| !v.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL))
                                 .unwrap_or(false)
                         }) {
                             2
@@ -130,7 +130,11 @@ impl Hoister<'_> {
                                                 .data
                                                 .vars
                                                 .get(&id.to_id())
-                                                .map(|v| v.declared_as_fn_param)
+                                                .map(|v| {
+                                                    v.flags.contains(
+                                                        VarUsageInfoFlags::DECLARED_AS_FN_PARAM,
+                                                    )
+                                                })
                                                 .unwrap_or(false)
                                         {
                                             continue;
@@ -212,7 +216,11 @@ impl Hoister<'_> {
                                                 .data
                                                 .vars
                                                 .get(&name.to_id())
-                                                .map(|v| v.declared_as_fn_param)
+                                                .map(|v| {
+                                                    v.flags.contains(
+                                                        VarUsageInfoFlags::DECLARED_AS_FN_PARAM,
+                                                    )
+                                                })
                                                 .unwrap_or(false)
                                         {
                                             return false;

@@ -11,7 +11,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{
     option::ManglePropertiesOptions,
-    program_data::{analyze, ProgramData},
+    program_data::{analyze, ProgramData, VarUsageInfoFlags},
     util::base54::Base54Chars,
 };
 
@@ -175,7 +175,7 @@ fn is_root_of_member_expr_declared(member_expr: &MemberExpr, data: &ProgramData)
         Expr::Ident(expr) => data
             .vars
             .get(&expr.to_id())
-            .map(|var| var.declared)
+            .map(|var| var.flags.contains(VarUsageInfoFlags::DECLARED))
             .unwrap_or(false),
 
         _ => false,
