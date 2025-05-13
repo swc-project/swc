@@ -14,5 +14,4 @@ import "core-js/modules/es7.symbol.async-iterator.js";
 import "core-js/modules/web.dom.iterable.js";
 import "core-js/modules/web.immediate.js";
 import "core-js/modules/web.timers.js";
-import "regenerator-runtime/runtime.js";
 var a = 1;
