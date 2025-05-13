@@ -37,13 +37,6 @@ pub(crate) struct ProgramData {
     initialized_vars: IndexSet<Id, FxBuildHasher>,
 }
 
-#[derive(Debug, Default, Clone)]
-pub(crate) struct ScopeData {
-    pub(crate) has_with_stmt: bool,
-    pub(crate) has_eval_call: bool,
-    pub(crate) used_arguments: bool,
-}
-
 bitflags::bitflags! {
     #[derive(Debug, Clone, Copy)]
     pub(crate) struct VarUsageInfoFlags: u32 {
@@ -82,6 +75,13 @@ bitflags::bitflags! {
         const IS_TOP_LEVEL              = 1 << 22;
         const USED_RECURSIVELY          = 1 << 23;
 
+    }
+
+    #[derive(Debug, Default, Clone, Copy)]
+    pub(crate) struct ScopeData: u8 {
+        const HAS_WITH_STMT  = 1 << 0;
+        const HAS_EVAL_CALL  = 1 << 1;
+        const USED_ARGUMENTS = 1 << 2;
     }
 }
 
@@ -187,7 +187,7 @@ impl Storage for ProgramData {
 
         for (ctxt, scope) in child.scopes {
             let to = self.scopes.entry(ctxt).or_default();
-            self.top.merge(scope.clone(), true);
+            self.top.merge(scope, true);
 
             to.merge(scope, false);
         }
@@ -514,21 +514,21 @@ impl ScopeDataLike for ScopeData {
     fn add_declared_symbol(&mut self, _: &Ident) {}
 
     fn merge(&mut self, other: Self, _: bool) {
-        self.has_with_stmt |= other.has_with_stmt;
-        self.has_eval_call |= other.has_eval_call;
-        self.used_arguments |= other.used_arguments;
+        *self |= other & Self::HAS_WITH_STMT;
+        *self |= other & Self::HAS_EVAL_CALL;
+        *self |= other & Self::USED_ARGUMENTS;
     }
 
     fn mark_used_arguments(&mut self) {
-        self.used_arguments = true;
+        *self |= Self::USED_ARGUMENTS;
     }
 
     fn mark_eval_called(&mut self) {
-        self.has_eval_call = true;
+        *self |= Self::HAS_EVAL_CALL;
     }
 
     fn mark_with_stmt(&mut self) {
-        self.has_with_stmt = true;
+        *self |= Self::HAS_WITH_STMT;
     }
 }
 

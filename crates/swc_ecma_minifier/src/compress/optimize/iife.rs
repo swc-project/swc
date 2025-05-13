@@ -156,7 +156,7 @@ impl Optimizer<'_> {
         };
 
         if let Some(scope) = find_scope(self.data, callee) {
-            if scope.used_arguments {
+            if scope.contains(ScopeData::USED_ARGUMENTS) {
                 log_abort!("iife: [x] Found usage of arguments");
                 return;
             }
@@ -792,7 +792,7 @@ impl Optimizer<'_> {
         // We completely abort on eval, because we cannot know whether a variable in
         // upper scope will be afftected by eval.
         // https://github.com/swc-project/swc/issues/6628
-        if self.data.top.has_eval_call {
+        if self.data.top.contains(ScopeData::HAS_EVAL_CALL) {
             log_abort!("iife: [x] Aborting because of eval");
             return false;
         }

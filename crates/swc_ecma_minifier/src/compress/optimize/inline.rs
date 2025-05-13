@@ -8,7 +8,7 @@ use swc_ecma_visit::VisitMutWith;
 use super::Optimizer;
 use crate::{
     compress::optimize::{util::is_valid_for_lhs, BitCtx},
-    program_data::{VarUsageInfo, VarUsageInfoFlags},
+    program_data::{ScopeData, VarUsageInfo, VarUsageInfoFlags},
     util::{
         idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
     },
@@ -34,7 +34,7 @@ impl Optimizer<'_> {
             may_remove
         );
 
-        if self.data.top.has_eval_call {
+        if self.data.top.contains(ScopeData::HAS_EVAL_CALL) {
             return;
         }
 
@@ -49,7 +49,7 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if self.data.top.used_arguments
+            if self.data.top.contains(ScopeData::USED_ARGUMENTS)
                 && usage
                     .flags
                     .contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
@@ -667,7 +667,11 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.data.top.has_eval_call || self.data.top.has_with_stmt {
+        if self
+            .data
+            .top
+            .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
+        {
             return;
         }
 

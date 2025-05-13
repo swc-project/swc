@@ -12,7 +12,7 @@ use crate::debug::dump;
 use crate::{
     compress::optimize::{util::extract_class_side_effect, BitCtx},
     option::PureGetterOption,
-    program_data::VarUsageInfoFlags,
+    program_data::{ScopeData, VarUsageInfoFlags},
 };
 
 #[derive(Debug, Default, Clone, Copy)]
@@ -86,7 +86,7 @@ impl Optimizer<'_> {
         }
 
         if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
-            if scope.has_eval_call || scope.has_with_stmt {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
         }
@@ -122,7 +122,7 @@ impl Optimizer<'_> {
         }
 
         if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
-            if scope.has_eval_call || scope.has_with_stmt {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 log_abort!(
                     "unused: Preserving `{}` because of usages",
                     dump(&*name, false)
@@ -466,7 +466,7 @@ impl Optimizer<'_> {
         }
 
         if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
-            if scope.has_eval_call || scope.has_with_stmt {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
         }
@@ -628,7 +628,11 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.data.top.has_eval_call || self.data.top.has_with_stmt {
+        if self
+            .data
+            .top
+            .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
+        {
             return;
         }
 
@@ -667,7 +671,11 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.data.top.has_eval_call || self.data.top.has_with_stmt {
+        if self
+            .data
+            .top
+            .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
+        {
             return;
         }
 
@@ -690,7 +698,7 @@ impl Optimizer<'_> {
                     self.data.scopes, self.ctx.scope
                 )
             })
-            .used_arguments;
+            .contains(ScopeData::USED_ARGUMENTS);
 
         trace_op!(
             "unused: drop_unused_assignments: Target: `{}`",

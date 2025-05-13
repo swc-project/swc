@@ -30,7 +30,7 @@ use crate::{
     maybe_par,
     mode::Mode,
     option::{CompressOptions, MangleOptions},
-    program_data::{ProgramData, VarUsageInfoFlags},
+    program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
     util::{
         contains_eval, contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt,
     },
@@ -354,11 +354,17 @@ impl Optimizer<'_> {
     }
 
     fn may_add_ident(&self) -> bool {
-        if self.ctx.in_top_level() && self.data.top.has_eval_call {
+        if self.ctx.in_top_level() && self.data.top.contains(ScopeData::HAS_EVAL_CALL) {
             return false;
         }
 
-        if self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call {
+        if self
+            .data
+            .scopes
+            .get(&self.ctx.scope)
+            .unwrap()
+            .contains(ScopeData::HAS_EVAL_CALL)
+        {
             return false;
         }
 
@@ -2836,7 +2842,12 @@ impl VisitMut for Optimizer<'_> {
             true
         });
 
-        let uses_eval = self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call;
+        let uses_eval = self
+            .data
+            .scopes
+            .get(&self.ctx.scope)
+            .unwrap()
+            .contains(ScopeData::HAS_EVAL_CALL);
 
         if !uses_eval && !self.ctx.bit_ctx.contains(BitCtx::DontUsePrependNorAppend) {
             for v in vars.iter_mut() {

@@ -23,7 +23,7 @@ use crate::{
         util::{is_directive, is_ident_used_by, replace_expr},
     },
     option::CompressOptions,
-    program_data::VarUsageInfoFlags,
+    program_data::{ScopeData, VarUsageInfoFlags},
     util::{
         idents_used_by, idents_used_by_ignoring_nested, ExprOptExt, IdentUsageCollector,
         ModuleItemExt,
@@ -531,7 +531,13 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call {
+        if self
+            .data
+            .scopes
+            .get(&self.ctx.scope)
+            .unwrap()
+            .contains(ScopeData::HAS_EVAL_CALL)
+        {
             log_abort!("sequences: Eval call");
             return;
         }
@@ -659,7 +665,13 @@ impl Optimizer<'_> {
     pub(super) fn merge_sequences_in_seq_expr(&mut self, e: &mut SeqExpr) {
         self.normalize_sequences(e);
 
-        if self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call {
+        if self
+            .data
+            .scopes
+            .get(&self.ctx.scope)
+            .unwrap()
+            .contains(ScopeData::HAS_EVAL_CALL)
+        {
             log_abort!("sequences: Eval call");
             return;
         }
