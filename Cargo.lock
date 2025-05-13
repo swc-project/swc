@@ -251,16 +251,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "auto-hash-map"
-version = "0.1.0"
-dependencies = [
- "hashbrown 0.14.5",
- "rustc-hash 2.1.1",
- "serde",
- "smallvec",
-]
-
-[[package]]
 name = "auto_impl"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4853,6 +4843,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_auto_hash_map"
+version = "0.1.0"
+dependencies = [
+ "hashbrown 0.14.5",
+ "rustc-hash 2.1.1",
+ "serde",
+ "smallvec",
+]
+
+[[package]]
 name = "swc_bundler"
 version = "17.0.0"
 dependencies = [
@@ -5639,7 +5639,6 @@ dependencies = [
  "ansi_term",
  "anyhow",
  "arrayvec",
- "auto-hash-map",
  "backtrace",
  "bitflags 2.6.0",
  "codspeed-criterion-compat",
@@ -5663,6 +5662,7 @@ dependencies = [
  "serde_json",
  "swc_allocator",
  "swc_atoms",
+ "swc_auto_hash_map",
  "swc_common",
  "swc_config",
  "swc_ecma_ast",
