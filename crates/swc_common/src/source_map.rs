@@ -1167,30 +1167,13 @@ impl SourceMap {
         None
     }
 
-    #[cfg(feature = "sourcemap")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
-    pub fn build_source_map(&self, mappings: &[(BytePos, LineCol)]) -> sourcemap::SourceMap {
-        self.build_source_map_from(mappings, None)
-    }
-
-    /// Creates a `.map` file.
-    #[cfg(feature = "sourcemap")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
-    pub fn build_source_map_from(
-        &self,
-        mappings: &[(BytePos, LineCol)],
-        orig: Option<&sourcemap::SourceMap>,
-    ) -> sourcemap::SourceMap {
-        self.build_source_map_with_config(mappings, orig, DefaultSourceMapGenConfig)
-    }
-
     #[allow(clippy::ptr_arg)]
     #[cfg(feature = "sourcemap")]
     #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
-    pub fn build_source_map_with_config(
+    pub fn build_source_map(
         &self,
         mappings: &[(BytePos, LineCol)],
-        orig: Option<&sourcemap::SourceMap>,
+        orig: Option<sourcemap::SourceMap>,
         config: impl SourceMapGenConfig,
     ) -> sourcemap::SourceMap {
         build_source_map(self, mappings, orig, &config)
@@ -1271,7 +1254,7 @@ impl Files for SourceMap {
 pub fn build_source_map(
     files: &impl Files,
     mappings: &[(BytePos, LineCol)],
-    orig: Option<&sourcemap::SourceMap>,
+    orig: Option<sourcemap::SourceMap>,
     config: &impl SourceMapGenConfig,
 ) -> sourcemap::SourceMap {
     let mut builder = SourceMapBuilder::new(None);
@@ -1372,9 +1355,13 @@ pub fn build_source_map(
         let col = chpos - linechpos;
         let name = None;
 
-        let name_idx = name
-            .or_else(|| config.name_for_bytepos(pos))
-            .map(|name| builder.add_name(name));
+        let name_idx = if orig.is_none() {
+            name.or_else(|| config.name_for_bytepos(pos))
+                .map(|name| builder.add_name(name))
+        } else {
+            // orig.adjust_mappings below will throw this out
+            None
+        };
 
         builder.add_raw(lc.line, lc.col, line, col, Some(src_id), name_idx, false);
         prev_dst_line = lc.line;
@@ -1382,7 +1369,7 @@ pub fn build_source_map(
 
     let map = builder.into_sourcemap();
 
-    if let Some(mut orig) = orig.cloned() {
+    if let Some(mut orig) = orig {
         orig.adjust_mappings(&map);
         return orig;
     }
