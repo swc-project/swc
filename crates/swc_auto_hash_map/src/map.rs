@@ -321,6 +321,7 @@ impl<K, V, H, const I: usize> AutoMap<K, V, H, I> {
             AutoMap::Map(map) => Iter::Map(map.iter()),
         }
     }
+
     /// see [HashMap::iter_mut](https://doc.rust-lang.org/std/collections/struct.HashMap.html#method.iter_mut)
     pub fn iter_mut(&mut self) -> IterMut<'_, K, V> {
         match self {
@@ -371,8 +372,8 @@ impl<K, V, H, const I: usize> AutoMap<K, V, H, I> {
 }
 
 impl<K, V, H, const I: usize> IntoIterator for AutoMap<K, V, H, I> {
-    type Item = (K, V);
     type IntoIter = IntoIter<K, V, I>;
+    type Item = (K, V);
 
     fn into_iter(self) -> Self::IntoIter {
         match self {
@@ -383,8 +384,8 @@ impl<K, V, H, const I: usize> IntoIterator for AutoMap<K, V, H, I> {
 }
 
 impl<'a, K, V, H, const I: usize> IntoIterator for &'a AutoMap<K, V, H, I> {
-    type Item = (&'a K, &'a V);
     type IntoIter = Iter<'a, K, V>;
+    type Item = (&'a K, &'a V);
 
     fn into_iter(self) -> Self::IntoIter {
         self.iter()

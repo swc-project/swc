@@ -110,8 +110,8 @@ impl<K, H, const I: usize> AutoSet<K, H, I> {
 }
 
 impl<K, H, const I: usize> IntoIterator for AutoSet<K, H, I> {
-    type Item = K;
     type IntoIter = IntoIter<K, I>;
+    type Item = K;
 
     fn into_iter(self) -> Self::IntoIter {
         IntoIter(self.map.into_iter())
@@ -119,8 +119,8 @@ impl<K, H, const I: usize> IntoIterator for AutoSet<K, H, I> {
 }
 
 impl<'a, K, H, const I: usize> IntoIterator for &'a AutoSet<K, H, I> {
-    type Item = &'a K;
     type IntoIter = Iter<'a, K>;
+    type Item = &'a K;
 
     fn into_iter(self) -> Self::IntoIter {
         self.iter()
