@@ -120,10 +120,18 @@ impl Data {
             // correct representation of the actual usage.
             e.usage = e.usage.saturating_sub(1);
 
+            debug!(
+                "{}{:?}: usage: {}, assign: {}",
+                id.0, id.1, e.usage, e.assign
+            );
+
             if e.usage == 0 && e.assign == 0 {
-                let n = self.get_node(id);
-                self.graph.remove_node(n);
+                if let Some(n) = self.get_node(id) {
+                    self.graph.remove_node(n);
+                }
             }
+        } else if let Some(n) = self.get_node(id) {
+            self.graph.remove_node(n);
         }
     }
 
@@ -134,15 +142,23 @@ impl Data {
             // correct representation of the actual usage.
             e.assign = e.assign.saturating_sub(1);
 
+            debug!(
+                "{}{:?}: assign: {}, usage: {}",
+                id.0, id.1, e.assign, e.usage
+            );
+
             if e.usage == 0 && e.assign == 0 {
-                let n = self.get_node(id);
-                self.graph.remove_node(n);
+                if let Some(n) = self.get_node(id) {
+                    self.graph.remove_node(n);
+                }
             }
+        } else if let Some(n) = self.get_node(id) {
+            self.graph.remove_node(n);
         }
     }
 
-    fn get_node(&self, id: &Id) -> u32 {
-        self.graph_ix.get_index_of(id).unwrap() as _
+    fn get_node(&self, id: &Id) -> Option<u32> {
+        self.graph_ix.get_index_of(id).map(|ix| ix as _)
     }
 
     fn node(&mut self, id: &Id) -> u32 {
@@ -188,6 +204,13 @@ impl Data {
                 continue;
             }
 
+            let ids_in_cycle = cycle
+                .iter()
+                .map(|&node| self.graph_ix.get_index(node as _).unwrap())
+                .collect::<Vec<_>>();
+
+            dbg!(&ids_in_cycle);
+
             // We have to exclude cycle from remove list if an outer node refences an item
             // of cycle.
             for &node in &cycle {
@@ -196,10 +219,17 @@ impl Data {
                     continue 'c;
                 }
 
-                if self.graph.neighbors_directed(node, Incoming).any(|node| {
+                // If any node in cycle is referenced by an outer node, we
+                // should not remove the cycle
+                if self.graph.neighbors_directed(node, Incoming).any(|source| {
+                    let source_id = self.graph_ix.get_index(source as _).unwrap();
+                    dbg!(source_id);
                     // Node in cycle does not matter
-                    !cycle.contains(&node)
+                    !cycle.contains(&source)
                 }) {
+                    let id = self.graph_ix.get_index(node as _).unwrap();
+                    dbg!(id);
+
                     continue 'c;
                 }
             }
@@ -216,8 +246,11 @@ impl Data {
                         None => continue,
                     };
 
+                    dbg!(id);
                     if let Some(w) = self.graph.edge_weight(i, j) {
+                        dbg!(w);
                         let e = self.used_names.entry(id.clone()).or_default();
+                        dbg!(&e);
                         e.usage -= w.usage;
                         e.assign -= w.assign;
                     }
