@@ -1,4 +1,4 @@
-use std::{borrow::Cow, sync::Arc};
+use std::borrow::Cow;
 
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, prelude::GraphMap, Directed, Direction::Incoming};
@@ -10,10 +10,9 @@ use swc_common::{
     Mark, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::{cpu_count, Parallel};
+use swc_ecma_transforms_base::perf::cpu_count;
 use swc_ecma_utils::{
-    collect_decls, find_pat_ids, parallel::ParallelExt, ExprCtx, ExprExt, IsEmpty, ModuleItemLike,
-    StmtLike, Value::Known,
+    collect_decls, find_pat_ids, ExprCtx, ExprExt, IsEmpty, ModuleItemLike, StmtLike, Value::Known,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -87,7 +86,7 @@ struct TreeShaker {
     in_block_stmt: bool,
     var_decl_kind: Option<VarDeclKind>,
 
-    data: Arc<Data>,
+    data: Data,
 }
 
 impl CompilerPass for TreeShaker {
@@ -98,6 +97,8 @@ impl CompilerPass for TreeShaker {
 
 #[derive(Default)]
 struct Data {
+    initialized: bool,
+
     used_names: FxHashMap<Id, VarInfo>,
 
     /// Variable usage graph
@@ -112,6 +113,44 @@ struct Data {
 }
 
 impl Data {
+    fn drop_usage(&mut self, id: &Id) {
+        if let Some(e) = self.used_names.get_mut(id) {
+            // We use `saturating_sub` to avoid underflow.
+            // We subtract the cycle count from the occurence count, so the value is not
+            // correct representation of the actual usage.
+            e.usage = e.usage.saturating_sub(1);
+
+            if e.usage == 0 && e.assign == 0 {
+                if let Some(n) = self.get_node(id) {
+                    self.graph.remove_node(n);
+                }
+            }
+        } else if let Some(n) = self.get_node(id) {
+            self.graph.remove_node(n);
+        }
+    }
+
+    fn drop_assign(&mut self, id: &Id) {
+        if let Some(e) = self.used_names.get_mut(id) {
+            // We use `saturating_sub` to avoid underflow.
+            // We subtract the cycle count from the occurence count, so the value is not
+            // correct representation of the actual usage.
+            e.assign = e.assign.saturating_sub(1);
+
+            if e.usage == 0 && e.assign == 0 {
+                if let Some(n) = self.get_node(id) {
+                    self.graph.remove_node(n);
+                }
+            }
+        } else if let Some(n) = self.get_node(id) {
+            self.graph.remove_node(n);
+        }
+    }
+
+    fn get_node(&self, id: &Id) -> Option<u32> {
+        self.graph_ix.get_index_of(id).map(|ix| ix as _)
+    }
+
     fn node(&mut self, id: &Id) -> u32 {
         self.graph_ix.get_index_of(id).unwrap_or_else(|| {
             let ix = self.graph_ix.len();
@@ -163,9 +202,11 @@ impl Data {
                     continue 'c;
                 }
 
-                if self.graph.neighbors_directed(node, Incoming).any(|node| {
+                // If any node in cycle is referenced by an outer node, we
+                // should not remove the cycle
+                if self.graph.neighbors_directed(node, Incoming).any(|source| {
                     // Node in cycle does not matter
-                    !cycle.contains(&node)
+                    !cycle.contains(&source)
                 }) {
                     continue 'c;
                 }
@@ -191,10 +232,68 @@ impl Data {
                 }
             }
         }
+    }
+}
 
-        // We don't need to keep the graph
-        // But we need to keep `graph_ix` to because it's used.
-        self.graph.clear();
+/// Graph modification
+impl Data {
+    fn drop_ast_node<N>(&mut self, node: &N)
+    where
+        N: for<'aa> VisitWith<Dropper<'aa>>,
+    {
+        let mut dropper = Dropper { data: self };
+
+        node.visit_with(&mut dropper);
+    }
+}
+
+struct Dropper<'a> {
+    data: &'a mut Data,
+}
+
+impl<'a> Visit for Dropper<'a> {
+    noop_visit_type!(fail);
+
+    fn visit_binding_ident(&mut self, node: &BindingIdent) {
+        node.visit_children_with(self);
+
+        self.data.drop_assign(&node.to_id());
+    }
+
+    fn visit_class_decl(&mut self, node: &ClassDecl) {
+        node.visit_children_with(self);
+
+        self.data.drop_assign(&node.ident.to_id());
+    }
+
+    fn visit_class_expr(&mut self, node: &ClassExpr) {
+        node.visit_children_with(self);
+
+        if let Some(i) = &node.ident {
+            self.data.drop_assign(&i.to_id());
+        }
+    }
+
+    fn visit_expr(&mut self, expr: &Expr) {
+        expr.visit_children_with(self);
+
+        if let Expr::Ident(i) = expr {
+            self.data.drop_usage(&i.to_id());
+        }
+    }
+
+    fn visit_fn_decl(&mut self, node: &FnDecl) {
+        node.visit_children_with(self);
+
+        self.data.drop_assign(&node.ident.to_id());
+    }
+
+    fn visit_fn_expr(&mut self, node: &FnExpr) {
+        node.visit_children_with(self);
+
+        if let Some(i) = &node.ident {
+            self.data.drop_assign(&i.to_id());
+        }
     }
 }
 
@@ -555,22 +654,6 @@ impl Repeated for TreeShaker {
     fn reset(&mut self) {
         self.pass += 1;
         self.changed = false;
-        self.data = Default::default();
-    }
-}
-
-impl Parallel for TreeShaker {
-    fn create(&self) -> Self {
-        Self {
-            expr_ctx: self.expr_ctx,
-            data: self.data.clone(),
-            config: self.config.clone(),
-            ..*self
-        }
-    }
-
-    fn merge(&mut self, other: Self) {
-        self.changed |= other.changed;
     }
 }
 
@@ -661,22 +744,26 @@ impl TreeShaker {
         };
 
         if b.op == op!("&&") && b.left.as_pure_bool(self.expr_ctx) == Known(false) {
+            self.data.drop_ast_node(&b.right);
             *n = *b.left.take();
             self.changed = true;
             return;
         }
 
         if b.op == op!("||") && b.left.as_pure_bool(self.expr_ctx) == Known(true) {
+            self.data.drop_ast_node(&b.right);
             *n = *b.left.take();
             self.changed = true;
         }
     }
 
-    fn visit_mut_par<N>(&mut self, threshold: usize, nodes: &mut [N])
+    fn visit_mut_par<N>(&mut self, _threshold: usize, nodes: &mut [N])
     where
         N: Send + Sync + VisitMutWith<Self>,
     {
-        self.maybe_par(threshold, nodes, |v, n| n.visit_mut_with(v));
+        for n in nodes {
+            n.visit_mut_with(self);
+        }
     }
 }
 
@@ -693,6 +780,7 @@ impl VisitMut for TreeShaker {
             {
                 self.changed = true;
                 debug!("Dropping an assignment to `{}` because it's not used", id);
+                self.data.drop_ast_node(&n.left);
 
                 n.left.take();
             }
@@ -718,6 +806,8 @@ impl VisitMut for TreeShaker {
                 if self.can_drop_binding(f.ident.to_id(), true) {
                     debug!("Dropping function `{}` as it's not used", f.ident);
                     self.changed = true;
+
+                    self.data.drop_ast_node(&*f);
 
                     n.take();
                 }
@@ -761,6 +851,7 @@ impl VisitMut for TreeShaker {
                     debug!("Dropping class `{}` as it's not used", c.ident);
                     self.changed = true;
 
+                    self.data.drop_ast_node(&*c);
                     n.take();
                 }
             }
@@ -903,21 +994,28 @@ impl VisitMut for TreeShaker {
 
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
-        let mut data = Default::default();
-
-        {
-            let mut analyzer = Analyzer {
-                config: &self.config,
-                in_var_decl: false,
-                scope: Default::default(),
-                data: &mut data,
-                cur_class_id: Default::default(),
-                cur_fn_id: Default::default(),
+        if !self.data.initialized {
+            let mut data = Data {
+                initialized: true,
+                ..Default::default()
             };
-            m.visit_with(&mut analyzer);
+
+            {
+                let mut analyzer = Analyzer {
+                    config: &self.config,
+                    in_var_decl: false,
+                    scope: Default::default(),
+                    data: &mut data,
+                    cur_class_id: Default::default(),
+                    cur_fn_id: Default::default(),
+                };
+                m.visit_with(&mut analyzer);
+            }
+            data.subtract_cycles();
+            self.data = data;
+        } else {
+            self.data.subtract_cycles();
         }
-        data.subtract_cycles();
-        self.data = Arc::new(data);
 
         m.visit_mut_children_with(self);
     }
@@ -960,21 +1058,28 @@ impl VisitMut for TreeShaker {
     fn visit_mut_script(&mut self, m: &mut Script) {
         let _tracing = span!(Level::ERROR, "tree-shaker", pass = self.pass).entered();
 
-        let mut data = Default::default();
-
-        {
-            let mut analyzer = Analyzer {
-                config: &self.config,
-                in_var_decl: false,
-                scope: Default::default(),
-                data: &mut data,
-                cur_class_id: Default::default(),
-                cur_fn_id: Default::default(),
+        if !self.data.initialized {
+            let mut data = Data {
+                initialized: true,
+                ..Default::default()
             };
-            m.visit_with(&mut analyzer);
+
+            {
+                let mut analyzer = Analyzer {
+                    config: &self.config,
+                    in_var_decl: false,
+                    scope: Default::default(),
+                    data: &mut data,
+                    cur_class_id: Default::default(),
+                    cur_fn_id: Default::default(),
+                };
+                m.visit_with(&mut analyzer);
+            }
+            data.subtract_cycles();
+            self.data = data;
+        } else {
+            self.data.subtract_cycles();
         }
-        data.subtract_cycles();
-        self.data = Arc::new(data);
 
         m.visit_mut_children_with(self);
     }
@@ -1002,6 +1107,10 @@ impl VisitMut for TreeShaker {
                     _ => false,
                 })
             {
+                for decl in v.decls.iter() {
+                    self.data.drop_ast_node(&decl.name);
+                }
+
                 let exprs = v
                     .decls
                     .take()
@@ -1086,6 +1195,7 @@ impl VisitMut for TreeShaker {
             {
                 self.changed = true;
                 debug!("Dropping {} because it's not used", i);
+                self.data.drop_ast_node(&*v);
                 v.name.take();
             }
         }
