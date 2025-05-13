@@ -52,6 +52,7 @@ serde_json        = { workspace = true }
 tracing           = { workspace = true }
 
 
+auto-hash-map = { version = "0.1.0", path = "../auto-hash-map" }
 swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
 swc_common = { version = "9.2.0", path = "../swc_common" }
