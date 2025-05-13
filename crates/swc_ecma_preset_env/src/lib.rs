@@ -30,6 +30,7 @@ pub use self::transform_data::Feature;
 mod util;
 mod corejs2;
 mod corejs3;
+mod node_colon_prefix_strip;
 mod regenerator;
 mod transform_data;
 
@@ -320,14 +321,29 @@ pub fn transform_from_env<C>(
 where
     C: Comments + Clone,
 {
-    let pass = transform_internal(
-        unresolved_mark,
-        comments,
-        assumptions,
-        env_config.config.loose,
-        env_config.config.dynamic_import,
-        env_config.config.debug,
-        move |f| env_config.feature_config.caniuse(f),
+    let pass = Optional::new(
+        node_colon_prefix_strip::strip_node_colon_prefix(unresolved_mark),
+        env_config.feature_config.targets.node.is_some_and(|v| {
+            // Manually copied from https://nodejs.org/api/esm.html#node-imports
+            v < Version {
+                major: 14,
+                minor: 18,
+                patch: 0,
+            } || v.major == 15
+        }),
+    );
+
+    let pass = (
+        pass,
+        transform_internal(
+            unresolved_mark,
+            comments,
+            assumptions,
+            env_config.config.loose,
+            env_config.config.dynamic_import,
+            env_config.config.debug,
+            move |f| env_config.feature_config.caniuse(f),
+        ),
     );
 
     if env_config.config.debug {
