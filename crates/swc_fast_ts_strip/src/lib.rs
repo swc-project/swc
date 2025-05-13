@@ -428,8 +428,7 @@ pub fn operate(
 
                 let map = src_map_buf
                     .map(|map| {
-                        let map =
-                            cm.build_source_map_with_config(&map, None, DefaultSourceMapGenConfig);
+                        let map = cm.build_source_map(&map, None, DefaultSourceMapGenConfig);
 
                         let mut s = std::vec::Vec::new();
                         map.to_writer(&mut s)
