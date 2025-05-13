@@ -2,7 +2,7 @@
 description = "TBD"
 edition     = "2024"
 license     = "MIT"
-name        = "auto-hash-map"
+name        = "swc_auto_hash_map"
 publish     = false
 version     = "0.1.0"
 
