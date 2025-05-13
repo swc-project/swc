@@ -7,6 +7,7 @@ use swc_ecma_utils::{ExprExt, Type, Value};
 use Value::Known;
 
 use super::Pure;
+pub const DEFAULT_STRING_CAPACITY: usize = 64;
 
 impl Pure<'_> {
     /// This only handles `'foo' + ('bar' + baz) because others are handled by
@@ -125,8 +126,8 @@ impl Pure<'_> {
         };
 
         // Pre-allocate with reasonable capacity
-        let mut cur_cooked_str = String::with_capacity(64);
-        let mut cur_raw_str = String::with_capacity(64);
+        let mut cur_cooked_str = String::with_capacity(DEFAULT_STRING_CAPACITY);
+        let mut cur_raw_str = String::with_capacity(DEFAULT_STRING_CAPACITY);
 
         for idx in 0..(tpl.quasis.len() + tpl.exprs.len()) {
             if idx % 2 == 0 {
@@ -314,7 +315,7 @@ impl Pure<'_> {
                         }
                     }
                     _ => {
-                        cur_cooked = Some(String::with_capacity(64));
+                        cur_cooked = Some(String::with_capacity(DEFAULT_STRING_CAPACITY));
                     }
                 }
             }
@@ -364,8 +365,8 @@ impl Pure<'_> {
                             cooked: cur_cooked.take().map(From::from),
                             raw: take(&mut cur_raw).into(),
                         });
-                        cur_cooked = Some(String::with_capacity(64));
-                        cur_raw = String::with_capacity(64);
+                        cur_cooked = Some(String::with_capacity(DEFAULT_STRING_CAPACITY));
+                        cur_raw = String::with_capacity(DEFAULT_STRING_CAPACITY);
 
                         exprs.push(e);
                     }
