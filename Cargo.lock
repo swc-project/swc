@@ -251,6 +251,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "auto-hash-map"
+version = "0.1.0"
+dependencies = [
+ "hashbrown 0.14.5",
+ "rustc-hash 2.1.1",
+ "serde",
+ "smallvec",
+]
+
+[[package]]
 name = "auto_impl"
 version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1890,6 +1900,7 @@ checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
 dependencies = [
  "ahash",
  "allocator-api2",
+ "serde",
 ]
 
 [[package]]
@@ -5628,6 +5639,7 @@ dependencies = [
  "ansi_term",
  "anyhow",
  "arrayvec",
+ "auto-hash-map",
  "backtrace",
  "bitflags 2.6.0",
  "codspeed-criterion-compat",
