@@ -16,8 +16,8 @@ use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
 use number::{JsNumber, ToJsString};
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
-use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_atoms::{atom, Atom};
+use swc_common::{util::take::Take, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
@@ -2808,6 +2808,61 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
             Unknown
         }
 
+        Expr::Bin(BinExpr {
+            left,
+            op: op @ (op!("==") | op!("!=")),
+            right,
+            ..
+        }) => match is_loosely_equal(ctx, left, right) {
+            Known(v) => Known(if *op == op!("==") { v } else { !v }),
+            _ => Unknown,
+        },
+
+        Expr::Bin(BinExpr {
+            left,
+            op: op @ (op!("===") | op!("!==")),
+            right,
+            ..
+        }) => match is_strictly_equal(ctx, left, right) {
+            Known(v) => Known(if *op == op!("===") { v } else { !v }),
+            _ => Unknown,
+        },
+
+        Expr::Bin(BinExpr {
+            left,
+            op: op!("<"),
+            right,
+            ..
+        }) => is_less_than(ctx, left, right, false),
+
+        Expr::Bin(BinExpr {
+            left,
+            op: op!(">"),
+            right,
+            ..
+        }) => is_less_than(ctx, right, left, false),
+
+        Expr::Bin(BinExpr {
+            left,
+            op: op!("<="),
+            right,
+            ..
+        }) => !is_less_than(ctx, right, left, true),
+
+        Expr::Bin(BinExpr {
+            left,
+            op: op!(">="),
+            right,
+            ..
+        }) => !is_less_than(ctx, left, right, true),
+
+        Expr::Bin(BinExpr {
+            left,
+            op: op!("instanceof"),
+            right,
+            ..
+        }) => is_instance_of(ctx, left, right),
+
         Expr::Fn(..) | Expr::Class(..) | Expr::New(..) | Expr::Array(..) | Expr::Object(..) => {
             Known(true)
         }
@@ -2876,10 +2931,20 @@ fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
             op: op!(unary, "-"),
             arg,
             ..
-        }) => match arg.cast_to_number(ctx) {
-            (Pure, Known(v)) => -v,
-            _ => return (MayBeImpure, Unknown),
-        },
+        }) => {
+            let (p, mut val) = arg.cast_to_number(ctx);
+            if let Known(v) = val {
+                val = Known(-v);
+            }
+            return (p, val);
+        }
+        Expr::Unary(UnaryExpr {
+            op: op!(unary, "+"),
+            arg,
+            ..
+        }) => {
+            return arg.cast_to_number(ctx);
+        }
         Expr::Unary(UnaryExpr {
             op: op!("!"),
             ref arg,
@@ -2905,198 +2970,93 @@ fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
                 f64::NAN
             }
         }
+        Expr::Unary(UnaryExpr {
+            op: op!("~"),
+            ref arg,
+            ..
+        }) => {
+            let (p, mut val) = arg.cast_to_number(ctx);
+            if let Known(v) = val {
+                val = Known(*!JsNumber::from(v));
+            }
+            return (p, val);
+        }
 
-        Expr::Bin(bin) => {
-            let (left, right) = (bin.left.as_pure_number(ctx), bin.right.as_pure_number(ctx));
+        Expr::Bin(BinExpr {
+            op:
+                op @ (op!("<<")
+                | op!(">>")
+                | op!(">>>")
+                | op!(bin, "+")
+                | op!(bin, "-")
+                | op!("*")
+                | op!("/")
+                | op!("%")
+                | op!("|")
+                | op!("^")
+                | op!("&")
+                | op!("**")),
+            left,
+            right,
+            ..
+        }) => {
+            return perform_arithmetic_op(ctx, *op, left, right);
+        }
 
-            if (left.is_unknown() && right.is_unknown())
-                || bin.op == op!(bin, "+")
-                    && (!bin.left.get_type(ctx).casted_to_number_on_add()
-                        || !bin.right.get_type(ctx).casted_to_number_on_add())
-            {
+        Expr::Bin(BinExpr {
+            op: op!("||"),
+            left,
+            right,
+            ..
+        }) => {
+            let Known(left_val) = left.as_pure_bool(ctx) else {
                 return (MayBeImpure, Unknown);
-            }
+            };
 
-            match bin.op {
-                op!("<<") => {
-                    let (Known(left), Known(right)) = (left, right) else {
-                        return (MayBeImpure, Unknown);
-                    };
+            return if left_val {
+                right.cast_to_number(ctx)
+            } else {
+                left.cast_to_number(ctx)
+            };
+        }
 
-                    *(JsNumber::from(left) << JsNumber::from(right))
-                }
+        Expr::Bin(BinExpr {
+            op: op!("&&"),
+            left,
+            right,
+            ..
+        }) => {
+            let Known(left_bool) = left.as_pure_bool(ctx) else {
+                return (MayBeImpure, Unknown);
+            };
 
-                op!(">>") => {
-                    let (Known(left), Known(right)) = (left, right) else {
-                        return (MayBeImpure, Unknown);
-                    };
+            return if left_bool {
+                right.cast_to_number(ctx)
+            } else {
+                left.cast_to_number(ctx)
+            };
+        }
 
-                    *(JsNumber::from(left) >> JsNumber::from(right))
-                }
+        Expr::Bin(BinExpr {
+            op: op!("??"),
+            left,
+            right,
+            ..
+        }) => {
+            let (p, val) = if matches!(left.get_type(ctx), Known(Type::Undefined | Type::Null)) {
+                right.cast_to_number(ctx)
+            } else {
+                left.cast_to_number(ctx)
+            };
 
-                op!(">>>") => {
-                    let (Known(left), Known(right)) = (left, right) else {
-                        return (MayBeImpure, Unknown);
-                    };
-
-                    *(JsNumber::from(left).unsigned_shr(right.into()))
-                }
-
-                op!(bin, "+") => {
-                    if let (Known(left), Known(right)) = (left, right) {
-                        return (Pure, Known(*(JsNumber::from(left) + JsNumber::from(right))));
-                    }
-
-                    if left == Known(0.0) {
-                        return (Pure, right);
-                    } else if right == Known(0.0) {
-                        return (Pure, left);
-                    }
-
-                    return (MayBeImpure, Unknown);
-                }
-
-                op!(bin, "-") => {
-                    if let (Known(left), Known(right)) = (left, right) {
-                        return (Pure, Known(*(JsNumber::from(left) - JsNumber::from(right))));
-                    }
-
-                    // 0 - x => -x
-                    if left == Known(0.0) {
-                        return (Pure, right);
-                    }
-
-                    // x - 0 => x
-                    if right == Known(0.0) {
-                        return (Pure, left);
-                    }
-
-                    return (MayBeImpure, Unknown);
-                }
-
-                op!("*") => {
-                    if let (Known(left), Known(right)) = (left, right) {
-                        return (Pure, Known(*(JsNumber::from(left) * JsNumber::from(right))));
-                    }
-
-                    // NOTE: 0*x != 0 for all x, if x==0, then it is NaN.  So we can't take
-                    // advantage of that without some kind of non-NaN proof.  So the special
-                    // cases here only deal with 1*x
-                    if Known(1.0) == left {
-                        return (Pure, right);
-                    }
-                    if Known(1.0) == right {
-                        return (Pure, left);
-                    }
-
-                    return (MayBeImpure, Unknown);
-                }
-
-                op!("/") => {
-                    if let (Known(left), Known(right)) = (left, right) {
-                        if right == 0.0 {
-                            return (Pure, Unknown);
-                        }
-
-                        return (Pure, Known(*(JsNumber::from(left) / JsNumber::from(right))));
-                    }
-
-                    // NOTE: 0/x != 0 for all x, if x==0, then it is NaN
-
-                    if right == Known(1.0) {
-                        // TODO: cloneTree
-                        // x/1->x
-                        return (Pure, left);
-                    }
-
-                    return (MayBeImpure, Unknown);
-                }
-
-                op!("%") => {
-                    let (Known(left), Known(right)) = (left, right) else {
-                        return (MayBeImpure, Unknown);
-                    };
-
-                    return (Pure, Known(*(JsNumber::from(left) % JsNumber::from(right))));
-                }
-
-                op!("|") => {
-                    let (Known(left), Known(right)) = (left, right) else {
-                        return (MayBeImpure, Unknown);
-                    };
-
-                    return (Pure, Known(*(JsNumber::from(left) | JsNumber::from(right))));
-                }
-
-                op!("^") => {
-                    let (Known(left), Known(right)) = (left, right) else {
-                        return (MayBeImpure, Unknown);
-                    };
-
-                    return (Pure, Known(*(JsNumber::from(left) ^ JsNumber::from(right))));
-                }
-
-                op!("&") => {
-                    let (Known(left), Known(right)) = (left, right) else {
-                        return (MayBeImpure, Unknown);
-                    };
-
-                    return (Pure, Known(*(JsNumber::from(left) & JsNumber::from(right))));
-                }
-
-                op!("||") => {
-                    let Known(left_bool) = bin.left.as_pure_bool(ctx) else {
-                        return (MayBeImpure, Unknown);
-                    };
-
-                    return (Pure, if left_bool { left } else { right });
-                }
-
-                op!("&&") => {
-                    let Known(left_bool) = bin.left.as_pure_bool(ctx) else {
-                        return (MayBeImpure, Unknown);
-                    };
-
-                    return (Pure, if left_bool { right } else { left });
-                }
-
-                op!("**") => {
-                    if Known(0.0) == right {
-                        return (Pure, Known(1.0));
-                    }
-
-                    if let (Known(left), Known(right)) = (left, right) {
-                        return (Pure, Known(*(JsNumber::from(left).pow(right.into()))));
-                    }
-
-                    return (MayBeImpure, Unknown);
-                }
-
-                op!("??") => {
-                    if bin.left.may_have_side_effects(ctx) {
-                        return (MayBeImpure, Unknown);
-                    }
-
-                    return (
-                        Pure,
-                        if bin.left.is_void()
-                            || bin.left.is_undefined(ctx)
-                            || bin
-                                .left
-                                .as_lit()
-                                .is_some_and(|lit| matches!(lit, Lit::Null(..)))
-                        {
-                            right
-                        } else {
-                            left
-                        },
-                    );
-                }
-
-                _ => {
-                    return (MayBeImpure, Unknown);
-                }
-            }
+            return (
+                if p == Pure && !left.may_have_side_effects(ctx) {
+                    Pure
+                } else {
+                    MayBeImpure
+                },
+                val,
+            );
         }
 
         Expr::Tpl(..) => {
@@ -3184,6 +3144,25 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
                 }
             }
             Unknown => return Value::Unknown,
+        })),
+        Expr::Unary(UnaryExpr {
+            op: op!("typeof"),
+            ref arg,
+            ..
+        }) if !arg.may_have_side_effects(ctx) => Known(Cow::Borrowed(if arg.is_fn_expr() {
+            "function"
+        } else {
+            match arg.get_type(ctx) {
+                Known(Type::Undefined) => "undefined",
+                Known(Type::Str) => "string",
+                Known(Type::Num) => "number",
+                Known(Type::Bool) => "boolean",
+                Known(Type::Null | Type::Obj) => "object",
+
+                _ => {
+                    return Unknown;
+                }
+            }
         })),
         Expr::Bin(BinExpr {
             left,
@@ -3298,15 +3277,13 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             ref right,
             ..
         }) => {
-            let rt = right.get_type(ctx);
-            if rt == Known(StringType) {
+            // It's string concatenation if either left or right is string.
+            if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
                 return Known(StringType);
             }
 
             let lt = left.get_type(ctx);
-            if lt == Known(StringType) {
-                return Known(StringType);
-            }
+            let rt = right.get_type(ctx);
 
             // There are some pretty weird cases for object types:
             //   {} + [] === "0"
@@ -3676,6 +3653,432 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
 
         Expr::Invalid(..) => true,
     }
+}
+
+/// Performs an arithmetic operation with the given [BinaryOp] and left + right
+/// side expressions.
+///
+/// Callers should use `as_pure_number`/`cast_to_number` instead when possible.
+/// This function exists purely for when you don't have an existing [BinExpr] so
+/// you don't have to create a new one just to evaluate an expression.
+pub fn perform_arithmetic_op(
+    ctx: ExprCtx,
+    op: BinaryOp,
+    lhs: &Expr,
+    rhs: &Expr,
+) -> (Purity, Value<f64>) {
+    let (left, right) = (lhs.as_pure_number(ctx), rhs.as_pure_number(ctx));
+
+    if (left.is_unknown() && right.is_unknown())
+        || op == op!(bin, "+")
+            && (!lhs.get_type(ctx).casted_to_number_on_add()
+                || !rhs.get_type(ctx).casted_to_number_on_add())
+    {
+        return (MayBeImpure, Unknown);
+    }
+
+    let val = match op {
+        op!("<<") => {
+            let (Known(left), Known(right)) = (left, right) else {
+                return (MayBeImpure, Unknown);
+            };
+
+            *(JsNumber::from(left) << JsNumber::from(right))
+        }
+
+        op!(">>") => {
+            let (Known(left), Known(right)) = (left, right) else {
+                return (MayBeImpure, Unknown);
+            };
+
+            *(JsNumber::from(left) >> JsNumber::from(right))
+        }
+
+        op!(">>>") => {
+            let (Known(left), Known(right)) = (left, right) else {
+                return (MayBeImpure, Unknown);
+            };
+
+            *(JsNumber::from(left).unsigned_shr(right.into()))
+        }
+
+        op!(bin, "+") => {
+            if let (Known(left), Known(right)) = (left, right) {
+                return (Pure, Known(*(JsNumber::from(left) + JsNumber::from(right))));
+            }
+
+            if left == Known(0.0) {
+                return (Pure, right);
+            } else if right == Known(0.0) {
+                return (Pure, left);
+            }
+
+            return (MayBeImpure, Unknown);
+        }
+
+        op!(bin, "-") => {
+            if let (Known(left), Known(right)) = (left, right) {
+                return (Pure, Known(*(JsNumber::from(left) - JsNumber::from(right))));
+            }
+
+            // 0 - x => -x
+            if left == Known(0.0) {
+                return (Pure, right); // TODO: shouldn't this be -right?
+            }
+
+            // x - 0 => x
+            if right == Known(0.0) {
+                return (Pure, left);
+            }
+
+            return (MayBeImpure, Unknown);
+        }
+
+        op!("*") => {
+            if let (Known(left), Known(right)) = (left, right) {
+                return (Pure, Known(*(JsNumber::from(left) * JsNumber::from(right))));
+            }
+
+            // NOTE: 0*x != 0 for all x, if x==0, then it is NaN.  So we can't take
+            // advantage of that without some kind of non-NaN proof.  So the special
+            // cases here only deal with 1*x
+            if Known(1.0) == left {
+                return (Pure, right);
+            }
+            if Known(1.0) == right {
+                return (Pure, left);
+            }
+
+            return (MayBeImpure, Unknown);
+        }
+
+        op!("/") => {
+            if let (Known(left), Known(right)) = (left, right) {
+                if right == 0.0 {
+                    return (Pure, Unknown);
+                }
+
+                return (Pure, Known(*(JsNumber::from(left) / JsNumber::from(right))));
+            }
+
+            // NOTE: 0/x != 0 for all x, if x==0, then it is NaN
+
+            if right == Known(1.0) {
+                // TODO: cloneTree
+                // x/1->x
+                return (Pure, left);
+            }
+
+            return (MayBeImpure, Unknown);
+        }
+
+        op!("%") => {
+            let (Known(left), Known(right)) = (left, right) else {
+                return (MayBeImpure, Unknown);
+            };
+
+            return (Pure, Known(*(JsNumber::from(left) % JsNumber::from(right))));
+        }
+
+        op!("|") => {
+            let (Known(left), Known(right)) = (left, right) else {
+                return (MayBeImpure, Unknown);
+            };
+
+            return (Pure, Known(*(JsNumber::from(left) | JsNumber::from(right))));
+        }
+
+        op!("^") => {
+            let (Known(left), Known(right)) = (left, right) else {
+                return (MayBeImpure, Unknown);
+            };
+
+            return (Pure, Known(*(JsNumber::from(left) ^ JsNumber::from(right))));
+        }
+
+        op!("&") => {
+            let (Known(left), Known(right)) = (left, right) else {
+                return (MayBeImpure, Unknown);
+            };
+
+            return (Pure, Known(*(JsNumber::from(left) & JsNumber::from(right))));
+        }
+
+        op!("**") => {
+            if Known(0.0) == right {
+                return (Pure, Known(1.0));
+            }
+
+            if let (Known(left), Known(right)) = (left, right) {
+                return (Pure, Known(*(JsNumber::from(left).pow(right.into()))));
+            }
+
+            return (MayBeImpure, Unknown);
+        }
+
+        _ => {
+            return (MayBeImpure, Unknown);
+        }
+    };
+
+    (Pure, Known(val))
+}
+
+/// Performs `left == right`.
+///
+/// https://tc39.github.io/ecma262/#sec-abstract-equality-comparison
+fn is_loosely_equal(ctx: ExprCtx, left: &Expr, right: &Expr) -> Value<bool> {
+    let (Known(lt), Known(rt)) = (left.get_type(ctx), right.get_type(ctx)) else {
+        return Unknown;
+    };
+
+    if lt == rt {
+        return is_strictly_equal(ctx, left, right);
+    }
+
+    match (lt, rt) {
+        (NullType, UndefinedType) | (UndefinedType, NullType) => Known(true),
+        (NumberType, StringType) | (_, BoolType) => {
+            let Known(rv) = right.as_pure_number(ctx) else {
+                return Unknown;
+            };
+
+            // TODO: why do they pass span in as its own argument? do we need to do this?
+            is_loosely_equal(
+                ctx,
+                left,
+                &Lit::Num(Number {
+                    value: rv,
+                    span: right.span(),
+                    raw: None,
+                })
+                .into(),
+            )
+        }
+        (StringType, NumberType) | (BoolType, _) => {
+            let Known(lv) = left.as_pure_number(ctx) else {
+                return Unknown;
+            };
+
+            // TODO: span, same as above
+            is_loosely_equal(
+                ctx,
+                &Lit::Num(Number {
+                    value: lv,
+                    span: left.span(),
+                    raw: None,
+                })
+                .into(),
+                right,
+            )
+        }
+
+        (StringType, ObjectType)
+        | (NumberType, ObjectType)
+        | (ObjectType, StringType)
+        | (ObjectType, NumberType) => Unknown,
+
+        _ => Known(false),
+    }
+}
+
+/// Performs `left === right`.
+///
+/// https://tc39.github.io/ecma262/#sec-strict-equality-comparison
+fn is_strictly_equal(ctx: ExprCtx, left: &Expr, right: &Expr) -> Value<bool> {
+    // Any strict equality comparison against NaN returns false.
+    if left.is_nan() || right.is_nan() {
+        return Known(false);
+    }
+
+    match (left, right) {
+        // Special case, `typeof a == typeof a` is always true.
+        (
+            &Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg: ref la,
+                ..
+            }),
+            &Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg: ref ra,
+                ..
+            }),
+        ) if la.as_ident().is_some()
+            && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
+        {
+            return Known(true)
+        }
+        _ => {}
+    }
+
+    let (Known(lt), Known(rt)) = (left.get_type(ctx), right.get_type(ctx)) else {
+        return Unknown;
+    };
+    // Strict equality can only be true for values of the same type.
+    if lt != rt {
+        return Known(false);
+    }
+
+    match lt {
+        UndefinedType | NullType => Known(true),
+        NumberType => {
+            let (Known(lv), Known(rv)) = (left.as_pure_number(ctx), right.as_pure_number(ctx))
+            else {
+                return Unknown;
+            };
+
+            Known(lv == rv)
+        }
+        StringType => {
+            let (Known(lv), Known(rv)) = (left.as_pure_string(ctx), right.as_pure_string(ctx))
+            else {
+                return Unknown;
+            };
+            // In JS, browsers parse \v differently. So do not consider strings
+            // equal if one contains \v.
+            if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
+                return Unknown;
+            }
+            Known(lv == rv)
+        }
+        BoolType => {
+            let (lv, rv) = (left.as_pure_bool(ctx), right.as_pure_bool(ctx));
+
+            // lv && rv || !lv && !rv
+
+            lv.and(rv).or((!lv).and(!rv))
+        }
+        ObjectType | SymbolType => Unknown,
+    }
+}
+
+/// Performs `left < right`.
+///
+/// https://tc39.github.io/ecma262/#sec-abstract-relational-comparison
+fn is_less_than(ctx: ExprCtx, left: &Expr, right: &Expr, will_negate: bool) -> Value<bool> {
+    // Handle special cases first
+    match (left, right) {
+        // Special case: `left < right` is always `false`.
+        (
+            &Expr::Ident(Ident {
+                sym: ref li,
+                ctxt: l_ctxt,
+                ..
+            }),
+            &Expr::Ident(Ident {
+                sym: ref ri,
+                ctxt: r_ctxt,
+                ..
+            }),
+        ) if !will_negate && li == ri && l_ctxt == r_ctxt => {
+            return Known(false);
+        }
+
+        // Special case: `typeof a < typeof a` is always false.
+        (
+            &Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg: ref la,
+                ..
+            }),
+            &Expr::Unary(UnaryExpr {
+                op: op!("typeof"),
+                arg: ref ra,
+                ..
+            }),
+        ) if la.is_ident()
+            && la.as_ident().map(|i| i.to_id()) == ra.as_ident().map(|i| i.to_id()) =>
+        {
+            return Known(false);
+        }
+        _ => {}
+    }
+
+    // Try to evaluate based on the type.
+    let (lt, rt) = (left.get_type(ctx), right.get_type(ctx));
+
+    // String comparison
+    if let (Known(StringType), Known(StringType)) = (lt, rt) {
+        if let (Known(lv), Known(rv)) = (left.as_pure_string(ctx), right.as_pure_string(ctx)) {
+            // In JS, browsers parse \v differently. So do not compare strings if one
+            // contains \v.
+            if lv.contains('\u{000B}') || rv.contains('\u{000B}') {
+                return Unknown;
+            } else {
+                println!("LEFT={} RIGHT={} RESULT={}", lv, rv, lv < rv);
+                return Known(lv < rv);
+            }
+        }
+    }
+
+    if let (Known(lv), Known(rv)) = (left.as_pure_number(ctx), right.as_pure_number(ctx)) {
+        if lv.is_nan() || rv.is_nan() {
+            return Known(will_negate);
+        }
+
+        return Known(lv < rv);
+    }
+
+    Unknown
+}
+
+/// Performs `v instanceof target`.
+///
+/// https://tc39.es/ecma262/#sec-instanceofoperator
+fn is_instance_of(expr_ctx: ExprCtx, v: &Expr, target: &Expr) -> Value<bool> {
+    if is_non_obj(expr_ctx, v) {
+        return Known(false);
+    }
+
+    if is_obj(v) && target.is_global_ref_to(expr_ctx, "Object") {
+        return Known(true);
+    }
+
+    Unknown
+}
+
+/// Checks if the given [Expr] is not an object.
+fn is_non_obj(expr_ctx: ExprCtx, expr: &Expr) -> bool {
+    // Check for UnaryExpr first.
+    if let Expr::Unary(UnaryExpr {
+        op: op!("!") | op!(unary, "-") | op!("void"),
+        ref arg,
+        ..
+    }) = expr
+    {
+        return is_non_obj(expr_ctx, arg);
+    }
+
+    // Non-object types are never instances.
+    if matches!(
+        expr.get_type(expr_ctx),
+        Known(Type::Str | Type::Num | Type::Null | Type::Bool | Type::Undefined)
+    ) {
+        return true;
+    }
+
+    // TODO: we shouldn't need this because of the check above. if this is the case,
+    // make the return statement the matches! above.
+    /*
+    if let Some(ident) = e.as_ident() {
+        if ident.ctxt == expr_ctx.unresolved_ctxt {
+            return matches!(
+                ident.sym,
+                atom!("undefined") | atom!("Infinity") | atom!("NaN")
+            );
+        }
+    }
+    */
+    false
+}
+
+/// Checks if the given [Expr] is an object.
+fn is_obj(expr: &Expr) -> bool {
+    matches!(
+        expr,
+        Expr::Array(..) | Expr::Object(..) | Expr::Fn(..) | Expr::New(..)
+    )
 }
 
 #[cfg(test)]
