@@ -2279,28 +2279,6 @@ impl VisitMut for Optimizer<'_> {
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
-    fn visit_mut_prop(&mut self, n: &mut Prop) {
-        n.visit_mut_children_with(self);
-
-        if let Prop::Shorthand(i) = n {
-            if self.vars.has_pending_inline_for(&i.to_id()) {
-                let mut e: Expr = i.clone().into();
-                e.visit_mut_with(self);
-
-                *n = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(i.clone().into()),
-                    value: Box::new(e),
-                });
-            }
-        }
-
-        #[cfg(debug_assertions)]
-        {
-            n.visit_with(&mut AssertValid);
-        }
-    }
-
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
     fn visit_mut_return_stmt(&mut self, n: &mut ReturnStmt) {
         n.visit_mut_children_with(self);
 
