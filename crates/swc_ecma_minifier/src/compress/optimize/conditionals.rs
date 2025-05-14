@@ -12,6 +12,7 @@ use crate::{
         optimize::BitCtx,
         util::{negate, negate_cost},
     },
+    program_data::VarUsageInfoFlags,
     DISABLE_BUGGY_PASSES,
 };
 
@@ -398,7 +399,11 @@ impl Optimizer<'_> {
                     .data
                     .vars
                     .get(&cons_callee.to_id())
-                    .map(|v| v.is_fn_local && v.declared)
+                    .map(|v| {
+                        v.flags.contains(
+                            VarUsageInfoFlags::IS_FN_LOCAL.union(VarUsageInfoFlags::DECLARED),
+                        )
+                    })
                     .unwrap_or(false);
 
                 if side_effect_free

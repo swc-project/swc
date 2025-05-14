@@ -30,7 +30,7 @@ use crate::{
     maybe_par,
     mode::Mode,
     option::{CompressOptions, MangleOptions},
-    program_data::{ProgramData, VarUsageInfo},
+    program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
     util::{
         contains_eval, contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt,
     },
@@ -333,8 +333,11 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
-        if let Some(VarUsageInfo { exported: true, .. }) =
-            self.data.vars.get(&id.clone().to_id()).map(|v| &**v)
+        if self
+            .data
+            .vars
+            .get(&id.to_id())
+            .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED))
         {
             return false;
         }
@@ -351,11 +354,17 @@ impl Optimizer<'_> {
     }
 
     fn may_add_ident(&self) -> bool {
-        if self.ctx.in_top_level() && self.data.top.has_eval_call {
+        if self.ctx.in_top_level() && self.data.top.contains(ScopeData::HAS_EVAL_CALL) {
             return false;
         }
 
-        if self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call {
+        if self
+            .data
+            .scopes
+            .get(&self.ctx.scope)
+            .unwrap()
+            .contains(ScopeData::HAS_EVAL_CALL)
+        {
             return false;
         }
 
@@ -787,7 +796,9 @@ impl Optimizer<'_> {
                 if let Expr::Ident(callee) = &**callee {
                     if self.options.reduce_vars && self.options.side_effects {
                         if let Some(usage) = self.data.vars.get(&callee.to_id()) {
-                            if !usage.reassigned && usage.pure_fn {
+                            if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                                && usage.flags.contains(VarUsageInfoFlags::PURE_FN)
+                            {
                                 self.changed = true;
                                 report_change!("Reducing function call to a variable");
 
@@ -2831,7 +2842,12 @@ impl VisitMut for Optimizer<'_> {
             true
         });
 
-        let uses_eval = self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call;
+        let uses_eval = self
+            .data
+            .scopes
+            .get(&self.ctx.scope)
+            .unwrap()
+            .contains(ScopeData::HAS_EVAL_CALL);
 
         if !uses_eval && !self.ctx.bit_ctx.contains(BitCtx::DontUsePrependNorAppend) {
             for v in vars.iter_mut() {
@@ -2933,7 +2949,10 @@ impl VisitMut for Optimizer<'_> {
                 if let Some(Expr::Invalid(..)) = var.init.as_deref() {
                     if let Pat::Ident(i) = &var.name {
                         if let Some(usage) = self.data.vars.get(&i.id.to_id()) {
-                            if usage.declared_as_catch_param {
+                            if usage
+                                .flags
+                                .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
+                            {
                                 var.init = None;
                                 debug_assert_valid(var);
                                 return true;
