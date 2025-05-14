@@ -15464,7 +15464,7 @@
                 handleManifestRedirect && req && req.responseURL && url !== req.responseURL ? req.responseURL : url);
             }, logger = function(source) {
                 return videojs.log.debug ? videojs.log.debug.bind(videojs, "VHS:", source + " >") : function() {};
-            }, TIME_FUDGE_FACTOR = 1 / 30, SAFE_TIME_DELTA = 1 / 30 * 3, filterRanges = function(timeRanges, predicate) {
+            }, TIME_FUDGE_FACTOR = 1 / 30, filterRanges = function(timeRanges, predicate) {
                 var i, results = [];
                 if (timeRanges && timeRanges.length) // Search for ranges that match the predicate
                 for(i = 0; i < timeRanges.length; i++)predicate(timeRanges.start(i), timeRanges.end(i)) && results.push([
@@ -15474,7 +15474,7 @@
                 return videojs.createTimeRanges(results);
             }, findRange = function(buffered, time) {
                 return filterRanges(buffered, function(start, end) {
-                    return start - SAFE_TIME_DELTA <= time && end + SAFE_TIME_DELTA >= time;
+                    return start - 0.1 <= time && end + 0.1 >= time;
                 });
             }, findNextRange = function(timeRanges, time) {
                 return filterRanges(timeRanges, function(start) {
@@ -25655,10 +25655,10 @@
                     // don't want to say we are stuck while there is still content
                     var absolutePlaylistEnd = Vhs$1.Playlist.playlistEnd(playlist, expired), currentTime = this.tech_.currentTime(), buffered = this.tech_.buffered();
                     if (!buffered.length) // return true if the playhead reached the absolute end of the playlist
-                    return absolutePlaylistEnd - currentTime <= SAFE_TIME_DELTA;
+                    return absolutePlaylistEnd - currentTime <= 0.1;
                     var bufferedEnd = buffered.end(buffered.length - 1); // return true if there is too little buffer left and buffer has reached absolute
                     // end of playlist
-                    return bufferedEnd - currentTime <= SAFE_TIME_DELTA && absolutePlaylistEnd - bufferedEnd <= SAFE_TIME_DELTA;
+                    return bufferedEnd - currentTime <= 0.1 && absolutePlaylistEnd - bufferedEnd <= 0.1;
                 }, /**
                  * Blacklists a playlist when an error occurs for a set amount of time
                  * making it unavailable for selection by the rendition selection algorithm
@@ -26180,7 +26180,7 @@
                  */ _proto.checkCurrentTime_ = function() {
                     if (!(this.tech_.paused() || this.tech_.seeking())) {
                         var currentTime = this.tech_.currentTime(), buffered = this.tech_.buffered();
-                        if (this.lastRecordedTime === currentTime && (!buffered.length || currentTime + SAFE_TIME_DELTA >= buffered.end(buffered.length - 1))) // If current time is at the end of the final buffered region, then any playback
+                        if (this.lastRecordedTime === currentTime && (!buffered.length || currentTime + 0.1 >= buffered.end(buffered.length - 1))) // If current time is at the end of the final buffered region, then any playback
                         // stall is most likely caused by buffering in a low bandwidth environment. The tech
                         // should fire a `waiting` event in this scenario, but due to browser and tech
                         // inconsistencies. Calling `techWaiting_` here allows us to simulate
@@ -26212,7 +26212,7 @@
                         // provide a buffer of .1 seconds to handle rounding/imprecise numbers
                         seekTo = seekableStart + // if the playlist is too short and the seekable range is an exact time (can
                         // happen in live with a 3 segment playlist), then don't use a time delta
-                        (seekableStart === seekable.end(0) ? 0 : SAFE_TIME_DELTA);
+                        0.1 * (seekableStart !== seekable.end(0));
                     }
                     if (void 0 !== seekTo) return this.logger_("Trying to seek outside of seekable at time " + currentTime + " with seekable range " + printableRange(seekable) + ". Seeking to " + seekTo + "."), this.tech_.setCurrentTime(seekTo), !0;
                     for(var sourceUpdater = this.masterPlaylistController_.sourceUpdater_, buffered = this.tech_.buffered(), audioBuffered = sourceUpdater.audioBuffer ? sourceUpdater.audioBuffered() : null, videoBuffered = sourceUpdater.videoBuffer ? sourceUpdater.videoBuffered() : null, media = this.media(), minAppendedDuration = media.partTargetDuration ? media.partTargetDuration : (media.targetDuration - TIME_FUDGE_FACTOR) * 2, bufferedToCheck = [
@@ -26222,7 +26222,7 @@
                     if (bufferedToCheck[i] && timeAheadOf(bufferedToCheck[i], currentTime) < minAppendedDuration) return !1;
                     var nextRange = findNextRange(buffered, currentTime);
                     return(// to seek over the gap
-                    0 !== nextRange.length && (seekTo = nextRange.start(0) + SAFE_TIME_DELTA, this.logger_("Buffered region starts (" + nextRange.start(0) + ")  just beyond seek point (" + currentTime + "). Seeking to " + seekTo + "."), this.tech_.setCurrentTime(seekTo), !0));
+                    0 !== nextRange.length && (seekTo = nextRange.start(0) + 0.1, this.logger_("Buffered region starts (" + nextRange.start(0) + ")  just beyond seek point (" + currentTime + "). Seeking to " + seekTo + "."), this.tech_.setCurrentTime(seekTo), !0));
                 }, /**
                  * Handler for situations when we determine the player is waiting.
                  *
@@ -26294,7 +26294,7 @@
                 }, _proto.afterSeekableWindow_ = function(seekable, currentTime, playlist, allowSeeksWithinUnsafeLiveWindow) {
                     if (void 0 === allowSeeksWithinUnsafeLiveWindow && (allowSeeksWithinUnsafeLiveWindow = !1), !seekable.length) // we can't make a solid case if there's no seekable, default to false
                     return !1;
-                    var allowedEnd = seekable.end(seekable.length - 1) + SAFE_TIME_DELTA;
+                    var allowedEnd = seekable.end(seekable.length - 1) + 0.1;
                     return !playlist.endList && allowSeeksWithinUnsafeLiveWindow && (allowedEnd = seekable.end(seekable.length - 1) + 3 * playlist.targetDuration), currentTime > allowedEnd;
                 }, _proto.beforeSeekableWindow_ = function(seekable, currentTime) {
                     return !!(seekable.length && // can't fall before 0 and 0 seekable start identifies VOD stream
@@ -26677,7 +26677,7 @@
                             _this3.tech_.setCurrentTime(time);
                         }, this.options_.smoothQualityChange && videojs.log.warn("smoothQualityChange is deprecated and will be removed in the next major version"), this.masterPlaylistController_ = new MasterPlaylistController(this.options_);
                         var playbackWatcherOptions = videojs.mergeOptions({
-                            liveRangeSafeTimeDelta: SAFE_TIME_DELTA
+                            liveRangeSafeTimeDelta: 0.1
                         }, this.options_, {
                             seekable: function() {
                                 return _this3.seekable();

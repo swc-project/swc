@@ -2244,7 +2244,7 @@
     }
     function toHex(color) {
         var colorArr = parse(color);
-        if (colorArr) return (16777216 + (colorArr[0] << 16) + (colorArr[1] << 8) + +colorArr[2]).toString(16).slice(1);
+        if (colorArr) return ((1 << 24) + (colorArr[0] << 16) + (colorArr[1] << 8) + +colorArr[2]).toString(16).slice(1);
     }
     function fastLerp(normalizedValue, colors, out) {
         if (colors && colors.length && normalizedValue >= 0 && normalizedValue <= 1) {

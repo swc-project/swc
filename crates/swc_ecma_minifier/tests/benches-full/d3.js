@@ -1425,7 +1425,7 @@ function(global, factory) {
             return (1 === (a = isNaN(a) ? 1 : Math.max(0, Math.min(1, a))) ? "hsl(" : "hsla(") + (this.h || 0) + ", " + 100 * (this.s || 0) + "%, " + 100 * (this.l || 0) + "%" + (1 === a ? ")" : ", " + a + ")");
         }
     }));
-    const radians = Math.PI / 180, degrees = 180 / Math.PI, t0 = 4 / 29, t1 = 6 / 29, t2 = 6 / 29 * 3 * (6 / 29), t3 = 6 / 29 * (6 / 29) * (6 / 29);
+    const radians = Math.PI / 180, degrees = 180 / Math.PI, t0 = 4 / 29, t1 = 6 / 29;
     function labConvert(o) {
         if (o instanceof Lab) return new Lab(o.l, o.a, o.b, o.opacity);
         if (o instanceof Hcl) return hcl2lab(o);
@@ -1440,10 +1440,10 @@ function(global, factory) {
         this.l = +l, this.a = +a, this.b = +b, this.opacity = +opacity;
     }
     function xyz2lab(t) {
-        return t > t3 ? Math.pow(t, 1 / 3) : t / t2 + t0;
+        return t > 0.008856451679035631 ? Math.pow(t, 1 / 3) : t / 0.12841854934601665 + t0;
     }
     function lab2xyz(t) {
-        return t > t1 ? t * t * t : t2 * (t - t0);
+        return t > t1 ? t * t * t : 0.12841854934601665 * (t - t0);
     }
     function lrgb2rgb(x) {
         return 255 * (x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055);
@@ -1490,7 +1490,7 @@ function(global, factory) {
             return hcl2lab(this).rgb();
         }
     }));
-    var BC_DA = -1.78277 * 0.29227 - 0.1347134789;
+    var BC_DA = -0.5210501878999999 - 0.1347134789;
     function cubehelix(h, s, l, opacity) {
         return 1 == arguments.length ? function(o) {
             if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);
@@ -2274,9 +2274,9 @@ function(global, factory) {
     function circleInOut(t) {
         return ((t *= 2) <= 1 ? 1 - Math.sqrt(1 - t * t) : Math.sqrt(1 - (t -= 2) * t) + 1) / 2;
     }
-    var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b4 = 3 / 4, b5 = 9 / 11, b6 = 10 / 11, b7 = 15 / 16, b8 = 21 / 22, b9 = 63 / 64, b0 = 1 / (4 / 11) / (4 / 11);
+    var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b4 = 3 / 4, b5 = 9 / 11, b6 = 10 / 11, b7 = 15 / 16, b8 = 21 / 22, b9 = 63 / 64;
     function bounceOut(t) {
-        return (t *= 1) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
+        return (t *= 1) < b1 ? 7.5625 * t * t : t < b3 ? 7.5625 * (t -= b2) * t + b4 : t < b6 ? 7.5625 * (t -= b5) * t + b7 : 7.5625 * (t -= b8) * t + b9;
     }
     var backIn = function custom(s) {
         function backIn(t) {
@@ -9767,7 +9767,7 @@ function(global, factory) {
         }, force;
     }, exports1.forceSimulation = function(nodes) {
         let s;
-        var simulation, alpha = 1, alphaMin = 0.001, alphaDecay = 1 - Math.pow(0.001, 1 / 300), alphaTarget = 0, velocityDecay = 0.6, forces = new Map(), stepper = timer(step), event = dispatch("tick", "end"), random = (s = 1, ()=>(s = (1664525 * s + 1013904223) % 4294967296) / 4294967296);
+        var simulation, alpha = 1, alphaMin = 0.001, alphaDecay = 0.02276277904418933, alphaTarget = 0, velocityDecay = 0.6, forces = new Map(), stepper = timer(step), event = dispatch("tick", "end"), random = (s = 1, ()=>(s = (1664525 * s + 1013904223) % 4294967296) / 4294967296);
         function step() {
             tick(), event.call("tick", simulation), alpha < alphaMin && (stepper.stop(), event.call("end", simulation));
         }

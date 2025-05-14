@@ -944,7 +944,7 @@
                 }, BN.prototype.modrn = function(num) {
                     var isNegNum = num < 0;
                     isNegNum && (num = -num), assert(num <= 0x3ffffff);
-                    for(var p = 67108864 % num, acc = 0, i = this.length - 1; i >= 0; i--)acc = (p * acc + (0 | this.words[i])) % num;
+                    for(var p = (1 << 26) % num, acc = 0, i = this.length - 1; i >= 0; i--)acc = (p * acc + (0 | this.words[i])) % num;
                     return isNegNum ? -acc : acc;
                 }, // WARNING: DEPRECATED
                 BN.prototype.modn = function(num) {
@@ -9915,7 +9915,7 @@
                     cmp < 0 || 1 === r2 && 0 === cmp ? dm.div : 0 !== dm.div.negative ? dm.div.isubn(1) : dm.div.iaddn(1));
                 }, BN.prototype.modn = function(num) {
                     assert(num <= 0x3ffffff);
-                    for(var p = 67108864 % num, acc = 0, i = this.length - 1; i >= 0; i--)acc = (p * acc + (0 | this.words[i])) % num;
+                    for(var p = (1 << 26) % num, acc = 0, i = this.length - 1; i >= 0; i--)acc = (p * acc + (0 | this.words[i])) % num;
                     return acc;
                 }, // In-place division by number
                 BN.prototype.idivn = function(num) {
@@ -22503,7 +22503,7 @@
                 return Buffer(value, encodingOrOffset, length);
             }), Safer.alloc || (Safer.alloc = function(size, fill, encoding) {
                 if ('number' != typeof size) throw TypeError('The "size" argument must be of type number. Received type ' + typeof size);
-                if (size < 0 || size >= 2 * 1073741824) throw RangeError('The value "' + size + '" is invalid for option "size"');
+                if (size < 0 || size >= 2 * (1 << 30)) throw RangeError('The value "' + size + '" is invalid for option "size"');
                 var buf = Buffer(size);
                 return fill && 0 !== fill.length ? 'string' == typeof encoding ? buf.fill(fill, encoding) : buf.fill(fill) : buf.fill(0), buf;
             }), !safer.kStringMaxLength) try {
@@ -22820,7 +22820,7 @@
                         pos = p8 + len << 3, off += len;
                         continue;
                     }
-                    if (noBuf && (buf = _check(buf, off + 131072)), 1 == BTYPE && (lmap = U.flmap, dmap = U.fdmap, ML = 511, MD = 31), 2 == BTYPE) {
+                    if (noBuf && (buf = _check(buf, off + (1 << 17))), 1 == BTYPE && (lmap = U.flmap, dmap = U.fdmap, ML = 511, MD = 31), 2 == BTYPE) {
                         HLIT = bitsE(data, pos, 5) + 257, HDIST = bitsE(data, pos + 5, 5) + 1, HCLEN = bitsE(data, pos + 10, 4) + 4, pos += 14;
                         for(var i = 0; i < 38; i += 2)U.itree[i] = 0, U.itree[i + 1] = 0;
                         for(var tl = 1, i = 0; i < HCLEN; i++){
@@ -22852,7 +22852,7 @@
                             var dcode = dmap[get17(data, pos) & MD];
                             pos += 15 & dcode;
                             var dlit = dcode >>> 4, dbs = U.ddef[dlit], dst = (dbs >>> 4) + bitsF(data, pos, 15 & dbs);
-                            for(pos += 15 & dbs, noBuf && (buf = _check(buf, off + 131072)); off < end;)buf[off] = buf[off++ - dst], buf[off] = buf[off++ - dst], buf[off] = buf[off++ - dst], buf[off] = buf[off++ - dst];
+                            for(pos += 15 & dbs, noBuf && (buf = _check(buf, off + (1 << 17))); off < end;)buf[off] = buf[off++ - dst], buf[off] = buf[off++ - dst], buf[off] = buf[off++ - dst], buf[off] = buf[off++ - dst];
                             off = end;
                         //while(off!=end) {  buf[off]=buf[off++-dst];  }
                         }
@@ -23097,17 +23097,17 @@ function _get9(dt, pos) {
                     imap: new u16(512),
                     itree: [],
                     //rev9 : new u16(  512)
-                    rev15: new u16(32768),
+                    rev15: new u16(1 << 15),
                     lhst: new u32(286),
                     dhst: new u32(30),
                     ihst: new u32(19),
                     lits: new u32(15000),
-                    strt: new u16(65536),
-                    prev: new u16(32768)
+                    strt: new u16(1 << 16),
+                    prev: new u16(1 << 15)
                 };
             }();
             !function() {
-                for(var len = 32768, i = 0; i < len; i++){
+                for(var len = 1 << 15, i = 0; i < len; i++){
                     var x = i;
                     x = (0xff00ff00 & (x = (0xf0f0f0f0 & (x = (0xcccccccc & (x = (0xaaaaaaaa & x) >>> 1 | (0x55555555 & x) << 1)) >>> 2 | (0x33333333 & x) << 2)) >>> 4 | (0x0f0f0f0f & x) << 4)) >>> 8 | (0x00ff00ff & x) << 8, U.rev15[i] = (x >>> 16 | x << 16) >>> 17;
                 }
@@ -28164,7 +28164,7 @@ class Zip {
                     value: !0
                 }), exports.default = void 0, exports.demangle = demangle, exports.instantiate = instantiate, exports.instantiateStreaming = instantiateStreaming, exports.instantiateSync = instantiateSync;
                 // Runtime header offsets
-                const ID_OFFSET = -8, SIZE_OFFSET = -4, ARRAYBUFFER_ID = 0, STRING_ID = 1, ARRAYBUFFERVIEW = 1, ARRAY = 2, STATICARRAY = 4, VAL_ALIGN_OFFSET = 6, VAL_SIGNED = 2048, VAL_FLOAT = 4096, VAL_MANAGED = 16384, ARRAYBUFFERVIEW_BUFFER_OFFSET = 0, ARRAYBUFFERVIEW_DATASTART_OFFSET = 4, ARRAYBUFFERVIEW_BYTELENGTH_OFFSET = 8, ARRAYBUFFERVIEW_SIZE = 12, ARRAY_LENGTH_OFFSET = 12, ARRAY_SIZE = 16, E_NO_EXPORT_TABLE = "Operation requires compiling with --exportTable", E_NO_EXPORT_RUNTIME = "Operation requires compiling with --exportRuntime", F_NO_EXPORT_RUNTIME = ()=>{
+                const ID_OFFSET = -8, SIZE_OFFSET = -4, ARRAYBUFFER_ID = 0, STRING_ID = 1, ARRAYBUFFERVIEW = 1, ARRAY = 2, STATICARRAY = 4, VAL_ALIGN_OFFSET = 6, VAL_SIGNED = 2048, VAL_FLOAT = 4096, VAL_MANAGED = 1 << 14, ARRAYBUFFERVIEW_BUFFER_OFFSET = 0, ARRAYBUFFERVIEW_DATASTART_OFFSET = 4, ARRAYBUFFERVIEW_BYTELENGTH_OFFSET = 8, ARRAYBUFFERVIEW_SIZE = 12, ARRAY_LENGTH_OFFSET = 12, ARRAY_SIZE = 16, E_NO_EXPORT_TABLE = "Operation requires compiling with --exportTable", E_NO_EXPORT_RUNTIME = "Operation requires compiling with --exportRuntime", F_NO_EXPORT_RUNTIME = ()=>{
                     throw Error(E_NO_EXPORT_RUNTIME);
                 }, BIGINT = "undefined" != typeof BigUint64Array, THIS = Symbol(), STRING_SMALLSIZE = 192, STRING_CHUNKSIZE = 1024, utf16 = new TextDecoder("utf-16le", {
                     fatal: !0

@@ -10,6 +10,6 @@ var o = {
     [!1]: 8,
     [null]: 9,
     [1 / 0]: 10,
-    [NaN]: 11,
+    [NaN]: 11
 };
-for (var k in o) console.log(k, o[k]);
+for(var k in o)console.log(k, o[k]);

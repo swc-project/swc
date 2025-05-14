@@ -1097,7 +1097,7 @@
             }), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Cubehelix", function() {
                 return Cubehelix;
             });
-            /* harmony import */ var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./define.js */ "../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./color.js */ "../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./math.js */ "../../../node_modules/d3-color/src/math.js"), BC_DA = -1.78277 * 0.29227 - 0.1347134789;
+            /* harmony import */ var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./define.js */ "../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./color.js */ "../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./math.js */ "../../../node_modules/d3-color/src/math.js"), BC_DA = -0.5210501878999999 - 0.1347134789;
             function cubehelix(h, s, l, opacity) {
                 return 1 == arguments.length ? function(o) {
                     if (o instanceof Cubehelix) return new Cubehelix(o.h, o.s, o.l, o.opacity);
@@ -1182,7 +1182,7 @@
             }), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Hcl", function() {
                 return Hcl;
             });
-            /* harmony import */ var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./define.js */ "../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./color.js */ "../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./math.js */ "../../../node_modules/d3-color/src/math.js"), t0 = 4 / 29, t1 = 6 / 29, t2 = 6 / 29 * 3 * (6 / 29), t3 = 6 / 29 * (6 / 29) * (6 / 29);
+            /* harmony import */ var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./define.js */ "../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./color.js */ "../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./math.js */ "../../../node_modules/d3-color/src/math.js"), t0 = 4 / 29, t1 = 6 / 29;
             function labConvert(o) {
                 if (o instanceof Lab) return new Lab(o.l, o.a, o.b, o.opacity);
                 if (o instanceof Hcl) return hcl2lab(o);
@@ -1200,10 +1200,10 @@
                 this.l = +l, this.a = +a, this.b = +b, this.opacity = +opacity;
             }
             function xyz2lab(t) {
-                return t > t3 ? Math.pow(t, 1 / 3) : t / t2 + t0;
+                return t > 0.008856451679035631 ? Math.pow(t, 1 / 3) : t / 0.12841854934601665 + t0;
             }
             function lab2xyz(t) {
-                return t > t1 ? t * t * t : t2 * (t - t0);
+                return t > t1 ? t * t * t : 0.12841854934601665 * (t - t0);
             }
             function lrgb2rgb(x) {
                 return 255 * (x <= 0.0031308 ? 12.92 * x : 1.055 * Math.pow(x, 1 / 2.4) - 0.055);
@@ -1304,12 +1304,12 @@
             }), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bounceInOut", function() {
                 return bounceInOut;
             });
-            var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b4 = 3 / 4, b5 = 9 / 11, b6 = 10 / 11, b7 = 15 / 16, b8 = 21 / 22, b9 = 63 / 64, b0 = 1 / (4 / 11) / (4 / 11);
+            var b1 = 4 / 11, b2 = 6 / 11, b3 = 8 / 11, b4 = 3 / 4, b5 = 9 / 11, b6 = 10 / 11, b7 = 15 / 16, b8 = 21 / 22, b9 = 63 / 64;
             function bounceIn(t) {
                 return 1 - bounceOut(1 - t);
             }
             function bounceOut(t) {
-                return (t *= 1) < b1 ? b0 * t * t : t < b3 ? b0 * (t -= b2) * t + b4 : t < b6 ? b0 * (t -= b5) * t + b7 : b0 * (t -= b8) * t + b9;
+                return (t *= 1) < b1 ? 7.5625 * t * t : t < b3 ? 7.5625 * (t -= b2) * t + b4 : t < b6 ? 7.5625 * (t -= b5) * t + b7 : 7.5625 * (t -= b8) * t + b9;
             }
             function bounceInOut(t) {
                 return ((t *= 2) <= 1 ? 1 - bounceOut(1 - t) : bounceOut(t - 1) + 1) / 2;

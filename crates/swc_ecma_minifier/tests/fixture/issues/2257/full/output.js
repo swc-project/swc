@@ -7115,7 +7115,7 @@
                 if (number <= -1000000000000000000000 || number >= 1e21) return String(number);
                 if (number < 0 && (sign = "-", number = -number), number > 1e-21) if (z = ((e = log(number * pow(2, 69, 1)) - 69) < 0 ? number * pow(2, -e, 1) : number / pow(2, e, 1)) * 0x10000000000000, (e = 52 - e) > 0) {
                     for(multiply(data, 0, z), j = fractDigits; j >= 7;)multiply(data, 1e7, 0), j -= 7;
-                    for(multiply(data, pow(10, j, 1), 0), j = e - 1; j >= 23;)divide(data, 8388608), j -= 23;
+                    for(multiply(data, pow(10, j, 1), 0), j = e - 1; j >= 23;)divide(data, 1 << 23), j -= 23;
                     divide(data, 1 << j), multiply(data, 1, 1), divide(data, 2), result = dataToString(data);
                 } else multiply(data, 0, z), multiply(data, 1 << -e, 0), result = dataToString(data) + repeat.call("0", fractDigits);
                 return fractDigits > 0 ? sign + ((k = result.length) <= fractDigits ? "0." + repeat.call("0", fractDigits - k) + result : result.slice(0, k - fractDigits) + "." + result.slice(k - fractDigits)) : sign + result;

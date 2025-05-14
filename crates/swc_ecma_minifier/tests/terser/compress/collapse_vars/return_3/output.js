@@ -1,6 +1,6 @@
 var log = console.log;
 function f(b, c) {
-    var a = (b <<= c);
+    var a = b <<= c;
     if (b) return b;
     log(a);
 }

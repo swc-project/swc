@@ -612,9 +612,9 @@
         };
     }), _.isArguments(arguments) || (_.isArguments = function(obj) {
         return !!(obj && _.has(obj, "callee"));
-    }), "function" != typeof /./ && (_.isFunction = function(obj) {
+    }), _.isFunction = function(obj) {
         return "function" == typeof obj;
-    }), // Is a given object a finite number?
+    }, // Is a given object a finite number?
     _.isFinite = function(obj) {
         return isFinite(obj) && !isNaN(parseFloat(obj));
     }, // Is the given value `NaN`? (NaN is the only number which does not equal itself).

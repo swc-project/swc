@@ -4,9 +4,9 @@ function f(b, c) {
     if (b) return b;
     log(a);
 }
-f(false, function () {
+f(false, function() {
     return 1;
 });
-f(true, function () {
+f(true, function() {
     return 2;
 });
