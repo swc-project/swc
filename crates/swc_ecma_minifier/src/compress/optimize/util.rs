@@ -453,6 +453,20 @@ impl VisitMut for Finalizer<'_> {
 
         n.retain(|v| !v.name.is_invalid());
     }
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        n.visit_mut_children_with(self);
+
+        if let Prop::Shorthand(i) = n {
+            if let Some(expr) = self.lits.get(&i.to_id()) {
+                *n = Prop::KeyValue(KeyValueProp {
+                    key: i.take().into(),
+                    value: expr.clone(),
+                });
+                self.changed = true;
+            }
+        }
+    }
 }
 
 pub(crate) struct NormalMultiReplacer<'a> {
