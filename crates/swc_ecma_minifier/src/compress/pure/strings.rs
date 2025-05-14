@@ -535,10 +535,11 @@ impl Pure<'_> {
                             {
                                 // Directly create a new string with the combined content
                                 let second_owned = second_str.into_owned();
-                                let mut new_str = String::with_capacity(second_owned.len() + third_str.len());
+                                let mut new_str =
+                                    String::with_capacity(second_owned.len() + third_str.len());
                                 new_str.push_str(&second_owned);
                                 new_str.push_str(&third_str);
-                                
+
                                 let left_span = left.span;
 
                                 self.changed = true;
