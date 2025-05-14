@@ -52,7 +52,7 @@ impl Lexer<'_> {
 
             if was_star && b == b'/' {
                 // Found comment end: "*/"
-                self.input.bump_bytes(pos + 1); // 종료 '/' 포함해서 이동
+                self.input.bump_bytes(pos + 1);
 
                 let end = self.cur_pos();
 

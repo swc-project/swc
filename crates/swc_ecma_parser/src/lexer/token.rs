@@ -39,7 +39,7 @@ pub enum TokenValue {
 #[derive(Clone, Copy, PartialEq, Eq)]
 #[repr(u8)]
 pub enum Token {
-    // Single character tokens (first 33 types)
+    // Single character tokens
     /// `(`
     LParen,
     /// `)`
@@ -109,7 +109,7 @@ pub enum Token {
     /// `-=`
     MinusEq,
 
-    // More compound operators and keywords (starting from 33)
+    // More compound operators and keywords
     /// `*=`
     MulEq,
     /// `/=`
@@ -185,7 +185,7 @@ pub enum Token {
     JSXText,
     // Identifiers and keyword
     Ident,
-    // Reserved keyword tokens (starting from 100)
+    // Reserved keyword tokens
     Await,
     Break,
     Case,
@@ -226,7 +226,7 @@ pub enum Token {
     Yield,
     Module,
 
-    // TypeScript-related keywords (starting from 150)
+    // TypeScript-related keywords
     Abstract,
     Any,
     As,
@@ -740,7 +740,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
 
     #[inline(always)]
     fn is_word(&self) -> bool {
-        self.is_word()
+        (*self).is_word()
     }
 
     #[inline]
@@ -932,6 +932,7 @@ impl Token {
         }
     }
 
+    #[cold]
     pub(crate) fn to_string(self, value: Option<&TokenValue>) -> String {
         match self {
             Token::LParen => "(",
@@ -1139,7 +1140,7 @@ impl Token {
         .to_string()
     }
 
-    pub(crate) fn as_keyword_atom(&self) -> Option<Atom> {
+    pub(crate) fn as_keyword_atom(self) -> Option<Atom> {
         let atom = match self {
             Token::Await => atom!("await"),
             Token::Break => atom!("break"),
@@ -1187,7 +1188,7 @@ impl Token {
         t >= Token::Await as u8 && t <= Token::Module as u8
     }
 
-    pub(crate) fn as_known_ident_atom(&self) -> Option<Atom> {
+    pub(crate) fn as_known_ident_atom(self) -> Option<Atom> {
         let atom = match self {
             Token::Abstract => atom!("abstract"),
             Token::Any => atom!("any"),
@@ -1244,15 +1245,15 @@ impl Token {
         t >= Token::Abstract as u8 && t <= Token::Target as u8
     }
 
-    pub(crate) const fn is_word(&self) -> bool {
+    pub(crate) const fn is_word(self) -> bool {
         matches!(
             self,
             Token::Null | Token::True | Token::False | Token::Ident
-        ) || (*self).is_known_ident()
-            || (*self).is_keyword()
+        ) || self.is_known_ident()
+            || self.is_keyword()
     }
 
-    pub(crate) fn as_word_atom(&self, value: Option<&TokenValue>) -> Option<Atom> {
+    pub(crate) fn as_word_atom(self, value: Option<&TokenValue>) -> Option<Atom> {
         match self {
             Token::Null => Some(atom!("null")),
             Token::True => Some(atom!("true")),
@@ -1276,7 +1277,7 @@ impl Token {
             || (t >= Token::Plus as u8 && t <= Token::Ampersand as u8)
     }
 
-    pub(crate) fn as_bin_op(&self) -> Option<swc_ecma_ast::BinaryOp> {
+    pub(crate) fn as_bin_op(self) -> Option<swc_ecma_ast::BinaryOp> {
         match self {
             Token::EqEq => Some(swc_ecma_ast::BinaryOp::EqEq),
             Token::NotEq => Some(swc_ecma_ast::BinaryOp::NotEq),
