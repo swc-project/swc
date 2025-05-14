@@ -409,13 +409,10 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut l_last.cooked {
-                        let cooked_value = convert_str_value_to_tpl_cooked(&rs.value);
-                        // Pre-allocate additional space
-                        let mut owned_cooked = cooked.to_string();
-                        owned_cooked.reserve(cooked_value.len());
-                        // Append the new content
-                        owned_cooked.push_str(&cooked_value);
-                        *cooked = owned_cooked.into();
+                        let mut str_part = convert_str_value_to_tpl_cooked(&rs.value).into_owned();
+                        str_part.reserve(cooked.len());
+                        str_part.push_str(cooked);
+                        *cooked = swc_atoms::Atom::from(str_part);
                     }
                     // Calculate the total length to avoid multiple allocations
                     let raw_str_part = rs
@@ -424,11 +421,11 @@ impl Pure<'_> {
                         .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
                         .unwrap_or_else(|| convert_str_value_to_tpl_raw(&rs.value).into());
 
-                    // Convert to owned string, reserve space and append
-                    let mut owned_raw = l_last.raw.to_string();
-                    owned_raw.reserve(raw_str_part.len());
-                    owned_raw.push_str(&raw_str_part);
-                    l_last.raw = owned_raw.into();
+                    let mut new_raw = String::with_capacity(l_last.raw.len() + raw_str_part.len());
+                    new_raw.push_str(&l_last.raw);
+                    new_raw.push_str(&raw_str_part);
+                    l_last.raw = new_raw.into();
+
                     r.take();
                 }
             }
@@ -450,12 +447,10 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut r_first.cooked {
-                        let cooked_value = convert_str_value_to_tpl_cooked(&ls.value);
-                        // Convert to owned string, reserve additional space and prepend
-                        let mut owned_cooked = cooked_value.into_owned();
-                        owned_cooked.reserve(cooked.len());
-                        owned_cooked.push_str(cooked);
-                        *cooked = swc_atoms::Atom::from(owned_cooked);
+                        let mut str_part = convert_str_value_to_tpl_cooked(&ls.value).into_owned();
+                        str_part.reserve(cooked.len());
+                        str_part.push_str(cooked);
+                        *cooked = swc_atoms::Atom::from(str_part);
                     }
 
                     // Get the raw string part
@@ -465,11 +460,10 @@ impl Pure<'_> {
                         .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
                         .unwrap_or_else(|| convert_str_value_to_tpl_raw(&ls.value).into());
 
-                    // Convert to owned string, reserve additional space and prepend
-                    let mut owned_raw = raw_str_part.to_string();
-                    owned_raw.reserve(r_first.raw.len());
-                    owned_raw.push_str(&r_first.raw);
-                    r_first.raw = owned_raw.into();
+                    let mut new_raw = String::with_capacity(raw_str_part.len() + r_first.raw.len());
+                    new_raw.push_str(&raw_str_part);
+                    new_raw.push_str(&r_first.raw);
+                    r_first.raw = new_raw.into();
                     l.take();
                 }
             }
