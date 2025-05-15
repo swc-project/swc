@@ -32,7 +32,7 @@ pub(crate) struct ProgramData {
 
     pub(crate) top: ScopeData,
 
-    pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
+    pub(crate) scopes: nohash_hasher::IntMap<SyntaxContext, ScopeData>,
 
     initialized_vars: IndexSet<Id, FxBuildHasher>,
 }

@@ -45,6 +45,7 @@ bytecheck             = { workspace = true, optional = true }
 cfg-if                = { workspace = true }
 either                = { workspace = true }
 new_debug_unreachable = { workspace = true }
+nohash-hasher         = { workspace = true }
 num-bigint            = { workspace = true }
 once_cell             = { workspace = true }
 parking_lot           = { workspace = true, optional = true }

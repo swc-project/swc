@@ -35,6 +35,7 @@ arrayvec          = { workspace = true }
 backtrace         = { workspace = true, optional = true }
 bitflags          = { workspace = true }
 indexmap          = { workspace = true }
+nohash-hasher     = { workspace = true }
 num-bigint        = { workspace = true }
 num_cpus          = { workspace = true }
 once_cell         = { workspace = true }
