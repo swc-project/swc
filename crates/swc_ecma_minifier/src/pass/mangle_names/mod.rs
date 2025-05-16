@@ -48,13 +48,13 @@ pub(crate) fn mangle_names(
             keep_class_names: options.keep_class_names,
             top_level_mark,
             ignore_eval: options.eval,
-            preserved_symbols: options.reserved.iter().cloned().collect(),
         },
         ManglingRenamer {
             chars,
             preserved,
             cache,
             mangle_name_cache,
+            reserved: options.reserved.iter().cloned().collect(),
         },
     ));
 }
@@ -64,6 +64,7 @@ struct ManglingRenamer {
     preserved: FxHashSet<Id>,
     cache: Option<RenameMap>,
     mangle_name_cache: Option<Arc<dyn MangleCache>>,
+    reserved: FxHashSet<Atom>,
 }
 
 impl Renamer for ManglingRenamer {
@@ -85,7 +86,7 @@ impl Renamer for ManglingRenamer {
     }
 
     fn preserve_name(&self, orig: &Id) -> bool {
-        self.preserved.contains(orig)
+        self.preserved.contains(orig) || self.reserved.contains(&orig.0)
     }
 }
 
