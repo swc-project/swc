@@ -7,6 +7,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
 use swc_ecma_utils::{
@@ -31,9 +32,7 @@ use crate::{
     mode::Mode,
     option::{CompressOptions, MangleOptions},
     program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
-    util::{
-        contains_eval, contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt,
-    },
+    util::{contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt},
 };
 
 mod arguments;
