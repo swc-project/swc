@@ -2,7 +2,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
-pub(crate) fn contains_eval<N>(node: &N, include_with: bool) -> bool
+pub fn contains_eval<N>(node: &N, include_with: bool) -> bool
 where
     N: VisitWith<EvalFinder>,
 {
@@ -15,7 +15,7 @@ where
     v.found
 }
 
-pub(crate) struct EvalFinder {
+pub struct EvalFinder {
     found: bool,
     include_with: bool,
 }
