@@ -164,11 +164,13 @@ impl Scope {
             loop {
                 let sym = renamer.new_name_for(&id, &mut n);
 
-                if preserved_symbols.contains(&sym) {
+                let ignore_conflict = renamer.ignore_conflict(&id, &sym);
+
+                if !ignore_conflict && preserved_symbols.contains(&sym) {
                     continue;
                 }
 
-                if self.can_rename(&id, &sym, reverse) {
+                if ignore_conflict || self.can_rename(&id, &sym, reverse) {
                     if cfg!(debug_assertions) {
                         debug!("Renaming `{}{:?}` to `{}`", id.0, id.1, sym);
                     }
@@ -299,12 +301,14 @@ impl Scope {
             loop {
                 let sym = renamer.new_name_for(&id, &mut n);
 
+                let ignore_conflict = renamer.ignore_conflict(&id, &sym);
+
                 // TODO: Use base54::decode
-                if preserved_symbols.contains(&sym) {
+                if !ignore_conflict && preserved_symbols.contains(&sym) {
                     continue;
                 }
 
-                if self.can_rename(&id, &sym, reverse) {
+                if ignore_conflict || self.can_rename(&id, &sym, reverse) {
                     #[cfg(debug_assertions)]
                     {
                         debug!("mangle: `{}{:?}` -> {}", id.0, id.1, sym);

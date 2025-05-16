@@ -10,7 +10,6 @@ use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith, VisitWith,
 };
 
-pub use self::eval::contains_eval;
 #[cfg(feature = "concurrent-renamer")]
 use self::renamer_concurrent::{Send, Sync};
 #[cfg(not(feature = "concurrent-renamer"))]
@@ -18,6 +17,7 @@ use self::renamer_single::{Send, Sync};
 use self::{
     analyzer::Analyzer,
     collector::{collect_decls, CustomBindingCollector, IdCollector},
+    eval::contains_eval,
     ops::Operator,
 };
 use crate::hygiene::Config;
@@ -50,6 +50,12 @@ pub trait Renamer: Send + Sync {
 
     /// Should increment `n`.
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom;
+
+    /// Return true if the conflict should be ignored.
+    #[inline]
+    fn ignore_conflict(&self, _orig: &Id, _sym: &Atom) -> bool {
+        false
+    }
 }
 
 pub type RenameMap = FxHashMap<Id, Atom>;
