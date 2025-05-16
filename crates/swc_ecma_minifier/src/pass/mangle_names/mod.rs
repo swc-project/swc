@@ -90,7 +90,7 @@ impl Renamer for ManglingRenamer {
     }
 
     fn preserve_name(&self, orig: &Id) -> bool {
-        self.preserved.contains(orig) || self.reserved.contains(&orig.0)
+        self.preserved.contains(orig)
     }
 }
 
