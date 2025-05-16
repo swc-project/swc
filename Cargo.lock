@@ -1890,6 +1890,7 @@ checksum = "e5274423e17b7c9fc20b6e7e208532f9b19825d82dfd615708b70edd83df41f1"
 dependencies = [
  "ahash",
  "allocator-api2",
+ "serde",
 ]
 
 [[package]]
@@ -4842,6 +4843,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_auto_hash_map"
+version = "0.1.0"
+dependencies = [
+ "hashbrown 0.14.5",
+ "rustc-hash 2.1.1",
+ "serde",
+ "smallvec",
+]
+
+[[package]]
 name = "swc_bundler"
 version = "17.0.0"
 dependencies = [
@@ -5651,6 +5662,7 @@ dependencies = [
  "serde_json",
  "swc_allocator",
  "swc_atoms",
+ "swc_auto_hash_map",
  "swc_common",
  "swc_config",
  "swc_ecma_ast",

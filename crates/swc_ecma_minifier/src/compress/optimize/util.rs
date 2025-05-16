@@ -5,6 +5,7 @@ use std::{
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
+use swc_auto_hash_map::{AutoMap, AutoSet};
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
@@ -222,10 +223,10 @@ pub(crate) struct Finalizer<'a> {
     pub simple_functions: &'a FxHashMap<Id, Box<Expr>>,
     pub lits: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
-    pub lits_for_array_access: &'a FxHashMap<Id, Box<Expr>>,
-    pub hoisted_props: &'a FxHashMap<(Id, Atom), Ident>,
+    pub lits_for_array_access: &'a AutoMap<Id, Box<Expr>>,
+    pub hoisted_props: &'a AutoMap<(Id, Atom), Ident>,
 
-    pub vars_to_remove: &'a FxHashSet<Id>,
+    pub vars_to_remove: &'a AutoSet<Id>,
 
     pub changed: bool,
 }
