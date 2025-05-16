@@ -421,10 +421,9 @@ impl Pure<'_> {
                         .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
                         .unwrap_or_else(|| convert_str_value_to_tpl_raw(&rs.value).into());
 
-                    let mut new_raw = String::with_capacity(l_last.raw.len() + raw_str_part.len());
-                    new_raw.push_str(&l_last.raw);
-                    new_raw.push_str(&raw_str_part);
-                    l_last.raw = new_raw.into();
+                    let mut raw = l_last.raw.to_string();
+                    raw.push_str(&raw_str_part);
+                    l_last.raw = raw.into();
 
                     r.take();
                 }
@@ -460,10 +459,9 @@ impl Pure<'_> {
                         .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
                         .unwrap_or_else(|| convert_str_value_to_tpl_raw(&ls.value).into());
 
-                    let mut new_raw = String::with_capacity(raw_str_part.len() + r_first.raw.len());
-                    new_raw.push_str(&raw_str_part);
-                    new_raw.push_str(&r_first.raw);
-                    r_first.raw = new_raw.into();
+                    let mut raw = raw_str_part.to_string();
+                    raw.push_str(&r_first.raw);
+                    r_first.raw = raw.into();
                     l.take();
                 }
             }
@@ -528,11 +526,9 @@ impl Pure<'_> {
                             if let Value::Known(third_str) = bin.right.as_pure_string(self.expr_ctx)
                             {
                                 // Directly create a new string with the combined content
-                                let second_owned = second_str.into_owned();
-                                let mut new_str =
-                                    String::with_capacity(second_owned.len() + third_str.len());
-                                new_str.push_str(&second_owned);
-                                new_str.push_str(&third_str);
+                                let mut second_owned = second_str.into_owned();
+                                second_owned.reserve(third_str.len());
+                                second_owned.push_str(&third_str);
 
                                 let left_span = left.span;
 
@@ -541,7 +537,7 @@ impl Pure<'_> {
                                     "strings: Concatting `{} + {}` to `{}`",
                                     second_str,
                                     third_str,
-                                    new_str
+                                    second_owned
                                 );
 
                                 *e = BinExpr {
@@ -551,7 +547,7 @@ impl Pure<'_> {
                                     right: Lit::Str(Str {
                                         span: left_span,
                                         raw: None,
-                                        value: new_str.into(),
+                                        value: second_owned.into(),
                                     })
                                     .into(),
                                 }
