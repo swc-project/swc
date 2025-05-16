@@ -85,6 +85,10 @@ impl Renamer for ManglingRenamer {
         }
     }
 
+    fn unresolved_symbols(&self) -> FxHashSet<Atom> {
+        self.reserved.clone()
+    }
+
     fn preserve_name(&self, orig: &Id) -> bool {
         self.preserved.contains(orig) || self.reserved.contains(&orig.0)
     }
