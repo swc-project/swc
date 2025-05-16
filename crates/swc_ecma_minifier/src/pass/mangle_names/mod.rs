@@ -70,14 +70,6 @@ impl Renamer for ManglingRenamer {
     const MANGLE: bool = true;
     const RESET_N: bool = false;
 
-    fn preserved_ids_for_module(&mut self, _: &Module) -> FxHashSet<Id> {
-        self.preserved.clone()
-    }
-
-    fn preserved_ids_for_script(&mut self, _: &Script) -> FxHashSet<Id> {
-        self.preserved.clone()
-    }
-
     fn new_name_for(&self, _: &Id, n: &mut usize) -> Atom {
         self.chars.encode(n, true)
     }
@@ -90,6 +82,10 @@ impl Renamer for ManglingRenamer {
         if let Some(cacher) = &self.mangle_name_cache {
             cacher.update_vars_cache(update);
         }
+    }
+
+    fn preserve_name(&self, orig: &Id) -> bool {
+        self.preserved.contains(orig)
     }
 }
 

@@ -34,14 +34,6 @@ pub trait Renamer: Send + Sync {
     /// It should be true if you expect lots of collisions
     const MANGLE: bool;
 
-    fn preserved_ids_for_module(&mut self, _: &Module) -> FxHashSet<Id> {
-        Default::default()
-    }
-
-    fn preserved_ids_for_script(&mut self, _: &Script) -> FxHashSet<Id> {
-        Default::default()
-    }
-
     fn get_cached(&self) -> Option<Cow<RenameMap>> {
         None
     }
@@ -51,9 +43,9 @@ pub trait Renamer: Send + Sync {
     /// Should increment `n`.
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom;
 
-    /// Return true if the conflict should be ignored.
+    /// Return true if the identifier should be preserved.
     #[inline]
-    fn ignore_conflict(&self, _orig: &Id, _sym: &Atom) -> bool {
+    fn preserve_name(&self, _orig: &Id) -> bool {
         false
     }
 }
@@ -353,8 +345,6 @@ where
     fn visit_mut_module(&mut self, m: &mut Module) {
         self.load_cache();
 
-        self.preserved = self.renamer.preserved_ids_for_module(m);
-
         let has_eval = !self.config.ignore_eval && contains_eval(m, true);
 
         self.unresolved = self.get_unresolved(m, has_eval);
@@ -397,8 +387,6 @@ where
 
     fn visit_mut_script(&mut self, m: &mut Script) {
         self.load_cache();
-
-        self.preserved = self.renamer.preserved_ids_for_script(m);
 
         let has_eval = !self.config.ignore_eval && contains_eval(m, true);
 
