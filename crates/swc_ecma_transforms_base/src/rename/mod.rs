@@ -43,7 +43,7 @@ pub trait Renamer: Send + Sync {
     /// Should increment `n`.
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom;
 
-    fn unresolved_symbols(&self) -> FxHashSet<Atom> {
+    fn unresolved_symbols(&self) -> Vec<Atom> {
         Default::default()
     }
 
