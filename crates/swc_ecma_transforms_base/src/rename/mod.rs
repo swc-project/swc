@@ -43,6 +43,10 @@ pub trait Renamer: Send + Sync {
     /// Should increment `n`.
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom;
 
+    fn unresolved_symbols(&self) -> FxHashSet<Atom> {
+        Default::default()
+    }
+
     /// Return true if the identifier should be preserved.
     #[inline]
     fn preserve_name(&self, _orig: &Id) -> bool {
@@ -171,6 +175,14 @@ where
             unresolved
                 .to_mut()
                 .extend(self.preserved.iter().map(|v| v.0.clone()));
+        }
+
+        {
+            let extra_unresolved = self.renamer.unresolved_symbols();
+
+            if !extra_unresolved.is_empty() {
+                unresolved.to_mut().extend(extra_unresolved);
+            }
         }
 
         if R::MANGLE {
