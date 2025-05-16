@@ -48,35 +48,28 @@ pub(crate) fn mangle_names(
             keep_class_names: options.keep_class_names,
             top_level_mark,
             ignore_eval: options.eval,
-            preserved_symbols: options.reserved.iter().cloned().collect(),
         },
         ManglingRenamer {
             chars,
-            preserved,
+            preserved: &preserved,
             cache,
             mangle_name_cache,
+            reserved: &options.reserved,
         },
     ));
 }
 
-struct ManglingRenamer {
+struct ManglingRenamer<'a> {
     chars: Base54Chars,
-    preserved: FxHashSet<Id>,
+    preserved: &'a FxHashSet<Id>,
     cache: Option<RenameMap>,
     mangle_name_cache: Option<Arc<dyn MangleCache>>,
+    reserved: &'a Vec<Atom>,
 }
 
-impl Renamer for ManglingRenamer {
+impl<'a> Renamer for ManglingRenamer<'a> {
     const MANGLE: bool = true;
     const RESET_N: bool = false;
-
-    fn preserved_ids_for_module(&mut self, _: &Module) -> FxHashSet<Id> {
-        self.preserved.clone()
-    }
-
-    fn preserved_ids_for_script(&mut self, _: &Script) -> FxHashSet<Id> {
-        self.preserved.clone()
-    }
 
     fn new_name_for(&self, _: &Id, n: &mut usize) -> Atom {
         self.chars.encode(n, true)
@@ -90,6 +83,18 @@ impl Renamer for ManglingRenamer {
         if let Some(cacher) = &self.mangle_name_cache {
             cacher.update_vars_cache(update);
         }
+    }
+
+    fn unresolved_symbols(&self) -> Vec<Atom> {
+        self.reserved
+            .iter()
+            .cloned()
+            .chain(self.preserved.iter().map(|id| id.0.clone()))
+            .collect()
+    }
+
+    fn preserve_name(&self, orig: &Id) -> bool {
+        self.preserved.contains(orig)
     }
 }
 
