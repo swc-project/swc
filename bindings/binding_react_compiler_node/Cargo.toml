@@ -41,3 +41,4 @@ swc_core = { workspace = true, features = [
 ] }
 swc_malloc = { workspace = true }
 swc_nodejs_common = { workspace = true }
+swc_ecma_react_compiler = { workspace = true }

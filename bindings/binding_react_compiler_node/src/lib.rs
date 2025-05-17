@@ -10,8 +10,7 @@ use std::{env, panic::set_hook};
 
 use backtrace::Backtrace;
 
-mod minify;
-mod util;
+mod support;
 
 #[napi::module_init]
 fn init() {
@@ -21,11 +20,4 @@ fn init() {
             println!("Panic: {:?}\nBacktrace: {:?}", panic_info, backtrace);
         }));
     }
-}
-
-/// Hack for `Type Generation`
-#[napi(object)]
-pub struct TransformOutput {
-    pub code: String,
-    pub map: Option<String>,
 }
