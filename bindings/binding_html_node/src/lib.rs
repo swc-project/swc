@@ -6,16 +6,12 @@ mod util;
 use std::{backtrace::Backtrace, borrow::Cow, env, panic::set_hook};
 
 use anyhow::{bail, Context};
-use lightningcss::{
-    printer::PrinterOptions,
-    stylesheet::{ParserFlags, StyleSheet},
-    targets::Targets,
-};
+use lightningcss::{printer::PrinterOptions, stylesheet::StyleSheet, targets::Targets};
 use napi::{bindgen_prelude::*, Task};
 use serde::{Deserialize, Serialize};
 use swc_atoms::atom;
-use swc_cached::regex::CachedRegex;
 use swc_common::{sync::Lrc, FileName, FilePathMapping, SourceMap, DUMMY_SP};
+use swc_config::regex::CachedRegex;
 use swc_html::{
     ast::{DocumentMode, Namespace},
     codegen::{
