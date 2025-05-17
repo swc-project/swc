@@ -1,0 +1,18 @@
+native/target
+native/index.node
+native/artifacts.json
+**/*~
+**/node_modules
+**/.DS_Store
+
+yarn.lock
+package-lock.json
+*.log
+.idea/
+wasm/
+
+# Built files
+*.node
+.tsbuildinfo
+artifacts/
+scripts/npm/
