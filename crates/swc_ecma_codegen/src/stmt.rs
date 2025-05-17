@@ -1,4 +1,4 @@
-use swc_common::Spanned;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -7,38 +7,94 @@ use crate::util::{EndsWithAlphaNum, StartsWithAlphaNum};
 #[node_impl]
 impl MacroNode for Stmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            Stmt::Expr(ref e) => emit!(e),
-            Stmt::Block(ref e) => {
-                emit!(e);
-                return Ok(());
+        let result = match self {
+            Stmt::Expr(ref e) => {
+                let n = emit!(emitter, e);
+                Ok(only_new!(Stmt::Expr(n)))
             }
-            Stmt::Empty(ref e) => emit!(e),
-            Stmt::Debugger(ref e) => emit!(e),
-            Stmt::With(ref e) => emit!(e),
-            Stmt::Return(ref e) => emit!(e),
-            Stmt::Labeled(ref e) => emit!(e),
-            Stmt::Break(ref e) => emit!(e),
-            Stmt::Continue(ref e) => emit!(e),
-            Stmt::If(ref e) => emit!(e),
-            Stmt::Switch(ref e) => emit!(e),
-            Stmt::Throw(ref e) => emit!(e),
-            Stmt::Try(ref e) => emit!(e),
-            Stmt::While(ref e) => emit!(e),
-            Stmt::DoWhile(ref e) => emit!(e),
-            Stmt::For(ref e) => emit!(e),
-            Stmt::ForIn(ref e) => emit!(e),
-            Stmt::ForOf(ref e) => emit!(e),
+            Stmt::Block(ref e) => {
+                let stmt = emit!(emitter, e);
+                return Ok(only_new!(Stmt::Block(stmt)));
+            }
+            Stmt::Empty(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Empty(stmt)))
+            }
+            Stmt::Debugger(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Debugger(stmt)))
+            }
+            Stmt::With(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::With(stmt)))
+            }
+            Stmt::Return(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Return(stmt)))
+            }
+            Stmt::Labeled(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Labeled(stmt)))
+            }
+            Stmt::Break(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Break(stmt)))
+            }
+            Stmt::Continue(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Continue(stmt)))
+            }
+            Stmt::If(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::If(stmt)))
+            }
+            Stmt::Switch(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Switch(stmt)))
+            }
+            Stmt::Throw(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Throw(stmt)))
+            }
+            Stmt::Try(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Try(stmt)))
+            }
+            Stmt::While(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::While(stmt)))
+            }
+            Stmt::DoWhile(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::DoWhile(stmt)))
+            }
+            Stmt::For(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::For(stmt)))
+            }
+            Stmt::ForIn(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::ForIn(stmt)))
+            }
+            Stmt::ForOf(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::ForOf(stmt)))
+            }
             Stmt::Decl(Decl::Var(e)) => {
-                emit!(e);
+                let stmt = emit!(emitter, e);
                 semi!(emitter);
+                Ok(only_new!(Stmt::Decl(Decl::Var(stmt))))
             }
             Stmt::Decl(e @ Decl::Using(..)) => {
-                emit!(e);
+                let stmt = emit!(emitter, e);
                 semi!(emitter);
+                Ok(only_new!(Stmt::Decl(stmt)))
             }
-            Stmt::Decl(ref e) => emit!(e),
-        }
+            Stmt::Decl(ref e) => {
+                let stmt = emit!(emitter, e);
+                Ok(only_new!(Stmt::Decl(stmt)))
+            }
+        };
         if emitter.comments.is_some() {
             emitter.emit_trailing_comments_of_pos(self.span().hi(), true, true)?;
         }
@@ -47,7 +103,7 @@ impl MacroNode for Stmt {
             emitter.wr.write_line()?;
         }
 
-        Ok(())
+        result
     }
 }
 
@@ -56,18 +112,31 @@ impl MacroNode for EmptyStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.wr.write_punct(None, ";")?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(EmptyStmt {
+            span: Span::new(lo, hi),
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for BlockStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_block_stmt_inner(self, false)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(BlockStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -76,11 +145,18 @@ impl MacroNode for ExprStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;
 
-        emit!(self.expr);
+        let lo = only_new!(emitter.wr.get_pos());
+
+        let expr = emit!(emitter, self.expr);
 
         semi!(emitter);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ExprStmt {
+            span: Span::new(lo, hi),
+            expr,
+        }))
     }
 }
 
@@ -89,12 +165,18 @@ impl MacroNode for DebuggerStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         keyword!(emitter, self.span, "debugger");
         semi!(emitter);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(DebuggerStmt {
+            span: Span::new(lo, hi),
+        }))
     }
 }
 
@@ -103,18 +185,25 @@ impl MacroNode for WithStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "with");
         formatting_space!(emitter);
 
         punct!(emitter, "(");
-        emit!(self.obj);
+        emit!(emitter, self.obj);
         punct!(emitter, ")");
 
-        emit!(self.body);
+        emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(WithStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -124,6 +213,8 @@ impl MacroNode for ReturnStmt {
         emitter.wr.commit_pending_semi()?;
 
         emitter.emit_leading_comments_of_span(self.span, false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -143,7 +234,7 @@ impl MacroNode for ReturnStmt {
                 formatting_space!(emitter);
             }
 
-            emit!(arg);
+            emit!(emitter, arg);
             if need_paren {
                 punct!(emitter, ")");
             }
@@ -151,7 +242,12 @@ impl MacroNode for ReturnStmt {
 
         semi!(emitter);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ReturnStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -160,15 +256,22 @@ impl MacroNode for LabeledStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
-        emit!(self.label);
+        let lo = only_new!(emitter.wr.get_pos());
+
+        emit!(emitter, self.label);
 
         // TODO: Comment
         punct!(emitter, ":");
         formatting_space!(emitter);
 
-        emit!(self.body);
+        emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(LabeledStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -179,12 +282,14 @@ impl MacroNode for SwitchStmt {
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "switch");
 
         punct!(emitter, "(");
-        emit!(self.discriminant);
+        emit!(emitter, self.discriminant);
         punct!(emitter, ")");
 
         punct!(emitter, "{");
@@ -193,7 +298,12 @@ impl MacroNode for SwitchStmt {
         srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(SwitchStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -201,6 +311,8 @@ impl MacroNode for SwitchStmt {
 impl MacroNode for CatchClause {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -210,15 +322,20 @@ impl MacroNode for CatchClause {
 
         if let Some(param) = &self.param {
             punct!(emitter, "(");
-            emit!(param);
+            emit!(emitter, param);
             punct!(emitter, ")");
         }
 
         formatting_space!(emitter);
 
-        emit!(self.body);
+        emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(CatchClause {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -226,6 +343,8 @@ impl MacroNode for CatchClause {
 impl MacroNode for SwitchCase {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -240,7 +359,7 @@ impl MacroNode for SwitchCase {
                 formatting_space!(emitter);
             }
 
-            emit!(test);
+            emit!(emitter, test);
         } else {
             keyword!(emitter, "default");
         }
@@ -264,7 +383,12 @@ impl MacroNode for SwitchCase {
         }
         emitter.emit_list(self.span(), Some(&self.cons), format)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(SwitchCase {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -272,6 +396,8 @@ impl MacroNode for SwitchCase {
 impl MacroNode for ThrowStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -287,14 +413,19 @@ impl MacroNode for ThrowStmt {
                 formatting_space!(emitter);
             }
 
-            emit!(self.arg);
+            emit!(emitter, self.arg);
             if need_paren {
                 punct!(emitter, ")");
             }
         }
         semi!(emitter);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ThrowStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -305,26 +436,33 @@ impl MacroNode for TryStmt {
 
         emitter.wr.commit_pending_semi()?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "try");
 
         formatting_space!(emitter);
-        emit!(self.block);
+        emit!(emitter, self.block);
 
         if let Some(ref catch) = self.handler {
             formatting_space!(emitter);
-            emit!(catch);
+            emit!(emitter, catch);
         }
 
         if let Some(ref finally) = self.finalizer {
             formatting_space!(emitter);
             keyword!(emitter, "finally");
             // space!(emitter);
-            emit!(finally);
+            emit!(emitter, finally);
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TryStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -335,17 +473,24 @@ impl MacroNode for WhileStmt {
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "while");
 
         punct!(emitter, "(");
-        emit!(self.test);
+        emit!(emitter, self.test);
         punct!(emitter, ")");
 
-        emit!(self.body);
+        emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(WhileStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -356,6 +501,8 @@ impl MacroNode for DoWhileStmt {
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "do");
@@ -364,14 +511,14 @@ impl MacroNode for DoWhileStmt {
         } else {
             formatting_space!(emitter)
         }
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         keyword!(emitter, "while");
 
         formatting_space!(emitter);
 
         punct!(emitter, "(");
-        emit!(self.test);
+        emit!(emitter, self.test);
         punct!(emitter, ")");
 
         if emitter.cfg.target <= EsVersion::Es5 {
@@ -380,7 +527,12 @@ impl MacroNode for DoWhileStmt {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(DoWhileStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -390,6 +542,8 @@ impl MacroNode for ForStmt {
         emitter.wr.commit_pending_semi()?;
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -403,9 +557,14 @@ impl MacroNode for ForStmt {
         opt_leading_space!(emitter, self.update);
         punct!(emitter, ")");
 
-        emit!(self.body);
+        emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ForStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -418,10 +577,12 @@ impl MacroNode for ForInStmt {
 
         srcmap!(emitter, self, true);
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, "for");
 
         punct!(emitter, "(");
-        emit!(self.left);
+        emit!(emitter, self.left);
 
         if self.left.ends_with_alpha_num() {
             space!(emitter);
@@ -438,14 +599,19 @@ impl MacroNode for ForInStmt {
             } else {
                 formatting_space!(emitter)
             }
-            emit!(self.right);
+            emit!(emitter, self.right);
         }
 
         punct!(emitter, ")");
 
-        emit!(self.body);
+        emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ForInStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -455,6 +621,8 @@ impl MacroNode for ForOfStmt {
         emitter.wr.commit_pending_semi()?;
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -466,7 +634,7 @@ impl MacroNode for ForOfStmt {
         }
         formatting_space!(emitter);
         punct!(emitter, "(");
-        emit!(self.left);
+        emit!(emitter, self.left);
         if self.left.ends_with_alpha_num() {
             space!(emitter);
         } else {
@@ -482,12 +650,17 @@ impl MacroNode for ForOfStmt {
             } else {
                 formatting_space!(emitter)
             }
-            emit!(self.right);
+            emit!(emitter, self.right);
         }
         punct!(emitter, ")");
-        emit!(self.body);
+        emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ForOfStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -496,18 +669,25 @@ impl MacroNode for BreakStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "break");
 
         if let Some(ref label) = self.label {
             space!(emitter);
-            emit!(label);
+            emit!(emitter, label);
         }
 
         semi!(emitter);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(BreakStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -516,18 +696,25 @@ impl MacroNode for ContinueStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "continue");
 
         if let Some(ref label) = self.label {
             space!(emitter);
-            emit!(label);
+            emit!(emitter, label);
         }
 
         semi!(emitter);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ContinueStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -538,13 +725,15 @@ impl MacroNode for IfStmt {
 
         emitter.wr.commit_pending_semi()?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "if");
 
         formatting_space!(emitter);
         punct!(emitter, "(");
-        emit!(self.test);
+        emit!(emitter, self.test);
         punct!(emitter, ")");
         formatting_space!(emitter);
 
@@ -553,7 +742,7 @@ impl MacroNode for IfStmt {
             _ => false,
         };
 
-        emit!(self.cons);
+        emit!(emitter, self.cons);
 
         if let Some(ref alt) = self.alt {
             if is_cons_block {
@@ -565,10 +754,15 @@ impl MacroNode for IfStmt {
             } else {
                 formatting_space!(emitter);
             }
-            emit!(alt);
+            emit!(emitter, alt);
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(IfStmt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -576,11 +770,16 @@ impl MacroNode for IfStmt {
 impl MacroNode for ModuleExportName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            ModuleExportName::Ident(ident) => emit!(ident),
-            ModuleExportName::Str(s) => emit!(s),
-        }
+            ModuleExportName::Ident(ident) => {
+                let n = emit!(emitter, ident);
 
-        Ok(())
+                Ok(only_new!(ModuleExportName::Ident(n)))
+            }
+            ModuleExportName::Str(s) => {
+                let n = emit!(emitter, s);
+                Ok(only_new!(ModuleExportName::Str(n)))
+            }
+        }
     }
 }
 
@@ -588,11 +787,17 @@ impl MacroNode for ModuleExportName {
 impl MacroNode for VarDeclOrExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            VarDeclOrExpr::Expr(node) => emit!(node),
-            VarDeclOrExpr::VarDecl(node) => emit!(node),
-        }
+            VarDeclOrExpr::Expr(node) => {
+                let n = emit!(emitter, node);
 
-        Ok(())
+                Ok(only_new!(VarDeclOrExpr::Expr(n)))
+            }
+            VarDeclOrExpr::VarDecl(node) => {
+                let n = emit!(emitter, node);
+
+                Ok(only_new!(VarDeclOrExpr::VarDecl(n)))
+            }
+        }
     }
 }
 
