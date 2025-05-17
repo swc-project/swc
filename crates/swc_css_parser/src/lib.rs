@@ -41,14 +41,14 @@ where
 ///
 /// If there are syntax errors but if it was recoverable, it will be appended
 /// to `errors`.
-pub fn parse_file<'a, 'b, T>(
+pub fn parse_file<'a, T>(
     fm: &'a SourceFile,
-    comments: Option<&'b dyn Comments>,
+    comments: Option<&'a dyn Comments>,
     config: ParserConfig,
     errors: &mut Vec<Error>,
 ) -> PResult<T>
 where
-    Parser<Lexer<'b, StringInput<'a>>>: Parse<T>,
+    Parser<Lexer<'a, StringInput<'a>>>: Parse<T>,
 {
     parse_string_input(StringInput::from(fm), comments, config, errors)
 }
@@ -57,14 +57,14 @@ where
 ///
 /// If there are syntax errors but if it was recoverable, it will be appended
 /// to `errors`.
-pub fn parse_string_input<'a, 'b, T>(
+pub fn parse_string_input<'a, T>(
     input: StringInput<'a>,
-    comments: Option<&'b dyn Comments>,
+    comments: Option<&'a dyn Comments>,
     config: ParserConfig,
     errors: &mut Vec<Error>,
 ) -> PResult<T>
 where
-    Parser<Lexer<'b, StringInput<'a>>>: Parse<T>,
+    Parser<Lexer<'a, StringInput<'a>>>: Parse<T>,
 {
     let lexer = Lexer::new(input, comments, config);
     let mut parser = Parser::new(lexer, config);
