@@ -6,6 +6,7 @@ members = [
   "binding_minifier_node",
   "binding_minifier_wasm",
   "binding_typescript_wasm",
+  "binding_react_compiler_node",
   "swc_cli",
 ]
 resolver = "2"
