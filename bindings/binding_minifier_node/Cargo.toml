@@ -33,7 +33,7 @@ tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
 
 swc_compiler_base = { workspace = true, features = ["node"] }
-swc_config = { workspace = true }
+swc_config = { workspace = true, features = ["regex"] }
 swc_core = { workspace = true, features = [
   "allocator_node",
   "common_concurrent",

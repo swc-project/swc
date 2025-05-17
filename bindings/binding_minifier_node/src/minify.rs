@@ -10,7 +10,7 @@ use serde::Deserialize;
 use swc_compiler_base::{
     minify_file_comments, parse_js, IdentCollector, PrintArgs, SourceMapsConfig, TransformOutput,
 };
-use swc_config::config_types::BoolOr;
+use swc_config::types::BoolOr;
 use swc_core::{
     base::JsMinifyExtras,
     common::{
