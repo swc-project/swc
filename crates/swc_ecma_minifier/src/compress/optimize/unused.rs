@@ -12,6 +12,7 @@ use crate::debug::dump;
 use crate::{
     compress::optimize::{util::extract_class_side_effect, BitCtx},
     option::PureGetterOption,
+    program_data::{ScopeData, VarUsageInfoFlags},
 };
 
 #[derive(Debug, Default, Clone, Copy)]
@@ -85,7 +86,7 @@ impl Optimizer<'_> {
         }
 
         if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
-            if scope.has_eval_call || scope.has_with_stmt {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
         }
@@ -121,7 +122,7 @@ impl Optimizer<'_> {
         }
 
         if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
-            if scope.has_eval_call || scope.has_with_stmt {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 log_abort!(
                     "unused: Preserving `{}` because of usages",
                     dump(&*name, false)
@@ -183,7 +184,7 @@ impl Optimizer<'_> {
         if let Some(v) = self.data.vars.get(&i.to_id()) {
             if v.ref_count == 0
                 && v.usage_count == 0
-                && !v.reassigned
+                && !v.flags.contains(VarUsageInfoFlags::REASSIGNED)
                 && v.property_mutation_count == 0
             {
                 self.changed = true;
@@ -243,11 +244,15 @@ impl Optimizer<'_> {
                 }
 
                 if let Some(usage) = self.data.vars.get(&e.to_id()) {
-                    if !usage.declared {
+                    if !usage.flags.contains(VarUsageInfoFlags::DECLARED) {
                         return true;
                     }
 
-                    if !usage.mutated() && usage.no_side_effect_for_member_access {
+                    if !usage.mutated()
+                        && usage
+                            .flags
+                            .contains(VarUsageInfoFlags::NO_SIDE_EFFECT_FOR_MEMBER_ACCESS)
+                    {
                         return false;
                     }
                 }
@@ -461,7 +466,7 @@ impl Optimizer<'_> {
         }
 
         if let Some(scope) = self.data.scopes.get(&self.ctx.scope) {
-            if scope.has_eval_call || scope.has_with_stmt {
+            if scope.intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT)) {
                 return;
             }
         }
@@ -594,7 +599,11 @@ impl Optimizer<'_> {
         if let Expr::Ident(arg) = &*update.arg {
             if let Some(var) = self.data.vars.get(&arg.to_id()) {
                 // Update is counted as usage
-                if var.declared && var.is_fn_local && var.usage_count == 1 {
+                if var
+                    .flags
+                    .contains(VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL))
+                    && var.usage_count == 1
+                {
                     self.changed = true;
                     report_change!(
                         "unused: Dropping an update '{}{:?}' because it is not used",
@@ -619,7 +628,11 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.data.top.has_eval_call || self.data.top.has_with_stmt {
+        if self
+            .data
+            .top
+            .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
+        {
             return;
         }
 
@@ -634,7 +647,11 @@ impl Optimizer<'_> {
         if let AssignTarget::Simple(SimpleAssignTarget::Ident(left)) = &assign.left {
             if let Some(var) = self.data.vars.get(&left.to_id()) {
                 // TODO: We don't need fn_local check
-                if var.declared && var.is_fn_local && var.usage_count == 1 {
+                if var
+                    .flags
+                    .contains(VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL))
+                    && var.usage_count == 1
+                {
                     self.changed = true;
                     report_change!(
                         "unused: Dropping an op-assign '{}{:?}' because it is not used",
@@ -654,7 +671,11 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.data.top.has_eval_call || self.data.top.has_with_stmt {
+        if self
+            .data
+            .top
+            .intersects(ScopeData::HAS_EVAL_CALL.union(ScopeData::HAS_WITH_STMT))
+        {
             return;
         }
 
@@ -677,7 +698,7 @@ impl Optimizer<'_> {
                     self.data.scopes, self.ctx.scope
                 )
             })
-            .used_arguments;
+            .contains(ScopeData::USED_ARGUMENTS);
 
         trace_op!(
             "unused: drop_unused_assignments: Target: `{}`",
@@ -691,11 +712,13 @@ impl Optimizer<'_> {
 
             if let Some(var) = self.data.vars.get(&i.to_id()) {
                 // technically this is inline
-                if !var.inline_prevented
-                    && !var.exported
-                    && var.usage_count == 0
-                    && var.declared
-                    && (!var.declared_as_fn_param || !used_arguments || self.ctx.expr_ctx.in_strict)
+                if !var.flags.intersects(
+                    VarUsageInfoFlags::INLINE_PREVENTED.union(VarUsageInfoFlags::EXPORTED),
+                ) && var.usage_count == 0
+                    && var.flags.contains(VarUsageInfoFlags::DECLARED)
+                    && (!var.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                        || !used_arguments
+                        || self.ctx.expr_ctx.in_strict)
                 {
                     report_change!(
                         "unused: Dropping assignment to var '{}{:?}', which is never used",
@@ -740,7 +763,9 @@ impl Optimizer<'_> {
                 .vars
                 .get(&i.to_id())
                 .map(|v| {
-                    (!v.used_recursively && v.ref_count == 0 && v.usage_count == 0)
+                    (!v.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY)
+                        && v.ref_count == 0
+                        && v.usage_count == 0)
                         || v.var_kind.is_some()
                 })
                 .unwrap_or(false);
@@ -767,9 +792,10 @@ impl Optimizer<'_> {
             if d.init.is_none() {
                 if let Pat::Ident(name) = &d.name {
                     if let Some(usage) = self.data.vars.get_mut(&name.to_id()) {
-                        if usage.is_fn_local
-                            && usage.declared_as_fn_param
-                            && usage.declared_count >= 2
+                        if usage.flags.contains(
+                            VarUsageInfoFlags::IS_FN_LOCAL
+                                .union(VarUsageInfoFlags::DECLARED_AS_FN_PARAM),
+                        ) && usage.declared_count >= 2
                         {
                             d.name.take();
                             usage.declared_count -= 1;
@@ -826,7 +852,11 @@ impl Optimizer<'_> {
 
         let usage = self.data.vars.get(&name.to_id())?;
 
-        if usage.indexed_with_dynamic_key || usage.used_as_ref || usage.used_recursively {
+        if usage.flags.intersects(
+            VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY
+                .union(VarUsageInfoFlags::USED_AS_REF)
+                .union(VarUsageInfoFlags::USED_RECURSIVELY),
+        ) {
             return None;
         }
 

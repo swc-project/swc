@@ -7,7 +7,7 @@ use swc_atoms::Atom;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
-use swc_ecma_utils::{stack_size::maybe_grow_default, DropSpan, ModuleItemLike, StmtLike, Value};
+use swc_ecma_utils::{DropSpan, ModuleItemLike, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, visit_mut_pass, visit_obj_and_computed, Visit, VisitWith};
 
 pub(crate) mod base54;
@@ -473,48 +473,6 @@ pub fn now() -> Option<Instant> {
     #[cfg(not(target_arch = "wasm32"))]
     {
         Some(Instant::now())
-    }
-}
-
-pub(crate) fn contains_eval<N>(node: &N, include_with: bool) -> bool
-where
-    N: VisitWith<EvalFinder>,
-{
-    let mut v = EvalFinder {
-        found: false,
-        include_with,
-    };
-
-    node.visit_with(&mut v);
-    v.found
-}
-
-pub(crate) struct EvalFinder {
-    found: bool,
-    include_with: bool,
-}
-
-impl Visit for EvalFinder {
-    noop_visit_type!();
-
-    visit_obj_and_computed!();
-
-    fn visit_expr(&mut self, n: &Expr) {
-        maybe_grow_default(|| n.visit_children_with(self));
-    }
-
-    fn visit_ident(&mut self, i: &Ident) {
-        if i.sym == "eval" {
-            self.found = true;
-        }
-    }
-
-    fn visit_with_stmt(&mut self, s: &WithStmt) {
-        if self.include_with {
-            self.found = true;
-        } else {
-            s.visit_children_with(self);
-        }
     }
 }
 

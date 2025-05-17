@@ -19,7 +19,6 @@ use swc_ecma_transforms::{
         es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3,
         regexp::{self, regexp},
     },
-    feature::FeatureFlag,
     Assumptions,
 };
 use swc_ecma_utils::{prepend_stmts, ExprFactory};
@@ -31,38 +30,27 @@ pub use self::transform_data::Feature;
 mod util;
 mod corejs2;
 mod corejs3;
+mod node_colon_prefix_strip;
 mod regenerator;
 mod transform_data;
 
-pub fn preset_env<C>(
+pub trait Caniuse {
+    fn caniuse(&self, feature: Feature) -> bool;
+}
+
+fn transform_internal<C>(
     unresolved_mark: Mark,
     comments: Option<C>,
-    c: Config,
     assumptions: Assumptions,
-    feature_set: &mut FeatureFlag,
+    loose: bool,
+    dynamic_import: bool,
+    debug: bool,
+    caniuse: impl (Fn(Feature) -> bool),
 ) -> impl Pass
 where
     C: Comments + Clone,
 {
-    let loose = c.loose;
-    let targets = targets_to_versions(c.targets, c.path).expect("failed to parse targets");
-    let is_any_target = targets.is_any_target();
-
-    let (include, included_modules) = FeatureOrModule::split(c.include);
-    let (exclude, excluded_modules) = FeatureOrModule::split(c.exclude);
-
     let pass = noop_pass();
-
-    macro_rules! should_enable {
-        ($feature:ident, $default:expr) => {{
-            let f = transform_data::Feature::$feature;
-            !exclude.contains(&f)
-                && (c.force_all_transforms
-                    || (is_any_target
-                        || include.contains(&f)
-                        || f.should_enable(&targets, c.bugfixes, $default)))
-        }};
-    }
 
     macro_rules! add {
         ($prev:expr, $feature:ident, $pass:expr) => {{
@@ -71,13 +59,9 @@ where
         ($prev:expr, $feature:ident, $pass:expr, $default:expr) => {{
             let f = transform_data::Feature::$feature;
 
-            let enable = should_enable!($feature, $default);
+            let enable = !caniuse(f);
 
-            if !enable {
-                *feature_set |= swc_ecma_transforms::feature::FeatureFlag::$feature;
-            }
-
-            if c.debug {
+            if debug {
                 println!("{}: {:?}", f.as_str(), enable);
             }
             ($prev, Optional::new($pass, enable))
@@ -93,12 +77,12 @@ where
     );
 
     let pass = {
-        let enable_dot_all_regex = should_enable!(DotAllRegex, false);
-        let enable_named_capturing_groups_regex = should_enable!(NamedCapturingGroupsRegex, false);
-        let enable_sticky_regex = should_enable!(StickyRegex, false);
-        let enable_unicode_property_regex = should_enable!(UnicodePropertyRegex, false);
-        let enable_unicode_regex = should_enable!(UnicodeRegex, false);
-        let enable_unicode_sets_regex = should_enable!(UnicodeSetsRegex, false);
+        let enable_dot_all_regex = !caniuse(Feature::DotAllRegex);
+        let enable_named_capturing_groups_regex = !caniuse(Feature::NamedCapturingGroupsRegex);
+        let enable_sticky_regex = !caniuse(Feature::StickyRegex);
+        let enable_unicode_property_regex = !caniuse(Feature::UnicodePropertyRegex);
+        let enable_unicode_regex = !caniuse(Feature::UnicodeRegex);
+        let enable_unicode_sets_regex = !caniuse(Feature::UnicodeSetsRegex);
 
         let enable = enable_dot_all_regex
             || enable_named_capturing_groups_regex
@@ -199,7 +183,6 @@ where
         AsyncToGenerator,
         es2017::async_to_generator(
             es2017::async_to_generator::Config {
-                ignore_function_name: loose || assumptions.ignore_function_name,
                 ignore_function_length: loose || assumptions.ignore_function_length,
             },
             unresolved_mark
@@ -230,6 +213,7 @@ where
             super_is_callable_constructor: loose || assumptions.super_is_callable_constructor,
         })
     );
+    let pass = add!(pass, NewTarget, es2015::new_target(), true);
     let pass = add!(
         pass,
         Spread,
@@ -237,8 +221,17 @@ where
         true
     );
     let pass = add!(pass, ObjectSuper, es2015::object_super());
-    let pass = add!(pass, FunctionName, es2015::function_name());
     let pass = add!(pass, ShorthandProperties, es2015::shorthand());
+    let pass = add!(pass, FunctionName, es2015::function_name());
+    let pass = add!(
+        pass,
+        ForOf,
+        es2015::for_of(es2015::for_of::Config {
+            loose,
+            assume_array: loose || assumptions.iterable_is_array
+        }),
+        true
+    );
     let pass = add!(
         pass,
         Parameters,
@@ -252,17 +245,8 @@ where
     let pass = add!(pass, ArrowFunctions, es2015::arrow(unresolved_mark));
     let pass = add!(pass, DuplicateKeys, es2015::duplicate_keys());
     let pass = add!(pass, StickyRegex, es2015::sticky_regex());
-    // TODO:    InstanceOf,
+    let pass = add!(pass, TypeOfSymbol, es2015::instance_of());
     let pass = add!(pass, TypeOfSymbol, es2015::typeof_symbol());
-    let pass = add!(
-        pass,
-        ForOf,
-        es2015::for_of(es2015::for_of::Config {
-            loose,
-            assume_array: loose || assumptions.iterable_is_array
-        }),
-        true
-    );
     let pass = add!(
         pass,
         ComputedProperties,
@@ -288,8 +272,6 @@ where
         true
     );
 
-    let pass = add!(pass, NewTarget, es2015::new_target(), true);
-
     // TODO:
     //    Literals,
     //    ObjectSuper,
@@ -307,7 +289,7 @@ where
         MemberExpressionLiterals,
         es3::member_expression_literals()
     );
-    let pass = add!(pass, ReservedWords, es3::reserved_words(c.dynamic_import));
+    let pass = add!(pass, ReservedWords, es3::reserved_words(dynamic_import));
 
     // Bugfixes
     let pass = add!(pass, BugfixEdgeDefaultParam, bugfixes::edge_default_param());
@@ -321,32 +303,103 @@ where
         BugfixTaggedTemplateCaching,
         bugfixes::template_literal_caching()
     );
-    let pass = add!(
+
+    add!(
         pass,
         BugfixSafariIdDestructuringCollisionInFunctionExpression,
         bugfixes::safari_id_destructuring_collision_in_function_expression()
+    )
+}
+
+pub fn transform_from_env<C>(
+    unresolved_mark: Mark,
+    comments: Option<C>,
+    env_config: EnvConfig,
+    assumptions: Assumptions,
+) -> impl Pass
+where
+    C: Comments + Clone,
+{
+    let pass = Optional::new(
+        node_colon_prefix_strip::strip_node_colon_prefix(unresolved_mark),
+        env_config.feature_config.targets.node.is_some_and(|v| {
+            // Manually copied from https://nodejs.org/api/esm.html#node-imports
+            v < Version {
+                major: 14,
+                minor: 18,
+                patch: 0,
+            } || v.major == 15
+        }),
     );
 
-    if c.debug {
-        println!("Targets: {targets:?}");
+    let pass = (
+        pass,
+        transform_internal(
+            unresolved_mark,
+            comments,
+            assumptions,
+            env_config.config.loose,
+            env_config.config.dynamic_import,
+            env_config.config.debug,
+            move |f| env_config.feature_config.caniuse(f),
+        ),
+    );
+
+    if env_config.config.debug {
+        println!("Targets: {:?}", &env_config.core_js_config.targets);
     }
 
     (
         pass,
         visit_mut_pass(Polyfills {
-            mode: c.mode,
-            regenerator: should_enable!(Regenerator, true),
-            corejs: c.core_js.unwrap_or(Version {
+            mode: env_config.config.mode,
+            regenerator: false,
+            corejs: env_config.config.core_js.unwrap_or(Version {
                 major: 3,
                 minor: 0,
                 patch: 0,
             }),
-            shipped_proposals: c.shipped_proposals,
-            targets,
-            includes: included_modules,
-            excludes: excluded_modules,
+            shipped_proposals: env_config.config.shipped_proposals,
+            targets: env_config.core_js_config.targets,
+            includes: env_config.core_js_config.included_modules,
+            excludes: env_config.core_js_config.excluded_modules,
             unresolved_mark,
         }),
+    )
+}
+
+#[deprecated(note = "use transform_from_env instead")]
+pub fn preset_env<C>(
+    unresolved_mark: Mark,
+    comments: Option<C>,
+    c: Config,
+    assumptions: Assumptions,
+    _feature_set: &mut swc_ecma_transforms::feature::FeatureFlag,
+) -> impl Pass
+where
+    C: Comments + Clone,
+{
+    transform_from_env(unresolved_mark, comments, c.into(), assumptions)
+}
+
+pub fn transform_from_es_version<C>(
+    unresolved_mark: Mark,
+    comments: Option<C>,
+    es_version: EsVersion,
+    assumptions: Assumptions,
+    loose: bool,
+) -> impl Pass
+where
+    C: Comments + Clone,
+{
+    transform_internal(
+        unresolved_mark,
+        comments,
+        assumptions,
+        loose,
+        true,
+        false,
+        move |f| es_version.caniuse(f),
     )
 }
 
@@ -609,6 +662,82 @@ pub struct Config {
     pub bugfixes: bool,
 }
 
+#[derive(Debug, Clone, Default)]
+pub struct FeatureConfig {
+    targets: Arc<Versions>,
+    include: Vec<Feature>,
+    exclude: Vec<Feature>,
+    is_any_target: bool,
+    force_all_transforms: bool,
+    bugfixes: bool,
+}
+
+struct CoreJSConfig {
+    targets: Arc<Versions>,
+    included_modules: FxHashSet<String>,
+    excluded_modules: FxHashSet<String>,
+}
+
+pub struct EnvConfig {
+    config: Config,
+    feature_config: Arc<FeatureConfig>,
+    core_js_config: CoreJSConfig,
+}
+
+impl From<Config> for EnvConfig {
+    fn from(mut config: Config) -> Self {
+        let targets = targets_to_versions(config.targets.take(), config.path.take())
+            .expect("failed to parse targets");
+        let is_any_target = targets.is_any_target();
+
+        let (include, included_modules) = FeatureOrModule::split(config.include.clone());
+        let (exclude, excluded_modules) = FeatureOrModule::split(config.exclude.clone());
+
+        let feature_config = FeatureConfig {
+            targets: Arc::clone(&targets),
+            include,
+            exclude,
+            is_any_target,
+            force_all_transforms: config.force_all_transforms,
+            bugfixes: config.bugfixes,
+        };
+        let core_js_config = CoreJSConfig {
+            targets: Arc::clone(&targets),
+            included_modules,
+            excluded_modules,
+        };
+        Self {
+            config,
+            feature_config: Arc::new(feature_config),
+            core_js_config,
+        }
+    }
+}
+
+impl EnvConfig {
+    pub fn get_feature_config(&self) -> Arc<FeatureConfig> {
+        Arc::clone(&self.feature_config)
+    }
+}
+
+impl Caniuse for FeatureConfig {
+    fn caniuse(&self, feature: Feature) -> bool {
+        if self.exclude.contains(&feature) {
+            return true;
+        }
+
+        if self.force_all_transforms || self.is_any_target {
+            return false;
+        }
+
+        if self.include.contains(&feature) {
+            return false;
+        }
+
+        !feature.should_enable(&self.targets, self.bugfixes, false)
+    }
+}
+
 #[derive(Debug, Clone, Deserialize, FromVariant)]
 #[serde(untagged)]
 pub enum FeatureOrModule {
@@ -631,5 +760,85 @@ impl FeatureOrModule {
         }
 
         (features, modules)
+    }
+}
+
+impl Caniuse for EsVersion {
+    fn caniuse(&self, feature: Feature) -> bool {
+        // EsNext supports all features
+        if self == &EsVersion::EsNext {
+            return true;
+        }
+
+        match feature {
+            // ES2022
+            Feature::ClassProperties
+            | Feature::ClassStaticBlock
+            | Feature::PrivatePropertyInObject => *self >= EsVersion::Es2022,
+
+            // ES2021
+            Feature::LogicalAssignmentOperators => *self >= EsVersion::Es2021,
+
+            // ES2020
+            Feature::ExportNamespaceFrom
+            | Feature::NullishCoalescing
+            | Feature::OptionalChaining => *self >= EsVersion::Es2020,
+
+            // ES2019
+            Feature::OptionalCatchBinding => *self >= EsVersion::Es2019,
+
+            // ES2018
+            Feature::ObjectRestSpread
+            | Feature::DotAllRegex
+            | Feature::NamedCapturingGroupsRegex
+            | Feature::UnicodePropertyRegex => *self >= EsVersion::Es2018,
+
+            // ES2017
+            Feature::AsyncToGenerator => *self >= EsVersion::Es2017,
+
+            // ES2016
+            Feature::ExponentiationOperator => *self >= EsVersion::Es2016,
+
+            // ES2015
+            Feature::ArrowFunctions
+            | Feature::BlockScopedFunctions
+            | Feature::BlockScoping
+            | Feature::Classes
+            | Feature::ComputedProperties
+            | Feature::Destructuring
+            | Feature::DuplicateKeys
+            | Feature::ForOf
+            | Feature::FunctionName
+            | Feature::NewTarget
+            | Feature::ObjectSuper
+            | Feature::Parameters
+            | Feature::Regenerator
+            | Feature::ShorthandProperties
+            | Feature::Spread
+            | Feature::StickyRegex
+            | Feature::TemplateLiterals
+            | Feature::TypeOfSymbol
+            | Feature::UnicodeRegex => *self >= EsVersion::Es2015,
+
+            // ES5
+            Feature::PropertyLiterals
+            | Feature::MemberExpressionLiterals
+            | Feature::ReservedWords => *self >= EsVersion::Es5,
+
+            // bugfix not exists in EsVsersion
+            Feature::BugfixAsyncArrowsInClass
+            | Feature::BugfixEdgeDefaultParam
+            | Feature::BugfixTaggedTemplateCaching
+            | Feature::BugfixSafariIdDestructuringCollisionInFunctionExpression
+            | Feature::BugfixTransformEdgeFunctionName
+            | Feature::BugfixTransformSafariBlockShadowing
+            | Feature::BugfixTransformSafariForShadowing
+            | Feature::BugfixTransformV8SpreadParametersInOptionalChaining
+            | Feature::BugfixTransformV8StaticClassFieldsRedefineReadonly
+            | Feature::BugfixTransformFirefoxClassInComputedClassKey
+            | Feature::BugfixTransformSafariClassFieldInitializerScope => true,
+
+            _ => true,
+        }
     }
 }

@@ -3,6 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
 
 use super::Optimizer;
+use crate::program_data::VarUsageInfoFlags;
 
 /// Methods related to the options `bools` and `bool_as_ints`.
 impl Optimizer<'_> {
@@ -22,7 +23,7 @@ impl Optimizer<'_> {
                     // TODO?
                     if let Expr::Ident(arg) = &**arg {
                         if let Some(usage) = o.data.vars.get(&arg.to_id()) {
-                            if !usage.declared {
+                            if !usage.flags.contains(VarUsageInfoFlags::DECLARED) {
                                 return false;
                             }
                         }

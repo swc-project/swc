@@ -325,9 +325,6 @@ function peg$parse(input, options) {
         }
         peg$maxFailExpected.push(expected);
     }
-    function peg$buildSimpleError(message, location) {
-        return new peg$SyntaxError(message, null, null, location);
-    }
     function peg$buildStructuredError(expected, found, location) {
         return new peg$SyntaxError(peg$SyntaxError.buildMessage(expected, found), expected, found, location);
     }

@@ -958,11 +958,11 @@ fn test_fixture_inner<'a>(
             }
 
             if let Some(src_map) = &mut src_map {
-                sourcemap = Some(tester.cm.build_source_map_with_config(
-                    src_map,
-                    None,
-                    SourceMapConfigImpl,
-                ));
+                sourcemap = Some(
+                    tester
+                        .cm
+                        .build_source_map(src_map, None, SourceMapConfigImpl),
+                );
             }
 
             String::from_utf8(buf).expect("codegen generated non-utf8 output")

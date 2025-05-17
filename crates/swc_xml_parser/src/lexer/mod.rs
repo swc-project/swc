@@ -119,9 +119,9 @@ struct Cdata {
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
-pub struct Lexer<I>
+pub struct Lexer<'a, I>
 where
-    I: Input,
+    I: Input<'a>,
 {
     input: I,
     cur: Option<char>,
@@ -140,11 +140,12 @@ where
     current_tag_token: Option<Tag>,
     current_cdata_token: Option<Cdata>,
     attribute_start_position: Option<BytePos>,
+    phantom: std::marker::PhantomData<&'a ()>,
 }
 
-impl<I> Lexer<I>
+impl<'a, I> Lexer<'a, I>
 where
-    I: Input,
+    I: Input<'a>,
 {
     pub fn new(input: I) -> Self {
         let start_pos = input.last_pos();
@@ -167,6 +168,7 @@ where
             current_tag_token: None,
             current_cdata_token: None,
             attribute_start_position: None,
+            phantom: std::marker::PhantomData,
         };
 
         // A leading Byte Order Mark (BOM) causes the character encoding argument to be
@@ -182,7 +184,7 @@ where
     }
 }
 
-impl<I: Input> Iterator for Lexer<I> {
+impl<'a, I: Input<'a>> Iterator for Lexer<'a, I> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -199,9 +201,9 @@ impl<I: Input> Iterator for Lexer<I> {
     }
 }
 
-impl<I> ParserInput for Lexer<I>
+impl<'a, I> ParserInput for Lexer<'a, I>
 where
-    I: Input,
+    I: Input<'a>,
 {
     fn start_pos(&mut self) -> swc_common::BytePos {
         self.input.cur_pos()
@@ -216,9 +218,9 @@ where
     }
 }
 
-impl<I> Lexer<I>
+impl<'a, I> Lexer<'a, I>
 where
-    I: Input,
+    I: Input<'a>,
 {
     #[inline(always)]
     fn next(&mut self) -> Option<char> {
@@ -306,7 +308,7 @@ where
 
     fn consume_character_reference(&mut self) -> Option<(char, String)> {
         let cur_pos = self.input.cur_pos();
-        let anything_else = |lexer: &mut Lexer<I>| {
+        let anything_else = |lexer: &mut Lexer<'a, I>| {
             lexer.emit_error(ErrorKind::InvalidEntityCharacter);
             lexer.cur_pos = cur_pos;
             unsafe {
@@ -1253,7 +1255,7 @@ where
             }
             State::MarkupDeclaration => {
                 let cur_pos = self.input.cur_pos();
-                let anything_else = |lexer: &mut Lexer<I>| {
+                let anything_else = |lexer: &mut Lexer<'a, I>| {
                     lexer.emit_error(ErrorKind::IncorrectlyOpenedComment);
                     lexer.create_comment_token(None, "<!");
                     lexer.state = State::BogusComment;

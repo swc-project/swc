@@ -10,6 +10,7 @@ use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith, VisitWith,
 };
 
+pub use self::eval::contains_eval;
 #[cfg(feature = "concurrent-renamer")]
 use self::renamer_concurrent::{Send, Sync};
 #[cfg(not(feature = "concurrent-renamer"))]
@@ -17,7 +18,6 @@ use self::renamer_single::{Send, Sync};
 use self::{
     analyzer::Analyzer,
     collector::{collect_decls, CustomBindingCollector, IdCollector},
-    eval::contains_eval,
     ops::Operator,
 };
 use crate::hygiene::Config;
@@ -34,14 +34,6 @@ pub trait Renamer: Send + Sync {
     /// It should be true if you expect lots of collisions
     const MANGLE: bool;
 
-    fn preserved_ids_for_module(&mut self, _: &Module) -> FxHashSet<Id> {
-        Default::default()
-    }
-
-    fn preserved_ids_for_script(&mut self, _: &Script) -> FxHashSet<Id> {
-        Default::default()
-    }
-
     fn get_cached(&self) -> Option<Cow<RenameMap>> {
         None
     }
@@ -50,6 +42,16 @@ pub trait Renamer: Send + Sync {
 
     /// Should increment `n`.
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom;
+
+    fn unresolved_symbols(&self) -> Vec<Atom> {
+        Default::default()
+    }
+
+    /// Return true if the identifier should be preserved.
+    #[inline]
+    fn preserve_name(&self, _orig: &Id) -> bool {
+        false
+    }
 }
 
 pub type RenameMap = FxHashMap<Id, Atom>;
@@ -175,10 +177,12 @@ where
                 .extend(self.preserved.iter().map(|v| v.0.clone()));
         }
 
-        if !self.config.preserved_symbols.is_empty() {
-            unresolved
-                .to_mut()
-                .extend(self.config.preserved_symbols.iter().cloned());
+        {
+            let extra_unresolved = self.renamer.unresolved_symbols();
+
+            if !extra_unresolved.is_empty() {
+                unresolved.to_mut().extend(extra_unresolved);
+            }
         }
 
         if R::MANGLE {
@@ -347,8 +351,6 @@ where
     fn visit_mut_module(&mut self, m: &mut Module) {
         self.load_cache();
 
-        self.preserved = self.renamer.preserved_ids_for_module(m);
-
         let has_eval = !self.config.ignore_eval && contains_eval(m, true);
 
         self.unresolved = self.get_unresolved(m, has_eval);
@@ -391,8 +393,6 @@ where
 
     fn visit_mut_script(&mut self, m: &mut Script) {
         self.load_cache();
-
-        self.preserved = self.renamer.preserved_ids_for_script(m);
 
         let has_eval = !self.config.ignore_eval && contains_eval(m, true);
 

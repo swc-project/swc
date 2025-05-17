@@ -9,7 +9,7 @@ use swc_common::{
     Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
+use swc_ecma_transforms_base::helper_expr;
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory, IsDirective,
 };
@@ -38,6 +38,12 @@ pub struct Config {
     pub config: InnerConfig,
 }
 
+#[derive(Default)]
+pub struct FeatureFlag {
+    pub support_block_scoping: bool,
+    pub support_arrow: bool,
+}
+
 pub fn amd<C>(
     resolver: Resolver,
     unresolved_mark: Mark,
@@ -57,13 +63,12 @@ where
         resolver,
         comments,
 
-        support_arrow: caniuse!(available_features.ArrowFunctions),
-        const_var_kind: if caniuse!(available_features.BlockScoping) {
+        support_arrow: available_features.support_arrow,
+        const_var_kind: if available_features.support_block_scoping {
             VarDeclKind::Const
         } else {
             VarDeclKind::Var
         },
-
         dep_list: Default::default(),
         require: quote_ident!(
             SyntaxContext::empty().apply_mark(unresolved_mark),

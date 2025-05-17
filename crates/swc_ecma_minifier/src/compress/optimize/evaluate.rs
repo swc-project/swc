@@ -6,7 +6,10 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
 
 use super::{BitCtx, Optimizer};
-use crate::{compress::util::eval_as_number, maybe_par, DISABLE_BUGGY_PASSES};
+use crate::{
+    compress::util::eval_as_number, maybe_par, program_data::VarUsageInfoFlags,
+    DISABLE_BUGGY_PASSES,
+};
 
 /// Methods related to the option `evaluate`.
 impl Optimizer<'_> {
@@ -44,7 +47,7 @@ impl Optimizer<'_> {
 
                 let usage = self.data.vars.get(&obj.to_id())?;
 
-                if usage.reassigned {
+                if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                     return None;
                 }
 
@@ -100,7 +103,7 @@ impl Optimizer<'_> {
                 .data
                 .vars
                 .get(&i.to_id())
-                .map(|var| var.declared)
+                .map(|var| var.flags.contains(VarUsageInfoFlags::DECLARED))
                 .unwrap_or(false)
             {
                 return;
@@ -424,7 +427,9 @@ impl Optimizer<'_> {
                             // If a variable named `NaN` is in scope, don't convert e into NaN.
                             let data = &self.data.vars;
                             if maybe_par!(
-                                data.iter().any(|(name, v)| v.declared && name.0 == "NaN"),
+                                data.iter()
+                                    .any(|(name, v)| v.flags.contains(VarUsageInfoFlags::DECLARED)
+                                        && name.0 == "NaN"),
                                 *crate::LIGHT_TASK_PARALLELS
                             ) {
                                 return;

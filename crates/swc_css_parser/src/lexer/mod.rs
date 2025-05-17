@@ -21,7 +21,7 @@ pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 #[derive(Clone)]
 pub struct Lexer<'a, I>
 where
-    I: Input,
+    I: Input<'a>,
 {
     comments: Option<&'a dyn Comments>,
     pending_leading_comments: Vec<Comment>,
@@ -41,7 +41,7 @@ where
 
 impl<'a, I> Lexer<'a, I>
 where
-    I: Input,
+    I: Input<'a>,
 {
     pub fn new(input: I, comments: Option<&'a dyn Comments>, config: ParserConfig) -> Self {
         let start_pos = input.last_pos();
@@ -65,7 +65,7 @@ where
 
     fn with_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
     where
-        F: for<'any> FnOnce(&mut Lexer<I>, &mut String) -> LexResult<Ret>,
+        F: for<'any> FnOnce(&mut Lexer<'a, I>, &mut String) -> LexResult<Ret>,
     {
         let b = self.buf.clone();
         let mut buf = b.borrow_mut();
@@ -77,7 +77,7 @@ where
 
     fn with_sub_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
     where
-        F: for<'any> FnOnce(&mut Lexer<I>, &mut String) -> LexResult<Ret>,
+        F: for<'any> FnOnce(&mut Lexer<'a, I>, &mut String) -> LexResult<Ret>,
     {
         let b = self.sub_buf.clone();
         let mut sub_buf = b.borrow_mut();
@@ -89,7 +89,7 @@ where
 
     fn with_buf_and_raw_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
     where
-        F: for<'any> FnOnce(&mut Lexer<I>, &mut String, &mut String) -> LexResult<Ret>,
+        F: for<'any> FnOnce(&mut Lexer<'a, I>, &mut String, &mut String) -> LexResult<Ret>,
     {
         let b = self.buf.clone();
         let r = self.raw_buf.clone();
@@ -103,7 +103,7 @@ where
     }
 }
 
-impl<I: Input> Iterator for Lexer<'_, I> {
+impl<'a, I: Input<'a>> Iterator for Lexer<'a, I> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -133,9 +133,9 @@ pub struct LexerState {
     pos: BytePos,
 }
 
-impl<I> ParserInput for Lexer<'_, I>
+impl<'a, I> ParserInput for Lexer<'a, I>
 where
-    I: Input,
+    I: Input<'a>,
 {
     type State = LexerState;
 
@@ -185,9 +185,9 @@ where
     }
 }
 
-impl<I> Lexer<'_, I>
+impl<'a, I> Lexer<'a, I>
 where
-    I: Input,
+    I: Input<'a>,
 {
     #[inline(always)]
     fn cur(&mut self) -> Option<char> {

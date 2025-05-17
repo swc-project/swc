@@ -149,7 +149,8 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if preserved.contains(&id)
+            if renamer.preserve_name(&id)
+                || preserved.contains(&id)
                 || to.get(&id).is_some()
                 || previous.get(&id).is_some()
                 || id.0 == "eval"
@@ -288,7 +289,8 @@ impl Scope {
         let mut n = 0;
 
         for id in queue {
-            if preserved.contains(&id)
+            if renamer.preserve_name(&id)
+                || preserved.contains(&id)
                 || to.get(&id).is_some()
                 || previous.get(&id).is_some()
                 || id.0 == "eval"

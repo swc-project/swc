@@ -725,7 +725,7 @@ impl Compiler {
                 None
             };
 
-            self.apply_transforms(handler, comments.clone(), fm.clone(), orig.as_ref(), config)
+            self.apply_transforms(handler, comments.clone(), fm.clone(), orig, config)
         })
     }
 
@@ -905,7 +905,7 @@ impl Compiler {
                     source_map,
                     source_map_ignore_list: opts.source_map_ignore_list.clone(),
                     source_map_names: &source_map_names,
-                    orig: orig.as_ref(),
+                    orig,
                     comments: Some(&comments),
                     emit_source_map_columns: opts.emit_source_map_columns,
                     preamble: &opts.format.preamble,
@@ -967,7 +967,7 @@ impl Compiler {
         handler: &Handler,
         comments: SingleThreadedComments,
         fm: Arc<SourceFile>,
-        orig: Option<&sourcemap::SourceMap>,
+        orig: Option<sourcemap::SourceMap>,
         config: BuiltInput<impl Pass>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {

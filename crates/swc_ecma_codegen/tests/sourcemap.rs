@@ -357,7 +357,7 @@ fn identity(entry: PathBuf) {
         }
 
         let actual_code = String::from_utf8(wr).unwrap();
-        let actual_map = cm.build_source_map_with_config(&src_map, None, SourceMapConfigImpl);
+        let actual_map = cm.build_source_map(&src_map, None, SourceMapConfigImpl);
 
         let visualizer_url_for_actual = visualizer_url(&actual_code, &actual_map);
 
