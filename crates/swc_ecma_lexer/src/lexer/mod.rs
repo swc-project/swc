@@ -106,19 +106,12 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
 
     #[inline(always)]
     unsafe fn input_slice(&mut self, start: BytePos, end: BytePos) -> &'a str {
-        let s = self.input.slice(start, end);
-        // SAFETY: the input is guaranteed to live for the entire
-        // lifetime.
-        std::mem::transmute::<&str, &'a str>(s)
+        self.input.slice(start, end)
     }
 
+    #[inline(always)]
     fn input_uncons_while(&mut self, f: impl FnMut(char) -> bool) -> &'a str {
-        let s = self.input_mut().uncons_while(f);
-        unsafe {
-            // SAFETY: the input is guaranteed to live for the entire
-            // lifetime.
-            std::mem::transmute::<&str, &'a str>(s)
-        }
+        self.input_mut().uncons_while(f)
     }
 
     #[inline(always)]

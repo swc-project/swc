@@ -72,7 +72,7 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
     }
 }
 
-impl<'a> Input for StringInput<'a> {
+impl<'a> Input<'a> for StringInput<'a> {
     #[inline]
     fn cur(&self) -> Option<char> {
         self.iter.clone().next()
@@ -133,7 +133,7 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
-    unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &str {
+    unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &'a str {
         debug_assert!(start <= end, "Cannot slice {start:?}..{end:?}");
         let s = self.orig;
 
@@ -151,7 +151,7 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
-    fn uncons_while<F>(&mut self, mut pred: F) -> &str
+    fn uncons_while<F>(&mut self, mut pred: F) -> &'a str
     where
         F: FnMut(char) -> bool,
     {
@@ -237,7 +237,7 @@ impl<'a> Input for StringInput<'a> {
     }
 }
 
-pub trait Input: Clone {
+pub trait Input<'a>: Clone {
     fn cur(&self) -> Option<char>;
     fn peek(&self) -> Option<char>;
     fn peek_ahead(&self) -> Option<char>;
@@ -270,11 +270,11 @@ pub trait Input: Clone {
     ///
     /// - start should be less than or equal to end.
     /// - start and end should be in the valid range of input.
-    unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &str;
+    unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &'a str;
 
     /// Takes items from stream, testing each one with predicate. returns the
     /// range of items which passed predicate.
-    fn uncons_while<F>(&mut self, f: F) -> &str
+    fn uncons_while<F>(&mut self, f: F) -> &'a str
     where
         F: FnMut(char) -> bool;
 
