@@ -460,6 +460,7 @@ impl VisitMut for Finalizer<'_> {
         if let Prop::Shorthand(i) = n {
             if let Some(expr) = self.lits.get(&i.to_id()) {
                 *n = Prop::KeyValue(KeyValueProp {
+                    span: DUMMY_SP,
                     key: i.take().into(),
                     value: expr.clone(),
                 });
