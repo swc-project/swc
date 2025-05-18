@@ -410,16 +410,14 @@ impl Pure<'_> {
 
                     if let Some(cooked) = &mut l_last.cooked {
                         let mut str_part = convert_str_value_to_tpl_cooked(&rs.value).into_owned();
-                        str_part.reserve(cooked.len());
                         str_part.push_str(cooked);
                         *cooked = swc_atoms::Atom::from(str_part);
                     }
                     // Calculate the total length to avoid multiple allocations
-                    let raw_str_part = rs
-                        .raw
-                        .clone()
-                        .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
-                        .unwrap_or_else(|| convert_str_value_to_tpl_raw(&rs.value).into());
+                    let raw_str_part = match &rs.raw {
+                        Some(s) => convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]),
+                        None => convert_str_value_to_tpl_raw(&rs.value).into(),
+                    };
 
                     let mut raw = l_last.raw.to_string();
                     raw.push_str(&raw_str_part);
@@ -447,17 +445,15 @@ impl Pure<'_> {
 
                     if let Some(cooked) = &mut r_first.cooked {
                         let mut str_part = convert_str_value_to_tpl_cooked(&ls.value).into_owned();
-                        str_part.reserve(cooked.len());
                         str_part.push_str(cooked);
                         *cooked = swc_atoms::Atom::from(str_part);
                     }
 
                     // Get the raw string part
-                    let raw_str_part = ls
-                        .raw
-                        .clone()
-                        .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
-                        .unwrap_or_else(|| convert_str_value_to_tpl_raw(&ls.value).into());
+                    let raw_str_part = match &ls.raw {
+                        Some(s) => convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]),
+                        None => convert_str_value_to_tpl_raw(&ls.value).into(),
+                    };
 
                     let mut raw = raw_str_part.to_string();
                     raw.push_str(&r_first.raw);
@@ -476,7 +472,6 @@ impl Pure<'_> {
 
                     // Convert to owned string, reserve space and append
                     let mut owned_raw = l_last.raw.to_string();
-                    owned_raw.reserve(r_first.raw.len());
                     owned_raw.push_str(&r_first.raw);
                     r_first.raw = owned_raw.into();
                 }
