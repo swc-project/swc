@@ -390,66 +390,63 @@ impl Span {
     }
 
     #[inline]
-    pub fn new(mut lo: BytePos, mut hi: BytePos) -> Self {
-        if lo > hi {
-            std::mem::swap(&mut lo, &mut hi);
-        }
-
+    pub const fn new(lo: BytePos, hi: BytePos) -> Self {
+        debug_assert!(lo.0 <= hi.0);
         Span { lo, hi }
     }
 
     #[inline]
-    pub fn with_lo(&self, lo: BytePos) -> Span {
+    pub const fn with_lo(&self, lo: BytePos) -> Span {
         Span::new(lo, self.hi)
     }
 
     #[inline]
-    pub fn hi(self) -> BytePos {
+    pub const fn hi(self) -> BytePos {
         self.hi
     }
 
     #[inline]
-    pub fn with_hi(&self, hi: BytePos) -> Span {
+    pub const fn with_hi(&self, hi: BytePos) -> Span {
         Span::new(self.lo, hi)
     }
 
     /// Returns `true` if this is a dummy span with any hygienic context.
     #[inline]
-    pub fn is_dummy(self) -> bool {
+    pub const fn is_dummy(self) -> bool {
         self.lo.0 == 0 && self.hi.0 == 0 || self.lo.0 >= DUMMY_RESERVE
     }
 
     #[inline]
-    pub fn is_pure(self) -> bool {
+    pub const fn is_pure(self) -> bool {
         self.lo.is_pure()
     }
 
     #[inline]
-    pub fn is_placeholder(self) -> bool {
+    pub const fn is_placeholder(self) -> bool {
         self.lo.is_placeholder()
     }
 
     /// Returns `true` if this is a dummy span with any hygienic context.
     #[inline]
-    pub fn is_dummy_ignoring_cmt(self) -> bool {
+    pub const fn is_dummy_ignoring_cmt(self) -> bool {
         self.lo.0 == 0 && self.hi.0 == 0
     }
 
     /// Returns a new span representing an empty span at the beginning of this
     /// span
     #[inline]
-    pub fn shrink_to_lo(self) -> Span {
+    pub const fn shrink_to_lo(self) -> Span {
         self.with_hi(self.lo)
     }
 
     /// Returns a new span representing an empty span at the end of this span
     #[inline]
-    pub fn shrink_to_hi(self) -> Span {
+    pub const fn shrink_to_hi(self) -> Span {
         self.with_lo(self.hi)
     }
 
     /// Returns `self` if `self` is not the dummy span, and `other` otherwise.
-    pub fn substitute_dummy(self, other: Span) -> Span {
+    pub const fn substitute_dummy(self, other: Span) -> Span {
         if self.is_dummy() {
             other
         } else {
@@ -458,16 +455,16 @@ impl Span {
     }
 
     /// Return true if `self` fully encloses `other`.
-    pub fn contains(self, other: Span) -> bool {
-        self.lo <= other.lo && other.hi <= self.hi
+    pub const fn contains(self, other: Span) -> bool {
+        self.lo.0 <= other.lo.0 && other.hi.0 <= self.hi.0
     }
 
     /// Return true if the spans are equal with regards to the source text.
     ///
     /// Use this instead of `==` when either span could be generated code,
     /// and you only care that they point to the same bytes of source text.
-    pub fn source_equal(self, other: Span) -> bool {
-        self.lo == other.lo && self.hi == other.hi
+    pub const fn source_equal(self, other: Span) -> bool {
+        self.lo.0 == other.lo.0 && self.hi.0 == other.hi.0
     }
 
     /// Returns `Some(span)`, where the start is trimmed by the end of `other`
@@ -495,14 +492,14 @@ impl Span {
     }
 
     /// Return a `Span` between the end of `self` to the beginning of `end`.
-    pub fn between(self, end: Span) -> Span {
+    pub const fn between(self, end: Span) -> Span {
         let span = self;
         Span::new(span.hi, end.lo)
     }
 
     /// Return a `Span` between the beginning of `self` to the beginning of
     /// `end`.
-    pub fn until(self, end: Span) -> Span {
+    pub const fn until(self, end: Span) -> Span {
         let span = self;
         Span::new(span.lo, end.lo)
     }
