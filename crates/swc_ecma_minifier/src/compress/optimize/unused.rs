@@ -183,7 +183,8 @@ impl Optimizer<'_> {
 
         if let Some(v) = self.data.vars.get(&i.to_id()) {
             // Check if the variable is used in a member expression or property access
-            let is_used_in_member = v.property_mutation_count > 0 || v.flags.contains(VarUsageInfoFlags::USED_AS_REF);
+            let is_used_in_member =
+                v.property_mutation_count > 0 || v.flags.contains(VarUsageInfoFlags::USED_AS_REF);
 
             // Only remove if:
             // 1. No direct references
