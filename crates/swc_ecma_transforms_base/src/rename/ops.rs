@@ -471,6 +471,7 @@ where
                 }
 
                 *n = KeyValuePatProp {
+                    span: p.span,
                     key: PropName::Ident(p.key.take().into()),
                     value: match p.value.take() {
                         Some(default_expr) => AssignPat {
@@ -503,6 +504,7 @@ where
                     }
 
                     *prop = Prop::KeyValue(KeyValueProp {
+                        span: i.span,
                         key: PropName::Ident(IdentName {
                             // clear mark
                             span: i.span,

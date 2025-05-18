@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -91,6 +91,7 @@ impl VisitMut for KeywordRenamer {
                 match &mut pat.value {
                     Some(default) => {
                         *n = ObjectPatProp::KeyValue(KeyValuePatProp {
+                            span: DUMMY_SP,
                             key: PropName::Ident(pat.key.take().into()),
                             value: AssignPat {
                                 span: pat.span,
@@ -102,6 +103,7 @@ impl VisitMut for KeywordRenamer {
                     }
                     None => {
                         *n = ObjectPatProp::KeyValue(KeyValuePatProp {
+                            span: DUMMY_SP,
                             key: PropName::Ident(pat.key.take().into()),
                             value: renamed.into(),
                         })
@@ -135,6 +137,7 @@ impl VisitMut for KeywordRenamer {
             Prop::Shorthand(i) => {
                 if let Some(renamed) = self.renamed(i) {
                     *n = Prop::KeyValue(KeyValueProp {
+                        span: DUMMY_SP,
                         key: PropName::Ident(i.clone().into()),
                         value: renamed.into(),
                     });

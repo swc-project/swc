@@ -198,12 +198,12 @@ fn parse_jsx_attr<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrOrSpread> {
     debug_tracing!(p, "parse_jsx_attr");
 
     if p.input_mut().eat(&P::Token::LBRACE) {
-        let dot3_start = p.cur_pos();
+        let start = p.cur_pos();
         expect!(p, &P::Token::DOTDOTDOT);
-        let dot3_token = p.span(dot3_start);
         let expr = parse_assignment_expr(p)?;
+        let span = p.span(start);
         expect!(p, &P::Token::RBRACE);
-        return Ok(SpreadElement { dot3_token, expr }.into());
+        return Ok(SpreadElement { span, expr }.into());
     }
 
     let name = parse_jsx_namespaced_name(p)?;

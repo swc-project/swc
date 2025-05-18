@@ -348,7 +348,7 @@ impl SizeWithCtxt for PropOrSpread {
             PropOrSpread::Spread(s) => 3 + s.expr.size(unresolved),
             PropOrSpread::Prop(p) => match &**p {
                 Prop::Shorthand(s) => s.sym.len(),
-                Prop::KeyValue(KeyValueProp { key, value }) => {
+                Prop::KeyValue(KeyValueProp { key, value, .. }) => {
                     key.size(unresolved) + 1 + value.size(unresolved)
                 }
                 // where is Prop::Assign valid?

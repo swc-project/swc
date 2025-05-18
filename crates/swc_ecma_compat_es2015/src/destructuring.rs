@@ -248,10 +248,8 @@ impl AssignFolder {
                     };
 
                     let var_decl = match elem {
-                        Pat::Rest(RestPat {
-                            dot3_token, arg, ..
-                        }) => VarDeclarator {
-                            span: dot3_token,
+                        Pat::Rest(RestPat { span, arg, .. }) => VarDeclarator {
+                            span,
                             name: *arg,
                             init: Some(
                                 CallExpr {
@@ -261,8 +259,8 @@ impl AssignFolder {
                                         .make_member(quote_ident!("slice"))
                                         .as_callee(),
                                     args: vec![Number {
+                                        span,
                                         value: i as f64,
-                                        span: dot3_token,
                                         raw: None,
                                     }
                                     .as_arg()],
@@ -356,7 +354,7 @@ impl AssignFolder {
                     let prop_span = prop.span();
 
                     match prop {
-                        ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
+                        ObjectPatProp::KeyValue(KeyValuePatProp { key, value, .. }) => {
                             let computed = matches!(key, PropName::Computed(..));
 
                             let var_decl = VarDeclarator {
@@ -923,7 +921,7 @@ impl VisitMut for AssignFolder {
                     for prop in props {
                         let span = prop.span();
                         match prop {
-                            ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
+                            ObjectPatProp::KeyValue(KeyValuePatProp { key, value, .. }) => {
                                 let computed = matches!(key, PropName::Computed(..));
 
                                 let mut right = Box::new(make_ref_prop_expr(

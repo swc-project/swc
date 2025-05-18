@@ -446,8 +446,7 @@ impl Swcify for ObjectExprProp {
             ObjectExprProp::Method(m) => PropOrSpread::Prop(Box::new(Prop::Method(m.swcify(ctx)))),
             ObjectExprProp::Prop(p) => PropOrSpread::Prop(Box::new(Prop::KeyValue(p.swcify(ctx)))),
             ObjectExprProp::Spread(p) => PropOrSpread::Spread(SpreadElement {
-                // TODO: Use exact span
-                dot3_token: ctx.span(&p.base),
+                span: ctx.span(&p.base),
                 expr: p.argument.swcify(ctx),
             }),
         }
@@ -510,6 +509,7 @@ impl Swcify for ObjectProperty {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         KeyValueProp {
+            span: ctx.span(&self.base),
             key: self.key.swcify(ctx),
             value: match self.value {
                 ObjectPropVal::Pattern(pat) => match pat {
@@ -984,7 +984,7 @@ impl Swcify for JSXSpreadAttribute {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         SpreadElement {
-            dot3_token: ctx.span(&self.base),
+            span: ctx.span(&self.base),
             expr: self.argument.swcify(ctx),
         }
     }

@@ -402,11 +402,11 @@ impl Parser<'_> {
             // Parse property
             let property = if self.is(TokenType::DotDotDot) {
                 // Spread property
-                let dot3_span = self.current_span();
                 self.lexer.next_token()?; // Consume '...'
                 let expr = self.parse_expr()?;
+                let end_span = self.current_span();
                 PropOrSpread::Spread(SpreadElement {
-                    dot3_token: dot3_span,
+                    span: Span::new(start_span.lo, end_span.hi),
                     expr,
                 })
             } else {

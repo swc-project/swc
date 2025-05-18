@@ -133,7 +133,6 @@ fn object_rest_pat() {
                 optional: false,
                 props: vec![ObjectPatProp::Rest(RestPat {
                     span,
-                    dot3_token: span,
                     arg: Box::new(Pat::Ident(Ident::new_no_ctxt("a34".into(), span).into())),
                     type_ann: None,
                 })],
@@ -161,7 +160,7 @@ fn object_spread() {
                 props: vec![
                     PropOrSpread::Prop(Box::new(Ident::new_no_ctxt("a".into(), span).into())),
                     PropOrSpread::Spread(SpreadElement {
-                        dot3_token: span,
+                        span,
                         expr: Box::new(Expr::Ident(Ident::new_no_ctxt("bar".into(), span))),
                     }),
                     PropOrSpread::Prop(Box::new(Ident::new_no_ctxt("b".into(), span).into())),
@@ -246,7 +245,6 @@ fn arrow_fn_rest() {
             is_generator: false,
             params: vec![Pat::Rest(RestPat {
                 span,
-                dot3_token: span,
                 arg: Box::new(Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())),
                 type_ann: None
             })],

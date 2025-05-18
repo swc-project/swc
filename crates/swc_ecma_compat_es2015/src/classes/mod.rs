@@ -619,6 +619,7 @@ impl Classes {
         /// { key: "prop" }
         fn mk_key_prop(key: PropName) -> Box<Prop> {
             Box::new(Prop::KeyValue(KeyValueProp {
+                span: DUMMY_SP,
                 key: PropName::Ident(quote_ident!(Default::default(), key.span(), "key").into()),
                 value: match key {
                     PropName::Ident(i) => Lit::Str(quote_str!(i.span, i.sym)).into(),
@@ -676,6 +677,7 @@ impl Classes {
                                     let value = escape_keywords(value);
                                     props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                         KeyValueProp {
+                                            span: DUMMY_SP,
                                             key: PropName::Ident(quote_ident!($s)),
                                             value,
                                         },

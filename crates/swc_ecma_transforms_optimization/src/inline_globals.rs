@@ -1,6 +1,6 @@
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{sync::Lrc, Mark, SyntaxContext};
+use swc_common::{sync::Lrc, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParVisitMut, Parallel};
 use swc_ecma_utils::{parallel::cpu_count, NodeIgnoringSpan};
@@ -173,6 +173,7 @@ impl VisitMut for InlineGlobals {
             if let Some(mut value) = self.globals.get(&i.sym).cloned().map(Box::new) {
                 value.visit_mut_with(self);
                 *p = Prop::KeyValue(KeyValueProp {
+                    span: DUMMY_SP,
                     key: PropName::Ident(i.clone().into()),
                     value,
                 });

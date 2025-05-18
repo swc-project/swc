@@ -49,6 +49,7 @@ impl VisitMut for JsxSrc {
                         span: DUMMY_SP,
                         props: vec![
                             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                span: DUMMY_SP,
                                 key: PropName::Ident(quote_ident!("fileName")),
                                 value: Box::new(Expr::Lit(Lit::Str(Str {
                                     span: DUMMY_SP,
@@ -57,10 +58,12 @@ impl VisitMut for JsxSrc {
                                 }))),
                             }))),
                             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                span: DUMMY_SP,
                                 key: PropName::Ident(quote_ident!("lineNumber")),
                                 value: loc.line.into(),
                             }))),
                             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                span: DUMMY_SP,
                                 key: PropName::Ident(quote_ident!("columnNumber")),
                                 value: (loc.col.0 + 1).into(),
                             }))),

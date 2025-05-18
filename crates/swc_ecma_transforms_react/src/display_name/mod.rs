@@ -83,7 +83,7 @@ impl VisitMut for DisplayName {
     fn visit_mut_prop(&mut self, prop: &mut Prop) {
         prop.visit_mut_children_with(self);
 
-        if let Prop::KeyValue(KeyValueProp { key, value }) = prop {
+        if let Prop::KeyValue(KeyValueProp { key, value, .. }) = prop {
             value.visit_mut_with(&mut Folder {
                 name: Some(match key {
                     PropName::Ident(ref i) => Lit::Str(Str {
@@ -179,6 +179,7 @@ fn add_display_name(call: &mut CallExpr, name: Box<Expr>) {
     }
 
     props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+        span: DUMMY_SP,
         key: PropName::Ident("displayName".into()),
         value: name,
     }))));

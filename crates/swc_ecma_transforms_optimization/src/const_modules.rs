@@ -11,7 +11,7 @@ use swc_common::{
     errors::HANDLER,
     sync::Lrc,
     util::{move_map::MoveMap, take::Take},
-    FileName, SourceMap,
+    FileName, SourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::parse_file_as_expr;
@@ -209,6 +209,7 @@ impl VisitMut for ConstModules {
             Prop::Shorthand(id) => {
                 if let Some(value) = self.scope.imported.get(&id.sym) {
                     *n = Prop::KeyValue(KeyValueProp {
+                        span: DUMMY_SP,
                         key: id.take().into(),
                         value: Box::new((**value).clone()),
                     });

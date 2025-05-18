@@ -45,10 +45,8 @@ bridge_from!(Prop, Ident, IdentName);
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct KeyValueProp {
-    #[span(lo)]
+    pub span: Span,
     pub key: PropName,
-
-    #[span(hi)]
     pub value: Box<Expr>,
 }
 

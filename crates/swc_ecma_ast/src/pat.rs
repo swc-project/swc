@@ -139,9 +139,6 @@ pub struct AssignPat {
 pub struct RestPat {
     pub span: Span,
 
-    #[cfg_attr(feature = "serde-impl", serde(rename = "rest"))]
-    pub dot3_token: Span,
-
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Box<Pat>,
 
@@ -170,10 +167,8 @@ pub enum ObjectPatProp {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct KeyValuePatProp {
-    #[span(lo)]
+    pub span: Span,
     pub key: PropName,
-
-    #[span(hi)]
     pub value: Box<Pat>,
 }
 /// `{key}` or `{key = value}`

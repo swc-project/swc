@@ -1486,10 +1486,9 @@ fn try_parse_ts_tuple_element_name<'a, P: Parser<'a>>(p: &mut P) -> Option<Pat> 
         }
         expect!(p, &P::Token::COLON);
 
-        Ok(Some(if let Some(dot3_token) = rest {
+        Ok(Some(if rest.is_some() {
             RestPat {
                 span: p.span(start),
-                dot3_token,
                 arg: ident.into(),
                 type_ann: None,
             }

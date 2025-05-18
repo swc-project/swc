@@ -1,7 +1,7 @@
 #![allow(clippy::borrowed_box)]
 
 use rustc_hash::FxHashMap;
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
@@ -103,6 +103,7 @@ impl VisitMut for ConstPropagation<'_> {
         if let Prop::Shorthand(i) = p {
             if let Some(expr) = self.scope.find_var(&i.to_id()) {
                 *p = Prop::KeyValue(KeyValueProp {
+                    span: DUMMY_SP,
                     key: PropName::Ident(i.take().into()),
                     value: expr.clone(),
                 });

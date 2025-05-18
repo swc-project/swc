@@ -72,7 +72,6 @@ mod tests {
                         optional: false,
                         props: vec![ObjectPatProp::Rest(RestPat {
                             span,
-                            dot3_token: span,
                             arg: Box::new(Pat::Ident(
                                 Ident::new_no_ctxt("a34".into(), span).into()
                             )),

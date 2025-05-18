@@ -330,11 +330,13 @@ fn get_value_desc(value: Box<Expr>) -> ObjectLit {
         props: vec![
             // writeable: true
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                span: DUMMY_SP,
                 key: PropName::Ident(quote_ident!("writable")),
                 value: true.into(),
             }))),
             // value: value,
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                span: DUMMY_SP,
                 key: PropName::Ident(quote_ident!("value")),
                 value,
             }))),
@@ -347,12 +349,14 @@ fn get_accessor_desc(getter: Option<Ident>, setter: Option<Ident>) -> ObjectLit 
         span: DUMMY_SP,
         props: vec![
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                span: DUMMY_SP,
                 key: PropName::Ident(quote_ident!("get")),
                 value: getter
                     .map(|id| Box::new(id.into()))
                     .unwrap_or_else(|| Expr::undefined(DUMMY_SP)),
             }))),
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                span: DUMMY_SP,
                 key: PropName::Ident(quote_ident!("set")),
                 value: setter
                     .map(|id| Box::new(id.into()))
@@ -368,6 +372,7 @@ fn get_method_desc(value: Box<Expr>) -> ObjectLit {
         props: vec![
             // value: value,
             PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                span: DUMMY_SP,
                 key: PropName::Ident(quote_ident!("value")),
                 value,
             }))),

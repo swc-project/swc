@@ -360,6 +360,7 @@ impl Decorators {
                         span: DUMMY_SP,
                         props: iter::once(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                             KeyValueProp {
+                                span: DUMMY_SP,
                                 key: PropName::Ident(quote_ident!("kind")),
                                 value: Box::new(Expr::Lit(Lit::Str(quote_str!(
                                     match method.kind {
@@ -372,6 +373,7 @@ impl Decorators {
                         ))))
                         .chain(if method.is_static {
                             Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                span: DUMMY_SP,
                                 key: PropName::Ident(quote_ident!("static")),
                                 value: true.into(),
                             }))))
@@ -384,6 +386,7 @@ impl Decorators {
                                 None
                             } else {
                                 Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                    span: DUMMY_SP,
                                     key: PropName::Ident(quote_ident!("decorators")),
                                     value: Box::new(Expr::Array(ArrayLit {
                                         span: DUMMY_SP,
@@ -400,12 +403,14 @@ impl Decorators {
                         })
                         .chain(iter::once(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                             KeyValueProp {
+                                span: DUMMY_SP,
                                 key: PropName::Ident(quote_ident!("key")),
                                 value: $key_prop_value,
                             },
                         )))))
                         .chain(iter::once(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                             KeyValueProp {
+                                span: DUMMY_SP,
                                 key: PropName::Ident(quote_ident!("value")),
                                 value: Box::new(
                                     FnExpr {
@@ -475,6 +480,7 @@ impl Decorators {
                                 span: prop_span,
                                 props: iter::once(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
+                                        span: DUMMY_SP,
                                         key: PropName::Ident(quote_ident!("kind")),
                                         value: Lit::Str(quote_str!("field")).into(),
                                     },
@@ -482,6 +488,7 @@ impl Decorators {
                                 .chain(if prop.is_static {
                                     Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                         KeyValueProp {
+                                            span: DUMMY_SP,
                                             key: PropName::Ident(quote_ident!("static")),
                                             value: true.into(),
                                         },
@@ -496,6 +503,7 @@ impl Decorators {
                                     } else {
                                         Some(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                             KeyValueProp {
+                                                span: DUMMY_SP,
                                                 key: PropName::Ident(quote_ident!("decorators")),
                                                 value: ArrayLit {
                                                     span: DUMMY_SP,
@@ -513,6 +521,7 @@ impl Decorators {
                                 })
                                 .chain(iter::once(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
+                                        span: DUMMY_SP,
                                         key: PropName::Ident(quote_ident!("key")),
                                         value: key_prop_value,
                                     },
@@ -540,6 +549,7 @@ impl Decorators {
                                         .into(),
                                     }),
                                     _ => Prop::KeyValue(KeyValueProp {
+                                        span: DUMMY_SP,
                                         key: PropName::Ident(quote_ident!("value")),
                                         value: Expr::undefined(DUMMY_SP),
                                     }),
@@ -606,12 +616,14 @@ impl Decorators {
                                         props: vec![
                                             PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                                 KeyValueProp {
+                                                    span: DUMMY_SP,
                                                     key: PropName::Ident(quote_ident!("F")),
                                                     value: Box::new(Expr::Ident(ident)),
                                                 },
                                             ))),
                                             PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                                 KeyValueProp {
+                                                    span: DUMMY_SP,
                                                     key: PropName::Ident(quote_ident!("d")),
                                                     value: Box::new(Expr::Array(ArrayLit {
                                                         span: DUMMY_SP,

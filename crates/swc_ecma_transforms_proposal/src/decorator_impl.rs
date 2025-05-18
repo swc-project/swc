@@ -174,6 +174,7 @@ impl DecoratorPass {
             None
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
+                span: DUMMY_SP,
                 key: PropName::Ident("e".into()),
                 value: ArrayPat {
                     span: DUMMY_SP,
@@ -189,6 +190,7 @@ impl DecoratorPass {
             None
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
+                span: DUMMY_SP,
                 key: PropName::Ident("c".into()),
                 value: ArrayPat {
                     span: DUMMY_SP,

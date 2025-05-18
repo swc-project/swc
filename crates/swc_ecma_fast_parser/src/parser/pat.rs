@@ -84,7 +84,6 @@ impl Parser<'_> {
                 let span = Span::new(dot3_span.lo, arg_span.hi);
                 elements.push(Some(Pat::Rest(RestPat {
                     span,
-                    dot3_token: dot3_span,
                     arg: Box::new(arg),
                     type_ann: None,
                 })));
@@ -146,7 +145,6 @@ impl Parser<'_> {
                 let span = Span::new(dot3_span.lo, arg_span.hi);
                 properties.push(ObjectPatProp::Rest(RestPat {
                     span,
-                    dot3_token: dot3_span,
                     arg: Box::new(arg),
                     type_ann: None,
                 }));
@@ -207,7 +205,9 @@ impl Parser<'_> {
                     sym: key.sym,
                 };
 
+                let end_span = self.current_span();
                 Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+                    span: Span::new(start_span.lo, end_span.hi),
                     key: PropName::Ident(ident_name),
                     value: Box::new(value),
                 }))
@@ -257,7 +257,9 @@ impl Parser<'_> {
                 expr: key_expr,
             };
 
+            let end_span = self.current_span();
             Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+                span: Span::new(start_span.lo, end_span.hi),
                 key: PropName::Computed(computed_key),
                 value: Box::new(value),
             }))
@@ -277,7 +279,9 @@ impl Parser<'_> {
             self.expect(TokenType::Colon)?;
             let value = self.parse_pat()?;
 
+            let end_span = self.current_span();
             Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+                span: Span::new(start_span.lo, end_span.hi),
                 key,
                 value: Box::new(value),
             }))

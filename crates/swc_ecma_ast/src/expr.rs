@@ -583,6 +583,7 @@ impl From<ImportWith> for ObjectLit {
                 .into_iter()
                 .map(|item| {
                     PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                        span: Span::new(item.key.span_lo(), item.value.span_hi()),
                         key: PropName::Ident(item.key),
                         value: Lit::Str(item.value).into(),
                     })))
@@ -647,7 +648,7 @@ bridge_from!(PropOrSpread, Box<Prop>, Prop);
 impl Take for PropOrSpread {
     fn dummy() -> Self {
         PropOrSpread::Spread(SpreadElement {
-            dot3_token: DUMMY_SP,
+            span: DUMMY_SP,
             expr: Take::dummy(),
         })
     }
@@ -658,19 +659,15 @@ impl Take for PropOrSpread {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct SpreadElement {
-    #[cfg_attr(feature = "serde-impl", serde(rename = "spread"))]
-    #[span(lo)]
-    pub dot3_token: Span,
-
+    pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "arguments"))]
-    #[span(hi)]
     pub expr: Box<Expr>,
 }
 
 impl Take for SpreadElement {
     fn dummy() -> Self {
         SpreadElement {
-            dot3_token: DUMMY_SP,
+            span: DUMMY_SP,
             expr: Take::dummy(),
         }
     }

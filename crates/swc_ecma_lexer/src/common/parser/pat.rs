@@ -204,6 +204,7 @@ fn reparse_expr_as_pat_inner<'a>(
                                 })),
                                 Prop::KeyValue(kv_prop) => {
                                     Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+                                        span,
                                         key: kv_prop.key,
                                         value: Box::new(reparse_expr_as_pat(
                                             p,
@@ -222,7 +223,7 @@ fn reparse_expr_as_pat_inner<'a>(
                                 _ => syntax_error!(p, prop.span(), SyntaxError::InvalidPat),
                             },
 
-                            PropOrSpread::Spread(SpreadElement { dot3_token, expr }) => {
+                            PropOrSpread::Spread(SpreadElement { expr, .. }) => {
                                 if idx != len - 1 {
                                     p.emit_err(span, SyntaxError::NonLastRestParam)
                                 } else if let Some(trailing_comma) =
@@ -247,7 +248,6 @@ fn reparse_expr_as_pat_inner<'a>(
                                 };
                                 Ok(ObjectPatProp::Rest(RestPat {
                                     span,
-                                    dot3_token,
                                     arg: Box::new(pat),
                                     type_ann: None,
                                 }))
@@ -303,7 +303,7 @@ fn reparse_expr_as_pat_inner<'a>(
                 let last = match expr {
                     // Rest
                     Some(ExprOrSpread {
-                        spread: Some(dot3_token),
+                        spread: Some(_),
                         expr,
                     }) => {
                         // TODO: is BindingPat correct?
@@ -318,7 +318,6 @@ fn reparse_expr_as_pat_inner<'a>(
                             .map(|pat| {
                                 RestPat {
                                     span: expr_span,
-                                    dot3_token,
                                     arg: Box::new(pat),
                                     type_ann: None,
                                 }
@@ -430,13 +429,10 @@ pub fn parse_array_binding_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
         let mut is_rest = false;
         if p.input_mut().eat(&P::Token::DOTDOTDOT) {
             is_rest = true;
-            let dot3_token = p.span(start);
-
             let pat = parse_binding_pat_or_ident(p, false)?;
             rest_span = p.span(start);
             let pat = RestPat {
                 span: rest_span,
-                dot3_token,
                 arg: Box::new(pat),
                 type_ann: None,
             }
@@ -633,8 +629,6 @@ pub fn parse_constructor_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Par
         let mut is_rest = false;
         if p.input_mut().eat(&P::Token::DOTDOTDOT) {
             is_rest = true;
-            let dot3_token = p.span(pat_start);
-
             let pat = parse_binding_pat_or_ident(p, false)?;
             let type_ann = if p.input().syntax().typescript() && p.input_mut().is(&P::Token::COLON)
             {
@@ -647,7 +641,6 @@ pub fn parse_constructor_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Par
             rest_span = p.span(pat_start);
             let pat = RestPat {
                 span: rest_span,
-                dot3_token,
                 arg: Box::new(pat),
                 type_ann,
             }
@@ -686,8 +679,6 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
         let pat_start = p.cur_pos();
 
         let pat = if p.input_mut().eat(&P::Token::DOTDOTDOT) {
-            let dot3_token = p.span(pat_start);
-
             let mut pat = parse_binding_pat_or_ident(p, false)?;
 
             if p.input_mut().eat(&P::Token::EQUAL) {
@@ -713,7 +704,6 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
             rest_span = p.span(pat_start);
             let pat = RestPat {
                 span: rest_span,
-                dot3_token,
                 arg: Box::new(pat),
                 type_ann,
             }
@@ -809,7 +799,7 @@ pub fn parse_paren_items_as_params<'a, P: Parser<'a>>(
     let last = match expr {
         // Rest
         AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
-            spread: Some(dot3_token),
+            spread: Some(_),
             expr,
         }) => {
             if let Expr::Assign(_) = *expr {
@@ -822,7 +812,6 @@ pub fn parse_paren_items_as_params<'a, P: Parser<'a>>(
             reparse_expr_as_pat(p, pat_ty, expr).map(|pat| {
                 RestPat {
                     span: expr_span,
-                    dot3_token,
                     arg: Box::new(pat),
                     type_ann: None,
                 }

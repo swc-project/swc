@@ -1,4 +1,4 @@
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -65,6 +65,7 @@ impl VisitMut for Shorthand {
                 let value = ident.clone().into();
 
                 *prop = Prop::KeyValue(KeyValueProp {
+                    span: DUMMY_SP,
                     key: if ident.sym == "__proto__" {
                         PropName::Computed(ComputedPropName {
                             span: ident.span,
@@ -95,6 +96,7 @@ impl VisitMut for Shorthand {
                     key => key,
                 };
                 *prop = Prop::KeyValue(KeyValueProp {
+                    span: DUMMY_SP,
                     key,
                     value: FnExpr {
                         ident: None,

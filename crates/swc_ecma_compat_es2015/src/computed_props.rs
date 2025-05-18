@@ -142,7 +142,7 @@ impl VisitMut for ComputedProps {
                             ),
                             ident.into(),
                         ),
-                        Prop::KeyValue(KeyValueProp { key, value }) => {
+                        Prop::KeyValue(KeyValueProp { key, value, .. }) => {
                             (prop_name_to_expr(key, self.c.loose), *value)
                         }
                         Prop::Assign(..) => {

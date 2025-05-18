@@ -1,6 +1,6 @@
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
-use swc_common::Spanned;
+use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::quote_str;
@@ -56,6 +56,7 @@ impl VisitMut for PropFolder {
                     || !self.setter_props.insert(ident.sym.clone())
                 {
                     *prop = Prop::KeyValue(KeyValueProp {
+                        span: DUMMY_SP,
                         key: PropName::Computed(ComputedPropName {
                             span: ident.span,
                             expr: quote_str!(ident.sym.clone()).into(),

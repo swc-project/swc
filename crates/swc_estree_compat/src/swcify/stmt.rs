@@ -450,6 +450,7 @@ impl Swcify for ImportAttribute {
 
     fn swcify(self, ctx: &Context) -> Self::Output {
         KeyValueProp {
+            span: ctx.span(&self.base),
             key: self.key.swcify(ctx),
             value: Lit::Str(self.value.swcify(ctx)).into(),
         }

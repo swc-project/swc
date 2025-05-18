@@ -721,9 +721,7 @@ impl ObjectRest {
             .into_iter()
             .map(|prop| match prop {
                 ObjectPatProp::Rest(n) => {
-                    let RestPat {
-                        arg, dot3_token, ..
-                    } = n;
+                    let RestPat { arg, span, .. } = n;
 
                     let pat = self.fold_rest(
                         index,
@@ -734,12 +732,12 @@ impl ObjectRest {
                         true,
                     );
                     ObjectPatProp::Rest(RestPat {
-                        dot3_token,
+                        span,
                         arg: Box::new(pat),
                         ..n
                     })
                 }
-                ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
+                ObjectPatProp::KeyValue(KeyValuePatProp { span, key, value }) => {
                     let (key, prop) = match key {
                         PropName::Ident(ref ident) => {
                             let ident = ident.clone();
@@ -825,7 +823,7 @@ impl ObjectRest {
                             true,
                         ),
                     );
-                    ObjectPatProp::KeyValue(KeyValuePatProp { key, value })
+                    ObjectPatProp::KeyValue(KeyValuePatProp { span, key, value })
                 }
                 _ => prop,
             })

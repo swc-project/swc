@@ -8941,7 +8941,10 @@ impl<V: ?Sized + Visit> VisitWith<V> for KeyValuePatProp {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            KeyValuePatProp { key, value } => {
+            KeyValuePatProp { span, key, value } => {
+                {
+                    <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
                 {
                     <PropName as VisitWith<V>>::visit_with(key, visitor)
                 };
@@ -8960,7 +8963,10 @@ impl<V: ?Sized + Visit> VisitWith<V> for KeyValueProp {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            KeyValueProp { key, value } => {
+            KeyValueProp { span, key, value } => {
+                {
+                    <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
+                };
                 {
                     <PropName as VisitWith<V>>::visit_with(key, visitor)
                 };
@@ -9763,15 +9769,11 @@ impl<V: ?Sized + Visit> VisitWith<V> for RestPat {
         match self {
             RestPat {
                 span,
-                dot3_token,
                 arg,
                 type_ann,
             } => {
                 {
                     <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
-                };
-                {
-                    <swc_common::Span as VisitWith<V>>::visit_with(dot3_token, visitor)
                 };
                 {
                     <Box<Pat> as VisitWith<V>>::visit_with(arg, visitor)
@@ -9920,9 +9922,9 @@ impl<V: ?Sized + Visit> VisitWith<V> for SpreadElement {
 
     fn visit_children_with(&self, visitor: &mut V) {
         match self {
-            SpreadElement { dot3_token, expr } => {
+            SpreadElement { span, expr } => {
                 {
-                    <swc_common::Span as VisitWith<V>>::visit_with(dot3_token, visitor)
+                    <swc_common::Span as VisitWith<V>>::visit_with(span, visitor)
                 };
                 {
                     <Box<Expr> as VisitWith<V>>::visit_with(expr, visitor)
@@ -27885,7 +27887,18 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyValuePatProp {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            KeyValuePatProp { key, value } => {
+            KeyValuePatProp { span, key, value } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::KeyValuePatProp(
+                        self,
+                        self::fields::KeyValuePatPropField::Span,
+                    ));
+                    <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::KeyValuePatProp(
                         self,
@@ -27930,7 +27943,18 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for KeyValueProp {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            KeyValueProp { key, value } => {
+            KeyValueProp { span, key, value } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::KeyValueProp(
+                        self,
+                        self::fields::KeyValuePropField::Span,
+                    ));
+                    <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::KeyValueProp(
                         self,
@@ -29893,7 +29917,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for RestPat {
         match self {
             RestPat {
                 span,
-                dot3_token,
                 arg,
                 type_ann,
             } => {
@@ -29904,17 +29927,6 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for RestPat {
                     ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
                         span,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::RestPat(
-                        self,
-                        self::fields::RestPatField::Dot3Token,
-                    ));
-                    <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
-                        dot3_token,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -30303,14 +30315,14 @@ impl<V: ?Sized + VisitAstPath> VisitWithAstPath<V> for SpreadElement {
         __ast_path: &mut AstNodePath<'r>,
     ) {
         match self {
-            SpreadElement { dot3_token, expr } => {
+            SpreadElement { span, expr } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentNodeRef::SpreadElement(
                         self,
-                        self::fields::SpreadElementField::Dot3Token,
+                        self::fields::SpreadElementField::Span,
                     ));
                     <swc_common::Span as VisitWithAstPath<V>>::visit_with_ast_path(
-                        dot3_token,
+                        span,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -42092,7 +42104,10 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for KeyValuePatProp {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            KeyValuePatProp { key, value } => {
+            KeyValuePatProp { span, key, value } => {
+                {
+                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
                 {
                     <PropName as VisitMutWith<V>>::visit_mut_with(key, visitor)
                 };
@@ -42111,7 +42126,10 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for KeyValueProp {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            KeyValueProp { key, value } => {
+            KeyValueProp { span, key, value } => {
+                {
+                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
+                };
                 {
                     <PropName as VisitMutWith<V>>::visit_mut_with(key, visitor)
                 };
@@ -42914,15 +42932,11 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for RestPat {
         match self {
             RestPat {
                 span,
-                dot3_token,
                 arg,
                 type_ann,
             } => {
                 {
                     <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
-                };
-                {
-                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(dot3_token, visitor)
                 };
                 {
                     <Box<Pat> as VisitMutWith<V>>::visit_mut_with(arg, visitor)
@@ -43071,9 +43085,9 @@ impl<V: ?Sized + VisitMut> VisitMutWith<V> for SpreadElement {
 
     fn visit_mut_children_with(&mut self, visitor: &mut V) {
         match self {
-            SpreadElement { dot3_token, expr } => {
+            SpreadElement { span, expr } => {
                 {
-                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(dot3_token, visitor)
+                    <swc_common::Span as VisitMutWith<V>>::visit_mut_with(span, visitor)
                 };
                 {
                     <Box<Expr> as VisitMutWith<V>>::visit_mut_with(expr, visitor)
@@ -57817,7 +57831,17 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for KeyValuePatProp {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         match self {
-            KeyValuePatProp { key, value } => {
+            KeyValuePatProp { span, key, value } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::KeyValuePatProp(
+                        self::fields::KeyValuePatPropField::Span,
+                    ));
+                    <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::KeyValuePatProp(
                         self::fields::KeyValuePatPropField::Key,
@@ -57852,7 +57876,17 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for KeyValueProp {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         match self {
-            KeyValueProp { key, value } => {
+            KeyValueProp { span, key, value } => {
+                {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::KeyValueProp(
+                        self::fields::KeyValuePropField::Span,
+                    ));
+                    <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::KeyValueProp(
                         self::fields::KeyValuePropField::Key,
@@ -59416,7 +59450,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for RestPat {
         match self {
             RestPat {
                 span,
-                dot3_token,
                 arg,
                 type_ann,
             } => {
@@ -59425,16 +59458,6 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for RestPat {
                         .with_guard(AstParentKind::RestPat(self::fields::RestPatField::Span));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
                         span,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::RestPat(
-                        self::fields::RestPatField::Dot3Token,
-                    ));
-                    <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        dot3_token,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -59747,13 +59770,13 @@ impl<V: ?Sized + VisitMutAstPath> VisitMutWithAstPath<V> for SpreadElement {
 
     fn visit_mut_children_with_ast_path(&mut self, visitor: &mut V, __ast_path: &mut AstKindPath) {
         match self {
-            SpreadElement { dot3_token, expr } => {
+            SpreadElement { span, expr } => {
                 {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::SpreadElement(
-                        self::fields::SpreadElementField::Dot3Token,
+                        self::fields::SpreadElementField::Span,
                     ));
                     <swc_common::Span as VisitMutWithAstPath<V>>::visit_mut_with_ast_path(
-                        dot3_token,
+                        span,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -69686,10 +69709,18 @@ impl<V: ?Sized + Fold> FoldWith<V> for Decl {
                 let _field_0 = <Box<UsingDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
                 Decl::Using { 0: _field_0 }
             }
-            Decl::TsInterface { 0: _field_0 } => Decl::TsInterface { 0: _field_0 },
-            Decl::TsTypeAlias { 0: _field_0 } => Decl::TsTypeAlias { 0: _field_0 },
-            Decl::TsEnum { 0: _field_0 } => Decl::TsEnum { 0: _field_0 },
-            Decl::TsModule { 0: _field_0 } => Decl::TsModule { 0: _field_0 },
+            Decl::TsInterface { 0: _field_0 } => {
+                Decl::TsInterface { 0: _field_0 }
+            }
+            Decl::TsTypeAlias { 0: _field_0 } => {
+                Decl::TsTypeAlias { 0: _field_0 }
+            }
+            Decl::TsEnum { 0: _field_0 } => {
+                Decl::TsEnum { 0: _field_0 }
+            }
+            Decl::TsModule { 0: _field_0 } => {
+                Decl::TsModule { 0: _field_0 }
+            }
         }
     }
 }
@@ -70046,12 +70077,24 @@ impl<V: ?Sized + Fold> FoldWith<V> for Expr {
                 let _field_0 = <JSXFragment as FoldWith<V>>::fold_with(_field_0, visitor);
                 Expr::JSXFragment { 0: _field_0 }
             }
-            Expr::TsTypeAssertion { 0: _field_0 } => Expr::TsTypeAssertion { 0: _field_0 },
-            Expr::TsConstAssertion { 0: _field_0 } => Expr::TsConstAssertion { 0: _field_0 },
-            Expr::TsNonNull { 0: _field_0 } => Expr::TsNonNull { 0: _field_0 },
-            Expr::TsAs { 0: _field_0 } => Expr::TsAs { 0: _field_0 },
-            Expr::TsInstantiation { 0: _field_0 } => Expr::TsInstantiation { 0: _field_0 },
-            Expr::TsSatisfies { 0: _field_0 } => Expr::TsSatisfies { 0: _field_0 },
+            Expr::TsTypeAssertion { 0: _field_0 } => {
+                Expr::TsTypeAssertion { 0: _field_0 }
+            }
+            Expr::TsConstAssertion { 0: _field_0 } => {
+                Expr::TsConstAssertion { 0: _field_0 }
+            }
+            Expr::TsNonNull { 0: _field_0 } => {
+                Expr::TsNonNull { 0: _field_0 }
+            }
+            Expr::TsAs { 0: _field_0 } => {
+                Expr::TsAs { 0: _field_0 }
+            }
+            Expr::TsInstantiation { 0: _field_0 } => {
+                Expr::TsInstantiation { 0: _field_0 }
+            }
+            Expr::TsSatisfies { 0: _field_0 } => {
+                Expr::TsSatisfies { 0: _field_0 }
+            }
             Expr::PrivateName { 0: _field_0 } => {
                 let _field_0 = <PrivateName as FoldWith<V>>::fold_with(_field_0, visitor);
                 Expr::PrivateName { 0: _field_0 }
@@ -71018,10 +71061,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for KeyValuePatProp {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            KeyValuePatProp { key, value } => {
+            KeyValuePatProp { span, key, value } => {
+                let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let key = { <PropName as FoldWith<V>>::fold_with(key, visitor) };
                 let value = { <Box<Pat> as FoldWith<V>>::fold_with(value, visitor) };
-                KeyValuePatProp { key, value }
+                KeyValuePatProp { span, key, value }
             }
         }
     }
@@ -71034,10 +71078,11 @@ impl<V: ?Sized + Fold> FoldWith<V> for KeyValueProp {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            KeyValueProp { key, value } => {
+            KeyValueProp { span, key, value } => {
+                let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let key = { <PropName as FoldWith<V>>::fold_with(key, visitor) };
                 let value = { <Box<Expr> as FoldWith<V>>::fold_with(value, visitor) };
-                KeyValueProp { key, value }
+                KeyValueProp { span, key, value }
             }
         }
     }
@@ -71865,17 +71910,13 @@ impl<V: ?Sized + Fold> FoldWith<V> for RestPat {
         match self {
             RestPat {
                 span,
-                dot3_token,
                 arg,
                 type_ann,
             } => {
                 let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
-                let dot3_token =
-                    { <swc_common::Span as FoldWith<V>>::fold_with(dot3_token, visitor) };
                 let arg = { <Box<Pat> as FoldWith<V>>::fold_with(arg, visitor) };
                 RestPat {
                     span,
-                    dot3_token,
                     arg,
                     type_ann,
                 }
@@ -72000,7 +72041,9 @@ impl<V: ?Sized + Fold> FoldWith<V> for SimpleAssignTarget {
                 let _field_0 = <OptChainExpr as FoldWith<V>>::fold_with(_field_0, visitor);
                 SimpleAssignTarget::OptChain { 0: _field_0 }
             }
-            SimpleAssignTarget::TsAs { 0: _field_0 } => SimpleAssignTarget::TsAs { 0: _field_0 },
+            SimpleAssignTarget::TsAs { 0: _field_0 } => {
+                SimpleAssignTarget::TsAs { 0: _field_0 }
+            }
             SimpleAssignTarget::TsSatisfies { 0: _field_0 } => {
                 SimpleAssignTarget::TsSatisfies { 0: _field_0 }
             }
@@ -72028,11 +72071,10 @@ impl<V: ?Sized + Fold> FoldWith<V> for SpreadElement {
 
     fn fold_children_with(self, visitor: &mut V) -> Self {
         match self {
-            SpreadElement { dot3_token, expr } => {
-                let dot3_token =
-                    { <swc_common::Span as FoldWith<V>>::fold_with(dot3_token, visitor) };
+            SpreadElement { span, expr } => {
+                let span = { <swc_common::Span as FoldWith<V>>::fold_with(span, visitor) };
                 let expr = { <Box<Expr> as FoldWith<V>>::fold_with(expr, visitor) };
-                SpreadElement { dot3_token, expr }
+                SpreadElement { span, expr }
             }
         }
     }
@@ -87637,7 +87679,17 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for KeyValuePatProp {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         match self {
-            KeyValuePatProp { key, value } => {
+            KeyValuePatProp { span, key, value } => {
+                let span = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::KeyValuePatProp(
+                        self::fields::KeyValuePatPropField::Span,
+                    ));
+                    <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
                 let key = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::KeyValuePatProp(
                         self::fields::KeyValuePatPropField::Key,
@@ -87658,7 +87710,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for KeyValuePatProp {
                         &mut *__ast_path,
                     )
                 };
-                KeyValuePatProp { key, value }
+                KeyValuePatProp { span, key, value }
             }
         }
     }
@@ -87673,7 +87725,17 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for KeyValueProp {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         match self {
-            KeyValueProp { key, value } => {
+            KeyValueProp { span, key, value } => {
+                let span = {
+                    let mut __ast_path = __ast_path.with_guard(AstParentKind::KeyValueProp(
+                        self::fields::KeyValuePropField::Span,
+                    ));
+                    <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
+                        span,
+                        visitor,
+                        &mut *__ast_path,
+                    )
+                };
                 let key = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::KeyValueProp(
                         self::fields::KeyValuePropField::Key,
@@ -87694,7 +87756,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for KeyValueProp {
                         &mut *__ast_path,
                     )
                 };
-                KeyValueProp { key, value }
+                KeyValueProp { span, key, value }
             }
         }
     }
@@ -89363,7 +89425,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for RestPat {
         match self {
             RestPat {
                 span,
-                dot3_token,
                 arg,
                 type_ann,
             } => {
@@ -89372,16 +89433,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for RestPat {
                         .with_guard(AstParentKind::RestPat(self::fields::RestPatField::Span));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
                         span,
-                        visitor,
-                        &mut *__ast_path,
-                    )
-                };
-                let dot3_token = {
-                    let mut __ast_path = __ast_path.with_guard(AstParentKind::RestPat(
-                        self::fields::RestPatField::Dot3Token,
-                    ));
-                    <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
-                        dot3_token,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -89397,7 +89448,6 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for RestPat {
                 };
                 RestPat {
                     span,
-                    dot3_token,
                     arg,
                     type_ann,
                 }
@@ -89725,13 +89775,13 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SpreadElement {
 
     fn fold_children_with_ast_path(self, visitor: &mut V, __ast_path: &mut AstKindPath) -> Self {
         match self {
-            SpreadElement { dot3_token, expr } => {
-                let dot3_token = {
+            SpreadElement { span, expr } => {
+                let span = {
                     let mut __ast_path = __ast_path.with_guard(AstParentKind::SpreadElement(
-                        self::fields::SpreadElementField::Dot3Token,
+                        self::fields::SpreadElementField::Span,
                     ));
                     <swc_common::Span as FoldWithAstPath<V>>::fold_with_ast_path(
-                        dot3_token,
+                        span,
                         visitor,
                         &mut *__ast_path,
                     )
@@ -89746,7 +89796,7 @@ impl<V: ?Sized + FoldAstPath> FoldWithAstPath<V> for SpreadElement {
                         &mut *__ast_path,
                     )
                 };
-                SpreadElement { dot3_token, expr }
+                SpreadElement { span, expr }
             }
         }
     }
@@ -93703,6 +93753,8 @@ pub mod fields {
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum KeyValuePatPropField {
+        #[doc = "Represents [`KeyValuePatProp::span`]"]
+        Span,
         #[doc = "Represents [`KeyValuePatProp::key`]"]
         Key,
         #[doc = "Represents [`KeyValuePatProp::value`]"]
@@ -93718,6 +93770,8 @@ pub mod fields {
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum KeyValuePropField {
+        #[doc = "Represents [`KeyValueProp::span`]"]
+        Span,
         #[doc = "Represents [`KeyValueProp::key`]"]
         Key,
         #[doc = "Represents [`KeyValueProp::value`]"]
@@ -94384,8 +94438,6 @@ pub mod fields {
     pub enum RestPatField {
         #[doc = "Represents [`RestPat::span`]"]
         Span,
-        #[doc = "Represents [`RestPat::dot3_token`]"]
-        Dot3Token,
         #[doc = "Represents [`RestPat::arg`]"]
         Arg,
         #[doc = "Represents [`RestPat::type_ann`]"]
@@ -94509,8 +94561,8 @@ pub mod fields {
     #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
     #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
     pub enum SpreadElementField {
-        #[doc = "Represents [`SpreadElement::dot3_token`]"]
-        Dot3Token,
+        #[doc = "Represents [`SpreadElement::span`]"]
+        Span,
         #[doc = "Represents [`SpreadElement::expr`]"]
         Expr,
     }

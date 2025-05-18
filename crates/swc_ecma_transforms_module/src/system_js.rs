@@ -214,6 +214,7 @@ impl SystemJs {
                 let mut props = Vec::new();
                 for (sym, value) in export_names.drain(..).zip(export_values.drain(..)) {
                     props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                        span: DUMMY_SP,
                         key: match Ident::verify_symbol(&sym) {
                             Ok(..) => PropName::Ident(quote_ident!(sym)),
                             Err(..) => PropName::Str(quote_str!(sym)),
@@ -601,10 +602,12 @@ impl Fold for SystemJs {
 
         match prop {
             Prop::Shorthand(shorthand) => Prop::KeyValue(KeyValueProp {
+                span: DUMMY_SP,
                 key: PropName::Ident(shorthand.clone().into()),
                 value: Box::new(self.fold_module_name_ident(shorthand)),
             }),
             Prop::KeyValue(key_value_prop) => Prop::KeyValue(KeyValueProp {
+                span: DUMMY_SP,
                 key: key_value_prop.key,
                 value: match *key_value_prop.value {
                     Expr::Ident(ident) => Box::new(self.fold_module_name_ident(ident)),
@@ -1035,10 +1038,12 @@ impl Fold for SystemJs {
                     span: DUMMY_SP,
                     props: vec![
                         PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            span: DUMMY_SP,
                             key: quote_ident!("setters").into(),
                             value: Box::new(Expr::Array(setters)),
                         }))),
                         PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            span: DUMMY_SP,
                             key: quote_ident!("execute").into(),
                             value: Box::new(Expr::Fn(FnExpr {
                                 ident: None,

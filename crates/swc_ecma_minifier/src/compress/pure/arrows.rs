@@ -98,6 +98,7 @@ impl Pure<'_> {
                         .unwrap();
 
                     *p = Prop::KeyValue(KeyValueProp {
+                        span: DUMMY_SP,
                         key: m.key.take(),
                         value: ArrowExpr {
                             span: m_span,

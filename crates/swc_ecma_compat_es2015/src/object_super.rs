@@ -143,7 +143,7 @@ impl VisitMut for SuperReplacer {
                     Prop::Method(MethodProp { key, .. })
                     | Prop::Getter(GetterProp { key, .. })
                     | Prop::Setter(SetterProp { key, .. }) => key.visit_mut_with(self),
-                    Prop::KeyValue(KeyValueProp { key, value }) => {
+                    Prop::KeyValue(KeyValueProp { key, value, .. }) => {
                         key.visit_mut_with(self);
                         if !(value.is_fn_expr() || value.is_class()) {
                             value.visit_mut_with(self)

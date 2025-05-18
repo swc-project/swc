@@ -1985,6 +1985,7 @@ impl Optimizer<'_> {
                                     let mut new_b = shorthand.clone().into();
                                     if self.merge_sequential_expr(a, &mut new_b)? {
                                         *prop = Box::new(Prop::KeyValue(KeyValueProp {
+                                            span: DUMMY_SP,
                                             key: Ident::new_no_ctxt(
                                                 shorthand.sym.clone(),
                                                 shorthand.span,

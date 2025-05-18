@@ -62,13 +62,10 @@ fn parse_binding_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<ObjectPatP
 
     if p.input_mut().eat(&P::Token::DOTDOTDOT) {
         // spread element
-        let dot3_token = p.span(start);
-
         let arg = Box::new(parse_binding_pat_or_ident(p, false)?);
 
         return Ok(ObjectPatProp::Rest(RestPat {
             span: p.span(start),
-            dot3_token,
             arg,
             type_ann: None,
         }));
@@ -77,8 +74,12 @@ fn parse_binding_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<ObjectPatP
     let key = p.parse_prop_name()?;
     if p.input_mut().eat(&P::Token::COLON) {
         let value = Box::new(parse_binding_element(p)?);
-
-        return Ok(ObjectPatProp::KeyValue(KeyValuePatProp { key, value }));
+        let span = p.span(start);
+        return Ok(ObjectPatProp::KeyValue(KeyValuePatProp {
+            span,
+            key,
+            value,
+        }));
     }
     let key = match key {
         PropName::Ident(ident) => ident,
@@ -167,11 +168,9 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
 
     if p.input_mut().eat(&P::Token::DOTDOTDOT) {
         // spread element
-        let dot3_token = p.span(start);
-
         let expr = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
-
-        return Ok(PropOrSpread::Spread(SpreadElement { dot3_token, expr }));
+        let span = p.span(start);
+        return Ok(PropOrSpread::Spread(SpreadElement { span, expr }));
     }
 
     if p.input_mut().eat(&P::Token::MUL) {
@@ -219,6 +218,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
 
         p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
         return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+            span: p.span(start),
             key,
             value: Invalid {
                 span: p.span(start),
@@ -233,7 +233,9 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
     // { a: expr, }
     if p.input_mut().eat(&P::Token::COLON) {
         let value = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
+        let span = p.span(start);
         return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+            span,
             key,
             value,
         }))));

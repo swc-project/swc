@@ -3,6 +3,7 @@ use std::collections::HashSet;
 use once_cell::sync::Lazy;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
     CallExpr, Callee, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, Program, Prop,
     PropName, Str, SuperProp, SuperPropExpr,
@@ -265,6 +266,7 @@ impl VisitMut for Mangler<'_> {
             self.mangle_ident(&mut new_ident);
 
             *prop = Prop::KeyValue(KeyValueProp {
+                span: DUMMY_SP,
                 key: PropName::Ident(new_ident),
                 value: ident.clone().into(),
             });

@@ -579,6 +579,7 @@ where
                         props_obj
                             .props
                             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                span: DUMMY_SP,
                                 key: PropName::Ident(quote_ident!("children")),
                                 value: children.into_iter().next().flatten().unwrap().expr,
                             }))));
@@ -587,6 +588,7 @@ where
                         props_obj
                             .props
                             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                span: DUMMY_SP,
                                 key: PropName::Ident(quote_ident!("children")),
                                 value: ArrayLit {
                                     span: DUMMY_SP,
@@ -772,7 +774,11 @@ where
                                         PropName::Ident(i)
                                     };
                                     props_obj.props.push(PropOrSpread::Prop(Box::new(
-                                        Prop::KeyValue(KeyValueProp { key, value }),
+                                        Prop::KeyValue(KeyValueProp {
+                                            span: DUMMY_SP,
+                                            key,
+                                            value,
+                                        }),
                                     )));
                                 }
                                 JSXAttrName::JSXNamespacedName(JSXNamespacedName {
@@ -809,7 +815,11 @@ where
                                     let key = PropName::Str(key);
 
                                     props_obj.props.push(PropOrSpread::Prop(Box::new(
-                                        Prop::KeyValue(KeyValueProp { key, value }),
+                                        Prop::KeyValue(KeyValueProp {
+                                            span: DUMMY_SP,
+                                            key,
+                                            value,
+                                        }),
                                     )));
                                 }
                             }
@@ -839,6 +849,7 @@ where
                             props_obj
                                 .props
                                 .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                    span: DUMMY_SP,
                                     key: PropName::Ident(quote_ident!("children")),
                                     value: children
                                         .take()
@@ -854,6 +865,7 @@ where
                         props_obj
                             .props
                             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                                span: DUMMY_SP,
                                 key: PropName::Ident(quote_ident!("children")),
                                 value: ArrayLit {
                                     span: DUMMY_SP,
@@ -1029,7 +1041,11 @@ where
                 })
                 .into()
             });
-        Prop::KeyValue(KeyValueProp { key, value })
+        Prop::KeyValue(KeyValueProp {
+            span: DUMMY_SP,
+            key,
+            value,
+        })
     }
 }
 
@@ -1223,6 +1239,7 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
                     .map(|(local, imported)| {
                         if imported.sym != local.sym {
                             ObjectPatProp::KeyValue(KeyValuePatProp {
+                                span: DUMMY_SP,
                                 key: PropName::Ident(imported),
                                 value: Box::new(Pat::Ident(local.into())),
                             })

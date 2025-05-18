@@ -200,6 +200,7 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
         ObjectLit {
             span: DUMMY_SP,
             props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                span: DUMMY_SP,
                 key: PropName::Ident(quote_ident!("value")),
                 value: true.into(),
             })))],
@@ -255,6 +256,7 @@ pub(crate) fn object_define_enumerable(
             props: vec![
                 PropOrSpread::Prop(Box::new(
                     KeyValueProp {
+                        span: DUMMY_SP,
                         key: quote_ident!("enumerable").into(),
                         value: Box::new(true.into()),
                     }
@@ -294,6 +296,7 @@ pub(crate) fn esm_export() -> Function {
 
     // Create property descriptor with enumerable: true and get: desc.get
     let getter = KeyValueProp {
+        span: DUMMY_SP,
         key: quote_ident!("get").into(),
         value: getter.into(),
     };
@@ -420,6 +423,7 @@ pub(crate) fn prop_function((key, export_item): ExportKV) -> Prop {
     let key = prop_name(&key, export_item.export_name_span()).into();
 
     KeyValueProp {
+        span: DUMMY_SP,
         key,
         value: Box::new(
             export_item

@@ -517,6 +517,7 @@ fn value_to_expr(v: Value) -> Box<Expr> {
                 .into_iter()
                 .map(|(k, v)| (k, value_to_expr(v)))
                 .map(|(key, value)| KeyValueProp {
+                    span: DUMMY_SP,
                     key: PropName::Str(Str {
                         span: DUMMY_SP,
                         raw: None,

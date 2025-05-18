@@ -31,7 +31,6 @@ impl Swcify for RestElement {
 
         RestPat {
             span,
-            dot3_token: span,
             arg: Box::new(self.argument.swcify(ctx)),
             type_ann: None,
         }
@@ -121,6 +120,7 @@ impl Swcify for ObjectPatternProp {
                 match prop.value {
                     swc_estree_ast::ObjectPropVal::Pattern(v) => {
                         ObjectPatProp::KeyValue(KeyValuePatProp {
+                            span: ctx.span(&prop.base),
                             key: prop.key.swcify(ctx),
                             value: Box::new(v.swcify(ctx)),
                         })

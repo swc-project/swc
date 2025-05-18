@@ -187,6 +187,7 @@ impl<T> IntoParallelIterator for T where T: IntoIterator {}
 
 fn metadata(key: &str, value: &str) -> PropOrSpread {
     PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+        span: DUMMY_SP,
         key: PropName::Ident(IdentName::new(key.into(), DUMMY_SP)),
         value: Lit::Str(Str {
             span: DUMMY_SP,

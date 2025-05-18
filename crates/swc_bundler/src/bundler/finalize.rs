@@ -208,6 +208,7 @@ where
                                     ExportSpecifier::Default(s) => {
                                         props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                             KeyValueProp {
+                                                span: DUMMY_SP,
                                                 key: PropName::Ident(IdentName::new(
                                                     "default".into(),
                                                     DUMMY_SP,
@@ -226,6 +227,7 @@ where
                                             };
                                             props.push(PropOrSpread::Prop(Box::new(
                                                 Prop::KeyValue(KeyValueProp {
+                                                    span: DUMMY_SP,
                                                     key: PropName::Ident(exported.into()),
                                                     value: orig.into(),
                                                 }),
@@ -260,6 +262,7 @@ where
 
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
+                                        span: DUMMY_SP,
                                         key: PropName::Ident(IdentName::new(
                                             "default".into(),
                                             export.span,
@@ -284,6 +287,7 @@ where
 
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
+                                        span: DUMMY_SP,
                                         key: PropName::Ident(IdentName::new(
                                             "default".into(),
                                             export.span,

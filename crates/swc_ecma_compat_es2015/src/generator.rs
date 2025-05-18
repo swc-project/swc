@@ -1282,6 +1282,7 @@ impl Generator {
                     span: DUMMY_SP,
                     props: getter
                         .map(|g| KeyValueProp {
+                            span: DUMMY_SP,
                             key: quote_ident!("get").into(),
                             value: Function {
                                 params: Vec::new(),
@@ -1296,6 +1297,7 @@ impl Generator {
                         .into_iter()
                         .chain(setter.map(|s| {
                             KeyValueProp {
+                                span: DUMMY_SP,
                                 key: quote_ident!("set").into(),
                                 value: Function {
                                     params: vec![(*s.param).into()],

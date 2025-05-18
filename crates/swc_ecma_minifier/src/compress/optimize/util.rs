@@ -546,6 +546,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
                 self.changed = true;
 
                 *p = Prop::KeyValue(KeyValueProp {
+                    span: DUMMY_SP,
                     key: PropName::Ident(IdentName::new(i.sym.clone(), i.span)),
                     value,
                 });
@@ -622,6 +623,7 @@ impl VisitMut for ExprReplacer {
                     unreachable!("`{}` is already taken", i)
                 };
                 *p = Prop::KeyValue(KeyValueProp {
+                    span: DUMMY_SP,
                     key: PropName::Ident(i.clone().into()),
                     value,
                 });

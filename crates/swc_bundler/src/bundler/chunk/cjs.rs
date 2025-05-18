@@ -270,6 +270,7 @@ where
                     ImportSpecifier::Named(s) => match s.imported {
                         Some(ModuleExportName::Ident(imported)) => {
                             props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
+                                span: DUMMY_SP,
                                 key: imported.into(),
                                 value: Box::new(s.local.into()),
                             }));
@@ -287,6 +288,7 @@ where
                     },
                     ImportSpecifier::Default(s) => {
                         props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
+                            span: DUMMY_SP,
                             key: PropName::Ident(IdentName::new("default".into(), DUMMY_SP)),
                             value: Box::new(s.local.into()),
                         }));

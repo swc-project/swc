@@ -1928,10 +1928,9 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                     _ => unreachable!(),
                 }
             }
-            if let Some(span) = arg.spread {
+            if arg.spread.is_some() {
                 pat = RestPat {
                     span: p.span(pat_start),
-                    dot3_token: span,
                     arg: Box::new(pat),
                     type_ann: None,
                 }

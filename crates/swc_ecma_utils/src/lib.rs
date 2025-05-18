@@ -1423,7 +1423,6 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
                 decorators: Vec::new(),
                 pat: Pat::Rest(RestPat {
                     span: DUMMY_SP,
-                    dot3_token: DUMMY_SP,
                     arg: Box::new(Pat::Ident(quote_ident!("args").into())),
                     type_ann: Default::default(),
                 }),
@@ -1854,7 +1853,7 @@ impl ExprCtx {
                 props.retain(|node| match node {
                     PropOrSpread::Prop(node) => match &**node {
                         Prop::Shorthand(..) => false,
-                        Prop::KeyValue(KeyValueProp { key, value }) => {
+                        Prop::KeyValue(KeyValueProp { key, value, .. }) => {
                             if let PropName::Computed(e) = key {
                                 if e.expr.may_have_side_effects(self) {
                                     return true;
@@ -1888,7 +1887,7 @@ impl ExprCtx {
                     props.into_iter().for_each(|prop| match prop {
                         PropOrSpread::Prop(node) => match *node {
                             Prop::Shorthand(..) => {}
-                            Prop::KeyValue(KeyValueProp { key, value }) => {
+                            Prop::KeyValue(KeyValueProp { key, value, .. }) => {
                                 if let PropName::Computed(e) = key {
                                     self.extract_side_effects_to(to, *e.expr);
                                 }
@@ -2000,6 +1999,7 @@ impl VisitMut for IdentReplacer<'_> {
                 i.visit_mut_with(self);
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
+                        span: DUMMY_SP,
                         key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
                         value: i.clone().into(),
                     });
@@ -2334,6 +2334,7 @@ impl VisitMut for IdentRenamer<'_> {
                 match p.value.take() {
                     Some(default) => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
+                            span: DUMMY_SP,
                             key: PropName::Ident(orig.clone().into()),
                             value: AssignPat {
                                 span: DUMMY_SP,
@@ -2345,6 +2346,7 @@ impl VisitMut for IdentRenamer<'_> {
                     }
                     None => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
+                            span: DUMMY_SP,
                             key: PropName::Ident(orig.clone().into()),
                             value: p.key.clone().into(),
                         });
@@ -2365,6 +2367,7 @@ impl VisitMut for IdentRenamer<'_> {
                 i.visit_mut_with(self);
                 if i.sym != cloned.sym || i.ctxt != cloned.ctxt {
                     *node = Prop::KeyValue(KeyValueProp {
+                        span: DUMMY_SP,
                         key: PropName::Ident(IdentName::new(cloned.sym, cloned.span)),
                         value: i.clone().into(),
                     });
@@ -2413,6 +2416,7 @@ where
         if let Prop::Shorthand(shorthand) = n {
             if let Some(expr) = self.query.query_ref(shorthand) {
                 *n = KeyValueProp {
+                    span: DUMMY_SP,
                     key: shorthand.take().into(),
                     value: expr,
                 }
@@ -2477,6 +2481,7 @@ where
                     .unwrap_or(expr);
 
                 *n = ObjectPatProp::KeyValue(KeyValuePatProp {
+                    span: DUMMY_SP,
                     key: PropName::Ident(key.take().into()),
                     value: value.into(),
                 });
@@ -3497,7 +3502,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         Expr::Object(ObjectLit { props, .. }) => props.iter().any(|node| match node {
             PropOrSpread::Prop(node) => match &**node {
                 Prop::Shorthand(..) => false,
-                Prop::KeyValue(KeyValueProp { key, value }) => {
+                Prop::KeyValue(KeyValueProp { key, value, .. }) => {
                     let k = match key {
                         PropName::Computed(e) => e.expr.may_have_side_effects(ctx),
                         _ => false,

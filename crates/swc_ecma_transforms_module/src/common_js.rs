@@ -481,6 +481,7 @@ impl Cjs {
                     .iter()
                     .map(|(key, ..)| prop_name(key, Default::default()))
                     .map(|key| KeyValueProp {
+                        span: DUMMY_SP,
                         key: key.into(),
                         // `cjs-module-lexer` only support identifier as value
                         // `null` is treated as identifier in `cjs-module-lexer`

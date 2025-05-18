@@ -76,6 +76,7 @@ impl ExplicitResourceManagement {
                     span: DUMMY_SP,
                     props: vec![
                         PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            span: DUMMY_SP,
                             key: PropName::Ident(quote_ident!("stack")),
                             value: Box::new(Expr::Array(ArrayLit {
                                 span: DUMMY_SP,
@@ -83,10 +84,12 @@ impl ExplicitResourceManagement {
                             })),
                         }))),
                         PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            span: DUMMY_SP,
                             key: PropName::Ident(quote_ident!("error")),
                             value: Expr::undefined(DUMMY_SP),
                         }))),
                         PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                            span: DUMMY_SP,
                             key: PropName::Ident(quote_ident!("hasError")),
                             value: Box::new(Expr::Lit(Lit::Bool(Bool {
                                 span: DUMMY_SP,

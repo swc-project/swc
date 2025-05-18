@@ -9,7 +9,7 @@ use anyhow::Error;
 use ntest::timeout;
 use rustc_hash::FxHashSet;
 use swc_bundler::{Bundler, Load, ModuleRecord};
-use swc_common::{errors::HANDLER, FileName, Mark, Span, GLOBALS};
+use swc_common::{errors::HANDLER, FileName, Mark, Span, DUMMY_SP, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
     text_writer::{omit_trailing_semi, JsWriter, WriteJs},
@@ -1114,6 +1114,7 @@ impl swc_bundler::Hook for Hook {
 
         Ok(vec![
             KeyValueProp {
+                span: DUMMY_SP,
                 key: PropName::Ident(IdentName::new("url".into(), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
