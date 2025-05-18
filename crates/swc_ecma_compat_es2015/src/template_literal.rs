@@ -2,7 +2,7 @@ use std::{iter, mem};
 
 use serde_derive::Deserialize;
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
 use swc_ecma_utils::{is_literal, prepend_stmts, private_ident, quote_ident, ExprFactory};
@@ -49,12 +49,7 @@ impl VisitMut for TemplateLiteral {
         e.visit_mut_children_with(self);
 
         match e {
-            Expr::Tpl(Tpl {
-                span,
-                exprs,
-                quasis,
-                ..
-            }) => {
+            Expr::Tpl(Tpl { exprs, quasis, .. }) => {
                 assert_eq!(quasis.len(), exprs.len() + 1);
 
                 // This makes result of addition string
@@ -125,13 +120,9 @@ impl VisitMut for TemplateLiteral {
                         if !is_empty && args.is_empty() {
                             if let Expr::Lit(Lit::Str(Str { span, value, raw })) = *obj {
                                 match *expr {
-                                    Expr::Lit(Lit::Str(Str {
-                                        span: r_span,
-                                        value: r_value,
-                                        ..
-                                    })) => {
+                                    Expr::Lit(Lit::Str(Str { value: r_value, .. })) => {
                                         obj = Lit::Str(Str {
-                                            span: span.with_hi(r_span.hi()),
+                                            span: DUMMY_SP,
                                             raw: None,
                                             value: format!("{value}{r_value}").into(),
                                         })
@@ -154,7 +145,7 @@ impl VisitMut for TemplateLiteral {
                                 let args = mem::take(&mut args);
                                 for arg in args {
                                     obj = BinExpr {
-                                        span: span.with_hi(expr_span.hi() + BytePos(1)),
+                                        span: DUMMY_SP,
                                         op: op!(bin, "+"),
                                         left: obj,
                                         right: arg,
@@ -164,7 +155,7 @@ impl VisitMut for TemplateLiteral {
                                 obj
                             } else {
                                 CallExpr {
-                                    span: span.with_hi(expr_span.hi() + BytePos(1)),
+                                    span: DUMMY_SP,
                                     callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
@@ -197,7 +188,7 @@ impl VisitMut for TemplateLiteral {
                                         }
                                     }
                                     obj = BinExpr {
-                                        span: span.with_hi(expr_span.hi() + BytePos(1)),
+                                        span: DUMMY_SP,
                                         op: op!(bin, "+"),
                                         left: obj,
                                         right: arg,
@@ -207,7 +198,7 @@ impl VisitMut for TemplateLiteral {
                                 obj
                             } else {
                                 CallExpr {
-                                    span: span.with_hi(expr_span.hi() + BytePos(1)),
+                                    span: DUMMY_SP,
                                     callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
