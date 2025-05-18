@@ -69709,18 +69709,10 @@ impl<V: ?Sized + Fold> FoldWith<V> for Decl {
                 let _field_0 = <Box<UsingDecl> as FoldWith<V>>::fold_with(_field_0, visitor);
                 Decl::Using { 0: _field_0 }
             }
-            Decl::TsInterface { 0: _field_0 } => {
-                Decl::TsInterface { 0: _field_0 }
-            }
-            Decl::TsTypeAlias { 0: _field_0 } => {
-                Decl::TsTypeAlias { 0: _field_0 }
-            }
-            Decl::TsEnum { 0: _field_0 } => {
-                Decl::TsEnum { 0: _field_0 }
-            }
-            Decl::TsModule { 0: _field_0 } => {
-                Decl::TsModule { 0: _field_0 }
-            }
+            Decl::TsInterface { 0: _field_0 } => Decl::TsInterface { 0: _field_0 },
+            Decl::TsTypeAlias { 0: _field_0 } => Decl::TsTypeAlias { 0: _field_0 },
+            Decl::TsEnum { 0: _field_0 } => Decl::TsEnum { 0: _field_0 },
+            Decl::TsModule { 0: _field_0 } => Decl::TsModule { 0: _field_0 },
         }
     }
 }
@@ -70077,24 +70069,12 @@ impl<V: ?Sized + Fold> FoldWith<V> for Expr {
                 let _field_0 = <JSXFragment as FoldWith<V>>::fold_with(_field_0, visitor);
                 Expr::JSXFragment { 0: _field_0 }
             }
-            Expr::TsTypeAssertion { 0: _field_0 } => {
-                Expr::TsTypeAssertion { 0: _field_0 }
-            }
-            Expr::TsConstAssertion { 0: _field_0 } => {
-                Expr::TsConstAssertion { 0: _field_0 }
-            }
-            Expr::TsNonNull { 0: _field_0 } => {
-                Expr::TsNonNull { 0: _field_0 }
-            }
-            Expr::TsAs { 0: _field_0 } => {
-                Expr::TsAs { 0: _field_0 }
-            }
-            Expr::TsInstantiation { 0: _field_0 } => {
-                Expr::TsInstantiation { 0: _field_0 }
-            }
-            Expr::TsSatisfies { 0: _field_0 } => {
-                Expr::TsSatisfies { 0: _field_0 }
-            }
+            Expr::TsTypeAssertion { 0: _field_0 } => Expr::TsTypeAssertion { 0: _field_0 },
+            Expr::TsConstAssertion { 0: _field_0 } => Expr::TsConstAssertion { 0: _field_0 },
+            Expr::TsNonNull { 0: _field_0 } => Expr::TsNonNull { 0: _field_0 },
+            Expr::TsAs { 0: _field_0 } => Expr::TsAs { 0: _field_0 },
+            Expr::TsInstantiation { 0: _field_0 } => Expr::TsInstantiation { 0: _field_0 },
+            Expr::TsSatisfies { 0: _field_0 } => Expr::TsSatisfies { 0: _field_0 },
             Expr::PrivateName { 0: _field_0 } => {
                 let _field_0 = <PrivateName as FoldWith<V>>::fold_with(_field_0, visitor);
                 Expr::PrivateName { 0: _field_0 }
@@ -72041,9 +72021,7 @@ impl<V: ?Sized + Fold> FoldWith<V> for SimpleAssignTarget {
                 let _field_0 = <OptChainExpr as FoldWith<V>>::fold_with(_field_0, visitor);
                 SimpleAssignTarget::OptChain { 0: _field_0 }
             }
-            SimpleAssignTarget::TsAs { 0: _field_0 } => {
-                SimpleAssignTarget::TsAs { 0: _field_0 }
-            }
+            SimpleAssignTarget::TsAs { 0: _field_0 } => SimpleAssignTarget::TsAs { 0: _field_0 },
             SimpleAssignTarget::TsSatisfies { 0: _field_0 } => {
                 SimpleAssignTarget::TsSatisfies { 0: _field_0 }
             }
