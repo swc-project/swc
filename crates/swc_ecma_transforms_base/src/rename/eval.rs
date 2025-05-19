@@ -26,12 +26,10 @@ impl Visit for EvalFinder {
     visit_obj_and_computed!();
 
     fn visit_callee(&mut self, c: &Callee) {
-        c.visit_children_with(self);
-
-        if let Callee::Expr(e) = c {
-            if e.is_ident_ref_to("eval") {
-                self.found = true
-            }
+        if c.as_expr().is_some_and(|e| e.is_ident_ref_to("eval")) {
+            self.found = true;
+        } else {
+            c.visit_children_with(self);
         }
     }
 
@@ -42,7 +40,17 @@ impl Visit for EvalFinder {
     fn visit_export_namespace_specifier(&mut self, _: &ExportNamespaceSpecifier) {}
 
     fn visit_expr(&mut self, n: &Expr) {
+        if self.found {
+            return;
+        }
         maybe_grow_default(|| n.visit_children_with(self));
+    }
+
+    fn visit_stmt(&mut self, n: &Stmt) {
+        if self.found {
+            return;
+        }
+        n.visit_children_with(self)
     }
 
     fn visit_named_export(&mut self, e: &NamedExport) {
