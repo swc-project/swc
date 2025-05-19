@@ -1,4 +1,4 @@
-use swc_common::{comments::SingleThreadedComments, BytePos};
+use swc_common::{comments::SingleThreadedComments, BytePos, Span};
 use swc_ecma_lexer::error::SyntaxError;
 
 use super::*;

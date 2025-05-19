@@ -889,6 +889,24 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
             _ => unreachable!(),
         }
     }
+
+    #[inline(always)]
+    fn shebang(value: Atom, _: &mut Self::Lexer) -> Self {
+        Self::Shebang(value)
+    }
+
+    #[inline(always)]
+    fn is_shebang(&self) -> bool {
+        matches!(self, Self::Shebang(..))
+    }
+
+    #[inline(always)]
+    fn take_shebang(self, _: &mut Self::Buffer) -> Atom {
+        match self {
+            Self::Shebang(value) => value,
+            _ => unreachable!(),
+        }
+    }
 }
 
 impl Token {

@@ -3,11 +3,10 @@
 
 use std::ops::DerefMut;
 
-use swc_atoms::Atom;
-use swc_common::{comments::Comments, input::StringInput, Span};
+use swc_common::{comments::Comments, input::StringInput};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::common::parser::{
-    buffer::Buffer as BufferTrait, module_item::parse_module_item_block_body,
+    buffer::Buffer as BufferTrait, module_item::parse_module_item_block_body, parse_shebang,
     stmt::parse_stmt_block_body, Parser as ParserTrait,
 };
 
@@ -122,7 +121,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        let shebang = self.parse_shebang()?;
+        let shebang = parse_shebang(self)?;
 
         parse_stmt_block_body(self, true, None).map(|body| Script {
             span: span!(self, start),
@@ -142,7 +141,7 @@ impl<I: Tokens> Parser<I> {
         self.set_ctx(ctx);
 
         let start = cur_pos!(self);
-        let shebang = self.parse_shebang()?;
+        let shebang = parse_shebang(self)?;
 
         parse_module_item_block_body(self, true, None).map(|body| Module {
             span: span!(self, start),
@@ -158,7 +157,7 @@ impl<I: Tokens> Parser<I> {
     /// not be reported even if the method returns [Module].
     pub fn parse_program(&mut self) -> PResult<Program> {
         let start = cur_pos!(self);
-        let shebang = self.parse_shebang()?;
+        let shebang = parse_shebang(self)?;
         let ctx = self.ctx() | Context::CanBeModule | Context::TopLevel;
 
         let body: Vec<ModuleItem> =
@@ -209,26 +208,13 @@ impl<I: Tokens> Parser<I> {
         self.set_ctx(ctx);
 
         let start = cur_pos!(self);
-        let shebang = self.parse_shebang()?;
+        let shebang = parse_shebang(self)?;
 
         parse_module_item_block_body(self, true, None).map(|body| Module {
             span: span!(self, start),
             body,
             shebang,
         })
-    }
-
-    fn parse_shebang(&mut self) -> PResult<Option<Atom>> {
-        match cur!(self, false) {
-            Ok(Token::Shebang) => match bump!(self) {
-                Token::Shebang => {
-                    let v = self.input.expect_word_token_value();
-                    Ok(Some(v))
-                }
-                _ => unreachable!(),
-            },
-            _ => Ok(None),
-        }
     }
 }
 

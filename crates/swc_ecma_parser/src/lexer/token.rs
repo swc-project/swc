@@ -848,6 +848,22 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn take_regexp(self, buffer: &mut Self::Buffer) -> (Atom, Atom) {
         buffer.expect_regex_token_value()
     }
+
+    #[inline(always)]
+    fn shebang(value: Atom, lexer: &mut Self::Lexer) -> Self {
+        lexer.set_token_value(Some(TokenValue::Word(value)));
+        Token::Shebang
+    }
+
+    #[inline(always)]
+    fn is_shebang(&self) -> bool {
+        Token::Shebang.eq(self)
+    }
+
+    #[inline(always)]
+    fn take_shebang(self, buffer: &mut Self::Buffer) -> Atom {
+        buffer.expect_word_token_value()
+    }
 }
 
 impl std::fmt::Debug for Token {
