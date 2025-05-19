@@ -301,6 +301,7 @@ dependencies = [
  "serde_json",
  "swc_atoms",
  "swc_common",
+ "swc_config",
  "swc_css_ast",
  "swc_css_codegen",
  "swc_css_minifier",
@@ -391,6 +392,7 @@ dependencies = [
  "swc_compiler_base",
  "swc_config",
  "swc_core",
+ "swc_ecma_react_compiler",
  "swc_malloc",
  "swc_nodejs_common",
  "tracing",
@@ -5173,6 +5175,16 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_transforms",
  "swc_ecma_utils",
+ "swc_ecma_visit",
+]
+
+[[package]]
+name = "swc_ecma_react_compiler"
+version = "3.0.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
  "swc_ecma_visit",
 ]
 
