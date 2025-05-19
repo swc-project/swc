@@ -158,7 +158,7 @@ jobs:
                 export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
                 yarn build --target aarch64-unknown-linux-gnu
               else
-                export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
+                export CC_aarch64_unknown_linux_gnu=clang &&
                 yarn build --target aarch64-unknown-linux-gnu
               fi
           - host: ubuntu-latest
