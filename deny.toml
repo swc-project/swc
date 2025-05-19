@@ -160,7 +160,7 @@ exceptions = [{ allow = ["BUSL-1.1"], name = "webc" }]
 # https://embarkstudios.github.io/cargo-deny/checks/bans/cfg.html
 [bans]
 # Lint level for when multiple versions of the same crate are detected
-multiple-versions = "allow"
+multiple-versions = "deny"
 # Lint level for when a crate version requirement is `*`
 wildcards = "allow"
 # The graph highlighting used when creating dotgraphs for crates
@@ -174,12 +174,76 @@ allow = []
 # List of crates to deny
 deny = []
 # Certain crates/versions that will be skipped when doing duplicate detection.
-skip = []
+skip = [
+  "base64",
+  "bitflags",
+  "bytecheck",
+  "bytecheck_derive",
+  "clap",
+  "clap_derive",
+  "clap_lex",
+  "darling",
+  "darling_core",
+  "darling_macro",
+  "dashmap",
+  "derive_builder",
+  "derive_builder_core",
+  "derive_builder_macro",
+  "derive_more",
+  "fixedbitset",
+  "form_urlencoded",
+  "getrandom",
+  "gimli",
+  "hashbrown",
+  "heck",
+  "hermit-abi",
+  "http",
+  "http-body",
+  "hyper",
+  "indexmap",
+  "itertools",
+  "linux-raw-sys",
+  "nom",
+  "object",
+  "path-clean",
+  "percent-encoding",
+  "petgraph",
+  "phf_shared",
+  "ptr_meta",
+  "ptr_meta_derive",
+  "rand",
+  "regex-automata",
+  "regex-syntax",
+  "reqwest",
+  "rustc-hash",
+  "rustix",
+  "rustls",
+  "rustls-pemfile",
+  "serde",
+  "siphasher",
+  "strsim",
+  "syn",
+  "sync_wrapper",
+  "terminal_size",
+  "thiserror",
+  "thiserror-impl",
+  "time",
+  "toml_edit",
+  "tracing",
+  "virtual-fs",
+  "wasmer-config",
+  "wasmer-package",
+  "webc",
+  "winnow",
+  "windows-sys",
+  "zerocopy",
+  "zerocopy-derive",
+]
 # Similarly to `skip` allows you to skip certain crates during duplicate
 # detection. Unlike skip, it also includes the entire tree of transitive
 # dependencies starting at the specified crate, up to a certain depth, which is
 # by default infinite
-skip-tree = []
+skip-tree = ["windows-targets"]
 
 # This section is considered when running `cargo deny check sources`.
 # More documentation about the 'sources' section can be found here:
