@@ -4,7 +4,7 @@ build   = "build.rs"
 edition = "2021"
 exclude = ["artifacts.json", "index.node"]
 license = "Apache-2.0"
-name    = "binding_minifier_node"
+name    = "binding_react_compiler_node"
 publish = false
 version = "0.1.0"
 
@@ -33,19 +33,13 @@ tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
 
 swc_compiler_base = { workspace = true, features = ["node"] }
-swc_config = { workspace = true, features = ["regex"] }
+swc_config = { workspace = true }
 swc_core = { workspace = true, features = [
   "allocator_node",
-  "common_concurrent",
   "common_sourcemap",
   "ecma_ast",
-  "ecma_codegen",
   "ecma_parser",
-  "ecma_minifier",
-  "ecma_minifier_concurrent",
-  "ecma_transforms",
-  "ecma_visit",
 ] }
-swc_error_reporters = { workspace = true }
+swc_ecma_react_compiler = { workspace = true }
 swc_malloc = { workspace = true }
 swc_nodejs_common = { workspace = true }

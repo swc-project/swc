@@ -19,7 +19,7 @@ anyhow               = { workspace = true }
 getrandom            = { workspace = true, features = ["js"] }
 js-sys               = { workspace = true }
 miette               = { workspace = true }
-owo-colors           = { version = "4.0.0" }
+owo-colors           = { workspace = true }
 serde                = { workspace = true, features = ["derive"] }
 serde-wasm-bindgen   = { workspace = true }
 serde_json           = { workspace = true }
@@ -27,7 +27,7 @@ swc_common           = { workspace = true }
 swc_error_reporters  = { workspace = true }
 swc_fast_ts_strip    = { workspace = true, features = ["wasm-bindgen"] }
 tracing              = { workspace = true, features = ["max_level_off"] }
-unicode-width        = "0.1.11"
+unicode-width        = { workspace = true }
 wasm-bindgen         = { workspace = true, features = ["enable-interning"] }
 wasm-bindgen-futures = { workspace = true }
 
