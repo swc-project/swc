@@ -28,7 +28,8 @@ use crate::{
 /// argument of arrow is pattern, although idents in pattern is already
 /// checked if is a keyword, it should also be checked if is arguments or
 /// eval
-pub(super) fn pat_is_valid_argument_in_strict<'a>(p: &mut impl Parser<'a>, pat: &Pat) {
+fn pat_is_valid_argument_in_strict<'a>(p: &impl Parser<'a>, pat: &Pat) {
+    debug_assert!(p.ctx().contains(Context::Strict));
     match pat {
         Pat::Ident(i) => {
             if i.is_reserved_in_strict_bind() {
@@ -804,7 +805,7 @@ pub fn parse_paren_items_as_params<'a, P: Parser<'a>>(
     }
 
     debug_assert_eq!(exprs.len(), 1);
-    let expr = exprs.into_iter().next().unwrap();
+    let expr = exprs.pop().unwrap();
     let outer_expr_span = expr.span();
     let last = match expr {
         // Rest

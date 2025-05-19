@@ -34,23 +34,23 @@ resolver = "2"
   serde-wasm-bindgen   = "0.6.5"
   serde_json           = "1.0.120"
   sourcemap            = "8.0.1"
-  swc_atoms            = "5.0.0"
-  swc_cli_impl         = "24.0.0"
-  swc_common           = "9.2.0"
-  swc_compiler_base    = "20.0.0"
-  swc_config           = "3.0.0"
-  swc_core             = "24.0.0"
-  swc_css_ast          = "9.0.0"
-  swc_css_codegen      = "9.0.0"
-  swc_css_minifier     = "9.0.0"
-  swc_css_parser       = "9.0.0"
-  swc_error_reporters  = "11.0.0"
-  swc_fast_ts_strip    = "17.0.0"
-  swc_html             = "18.0.0"
-  swc_html_ast         = "9.0.0"
-  swc_html_minifier    = "18.0.0"
-  swc_malloc           = "1.2.2"
-  swc_nodejs_common    = "1.0.0"
+  swc_atoms            = { path = "../crates/swc_atoms" }
+  swc_cli_impl         = { path = "../crates/swc_cli_impl" }
+  swc_common           = { path = "../crates/swc_common" }
+  swc_compiler_base    = { path = "../crates/swc_compiler_base" }
+  swc_config           = { path = "../crates/swc_config" }
+  swc_core             = { path = "../crates/swc_core" }
+  swc_css_ast          = { path = "../crates/swc_css_ast" }
+  swc_css_codegen      = { path = "../crates/swc_css_codegen" }
+  swc_css_minifier     = { path = "../crates/swc_css_minifier" }
+  swc_css_parser       = { path = "../crates/swc_css_parser" }
+  swc_error_reporters  = { path = "../crates/swc_error_reporters" }
+  swc_fast_ts_strip    = { path = "../crates/swc_fast_ts_strip" }
+  swc_html             = { path = "../crates/swc_html" }
+  swc_html_ast         = { path = "../crates/swc_html_ast" }
+  swc_html_minifier    = { path = "../crates/swc_html_minifier" }
+  swc_malloc           = { path = "../crates/swc_malloc" }
+  swc_nodejs_common    = { path = "../crates/swc_nodejs_common" }
   tracing              = "0.1.40"
   tracing-chrome       = "0.7.2"
   tracing-futures      = "0.2.5"

@@ -388,16 +388,6 @@ fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callback:
     stacker::maybe_grow(red_zone, stack_size, callback)
 }
 
-#[macro_export]
-macro_rules! token_including_semi {
-    (';') => {
-        Token::Semi
-    };
-    ($t:tt) => {
-        $crate::tok!($t)
-    };
-}
-
 pub fn lexer(input: Lexer) -> PResult<Vec<token::TokenAndSpan>> {
     let capturing = input::Capturing::new(input);
     let mut parser = parser::Parser::new_from(capturing);

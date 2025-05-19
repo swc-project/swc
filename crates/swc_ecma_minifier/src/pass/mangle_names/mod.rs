@@ -1,11 +1,11 @@
 use std::{borrow::Cow, sync::Arc};
 
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::{renamer, RenameMap, Renamer};
-use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+use swc_ecma_visit::VisitMutWith;
 
 pub(crate) use self::preserver::idents_to_preserve;
 use crate::{
@@ -13,8 +13,8 @@ use crate::{
     util::base54::Base54Chars,
 };
 
+mod mangler;
 mod preserver;
-mod private_name;
 
 pub(crate) fn mangle_names(
     program: &mut Program,
@@ -24,16 +24,8 @@ pub(crate) fn mangle_names(
     top_level_mark: Mark,
     mangle_name_cache: Option<Arc<dyn MangleCache>>,
 ) {
-    program.visit_mut_with(&mut LabelMangler {
-        chars,
-        cache: Default::default(),
-        n: Default::default(),
-    });
-
-    program.visit_mut_with(&mut self::private_name::private_name_mangler(
-        options.keep_private_props,
-        chars,
-    ));
+    let mut mangler = self::mangler::ManglerVisitor::new(options.keep_private_props, chars);
+    program.visit_mut_with(&mut mangler);
 
     let mut cache = None;
 
@@ -95,45 +87,5 @@ impl<'a> Renamer for ManglingRenamer<'a> {
 
     fn preserve_name(&self, orig: &Id) -> bool {
         self.preserved.contains(orig)
-    }
-}
-
-struct LabelMangler {
-    chars: Base54Chars,
-    cache: FxHashMap<Atom, Atom>,
-    n: usize,
-}
-
-impl LabelMangler {
-    fn mangle(&mut self, label: &mut Ident) {
-        let v = self
-            .cache
-            .entry(label.sym.clone())
-            .or_insert_with(|| self.chars.encode(&mut self.n, true))
-            .clone();
-
-        label.sym = v;
-    }
-}
-
-impl VisitMut for LabelMangler {
-    noop_visit_mut_type!();
-
-    fn visit_mut_labeled_stmt(&mut self, s: &mut LabeledStmt) {
-        self.mangle(&mut s.label);
-
-        s.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_continue_stmt(&mut self, s: &mut ContinueStmt) {
-        if let Some(label) = &mut s.label {
-            self.mangle(label);
-        }
-    }
-
-    fn visit_mut_break_stmt(&mut self, s: &mut BreakStmt) {
-        if let Some(label) = &mut s.label {
-            self.mangle(label);
-        }
     }
 }
