@@ -3,8 +3,6 @@
 
 use std::ops::DerefMut;
 
-use swc_atoms::Atom;
-use swc_common::Span;
 use swc_ecma_ast::*;
 
 use crate::{
@@ -12,7 +10,7 @@ use crate::{
         input::Tokens,
         parser::{
             buffer::Buffer as BufferTrait, module_item::parse_module_item_block_body,
-            stmt::parse_stmt_block_body, Parser as ParserTrait,
+            parse_shebang, stmt::parse_stmt_block_body, Parser as ParserTrait,
         },
     },
     error::Error,
@@ -104,7 +102,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
 
         let start = self.cur_pos();
 
-        let shebang = self.parse_shebang()?;
+        let shebang = parse_shebang(self)?;
 
         parse_stmt_block_body(self, true, None).map(|body| Script {
             span: span!(self, start),
@@ -124,7 +122,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         self.set_ctx(ctx);
 
         let start = cur_pos!(self);
-        let shebang = self.parse_shebang()?;
+        let shebang = parse_shebang(self)?;
 
         parse_module_item_block_body(self, true, None).map(|body| Module {
             span: span!(self, start),
@@ -140,7 +138,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
     /// not be reported even if the method returns [Module].
     pub fn parse_program(&mut self) -> PResult<Program> {
         let start = cur_pos!(self);
-        let shebang = self.parse_shebang()?;
+        let shebang = parse_shebang(self)?;
         let ctx = self.ctx() | Context::CanBeModule | Context::TopLevel;
 
         let body: Vec<ModuleItem> =
@@ -194,22 +192,12 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         self.set_ctx(ctx);
 
         let start = cur_pos!(self);
-        let shebang = self.parse_shebang()?;
+        let shebang = parse_shebang(self)?;
 
         parse_module_item_block_body(self, true, None).map(|body| Module {
             span: span!(self, start),
             body,
             shebang,
         })
-    }
-
-    fn parse_shebang(&mut self) -> PResult<Option<Atom>> {
-        match cur!(self, false) {
-            Ok(&Token::Shebang(..)) => match bump!(self) {
-                Token::Shebang(v) => Ok(Some(v)),
-                _ => unreachable!(),
-            },
-            _ => Ok(None),
-        }
     }
 }

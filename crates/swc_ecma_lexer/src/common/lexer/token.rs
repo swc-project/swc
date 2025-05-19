@@ -178,6 +178,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn is_bigint(&self) -> bool;
     fn take_bigint(self, buffer: &mut Self::Buffer) -> (Box<BigInt>, Atom);
 
+    fn shebang(value: Atom, lexer: &mut Self::Lexer) -> Self;
+    fn is_shebang(&self) -> bool;
+    fn take_shebang(self, buffer: &mut Self::Buffer) -> Atom;
+
     fn unknown_ident(value: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_unknown_ident(&self) -> bool;
     fn take_unknown_ident(self, buffer: &mut Self::Buffer) -> Atom;
