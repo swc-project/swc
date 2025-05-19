@@ -174,7 +174,6 @@ allow = []
 # List of crates to deny
 deny = []
 skip = [
-  "base64",
   "bitflags",
   "bytecheck",
   "bytecheck_derive",
