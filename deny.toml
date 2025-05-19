@@ -173,7 +173,6 @@ highlight = "all"
 allow = []
 # List of crates to deny
 deny = []
-# Certain crates/versions that will be skipped when doing duplicate detection.
 skip = [
   "base64",
   "bitflags",
@@ -197,39 +196,26 @@ skip = [
   "hashbrown",
   "heck",
   "hermit-abi",
-  "http",
-  "http-body",
-  "hyper",
   "indexmap",
   "itertools",
   "linux-raw-sys",
   "nom",
   "object",
   "path-clean",
-  "percent-encoding",
   "petgraph",
-  "phf_shared",
   "ptr_meta",
   "ptr_meta_derive",
-  "rand",
   "regex-automata",
   "regex-syntax",
-  "reqwest",
   "rustc-hash",
   "rustix",
-  "rustls",
-  "rustls-pemfile",
-  "serde",
   "siphasher",
   "strsim",
   "syn",
-  "sync_wrapper",
   "terminal_size",
   "thiserror",
   "thiserror-impl",
-  "time",
   "toml_edit",
-  "tracing",
   "virtual-fs",
   "wasmer-config",
   "wasmer-package",
@@ -238,7 +224,7 @@ skip = [
   "windows-sys",
   "zerocopy",
   "zerocopy-derive",
-]
+] # Certain crates/versions that will be skipped when doing duplicate detection.
 # Similarly to `skip` allows you to skip certain crates during duplicate
 # detection. Unlike skip, it also includes the entire tree of transitive
 # dependencies starting at the specified crate, up to a certain depth, which is
