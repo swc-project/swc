@@ -38,7 +38,8 @@ swc_core = { workspace = true, features = [
   "allocator_node",
   "common_sourcemap",
   "ecma_ast",
+  "ecma_parser",
 ] }
+swc_ecma_react_compiler = { workspace = true }
 swc_malloc = { workspace = true }
 swc_nodejs_common = { workspace = true }
-swc_ecma_react_compiler = { workspace = true }
