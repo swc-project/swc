@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer, External},
-    Env, JsExternal, JsObject, JsUnknown, Task,
+    Task,
 };
 use rustc_hash::FxHashMap;
 use serde::Deserialize;

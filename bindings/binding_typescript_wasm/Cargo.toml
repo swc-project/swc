@@ -16,7 +16,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 anyhow               = { workspace = true }
-getrandom            = { workspace = true, features = ["js"] }
+getrandom            = { workspace = true, features = ["wasm_js"] }
 js-sys               = { workspace = true }
 miette               = { workspace = true }
 owo-colors           = { workspace = true }
