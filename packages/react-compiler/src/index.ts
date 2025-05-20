@@ -1,23 +1,18 @@
 
-import { JsMinifyOptions } from '@swc/types';
 import * as binding from './binding'
 
 /**
  * TODO
  */
-export async function minify(code: Buffer, options: JsMinifyOptions) {
-    return await binding.minify(code, toBuffer(options))
+export async function isReactCompilerRequired(code: Buffer) {
+    return await binding.isReactCompilerRequired(code)
 }
 
 
 /**
  * TODO
  */
-export function minifySync(code: Buffer, options: JsMinifyOptions): binding.TransformOutput {
-    return binding.minifySync(code, toBuffer(options))
+export function isReactCompilerRequiredSync(code: Buffer): boolean {
+    return binding.isReactCompilerRequiredSync(code)
 }
 
-
-function toBuffer(t: any): Buffer {
-    return Buffer.from(JSON.stringify(t))
-}
