@@ -134,23 +134,6 @@ fn test_ecmascript() {
 }
 
 #[test]
-fn test_ecmascript_std() {
-    run_visitor_codegen(
-        Path::new("../../crates/swc_ecma_ast"),
-        Path::new("../../crates/swc_ecma_visit_std/src/generated.rs"),
-        &[
-            "Align64".into(),
-            "EncodeBigInt".into(),
-            "EsVersion".into(),
-            "FnPass".into(),
-            "Accessibility".into(),
-            "^Ts.*".into(),
-        ],
-    )
-    .unwrap();
-}
-
-#[test]
 fn test_css() {
     run_visitor_codegen(
         Path::new("../../crates/swc_css_ast"),
