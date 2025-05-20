@@ -189,8 +189,10 @@ pub fn parse_super_class<'a, P: Parser<'a>>(
 
 pub fn is_class_method<'a, P: Parser<'a>>(p: &mut P) -> bool {
     p.input_mut().is(&P::Token::LPAREN)
-        || (p.input().syntax().typescript() && p.input_mut().is(&P::Token::LESS))
-        || (p.input().syntax().typescript() && p.input_mut().is(&P::Token::JSX_TAG_START))
+        || (p.input().syntax().typescript()
+            && p.input_mut()
+                .cur()
+                .is_some_and(|cur| cur.is_less() || cur.is_jsx_tag_start()))
 }
 
 pub fn is_class_property<'a, P: Parser<'a>>(p: &mut P, asi: bool) -> bool {
