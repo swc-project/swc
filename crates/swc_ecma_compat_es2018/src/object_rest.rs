@@ -37,7 +37,7 @@ macro_rules! impl_for_for_stmt {
                 return;
             }
 
-            let mut stmt = None;
+            let stmt;
 
             let left = match &mut for_stmt.left {
                 ForHead::VarDecl(var_decl) => {
@@ -81,44 +81,15 @@ macro_rules! impl_for_for_stmt {
                 }
                 ForHead::Pat(pat) => {
                     let var_ident = private_ident!("_ref");
-                    let index = self.vars.len();
                     let pat = pat.take();
 
                     // initialize (or destructure)
-                    match &*pat {
-                        Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
-                        Pat::Object(ObjectPat { .. }) => {
-                            stmt = Some(Stmt::Expr(ExprStmt {
-                                span: DUMMY_SP,
-                                expr: Box::new(
-                                    AssignExpr {
-                                        span: DUMMY_SP,
-                                        op: op!("="),
-                                        left: pat.try_into().unwrap(),
-                                        right: Box::new(Expr::Ident(var_ident.clone())),
-                                    }
-                                    .into(),
-                                ),
-                            }));
-                        }
-                        _ => {
-                            // insert at index to create
-                            // `var { a } = _ref, b = _object_without_properties(_ref, ['a']);`
-                            // instead of
-                            // var b = _object_without_properties(_ref, ['a']), { a } = _ref;
-
-                            // println!("Var(0): folded pat = var_ident",);
-                            self.vars.insert(
-                                index,
-                                VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: *pat,
-                                    init: Some(Box::new(Expr::Ident(var_ident.clone()))),
-                                    definite: false,
-                                },
-                            );
-                        }
-                    }
+                    stmt = Some(
+                        var_ident
+                            .clone()
+                            .make_assign_to(op!("="), pat.try_into().unwrap())
+                            .into_stmt(),
+                    );
 
                     // `var _ref` in `for (var _ref in foo)`
                     VarDecl {
