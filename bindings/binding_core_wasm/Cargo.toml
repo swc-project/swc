@@ -6,7 +6,7 @@ license     = { workspace = true }
 name        = "binding_core_wasm"
 publish     = false
 repository  = { workspace = true }
-version     = "1.11.28-nightly-20250520.2"
+version     = "1.11.28-nightly-20250520.3"
 
 [lib]
 bench      = false
