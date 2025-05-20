@@ -3,7 +3,7 @@ use std::sync::Arc;
 use anyhow::{Context, Error};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer, External},
-    JsObject, Task,
+    Task,
 };
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
@@ -25,7 +25,7 @@ use swc_core::{
         },
         parser::{EsSyntax, Syntax},
         transforms::base::{fixer::fixer, hygiene::hygiene, resolver},
-        visit::{FoldWith, VisitMutWith, VisitWith},
+        visit::{VisitMutWith, VisitWith},
     },
 };
 use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
@@ -227,7 +227,7 @@ fn do_work(
                 inline_sources_content: options.inline_sources_content,
                 source_map,
                 source_map_names: &source_map_names,
-                orig: orig.as_ref(),
+                orig,
                 comments: Some(&comments),
                 emit_source_map_columns: options.emit_source_map_columns,
                 preamble: &options.format.preamble,

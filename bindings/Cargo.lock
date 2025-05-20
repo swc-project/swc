@@ -280,7 +280,7 @@ name = "binding_core_wasm"
 version = "1.11.26-nightly-20250512.1"
 dependencies = [
  "anyhow",
- "getrandom 0.2.15",
+ "getrandom 0.3.2",
  "serde",
  "serde-wasm-bindgen 0.6.5",
  "swc_core",
@@ -348,7 +348,7 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "sourcemap 8.0.1",
+ "sourcemap",
  "swc_compiler_base",
  "swc_config",
  "swc_core",
@@ -366,7 +366,7 @@ name = "binding_minifier_wasm"
 version = "1.11.26-nightly-20250512.1"
 dependencies = [
  "anyhow",
- "getrandom 0.2.15",
+ "getrandom 0.3.2",
  "serde",
  "serde-wasm-bindgen 0.6.5",
  "swc_core",
@@ -388,7 +388,7 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "sourcemap 8.0.1",
+ "sourcemap",
  "swc_compiler_base",
  "swc_config",
  "swc_core",
@@ -406,7 +406,7 @@ name = "binding_typescript_wasm"
 version = "1.11.26-nightly-20250512.1"
 dependencies = [
  "anyhow",
- "getrandom 0.2.15",
+ "getrandom 0.3.2",
  "js-sys",
  "miette",
  "owo-colors",
@@ -599,7 +599,7 @@ checksum = "dd5eb614ed4c27c5d706420e4320fbe3216ab31fa1c33cd8246ac36dae4479ba"
 dependencies = [
  "camino",
  "cargo-platform",
- "semver 1.0.26",
+ "semver",
  "serde",
  "serde_json",
  "thiserror 2.0.12",
@@ -1765,7 +1765,7 @@ checksum = "cdc6457c0eb62c71aac4bc17216026d8410337c4126773b9c5daba343f17964f"
 dependencies = [
  "atomic-polyfill",
  "hash32",
- "rustc_version 0.4.1",
+ "rustc_version",
  "spin",
  "stable_deref_trait",
 ]
@@ -2746,7 +2746,7 @@ dependencies = [
  "proc-macro2",
  "quote",
  "regex",
- "semver 1.0.26",
+ "semver",
  "syn 2.0.100",
 ]
 
@@ -3268,7 +3268,7 @@ dependencies = [
  "from_variant",
  "once_cell",
  "rustc-hash 2.1.1",
- "semver 1.0.26",
+ "semver",
  "serde",
  "st-map",
  "tracing",
@@ -3830,20 +3830,11 @@ checksum = "357703d41365b4b27c590e3ed91eabb1b663f07c4c084095e60cbed4362dff0d"
 
 [[package]]
 name = "rustc_version"
-version = "0.2.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "138e3e0acb6c9fb258b19b67cb8abd63c00679d2851805ea151465464fe9030a"
-dependencies = [
- "semver 0.9.0",
-]
-
-[[package]]
-name = "rustc_version"
 version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cfcb3a22ef46e85b45de6ee7e79d063319ebb6594faafcf1c225ea92ab6e9b92"
 dependencies = [
- "semver 1.0.26",
+ "semver",
 ]
 
 [[package]]
@@ -4075,27 +4066,12 @@ checksum = "c2fdfc24bc566f839a2da4c4295b82db7d25a24253867d5c64355abb5799bdbe"
 
 [[package]]
 name = "semver"
-version = "0.9.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1d7eb9ef2c18661902cc47e535f9bc51b78acd254da71d375c2f6720d9a40403"
-dependencies = [
- "semver-parser",
-]
-
-[[package]]
-name = "semver"
 version = "1.0.26"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "56e6fa9c48d24d85fb3de5ad847117517440f6beceb7798af16b4a87d616b8d0"
 dependencies = [
  "serde",
 ]
-
-[[package]]
-name = "semver-parser"
-version = "0.7.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
 
 [[package]]
 name = "serde"
@@ -4342,25 +4318,6 @@ dependencies = [
 
 [[package]]
 name = "sourcemap"
-version = "8.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "208d40b9e8cad9f93613778ea295ed8f3c2b1824217c6cfc7219d3f6f45b96d4"
-dependencies = [
- "base64-simd 0.7.0",
- "bitvec",
- "data-encoding",
- "debugid",
- "if_chain",
- "rustc-hash 1.1.0",
- "rustc_version 0.2.3",
- "serde",
- "serde_json",
- "unicode-id-start",
- "url",
-]
-
-[[package]]
-name = "sourcemap"
 version = "9.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dd430118acc9fdd838557649b9b43fd0a78e3834d84a283b466f8e84720d6101"
@@ -4482,7 +4439,7 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "sourcemap 9.2.0",
+ "sourcemap",
  "swc_atoms",
  "swc_common",
  "swc_compiler_base",
@@ -4591,7 +4548,7 @@ dependencies = [
  "relative-path",
  "serde",
  "serde_json",
- "sourcemap 9.2.0",
+ "sourcemap",
  "swc_core",
  "tracing",
  "tracing-chrome 0.5.0",
@@ -4620,7 +4577,7 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "siphasher 0.3.11",
- "sourcemap 9.2.0",
+ "sourcemap",
  "swc_allocator",
  "swc_atoms",
  "swc_eq_ignore_macros",
@@ -4643,7 +4600,7 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "sourcemap 9.2.0",
+ "sourcemap",
  "swc_allocator",
  "swc_atoms",
  "swc_common",
@@ -4669,7 +4626,7 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "sourcemap 9.2.0",
+ "sourcemap",
  "swc_config_macro",
 ]
 
@@ -4827,7 +4784,7 @@ dependencies = [
  "regex",
  "rustc-hash 2.1.1",
  "serde",
- "sourcemap 9.2.0",
+ "sourcemap",
  "swc_allocator",
  "swc_atoms",
  "swc_common",
@@ -5165,7 +5122,7 @@ dependencies = [
  "once_cell",
  "preset_env_base",
  "rustc-hash 2.1.1",
- "semver 1.0.26",
+ "semver",
  "serde",
  "serde_json",
  "st-map",
@@ -6906,7 +6863,7 @@ dependencies = [
  "hex",
  "indexmap 2.8.0",
  "schemars",
- "semver 1.0.26",
+ "semver",
  "serde",
  "serde_json",
  "serde_yml",
@@ -6929,7 +6886,7 @@ dependencies = [
  "indexmap 2.8.0",
  "saffron",
  "schemars",
- "semver 1.0.26",
+ "semver",
  "serde",
  "serde_json",
  "serde_yml",
@@ -6990,7 +6947,7 @@ dependencies = [
  "ciborium",
  "flate2",
  "insta",
- "semver 1.0.26",
+ "semver",
  "serde",
  "serde_json",
  "sha2",
@@ -7017,7 +6974,7 @@ dependencies = [
  "flate2",
  "ignore",
  "insta",
- "semver 1.0.26",
+ "semver",
  "serde",
  "serde_json",
  "sha2",
@@ -7115,7 +7072,7 @@ dependencies = [
  "reqwest",
  "rkyv 0.8.10",
  "rusty_pool",
- "semver 1.0.26",
+ "semver",
  "serde",
  "serde_derive",
  "serde_json",
@@ -7189,7 +7146,7 @@ checksum = "0f51cad774fb3c9461ab9bccc9c62dfb7388397b5deda31bf40e8108ccd678b2"
 dependencies = [
  "bitflags 2.9.0",
  "indexmap 2.8.0",
- "semver 1.0.26",
+ "semver",
 ]
 
 [[package]]

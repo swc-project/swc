@@ -64,6 +64,7 @@ pub struct LintParams<'a> {
 }
 
 pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
+    #[allow(unused_mut)]
     let mut rules = vec![
         const_assign::const_assign(),
         duplicate_bindings::duplicate_bindings(),

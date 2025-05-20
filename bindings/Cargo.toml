@@ -20,7 +20,7 @@ resolver = "2"
   [workspace.dependencies]
   anyhow                  = "1.0.86"
   backtrace               = "0.3"
-  getrandom               = "0.2.15"
+  getrandom               = "0.3"
   js-sys                  = "0.3.77"
   lightningcss            = "1.0.0-alpha.58"
   miette                  = "7.5.0"
@@ -35,7 +35,7 @@ resolver = "2"
   serde                   = "1"
   serde-wasm-bindgen      = "0.6.5"
   serde_json              = "1.0.120"
-  sourcemap               = "8.0.1"
+  sourcemap               = "9.0.2"
   swc_atoms               = { path = "../crates/swc_atoms" }
   swc_cli_impl            = { path = "../crates/swc_cli_impl" }
   swc_common              = { path = "../crates/swc_common" }
@@ -49,9 +49,9 @@ resolver = "2"
   swc_ecma_react_compiler = { path = "../crates/swc_ecma_react_compiler" }
   swc_error_reporters     = { path = "../crates/swc_error_reporters" }
   swc_fast_ts_strip       = { path = "../crates/swc_fast_ts_strip" }
-  swc_html                = { path = "../crates/swc_html" }
+  swc_html                = { path = "../crates/swc_html", default-features = false }
   swc_html_ast            = { path = "../crates/swc_html_ast" }
-  swc_html_minifier       = { path = "../crates/swc_html_minifier" }
+  swc_html_minifier       = { path = "../crates/swc_html_minifier", default-features = false }
   swc_malloc              = { path = "../crates/swc_malloc" }
   swc_nodejs_common       = { path = "../crates/swc_nodejs_common" }
   tracing                 = "0.1.40"
