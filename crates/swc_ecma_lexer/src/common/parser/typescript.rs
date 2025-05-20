@@ -994,7 +994,11 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
 
     let init = if p.input_mut().eat(&P::Token::EQUAL) {
         Some(parse_assignment_expr(p)?)
-    } else if p.input_mut().is(&P::Token::COMMA) || p.input_mut().is(&P::Token::RBRACE) {
+    } else if p
+        .input_mut()
+        .cur()
+        .is_some_and(|cur| cur.is_comma() || cur.is_rbrace())
+    {
         None
     } else {
         let start = p.cur_pos();
@@ -1406,9 +1410,9 @@ pub fn is_ts_start_of_mapped_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool>
     if p.input_mut().eat(&P::Token::PLUS) || p.input_mut().eat(&P::Token::MINUS) {
         return Ok(p.input_mut().is(&P::Token::READONLY));
     }
-    if p.input_mut().is(&P::Token::READONLY) {
-        p.bump();
-    }
+
+    p.input_mut().eat(&P::Token::READONLY);
+
     if !p.input_mut().is(&P::Token::LBRACKET) {
         return Ok(false);
     }
