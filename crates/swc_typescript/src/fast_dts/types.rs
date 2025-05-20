@@ -196,7 +196,7 @@ impl FastDts {
                         let (key, computed) = self.transform_property_name_to_expr(&getter.key);
                         members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
                             span: DUMMY_SP,
-                            readonly: is_const,
+                            readonly: true,
                             key: Box::new(key),
                             computed,
                             optional: false,
