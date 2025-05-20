@@ -6,47 +6,20 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, stack_size::maybe_grow_default};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
-pub(super) struct IdCollector {
-    pub ids: FxHashSet<Id>,
+struct IdCollector {
+    ids: FxHashSet<Id>,
+    stopped: bool,
 }
 
-impl Visit for IdCollector {
-    noop_visit_type!();
-
-    visit_obj_and_computed!();
-
-    fn visit_export_default_specifier(&mut self, _: &ExportDefaultSpecifier) {}
-
-    fn visit_export_named_specifier(&mut self, _: &ExportNamedSpecifier) {}
-
-    fn visit_export_namespace_specifier(&mut self, _: &ExportNamespaceSpecifier) {}
-
-    fn visit_bin_expr(&mut self, n: &BinExpr) {
-        maybe_grow_default(|| n.visit_children_with(self));
-    }
-
-    fn visit_ident(&mut self, id: &Ident) {
-        if id.ctxt != SyntaxContext::empty() {
-            self.ids.insert(id.to_id());
-        }
-    }
-
-    fn visit_named_export(&mut self, e: &NamedExport) {
-        if e.src.is_some() {
-            return;
-        }
-
-        e.visit_children_with(self);
-    }
-
-    fn visit_prop_name(&mut self, p: &PropName) {
-        if let PropName::Computed(n) = p {
-            n.visit_with(self);
+impl IdCollector {
+    fn handle_ident(&mut self, n: &Ident) {
+        if !self.stopped && n.ctxt != SyntaxContext::empty() {
+            self.ids.insert(n.to_id());
         }
     }
 }
 
-pub(super) struct CustomBindingCollector<I>
+struct CustomBindingCollector<I>
 where
     I: IdentLike + Eq + Hash + Send + Sync,
 {
@@ -72,145 +45,253 @@ where
 
         self.bindings.insert(I::from_ident(i));
     }
-}
 
-impl<I> Visit for CustomBindingCollector<I>
-where
-    I: IdentLike + Eq + Hash + Send + Sync,
-{
-    noop_visit_type!();
-
-    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
-        let old = self.is_pat_decl;
-
-        for p in &n.params {
-            self.is_pat_decl = true;
-            p.visit_with(self);
-        }
-
-        n.body.visit_with(self);
-        self.is_pat_decl = old;
-    }
-
-    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
-        node.value.visit_with(self);
-
+    fn handle_assign_pat_prop(&mut self, node: &AssignPatProp) {
         if self.is_pat_decl {
             self.add(&Ident::from(&node.key));
         }
     }
 
-    fn visit_binding_ident(&mut self, n: &BindingIdent) {
-        n.visit_children_with(self);
-
+    fn handle_binding_ident(&mut self, node: &BindingIdent) {
         if self.is_pat_decl {
-            self.add(&Ident::from(n))
+            self.add(&Ident::from(node));
         }
     }
 
-    fn visit_catch_clause(&mut self, node: &CatchClause) {
-        let old = self.is_pat_decl;
-        self.is_pat_decl = true;
-        node.param.visit_with(self);
-
-        self.is_pat_decl = false;
-        node.body.visit_with(self);
-        self.is_pat_decl = old;
-    }
-
-    fn visit_class_decl(&mut self, node: &ClassDecl) {
-        node.visit_children_with(self);
-
-        self.add(&node.ident);
-    }
-
-    fn visit_class_expr(&mut self, node: &ClassExpr) {
-        node.visit_children_with(self);
-
+    fn handle_class_expr(&mut self, node: &ClassExpr) {
         if let Some(id) = &node.ident {
             self.add(id);
         }
     }
 
-    fn visit_expr(&mut self, node: &Expr) {
-        let old = self.is_pat_decl;
-        self.is_pat_decl = false;
+    fn handle_fn_expr(&mut self, node: &FnExpr) {
+        if let Some(id) = &node.ident {
+            self.add(id);
+        }
+    }
+}
+
+pub(super) struct Collector<I>
+where
+    I: IdentLike + Eq + Hash + Send + Sync,
+{
+    id_collector: IdCollector,
+    decl_collector: CustomBindingCollector<I>,
+}
+
+impl<I> Visit for Collector<I>
+where
+    I: IdentLike + Eq + Hash + Send + Sync,
+{
+    noop_visit_type!();
+
+    fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
+        let old_decl_collector_is_pat_decl = self.decl_collector.is_pat_decl;
+        self.decl_collector.is_pat_decl = true;
+
         node.visit_children_with(self);
-        self.is_pat_decl = old;
+
+        self.decl_collector.is_pat_decl = old_decl_collector_is_pat_decl;
+    }
+
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
+        node.visit_children_with(self);
+
+        self.decl_collector.handle_assign_pat_prop(node);
+    }
+
+    fn visit_binding_ident(&mut self, node: &BindingIdent) {
+        node.visit_children_with(self);
+
+        self.decl_collector.handle_binding_ident(node);
     }
 
     fn visit_bin_expr(&mut self, node: &BinExpr) {
         maybe_grow_default(|| node.visit_children_with(self));
     }
 
+    fn visit_catch_clause(&mut self, node: &CatchClause) {
+        let old_decl_collector_is_pat_decl = self.decl_collector.is_pat_decl;
+        self.decl_collector.is_pat_decl = true;
+
+        node.param.visit_with(self);
+
+        self.decl_collector.is_pat_decl = false;
+
+        node.body.visit_with(self);
+
+        self.decl_collector.is_pat_decl = old_decl_collector_is_pat_decl;
+    }
+
+    fn visit_class_decl(&mut self, node: &ClassDecl) {
+        node.visit_children_with(self);
+
+        self.decl_collector.add(&node.ident);
+    }
+
+    fn visit_class_expr(&mut self, node: &ClassExpr) {
+        node.visit_children_with(self);
+
+        self.decl_collector.handle_class_expr(node);
+    }
+
+    fn visit_expr(&mut self, node: &Expr) {
+        let old_decl_collector_is_pat_decl = self.decl_collector.is_pat_decl;
+        self.decl_collector.is_pat_decl = false;
+
+        node.visit_children_with(self);
+
+        self.decl_collector.is_pat_decl = old_decl_collector_is_pat_decl;
+    }
+
     fn visit_fn_decl(&mut self, node: &FnDecl) {
         node.visit_children_with(self);
 
-        self.add(&node.ident);
+        self.decl_collector.add(&node.ident);
     }
 
     fn visit_fn_expr(&mut self, node: &FnExpr) {
         node.visit_children_with(self);
 
-        if let Some(id) = &node.ident {
-            self.add(id);
-        }
+        self.decl_collector.handle_fn_expr(node);
     }
 
     fn visit_import_default_specifier(&mut self, node: &ImportDefaultSpecifier) {
-        self.add(&node.local);
+        node.visit_children_with(self);
+
+        self.decl_collector.add(&node.local);
     }
 
     fn visit_import_named_specifier(&mut self, node: &ImportNamedSpecifier) {
-        self.add(&node.local);
+        node.visit_children_with(self);
+
+        self.decl_collector.add(&node.local);
     }
 
     fn visit_import_star_as_specifier(&mut self, node: &ImportStarAsSpecifier) {
-        self.add(&node.local);
+        node.visit_children_with(self);
+
+        self.decl_collector.add(&node.local);
     }
 
     fn visit_param(&mut self, node: &Param) {
-        let old = self.is_pat_decl;
-        self.is_pat_decl = true;
+        let old_decl_collector_is_pat_decl = self.decl_collector.is_pat_decl;
+        self.decl_collector.is_pat_decl = true;
+
         node.visit_children_with(self);
-        self.is_pat_decl = old;
+
+        self.decl_collector.is_pat_decl = old_decl_collector_is_pat_decl;
     }
 
     fn visit_ts_param_prop(&mut self, p: &TsParamProp) {
-        let old = self.is_pat_decl;
+        let old_decl_collector_is_pat_decl = self.decl_collector.is_pat_decl;
+        self.decl_collector.is_pat_decl = true;
 
-        self.is_pat_decl = true;
         p.visit_children_with(self);
 
-        self.is_pat_decl = old;
+        self.decl_collector.is_pat_decl = old_decl_collector_is_pat_decl;
     }
 
     fn visit_var_declarator(&mut self, node: &VarDeclarator) {
-        let old = self.is_pat_decl;
-        self.is_pat_decl = true;
+        let old_decl_collector_is_pat_decl = self.decl_collector.is_pat_decl;
+        self.decl_collector.is_pat_decl = true;
+
         node.name.visit_with(self);
 
-        self.is_pat_decl = false;
+        self.decl_collector.is_pat_decl = false;
+
         node.init.visit_with(self);
-        self.is_pat_decl = old;
+
+        self.decl_collector.is_pat_decl = old_decl_collector_is_pat_decl;
+    }
+
+    fn visit_super_prop(&mut self, node: &SuperProp) {
+        let old_id_collector_stopped = self.id_collector.stopped;
+        if node.is_ident() {
+            self.id_collector.stopped = true;
+        }
+
+        node.visit_children_with(self);
+
+        if node.is_ident() {
+            self.id_collector.stopped = old_id_collector_stopped;
+        }
+    }
+
+    fn visit_export_default_specifier(&mut self, n: &ExportDefaultSpecifier) {
+        let old_id_collector_stopped = self.id_collector.stopped;
+        self.id_collector.stopped = true;
+
+        n.visit_children_with(self);
+
+        self.id_collector.stopped = old_id_collector_stopped;
+    }
+
+    fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
+        let old_id_collector_stopped = self.id_collector.stopped;
+        self.id_collector.stopped = true;
+
+        n.visit_children_with(self);
+
+        self.id_collector.stopped = old_id_collector_stopped;
+    }
+
+    fn visit_export_namespace_specifier(&mut self, n: &ExportNamespaceSpecifier) {
+        let old_id_collector_stopped = self.id_collector.stopped;
+        self.id_collector.stopped = true;
+
+        n.visit_children_with(self);
+
+        self.id_collector.stopped = old_id_collector_stopped;
+    }
+
+    fn visit_ident(&mut self, id: &Ident) {
+        self.id_collector.handle_ident(id);
+    }
+
+    fn visit_named_export(&mut self, e: &NamedExport) {
+        let old_id_collector_stopped = self.id_collector.stopped;
+        if e.src.is_some() {
+            self.id_collector.stopped = true;
+        }
+
+        e.visit_children_with(self);
+
+        if e.src.is_some() {
+            self.id_collector.stopped = old_id_collector_stopped;
+        }
     }
 }
 
-/// Returns `(bindings, preserved)`.
-pub(super) fn collect_decls<I, N>(
+pub(super) fn collect<I, N>(
     n: &N,
     top_level_mark_for_eval: Option<Mark>,
-) -> (FxHashSet<I>, FxHashSet<I>)
+) -> (FxHashSet<Id>, FxHashSet<I>, FxHashSet<I>)
 where
     I: IdentLike + Eq + Hash + Send + Sync,
-    N: VisitWith<CustomBindingCollector<I>>,
+    N: VisitWith<Collector<I>>,
 {
-    let mut v = CustomBindingCollector {
+    let id_collector = IdCollector {
+        ids: Default::default(),
+        stopped: false,
+    };
+    let decl_collector = CustomBindingCollector {
         bindings: Default::default(),
         preserved: Default::default(),
         is_pat_decl: false,
         top_level_for_eval: top_level_mark_for_eval.map(|m| SyntaxContext::empty().apply_mark(m)),
     };
+
+    let mut v = Collector {
+        id_collector,
+        decl_collector,
+    };
+
     n.visit_with(&mut v);
-    (v.bindings, v.preserved)
+
+    (
+        v.id_collector.ids,
+        v.decl_collector.bindings,
+        v.decl_collector.preserved,
+    )
 }

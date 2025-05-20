@@ -2,6 +2,7 @@
 
 use std::{borrow::Cow, collections::hash_map::Entry};
 
+use collector::{collect, Collector};
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_ecma_ast::*;
@@ -15,11 +16,7 @@ pub use self::eval::contains_eval;
 use self::renamer_concurrent::{Send, Sync};
 #[cfg(not(feature = "concurrent-renamer"))]
 use self::renamer_single::{Send, Sync};
-use self::{
-    analyzer::Analyzer,
-    collector::{collect_decls, CustomBindingCollector, IdCollector},
-    ops::Operator,
-};
+use self::{analyzer::Analyzer, ops::Operator};
 use crate::hygiene::Config;
 
 mod analyzer;
@@ -115,23 +112,9 @@ where
 {
     fn get_unresolved<N>(&self, n: &N, has_eval: bool) -> FxHashSet<Atom>
     where
-        N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
+        N: VisitWith<Collector<Id>>,
     {
-        let usages = {
-            let mut v = IdCollector {
-                ids: Default::default(),
-            };
-            n.visit_with(&mut v);
-            v.ids
-        };
-        let (decls, preserved) = collect_decls(
-            n,
-            if has_eval {
-                Some(self.config.top_level_mark)
-            } else {
-                None
-            },
-        );
+        let (usages, decls, preserved) = collect(n, has_eval.then_some(self.config.top_level_mark));
         usages
             .into_iter()
             .filter(|used_id| !decls.contains(used_id))
@@ -142,8 +125,7 @@ where
 
     fn get_map<N>(&mut self, node: &N, skip_one: bool, top_level: bool, has_eval: bool) -> RenameMap
     where
-        N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
-        N: VisitWith<Analyzer>,
+        N: VisitWith<Collector<Id>> + VisitWith<Analyzer>,
     {
         let mut scope = {
             let mut v = Analyzer {
