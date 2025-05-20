@@ -60,7 +60,6 @@ serde        = { workspace = true, features = ["derive"] }
 serde_json   = { workspace = true }
 tokio        = { workspace = true, optional = true }
 tracing      = { workspace = true }
-virtual-fs   = { workspace = true }
 wasmer       = { workspace = true }
 wasmer-wasix = { workspace = true }
 
