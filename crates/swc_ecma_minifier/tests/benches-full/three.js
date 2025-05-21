@@ -5,7 +5,7 @@ function(global, factory) {
     ], factory) : factory((global = 'undefined' != typeof globalThis ? globalThis : global || self).THREE = {});
 }(this, function(exports1) {
     'use strict';
-    void 0 === Number.EPSILON && (Number.EPSILON = 0.0000000000000002220446049250313), void 0 === Number.isInteger && // Missing in IE
+    void 0 === Number.EPSILON && (Number.EPSILON = 2.220446049250313e-16), void 0 === Number.isInteger && // Missing in IE
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger
     (Number.isInteger = function(value) {
         return 'number' == typeof value && isFinite(value) && Math.floor(value) === value;

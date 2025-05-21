@@ -5268,6 +5268,7 @@ dependencies = [
  "once_cell",
  "regex",
  "rustc-hash 2.1.1",
+ "ryu-js",
  "serde",
  "serde_json",
  "sourcemap",
