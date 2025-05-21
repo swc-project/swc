@@ -4980,7 +4980,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "26.0.0"
+version = "26.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5763,7 +5763,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "15.0.0"
+version = "15.0.1"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",
@@ -6473,7 +6473,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "14.0.0"
+version = "14.0.1"
 dependencies = [
  "bitflags 2.6.0",
  "petgraph 0.7.1",
