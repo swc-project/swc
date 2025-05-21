@@ -165,7 +165,7 @@ impl Scope {
             loop {
                 let sym = renamer.new_name_for(&id, &mut n);
 
-                if preserved_symbols.contains(&sym) {
+                if self.is_preserve_symbol(&sym, renamer, preserved_symbols, preserved) {
                     continue;
                 }
 
@@ -291,8 +291,8 @@ impl Scope {
         for id in queue {
             if renamer.preserve_name(&id)
                 || preserved.contains(&id)
-                || to.get(&id).is_some()
-                || previous.get(&id).is_some()
+                || to.contains_key(&id)
+                || previous.contains_key(&id)
                 || id.0 == "eval"
             {
                 continue;
@@ -302,7 +302,7 @@ impl Scope {
                 let sym = renamer.new_name_for(&id, &mut n);
 
                 // TODO: Use base54::decode
-                if preserved_symbols.contains(&sym) {
+                if self.is_preserve_symbol(&sym, renamer, preserved_symbols, preserved) {
                     continue;
                 }
 
@@ -326,5 +326,22 @@ impl Scope {
     pub fn rename_cost(&self) -> usize {
         let children = &self.children;
         self.data.queue.len() + children.iter().map(|v| v.rename_cost()).sum::<usize>()
+    }
+
+    fn is_preserve_symbol<R: Renamer>(
+        &self,
+        sym: &Atom,
+        renamer: &R,
+        preserved_symbols: &FxHashSet<Atom>,
+        preserved: &FxHashSet<Id>,
+    ) -> bool {
+        preserved_symbols.contains(sym)
+            || renamer
+                .reserved_symbols()
+                .is_some_and(|reserved| reserved.contains(sym))
+            || preserved.iter().any(|p| p.0.eq(sym))
+            || renamer
+                .preserved_ids()
+                .is_some_and(|preserved| preserved.iter().any(|p| p.0.eq(sym)))
     }
 }

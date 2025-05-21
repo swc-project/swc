@@ -85,6 +85,14 @@ impl<'a> Renamer for ManglingRenamer<'a> {
             .collect()
     }
 
+    fn reserved_symbols(&self) -> Option<&Vec<Atom>> {
+        Some(self.reserved)
+    }
+
+    fn preserved_ids(&self) -> Option<&FxHashSet<Id>> {
+        Some(self.preserved)
+    }
+
     fn preserve_name(&self, orig: &Id) -> bool {
         self.preserved.contains(orig)
     }

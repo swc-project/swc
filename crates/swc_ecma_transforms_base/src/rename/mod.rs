@@ -44,6 +44,14 @@ pub trait Renamer: Send + Sync {
         Default::default()
     }
 
+    fn reserved_symbols(&self) -> Option<&Vec<Atom>> {
+        None
+    }
+
+    fn preserved_ids(&self) -> Option<&FxHashSet<Id>> {
+        None
+    }
+
     /// Return true if the identifier should be preserved.
     #[inline]
     fn preserve_name(&self, _orig: &Id) -> bool {
@@ -139,7 +147,7 @@ where
             .chain(preserved.into_iter().map(|v| v.0))
             .collect::<FxHashSet<_>>();
 
-        let mut unresolved = if !top_level {
+        let unresolved = if !top_level {
             let mut set = self.unresolved.clone();
             set.extend(unresolved);
             Cow::Owned(set)
@@ -147,20 +155,6 @@ where
             self.unresolved = unresolved;
             Cow::Borrowed(&self.unresolved)
         };
-
-        if !self.preserved.is_empty() {
-            unresolved
-                .to_mut()
-                .extend(self.preserved.iter().map(|v| v.0.clone()));
-        }
-
-        {
-            let extra_unresolved = self.renamer.unresolved_symbols();
-
-            if !extra_unresolved.is_empty() {
-                unresolved.to_mut().extend(extra_unresolved);
-            }
-        }
 
         let mut map = RenameMap::default();
 
