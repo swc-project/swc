@@ -1,5 +1,3 @@
-use std::iter::FusedIterator;
-
 use arrayvec::ArrayVec;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
@@ -94,8 +92,6 @@ impl Iterator for CharIter {
         }
     }
 }
-
-impl FusedIterator for CharIter {}
 
 /// Implemented for `char`.
 pub trait CharExt: Copy {

@@ -1,6 +1,6 @@
 //! ECMAScript lexer.
 
-use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
+use std::{cell::RefCell, char, rc::Rc};
 
 use swc_atoms::AtomStoreCell;
 use swc_common::{
@@ -49,8 +49,6 @@ pub struct Lexer<'a> {
 
     atoms: Rc<AtomStoreCell>,
 }
-
-impl FusedIterator for Lexer<'_> {}
 
 impl<'a> swc_ecma_lexer::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     type State = self::state::State;
