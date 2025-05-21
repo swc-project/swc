@@ -1,6 +1,7 @@
 use std::hash::Hash;
 
 use rustc_hash::FxHashSet;
+use swc_atoms::Atom;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, stack_size::maybe_grow_default};
@@ -71,18 +72,12 @@ where
     }
 }
 
-pub(super) struct Collector<I>
-where
-    I: IdentLike + Eq + Hash + Send + Sync,
-{
+pub(super) struct Collector {
     id_collector: IdCollector,
-    decl_collector: CustomBindingCollector<I>,
+    decl_collector: CustomBindingCollector<Id>,
 }
 
-impl<I> Visit for Collector<I>
-where
-    I: IdentLike + Eq + Hash + Send + Sync,
-{
+impl Visit for Collector {
     noop_visit_type!();
 
     fn visit_arrow_expr(&mut self, node: &ArrowExpr) {
@@ -263,13 +258,9 @@ where
     }
 }
 
-pub(super) fn collect<I, N>(
-    n: &N,
-    top_level_mark_for_eval: Option<Mark>,
-) -> (FxHashSet<Id>, FxHashSet<I>, FxHashSet<I>)
+pub(super) fn collect<N>(n: &N, top_level_mark_for_eval: Option<Mark>) -> FxHashSet<Atom>
 where
-    I: IdentLike + Eq + Hash + Send + Sync,
-    N: VisitWith<Collector<I>>,
+    N: VisitWith<Collector>,
 {
     let id_collector = IdCollector {
         ids: Default::default(),
@@ -289,9 +280,16 @@ where
 
     n.visit_with(&mut v);
 
-    (
+    let (usages, decls, preserved) = (
         v.id_collector.ids,
         v.decl_collector.bindings,
         v.decl_collector.preserved,
-    )
+    );
+
+    usages
+        .into_iter()
+        .filter(|used_id| !decls.contains(used_id))
+        .map(|v| v.0)
+        .chain(preserved.into_iter().map(|v| v.0))
+        .collect()
 }

@@ -137,9 +137,11 @@ impl Visit for Analyzer {
             let old = v.is_pat_decl;
             v.is_pat_decl = true;
             e.params.visit_with(v);
-            v.is_pat_decl = false;
-            e.body.visit_with(v);
             v.is_pat_decl = old;
+            match e.body.as_ref() {
+                BlockStmtOrExpr::BlockStmt(n) => n.visit_children_with(v),
+                BlockStmtOrExpr::Expr(n) => n.visit_with(v),
+            }
         });
     }
 
@@ -162,14 +164,6 @@ impl Visit for Analyzer {
 
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
         self.with_scope(ScopeKind::Block, |v| n.visit_children_with(v))
-    }
-
-    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
-        match n {
-            // This avoid crating extra block scope for arrow function
-            BlockStmtOrExpr::BlockStmt(n) => n.visit_children_with(self),
-            BlockStmtOrExpr::Expr(n) => n.visit_with(self),
-        }
     }
 
     fn visit_catch_clause(&mut self, n: &CatchClause) {
@@ -376,28 +370,6 @@ impl Visit for Analyzer {
 
     fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier) {
         self.add_decl(n.local.to_id(), true);
-    }
-
-    fn visit_member_expr(&mut self, e: &MemberExpr) {
-        e.obj.visit_with(self);
-
-        if let MemberProp::Computed(c) = &e.prop {
-            c.visit_with(self);
-        }
-    }
-
-    fn visit_method_prop(&mut self, f: &MethodProp) {
-        f.key.visit_with(self);
-
-        f.function.visit_with(self)
-    }
-
-    fn visit_named_export(&mut self, n: &NamedExport) {
-        if n.src.is_some() {
-            return;
-        }
-
-        n.visit_children_with(self);
     }
 
     fn visit_param(&mut self, e: &Param) {
