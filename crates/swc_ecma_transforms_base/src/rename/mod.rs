@@ -112,7 +112,7 @@ where
 {
     fn get_map<N>(&mut self, node: &N, skip_one: bool, top_level: bool, has_eval: bool) -> RenameMap
     where
-        N: VisitWith<Collector<Id>> + VisitWith<Analyzer>,
+        N: VisitWith<Collector> + VisitWith<Analyzer>,
     {
         let mut scope = {
             let mut v = Analyzer {
@@ -130,14 +130,7 @@ where
         };
         scope.prepare_renaming();
 
-        let (usages, decls, preserved) =
-            collect(node, has_eval.then_some(self.config.top_level_mark));
-        let unresolved = usages
-            .into_iter()
-            .filter(|used_id| !decls.contains(used_id))
-            .map(|v| v.0)
-            .chain(preserved.into_iter().map(|v| v.0))
-            .collect::<FxHashSet<_>>();
+        let unresolved = collect(node, has_eval.then_some(self.config.top_level_mark));
 
         let mut unresolved = if !top_level {
             let mut set = self.unresolved.clone();
