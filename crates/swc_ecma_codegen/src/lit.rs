@@ -224,10 +224,7 @@ where
 
         // Handle infinity
         if num.value.is_infinite() && num.raw.is_none() {
-            if num.value.is_sign_negative() {
-                self.wr.write_str_lit(num.span, "-")?;
-            }
-            self.wr.write_str_lit(num.span, "Infinity")?;
+            self.wr.write_str_lit(num.span, &num.value.print())?;
 
             return Ok(false);
         }
@@ -254,7 +251,7 @@ where
                         if num.value.is_infinite() && num.raw.is_some() {
                             self.wr.write_str_lit(DUMMY_SP, num.raw.as_ref().unwrap())?;
                         } else {
-                            value = num.value.to_string();
+                            value = num.value.print();
                             self.wr.write_str_lit(DUMMY_SP, &value)?;
                         }
                     } else if raw.len() > 2
@@ -276,7 +273,7 @@ where
                     }
                 }
                 _ => {
-                    value = num.value.to_string();
+                    value = num.value.print();
                     self.wr.write_str_lit(DUMMY_SP, &value)?;
                 }
             }
@@ -602,4 +599,20 @@ pub fn minify_number(num: f64, detect_dot: &mut bool) -> String {
 
 fn clz(s: &str) -> usize {
     s.as_bytes().iter().take_while(|&&c| c == b'0').count()
+}
+
+pub trait Print {
+    fn print(&self) -> String;
+}
+
+impl Print for f64 {
+    fn print(&self) -> String {
+        // preserve -0.0
+        if *self == 0.0 {
+            return self.to_string();
+        }
+
+        let mut buffer = ryu_js::Buffer::new();
+        buffer.format(*self).to_string()
+    }
 }

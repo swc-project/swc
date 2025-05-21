@@ -24,6 +24,7 @@ num-bigint  = { workspace = true, features = ["serde"] }
 once_cell   = { workspace = true }
 regex       = { workspace = true }
 rustc-hash  = { workspace = true }
+ryu-js      = { workspace = true }
 serde       = { workspace = true }
 sourcemap   = { workspace = true }
 tracing     = { workspace = true }
