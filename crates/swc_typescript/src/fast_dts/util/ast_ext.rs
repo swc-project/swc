@@ -2,7 +2,7 @@ use std::borrow::Cow;
 
 use swc_atoms::Atom;
 use swc_ecma_ast::{
-    BindingIdent, Expr, Ident, Lit, MemberProp, ObjectPatProp, Pat, PropName, TsTypeAnn,
+    BindingIdent, Expr, Ident, Lit, MemberProp, ObjectPatProp, Pat, Prop, PropName, TsTypeAnn,
 };
 
 pub trait ExprExit {
@@ -114,6 +114,19 @@ impl PropNameExit for PropName {
                     .map(|atom| Cow::Borrowed(atom.as_str())),
                 _ => None,
             },
+        }
+    }
+}
+
+impl PropNameExit for Prop {
+    fn static_name(&self) -> Option<Cow<str>> {
+        match self {
+            Self::Shorthand(ident_name) => Some(Cow::Borrowed(ident_name.sym.as_str())),
+            Self::KeyValue(key_value_prop) => key_value_prop.key.static_name(),
+            Self::Assign(..) => None,
+            Self::Getter(getter_prop) => getter_prop.key.static_name(),
+            Self::Setter(setter_prop) => setter_prop.key.static_name(),
+            Self::Method(method_prop) => method_prop.key.static_name(),
         }
     }
 }
