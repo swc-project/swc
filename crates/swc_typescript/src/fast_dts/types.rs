@@ -1,9 +1,10 @@
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{BytePos, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
-    ArrayLit, ArrowExpr, Expr, Function, Lit, ObjectLit, Param, Pat, Prop, PropName, PropOrSpread,
-    Str, Tpl, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordTypeKind, TsLit,
-    TsMethodSignature, TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeElement,
-    TsTypeLit, TsTypeOperator, TsTypeOperatorOp, UnaryOp,
+    ArrayLit, ArrowExpr, Expr, Function, GetterProp, Lit, ObjectLit, Param, Pat, Prop, PropName,
+    PropOrSpread, Str, Tpl, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordTypeKind, TsLit,
+    TsMethodSignature, TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeAnn,
+    TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, UnaryOp,
 };
 
 use super::{
@@ -15,6 +16,7 @@ use super::{
     },
     FastDts,
 };
+use crate::fast_dts::util::ast_ext::PropNameExit;
 
 impl FastDts {
     pub(crate) fn transform_expr_to_ts_type(&mut self, expr: &Expr) -> Option<Box<TsType>> {
@@ -143,6 +145,10 @@ impl FastDts {
         is_const: bool,
     ) -> Option<Box<TsType>> {
         let mut members = Vec::new();
+        let (setter_getter_annotations, seen_setter) =
+            self.collect_object_getter_or_setter_annotations(object);
+        let mut has_seen = FxHashSet::default();
+
         for prop in &object.props {
             match prop {
                 PropOrSpread::Prop(prop) => match prop.as_ref() {
@@ -181,26 +187,48 @@ impl FastDts {
                             continue;
                         }
 
-                        let type_ann = getter.type_ann.clone().or_else(|| {
-                            getter
-                                .body
-                                .as_ref()
-                                .and_then(|body| ReturnTypeInferrer::infer(self, &body.stmts))
-                                .map(type_ann)
-                        });
+                        let mut getter_type_ann = None;
 
-                        if type_ann.is_none() {
+                        let mut has_setter = false;
+
+                        if let Some(static_name) = getter.key.static_name() {
+                            if has_seen.contains(&static_name) {
+                                continue;
+                            }
+                            has_setter = seen_setter.contains(static_name.as_ref());
+                            if let Some(type_ann) =
+                                setter_getter_annotations.get(static_name.as_ref())
+                            {
+                                getter_type_ann = Some(type_ann.clone());
+                            }
+
+                            has_seen.insert(static_name);
+                        }
+
+                        // [TODO]: check cases not handled by
+                        // collect_object_getter_or_setter_annotations
+                        if getter_type_ann.is_none() {
+                            getter_type_ann = getter.type_ann.clone().or_else(|| {
+                                getter
+                                    .body
+                                    .as_ref()
+                                    .and_then(|body| ReturnTypeInferrer::infer(self, &body.stmts))
+                                    .map(type_ann)
+                            });
+                        }
+
+                        if getter_type_ann.is_none() {
                             self.accessor_must_have_explicit_return_type(getter.span);
                         }
 
                         let (key, computed) = self.transform_property_name_to_expr(&getter.key);
                         members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
                             span: DUMMY_SP,
-                            readonly: true,
+                            readonly: !has_setter,
                             key: Box::new(key),
                             computed,
                             optional: false,
-                            type_ann,
+                            type_ann: getter_type_ann,
                         }));
                     }
                     Prop::Setter(setter) => {
@@ -208,14 +236,37 @@ impl FastDts {
                             continue;
                         }
 
+                        let mut setter_type_ann = None;
+
+                        if let Some(static_name) = setter.key.static_name() {
+                            if has_seen.contains(&static_name) {
+                                continue;
+                            }
+                            if let Some(type_ann) =
+                                setter_getter_annotations.get(static_name.as_ref())
+                            {
+                                setter_type_ann = Some(type_ann.clone());
+                            }
+
+                            has_seen.insert(static_name);
+                        }
+
+                        if setter_type_ann.is_none() {
+                            setter_type_ann = setter.param.get_type_ann().clone();
+                        }
+
+                        if setter_type_ann.is_none() {
+                            self.accessor_must_have_explicit_return_type(setter.span);
+                        }
+
                         let (key, computed) = self.transform_property_name_to_expr(&setter.key);
                         members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
                             span: DUMMY_SP,
-                            readonly: is_const,
+                            readonly: false,
                             key: Box::new(key),
                             computed,
                             optional: false,
-                            type_ann: setter.param.get_type_ann().clone(),
+                            type_ann: setter_type_ann,
                         }));
                     }
                     Prop::Method(method) => {
@@ -378,5 +429,47 @@ impl FastDts {
             Expr::Unary(unary) => Self::can_infer_unary_expr(unary),
             _ => false,
         }
+    }
+
+    pub(crate) fn collect_object_getter_or_setter_annotations(
+        &mut self,
+        object: &ObjectLit,
+    ) -> (FxHashMap<String, Box<TsTypeAnn>>, FxHashSet<String>) {
+        let mut annotations = FxHashMap::default();
+        let mut seen_setter = FxHashSet::default();
+
+        for prop in &object.props {
+            let Some(prop) = prop.as_prop() else {
+                continue;
+            };
+
+            let Some(static_name) = prop.static_name().map(|name| name.to_string()) else {
+                continue;
+            };
+
+            match &**prop {
+                Prop::Getter(GetterProp {
+                    type_ann: ty,
+                    body: Some(body),
+                    ..
+                }) => {
+                    if let Some(type_ann) = ty
+                        .clone()
+                        .or_else(|| ReturnTypeInferrer::infer(self, &body.stmts).map(type_ann))
+                    {
+                        annotations.insert(static_name, type_ann);
+                    }
+                }
+                Prop::Setter(setter) => {
+                    if let Some(type_ann) = setter.param.get_type_ann().clone() {
+                        annotations.insert(static_name.clone(), type_ann);
+                    }
+                    seen_setter.insert(static_name);
+                }
+                _ => {}
+            }
+        }
+
+        (annotations, seen_setter)
     }
 }
