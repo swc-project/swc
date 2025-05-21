@@ -3402,7 +3402,7 @@ function(global, factory) {
             for(let k = 0, xp, yp; k < this._ids.length; k++){
                 const i = this._ids[k], x = coords[2 * i], y = coords[2 * i + 1];
                 // skip near-duplicate points
-                if (k > 0 && 0.0000000000000002220446049250313 >= Math.abs(x - xp) && 0.0000000000000002220446049250313 >= Math.abs(y - yp) || (xp = x, yp = y, i === i0 || i === i1 || i === i2)) continue;
+                if (k > 0 && 2.220446049250313e-16 >= Math.abs(x - xp) && 2.220446049250313e-16 >= Math.abs(y - yp) || (xp = x, yp = y, i === i0 || i === i1 || i === i2)) continue;
                 // find a visible edge on the convex hull using edge hash
                 let start = 0;
                 for(let j = 0, key = this._hashKey(x, y); j < this._hashSize && (-1 === (start = hullHash[(key + j) % this._hashSize]) || start === hullNext[start]); j++);
@@ -4983,7 +4983,7 @@ function(global, factory) {
         // Second, count the (signed) number of times a segment crosses a lambda
         // from the point to the South pole.  If it is zero, then the point is the
         // same side as the South pole.
-        return (angle < -0.000001 || angle < 1e-6 && sum < -0.000000000001) ^ 1 & winding;
+        return (angle < -0.000001 || angle < 1e-6 && sum < -1e-12) ^ 1 & winding;
     }
     function clip(pointVisible, clipLine, interpolate, start) {
         return function(sink) {

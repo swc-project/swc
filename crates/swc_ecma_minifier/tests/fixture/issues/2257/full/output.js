@@ -4811,7 +4811,7 @@
         // https://tc39.es/ecma262/#sec-math.expm1
         module.exports = !$expm1 || // Old FF bug
         $expm1(10) > 22025.465794806719 || 22025.4657948067165168 > $expm1(10) || // Tor Browser bug
-        -0.00000000000000002 != $expm1(-0.00000000000000002) ? function(x) {
+        -2e-17 != $expm1(-2e-17) ? function(x) {
             return 0 == (x *= 1) ? x : x > -0.000001 && x < 1e-6 ? x + x * x / 2 : exp(x) - 1;
         } : $expm1;
     /***/ },
@@ -4832,7 +4832,7 @@
         // https://tc39.es/ecma262/#sec-math.log1p
         // eslint-disable-next-line es/no-math-log1p -- safe
         module.exports = Math.log1p || function(x) {
-            return (x *= 1) > -0.00000001 && x < 1e-8 ? x - x * x / 2 : log(1 + x);
+            return (x *= 1) > -1e-8 && x < 1e-8 ? x - x * x / 2 : log(1 + x);
         };
     /***/ },
     /***/ 62381: /***/ function(module) {
@@ -6887,7 +6887,7 @@
             stat: !0,
             forced: fails(function() {
                 // eslint-disable-next-line es/no-math-sinh -- required for testing
-                return -0.00000000000000002 != Math.sinh(-0.00000000000000002);
+                return -2e-17 != Math.sinh(-2e-17);
             })
         }, {
             sinh: function(x) {
@@ -6976,7 +6976,7 @@
             target: "Number",
             stat: !0
         }, {
-            EPSILON: 0.0000000000000002220446049250313
+            EPSILON: 2.220446049250313e-16
         });
     /***/ },
     /***/ 36017: /***/ function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
@@ -7112,7 +7112,7 @@
                 if (fractDigits < 0 || fractDigits > 20) throw RangeError("Incorrect fraction digits");
                 // eslint-disable-next-line no-self-compare -- NaN check
                 if (number != number) return "NaN";
-                if (number <= -1000000000000000000000 || number >= 1e21) return String(number);
+                if (number <= -1e+21 || number >= 1e21) return String(number);
                 if (number < 0 && (sign = "-", number = -number), number > 1e-21) if (z = ((e = log(number * pow(2, 69, 1)) - 69) < 0 ? number * pow(2, -e, 1) : number / pow(2, e, 1)) * 0x10000000000000, (e = 52 - e) > 0) {
                     for(multiply(data, 0, z), j = fractDigits; j >= 7;)multiply(data, 1e7, 0), j -= 7;
                     for(multiply(data, pow(10, j, 1), 0), j = e - 1; j >= 23;)divide(data, 8388608), j -= 23;

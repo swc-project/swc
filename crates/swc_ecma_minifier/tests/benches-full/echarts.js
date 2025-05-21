@@ -5099,10 +5099,10 @@
         }, Displayable.STYLE_CHANGED_BIT = 2, Displayable.initDefaultProps = void ((dispProto = Displayable.prototype).type = 'displayable', dispProto.invisible = !1, dispProto.z = 0, dispProto.z2 = 0, dispProto.zlevel = 0, dispProto.culling = !1, dispProto.cursor = 'pointer', dispProto.rectHover = !1, dispProto.incremental = !1, dispProto._rect = null, dispProto.dirtyRectTolerance = 0, dispProto.__dirty = Element.REDARAW_BIT | Displayable.STYLE_CHANGED_BIT), Displayable;
     }(Element), tmpRect = new BoundingRect(0, 0, 0, 0), viewRect = new BoundingRect(0, 0, 0, 0), mathPow = Math.pow, mathSqrt = Math.sqrt, THREE_SQRT = mathSqrt(3), ONE_THIRD = 1 / 3, _v0 = create(), _v1 = create(), _v2 = create();
     function isAroundZero(val) {
-        return val > -0.00000001 && val < 1e-8;
+        return val > -1e-8 && val < 1e-8;
     }
     function isNotAroundZero$1(val) {
-        return val > 1e-8 || val < -0.00000001;
+        return val > 1e-8 || val < -1e-8;
     }
     function cubicAt(p0, p1, p2, p3, t) {
         var onet = 1 - t;

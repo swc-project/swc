@@ -7224,7 +7224,7 @@
                     for(var k = 0, xp = void 0, yp = void 0; k < this._ids.length; k++){
                         var i$8 = this._ids[k], x$2 = coords[2 * i$8], y$2 = coords[2 * i$8 + 1];
                         // skip near-duplicate points
-                        if (!(k > 0 && 0.0000000000000002220446049250313 >= Math.abs(x$2 - xp) && 0.0000000000000002220446049250313 >= Math.abs(y$2 - yp)) && (xp = x$2, yp = y$2, i$8 !== i0 && i$8 !== i1 && i$8 !== i2)) {
+                        if (!(k > 0 && 2.220446049250313e-16 >= Math.abs(x$2 - xp) && 2.220446049250313e-16 >= Math.abs(y$2 - yp)) && (xp = x$2, yp = y$2, i$8 !== i0 && i$8 !== i1 && i$8 !== i2)) {
                             for(var start = 0, j$1 = 0, key = this._hashKey(x$2, y$2); j$1 < this._hashSize && (-1 === (start = hullHash[(key + j$1) % this._hashSize]) || start === hullNext[start]); j$1++);
                             for(// find a visible edge on the convex hull using edge hash
                             var e = start = hullPrev[start], q = void 0; q = hullNext[e], !orient(x$2, y$2, coords[2 * e], coords[2 * e + 1], coords[2 * q], coords[2 * q + 1]);)if ((e = q) === start) {
@@ -21151,7 +21151,7 @@
          * @returns {Array} the minDomain based on props
          */ function getDomainFromMinMax(min, max) {
                 var verySmallNumber, minVal, maxVal;
-                return +min == +max ? (verySmallNumber = 0 === max ? 0.0000000002 : 0.0000000001, minVal = max instanceof Date ? new Date(max - 1) : max - verySmallNumber, maxVal = max instanceof Date ? new Date(+max + 1) : +max + verySmallNumber, 0 === max ? [
+                return +min == +max ? (verySmallNumber = 0 === max ? 2e-10 : 1e-10, minVal = max instanceof Date ? new Date(max - 1) : max - verySmallNumber, maxVal = max instanceof Date ? new Date(+max + 1) : +max + verySmallNumber, 0 === max ? [
                     0,
                     maxVal
                 ] : [
