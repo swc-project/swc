@@ -1,0 +1,14 @@
+```==================== .D.TS ====================
+
+// @isolatedDeclarations: true
+// @emitDeclarationOnly: true
+export declare const foo: {
+    [Symbol.toStringTag]: string;
+};
+export declare class Foo {
+    #private;
+    get [Symbol.toStringTag](): string;
+    set [Symbol.toStringTag](value: string);
+}
+
+
