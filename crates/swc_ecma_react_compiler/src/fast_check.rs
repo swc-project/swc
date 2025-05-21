@@ -1,10 +1,5 @@
-use swc_ecma_ast::{Callee, Expr, FnDecl, FnExpr, Pat, Program, ReturnStmt, VarDeclarator};
+use swc_ecma_ast::{Callee, Expr, FnDecl, FnExpr, Pat, Program, ReturnStmt, Stmt, VarDeclarator};
 use swc_ecma_visit::{Visit, VisitWith};
-
-/// Returns true if the `program` is a good target for the react compiler.
-///
-/// If this function returns false, it means that it does not worth to apply the
-/// React Compiler to the file.
 pub fn is_required(program: &Program) -> bool {
     let mut finder = Finder::default();
     finder.visit_program(program);
@@ -36,6 +31,25 @@ impl Visit for Finder {
         node.visit_children_with(self);
     }
 
+    fn visit_expr(&mut self, node: &Expr) {
+        if self.found {
+            return;
+        }
+        if matches!(
+            node,
+            Expr::JSXMember(..)
+                | Expr::JSXNamespacedName(..)
+                | Expr::JSXEmpty(..)
+                | Expr::JSXElement(..)
+                | Expr::JSXFragment(..)
+        ) {
+            self.found = true;
+            return;
+        }
+
+        node.visit_children_with(self);
+    }
+
     fn visit_fn_decl(&mut self, node: &FnDecl) {
         let old = self.is_interested;
         self.is_interested = node.ident.sym.starts_with("use")
@@ -49,7 +63,7 @@ impl Visit for Finder {
     fn visit_fn_expr(&mut self, node: &FnExpr) {
         let old = self.is_interested;
 
-        self.is_interested = node.ident.as_ref().is_some_and(|ident| {
+        self.is_interested |= node.ident.as_ref().is_some_and(|ident| {
             ident.sym.starts_with("use") || ident.sym.starts_with(|c: char| c.is_ascii_uppercase())
         });
 
@@ -68,6 +82,13 @@ impl Visit for Finder {
             }
         }
 
+        node.visit_children_with(self);
+    }
+
+    fn visit_stmt(&mut self, node: &Stmt) {
+        if self.found {
+            return;
+        }
         node.visit_children_with(self);
     }
 
