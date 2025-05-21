@@ -232,7 +232,7 @@ dependencies = [
  "bitflags 2.9.0",
  "cexpr",
  "clang-sys",
- "itertools 0.10.5",
+ "itertools 0.13.0",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -268,7 +268,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.11.28-nightly-20250520.6"
+version = "1.11.29-nightly-20250521.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -354,7 +354,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.11.28-nightly-20250520.6"
+version = "1.11.29-nightly-20250521.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -394,7 +394,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.11.28-nightly-20250520.6"
+version = "1.11.29-nightly-20250521.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -4534,7 +4534,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.547"
+version = "0.91.548"
 dependencies = [
  "anyhow",
  "par-core",
@@ -4648,7 +4648,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "26.0.0"
+version = "26.0.1"
 dependencies = [
  "binding_macros",
  "swc",
@@ -5172,7 +5172,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "15.0.0"
+version = "15.0.1"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.9.0",
@@ -5705,7 +5705,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "14.0.0"
+version = "14.0.1"
 dependencies = [
  "bitflags 2.9.0",
  "petgraph 0.7.1",
