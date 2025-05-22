@@ -172,12 +172,12 @@ impl FastDts {
                             self.inferred_type_of_expression(kv.value.span());
                         }
 
-                        let (key, computed) = self.transform_property_name_to_expr(&kv.key);
+                        let key = self.transform_property_name_to_expr(&kv.key);
                         members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
                             span: DUMMY_SP,
                             readonly: is_const,
                             key: Box::new(key),
-                            computed,
+                            computed: kv.key.is_computed(),
                             optional: false,
                             type_ann,
                         }));
@@ -207,12 +207,12 @@ impl FastDts {
                             self.accessor_must_have_explicit_return_type(getter.span);
                         }
 
-                        let (key, computed) = self.transform_property_name_to_expr(&getter.key);
+                        let key = self.transform_property_name_to_expr(&getter.key);
                         members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
                             span: DUMMY_SP,
                             readonly: !has_setter,
                             key: Box::new(key),
-                            computed,
+                            computed: getter.key.is_computed(),
                             optional: false,
                             type_ann: getter_type_ann,
                         }));
@@ -243,12 +243,12 @@ impl FastDts {
                             self.accessor_must_have_explicit_return_type(setter.span);
                         }
 
-                        let (key, computed) = self.transform_property_name_to_expr(&setter.key);
+                        let key = self.transform_property_name_to_expr(&setter.key);
                         members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
                             span: DUMMY_SP,
                             readonly: false,
                             key: Box::new(key),
-                            computed,
+                            computed: setter.key.is_computed(),
                             optional: false,
                             type_ann: setter_type_ann,
                         }));
@@ -259,12 +259,12 @@ impl FastDts {
                         }
 
                         if is_const {
-                            let (key, computed) = self.transform_property_name_to_expr(&method.key);
+                            let key = self.transform_property_name_to_expr(&method.key);
                             members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
                                 span: DUMMY_SP,
                                 readonly: is_const,
                                 key: Box::new(key),
-                                computed,
+                                computed: method.key.is_computed(),
                                 optional: false,
                                 type_ann: self
                                     .transform_fn_to_ts_type(
@@ -275,11 +275,11 @@ impl FastDts {
                             }));
                         } else {
                             let return_type = self.infer_function_return_type(&method.function);
-                            let (key, computed) = self.transform_property_name_to_expr(&method.key);
+                            let key = self.transform_property_name_to_expr(&method.key);
                             members.push(TsTypeElement::TsMethodSignature(TsMethodSignature {
                                 span: DUMMY_SP,
                                 key: Box::new(key),
-                                computed,
+                                computed: method.key.is_computed(),
                                 optional: false,
                                 params: self
                                     .transform_fn_params_to_ts_type(&method.function.params),
@@ -340,13 +340,13 @@ impl FastDts {
         })))
     }
 
-    pub(crate) fn transform_property_name_to_expr(&mut self, name: &PropName) -> (Expr, bool) {
+    pub(crate) fn transform_property_name_to_expr(&mut self, name: &PropName) -> Expr {
         match name {
-            PropName::Ident(ident) => (Expr::Ident(ident.clone().into()), false),
-            PropName::Str(str_prop) => (Lit::Str(str_prop.clone()).into(), false),
-            PropName::Num(num) => (Lit::Num(num.clone()).into(), true),
-            PropName::Computed(computed) => (*computed.expr.clone(), true),
-            PropName::BigInt(big_int) => (Lit::BigInt(big_int.clone()).into(), true),
+            PropName::Ident(ident) => Expr::Ident(ident.clone().into()),
+            PropName::Str(str_prop) => Lit::Str(str_prop.clone()).into(),
+            PropName::Num(num) => Lit::Num(num.clone()).into(),
+            PropName::Computed(computed) => *computed.expr.clone(),
+            PropName::BigInt(big_int) => Lit::BigInt(big_int.clone()).into(),
         }
     }
 
