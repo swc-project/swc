@@ -54,7 +54,6 @@ pub mod var;
 
 mod node_ignore_span;
 pub mod number;
-pub mod stack_size;
 pub use node_ignore_span::NodeIgnoringSpan;
 
 // TODO: remove

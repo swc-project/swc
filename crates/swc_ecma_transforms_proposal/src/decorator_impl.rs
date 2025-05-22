@@ -2,13 +2,15 @@ use std::{collections::VecDeque, iter::once, mem::take};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    stack_size::maybe_grow_default, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor_with_span,
     is_maybe_branch_directive, private_ident, prop_name_to_expr_value, quote_ident, replace_ident,
-    stack_size::maybe_grow_default, ExprFactory, IdentRenamer,
+    ExprFactory, IdentRenamer,
 };
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 

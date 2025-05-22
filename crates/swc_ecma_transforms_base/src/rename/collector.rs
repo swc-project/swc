@@ -2,9 +2,9 @@ use std::hash::Hash;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
-use swc_common::{Mark, SyntaxContext};
+use swc_common::{stack_size::maybe_grow_default, Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, stack_size::maybe_grow_default};
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 struct IdCollector {

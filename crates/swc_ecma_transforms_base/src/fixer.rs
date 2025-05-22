@@ -2,9 +2,10 @@ use std::{hash::BuildHasherDefault, mem, ops::RangeFull};
 
 use indexmap::IndexMap;
 use rustc_hash::FxHasher;
-use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    comments::Comments, stack_size::maybe_grow_default, util::take::Take, Span, Spanned, DUMMY_SP,
+};
 use swc_ecma_ast::*;
-use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 /// Fixes ast nodes before printing so semantics are preserved.

@@ -367,27 +367,6 @@ macro_rules! tok {
     };
 }
 
-#[inline(always)]
-#[cfg(any(
-    target_arch = "wasm32",
-    target_arch = "arm",
-    not(feature = "stacker"),
-    // miri does not work with stacker
-    miri
-))]
-fn maybe_grow<R, F: FnOnce() -> R>(_red_zone: usize, _stack_size: usize, callback: F) -> R {
-    callback()
-}
-
-#[inline(always)]
-#[cfg(all(
-    not(any(target_arch = "wasm32", target_arch = "arm", miri)),
-    feature = "stacker"
-))]
-fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callback: F) -> R {
-    stacker::maybe_grow(red_zone, stack_size, callback)
-}
-
 pub fn lexer(input: Lexer) -> PResult<Vec<token::TokenAndSpan>> {
     let capturing = input::Capturing::new(input);
     let mut parser = parser::Parser::new_from(capturing);

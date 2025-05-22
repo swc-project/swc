@@ -5,8 +5,8 @@ use std::{borrow::Cow, collections::hash_map::Entry};
 use collector::{collect, Collector};
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
+use swc_common::stack_size::maybe_grow_default;
 use swc_ecma_ast::*;
-use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith, VisitWith,
 };

@@ -196,7 +196,7 @@ ecma_plugin_transform = [
 ]
 
 # Use `stacker` to avoid stack overflow.
-stacker = ["swc_ecma_parser/stacker", "swc_ecma_utils/stacker"]
+stacker = ["swc_ecma_parser/stacker", "swc_common/stacker"]
 
 
 typescript = ["swc_typescript"]
