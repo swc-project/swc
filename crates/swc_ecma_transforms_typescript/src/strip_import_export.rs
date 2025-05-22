@@ -1,6 +1,6 @@
 use rustc_hash::{FxHashMap, FxHashSet};
+use swc_common::stack_size::maybe_grow_default;
 use swc_ecma_ast::*;
-use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith};
 
 use crate::{strip_type::IsConcrete, ImportsNotUsedAsValues};

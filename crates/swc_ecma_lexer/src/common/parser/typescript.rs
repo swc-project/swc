@@ -28,7 +28,7 @@ use crate::{
         },
     },
     error::SyntaxError,
-    Syntax, TsSyntax,
+    Syntax,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -2660,7 +2660,10 @@ pub fn try_parse_ts_declare<'a, P: Parser<'a>>(
     }
 
     if p.ctx().contains(Context::InDeclare)
-        && matches!(p.syntax(), Syntax::Typescript(TsSyntax { dts: false, .. }))
+        && matches!(
+            p.syntax(),
+            Syntax::Typescript(crate::TsSyntax { dts: false, .. })
+        )
     {
         let span_of_declare = p.span(start);
         p.emit_err(span_of_declare, SyntaxError::TS1038);

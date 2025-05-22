@@ -67,6 +67,7 @@ pub mod private;
 mod rustc_data_structures;
 pub mod serializer;
 pub mod source_map;
+pub mod stack_size;
 pub mod sync;
 mod syntax_pos;
 pub mod util;

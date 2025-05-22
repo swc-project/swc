@@ -623,7 +623,7 @@ fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
 
     let cons = {
         // Prevent stack overflow
-        crate::maybe_grow(256 * 1024, 1024 * 1024, || {
+        swc_common::stack_size::maybe_grow(256 * 1024, 1024 * 1024, || {
             // Annex B
             if !p.ctx().contains(Context::Strict) && p.input_mut().is(&P::Token::FUNCTION) {
                 // TODO: report error?

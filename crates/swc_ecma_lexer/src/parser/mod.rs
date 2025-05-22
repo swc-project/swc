@@ -16,7 +16,7 @@ use crate::{
     error::Error,
     input::Buffer,
     token::{Token, TokenAndSpan},
-    Context, Syntax, TsSyntax, *,
+    Context, *,
 };
 
 #[macro_use]

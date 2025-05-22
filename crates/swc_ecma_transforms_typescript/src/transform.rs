@@ -3,14 +3,14 @@ use std::{iter, mem};
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{
-    errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
-    DUMMY_SP,
+    errors::HANDLER, source_map::PURE_SP, stack_size::maybe_grow_default, util::take::Take, Mark,
+    Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, find_pat_ids, ident::IdentLike, is_literal,
-    member_expr, private_ident, quote_ident, quote_str, stack_size::maybe_grow_default,
-    ExprFactory, QueryRef, RefRewriter, StmtLikeInjector,
+    member_expr, private_ident, quote_ident, quote_str, ExprFactory, QueryRef, RefRewriter,
+    StmtLikeInjector,
 };
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitMutWith, VisitWith,

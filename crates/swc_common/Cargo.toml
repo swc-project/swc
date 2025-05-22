@@ -68,6 +68,8 @@ swc_atoms            = { version = "5.0.0", path = "../swc_atoms" }
 swc_eq_ignore_macros = { version = "1.0.0", path = "../swc_eq_ignore_macros" }
 swc_visit            = { version = "2.0.0", path = "../swc_visit" }
 
+[target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
+stacker = { version = "0.1.15", optional = true }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }

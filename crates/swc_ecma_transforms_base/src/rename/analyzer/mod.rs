@@ -1,6 +1,5 @@
-use swc_common::Mark;
+use swc_common::{stack_size::maybe_grow_default, Mark};
 use swc_ecma_ast::*;
-use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use self::scope::{Scope, ScopeKind};

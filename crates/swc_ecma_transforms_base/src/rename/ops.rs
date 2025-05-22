@@ -1,10 +1,11 @@
 use rustc_hash::FxHashMap;
 use swc_common::{
+    stack_size::maybe_grow_default,
     util::{move_map::MoveMap, take::Take},
     Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ident::IdentLike, stack_size::maybe_grow_default};
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use super::RenameMap;

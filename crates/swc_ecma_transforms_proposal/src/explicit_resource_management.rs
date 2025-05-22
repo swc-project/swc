@@ -1,10 +1,7 @@
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{stack_size::maybe_grow_default, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{
-    private_ident, quote_ident, stack_size::maybe_grow_default, ExprFactory, ModuleItemLike,
-    StmtLike,
-};
+use swc_ecma_utils::{private_ident, quote_ident, ExprFactory, ModuleItemLike, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 pub fn explicit_resource_management() -> impl Pass {

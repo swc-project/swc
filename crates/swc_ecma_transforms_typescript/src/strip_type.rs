@@ -1,6 +1,5 @@
-use swc_common::util::take::Take;
+use swc_common::{stack_size::maybe_grow_default, util::take::Take};
 use swc_ecma_ast::*;
-use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::type_to_none;
