@@ -11,7 +11,7 @@ use super::{
     inferrer::ReturnTypeInferrer,
     type_ann,
     util::{
-        ast_ext::{ExprExit, PatExt},
+        ast_ext::{ExprExit, PatExt, StaticProp},
         types::{ts_keyword_type, ts_lit_type},
     },
     FastDts,
@@ -191,30 +191,16 @@ impl FastDts {
 
                         let mut has_setter = false;
 
-                        if let Some(static_name) = getter.key.static_name() {
-                            if has_seen.contains(&static_name) {
+                        if let Some(static_prop) = getter.key.static_prop(self.unresolved_mark) {
+                            if has_seen.contains(&static_prop) {
                                 continue;
                             }
-                            has_setter = seen_setter.contains(static_name.as_ref());
-                            if let Some(type_ann) =
-                                setter_getter_annotations.get(static_name.as_ref())
-                            {
+                            has_setter = seen_setter.contains(&static_prop);
+                            if let Some(type_ann) = setter_getter_annotations.get(&static_prop) {
                                 getter_type_ann = Some(type_ann.clone());
                             }
 
-                            has_seen.insert(static_name);
-                        }
-
-                        // [TODO]: check cases not handled by
-                        // collect_object_getter_or_setter_annotations
-                        if getter_type_ann.is_none() {
-                            getter_type_ann = getter.type_ann.clone().or_else(|| {
-                                getter
-                                    .body
-                                    .as_ref()
-                                    .and_then(|body| ReturnTypeInferrer::infer(self, &body.stmts))
-                                    .map(type_ann)
-                            });
+                            has_seen.insert(static_prop);
                         }
 
                         if getter_type_ann.is_none() {
@@ -238,17 +224,15 @@ impl FastDts {
 
                         let mut setter_type_ann = None;
 
-                        if let Some(static_name) = setter.key.static_name() {
-                            if has_seen.contains(&static_name) {
+                        if let Some(static_prop) = setter.key.static_prop(self.unresolved_mark) {
+                            if has_seen.contains(&static_prop) {
                                 continue;
                             }
-                            if let Some(type_ann) =
-                                setter_getter_annotations.get(static_name.as_ref())
-                            {
+                            if let Some(type_ann) = setter_getter_annotations.get(&static_prop) {
                                 setter_type_ann = Some(type_ann.clone());
                             }
 
-                            has_seen.insert(static_name);
+                            has_seen.insert(static_prop);
                         }
 
                         if setter_type_ann.is_none() {
@@ -434,7 +418,7 @@ impl FastDts {
     pub(crate) fn collect_object_getter_or_setter_annotations(
         &mut self,
         object: &ObjectLit,
-    ) -> (FxHashMap<String, Box<TsTypeAnn>>, FxHashSet<String>) {
+    ) -> (FxHashMap<StaticProp, Box<TsTypeAnn>>, FxHashSet<StaticProp>) {
         let mut annotations = FxHashMap::default();
         let mut seen_setter = FxHashSet::default();
 
@@ -443,7 +427,7 @@ impl FastDts {
                 continue;
             };
 
-            let Some(static_name) = prop.static_name().map(|name| name.to_string()) else {
+            let Some(static_prop) = prop.static_prop(self.unresolved_mark) else {
                 continue;
             };
 
@@ -457,14 +441,14 @@ impl FastDts {
                         .clone()
                         .or_else(|| ReturnTypeInferrer::infer(self, &body.stmts).map(type_ann))
                     {
-                        annotations.insert(static_name, type_ann);
+                        annotations.insert(static_prop, type_ann);
                     }
                 }
                 Prop::Setter(setter) => {
                     if let Some(type_ann) = setter.param.get_type_ann().clone() {
-                        annotations.insert(static_name.clone(), type_ann);
+                        annotations.insert(static_prop.clone(), type_ann);
                     }
-                    seen_setter.insert(static_name);
+                    seen_setter.insert(static_prop);
                 }
                 _ => {}
             }

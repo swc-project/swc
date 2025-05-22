@@ -8,7 +8,7 @@ use swc_ecma_ast::{
 
 use super::{
     type_ann,
-    util::ast_ext::{ExprExit, PatExt, PropNameExit},
+    util::ast_ext::{ExprExit, PatExt, PropNameExit, StaticProp},
     FastDts,
 };
 
@@ -155,10 +155,10 @@ impl FastDts {
                             } else {
                                 method.function.params.truncate(1);
                                 let param = method.function.params.first_mut().unwrap();
-                                let static_name = method.key.static_name();
+                                let static_prop = method.key.static_prop(self.unresolved_mark);
 
-                                if let Some(type_ann) = static_name
-                                    .and_then(|name| setter_getter_annotations.get(name.as_ref()))
+                                if let Some(type_ann) = static_prop
+                                    .and_then(|prop| setter_getter_annotations.get(&prop))
                                 {
                                     param.pat.set_type_ann(Some(type_ann.clone()));
                                 }
@@ -179,8 +179,8 @@ impl FastDts {
                             if method.function.return_type.is_none() {
                                 method.function.return_type = method
                                     .key
-                                    .static_name()
-                                    .and_then(|name| setter_getter_annotations.get(name.as_ref()))
+                                    .static_prop(self.unresolved_mark)
+                                    .and_then(|prop| setter_getter_annotations.get(&prop))
                                     .cloned();
                             }
                             if method.function.return_type.is_none() {
@@ -460,7 +460,7 @@ impl FastDts {
     pub(crate) fn collect_getter_or_setter_annotations(
         &mut self,
         class: &Class,
-    ) -> FxHashMap<String, Box<TsTypeAnn>> {
+    ) -> FxHashMap<StaticProp, Box<TsTypeAnn>> {
         let mut annotations = FxHashMap::default();
         for member in &class.body {
             let ClassMember::Method(method) = member else {
@@ -478,7 +478,7 @@ impl FastDts {
                 continue;
             }
 
-            let Some(static_name) = method.key.static_name().map(|name| name.to_string()) else {
+            let Some(static_prop) = method.key.static_prop(self.unresolved_mark) else {
                 continue;
             };
 
@@ -490,7 +490,7 @@ impl FastDts {
                         .clone()
                         .or_else(|| self.infer_function_return_type(&method.function))
                     {
-                        annotations.insert(static_name, type_ann);
+                        annotations.insert(static_prop, type_ann);
                     }
                 }
                 MethodKind::Setter => {
@@ -499,7 +499,7 @@ impl FastDts {
                     };
 
                     if let Some(type_ann) = first_param.pat.get_type_ann() {
-                        annotations.insert(static_name, type_ann.clone());
+                        annotations.insert(static_prop, type_ann.clone());
                     }
                 }
                 _ => continue,
@@ -522,31 +522,6 @@ impl FastDts {
     }
 
     pub(crate) fn is_global_symbol_object(&self, expr: &Expr) -> bool {
-        let Some(obj) = (match expr {
-            Expr::Member(member) => Some(&member.obj),
-            Expr::OptChain(opt_chain) => opt_chain.base.as_member().map(|member| &member.obj),
-            _ => None,
-        }) else {
-            return false;
-        };
-
-        // https://github.com/microsoft/TypeScript/blob/cbac1ddfc73ca3b9d8741c1b51b74663a0f24695/src/compiler/transformers/declarations.ts#L1011
-        if let Some(ident) = obj.as_ident() {
-            // Exactly `Symbol.something` and `Symbol` either does not resolve
-            // or definitely resolves to the global Symbol
-            return ident.sym.as_str() == "Symbol" && ident.ctxt.has_mark(self.unresolved_mark);
-        }
-
-        if let Some(member_expr) = obj.as_member() {
-            // Exactly `globalThis.Symbol.something` and `globalThis` resolves
-            // to the global `globalThis`
-            if let Some(ident) = member_expr.obj.as_ident() {
-                return ident.sym.as_str() == "globalThis"
-                    && ident.ctxt.has_mark(self.unresolved_mark)
-                    && member_expr.prop.is_ident_with("Symbol");
-            }
-        }
-
-        false
+        expr.get_global_symbol_prop(self.unresolved_mark).is_some()
     }
 }
