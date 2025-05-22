@@ -602,6 +602,8 @@ pub struct Hoister {
 impl Visit for Hoister {
     noop_visit_type!();
 
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
         node.right.visit_children_with(self);
     }
@@ -612,9 +614,15 @@ impl Visit for Hoister {
         self.vars.push(node.key.clone().into());
     }
 
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
     fn visit_fn_decl(&mut self, f: &FnDecl) {
         self.vars.push(f.ident.clone());
     }
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_getter_prop(&mut self, _: &GetterProp) {}
 
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
@@ -624,6 +632,8 @@ impl Visit for Hoister {
         }
     }
 
+    fn visit_setter_prop(&mut self, _: &SetterProp) {}
+
     fn visit_var_decl(&mut self, v: &VarDecl) {
         if v.kind != VarDeclKind::Var {
             return;
@@ -631,8 +641,6 @@ impl Visit for Hoister {
 
         v.visit_children_with(self)
     }
-
-    fn visit_fn_expr(&mut self, _n: &FnExpr) {}
 }
 
 #[derive(Debug, Clone, Copy)]
