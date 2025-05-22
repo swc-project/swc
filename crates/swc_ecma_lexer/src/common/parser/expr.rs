@@ -719,7 +719,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
     let question_dot_token =
         if p.input_mut().is(&P::Token::QUESTION) && peek!(p).is_some_and(|peek| peek.is_dot()) {
             let start = p.cur_pos();
-            p.input_mut().eat(&P::Token::QUESTION);
+            expect!(p, &P::Token::QUESTION);
             Some(p.span(start))
         } else {
             None
@@ -1130,8 +1130,9 @@ fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
 
                 let args = parse_ts_type_args(p.with_ctx(ctx).deref_mut())?;
                 if !p.input_mut().is(&P::Token::LPAREN) {
-                    // This will fail
-                    expect!(p, &P::Token::LPAREN);
+                    let span = p.input().cur_span();
+                    let cur = p.input_mut().dump_cur();
+                    syntax_error!(p, span, SyntaxError::Expected('('.to_string(), cur))
                 }
                 Ok(Some(args))
             })

@@ -11235,10 +11235,10 @@
                 if (offset + ext > buf.length || offset < 0) throw RangeError('Index out of range');
             }
             function writeFloat(buf, value, offset, littleEndian, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -340282346638528860000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
+                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 4, 3.4028234663852886e+38, -3.4028234663852886e+38), ieee754.write(buf, value, offset, littleEndian, 23, 4), offset + 4;
             }
             function writeDouble(buf, value, offset, littleEndian, noAssert) {
-                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -179769313486231570000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
+                return value *= 1, offset >>>= 0, noAssert || checkIEEE754(buf, value, offset, 8, 1.7976931348623157E+308, -1.7976931348623157e+308), ieee754.write(buf, value, offset, littleEndian, 52, 8), offset + 8;
             }
             Buffer.prototype.slice = function(start, end) {
                 const len = this.length;
@@ -16084,7 +16084,7 @@
                 }
                 return (s ? -1 : 1) * m * Math.pow(2, e - mLen);
             }, exports.write = function(buffer, value, offset, isLE, mLen, nBytes) {
-                var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 0.00000005960464477539062 * (23 === mLen), i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = +(value < 0 || 0 === value && 1 / value < 0);
+                var e, m, c, eLen = 8 * nBytes - mLen - 1, eMax = (1 << eLen) - 1, eBias = eMax >> 1, rt = 5.960464477539062e-8 * (23 === mLen), i = isLE ? 0 : nBytes - 1, d = isLE ? 1 : -1, s = +(value < 0 || 0 === value && 1 / value < 0);
                 for(isNaN(value = Math.abs(value)) || value === 1 / 0 ? (m = +!!isNaN(value), e = eMax) : (e = Math.floor(Math.log(value) / Math.LN2), value * (c = Math.pow(2, -e)) < 1 && (e--, c *= 2), e + eBias >= 1 ? value += rt / c : value += rt * Math.pow(2, 1 - eBias), value * c >= 2 && (e++, c /= 2), e + eBias >= eMax ? (m = 0, e = eMax) : e + eBias >= 1 ? (m = (value * c - 1) * Math.pow(2, mLen), e += eBias) : (m = value * Math.pow(2, eBias - 1) * Math.pow(2, mLen), e = 0)); mLen >= 8; buffer[offset + i] = 0xff & m, i += d, m /= 256, mLen -= 8);
                 for(e = e << mLen | m, eLen += mLen; eLen > 0; buffer[offset + i] = 0xff & e, i += d, e /= 256, eLen -= 8);
                 buffer[offset + i - d] |= 128 * s;

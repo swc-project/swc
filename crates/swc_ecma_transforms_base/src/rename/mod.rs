@@ -2,6 +2,7 @@
 
 use std::{borrow::Cow, collections::hash_map::Entry};
 
+use collector::{collect, Collector};
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_ecma_ast::*;
@@ -15,11 +16,7 @@ pub use self::eval::contains_eval;
 use self::renamer_concurrent::{Send, Sync};
 #[cfg(not(feature = "concurrent-renamer"))]
 use self::renamer_single::{Send, Sync};
-use self::{
-    analyzer::Analyzer,
-    collector::{collect_decls, CustomBindingCollector, IdCollector},
-    ops::Operator,
-};
+use self::{analyzer::Analyzer, ops::Operator};
 use crate::hygiene::Config;
 
 mod analyzer;
@@ -113,37 +110,9 @@ impl<R> RenamePass<R>
 where
     R: Renamer,
 {
-    fn get_unresolved<N>(&self, n: &N, has_eval: bool) -> FxHashSet<Atom>
-    where
-        N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
-    {
-        let usages = {
-            let mut v = IdCollector {
-                ids: Default::default(),
-            };
-            n.visit_with(&mut v);
-            v.ids
-        };
-        let (decls, preserved) = collect_decls(
-            n,
-            if has_eval {
-                Some(self.config.top_level_mark)
-            } else {
-                None
-            },
-        );
-        usages
-            .into_iter()
-            .filter(|used_id| !decls.contains(used_id))
-            .map(|v| v.0)
-            .chain(preserved.into_iter().map(|v| v.0))
-            .collect()
-    }
-
     fn get_map<N>(&mut self, node: &N, skip_one: bool, top_level: bool, has_eval: bool) -> RenameMap
     where
-        N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
-        N: VisitWith<Analyzer>,
+        N: VisitWith<Collector> + VisitWith<Analyzer>,
     {
         let mut scope = {
             let mut v = Analyzer {
@@ -161,13 +130,14 @@ where
         };
         scope.prepare_renaming();
 
-        let mut map = RenameMap::default();
+        let unresolved = collect(node, has_eval.then_some(self.config.top_level_mark));
 
         let mut unresolved = if !top_level {
-            let mut unresolved = self.unresolved.clone();
-            unresolved.extend(self.get_unresolved(node, has_eval));
-            Cow::Owned(unresolved)
+            let mut set = self.unresolved.clone();
+            set.extend(unresolved);
+            Cow::Owned(set)
         } else {
+            self.unresolved = unresolved;
             Cow::Borrowed(&self.unresolved)
         };
 
@@ -184,6 +154,8 @@ where
                 unresolved.to_mut().extend(extra_unresolved);
             }
         }
+
+        let mut map = RenameMap::default();
 
         if R::MANGLE {
             let cost = scope.rename_cost();
@@ -353,8 +325,6 @@ where
 
         let has_eval = !self.config.ignore_eval && contains_eval(m, true);
 
-        self.unresolved = self.get_unresolved(m, has_eval);
-
         let map = self.get_map(m, false, true, has_eval);
 
         // If we have eval, we cannot rename a whole program at once.
@@ -395,8 +365,6 @@ where
         self.load_cache();
 
         let has_eval = !self.config.ignore_eval && contains_eval(m, true);
-
-        self.unresolved = self.get_unresolved(m, has_eval);
 
         let map = self.get_map(m, false, true, has_eval);
 

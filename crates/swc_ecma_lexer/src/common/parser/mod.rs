@@ -2,6 +2,7 @@ use std::ops::DerefMut;
 
 use expr::parse_assignment_expr;
 use expr_ext::ExprExt;
+use swc_atoms::Atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
@@ -35,7 +36,6 @@ pub mod jsx;
 pub mod module_item;
 pub mod object;
 pub mod output_type;
-pub mod parse_object;
 pub mod pat;
 pub mod pat_type;
 pub mod state;
@@ -471,4 +471,14 @@ pub trait Parser<'a>: Sized + Clone {
             false
         }
     }
+}
+
+pub fn parse_shebang<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Atom>> {
+    let cur = cur!(p, false);
+    Ok(if cur.is_ok_and(|t| t.is_shebang()) {
+        let t = p.bump();
+        Some(t.take_shebang(p.input_mut()))
+    } else {
+        None
+    })
 }

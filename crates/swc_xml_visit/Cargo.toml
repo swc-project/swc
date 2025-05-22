@@ -9,7 +9,7 @@ edition = "2021"
 license = { workspace = true }
 name = "swc_xml_visit"
 repository = "https://github.com/swc-project/swc.git"
-version = "10.0.0"
+version = "11.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -27,6 +27,6 @@ serde-impl = ["serde"]
 serde = { workspace = true, optional = true, features = ["derive"] }
 
 swc_atoms   = { version = "5.0.0", path = "../swc_atoms" }
-swc_common  = { version = "10.0.0", path = "../swc_common" }
+swc_common  = { version = "11.0.0", path = "../swc_common" }
 swc_visit   = { version = "2.0.0", path = "../swc_visit" }
-swc_xml_ast = { version = "10.0.0", path = "../swc_xml_ast" }
+swc_xml_ast = { version = "11.0.0", path = "../swc_xml_ast" }
