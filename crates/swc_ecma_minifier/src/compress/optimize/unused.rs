@@ -182,10 +182,12 @@ impl Optimizer<'_> {
         }
 
         if let Some(v) = self.data.vars.get(&i.to_id()) {
+            let is_used_in_member =
+                v.property_mutation_count > 0 || v.flags.contains(VarUsageInfoFlags::USED_AS_REF);
             if v.ref_count == 0
                 && v.usage_count == 0
                 && !v.flags.contains(VarUsageInfoFlags::REASSIGNED)
-                && v.property_mutation_count == 0
+                && !is_used_in_member
             {
                 self.changed = true;
                 report_change!(
