@@ -2,7 +2,7 @@
 
 use std::{borrow::Cow, collections::hash_map::Entry};
 
-use collector::{collect, Collector};
+use analyer_and_collector::AnalyzerAndCollector;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_ecma_ast::*;
@@ -19,8 +19,8 @@ use self::renamer_single::{Send, Sync};
 use self::{analyzer::Analyzer, ops::Operator};
 use crate::hygiene::Config;
 
+mod analyer_and_collector;
 mod analyzer;
-mod collector;
 mod eval;
 mod ops;
 
@@ -112,25 +112,16 @@ where
 {
     fn get_map<N>(&mut self, node: &N, skip_one: bool, top_level: bool, has_eval: bool) -> RenameMap
     where
-        N: VisitWith<Collector> + VisitWith<Analyzer>,
+        N: VisitWith<AnalyzerAndCollector>,
     {
-        let mut scope = {
-            let mut v = Analyzer {
-                has_eval,
-                top_level_mark: self.config.top_level_mark,
+        let (mut scope, unresolved) = analyer_and_collector::analyzer_and_collect_unresolved(
+            node,
+            has_eval,
+            self.config.top_level_mark,
+            skip_one,
+        );
 
-                ..Default::default()
-            };
-            if skip_one {
-                node.visit_children_with(&mut v);
-            } else {
-                node.visit_with(&mut v);
-            }
-            v.scope
-        };
         scope.prepare_renaming();
-
-        let unresolved = collect(node, has_eval.then_some(self.config.top_level_mark));
 
         let mut unresolved = if !top_level {
             let mut set = self.unresolved.clone();
@@ -221,20 +212,6 @@ macro_rules! unit {
                 n.visit_mut_children_with(self);
             } else {
                 let map = self.get_map(n, false, false, false);
-
-                if !map.is_empty() {
-                    n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
-                }
-            }
-        }
-    };
-    ($name:ident, $T:ty, true) => {
-        /// Only called if `eval` exists
-        fn $name(&mut self, n: &mut $T) {
-            if !self.config.ignore_eval && contains_eval(n, true) {
-                n.visit_mut_children_with(self);
-            } else {
-                let map = self.get_map(n, true, false, false);
 
                 if !map.is_empty() {
                     n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
