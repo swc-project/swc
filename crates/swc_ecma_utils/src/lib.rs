@@ -632,7 +632,15 @@ impl Visit for Hoister {
         v.visit_children_with(self)
     }
 
-    fn visit_fn_expr(&mut self, _n: &FnExpr) {}
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    fn visit_mut_function(&mut self, _: &mut Function) {}
+
+    fn visit_mut_getter_prop(&mut self, _: &mut GetterProp) {}
+
+    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
+
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
 }
 
 #[derive(Debug, Clone, Copy)]
