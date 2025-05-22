@@ -128,7 +128,7 @@ where
             }
             v.scope
         };
-        scope.prepare_renaming();
+        let mut scope = scope.prepare_renaming();
 
         let unresolved = collect(node, has_eval.then_some(self.config.top_level_mark));
 
