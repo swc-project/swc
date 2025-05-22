@@ -5,7 +5,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_react_compiler"
 repository    = { workspace = true }
-version       = "4.0.0"
+version       = "4.0.1"
 
 
     [package.metadata.docs.rs]

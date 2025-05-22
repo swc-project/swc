@@ -4980,7 +4980,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "26.0.1"
+version = "26.1.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5256,7 +5256,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "13.0.0"
+version = "13.1.0"
 dependencies = [
  "ascii",
  "base64 0.22.1",
@@ -5717,7 +5717,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_react_compiler"
-version = "4.0.0"
+version = "4.0.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -5764,7 +5764,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "15.0.1"
+version = "15.1.0"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",
@@ -6474,7 +6474,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "14.0.1"
+version = "14.0.2"
 dependencies = [
  "bitflags 2.6.0",
  "petgraph 0.7.1",

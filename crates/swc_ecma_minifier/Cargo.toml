@@ -62,9 +62,9 @@ swc_config = { version = "3.0.0", path = "../swc_config", features = [
 swc_ecma_ast = { version = "11.0.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_codegen = { version = "13.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "13.1.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "14.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "15.0.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "15.1.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_optimization = { version = "16.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_usage_analyzer = { version = "16.0.0", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils = { version = "15.0.0", path = "../swc_ecma_utils" }

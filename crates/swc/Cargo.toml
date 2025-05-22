@@ -80,7 +80,7 @@ swc_common = { version = "11.0.0", path = "../swc_common", features = [
 swc_compiler_base = { version = "22.0.0", path = "../swc_compiler_base" }
 swc_config = { version = "3.0.0", path = "../swc_config" }
 swc_ecma_ast = { version = "11.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "13.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "13.1.0", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "15.0.0", path = "../swc_ecma_ext_transforms" }
 swc_ecma_lints = { version = "16.0.0", path = "../swc_ecma_lints" }
 swc_ecma_loader = { version = "11.0.0", path = "../swc_ecma_loader", features = [
@@ -99,7 +99,7 @@ swc_ecma_transforms = { version = "19.0.0", path = "../swc_ecma_transforms", fea
   "react",
   "typescript",
 ] }
-swc_ecma_transforms_base = { version = "15.0.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "15.1.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "17.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_optimization = { version = "16.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "15.0.0", path = "../swc_ecma_utils" }
@@ -110,7 +110,7 @@ swc_plugin_proxy = { version = "11.0.0", path = "../swc_plugin_proxy", optional 
 swc_plugin_runner = { version = "13.0.0", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 swc_transform_common = { version = "5.0.0", path = "../swc_transform_common" }
-swc_typescript = { version = "14.0.1", path = "../swc_typescript" }
+swc_typescript = { version = "14.0.2", path = "../swc_typescript" }
 swc_visit = { version = "2.0.0", path = "../swc_visit" }
 
   [dependencies.tokio]
