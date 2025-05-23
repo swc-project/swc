@@ -144,6 +144,13 @@ jobs:
         with:
           profile: minimal
 
+      - name: Patch
+        shell: bash
+        run: |
+          echo '[patch.crates-io]' >> bindings/Cargo.toml
+          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
+          cd bindings && cargo update -p swc_core -p swc_fast_ts_strip
+
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
@@ -351,8 +358,16 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
           cache: "yarn"
+
+      - name: Patch
+        shell: bash
+        run: |
+          echo '[patch.crates-io]' >> bindings/Cargo.toml
+          ./scripts/cargo/patch-section.sh
+          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
+          cd bindings && cargo update -p swc_core -p swc_fast_ts_strip
 
       - name: Set platform name
         run: |
@@ -403,6 +418,13 @@ jobs:
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Patch
+        shell: bash
+        run: |
+          echo '[patch.crates-io]' >> bindings/Cargo.toml
+          ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
+          cd bindings && cargo update -p swc_core -p swc_fast_ts_strip
 
       - name: Prepare
         run: |

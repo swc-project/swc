@@ -36,24 +36,24 @@ resolver = "2"
   serde-wasm-bindgen      = "0.6.5"
   serde_json              = "1.0.120"
   sourcemap               = "8.0.1"
-  swc_atoms               = { path = "../crates/swc_atoms" }
-  swc_cli_impl            = { path = "../crates/swc_cli_impl" }
-  swc_common              = { path = "../crates/swc_common" }
-  swc_compiler_base       = { path = "../crates/swc_compiler_base" }
-  swc_config              = { path = "../crates/swc_config" }
-  swc_core                = { path = "../crates/swc_core" }
-  swc_css_ast             = { path = "../crates/swc_css_ast" }
-  swc_css_codegen         = { path = "../crates/swc_css_codegen" }
-  swc_css_minifier        = { path = "../crates/swc_css_minifier" }
-  swc_css_parser          = { path = "../crates/swc_css_parser" }
-  swc_ecma_react_compiler = { path = "../crates/swc_ecma_react_compiler" }
-  swc_error_reporters     = { path = "../crates/swc_error_reporters" }
-  swc_fast_ts_strip       = { path = "../crates/swc_fast_ts_strip" }
-  swc_html                = { path = "../crates/swc_html" }
-  swc_html_ast            = { path = "../crates/swc_html_ast" }
-  swc_html_minifier       = { path = "../crates/swc_html_minifier" }
-  swc_malloc              = { path = "../crates/swc_malloc" }
-  swc_nodejs_common       = { path = "../crates/swc_nodejs_common" }
+  swc_atoms               = "5.0.0"
+  swc_cli_impl            = "26.0.0"
+  swc_common              = "11.0.0"
+  swc_compiler_base       = "22.0.0"
+  swc_config              = "3.0.0"
+  swc_core                = "26.1.1"
+  swc_css_ast             = "11.0.0"
+  swc_css_codegen         = "11.0.0"
+  swc_css_minifier        = "11.0.0"
+  swc_css_parser          = "11.0.0"
+  swc_ecma_react_compiler = "4.0.1"
+  swc_error_reporters     = "13.0.0"
+  swc_fast_ts_strip       = "19.0.0"
+  swc_html                = "20.0.0"
+  swc_html_ast            = "11.0.0"
+  swc_html_minifier       = "20.0.0"
+  swc_malloc              = "1.2.3"
+  swc_nodejs_common       = "1.0.0"
   tracing                 = "0.1.40"
   tracing-chrome          = "0.7.2"
   tracing-futures         = "0.2.5"
@@ -148,10 +148,3 @@ strip = "symbols"
 
 [profile.dev.package."*"]
 debug-assertions = false
-
-[patch.crates-io]
-# Remove this once https://github.com/wasmerio/wasmer/pull/5564 is merged and released
-wasmer                    = { git = "https://github.com/kdy1/wasmer", branch = "build-deps" }
-wasmer-cache              = { git = "https://github.com/kdy1/wasmer", branch = "build-deps" }
-wasmer-compiler-cranelift = { git = "https://github.com/kdy1/wasmer", branch = "build-deps" }
-wasmer-wasix              = { git = "https://github.com/kdy1/wasmer", branch = "build-deps" }
