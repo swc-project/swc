@@ -1,4 +1,4 @@
-use swc_common::Spanned;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -9,17 +9,53 @@ impl MacroNode for ModuleDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        match self {
-            ModuleDecl::Import(ref d) => emit!(d),
-            ModuleDecl::ExportDecl(ref d) => emit!(d),
-            ModuleDecl::ExportNamed(ref d) => emit!(d),
-            ModuleDecl::ExportDefaultDecl(ref d) => emit!(d),
-            ModuleDecl::ExportDefaultExpr(ref n) => emit!(n),
-            ModuleDecl::ExportAll(ref d) => emit!(d),
-            ModuleDecl::TsExportAssignment(ref n) => emit!(n),
-            ModuleDecl::TsImportEquals(ref n) => emit!(n),
-            ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
-        }
+        let result = match self {
+            ModuleDecl::Import(ref d) => {
+                let n = emit!(emitter, d);
+
+                Ok(only_new!(ModuleDecl::Import(n)))
+            }
+            ModuleDecl::ExportDecl(ref d) => {
+                let n = emit!(emitter, d);
+
+                Ok(only_new!(ModuleDecl::ExportDecl(n)))
+            }
+            ModuleDecl::ExportNamed(ref d) => {
+                let n = emit!(emitter, d);
+
+                Ok(only_new!(ModuleDecl::ExportNamed(n)))
+            }
+            ModuleDecl::ExportDefaultDecl(ref d) => {
+                let n = emit!(emitter, d);
+
+                Ok(only_new!(ModuleDecl::ExportDefaultDecl(n)))
+            }
+            ModuleDecl::ExportDefaultExpr(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(ModuleDecl::ExportDefaultExpr(n)))
+            }
+            ModuleDecl::ExportAll(ref d) => {
+                let n = emit!(emitter, d);
+
+                Ok(only_new!(ModuleDecl::ExportAll(n)))
+            }
+            ModuleDecl::TsExportAssignment(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(ModuleDecl::TsExportAssignment(n)))
+            }
+            ModuleDecl::TsImportEquals(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(ModuleDecl::TsImportEquals(n)))
+            }
+            ModuleDecl::TsNamespaceExport(ref n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(ModuleDecl::TsNamespaceExport(n)))
+            }
+        };
 
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
 
@@ -27,19 +63,21 @@ impl MacroNode for ModuleDecl {
             emitter.wr.write_line()?;
         }
 
-        Ok(())
+        result
     }
 }
 
 #[node_impl]
 impl MacroNode for ExportDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         match &self.decl {
             Decl::Class(decl) => {
                 for dec in &decl.class.decorators {
-                    emit!(dec);
+                    emit!(emitter, dec);
                 }
 
                 keyword!(emitter, "export");
@@ -51,17 +89,24 @@ impl MacroNode for ExportDecl {
                 keyword!(emitter, "export");
 
                 space!(emitter);
-                emit!(self.decl);
+                emit!(emitter, self.decl);
             }
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ExportDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for ExportDefaultExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "export");
@@ -75,13 +120,18 @@ impl MacroNode for ExportDefaultExpr {
             } else {
                 formatting_space!(emitter);
             }
-            emit!(self.expr);
+            emit!(emitter, self.expr);
         }
         semi!(emitter);
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ExportDefaultExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -90,6 +140,8 @@ impl MacroNode for ExportDefaultDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "export");
@@ -97,13 +149,30 @@ impl MacroNode for ExportDefaultDecl {
         space!(emitter);
         keyword!(emitter, "default");
         space!(emitter);
-        match self.decl {
-            DefaultDecl::Class(ref n) => emit!(n),
-            DefaultDecl::Fn(ref n) => emit!(n),
-            DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
-        }
+        let decl = match self.decl {
+            DefaultDecl::Class(ref n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(DefaultDecl::Class(n))
+            }
+            DefaultDecl::Fn(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(DefaultDecl::Fn(n))
+            }
+            DefaultDecl::TsInterfaceDecl(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(DefaultDecl::TsInterfaceDecl(n))
+            }
+        };
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ExportDefaultDecl {
+            span: Span::new(lo, hi),
+            decl,
+        }))
     }
 }
 
@@ -111,6 +180,8 @@ impl MacroNode for ExportDefaultDecl {
 impl MacroNode for ImportDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -153,7 +224,7 @@ impl MacroNode for ImportDecl {
                     specifiers.push(s);
                 }
                 ImportSpecifier::Default(ref s) => {
-                    emit!(s.local);
+                    emit!(emitter, s.local);
                     emitted_default = true;
                 }
                 ImportSpecifier::Namespace(ref ns) => {
@@ -169,7 +240,7 @@ impl MacroNode for ImportDecl {
                     formatting_space!(emitter);
                     keyword!(emitter, "as");
                     space!(emitter);
-                    emit!(ns.local);
+                    emit!(emitter, ns.local);
                 }
             }
         }
@@ -199,7 +270,7 @@ impl MacroNode for ImportDecl {
             formatting_space!(emitter);
         }
 
-        emit!(self.src);
+        emit!(emitter, self.src);
 
         if let Some(with) = &self.with {
             formatting_space!(emitter);
@@ -209,20 +280,27 @@ impl MacroNode for ImportDecl {
                 keyword!(emitter, "with")
             };
             formatting_space!(emitter);
-            emit!(with);
+            emit!(emitter, with);
         }
 
         semi!(emitter);
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ImportDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for ImportNamedSpecifier {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         if self.is_type_only {
@@ -231,17 +309,22 @@ impl MacroNode for ImportNamedSpecifier {
         }
 
         if let Some(ref imported) = self.imported {
-            emit!(imported);
+            emit!(emitter, imported);
             space!(emitter);
             keyword!(emitter, "as");
             space!(emitter);
         }
 
-        emit!(self.local);
+        emit!(emitter, self.local);
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ImportNamedSpecifier {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -252,11 +335,17 @@ impl MacroNode for ExportSpecifier {
             ExportSpecifier::Default(..) => {
                 unimplemented!("codegen of `export default from 'foo';`")
             }
-            ExportSpecifier::Namespace(ref node) => emit!(node),
-            ExportSpecifier::Named(ref node) => emit!(node),
-        }
+            ExportSpecifier::Namespace(ref node) => {
+                let n = emit!(emitter, node);
 
-        Ok(())
+                Ok(only_new!(ExportSpecifier::Namespace(n)))
+            }
+            ExportSpecifier::Named(ref node) => {
+                let n = emit!(emitter, node);
+
+                Ok(only_new!(ExportSpecifier::Named(n)))
+            }
+        }
     }
 }
 
@@ -265,17 +354,24 @@ impl MacroNode for ExportNamespaceSpecifier {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         punct!(emitter, "*");
         formatting_space!(emitter);
         keyword!(emitter, "as");
         space!(emitter);
-        emit!(self.name);
+        emit!(emitter, self.name);
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ExportNamespaceSpecifier {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -283,6 +379,8 @@ impl MacroNode for ExportNamespaceSpecifier {
 impl MacroNode for ExportNamedSpecifier {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -292,17 +390,22 @@ impl MacroNode for ExportNamedSpecifier {
         }
 
         if let Some(exported) = &self.exported {
-            emit!(self.orig);
+            emit!(emitter, self.orig);
             space!(emitter);
             keyword!(emitter, "as");
             space!(emitter);
-            emit!(exported);
+            emit!(emitter, exported);
         } else {
-            emit!(self.orig);
+            emit!(emitter, self.orig);
         }
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ExportNamedSpecifier {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -310,6 +413,8 @@ impl MacroNode for ExportNamedSpecifier {
 impl MacroNode for NamedExport {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -357,7 +462,7 @@ impl MacroNode for NamedExport {
         formatting_space!(emitter);
 
         if let Some(spec) = namespace_spec {
-            emit!(spec);
+            emit!(emitter, spec);
             if has_named_specs {
                 punct!(emitter, ",");
                 formatting_space!(emitter);
@@ -381,7 +486,7 @@ impl MacroNode for NamedExport {
             }
             keyword!(emitter, "from");
             formatting_space!(emitter);
-            emit!(src);
+            emit!(emitter, src);
 
             if let Some(with) = &self.with {
                 formatting_space!(emitter);
@@ -391,14 +496,19 @@ impl MacroNode for NamedExport {
                     keyword!(emitter, "with")
                 };
                 formatting_space!(emitter);
-                emit!(with);
+                emit!(emitter, with);
             }
         }
         semi!(emitter);
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(NamedExport {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -406,6 +516,8 @@ impl MacroNode for NamedExport {
 impl MacroNode for ExportAll {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -423,7 +535,7 @@ impl MacroNode for ExportAll {
         formatting_space!(emitter);
         keyword!(emitter, "from");
         formatting_space!(emitter);
-        emit!(self.src);
+        emit!(emitter, self.src);
 
         if let Some(with) = &self.with {
             formatting_space!(emitter);
@@ -433,13 +545,18 @@ impl MacroNode for ExportAll {
                 keyword!(emitter, "with")
             };
             formatting_space!(emitter);
-            emit!(with);
+            emit!(emitter, with);
         }
 
         semi!(emitter);
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ExportAll {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }

@@ -1,4 +1,4 @@
-use swc_common::{SourceMapper, Spanned};
+use swc_common::{SourceMapper, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -26,7 +26,7 @@ where
 
         if !skip_decorators {
             for dec in &node.class.decorators {
-                emit!(self, dec);
+                emit!(true, self, dec);
             }
         }
 
@@ -37,8 +37,8 @@ where
 
         keyword!(self, "class");
         space!(self);
-        emit!(self, node.ident);
-        emit!(self, node.class.type_params);
+        emit!(true, self, node.ident);
+        emit!(true, self, node.class.type_params);
 
         self.emit_class_trailing(&node.class)?;
 
@@ -86,29 +86,68 @@ where
 impl MacroNode for Decl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
-            Decl::Class(n) => emit!(n),
-            Decl::Fn(n) => emit!(n),
+            Decl::Class(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::Class(n)))
+            }
+            Decl::Fn(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::Fn(n)))
+            }
             Decl::Var(n) => {
                 emitter.emit_var_decl_inner(n)?;
                 formatting_semi!(emitter);
                 srcmap!(emitter, self, false);
-            }
-            Decl::Using(n) => emit!(n),
-            Decl::TsEnum(n) => emit!(n),
-            Decl::TsInterface(n) => emit!(n),
-            Decl::TsModule(n) => emit!(n),
-            Decl::TsTypeAlias(n) => emit!(n),
-        }
 
-        Ok(())
+                Ok(only_new!(Decl::Var(n.clone())))
+            }
+            Decl::Using(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::Using(n)))
+            }
+            Decl::TsEnum(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::TsEnum(n)))
+            }
+            Decl::TsInterface(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::TsInterface(n)))
+            }
+            Decl::TsModule(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::TsModule(n)))
+            }
+            Decl::TsTypeAlias(n) => {
+                let n = emit!(emitter, n);
+
+                Ok(only_new!(Decl::TsTypeAlias(n)))
+            }
+        }
     }
 }
 
 #[node_impl]
 impl MacroNode for ClassDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_class_decl_inner(self, false)?;
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ClassDecl {
+            class: Box::new(Class {
+                span: Span::new(lo, hi),
+                ..*self.class.clone()
+            }),
+            ..self.clone()
+        }))
     }
 }
 
@@ -116,6 +155,8 @@ impl MacroNode for ClassDecl {
 impl MacroNode for UsingDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         if self.is_await {
             keyword!(emitter, "await");
@@ -131,7 +172,12 @@ impl MacroNode for UsingDecl {
             ListFormat::VariableDeclarationList,
         )?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(UsingDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -141,6 +187,8 @@ impl MacroNode for FnDecl {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emitter.wr.commit_pending_semi()?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -162,19 +210,35 @@ impl MacroNode for FnDecl {
             space!(emitter);
         }
 
-        emit!(self.ident);
+        emit!(emitter, self.ident);
 
         emitter.emit_fn_trailing(&self.function)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(FnDecl {
+            function: Box::new(Function {
+                span: Span::new(lo, hi),
+                ..*self.function.clone()
+            }),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for VarDecl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_var_decl_inner(self)?;
-        Ok(())
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(VarDecl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -183,18 +247,25 @@ impl MacroNode for VarDeclarator {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
-        emit!(self.name);
+        emit!(emitter, self.name);
 
         if let Some(ref init) = self.init {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
-            emit!(init);
+            emit!(emitter, init);
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(VarDeclarator {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 

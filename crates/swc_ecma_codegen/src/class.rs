@@ -1,4 +1,4 @@
-use swc_common::{SourceMapper, Spanned};
+use swc_common::{SourceMapper, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -26,8 +26,8 @@ where
                     formatting_space!(self)
                 }
             }
-            emit!(self, node.super_class);
-            emit!(self, node.super_type_params);
+            emit!(true, self, node.super_class);
+            emit!(true, self, node.super_type_params);
         }
 
         if !node.implements.is_empty() {
@@ -61,10 +61,12 @@ impl MacroNode for ClassExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         for dec in &self.class.decorators {
-            emit!(dec);
+            emit!(emitter, dec);
         }
 
         if self.class.is_abstract {
@@ -76,19 +78,29 @@ impl MacroNode for ClassExpr {
 
         if let Some(ref i) = self.ident {
             space!(emitter);
-            emit!(i);
-            emit!(self.class.type_params);
+            emit!(emitter, i);
+            emit!(emitter, self.class.type_params);
         }
 
         emitter.emit_class_trailing(&self.class)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ClassExpr {
+            class: Box::new(Class {
+                span: Span::new(lo, hi),
+                ..*self.class.clone()
+            }),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for Class {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         if self.super_class.is_some() {
             space!(emitter);
             keyword!(emitter, "extends");
@@ -103,8 +115,8 @@ impl MacroNode for Class {
                     formatting_space!(emitter)
                 }
             }
-            emit!(self.super_class);
-            emit!(self.super_type_params);
+            emit!(emitter, self.super_class);
+            emit!(emitter, self.super_type_params);
         }
 
         if !self.implements.is_empty() {
@@ -129,26 +141,65 @@ impl MacroNode for Class {
         srcmap!(emitter, self, false, true);
         punct!(emitter, "}");
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Class {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for ClassMember {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            ClassMember::Constructor(ref n) => emit!(n),
-            ClassMember::ClassProp(ref n) => emit!(n),
-            ClassMember::Method(ref n) => emit!(n),
-            ClassMember::PrivateMethod(ref n) => emit!(n),
-            ClassMember::PrivateProp(ref n) => emit!(n),
-            ClassMember::TsIndexSignature(ref n) => emit!(n),
-            ClassMember::Empty(ref n) => emit!(n),
-            ClassMember::StaticBlock(ref n) => emit!(n),
-            ClassMember::AutoAccessor(ref n) => emit!(n),
-        }
+        Ok(match self {
+            ClassMember::Constructor(ref n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(ClassMember::Constructor(n))
+            }
+            ClassMember::ClassProp(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::ClassProp(n))
+            }
+            ClassMember::Method(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::Method(n))
+            }
+            ClassMember::PrivateMethod(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::PrivateMethod(n))
+            }
+            ClassMember::PrivateProp(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::PrivateProp(n))
+            }
+            ClassMember::TsIndexSignature(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::TsIndexSignature(n))
+            }
+            ClassMember::Empty(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::Empty(n))
+            }
+            ClassMember::StaticBlock(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::StaticBlock(n))
+            }
+            ClassMember::AutoAccessor(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ClassMember::AutoAccessor(n))
+            }
+        })
     }
 }
 
@@ -156,6 +207,8 @@ impl MacroNode for ClassMember {
 impl MacroNode for AutoAccessor {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         emitter.emit_accessibility(self.accessibility)?;
 
@@ -177,7 +230,7 @@ impl MacroNode for AutoAccessor {
         keyword!(emitter, "accessor");
         space!(emitter);
 
-        emit!(self.key);
+        emit!(emitter, self.key);
 
         if let Some(type_ann) = &self.type_ann {
             if self.definite {
@@ -185,31 +238,42 @@ impl MacroNode for AutoAccessor {
             }
             punct!(emitter, ":");
             space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
 
         if let Some(init) = &self.value {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
-            emit!(init);
+            emit!(emitter, init);
         }
 
         semi!(emitter);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(AutoAccessor {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for Key {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            Key::Private(n) => emit!(n),
-            Key::Public(n) => emit!(n),
-        }
+        Ok(match self {
+            Key::Private(n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(Key::Private(n))
+            }
+            Key::Public(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Key::Public(n))
+            }
+        })
     }
 }
 
@@ -217,6 +281,8 @@ impl MacroNode for Key {
 impl MacroNode for PrivateMethod {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -234,25 +300,30 @@ impl MacroNode for PrivateMethod {
                     punct!(emitter, "*");
                 }
 
-                emit!(self.key);
+                emit!(emitter, self.key);
             }
             MethodKind::Getter => {
                 keyword!(emitter, "get");
                 space!(emitter);
 
-                emit!(self.key);
+                emit!(emitter, self.key);
             }
             MethodKind::Setter => {
                 keyword!(emitter, "set");
                 space!(emitter);
 
-                emit!(self.key);
+                emit!(emitter, self.key);
             }
         }
 
         emitter.emit_fn_trailing(&self.function)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(PrivateMethod {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -263,10 +334,12 @@ impl MacroNode for ClassMethod {
 
         emitter.emit_leading_comments_of_span(self.key.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         for d in &self.function.decorators {
-            emit!(d);
+            emit!(emitter, d);
         }
 
         emitter.emit_accessibility(self.accessibility)?;
@@ -315,7 +388,7 @@ impl MacroNode for ClassMethod {
                     punct!(emitter, "*");
                 }
 
-                emit!(self.key);
+                emit!(emitter, self.key);
             }
             MethodKind::Getter => {
                 keyword!(emitter, "get");
@@ -326,7 +399,7 @@ impl MacroNode for ClassMethod {
                     formatting_space!(emitter)
                 }
 
-                emit!(self.key);
+                emit!(emitter, self.key);
             }
             MethodKind::Setter => {
                 keyword!(emitter, "set");
@@ -337,7 +410,7 @@ impl MacroNode for ClassMethod {
                     formatting_space!(emitter)
                 }
 
-                emit!(self.key);
+                emit!(emitter, self.key);
             }
         }
 
@@ -346,7 +419,7 @@ impl MacroNode for ClassMethod {
         }
 
         if let Some(type_params) = &self.function.type_params {
-            emit!(type_params);
+            emit!(emitter, type_params);
         }
 
         punct!(emitter, "(");
@@ -361,17 +434,22 @@ impl MacroNode for ClassMethod {
         if let Some(ty) = &self.function.return_type {
             punct!(emitter, ":");
             formatting_space!(emitter);
-            emit!(ty);
+            emit!(emitter, ty);
         }
 
         if let Some(body) = &self.function.body {
             formatting_space!(emitter);
-            emit!(body);
+            emit!(emitter, body);
         } else {
             formatting_semi!(emitter)
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ClassMethod {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -379,6 +457,8 @@ impl MacroNode for ClassMethod {
 impl MacroNode for PrivateProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -401,7 +481,7 @@ impl MacroNode for PrivateProp {
             space!(emitter);
         }
 
-        emit!(self.key);
+        emit!(emitter, self.key);
 
         if self.is_optional {
             punct!(emitter, "?");
@@ -413,7 +493,7 @@ impl MacroNode for PrivateProp {
             }
             punct!(emitter, ":");
             space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
 
         if let Some(value) = &self.value {
@@ -423,10 +503,10 @@ impl MacroNode for PrivateProp {
 
             if value.is_seq() {
                 punct!(emitter, "(");
-                emit!(value);
+                emit!(emitter, value);
                 punct!(emitter, ")");
             } else {
-                emit!(value);
+                emit!(emitter, value);
             }
         }
 
@@ -434,7 +514,12 @@ impl MacroNode for PrivateProp {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(PrivateProp {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -442,11 +527,16 @@ impl MacroNode for PrivateProp {
 impl MacroNode for ClassProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
-        for dec in &self.decorators {
-            emit!(dec)
-        }
+        let decorators = self
+            .decorators
+            .iter()
+            .map(|d| Ok(emit!(emitter, d)))
+            .collect::<Result<Vec<_>>>()?;
 
         if self.declare {
             keyword!(emitter, "declare");
@@ -475,7 +565,7 @@ impl MacroNode for ClassProp {
             space!(emitter)
         }
 
-        emit!(self.key);
+        emit!(emitter, self.key);
 
         if self.is_optional {
             punct!(emitter, "?");
@@ -487,7 +577,7 @@ impl MacroNode for ClassProp {
             }
             punct!(emitter, ":");
             space!(emitter);
-            emit!(ty);
+            emit!(emitter, ty);
         }
 
         if let Some(v) = &self.value {
@@ -497,10 +587,10 @@ impl MacroNode for ClassProp {
 
             if v.is_seq() {
                 punct!(emitter, "(");
-                emit!(v);
+                emit!(emitter, v);
                 punct!(emitter, ")");
             } else {
-                emit!(v);
+                emit!(emitter, v);
             }
         }
 
@@ -508,7 +598,13 @@ impl MacroNode for ClassProp {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ClassProp {
+            span: Span::new(lo, hi),
+            decorators,
+            ..self.clone()
+        }))
     }
 }
 
@@ -516,6 +612,8 @@ impl MacroNode for ClassProp {
 impl MacroNode for Constructor {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -527,12 +625,17 @@ impl MacroNode for Constructor {
         punct!(emitter, ")");
 
         if let Some(body) = &self.body {
-            emit!(body);
+            emit!(emitter, body);
         } else {
             formatting_semi!(emitter);
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Constructor {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -541,14 +644,21 @@ impl MacroNode for StaticBlock {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "static");
-        emit!(self.body);
+        emit!(emitter, self.body);
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(StaticBlock {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
