@@ -13,7 +13,10 @@ class Foo {
             ]
         ], []));
     }
-    value = (_initProto(this), 1);
+    constructor(){
+        _initProto(this);
+    }
+    value = 1;
     get #a() {
         return _call_a(this);
     }
