@@ -80,7 +80,7 @@ impl Compressor<'_> {
         );
 
         if self.options.hoist_vars || self.options.hoist_fns {
-            let data = analyze(&*n, Some(self.marks));
+            let data = analyze(&*n, Some(self.marks), false);
 
             let mut v = decl_hoister(
                 DeclHoisterConfig {
@@ -173,7 +173,7 @@ impl Compressor<'_> {
         {
             let _timer = timer!("apply full optimizer");
 
-            let mut data = analyze(&*n, Some(self.marks));
+            let mut data = analyze(&*n, Some(self.marks), false);
 
             // TODO: reset_opt_flags
             //

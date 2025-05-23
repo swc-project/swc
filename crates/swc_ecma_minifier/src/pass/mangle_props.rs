@@ -3,17 +3,11 @@ use std::collections::HashSet;
 use once_cell::sync::Lazy;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_ecma_ast::{
-    CallExpr, Callee, Expr, IdentName, KeyValueProp, Lit, MemberExpr, MemberProp, Program, Prop,
-    PropName, Str, SuperProp, SuperPropExpr,
-};
+use swc_ecma_ast::*;
+use swc_ecma_usage_analyzer::util::get_mut_object_define_property_name_arg;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::{
-    option::ManglePropertiesOptions,
-    program_data::{analyze, ProgramData, VarUsageInfoFlags},
-    util::base54::Base54Chars,
-};
+use crate::{option::ManglePropertiesOptions, program_data::analyze, util::base54::Base54Chars};
 
 pub static JS_ENVIRONMENT_PROPS: Lazy<FxHashSet<Atom>> = Lazy::new(|| {
     let domprops: Vec<Atom> = serde_json::from_str(include_str!("../lists/domprops.json"))
@@ -31,9 +25,9 @@ pub static JS_ENVIRONMENT_PROPS: Lazy<FxHashSet<Atom>> = Lazy::new(|| {
     word_set
 });
 
-struct ManglePropertiesState {
+struct ManglePropertiesState<'a> {
     chars: Base54Chars,
-    options: ManglePropertiesOptions,
+    options: &'a ManglePropertiesOptions,
 
     names_to_mangle: FxHashSet<Atom>,
     unmangleable: FxHashSet<Atom>,
@@ -45,14 +39,22 @@ struct ManglePropertiesState {
     n: usize,
 }
 
-impl ManglePropertiesState {
-    fn add(&mut self, name: &Atom) {
-        if self.can_mangle(name) {
-            self.names_to_mangle.insert(name.clone());
-        }
-
-        if !self.should_mangle(name) {
-            self.unmangleable.insert(name.clone());
+impl<'a> ManglePropertiesState<'a> {
+    fn add(&mut self, name: Atom) {
+        let can_mangle = self.can_mangle(&name);
+        let should_mangle = self.should_mangle(&name);
+        match (can_mangle, !should_mangle) {
+            (true, true) => {
+                self.names_to_mangle.insert(name.clone());
+                self.unmangleable.insert(name);
+            }
+            (false, true) => {
+                self.unmangleable.insert(name);
+            }
+            (true, false) => {
+                self.names_to_mangle.insert(name);
+            }
+            _ => {}
         }
     }
 
@@ -98,7 +100,7 @@ impl ManglePropertiesState {
 
 pub(crate) fn mangle_properties(
     m: &mut Program,
-    options: ManglePropertiesOptions,
+    options: &ManglePropertiesOptions,
     chars: Base54Chars,
 ) {
     let mut state = ManglePropertiesState {
@@ -110,119 +112,20 @@ pub(crate) fn mangle_properties(
         n: 0,
     };
 
-    let data = analyze(&*m, None);
-    m.visit_mut_with(&mut PropertyCollector {
-        state: &mut state,
-        data,
-    });
+    let mut data = analyze(&*m, None, true);
+
+    for prop in std::mem::take(data.property_atoms.as_mut().unwrap()) {
+        state.add(prop);
+    }
 
     m.visit_mut_with(&mut Mangler { state: &mut state });
 }
 
-// Step 1 -- collect candidates to mangle
-pub struct PropertyCollector<'a> {
-    data: ProgramData,
-    state: &'a mut ManglePropertiesState,
+struct Mangler<'a, 'b> {
+    state: &'a mut ManglePropertiesState<'b>,
 }
 
-impl VisitMut for PropertyCollector<'_> {
-    fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
-        call.visit_mut_children_with(self);
-
-        if let Some(prop_name) = get_object_define_property_name_arg(call) {
-            self.state.add(&prop_name.value);
-        }
-    }
-
-    fn visit_mut_member_expr(&mut self, member_expr: &mut MemberExpr) {
-        member_expr.visit_mut_children_with(self);
-
-        let is_root_declared = is_root_of_member_expr_declared(member_expr, &self.data);
-
-        if is_root_declared {
-            if let MemberProp::Ident(ident) = &mut member_expr.prop {
-                self.state.add(&ident.sym);
-            }
-        }
-    }
-
-    fn visit_mut_prop(&mut self, prop: &mut Prop) {
-        prop.visit_mut_children_with(self);
-
-        if let Prop::Shorthand(ident) = prop {
-            self.state.add(&ident.sym);
-        }
-    }
-
-    fn visit_mut_prop_name(&mut self, name: &mut PropName) {
-        name.visit_mut_children_with(self);
-
-        match name {
-            PropName::Ident(ident) => {
-                self.state.add(&ident.sym);
-            }
-            PropName::Str(s) => {
-                self.state.add(&s.value);
-            }
-            _ => {}
-        };
-    }
-}
-
-fn is_root_of_member_expr_declared(member_expr: &MemberExpr, data: &ProgramData) -> bool {
-    match &*member_expr.obj {
-        Expr::Member(member_expr) => is_root_of_member_expr_declared(member_expr, data),
-        Expr::Ident(expr) => data
-            .vars
-            .get(&expr.to_id())
-            .map(|var| var.flags.contains(VarUsageInfoFlags::DECLARED))
-            .unwrap_or(false),
-
-        _ => false,
-    }
-}
-
-fn is_object_property_call(call: &CallExpr) -> bool {
-    // Find Object.defineProperty
-    if let Callee::Expr(callee) = &call.callee {
-        match &**callee {
-            Expr::Member(MemberExpr {
-                obj,
-                prop: MemberProp::Ident(IdentName { sym, .. }),
-                ..
-            }) if *sym == *"defineProperty" => {
-                if obj.is_ident_ref_to("Object") {
-                    return true;
-                }
-            }
-
-            _ => {}
-        }
-    };
-
-    false
-}
-
-fn get_object_define_property_name_arg(call: &mut CallExpr) -> Option<&mut Str> {
-    if is_object_property_call(call) {
-        let second_arg: &mut Expr = call.args.get_mut(1).map(|arg| &mut arg.expr)?;
-
-        if let Expr::Lit(Lit::Str(s)) = second_arg {
-            Some(s)
-        } else {
-            None
-        }
-    } else {
-        None
-    }
-}
-
-// Step 2 -- mangle those properties
-struct Mangler<'a> {
-    state: &'a mut ManglePropertiesState,
-}
-
-impl Mangler<'_> {
+impl Mangler<'_, '_> {
     fn mangle_ident(&mut self, ident: &mut IdentName) {
         if let Some(mangled) = self.state.gen_name(&ident.sym) {
             ident.sym = mangled;
@@ -237,13 +140,13 @@ impl Mangler<'_> {
     }
 }
 
-impl VisitMut for Mangler<'_> {
+impl VisitMut for Mangler<'_, '_> {
     noop_visit_mut_type!();
 
     fn visit_mut_call_expr(&mut self, call: &mut CallExpr) {
         call.visit_mut_children_with(self);
 
-        if let Some(prop_name_str) = get_object_define_property_name_arg(call) {
+        if let Some(prop_name_str) = get_mut_object_define_property_name_arg(call) {
             self.mangle_str(prop_name_str);
         }
     }

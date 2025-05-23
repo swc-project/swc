@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
     alias::{Access, AccessKind},
     analyzer::{
-        analyze_with_storage,
+        analyze_with_custom_storage,
         storage::{ScopeDataLike, Storage, VarDataLike},
         Ctx, ScopeKind, UsageAnalyzer,
     },
@@ -18,11 +18,19 @@ use swc_ecma_usage_analyzer::{
 use swc_ecma_utils::{Merge, Type, Value};
 use swc_ecma_visit::VisitWith;
 
-pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
+pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>, collect_property_atoms: bool) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer<ProgramData>>,
 {
-    analyze_with_storage::<ProgramData, _>(n, marks)
+    let data = if collect_property_atoms {
+        ProgramData {
+            property_atoms: Some(Vec::with_capacity(128)),
+            ..Default::default()
+        }
+    } else {
+        ProgramData::default()
+    };
+    analyze_with_custom_storage(data, n, marks)
 }
 
 /// Analyzed info of a whole program we are working on.
@@ -35,6 +43,8 @@ pub(crate) struct ProgramData {
     pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
 
     initialized_vars: IndexSet<Id, FxBuildHasher>,
+
+    pub(crate) property_atoms: Option<Vec<Atom>>,
 }
 
 bitflags::bitflags! {
@@ -170,6 +180,22 @@ impl Storage for ProgramData {
     type ScopeData = ScopeData;
     type VarData = VarUsageInfo;
 
+    fn new(collect_prop_atom: bool) -> Self {
+        if collect_prop_atom {
+            ProgramData {
+                property_atoms: Some(Vec::with_capacity(128)),
+                ..Default::default()
+            }
+        } else {
+            ProgramData::default()
+        }
+    }
+
+    #[inline(always)]
+    fn need_collect_prop_atom(&self) -> bool {
+        self.property_atoms.is_some()
+    }
+
     fn scope(&mut self, ctxt: swc_common::SyntaxContext) -> &mut Self::ScopeData {
         self.scopes.entry(ctxt).or_default()
     }
@@ -197,7 +223,7 @@ impl Storage for ProgramData {
         for (id, mut var_info) in child.vars {
             // trace!("merge({:?},{}{:?})", kind, id.0, id.1);
             let inited = self.initialized_vars.contains(&id);
-            match self.vars.entry(id.clone()) {
+            match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
                     if var_info.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
                         e.get_mut()
@@ -320,12 +346,16 @@ impl Storage for ProgramData {
                 }
             }
         }
+
+        if let Some(property_atoms) = self.property_atoms.as_mut() {
+            property_atoms.extend(child.property_atoms.unwrap());
+        }
     }
 
     fn report_usage(&mut self, ctx: Ctx, i: Id) {
         let inited = self.initialized_vars.contains(&i);
 
-        let e = self.vars.entry(i.clone()).or_insert_with(|| {
+        let e = self.vars.entry(i).or_insert_with(|| {
             let mut default = VarUsageInfo::default();
             default.flags.insert(VarUsageInfoFlags::USED_ABOVE_DECL);
             Box::new(default)
@@ -508,6 +538,16 @@ impl Storage for ProgramData {
             other.property_mutation_count += 1;
         }
     }
+
+    fn add_property_atom(&mut self, atom: Atom) {
+        if let Some(atoms) = self.property_atoms.as_mut() {
+            atoms.push(atom);
+        }
+    }
+
+    fn get_var_data(&self, id: Id) -> Option<&Self::VarData> {
+        self.vars.get(&id).map(|v| v.as_ref())
+    }
 }
 
 impl ScopeDataLike for ScopeData {
@@ -602,6 +642,10 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_used_recursively(&mut self) {
         self.flags.insert(VarUsageInfoFlags::USED_RECURSIVELY);
+    }
+
+    fn is_declared(&self) -> bool {
+        self.flags.contains(VarUsageInfoFlags::DECLARED)
     }
 }
 

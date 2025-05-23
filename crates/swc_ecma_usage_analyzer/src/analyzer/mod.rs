@@ -13,7 +13,7 @@ use self::storage::*;
 use crate::{
     alias::{collect_infects_from, AliasConfig},
     marks::Marks,
-    util::can_end_conditionally,
+    util::{can_end_conditionally, get_object_define_property_name_arg},
 };
 
 mod ctx;
@@ -28,10 +28,18 @@ where
     S: Storage,
     N: VisitWith<UsageAnalyzer<S>>,
 {
+    analyze_with_custom_storage(Default::default(), n, marks)
+}
+
+pub fn analyze_with_custom_storage<S, N>(data: S, n: &N, marks: Option<Marks>) -> S
+where
+    S: Storage,
+    N: VisitWith<UsageAnalyzer<S>>,
+{
     let _timer = timer!("analyze");
 
     let mut v = UsageAnalyzer {
-        data: Default::default(),
+        data,
         marks,
         scope: Default::default(),
         ctx: Default::default(),
@@ -88,7 +96,7 @@ where
         F: FnOnce(&mut UsageAnalyzer<S>) -> Ret,
     {
         let mut child = UsageAnalyzer {
-            data: Default::default(),
+            data: S::new(S::need_collect_prop_atom(&self.data)),
             marks: self.marks,
             ctx: self.ctx.with(BitContext::IsTopLevel, false),
             expr_ctx: self.expr_ctx,
@@ -397,6 +405,10 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_call_expr(&mut self, n: &CallExpr) {
+        if let Some(prop_name) = get_object_define_property_name_arg(n) {
+            self.data.add_property_atom(prop_name.value.clone());
+        }
+
         let inline_prevented = self.ctx.bit_ctx.contains(BitContext::InlinePrevented)
             || self
                 .marks
@@ -1017,7 +1029,25 @@ where
             if let MemberProp::Ident(prop) = &e.prop {
                 v.add_accessed_property(prop.sym.clone());
             }
-        })
+        });
+
+        fn is_root_of_member_expr_declared(member_expr: &MemberExpr, data: &impl Storage) -> bool {
+            match &*member_expr.obj {
+                Expr::Member(member_expr) => is_root_of_member_expr_declared(member_expr, data),
+                Expr::Ident(ident) => data
+                    .get_var_data(ident.to_id())
+                    .map(|var| var.is_declared())
+                    .unwrap_or(false),
+
+                _ => false,
+            }
+        }
+
+        if is_root_of_member_expr_declared(e, &self.data) {
+            if let MemberProp::Ident(ident) = &e.prop {
+                self.data.add_property_atom(ident.sym.clone());
+            }
+        }
     }
 
     #[cfg_attr(
@@ -1147,7 +1177,22 @@ where
 
         if let Prop::Shorthand(i) = n {
             self.report_usage(i);
+            self.data.add_property_atom(i.sym.clone());
         }
+    }
+
+    fn visit_prop_name(&mut self, node: &PropName) {
+        node.visit_children_with(self);
+
+        match node {
+            PropName::Ident(ident) => {
+                self.data.add_property_atom(ident.sym.clone());
+            }
+            PropName::Str(s) => {
+                self.data.add_property_atom(s.value.clone());
+            }
+            _ => {}
+        };
     }
 
     fn visit_script(&mut self, n: &Script) {
