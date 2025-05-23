@@ -248,7 +248,7 @@ pub fn optimize(
         );
 
         if let Some(property_mangle_options) = &mangle.props {
-            mangle_properties(&mut n, property_mangle_options.clone(), chars);
+            mangle_properties(&mut n, property_mangle_options, chars);
         }
     }
 
