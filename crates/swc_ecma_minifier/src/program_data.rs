@@ -35,6 +35,8 @@ pub(crate) struct ProgramData {
     pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
 
     initialized_vars: IndexSet<Id, FxBuildHasher>,
+
+    pub(crate) property_atoms: Vec<Atom>,
 }
 
 bitflags::bitflags! {
@@ -197,7 +199,7 @@ impl Storage for ProgramData {
         for (id, mut var_info) in child.vars {
             // trace!("merge({:?},{}{:?})", kind, id.0, id.1);
             let inited = self.initialized_vars.contains(&id);
-            match self.vars.entry(id.clone()) {
+            match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
                     if var_info.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
                         e.get_mut()
@@ -320,12 +322,14 @@ impl Storage for ProgramData {
                 }
             }
         }
+
+        self.property_atoms.extend(child.property_atoms);
     }
 
     fn report_usage(&mut self, ctx: Ctx, i: Id) {
         let inited = self.initialized_vars.contains(&i);
 
-        let e = self.vars.entry(i.clone()).or_insert_with(|| {
+        let e = self.vars.entry(i).or_insert_with(|| {
             let mut default = VarUsageInfo::default();
             default.flags.insert(VarUsageInfoFlags::USED_ABOVE_DECL);
             Box::new(default)
@@ -508,6 +512,14 @@ impl Storage for ProgramData {
             other.property_mutation_count += 1;
         }
     }
+
+    fn add_property_atom(&mut self, atom: Atom) {
+        self.property_atoms.push(atom);
+    }
+
+    fn get_var_data(&self, id: Id) -> Option<&Self::VarData> {
+        self.vars.get(&id).map(|v| v.as_ref())
+    }
 }
 
 impl ScopeDataLike for ScopeData {
@@ -602,6 +614,10 @@ impl VarDataLike for VarUsageInfo {
 
     fn mark_used_recursively(&mut self) {
         self.flags.insert(VarUsageInfoFlags::USED_RECURSIVELY);
+    }
+
+    fn is_declared(&self) -> bool {
+        self.flags.contains(VarUsageInfoFlags::DECLARED)
     }
 }
 

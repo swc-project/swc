@@ -34,6 +34,10 @@ pub trait Storage: Sized + Default {
     fn truncate_initialized_cnt(&mut self, len: usize);
 
     fn mark_property_mutation(&mut self, id: Id);
+
+    fn add_property_atom(&mut self, atom: Atom);
+
+    fn get_var_data(&self, id: Id) -> Option<&Self::VarData>;
 }
 
 pub trait ScopeDataLike: Sized + Default + Clone {
@@ -83,4 +87,6 @@ pub trait VarDataLike: Sized {
     fn mark_used_above_decl(&mut self);
 
     fn mark_used_recursively(&mut self);
+
+    fn is_declared(&self) -> bool;
 }

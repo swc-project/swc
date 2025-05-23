@@ -1,4 +1,4 @@
-use swc_ecma_ast::Stmt;
+use swc_ecma_ast::*;
 
 pub fn is_global_var_with_pure_property_access(s: &str) -> bool {
     match s {
@@ -94,4 +94,41 @@ pub fn can_end_conditionally(s: &Stmt) -> bool {
     }
 
     can_end(s, true)
+}
+
+/// Find `Object.defineProperty()`
+fn is_object_property_call(call: &CallExpr) -> bool {
+    if let Callee::Expr(callee) = &call.callee {
+        match &**callee {
+            Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(IdentName { sym, .. }),
+                ..
+            }) if *sym == *"defineProperty" && obj.is_ident_ref_to("Object") => {
+                return true;
+            }
+
+            _ => {}
+        }
+    };
+
+    false
+}
+
+pub fn get_mut_object_define_property_name_arg(call: &mut CallExpr) -> Option<&mut Str> {
+    if is_object_property_call(call) {
+        let second_arg: &mut Expr = call.args.get_mut(1).map(|arg| &mut arg.expr)?;
+        second_arg.as_mut_lit().and_then(|lit| lit.as_mut_str())
+    } else {
+        None
+    }
+}
+
+pub fn get_object_define_property_name_arg(call: &CallExpr) -> Option<&Str> {
+    if is_object_property_call(call) {
+        let second_arg: &Expr = call.args.get(1).map(|arg| &arg.expr)?;
+        second_arg.as_lit().and_then(|lit| lit.as_str())
+    } else {
+        None
+    }
 }
