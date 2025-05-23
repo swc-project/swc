@@ -28,10 +28,18 @@ where
     S: Storage,
     N: VisitWith<UsageAnalyzer<S>>,
 {
+    analyze_with_custom_storage(Default::default(), n, marks)
+}
+
+pub fn analyze_with_custom_storage<S, N>(data: S, n: &N, marks: Option<Marks>) -> S
+where
+    S: Storage,
+    N: VisitWith<UsageAnalyzer<S>>,
+{
     let _timer = timer!("analyze");
 
     let mut v = UsageAnalyzer {
-        data: Default::default(),
+        data,
         marks,
         scope: Default::default(),
         ctx: Default::default(),
@@ -88,7 +96,7 @@ where
         F: FnOnce(&mut UsageAnalyzer<S>) -> Ret,
     {
         let mut child = UsageAnalyzer {
-            data: Default::default(),
+            data: S::new(S::need_collect_prop_atom(&self.data)),
             marks: self.marks,
             ctx: self.ctx.with(BitContext::IsTopLevel, false),
             expr_ctx: self.expr_ctx,

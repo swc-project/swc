@@ -112,9 +112,9 @@ pub(crate) fn mangle_properties(
         n: 0,
     };
 
-    let mut data = analyze(&*m, None);
+    let mut data = analyze(&*m, None, true);
 
-    for prop in std::mem::take(&mut data.property_atoms) {
+    for prop in std::mem::take(data.property_atoms.as_mut().unwrap()) {
         state.add(prop);
     }
 
