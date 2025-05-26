@@ -1,4 +1,4 @@
-use phf::{Set, phf_set};
+use phf::{phf_set, Set};
 
 // https://tc39.es/ecma262/2024/multipage/text-processing.html#table-nonbinary-unicode-properties
 pub fn is_valid_unicode_property(name: &str, value: &str) -> bool {

@@ -1689,7 +1689,6 @@ impl<'a> PatternParser<'a> {
     //   { DecimalDigits[~Sep] , DecimalDigits[~Sep] }
     // ```
     /// Returns: ((min, max), greedy)
-    #[expect(clippy::type_complexity)]
     fn consume_quantifier(&mut self) -> Result<Option<((u64, Option<u64>), bool)>> {
         const MAX_QUANTIFIER: u64 = 9_007_199_254_740_991; // 2^53 - 1
         let is_greedy = |reader: &mut Reader| !reader.eat('?');

@@ -16,8 +16,12 @@ pub fn is_syntax_character(cp: u32) -> bool {
 //   ( ) [ ] { } / - \ |
 // ```
 pub fn is_class_set_syntax_character(cp: u32) -> bool {
-    char::from_u32(cp)
-        .is_some_and(|ch| matches!(ch, '(' | ')' | '[' | ']' | '{' | '}' | '/' | '-' | '\\' | '|'))
+    char::from_u32(cp).is_some_and(|ch| {
+        matches!(
+            ch,
+            '(' | ')' | '[' | ']' | '{' | '}' | '/' | '-' | '\\' | '|'
+        )
+    })
 }
 
 // ```
@@ -124,9 +128,13 @@ pub fn map_control_escape(cp: u32) -> Option<u32> {
 }
 
 pub fn map_c_ascii_letter(cp: u32) -> Option<u32> {
-    char::from_u32(cp).filter(char::is_ascii_alphabetic).map(|_| cp % 0x20)
+    char::from_u32(cp)
+        .filter(char::is_ascii_alphabetic)
+        .map(|_| cp % 0x20)
 }
 
 pub fn map_hex_digit(cp: u32) -> Option<u32> {
-    char::from_u32(cp).filter(char::is_ascii_hexdigit).and_then(|c| c.to_digit(16))
+    char::from_u32(cp)
+        .filter(char::is_ascii_hexdigit)
+        .and_then(|c| c.to_digit(16))
 }
