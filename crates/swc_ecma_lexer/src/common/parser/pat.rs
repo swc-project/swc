@@ -18,8 +18,9 @@ use crate::{
         context::Context,
         lexer::token::TokenFactory,
         parser::{
-            buffer::Buffer, expr::parse_assignment_expr, expr_ext::ExprExt,
-            ident::parse_binding_ident, object::parse_object_pat,
+            buffer::Buffer, expr::parse_assignment_expr,
+            expr_ext::is_valid_simple_assignment_target, ident::parse_binding_ident,
+            object::parse_object_pat,
         },
     },
     error::SyntaxError,
@@ -141,7 +142,10 @@ fn reparse_expr_as_pat_inner<'a>(
             | Expr::Paren(..)
             | Expr::Tpl(..)
             | Expr::TsAs(..) => {
-                if !expr.is_valid_simple_assignment_target(p.ctx().contains(Context::Strict)) {
+                if !is_valid_simple_assignment_target(
+                    expr.as_ref(),
+                    p.ctx().contains(Context::Strict),
+                ) {
                     p.emit_err(span, SyntaxError::NotSimpleAssign)
                 }
                 match *expr {

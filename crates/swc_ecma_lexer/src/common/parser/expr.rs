@@ -18,7 +18,7 @@ use crate::{
                 parse_async_fn_expr, parse_class_expr, parse_decorators,
                 parse_fn_block_or_expr_body, parse_fn_expr,
             },
-            expr_ext::ExprExt,
+            expr_ext::is_valid_simple_assignment_target,
             ident::{parse_binding_ident, parse_ident, parse_maybe_private_name},
             is_simple_param_list::IsSimpleParameterList,
             jsx::{parse_jsx_element, parse_jsx_text},
@@ -466,7 +466,7 @@ pub fn finish_assignment_expr<'a, P: Parser<'a>>(
         } else {
             // It is an early Reference Error if IsValidSimpleAssignmentTarget of
             // LeftHandSideExpression is false.
-            if !cond.is_valid_simple_assignment_target(p.ctx().contains(Context::Strict)) {
+            if !is_valid_simple_assignment_target(&cond, p.ctx().contains(Context::Strict)) {
                 if p.input().syntax().typescript() {
                     p.emit_err(cond.span(), SyntaxError::TS2406);
                 } else {
