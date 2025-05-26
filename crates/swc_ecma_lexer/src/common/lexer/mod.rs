@@ -1739,62 +1739,56 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.input_mut().bump();
         }
         let token = if C == b'&' {
-            BinOpToken::BitAnd
+            Self::Token::BIT_AND
         } else {
-            BinOpToken::BitOr
+            Self::Token::BIT_OR
         };
 
-        // '|=', '&='
         if self.input_mut().eat_byte(b'=') {
-            return Ok(match token {
-                BinOpToken::BitAnd => Self::Token::BIT_AND_EQ,
-                BinOpToken::BitOr => Self::Token::BIT_OR_EQ,
-                _ => unreachable!(),
-            });
-        }
-
-        // '||', '&&'
-        if self.input().cur() == Some(C as char) {
+            // '|=', '&='
+            Ok(if token.is_bit_and() {
+                Self::Token::BIT_AND_EQ
+            } else {
+                debug_assert!(token.is_bit_or());
+                Self::Token::BIT_OR_EQ
+            })
+        } else if self.input().cur() == Some(C as char) {
+            // '||', '&&'
             unsafe {
                 // Safety: cur() is Some(c)
                 self.input_mut().bump();
             }
 
             if self.input().cur() == Some('=') {
+                // `||=`, `&&=`
                 unsafe {
                     // Safety: cur() is Some('=')
                     self.input_mut().bump();
                 }
 
-                return Ok(match token {
-                    BinOpToken::BitAnd => Self::Token::LOGICAL_AND_EQ,
-                    BinOpToken::BitOr => Self::Token::LOGICAL_OR_EQ,
-                    _ => unreachable!(),
-                });
-            }
-
-            // |||||||
-            //   ^
-            if had_line_break_before_last && token == BinOpToken::BitOr && self.is_str("||||| ") {
+                Ok(if token.is_bit_and() {
+                    Self::Token::LOGICAL_AND_EQ
+                } else {
+                    debug_assert!(token.is_bit_or());
+                    Self::Token::LOGICAL_OR_EQ
+                })
+            } else if had_line_break_before_last && token.is_bit_or() && self.is_str("||||| ") {
+                // |||||||
+                //   ^
                 let span = fixed_len_span(start, 7);
                 self.emit_error_span(span, SyntaxError::TS1185);
                 self.skip_line_comment(5);
                 self.skip_space::<true>();
-                return self.error_span(span, SyntaxError::TS1185);
+                self.error_span(span, SyntaxError::TS1185)
+            } else if token.is_bit_and() {
+                Ok(Self::Token::LOGICAL_AND)
+            } else {
+                debug_assert!(token.is_bit_or());
+                Ok(Self::Token::LOGICAL_OR)
             }
-
-            return Ok(match token {
-                BinOpToken::BitAnd => Self::Token::LOGICAL_AND,
-                BinOpToken::BitOr => Self::Token::LOGICAL_OR,
-                _ => unreachable!(),
-            });
-        }
-
-        Ok(if token == BinOpToken::BitAnd {
-            Self::Token::BIT_AND
         } else {
-            Self::Token::BIT_OR
-        })
+            Ok(token)
+        }
     }
 
     /// Read a token given `*` or `%`.
