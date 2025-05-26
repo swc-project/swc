@@ -1,6 +1,6 @@
 use std::ops::DerefMut;
 
-use expr::parse_assignment_expr;
+use expr::{parse_assignment_expr, parse_str_lit};
 use expr_ext::ExprExt;
 use swc_atoms::Atom;
 use swc_common::{BytePos, Span, Spanned};
@@ -337,13 +337,7 @@ pub trait Parser<'a>: Sized + Clone {
             let start = p.input_mut().cur_pos();
             let cur = cur!(p, true);
             let v = if cur.is_str() {
-                let t = p.bump();
-                let (value, raw) = t.take_str(p.input_mut());
-                PropName::Str(Str {
-                    span: p.span(start),
-                    value,
-                    raw: Some(raw),
-                })
+                PropName::Str(parse_str_lit(p))
             } else if cur.is_num() {
                 let t = p.bump();
                 let (value, raw) = t.take_num(p.input_mut());
