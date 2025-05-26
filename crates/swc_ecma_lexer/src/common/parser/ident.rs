@@ -3,7 +3,7 @@ use swc_atoms::atom;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::*;
 
-use super::{buffer::Buffer, expr::parse_lit, PResult, Parser};
+use super::{buffer::Buffer, expr::parse_str_lit, PResult, Parser};
 use crate::{
     common::{context::Context, lexer::token::TokenFactory},
     error::SyntaxError,
@@ -15,10 +15,7 @@ pub fn parse_module_export_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleE
         unexpected!(p, "identifier or string");
     };
     let module_export_name = if cur.is_str() {
-        match parse_lit(p)? {
-            Lit::Str(str_lit) => ModuleExportName::Str(str_lit),
-            _ => unreachable!(),
-        }
+        ModuleExportName::Str(parse_str_lit(p))
     } else if cur.is_word() {
         ModuleExportName::Ident(parse_ident_name(p)?.into())
     } else {

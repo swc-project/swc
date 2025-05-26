@@ -11,7 +11,7 @@ use crate::{
         lexer::token::TokenFactory,
         parser::{
             buffer::Buffer,
-            expr::{parse_assignment_expr, parse_lit},
+            expr::{parse_assignment_expr, parse_str_lit},
             get_qualified_jsx_name,
             ident::parse_ident_ref,
             typescript::{parse_ts_type_args, try_parse_ts},
@@ -158,8 +158,7 @@ fn parse_jsx_attr_value<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrValue> {
             JSXExpr::Expr(..) => Ok(node.into()),
         }
     } else if cur.is_str() {
-        let lit = parse_lit(p)?;
-        Ok(JSXAttrValue::Lit(lit))
+        Ok(JSXAttrValue::Lit(Lit::Str(parse_str_lit(p))))
     } else if cur.is_jsx_tag_start() {
         let expr = parse_jsx_element(p)?;
         match expr {

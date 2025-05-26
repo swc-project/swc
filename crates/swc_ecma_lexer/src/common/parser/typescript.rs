@@ -20,7 +20,9 @@ use crate::{
         lexer::token::TokenFactory,
         parser::{
             buffer::Buffer,
-            expr::{parse_assignment_expr, parse_lit, parse_subscripts, parse_unary_expr},
+            expr::{
+                parse_assignment_expr, parse_lit, parse_str_lit, parse_subscripts, parse_unary_expr,
+            },
             ident::{parse_ident, parse_ident_name},
             module_item::parse_module_item_block_body,
             object::parse_object_expr,
@@ -957,10 +959,7 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
     // literal or identifier.
     let cur = cur!(p, true);
     let id = if cur.is_str() {
-        parse_lit(p).map(|lit| match lit {
-            Lit::Str(s) => TsEnumMemberId::Str(s),
-            _ => unreachable!(),
-        })?
+        TsEnumMemberId::Str(parse_str_lit(p))
     } else if cur.is_num() {
         let cur = p.bump();
         let (value, raw) = cur.take_num(p.input_mut());
@@ -1337,10 +1336,7 @@ fn parse_ts_external_module_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsExter
     if !cur.is_str() {
         unexpected!(p, "a string literal")
     }
-    let expr = match parse_lit(p)? {
-        Lit::Str(s) => s,
-        _ => unreachable!(),
-    };
+    let expr = parse_str_lit(p);
     expect!(p, &P::Token::RPAREN);
     Ok(TsExternalModuleRef {
         span: p.span(start),
@@ -2217,18 +2213,11 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
 
     let _ = cur!(p, false);
 
-    let arg_span = p.input().cur_span();
-
     let cur = cur!(p, true);
     let arg = if cur.is_str() {
-        let t = p.bump();
-        let (value, raw) = t.take_str(p.input_mut());
-        Str {
-            span: arg_span,
-            value,
-            raw: Some(raw),
-        }
+        parse_str_lit(p)
     } else {
+        let arg_span = p.input().cur_span();
         p.bump();
         p.emit_err(arg_span, SyntaxError::TS1141);
         Str {
@@ -2401,10 +2390,7 @@ fn parse_ts_ambient_external_module_decl<'a, P: Parser<'a>>(
         let id = parse_ident_name(p)?;
         (true, TsModuleName::Ident(id.into()))
     } else if cur!(p, true).is_str() {
-        let id = parse_lit(p).map(|lit| match lit {
-            Lit::Str(s) => TsModuleName::Str(s),
-            _ => unreachable!(),
-        })?;
+        let id = TsModuleName::Str(parse_str_lit(p));
         (false, id)
     } else {
         unexpected!(p, "global or a string literal");

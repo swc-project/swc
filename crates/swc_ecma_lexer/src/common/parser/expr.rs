@@ -229,6 +229,18 @@ pub fn parse_tagged_tpl<'a, P: Parser<'a>>(
     })
 }
 
+pub fn parse_str_lit<'a>(p: &mut impl Parser<'a>) -> swc_ecma_ast::Str {
+    let start = p.cur_pos();
+    let t = p.bump();
+    debug_assert!(t.is_str());
+    let (value, raw) = t.take_str(p.input_mut());
+    swc_ecma_ast::Str {
+        span: p.span(start),
+        value,
+        raw: Some(raw),
+    }
+}
+
 pub fn parse_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Lit> {
     let start = p.cur_pos();
     let cur = cur!(p, true);

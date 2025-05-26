@@ -20,6 +20,7 @@ use crate::{
             class_and_fn::{
                 parse_async_fn_decl, parse_class_decl, parse_decorators, parse_default_class,
             },
+            expr::parse_str_lit,
             ident::parse_binding_ident,
             object::parse_object_expr,
             typescript::{parse_ts_enum_decl, parse_ts_interface_decl},
@@ -63,16 +64,9 @@ fn parse_from_clause_and_semi<'a, P: Parser<'a>>(
 ) -> PResult<(Box<Str>, Option<Box<ObjectLit>>)> {
     expect!(p, &P::Token::FROM);
 
-    let str_start = p.cur_pos();
     let cur = cur!(p, true);
     let src = if cur.is_str() {
-        let t = p.bump();
-        let (value, raw) = t.take_str(p.input_mut());
-        Box::new(Str {
-            span: p.span(str_start),
-            value,
-            raw: Some(raw),
-        })
+        Box::new(parse_str_lit(p))
     } else {
         unexpected!(p, "a string literal")
     };
@@ -764,15 +758,8 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
     expect!(p, &P::Token::IMPORT);
 
     // Handle import 'mod.js'
-    let str_start = p.cur_pos();
     if cur!(p, false).is_ok_and(|cur| cur.is_str()) {
-        let t = p.bump();
-        let (value, raw) = t.take_str(p.input_mut());
-        let src = Box::new(Str {
-            span: p.span(str_start),
-            value,
-            raw: Some(raw),
-        });
+        let src = Box::new(parse_str_lit(p));
         let _ = cur!(p, false);
         let with = if p.input().syntax().import_attributes()
             && !p.input_mut().had_line_break_before_cur()
@@ -892,16 +879,8 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
 
     let src = {
         expect!(p, &P::Token::FROM);
-        let str_start = p.cur_pos();
-
         if cur!(p, true).is_str() {
-            let t = p.bump();
-            let (value, raw) = t.take_str(p.input_mut());
-            Box::new(Str {
-                span: p.span(str_start),
-                value,
-                raw: Some(raw),
-            })
+            Box::new(parse_str_lit(p))
         } else {
             unexpected!(p, "a string literal")
         }
