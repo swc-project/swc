@@ -1731,6 +1731,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_logical<const C: u8>(&mut self) -> LexResult<Self::Token> {
+        debug_assert!(C == b'&' || C == b'|');
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
@@ -1752,20 +1753,11 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 debug_assert!(token.is_bit_or());
                 Self::Token::BIT_OR_EQ
             })
-        } else if self.input().cur() == Some(C as char) {
+        } else if self.input_mut().eat_byte(C) {
             // '||', '&&'
-            unsafe {
-                // Safety: cur() is Some(c)
-                self.input_mut().bump();
-            }
 
-            if self.input().cur() == Some('=') {
+            if self.input_mut().eat_byte(b'=') {
                 // `||=`, `&&=`
-                unsafe {
-                    // Safety: cur() is Some('=')
-                    self.input_mut().bump();
-                }
-
                 Ok(if token.is_bit_and() {
                     Self::Token::LOGICAL_AND_EQ
                 } else {
