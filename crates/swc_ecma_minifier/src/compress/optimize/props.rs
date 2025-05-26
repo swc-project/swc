@@ -147,7 +147,6 @@ impl Optimizer<'_> {
                         PropName::Str(s) => (
                             s.value.clone(),
                             s.value
-                                .clone()
                                 .replace(|c: char| !Ident::is_valid_continue(c), "$")
                                 .into(),
                         ),
