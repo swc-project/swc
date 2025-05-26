@@ -16,7 +16,7 @@ use swc_ecma_ast::{EsVersion, Ident};
 
 use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
-use crate::{error::SyntaxError, token::BinOpToken};
+use crate::error::SyntaxError;
 
 pub mod char;
 pub mod comments_buffer;
@@ -1801,31 +1801,31 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             // Safety: cur() is Some(c)
             self.input_mut().bump();
         }
-        let mut token = if is_mul {
-            BinOpToken::Mul
+        let token = if is_mul {
+            if self.input_mut().eat_byte(b'*') {
+                // '**'
+                Self::Token::EXP
+            } else {
+                Self::Token::MUL
+            }
         } else {
-            BinOpToken::Mod
+            Self::Token::MOD
         };
 
-        // check for **
-        if is_mul && self.input_mut().eat_byte(b'*') {
-            token = BinOpToken::Exp
-        }
-
         Ok(if self.input_mut().eat_byte(b'=') {
-            match token {
-                BinOpToken::Mul => Self::Token::MUL_EQ,
-                BinOpToken::Mod => Self::Token::MOD_EQ,
-                BinOpToken::Exp => Self::Token::EXP_EQ,
-                _ => unreachable!(),
+            if token.is_star() {
+                // '*='
+                Self::Token::MUL_EQ
+            } else if token.is_mod() {
+                // '%='
+                Self::Token::MOD_EQ
+            } else {
+                // '**='
+                debug_assert!(token.is_exp());
+                Self::Token::EXP_EQ
             }
         } else {
-            match token {
-                BinOpToken::Mul => Self::Token::MUL,
-                BinOpToken::Mod => Self::Token::MOD,
-                BinOpToken::Exp => Self::Token::EXP,
-                _ => unreachable!(),
-            }
+            token
         })
     }
 

@@ -1,8 +1,6 @@
 use std::ops::DerefMut;
 
 use expr::{parse_assignment_expr, parse_str_lit};
-use expr_ext::ExprExt;
-use expr::parse_assignment_expr;
 use expr_ext::is_valid_simple_assignment_target;
 use swc_atoms::Atom;
 use swc_common::{BytePos, Span, Spanned};

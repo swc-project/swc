@@ -578,4 +578,12 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn is_bit_or(&self) -> bool {
         Self::BIT_OR.eq(self)
     }
+    #[inline(always)]
+    fn is_mod(&self) -> bool {
+        Self::MOD.eq(self)
+    }
+    #[inline(always)]
+    fn is_exp(&self) -> bool {
+        Self::EXP.eq(self)
+    }
 }

@@ -1530,10 +1530,9 @@ pub(super) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
             op!(unary, "-")
         } else if cur.is_tilde() {
             op!("~")
-        } else if cur.is_bang() {
-            op!("!")
         } else {
-            unreachable!()
+            debug_assert!(cur.is_bang());
+            op!("!")
         };
         let arg_start = p.cur_pos() - BytePos(1);
         let arg = match parse_unary_expr(p) {
