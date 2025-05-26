@@ -1,0 +1,13 @@
+[package]
+authors       = ["강동윤 <kdy1997.dev@gmail.com>", "magic-akari <akari.ccino@gmail.com>"]
+description   = "Commons for ECMAScript regular expressions"
+documentation = "https://rustdoc.swc.rs/swc_ecma_regexp_common/"
+edition       = "2021"
+include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
+license       = { workspace = true }
+name          = "swc_ecma_regexp_common"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.0.0"
+
+[lib]
+bench = false
