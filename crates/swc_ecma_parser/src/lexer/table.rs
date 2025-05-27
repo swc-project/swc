@@ -329,10 +329,10 @@ const UNI: ByteHandler = Some(|lexer| {
 const COL: ByteHandler = Some(|lexer| lexer.read_token_colon().map(Some));
 
 /// `%`
-const PRC: ByteHandler = Some(|lexer| lexer.read_token_mul_mod::<b'%'>().map(Some));
+const PRC: ByteHandler = Some(|lexer| lexer.read_token_mul_mod(false).map(Some));
 
 /// `*`
-const ATR: ByteHandler = Some(|lexer| lexer.read_token_mul_mod::<b'*'>().map(Some));
+const ATR: ByteHandler = Some(|lexer| lexer.read_token_mul_mod(true).map(Some));
 
 /// `?`
 const QST: ByteHandler = Some(|lexer| lexer.read_token_question_mark().map(Some));

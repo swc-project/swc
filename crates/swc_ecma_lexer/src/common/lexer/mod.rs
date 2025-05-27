@@ -1802,8 +1802,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_mul_mod<const C: u8>(&mut self) -> LexResult<Self::Token> {
-        let is_mul = C == b'*';
+    fn read_token_mul_mod(&mut self, is_mul: bool) -> LexResult<Self::Token> {
         unsafe {
             // Safety: cur() is Some(c)
             self.input_mut().bump();
