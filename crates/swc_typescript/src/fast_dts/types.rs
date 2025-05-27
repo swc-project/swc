@@ -1,11 +1,12 @@
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_common::{BytePos, Span, Spanned, DUMMY_SP};
+use swc_common::{BytePos, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
-    ArrayLit, ArrowExpr, Expr, Function, GetterProp, Lit, ObjectLit, Param, Pat, Prop, PropName,
-    PropOrSpread, Str, Tpl, TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordTypeKind, TsLit,
-    TsMethodSignature, TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeAnn,
-    TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, UnaryOp,
+    ArrayLit, ArrowExpr, Expr, Function, GetterProp, Lit, MemberExpr, ObjectLit, Param, Pat, Prop,
+    PropName, PropOrSpread, Str, Tpl, TsFnOrConstructorType, TsFnParam, TsFnType,
+    TsKeywordTypeKind, TsLit, TsMethodSignature, TsPropertySignature, TsTupleElement, TsTupleType,
+    TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, UnaryOp,
 };
+use swc_ecma_utils::quote_ident;
 
 use super::{
     inferrer::ReturnTypeInferrer,
@@ -342,11 +343,48 @@ impl FastDts {
 
     pub(crate) fn transform_property_name_to_expr(&mut self, name: &PropName) -> Expr {
         match name {
-            PropName::Ident(ident) => Expr::Ident(ident.clone().into()),
-            PropName::Str(str_prop) => Lit::Str(str_prop.clone()).into(),
-            PropName::Num(num) => Lit::Num(num.clone()).into(),
-            PropName::Computed(computed) => *computed.expr.clone(),
-            PropName::BigInt(big_int) => Lit::BigInt(big_int.clone()).into(),
+            PropName::Ident(ident) => ident.clone().into(),
+            PropName::Str(str_prop) => str_prop.clone().into(),
+            PropName::Num(num) => num.clone().into(),
+            PropName::BigInt(big_int) => big_int.clone().into(),
+            PropName::Computed(computed) => {
+                if let Some(prop) = computed.expr.get_global_symbol_prop(self.unresolved_mark) {
+                    let ctxt = SyntaxContext::empty().apply_mark(self.unresolved_mark);
+                    let symbol = quote_ident!(ctxt, "Symbol");
+
+                    return MemberExpr {
+                        span: name.span(),
+                        obj: symbol.into(),
+                        prop: prop.clone(),
+                    }
+                    .into();
+                }
+
+                if let Expr::Tpl(Tpl {
+                    span,
+                    exprs,
+                    quasis,
+                }) = computed.expr.as_ref()
+                {
+                    if exprs.is_empty() {
+                        let str_prop = quasis
+                            .first()
+                            .and_then(|el| el.cooked.as_ref())
+                            .unwrap()
+                            .clone();
+
+                        let str_prop = Str {
+                            span: *span,
+                            value: str_prop,
+                            raw: None,
+                        };
+
+                        return str_prop.into();
+                    }
+                }
+
+                computed.expr.as_ref().clone()
+            }
         }
     }
 
@@ -410,6 +448,7 @@ impl FastDts {
     pub(crate) fn is_literal(expr: &Expr) -> bool {
         match expr {
             Expr::Lit(_) => true,
+            Expr::Tpl(tpl) => tpl.exprs.is_empty(),
             Expr::Unary(unary) => Self::can_infer_unary_expr(unary),
             _ => false,
         }

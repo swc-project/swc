@@ -15,7 +15,13 @@ export const foo = {
     123(): string {
         return "123";
     },
+    [456](): string {
+        return "456";
+    },
     1n(): string {
         return "1n";
+    },
+    [`x\ny`](): string {
+        return "x\ny";
     },
 };
