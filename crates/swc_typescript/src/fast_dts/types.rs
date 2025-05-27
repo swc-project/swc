@@ -345,6 +345,7 @@ impl FastDts {
         match name {
             PropName::Ident(ident) => (ident.clone().into(), false),
             PropName::Num(num) => (num.clone().into(), false),
+            // [TODO]: TypeScript omits the `BigInt` in the generated .d.ts file.
             PropName::BigInt(big_int) => (big_int.clone().into(), false),
             PropName::Str(str_prop) => {
                 if is_valid_prop_ident(&str_prop.value) {
