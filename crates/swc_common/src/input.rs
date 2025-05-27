@@ -227,7 +227,7 @@ impl<'a> Input<'a> for StringInput<'a> {
 
     #[inline]
     fn eat_byte(&mut self, c: u8) -> bool {
-        if self.is_byte(c) {
+        if self.cur().is_some_and(|cur| cur == c as char) {
             self.iter.next();
             self.last_pos = self.last_pos + BytePos(1_u32);
             true
