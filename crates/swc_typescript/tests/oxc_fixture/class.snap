@@ -47,7 +47,7 @@ export declare class PrivateMethodClass {
 export declare class PublicMethodClass {
     bad(a): void;
     get badGetter(): {
-        x: number;
+        ['x']: number;
     };
 }
 
