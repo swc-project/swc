@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use super::{
     expr::parse_assignment_expr,
     pat::{parse_binding_element, parse_binding_pat_or_ident},
-    Parser,
+    PResult, Parser,
 };
 use crate::{
     common::{
@@ -22,8 +22,6 @@ use crate::{
     },
     error::SyntaxError,
 };
-
-pub type PResult<T> = Result<T, crate::error::Error>;
 
 fn parse_object<'a, P: Parser<'a>, Object, ObjectProp>(
     p: &mut P,
