@@ -1,0 +1,29 @@
+[package]
+authors       = ["강동윤 <kdy1997.dev@gmail.com>", "magic-akari <akari.ccino@gmail.com>"]
+description   = "AST definitions of ECMAScript regular expressions"
+documentation = "https://rustdoc.swc.rs/swc_ecma_regexp_ast/"
+edition       = { workspace = true }
+license       = { workspace = true }
+name          = "swc_ecma_regexp_ast"
+repository    = { workspace = true }
+version       = "0.0.0"
+
+[lib]
+bench = false
+
+[features]
+__rkyv     = []
+default    = []
+rkyv-impl  = []
+serde-impl = ["serde"]
+
+[dependencies]
+bitflags  = { workspace = true }
+bytecheck = { workspace = true, optional = true }
+is-macro  = { workspace = true }
+rancor    = { workspace = true, optional = true }
+serde     = { workspace = true, features = ["derive"], optional = true }
+
+swc_atoms              = { version = "5.0.0", path = "../swc_atoms" }
+swc_common             = { version = "11.0.0", path = "../swc_common" }
+swc_ecma_regexp_common = { version = "0.0.0", path = "../swc_ecma_regexp_common" }

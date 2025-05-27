@@ -134,6 +134,16 @@ fn test_ecmascript() {
 }
 
 #[test]
+fn test_ecmascript_regexp() {
+    run_visitor_codegen(
+        Path::new("../../crates/swc_ecma_regexp_ast"),
+        Path::new("../../crates/swc_ecma_regexp_visit/src/generated.rs"),
+        &["Options".into()],
+    )
+    .unwrap();
+}
+
+#[test]
 fn test_css() {
     run_visitor_codegen(
         Path::new("../../crates/swc_css_ast"),
