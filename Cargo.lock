@@ -4980,7 +4980,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "26.2.0"
+version = "26.2.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5499,7 +5499,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "14.0.0"
+version = "14.0.1"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5581,7 +5581,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "20.0.2"
+version = "20.0.3"
 dependencies = [
  "ansi_term",
  "anyhow",

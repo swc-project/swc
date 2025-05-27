@@ -1,6 +1,29 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/regexp)** Add crates for RegExp ([#10525](https://github.com/swc-project/swc/issues/10525)) ([4b3f924](https://github.com/swc-project/swc/commit/4b3f924edf996983e2a61cc29eb0c552cf71af7a))
+
+### Performance
+
+
+
+- **(es/minifier)** Remove needless clone ([#10523](https://github.com/swc-project/swc/issues/10523)) ([1c02ef6](https://github.com/swc-project/swc/commit/1c02ef63aa48b239a43f359991af736071634a21))
+
+
+- **(es/parser)** Reduce comparison while reading logical ([#10526](https://github.com/swc-project/swc/issues/10526)) ([2bc551c](https://github.com/swc-project/swc/commit/2bc551cb39d99ecebd5d6f10fc94a93173b2aefa))
+
+### Refactor
+
+
+
+- **(es/parser)** Share code for parsing strings ([#10522](https://github.com/swc-project/swc/issues/10522)) ([931a2d6](https://github.com/swc-project/swc/commit/931a2d6761bfec72cdda7eb875ad02dc217848b9))
+
+## [swc_core@v26.2.0] - 2025-05-23
+
 ### Miscellaneous Tasks
 
 
@@ -2387,9 +2410,6 @@
 
 
 - **(es/parser)** Fix failure of TS instantiation followed by satisfies ([#9583](https://github.com/swc-project/swc/issues/9583)) ([77900d8](https://github.com/swc-project/swc/commit/77900d808e2a3be2e62b74022c88a81b26a73f86))
-
-
-- **(es/typescript)** Preserve more comments ([#9509](https://github.com/swc-project/swc/issues/9509)) ([3e253ec](https://github.com/swc-project/swc/commit/3e253ecc21f2028437572093b42df97ef5fe505e))
 
 
 - **(es/typescript)** Handle enum in single statement ([#9532](https://github.com/swc-project/swc/issues/9532)) ([84b0043](https://github.com/swc-project/swc/commit/84b004387ba8f4135659e1d1f54e59bf1941a57a))
