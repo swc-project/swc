@@ -16,7 +16,7 @@ use swc_ecma_ast::{EsVersion, Ident};
 
 use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
-use crate::{error::SyntaxError, token::BinOpToken};
+use crate::error::SyntaxError;
 
 pub mod char;
 pub mod comments_buffer;
@@ -1740,17 +1740,18 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.input_mut().bump();
         }
         let token = if C == b'&' {
-            BinOpToken::BitAnd
+            Self::Token::BIT_AND
         } else {
-            BinOpToken::BitOr
+            Self::Token::BIT_OR
         };
 
         // '|=', '&='
         if self.input_mut().eat_byte(b'=') {
-            return Ok(match token {
-                BinOpToken::BitAnd => Self::Token::BIT_AND_EQ,
-                BinOpToken::BitOr => Self::Token::BIT_OR_EQ,
-                _ => unreachable!(),
+            return Ok(if token.is_bit_and() {
+                Self::Token::BIT_AND_EQ
+            } else {
+                debug_assert!(token.is_bit_or());
+                Self::Token::BIT_OR_EQ
             });
         }
 
@@ -1767,16 +1768,17 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     self.input_mut().bump();
                 }
 
-                return Ok(match token {
-                    BinOpToken::BitAnd => Self::Token::LOGICAL_AND_EQ,
-                    BinOpToken::BitOr => Self::Token::LOGICAL_OR_EQ,
-                    _ => unreachable!(),
+                return Ok(if token.is_bit_and() {
+                    Self::Token::LOGICAL_AND_EQ
+                } else {
+                    debug_assert!(token.is_bit_or());
+                    Self::Token::LOGICAL_OR_EQ
                 });
             }
 
             // |||||||
             //   ^
-            if had_line_break_before_last && token == BinOpToken::BitOr && self.is_str("||||| ") {
+            if had_line_break_before_last && token.is_bit_or() && self.is_str("||||| ") {
                 let span = fixed_len_span(start, 7);
                 self.emit_error_span(span, SyntaxError::TS1185);
                 self.skip_line_comment(5);
@@ -1784,18 +1786,15 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 return self.error_span(span, SyntaxError::TS1185);
             }
 
-            return Ok(match token {
-                BinOpToken::BitAnd => Self::Token::LOGICAL_AND,
-                BinOpToken::BitOr => Self::Token::LOGICAL_OR,
-                _ => unreachable!(),
+            return Ok(if token.is_bit_and() {
+                Self::Token::LOGICAL_AND
+            } else {
+                debug_assert!(token.is_bit_or());
+                Self::Token::LOGICAL_OR
             });
         }
 
-        Ok(if token == BinOpToken::BitAnd {
-            Self::Token::BIT_AND
-        } else {
-            Self::Token::BIT_OR
-        })
+        Ok(token)
     }
 
     /// Read a token given `*` or `%`.
