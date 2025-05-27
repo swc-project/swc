@@ -570,4 +570,12 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn is_debugger(&self) -> bool {
         Self::DEBUGGER.eq(self)
     }
+    #[inline(always)]
+    fn is_bit_and(&self) -> bool {
+        Self::BIT_AND.eq(self)
+    }
+    #[inline(always)]
+    fn is_bit_or(&self) -> bool {
+        Self::BIT_OR.eq(self)
+    }
 }

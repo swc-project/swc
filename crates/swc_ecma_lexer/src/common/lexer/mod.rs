@@ -1731,6 +1731,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_logical<const C: u8>(&mut self) -> LexResult<Self::Token> {
+        debug_assert!(C == b'|' || C == b'&');
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
