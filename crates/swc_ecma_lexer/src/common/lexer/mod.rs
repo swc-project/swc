@@ -16,7 +16,7 @@ use swc_ecma_ast::{EsVersion, Ident};
 
 use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
-use crate::{error::SyntaxError, token::BinOpToken};
+use crate::error::SyntaxError;
 
 pub mod char;
 pub mod comments_buffer;
@@ -1731,6 +1731,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_logical<const C: u8>(&mut self) -> LexResult<Self::Token> {
+        debug_assert!(C == b'|' || C == b'&');
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
@@ -1739,17 +1740,18 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.input_mut().bump();
         }
         let token = if C == b'&' {
-            BinOpToken::BitAnd
+            Self::Token::BIT_AND
         } else {
-            BinOpToken::BitOr
+            Self::Token::BIT_OR
         };
 
         // '|=', '&='
         if self.input_mut().eat_byte(b'=') {
-            return Ok(match token {
-                BinOpToken::BitAnd => Self::Token::BIT_AND_EQ,
-                BinOpToken::BitOr => Self::Token::BIT_OR_EQ,
-                _ => unreachable!(),
+            return Ok(if token.is_bit_and() {
+                Self::Token::BIT_AND_EQ
+            } else {
+                debug_assert!(token.is_bit_or());
+                Self::Token::BIT_OR_EQ
             });
         }
 
@@ -1766,16 +1768,17 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     self.input_mut().bump();
                 }
 
-                return Ok(match token {
-                    BinOpToken::BitAnd => Self::Token::LOGICAL_AND_EQ,
-                    BinOpToken::BitOr => Self::Token::LOGICAL_OR_EQ,
-                    _ => unreachable!(),
+                return Ok(if token.is_bit_and() {
+                    Self::Token::LOGICAL_AND_EQ
+                } else {
+                    debug_assert!(token.is_bit_or());
+                    Self::Token::LOGICAL_OR_EQ
                 });
             }
 
             // |||||||
             //   ^
-            if had_line_break_before_last && token == BinOpToken::BitOr && self.is_str("||||| ") {
+            if had_line_break_before_last && token.is_bit_or() && self.is_str("||||| ") {
                 let span = fixed_len_span(start, 7);
                 self.emit_error_span(span, SyntaxError::TS1185);
                 self.skip_line_comment(5);
@@ -1783,55 +1786,48 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 return self.error_span(span, SyntaxError::TS1185);
             }
 
-            return Ok(match token {
-                BinOpToken::BitAnd => Self::Token::LOGICAL_AND,
-                BinOpToken::BitOr => Self::Token::LOGICAL_OR,
-                _ => unreachable!(),
+            return Ok(if token.is_bit_and() {
+                Self::Token::LOGICAL_AND
+            } else {
+                debug_assert!(token.is_bit_or());
+                Self::Token::LOGICAL_OR
             });
         }
 
-        Ok(if token == BinOpToken::BitAnd {
-            Self::Token::BIT_AND
-        } else {
-            Self::Token::BIT_OR
-        })
+        Ok(token)
     }
 
     /// Read a token given `*` or `%`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_mul_mod<const C: u8>(&mut self) -> LexResult<Self::Token> {
-        let is_mul = C == b'*';
+    fn read_token_mul_mod(&mut self, is_mul: bool) -> LexResult<Self::Token> {
         unsafe {
             // Safety: cur() is Some(c)
             self.input_mut().bump();
         }
-        let mut token = if is_mul {
-            BinOpToken::Mul
+        let token = if is_mul {
+            if self.input_mut().eat_byte(b'*') {
+                // `**`
+                Self::Token::EXP
+            } else {
+                Self::Token::MUL
+            }
         } else {
-            BinOpToken::Mod
+            Self::Token::MOD
         };
 
-        // check for **
-        if is_mul && self.input_mut().eat_byte(b'*') {
-            token = BinOpToken::Exp
-        }
-
         Ok(if self.input_mut().eat_byte(b'=') {
-            match token {
-                BinOpToken::Mul => Self::Token::MUL_EQ,
-                BinOpToken::Mod => Self::Token::MOD_EQ,
-                BinOpToken::Exp => Self::Token::EXP_EQ,
-                _ => unreachable!(),
+            if token.is_star() {
+                Self::Token::MUL_EQ
+            } else if token.is_mod() {
+                Self::Token::MOD_EQ
+            } else {
+                debug_assert!(token.is_exp());
+                Self::Token::EXP_EQ
             }
         } else {
-            match token {
-                BinOpToken::Mul => Self::Token::MUL,
-                BinOpToken::Mod => Self::Token::MOD,
-                BinOpToken::Exp => Self::Token::EXP,
-                _ => unreachable!(),
-            }
+            token
         })
     }
 

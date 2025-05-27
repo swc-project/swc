@@ -515,6 +515,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         Self::MUL.eq(self)
     }
     #[inline(always)]
+    fn is_mod(&self) -> bool {
+        Self::MOD.eq(self)
+    }
+    #[inline(always)]
     fn is_semi(&self) -> bool {
         Self::SEMI.eq(self)
     }
@@ -569,5 +573,17 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_debugger(&self) -> bool {
         Self::DEBUGGER.eq(self)
+    }
+    #[inline(always)]
+    fn is_bit_and(&self) -> bool {
+        Self::BIT_AND.eq(self)
+    }
+    #[inline(always)]
+    fn is_bit_or(&self) -> bool {
+        Self::BIT_OR.eq(self)
+    }
+    #[inline(always)]
+    fn is_exp(&self) -> bool {
+        Self::EXP.eq(self)
     }
 }
