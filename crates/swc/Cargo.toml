@@ -89,7 +89,7 @@ swc_ecma_loader = { version = "11.0.0", path = "../swc_ecma_loader", features = 
   "tsc",
 ] }
 swc_ecma_minifier = { version = "20.0.3", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "14.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "14.0.1", path = "../swc_ecma_parser" }
 swc_ecma_preset_env = { version = "20.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "19.0.0", path = "../swc_ecma_transforms", features = [
   "compat",
@@ -110,7 +110,7 @@ swc_plugin_proxy = { version = "11.0.0", path = "../swc_plugin_proxy", optional 
 swc_plugin_runner = { version = "13.0.0", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 swc_transform_common = { version = "5.0.0", path = "../swc_transform_common" }
-swc_typescript = { version = "14.0.2", path = "../swc_typescript" }
+swc_typescript = { version = "14.0.3", path = "../swc_typescript" }
 swc_visit = { version = "2.0.0", path = "../swc_visit" }
 
   [dependencies.tokio]
