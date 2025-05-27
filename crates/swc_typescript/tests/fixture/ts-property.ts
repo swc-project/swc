@@ -18,4 +18,7 @@ export const foo = {
     1n(): string {
         return "1n";
     },
+    [`x\ny`](): string {
+        return "x\ny";
+    },
 };

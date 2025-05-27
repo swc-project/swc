@@ -7,10 +7,11 @@ export interface I {
     [B]: "456";
 }
 export declare const foo: {
-    "foo"(): string;
-    ["bar"](): string;
+    foo(): string;
+    bar(): string;
     123(): string;
     1n(): string;
+    "x\ny"(): string;
 };
 export { };
 
