@@ -10,8 +10,7 @@ class Base {
 }
 class Child extends Base {
     callApi() {
-        console.log(this.action) // undefined
-        ;
+        console.log(this.action); // undefined
     }
 }
 _ts_decorate([
