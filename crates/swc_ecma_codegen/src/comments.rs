@@ -70,7 +70,20 @@ where
         write_comments!(self, prefix_space, &cmts)
     }
 
-    pub(super) fn take_trailing_comments_of_pos(&mut self, pos: BytePos) -> Option<Vec<Comment>> {
+    pub(super) fn emit_trailing_comments_of_pos_with(
+        &mut self,
+        pos: BytePos,
+        prefix_space: bool,
+        callback: impl FnOnce(&mut Self) -> Result,
+    ) -> Result {
+        let cmts = self.take_trailing_comments_of_pos(pos);
+
+        callback(self)?;
+
+        write_comments!(self, prefix_space, &cmts)
+    }
+
+    fn take_trailing_comments_of_pos(&mut self, pos: BytePos) -> Option<Vec<Comment>> {
         if pos.is_dummy() {
             return None;
         }
@@ -81,14 +94,6 @@ where
         };
 
         comments.take_trailing(pos)
-    }
-
-    pub(super) fn write_comments(
-        &mut self,
-        prefix_space: bool,
-        comments: Option<Vec<Comment>>,
-    ) -> Result {
-        write_comments!(self, prefix_space, comments)
     }
 
     pub(super) fn emit_leading_comments(&mut self, mut pos: BytePos, is_hi: bool) -> Result {
