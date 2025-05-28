@@ -76,9 +76,13 @@ impl MacroNode for ExprStmt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;
 
+        let trailing_comments = emitter.take_trailing_comments_of_pos(self.span.hi);
+
         emit!(self.expr);
 
         semi!(emitter);
+
+        emitter.write_comments(true, trailing_comments)?;
 
         Ok(())
     }

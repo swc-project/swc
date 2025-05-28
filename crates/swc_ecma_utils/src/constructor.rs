@@ -1,10 +1,8 @@
 use std::{iter, mem};
 
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
-
-use crate::ExprFactory;
 
 pub fn inject_after_super(c: &mut Constructor, exprs: Vec<Box<Expr>>) {
     if exprs.is_empty() {
@@ -22,8 +20,16 @@ pub fn inject_after_super(c: &mut Constructor, exprs: Vec<Box<Expr>>) {
 
     if !injector.injected {
         let exprs = injector.exprs.take();
-        body.stmts
-            .splice(0..0, exprs.into_iter().map(|e| e.into_stmt()));
+        body.stmts.splice(
+            0..0,
+            exprs.into_iter().map(|e| {
+                ExprStmt {
+                    span: e.span(),
+                    expr: e,
+                }
+                .into()
+            }),
+        );
     }
 }
 

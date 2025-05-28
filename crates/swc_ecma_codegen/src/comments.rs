@@ -65,18 +65,30 @@ where
         prefix_space: bool,
         _is_hi: bool,
     ) -> Result {
+        let cmts = self.take_trailing_comments_of_pos(pos);
+
+        write_comments!(self, prefix_space, &cmts)
+    }
+
+    pub(super) fn take_trailing_comments_of_pos(&mut self, pos: BytePos) -> Option<Vec<Comment>> {
         if pos.is_dummy() {
-            return Ok(());
+            return None;
         }
 
         let comments = match self.comments {
             Some(ref comments) => comments,
-            None => return Ok(()),
+            None => return None,
         };
 
-        let cmts = comments.take_trailing(pos);
+        comments.take_trailing(pos)
+    }
 
-        write_comments!(self, prefix_space, &cmts)
+    pub(super) fn write_comments(
+        &mut self,
+        prefix_space: bool,
+        comments: Option<Vec<Comment>>,
+    ) -> Result {
+        write_comments!(self, prefix_space, comments)
     }
 
     pub(super) fn emit_leading_comments(&mut self, mut pos: BytePos, is_hi: bool) -> Result {
