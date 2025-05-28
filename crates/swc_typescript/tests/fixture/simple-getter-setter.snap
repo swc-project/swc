@@ -4,6 +4,7 @@ export declare const foo: {
     x: string;
     y: string;
     z: string;
+    // readonly
     readonly w: string;
 };
 export declare class Foo {

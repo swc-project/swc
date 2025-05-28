@@ -44,8 +44,7 @@ var C = /*#__PURE__*/ function(B) {
     };
     _proto.qux = function qux() {
         return _get(_get_prototype_of(C.prototype), "foo", this).call(this) || _get(_get_prototype_of(C.prototype), "foo", this);
-    } // 2 errors, foo is abstract
-    ;
+    }; // 2 errors, foo is abstract
     _proto.norf = function norf() {
         return _get(_get_prototype_of(C.prototype), "bar", this).call(this);
     };

@@ -7,5 +7,4 @@ module.exports = function() {};
 /// <reference path='./requires.d.ts' />
 var mod1 = require('./mod1');
 mod1();
-mod1.f() // error, not enough arguments
-;
+mod1.f(); // error, not enough arguments

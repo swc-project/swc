@@ -1,8 +1,7 @@
 //// [thisTypeInFunctions2.ts]
 extend1({
     init: function init() {
-        this // this: IndexedWithThis because of contextual typing.
-        ;
+        this; // this: IndexedWithThis because of contextual typing.
         // this.mine
         this.willDestroy;
     },
@@ -14,14 +13,12 @@ extend1({
 });
 extend2({
     init: function init() {
-        this // this: IndexedWithoutThis because of contextual typing
-        ;
+        this; // this: IndexedWithoutThis because of contextual typing
         this.mine;
     },
     mine: 13,
     foo: function foo() {
-        this // this: IndexedWithoutThis because of contextual typing
-        ;
+        this; // this: IndexedWithoutThis because of contextual typing
         this.mine;
     }
 });

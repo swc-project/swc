@@ -10,5 +10,4 @@ var C = /*#__PURE__*/ function() {
     _proto[Symbol.iterator] = function() {};
     return C;
 }();
-(new C)[Symbol.iterator](0) // Should error
-;
+(new C)[Symbol.iterator](0); // Should error

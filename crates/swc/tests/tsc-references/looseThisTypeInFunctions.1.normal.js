@@ -40,8 +40,7 @@ var n = x(12); // callee:void doesn't match this:I
 var u;
 var y = u.implicitNoThis;
 n = y(12); // ok, callee:void matches this:any
-c.explicitVoid = c.implicitThis // ok, implicitThis(this:any)
-;
+c.explicitVoid = c.implicitThis; // ok, implicitThis(this:any)
 o.implicitThis = c.implicitThis; // ok, implicitThis(this:any)
 o.implicitThis = c.explicitThis; // ok, implicitThis(this:any) is assignable to explicitThis(this: this)
 o.implicitThis = i.explicitThis;

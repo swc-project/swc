@@ -43,10 +43,8 @@ function f20(x, y, k1, k2, k3, k4) {
 // Repro from #17166
 function f3(t, k, tk, u, j, uk, tj, uj) {
     for(var key in t){
-        key = k // ok, K ==> keyof T
-        ;
-        k = key // error, keyof T =/=> K
-        ;
+        key = k; // ok, K ==> keyof T
+        k = key; // error, keyof T =/=> K
         t[key] = tk; // ok, T[K] ==> T[keyof T]
         tk = t[key]; // error, T[keyof T] =/=> T[K]
     }

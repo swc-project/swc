@@ -51,8 +51,7 @@ var g = function g() {};
 if (!!false) {
     g.expando = 1;
 }
-g.expando // error
-;
+g.expando; // error
 if (!!false) {
     g.both = 'hi';
 } else {

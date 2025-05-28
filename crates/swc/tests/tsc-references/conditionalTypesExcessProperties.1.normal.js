@@ -8,6 +8,5 @@ function testFunc2(a, sa) {
         test: 'bye',
         arg: a,
         arr: a
-    } // excess
-    ;
+    }; // excess
 }

@@ -20,11 +20,9 @@ var C = /*#__PURE__*/ function() {
 function foo() {
     var v = null;
     if (_instanceof(v, C)) {
-        v // Validator & Partial<OnChanges> & C
-        ;
+        v; // Validator & Partial<OnChanges> & C
     }
-    v // Validator & Partial<OnChanges> via subtype reduction
-    ;
+    v; // Validator & Partial<OnChanges> via subtype reduction
     // In 4.1, we introduced a change which _fixed_ a bug with CFA
     // correctly setting this to be the right object. With 4.2,
     // we reverted that fix in #42231 which brought behavior back to

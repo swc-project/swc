@@ -81,12 +81,10 @@ var DerivedB = /*#__PURE__*/ function(BaseB1) {
     };
     _proto.createBaseInstance = function createBaseInstance() {
         new BaseB(8);
-    } // ok
-    ;
+    }; // ok
     DerivedB.staticBaseInstance = function staticBaseInstance() {
         new BaseB(9);
-    } // ok
-    ;
+    }; // ok
     return DerivedB;
 }(BaseB);
 var DerivedC = /*#__PURE__*/ function(BaseC1) {
@@ -106,12 +104,10 @@ var DerivedC = /*#__PURE__*/ function(BaseC1) {
     };
     _proto.createBaseInstance = function createBaseInstance() {
         new BaseC(10);
-    } // error
-    ;
+    }; // error
     DerivedC.staticBaseInstance = function staticBaseInstance() {
         new BaseC(11);
-    } // error
-    ;
+    }; // error
     return DerivedC;
 }(BaseC);
 var ba = new BaseA(1);

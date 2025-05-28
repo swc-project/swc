@@ -9,14 +9,12 @@ class TestWithStatics {
         this["X_ z_ zz"] = class Inner {
             #foo;
             m() {
-                new TestWithStatics().#prop // OK
-                ;
+                new TestWithStatics().#prop; // OK
             }
             static{
                 this.C = class InnerInner {
                     m() {
-                        new TestWithStatics().#prop // OK
-                        ;
+                        new TestWithStatics().#prop; // OK
                         new Inner().#foo; // OK
                     }
                 };
@@ -24,8 +22,7 @@ class TestWithStatics {
             static M() {
                 return class {
                     m() {
-                        new TestWithStatics().#prop // OK
-                        ;
+                        new TestWithStatics().#prop; // OK
                         new Inner().#foo; // OK
                     }
                 };
@@ -43,19 +40,16 @@ class TestNonStatics {
     #prop;
     constructor(){
         this.#prop = 0;
-        this.dd = new TestNonStatics().#prop // OK
-        ;
+        this.dd = new TestNonStatics().#prop; // OK
         this["X_ z_ zz"] = class Inner {
             #foo;
             m() {
-                new TestNonStatics().#prop // Ok
-                ;
+                new TestNonStatics().#prop; // Ok
             }
             static M() {
                 return class {
                     m() {
-                        new TestNonStatics().#prop // OK
-                        ;
+                        new TestNonStatics().#prop; // OK
                         new Inner().#foo; // OK
                     }
                 };
@@ -64,8 +58,7 @@ class TestNonStatics {
                 this.#foo = 10;
                 this.C = class InnerInner {
                     m() {
-                        new TestNonStatics().#prop // Ok
-                        ;
+                        new TestNonStatics().#prop; // Ok
                         new Inner().#foo; // Ok
                     }
                 };

@@ -9,8 +9,8 @@ class A {
     constructor(){
         _class_private_field_init(this, _foo, {
             writable: true,
-            value: void 0 // Error
-        });
+            value: void 0
+        }); // Error
         _class_private_field_init(this, _bar, {
             writable: true,
             value: void 0
@@ -25,8 +25,8 @@ class A2 {
         _class_private_method_init(this, _bar1);
         _class_private_field_init(this, _foo1, {
             writable: true,
-            value: void 0 // No Error
-        });
+            value: void 0
+        }); // No Error
         _class_private_field_set(this, _foo1, _class_private_method_get(this, _bar1, bar).call(this));
     }
 }
@@ -42,8 +42,8 @@ class A3 {
         });
         _class_private_field_init(this, _foo2, {
             writable: true,
-            value: void 0 // No Error
-        });
+            value: void 0
+        }); // No Error
         _class_private_field_set(this, _foo2, _class_private_field_get(this, _bar2));
     }
 }
@@ -55,8 +55,8 @@ class B {
     constructor(){
         _class_private_field_init(this, _foo3, {
             writable: true,
-            value: void 0 // Error
-        });
+            value: void 0
+        }); // Error
         _class_private_field_init(this, _bar3, {
             writable: true,
             value: void 0
