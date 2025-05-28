@@ -335,23 +335,20 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         while let Some(c) = self.cur() {
             if allow_num_separator && c == '_' {
                 let is_allowed = |c: Option<char>| {
-                    if c.is_none() {
+                    let Some(c) = c else {
                         return false;
-                    }
-
-                    let c = c.unwrap();
-
+                    };
                     c.is_digit(RADIX as _)
                 };
                 let is_forbidden = |c: Option<char>| {
-                    if c.is_none() {
-                        return true;
-                    }
+                    let Some(c) = c else {
+                        return false;
+                    };
 
                     if RADIX == 16 {
-                        matches!(c.unwrap(), '.' | 'X' | '_' | 'x')
+                        matches!(c, '.' | 'X' | '_' | 'x')
                     } else {
-                        matches!(c.unwrap(), '.' | 'B' | 'E' | 'O' | '_' | 'b' | 'e' | 'o')
+                        matches!(c, '.' | 'B' | 'E' | 'O' | '_' | 'b' | 'e' | 'o')
                     }
                 };
 
@@ -498,18 +495,14 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
         debug_assert!(self.cur().is_some());
 
-        if starts_with_dot {
-            debug_assert_eq!(
-                self.cur(),
-                Some('.'),
-                "read_number(starts_with_dot = true) expects current char to be '.'"
-            );
-        }
-
         let start = self.cur_pos();
 
         let val = if starts_with_dot {
             // first char is '.'
+            debug_assert!(
+                self.cur().is_some_and(|c| c == '.'),
+                "read_number(starts_with_dot = true) expects current char to be '.'"
+            );
             0f64
         } else {
             let starts_with_zero = self.cur().unwrap() == '0';
@@ -602,10 +595,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         if self.cur() == Some('.') {
             self.bump();
 
-            if starts_with_dot {
-                debug_assert!(self.cur().is_some());
-                debug_assert!(self.cur().unwrap().is_ascii_digit());
-            }
+            // equal: if starts_with_dot { debug_assert!(xxxx) }
+            debug_assert!(!starts_with_dot || self.cur().is_some_and(|cur| cur.is_ascii_digit()));
 
             // Read numbers after dot
             self.read_int::<10>(0)?;
@@ -732,15 +723,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let start = self.cur_pos();
 
         self.bump();
-
-        match self.input().cur() {
-            Some(..) => {
-                self.bump();
-            }
-            _ => {
-                unreachable!();
-            }
-        }
+        self.bump();
 
         let (val, s, _) = self.read_number_no_dot_as_str::<RADIX>()?;
 
@@ -856,12 +839,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let mut s = SmartString::<LazyCompact>::default();
 
-        let c = self.input().cur();
-        debug_assert_eq!(c, Some('&'));
-        unsafe {
-            // Safety: cur() was Some('&')
-            self.input_mut().bump();
-        }
+        debug_assert!(self.input().cur().is_some_and(|c| c == '&'));
+        self.bump();
 
         let start_pos = self.input().cur_pos();
 
@@ -870,10 +849,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 Some(c) => c,
                 None => break,
             };
-            unsafe {
-                // Safety: cur() was Some(c)
-                self.input_mut().bump();
-            }
+            self.bump();
 
             if c == ';' {
                 if let Some(stripped) = s.strip_prefix('#') {
@@ -909,10 +885,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_jsx_new_line(&mut self, normalize_crlf: bool) -> LexResult<Either<&'static str, char>> {
         debug_assert!(self.syntax().jsx());
         let ch = self.input().cur().unwrap();
-        unsafe {
-            // Safety: cur() was Some(ch)
-            self.input_mut().bump();
-        }
+        self.bump();
 
         let out = if ch == '\r' && self.input().cur() == Some('\n') {
             unsafe {
@@ -1029,10 +1002,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         // it might be at the end of the file when
         // the string literal is unterminated
         if self.input().peek_ahead().is_some() {
-            unsafe {
-                // Safety: We called peek_ahead() which means cur() was Some
-                self.input_mut().bump();
-            }
+            self.bump();
         }
 
         let end = self.input().cur_pos();
@@ -1158,12 +1128,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         if self.input().cur() != Some('#') || self.input().peek() != Some('!') {
             return Ok(None);
         }
-        unsafe {
-            // Safety: cur() is Some('#')
-            self.input_mut().bump();
-            // Safety: cur() is Some('!')
-            self.input_mut().bump();
-        }
+        self.bump(); // `#`
+        self.bump(); // `!`
         let s = self.input_uncons_while(|c| !c.is_line_terminator());
         Ok(Some(self.atom(s)))
     }
@@ -1293,20 +1259,14 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             None => self.error_span(pos_span(start), SyntaxError::InvalidStrEscape)?,
         };
 
-        macro_rules! push_c_and_ret {
-            ($c:expr) => {{
-                $c
-            }};
-        }
-
         let c = match c {
-            '\\' => push_c_and_ret!('\\'),
-            'n' => push_c_and_ret!('\n'),
-            'r' => push_c_and_ret!('\r'),
-            't' => push_c_and_ret!('\t'),
-            'b' => push_c_and_ret!('\u{0008}'),
-            'v' => push_c_and_ret!('\u{000b}'),
-            'f' => push_c_and_ret!('\u{000c}'),
+            '\\' => '\\',
+            'n' => '\n',
+            'r' => '\r',
+            't' => '\t',
+            'b' => '\u{0008}',
+            'v' => '\u{000b}',
+            'f' => '\u{000c}',
             '\r' => {
                 self.bump(); // remove '\r'
 
@@ -1599,12 +1559,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
     /// `#`
     fn read_token_number_sign(&mut self) -> LexResult<Option<Self::Token>> {
-        debug_assert!(self.cur().is_some());
+        debug_assert!(self.cur().is_some_and(|c| c == '#'));
 
-        unsafe {
-            // Safety: cur() is Some('#')
-            self.input_mut().bump(); // '#'
-        }
+        self.bump(); // '#'
 
         // `#` can also be a part of shebangs, however they should have been
         // handled by `read_shebang()`
@@ -1620,14 +1577,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_dot(&mut self) -> LexResult<Self::Token> {
+        debug_assert!(self.cur().is_some_and(|c| c == '.'));
         // Check for eof
         let next = match self.input().peek() {
             Some(next) => next,
             None => {
-                unsafe {
-                    // Safety: cur() is Some(',')
-                    self.input_mut().bump();
-                }
+                self.bump(); // '.'
                 return Ok(Self::Token::DOT);
             }
         };
@@ -1638,19 +1593,11 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             });
         }
 
-        unsafe {
-            // Safety: cur() is Some
-            // 1st `.`
-            self.input_mut().bump();
-        }
+        self.bump(); // 1st `.`
 
         if next == '.' && self.input().peek() == Some('.') {
-            unsafe {
-                // Safety: peek() was Some
-
-                self.input_mut().bump(); // 2nd `.`
-                self.input_mut().bump(); // 3rd `.`
-            }
+            self.bump(); // 2nd `.`
+            self.bump(); // 3rd `.`
 
             return Ok(Self::Token::DOTDOTDOT);
         }
@@ -1663,29 +1610,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_question_mark(&mut self) -> LexResult<Self::Token> {
-        match self.input().peek() {
-            Some('?') => {
-                unsafe {
-                    // Safety: peek() was some
-                    self.input_mut().bump();
-                    self.input_mut().bump();
-                }
-                if self.input().cur() == Some('=') {
-                    unsafe {
-                        // Safety: cur() was some
-                        self.input_mut().bump();
-                    }
-                    return Ok(Self::Token::NULLISH_ASSIGN);
-                }
+        debug_assert!(self.cur().is_some_and(|c| c == '?'));
+        self.bump();
+        if self.input_mut().eat_byte(b'?') {
+            if self.input_mut().eat_byte(b'=') {
+                Ok(Self::Token::NULLISH_ASSIGN)
+            } else {
                 Ok(Self::Token::NULLISH_COALESCING)
             }
-            _ => {
-                unsafe {
-                    // Safety: peek() is callable only if cur() is Some
-                    self.input_mut().bump();
-                }
-                Ok(Self::Token::QUESTION)
-            }
+        } else {
+            Ok(Self::Token::QUESTION)
         }
     }
 
@@ -1694,10 +1628,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_colon(&mut self) -> LexResult<Self::Token> {
-        unsafe {
-            // Safety: cur() is Some(':')
-            self.input_mut().bump();
-        }
+        debug_assert!(self.cur().is_some_and(|c| c == ':'));
+        self.bump(); // ':'
         Ok(Self::Token::COLON)
     }
 
@@ -1706,6 +1638,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_zero(&mut self) -> LexResult<Self::Token> {
+        debug_assert_eq!(self.cur(), Some('0'));
         let next = self.input().peek();
 
         let bigint = match next {
@@ -1732,6 +1665,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     #[inline(never)]
     fn read_token_logical<const C: u8>(&mut self) -> LexResult<Self::Token> {
         debug_assert!(C == b'|' || C == b'&');
+        let is_bit_and = C == b'&';
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
@@ -1739,7 +1673,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             // Safety: cur() is Some(c as char)
             self.input_mut().bump();
         }
-        let token = if C == b'&' {
+        let token = if is_bit_and {
             Self::Token::BIT_AND
         } else {
             Self::Token::BIT_OR
@@ -1747,7 +1681,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         // '|=', '&='
         if self.input_mut().eat_byte(b'=') {
-            return Ok(if token.is_bit_and() {
+            return Ok(if is_bit_and {
                 Self::Token::BIT_AND_EQ
             } else {
                 debug_assert!(token.is_bit_or());
@@ -1768,7 +1702,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     self.input_mut().bump();
                 }
 
-                return Ok(if token.is_bit_and() {
+                return Ok(if is_bit_and {
                     Self::Token::LOGICAL_AND_EQ
                 } else {
                     debug_assert!(token.is_bit_or());
@@ -1778,7 +1712,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
             // |||||||
             //   ^
-            if had_line_break_before_last && token.is_bit_or() && self.is_str("||||| ") {
+            if had_line_break_before_last && !is_bit_and && self.is_str("||||| ") {
                 let span = fixed_len_span(start, 7);
                 self.emit_error_span(span, SyntaxError::TS1185);
                 self.skip_line_comment(5);
@@ -1786,7 +1720,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 return self.error_span(span, SyntaxError::TS1185);
             }
 
-            return Ok(if token.is_bit_and() {
+            return Ok(if is_bit_and {
                 Self::Token::LOGICAL_AND
             } else {
                 debug_assert!(token.is_bit_or());
@@ -1802,10 +1736,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_mul_mod(&mut self, is_mul: bool) -> LexResult<Self::Token> {
-        unsafe {
-            // Safety: cur() is Some(c)
-            self.input_mut().bump();
-        }
+        debug_assert!(self.cur().is_some_and(|c| c == '*' || c == '%'));
+        self.bump();
         let token = if is_mul {
             if self.input_mut().eat_byte(b'*') {
                 // `**`
@@ -1834,8 +1766,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     #[inline(never)]
     fn read_slash(&mut self) -> LexResult<Option<Self::Token>> {
         debug_assert_eq!(self.cur(), Some('/'));
-        // Divide operator
-        self.bump();
+        self.bump(); // '/'
         Ok(Some(if self.eat(b'=') {
             Self::Token::DIV_EQ
         } else {
@@ -1930,7 +1861,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         continue;
                     }
 
-                    if (c as char).is_line_break() {
+                    if matches!(c, b'\r' | b'\n') {
                         break;
                     }
 
