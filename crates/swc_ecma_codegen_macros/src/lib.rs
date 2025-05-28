@@ -60,9 +60,12 @@ pub fn node_impl(
 /// Returns `(emitter_method, adjuster_method)`
 fn expand_node_impl_method(node_type: &Type, src: ImplItemFn) -> ItemImpl {
     let emit_block = ReplaceEmit { emit: true }.fold_block(src.block.clone());
+    let adjust_block = ReplaceEmit { emit: false }.fold_block(src.block.clone());
 
     parse_quote!(
         impl crate::Node for #node_type {
+            #[allow(unused)]
+            #[allow(clippy::all)]
             fn emit_with<W, S>(&self, emitter: &mut crate::Emitter<'_, W, S>) -> crate::Result
             where
                 W: crate::text_writer::WriteJs,
@@ -71,6 +74,13 @@ fn expand_node_impl_method(node_type: &Type, src: ImplItemFn) -> ItemImpl {
                 #emit_block
             }
 
+            fn with_new_span<W, S>(&self, emitter: &mut crate::NodeEmitter<'_, W, S>) -> crate::Result<Self>
+            where
+                W: crate::text_writer::SpannedWriteJs,
+                S: swc_common::SourceMapper + swc_ecma_ast::SourceMapperExt,
+            {
+                #adjust_block
+            }
         }
     )
 }
@@ -81,9 +91,10 @@ struct ReplaceEmit {
 
 impl Fold for ReplaceEmit {
     fn fold_macro(&mut self, mut i: Macro) -> Macro {
+        let path = &i.path;
         let name = i.path.clone().into_token_stream().to_string();
 
-        if "emit" == &*name {
+        if matches!(&*name, "emit" | "only_new") {
             let args: Punctuated<Expr, Token![,]> = parse_args(i.tokens);
             let args: TokenStream = args
                 .into_pairs()
@@ -91,7 +102,7 @@ impl Fold for ReplaceEmit {
                 .collect();
 
             let is_emit = self.emit;
-            i = parse_quote!(emit_node_inner!(emitter, #is_emit, #args));
+            i = parse_quote!(#path!(#is_emit, #args));
         }
 
         i

@@ -1,4 +1,4 @@
-use swc_common::Spanned;
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -7,36 +7,71 @@ impl MacroNode for Param {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         emitter.emit_list(self.span, Some(&self.decorators), ListFormat::Decorators)?;
 
-        emit!(self.pat);
+        emit!(emitter, self.pat);
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Param {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for Pat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            Pat::Array(ref n) => emit!(n),
-            Pat::Assign(ref n) => emit!(n),
-            Pat::Expr(ref n) => emit!(n),
-            Pat::Ident(ref n) => emit!(n),
-            Pat::Object(ref n) => emit!(n),
-            Pat::Rest(ref n) => emit!(n),
-            Pat::Invalid(n) => emit!(n),
-        }
+        let result = match self {
+            Pat::Array(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Array(n))
+            }
+            Pat::Assign(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Assign(n))
+            }
+            Pat::Expr(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Expr(n))
+            }
+            Pat::Ident(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Ident(n))
+            }
+            Pat::Object(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Object(n))
+            }
+            Pat::Rest(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Rest(n))
+            }
+            Pat::Invalid(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Pat::Invalid(n))
+            }
+        };
 
         if emitter.comments.is_some() {
             emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
         }
 
-        Ok(())
+        Ok(result)
     }
 }
 
@@ -45,28 +80,41 @@ impl MacroNode for RestPat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         punct!(emitter, self.dot3_token, "...");
-        emit!(self.arg);
+        emit!(emitter, self.arg);
 
         if let Some(type_ann) = &self.type_ann {
             punct!(emitter, ":");
             formatting_space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(RestPat {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for PropOrSpread {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            PropOrSpread::Prop(ref n) => emit!(n),
-            PropOrSpread::Spread(ref n) => emit!(n),
-        }
+        Ok(match self {
+            PropOrSpread::Prop(ref n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(PropOrSpread::Prop(n))
+            }
+            PropOrSpread::Spread(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(PropOrSpread::Spread(n))
+            }
+        })
     }
 }
 
@@ -80,57 +128,115 @@ impl MacroNode for SpreadElement {
         srcmap!(emitter, self, true);
 
         punct!(emitter, "...");
-        emit!(self.expr);
+        emit!(emitter, self.expr);
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        Ok(only_new!(SpreadElement { ..self.clone() }))
     }
 }
 
 #[node_impl]
 impl MacroNode for AssignTarget {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            AssignTarget::Simple(ref n) => emit!(n),
-            AssignTarget::Pat(ref n) => emit!(n),
-        }
+        Ok(match self {
+            AssignTarget::Simple(ref n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(AssignTarget::Simple(n))
+            }
+            AssignTarget::Pat(ref n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(AssignTarget::Pat(n))
+            }
+        })
     }
 }
 
 #[node_impl]
 impl MacroNode for SimpleAssignTarget {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            SimpleAssignTarget::Ident(n) => emit!(n),
-            SimpleAssignTarget::Member(n) => emit!(n),
-            SimpleAssignTarget::Invalid(n) => emit!(n),
-            SimpleAssignTarget::SuperProp(n) => emit!(n),
-            SimpleAssignTarget::Paren(n) => emit!(n),
-            SimpleAssignTarget::OptChain(n) => emit!(n),
-            SimpleAssignTarget::TsAs(n) => emit!(n),
-            SimpleAssignTarget::TsNonNull(n) => emit!(n),
-            SimpleAssignTarget::TsSatisfies(n) => emit!(n),
-            SimpleAssignTarget::TsTypeAssertion(n) => emit!(n),
-            SimpleAssignTarget::TsInstantiation(n) => emit!(n),
-        }
+        Ok(match self {
+            SimpleAssignTarget::Ident(n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(SimpleAssignTarget::Ident(n))
+            }
+            SimpleAssignTarget::Member(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::Member(n))
+            }
+            SimpleAssignTarget::Invalid(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::Invalid(n))
+            }
+            SimpleAssignTarget::SuperProp(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::SuperProp(n))
+            }
+            SimpleAssignTarget::Paren(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::Paren(n))
+            }
+            SimpleAssignTarget::OptChain(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::OptChain(n))
+            }
+            SimpleAssignTarget::TsAs(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::TsAs(n))
+            }
+            SimpleAssignTarget::TsTypeAssertion(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::TsTypeAssertion(n))
+            }
+            SimpleAssignTarget::TsInstantiation(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::TsInstantiation(n))
+            }
+            SimpleAssignTarget::TsNonNull(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::TsNonNull(n))
+            }
+            SimpleAssignTarget::TsSatisfies(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(SimpleAssignTarget::TsSatisfies(n))
+            }
+        })
     }
 }
 
 #[node_impl]
 impl MacroNode for AssignTargetPat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            AssignTargetPat::Array(n) => emit!(n),
-            AssignTargetPat::Object(n) => emit!(n),
-            AssignTargetPat::Invalid(n) => emit!(n),
-        }
+        Ok(match self {
+            AssignTargetPat::Array(n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(AssignTargetPat::Array(n))
+            }
+            AssignTargetPat::Object(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(AssignTargetPat::Object(n))
+            }
+            AssignTargetPat::Invalid(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(AssignTargetPat::Invalid(n))
+            }
+        })
     }
 }
 
@@ -138,6 +244,8 @@ impl MacroNode for AssignTargetPat {
 impl MacroNode for ArrayPat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -158,12 +266,17 @@ impl MacroNode for ArrayPat {
         if let Some(type_ann) = &self.type_ann {
             punct!(emitter, ":");
             space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ArrayPat {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -172,17 +285,24 @@ impl MacroNode for AssignPat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
-        emit!(self.left);
+        emit!(emitter, self.left);
         formatting_space!(emitter);
         punct!(emitter, "=");
         formatting_space!(emitter);
-        emit!(self.right);
+        emit!(emitter, self.right);
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(AssignPat {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -190,6 +310,8 @@ impl MacroNode for AssignPat {
 impl MacroNode for ObjectPat {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
         punct!(emitter, "{");
@@ -209,25 +331,40 @@ impl MacroNode for ObjectPat {
         if let Some(type_ann) = &self.type_ann {
             punct!(emitter, ":");
             space!(emitter);
-            emit!(type_ann);
+            emit!(emitter, type_ann);
         }
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ObjectPat {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for ObjectPatProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            ObjectPatProp::KeyValue(ref node) => emit!(node),
-            ObjectPatProp::Assign(ref node) => emit!(node),
-            ObjectPatProp::Rest(ref node) => emit!(node),
-        }
+        Ok(match self {
+            ObjectPatProp::KeyValue(ref node) => {
+                let n = emit!(emitter, node);
 
-        Ok(())
+                only_new!(ObjectPatProp::KeyValue(n))
+            }
+            ObjectPatProp::Assign(ref node) => {
+                let n = emit!(emitter, node);
+
+                only_new!(ObjectPatProp::Assign(n))
+            }
+            ObjectPatProp::Rest(ref node) => {
+                let n = emit!(emitter, node);
+
+                only_new!(ObjectPatProp::Rest(n))
+            }
+        })
     }
 }
 
@@ -238,14 +375,14 @@ impl MacroNode for KeyValuePatProp {
 
         srcmap!(emitter, self, true);
 
-        emit!(self.key);
+        emit!(emitter, self.key);
         punct!(emitter, ":");
         formatting_space!(emitter);
-        emit!(self.value);
+        emit!(emitter, self.value);
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        Ok(only_new!(KeyValuePatProp { ..self.clone() }))
     }
 }
 
@@ -254,31 +391,48 @@ impl MacroNode for AssignPatProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
-        emit!(self.key);
+        emit!(emitter, self.key);
         if let Some(value) = &self.value {
             formatting_space!(emitter);
             punct!(emitter, "=");
             formatting_space!(emitter);
-            emit!(value);
+            emit!(emitter, value);
         }
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(AssignPatProp {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for ForHead {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            ForHead::Pat(n) => emit!(n),
-            ForHead::VarDecl(n) => emit!(n),
-            ForHead::UsingDecl(n) => emit!(n),
-        }
+        Ok(match self {
+            ForHead::Pat(n) => {
+                let n = emit!(emitter, n);
 
-        Ok(())
+                only_new!(ForHead::Pat(n))
+            }
+            ForHead::VarDecl(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ForHead::VarDecl(n))
+            }
+            ForHead::UsingDecl(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(ForHead::UsingDecl(n))
+            }
+        })
     }
 }

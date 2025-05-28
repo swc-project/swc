@@ -2,7 +2,7 @@ use std::{fmt::Write, io, str};
 
 use ascii::AsciiChar;
 use compact_str::CompactString;
-use swc_common::{Spanned, DUMMY_SP};
+use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -16,27 +16,59 @@ impl MacroNode for Lit {
         srcmap!(emitter, self, true);
 
         match self {
-            Lit::Bool(Bool { value, .. }) => {
-                if *value {
-                    keyword!(emitter, "true")
-                } else {
-                    keyword!(emitter, "false")
-                }
+            Lit::Bool(v) => {
+                let v = emit!(emitter, v);
+
+                Ok(only_new!(Lit::Bool(v)))
             }
-            Lit::Null(Null { .. }) => keyword!(emitter, "null"),
-            Lit::Str(ref s) => emit!(s),
-            Lit::BigInt(ref s) => emit!(s),
-            Lit::Num(ref n) => emit!(n),
+            Lit::Null(Null { .. }) => {
+                let lo = only_new!(emitter.wr.get_pos());
+
+                keyword!(emitter, "null");
+
+                let hi = only_new!(emitter.wr.get_pos());
+
+                Ok(only_new!(Lit::Null(Null {
+                    span: Span::new(lo, hi)
+                })))
+            }
+            Lit::Str(ref s) => {
+                let s = emit!(emitter, s);
+
+                Ok(only_new!(Lit::Str(s)))
+            }
+            Lit::BigInt(ref s) => {
+                let bigint = emit!(emitter, s);
+
+                Ok(only_new!(Lit::BigInt(bigint)))
+            }
+            Lit::Num(ref n) => {
+                let number = emit!(emitter, n);
+
+                Ok(only_new!(Lit::Num(number)))
+            }
             Lit::Regex(ref n) => {
+                let lo = only_new!(emitter.wr.get_pos());
+
                 punct!(emitter, "/");
                 emitter.wr.write_str(&n.exp)?;
                 punct!(emitter, "/");
                 emitter.wr.write_str(&n.flags)?;
-            }
-            Lit::JSXText(ref n) => emit!(n),
-        }
 
-        Ok(())
+                let hi = only_new!(emitter.wr.get_pos());
+
+                Ok(only_new!(Lit::Regex(Regex {
+                    span: Span::new(lo, hi),
+                    exp: n.exp.clone(),
+                    flags: n.flags.clone(),
+                })))
+            }
+            Lit::JSXText(ref n) => {
+                let s = emit!(emitter, n);
+
+                Ok(only_new!(Lit::JSXText(s)))
+            }
+        }
     }
 }
 
@@ -44,6 +76,8 @@ impl MacroNode for Lit {
 impl MacroNode for Str {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
@@ -60,7 +94,12 @@ impl MacroNode for Str {
 
             srcmap!(emitter, self, false);
 
-            return Ok(());
+            let hi = only_new!(emitter.wr.get_pos());
+
+            return Ok(only_new!(Str {
+                span: Span::new(lo, hi),
+                ..self.clone()
+            }));
         }
 
         let target = emitter.cfg.target;
@@ -82,7 +121,13 @@ impl MacroNode for Str {
                         || !self.raw.as_ref().unwrap().contains("script"))
                 {
                     emitter.wr.write_str_lit(DUMMY_SP, raw)?;
-                    return Ok(());
+
+                    let hi = only_new!(emitter.wr.get_pos());
+
+                    return Ok(only_new!(Str {
+                        span: Span::new(lo, hi),
+                        ..self.clone()
+                    }));
                 }
             }
         }
@@ -110,16 +155,28 @@ impl MacroNode for Str {
 
         // srcmap!(emitter,self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Str {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for Number {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_num_lit_internal(self, false)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Number {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -127,6 +184,8 @@ impl MacroNode for Number {
 impl MacroNode for BigInt {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         if emitter.cfg.minify {
             let value = if *self.value >= 10000000000000000_i64.into() {
@@ -155,7 +214,12 @@ impl MacroNode for BigInt {
             }
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(BigInt {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -164,13 +228,20 @@ impl MacroNode for Bool {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         if self.value {
             keyword!(emitter, self.span, "true")
         } else {
             keyword!(emitter, self.span, "false")
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Bool {
+            span: Span::new(lo, hi),
+            ..*self
+        }))
     }
 }
 

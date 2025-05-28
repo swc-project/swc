@@ -5,7 +5,13 @@
 #![allow(clippy::nonminimal_bool)]
 #![allow(non_local_definitions)]
 
-use std::{borrow::Cow, fmt::Write, io, ops::Deref, str};
+use std::{
+    borrow::Cow,
+    fmt::Write,
+    io,
+    ops::{Deref, DerefMut},
+    str,
+};
 
 use compact_str::{format_compact, CompactString};
 use memchr::memmem::Finder;
@@ -18,6 +24,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
+use text_writer::SpannedWriteJs;
 
 pub use self::config::Config;
 use self::{text_writer::WriteJs, util::StartsWithAlphaNum};
@@ -42,7 +49,7 @@ pub mod text_writer;
 mod typescript;
 pub mod util;
 
-pub type Result = io::Result<()>;
+pub type Result<T = ()> = io::Result<T>;
 
 /// Generate a code from a syntax node using default options.
 pub fn to_code_default(
@@ -74,42 +81,104 @@ pub fn to_code(node: &impl Node) -> String {
     to_code_with_comments(None, node)
 }
 
-pub trait Node: Spanned {
-    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
+pub trait Node: Spanned + Sized {
+    fn emit_with<W, S>(&self, emitter: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
         S: SourceMapper + SourceMapperExt;
+
+    fn with_new_span<W, S>(&self, emitter: &mut NodeEmitter<'_, W, S>) -> Result<Self>
+    where
+        W: SpannedWriteJs,
+        S: SourceMapper + SourceMapperExt;
 }
+
 impl<N: Node> Node for Box<N> {
-    #[inline]
-    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
+    fn emit_with<W, S>(&self, emitter: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
         S: SourceMapper + SourceMapperExt,
     {
-        (**self).emit_with(e)
+        (**self).emit_with(emitter)
     }
-}
-impl<N: Node> Node for &N {
-    #[inline]
-    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
+
+    fn with_new_span<W, S>(&self, emitter: &mut NodeEmitter<'_, W, S>) -> Result<Self>
     where
-        W: WriteJs,
+        W: SpannedWriteJs,
         S: SourceMapper + SourceMapperExt,
     {
-        (**self).emit_with(e)
+        (**self).with_new_span(emitter).map(Box::new)
     }
 }
 
-pub struct Emitter<'a, W, S: SourceMapper>
+/// TODO(kdy1): We may need to remove this impl
+impl<N: Node> Node for &'_ N {
+    fn emit_with<W, S>(&self, emitter: &mut Emitter<'_, W, S>) -> Result
+    where
+        W: WriteJs,
+        S: SourceMapper + SourceMapperExt,
+    {
+        (**self).emit_with(emitter)
+    }
+
+    /// Noop
+    fn with_new_span<W, S>(&self, _emitter: &mut NodeEmitter<'_, W, S>) -> Result<Self>
+    where
+        W: SpannedWriteJs,
+        S: SourceMapper + SourceMapperExt,
+    {
+        Ok(self)
+    }
+}
+
+pub struct Emitter<'a, W, S>
 where
     W: WriteJs,
-    S: SourceMapperExt,
+    S: SourceMapper + SourceMapperExt,
 {
     pub cfg: config::Config,
     pub cm: Lrc<S>,
     pub comments: Option<&'a dyn Comments>,
     pub wr: W,
+}
+
+pub struct NodeEmitter<'a, W, S>
+where
+    W: SpannedWriteJs,
+    S: SourceMapper + SourceMapperExt,
+{
+    emitter: Emitter<'a, W, S>,
+}
+
+impl<'a, W, S> NodeEmitter<'a, W, S>
+where
+    W: SpannedWriteJs,
+    S: SourceMapper + SourceMapperExt,
+{
+    pub fn new(emitter: Emitter<'a, W, S>) -> Self {
+        Self { emitter }
+    }
+}
+impl<'a, W, S> Deref for NodeEmitter<'a, W, S>
+where
+    W: SpannedWriteJs,
+    S: SourceMapper + SourceMapperExt,
+{
+    type Target = Emitter<'a, W, S>;
+
+    fn deref(&self) -> &Self::Target {
+        &self.emitter
+    }
+}
+
+impl<W, S> DerefMut for NodeEmitter<'_, W, S>
+where
+    W: SpannedWriteJs,
+    S: SourceMapper + SourceMapperExt,
+{
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.emitter
+    }
 }
 
 enum CowStr<'a> {
@@ -163,10 +232,10 @@ where
         } else {
             formatting_space!(self);
         }
-        emit!(self, node.callee);
+        emit!(true, self, node.callee);
 
         if let Some(type_args) = &node.type_args {
-            emit!(self, type_args);
+            emit!(true, self, type_args);
         }
 
         if let Some(ref args) = node.args {
@@ -202,7 +271,7 @@ where
                 self.emit_template_element_for_tagged_template(&node.quasis[i / 2])?;
             } else {
                 punct!(self, "${");
-                emit!(self, node.exprs[i / 2]);
+                emit!(true, self, node.exprs[i / 2]);
                 punct!(self, "}");
             }
         }
@@ -284,7 +353,7 @@ where
         } else {
             formatting_space!(self);
         }
-        emit!(self, node.right);
+        emit!(true, self, node.right);
 
         Ok(())
     }
@@ -292,7 +361,7 @@ where
     /// prints `(b){}` from `function a(b){}`
     fn emit_fn_trailing(&mut self, node: &Function) -> Result {
         if let Some(type_params) = &node.type_params {
-            emit!(self, type_params);
+            emit!(true, self, type_params);
         }
 
         punct!(self, "(");
@@ -302,7 +371,7 @@ where
         if let Some(ty) = &node.return_type {
             punct!(self, ":");
             formatting_space!(self);
-            emit!(self, ty);
+            emit!(true, self, ty);
         }
 
         if let Some(body) = &node.body {
@@ -971,6 +1040,17 @@ where
             None => Ok(()),
         }
     }
+
+    fn with_new_span<W, S>(&self, emitter: &mut NodeEmitter<'_, W, S>) -> Result<Self>
+    where
+        W: SpannedWriteJs,
+        S: SourceMapper + SourceMapperExt,
+    {
+        match self {
+            Some(n) => Ok(Some(n.with_new_span(emitter)?)),
+            None => Ok(None),
+        }
+    }
 }
 
 fn get_template_element_from_raw(
@@ -1402,14 +1482,18 @@ fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
 #[node_impl]
 impl MacroNode for Program {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            Program::Module(m) => emit!(m),
-            Program::Script(s) => emit!(s),
-            // TODO: reenable once experimental_metadata breaking change is merged
-            // _ => unreachable!(),
-        }
+        Ok(match self {
+            Program::Module(m) => {
+                let n = emit!(emitter, m);
 
-        Ok(())
+                only_new!(Program::Module(n))
+            }
+            Program::Script(s) => {
+                let n = emit!(emitter, s);
+
+                only_new!(Program::Script(n))
+            }
+        })
     }
 }
 
@@ -1419,6 +1503,8 @@ impl MacroNode for Module {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         if self.body.is_empty() {
             srcmap!(emitter, self, true);
         }
@@ -1429,7 +1515,7 @@ impl MacroNode for Module {
             emitter.wr.write_line()?;
         }
         for stmt in &self.body {
-            emit!(stmt);
+            emit!(emitter, stmt);
         }
 
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
@@ -1437,7 +1523,12 @@ impl MacroNode for Module {
             emitter.wr.commit_pending_semi()?;
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Module {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1447,6 +1538,8 @@ impl MacroNode for Script {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         if self.body.is_empty() {
             srcmap!(emitter, self, true);
         }
@@ -1457,7 +1550,7 @@ impl MacroNode for Script {
             emitter.wr.write_line()?;
         }
         for stmt in &self.body {
-            emit!(stmt);
+            emit!(emitter, stmt);
         }
 
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
@@ -1465,7 +1558,12 @@ impl MacroNode for Script {
             emitter.wr.commit_pending_semi()?;
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Script {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1473,47 +1571,71 @@ impl MacroNode for Script {
 impl MacroNode for ModuleItem {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
-        match self {
-            ModuleItem::Stmt(stmt) => emit!(stmt),
-            ModuleItem::ModuleDecl(decl) => emit!(decl),
-        }
+        let node = match self {
+            ModuleItem::Stmt(stmt) => {
+                let stmt = emit!(emitter, stmt);
+
+                only_new!(ModuleItem::Stmt(stmt))
+            }
+            ModuleItem::ModuleDecl(decl) => {
+                let decl = emit!(emitter, decl);
+
+                only_new!(ModuleItem::ModuleDecl(decl))
+            }
+        };
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
 
-        Ok(())
+        Ok(node)
     }
 }
 
 #[node_impl]
 impl MacroNode for Callee {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
+        Ok(match self {
             Callee::Expr(e) => {
-                if let Expr::New(new) = &**e {
+                let e = if let Expr::New(new) = &**e {
                     emitter.emit_new(new, false)?;
+                    only_new!(Box::new(Expr::New(new.clone())))
                 } else {
-                    emit!(e);
-                }
-            }
-            Callee::Super(n) => emit!(n),
-            Callee::Import(n) => emit!(n),
-        }
+                    emit!(emitter, e)
+                };
 
-        Ok(())
+                only_new!(Callee::Expr(e))
+            }
+            Callee::Super(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Callee::Super(n))
+            }
+            Callee::Import(n) => {
+                let n = emit!(emitter, n);
+                only_new!(Callee::Import(n))
+            }
+        })
     }
 }
 
 #[node_impl]
 impl MacroNode for Super {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, self.span, "super");
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Super {
+            span: Span::new(lo, hi),
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for Import {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, self.span, "import");
         match self.phase {
             ImportPhase::Source => {
@@ -1527,63 +1649,216 @@ impl MacroNode for Import {
             _ => {}
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Import {
+            span: Span::new(lo, hi),
+            ..*self
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for Expr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        match self {
-            Expr::Array(n) => emit!(n),
-            Expr::Arrow(n) => emit!(n),
-            Expr::Assign(n) => emit!(n),
-            Expr::Await(n) => emit!(n),
-            Expr::Bin(n) => emit!(n),
-            Expr::Call(n) => emit!(n),
-            Expr::Class(n) => emit!(n),
-            Expr::Cond(n) => emit!(n),
-            Expr::Fn(n) => emit!(n),
-            Expr::Ident(n) => emit!(n),
-            Expr::Lit(n) => emit!(n),
-            Expr::Member(n) => emit!(n),
-            Expr::SuperProp(n) => emit!(n),
-            Expr::MetaProp(n) => emit!(n),
-            Expr::New(n) => emit!(n),
-            Expr::Object(n) => emit!(n),
-            Expr::Paren(n) => emit!(n),
-            Expr::Seq(n) => emit!(n),
-            Expr::TaggedTpl(n) => emit!(n),
-            Expr::This(n) => emit!(n),
-            Expr::Tpl(n) => emit!(n),
-            Expr::Unary(n) => emit!(n),
-            Expr::Update(n) => emit!(n),
-            Expr::Yield(n) => emit!(n),
-            Expr::PrivateName(n) => emit!(n),
+        let result = match self {
+            Expr::Array(n) => {
+                let n = emit!(emitter, n);
 
-            Expr::JSXMember(n) => emit!(n),
-            Expr::JSXNamespacedName(n) => emit!(n),
-            Expr::JSXEmpty(n) => emit!(n),
-            Expr::JSXElement(n) => emit!(n),
-            Expr::JSXFragment(n) => emit!(n),
-
-            Expr::TsAs(n) => emit!(n),
-            Expr::TsNonNull(n) => emit!(n),
-            Expr::TsTypeAssertion(n) => emit!(n),
-            Expr::TsConstAssertion(n) => emit!(n),
-            Expr::TsInstantiation(n) => emit!(n),
-            Expr::OptChain(n) => emit!(n),
-            Expr::Invalid(n) => emit!(n),
-            Expr::TsSatisfies(n) => {
-                emit!(n)
+                only_new!(Expr::Array(n))
             }
-        }
+            Expr::Arrow(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Arrow(n))
+            }
+            Expr::Assign(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Assign(n))
+            }
+            Expr::Await(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Await(n))
+            }
+            Expr::Bin(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Bin(n))
+            }
+            Expr::Call(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Call(n))
+            }
+            Expr::Class(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Class(n))
+            }
+            Expr::Cond(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Cond(n))
+            }
+            Expr::Fn(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Fn(n))
+            }
+            Expr::Ident(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Ident(n))
+            }
+            Expr::Lit(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Lit(n))
+            }
+            Expr::Member(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Member(n))
+            }
+            Expr::SuperProp(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::SuperProp(n))
+            }
+            Expr::MetaProp(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::MetaProp(n))
+            }
+            Expr::New(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::New(n))
+            }
+            Expr::Object(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Object(n))
+            }
+            Expr::Paren(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Paren(n))
+            }
+            Expr::Seq(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Seq(n))
+            }
+            Expr::TaggedTpl(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TaggedTpl(n))
+            }
+            Expr::This(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::This(n))
+            }
+            Expr::Tpl(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Tpl(n))
+            }
+            Expr::Unary(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Unary(n))
+            }
+            Expr::Update(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Update(n))
+            }
+            Expr::Yield(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Yield(n))
+            }
+            Expr::JSXMember(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::JSXMember(n))
+            }
+            Expr::JSXNamespacedName(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::JSXNamespacedName(n))
+            }
+            Expr::JSXEmpty(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::JSXEmpty(n))
+            }
+            Expr::JSXElement(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::JSXElement(n))
+            }
+            Expr::JSXFragment(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::JSXFragment(n))
+            }
+            Expr::TsAs(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TsAs(n))
+            }
+            Expr::TsNonNull(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TsNonNull(n))
+            }
+            Expr::TsTypeAssertion(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TsTypeAssertion(n))
+            }
+            Expr::TsConstAssertion(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TsConstAssertion(n))
+            }
+            Expr::TsInstantiation(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TsInstantiation(n))
+            }
+            Expr::OptChain(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::OptChain(n))
+            }
+            Expr::TsSatisfies(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::TsSatisfies(n))
+            }
+            Expr::Invalid(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::Invalid(n))
+            }
+            Expr::PrivateName(n) => {
+                let n = emit!(emitter, n);
+
+                only_new!(Expr::PrivateName(n))
+            }
+        };
 
         if emitter.comments.is_some() {
             emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
         }
 
-        Ok(())
+        Ok(result)
     }
 }
 
@@ -1592,28 +1867,51 @@ impl MacroNode for OptChainExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        match &*self.base {
+        let lo = only_new!(emitter.wr.get_pos());
+
+        let base = match &*self.base {
             OptChainBase::Member(e) => {
-                if let Expr::New(new) = &*e.obj {
+                let obj = if let Expr::New(new) = &*e.obj {
                     emitter.emit_new(new, false)?;
+                    only_new!(Box::new(Expr::New(new.clone())))
                 } else {
-                    emit!(e.obj);
-                }
+                    emit!(emitter, e.obj)
+                };
+
                 if self.optional {
                     punct!(emitter, "?.");
                 } else if !e.prop.is_computed() {
                     punct!(emitter, ".");
                 }
 
-                match &e.prop {
-                    MemberProp::Computed(computed) => emit!(computed),
-                    MemberProp::Ident(i) => emit!(i),
-                    MemberProp::PrivateName(p) => emit!(p),
-                }
+                let prop = match &e.prop {
+                    MemberProp::Computed(computed) => {
+                        let n = emit!(emitter, computed);
+
+                        only_new!(MemberProp::Computed(n))
+                    }
+                    MemberProp::Ident(i) => {
+                        let n = emit!(emitter, i);
+
+                        only_new!(MemberProp::Ident(n))
+                    }
+                    MemberProp::PrivateName(p) => {
+                        let n = emit!(emitter, p);
+                        only_new!(MemberProp::PrivateName(n))
+                    }
+                };
+
+                let hi = only_new!(emitter.wr.get_pos());
+
+                only_new!(Box::new(OptChainBase::Member(MemberExpr {
+                    span: Span::new(lo, hi),
+                    obj,
+                    prop,
+                })))
             }
             OptChainBase::Call(e) => {
                 debug_assert!(!e.callee.is_new());
-                emit!(e.callee);
+                emit!(emitter, e.callee);
 
                 if self.optional {
                     punct!(emitter, "?.");
@@ -1626,10 +1924,23 @@ impl MacroNode for OptChainExpr {
                     ListFormat::CallExpressionArguments,
                 )?;
                 punct!(emitter, ")");
-            }
-        }
 
-        Ok(())
+                let hi = only_new!(emitter.wr.get_pos());
+
+                only_new!(Box::new(OptChainBase::Call(OptCall {
+                    span: Span::new(lo, hi),
+                    ..e.clone()
+                })))
+            }
+        };
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(OptChainExpr {
+            span: Span::new(lo, hi),
+            base,
+            ..self.clone()
+        }))
     }
 }
 
@@ -1638,9 +1949,15 @@ impl MacroNode for Invalid {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span, false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.wr.write_str_lit(self.span, "<invalid>")?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Invalid {
+            span: Span::new(lo, hi),
+        }))
     }
 }
 
@@ -1649,14 +1966,16 @@ impl MacroNode for CallExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
 
-        emit!(self.callee);
+        emit!(emitter, self.callee);
 
         if let Some(type_args) = &self.type_args {
-            emit!(type_args);
+            emit!(emitter, type_args);
         }
 
         punct!(emitter, "(");
@@ -1669,16 +1988,28 @@ impl MacroNode for CallExpr {
 
         // srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(CallExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for NewExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_new(self, true)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(NewExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1686,6 +2017,8 @@ impl MacroNode for NewExpr {
 impl MacroNode for MemberExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -1699,12 +2032,16 @@ impl MacroNode for MemberExpr {
                 needs_2dots_for_property_access = emitter.emit_num_lit_internal(num, true)?;
             }
             _ => {
-                emit!(self.obj);
+                emit!(emitter, self.obj);
             }
         }
 
-        match &self.prop {
-            MemberProp::Computed(computed) => emit!(computed),
+        let prop = match &self.prop {
+            MemberProp::Computed(computed) => {
+                let n = emit!(emitter, computed);
+
+                only_new!(MemberProp::Computed(n))
+            }
             MemberProp::Ident(ident) => {
                 if needs_2dots_for_property_access {
                     if self.prop.span().lo() >= BytePos(2) {
@@ -1716,7 +2053,9 @@ impl MacroNode for MemberExpr {
                     emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
                 }
                 punct!(emitter, ".");
-                emit!(ident);
+                let ident = emit!(emitter, ident);
+
+                only_new!(MemberProp::Ident(ident))
             }
             MemberProp::PrivateName(private) => {
                 if needs_2dots_for_property_access {
@@ -1729,13 +2068,21 @@ impl MacroNode for MemberExpr {
                     emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
                 }
                 punct!(emitter, ".");
-                emit!(private);
+                let private = emit!(emitter, private);
+
+                only_new!(MemberProp::PrivateName(private))
             }
-        }
+        };
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(MemberExpr {
+            span: Span::new(lo, hi),
+            prop,
+            ..self.clone()
+        }))
     }
 }
 
@@ -1744,22 +2091,36 @@ impl MacroNode for SuperPropExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
-        emit!(self.obj);
+        emit!(emitter, self.obj);
 
-        match &self.prop {
-            SuperProp::Computed(computed) => emit!(computed),
+        let prop = match &self.prop {
+            SuperProp::Computed(computed) => {
+                let n = emit!(emitter, computed);
+
+                only_new!(SuperProp::Computed(n))
+            }
             SuperProp::Ident(i) => {
                 if self.prop.span().lo() >= BytePos(1) {
                     emitter.emit_leading_comments(self.prop.span().lo() - BytePos(1), false)?;
                 }
                 punct!(emitter, ".");
-                emit!(i);
-            }
-        }
+                let ident = emit!(emitter, i);
 
-        Ok(())
+                only_new!(SuperProp::Ident(ident))
+            }
+        };
+
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(SuperPropExpr {
+            span: Span::new(lo, hi),
+            prop,
+            ..self.clone()
+        }))
     }
 }
 
@@ -1767,6 +2128,8 @@ impl MacroNode for SuperPropExpr {
 impl MacroNode for ArrowExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -1794,7 +2157,7 @@ impl MacroNode for ArrowExpr {
                 _ => true,
             };
 
-        emit!(self.type_params);
+        emit!(emitter, self.type_params);
 
         if parens {
             punct!(emitter, "(");
@@ -1808,14 +2171,19 @@ impl MacroNode for ArrowExpr {
         if let Some(ty) = &self.return_type {
             punct!(emitter, ":");
             formatting_space!(emitter);
-            emit!(ty);
+            emit!(emitter, ty);
             formatting_space!(emitter);
         }
 
         punct!(emitter, "=>");
-        emit!(self.body);
+        emit!(emitter, self.body);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ArrowExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1826,6 +2194,8 @@ impl MacroNode for MetaPropExpr {
             emitter.emit_leading_comments_of_span(self.span(), false)?;
         }
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         match self.kind {
@@ -1834,7 +2204,12 @@ impl MacroNode for MetaPropExpr {
             MetaPropKind::NewTarget => keyword!(emitter, "new.target"),
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(MetaPropExpr {
+            span: Span::new(lo, hi),
+            ..*self
+        }))
     }
 }
 
@@ -1842,6 +2217,8 @@ impl MacroNode for MetaPropExpr {
 impl MacroNode for SeqExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -1855,10 +2232,15 @@ impl MacroNode for SeqExpr {
                 formatting_space!(emitter);
             }
 
-            emit!(e);
+            emit!(emitter, e);
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(SeqExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1867,13 +2249,20 @@ impl MacroNode for AssignExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
-        emit!(self.left);
+        let lo = only_new!(emitter.wr.get_pos());
+
+        emit!(emitter, self.left);
         formatting_space!(emitter);
         operator!(emitter, self.op.as_str());
         formatting_space!(emitter);
-        emit!(self.right);
+        emit!(emitter, self.right);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(AssignExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1881,6 +2270,8 @@ impl MacroNode for AssignExpr {
 impl MacroNode for BinExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -1902,7 +2293,7 @@ impl MacroNode for BinExpr {
 
             for (i, left) in lefts.into_iter().rev().enumerate() {
                 if i == 0 {
-                    emit!(left.left);
+                    emit!(emitter, left.left);
                 }
                 // Check if it's last
                 if i + 1 != len {
@@ -1913,7 +2304,12 @@ impl MacroNode for BinExpr {
 
         emitter.emit_bin_expr_trailing(self)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(BinExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1922,15 +2318,22 @@ impl MacroNode for Decorator {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         punct!(emitter, "@");
-        emit!(self.expr);
+        emit!(emitter, self.expr);
         emitter.wr.write_line()?;
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Decorator {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1939,19 +2342,26 @@ impl MacroNode for CondExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
-        emit!(self.test);
+        emit!(emitter, self.test);
         formatting_space!(emitter);
         punct!(emitter, "?");
         formatting_space!(emitter);
-        emit!(self.cons);
+        emit!(emitter, self.cons);
         formatting_space!(emitter);
         punct!(emitter, ":");
         formatting_space!(emitter);
-        emit!(self.alt);
+        emit!(emitter, self.alt);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(CondExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1961,6 +2371,8 @@ impl MacroNode for FnExpr {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         emitter.wr.commit_pending_semi()?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -1977,12 +2389,20 @@ impl MacroNode for FnExpr {
         }
         if let Some(ref i) = self.ident {
             space!(emitter);
-            emit!(i);
+            emit!(emitter, i);
         }
 
         emitter.emit_fn_trailing(&self.function)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(FnExpr {
+            function: Box::new(Function {
+                span: Span::new(lo, hi),
+                ..*self.function.clone()
+            }),
+            ..self.clone()
+        }))
     }
 }
 
@@ -1992,15 +2412,17 @@ impl MacroNode for BlockStmtOrExpr {
         match self {
             BlockStmtOrExpr::BlockStmt(block) => {
                 emitter.emit_block_stmt_inner(block, true)?;
+
+                Ok(only_new!(BlockStmtOrExpr::BlockStmt(block.clone())))
             }
             BlockStmtOrExpr::Expr(expr) => {
                 emitter.wr.increase_indent()?;
-                emit!(expr);
+                let expr = emit!(emitter, expr);
                 emitter.wr.decrease_indent()?;
+
+                Ok(only_new!(BlockStmtOrExpr::Expr(expr)))
             }
         }
-
-        Ok(())
     }
 }
 
@@ -2009,9 +2431,15 @@ impl MacroNode for ThisExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         keyword!(emitter, self.span, "this");
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ThisExpr {
+            span: Span::new(lo, hi),
+        }))
     }
 }
 
@@ -2022,16 +2450,18 @@ impl MacroNode for Tpl {
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         punct!(emitter, "`");
 
         for i in 0..(self.quasis.len() + self.exprs.len()) {
             if i % 2 == 0 {
-                emit!(self.quasis[i / 2]);
+                emit!(emitter, self.quasis[i / 2]);
             } else {
                 punct!(emitter, "${");
-                emit!(self.exprs[i / 2]);
+                emit!(emitter, self.exprs[i / 2]);
                 punct!(emitter, "}");
             }
         }
@@ -2040,13 +2470,20 @@ impl MacroNode for Tpl {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Tpl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for TplElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         let raw = self.raw.replace("\r\n", "\n").replace('\r', "\n");
         if emitter.cfg.minify || (emitter.cfg.ascii_only && !self.raw.is_ascii()) {
             let v = get_template_element_from_raw(
@@ -2085,7 +2522,12 @@ impl MacroNode for TplElement {
             emitter.wr.write_str_lit(self.span(), &raw)?;
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TplElement {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2094,20 +2536,27 @@ impl MacroNode for TaggedTpl {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         if let Expr::New(new) = &*self.tag {
             emitter.emit_new(new, false)?;
         } else {
-            emit!(self.tag);
+            emit!(emitter, self.tag);
         }
 
-        emit!(self.type_params);
+        emit!(emitter, self.type_params);
         emitter.emit_template_for_tagged_template(&self.tpl)?;
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(TaggedTpl {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2115,6 +2564,8 @@ impl MacroNode for TaggedTpl {
 impl MacroNode for UnaryExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -2136,9 +2587,14 @@ impl MacroNode for UnaryExpr {
             formatting_space!(emitter);
         }
 
-        emit!(self.arg);
+        emit!(emitter, self.arg);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(UnaryExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2147,18 +2603,25 @@ impl MacroNode for UpdateExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         if self.prefix {
             operator!(emitter, self.op.as_str());
             //TODO: Check if we should use should_emit_whitespace_before_operand
-            emit!(self.arg);
+            emit!(emitter, self.arg);
         } else {
-            emit!(self.arg);
+            emit!(emitter, self.arg);
             operator!(emitter, self.op.as_str());
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(UpdateExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2166,6 +2629,8 @@ impl MacroNode for UpdateExpr {
 impl MacroNode for YieldExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -2188,13 +2653,18 @@ impl MacroNode for YieldExpr {
                 formatting_space!(emitter)
             }
 
-            emit!(self.arg);
+            emit!(emitter, self.arg);
             if need_paren {
                 punct!(emitter, ")")
             }
         }
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(YieldExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2207,9 +2677,9 @@ impl MacroNode for ExprOrSpread {
             punct!(emitter, "...");
         }
 
-        emit!(self.expr);
+        emit!(emitter, self.expr);
 
-        Ok(())
+        Ok(only_new!(ExprOrSpread { ..self.clone() }))
     }
 }
 
@@ -2218,14 +2688,21 @@ impl MacroNode for AwaitExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         keyword!(emitter, "await");
         space!(emitter);
 
-        emit!(self.arg);
+        emit!(emitter, self.arg);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(AwaitExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2233,6 +2710,8 @@ impl MacroNode for AwaitExpr {
 impl MacroNode for ArrayLit {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
+
+        let lo = only_new!(emitter.wr.get_pos());
 
         srcmap!(emitter, self, true);
 
@@ -2247,7 +2726,12 @@ impl MacroNode for ArrayLit {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ArrayLit {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2256,17 +2740,24 @@ impl MacroNode for ParenExpr {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.wr.commit_pending_semi()?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
         srcmap!(emitter, self, true);
 
         punct!(emitter, "(");
-        emit!(self.expr);
+        emit!(emitter, self.expr);
 
         srcmap!(emitter, self, false, true);
         punct!(emitter, ")");
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(ParenExpr {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
@@ -2275,6 +2766,8 @@ impl MacroNode for PrivateName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         emitter.emit_leading_comments_of_span(self.span(), false)?;
 
+        let lo = only_new!(emitter.wr.get_pos());
+
         srcmap!(emitter, self, true);
 
         punct!(emitter, "#");
@@ -2282,19 +2775,26 @@ impl MacroNode for PrivateName {
 
         srcmap!(emitter, self, false);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(PrivateName {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for BindingIdent {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_ident_like(self.span, &self.sym, self.optional)?;
 
         if let Some(ty) = &self.type_ann {
             punct!(emitter, ":");
             formatting_space!(emitter);
-            emit!(ty);
+            emit!(emitter, ty);
         }
 
         // Call emitList directly since it could be an array of
@@ -2302,24 +2802,46 @@ impl MacroNode for BindingIdent {
 
         // emitList(node, node.typeArguments, ListFormat::TypeParameters);
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(BindingIdent {
+            id: Ident {
+                span: Span::new(lo, hi),
+                ..self.id.clone()
+            },
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for Ident {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_ident_like(self.span, &self.sym, self.optional)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(Ident {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
 
 #[node_impl]
 impl MacroNode for IdentName {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
+        let lo = only_new!(emitter.wr.get_pos());
+
         emitter.emit_ident_like(self.span, &self.sym, false)?;
 
-        Ok(())
+        let hi = only_new!(emitter.wr.get_pos());
+
+        Ok(only_new!(IdentName {
+            span: Span::new(lo, hi),
+            ..self.clone()
+        }))
     }
 }
