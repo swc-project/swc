@@ -2,8 +2,7 @@
 class TestWithStatics {
     #prop;
     static{
-        this.dd = new TestWithStatics().#prop // OK
-        ;
+        this.dd = new TestWithStatics().#prop; // OK
     }
     static{
         this["X_ z_ zz"] = class Inner {

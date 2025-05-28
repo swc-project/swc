@@ -13,8 +13,7 @@ class TestWithStatics {
         _class_private_field_set(this, _prop, 0);
     }
 }
-TestWithStatics.dd = _class_private_field_get(_ref = new TestWithStatics(), _prop) // OK
-;
+TestWithStatics.dd = _class_private_field_get(_ref = new TestWithStatics(), _prop); // OK
 TestWithStatics["X_ z_ zz"] = (_foo = /*#__PURE__*/ new WeakMap(), _Inner = class Inner {
     m() {
         var _ref;
