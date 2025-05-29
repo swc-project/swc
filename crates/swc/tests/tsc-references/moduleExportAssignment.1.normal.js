@@ -10,10 +10,8 @@ var EE = /*#__PURE__*/ function() {
     return EE;
 }();
 var npmlog = module.exports = new EE();
-npmlog.on('hi') // both references should see EE.on
-;
-module.exports.on('hi') // here too
-;
+npmlog.on('hi'); // both references should see EE.on
+module.exports.on('hi'); // here too
 npmlog.x = 1;
 module.exports.y = 2;
 npmlog.y;

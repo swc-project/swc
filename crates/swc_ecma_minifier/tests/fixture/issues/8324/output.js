@@ -15,8 +15,7 @@ export async function bug() {
                 return await window[s].promise // This line compressed to 'break'. I guess compressor intended jump to 23 line which is looks like same code.
                 ;
             } finally{
-                delete window.current // Above 'break' makes unintended delete
-                ;
+                delete window.current; // Above 'break' makes unintended delete
             }
         }
     }

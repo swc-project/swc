@@ -514,8 +514,7 @@ new AnotherSampleClass({});
 // Positive repro from #17166
 function f3(t, k, tk) {
     for(var key in t){
-        key = k // ok, K ==> keyof T
-        ;
+        key = k; // ok, K ==> keyof T
         t[key] = tk; // ok, T[K] ==> T[keyof T]
     }
 }

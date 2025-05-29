@@ -43,8 +43,7 @@ function foo5(x) {
         var b = x; // new scope - number | boolean | string
         var y;
         if (typeof x === "string") {
-            y = x // string;
-            ;
+            y = x; // string;
         } else {
             y = typeof x === "boolean" ? x.toString() // boolean
              : x.toString(); // number
@@ -59,8 +58,7 @@ function foo5(x) {
             var b = x; // new scope - number | boolean | string
             var y;
             if (typeof x === "string") {
-                y = x // string;
-                ;
+                y = x; // string;
             } else {
                 y = typeof x === "boolean" ? x.toString() // boolean
                  : x.toString(); // number

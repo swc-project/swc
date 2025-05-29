@@ -44,29 +44,22 @@ var Derivee = /*#__PURE__*/ function(Classe) {
 var object = {
     spaaace: 3
 };
-object.spaaaace // error on read
-;
-object.spaace = 12 // error on write
-;
-object.fresh = 12 // OK
-;
-other.puuuce // OK, from another file
-;
-new Date().getGMTDate() // OK, from another file
-;
+object.spaaaace; // error on read
+object.spaace = 12; // error on write
+object.fresh = 12; // OK
+other.puuuce; // OK, from another file
+new Date().getGMTDate(); // OK, from another file
 // No suggestions for globals from other files
 var atoc = setIntegral(function() {
     return console.log('ok');
 }, 500);
-AudioBuffin // etc
-;
+AudioBuffin; // etc
 Jimmy;
 Jon;
 //// [other.js]
 var Jimmy = 1;
 var John = 2;
-Jon // error, it's from the same file
-;
+Jon; // error, it's from the same file
 var other = {
     puuce: 4
 };

@@ -15,8 +15,7 @@ var Derived = /*#__PURE__*/ function(Base1) {
     }
     Derived.make = function make() {
         new Base();
-    } // ok
-    ;
+    }; // ok
     return Derived;
 }(Base);
 var Unrelated = /*#__PURE__*/ function() {
@@ -26,7 +25,6 @@ var Unrelated = /*#__PURE__*/ function() {
     }
     Unrelated.fake = function fake() {
         new Base();
-    } // error
-    ;
+    }; // error
     return Unrelated;
 }();

@@ -20,12 +20,9 @@ var Y = function Y() {
     "use strict";
     _class_call_check(this, Y);
 };
-console.log(X.now()) // works as expected
-;
-console.log(Y.now()) // works as expected
-;
+console.log(X.now()); // works as expected
+console.log(Y.now()); // works as expected
 export var x = Math.random() > 0.5 ? new X() : 1;
 if (_instanceof(x, X)) {
-    x.why() // should compile
-    ;
+    x.why(); // should compile
 }

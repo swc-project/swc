@@ -9,8 +9,7 @@ var C = /*#__PURE__*/ function() {
         C.foo = function() {};
     };
     C.bar = function bar(x) {
-        C.bar = function() {} // error
-        ;
+        C.bar = function() {}; // error
         C.bar = function(x) {
             return x;
         }; // ok

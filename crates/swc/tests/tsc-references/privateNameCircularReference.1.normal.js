@@ -15,7 +15,6 @@ class A {
         });
         _class_private_field_set(this, _foo, _class_private_field_get(this, _bar));
         _class_private_field_set(this, _bar, _class_private_field_get(this, _foo));
-        this["#baz"] = this["#baz"] // Error (should *not* be private name error)
-        ;
+        this["#baz"] = this["#baz"]; // Error (should *not* be private name error)
     }
 }

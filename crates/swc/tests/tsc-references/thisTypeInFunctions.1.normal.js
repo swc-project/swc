@@ -246,19 +246,13 @@ var b1 = new Base1();
 var b2 = new Base2();
 var d1 = new Derived1();
 var d2 = new Derived2();
-d2.polymorphic = d1.polymorphic // ok, 'x' and 'y' in { x, y }
-;
-d1.polymorphic = d2.polymorphic // ok, 'x' and 'y' in { x, y }
-;
+d2.polymorphic = d1.polymorphic; // ok, 'x' and 'y' in { x, y }
+d1.polymorphic = d2.polymorphic; // ok, 'x' and 'y' in { x, y }
 // bivariance-allowed cases
-d1.polymorphic = b2.polymorphic // ok, 'y' in D: { x, y }
-;
-d2.polymorphic = d1.explicit // ok, 'y' in { x, y }
-;
-b1.polymorphic = d2.polymorphic // ok, 'x' and 'y' not in Base1: { x }
-;
-b1.explicit = d2.polymorphic // ok, 'x' and 'y' not in Base1: { x }
-;
+d1.polymorphic = b2.polymorphic; // ok, 'y' in D: { x, y }
+d2.polymorphic = d1.explicit; // ok, 'y' in { x, y }
+b1.polymorphic = d2.polymorphic; // ok, 'x' and 'y' not in Base1: { x }
+b1.explicit = d2.polymorphic; // ok, 'x' and 'y' not in Base1: { x }
 ////// use this-type for construction with new ////
 function InterfaceThis() {
     this.a = 12;

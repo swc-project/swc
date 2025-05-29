@@ -7,35 +7,26 @@ class C {
     quench;
     quanch;
     m1() {
-        this.foo // ok
-        ;
+        this.foo; // ok
     }
     m3;
     constructor(foo){
         this.foo = foo;
-        this.qux = this.bar // should error
-        ;
-        this.bar = this.foo // should error
-        ;
-        this.quiz = this.bar // ok
-        ;
-        this.quench = this.m1() // ok
-        ;
-        this.quanch = this.m3() // should error
-        ;
+        this.qux = this.bar; // should error
+        this.bar = this.foo; // should error
+        this.quiz = this.bar; // ok
+        this.quench = this.m1(); // ok
+        this.quanch = this.m3(); // should error
         this.m3 = function() {};
-        this.quim = this.baz // should error
-        ;
-        this.baz = this.foo;
-        this.quid = this.baz // ok
-        ;
+        this.quim = this.baz; // should error
+        this.baz = this.foo; // should error
+        this.quid = this.baz; // ok
     }
     quim;
     baz;
     quid;
     m2() {
-        this.foo // ok
-        ;
+        this.foo; // ok
     }
 }
 class D extends C {
@@ -48,7 +39,7 @@ class E {
     foo1;
     constructor(foo2){
         this.foo2 = foo2;
-        this.bar = ()=>this.foo1 + this.foo2;
+        this.bar = ()=>this.foo1 + this.foo2; // both ok
         this.foo1 = '';
     }
 }

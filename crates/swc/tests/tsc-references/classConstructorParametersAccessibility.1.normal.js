@@ -8,24 +8,21 @@ var C1 = function C1(x) {
     this.x = x;
 };
 var c1;
-c1.x // OK
-;
+c1.x; // OK
 var C2 = function C2(p) {
     "use strict";
     _class_call_check(this, C2);
     this.p = p;
 };
 var c2;
-c2.p // private, error
-;
+c2.p; // private, error
 var C3 = function C3(p) {
     "use strict";
     _class_call_check(this, C3);
     this.p = p;
 };
 var c3;
-c3.p // protected, error
-;
+c3.p; // protected, error
 var Derived = /*#__PURE__*/ function(C3) {
     "use strict";
     _inherits(Derived, C3);

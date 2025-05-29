@@ -9,8 +9,7 @@ class Foo {
         var _class;
         this.Bar = (_class = class {
             constructor(){
-                _define_property(this, "q", void 0) // should not replace
-                ;
+                _define_property(this, "q", void 0); // should not replace
             }
         }, _define_property(_class, "p", void 0), _define_property(_class, "p1", class {
             constructor(){

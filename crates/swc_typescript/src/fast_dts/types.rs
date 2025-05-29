@@ -173,9 +173,10 @@ impl FastDts {
                             self.inferred_type_of_expression(kv.value.span());
                         }
 
+                        let span = kv.key.span().with_hi(kv.value.span_hi());
                         let key = self.transform_property_name_to_expr(&kv.key);
                         members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
-                            span: DUMMY_SP,
+                            span,
                             readonly: is_const,
                             key: Box::new(key),
                             computed: kv.key.is_computed(),
@@ -208,9 +209,10 @@ impl FastDts {
                             self.accessor_must_have_explicit_return_type(getter.span);
                         }
 
+                        let span = getter.span;
                         let key = self.transform_property_name_to_expr(&getter.key);
                         members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
-                            span: DUMMY_SP,
+                            span,
                             readonly: !has_setter,
                             key: Box::new(key),
                             computed: getter.key.is_computed(),
@@ -244,9 +246,10 @@ impl FastDts {
                             self.accessor_must_have_explicit_return_type(setter.span);
                         }
 
+                        let span = setter.span;
                         let key = self.transform_property_name_to_expr(&setter.key);
                         members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
-                            span: DUMMY_SP,
+                            span,
                             readonly: false,
                             key: Box::new(key),
                             computed: setter.key.is_computed(),
@@ -259,10 +262,11 @@ impl FastDts {
                             continue;
                         }
 
+                        let span = method.key.span().with_hi(method.function.span_hi());
                         if is_const {
                             let key = self.transform_property_name_to_expr(&method.key);
                             members.push(TsTypeElement::TsPropertySignature(TsPropertySignature {
-                                span: DUMMY_SP,
+                                span,
                                 readonly: is_const,
                                 key: Box::new(key),
                                 computed: method.key.is_computed(),
@@ -278,7 +282,7 @@ impl FastDts {
                             let return_type = self.infer_function_return_type(&method.function);
                             let key = self.transform_property_name_to_expr(&method.key);
                             members.push(TsTypeElement::TsMethodSignature(TsMethodSignature {
-                                span: DUMMY_SP,
+                                span,
                                 key: Box::new(key),
                                 computed: method.key.is_computed(),
                                 optional: false,

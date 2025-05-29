@@ -13,8 +13,6 @@ module.exports.justProperty = 'string';
 /// <reference path='./requires.d.ts' />
 var mod1 = require('./mod1');
 mod1.justExport.toFixed();
-mod1.bothBefore.toFixed() // error, 'toFixed' not on 'string | number'
-;
-mod1.bothAfter.toFixed() // error, 'toFixed' not on 'string | number'
-;
+mod1.bothBefore.toFixed(); // error, 'toFixed' not on 'string | number'
+mod1.bothAfter.toFixed(); // error, 'toFixed' not on 'string | number'
 mod1.justProperty.length;

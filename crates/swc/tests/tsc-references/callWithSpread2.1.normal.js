@@ -31,8 +31,7 @@ rest.apply(void 0, [
 rest.apply(void 0, [
     "f"
 ].concat(_to_consumable_array(tuple)));
-prefix.apply(void 0, _to_consumable_array(ns)) // required parameters are required
-;
+prefix.apply(void 0, _to_consumable_array(ns)); // required parameters are required
 prefix.apply(void 0, _to_consumable_array(mixed));
 prefix.apply(void 0, _to_consumable_array(tuple));
 prefix2.apply(void 0, [

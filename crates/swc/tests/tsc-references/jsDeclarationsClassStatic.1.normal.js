@@ -24,8 +24,8 @@ var Strings = {
     b: "B"
 };
 module.exports = Handler;
-module.exports.Strings = Strings /**
+module.exports.Strings = Strings; /**
  * @typedef {Object} HandlerOptions
  * @property {String} name
  * Should be able to export a type alias at the same time.
- */ ;
+ */ 

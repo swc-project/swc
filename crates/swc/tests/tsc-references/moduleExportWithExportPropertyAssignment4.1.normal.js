@@ -15,7 +15,6 @@ module.exports.justProperty = 'string';
 /// <reference path='./requires.d.ts' />
 var mod1 = require('./mod1');
 mod1.justExport.toFixed();
-mod1.bothBefore.toFixed() // error
-;
+mod1.bothBefore.toFixed(); // error
 mod1.bothAfter.toFixed();
 mod1.justProperty.length;

@@ -1,7 +1,6 @@
 //// [intersectionTypeReadonly.ts]
 var base;
-base.value = 12 // error, lhs can't be a readonly property
-;
+base.value = 12; // error, lhs can't be a readonly property
 var identical;
 identical.value = 12; // error, lhs can't be a readonly property
 var mutable;

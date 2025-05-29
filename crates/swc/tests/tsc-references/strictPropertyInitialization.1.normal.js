@@ -8,16 +8,16 @@ class C1 {
     constructor(){
         _class_private_field_init(this, _f, {
             writable: true,
-            value: void 0 //Error
-        });
+            value: void 0
+        }); //Error
         _class_private_field_init(this, _g, {
             writable: true,
             value: void 0
         });
         _class_private_field_init(this, _h, {
             writable: true,
-            value: void 0 //Error
-        });
+            value: void 0
+        }); //Error
         _class_private_field_init(this, _i, {
             writable: true,
             value: void 0
@@ -111,8 +111,7 @@ class C10 {
         });
         let x = this.a; // Error
         this.a = this.b; // Error
-        this.b = _class_private_field_get(this, _d1 //Error
-        );
+        this.b = _class_private_field_get(this, _d1); //Error
         this.b = x;
         _class_private_field_set(this, _d1, x);
         let y = this.c;
