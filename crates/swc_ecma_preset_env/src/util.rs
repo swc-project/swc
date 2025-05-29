@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use rustc_hash::FxHashMap;
 
 pub(crate) type ObjectMap<T> = FxHashMap<&'static str, T>;

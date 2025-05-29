@@ -1,5 +1,4 @@
 #![deny(clippy::all)]
-#![allow(dead_code)]
 #![recursion_limit = "256"]
 
 use std::{path::PathBuf, sync::Arc};
@@ -338,28 +337,28 @@ where
             unresolved_mark,
             comments,
             assumptions,
-            env_config.config.loose,
-            env_config.config.dynamic_import,
-            env_config.config.debug,
+            env_config.loose,
+            env_config.dynamic_import,
+            env_config.debug,
             move |f| env_config.feature_config.caniuse(f),
         ),
     );
 
-    if env_config.config.debug {
+    if env_config.debug {
         println!("Targets: {:?}", &env_config.core_js_config.targets);
     }
 
     (
         pass,
         visit_mut_pass(Polyfills {
-            mode: env_config.config.mode,
+            mode: env_config.mode,
             regenerator: false,
-            corejs: env_config.config.core_js.unwrap_or(Version {
+            corejs: env_config.core_js.unwrap_or(Version {
                 major: 3,
                 minor: 0,
                 patch: 0,
             }),
-            shipped_proposals: env_config.config.shipped_proposals,
+            shipped_proposals: env_config.shipped_proposals,
             targets: env_config.core_js_config.targets,
             includes: env_config.core_js_config.included_modules,
             excludes: env_config.core_js_config.excluded_modules,
@@ -679,9 +678,49 @@ struct CoreJSConfig {
 }
 
 pub struct EnvConfig {
-    config: Config,
     feature_config: Arc<FeatureConfig>,
     core_js_config: CoreJSConfig,
+    mode: Option<Mode>,
+    debug: bool,
+    dynamic_import: bool,
+    loose: bool,
+    core_js: Option<Version>,
+    shipped_proposals: bool,
+}
+
+impl From<&'_ Config> for EnvConfig {
+    fn from(config: &Config) -> Self {
+        let targets = targets_to_versions(config.targets.clone(), config.path.clone())
+            .expect("failed to parse targets");
+        let is_any_target = targets.is_any_target();
+
+        let (include, included_modules) = FeatureOrModule::split(config.include.clone());
+        let (exclude, excluded_modules) = FeatureOrModule::split(config.exclude.clone());
+
+        let feature_config = FeatureConfig {
+            targets: Arc::clone(&targets),
+            include,
+            exclude,
+            is_any_target,
+            force_all_transforms: config.force_all_transforms,
+            bugfixes: config.bugfixes,
+        };
+        let core_js_config = CoreJSConfig {
+            targets: Arc::clone(&targets),
+            included_modules,
+            excluded_modules,
+        };
+        Self {
+            feature_config: Arc::new(feature_config),
+            core_js_config,
+            mode: config.mode,
+            debug: config.debug,
+            dynamic_import: config.dynamic_import,
+            loose: config.loose,
+            core_js: config.core_js,
+            shipped_proposals: config.shipped_proposals,
+        }
+    }
 }
 
 impl From<Config> for EnvConfig {
@@ -706,10 +745,16 @@ impl From<Config> for EnvConfig {
             included_modules,
             excluded_modules,
         };
+
         Self {
-            config,
             feature_config: Arc::new(feature_config),
             core_js_config,
+            mode: config.mode,
+            debug: config.debug,
+            dynamic_import: config.dynamic_import,
+            loose: config.loose,
+            core_js: config.core_js,
+            shipped_proposals: config.shipped_proposals,
         }
     }
 }

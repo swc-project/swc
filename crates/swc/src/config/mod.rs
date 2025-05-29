@@ -526,7 +526,7 @@ impl Options {
 
         let native_class_properties = transform.use_define_for_class_fields.into_bool()
             && match &cfg.env {
-                Some(env) => Into::<EnvConfig>::into(env.clone())
+                Some(env) => EnvConfig::from(env)
                     .get_feature_config()
                     .caniuse(Feature::ClassProperties),
                 None => es_version.caniuse(Feature::ClassProperties),
