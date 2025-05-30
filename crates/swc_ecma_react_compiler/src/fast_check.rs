@@ -1,4 +1,7 @@
-use swc_ecma_ast::{Callee, Expr, FnDecl, FnExpr, Pat, Program, ReturnStmt, Stmt, VarDeclarator};
+use swc_ecma_ast::{
+    Callee, ExportDefaultDecl, ExportDefaultExpr, Expr, FnDecl, FnExpr, Pat, Program, Stmt,
+    VarDeclarator,
+};
 use swc_ecma_visit::{Visit, VisitWith};
 pub fn is_required(program: &Program) -> bool {
     let mut finder = Finder::default();
@@ -122,10 +125,8 @@ impl Visit for Finder {
 
 #[cfg(test)]
 mod tests {
-    use swc_core::{
-        common::FileName,
-        ecma::parser::{parse_file_as_program, EsSyntax},
-    };
+    use swc_common::FileName;
+    use swc_ecma_parser::{parse_file_as_program, EsSyntax, Syntax};
     use testing::run_test2;
 
     use super::*;
@@ -136,7 +137,7 @@ mod tests {
 
             let program = parse_file_as_program(
                 &fm,
-                swc_core::ecma::parser::Syntax::Es(EsSyntax {
+                Syntax::Es(EsSyntax {
                     jsx: true,
                     ..Default::default()
                 }),
