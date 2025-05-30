@@ -5,6 +5,14 @@
 
 
 
+- **(react-compiler)** Fix fast check ([#10538](https://github.com/swc-project/swc/issues/10538)) ([9403ce2](https://github.com/swc-project/swc/commit/9403ce2e7372dbcd579e2710480f2ffc78d8bcca))
+
+## [swc_core@v26.3.0] - 2025-05-29
+
+### Bug Fixes
+
+
+
 - **(es/codegen)** Improve comments handling ([#10534](https://github.com/swc-project/swc/issues/10534)) ([d9ba838](https://github.com/swc-project/swc/commit/d9ba838df9b88d6c4108bc21dd9d6eebd406aacd))
 
 ### Refactor

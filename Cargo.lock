@@ -4980,7 +4980,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "26.3.0"
+version = "26.3.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5717,7 +5717,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_react_compiler"
-version = "4.0.1"
+version = "4.0.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
