@@ -130,8 +130,8 @@ impl Globals {
     /// Do not use this unless you know what you are doing.
     pub fn clone_data(&self) -> Self {
         Globals {
-            hygiene_data: Mutex::new(self.hygiene_data.lock().clone()),
-            marks: Mutex::new(self.marks.lock().clone()),
+            hygiene_data: Mutex::new((*self.hygiene_data.lock()).clone()),
+            marks: Mutex::new((*self.marks.lock()).clone()),
             dummy_cnt: AtomicU32::new(self.dummy_cnt.load(std::sync::atomic::Ordering::SeqCst)),
         }
     }
