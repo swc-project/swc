@@ -155,16 +155,19 @@ impl<'a> Input<'a> for StringInput<'a> {
     where
         F: FnMut(char) -> bool,
     {
-        let s = self.iter.as_str();
-        let mut last = 0;
-
-        for (i, c) in s.char_indices() {
-            if pred(c) {
-                last = i + c.len_utf8();
-            } else {
-                break;
+        let last = {
+            let mut last = 0;
+            for c in self.iter.clone() {
+                if pred(c) {
+                    last += c.len_utf8();
+                } else {
+                    break;
+                }
             }
-        }
+            last
+        };
+
+        let s = self.iter.as_str();
         debug_assert!(last <= s.len());
         let ret = unsafe { s.get_unchecked(..last) };
 
@@ -178,19 +181,22 @@ impl<'a> Input<'a> for StringInput<'a> {
     where
         F: FnMut(char) -> bool,
     {
-        let s = self.iter.as_str();
-        let mut last = 0;
-
-        for (i, c) in s.char_indices() {
-            if pred(c) {
-                last = i + c.len_utf8();
-                break;
+        let last = {
+            let mut last = 0;
+            for c in self.iter.clone() {
+                last += c.len_utf8();
+                if pred(c) {
+                    break;
+                }
             }
-        }
+            last
+        };
+
         if last == 0 {
             return None;
         }
 
+        let s = self.iter.as_str();
         debug_assert!(last <= s.len());
 
         self.last_pos = self.last_pos + BytePos(last as _);
