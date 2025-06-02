@@ -79,7 +79,7 @@ struct SyntaxContextData {
 pub struct Mark(u32);
 
 #[allow(unused)]
-#[derive(Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub(crate) struct MarkData {
     pub(crate) parent: Mark,
 }
@@ -267,8 +267,7 @@ impl Mark {
     }
 }
 
-#[allow(unused)]
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub(crate) struct HygieneData {
     syntax_contexts: Vec<SyntaxContextData>,
     markings: FxHashMap<(SyntaxContext, Mark), SyntaxContext>,
