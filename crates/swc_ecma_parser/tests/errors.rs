@@ -16,6 +16,10 @@ fn parse_module(cm: Lrc<SourceMap>, handler: &Handler, file_name: &Path) -> Resu
     with_parser(cm, handler, file_name, |p| p.parse_module())
 }
 
+fn parse_script(cm: Lrc<SourceMap>, handler: &Handler, file_name: &Path) -> Result<Script, ()> {
+    with_parser(cm, handler, file_name, |p| p.parse_script())
+}
+
 fn with_parser<F, Ret>(
     cm: Lrc<SourceMap>,
     handler: &Handler,
@@ -64,12 +68,18 @@ where
 }
 
 #[cfg(feature = "verify")]
+#[testing::fixture("tests/errors/**/*.cjs")]
 #[testing::fixture("tests/errors/**/*.js")]
 #[testing::fixture("tests/errors/**/*.mjs")]
 #[testing::fixture("tests/errors/**/*.ts")]
 #[testing::fixture("tests/errors/**/*.tsx")]
 fn error(entry: PathBuf) {
     let input = read_to_string(&entry).unwrap();
+
+    let is_module = entry
+        .extension()
+        .map(|ext| ext != "cjs")
+        .unwrap_or_default();
 
     eprintln!(
         "\n\n========== Running error reporting test \nSource:\n{}\n",
@@ -83,7 +93,12 @@ fn error(entry: PathBuf) {
         }
 
         // Parse source
-        let _ = parse_module(cm, handler, &entry);
+        if is_module {
+            parse_module(cm.clone(), handler, &entry);
+        } else {
+            parse_script(cm.clone(), handler, &entry);
+        }
+
         if !handler.has_errors() {
             panic!("should emit error, but parsed without error")
         }
