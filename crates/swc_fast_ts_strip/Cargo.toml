@@ -17,12 +17,12 @@ wasm-bindgen = { workspace = true, optional = true }
 
 swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 
-swc_common = { version = "11.0.2", path = "../swc_common", features = [
+swc_common = { version = "11.0.3", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "11.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "13.2.0", path = "../swc_ecma_codegen" }
-swc_ecma_lexer = { version = "14.0.3", path = "../swc_ecma_lexer" }
+swc_ecma_lexer = { version = "14.0.4", path = "../swc_ecma_lexer" }
 swc_ecma_transforms_base = { version = "15.1.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_typescript = { version = "17.0.0", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_visit = { version = "11.0.0", path = "../swc_ecma_visit" }

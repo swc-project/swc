@@ -40,9 +40,9 @@ typed-arena = { workspace = true }
 new_debug_unreachable = { workspace = true }
 phf                   = { workspace = true, features = ["macros"] }
 swc_atoms             = { version = "5.0.0", path = "../swc_atoms" }
-swc_common            = { version = "11.0.2", path = "../swc_common" }
+swc_common            = { version = "11.0.3", path = "../swc_common" }
 swc_ecma_ast          = { version = "11.0.0", path = "../swc_ecma_ast" }
-swc_ecma_lexer        = { version = "14.0.3", path = "../swc_ecma_lexer" }
+swc_ecma_lexer        = { version = "14.0.4", path = "../swc_ecma_lexer" }
 swc_ecma_visit        = { version = "11.0.0", path = "../swc_ecma_visit", optional = true }
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
