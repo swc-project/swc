@@ -1,16 +1,12 @@
-#[cfg(not(feature = "parking_lot"))]
-use std::sync::Mutex;
 use std::{
     borrow::Cow,
     cmp, fmt,
     hash::{Hash, Hasher},
     ops::{Add, Sub},
     path::PathBuf,
-    sync::atomic::AtomicU32,
+    sync::{atomic::AtomicU32, Mutex},
 };
 
-#[cfg(feature = "parking_lot")]
-use parking_lot::Mutex;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -130,8 +126,8 @@ impl Globals {
     /// Do not use this unless you know what you are doing.
     pub fn clone_data(&self) -> Self {
         Globals {
-            hygiene_data: Mutex::new(self.hygiene_data.lock().clone()),
-            marks: Mutex::new(self.marks.lock().clone()),
+            hygiene_data: Mutex::new(self.hygiene_data.lock().unwrap().clone()),
+            marks: Mutex::new(self.marks.lock().unwrap().clone()),
             dummy_cnt: AtomicU32::new(self.dummy_cnt.load(std::sync::atomic::Ordering::SeqCst)),
         }
     }
