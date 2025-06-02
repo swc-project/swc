@@ -24,7 +24,7 @@ sourcemap     = { workspace = true }
 swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 
 swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
-swc_common = { version = "11.0.1", path = "../swc_common", features = [
+swc_common = { version = "11.0.2", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_config = { version = "3.0.0", path = "../swc_config" }

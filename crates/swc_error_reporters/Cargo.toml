@@ -20,6 +20,6 @@ serde        = { workspace = true }
 serde_derive = { workspace = true }
 serde_json   = { workspace = true }
 
-swc_common = { version = "11.0.1", path = "../swc_common", features = [
+swc_common = { version = "11.0.2", path = "../swc_common", features = [
   "concurrent",
 ] }

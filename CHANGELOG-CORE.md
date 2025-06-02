@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(swc_common)** Fix build ([#10544](https://github.com/swc-project/swc/issues/10544)) ([2ed934d](https://github.com/swc-project/swc/commit/2ed934d4a1b2c85d6cc04c038aaee3e09c189e8b))
+
+## [swc_core@v26.3.2] - 2025-06-02
+
 ### Features
 
 

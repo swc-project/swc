@@ -23,7 +23,7 @@ sourcemap  = { workspace = true }
 tempfile   = { workspace = true }
 
 swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false }
-swc_common = { version = "11.0.1", path = "../swc_common", features = [
+swc_common = { version = "11.0.2", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "11.0.0", path = "../swc_ecma_ast" }
