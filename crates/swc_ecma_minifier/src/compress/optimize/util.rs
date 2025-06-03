@@ -351,6 +351,7 @@ impl VisitMut for Finalizer<'_> {
                     let sym = match &e.prop {
                         MemberProp::Ident(i) => &i.sym,
                         MemberProp::Computed(e) => match &*e.expr {
+                            Expr::Ident(ident) => &ident.sym,
                             Expr::Lit(Lit::Str(s)) => &s.value,
                             _ => return,
                         },
