@@ -1,15 +1,10 @@
 use std::mem::take;
 
-use smallvec::smallvec;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::{
-    common::lexer::{
-        char::CharExt,
-        comments_buffer::{BufferedComment, BufferedCommentKind},
-        state::State as StateTrait,
-    },
-    TokenContext, TokenContexts,
+    common::lexer::comments_buffer::{BufferedComment, BufferedCommentKind},
+    TokenContexts,
 };
 
 use super::{Context, Input, Lexer, LexerTrait};
@@ -38,7 +33,6 @@ pub struct State {
     pub prev_hi: BytePos,
     pub tpl_start: BytePos,
 
-    context: TokenContexts,
     syntax: Syntax,
 
     pub(super) token_value: Option<TokenValue>,
@@ -87,17 +81,17 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
 
     #[inline]
     fn token_context(&self) -> &TokenContexts {
-        &self.state.context
+        unreachable!();
     }
 
     #[inline]
     fn token_context_mut(&mut self) -> &mut TokenContexts {
-        &mut self.state.context
+        unreachable!();
     }
 
     #[inline]
-    fn set_token_context(&mut self, c: TokenContexts) {
-        self.state.context = c;
+    fn set_token_context(&mut self, _: TokenContexts) {
+        unreachable!();
     }
 
     fn add_error(&self, error: Error) {
@@ -160,10 +154,10 @@ impl Lexer<'_> {
         self.state.is_first = false;
 
         // skip spaces before getting next character, if we are allowed to.
-        if self.state.can_skip_space() {
-            self.skip_space::<true>();
-            *start = self.input.cur_pos();
-        };
+        // if self.state.can_skip_space() {
+        self.skip_space::<true>();
+        *start = self.input.cur_pos();
+        // };
 
         match self.input.cur() {
             Some(..) => {}
@@ -188,33 +182,33 @@ impl Lexer<'_> {
             && !self.ctx.contains(Context::InType)
         {
             //jsx
-            if self.state.context.current() == Some(TokenContext::JSXExpr) {
-                return self.read_jsx_token();
-            }
+            // if self.state.context.current() == Some(TokenContext::JSXExpr) {
+            //     return self.read_jsx_token();
+            // }
 
             let c = self.cur();
             if let Some(c) = c {
-                if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
-                    || self.state.context.current() == Some(TokenContext::JSXClosingTag)
-                {
-                    if c.is_ident_start() {
-                        return self.read_jsx_word().map(Some);
-                    }
+                // if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
+                //     || self.state.context.current() == Some(TokenContext::JSXClosingTag)
+                // {
+                //     if c.is_ident_start() {
+                //         return self.read_jsx_word().map(Some);
+                //     }
 
-                    if c == '>' {
-                        unsafe {
-                            // Safety: cur() is Some('>')
-                            self.input.bump();
-                        }
-                        return Ok(Some(Token::JSXTagEnd));
-                    }
+                //     if c == '>' {
+                //         unsafe {
+                //             // Safety: cur() is Some('>')
+                //             self.input.bump();
+                //         }
+                //         return Ok(Some(Token::JSXTagEnd));
+                //     }
 
-                    if (c == '\'' || c == '"')
-                        && self.state.context.current() == Some(TokenContext::JSXOpeningTag)
-                    {
-                        return self.read_jsx_str(c).map(Some);
-                    }
-                }
+                //     if (c == '\'' || c == '"')
+                //         && self.state.context.current() == Some(TokenContext::JSXOpeningTag)
+                //     {
+                //         return self.read_jsx_str(c).map(Some);
+                //     }
+                // }
 
                 if c == '<' && self.state.is_expr_allowed && self.input.peek() != Some('!') {
                     let had_line_break_before_last = self.had_line_break_before_last();
@@ -239,10 +233,10 @@ impl Lexer<'_> {
             }
         }
 
-        if let Some(TokenContext::Tpl) = self.state.context.current() {
-            let start = self.state.tpl_start;
-            return self.read_tmpl_token(start).map(Some);
-        }
+        // if let Some(TokenContext::Tpl) = self.state.context.current() {
+        //     let start = self.state.tpl_start;
+        //     return self.read_tmpl_token(start).map(Some);
+        // }
 
         self.read_token()
     }
@@ -268,7 +262,7 @@ impl Iterator for Lexer<'_> {
         };
 
         let span = self.span(start);
-        if let Some(token) = token {
+        if token.is_some() {
             if let Some(comments) = self.comments_buffer.as_mut() {
                 for comment in comments.take_pending_leading() {
                     comments.push(BufferedComment {
@@ -279,7 +273,7 @@ impl Iterator for Lexer<'_> {
                 }
             }
 
-            self.state.update(start, token);
+            // self.state.update(start, token);
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
@@ -297,8 +291,6 @@ impl Iterator for Lexer<'_> {
 
 impl State {
     pub fn new(syntax: Syntax, start_pos: BytePos) -> Self {
-        let context = TokenContexts(smallvec![TokenContext::BraceStmt]);
-
         State {
             is_expr_allowed: true,
             next_regexp: None,
@@ -310,7 +302,6 @@ impl State {
             line_start: BytePos(0),
             prev_hi: start_pos,
             tpl_start: BytePos::DUMMY,
-            context,
             syntax,
             token_value: None,
             token_type: None,
@@ -360,12 +351,12 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
 
     #[inline(always)]
     fn token_contexts(&self) -> &swc_ecma_lexer::TokenContexts {
-        &self.context
+        unreachable!();
     }
 
     #[inline(always)]
     fn mut_token_contexts(&mut self) -> &mut swc_ecma_lexer::TokenContexts {
-        &mut self.context
+        unreachable!();
     }
 
     #[inline(always)]
