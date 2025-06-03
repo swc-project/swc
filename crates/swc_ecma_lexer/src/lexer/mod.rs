@@ -32,7 +32,6 @@ mod state;
 mod table;
 #[cfg(test)]
 mod tests;
-pub mod util;
 
 #[derive(Clone)]
 pub struct Lexer<'a> {
@@ -117,11 +116,6 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     #[inline(always)]
     fn atom<'b>(&self, s: impl Into<std::borrow::Cow<'b, str>>) -> swc_atoms::Atom {
         self.atoms.atom(s)
-    }
-
-    #[inline(always)]
-    fn skip_block_comment(&mut self) {
-        self.skip_block_comment();
     }
 
     #[inline(always)]
