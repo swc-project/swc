@@ -6,12 +6,11 @@ use swc_atoms::AtomStoreCell;
 use swc_common::{
     comments::Comments,
     input::{Input, StringInput},
-    BytePos, Span,
+    BytePos,
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::common::lexer::{
-    char::CharExt, comments_buffer::CommentsBuffer, fixed_len_span, pos_span, LexResult,
-    Lexer as LexerTrait,
+    comments_buffer::CommentsBuffer, fixed_len_span, pos_span, LexResult, Lexer as LexerTrait,
 };
 
 use self::table::{ByteHandler, BYTE_HANDLERS};
