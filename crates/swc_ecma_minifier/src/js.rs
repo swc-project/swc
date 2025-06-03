@@ -186,7 +186,7 @@ pub struct JsMinifyFormatOptions {
     pub webkit: bool,
 
     /// Not implemented yet.
-    #[serde(default, alias = "warp_iife")]
+    #[serde(default, alias = "wrap_iife")]
     pub wrap_iife: bool,
 
     /// Not implemented yet.
