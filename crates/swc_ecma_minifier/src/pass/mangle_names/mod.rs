@@ -24,7 +24,11 @@ pub(crate) fn mangle_names(
     top_level_mark: Mark,
     mangle_name_cache: Option<Arc<dyn MangleCache>>,
 ) {
-    let mut mangler = self::mangler::ManglerVisitor::new(options.keep_private_props, chars);
+    let mut mangler = self::mangler::ManglerVisitor::new(
+        options.keep_private_props,
+        options.mangle_methods,
+        chars
+    );
     program.visit_mut_with(&mut mangler);
 
     let mut cache = None;
