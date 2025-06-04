@@ -1284,8 +1284,8 @@ pub fn build_source_map(
     let mut ch_state = ByteToCharPosState::default();
     let mut line_state = ByteToCharPosState::default();
 
-    for (orig_pos, lc) in mappings.iter() {
-        let pos = files.map_raw_pos(*orig_pos);
+    for (raw_pos, lc) in mappings.iter() {
+        let pos = files.map_raw_pos(*raw_pos);
 
         if pos.is_reserved_for_comments() {
             continue;
@@ -1293,7 +1293,7 @@ pub fn build_source_map(
 
         let lc = *lc;
 
-        // If pos is same as a DUMMY_SP (eg BytePos(0)) and if line and col are 0;
+        // If pos is same as a DUMMY_SP (eg BytePos(0)) or if line and col are 0,
         // ignore the mapping.
         if lc.line == 0 && lc.col == 0 && pos.is_dummy() {
             continue;
@@ -1308,7 +1308,7 @@ pub fn build_source_map(
         let f = match cur_file {
             Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
             _ => {
-                f = files.try_lookup_source_file(*orig_pos).unwrap();
+                f = files.try_lookup_source_file(*raw_pos).unwrap();
                 if config.skip(&f.name) {
                     continue;
                 }
