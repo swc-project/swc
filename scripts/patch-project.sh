@@ -2,7 +2,7 @@
 
 # Check if path argument is provided
 if [ $# -eq 0 ]; then
-    echo -e "\033[31mError\033[0m: Please provide a path to the directory containing \033[33mpackage.json\033[0m"
+    echo -e "\033[31mError\033[0m: Please provide a path to the directory containing \033[33mpackage.json\033[0m whose \033[33m@swc/core\033[0m dependency you want to patch"
     exit 1
 fi
 
