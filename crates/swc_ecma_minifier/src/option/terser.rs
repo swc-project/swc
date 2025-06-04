@@ -537,3 +537,90 @@ fn value_to_expr(v: Value) -> Box<Expr> {
         }
     }
 }
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct TerserMangleOptions {
+    #[serde(default)]
+    pub toplevel: Option<bool>,
+
+    #[serde(default)]
+    pub keep_classnames: bool,
+
+    #[serde(default)]
+    pub keep_fnames: bool,
+
+    #[serde(default)]
+    pub keep_private_props: bool,
+
+    #[serde(default)]
+    pub mangle_methods: bool,
+
+    #[serde(default)]
+    pub ie8: bool,
+
+    #[serde(default)]
+    pub safari10: bool,
+
+    #[serde(default)]
+    pub reserved: Vec<Atom>,
+
+    #[serde(default)]
+    pub eval: bool,
+
+    #[serde(default)]
+    pub properties: Option<Value>,
+}
+
+impl_default!(TerserMangleOptions);
+
+impl TerserMangleOptions {
+    pub fn into_config(self) -> super::MangleOptions {
+        super::MangleOptions {
+            props: None, // TODO: Handle properties
+            top_level: self.toplevel,
+            keep_class_names: self.keep_classnames,
+            keep_fn_names: self.keep_fnames,
+            keep_private_props: self.keep_private_props,
+            mangle_methods: self.mangle_methods,
+            ie8: self.ie8,
+            safari10: self.safari10,
+            reserved: self.reserved,
+            eval: self.eval,
+            disable_char_freq: false,
+        }
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct TerserOptions {
+    #[serde(default)]
+    pub compress: Option<TerserCompressorOptions>,
+
+    #[serde(default)]
+    pub mangle: Option<TerserMangleOptions>,
+
+    #[serde(default)]
+    pub rename: bool,
+
+    #[serde(default)]
+    pub wrap: bool,
+
+    #[serde(default)]
+    pub enclose: bool,
+}
+
+impl_default!(TerserOptions);
+
+impl TerserOptions {
+    pub fn into_config(self, cm: Lrc<SourceMap>) -> super::MinifyOptions {
+        super::MinifyOptions {
+            rename: self.rename,
+            compress: self.compress.map(|c| c.into_config(cm)),
+            mangle: self.mangle.map(|m| m.into_config()),
+            wrap: self.wrap,
+            enclose: self.enclose,
+        }
+    }
+}
