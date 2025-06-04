@@ -23,9 +23,6 @@ echo '[patch.crates-io]' >> bindings/Cargo.toml
 # Update cargo dependencies
 (cd bindings && cargo update -p swc_core -p swc_fast_ts_strip)
 
-# Return to original directory
-cd "$CURRENT_DIR"
-
 # Build the project
 yarn build:dev
 
