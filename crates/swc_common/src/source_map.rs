@@ -1293,7 +1293,7 @@ pub fn build_source_map(
 
         let lc = *lc;
 
-        // If pos is same as a DUMMY_SP (eg BytePos(0)) and if line and col are 0;
+        // If pos is same as a DUMMY_SP (eg BytePos(0)) or if line and col are 0,
         // ignore the mapping.
         if lc.line == 0 && lc.col == 0 && pos.is_dummy() {
             continue;
