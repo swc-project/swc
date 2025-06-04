@@ -4980,7 +4980,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "26.4.0"
+version = "26.4.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5581,7 +5581,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "20.0.4"
+version = "20.0.5"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6086,7 +6086,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "15.0.1"
+version = "15.0.2"
 dependencies = [
  "indexmap 2.7.1",
  "num_cpus",
