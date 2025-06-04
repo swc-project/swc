@@ -331,6 +331,10 @@ pub fn parse_args<'a, P: Parser<'a>>(
 pub fn parse_assignment_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     trace_cur!(p, parse_assignment_expr);
 
+    if p.ctx().contains(Context::InGenerator) && p.input_mut().is(&P::Token::YIELD) {
+        return parse_yield_expr(p);
+    }
+
     if p.input().syntax().typescript() && p.input_mut().is(&P::Token::JSX_TAG_START) {
         // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
         // syntax.
@@ -371,6 +375,10 @@ pub fn parse_assignment_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>>
 fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     trace_cur!(p, parse_assignment_expr_base);
     let start = p.input().cur_span();
+
+    if p.ctx().contains(Context::InGenerator) && p.input_mut().is(&P::Token::YIELD) {
+        return parse_yield_expr(p);
+    }
 
     if p.input().syntax().typescript()
         && (p
@@ -417,10 +425,6 @@ fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>
             }
             return Ok(res);
         }
-    }
-
-    if p.ctx().contains(Context::InGenerator) && p.input_mut().is(&P::Token::YIELD) {
-        return parse_yield_expr(p);
     }
 
     let cur = cur!(p, true);
