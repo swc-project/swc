@@ -1530,10 +1530,9 @@ pub(super) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
             op!(unary, "-")
         } else if cur.is_tilde() {
             op!("~")
-        } else if cur.is_bang() {
-            op!("!")
         } else {
-            unreachable!()
+            debug_assert!(cur.is_bang());
+            op!("!")
         };
         let arg_start = p.cur_pos() - BytePos(1);
         let arg = match parse_unary_expr(p) {
@@ -1551,16 +1550,15 @@ pub(super) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
             if let Expr::Ident(ref i) = *arg {
                 p.emit_strict_mode_err(i.span, SyntaxError::TS1102)
             }
-        }
+            if p.input().syntax().typescript() {
+                match arg.unwrap_parens() {
+                    Expr::Member(..) => {}
+                    Expr::OptChain(OptChainExpr { base, .. })
+                        if matches!(&**base, OptChainBase::Member(..)) => {}
 
-        if p.input().syntax().typescript() && op == op!("delete") {
-            match arg.unwrap_parens() {
-                Expr::Member(..) => {}
-                Expr::OptChain(OptChainExpr { base, .. })
-                    if matches!(&**base, OptChainBase::Member(..)) => {}
-
-                expr => {
-                    p.emit_err(expr.span(), SyntaxError::TS2703);
+                    expr => {
+                        p.emit_err(expr.span(), SyntaxError::TS2703);
+                    }
                 }
             }
         }
