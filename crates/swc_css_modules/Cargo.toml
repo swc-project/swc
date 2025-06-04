@@ -19,7 +19,7 @@ rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 
 swc_atoms       = { version = "5.0.0", path = "../swc_atoms" }
-swc_common      = { version = "11.0.3", path = "../swc_common" }
+swc_common      = { version = "11.1.2", path = "../swc_common" }
 swc_css_ast     = { version = "11.0.0", path = "../swc_css_ast" }
 swc_css_codegen = { version = "11.0.0", path = "../swc_css_codegen" }
 swc_css_parser  = { version = "11.0.0", path = "../swc_css_parser" }
