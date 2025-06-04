@@ -2,8 +2,8 @@
 
 use serde::{Deserialize, Serialize};
 use swc_config::{
-    file_pattern::FilePattern, is_module::IsModule, source_map::SourceMapContent,
-    types::BoolOrDataConfig,
+    file_pattern::FilePattern, is_module::IsModule, regex::CachedRegex,
+    source_map::SourceMapContent, types::BoolOrDataConfig,
 };
 
 use crate::option::{
@@ -215,6 +215,52 @@ pub enum JsMinifyCommentOption {
     PreserveSomeComments,
     #[serde(rename = "all")]
     PreserveAllComments,
+    #[serde(untagged)]
+    PreserveRegexComments(Box<PreserveRegexCommentsInner>),
+}
+
+#[derive(Debug, Clone)]
+pub struct PreserveRegexCommentsInner {
+    regex: regress::Regex,
+    origin: String,
+}
+
+impl PreserveRegexCommentsInner {
+    pub fn new(regex_str: String) -> Option<Self> {
+        let regex = regress::Regex::new(&regex_str).ok()?;
+        Some(Self {
+            regex,
+            origin: regex_str,
+        })
+    }
+
+    pub fn is_match(&self, haystack: &str) -> bool {
+        self.regex.find(haystack).is_some()
+    }
+}
+
+impl Serialize for PreserveRegexCommentsInner {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        serializer.serialize_str(&self.origin)
+    }
+}
+
+impl<'de> Deserialize<'de> for PreserveRegexCommentsInner {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        let regex_checker = CachedRegex::new(r"/(.*)/([a-zA-Z]*)$").unwrap();
+        if regex_checker.is_match(&s) {
+            let regex = regress::Regex::new(&s).unwrap();
+            return Ok(PreserveRegexCommentsInner { regex, origin: s });
+        }
+        Err(serde::de::Error::custom("Input is not a javascript regex"))
+    }
 }
 
 fn default_module() -> IsModule {

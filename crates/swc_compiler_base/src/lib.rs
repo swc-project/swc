@@ -403,6 +403,20 @@ pub fn minify_file_comments(
             t.retain(preserve_excl);
         }
 
+        BoolOr::Data(JsMinifyCommentOption::PreserveRegexComments(regex)) => {
+            let preserve_excl = |_: &BytePos, vc: &mut std::vec::Vec<Comment>| -> bool {
+                // Preserve comments that match the regex
+                //
+                // See https://github.com/terser/terser/blob/798135e04baddd94fea403cfaab4ba8b22b1b524/lib/output.js#L286
+                vc.retain(|c: &Comment| regex.is_match(&c.text));
+                !vc.is_empty()
+            };
+            let (mut l, mut t) = comments.borrow_all_mut();
+
+            l.retain(preserve_excl);
+            t.retain(preserve_excl);
+        }
+
         BoolOr::Bool(false) => {
             let (mut l, mut t) = comments.borrow_all_mut();
             l.clear();

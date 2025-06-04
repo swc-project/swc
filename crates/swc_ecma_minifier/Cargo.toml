@@ -45,6 +45,7 @@ phf               = { workspace = true }
 pretty_assertions = { workspace = true, optional = true }
 radix_fmt         = { workspace = true }
 regex             = { workspace = true }
+regress           = { workspace = true }
 rustc-hash        = { workspace = true }
 ryu-js            = { workspace = true }
 serde             = { workspace = true, features = ["derive"] }
