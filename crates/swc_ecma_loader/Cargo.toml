@@ -38,7 +38,7 @@ serde_json  = { workspace = true, optional = true }
 tracing     = { workspace = true }
 
 swc_atoms  = { version = "5.0.0", path = "../swc_atoms" }
-swc_common = { version = "11.1.2", path = "../swc_common" }
+swc_common = { version = "11.1.3", path = "../swc_common" }
 
 [dev-dependencies]
 lazy_static = { workspace = true }
