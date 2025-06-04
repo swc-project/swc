@@ -1,7 +1,10 @@
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use self::{label_manger::LabelMangler, method_mangler::MethodNameMangler, private_name_manger::PrivateNameMangler};
+use self::{
+    label_manger::LabelMangler, method_mangler::MethodNameMangler,
+    private_name_manger::PrivateNameMangler,
+};
 use crate::util::base54::Base54Chars;
 
 mod label_manger {
@@ -74,8 +77,12 @@ mod method_mangler {
                 PropName::Ident(ident) => {
                     // Skip certain method names that should not be mangled
                     let name = &ident.sym;
-                    if name == "constructor" || name == "toString" || name == "valueOf" ||
-                       name.starts_with("__") || name.starts_with("_") {
+                    if name == "constructor"
+                        || name == "toString"
+                        || name == "valueOf"
+                        || name.starts_with("__")
+                        || name.starts_with("_")
+                    {
                         return;
                     }
 
@@ -90,9 +97,10 @@ mod method_mangler {
                     ident.sym = new_sym;
                 }
                 // Don't mangle string, number, bigint or computed property names
-                PropName::Str(_) | PropName::Num(_) | PropName::BigInt(_) | PropName::Computed(_) => {
-                    return;
-                }
+                PropName::Str(_)
+                | PropName::Num(_)
+                | PropName::BigInt(_)
+                | PropName::Computed(_) => {}
             }
         }
     }
@@ -160,10 +168,7 @@ impl ManglerVisitor {
                 keep_private_props,
                 chars,
             ),
-            method_name_mangler: self::method_mangler::method_name_mangler(
-                mangle_methods,
-                chars,
-            ),
+            method_name_mangler: self::method_mangler::method_name_mangler(mangle_methods, chars),
         }
     }
 }
@@ -199,7 +204,7 @@ impl VisitMut for ManglerVisitor {
 
     fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
         self.method_name_mangler.rename_method(&mut n.key);
-        
+
         n.visit_mut_children_with(self);
     }
 
@@ -210,7 +215,7 @@ impl VisitMut for ManglerVisitor {
 
     fn visit_mut_method_prop(&mut self, n: &mut MethodProp) {
         self.method_name_mangler.rename_method(&mut n.key);
-        
+
         n.visit_mut_children_with(self);
     }
 }

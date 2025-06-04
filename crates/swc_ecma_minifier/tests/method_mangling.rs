@@ -49,7 +49,7 @@ fn count_method_names(program: &Program) -> Vec<String> {
 fn test_method_mangling_enabled() {
     GLOBALS.set(&Default::default(), || {
         let src = include_str!("method_mangling.js");
-        
+
         let cm = Arc::new(SourceMap::default());
         let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
@@ -64,7 +64,7 @@ fn test_method_mangling_enabled() {
 
         // Get the original method names
         let original_method_names = count_method_names(&Program::Module(p.clone()));
-        
+
         // Ensure original method names are as expected
         assert!(original_method_names.contains(&"calculateValue".to_string()));
         assert!(original_method_names.contains(&"increaseValue".to_string()));
@@ -97,18 +97,26 @@ fn test_method_mangling_enabled() {
 
         // Get the mangled method names
         let mangled_method_names = count_method_names(&optimized);
-        
+
         // Print out for debugging
         println!("Original method names: {:?}", original_method_names);
         println!("Mangled method names: {:?}", mangled_method_names);
-        
+
         // Verify that methods were mangled - they should be shorter
         for name in &mangled_method_names {
-            assert!(name.len() <= 2, "Method name should be mangled to a short name: {}", name);
+            assert!(
+                name.len() <= 2,
+                "Method name should be mangled to a short name: {}",
+                name
+            );
         }
-        
+
         // Verify we have the correct number of methods
-        assert_eq!(mangled_method_names.len(), 5, "Expected 5 method names after mangling");
+        assert_eq!(
+            mangled_method_names.len(),
+            5,
+            "Expected 5 method names after mangling"
+        );
     });
 }
 
@@ -116,7 +124,7 @@ fn test_method_mangling_enabled() {
 fn test_method_mangling_disabled() {
     GLOBALS.set(&Default::default(), || {
         let src = include_str!("method_mangling.js");
-        
+
         let cm = Arc::new(SourceMap::default());
         let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
@@ -155,18 +163,15 @@ fn test_method_mangling_disabled() {
             },
         );
 
-        // Get the output method names
         let output_method_names = count_method_names(&optimized);
-        
-        // Print out for debugging
+
         println!("Original method names: {:?}", original_method_names);
         println!("Output method names: {:?}", output_method_names);
-        
-        // Method names should be preserved (except for any variable renaming that might happen)
+
         assert!(output_method_names.contains(&"calculateValue".to_string()));
         assert!(output_method_names.contains(&"increaseValue".to_string()));
         assert!(output_method_names.contains(&"usePrivate".to_string()));
         assert!(output_method_names.contains(&"methodA".to_string()));
         assert!(output_method_names.contains(&"methodB".to_string()));
     });
-} 
+}

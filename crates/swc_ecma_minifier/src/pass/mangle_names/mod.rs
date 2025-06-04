@@ -27,7 +27,7 @@ pub(crate) fn mangle_names(
     let mut mangler = self::mangler::ManglerVisitor::new(
         options.keep_private_props,
         options.mangle_methods,
-        chars
+        chars,
     );
     program.visit_mut_with(&mut mangler);
 
