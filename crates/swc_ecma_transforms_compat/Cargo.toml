@@ -31,7 +31,7 @@ smallvec   = { workspace = true }
 tracing    = { workspace = true }
 
 swc_atoms                   = { version = "5.0.0", path = "../swc_atoms" }
-swc_common                  = { version = "11.1.1", path = "../swc_common" }
+swc_common                  = { version = "11.1.2", path = "../swc_common" }
 swc_config                  = { version = "3.0.0", path = "../swc_config" }
 swc_ecma_ast                = { version = "11.0.0", path = "../swc_ecma_ast" }
 swc_ecma_compat_bugfixes    = { version = "16.0.0", path = "../swc_ecma_compat_bugfixes" }

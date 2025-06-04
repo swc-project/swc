@@ -22,7 +22,7 @@ rustc-hash  = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 
 swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
-swc_common = { version = "11.1.1", path = "../swc_common", features = [
+swc_common = { version = "11.1.2", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_config = { version = "3.0.0", path = "../swc_config" }

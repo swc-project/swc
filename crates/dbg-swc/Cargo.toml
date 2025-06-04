@@ -27,7 +27,7 @@ tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"] }
 url                = { workspace = true }
 
 swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
-swc_common = { version = "11.1.1", features = [
+swc_common = { version = "11.1.2", features = [
   "concurrent",
   "tty-emitter",
 ], path = "../swc_common" }
