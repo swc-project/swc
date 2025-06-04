@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -eu
 
 # Check if path argument is provided
 if [ $# -eq 0 ]; then
