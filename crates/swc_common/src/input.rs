@@ -177,34 +177,6 @@ impl<'a> Input<'a> for StringInput<'a> {
         ret
     }
 
-    fn find<F>(&mut self, mut pred: F) -> Option<BytePos>
-    where
-        F: FnMut(char) -> bool,
-    {
-        let last = {
-            let mut last = 0;
-            for c in self.iter.clone() {
-                last += c.len_utf8();
-                if pred(c) {
-                    break;
-                }
-            }
-            last
-        };
-
-        if last == 0 {
-            return None;
-        }
-
-        let s = self.iter.as_str();
-        debug_assert!(last <= s.len());
-
-        self.last_pos = self.last_pos + BytePos(last as _);
-        self.iter = unsafe { s.get_unchecked(last..) }.chars();
-
-        Some(self.last_pos)
-    }
-
     #[inline]
     unsafe fn reset_to(&mut self, to: BytePos) {
         let orig = self.orig;
@@ -281,11 +253,6 @@ pub trait Input<'a>: Clone {
     /// Takes items from stream, testing each one with predicate. returns the
     /// range of items which passed predicate.
     fn uncons_while<F>(&mut self, f: F) -> &'a str
-    where
-        F: FnMut(char) -> bool;
-
-    /// This method modifies [last_pos()] and [cur_pos()].
-    fn find<F>(&mut self, f: F) -> Option<BytePos>
     where
         F: FnMut(char) -> bool;
 
@@ -397,17 +364,17 @@ mod tests {
         });
     }
 
-    #[test]
-    fn src_input_find_01() {
-        with_test_sess("foo/d", |mut i| {
-            assert_eq!(i.cur_pos(), BytePos(1));
-            assert_eq!(i.last_pos, BytePos(1));
+    // #[test]
+    // fn src_input_find_01() {
+    //     with_test_sess("foo/d", |mut i| {
+    //         assert_eq!(i.cur_pos(), BytePos(1));
+    //         assert_eq!(i.last_pos, BytePos(1));
 
-            assert_eq!(i.find(|c| c == '/'), Some(BytePos(5)));
-            assert_eq!(i.last_pos, BytePos(5));
-            assert_eq!(i.cur(), Some('d'));
-        });
-    }
+    //         assert_eq!(i.find(|c| c == '/'), Some(BytePos(5)));
+    //         assert_eq!(i.last_pos, BytePos(5));
+    //         assert_eq!(i.cur(), Some('d'));
+    //     });
+    // }
 
     //    #[test]
     //    fn src_input_smoke_02() {
