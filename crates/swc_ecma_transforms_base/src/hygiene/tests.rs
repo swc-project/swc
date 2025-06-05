@@ -1756,3 +1756,71 @@ fn issue_2539() {
         ",
     );
 }
+
+#[test]
+fn fn_scope_collision() {
+    test(
+        |tester| {
+            let marks = vec![
+                Mark::root(),
+                Mark::fresh(Mark::root()),
+                Mark::fresh(Mark::root()),
+                Mark::fresh(Mark::root()),
+            ];
+
+            let mut stmts = tester.parse_stmts(
+                "actual1.js",
+                "
+                    const i$1 = 'abc';
+                    const env$1 = i$1;
+                    ;
+                    const i$2 = env$1;
+                    ;
+                    ;
+                    const increment$3 = (i1$3)=>i1$3 + 1;
+                    it$3('should correctly handle variable collisions', ()=>{
+                        let i1$3 = 123;
+                        expect$3(i$2).toBe('abc');
+                    });
+
+                    ",
+            )?;
+
+            struct SetContextVisitor {
+                marks: Vec<Mark>,
+            }
+            impl VisitMut for SetContextVisitor {
+                fn visit_mut_ident(&mut self, ident: &mut Ident) {
+                    let sym = ident.sym.to_string();
+                    let split = sym.split("$").collect::<Vec<_>>();
+                    if let [name, index] = *split {
+                        ident.sym = name.into();
+                        ident.ctxt = ident
+                            .ctxt
+                            .apply_mark(self.marks[index.parse::<usize>().unwrap()]);
+                    } else {
+                        panic!("couldn't find index in ident");
+                    }
+                }
+            }
+
+            stmts.visit_mut_with(&mut SetContextVisitor { marks });
+
+            Ok(stmts)
+        },
+        "
+        const i = 'abc';
+        const env = i;
+        ;
+        const i1 = env;
+        ;
+        ;
+        const increment = (i1)=>i1 + 1;
+        it('should correctly handle variable collisions', ()=>{
+            let i2 = 123;
+            expect(i1).toBe('abc');
+        });
+        
+        ",
+    );
+}
