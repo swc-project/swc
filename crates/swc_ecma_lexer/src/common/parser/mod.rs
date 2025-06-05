@@ -167,6 +167,10 @@ pub trait Parser<'a>: Sized + Clone {
             return;
         }
         let error = crate::error::Error::new(span, error);
+        if self.ctx().contains(Context::Strict) {
+            self.input().iter().add_error(error);
+            return;
+        }
         self.input().iter().add_module_mode_error(error);
     }
 

@@ -1235,8 +1235,21 @@ fn calc_utf16_offset(file: &SourceFile, bpos: BytePos, state: &mut ByteToCharPos
 }
 
 pub trait Files {
-    fn try_lookup_source_file(&self, pos: BytePos)
-        -> Result<Lrc<SourceFile>, SourceMapLookupError>;
+    /// This function is called to change the [BytePos] in AST into an unmapped,
+    /// real value.
+    ///
+    /// By default, it returns the raw value because by default, the AST stores
+    /// original values.
+    fn map_raw_pos(&self, raw_pos: BytePos) -> BytePos {
+        raw_pos
+    }
+
+    /// `raw_pos` is the [BytePos] in the AST. It's the raw value passed to
+    /// the source map generator.
+    fn try_lookup_source_file(
+        &self,
+        raw_pos: BytePos,
+    ) -> Result<Lrc<SourceFile>, SourceMapLookupError>;
 }
 
 impl Files for SourceMap {
@@ -1271,8 +1284,8 @@ pub fn build_source_map(
     let mut ch_state = ByteToCharPosState::default();
     let mut line_state = ByteToCharPosState::default();
 
-    for (pos, lc) in mappings.iter() {
-        let pos = *pos;
+    for (raw_pos, lc) in mappings.iter() {
+        let pos = files.map_raw_pos(*raw_pos);
 
         if pos.is_reserved_for_comments() {
             continue;
@@ -1280,7 +1293,7 @@ pub fn build_source_map(
 
         let lc = *lc;
 
-        // If pos is same as a DUMMY_SP (eg BytePos(0)) and if line and col are 0;
+        // If pos is same as a DUMMY_SP (eg BytePos(0)) or if line and col are 0,
         // ignore the mapping.
         if lc.line == 0 && lc.col == 0 && pos.is_dummy() {
             continue;
@@ -1295,7 +1308,7 @@ pub fn build_source_map(
         let f = match cur_file {
             Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
             _ => {
-                f = files.try_lookup_source_file(pos).unwrap();
+                f = files.try_lookup_source_file(*raw_pos).unwrap();
                 if config.skip(&f.name) {
                     continue;
                 }

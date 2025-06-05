@@ -684,6 +684,15 @@ export interface JscConfig {
   minify?: JsMinifyOptions;
 
   preserveAllComments?: boolean;
+
+  output?: {
+    /**
+     * This can be used to keep the output ascii-only.
+     * If this option is set, `minify.format.asciiOnly` will be ignored.
+     * @default 'utf8'
+     */
+    charset?: 'utf8' | 'ascii';
+  }
 }
 
 export type JscTarget =

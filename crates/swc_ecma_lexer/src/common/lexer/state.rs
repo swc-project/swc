@@ -53,7 +53,7 @@ pub trait State: Clone {
     fn set_is_expr_allowed(&mut self, is_expr_allowed: bool);
     fn set_next_regexp(&mut self, start: Option<BytePos>);
     fn had_line_break(&self) -> bool;
-    fn set_had_line_break(&mut self, had_line_break: bool);
+    fn mark_had_line_break(&mut self);
     fn had_line_break_before_last(&self) -> bool;
     fn token_contexts(&self) -> &crate::TokenContexts;
     fn mut_token_contexts(&mut self) -> &mut crate::TokenContexts;
