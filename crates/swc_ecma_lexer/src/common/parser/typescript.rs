@@ -21,9 +21,7 @@ use crate::{
         lexer::token::TokenFactory,
         parser::{
             buffer::Buffer,
-            expr::{
-                parse_assignment_expr, parse_lit, parse_str_lit, parse_subscripts, parse_unary_expr,
-            },
+            expr::{parse_assignment_expr, parse_lit, parse_str_lit, parse_subscripts},
             ident::{parse_ident, parse_ident_name},
             module_item::parse_module_item_block_body,
             object::parse_object_expr,
@@ -2185,7 +2183,7 @@ pub fn parse_ts_interface_decl<'a, P: Parser<'a>>(
 }
 
 /// `tsParseTypeAssertion`
-pub(super) fn parse_ts_type_assertion<'a, P: Parser<'a>>(
+pub fn parse_ts_type_assertion<'a, P: Parser<'a>>(
     p: &mut P,
     start: BytePos,
 ) -> PResult<TsTypeAssertion> {
@@ -2200,7 +2198,7 @@ pub(super) fn parse_ts_type_assertion<'a, P: Parser<'a>>(
     // `tsParseType`.
     let type_ann = p.in_type().parse_with(parse_ts_type)?;
     expect!(p, &P::Token::GREATER);
-    let expr = parse_unary_expr(p)?;
+    let expr = p.parse_unary_expr()?;
     Ok(TsTypeAssertion {
         span: p.span(start),
         type_ann,

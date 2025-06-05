@@ -230,6 +230,17 @@ pub trait Parser<'a>: Sized + Clone {
         Ok(())
     }
 
+    #[inline]
+    fn expect(&mut self, t: &Self::Token) -> PResult<()> {
+        if !self.input_mut().eat(t) {
+            let span = self.input().cur_span();
+            let cur = self.input_mut().dump_cur();
+            syntax_error!(self, span, SyntaxError::Expected(format!("{:?}", t), cur))
+        } else {
+            Ok(())
+        }
+    }
+
     #[inline(always)]
     fn bump(&mut self) -> Self::Token {
         debug_assert!(
@@ -469,6 +480,8 @@ pub trait Parser<'a>: Sized + Clone {
             false
         }
     }
+
+    fn parse_unary_expr(&mut self) -> PResult<Box<Expr>>;
 }
 
 pub fn parse_shebang<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Atom>> {

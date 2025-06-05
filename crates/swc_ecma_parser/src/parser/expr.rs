@@ -1,4 +1,13 @@
-use swc_ecma_lexer::common::parser::expr::parse_member_expr_or_new_expr;
+use either::Either;
+use swc_common::{BytePos, Span, Spanned};
+use swc_ecma_lexer::{
+    common::parser::{
+        expr::{parse_await_expr, parse_lhs_expr, parse_member_expr_or_new_expr},
+        jsx::parse_jsx_element,
+        typescript::parse_ts_type_assertion,
+    },
+    error::SyntaxError,
+};
 
 use super::*;
 
@@ -16,5 +25,164 @@ impl<I: Tokens> Parser<I> {
     #[allow(dead_code)]
     fn parse_member_expr(&mut self) -> PResult<Box<Expr>> {
         parse_member_expr_or_new_expr(self, false)
+    }
+
+    pub(super) fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_unary_expr);
+        let start = self.cur_pos();
+
+        if self.input().syntax().typescript() && self.input_mut().eat(&Token::Lt) {
+            if !self.input().syntax().jsx() {
+                return if self.input_mut().eat(&Token::Const) {
+                    self.expect(&Token::Gt)?;
+                    let expr = self.parse_unary_expr()?;
+                    Ok(TsConstAssertion {
+                        span: self.span(start),
+                        expr,
+                    }
+                    .into())
+                } else {
+                    parse_ts_type_assertion(self, start)
+                        .map(Expr::from)
+                        .map(Box::new)
+                };
+            } else if self
+                .input_mut()
+                .peek()
+                .is_some_and(|peek| (*peek).is_word() || peek == &Token::Gt)
+            {
+                fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
+                    match e {
+                        Either::Left(l) => l.into(),
+                        Either::Right(r) => r.into(),
+                    }
+                }
+                return parse_jsx_element(self).map(into_expr);
+            }
+        }
+
+        // Parse update expression
+        if self.input_mut().is(&Token::PlusPlus) || self.input_mut().is(&Token::MinusMinus) {
+            let op = if self.bump() == Token::PlusPlus {
+                op!("++")
+            } else {
+                op!("--")
+            };
+
+            let arg = self.parse_unary_expr()?;
+            let span = Span::new(start, arg.span_hi());
+            self.check_assign_target(&arg, false);
+
+            return Ok(UpdateExpr {
+                span,
+                prefix: true,
+                op,
+                arg,
+            }
+            .into());
+        }
+
+        // Parse unary expression
+
+        if self.input_mut().cur().is_some_and(|cur| {
+            cur == &Token::Delete
+                || cur == &Token::Void
+                || cur == &Token::TypeOf
+                || cur == &Token::Plus
+                || cur == &Token::Minus
+                || cur == &Token::Tilde
+                || cur == &Token::Bang
+        }) {
+            let cur = self.bump();
+            let op = if cur == Token::Delete {
+                op!("delete")
+            } else if cur == Token::Void {
+                op!("void")
+            } else if cur == Token::TypeOf {
+                op!("typeof")
+            } else if cur == Token::Plus {
+                op!(unary, "+")
+            } else if cur == Token::Minus {
+                op!(unary, "-")
+            } else if cur == Token::Tilde {
+                op!("~")
+            } else {
+                debug_assert!(cur == Token::Bang);
+                op!("!")
+            };
+            let arg_start = self.cur_pos() - BytePos(1);
+            let arg = match self.parse_unary_expr() {
+                Ok(expr) => expr,
+                Err(err) => {
+                    self.emit_error(err);
+                    Invalid {
+                        span: Span::new(arg_start, arg_start),
+                    }
+                    .into()
+                }
+            };
+
+            if op == op!("delete") {
+                if let Expr::Ident(ref i) = *arg {
+                    self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+                }
+                if self.input().syntax().typescript() {
+                    match arg.unwrap_parens() {
+                        Expr::Member(..) => {}
+                        Expr::OptChain(OptChainExpr { base, .. })
+                            if matches!(&**base, OptChainBase::Member(..)) => {}
+
+                        expr => {
+                            self.emit_err(expr.span(), SyntaxError::TS2703);
+                        }
+                    }
+                }
+            }
+
+            return Ok(UnaryExpr {
+                span: Span::new(start, arg.span_hi()),
+                op,
+                arg,
+            }
+            .into());
+        }
+
+        if self.input_mut().is(&Token::Await) {
+            return parse_await_expr(self, None);
+        }
+
+        // UpdateExpression
+        let expr = parse_lhs_expr(self)?;
+        if let Expr::Arrow { .. } = *expr {
+            return Ok(expr);
+        }
+
+        // Line terminator isn't allowed here.
+        if self.input_mut().had_line_break_before_cur() {
+            return Ok(expr);
+        }
+
+        if self
+            .input_mut()
+            .cur()
+            .is_some_and(|cur| cur == &Token::PlusPlus || cur == &Token::MinusMinus)
+        {
+            self.check_assign_target(&expr, false);
+
+            let op = if self.bump() == Token::PlusPlus {
+                op!("++")
+            } else {
+                op!("--")
+            };
+
+            return Ok(UpdateExpr {
+                span: self.span(expr.span_lo()),
+                prefix: false,
+                op,
+                arg: expr,
+            }
+            .into());
+        }
+        Ok(expr)
     }
 }
