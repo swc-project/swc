@@ -242,6 +242,27 @@ fn parse_jsx_opening_element_at<'a, P: Parser<'a>>(
     parse_jsx_opening_element_after_name(p, start, name).map(Either::Right)
 }
 
+#[inline(always)]
+fn parse_jsx_attrs<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<JSXAttrOrSpread>> {
+    let mut attrs = Vec::with_capacity(8);
+
+    while cur!(p, false).is_ok() {
+        trace_cur!(p, parse_jsx_opening__attrs_loop);
+
+        if p.input_mut()
+            .cur()
+            .is_some_and(|cur| cur.is_slash() || cur.is_jsx_tag_end())
+        {
+            break;
+        }
+
+        let attr = parse_jsx_attr(p)?;
+        attrs.push(attr);
+    }
+
+    Ok(attrs)
+}
+
 /// `jsxParseOpeningElementAfterName`
 fn parse_jsx_opening_element_after_name<'a, P: Parser<'a>>(
     p: &mut P,
@@ -256,20 +277,8 @@ fn parse_jsx_opening_element_after_name<'a, P: Parser<'a>>(
         None
     };
 
-    let mut attrs = Vec::new();
-    while cur!(p, false).is_ok() {
-        trace_cur!(p, parse_jsx_opening__attrs_loop);
+    let attrs = parse_jsx_attrs(p)?;
 
-        if p.input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_slash() || cur.is_jsx_tag_end())
-        {
-            break;
-        }
-
-        let attr = parse_jsx_attr(p)?;
-        attrs.push(attr);
-    }
     let self_closing = p.input_mut().eat(&P::Token::DIV);
     if !p.input_mut().eat(&P::Token::JSX_TAG_END)
         & !(p.ctx().contains(Context::InForcedJsxContext) && p.input_mut().eat(&P::Token::GREATER))
