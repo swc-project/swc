@@ -173,6 +173,7 @@ pub enum Token {
 
     // JSX-related tokens
     JSXTagStart,
+    /// `</`
     JSXTagEnd,
 
     // Literals
