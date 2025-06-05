@@ -4927,7 +4927,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "22.0.0"
+version = "22.0.1"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -4980,7 +4980,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "26.4.4"
+version = "26.4.5"
 dependencies = [
  "anyhow",
  "binding_macros",
