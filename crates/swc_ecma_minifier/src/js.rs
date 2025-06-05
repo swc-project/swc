@@ -1,9 +1,11 @@
 //! NOT A PUBLIC API
 
-use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
+
+use serde::{ser::SerializeMap, Deserialize, Serialize};
 use swc_config::{
-    file_pattern::FilePattern, is_module::IsModule, regex::CachedRegex,
-    source_map::SourceMapContent, types::BoolOrDataConfig,
+    file_pattern::FilePattern, is_module::IsModule, source_map::SourceMapContent,
+    types::BoolOrDataConfig,
 };
 
 use crate::option::{
@@ -244,7 +246,9 @@ impl Serialize for PreserveRegexCommentsInner {
     where
         S: serde::Serializer,
     {
-        serializer.serialize_str(&self.origin)
+        let mut map = serializer.serialize_map(Some(1))?;
+        map.serialize_entry("regex", &self.origin)?;
+        map.end()
     }
 }
 
@@ -253,13 +257,11 @@ impl<'de> Deserialize<'de> for PreserveRegexCommentsInner {
     where
         D: serde::Deserializer<'de>,
     {
-        let s = String::deserialize(deserializer)?;
-        let regex_checker = CachedRegex::new(r"/(.*)/([a-zA-Z]*)$").unwrap();
-        if regex_checker.is_match(&s) {
-            let regex = regress::Regex::new(&s).unwrap();
-            return Ok(PreserveRegexCommentsInner { regex, origin: s });
-        }
-        Err(serde::de::Error::custom("Input is not a javascript regex"))
+        let get_error = || serde::de::Error::custom("Input is not a javascript regex");
+        let map: HashMap<String, String> = HashMap::deserialize(deserializer)?;
+        let s = map.get("regex").ok_or_else(get_error)?.clone();
+        let regex = regress::Regex::new(&s).map_err(|_| get_error())?;
+        Ok(PreserveRegexCommentsInner { regex, origin: s })
     }
 }
 
