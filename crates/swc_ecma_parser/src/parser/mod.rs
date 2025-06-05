@@ -27,6 +27,7 @@ mod macros;
 mod class_and_fn;
 mod expr;
 pub mod input;
+mod jsx;
 mod pat;
 mod stmt;
 #[cfg(test)]
