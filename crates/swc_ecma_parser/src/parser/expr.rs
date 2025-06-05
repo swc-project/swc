@@ -3,7 +3,6 @@ use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_lexer::{
     common::parser::{
         expr::{parse_await_expr, parse_lhs_expr, parse_member_expr_or_new_expr},
-        jsx::parse_jsx_element,
         typescript::parse_ts_type_assertion,
     },
     error::SyntaxError,
@@ -57,7 +56,7 @@ impl<I: Tokens> Parser<I> {
                         Either::Right(r) => r.into(),
                     }
                 }
-                return parse_jsx_element(self).map(into_expr);
+                return self.parse_jsx_element(true).map(into_expr);
             }
         }
 

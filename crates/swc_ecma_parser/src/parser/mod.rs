@@ -82,6 +82,14 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
         self.parse_unary_expr()
     }
+
+    #[inline(always)]
+    fn parse_jsx_element(
+        &mut self,
+        in_expr_context: bool,
+    ) -> PResult<either::Either<JSXFragment, JSXElement>> {
+        self.parse_jsx_element(in_expr_context)
+    }
 }
 
 impl<'a> Parser<crate::lexer::Lexer<'a>> {

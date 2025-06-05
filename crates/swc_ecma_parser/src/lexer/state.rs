@@ -3,13 +3,17 @@ use std::mem::take;
 use swc_common::BytePos;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::{
-    common::lexer::comments_buffer::{BufferedComment, BufferedCommentKind},
+    common::lexer::{
+        char::CharExt,
+        comments_buffer::{BufferedComment, BufferedCommentKind},
+    },
     TokenContexts,
 };
 
 use super::{Context, Input, Lexer, LexerTrait};
 use crate::{
     error::Error,
+    input::Tokens,
     lexer::token::{Token, TokenAndSpan, TokenValue},
     Syntax,
 };
@@ -119,7 +123,7 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
     }
 }
 
-impl crate::parser::input::Tokens for Lexer<'_> {
+impl Tokens for Lexer<'_> {
     fn clone_token_value(&self) -> Option<TokenValue> {
         self.state.token_value.clone()
     }
@@ -134,6 +138,41 @@ impl crate::parser::input::Tokens for Lexer<'_> {
 
     fn take_token_value(&mut self) -> Option<TokenValue> {
         self.state.token_value.take()
+    }
+
+    fn rescan_jsx_token(
+        &mut self,
+        allow_multiline_jsx_text: bool,
+        reset: BytePos,
+    ) -> Option<TokenAndSpan> {
+        unsafe {
+            self.input.reset_to(reset);
+        }
+        Tokens::scan_jsx_token(self, allow_multiline_jsx_text)
+    }
+
+    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Option<TokenAndSpan> {
+        let start = self.cur_pos();
+        let res = match self.scan_jsx_token(allow_multiline_jsx_text) {
+            Ok(res) => Ok(res),
+            Err(error) => {
+                self.state.set_token_value(TokenValue::Error(error));
+                Err(Token::Error)
+            }
+        };
+        let token = match res.map_err(Some) {
+            Ok(t) => t,
+            Err(e) => e,
+        };
+        let span = self.span(start);
+        token.map(|token| {
+            // Attach span to token.
+            TokenAndSpan {
+                token,
+                had_line_break: self.had_line_break_before_last(),
+                span,
+            }
+        })
     }
 }
 
@@ -177,69 +216,71 @@ impl Lexer<'_> {
 
         self.state.start = *start;
 
-        // if self.syntax.jsx()
-        //     && !self.ctx.contains(Context::InPropertyName)
-        //     && !self.ctx.contains(Context::InType)
-        // {
-        //     //jsx
-        //     if self.state.context.current() == Some(TokenContext::JSXExpr) {
-        //         return self.read_jsx_token();
-        //     }
-
-        //     let c = self.cur();
-        //     if let Some(c) = c {
-        //         if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
-        //             || self.state.context.current() == Some(TokenContext::JSXClosingTag)
-        //         {
-        //             if c.is_ident_start() {
-        //                 return self.read_jsx_word().map(Some);
-        //             }
-
-        //             if c == '>' {
-        //                 unsafe {
-        //                     // Safety: cur() is Some('>')
-        //                     self.input.bump();
-        //                 }
-        //                 return Ok(Some(Token::JSXTagEnd));
-        //             }
-
-        //             if (c == '\'' || c == '"')
-        //                 && self.state.context.current() ==
-        // Some(TokenContext::JSXOpeningTag)             {
-        //                 return self.read_jsx_str(c).map(Some);
-        //             }
-        //         }
-
-        //         if c == '<' && self.state.is_expr_allowed && self.input.peek() !=
-        // Some('!') {             let had_line_break_before_last =
-        // self.had_line_break_before_last();             let cur_pos =
-        // self.input.cur_pos();
-
-        //             unsafe {
-        //                 // Safety: cur() is Some('<')
-        //                 self.input.bump();
-        //             }
-
-        //             if had_line_break_before_last && self.is_str("<<<<<< ") {
-        //                 let span = Span::new(cur_pos, cur_pos + BytePos(7));
-
-        //                 self.emit_error_span(span, SyntaxError::TS1185);
-        //                 self.skip_line_comment(6);
-        //                 self.skip_space::<true>();
-        //                 return self.read_token();
-        //             }
-
-        //             return Ok(Some(Token::JSXTagStart));
-        //         }
-        //     }
-        // }
-
-        // if let Some(TokenContext::Tpl) = self.state.context.current() {
-        //     let start = self.state.tpl_start;
-        //     return self.read_tmpl_token(start).map(Some);
-        // }
-
         self.read_token()
+    }
+
+    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Result<Option<Token>, Error> {
+        let start = self.input.cur_pos();
+        debug_assert!(self.syntax.jsx());
+        let Some(ch) = self.input.as_str().as_bytes().first().copied() else {
+            return Ok(None);
+        };
+
+        if ch == b'<' {
+            self.bump();
+            return if self.input.eat_byte(b'/') {
+                self.bump();
+                Ok(Some(Token::JSXTagEnd))
+            } else {
+                Ok(Some(Token::Lt))
+            };
+        } else if ch == b'{' {
+            self.bump();
+            return Ok(Some(Token::LBrace));
+        }
+
+        let mut first_non_whitespace = 0;
+        while let Some(ch) = self.input_mut().cur() {
+            if ch == '{' {
+                break;
+            } else if ch == '<' {
+                // TODO: check git conflict mark
+                break;
+            }
+
+            if ch == '>' {
+                todo!("error handle")
+            } else if ch == '}' {
+                todo!("error handle")
+            }
+
+            if first_non_whitespace == 0 && ch.is_line_terminator() {
+                first_non_whitespace = -1;
+            } else if !allow_multiline_jsx_text
+                && ch.is_line_terminator()
+                && first_non_whitespace > 0
+            {
+                break;
+            } else if ch.is_whitespace() {
+                first_non_whitespace = self.cur_pos().0 as i32;
+            }
+
+            self.bump();
+        }
+
+        let end = self.input().cur_pos();
+        let value = unsafe {
+            // Safety: Both of `start` and `end` are generated from `cur_pos()`
+            self.input_slice(start, end)
+        };
+        let value = self.atom(value);
+
+        self.state.set_token_value(TokenValue::Str {
+            raw: value.clone(),
+            value,
+        });
+
+        Ok(Some(Token::JSXText))
     }
 }
 
@@ -249,8 +290,7 @@ impl Iterator for Lexer<'_> {
     fn next(&mut self) -> Option<Self::Item> {
         let mut start = self.cur_pos();
 
-        let res = self.next_token(&mut start);
-        let res = match res {
+        let res = match self.next_token(&mut start) {
             Ok(res) => Ok(res),
             Err(error) => {
                 self.state.set_token_value(TokenValue::Error(error));
