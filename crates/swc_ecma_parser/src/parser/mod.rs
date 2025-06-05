@@ -77,6 +77,11 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     fn mark_found_module_item(&mut self) {
         self.found_module_item = true;
     }
+
+    #[inline(always)]
+    fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
+        self.parse_unary_expr()
+    }
 }
 
 impl<'a> Parser<crate::lexer::Lexer<'a>> {

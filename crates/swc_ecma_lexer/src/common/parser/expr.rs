@@ -1229,7 +1229,7 @@ pub fn parse_bin_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
 
     let ctx = p.ctx();
 
-    let left = match parse_unary_expr(p) {
+    let left = match p.parse_unary_expr() {
         Ok(v) => v,
         Err(err) => {
             trace_cur!(p, parse_bin_expr__recovery_unary_err);
@@ -1408,7 +1408,7 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
     }
 
     let right = {
-        let left_of_right = parse_unary_expr(p)?;
+        let left_of_right = p.parse_unary_expr()?;
         parse_bin_op_recursively(
             p,
             left_of_right,
@@ -1462,7 +1462,7 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
 /// Parse unary expression and update expression.
 ///
 /// spec: 'UnaryExpression'
-pub(super) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
+pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     trace_cur!(p, parse_unary_expr);
     let start = p.cur_pos();
 
@@ -1472,7 +1472,7 @@ pub(super) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
     {
         if p.input_mut().eat(&P::Token::CONST) {
             expect!(p, &P::Token::GREATER);
-            let expr = parse_unary_expr(p)?;
+            let expr = p.parse_unary_expr()?;
             return Ok(TsConstAssertion {
                 span: p.span(start),
                 expr,
@@ -1493,7 +1493,7 @@ pub(super) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
             op!("--")
         };
 
-        let arg = parse_unary_expr(p)?;
+        let arg = p.parse_unary_expr()?;
         let span = Span::new(start, arg.span_hi());
         p.check_assign_target(&arg, false);
 
@@ -1535,7 +1535,7 @@ pub(super) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
             op!("!")
         };
         let arg_start = p.cur_pos() - BytePos(1);
-        let arg = match parse_unary_expr(p) {
+        let arg = match p.parse_unary_expr() {
             Ok(expr) => expr,
             Err(err) => {
                 p.emit_error(err);
@@ -1656,7 +1656,7 @@ pub fn parse_await_expr<'a, P: Parser<'a>>(
         p.emit_err(span, SyntaxError::AwaitParamInAsync);
     }
 
-    let arg = parse_unary_expr(p)?;
+    let arg = p.parse_unary_expr()?;
     Ok(AwaitExpr {
         span: p.span(start),
         arg,
