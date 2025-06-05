@@ -1,3 +1,104 @@
+use swc_ecma_ast::*;
+use swc_ecma_lexer::common::parser::{
+    buffer::Buffer,
+    jsx::{parse_jsx_attrs, parse_jsx_element_name, parse_jsx_text},
+    typescript::{parse_ts_type_args, try_parse_ts},
+    PResult, Parser as ParserTrait,
+};
+
+use super::{input::Tokens, Parser};
+use crate::lexer::Token;
+
+impl<I: Tokens> Parser<I> {
+    fn parse_jsx_closing_element(&mut self, _in_expr_context: bool) -> PResult<JSXClosingElement> {
+        let start = self.cur_pos();
+        self.expect(&Token::JSXTagEnd)?;
+        let tagname = parse_jsx_element_name(self)?;
+        self.expect(&Token::Gt)?;
+        Ok(JSXClosingElement {
+            span: self.span(start),
+            name: tagname,
+        })
+    }
+
+    fn parse_jsx_children(&mut self) -> Vec<JSXElementChild> {
+        let mut list = Vec::with_capacity(8);
+        loop {
+            self.input_mut().scan_jsx_token(true);
+            let Some(child) = self.parse_jsx_child(self.input().get_cur().map(|c| c.token)) else {
+                break;
+            };
+            list.push(child);
+        }
+        list
+    }
+
+    fn parse_jsx_child(&mut self, t: Option<Token>) -> Option<JSXElementChild> {
+        debug_assert!(self.input().syntax().jsx());
+        let Some(t) = t else {
+            todo!("error handle")
+            // return None;
+        };
+
+        match t {
+            Token::JSXTagEnd => None,
+            Token::JSXText => Some(JSXElementChild::JSXText(parse_jsx_text(self))),
+            Token::LBrace => todo!(),
+            Token::Lt => todo!(),
+            _ => unreachable!(),
+        }
+    }
+
+    pub(crate) fn parse_jsx_element(
+        &mut self,
+        in_expr_context: bool,
+    ) -> PResult<either::Either<JSXFragment, JSXElement>> {
+        debug_assert!(self.input().syntax().jsx());
+
+        trace_cur!(self, parse_jsx_element);
+
+        let start = self.cur_pos();
+        self.expect(&Token::Lt)?;
+        if self.input_mut().cur().is_some_and(|cur| cur == &Token::Gt) {
+            // <>xxxxxx</>
+            self.input_mut().scan_jsx_token(true);
+            todo!()
+        } else {
+            let name = parse_jsx_element_name(self)?;
+            let type_args = if self.input().syntax().typescript() && self.input_mut().is(&Token::Lt)
+            {
+                try_parse_ts(self, |this| parse_ts_type_args(this).map(Some))
+            } else {
+                None
+            };
+            let attrs = parse_jsx_attrs(self)?;
+            if self.input_mut().cur().is_some_and(|cur| cur == &Token::Gt) {
+                // <xxxxx>xxxxx</xxxxx>
+                self.input_mut().scan_jsx_token(true);
+                let opening = JSXOpeningElement {
+                    span: self.span(start),
+                    name,
+                    type_args,
+                    attrs,
+                    self_closing: false,
+                };
+                let children = self.parse_jsx_children();
+                let closing = self.parse_jsx_closing_element(in_expr_context)?;
+                return Ok(either::Either::Right(JSXElement {
+                    span: self.span(start),
+                    opening,
+                    children,
+                    closing: Some(closing),
+                }));
+            } else {
+                // <xxxxx/>
+                self.expect(&Token::Slash)?;
+                todo!()
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use swc_atoms::atom;

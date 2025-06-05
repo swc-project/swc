@@ -1,5 +1,6 @@
 use std::ops::DerefMut;
 
+use either::Either;
 use expr::{parse_assignment_expr, parse_str_lit};
 use expr_ext::ExprExt;
 use swc_atoms::Atom;
@@ -482,6 +483,11 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     fn parse_unary_expr(&mut self) -> PResult<Box<Expr>>;
+
+    fn parse_jsx_element(
+        &mut self,
+        in_expr_context: bool,
+    ) -> PResult<Either<JSXFragment, JSXElement>>;
 }
 
 pub fn parse_shebang<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Atom>> {
