@@ -97,9 +97,10 @@ export interface JsFormatOptions {
    * - `false`: removes all comments
    * - `'some'`: preserves some comments
    * - `'all'`: preserves all comments
+   * - `{ regex: string }`: preserves comments that match the regex
    * @default false
    */
-  comments?: false | 'some' | 'all'
+  comments?: false | "some" | "all" | { regex: string };
 
   /**
    * Currently noop.
