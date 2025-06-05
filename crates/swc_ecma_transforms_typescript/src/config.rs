@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use swc_common::sync::Lrc;
 
-#[derive(Debug, Default, Serialize, Deserialize)]
+#[derive(Debug, Default, Serialize, Deserialize, Clone, Copy)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
     /// https://www.typescriptlang.org/tsconfig#verbatimModuleSyntax
