@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [swc_core@v26.4.5] - 2025-06-05
 
 ### Bug Fixes
 
@@ -2519,12 +2519,6 @@
 
 
 - **(plugin)** Don't panic when ast byte not match ([#9562](https://github.com/swc-project/swc/issues/9562)) ([c36871a](https://github.com/swc-project/swc/commit/c36871a84826cc125c3c10a78ee2d7a435373154))
-
-### Features
-
-
-
-- **(es/common)** Introduce pure `Span` and `BytePos` to handle `#__PURE__` ([#9539](https://github.com/swc-project/swc/issues/9539)) ([f63a481](https://github.com/swc-project/swc/commit/f63a481833ebe9b5eae0708ee69b6a50b946ee28))
 
 ### Miscellaneous Tasks
 
