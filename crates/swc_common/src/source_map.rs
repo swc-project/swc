@@ -214,7 +214,15 @@ impl SourceMap {
     /// This does not ensure that only one SourceFile exists per file name.
     ///
     /// `src` should not have UTF8 BOM
-    pub fn new_source_file(&self, filename: Lrc<FileName>, src: BytesStr) -> Lrc<SourceFile> {
+    pub fn new_source_file(
+        &self,
+        filename: Lrc<FileName>,
+        src: impl Into<BytesStr>,
+    ) -> Lrc<SourceFile> {
+        self.new_source_file_impl(filename, src.into())
+    }
+
+    fn new_source_file_impl(&self, filename: Lrc<FileName>, src: BytesStr) -> Lrc<SourceFile> {
         // The path is used to determine the directory for loading submodules and
         // include files, so it must be before remapping.
         // Note that filename may not be a valid path, eg it may be `<anon>` etc,
