@@ -649,7 +649,7 @@ fn parse_again(input: PathBuf) {
 
         eprintln!("==== ==== Codegen ==== ====\n{css_str}\n");
 
-        let new_fm = cm.new_source_file(Lrc::new(FileName::Anon), css_str.into());
+        let new_fm = cm.new_source_file(Lrc::new(FileName::Anon), css_str);
         let mut parsed_errors = Vec::new();
         let mut parsed: Stylesheet = parse_file(
             &new_fm,

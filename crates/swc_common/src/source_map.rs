@@ -1570,12 +1570,12 @@ mod tests {
         let sm = SourceMap::new(FilePathMapping::empty());
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork.rs").into()),
-            "first line.\nsecond line".into(),
+            "first line.\nsecond line",
         );
         sm.new_source_file(Lrc::new(PathBuf::from("empty.rs").into()), BytesStr::new());
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork2.rs").into()),
-            "first line.\nsecond line".into(),
+            "first line.\nsecond line",
         );
         sm
     }
@@ -1631,11 +1631,11 @@ mod tests {
         // € is a three byte utf8 char.
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork.rs").into()),
-            "fir€st €€€€ line.\nsecond line".into(),
+            "fir€st €€€€ line.\nsecond line",
         );
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork2.rs").into()),
-            "first line€€.\n€ second line".into(),
+            "first line€€.\n€ second line",
         );
         sm
     }
@@ -1697,7 +1697,7 @@ mod tests {
         let selection = "     \n    ~~\n~~~\n~~~~~     \n   \n";
         sm.new_source_file(
             Lrc::new(Path::new("blork.rs").to_path_buf().into()),
-            inputtext.into(),
+            inputtext,
         );
         let span = span_from_selection(inputtext, selection);
 
@@ -1751,7 +1751,7 @@ mod tests {
     fn t10() {
         // Test span_to_lines for a span of empty file
         let sm = SourceMap::new(FilePathMapping::empty());
-        sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), "".into());
+        sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), "");
         let span = Span::new(BytePos(1), BytePos(1));
         let file_lines = sm.span_to_lines(span).unwrap();
 
@@ -1766,10 +1766,7 @@ mod tests {
         let inputtext = "bbbb BB\ncc CCC\n";
         let selection1 = "     ~~\n      \n";
         let selection2 = "       \n   ~~~\n";
-        sm.new_source_file(
-            Lrc::new(Path::new("blork.rs").to_owned().into()),
-            inputtext.into(),
-        );
+        sm.new_source_file(Lrc::new(Path::new("blork.rs").to_owned().into()), inputtext);
         let span1 = span_from_selection(inputtext, selection1);
         let span2 = span_from_selection(inputtext, selection2);
 
@@ -1780,7 +1777,7 @@ mod tests {
     fn test_calc_utf16_offset() {
         let input = "t¢e∆s💩t";
         let sm = SourceMap::new(FilePathMapping::empty());
-        let file = sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), input.into());
+        let file = sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), input);
 
         let mut state = ByteToCharPosState::default();
         let mut bpos = file.start_pos;
@@ -1808,7 +1805,7 @@ mod tests {
     fn bytepos_to_charpos() {
         let input = "t¢e∆s💩t";
         let sm = SourceMap::new(FilePathMapping::empty());
-        let file = sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), input.into());
+        let file = sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), input);
 
         let mut bpos = file.start_pos;
         let mut cpos = CharPos(0);
