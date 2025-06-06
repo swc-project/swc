@@ -489,11 +489,20 @@ checksum = "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
 
 [[package]]
 name = "bytes"
-version = "1.8.0"
+version = "1.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9ac0150caa2ae65ca5bd83f25c7de183dea78d4d366469f148435e2acfbad0da"
+checksum = "d71b6127be86fdcfddb610f7182ac57211d4b18a3e9c82eb2d17662f2227ad6a"
 dependencies = [
  "serde",
+]
+
+[[package]]
+name = "bytes-str"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "53354e9766847555b485f6f25f6f020059f1d4b8fbe47a7a43d14132011f558e"
+dependencies = [
+ "bytes",
 ]
 
 [[package]]
@@ -4918,6 +4927,7 @@ dependencies = [
  "ast_node",
  "better_scoped_tls",
  "bytecheck 0.8.1",
+ "bytes-str",
  "cfg-if",
  "codspeed-criterion-compat",
  "criterion",
