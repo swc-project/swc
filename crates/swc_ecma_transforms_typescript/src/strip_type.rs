@@ -12,7 +12,9 @@ pub fn strip_type() -> impl VisitMut {
 }
 
 /// This Module will strip all types/generics/interface/declares
-/// and type import/export
+/// and type import/export.
+///
+/// `export declare var` in a namespace will be retained.
 #[derive(Default)]
 pub(crate) struct StripType {
     in_namespace: bool,
@@ -159,11 +161,6 @@ impl VisitMut for StripType {
         n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
-        node.declare = false;
-        node.visit_mut_children_with(self);
-    }
-
     fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
         pat.visit_mut_children_with(self);
         pat.optional = false;
@@ -247,13 +244,8 @@ fn should_retain_module_item(module_item: &ModuleItem, in_namespace: bool) -> bo
     match module_item {
         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
             // https://github.com/swc-project/swc/issues/9821
-            // It's always safe to remove the `declare` keyword from
-            // `export declare var/let/const` in a namespace.
-            // The only exception is `export declare const` without an initializer,
-            // which produces a malformed AST.
-            // However, our subsequent transformation will remove all `export var/let/const`
-            // statements in namespaces regardless of variable kind (var/let/const).
-            // They will be recorded in the `export_var_list`.
+            // `export declare var` in namespace should be retained
+            // This will help the following transforms to work correctly
             if in_namespace && export_decl.decl.is_var() {
                 return true;
             }
