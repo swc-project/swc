@@ -1,3 +1,5 @@
+use std::mem;
+
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
@@ -12,7 +14,9 @@ pub fn strip_type() -> impl VisitMut {
 /// This Module will strip all types/generics/interface/declares
 /// and type import/export
 #[derive(Default)]
-pub(crate) struct StripType {}
+pub(crate) struct StripType {
+    in_namespace: bool,
+}
 
 impl VisitMut for StripType {
     noop_visit_mut_type!(fail);
@@ -144,9 +148,20 @@ impl VisitMut for StripType {
         n.retain(|s| !matches!(s, ImportSpecifier::Named(named) if named.is_type_only));
     }
 
+    fn visit_mut_ts_module_block(&mut self, node: &mut TsModuleBlock) {
+        let in_namespace = mem::replace(&mut self.in_namespace, true);
+        node.visit_mut_children_with(self);
+        self.in_namespace = in_namespace;
+    }
+
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        n.retain(should_retain_module_item);
+        n.retain(|item| should_retain_module_item(item, self.in_namespace));
         n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
+        node.declare = false;
+        node.visit_mut_children_with(self);
     }
 
     fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
@@ -228,15 +243,28 @@ impl VisitMut for StripType {
     }
 }
 
-fn should_retain_module_item(module_item: &ModuleItem) -> bool {
+fn should_retain_module_item(module_item: &ModuleItem, in_namespace: bool) -> bool {
     match module_item {
         ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
+            // https://github.com/swc-project/swc/issues/9821
+            // It's always safe to remove the `declare` keyword from
+            // `export declare var/let/const` in a namespace.
+            // The only exception is `export declare const` without an initializer,
+            // which produces a malformed AST.
+            // However, our subsequent transformation will remove all `export var/let/const`
+            // statements in namespaces regardless of variable kind (var/let/const).
+            // They will be recorded in the `export_var_list`.
+            if in_namespace && export_decl.decl.is_var() {
+                return true;
+            }
+
             should_retain_decl(&export_decl.decl)
         }
         ModuleItem::Stmt(stmt) => should_retain_stmt(stmt),
         _ => module_item.is_concrete(),
     }
 }
+
 fn should_retain_stmt(stmt: &Stmt) -> bool {
     match stmt {
         Stmt::Decl(decl) => should_retain_decl(decl),
