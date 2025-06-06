@@ -26,6 +26,7 @@ swc_ecma_lexer = { version = "14.0.5", path = "../swc_ecma_lexer" }
 swc_ecma_transforms_base = { version = "15.1.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_typescript = { version = "17.0.0", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_visit = { version = "11.0.0", path = "../swc_ecma_visit" }
+bytes-str.workspace = true
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
