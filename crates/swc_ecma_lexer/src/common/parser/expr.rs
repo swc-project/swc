@@ -1688,10 +1688,7 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
         }
         let cur = cur!(p, true);
         if cur.is_jsx_text() {
-            return parse_jsx_text(p)
-                .map(Lit::JSXText)
-                .map(Expr::Lit)
-                .map(Box::new);
+            return Ok(Box::new(Expr::Lit(Lit::JSXText(parse_jsx_text(p)))));
         } else if cur.is_jsx_tag_start() {
             return parse_jsx_element(p).map(into_expr);
         }
