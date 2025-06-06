@@ -6,6 +6,7 @@ use std::{
     sync::RwLock,
 };
 
+use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
@@ -65,9 +66,9 @@ pub struct Options {
     pub import_source: Option<Atom>,
 
     #[serde(default)]
-    pub pragma: Option<Lrc<String>>,
+    pub pragma: Option<BytesStr>,
     #[serde(default)]
-    pub pragma_frag: Option<Lrc<String>>,
+    pub pragma_frag: Option<BytesStr>,
 
     #[serde(default)]
     pub throw_if_namespace: Option<bool>,
@@ -102,7 +103,7 @@ pub struct Options {
 #[cfg(feature = "concurrent")]
 macro_rules! static_str {
     ($s:expr) => {{
-        static VAL: Lazy<Lrc<String>> = Lazy::new(|| Lrc::new($s.into()));
+        static VAL: Lazy<BytesStr> = Lazy::new(|| $s.into());
         VAL.clone()
     }};
 }
@@ -118,11 +119,11 @@ pub fn default_import_source() -> Atom {
     atom!("react")
 }
 
-pub fn default_pragma() -> Lrc<String> {
+pub fn default_pragma() -> BytesStr {
     static_str!("React.createElement")
 }
 
-pub fn default_pragma_frag() -> Lrc<String> {
+pub fn default_pragma_frag() -> BytesStr {
     static_str!("React.Fragment")
 }
 

@@ -148,7 +148,7 @@ fn expand_dirs(dir: &Path) -> Vec<PathBuf> {
 
 fn run(src: &str) {
     testing::run_test2(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
 
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
