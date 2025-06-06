@@ -425,9 +425,11 @@ fn cache_filename(name: &str) -> Lrc<FileName> {
 }
 
 #[cfg(feature = "concurrent")]
-fn cache_source(src: &str) -> Lrc<String> {
-    static CACHE: Lazy<RwLock<FxHashMap<String, Lrc<String>>>> =
-        Lazy::new(|| RwLock::new(FxHashMap::default()));
+fn cache_source(src: &str) -> BytesStr {
+    use rustc_hash::FxHashSet;
+
+    static CACHE: Lazy<RwLock<FxHashSet<BytesStr>>> =
+        Lazy::new(|| RwLock::new(FxHashSet::default()));
 
     {
         let cache = CACHE.write().unwrap();
@@ -437,18 +439,18 @@ fn cache_source(src: &str) -> Lrc<String> {
         }
     }
 
-    let cached = Lrc::new(src.to_string());
+    let cached: BytesStr = src.to_string().into();
     {
         let mut cache = CACHE.write().unwrap();
-        cache.insert(src.to_string(), cached.clone());
+        cache.insert(cached.clone());
     }
     cached
 }
 
 #[cfg(not(feature = "concurrent"))]
-fn cache_source(src: &str) -> Lrc<String> {
+fn cache_source(src: &str) -> BytesStr {
     // We cannot cache because Rc does not implement Send.
-    Lrc::new(src.to_string())
+    src.to_string().into()
 }
 
 fn is_valid_for_pragma(s: &str) -> bool {
