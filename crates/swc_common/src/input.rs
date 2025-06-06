@@ -302,7 +302,7 @@ mod tests {
     use super::*;
     use crate::{FileName, FilePathMapping, SourceMap};
 
-    fn with_test_sess<F>(src: &str, f: F)
+    fn with_test_sess<F>(src: &'static str, f: F)
     where
         F: FnOnce(StringInput<'_>),
     {
