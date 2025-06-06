@@ -848,7 +848,7 @@ pub struct SourceFile {
     pub crate_of_origin: u32,
     /// The complete source code
     #[cfg_attr(any(feature = "rkyv-impl"), rkyv(with = EncodeArcString))]
-    pub src: Lrc<String>,
+    pub src: BytesStr,
     /// The source code's hash
     pub src_hash: u128,
     /// The start position of this source in the `SourceMap`
