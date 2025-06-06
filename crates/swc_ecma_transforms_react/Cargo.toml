@@ -19,6 +19,7 @@ serde-impl = ["serde"]
 
 [dependencies]
 base64     = { workspace = true }
+bytes-str.workspace = true
 dashmap    = { workspace = true }
 indexmap   = { workspace = true }
 once_cell  = { workspace = true }
