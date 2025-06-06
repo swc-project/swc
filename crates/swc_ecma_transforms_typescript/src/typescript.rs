@@ -9,19 +9,9 @@ use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 pub use crate::config::*;
 use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
 
-#[cfg(feature = "concurrent")]
-macro_rules! static_str {
-    ($s:expr) => {{
-        static VAL: once_cell::sync::Lazy<bytes_str::BytesStr> =
-            once_cell::sync::Lazy::new(|| $s.into());
-        VAL.clone()
-    }};
-}
-
-#[cfg(not(feature = "concurrent"))]
 macro_rules! static_str {
     ($s:expr) => {
-        Lrc::new($s.into())
+        $s.into()
     };
 }
 

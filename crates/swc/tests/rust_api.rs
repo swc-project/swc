@@ -73,8 +73,7 @@ fn shopify_1_check_filename() {
                 const [i18n] = useI18n();
                 return <h1>{i18n.translate('foo')}</h1>
             }
-            "
-            .into(),
+            ",
         );
 
         let res = c.process_js_with_custom_pass(
@@ -172,8 +171,7 @@ fn shopify_2_same_opt() {
                 const [i18n] = useI18n();
                 return <h1>{i18n.translate('foo')}</h1>
             }
-            "
-            .into(),
+            ",
         );
 
         let res = c.process_js_with_custom_pass(
