@@ -2,8 +2,8 @@
 
 use serde::{Deserialize, Serialize};
 use swc_config::{
-    file_pattern::FilePattern, is_module::IsModule, source_map::SourceMapContent,
-    types::BoolOrDataConfig,
+    file_pattern::FilePattern, is_module::IsModule, regex_js::CachedJsRegex,
+    source_map::SourceMapContent, types::BoolOrDataConfig,
 };
 
 use crate::option::{
@@ -215,6 +215,8 @@ pub enum JsMinifyCommentOption {
     PreserveSomeComments,
     #[serde(rename = "all")]
     PreserveAllComments,
+    #[serde(untagged)]
+    PreserveRegexComments { regex: CachedJsRegex },
 }
 
 fn default_module() -> IsModule {
