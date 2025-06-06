@@ -12,8 +12,8 @@ use crate::{strip_import_export::StripImportExport, strip_type::StripType, trans
 #[cfg(feature = "concurrent")]
 macro_rules! static_str {
     ($s:expr) => {{
-        static VAL: once_cell::sync::Lazy<Lrc<String>> =
-            once_cell::sync::Lazy::new(|| Lrc::new($s.into()));
+        static VAL: once_cell::sync::Lazy<bytes_str::BytesStr> =
+            once_cell::sync::Lazy::new(|| $s.into());
         VAL.clone()
     }};
 }
