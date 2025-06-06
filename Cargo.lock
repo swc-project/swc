@@ -4751,6 +4751,7 @@ dependencies = [
  "ansi_term",
  "anyhow",
  "base64 0.22.1",
+ "bytes-str",
  "codspeed-criterion-compat",
  "criterion",
  "dashmap 5.5.3",
