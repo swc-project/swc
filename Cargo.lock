@@ -5972,6 +5972,7 @@ dependencies = [
 name = "swc_ecma_transforms_optimization"
 version = "16.0.0"
 dependencies = [
+ "bytes-str",
  "dashmap 5.5.3",
  "indexmap 2.7.1",
  "once_cell",
