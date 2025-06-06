@@ -1,8 +1,6 @@
 //! NOT A PUBLIC API
 
-use std::collections::HashMap;
-
-use serde::{ser::SerializeMap, Deserialize, Serialize};
+use serde::{Deserialize, Serialize};
 use swc_config::{
     file_pattern::FilePattern, is_module::IsModule, regex_js::CachedJsRegex,
     source_map::SourceMapContent, types::BoolOrDataConfig,
@@ -218,51 +216,7 @@ pub enum JsMinifyCommentOption {
     #[serde(rename = "all")]
     PreserveAllComments,
     #[serde(untagged)]
-    PreserveRegexComments(Box<PreserveRegexCommentsInner>),
-}
-
-#[derive(Debug, Clone)]
-pub struct PreserveRegexCommentsInner {
-    regex: CachedJsRegex,
-    origin: String,
-}
-
-impl PreserveRegexCommentsInner {
-    pub fn new(regex_str: String) -> Option<Self> {
-        let regex = CachedJsRegex::new(&regex_str).ok()?;
-        Some(Self {
-            regex,
-            origin: regex_str,
-        })
-    }
-
-    pub fn is_match(&self, haystack: &str) -> bool {
-        self.regex.find(haystack).is_some()
-    }
-}
-
-impl Serialize for PreserveRegexCommentsInner {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: serde::Serializer,
-    {
-        let mut map = serializer.serialize_map(Some(1))?;
-        map.serialize_entry("regex", &self.origin)?;
-        map.end()
-    }
-}
-
-impl<'de> Deserialize<'de> for PreserveRegexCommentsInner {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        let get_error = || serde::de::Error::custom("Input is not a javascript regex");
-        let map: HashMap<String, String> = HashMap::deserialize(deserializer)?;
-        let s = map.get("regex").ok_or_else(get_error)?.clone();
-        let regex = CachedJsRegex::new(&s).map_err(|_| get_error())?;
-        Ok(PreserveRegexCommentsInner { regex, origin: s })
-    }
+    PreserveRegexComments { regex: CachedJsRegex },
 }
 
 fn default_module() -> IsModule {
