@@ -215,6 +215,7 @@ impl SourceMap {
     ///
     /// - `src` should not have UTF8 BOM
     /// - `&'static str` and [String] implements `Into<BytesStr>`
+    #[inline(always)]
     pub fn new_source_file(
         &self,
         filename: Lrc<FileName>,

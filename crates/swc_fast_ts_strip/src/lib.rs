@@ -1,6 +1,7 @@
 use std::{cell::RefCell, fmt::Display, rc::Rc};
 
 use anyhow::Context;
+use bytes_str::BytesStr;
 use serde::{Deserialize, Serialize};
 use swc_common::{
     comments::SingleThreadedComments,
