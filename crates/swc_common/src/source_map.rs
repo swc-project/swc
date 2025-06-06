@@ -56,7 +56,7 @@ pub trait FileLoader {
     fn abs_path(&self, path: &Path) -> Option<PathBuf>;
 
     /// Read the contents of an UTF-8 file into memory.
-    fn read_file(&self, path: &Path) -> io::Result<String>;
+    fn read_file(&self, path: &Path) -> io::Result<BytesStr>;
 }
 
 /// A FileLoader that uses std::fs to load real files.
@@ -75,8 +75,14 @@ impl FileLoader for RealFileLoader {
         }
     }
 
-    fn read_file(&self, path: &Path) -> io::Result<String> {
-        fs::read_to_string(path)
+    fn read_file(&self, path: &Path) -> io::Result<BytesStr> {
+        let bytes = fs::read(path)?;
+        BytesStr::from_utf8(bytes.into()).map_err(|_| {
+            io::Error::new(
+                io::ErrorKind::InvalidData,
+                "Failed to convert bytes to UTF-8",
+            )
+        })
     }
 }
 
@@ -230,7 +236,7 @@ impl SourceMap {
 
         let start_pos = self.next_start_pos(src.len());
 
-        let source_file = Lrc::new(SourceFile::new_from(
+        let source_file = Lrc::new(SourceFile::new(
             filename,
             was_remapped,
             unmapped_path,
@@ -1556,12 +1562,12 @@ mod tests {
         let sm = SourceMap::new(FilePathMapping::empty());
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork.rs").into()),
-            "first line.\nsecond line".to_string(),
+            "first line.\nsecond line".into(),
         );
-        sm.new_source_file(Lrc::new(PathBuf::from("empty.rs").into()), String::new());
+        sm.new_source_file(Lrc::new(PathBuf::from("empty.rs").into()), BytesStr::new());
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork2.rs").into()),
-            "first line.\nsecond line".to_string(),
+            "first line.\nsecond line".into(),
         );
         sm
     }
@@ -1617,11 +1623,11 @@ mod tests {
         // € is a three byte utf8 char.
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork.rs").into()),
-            "fir€st €€€€ line.\nsecond line".to_string(),
+            "fir€st €€€€ line.\nsecond line".into(),
         );
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork2.rs").into()),
-            "first line€€.\n€ second line".to_string(),
+            "first line€€.\n€ second line".into(),
         );
         sm
     }
@@ -1683,7 +1689,7 @@ mod tests {
         let selection = "     \n    ~~\n~~~\n~~~~~     \n   \n";
         sm.new_source_file(
             Lrc::new(Path::new("blork.rs").to_path_buf().into()),
-            inputtext.to_string(),
+            inputtext.into(),
         );
         let span = span_from_selection(inputtext, selection);
 
@@ -1737,7 +1743,7 @@ mod tests {
     fn t10() {
         // Test span_to_lines for a span of empty file
         let sm = SourceMap::new(FilePathMapping::empty());
-        sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), "".to_string());
+        sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), "".into());
         let span = Span::new(BytePos(1), BytePos(1));
         let file_lines = sm.span_to_lines(span).unwrap();
 
@@ -1754,7 +1760,7 @@ mod tests {
         let selection2 = "       \n   ~~~\n";
         sm.new_source_file(
             Lrc::new(Path::new("blork.rs").to_owned().into()),
-            inputtext.to_owned(),
+            inputtext.into(),
         );
         let span1 = span_from_selection(inputtext, selection1);
         let span2 = span_from_selection(inputtext, selection2);
@@ -1766,10 +1772,7 @@ mod tests {
     fn test_calc_utf16_offset() {
         let input = "t¢e∆s💩t";
         let sm = SourceMap::new(FilePathMapping::empty());
-        let file = sm.new_source_file(
-            Lrc::new(PathBuf::from("blork.rs").into()),
-            input.to_string(),
-        );
+        let file = sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), input.into());
 
         let mut state = ByteToCharPosState::default();
         let mut bpos = file.start_pos;
@@ -1797,10 +1800,7 @@ mod tests {
     fn bytepos_to_charpos() {
         let input = "t¢e∆s💩t";
         let sm = SourceMap::new(FilePathMapping::empty());
-        let file = sm.new_source_file(
-            Lrc::new(PathBuf::from("blork.rs").into()),
-            input.to_string(),
-        );
+        let file = sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), input.into());
 
         let mut bpos = file.start_pos;
         let mut cpos = CharPos(0);
