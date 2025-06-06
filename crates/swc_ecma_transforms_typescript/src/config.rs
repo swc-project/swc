@@ -1,6 +1,5 @@
 use bytes_str::BytesStr;
 use serde::{Deserialize, Serialize};
-use swc_common::sync::Lrc;
 
 #[derive(Debug, Default, Serialize, Deserialize, Clone, Copy)]
 #[serde(rename_all = "camelCase")]

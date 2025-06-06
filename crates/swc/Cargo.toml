@@ -53,6 +53,7 @@ manual-tokio-runtime = []
 [dependencies]
 anyhow       = { workspace = true }
 base64       = { workspace = true }
+bytes-str    = { workspace = true }
 dashmap      = { workspace = true }
 either       = { workspace = true }
 indexmap     = { workspace = true, features = ["serde"] }

@@ -519,7 +519,7 @@ impl Visit for ErrorOnTsModule<'_> {
 }
 
 struct TsStrip {
-    src: Lrc<String>,
+    src: BytesStr,
 
     /// Replaced with whitespace
     replacements: Vec<(BytePos, BytePos)>,
@@ -531,7 +531,7 @@ struct TsStrip {
 }
 
 impl TsStrip {
-    fn new(src: Lrc<String>, tokens: std::vec::Vec<TokenAndSpan>) -> Self {
+    fn new(src: BytesStr, tokens: std::vec::Vec<TokenAndSpan>) -> Self {
         TsStrip {
             src,
             replacements: Default::default(),

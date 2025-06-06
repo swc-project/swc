@@ -1569,7 +1569,7 @@ pub struct HiddenTransformConfig {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct ConstModulesConfig {
     #[serde(default)]
-    pub globals: FxHashMap<Atom, FxHashMap<Atom, String>>,
+    pub globals: FxHashMap<Atom, FxHashMap<Atom, BytesStr>>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
