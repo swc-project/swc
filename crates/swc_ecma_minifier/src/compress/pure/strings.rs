@@ -7,6 +7,7 @@ use swc_ecma_utils::{ExprExt, Type, Value};
 use Value::Known;
 
 use super::Pure;
+pub const DEFAULT_STRING_CAPACITY: usize = 64;
 
 impl Pure<'_> {
     /// This only handles `'foo' + ('bar' + baz) because others are handled by
@@ -44,7 +45,9 @@ impl Pure<'_> {
             self.changed = true;
             report_change!("evaluate: 'foo' + ('bar' + baz) => 'foobar' + baz");
 
+            // Create a new string with capacity to avoid multiple allocations
             let s = lls.into_owned() + &*rls;
+
             *e = BinExpr {
                 span,
                 op: op!(bin, "+"),
@@ -121,8 +124,10 @@ impl Pure<'_> {
             quasis: Default::default(),
             exprs: Default::default(),
         };
-        let mut cur_cooked_str = String::new();
-        let mut cur_raw_str = String::new();
+
+        // Pre-allocate with reasonable capacity
+        let mut cur_cooked_str = String::with_capacity(DEFAULT_STRING_CAPACITY);
+        let mut cur_raw_str = String::with_capacity(DEFAULT_STRING_CAPACITY);
 
         for idx in 0..(tpl.quasis.len() + tpl.exprs.len()) {
             if idx % 2 == 0 {
@@ -264,10 +269,22 @@ impl Pure<'_> {
 
         trace_op!("compress_tpl");
 
-        let mut quasis = Vec::new();
-        let mut exprs = Vec::new();
-        let mut cur_raw = String::new();
-        let mut cur_cooked = Some(String::new());
+        let mut quasis = Vec::with_capacity(tpl.quasis.len());
+        let mut exprs = Vec::with_capacity(tpl.exprs.len());
+
+        // Estimate capacity based on existing content
+        let capacity_estimate: usize = tpl.quasis.iter().map(|q| q.raw.len()).sum::<usize>()
+            + tpl
+                .exprs
+                .iter()
+                .map(|e| match &**e {
+                    Expr::Lit(Lit::Str(s)) => s.value.len(),
+                    _ => 0,
+                })
+                .sum::<usize>();
+
+        let mut cur_raw = String::with_capacity(capacity_estimate);
+        let mut cur_cooked = Some(String::with_capacity(capacity_estimate));
 
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
             if i % 2 == 0 {
@@ -298,13 +315,13 @@ impl Pure<'_> {
                         }
                     }
                     _ => {
-                        cur_cooked = Some(String::new());
+                        cur_cooked = Some(String::with_capacity(DEFAULT_STRING_CAPACITY));
                     }
                 }
             }
         }
 
-        cur_cooked = Some(Default::default());
+        cur_cooked = Some(String::with_capacity(capacity_estimate));
 
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
             if i % 2 == 0 {
@@ -348,7 +365,8 @@ impl Pure<'_> {
                             cooked: cur_cooked.take().map(From::from),
                             raw: take(&mut cur_raw).into(),
                         });
-                        cur_cooked = Some(String::new());
+                        cur_cooked = Some(String::with_capacity(DEFAULT_STRING_CAPACITY));
+                        cur_raw = String::with_capacity(DEFAULT_STRING_CAPACITY);
 
                         exprs.push(e);
                     }
@@ -391,20 +409,19 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut l_last.cooked {
-                        *cooked =
-                            format!("{}{}", cooked, convert_str_value_to_tpl_cooked(&rs.value))
-                                .into();
+                        let mut str_part = convert_str_value_to_tpl_cooked(&rs.value).into_owned();
+                        str_part.push_str(cooked);
+                        *cooked = swc_atoms::Atom::from(str_part);
                     }
+                    // Calculate the total length to avoid multiple allocations
+                    let raw_str_part = match &rs.raw {
+                        Some(s) => convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]),
+                        None => convert_str_value_to_tpl_raw(&rs.value).into(),
+                    };
 
-                    l_last.raw = format!(
-                        "{}{}",
-                        l_last.raw,
-                        rs.raw
-                            .clone()
-                            .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
-                            .unwrap_or_else(|| convert_str_value_to_tpl_raw(&rs.value).into())
-                    )
-                    .into();
+                    let mut raw = l_last.raw.to_string();
+                    raw.push_str(&raw_str_part);
+                    l_last.raw = raw.into();
 
                     r.take();
                 }
@@ -427,22 +444,20 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut r_first.cooked {
-                        *cooked =
-                            format!("{}{}", convert_str_value_to_tpl_cooked(&ls.value), cooked)
-                                .into()
+                        let mut str_part = convert_str_value_to_tpl_cooked(&ls.value).into_owned();
+                        str_part.push_str(cooked);
+                        *cooked = swc_atoms::Atom::from(str_part);
                     }
 
-                    let new: Atom = format!(
-                        "{}{}",
-                        ls.raw
-                            .clone()
-                            .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
-                            .unwrap_or_else(|| convert_str_value_to_tpl_raw(&ls.value).into()),
-                        r_first.raw
-                    )
-                    .into();
-                    r_first.raw = new;
+                    // Get the raw string part
+                    let raw_str_part = match &ls.raw {
+                        Some(s) => convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]),
+                        None => convert_str_value_to_tpl_raw(&ls.value).into(),
+                    };
 
+                    let mut raw = raw_str_part.to_string();
+                    raw.push_str(&r_first.raw);
+                    r_first.raw = raw.into();
                     l.take();
                 }
             }
@@ -454,13 +469,23 @@ impl Pure<'_> {
                 {
                     let l_last = l.quasis.pop().unwrap();
                     let r_first = rt.quasis.first_mut().unwrap();
-                    let new: Atom = format!("{}{}", l_last.raw, r_first.raw).into();
 
-                    r_first.raw = new;
+                    // Convert to owned string, reserve space and append
+                    let mut owned_raw = l_last.raw.to_string();
+                    owned_raw.push_str(&r_first.raw);
+                    r_first.raw = owned_raw.into();
                 }
+
+                // Reserve capacity first to avoid multiple reallocations
+                let additional_quasis = rt.quasis.len();
+                let additional_exprs = rt.exprs.len();
+
+                l.quasis.reserve(additional_quasis);
+                l.exprs.reserve(additional_exprs);
 
                 l.quasis.extend(rt.quasis.take());
                 l.exprs.extend(rt.exprs.take());
+
                 // Remove r
                 r.take();
 
@@ -495,7 +520,11 @@ impl Pure<'_> {
                         if let Value::Known(second_str) = left.right.as_pure_string(self.expr_ctx) {
                             if let Value::Known(third_str) = bin.right.as_pure_string(self.expr_ctx)
                             {
-                                let new_str = format!("{second_str}{third_str}");
+                                // Directly create a new string with the combined content
+                                let mut second_owned = second_str.into_owned();
+                                second_owned.reserve(third_str.len());
+                                second_owned.push_str(&third_str);
+
                                 let left_span = left.span;
 
                                 self.changed = true;
@@ -503,7 +532,7 @@ impl Pure<'_> {
                                     "strings: Concatting `{} + {}` to `{}`",
                                     second_str,
                                     third_str,
-                                    new_str
+                                    second_owned
                                 );
 
                                 *e = BinExpr {
@@ -513,7 +542,7 @@ impl Pure<'_> {
                                     right: Lit::Str(Str {
                                         span: left_span,
                                         raw: None,
-                                        value: new_str.into(),
+                                        value: second_owned.into(),
                                     })
                                     .into(),
                                 }
