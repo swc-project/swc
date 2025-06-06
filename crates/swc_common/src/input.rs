@@ -297,16 +297,14 @@ pub trait Input<'a>: Clone {
 
 #[cfg(test)]
 mod tests {
-    use std::sync::Arc;
-
     use super::*;
-    use crate::{FileName, FilePathMapping, SourceMap};
+    use crate::{sync::Lrc, FileName, FilePathMapping, SourceMap};
 
     fn with_test_sess<F>(src: &'static str, f: F)
     where
         F: FnOnce(StringInput<'_>),
     {
-        let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+        let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
         let fm = cm.new_source_file(FileName::Real("testing".into()).into(), src);
 
         f((&*fm).into())

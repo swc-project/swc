@@ -35,7 +35,7 @@ where
     F: FnMut(DocumentFragment) -> DocumentFragment,
 {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE);
 
         let lexer = Lexer::new(StringInput::from(&*fm));
         let mut parser = Parser::new(lexer, Default::default());
