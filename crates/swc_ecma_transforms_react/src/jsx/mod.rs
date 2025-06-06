@@ -421,7 +421,7 @@ fn cache_filename(name: &str) -> Lrc<FileName> {
 
 #[cfg(not(feature = "concurrent"))]
 fn cache_filename(name: &str) -> Lrc<FileName> {
-    Lrc::new(FileName::Internal(format!("jsx-config-{}.js", name)))
+    Lrc::new(FileName::Internal(format!("jsx-config-{name}.js")))
 }
 
 #[cfg(feature = "concurrent")]

@@ -910,8 +910,7 @@ fn issue_1984() {
                     ? new Set()
                     : new Set(derivedHalfSelectedKeys);
             }
-            "
-            .into(),
+            ",
         );
 
         c.minify(
