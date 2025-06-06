@@ -134,10 +134,10 @@ fn default_throw_if_namespace() -> bool {
 pub fn parse_expr_for_jsx(
     cm: &SourceMap,
     name: &str,
-    src: Lrc<String>,
+    src: BytesStr,
     top_level_mark: Mark,
 ) -> Box<Expr> {
-    let fm = cm.new_source_file_from(cache_filename(name), src);
+    let fm = cm.new_source_file(cache_filename(name), src);
 
     parse_file_as_expr(
         &fm,

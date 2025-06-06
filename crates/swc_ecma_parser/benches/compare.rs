@@ -13,7 +13,7 @@ where
     F: FnMut(Module) -> Module,
 {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE);
 
         let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
         let module = parser.parse_module().map_err(|_| ()).unwrap();
