@@ -6239,6 +6239,7 @@ name = "swc_fast_ts_strip"
 version = "19.0.0"
 dependencies = [
  "anyhow",
+ "bytes-str",
  "codspeed-criterion-compat",
  "criterion",
  "serde",
