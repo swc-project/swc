@@ -6,6 +6,7 @@ use std::{
 };
 
 use anyhow::{bail, Context, Error};
+use bytes_str::BytesStr;
 use dashmap::DashMap;
 use either::Either;
 use indexmap::IndexMap;
@@ -1569,7 +1570,7 @@ pub struct HiddenTransformConfig {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct ConstModulesConfig {
     #[serde(default)]
-    pub globals: FxHashMap<Atom, FxHashMap<Atom, String>>,
+    pub globals: FxHashMap<Atom, FxHashMap<Atom, BytesStr>>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]

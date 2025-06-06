@@ -79,10 +79,10 @@ module.exports = {
 
 const LARGE_PARTIAL_JS: &str = include_str!("large-partial.js");
 
-fn bench_emitter(b: &mut Bencher, s: &str) {
+fn bench_emitter(b: &mut Bencher, s: &'static str) {
     let _ = ::testing::run_test(true, |cm, handler| {
         b.iter(|| {
-            let fm = cm.new_source_file(FileName::Anon.into(), s.into());
+            let fm = cm.new_source_file(FileName::Anon.into(), s);
             let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
             let module = parser
                 .parse_module()

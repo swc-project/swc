@@ -100,7 +100,7 @@ fn run(
 ) -> Option<Program> {
     let compress_config = config.map(|config| parse_compressor_config(cm.clone(), config).1);
 
-    let fm = cm.new_source_file(FileName::Anon.into(), input.into());
+    let fm = cm.new_source_file(FileName::Anon.into(), input.to_string());
     let comments = SingleThreadedComments::default();
 
     eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);

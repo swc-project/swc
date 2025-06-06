@@ -7,6 +7,7 @@ use std::{
     sync::{atomic::AtomicU32, Mutex},
 };
 
+use bytes_str::BytesStr;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -773,57 +774,6 @@ impl Sub<BytePos> for NonNarrowChar {
     }
 }
 
-/// This is not a public interface, workaround for https://github.com/swc-project/swc/issues/7238
-#[doc(hidden)]
-#[cfg(feature = "rkyv-impl")]
-#[derive(Debug, Clone, Copy)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct EncodeArcString;
-
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::with::ArchiveWith<Lrc<String>> for EncodeArcString {
-    type Archived = rkyv::Archived<String>;
-    type Resolver = rkyv::Resolver<String>;
-
-    fn resolve_with(
-        field: &Lrc<String>,
-        resolver: Self::Resolver,
-        out: rkyv::Place<Self::Archived>,
-    ) {
-        let s = field.to_string();
-        rkyv::Archive::resolve(&s, resolver, out);
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::with::SerializeWith<Lrc<String>, S> for EncodeArcString
-where
-    S: ?Sized + rancor::Fallible + rkyv::ser::Writer,
-    S::Error: rancor::Source,
-{
-    fn serialize_with(field: &Lrc<String>, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        rkyv::string::ArchivedString::serialize_from_str(field, serializer)
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Lrc<String>, D> for EncodeArcString
-where
-    D: ?Sized + rancor::Fallible,
-{
-    fn deserialize_with(
-        field: &rkyv::Archived<String>,
-        deserializer: &mut D,
-    ) -> Result<Lrc<String>, D::Error> {
-        use rkyv::Deserialize;
-
-        let s: String = field.deserialize(deserializer)?;
-
-        Ok(s.into())
-    }
-}
-
 /// A single source in the SourceMap.
 #[cfg_attr(
     any(feature = "rkyv-impl"),
@@ -846,8 +796,7 @@ pub struct SourceFile {
     /// Indicates which crate this `SourceFile` was imported from.
     pub crate_of_origin: u32,
     /// The complete source code
-    #[cfg_attr(any(feature = "rkyv-impl"), rkyv(with = EncodeArcString))]
-    pub src: Lrc<String>,
+    pub src: BytesStr,
     /// The source code's hash
     pub src_hash: u128,
     /// The start position of this source in the `SourceMap`
@@ -883,30 +832,12 @@ impl fmt::Debug for SourceFile {
 }
 
 impl SourceFile {
+    /// `src` should not have UTF8 BOM
     pub fn new(
         name: Lrc<FileName>,
         name_was_remapped: bool,
         unmapped_path: Lrc<FileName>,
-        mut src: String,
-        start_pos: BytePos,
-    ) -> SourceFile {
-        remove_bom(&mut src);
-
-        Self::new_from(
-            name,
-            name_was_remapped,
-            unmapped_path,
-            Lrc::new(src),
-            start_pos,
-        )
-    }
-
-    /// `src` should not have UTF8 BOM
-    pub fn new_from(
-        name: Lrc<FileName>,
-        name_was_remapped: bool,
-        unmapped_path: Lrc<FileName>,
-        src: Lrc<String>,
+        src: BytesStr,
         start_pos: BytePos,
     ) -> SourceFile {
         debug_assert_ne!(
@@ -1034,13 +965,6 @@ impl SourceFile {
                 non_narrow_chars,
             }
         })
-    }
-}
-
-/// Remove utf-8 BOM if any.
-pub(super) fn remove_bom(src: &mut String) {
-    if src.starts_with('\u{feff}') {
-        src.drain(..3);
     }
 }
 

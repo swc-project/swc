@@ -12,11 +12,12 @@ version       = "19.0.0"
 
 [dependencies]
 anyhow       = { workspace = true }
+bytes-str    = { workspace = true }
 serde        = { workspace = true, features = ["derive"] }
 wasm-bindgen = { workspace = true, optional = true }
 
-swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 
+swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 swc_common = { version = "11.1.3", path = "../swc_common", features = [
   "sourcemap",
 ] }
