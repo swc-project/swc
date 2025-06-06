@@ -27,6 +27,7 @@ use std::{
     sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
 
+use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 #[cfg(feature = "sourcemap")]
@@ -205,21 +206,9 @@ impl SourceMap {
 
     /// Creates a new source_file.
     /// This does not ensure that only one SourceFile exists per file name.
-    pub fn new_source_file(&self, filename: Lrc<FileName>, mut src: String) -> Lrc<SourceFile> {
-        remove_bom(&mut src);
-
-        self.new_source_file_from(filename, Lrc::new(src))
-    }
-
-    /// Creates a new source_file.
-    /// This does not ensure that only one SourceFile exists per file name.
     ///
     /// `src` should not have UTF8 BOM
-    pub fn new_source_file_from(
-        &self,
-        filename: Lrc<FileName>,
-        src: Lrc<String>,
-    ) -> Lrc<SourceFile> {
+    pub fn new_source_file(&self, filename: Lrc<FileName>, src: BytesStr) -> Lrc<SourceFile> {
         // The path is used to determine the directory for loading submodules and
         // include files, so it must be before remapping.
         // Note that filename may not be a valid path, eg it may be `<anon>` etc,
