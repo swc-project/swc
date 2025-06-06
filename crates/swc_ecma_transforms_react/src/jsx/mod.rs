@@ -111,7 +111,7 @@ macro_rules! static_str {
 #[cfg(not(feature = "concurrent"))]
 macro_rules! static_str {
     ($s:expr) => {
-        Lrc::new($s.into())
+        $s.into()
     };
 }
 

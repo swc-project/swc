@@ -10,7 +10,7 @@ fn tr(t: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Pass {
     for (src, values) in sources {
         let values = values
             .iter()
-            .map(|(k, v)| ((*k).into(), v.to_string()))
+            .map(|(k, v)| ((*k).into(), v.to_string().into()))
             .collect();
 
         m.insert((*src).into(), values);

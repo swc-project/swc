@@ -9,7 +9,7 @@ use swc_ecma_visit::{fold_pass, Fold};
 static SOURCE: &str = include_str!("assets/AjaxObservable.ts");
 
 fn module(cm: Lrc<SourceMap>) -> Program {
-    let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
+    let fm = cm.new_source_file(FileName::Anon.into(), SOURCE);
     let lexer = Lexer::new(
         Syntax::Typescript(Default::default()),
         Default::default(),
