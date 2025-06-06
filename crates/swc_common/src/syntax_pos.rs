@@ -7,6 +7,7 @@ use std::{
     sync::{atomic::AtomicU32, Mutex},
 };
 
+use bytes_str::BytesStr;
 use serde::{Deserialize, Serialize};
 use url::Url;
 
@@ -883,30 +884,12 @@ impl fmt::Debug for SourceFile {
 }
 
 impl SourceFile {
+    /// `src` should not have UTF8 BOM
     pub fn new(
         name: Lrc<FileName>,
         name_was_remapped: bool,
         unmapped_path: Lrc<FileName>,
-        mut src: String,
-        start_pos: BytePos,
-    ) -> SourceFile {
-        remove_bom(&mut src);
-
-        Self::new_from(
-            name,
-            name_was_remapped,
-            unmapped_path,
-            Lrc::new(src),
-            start_pos,
-        )
-    }
-
-    /// `src` should not have UTF8 BOM
-    pub fn new_from(
-        name: Lrc<FileName>,
-        name_was_remapped: bool,
-        unmapped_path: Lrc<FileName>,
-        src: Lrc<String>,
+        src: BytesStr,
         start_pos: BytePos,
     ) -> SourceFile {
         debug_assert_ne!(
