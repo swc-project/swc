@@ -4,8 +4,8 @@ use std::collections::HashMap;
 
 use serde::{ser::SerializeMap, Deserialize, Serialize};
 use swc_config::{
-    file_pattern::FilePattern, is_module::IsModule, source_map::SourceMapContent,
-    types::BoolOrDataConfig,
+    file_pattern::FilePattern, is_module::IsModule, regex_js::CachedJsRegex,
+    source_map::SourceMapContent, types::BoolOrDataConfig,
 };
 
 use crate::option::{
@@ -223,13 +223,13 @@ pub enum JsMinifyCommentOption {
 
 #[derive(Debug, Clone)]
 pub struct PreserveRegexCommentsInner {
-    regex: regress::Regex,
+    regex: CachedJsRegex,
     origin: String,
 }
 
 impl PreserveRegexCommentsInner {
     pub fn new(regex_str: String) -> Option<Self> {
-        let regex = regress::Regex::new(&regex_str).ok()?;
+        let regex = CachedJsRegex::new(&regex_str).ok()?;
         Some(Self {
             regex,
             origin: regex_str,
@@ -260,7 +260,7 @@ impl<'de> Deserialize<'de> for PreserveRegexCommentsInner {
         let get_error = || serde::de::Error::custom("Input is not a javascript regex");
         let map: HashMap<String, String> = HashMap::deserialize(deserializer)?;
         let s = map.get("regex").ok_or_else(get_error)?.clone();
-        let regex = regress::Regex::new(&s).map_err(|_| get_error())?;
+        let regex = CachedJsRegex::new(&s).map_err(|_| get_error())?;
         Ok(PreserveRegexCommentsInner { regex, origin: s })
     }
 }
