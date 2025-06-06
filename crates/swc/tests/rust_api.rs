@@ -28,8 +28,7 @@ fn test_visit_mut() {
             FileName::Anon.into(),
             "
                 console.log(5 as const)
-            "
-            .into(),
+            ",
         );
 
         let res = c.process_js_with_custom_pass(
@@ -241,8 +240,7 @@ fn shopify_3_reduce_defaults() {
                 const [i18n] = useI18n();
                 return <h1>{i18n.translate('foo')}</h1>
             }
-            "
-            .into(),
+            ",
         );
 
         let res = c.process_js_with_custom_pass(
@@ -304,8 +302,7 @@ fn shopify_4_reduce_more() {
                 const [i18n] = useI18n();
                 return <h1>{i18n.translate('foo')}</h1>
             }
-            "
-            .into(),
+            ",
         );
 
         let res = c.process_js_with_custom_pass(
