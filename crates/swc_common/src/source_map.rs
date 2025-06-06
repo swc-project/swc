@@ -213,7 +213,8 @@ impl SourceMap {
     /// Creates a new source_file.
     /// This does not ensure that only one SourceFile exists per file name.
     ///
-    /// `src` should not have UTF8 BOM
+    /// - `src` should not have UTF8 BOM
+    /// - `&'static str` and [String] implements `Into<BytesStr>`
     pub fn new_source_file(
         &self,
         filename: Lrc<FileName>,
