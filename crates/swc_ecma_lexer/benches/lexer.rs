@@ -6,7 +6,7 @@ use swc_ecma_lexer::{lexer::Lexer, Syntax, TsSyntax};
 
 fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src);
 
         b.iter(|| {
             let lexer = Lexer::new(syntax, Default::default(), StringInput::from(&*fm), None);
