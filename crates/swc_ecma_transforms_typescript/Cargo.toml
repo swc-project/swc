@@ -16,6 +16,7 @@ bench = false
 concurrent = ["swc_common/concurrent"]
 
 [dependencies]
+bytes-str.workspace = true
 once_cell  = { workspace = true }
 rustc-hash = { workspace = true }
 ryu-js     = { workspace = true }
