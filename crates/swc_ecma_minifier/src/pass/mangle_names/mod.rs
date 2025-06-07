@@ -23,11 +23,13 @@ pub(crate) fn mangle_names(
     chars: Base54Chars,
     top_level_mark: Mark,
     mangle_name_cache: Option<Arc<dyn MangleCache>>,
+    escape_methods: FxHashSet<Atom>,
 ) {
     let mut mangler = self::mangler::ManglerVisitor::new(
         options.keep_private_props,
         options.mangle_methods,
         chars,
+        escape_methods,
     );
     program.visit_mut_with(&mut mangler);
 

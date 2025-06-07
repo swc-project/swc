@@ -1,3 +1,5 @@
+use rustc_hash::FxHashSet;
+use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -42,7 +44,7 @@ mod label_manger {
 }
 
 mod method_mangler {
-    use rustc_hash::FxHashMap;
+    use rustc_hash::{FxHashMap, FxHashSet};
     use swc_atoms::Atom;
     use swc_ecma_ast::*;
 
@@ -51,12 +53,14 @@ mod method_mangler {
     pub(super) fn method_name_mangler(
         mangle_methods: bool,
         chars: Base54Chars,
+        escape_methods: FxHashSet<Atom>,
     ) -> MethodNameMangler {
         MethodNameMangler {
             mangle_methods,
             method_n: Default::default(),
             renamed_methods: Default::default(),
             chars,
+            escape_methods,
         }
     }
 
@@ -65,6 +69,7 @@ mod method_mangler {
         mangle_methods: bool,
         method_n: usize,
         renamed_methods: FxHashMap<Atom, Atom>,
+        escape_methods: FxHashSet<Atom>,
     }
 
     impl MethodNameMangler {
@@ -75,17 +80,20 @@ mod method_mangler {
 
             match prop_name {
                 PropName::Ident(ident) => {
-                    // Skip certain method names that should not be mangled
                     let name = &ident.sym;
+
+                    if self.escape_methods.contains(name) {
+                        return;
+                    }
+
                     if name == "constructor"
                         || name == "toString"
                         || name == "valueOf"
                         || name.starts_with("__")
-                        || name.starts_with("_")
+                        || name.starts_with('_')
                     {
                         return;
                     }
-
                     let new_sym = if let Some(cached) = self.renamed_methods.get(&ident.sym) {
                         cached.clone()
                     } else {
@@ -93,7 +101,6 @@ mod method_mangler {
                         self.renamed_methods.insert(ident.sym.clone(), sym.clone());
                         sym
                     };
-
                     ident.sym = new_sym;
                 }
                 // Don't mangle string, number, bigint or computed property names
@@ -161,14 +168,23 @@ pub(super) struct ManglerVisitor {
 }
 
 impl ManglerVisitor {
-    pub(super) fn new(keep_private_props: bool, mangle_methods: bool, chars: Base54Chars) -> Self {
+    pub(super) fn new(
+        keep_private_props: bool,
+        mangle_methods: bool,
+        chars: Base54Chars,
+        escape_methods: FxHashSet<Atom>,
+    ) -> Self {
         Self {
             label_mangler: LabelMangler::new(chars),
             private_name_mangler: self::private_name_manger::private_name_mangler(
                 keep_private_props,
                 chars,
             ),
-            method_name_mangler: self::method_mangler::method_name_mangler(mangle_methods, chars),
+            method_name_mangler: self::method_mangler::method_name_mangler(
+                mangle_methods,
+                chars,
+                escape_methods,
+            ),
         }
     }
 }
