@@ -9,8 +9,9 @@ use crate::{
     common::{
         input::Tokens,
         parser::{
-            buffer::Buffer as BufferTrait, module_item::parse_module_item_block_body,
-            parse_shebang, stmt::parse_stmt_block_body, Parser as ParserTrait,
+            buffer::Buffer as BufferTrait, expr::parse_unary_expr, jsx::parse_jsx_element,
+            module_item::parse_module_item_block_body, parse_shebang, stmt::parse_stmt_block_body,
+            Parser as ParserTrait,
         },
     },
     error::Error,
@@ -63,6 +64,19 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     #[inline(always)]
     fn mark_found_module_item(&mut self) {
         self.found_module_item = true;
+    }
+
+    #[inline(always)]
+    fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
+        parse_unary_expr(self)
+    }
+
+    #[inline(always)]
+    fn parse_jsx_element(
+        &mut self,
+        _in_expr_context: bool,
+    ) -> PResult<either::Either<JSXFragment, JSXElement>> {
+        parse_jsx_element(self)
     }
 }
 

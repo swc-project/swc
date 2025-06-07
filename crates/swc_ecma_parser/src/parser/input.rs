@@ -1,6 +1,6 @@
 use swc_atoms::Atom;
-use swc_common::Span;
-use swc_ecma_lexer::common::lexer::LexResult;
+use swc_common::{BytePos, Span};
+use swc_ecma_lexer::common::{lexer::LexResult, parser::buffer::Buffer as BufferTrait};
 
 use crate::lexer::{NextTokenAndSpan, TokenAndSpan, TokenValue};
 
@@ -11,6 +11,13 @@ pub trait Tokens: swc_ecma_lexer::common::input::Tokens<TokenAndSpan> {
     fn take_token_value(&mut self) -> Option<TokenValue>;
     fn get_token_value(&self) -> Option<&TokenValue>;
     fn set_token_value(&mut self, token_value: Option<TokenValue>);
+
+    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Option<TokenAndSpan>;
+    fn rescan_jsx_token(
+        &mut self,
+        allow_multiline_jsx_text: bool,
+        reset: BytePos,
+    ) -> Option<TokenAndSpan>;
 }
 
 /// This struct is responsible for managing current token and peeked token.
@@ -88,6 +95,24 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn get_token_value(&self) -> Option<&TokenValue> {
         self.iter.get_token_value()
+    }
+
+    pub fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
+        if let Some(t) = self.iter_mut().scan_jsx_token(allow_multiline_jsx_text) {
+            self.set_cur(t);
+        }
+    }
+
+    pub fn rescan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
+        let Some(cur_start) = self.cur.map(|cur| cur.span.lo) else {
+            unreachable!()
+        };
+        if let Some(t) = self
+            .iter_mut()
+            .rescan_jsx_token(allow_multiline_jsx_text, cur_start)
+        {
+            self.set_cur(t);
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 use std::ops::DerefMut;
 
+use either::Either;
 use expr::{parse_assignment_expr, parse_str_lit};
 use expr_ext::ExprExt;
 use swc_atoms::Atom;
@@ -228,6 +229,17 @@ pub trait Parser<'a>: Sized + Clone {
             syntax_error!(self, span, SyntaxError::Expected(";".to_string(), cur))
         }
         Ok(())
+    }
+
+    #[inline]
+    fn expect(&mut self, t: &Self::Token) -> PResult<()> {
+        if !self.input_mut().eat(t) {
+            let span = self.input().cur_span();
+            let cur = self.input_mut().dump_cur();
+            syntax_error!(self, span, SyntaxError::Expected(format!("{:?}", t), cur))
+        } else {
+            Ok(())
+        }
     }
 
     #[inline(always)]
@@ -469,6 +481,13 @@ pub trait Parser<'a>: Sized + Clone {
             false
         }
     }
+
+    fn parse_unary_expr(&mut self) -> PResult<Box<Expr>>;
+
+    fn parse_jsx_element(
+        &mut self,
+        in_expr_context: bool,
+    ) -> PResult<Either<JSXFragment, JSXElement>>;
 }
 
 pub fn parse_shebang<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Atom>> {
