@@ -174,6 +174,24 @@ impl Tokens for Lexer<'_> {
             }
         })
     }
+
+    fn scan_jsx_identifier(&mut self) {
+        // debug_assert!(self
+        //     .get_token_value()
+        //     .is_some_and(|t| matches!(t, TokenValue::Str { .. })));
+
+        while let Some(ch) = self.input_mut().cur() {
+            if ch == '-' {
+                todo!()
+            } else {
+                let old_pos = self.cur_pos();
+                // TODO: scan_identifier_parts
+                if self.cur_pos() == old_pos {
+                    break;
+                }
+            }
+        }
+    }
 }
 
 impl Lexer<'_> {
@@ -222,20 +240,17 @@ impl Lexer<'_> {
     fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Result<Option<Token>, Error> {
         let start = self.input.cur_pos();
         debug_assert!(self.syntax.jsx());
-        let Some(ch) = self.input.as_str().as_bytes().first().copied() else {
+        if self.input_mut().cur().is_none() {
             return Ok(None);
         };
 
-        if ch == b'<' {
-            self.bump();
-            return if self.input.eat_byte(b'/') {
-                self.bump();
-                Ok(Some(Token::JSXTagEnd))
+        if self.input.eat_byte(b'<') {
+            return Ok(Some(if self.input.eat_byte(b'/') {
+                Token::JSXTagEnd
             } else {
-                Ok(Some(Token::Lt))
-            };
-        } else if ch == b'{' {
-            self.bump();
+                Token::Lt
+            }));
+        } else if self.input.eat_byte(b'{') {
             return Ok(Some(Token::LBrace));
         }
 

@@ -30,8 +30,9 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_unary_expr);
         let start = self.cur_pos();
 
-        if self.input().syntax().typescript() && self.input_mut().eat(&Token::Lt) {
-            if !self.input().syntax().jsx() {
+        if self.input_mut().cur().is_some_and(|cur| cur == &Token::Lt) {
+            if self.input().syntax().typescript() && !self.input().syntax().jsx() {
+                self.bump(); // consume `<`
                 return if self.input_mut().eat(&Token::Const) {
                     self.expect(&Token::Gt)?;
                     let expr = self.parse_unary_expr()?;

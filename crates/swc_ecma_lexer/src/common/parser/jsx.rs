@@ -98,7 +98,7 @@ fn parse_jsx_namespaced_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrNam
 
 /// Parses element name in any form - namespaced, member or single
 /// identifier.
-pub fn parse_jsx_element_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXElementName> {
+fn parse_jsx_element_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXElementName> {
     debug_assert!(p.input().syntax().jsx());
     trace_cur!(p, parse_jsx_element_name);
     let start = p.input_mut().cur_pos();

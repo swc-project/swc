@@ -1,19 +1,77 @@
+use swc_common::Span;
 use swc_ecma_ast::*;
-use swc_ecma_lexer::common::parser::{
-    buffer::Buffer,
-    jsx::{parse_jsx_attrs, parse_jsx_element_name, parse_jsx_text},
-    typescript::{parse_ts_type_args, try_parse_ts},
-    PResult, Parser as ParserTrait,
+use swc_ecma_lexer::common::{
+    lexer::token::TokenFactory,
+    parser::{
+        buffer::Buffer,
+        jsx::parse_jsx_text,
+        typescript::{parse_ts_type_args, try_parse_ts},
+        PResult, Parser as ParserTrait,
+    },
 };
 
 use super::{input::Tokens, Parser};
 use crate::lexer::Token;
 
 impl<I: Tokens> Parser<I> {
+    fn parse_jsx_ident(&mut self) -> Ident {
+        debug_assert!(self.input().syntax().jsx());
+        trace_cur!(self, parse_jsx_ident);
+        // TODO: throw error if has unicode
+        let t = self.bump();
+        let name = t.take_jsx_name(self.input_mut());
+        let span = self.input().prev_span();
+        Ident::new_no_ctxt(name, span)
+    }
+
+    fn parse_jsx_tag_name(&mut self) -> PResult<JSXAttrName> {
+        debug_assert!(self.input().syntax().jsx());
+        trace_cur!(self, parse_jsx_tag_name);
+        let start = self.input_mut().cur_pos();
+        self.input_mut().scan_jsx_identifier();
+
+        let ns = self.parse_jsx_ident().into();
+        Ok(if self.input_mut().eat(&Token::Colon) {
+            self.input_mut().scan_jsx_identifier();
+            let name: IdentName = self.parse_jsx_ident().into();
+            JSXAttrName::JSXNamespacedName(JSXNamespacedName {
+                span: Span::new(start, name.span.hi),
+                ns,
+                name,
+            })
+        } else {
+            JSXAttrName::Ident(ns)
+        })
+    }
+
+    fn parse_jsx_element_name(&mut self) -> PResult<JSXElementName> {
+        debug_assert!(self.input().syntax().jsx());
+        trace_cur!(self, parse_jsx_element_name);
+        let start = self.input_mut().cur_pos();
+        let mut node = match self.parse_jsx_tag_name()? {
+            JSXAttrName::Ident(i) => JSXElementName::Ident(i.into()),
+            JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
+        };
+        while self.input_mut().eat(&Token::Dot) {
+            let prop: IdentName = self.parse_jsx_ident().into();
+            let new_node = JSXElementName::JSXMemberExpr(JSXMemberExpr {
+                span: self.span(start),
+                obj: match node {
+                    JSXElementName::Ident(i) => JSXObject::Ident(i),
+                    JSXElementName::JSXMemberExpr(i) => JSXObject::JSXMemberExpr(Box::new(i)),
+                    _ => unimplemented!("JSXNamespacedName -> JSXObject"),
+                },
+                prop,
+            });
+            node = new_node;
+        }
+        Ok(node)
+    }
+
     fn parse_jsx_closing_element(&mut self, _in_expr_context: bool) -> PResult<JSXClosingElement> {
         let start = self.cur_pos();
         self.expect(&Token::JSXTagEnd)?;
-        let tagname = parse_jsx_element_name(self)?;
+        let tagname = self.parse_jsx_element_name()?;
         self.expect(&Token::Gt)?;
         Ok(JSXClosingElement {
             span: self.span(start),
@@ -24,7 +82,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_jsx_children(&mut self) -> Vec<JSXElementChild> {
         let mut list = Vec::with_capacity(8);
         loop {
-            self.input_mut().scan_jsx_token(true);
+            self.input_mut().rescan_jsx_token(true);
             let Some(child) = self.parse_jsx_child(self.input().get_cur().map(|c| c.token)) else {
                 break;
             };
@@ -42,11 +100,33 @@ impl<I: Tokens> Parser<I> {
 
         match t {
             Token::JSXTagEnd => None,
-            Token::JSXText => Some(JSXElementChild::JSXText(parse_jsx_text(self))),
             Token::LBrace => todo!(),
-            Token::Lt => todo!(),
+            Token::Lt => None,
+            Token::JSXText => Some(JSXElementChild::JSXText(parse_jsx_text(self))),
             _ => unreachable!(),
         }
+    }
+
+    fn parse_jsx_attrs(&mut self) -> PResult<Vec<JSXAttrOrSpread>> {
+        // let mut attrs = Vec::with_capacity(8);
+
+        // while cur!(p, false).is_ok() {
+        //     trace_cur!(p, parse_jsx_opening__attrs_loop);
+
+        //     if p.input_mut()
+        //         .cur()
+        //         .is_some_and(|cur| cur.is_slash() || cur.is_jsx_tag_end())
+        //     {
+        //         break;
+        //     }
+
+        // let attr = parse_jsx_attr(p)?;
+        //     attrs.push(attr);
+        // }
+
+        // Ok(attrs)
+
+        Ok(vec![])
     }
 
     pub(crate) fn parse_jsx_element(
@@ -54,7 +134,6 @@ impl<I: Tokens> Parser<I> {
         in_expr_context: bool,
     ) -> PResult<either::Either<JSXFragment, JSXElement>> {
         debug_assert!(self.input().syntax().jsx());
-
         trace_cur!(self, parse_jsx_element);
 
         let start = self.cur_pos();
@@ -64,14 +143,14 @@ impl<I: Tokens> Parser<I> {
             self.input_mut().scan_jsx_token(true);
             todo!()
         } else {
-            let name = parse_jsx_element_name(self)?;
+            let name = self.parse_jsx_element_name()?;
             let type_args = if self.input().syntax().typescript() && self.input_mut().is(&Token::Lt)
             {
                 try_parse_ts(self, |this| parse_ts_type_args(this).map(Some))
             } else {
                 None
             };
-            let attrs = parse_jsx_attrs(self)?;
+            let attrs = self.parse_jsx_attrs()?;
             if self.input_mut().cur().is_some_and(|cur| cur == &Token::Gt) {
                 // <xxxxx>xxxxx</xxxxx>
                 self.input_mut().scan_jsx_token(true);
