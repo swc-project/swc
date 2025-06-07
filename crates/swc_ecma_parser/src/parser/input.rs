@@ -18,6 +18,7 @@ pub trait Tokens: swc_ecma_lexer::common::input::Tokens<TokenAndSpan> {
         allow_multiline_jsx_text: bool,
         reset: BytePos,
     ) -> Option<TokenAndSpan>;
+    fn scan_jsx_identifier(&mut self);
 }
 
 /// This struct is responsible for managing current token and peeked token.
@@ -104,15 +105,26 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn rescan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
-        let Some(cur_start) = self.cur.map(|cur| cur.span.lo) else {
-            unreachable!()
+        let start = match self.cur.as_ref() {
+            Some(cur) => cur.span.lo,
+            None => self.cur_pos(),
         };
         if let Some(t) = self
             .iter_mut()
-            .rescan_jsx_token(allow_multiline_jsx_text, cur_start)
+            .rescan_jsx_token(allow_multiline_jsx_text, start)
         {
             self.set_cur(t);
         }
+    }
+
+    pub fn scan_jsx_identifier(&mut self) {
+        let Some(cur) = self.cur() else {
+            return;
+        };
+        if !cur.is_word() {
+            return;
+        }
+        self.iter_mut().scan_jsx_identifier();
     }
 }
 
