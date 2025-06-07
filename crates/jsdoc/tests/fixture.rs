@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use dashmap::DashMap;
 use swc_common::{
-    comments::{Comment, CommentKind, Comments},
+    comments::{self, Comment, CommentKind, Comments},
     BytePos, DUMMY_SP,
 };
 use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax};
@@ -152,6 +152,19 @@ impl Comments for SwcComments {
 
         if !leading.iter().any(|c| c.text == pure_comment.text) {
             leading.push(pure_comment);
+        }
+    }
+
+    fn for_each(&self, f: &mut dyn FnMut(&Comment)) {
+        for entry in self.leading.iter() {
+            for cmt in entry.value() {
+                f(cmt);
+            }
+        }
+        for entry in self.trailing.iter() {
+            for cmt in entry.value() {
+                f(cmt);
+            }
         }
     }
 }

@@ -45,6 +45,44 @@ pub trait Comments {
 
     fn add_pure_comment(&self, pos: BytePos);
 
+    /// Applies a closure to each comment without allocation.
+    ///
+    /// **⚠️ Iteration Order**: The order in which comments are visited is
+    /// **unspecified** and may vary between implementations and calls. Do
+    /// not rely on any particular order.
+    ///
+    /// This method is similar to `Iterator::for_each` but avoids the overhead
+    /// of creating an iterator object and intermediate collections.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # use swc_common::comments::{SingleThreadedComments, Comments};
+    /// let comments = SingleThreadedComments::default();
+    ///
+    /// // Count all comments
+    /// let mut count = 0;
+    /// comments.for_each(|_| count += 1);
+    ///
+    /// // Process comment text (order is not guaranteed)
+    /// comments.for_each(|comment| {
+    ///     if comment.text.starts_with("//") {
+    ///         println!("Line comment: {}", comment.text);
+    ///     }
+    /// });
+    /// ```
+    ///
+    /// # Performance
+    ///
+    /// The `for_each` method provides zero-allocation iteration by:
+    /// - Directly iterating over the internal data structures
+    /// - Not creating intermediate collections like `Vec<Comment>`
+    /// - Using closure-based iteration instead of returning an iterator
+    ///
+    /// This is particularly useful when you need to process all comments but
+    /// don't need to collect them into a new container.
+    fn for_each(&self, f: &mut dyn FnMut(&Comment));
+
     fn with_leading<F, Ret>(&self, pos: BytePos, f: F) -> Ret
     where
         Self: Sized,
@@ -181,6 +219,10 @@ macro_rules! delegate {
             (**self).add_pure_comment(pos)
         }
 
+        fn for_each(&self, f: &mut dyn FnMut(&Comment)) {
+            (**self).for_each(f)
+        }
+
         fn has_flag(&self, lo: BytePos, flag: &str) -> bool {
             (**self).has_flag(lo, flag)
         }
@@ -270,6 +312,11 @@ impl Comments for NoopComments {
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn add_pure_comment(&self, _: BytePos) {}
+
+    #[cfg_attr(not(debug_assertions), inline(always))]
+    fn for_each(&self, _f: &mut dyn FnMut(&Comment)) {
+        // NoopComments has no comments
+    }
 
     #[inline]
     fn has_flag(&self, _: BytePos, _: &str) -> bool {
@@ -371,6 +418,12 @@ where
 
         if let Some(c) = self {
             c.add_pure_comment(pos)
+        }
+    }
+
+    fn for_each(&self, f: &mut dyn FnMut(&Comment)) {
+        if let Some(c) = self {
+            c.for_each(f);
         }
     }
 
@@ -512,6 +565,26 @@ impl Comments for SingleThreadedComments {
 
         if !leading.iter().any(|c| c.text == pure_comment.text) {
             leading.push(pure_comment);
+        }
+    }
+
+    fn for_each(&self, f: &mut dyn FnMut(&Comment)) {
+        // Note: Iteration order is unspecified and depends on HashMap iteration order.
+        // Leading comments are processed first, then trailing comments, but within
+        // each category the order depends on HashMap's internal structure.
+
+        // Iterate over all leading comments without allocation
+        for (_, comments) in self.leading.borrow().iter() {
+            for comment in comments {
+                f(comment);
+            }
+        }
+
+        // Iterate over all trailing comments without allocation
+        for (_, comments) in self.trailing.borrow().iter() {
+            for comment in comments {
+                f(comment);
+            }
         }
     }
 
@@ -697,3 +770,84 @@ better_scoped_tls::scoped_tls!(
     #[doc(hidden)]
     pub static COMMENTS: Box<dyn Comments>
 );
+
+#[cfg(test)]
+mod tests {
+    use swc_atoms::atom;
+
+    use super::*;
+
+    #[test]
+    fn test_for_each_with_comments() {
+        let comments = SingleThreadedComments::default();
+        let pos = BytePos(10);
+
+        let comment = Comment {
+            kind: CommentKind::Line,
+            span: Span::new(pos, pos),
+            text: atom!("// Test comment"),
+        };
+
+        comments.add_leading(pos, comment.clone());
+
+        // Demonstrate for-loop-like usage with for_each
+        let mut count = 0;
+        comments.for_each(&mut |_comment| {
+            count += 1;
+        });
+
+        assert_eq!(count, 1);
+    }
+
+    #[test]
+    fn test_for_each_empty() {
+        let comments = SingleThreadedComments::default();
+
+        let mut count = 0;
+        comments.for_each(&mut |_comment| {
+            count += 1;
+        });
+
+        assert_eq!(count, 0);
+    }
+
+    #[test]
+    fn test_for_each_noop() {
+        let comments = NoopComments;
+
+        let mut count = 0;
+        comments.for_each(&mut |_comment| {
+            count += 1;
+        });
+
+        assert_eq!(count, 0);
+    }
+
+    #[test]
+    fn test_for_each_option() {
+        let some_comments = Some(SingleThreadedComments::default());
+        let pos = BytePos(10);
+
+        let comment = Comment {
+            kind: CommentKind::Line,
+            span: Span::new(pos, pos),
+            text: atom!("// Test comment"),
+        };
+
+        some_comments.add_leading(pos, comment.clone());
+
+        let mut count = 0;
+        some_comments.for_each(&mut |_comment| {
+            count += 1;
+        });
+        assert_eq!(count, 1);
+
+        // Test None case
+        let none_comments: Option<SingleThreadedComments> = None;
+        let mut count_none = 0;
+        none_comments.for_each(&mut |_comment| {
+            count_none += 1;
+        });
+        assert_eq!(count_none, 0);
+    }
+}
