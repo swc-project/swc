@@ -7,6 +7,7 @@ use swc_ecma_ast::*;
 
 use super::{
     class_and_fn::{parse_class_decl, parse_fn_block_or_expr_body, parse_fn_decl},
+    eof_error,
     expr::{is_start_of_left_hand_side_expr, parse_new_expr},
     ident::parse_maybe_private_name,
     is_simple_param_list::IsSimpleParameterList,
@@ -129,8 +130,7 @@ where
 
         if kind == ParsingContext::EnumMembers {
             let expect = P::Token::COMMA;
-            let cur = cur!(p, false);
-            let cur = match cur.ok() {
+            let cur = match p.input_mut().cur() {
                 Some(tok) => tok.clone().to_string(p.input()),
                 None => "EOF".to_string(),
             };
@@ -324,7 +324,9 @@ where
 pub fn eat_any_ts_modifier<'a>(p: &mut impl Parser<'a>) -> PResult<bool> {
     if p.syntax().typescript()
         && {
-            let cur = cur!(p, false)?;
+            let Some(cur) = p.input_mut().cur() else {
+                return Err(eof_error(p));
+            };
             cur.is_public() || cur.is_protected() || cur.is_private() || cur.is_readonly()
         }
         && peek!(p).is_some_and(|t| t.is_word() || t.is_lbrace() || t.is_lbracket())
@@ -612,7 +614,7 @@ fn expect_then_parse_ts_type<'a, P: Parser<'a>>(
 
     p.in_type().parse_with(|p| {
         if !p.input_mut().eat(token) {
-            let got = format!("{:?}", cur!(p, false).ok());
+            let got = format!("{:?}", p.input_mut().cur());
             syntax_error!(
                 p,
                 p.input().cur_span(),
@@ -784,7 +786,7 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
     p.in_type().parse_with(|p| {
         let return_token_start = p.input_mut().cur_pos();
         if !p.input_mut().eat(return_token) {
-            let cur = format!("{:?}", cur!(p, false).ok());
+            let cur = format!("{:?}", p.input_mut().cur());
             let span = p.input_mut().cur_span();
             syntax_error!(
                 p,
@@ -806,7 +808,9 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
         };
         if has_type_pred_asserts {
             p.assert_and_bump(&P::Token::ASSERTS)?;
-            cur!(p, false)?;
+            if p.input_mut().cur().is_none() {
+                return Err(eof_error(p));
+            }
         }
 
         let has_type_pred_is = p.is_ident_ref()
@@ -893,7 +897,7 @@ pub(super) fn try_parse_ts_type_args<'a, P: Parser<'a>>(
         }) {
             Ok(None)
         } else if p.input_mut().had_line_break_before_cur()
-            || cur!(p, false).is_ok_and(|t| t.is_bin_op())
+            || p.input_mut().cur().is_some_and(|t| t.is_bin_op())
             || !is_start_of_expr(p)
         {
             Ok(Some(type_args))
@@ -2210,8 +2214,6 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
     p.assert_and_bump(&P::Token::IMPORT)?;
 
     expect!(p, &P::Token::LPAREN);
-
-    let _ = cur!(p, false);
 
     let cur = cur!(p, true);
     let arg = if cur.is_str() {
