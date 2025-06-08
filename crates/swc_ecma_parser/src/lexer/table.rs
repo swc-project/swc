@@ -302,7 +302,7 @@ const DIG: ByteHandler = Some(|lexer| {
 });
 
 /// String literals with `'` or `"`
-const QOT: ByteHandler = Some(|lexer| lexer.read_str_lit().map(Some));
+const QOT: ByteHandler = Some(|lexer| lexer.read_str_lit::<false>().map(Some));
 
 /// Unicode
 const UNI: ByteHandler = Some(|lexer| {

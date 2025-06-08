@@ -4,6 +4,7 @@ use swc_ecma_lexer::common::{
     lexer::token::TokenFactory,
     parser::{
         buffer::Buffer,
+        expr::parse_str_lit,
         jsx::parse_jsx_text,
         typescript::{parse_ts_type_args, try_parse_ts},
         PResult, Parser as ParserTrait,
@@ -107,26 +108,85 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
+    fn parse_jsx_attr_name(&mut self) -> PResult<JSXAttrName> {
+        debug_assert!(self.input().syntax().jsx());
+        trace_cur!(self, parse_jsx_attr_name);
+        let start = self.input_mut().cur_pos();
+        self.input_mut().scan_jsx_identifier();
+
+        let attr_name = self.parse_jsx_ident();
+        if self.input_mut().eat(&Token::Colon) {
+            self.input_mut().scan_jsx_identifier();
+            let name = self.parse_jsx_ident();
+            Ok(JSXAttrName::JSXNamespacedName(JSXNamespacedName {
+                span: Span::new(start, name.span.hi),
+                ns: attr_name.into(),
+                name: name.into(),
+            }))
+        } else {
+            Ok(JSXAttrName::Ident(attr_name.into()))
+        }
+    }
+
+    fn parse_jsx_attr_value(&mut self) -> PResult<Option<JSXAttrValue>> {
+        debug_assert!(self.input().syntax().jsx());
+        trace_cur!(self, parse_jsx_attr_value);
+        if self.input_mut().eat(&Token::Eq) {
+            self.input_mut().scan_jsx_attribute_value();
+            let Some(cur) = self.input_mut().cur() else {
+                todo!("error handle")
+                // return Ok(None)
+            };
+            match *cur {
+                Token::Str => {
+                    let value = parse_str_lit(self);
+                    Ok(Some(JSXAttrValue::Lit(Lit::Str(value))))
+                }
+                Token::LBrace => todo!(),
+                Token::Lt => todo!(),
+                _ => todo!("error handle"),
+            }
+        } else {
+            Ok(None)
+        }
+    }
+
+    fn parse_jsx_attr(&mut self) -> PResult<JSXAttrOrSpread> {
+        debug_assert!(self.input().syntax().jsx());
+        trace_cur!(self, parse_jsx_attr);
+        if self
+            .input_mut()
+            .cur()
+            .is_some_and(|cur| cur == &Token::LBrace)
+        {
+            // Spread
+            todo!()
+        } else {
+            let start = self.input_mut().cur_pos();
+            let name = self.parse_jsx_attr_name()?;
+            let value = self.parse_jsx_attr_value()?;
+            Ok(JSXAttrOrSpread::JSXAttr(JSXAttr {
+                span: self.span(start),
+                name,
+                value,
+            }))
+        }
+    }
+
     fn parse_jsx_attrs(&mut self) -> PResult<Vec<JSXAttrOrSpread>> {
-        // let mut attrs = Vec::with_capacity(8);
+        let mut attrs = Vec::with_capacity(8);
 
-        // while cur!(p, false).is_ok() {
-        //     trace_cur!(p, parse_jsx_opening__attrs_loop);
+        while let Some(cur) = self.input_mut().cur().copied() {
+            trace_cur!(self, parse_jsx_opening__attrs_loop);
+            if matches!(cur, Token::Gt | Token::Slash) {
+                break;
+            }
+            let attr = self.parse_jsx_attr()?;
 
-        //     if p.input_mut()
-        //         .cur()
-        //         .is_some_and(|cur| cur.is_slash() || cur.is_jsx_tag_end())
-        //     {
-        //         break;
-        //     }
+            attrs.push(attr);
+        }
 
-        // let attr = parse_jsx_attr(p)?;
-        //     attrs.push(attr);
-        // }
-
-        // Ok(attrs)
-
-        Ok(vec![])
+        Ok(attrs)
     }
 
     pub(crate) fn parse_jsx_element(
@@ -172,7 +232,25 @@ impl<I: Tokens> Parser<I> {
             } else {
                 // <xxxxx/>
                 self.expect(&Token::Slash)?;
-                todo!()
+                if self.expect_without_advance(&Token::Gt).is_ok() {
+                    if in_expr_context {
+                        self.bump();
+                    } else {
+                        self.input_mut().scan_jsx_token(true);
+                    }
+                }
+                return Ok(either::Either::Right(JSXElement {
+                    span: self.span(start),
+                    opening: JSXOpeningElement {
+                        span: self.span(start),
+                        name,
+                        type_args,
+                        attrs,
+                        self_closing: true,
+                    },
+                    children: Vec::new(),
+                    closing: None,
+                }));
             }
         }
     }
