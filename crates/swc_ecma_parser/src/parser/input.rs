@@ -19,6 +19,7 @@ pub trait Tokens: swc_ecma_lexer::common::input::Tokens<TokenAndSpan> {
         reset: BytePos,
     ) -> Option<TokenAndSpan>;
     fn scan_jsx_identifier(&mut self);
+    fn scan_jsx_attribute_value(&mut self) -> Option<TokenAndSpan>;
 }
 
 /// This struct is responsible for managing current token and peeked token.
@@ -125,6 +126,12 @@ impl<I: Tokens> Buffer<I> {
             return;
         }
         self.iter_mut().scan_jsx_identifier();
+    }
+
+    pub fn scan_jsx_attribute_value(&mut self) {
+        if let Some(t) = self.iter_mut().scan_jsx_attribute_value() {
+            self.set_cur(t);
+        }
     }
 }
 

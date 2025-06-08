@@ -1892,7 +1892,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
-    fn read_str_lit(&mut self) -> LexResult<Self::Token> {
+    fn read_str_lit<const IS_JSX_ATTRIBUTE_STRING: bool>(&mut self) -> LexResult<Self::Token> {
         debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
         let start = self.cur_pos();
         let quote = self.cur().unwrap() as u8;
@@ -1942,7 +1942,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         return Ok(Self::Token::str(value, raw, l));
                     }
 
-                    if c == b'\\' {
+                    if !IS_JSX_ATTRIBUTE_STRING && c == b'\\' {
                         has_escape = true;
 
                         {
@@ -1965,7 +1965,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         continue;
                     }
 
-                    if matches!(c, b'\r' | b'\n') {
+                    if !IS_JSX_ATTRIBUTE_STRING && matches!(c, b'\r' | b'\n') {
                         break;
                     }
 
@@ -2000,7 +2000,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 buf.push_str(s);
             }
 
-            l.emit_error(start, SyntaxError::UnterminatedStrLit);
+            if !IS_JSX_ATTRIBUTE_STRING {
+                l.emit_error(start, SyntaxError::UnterminatedStrLit);
+            }
 
             let end = l.cur_pos();
 

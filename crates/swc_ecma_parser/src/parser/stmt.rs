@@ -211,7 +211,7 @@ function App() {
   return <h1>JSX is working!</h1>
 }
 
-// ReactDOM.render(<App />, document.getElementById('root'))
+ReactDOM.render(<App />, document.getElementById('root'))
 
 "#;
         test_parser(

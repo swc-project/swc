@@ -180,7 +180,7 @@ impl Tokens for Lexer<'_> {
         //     .get_token_value()
         //     .is_some_and(|t| matches!(t, TokenValue::Str { .. })));
 
-        while let Some(ch) = self.input_mut().cur() {
+        while let Some(ch) = self.input().cur() {
             if ch == '-' {
                 todo!()
             } else {
@@ -190,6 +190,29 @@ impl Tokens for Lexer<'_> {
                     break;
                 }
             }
+        }
+    }
+
+    fn scan_jsx_attribute_value(&mut self) -> Option<TokenAndSpan> {
+        let Some(cur) = self.cur() else {
+            return self.next();
+        };
+        let start = self.cur_pos();
+
+        match cur {
+            '\'' | '"' => {
+                let _ = self.read_str_lit::<true>();
+                debug_assert!(self
+                    .get_token_value()
+                    .is_some_and(|t| matches!(t, TokenValue::Str { .. })));
+
+                Some(TokenAndSpan {
+                    token: Token::Str,
+                    had_line_break: self.had_line_break_before_last(),
+                    span: self.span(start),
+                })
+            }
+            _ => self.next(),
         }
     }
 }
