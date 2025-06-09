@@ -106,8 +106,7 @@ fn test_method_mangling_enabled() {
         for name in &mangled_method_names {
             assert!(
                 name.len() <= 2,
-                "Method name should be mangled to a short name: {}",
-                name
+                "Method name should be mangled to a short name: {name}",
             );
         }
 
