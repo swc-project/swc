@@ -125,6 +125,7 @@ jobs:
         package:
           - core
           - html
+          - react-compiler
     needs:
       - run-ecosystem-ci-with-nightly
       - git-tag-stable

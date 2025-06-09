@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_common"
 repository    = { workspace = true }
-version       = "11.0.3"
+version       = "11.1.3"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -74,7 +74,3 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 rayon                     = { workspace = true }
 serde_json                = { workspace = true }
-
-[[bench]]
-harness = false
-name    = "serde"

@@ -48,9 +48,8 @@ fn parse_jsx_expr_container<'a, P: Parser<'a>>(p: &mut P, _: BytePos) -> PResult
     let start = p.input_mut().cur_pos();
     p.bump();
     let expr = if p.input_mut().is(&P::Token::RBRACE) {
-        parse_jsx_empty_expr(p).map(JSXExpr::JSXEmptyExpr)?
+        JSXExpr::JSXEmptyExpr(parse_jsx_empty_expr(p))
     } else {
-        p.input_mut().eat(&P::Token::DOTDOTDOT);
         p.parse_expr().map(JSXExpr::Expr)?
     };
     expect!(p, &P::Token::RBRACE);
@@ -122,21 +121,21 @@ fn parse_jsx_element_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXElementNam
 /// JSXEmptyExpression is unique type since it doesn't actually parse
 /// anything, and so it should start at the end of last read token (left
 /// brace) and finish at the beginning of the next one (right brace).
-fn parse_jsx_empty_expr<'a>(p: &mut impl Parser<'a>) -> PResult<JSXEmptyExpr> {
+fn parse_jsx_empty_expr<'a>(p: &mut impl Parser<'a>) -> JSXEmptyExpr {
     debug_assert!(p.input().syntax().jsx());
     let start = p.input_mut().cur_pos();
-    Ok(JSXEmptyExpr {
+    JSXEmptyExpr {
         span: Span::new(start, start),
-    })
+    }
 }
 
-pub fn parse_jsx_text<'a>(p: &mut impl Parser<'a>) -> PResult<JSXText> {
+pub fn parse_jsx_text<'a>(p: &mut impl Parser<'a>) -> JSXText {
     debug_assert!(p.input().syntax().jsx());
     debug_assert!(cur!(p, false).is_ok_and(|t| t.is_jsx_text()));
     let token = p.bump();
     let span = p.input().prev_span();
     let (value, raw) = token.take_jsx_text(p.input_mut());
-    Ok(JSXText { span, value, raw })
+    JSXText { span, value, raw }
 }
 
 /// Parses any type of JSX attribute value.
@@ -242,6 +241,27 @@ fn parse_jsx_opening_element_at<'a, P: Parser<'a>>(
     parse_jsx_opening_element_after_name(p, start, name).map(Either::Right)
 }
 
+#[inline(always)]
+pub fn parse_jsx_attrs<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<JSXAttrOrSpread>> {
+    let mut attrs = Vec::with_capacity(8);
+
+    while cur!(p, false).is_ok() {
+        trace_cur!(p, parse_jsx_opening__attrs_loop);
+
+        if p.input_mut()
+            .cur()
+            .is_some_and(|cur| cur.is_slash() || cur.is_jsx_tag_end())
+        {
+            break;
+        }
+
+        let attr = parse_jsx_attr(p)?;
+        attrs.push(attr);
+    }
+
+    Ok(attrs)
+}
+
 /// `jsxParseOpeningElementAfterName`
 fn parse_jsx_opening_element_after_name<'a, P: Parser<'a>>(
     p: &mut P,
@@ -256,20 +276,8 @@ fn parse_jsx_opening_element_after_name<'a, P: Parser<'a>>(
         None
     };
 
-    let mut attrs = Vec::new();
-    while cur!(p, false).is_ok() {
-        trace_cur!(p, parse_jsx_opening__attrs_loop);
+    let attrs = parse_jsx_attrs(p)?;
 
-        if p.input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_slash() || cur.is_jsx_tag_end())
-        {
-            break;
-        }
-
-        let attr = parse_jsx_attr(p)?;
-        attrs.push(attr);
-    }
     let self_closing = p.input_mut().eat(&P::Token::DIV);
     if !p.input_mut().eat(&P::Token::JSX_TAG_END)
         & !(p.ctx().contains(Context::InForcedJsxContext) && p.input_mut().eat(&P::Token::GREATER))
@@ -339,7 +347,7 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
                         Either::Right(e) => JSXElementChild::from(Box::new(e)),
                     })?);
                 } else if cur.is_jsx_text() {
-                    children.push(parse_jsx_text(p).map(JSXElementChild::from)?)
+                    children.push(JSXElementChild::from(parse_jsx_text(p)))
                 } else if cur.is_lbrace() {
                     let start = p.cur_pos();
                     if peek!(p).is_some_and(|peek| peek.is_dotdotdot()) {
@@ -405,7 +413,9 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
 /// Parses entire JSX element from current position.
 ///
 /// babel: `jsxParseElement`
-pub fn parse_jsx_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<Either<JSXFragment, JSXElement>> {
+pub(crate) fn parse_jsx_element<'a, P: Parser<'a>>(
+    p: &mut P,
+) -> PResult<Either<JSXFragment, JSXElement>> {
     trace_cur!(p, parse_jsx_element);
 
     debug_assert!(p.input().syntax().jsx());

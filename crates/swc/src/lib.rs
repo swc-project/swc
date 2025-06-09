@@ -160,7 +160,6 @@ use swc_typescript::fast_dts::FastDts;
 use tracing::warn;
 use url::Url;
 
-pub use crate::builder::PassBuilder;
 use crate::config::{
     BuiltInput, Config, ConfigFile, InputSourceMap, IsModule, JsMinifyCommentOption,
     JsMinifyOptions, Options, OutputCharset, Rc, RootMode, SourceMapsConfig,
@@ -939,7 +938,7 @@ impl Compiler {
 
     /// You can use custom pass with this method.
     ///
-    /// There exists a [PassBuilder] to help building custom passes.
+    /// Pass building logic has been inlined into the configuration system.
     #[tracing::instrument(skip_all)]
     pub fn process_js(
         &self,

@@ -18,6 +18,7 @@ version       = "3.0.0"
 file_pattern = ["glob", "regex"]
 glob         = ["dep:globset", "dep:dashmap", "dep:rustc-hash", "dep:once_cell"]
 regex        = ["dep:regex", "dep:dashmap", "dep:rustc-hash", "dep:once_cell"]
+regex_js     = ["dep:regress"]
 sourcemap    = ["dep:sourcemap"]
 
 [dependencies]
@@ -27,6 +28,7 @@ globset    = { workspace = true, optional = true }
 indexmap   = { workspace = true }
 once_cell  = { workspace = true, optional = true }
 regex      = { workspace = true, optional = true }
+regress    = { workspace = true, optional = true }
 rustc-hash = { workspace = true, optional = true }
 serde      = { workspace = true, features = ["derive", "rc"] }
 serde_json = { workspace = true }
