@@ -4972,6 +4972,7 @@ name = "swc_config"
 version = "3.0.0"
 dependencies = [
  "anyhow",
+ "bytes-str",
  "dashmap 5.5.3",
  "globset",
  "indexmap 2.7.1",
