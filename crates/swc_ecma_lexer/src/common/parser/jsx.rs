@@ -50,7 +50,6 @@ fn parse_jsx_expr_container<'a, P: Parser<'a>>(p: &mut P, _: BytePos) -> PResult
     let expr = if p.input_mut().is(&P::Token::RBRACE) {
         JSXExpr::JSXEmptyExpr(parse_jsx_empty_expr(p))
     } else {
-        p.input_mut().eat(&P::Token::DOTDOTDOT);
         p.parse_expr().map(JSXExpr::Expr)?
     };
     expect!(p, &P::Token::RBRACE);
