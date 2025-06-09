@@ -15,6 +15,7 @@ node = ["napi", "napi-derive"]
 [dependencies]
 anyhow        = { workspace = true }
 base64        = { workspace = true }
+bytes-str     = { workspace = true }
 once_cell     = { workspace = true }
 pathdiff      = { workspace = true }
 rustc-hash    = { workspace = true }
