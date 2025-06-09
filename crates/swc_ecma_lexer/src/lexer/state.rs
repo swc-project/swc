@@ -48,14 +48,6 @@ pub struct State {
 }
 
 impl State {
-    pub(super) fn can_skip_space(&self) -> bool {
-        !self
-            .token_contexts()
-            .current()
-            .map(|t| t.preserve_space())
-            .unwrap_or_default()
-    }
-
     pub(super) fn update(&mut self, start: BytePos, next: TokenKind) {
         if cfg!(feature = "debug") {
             tracing::trace!(
@@ -375,6 +367,15 @@ impl common::lexer::state::State for State {
     #[inline(always)]
     fn set_line_start(&mut self, line_start: BytePos) {
         self.line_start = line_start;
+    }
+
+    #[inline(always)]
+    fn can_skip_space(&self) -> bool {
+        !self
+            .token_contexts()
+            .current()
+            .map(|t| t.preserve_space())
+            .unwrap_or_default()
     }
 }
 
@@ -739,6 +740,16 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
     #[inline]
     fn end_pos(&self) -> BytePos {
         self.input.end_pos()
+    }
+
+    #[inline]
+    fn can_skip_space(&self) -> bool {
+        unreachable!("`can_skip_space` is determined by the current context")
+    }
+
+    #[inline]
+    fn set_can_skip_space(&mut self, _: bool) {
+        unreachable!("`can_skip_space` is determined by the current context")
     }
 }
 

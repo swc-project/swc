@@ -21,7 +21,9 @@ pub trait Tokens<TokenAndSpan>: Clone + Iterator<Item = TokenAndSpan> {
 
     fn token_context(&self) -> &lexer::TokenContexts;
     fn token_context_mut(&mut self) -> &mut lexer::TokenContexts;
-    fn set_token_context(&mut self, _c: lexer::TokenContexts);
+    fn set_token_context(&mut self, c: lexer::TokenContexts);
+    fn can_skip_space(&self) -> bool;
+    fn set_can_skip_space(&mut self, can_skip_space: bool);
 
     /// Implementors should use Rc<RefCell<Vec<Error>>>.
     ///

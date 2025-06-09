@@ -242,6 +242,16 @@ pub trait Buffer<'a> {
     }
 
     #[inline]
+    fn can_skip_space(&self) -> bool {
+        self.iter().can_skip_space()
+    }
+
+    #[inline]
+    fn set_can_skip_space(&mut self, can_skip_space: bool) {
+        self.iter_mut().set_can_skip_space(can_skip_space);
+    }
+
+    #[inline]
     fn token_context<'b>(&'b self) -> &'b crate::lexer::TokenContexts
     where
         Self::I: 'b,

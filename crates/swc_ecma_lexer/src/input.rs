@@ -130,6 +130,16 @@ impl Tokens<TokenAndSpan> for TokensInput {
             .map(|t| t.span.hi)
             .unwrap_or(self.start_pos)
     }
+
+    #[inline]
+    fn can_skip_space(&self) -> bool {
+        unreachable!()
+    }
+
+    #[inline]
+    fn set_can_skip_space(&mut self, _: bool) {
+        unreachable!()
+    }
 }
 
 /// Note: Lexer need access to parser's context to lex correctly.
@@ -266,6 +276,16 @@ impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
 
     fn end_pos(&self) -> BytePos {
         self.inner.end_pos()
+    }
+
+    #[inline]
+    fn can_skip_space(&self) -> bool {
+        unreachable!()
+    }
+
+    #[inline]
+    fn set_can_skip_space(&mut self, _: bool) {
+        unreachable!()
     }
 }
 

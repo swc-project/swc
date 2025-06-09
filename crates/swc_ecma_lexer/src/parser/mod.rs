@@ -9,8 +9,13 @@ use crate::{
     common::{
         input::Tokens,
         parser::{
-            buffer::Buffer as BufferTrait, expr::parse_unary_expr, jsx::parse_jsx_element,
-            module_item::parse_module_item_block_body, parse_shebang, stmt::parse_stmt_block_body,
+            buffer::Buffer as BufferTrait,
+            expr::{parse_primary_expr, parse_unary_expr},
+            jsx::parse_jsx_element,
+            module_item::parse_module_item_block_body,
+            parse_shebang,
+            stmt::parse_stmt_block_body,
+            typescript::ts_in_no_context,
             Parser as ParserTrait,
         },
     },
@@ -77,6 +82,16 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
         _in_expr_context: bool,
     ) -> PResult<either::Either<JSXFragment, JSXElement>> {
         parse_jsx_element(self)
+    }
+
+    #[inline(always)]
+    fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
+        parse_primary_expr(self)
+    }
+
+    #[inline(always)]
+    fn ts_in_no_context<T>(&mut self, op: impl FnOnce(&mut Self) -> PResult<T>) -> PResult<T> {
+        ts_in_no_context(self, op)
     }
 }
 

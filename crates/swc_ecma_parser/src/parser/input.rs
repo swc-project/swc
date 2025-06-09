@@ -20,6 +20,11 @@ pub trait Tokens: swc_ecma_lexer::common::input::Tokens<TokenAndSpan> {
     ) -> Option<TokenAndSpan>;
     fn scan_jsx_identifier(&mut self);
     fn scan_jsx_attribute_value(&mut self) -> Option<TokenAndSpan>;
+    fn rescan_template_token(
+        &mut self,
+        start: BytePos,
+        start_with_back_tick: bool,
+    ) -> Option<TokenAndSpan>;
 }
 
 /// This struct is responsible for managing current token and peeked token.
@@ -108,7 +113,9 @@ impl<I: Tokens> Buffer<I> {
     pub fn rescan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
         let start = match self.cur.as_ref() {
             Some(cur) => cur.span.lo,
-            None => self.cur_pos(),
+            None => {
+                return self.scan_jsx_token(allow_multiline_jsx_text);
+            }
         };
         if let Some(t) = self
             .iter_mut()
@@ -132,6 +139,13 @@ impl<I: Tokens> Buffer<I> {
         if let Some(t) = self.iter_mut().scan_jsx_attribute_value() {
             self.set_cur(t);
         }
+    }
+
+    pub fn rescan_template_token(&mut self, start: BytePos, start_with_back_tick: bool) {
+        debug_assert!(self.cur.is_some());
+        self.cur = self
+            .iter_mut()
+            .rescan_template_token(start, start_with_back_tick);
     }
 }
 

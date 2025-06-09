@@ -63,6 +63,7 @@ pub trait State: Clone {
     fn start(&self) -> BytePos;
     fn add_current_line(&mut self, offset: usize);
     fn set_line_start(&mut self, line_start: BytePos);
+    fn can_skip_space(&self) -> bool;
 
     fn can_have_trailing_line_comment(&self) -> bool {
         let Some(t) = self.token_type() else {

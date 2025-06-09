@@ -26,12 +26,7 @@ use crate::{
             object::parse_object_expr,
             pat::{parse_paren_items_as_params, reparse_expr_as_pat},
             pat_type::PatType,
-            typescript::{
-                eat_any_ts_modifier, next_then_parse_ts_type, parse_ts_type, parse_ts_type_args,
-                parse_ts_type_assertion, parse_ts_type_or_type_predicate_ann, parse_ts_type_params,
-                try_parse_ts, try_parse_ts_generic_async_arrow_fn, try_parse_ts_type_ann,
-                try_parse_ts_type_args,
-            },
+            typescript::*,
             unwrap_ts_non_null,
         },
     },
@@ -187,7 +182,7 @@ fn parse_tpl_elements<'a, P: Parser<'a>>(
     Ok((exprs, quasis))
 }
 
-pub fn parse_tpl<'a, P: Parser<'a>>(p: &mut P, is_tagged_tpl: bool) -> PResult<Tpl> {
+fn parse_tpl<'a, P: Parser<'a>>(p: &mut P, is_tagged_tpl: bool) -> PResult<Tpl> {
     trace_cur!(p, parse_tpl);
     let start = p.input_mut().cur_pos();
 
@@ -205,7 +200,7 @@ pub fn parse_tpl<'a, P: Parser<'a>>(p: &mut P, is_tagged_tpl: bool) -> PResult<T
     })
 }
 
-pub fn parse_tagged_tpl<'a, P: Parser<'a>>(
+fn parse_tagged_tpl<'a, P: Parser<'a>>(
     p: &mut P,
     tag: Box<Expr>,
     type_params: Option<Box<TsTypeParamInstantiation>>,
@@ -1193,7 +1188,7 @@ fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
     } else if p.input_mut().eat(&P::Token::IMPORT) {
         return parse_dynamic_import_or_import_meta(p, start, true);
     }
-    let obj = parse_primary_expr(p)?;
+    let obj = p.parse_primary_expr()?;
     return_if_arrow!(p, obj);
 
     let type_args = if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
@@ -2297,122 +2292,11 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
     }
 }
 
-/// Parse a primary expression or arrow function
-#[cfg_attr(
-    feature = "tracing-spans",
-    tracing::instrument(level = "debug", skip_all)
-)]
-pub(super) fn parse_primary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
-    trace_cur!(p, parse_primary_expr);
-
-    let _ = p.input_mut().cur();
-    let start = p.cur_pos();
-
-    let can_be_arrow = p
-        .state_mut()
-        .potential_arrow_start
-        .map(|s| s == start)
-        .unwrap_or(false);
-
-    if let Some(token) = p.input_mut().cur() {
-        if token.is_this() {
-            p.input_mut().bump();
-            return Ok(ThisExpr {
-                span: p.span(start),
-            }
-            .into());
-        } else if token.is_async() {
-            if peek!(p).is_some_and(|peek| peek.is_function())
-                && !p.input_mut().has_linebreak_between_cur_and_peeked()
-            {
-                // handle `async function` expression
-                return parse_async_fn_expr(p);
-            }
-
-            if can_be_arrow
-                && p.input().syntax().typescript()
-                && peek!(p).is_some_and(|peek| peek.is_less())
-            {
-                // try parsing `async<T>() => {}`
-                if let Some(res) = try_parse_ts(p, |p| {
-                    let start = p.cur_pos();
-                    p.assert_and_bump(&P::Token::ASYNC)?;
-                    try_parse_ts_generic_async_arrow_fn(p, start)
-                }) {
-                    return Ok(res.into());
-                }
-            }
-
-            if can_be_arrow
-                && peek!(p).is_some_and(|peek| peek.is_lparen())
-                && !p.input_mut().has_linebreak_between_cur_and_peeked()
-            {
-                expect!(p, &P::Token::ASYNC);
-                let async_span = p.input().prev_span();
-                return parse_paren_expr_or_arrow_fn(p, can_be_arrow, Some(async_span));
-            }
-        } else if token.is_lbracket() {
-            let ctx = p.ctx() & !Context::WillExpectColonForCond;
-            return p.with_ctx(ctx).parse_with(parse_array_lit);
-        } else if token.is_lbrace() {
-            return parse_object_expr(p).map(Box::new);
-        } else if token.is_function() {
-            return parse_fn_expr(p);
-        } else if token.is_null()
-            || token.is_true()
-            || token.is_false()
-            || token.is_num()
-            || token.is_bigint()
-            || token.is_str()
-        {
-            // Literals
-            return Ok(parse_lit(p)?.into());
-        } else if token.is_slash() || token.is_slash_eq() {
-            // Regexp
-            p.bump();
-
-            p.input_mut().set_next_regexp(Some(start));
-
-            if p.input_mut().cur().is_some_and(|cur| cur.is_regexp()) {
-                p.input_mut().set_next_regexp(None);
-
-                let t = p.bump();
-                let (exp, flags) = t.take_regexp(p.input_mut());
-                let span = p.span(start);
-
-                let mut flags_count =
-                    flags
-                        .chars()
-                        .fold(FxHashMap::<char, usize>::default(), |mut map, flag| {
-                            let key = match flag {
-                                // https://tc39.es/ecma262/#sec-isvalidregularexpressionliteral
-                                'd' | 'g' | 'i' | 'm' | 's' | 'u' | 'v' | 'y' => flag,
-                                _ => '\u{0000}', // special marker for unknown flags
-                            };
-                            map.entry(key).and_modify(|count| *count += 1).or_insert(1);
-                            map
-                        });
-
-                if flags_count.remove(&'\u{0000}').is_some() {
-                    p.emit_err(span, SyntaxError::UnknownRegExpFlags);
-                }
-
-                if let Some((flag, _)) = flags_count.iter().find(|(_, count)| **count > 1) {
-                    p.emit_err(span, SyntaxError::DuplicatedRegExpFlags(*flag));
-                }
-
-                return Ok(Lit::Regex(Regex { span, exp, flags }).into());
-            }
-        } else if token.is_backquote() {
-            let ctx = p.ctx() & !Context::WillExpectColonForCond;
-
-            // parse template literal
-            return Ok(parse_tpl(p.with_ctx(ctx).deref_mut(), false)?.into());
-        } else if token.is_lparen() {
-            return parse_paren_expr_or_arrow_fn(p, can_be_arrow, None);
-        }
-    }
-
+pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
+    p: &mut P,
+    start: BytePos,
+    can_be_arrow: bool,
+) -> PResult<Box<Expr>> {
     let decorators = parse_decorators(p, false)?;
 
     if p.input_mut().is(&P::Token::CLASS) {
@@ -2542,4 +2426,152 @@ pub(super) fn parse_primary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Ex
     }
 
     syntax_error!(p, p.input().cur_span(), SyntaxError::TS1109)
+}
+
+pub fn try_parse_regexp<'a, P: Parser<'a>>(p: &mut P, start: BytePos) -> Option<Box<Expr>> {
+    // Regexp
+    p.bump();
+
+    p.input_mut().set_next_regexp(Some(start));
+
+    if p.input_mut().cur().is_some_and(|cur| cur.is_regexp()) {
+        p.input_mut().set_next_regexp(None);
+
+        let t = p.bump();
+        let (exp, flags) = t.take_regexp(p.input_mut());
+        let span = p.span(start);
+
+        let mut flags_count =
+            flags
+                .chars()
+                .fold(FxHashMap::<char, usize>::default(), |mut map, flag| {
+                    let key = match flag {
+                        // https://tc39.es/ecma262/#sec-isvalidregularexpressionliteral
+                        'd' | 'g' | 'i' | 'm' | 's' | 'u' | 'v' | 'y' => flag,
+                        _ => '\u{0000}', // special marker for unknown flags
+                    };
+                    map.entry(key).and_modify(|count| *count += 1).or_insert(1);
+                    map
+                });
+
+        if flags_count.remove(&'\u{0000}').is_some() {
+            p.emit_err(span, SyntaxError::UnknownRegExpFlags);
+        }
+
+        if let Some((flag, _)) = flags_count.iter().find(|(_, count)| **count > 1) {
+            p.emit_err(span, SyntaxError::DuplicatedRegExpFlags(*flag));
+        }
+
+        Some(Lit::Regex(Regex { span, exp, flags }).into())
+    } else {
+        None
+    }
+}
+
+pub fn try_parse_async_start<'a, P: Parser<'a>>(
+    p: &mut P,
+    can_be_arrow: bool,
+) -> Option<PResult<Box<Expr>>> {
+    if peek!(p).is_some_and(|peek| peek.is_function())
+        && !p.input_mut().has_linebreak_between_cur_and_peeked()
+    {
+        // handle `async function` expression
+        return Some(parse_async_fn_expr(p));
+    }
+
+    if can_be_arrow
+        && p.input().syntax().typescript()
+        && peek!(p).is_some_and(|peek| peek.is_less())
+    {
+        // try parsing `async<T>() => {}`
+        if let Some(res) = try_parse_ts(p, |p| {
+            let start = p.cur_pos();
+            p.assert_and_bump(&P::Token::ASYNC)?;
+            try_parse_ts_generic_async_arrow_fn(p, start)
+        }) {
+            return Some(Ok(res.into()));
+        }
+    }
+
+    if can_be_arrow
+        && peek!(p).is_some_and(|peek| peek.is_lparen())
+        && !p.input_mut().has_linebreak_between_cur_and_peeked()
+    {
+        if let Err(e) = p.expect(&P::Token::ASYNC) {
+            return Some(Err(e));
+        }
+        let async_span = p.input().prev_span();
+        return Some(parse_paren_expr_or_arrow_fn(
+            p,
+            can_be_arrow,
+            Some(async_span),
+        ));
+    }
+
+    None
+}
+
+pub fn parse_this_expr<'a>(p: &mut impl Parser<'a>, start: BytePos) -> PResult<Box<Expr>> {
+    debug_assert!(p.input_mut().cur().is_some_and(|t| t.is_this()));
+    p.input_mut().bump();
+    Ok(ThisExpr {
+        span: p.span(start),
+    }
+    .into())
+}
+
+/// Parse a primary expression or arrow function
+#[cfg_attr(
+    feature = "tracing-spans",
+    tracing::instrument(level = "debug", skip_all)
+)]
+pub(crate) fn parse_primary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
+    trace_cur!(p, parse_primary_expr);
+
+    let _ = p.input_mut().cur();
+    let start = p.cur_pos();
+
+    let can_be_arrow = p
+        .state_mut()
+        .potential_arrow_start
+        .map(|s| s == start)
+        .unwrap_or(false);
+
+    if let Some(token) = p.input_mut().cur() {
+        if token.is_this() {
+            return parse_this_expr(p, start);
+        } else if token.is_async() {
+            if let Some(res) = try_parse_async_start(p, can_be_arrow) {
+                return res;
+            }
+        } else if token.is_lbracket() {
+            let ctx = p.ctx() & !Context::WillExpectColonForCond;
+            return p.with_ctx(ctx).parse_with(parse_array_lit);
+        } else if token.is_lbrace() {
+            return parse_object_expr(p).map(Box::new);
+        } else if token.is_function() {
+            return parse_fn_expr(p);
+        } else if token.is_null()
+            || token.is_true()
+            || token.is_false()
+            || token.is_num()
+            || token.is_bigint()
+            || token.is_str()
+        {
+            // Literals
+            return Ok(parse_lit(p)?.into());
+        } else if token.is_slash() || token.is_slash_eq() {
+            if let Some(res) = try_parse_regexp(p, start) {
+                return Ok(res);
+            }
+        } else if token.is_lparen() {
+            return parse_paren_expr_or_arrow_fn(p, can_be_arrow, None);
+        } else if token.is_backquote() {
+            let ctx = p.ctx() & !Context::WillExpectColonForCond;
+            // parse template literal
+            return Ok(parse_tpl(p.with_ctx(ctx).deref_mut(), false)?.into());
+        }
+    }
+
+    parse_primary_expr_rest(p, start, can_be_arrow)
 }

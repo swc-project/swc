@@ -5,7 +5,9 @@ use swc_ecma_lexer::common::{
     parser::{
         buffer::Buffer,
         expr::parse_str_lit,
-        jsx::parse_jsx_text,
+        jsx::{
+            jsx_expr_container_to_jsx_attr_value, parse_jsx_empty_expr, parse_jsx_expr_container,
+        },
         typescript::{parse_ts_type_args, try_parse_ts},
         PResult, Parser as ParserTrait,
     },
@@ -15,6 +17,12 @@ use super::{input::Tokens, Parser};
 use crate::lexer::Token;
 
 impl<I: Tokens> Parser<I> {
+    fn parse_jsx_text(&mut self) -> JSXText {
+        let text = swc_ecma_lexer::common::parser::jsx::parse_jsx_text(self);
+        self.input_mut().scan_jsx_token(true);
+        text
+    }
+
     fn parse_jsx_ident(&mut self) -> Ident {
         debug_assert!(self.input().syntax().jsx());
         trace_cur!(self, parse_jsx_ident);
@@ -84,7 +92,8 @@ impl<I: Tokens> Parser<I> {
         let mut list = Vec::with_capacity(8);
         loop {
             self.input_mut().rescan_jsx_token(true);
-            let Some(child) = self.parse_jsx_child(self.input().get_cur().map(|c| c.token)) else {
+            let Ok(Some(child)) = self.parse_jsx_child(self.input().get_cur().map(|c| c.token))
+            else {
                 break;
             };
             list.push(child);
@@ -92,7 +101,7 @@ impl<I: Tokens> Parser<I> {
         list
     }
 
-    fn parse_jsx_child(&mut self, t: Option<Token>) -> Option<JSXElementChild> {
+    fn parse_jsx_child(&mut self, t: Option<Token>) -> PResult<Option<JSXElementChild>> {
         debug_assert!(self.input().syntax().jsx());
         let Some(t) = t else {
             todo!("error handle")
@@ -100,12 +109,34 @@ impl<I: Tokens> Parser<I> {
         };
 
         match t {
-            Token::JSXTagEnd => None,
-            Token::LBrace => todo!(),
-            Token::Lt => None,
-            Token::JSXText => Some(JSXElementChild::JSXText(parse_jsx_text(self))),
+            Token::JSXTagEnd => Ok(None),
+            Token::LBrace => Ok(Some(JSXElementChild::JSXExprContainer(
+                self.parse_jsx_expr_in_expr_context()?,
+            ))),
+            Token::Lt => Ok(None),
+            Token::JSXText => Ok(Some(JSXElementChild::JSXText(self.parse_jsx_text()))),
             _ => unreachable!(),
         }
+    }
+
+    fn parse_jsx_expr_in_expr_context(&mut self) -> PResult<JSXExprContainer> {
+        debug_assert!(self.input().syntax().jsx());
+        debug_assert!(self.input_mut().is(&Token::LBrace));
+
+        let start = self.input_mut().cur_pos();
+        self.bump(); // bump `{`
+
+        let expr = if self.input_mut().is(&Token::RBrace) {
+            JSXExpr::JSXEmptyExpr(parse_jsx_empty_expr(self))
+        } else {
+            self.input_mut().eat(&Token::DotDotDot);
+            self.parse_expr().map(JSXExpr::Expr)?
+        };
+        self.expect(&Token::RBrace)?;
+        Ok(JSXExprContainer {
+            span: self.span(start),
+            expr,
+        })
     }
 
     fn parse_jsx_attr_name(&mut self) -> PResult<JSXAttrName> {
@@ -133,16 +164,20 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_jsx_attr_value);
         if self.input_mut().eat(&Token::Eq) {
             self.input_mut().scan_jsx_attribute_value();
-            let Some(cur) = self.input_mut().cur() else {
+            let Some(cur) = self.input_mut().cur else {
                 todo!("error handle")
                 // return Ok(None)
             };
-            match *cur {
+            match cur.token {
                 Token::Str => {
                     let value = parse_str_lit(self);
                     Ok(Some(JSXAttrValue::Lit(Lit::Str(value))))
                 }
-                Token::LBrace => todo!(),
+                Token::LBrace => {
+                    let start = self.cur_pos();
+                    let node = parse_jsx_expr_container(self, start)?;
+                    jsx_expr_container_to_jsx_attr_value(self, start, node).map(|v| Some(v))
+                }
                 Token::Lt => todo!(),
                 _ => todo!("error handle"),
             }

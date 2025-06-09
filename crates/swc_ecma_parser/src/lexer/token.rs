@@ -182,6 +182,10 @@ pub enum Token {
     BigInt,
     Regex,
     Template,
+    NoSubstitutionTemplateLiteral,
+    TemplateHead,
+    TemplateMiddle,
+    TemplateTail,
     JSXName,
     JSXText,
     // Identifiers and keyword
@@ -865,6 +869,16 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn take_shebang(self, buffer: &mut Self::Buffer) -> Atom {
         buffer.expect_word_token_value()
     }
+
+    #[inline(always)]
+    fn is_no_substitution_template_literal(&self) -> bool {
+        Token::NoSubstitutionTemplateLiteral.eq(self)
+    }
+
+    #[inline(always)]
+    fn is_template_head(&self) -> bool {
+        Token::TemplateHead.eq(self)
+    }
 }
 
 impl std::fmt::Debug for Token {
@@ -1068,6 +1082,15 @@ impl Token {
                     unreachable!("{:#?}", value)
                 };
                 w.as_ref()
+            }
+            Token::NoSubstitutionTemplateLiteral
+            | Token::TemplateHead
+            | Token::TemplateMiddle
+            | Token::TemplateTail => {
+                let Some(TokenValue::Template { raw, .. }) = value else {
+                    unreachable!("{:#?}", value)
+                };
+                raw
             }
             Token::Await => "await",
             Token::Break => "break",

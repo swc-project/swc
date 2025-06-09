@@ -10,16 +10,17 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::common::lexer::{
-    comments_buffer::CommentsBuffer, fixed_len_span, pos_span, LexResult, Lexer as LexerTrait,
+    char::CharExt, comments_buffer::CommentsBuffer, fixed_len_span, pos_span, LexResult,
+    Lexer as LexerTrait,
 };
 
 use self::table::{ByteHandler, BYTE_HANDLERS};
 use crate::{
     error::{Error, SyntaxError},
+    input::Tokens,
     Context, Syntax,
 };
 
-mod jsx;
 mod state;
 mod table;
 mod token;
@@ -330,5 +331,110 @@ impl Lexer<'_> {
         }
 
         Ok(Some(token))
+    }
+
+    fn read_token_back_quote(&mut self) -> LexResult<Option<Token>> {
+        let start = self.cur_pos();
+        self.scan_template_token(start, true).map(Some)
+    }
+
+    fn scan_template_token(
+        &mut self,
+        start: BytePos,
+        started_with_backtick: bool,
+    ) -> LexResult<Token> {
+        let mut cooked = Ok(String::with_capacity(8));
+        self.bump();
+        let mut cooked_slice_start = self.cur_pos();
+        let raw_slice_start = cooked_slice_start;
+        let raw_atom = |this: &mut Self| {
+            let last_pos = this.cur_pos();
+            let s = unsafe { this.input.slice(raw_slice_start, last_pos) };
+            this.atoms.atom(s)
+        };
+        macro_rules! consume_cooked {
+            () => {{
+                if let Ok(cooked) = &mut cooked {
+                    let last_pos = self.cur_pos();
+                    cooked.push_str(unsafe {
+                        // Safety: Both of start and last_pos are valid position because we got them
+                        // from `self.input`
+                        self.input.slice(cooked_slice_start, last_pos)
+                    });
+                }
+            }};
+        }
+
+        while let Some(c) = self.cur() {
+            if c == '`' {
+                consume_cooked!();
+                let cooked = cooked.map(|cooked| self.atoms.atom(cooked));
+                let raw = raw_atom(self);
+                self.bump();
+                return Ok(if started_with_backtick {
+                    self.set_token_value(Some(TokenValue::Template { raw, cooked }));
+                    Token::NoSubstitutionTemplateLiteral
+                } else {
+                    self.set_token_value(Some(TokenValue::Template { raw, cooked }));
+                    Token::TemplateTail
+                });
+            } else if c == '$' && self.input.peek() == Some('{') {
+                consume_cooked!();
+                let cooked = cooked.map(|cooked| self.atoms.atom(cooked));
+                let raw = raw_atom(self);
+                self.input.bump_bytes(2);
+                return Ok(if started_with_backtick {
+                    self.set_token_value(Some(TokenValue::Template { raw, cooked }));
+                    Token::TemplateHead
+                } else {
+                    self.set_token_value(Some(TokenValue::Template { raw, cooked }));
+                    Token::TemplateMiddle
+                });
+            } else if c == '\\' {
+                consume_cooked!();
+
+                match self.read_escaped_char(true) {
+                    Ok(Some(chars)) => {
+                        if let Ok(ref mut cooked) = cooked {
+                            for c in chars {
+                                cooked.extend(c);
+                            }
+                        }
+                    }
+                    Ok(None) => {}
+                    Err(error) => {
+                        cooked = Err(error);
+                    }
+                }
+
+                cooked_slice_start = self.cur_pos();
+            } else if c.is_line_terminator() {
+                consume_cooked!();
+
+                let c = if c == '\r' && self.peek() == Some('\n') {
+                    self.bump(); // '\r'
+                    '\n'
+                } else {
+                    match c {
+                        '\n' => '\n',
+                        '\r' => '\n',
+                        '\u{2028}' => '\u{2028}',
+                        '\u{2029}' => '\u{2029}',
+                        _ => unreachable!(),
+                    }
+                };
+
+                self.bump();
+
+                if let Ok(ref mut cooked) = cooked {
+                    cooked.push(c);
+                }
+                cooked_slice_start = self.cur_pos();
+            } else {
+                self.bump();
+            }
+        }
+
+        self.error(start, SyntaxError::UnterminatedTpl)?
     }
 }
