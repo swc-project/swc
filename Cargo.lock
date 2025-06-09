@@ -498,9 +498,9 @@ dependencies = [
 
 [[package]]
 name = "bytes-str"
-version = "0.2.4"
+version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "db6d88f0bfe9e7ccec43a0d2aa5bc1d932cc1ddb004601f31b859da7dc71ecc0"
+checksum = "c02af038c863b51d496dd4a2eabdf781f8f7ab68025e13b984b7f2c525560454"
 dependencies = [
  "bytes",
  "rkyv",
