@@ -99,9 +99,9 @@ pub fn optimize(
     mut timings: Option<&mut Timings>,
     options: &MinifyOptions,
     extra: &ExtraOptions,
-    escape_method: FxHashSet<Atom>,
 ) -> Program {
     let _timer = timer!("minify");
+    let escape_method: FxHashSet<Atom> = FxHashSet::default();
 
     let mut marks = Marks::new();
     marks.top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
