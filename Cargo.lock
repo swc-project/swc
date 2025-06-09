@@ -498,9 +498,9 @@ dependencies = [
 
 [[package]]
 name = "bytes-str"
-version = "0.2.3"
+version = "0.2.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "55c361579d538821f45a32d54aa7e980c27b10f8649ee4e812fb0e6200eb869c"
+checksum = "db6d88f0bfe9e7ccec43a0d2aa5bc1d932cc1ddb004601f31b859da7dc71ecc0"
 dependencies = [
  "bytes",
  "rkyv",
@@ -4629,24 +4629,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "sourcemap"
-version = "9.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dd430118acc9fdd838557649b9b43fd0a78e3834d84a283b466f8e84720d6101"
-dependencies = [
- "base64-simd",
- "bitvec",
- "data-encoding",
- "debugid",
- "if_chain",
- "rustc-hash 2.1.1",
- "serde",
- "serde_json",
- "unicode-id-start",
- "url",
-]
-
-[[package]]
 name = "spin"
 version = "0.9.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4772,7 +4754,6 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "sourcemap",
  "swc_atoms",
  "swc_common",
  "swc_compiler_base",
@@ -4797,6 +4778,7 @@ dependencies = [
  "swc_node_comments",
  "swc_plugin_proxy",
  "swc_plugin_runner",
+ "swc_sourcemap",
  "swc_timer",
  "swc_transform_common",
  "swc_typescript",
@@ -4912,8 +4894,8 @@ dependencies = [
  "relative-path",
  "serde",
  "serde_json",
- "sourcemap",
  "swc_core",
+ "swc_sourcemap",
  "tracing",
  "tracing-chrome",
  "tracing-futures",
@@ -4948,10 +4930,10 @@ dependencies = [
  "serde_json",
  "shrink-to-fit",
  "siphasher 0.3.11",
- "sourcemap",
  "swc_allocator",
  "swc_atoms",
  "swc_eq_ignore_macros",
+ "swc_sourcemap",
  "swc_visit",
  "termcolor",
  "tracing",
@@ -4972,7 +4954,6 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "sourcemap",
  "swc_allocator",
  "swc_atoms",
  "swc_common",
@@ -4982,6 +4963,7 @@ dependencies = [
  "swc_ecma_minifier",
  "swc_ecma_parser",
  "swc_ecma_visit",
+ "swc_sourcemap",
  "swc_timer",
 ]
 
@@ -4999,8 +4981,8 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "sourcemap",
  "swc_config_macro",
+ "swc_sourcemap",
 ]
 
 [[package]]
@@ -5306,7 +5288,6 @@ dependencies = [
  "ryu-js",
  "serde",
  "serde_json",
- "sourcemap",
  "swc_allocator",
  "swc_atoms",
  "swc_common",
@@ -5315,6 +5296,7 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_testing",
  "swc_malloc",
+ "swc_sourcemap",
  "testing",
  "tracing",
 ]
@@ -5827,7 +5809,6 @@ version = "19.0.0"
 dependencies = [
  "par-core",
  "pretty_assertions",
- "sourcemap",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -5843,6 +5824,7 @@ dependencies = [
  "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_sourcemap",
  "tempfile",
  "testing",
 ]
@@ -6066,7 +6048,6 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
- "sourcemap",
  "swc_allocator",
  "swc_common",
  "swc_ecma_ast",
@@ -6076,6 +6057,7 @@ dependencies = [
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_sourcemap",
  "tempfile",
  "testing",
 ]
@@ -6531,6 +6513,24 @@ dependencies = [
 [[package]]
 name = "swc_plugin_testing"
 version = "0.24.1"
+
+[[package]]
+name = "swc_sourcemap"
+version = "9.3.0"
+source = "git+https://github.com/swc-project/swc-sourcemap.git?branch=kdy1%2Fbytes-str#f01929cbc19b3dacb5cf533a4d00dd3f64826425"
+dependencies = [
+ "base64-simd",
+ "bitvec",
+ "bytes-str",
+ "data-encoding",
+ "debugid",
+ "if_chain",
+ "rustc-hash 2.1.1",
+ "serde",
+ "serde_json",
+ "unicode-id-start",
+ "url",
+]
 
 [[package]]
 name = "swc_timer"
