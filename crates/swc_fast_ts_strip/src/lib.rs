@@ -77,10 +77,6 @@ interface TransformConfig {
      * @see https://www.typescriptlang.org/tsconfig#verbatimModuleSyntax
      */
     verbatimModuleSyntax?: boolean;
-    /**
-     * Native class properties support
-     */
-    nativeClassProperties?: boolean;
     importNotUsedAsValues?: "remove" | "preserve";
     /**
      * Don't create `export {}`.
