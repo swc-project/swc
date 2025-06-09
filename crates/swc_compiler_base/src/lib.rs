@@ -403,6 +403,20 @@ pub fn minify_file_comments(
             t.retain(preserve_excl);
         }
 
+        BoolOr::Data(JsMinifyCommentOption::PreserveRegexComments { regex }) => {
+            let preserve_excl = |_: &BytePos, vc: &mut std::vec::Vec<Comment>| -> bool {
+                // Preserve comments that match the regex
+                //
+                // See https://github.com/terser/terser/blob/798135e04baddd94fea403cfaab4ba8b22b1b524/lib/output.js#L286
+                vc.retain(|c: &Comment| regex.find(&c.text).is_some());
+                !vc.is_empty()
+            };
+            let (mut l, mut t) = comments.borrow_all_mut();
+
+            l.retain(preserve_excl);
+            t.retain(preserve_excl);
+        }
+
         BoolOr::Bool(false) => {
             let (mut l, mut t) = comments.borrow_all_mut();
             l.clear();
@@ -449,6 +463,13 @@ impl Visit for IdentCollector {
     }
 
     fn visit_ident_name(&mut self, ident: &IdentName) {
+        // We don't want to specifically include the constructor name in the source map
+        // so that the source map name in thrown errors refers to the class name
+        // instead of the constructor name.
+        if ident.sym == "constructor" {
+            return;
+        }
+
         self.names.insert(ident.span.lo, ident.sym.clone());
     }
 }
