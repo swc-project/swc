@@ -59,7 +59,7 @@
 //!     //     .expect("failed to load test.js");
 //!     let fm = cm.new_source_file(
 //!         FileName::Custom("test.js".into()).into(),
-//!         "function foo() {}".into(),
+//!         "function foo() {}",
 //!     );
 //!     let lexer = Lexer::new(
 //!         // We want to parse ecmascript
