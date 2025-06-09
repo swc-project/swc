@@ -907,6 +907,16 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
             _ => unreachable!(),
         }
     }
+
+    #[inline(always)]
+    fn is_no_substitution_template_literal(&self) -> bool {
+        false
+    }
+
+    #[inline(always)]
+    fn is_template_head(&self) -> bool {
+        false
+    }
 }
 
 impl Token {

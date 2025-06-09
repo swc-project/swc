@@ -146,7 +146,7 @@ where
 }
 
 /// In no lexer context
-fn ts_in_no_context<'a, P: Parser<'a>, T, F>(p: &mut P, op: F) -> PResult<T>
+pub(crate) fn ts_in_no_context<'a, P: Parser<'a>, T, F>(p: &mut P, op: F) -> PResult<T>
 where
     F: FnOnce(&mut P) -> PResult<T>,
 {
@@ -471,7 +471,7 @@ pub fn parse_ts_type_args<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTypePar
     let params = p.in_type().parse_with(|p| {
         // Temporarily remove a JSX parsing context, which makes us scan different
         // tokens.
-        ts_in_no_context(p, |p| {
+        p.ts_in_no_context(|p| {
             if p.input_mut().is(&P::Token::LSHIFT) {
                 p.input_mut().cut_lshift();
             } else {
@@ -729,7 +729,7 @@ pub fn parse_ts_type_params<'a, P: Parser<'a>>(
     permit_const: bool,
 ) -> PResult<Box<TsTypeParamDecl>> {
     p.in_type().parse_with(|p| {
-        ts_in_no_context(p, |p| {
+        p.ts_in_no_context(|p| {
             let start = p.input_mut().cur_pos();
 
             let Some(cur) = p.input_mut().cur() else {

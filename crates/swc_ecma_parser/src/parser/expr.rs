@@ -2,7 +2,13 @@ use either::Either;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_lexer::{
     common::parser::{
-        expr::{parse_await_expr, parse_lhs_expr, parse_member_expr_or_new_expr},
+        class_and_fn::parse_fn_expr,
+        expr::{
+            parse_array_lit, parse_await_expr, parse_lhs_expr, parse_lit,
+            parse_member_expr_or_new_expr, parse_paren_expr_or_arrow_fn, parse_primary_expr_rest,
+            parse_this_expr, try_parse_async_start, try_parse_regexp,
+        },
+        object::parse_object_expr,
         typescript::parse_ts_type_assertion,
     },
     error::SyntaxError,
@@ -184,5 +190,65 @@ impl<I: Tokens> Parser<I> {
             .into());
         }
         Ok(expr)
+    }
+
+    pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_primary_expr);
+        let _ = self.input.cur();
+        let start = cur_pos!(self);
+        let can_be_arrow = self
+            .state
+            .potential_arrow_start
+            .map(|s| s == start)
+            .unwrap_or(false);
+        if let Some(tok) = self.input.cur() {
+            match *tok {
+                Token::This => return parse_this_expr(self, start),
+                Token::Async => {
+                    if let Some(res) = try_parse_async_start(self, can_be_arrow) {
+                        return res;
+                    }
+                }
+                Token::LBracket => {
+                    let ctx = self.ctx() & !Context::WillExpectColonForCond;
+                    return self.with_ctx(ctx).parse_with(parse_array_lit);
+                }
+                Token::LBrace => {
+                    return parse_object_expr(self).map(Box::new);
+                }
+                // Handle FunctionExpression and GeneratorExpression
+                Token::Function => {
+                    return parse_fn_expr(self);
+                }
+                // Literals
+                Token::Null
+                | Token::True
+                | Token::False
+                | Token::Num
+                | Token::BigInt
+                | Token::Str => {
+                    return parse_lit(self).map(|lit| lit.into());
+                }
+                // Regexp
+                Token::Slash | Token::DivEq => {
+                    if let Some(res) = try_parse_regexp(self, start) {
+                        return Ok(res);
+                    }
+                }
+                Token::LParen => return parse_paren_expr_or_arrow_fn(self, can_be_arrow, None),
+                Token::NoSubstitutionTemplateLiteral => {
+                    return Ok(self.parse_no_substitution_template_literal(false)?.into())
+                }
+                Token::TemplateHead => {
+                    let ctx = self.ctx() & !Context::WillExpectColonForCond;
+
+                    // parse template literal
+                    return Ok(self.with_ctx(ctx).parse_tpl(false)?.into());
+                }
+                _ => {}
+            }
+        }
+
+        parse_primary_expr_rest(self, start, can_be_arrow)
     }
 }

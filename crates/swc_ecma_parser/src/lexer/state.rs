@@ -6,6 +6,7 @@ use swc_ecma_lexer::{
     common::lexer::{
         char::CharExt,
         comments_buffer::{BufferedComment, BufferedCommentKind},
+        state::State as StateTrait,
     },
     TokenContexts,
 };
@@ -24,13 +25,14 @@ use crate::{
 #[derive(Clone)]
 pub struct State {
     pub is_expr_allowed: bool,
-    pub next_regexp: Option<BytePos>,
     /// if line break exists between previous token and new token?
     pub had_line_break: bool,
     /// if line break exists before last?
     pub had_line_break_before_last: bool,
+    pub can_skip_space: bool,
     /// TODO: Remove this field.
     is_first: bool,
+    pub next_regexp: Option<BytePos>,
     pub start: BytePos,
     pub cur_line: usize,
     pub line_start: BytePos,
@@ -110,16 +112,29 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
         self.module_errors.borrow_mut().push(error);
     }
 
+    #[inline]
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
 
+    #[inline]
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         take(&mut self.module_errors.borrow_mut())
     }
 
+    #[inline]
     fn end_pos(&self) -> BytePos {
         self.input.end_pos()
+    }
+
+    #[inline]
+    fn can_skip_space(&self) -> bool {
+        self.state.can_skip_space
+    }
+
+    #[inline]
+    fn set_can_skip_space(&mut self, can_skip_space: bool) {
+        self.state.can_skip_space = can_skip_space;
     }
 }
 
@@ -165,6 +180,21 @@ impl Tokens for Lexer<'_> {
             Err(e) => e,
         };
         let span = self.span(start);
+        if let Some(token) = token {
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                for comment in comments.take_pending_leading() {
+                    comments.push(BufferedComment {
+                        kind: BufferedCommentKind::Leading,
+                        pos: start,
+                        comment,
+                    });
+                }
+            }
+
+            self.state.set_token_type(token.into());
+            self.state.prev_hi = self.last_pos();
+            self.state.had_line_break_before_last = self.had_line_break_before_last();
+        }
         token.map(|token| {
             // Attach span to token.
             TokenAndSpan {
@@ -201,19 +231,64 @@ impl Tokens for Lexer<'_> {
 
         match cur {
             '\'' | '"' => {
-                let _ = self.read_str_lit::<true>();
+                let token = self.read_jsx_str(cur).ok()?;
                 debug_assert!(self
                     .get_token_value()
                     .is_some_and(|t| matches!(t, TokenValue::Str { .. })));
-
+                debug_assert!(token == Token::Str);
                 Some(TokenAndSpan {
-                    token: Token::Str,
+                    token,
                     had_line_break: self.had_line_break_before_last(),
                     span: self.span(start),
                 })
             }
             _ => self.next(),
         }
+    }
+
+    fn rescan_template_token(
+        &mut self,
+        start: BytePos,
+        start_with_back_tick: bool,
+    ) -> Option<TokenAndSpan> {
+        unsafe { self.input.reset_to(start) };
+        let res = self
+            .scan_template_token(start, start_with_back_tick)
+            .map(Some);
+        let token = match res
+            .map_err(|e| {
+                self.state.set_token_value(TokenValue::Error(e));
+                Token::Error
+            })
+            .map_err(Some)
+        {
+            Ok(t) => t,
+            Err(e) => e,
+        };
+        let span = self.span(start);
+        if let Some(token) = token {
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                for comment in comments.take_pending_leading() {
+                    comments.push(BufferedComment {
+                        kind: BufferedCommentKind::Leading,
+                        pos: start,
+                        comment,
+                    });
+                }
+            }
+
+            self.state.set_token_type(token.into());
+            self.state.prev_hi = self.last_pos();
+            self.state.had_line_break_before_last = self.had_line_break_before_last();
+        }
+        token.map(|token| {
+            // Attach span to token.
+            TokenAndSpan {
+                token,
+                had_line_break: self.had_line_break_before_last(),
+                span,
+            }
+        })
     }
 }
 
@@ -234,10 +309,10 @@ impl Lexer<'_> {
         self.state.is_first = false;
 
         // skip spaces before getting next character, if we are allowed to.
-        // if self.state.can_skip_space() {
-        self.skip_space::<true>();
-        *start = self.input.cur_pos();
-        // };
+        if self.state.can_skip_space {
+            self.skip_space::<true>();
+            *start = self.input.cur_pos();
+        };
 
         match self.input.cur() {
             Some(..) => {}
@@ -341,7 +416,7 @@ impl Iterator for Lexer<'_> {
         };
 
         let span = self.span(start);
-        if token.is_some() {
+        if let Some(token) = token {
             if let Some(comments) = self.comments_buffer.as_mut() {
                 for comment in comments.take_pending_leading() {
                     comments.push(BufferedComment {
@@ -352,7 +427,7 @@ impl Iterator for Lexer<'_> {
                 }
             }
 
-            // self.state.update(start, token);
+            self.state.set_token_type(token.into());
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
@@ -372,10 +447,11 @@ impl State {
     pub fn new(syntax: Syntax, start_pos: BytePos) -> Self {
         State {
             is_expr_allowed: true,
-            next_regexp: None,
             had_line_break: false,
             had_line_break_before_last: false,
             is_first: true,
+            can_skip_space: true,
+            next_regexp: None,
             start: BytePos(0),
             cur_line: 1,
             line_start: BytePos(0),
@@ -476,5 +552,10 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
     #[inline(always)]
     fn set_line_start(&mut self, line_start: BytePos) {
         self.line_start = line_start;
+    }
+
+    #[inline(always)]
+    fn can_skip_space(&self) -> bool {
+        self.can_skip_space
     }
 }

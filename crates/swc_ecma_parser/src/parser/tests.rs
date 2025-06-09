@@ -237,6 +237,7 @@ fn issue_2264_3() {
     );
 
     let (leading, trailing) = c.take_all();
+
     assert!(leading.borrow().is_empty());
     assert_eq!(trailing.borrow().len(), 2);
     assert_eq!(trailing.borrow().get(&BytePos(26)).unwrap().len(), 1);

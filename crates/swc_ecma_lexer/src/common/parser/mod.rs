@@ -236,7 +236,7 @@ pub trait Parser<'a>: Sized + Clone {
         if !self.input_mut().eat(t) {
             let span = self.input().cur_span();
             let cur = self.input_mut().dump_cur();
-            syntax_error!(self, span, SyntaxError::Expected(format!("{:?}", t), cur))
+            syntax_error!(self, span, SyntaxError::Expected(format!("{t:?}"), cur))
         } else {
             Ok(())
         }
@@ -247,7 +247,7 @@ pub trait Parser<'a>: Sized + Clone {
         if !self.input_mut().is(t) {
             let span = self.input().cur_span();
             let cur = self.input_mut().dump_cur();
-            syntax_error!(self, span, SyntaxError::Expected(format!("{:?}", t), cur))
+            syntax_error!(self, span, SyntaxError::Expected(format!("{t:?}"), cur))
         } else {
             Ok(())
         }
@@ -493,12 +493,15 @@ pub trait Parser<'a>: Sized + Clone {
         }
     }
 
-    fn parse_unary_expr(&mut self) -> PResult<Box<Expr>>;
-
     fn parse_jsx_element(
         &mut self,
         in_expr_context: bool,
     ) -> PResult<Either<JSXFragment, JSXElement>>;
+
+    fn parse_primary_expr(&mut self) -> PResult<Box<Expr>>;
+    fn parse_unary_expr(&mut self) -> PResult<Box<Expr>>;
+
+    fn ts_in_no_context<T>(&mut self, op: impl FnOnce(&mut Self) -> PResult<T>) -> PResult<T>;
 }
 
 pub fn parse_shebang<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Atom>> {

@@ -32,6 +32,7 @@ mod pat;
 mod stmt;
 #[cfg(test)]
 mod tests;
+mod tpl;
 #[cfg(feature = "typescript")]
 mod typescript;
 
@@ -89,6 +90,20 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
         in_expr_context: bool,
     ) -> PResult<either::Either<JSXFragment, JSXElement>> {
         self.parse_jsx_element(in_expr_context)
+    }
+
+    #[inline(always)]
+    fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
+        self.parse_primary_expr()
+    }
+
+    #[inline(always)]
+    fn ts_in_no_context<T>(&mut self, op: impl FnOnce(&mut Self) -> PResult<T>) -> PResult<T> {
+        debug_assert!(self.input().syntax().typescript());
+        trace_cur!(self, ts_in_no_context__before);
+        let res = op(self);
+        trace_cur!(self, ts_in_no_context__after);
+        res
     }
 }
 

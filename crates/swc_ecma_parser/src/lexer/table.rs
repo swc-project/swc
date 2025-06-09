@@ -302,7 +302,7 @@ const DIG: ByteHandler = Some(|lexer| {
 });
 
 /// String literals with `'` or `"`
-const QOT: ByteHandler = Some(|lexer| lexer.read_str_lit::<false>().map(Some));
+const QOT: ByteHandler = Some(|lexer| lexer.read_str_lit().map(Some));
 
 /// Unicode
 const UNI: ByteHandler = Some(|lexer| {
@@ -354,7 +354,9 @@ macro_rules! single_char {
 
 single_char!(SEM, b';', Semi);
 single_char!(COM, b',', Comma);
-single_char!(TPL, b'`', BackQuote);
+
+const TPL: ByteHandler = Some(|lexer| lexer.read_token_back_quote());
+
 single_char!(TLD, b'~', Tilde);
 single_char!(AT_, b'@', At);
 
