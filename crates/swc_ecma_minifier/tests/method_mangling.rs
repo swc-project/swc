@@ -99,8 +99,8 @@ fn test_method_mangling_enabled() {
         let mangled_method_names = count_method_names(&optimized);
 
         // Print out for debugging
-        println!("Original method names: {:?}", original_method_names);
-        println!("Mangled method names: {:?}", mangled_method_names);
+        println!("Original method names: {original_method_names:?}",);
+        println!("Mangled method names: {mangled_method_names:?}",);
 
         // Verify that methods were mangled - they should be shorter
         for name in &mangled_method_names {
@@ -165,8 +165,8 @@ fn test_method_mangling_disabled() {
 
         let output_method_names = count_method_names(&optimized);
 
-        println!("Original method names: {:?}", original_method_names);
-        println!("Output method names: {:?}", output_method_names);
+        println!("Original method names: {original_method_names:?}");
+        println!("Output method names: {output_method_names:?}");
 
         assert!(output_method_names.contains(&"calculateValue".to_string()));
         assert!(output_method_names.contains(&"increaseValue".to_string()));
