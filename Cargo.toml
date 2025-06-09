@@ -110,7 +110,7 @@ resolver = "2"
   smol_str                  = "0.2.0"
   st-map                    = "0.2.0"
   string_cache              = "0.8.7"
-  swc_sourcemap             = { git = "https://github.com/swc-project/swc-sourcemap.git", branch = "kdy1/bytes-str" }
+  swc_sourcemap             = "9.3.0"
   syn                       = "2"
   tempfile                  = "3.6.0"
   termcolor                 = "1.0"
