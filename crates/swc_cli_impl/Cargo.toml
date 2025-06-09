@@ -33,7 +33,7 @@ rayon              = { workspace = true }
 relative-path      = { workspace = true }
 serde              = { workspace = true, features = ["derive"] }
 serde_json         = { workspace = true, features = ["unbounded_depth"] }
-sourcemap          = { workspace = true }
+swc_sourcemap      = { workspace = true }
 tracing            = { workspace = true }
 tracing-chrome     = { workspace = true }
 tracing-futures    = { workspace = true }

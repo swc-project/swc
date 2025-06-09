@@ -19,20 +19,20 @@ file_pattern = ["glob", "regex"]
 glob         = ["dep:globset", "dep:dashmap", "dep:rustc-hash", "dep:once_cell"]
 regex        = ["dep:regex", "dep:dashmap", "dep:rustc-hash", "dep:once_cell"]
 regex_js     = ["dep:regress"]
-sourcemap    = ["dep:sourcemap"]
+sourcemap    = ["dep:swc_sourcemap"]
 
 [dependencies]
-anyhow     = { workspace = true }
-dashmap    = { workspace = true, optional = true }
-globset    = { workspace = true, optional = true }
-indexmap   = { workspace = true }
-once_cell  = { workspace = true, optional = true }
-regex      = { workspace = true, optional = true }
-regress    = { workspace = true, optional = true }
-rustc-hash = { workspace = true, optional = true }
-serde      = { workspace = true, features = ["derive", "rc"] }
-serde_json = { workspace = true }
-sourcemap  = { workspace = true, optional = true }
+anyhow        = { workspace = true }
+dashmap       = { workspace = true, optional = true }
+globset       = { workspace = true, optional = true }
+indexmap      = { workspace = true }
+once_cell     = { workspace = true, optional = true }
+regex         = { workspace = true, optional = true }
+regress       = { workspace = true, optional = true }
+rustc-hash    = { workspace = true, optional = true }
+serde         = { workspace = true, features = ["derive", "rc"] }
+serde_json    = { workspace = true }
+swc_sourcemap = { workspace = true, optional = true }
 
 swc_config_macro = { version = "1.0.0", path = "../swc_config_macro" }
 
