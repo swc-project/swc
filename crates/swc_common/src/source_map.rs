@@ -224,7 +224,9 @@ impl SourceMap {
         self.new_source_file_impl(filename, src.into())
     }
 
-    fn new_source_file_impl(&self, filename: Lrc<FileName>, src: BytesStr) -> Lrc<SourceFile> {
+    fn new_source_file_impl(&self, filename: Lrc<FileName>, mut src: BytesStr) -> Lrc<SourceFile> {
+        remove_bom(&mut src);
+
         // The path is used to determine the directory for loading submodules and
         // include files, so it must be before remapping.
         // Note that filename may not be a valid path, eg it may be `<anon>` etc,
@@ -1182,6 +1184,13 @@ impl SourceMap {
         config: impl SourceMapGenConfig,
     ) -> sourcemap::SourceMap {
         build_source_map(self, mappings, orig, &config)
+    }
+}
+
+/// Remove utf-8 BOM if any.
+fn remove_bom(src: &mut BytesStr) {
+    if src.starts_with('\u{feff}') {
+        src.advance(3);
     }
 }
 
