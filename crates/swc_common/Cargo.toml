@@ -74,7 +74,3 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 rayon                     = { workspace = true }
 serde_json                = { workspace = true }
-
-[[bench]]
-harness = false
-name    = "serde"
