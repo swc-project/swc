@@ -4947,6 +4947,7 @@ version = "22.0.1"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
+ "bytes-str",
  "napi",
  "napi-derive",
  "once_cell",
