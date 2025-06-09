@@ -27,6 +27,7 @@ use std::{
     sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
 
+use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 #[cfg(feature = "sourcemap")]
@@ -55,7 +56,7 @@ pub trait FileLoader {
     fn abs_path(&self, path: &Path) -> Option<PathBuf>;
 
     /// Read the contents of an UTF-8 file into memory.
-    fn read_file(&self, path: &Path) -> io::Result<String>;
+    fn read_file(&self, path: &Path) -> io::Result<BytesStr>;
 }
 
 /// A FileLoader that uses std::fs to load real files.
@@ -74,8 +75,14 @@ impl FileLoader for RealFileLoader {
         }
     }
 
-    fn read_file(&self, path: &Path) -> io::Result<String> {
-        fs::read_to_string(path)
+    fn read_file(&self, path: &Path) -> io::Result<BytesStr> {
+        let bytes = fs::read(path)?;
+        BytesStr::from_utf8(bytes.into()).map_err(|_| {
+            io::Error::new(
+                io::ErrorKind::InvalidData,
+                "Failed to convert bytes to UTF-8",
+            )
+        })
     }
 }
 
@@ -205,21 +212,21 @@ impl SourceMap {
 
     /// Creates a new source_file.
     /// This does not ensure that only one SourceFile exists per file name.
-    pub fn new_source_file(&self, filename: Lrc<FileName>, mut src: String) -> Lrc<SourceFile> {
-        remove_bom(&mut src);
-
-        self.new_source_file_from(filename, Lrc::new(src))
-    }
-
-    /// Creates a new source_file.
-    /// This does not ensure that only one SourceFile exists per file name.
     ///
-    /// `src` should not have UTF8 BOM
-    pub fn new_source_file_from(
+    /// - `src` should not have UTF8 BOM
+    /// - `&'static str` and [String] implements `Into<BytesStr>`
+    #[inline(always)]
+    pub fn new_source_file(
         &self,
         filename: Lrc<FileName>,
-        src: Lrc<String>,
+        src: impl Into<BytesStr>,
     ) -> Lrc<SourceFile> {
+        self.new_source_file_impl(filename, src.into())
+    }
+
+    fn new_source_file_impl(&self, filename: Lrc<FileName>, mut src: BytesStr) -> Lrc<SourceFile> {
+        remove_bom(&mut src);
+
         // The path is used to determine the directory for loading submodules and
         // include files, so it must be before remapping.
         // Note that filename may not be a valid path, eg it may be `<anon>` etc,
@@ -241,7 +248,7 @@ impl SourceMap {
 
         let start_pos = self.next_start_pos(src.len());
 
-        let source_file = Lrc::new(SourceFile::new_from(
+        let source_file = Lrc::new(SourceFile::new(
             filename,
             was_remapped,
             unmapped_path,
@@ -1180,6 +1187,13 @@ impl SourceMap {
     }
 }
 
+/// Remove utf-8 BOM if any.
+fn remove_bom(src: &mut BytesStr) {
+    if src.starts_with('\u{feff}') {
+        src.advance(3);
+    }
+}
+
 /// Calculates the number of excess chars seen in the UTF-8 encoding of a
 /// file compared with the UTF-16 encoding.
 fn calc_utf16_offset(file: &SourceFile, bpos: BytePos, state: &mut ByteToCharPosState) -> u32 {
@@ -1567,12 +1581,12 @@ mod tests {
         let sm = SourceMap::new(FilePathMapping::empty());
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork.rs").into()),
-            "first line.\nsecond line".to_string(),
+            "first line.\nsecond line",
         );
-        sm.new_source_file(Lrc::new(PathBuf::from("empty.rs").into()), String::new());
+        sm.new_source_file(Lrc::new(PathBuf::from("empty.rs").into()), BytesStr::new());
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork2.rs").into()),
-            "first line.\nsecond line".to_string(),
+            "first line.\nsecond line",
         );
         sm
     }
@@ -1628,11 +1642,11 @@ mod tests {
         // € is a three byte utf8 char.
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork.rs").into()),
-            "fir€st €€€€ line.\nsecond line".to_string(),
+            "fir€st €€€€ line.\nsecond line",
         );
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork2.rs").into()),
-            "first line€€.\n€ second line".to_string(),
+            "first line€€.\n€ second line",
         );
         sm
     }
@@ -1694,7 +1708,7 @@ mod tests {
         let selection = "     \n    ~~\n~~~\n~~~~~     \n   \n";
         sm.new_source_file(
             Lrc::new(Path::new("blork.rs").to_path_buf().into()),
-            inputtext.to_string(),
+            inputtext,
         );
         let span = span_from_selection(inputtext, selection);
 
@@ -1748,7 +1762,7 @@ mod tests {
     fn t10() {
         // Test span_to_lines for a span of empty file
         let sm = SourceMap::new(FilePathMapping::empty());
-        sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), "".to_string());
+        sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), "");
         let span = Span::new(BytePos(1), BytePos(1));
         let file_lines = sm.span_to_lines(span).unwrap();
 
@@ -1763,10 +1777,7 @@ mod tests {
         let inputtext = "bbbb BB\ncc CCC\n";
         let selection1 = "     ~~\n      \n";
         let selection2 = "       \n   ~~~\n";
-        sm.new_source_file(
-            Lrc::new(Path::new("blork.rs").to_owned().into()),
-            inputtext.to_owned(),
-        );
+        sm.new_source_file(Lrc::new(Path::new("blork.rs").to_owned().into()), inputtext);
         let span1 = span_from_selection(inputtext, selection1);
         let span2 = span_from_selection(inputtext, selection2);
 
@@ -1777,10 +1788,7 @@ mod tests {
     fn test_calc_utf16_offset() {
         let input = "t¢e∆s💩t";
         let sm = SourceMap::new(FilePathMapping::empty());
-        let file = sm.new_source_file(
-            Lrc::new(PathBuf::from("blork.rs").into()),
-            input.to_string(),
-        );
+        let file = sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), input);
 
         let mut state = ByteToCharPosState::default();
         let mut bpos = file.start_pos;
@@ -1808,10 +1816,7 @@ mod tests {
     fn bytepos_to_charpos() {
         let input = "t¢e∆s💩t";
         let sm = SourceMap::new(FilePathMapping::empty());
-        let file = sm.new_source_file(
-            Lrc::new(PathBuf::from("blork.rs").into()),
-            input.to_string(),
-        );
+        let file = sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), input);
 
         let mut bpos = file.start_pos;
         let mut cpos = CharPos(0);

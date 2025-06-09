@@ -80,9 +80,10 @@ impl Tester<'_> {
 
     #[allow(dead_code)]
     pub fn parse(&self, s: &str) -> Module {
-        let fm = self
-            .cm
-            .new_source_file(FileName::Real(PathBuf::from("input.js")).into(), s.into());
+        let fm = self.cm.new_source_file(
+            FileName::Real(PathBuf::from("input.js")).into(),
+            s.to_string(),
+        );
 
         let lexer = Lexer::new(
             Default::default(),

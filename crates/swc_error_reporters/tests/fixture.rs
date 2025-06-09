@@ -35,7 +35,7 @@ fn span(start: usize, end: usize) -> Span {
 #[test]
 fn test_1() {
     output("1.ans", |cm, h| {
-        let _fm = cm.new_source_file(FileName::Anon.into(), "123456789".into());
+        let _fm = cm.new_source_file(FileName::Anon.into(), "123456789");
 
         h.struct_span_err(span(1, 3), "test")
             .span_label(span(1, 4), "label")
@@ -46,7 +46,7 @@ fn test_1() {
 #[test]
 fn test_2() {
     output("2.ans", |cm, h| {
-        let _fm = cm.new_source_file(FileName::Anon.into(), "123456789".into());
+        let _fm = cm.new_source_file(FileName::Anon.into(), "123456789");
 
         let mut d = h.struct_span_err(span(1, 3), "test");
 
@@ -65,7 +65,7 @@ fn test_2() {
 #[test]
 fn test_long_text_wrap() {
     output("long_text_wrap.ans", |cm, h| {
-        let _fm = cm.new_source_file(FileName::Anon.into(), "123456789".into());
+        let _fm = cm.new_source_file(FileName::Anon.into(), "123456789");
 
         let mut d = h.struct_span_err(span(1, 3), r##"You are attempting to export "metadata" from a component marked with "use client", which is disallowed. Either remove the export, or the "use client" directive. Read more: https://nextjs.org/docs/app/api-reference/directives/use-client"##);
 

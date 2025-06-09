@@ -489,10 +489,21 @@ checksum = "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
 
 [[package]]
 name = "bytes"
-version = "1.8.0"
+version = "1.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9ac0150caa2ae65ca5bd83f25c7de183dea78d4d366469f148435e2acfbad0da"
+checksum = "d71b6127be86fdcfddb610f7182ac57211d4b18a3e9c82eb2d17662f2227ad6a"
 dependencies = [
+ "serde",
+]
+
+[[package]]
+name = "bytes-str"
+version = "0.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "55c361579d538821f45a32d54aa7e980c27b10f8649ee4e812fb0e6200eb869c"
+dependencies = [
+ "bytes",
+ "rkyv",
  "serde",
 ]
 
@@ -4740,6 +4751,7 @@ dependencies = [
  "ansi_term",
  "anyhow",
  "base64 0.22.1",
+ "bytes-str",
  "codspeed-criterion-compat",
  "criterion",
  "dashmap 5.5.3",
@@ -4918,6 +4930,7 @@ dependencies = [
  "ast_node",
  "better_scoped_tls",
  "bytecheck 0.8.1",
+ "bytes-str",
  "cfg-if",
  "codspeed-criterion-compat",
  "criterion",
@@ -5960,6 +5973,7 @@ dependencies = [
 name = "swc_ecma_transforms_optimization"
 version = "16.0.0"
 dependencies = [
+ "bytes-str",
  "dashmap 5.5.3",
  "indexmap 2.7.1",
  "once_cell",
@@ -6016,6 +6030,7 @@ name = "swc_ecma_transforms_react"
 version = "17.0.0"
 dependencies = [
  "base64 0.22.1",
+ "bytes-str",
  "dashmap 5.5.3",
  "indexmap 2.7.1",
  "once_cell",
@@ -6069,6 +6084,7 @@ dependencies = [
 name = "swc_ecma_transforms_typescript"
 version = "17.0.0"
 dependencies = [
+ "bytes-str",
  "codspeed-criterion-compat",
  "criterion",
  "once_cell",
@@ -6224,6 +6240,7 @@ name = "swc_fast_ts_strip"
 version = "19.0.0"
 dependencies = [
  "anyhow",
+ "bytes-str",
  "codspeed-criterion-compat",
  "criterion",
  "serde",

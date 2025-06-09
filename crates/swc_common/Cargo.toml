@@ -32,8 +32,15 @@ plugin_transform_schema_vtest = []
 
 tty-emitter = ["termcolor"]
 
-__rkyv    = []
-rkyv-impl = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "bytecheck", "rancor"]
+__rkyv = []
+rkyv-impl = [
+  "__rkyv",
+  "rkyv",
+  "swc_atoms/rkyv-impl",
+  "bytes-str/rkyv",
+  "bytecheck",
+  "rancor",
+]
 
 shrink-to-fit = ["dep:shrink-to-fit", "swc_atoms/shrink-to-fit"]
 
@@ -42,6 +49,7 @@ shrink-to-fit = ["dep:shrink-to-fit", "swc_atoms/shrink-to-fit"]
 anyhow                = { workspace = true }
 arbitrary             = { workspace = true, features = ["derive"], optional = true }
 bytecheck             = { workspace = true, optional = true }
+bytes-str             = { workspace = true, features = ["serde"] }
 cfg-if                = { workspace = true }
 either                = { workspace = true }
 new_debug_unreachable = { workspace = true }
