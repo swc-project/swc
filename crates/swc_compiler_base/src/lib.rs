@@ -403,6 +403,17 @@ pub fn minify_file_comments(
             t.retain(preserve_excl);
         }
 
+        BoolOr::Data(JsMinifyCommentOption::PreserveMacroComments) => {
+            let preserve_excl = |_: &BytePos, vc: &mut std::vec::Vec<Comment>| -> bool {
+                vc.retain(|c: &Comment| c.text.contains("@common"));
+                !vc.is_empty()
+            };
+            let (mut l, mut t) = comments.borrow_all_mut();
+
+            l.retain(preserve_excl);
+            t.retain(preserve_excl);
+        }
+
         BoolOr::Data(JsMinifyCommentOption::PreserveRegexComments { regex }) => {
             let preserve_excl = |_: &BytePos, vc: &mut std::vec::Vec<Comment>| -> bool {
                 // Preserve comments that match the regex

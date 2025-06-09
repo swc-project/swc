@@ -215,6 +215,8 @@ pub enum JsMinifyCommentOption {
     PreserveSomeComments,
     #[serde(rename = "all")]
     PreserveAllComments,
+    #[serde(rename = "macro")]
+    PreserveMacroComments,
     #[serde(untagged)]
     PreserveRegexComments { regex: CachedJsRegex },
 }
