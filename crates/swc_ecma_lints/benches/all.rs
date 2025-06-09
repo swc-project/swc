@@ -71,15 +71,11 @@ pub fn bench_files(c: &mut Criterion) {
     };
 
     bench_file("antd");
-    #[cfg(not(codspeed))]
-    bench_file("d3");
     bench_file("echarts");
     bench_file("jquery");
     bench_file("lodash");
     bench_file("moment");
     bench_file("react");
-    #[cfg(not(codspeed))]
-    bench_file("terser");
     bench_file("three");
     bench_file("typescript");
     bench_file("victory");
