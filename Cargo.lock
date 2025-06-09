@@ -6518,7 +6518,8 @@ version = "0.24.1"
 [[package]]
 name = "swc_sourcemap"
 version = "9.3.0"
-source = "git+https://github.com/swc-project/swc-sourcemap.git?branch=kdy1%2Fbytes-str#f01929cbc19b3dacb5cf533a4d00dd3f64826425"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5c8d25be7830fcf30414c080697f5db03cbe7467cd4908a9a77958ebc8dbbafe"
 dependencies = [
  "base64-simd",
  "bitvec",
