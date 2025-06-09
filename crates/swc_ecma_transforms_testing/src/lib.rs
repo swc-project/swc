@@ -1007,7 +1007,7 @@ fn test_fixture_inner<'a>(
 }
 
 /// Creates a url for https://evanw.github.io/source-map-visualization/
-fn visualizer_url(code: &str, map: &sourcemap::SourceMap) -> String {
+fn visualizer_url(code: &str, map: &swc_sourcemap::SourceMap) -> String {
     let map = {
         let mut buf = Vec::new();
         map.to_writer(&mut buf).unwrap();

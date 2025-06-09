@@ -129,7 +129,6 @@ use common::{
 use jsonc_parser::{parse_to_serde_value, ParseOptions};
 use once_cell::sync::Lazy;
 use serde_json::error::Category;
-pub use sourcemap;
 use swc_common::{
     comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap, Spanned,
     GLOBALS,
@@ -154,6 +153,7 @@ use swc_ecma_transforms_base::fixer::paren_remover;
 use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
+pub use swc_sourcemap as sourcemap;
 use swc_timer::timer;
 use swc_transform_common::output::experimental_emit;
 use swc_typescript::fast_dts::FastDts;
