@@ -31,7 +31,7 @@ use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 #[cfg(feature = "sourcemap")]
-use sourcemap::SourceMapBuilder;
+use swc_sourcemap::SourceMapBuilder;
 use tracing::debug;
 
 pub use crate::syntax_pos::*;
@@ -1180,9 +1180,9 @@ impl SourceMap {
     pub fn build_source_map(
         &self,
         mappings: &[(BytePos, LineCol)],
-        orig: Option<sourcemap::SourceMap>,
+        orig: Option<swc_sourcemap::SourceMap>,
         config: impl SourceMapGenConfig,
-    ) -> sourcemap::SourceMap {
+    ) -> swc_sourcemap::SourceMap {
         build_source_map(self, mappings, orig, &config)
     }
 }
@@ -1281,9 +1281,9 @@ impl Files for SourceMap {
 pub fn build_source_map(
     files: &impl Files,
     mappings: &[(BytePos, LineCol)],
-    orig: Option<sourcemap::SourceMap>,
+    orig: Option<swc_sourcemap::SourceMap>,
     config: &impl SourceMapGenConfig,
-) -> sourcemap::SourceMap {
+) -> swc_sourcemap::SourceMap {
     let mut builder = SourceMapBuilder::new(None);
 
     let mut src_id = 0u32;
@@ -1326,7 +1326,7 @@ pub fn build_source_map(
                 if config.skip(&f.name) {
                     continue;
                 }
-                src_id = builder.add_source(&config.file_name_to_source(&f.name));
+                src_id = builder.add_source(config.file_name_to_source(&f.name).into());
                 // orig.adjust_mappings below will throw this out if orig is Some
                 if orig.is_none() && config.ignore_list(&f.name) {
                     builder.add_to_ignore_list(src_id);
@@ -1336,7 +1336,7 @@ pub fn build_source_map(
                 let inline_sources_content =
                     orig.is_none() && config.inline_sources_content(&f.name);
                 if inline_sources_content {
-                    builder.set_source_contents(src_id, Some(&f.src));
+                    builder.set_source_contents(src_id, Some(f.src.clone()));
                 }
 
                 ch_state = ByteToCharPosState::default();
@@ -1386,8 +1386,12 @@ pub fn build_source_map(
         let name = None;
 
         let name_idx = if orig.is_none() {
-            name.or_else(|| config.name_for_bytepos(pos))
-                .map(|name| builder.add_name(name))
+            name.or_else(|| config.name_for_bytepos(pos)).map(|name| {
+                builder.add_name(unsafe {
+                    // Safety: name is `&str`, which is valid UTF-8
+                    BytesStr::from_utf8_slice_unchecked(name.as_bytes())
+                })
+            })
         } else {
             // orig.adjust_mappings below will throw this out
             None
