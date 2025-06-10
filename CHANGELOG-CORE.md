@@ -2565,9 +2565,6 @@
 - **(es/compat)** Skip `getter` and `setter` as FlowHelper `function` do ([#9580](https://github.com/swc-project/swc/issues/9580)) ([14cfd70](https://github.com/swc-project/swc/commit/14cfd70ee00938497ce6b59f68332f9daa17378b))
 
 
-- **(es/isolated-dts)** Preserve comments ([#9572](https://github.com/swc-project/swc/issues/9572)) ([6d15d9c](https://github.com/swc-project/swc/commit/6d15d9c2eb4397b15908cda38f2e44e02d81ebc1))
-
-
 - **(es/minifier)** Check variable type while optimizing `+=` ([#9575](https://github.com/swc-project/swc/issues/9575)) ([04016e9](https://github.com/swc-project/swc/commit/04016e9687c5f02e764ffc9d7be2432d16da5dc0))
 
 
