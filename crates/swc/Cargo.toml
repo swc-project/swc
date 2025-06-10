@@ -79,7 +79,7 @@ swc_common = { version = "12.0.0", path = "../swc_common", features = [
   "parking_lot",
 ] }
 swc_compiler_base = { version = "23.0.0", path = "../swc_compiler_base" }
-swc_config = { version = "3.0.0", path = "../swc_config" }
+swc_config = { version = "3.1.0", path = "../swc_config" }
 swc_ecma_ast = { version = "12.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "14.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "16.0.0", path = "../swc_ecma_ext_transforms" }
@@ -89,7 +89,7 @@ swc_ecma_loader = { version = "12.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "21.0.0", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "21.0.1", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "15.0.0", path = "../swc_ecma_parser" }
 swc_ecma_preset_env = { version = "21.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "20.0.0", path = "../swc_ecma_transforms", features = [
