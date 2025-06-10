@@ -207,7 +207,7 @@ pub trait Parser<'a>: Sized + Clone {
 
     fn eat_general_semi(&mut self) -> bool {
         if cfg!(feature = "debug") {
-            tracing::trace!("eat(';'): cur={:?}", cur!(self, false));
+            tracing::trace!("eat(';'): cur={:?}", self.input_mut().cur());
         }
         let Some(cur) = self.input_mut().cur() else {
             return true;
@@ -472,11 +472,20 @@ pub trait Parser<'a>: Sized + Clone {
 }
 
 pub fn parse_shebang<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Atom>> {
-    let cur = cur!(p, false);
-    Ok(if cur.is_ok_and(|t| t.is_shebang()) {
+    Ok(if p.input_mut().cur().is_some_and(|t| t.is_shebang()) {
         let t = p.bump();
         Some(t.take_shebang(p.input_mut()))
     } else {
         None
     })
+}
+
+pub fn eof_error<'a, P: Parser<'a>>(p: &mut P) -> crate::error::Error {
+    debug_assert!(
+        p.input_mut().cur().is_none(),
+        "Parser should not call throw_eof_error() without knowing current token"
+    );
+    let pos = p.input().end_pos();
+    let last = Span::new(pos, pos);
+    crate::error::Error::new(last, crate::error::SyntaxError::Eof)
 }
