@@ -26,6 +26,7 @@ diagnostic-serde = []
 plugin-base      = ["__plugin", "rkyv-impl", "diagnostic-serde"]
 plugin-mode      = ["__plugin_mode", "plugin-base"]
 plugin-rt        = ["__plugin_rt", "plugin-base"]
+sourcemap        = ["dep:swc_sourcemap"]
 
 plugin_transform_schema_v1    = []
 plugin_transform_schema_vtest = []
@@ -62,7 +63,7 @@ rustc-hash            = { workspace = true }
 serde                 = { workspace = true, features = ["derive"] }
 shrink-to-fit         = { workspace = true, optional = true }
 siphasher             = { workspace = true }
-sourcemap             = { workspace = true, optional = true }
+swc_sourcemap         = { workspace = true, optional = true }
 termcolor             = { workspace = true, optional = true }
 tracing               = { workspace = true }
 unicode-width         = { workspace = true }
