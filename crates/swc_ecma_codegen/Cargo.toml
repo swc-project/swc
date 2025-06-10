@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_codegen"
 repository    = { workspace = true }
-version       = "13.2.0"
+version       = "14.0.0"
 
 [features]
 # This does not enable serde for ast nodes.
@@ -33,8 +33,8 @@ swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features
   "hashbrown",
 ] }
 swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
-swc_common = { version = "11.1.3", path = "../swc_common" }
-swc_ecma_ast = { version = "11.0.0", path = "../swc_ecma_ast" }
+swc_common = { version = "12.0.0", path = "../swc_common" }
+swc_ecma_ast = { version = "12.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen_macros = { version = "2.0.0", path = "../swc_ecma_codegen_macros" }
 
 [dev-dependencies]
@@ -44,13 +44,13 @@ criterion                 = { workspace = true }
 serde_json                = { workspace = true }
 
 swc_allocator = { version = "4.0.0", path = "../swc_allocator" }
-swc_common = { version = "11.1.3", path = "../swc_common", features = [
+swc_common = { version = "12.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_parser = { version = "14.0.2", path = "../swc_ecma_parser" }
-swc_ecma_testing = { version = "12.0.0", path = "../swc_ecma_testing" }
+swc_ecma_parser = { version = "15.0.0", path = "../swc_ecma_parser" }
+swc_ecma_testing = { version = "13.0.0", path = "../swc_ecma_testing" }
 swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
-testing = { version = "12.0.0", path = "../testing" }
+testing = { version = "13.0.0", path = "../testing" }
 
 [[bench]]
 harness = false
