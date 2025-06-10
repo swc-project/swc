@@ -1,5 +1,5 @@
+use bytes_str::BytesStr;
 use serde::{Deserialize, Serialize};
-use swc_common::sync::Lrc;
 
 #[derive(Debug, Default, Serialize, Deserialize, Clone, Copy)]
 #[serde(rename_all = "camelCase")]
@@ -40,11 +40,11 @@ pub struct Config {
 pub struct TsxConfig {
     /// Note: this pass handle jsx directives in comments
     #[serde(default)]
-    pub pragma: Option<Lrc<String>>,
+    pub pragma: Option<BytesStr>,
 
     /// Note: this pass handle jsx directives in comments
     #[serde(default)]
-    pub pragma_frag: Option<Lrc<String>>,
+    pub pragma_frag: Option<BytesStr>,
 }
 
 #[derive(Default, Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]

@@ -567,7 +567,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
     no_computed_member: bool,
 ) -> PResult<(Box<Expr>, bool)> {
     trace_cur!(p, parse_subscript);
-    let _ = cur!(p, false);
+    p.input_mut().cur();
 
     if p.input().syntax().typescript() {
         if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::BANG) {
@@ -1312,7 +1312,7 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
         let expr = left;
         let node = if peek!(p).is_some_and(|cur| cur.is_const()) {
             p.bump(); // as
-            let _ = cur!(p, false);
+            p.input_mut().cur();
             p.bump(); // const
             TsConstAssertion {
                 span: p.span(start),
@@ -1352,9 +1352,9 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
 
     let ctx = p.ctx();
     // Return left on eof
-    let word = match cur!(p, false) {
-        Ok(cur) => cur,
-        Err(..) => return Ok((left, None)),
+    let word = match p.input_mut().cur() {
+        Some(cur) => cur,
+        None => return Ok((left, None)),
     };
     let op = if word.is_in() && ctx.contains(Context::IncludeInExpr) {
         op!("in")
@@ -1742,7 +1742,7 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
             expect!(p, &P::Token::LPAREN);
         }
         debug_assert!(
-            !cur!(p, false).is_ok_and(|cur| cur.is_lparen()),
+            !p.input_mut().cur().is_some_and(|cur| cur.is_lparen()),
             "parse_new_expr() should eat paren if it exists"
         );
         return Ok(NewExpr { type_args, ..ne }.into());
@@ -1857,7 +1857,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                 } else {
                     let mut expr = parse_bin_expr(p)?;
 
-                    if cur!(p, false).is_ok_and(|t| t.is_assign_op()) {
+                    if p.input_mut().cur().is_some_and(|t| t.is_assign_op()) {
                         expr = finish_assignment_expr(p, start, expr)?
                     }
 
@@ -1876,7 +1876,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                     peek.is_comma() || peek.is_equal() || peek.is_rparen() || peek.is_colon()
                 }) {
                     p.assert_and_bump(&P::Token::QUESTION)?;
-                    let _ = cur!(p, false);
+                    p.input_mut().cur();
                     if arg.spread.is_some() {
                         p.emit_err(p.input().prev_span(), SyntaxError::TS1047);
                     }

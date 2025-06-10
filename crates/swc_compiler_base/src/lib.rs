@@ -5,6 +5,7 @@ use std::{
 
 use anyhow::{Context, Error};
 use base64::prelude::{Engine, BASE64_STANDARD};
+use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 #[allow(unused)]
@@ -112,7 +113,7 @@ pub struct PrintArgs<'a> {
     pub inline_sources_content: bool,
     pub source_map: SourceMapsConfig,
     pub source_map_names: &'a FxHashMap<BytePos, Atom>,
-    pub orig: Option<sourcemap::SourceMap>,
+    pub orig: Option<swc_sourcemap::SourceMap>,
     pub comments: Option<&'a dyn Comments>,
     pub emit_source_map_columns: bool,
     pub preamble: &'a str,
@@ -243,8 +244,8 @@ where
     };
 
     if let Some(map) = &mut map {
-        if source_root.is_some() {
-            map.set_source_root(source_root)
+        if let Some(source_root) = source_root {
+            map.set_source_root(Some(BytesStr::from_str_slice(source_root)))
         }
     }
 

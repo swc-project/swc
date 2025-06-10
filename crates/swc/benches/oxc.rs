@@ -2,6 +2,7 @@ extern crate swc_malloc;
 
 use std::{fs, io::stderr, sync::Arc};
 
+use bytes_str::BytesStr;
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc::config::{Config, JscConfig, Options, TransformConfig};
 use swc_common::{errors::Handler, FileName, FilePathMapping, SourceMap, GLOBALS};
@@ -26,13 +27,13 @@ fn mk() -> swc::Compiler {
 fn bench_full(b: &mut Bencher, filename: &str, opts: &Options) {
     let c = mk();
 
-    let source = Arc::new(fs::read_to_string(filename).unwrap());
+    let source: BytesStr = fs::read_to_string(filename).unwrap().into();
 
     b.iter(|| {
         GLOBALS.set(&Default::default(), || {
             let handler = Handler::with_emitter_writer(Box::new(stderr()), Some(c.cm.clone()));
 
-            let fm = c.cm.new_source_file_from(
+            let fm = c.cm.new_source_file(
                 FileName::Real(filename.to_string().into()).into(),
                 black_box(source.clone()),
             );

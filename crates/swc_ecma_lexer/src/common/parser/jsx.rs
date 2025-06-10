@@ -131,7 +131,7 @@ fn parse_jsx_empty_expr<'a>(p: &mut impl Parser<'a>) -> JSXEmptyExpr {
 
 pub fn parse_jsx_text<'a>(p: &mut impl Parser<'a>) -> JSXText {
     debug_assert!(p.input().syntax().jsx());
-    debug_assert!(cur!(p, false).is_ok_and(|t| t.is_jsx_text()));
+    debug_assert!(p.input_mut().cur().is_some_and(|t| t.is_jsx_text()));
     let token = p.bump();
     let span = p.input().prev_span();
     let (value, raw) = token.take_jsx_text(p.input_mut());
@@ -245,7 +245,7 @@ fn parse_jsx_opening_element_at<'a, P: Parser<'a>>(
 pub fn parse_jsx_attrs<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<JSXAttrOrSpread>> {
     let mut attrs = Vec::with_capacity(8);
 
-    while cur!(p, false).is_ok() {
+    while p.input_mut().cur().is_some() {
         trace_cur!(p, parse_jsx_opening__attrs_loop);
 
         if p.input_mut()

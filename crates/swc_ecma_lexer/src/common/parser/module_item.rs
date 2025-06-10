@@ -70,7 +70,7 @@ fn parse_from_clause_and_semi<'a, P: Parser<'a>>(
     } else {
         unexpected!(p, "a string literal")
     };
-    let _ = cur!(p, false);
+    p.input_mut().cur();
     let with = if p.input().syntax().import_attributes()
         && !p.input_mut().had_line_break_before_cur()
         && (p.input_mut().eat(&P::Token::ASSERT) || p.input_mut().eat(&P::Token::WITH))
@@ -758,9 +758,10 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
     expect!(p, &P::Token::IMPORT);
 
     // Handle import 'mod.js'
-    if cur!(p, false).is_ok_and(|cur| cur.is_str()) {
+    if p.input_mut().cur().is_some_and(|cur| cur.is_str()) {
         let src = Box::new(parse_str_lit(p));
-        let _ = cur!(p, false);
+        debug_assert!(p.input_mut().get_cur().is_none());
+        p.input_mut().cur();
         let with = if p.input().syntax().import_attributes()
             && !p.input_mut().had_line_break_before_cur()
             && (p.input_mut().eat(&P::Token::ASSERT) || p.input_mut().eat(&P::Token::WITH))
@@ -886,7 +887,7 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
         }
     };
 
-    let _ = cur!(p, false);
+    p.input_mut().cur();
     let with = if p.input().syntax().import_attributes()
         && !p.input_mut().had_line_break_before_cur()
         && (p.input_mut().eat(&P::Token::ASSERT) || p.input_mut().eat(&P::Token::WITH))

@@ -336,7 +336,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "25.0.0"
+version = "26.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -489,10 +489,21 @@ checksum = "1fd0f2584146f6f2ef48085050886acf353beff7305ebd1ae69500e27c67f64b"
 
 [[package]]
 name = "bytes"
-version = "1.8.0"
+version = "1.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9ac0150caa2ae65ca5bd83f25c7de183dea78d4d366469f148435e2acfbad0da"
+checksum = "d71b6127be86fdcfddb610f7182ac57211d4b18a3e9c82eb2d17662f2227ad6a"
 dependencies = [
+ "serde",
+]
+
+[[package]]
+name = "bytes-str"
+version = "0.2.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c02af038c863b51d496dd4a2eabdf781f8f7ab68025e13b984b7f2c525560454"
+dependencies = [
+ "bytes",
+ "rkyv",
  "serde",
 ]
 
@@ -1203,7 +1214,7 @@ checksum = "2a2330da5de22e8a3cb63252ce2abb30116bf5265e89c0e01bc17015ce30a476"
 
 [[package]]
 name = "dbg-swc"
-version = "21.0.0"
+version = "22.0.0"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -1247,17 +1258,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b42b6fa04a440b495c8b04d0e71b707c585f83cb9cb28cf8cd0d976c315e31b4"
 dependencies = [
  "powerfmt",
-]
-
-[[package]]
-name = "derivative"
-version = "2.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fcc3dd5e9e9c0b295d6e1e4d811fb6f157d5ffd784b8d202fc62eac8035a770b"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn 1.0.109",
 ]
 
 [[package]]
@@ -2366,7 +2366,6 @@ checksum = "bd070e393353796e801d209ad339e89596eb4c8d430d18ede6a1cced8fafbd99"
 dependencies = [
  "autocfg",
  "hashbrown 0.12.3",
- "serde",
 ]
 
 [[package]]
@@ -2489,7 +2488,7 @@ dependencies = [
 
 [[package]]
 name = "jsdoc"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
@@ -4618,24 +4617,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "sourcemap"
-version = "9.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "dd430118acc9fdd838557649b9b43fd0a78e3834d84a283b466f8e84720d6101"
-dependencies = [
- "base64-simd",
- "bitvec",
- "data-encoding",
- "debugid",
- "if_chain",
- "rustc-hash 2.1.1",
- "serde",
- "serde_json",
- "unicode-id-start",
- "url",
-]
-
-[[package]]
 name = "spin"
 version = "0.9.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4735,11 +4716,12 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "25.0.0"
+version = "26.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
  "base64 0.22.1",
+ "bytes-str",
  "codspeed-criterion-compat",
  "criterion",
  "dashmap 5.5.3",
@@ -4760,7 +4742,6 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "sourcemap",
  "swc_atoms",
  "swc_common",
  "swc_compiler_base",
@@ -4785,6 +4766,7 @@ dependencies = [
  "swc_node_comments",
  "swc_plugin_proxy",
  "swc_plugin_runner",
+ "swc_sourcemap",
  "swc_timer",
  "swc_transform_common",
  "swc_typescript",
@@ -4843,7 +4825,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "19.0.0"
+version = "20.0.0"
 dependencies = [
  "anyhow",
  "crc",
@@ -4887,7 +4869,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "26.0.0"
+version = "27.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -4900,8 +4882,8 @@ dependencies = [
  "relative-path",
  "serde",
  "serde_json",
- "sourcemap",
  "swc_core",
+ "swc_sourcemap",
  "tracing",
  "tracing-chrome",
  "tracing-futures",
@@ -4911,13 +4893,14 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "11.1.3"
+version = "12.0.0"
 dependencies = [
  "anyhow",
  "arbitrary",
  "ast_node",
  "better_scoped_tls",
  "bytecheck 0.8.1",
+ "bytes-str",
  "cfg-if",
  "codspeed-criterion-compat",
  "criterion",
@@ -4935,10 +4918,10 @@ dependencies = [
  "serde_json",
  "shrink-to-fit",
  "siphasher 0.3.11",
- "sourcemap",
  "swc_allocator",
  "swc_atoms",
  "swc_eq_ignore_macros",
+ "swc_sourcemap",
  "swc_visit",
  "termcolor",
  "tracing",
@@ -4948,10 +4931,11 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "22.0.1"
+version = "23.0.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
+ "bytes-str",
  "napi",
  "napi-derive",
  "once_cell",
@@ -4959,7 +4943,6 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "sourcemap",
  "swc_allocator",
  "swc_atoms",
  "swc_common",
@@ -4969,14 +4952,16 @@ dependencies = [
  "swc_ecma_minifier",
  "swc_ecma_parser",
  "swc_ecma_visit",
+ "swc_sourcemap",
  "swc_timer",
 ]
 
 [[package]]
 name = "swc_config"
-version = "3.0.0"
+version = "3.1.0"
 dependencies = [
  "anyhow",
+ "bytes-str",
  "dashmap 5.5.3",
  "globset",
  "indexmap 2.7.1",
@@ -4986,8 +4971,8 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "sourcemap",
  "swc_config_macro",
+ "swc_sourcemap",
 ]
 
 [[package]]
@@ -5002,7 +4987,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "26.4.5"
+version = "27.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5059,7 +5044,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "13.0.0"
+version = "14.0.0"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -5074,7 +5059,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_ast"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "bytecheck 0.8.1",
  "is-macro",
@@ -5088,7 +5073,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "auto_impl",
  "bitflags 2.6.0",
@@ -5116,7 +5101,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_compat"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "bitflags 2.6.0",
  "once_cell",
@@ -5134,7 +5119,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_lints"
-version = "12.0.0"
+version = "13.0.0"
 dependencies = [
  "anyhow",
  "auto_impl",
@@ -5155,7 +5140,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_minifier"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -5174,7 +5159,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_modules"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "indexmap 2.7.1",
  "rustc-hash 2.1.1",
@@ -5192,7 +5177,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_parser"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -5209,7 +5194,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "13.0.0"
+version = "14.0.0"
 dependencies = [
  "once_cell",
  "preset_env_base",
@@ -5228,7 +5213,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_utils"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "once_cell",
  "rustc-hash 2.1.1",
@@ -5242,7 +5227,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_visit"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5253,7 +5238,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "arbitrary",
  "bitflags 2.6.0",
@@ -5278,7 +5263,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "13.2.0"
+version = "14.0.0"
 dependencies = [
  "ascii",
  "base64 0.22.1",
@@ -5293,7 +5278,6 @@ dependencies = [
  "ryu-js",
  "serde",
  "serde_json",
- "sourcemap",
  "swc_allocator",
  "swc_atoms",
  "swc_common",
@@ -5302,6 +5286,7 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_testing",
  "swc_malloc",
+ "swc_sourcemap",
  "testing",
  "tracing",
 ]
@@ -5318,7 +5303,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_bugfixes"
-version = "16.0.0"
+version = "17.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -5336,7 +5321,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_common"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -5347,7 +5332,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "16.0.0"
+version = "17.0.0"
 dependencies = [
  "arrayvec",
  "indexmap 2.7.1",
@@ -5374,7 +5359,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2016"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -5391,7 +5376,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5409,7 +5394,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2018"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5428,7 +5413,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2019"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -5444,7 +5429,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "16.0.0"
+version = "17.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5462,7 +5447,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2021"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -5476,7 +5461,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2022"
-version = "16.0.0"
+version = "17.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -5494,7 +5479,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es3"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -5509,7 +5494,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "phf",
  "swc_atoms",
@@ -5521,7 +5506,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "14.0.5"
+version = "15.0.0"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5552,7 +5537,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "16.0.0"
+version = "17.0.0"
 dependencies = [
  "anyhow",
  "auto_impl",
@@ -5582,7 +5567,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
@@ -5603,7 +5588,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "20.0.5"
+version = "21.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5651,7 +5636,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "14.0.2"
+version = "15.0.0"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5683,7 +5668,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "20.0.0"
+version = "21.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -5712,7 +5697,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote"
-version = "14.0.0"
+version = "15.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -5723,7 +5708,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "14.0.0"
+version = "15.0.0"
 dependencies = [
  "anyhow",
  "proc-macro2",
@@ -5739,7 +5724,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_react_compiler"
-version = "4.0.2"
+version = "5.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -5751,7 +5736,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_regexp"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "phf",
  "rustc-hash 2.1.1",
@@ -5769,7 +5754,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_regexp_ast"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "bitflags 2.6.0",
  "bytecheck 0.8.1",
@@ -5787,7 +5772,7 @@ version = "0.0.0"
 
 [[package]]
 name = "swc_ecma_regexp_visit"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -5799,7 +5784,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_testing"
-version = "12.0.0"
+version = "13.0.0"
 dependencies = [
  "anyhow",
  "hex",
@@ -5810,11 +5795,10 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "19.0.0"
+version = "20.0.0"
 dependencies = [
  "par-core",
  "pretty_assertions",
- "sourcemap",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -5830,13 +5814,14 @@ dependencies = [
  "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_sourcemap",
  "tempfile",
  "testing",
 ]
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "15.1.1"
+version = "16.0.0"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",
@@ -5865,7 +5850,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -5877,7 +5862,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "17.0.0"
+version = "18.0.0"
 dependencies = [
  "arrayvec",
  "indexmap 2.7.1",
@@ -5927,7 +5912,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "17.0.0"
+version = "18.0.0"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -5958,8 +5943,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "16.0.0"
+version = "17.0.0"
 dependencies = [
+ "bytes-str",
  "dashmap 5.5.3",
  "indexmap 2.7.1",
  "once_cell",
@@ -5988,7 +5974,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "either",
  "rustc-hash 2.1.1",
@@ -6013,9 +5999,10 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "17.0.0"
+version = "18.0.0"
 dependencies = [
  "base64 0.22.1",
+ "bytes-str",
  "dashmap 5.5.3",
  "indexmap 2.7.1",
  "once_cell",
@@ -6042,7 +6029,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "18.0.0"
+version = "19.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6051,7 +6038,6 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
- "sourcemap",
  "swc_allocator",
  "swc_common",
  "swc_ecma_ast",
@@ -6061,14 +6047,16 @@ dependencies = [
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_sourcemap",
  "tempfile",
  "testing",
 ]
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "17.0.0"
+version = "18.0.0"
 dependencies = [
+ "bytes-str",
  "codspeed-criterion-compat",
  "criterion",
  "once_cell",
@@ -6092,7 +6080,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "16.0.1"
+version = "17.0.0"
 dependencies = [
  "bitflags 2.6.0",
  "indexmap 2.7.1",
@@ -6108,7 +6096,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "15.0.2"
+version = "16.0.0"
 dependencies = [
  "indexmap 2.7.1",
  "num_cpus",
@@ -6131,7 +6119,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -6145,7 +6133,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "24.0.0"
+version = "25.0.0"
 dependencies = [
  "par-core",
  "swc_ecma_ast",
@@ -6170,7 +6158,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "13.0.0"
+version = "14.0.0"
 dependencies = [
  "anyhow",
  "miette",
@@ -6184,7 +6172,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_ast"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "better_scoped_tls",
  "serde",
@@ -6195,7 +6183,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "15.0.0"
+version = "16.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -6221,9 +6209,10 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "19.0.0"
+version = "20.0.0"
 dependencies = [
  "anyhow",
+ "bytes-str",
  "codspeed-criterion-compat",
  "criterion",
  "serde",
@@ -6241,7 +6230,7 @@ dependencies = [
 
 [[package]]
 name = "swc_graph_analyzer"
-version = "12.0.0"
+version = "13.0.0"
 dependencies = [
  "auto_impl",
  "petgraph 0.7.1",
@@ -6253,7 +6242,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "20.0.0"
+version = "21.0.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -6264,7 +6253,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_ast"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "bytecheck 0.8.1",
  "is-macro",
@@ -6277,7 +6266,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "auto_impl",
  "bitflags 2.6.0",
@@ -6304,7 +6293,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "20.0.0"
+version = "21.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -6336,7 +6325,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_parser"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "codspeed-criterion-compat",
  "criterion",
@@ -6354,7 +6343,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_utils"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "once_cell",
  "rustc-hash 2.1.1",
@@ -6366,7 +6355,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_visit"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -6394,7 +6383,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "26.0.0"
+version = "27.0.0"
 dependencies = [
  "anyhow",
  "dashmap 5.5.3",
@@ -6424,7 +6413,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_comments"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "dashmap 5.5.3",
  "rustc-hash 2.1.1",
@@ -6462,7 +6451,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "better_scoped_tls",
  "bytecheck 0.8.1",
@@ -6477,7 +6466,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "13.0.0"
+version = "14.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -6504,7 +6493,7 @@ dependencies = [
  "tokio",
  "tracing",
  "vergen",
- "virtual-fs 0.19.0",
+ "virtual-fs",
  "wasmer",
  "wasmer-cache",
  "wasmer-compiler-cranelift",
@@ -6514,6 +6503,25 @@ dependencies = [
 [[package]]
 name = "swc_plugin_testing"
 version = "0.24.1"
+
+[[package]]
+name = "swc_sourcemap"
+version = "9.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5c8d25be7830fcf30414c080697f5db03cbe7467cd4908a9a77958ebc8dbbafe"
+dependencies = [
+ "base64-simd",
+ "bitvec",
+ "bytes-str",
+ "data-encoding",
+ "debugid",
+ "if_chain",
+ "rustc-hash 2.1.1",
+ "serde",
+ "serde_json",
+ "unicode-id-start",
+ "url",
+]
 
 [[package]]
 name = "swc_timer"
@@ -6534,7 +6542,7 @@ dependencies = [
 
 [[package]]
 name = "swc_transform_common"
-version = "5.0.0"
+version = "6.0.0"
 dependencies = [
  "better_scoped_tls",
  "once_cell",
@@ -6546,7 +6554,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "14.0.3"
+version = "15.0.0"
 dependencies = [
  "bitflags 2.6.0",
  "petgraph 0.7.1",
@@ -6573,7 +6581,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "swc_xml_ast",
  "swc_xml_codegen",
@@ -6583,7 +6591,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_ast"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "is-macro",
  "serde",
@@ -6594,7 +6602,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_codegen"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "auto_impl",
  "bitflags 2.6.0",
@@ -6620,7 +6628,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_parser"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "serde",
@@ -6634,7 +6642,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_visit"
-version = "11.0.0"
+version = "12.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -6794,7 +6802,7 @@ checksum = "3369f5ac52d5eb6ab48c6b4ffdc8efbcad6b89c765749064ba298f2c68a16a76"
 
 [[package]]
 name = "testing"
-version = "12.0.0"
+version = "13.0.0"
 dependencies = [
  "ansi_term",
  "cargo_metadata",
@@ -7407,31 +7415,6 @@ checksum = "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a"
 
 [[package]]
 name = "virtual-fs"
-version = "0.19.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "14d2456ec960b74e5b0423159c70dd9796da1445de462013fe03eefd2545b631"
-dependencies = [
- "async-trait",
- "bytes",
- "dashmap 6.1.0",
- "derivative",
- "dunce",
- "futures",
- "getrandom 0.2.15",
- "indexmap 1.9.3",
- "lazy_static",
- "pin-project-lite",
- "replace_with",
- "shared-buffer",
- "slab",
- "thiserror 1.0.69",
- "tokio",
- "tracing",
- "wasmer-package 0.2.0",
-]
-
-[[package]]
-name = "virtual-fs"
 version = "0.600.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "558995609ae4e69538c3f1eec3ad1d195ee8a1ed9d39768713728a57ed4ba6fe"
@@ -7455,8 +7438,8 @@ dependencies = [
  "thiserror 1.0.69",
  "tokio",
  "tracing",
- "wasmer-package 0.600.0",
- "webc 9.0.0",
+ "wasmer-package",
+ "webc",
 ]
 
 [[package]]
@@ -7818,28 +7801,6 @@ dependencies = [
 
 [[package]]
 name = "wasmer-config"
-version = "0.10.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "666d97272c1042e20957be5f7e4a42f28ae5367c32a79ae953339335a55512e3"
-dependencies = [
- "anyhow",
- "bytesize",
- "ciborium",
- "derive_builder 0.12.0",
- "hex",
- "indexmap 2.7.1",
- "schemars",
- "semver",
- "serde",
- "serde_json",
- "serde_yml",
- "thiserror 1.0.69",
- "toml",
- "url",
-]
-
-[[package]]
-name = "wasmer-config"
 version = "0.600.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "51dab2fa03bfb28b8b8c2f546531f56b341743557305e51ea621b1d8f7075b29"
@@ -7894,37 +7855,11 @@ dependencies = [
  "shared-buffer",
  "thiserror 1.0.69",
  "tracing",
- "virtual-fs 0.600.0",
+ "virtual-fs",
  "virtual-net",
  "wasmer",
- "wasmer-config 0.600.0",
+ "wasmer-config",
  "wasmer-wasix-types",
-]
-
-[[package]]
-name = "wasmer-package"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "98d05a5cd47f324ed784481d79351e12a02ad3289148dfa72432aa5d394634b8"
-dependencies = [
- "anyhow",
- "bytes",
- "cfg-if",
- "ciborium",
- "flate2",
- "insta",
- "semver",
- "serde",
- "serde_json",
- "sha2",
- "shared-buffer",
- "tar",
- "tempfile",
- "thiserror 1.0.69",
- "toml",
- "url",
- "wasmer-config 0.10.0",
- "webc 7.0.0-rc.2",
 ]
 
 [[package]]
@@ -7950,9 +7885,9 @@ dependencies = [
  "thiserror 1.0.69",
  "toml",
  "url",
- "wasmer-config 0.600.0",
+ "wasmer-config",
  "wasmer-types",
- "webc 9.0.0",
+ "webc",
 ]
 
 [[package]]
@@ -8057,20 +7992,20 @@ dependencies = [
  "tracing",
  "url",
  "urlencoding",
- "virtual-fs 0.600.0",
+ "virtual-fs",
  "virtual-mio",
  "virtual-net",
  "waker-fn",
  "wasm-bindgen",
  "wasm-bindgen-futures",
  "wasmer",
- "wasmer-config 0.600.0",
+ "wasmer-config",
  "wasmer-journal",
- "wasmer-package 0.600.0",
+ "wasmer-package",
  "wasmer-types",
  "wasmer-wasix-types",
  "web-sys",
- "webc 9.0.0",
+ "webc",
  "weezl",
  "windows-sys 0.59.0",
  "xxhash-rust",
@@ -8149,34 +8084,6 @@ checksum = "5a6580f308b1fad9207618087a65c04e7a10bc77e02c8e84e9b00dd4b12fa0bb"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
-]
-
-[[package]]
-name = "webc"
-version = "7.0.0-rc.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e6893cbe58d5b97a0daa2dd77055d621db1c8b94fe0f2bbd719c8de747226ea6"
-dependencies = [
- "anyhow",
- "base64 0.22.1",
- "bytes",
- "cfg-if",
- "ciborium",
- "document-features",
- "ignore",
- "indexmap 1.9.3",
- "leb128",
- "lexical-sort",
- "libc",
- "once_cell",
- "path-clean 1.0.1",
- "rand 0.8.5",
- "serde",
- "serde_json",
- "sha2",
- "shared-buffer",
- "thiserror 1.0.69",
- "url",
 ]
 
 [[package]]
