@@ -254,6 +254,20 @@ impl VisitMut for Cjs {
                         )
                         .into();
                     }
+                    "main" => {
+                        let ctxt = SyntaxContext::empty().apply_mark(self.unresolved_mark);
+                        let require = quote_ident!(ctxt, "require");
+                        let require_main = require.make_member(quote_ident!("main"));
+                        let module = quote_ident!(ctxt, "module");
+
+                        *n = BinExpr {
+                            span: *span,
+                            op: op!("=="),
+                            left: require_main.into(),
+                            right: module.into(),
+                        }
+                        .into();
+                    }
                     _ => {}
                 }
             }
