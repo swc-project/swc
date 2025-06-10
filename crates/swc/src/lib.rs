@@ -412,7 +412,7 @@ impl Compiler {
                     } else {
                         // Load source map passed by user
                         Ok(Some(
-                            sourcemap::SourceMap::from_slice(s.as_bytes()).context(
+                            swc_sourcemap::SourceMap::from_slice(s.as_bytes()).context(
                                 "failed to read input source map from user-provided sourcemap",
                             )?,
                         ))
