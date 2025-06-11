@@ -1258,6 +1258,14 @@ pub trait Files {
         raw_pos
     }
 
+    /// Check if the given byte position is within the given file. This has a
+    /// good default implementation that will work for most cases.
+    ///
+    /// The passed `raw_pos` is the value passed to [Files::map_raw_pos].
+    fn is_in_file(&self, f: &Lrc<SourceFile>, raw_pos: BytePos) -> bool {
+        f.start_pos <= raw_pos && raw_pos < f.end_pos
+    }
+
     /// `raw_pos` is the [BytePos] in the AST. It's the raw value passed to
     /// the source map generator.
     fn try_lookup_source_file(
@@ -1320,7 +1328,7 @@ pub fn build_source_map(
 
         let f;
         let f = match cur_file {
-            Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
+            Some(ref f) if files.is_in_file(f, *raw_pos) => f,
             _ => {
                 f = files.try_lookup_source_file(*raw_pos).unwrap();
                 if config.skip(&f.name) {
