@@ -200,7 +200,7 @@ fn parse_tpl<'a, P: Parser<'a>>(p: &mut P, is_tagged_tpl: bool) -> PResult<Tpl> 
     })
 }
 
-fn parse_tagged_tpl<'a, P: Parser<'a>>(
+pub(crate) fn parse_tagged_tpl<'a, P: Parser<'a>>(
     p: &mut P,
     tag: Box<Expr>,
     type_params: Option<Box<TsTypeParamInstantiation>>,
@@ -668,8 +668,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                         true,
                     )))
                 } else if p.input_mut().is(&P::Token::BACKQUOTE) {
-                    parse_tagged_tpl(
-                        p,
+                    p.parse_tagged_tpl(
                         match mut_obj_opt {
                             Some(Callee::Expr(obj)) => obj.take(),
                             _ => unreachable!(),
@@ -989,9 +988,15 @@ fn parse_subscript<'a, P: Parser<'a>>(
             };
 
             // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
-            if p.input_mut().is(&P::Token::BACKQUOTE) {
+            if p.input_mut().cur().is_some_and(|cur| {
+                cur.is_template_head()
+                    || cur.is_no_substitution_template_literal()
+                    || cur.is_backquote()
+            }) {
                 let ctx = p.ctx() & !Context::WillExpectColonForCond;
-                let tpl = parse_tagged_tpl(p.with_ctx(ctx).deref_mut(), expr, None)?;
+                let tpl = p
+                    .with_ctx(ctx)
+                    .parse_with(|p| p.parse_tagged_tpl(expr, None))?;
                 return Ok((tpl.into(), true));
             }
 

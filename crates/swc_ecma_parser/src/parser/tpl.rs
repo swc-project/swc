@@ -1,8 +1,11 @@
-use swc_common::{source_map::SmallPos, BytePos, Span};
+use swc_common::{source_map::SmallPos, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_lexer::common::{
-    lexer::token::TokenFactory,
-    parser::{buffer::Buffer, PResult, Parser as ParserTrait},
+use swc_ecma_lexer::{
+    common::{
+        lexer::token::TokenFactory,
+        parser::{buffer::Buffer, PResult, Parser as ParserTrait},
+    },
+    error::SyntaxError,
 };
 
 use super::{input::Tokens, Parser};
@@ -130,8 +133,7 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         if self.input_mut().is(&Token::RBrace) {
-            let start = cur_pos!(self);
-            self.input_mut().rescan_template_token(start, false);
+            self.input_mut().rescan_template_token(false);
         }
         let start = cur_pos!(self);
         let (raw, cooked, tail, span) = match *cur!(self, true) {
@@ -188,6 +190,38 @@ impl<I: Tokens> Parser<I> {
             tail,
 
             cooked,
+        })
+    }
+
+    pub(super) fn parse_tagged_tpl(
+        &mut self,
+        tag: Box<Expr>,
+        type_params: Option<Box<TsTypeParamInstantiation>>,
+    ) -> PResult<TaggedTpl> {
+        let tagged_tpl_start = tag.span_lo();
+        trace_cur!(self, parse_tagged_tpl);
+
+        let tpl = Box::new(
+            if self.input_mut().is(&Token::NoSubstitutionTemplateLiteral) {
+                self.input_mut().rescan_template_token(true);
+                self.parse_no_substitution_template_literal(true)?
+            } else {
+                self.parse_tpl(true)?
+            },
+        );
+
+        let span = self.span(tagged_tpl_start);
+
+        if tag.is_opt_chain() {
+            self.emit_err(span, SyntaxError::TaggedTplInOptChain);
+        }
+
+        Ok(TaggedTpl {
+            span,
+            tag,
+            type_params,
+            tpl,
+            ..Default::default()
         })
     }
 }

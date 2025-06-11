@@ -105,6 +105,15 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
         trace_cur!(self, ts_in_no_context__after);
         res
     }
+
+    #[inline(always)]
+    fn parse_tagged_tpl(
+        &mut self,
+        tag: Box<Expr>,
+        type_params: Option<Box<TsTypeParamInstantiation>>,
+    ) -> PResult<TaggedTpl> {
+        self.parse_tagged_tpl(tag, type_params)
+    }
 }
 
 impl<'a> Parser<crate::lexer::Lexer<'a>> {

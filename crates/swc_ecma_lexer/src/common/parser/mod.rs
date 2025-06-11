@@ -493,15 +493,19 @@ pub trait Parser<'a>: Sized + Clone {
         }
     }
 
+    fn ts_in_no_context<T>(&mut self, op: impl FnOnce(&mut Self) -> PResult<T>) -> PResult<T>;
+
     fn parse_jsx_element(
         &mut self,
         in_expr_context: bool,
     ) -> PResult<Either<JSXFragment, JSXElement>>;
-
     fn parse_primary_expr(&mut self) -> PResult<Box<Expr>>;
     fn parse_unary_expr(&mut self) -> PResult<Box<Expr>>;
-
-    fn ts_in_no_context<T>(&mut self, op: impl FnOnce(&mut Self) -> PResult<T>) -> PResult<T>;
+    fn parse_tagged_tpl(
+        &mut self,
+        tag: Box<Expr>,
+        type_params: Option<Box<TsTypeParamInstantiation>>,
+    ) -> PResult<TaggedTpl>;
 }
 
 pub fn parse_shebang<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Atom>> {

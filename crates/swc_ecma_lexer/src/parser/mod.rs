@@ -10,7 +10,7 @@ use crate::{
         input::Tokens,
         parser::{
             buffer::Buffer as BufferTrait,
-            expr::{parse_primary_expr, parse_unary_expr},
+            expr::{parse_primary_expr, parse_tagged_tpl, parse_unary_expr},
             jsx::parse_jsx_element,
             module_item::parse_module_item_block_body,
             parse_shebang,
@@ -92,6 +92,14 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     #[inline(always)]
     fn ts_in_no_context<T>(&mut self, op: impl FnOnce(&mut Self) -> PResult<T>) -> PResult<T> {
         ts_in_no_context(self, op)
+    }
+
+    fn parse_tagged_tpl(
+        &mut self,
+        tag: Box<Expr>,
+        type_params: Option<Box<TsTypeParamInstantiation>>,
+    ) -> PResult<TaggedTpl> {
+        parse_tagged_tpl(self, tag, type_params)
     }
 }
 
