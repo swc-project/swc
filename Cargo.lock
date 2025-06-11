@@ -4893,7 +4893,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "12.0.0"
+version = "12.0.1"
 dependencies = [
  "anyhow",
  "arbitrary",
@@ -4987,7 +4987,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "27.0.1"
+version = "27.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
