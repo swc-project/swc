@@ -131,6 +131,25 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
+    pub fn parse_commonjs(&mut self) -> PResult<Script> {
+        trace_cur!(self, parse_commonjs);
+
+        // CommonJS module is acctually in a function scope
+        let ctx = (self.ctx() & !Context::Module)
+            | Context::InFunction
+            | Context::InsideNonArrowFunctionScope;
+        self.set_ctx(ctx);
+
+        let start = cur_pos!(self);
+        let shebang = parse_shebang(self)?;
+
+        parse_stmt_block_body(self, true, None).map(|body| Script {
+            span: span!(self, start),
+            body,
+            shebang,
+        })
+    }
+
     pub fn parse_typescript_module(&mut self) -> PResult<Module> {
         trace_cur!(self, parse_typescript_module);
 
