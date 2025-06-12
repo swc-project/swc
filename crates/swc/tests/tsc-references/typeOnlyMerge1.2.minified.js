@@ -13,4 +13,4 @@ export { };
 //!  4 | 
 //!    `----
 //// [c.ts]
-import { A } from "./b";
+import "./b";

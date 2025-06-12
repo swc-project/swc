@@ -52,15 +52,18 @@
                     var S, h, E;
                     let { element: k, boundary: A, rootBoundary: O, strategy: L } = m, j = [
                         ..."clippingAncestors" === A ? function(m, S) {
-                            var h, E, k;
-                            let A = S.get(m);
-                            if (A) return A;
-                            let O = (void (h = 0)).filter((m)=>{
+                            var h, E;
+                            let k = S.get(m);
+                            if (k) return k;
+                            let A = (void (h = 0)).filter((m)=>{
                                 var S;
                                 return J(m) && (S = 0, true);
                             }), L = null, j = "fixed" === G(m).position, B = j ? Q(m) : m;
                             for(; J(B) && (k = 0, true);){
                                 let m = G(B), S = function(m) {
+                            }), O = null, L = "fixed" === G(m).position, j = L ? Q(m) : m;
+                            for(; J(j) && (E = 0, true);){
+                                let m = G(j), S = function(m) {
                                     let S = /firefox/i.test(function() {
                                         if (R) return R;
                                         let m = navigator.userAgentData;
@@ -78,13 +81,14 @@
                                         let S = h.contain;
                                         return null != S && S.includes(m);
                                     });
-                                }(B);
-                                "fixed" === m.position ? L = null : (j ? S || L : S || "static" !== m.position || !L || ![
+                                }(j);
+                                "fixed" === m.position ? O = null : (L ? S || O : S || "static" !== m.position || !O || ![
                                     "absolute",
                                     "fixed"
                                 ].includes(L.position)) ? L = m : O = O.filter((m)=>m !== B), B = Q(B);
+                                ].includes(O.position)) ? O = m : A = A.filter((m)=>m !== j), j = Q(j);
                             }
-                            return S.set(m, O), O;
+                            return S.set(m, A), A;
                         }(k, this._c) : [].concat(A),
                         O
                     ], B = j[0], C = j.reduce(()=>{}, (S = 0, h = 0, void (E = 0)));
@@ -419,6 +423,7 @@
                     n
                 ]);
                 let ee = d;
+                d;
                 return r ? r({}) : S && S, E && (0, O.jsx)(el, {}), (0, O.jsx)(eo, {});
             };
         }

@@ -25,7 +25,6 @@
     isPageTransitioning, window2, undefined16, undefined17, undefined18, rInitialLetter, // Construct iconpos class from iconpos value
     iconposClass, undefined19, childCollapsiblesSelector, getAttr, rdivider, rhidden, undefined20, escapeId, undefined21, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, undefined22, undefined23, popup, undefined24, undefined25, undefined26, undefined27, undefined28;
     function fitSegmentInsideSegment(windowSize, segmentSize, offset, desired) {
-        var returnValue = desired;
         return windowSize < segmentSize ? offset + (windowSize - segmentSize) / 2 : Math.min(Math.max(offset, desired - segmentSize / 2), offset + windowSize - segmentSize);
     }
     function getWindowCoordinates(theWindow) {
@@ -1448,7 +1447,7 @@
             window.history.replaceState(state, state.title || document1.title, href), state;
         },
         hash: function(url, href) {
-            var parsed, loc, hash, resolved;
+            var parsed, loc, resolved;
             return(// Grab the hash for recording. If the passed url is a path
             // we used the parsed version of the squashed url to reconstruct,
             // otherwise we assume it's a hash and store it directly
@@ -1664,11 +1663,6 @@
             }
             return flags;
         }
-        $.vmouse = {
-            moveDistanceThreshold: 10,
-            clickDistanceThreshold: 10,
-            resetTimerDuration: 1500
-        };
         function startResetTimer() {
             clearResetTimer(), resetTimerID = setTimeout(function() {
                 resetTimerID = 0, lastTouchID = 0, clickBlockList.length = 0, blockMouseTriggers = !1, blockTouchTriggers = !0;
@@ -1738,7 +1732,11 @@
         }
         function dummyMouseHandler() {}
         // Expose our custom events to the jQuery bind/unbind mechanism.
-        for(i = 0; i < virtualEventNames.length; i++)$.event.special[virtualEventNames[i]] = function(eventType) {
+        for(i = 0, $.vmouse = {
+            moveDistanceThreshold: 10,
+            clickDistanceThreshold: 10,
+            resetTimerDuration: 1500
+        }; i < virtualEventNames.length; i++)$.event.special[virtualEventNames[i]] = function(eventType) {
             var realType = eventType.substr(1);
             return {
                 setup: function() {
@@ -2032,7 +2030,7 @@
         }), // Get the current page orientation. This method is exposed publicly, should it
         // be needed, as jQuery.event.special.orientationchange.orientation()
         $.event.special.orientationchange.orientation = get_orientation = function() {
-            var isPortrait = !0, elem = document1.documentElement;
+            var elem = document1.documentElement;
             return ($.support.orientation ? portrait_map[window.orientation] : elem && elem.clientWidth / elem.clientHeight < 1.1) ? "portrait" : "landscape";
         }, $.fn[event_name] = function(fn) {
             return fn ? this.bind(event_name, fn) : this.trigger(event_name);
@@ -3308,7 +3306,7 @@
         _beforeListviewRefresh: jQuery.noop,
         _afterListviewRefresh: jQuery.noop,
         refresh: function(create) {
-            var buttonClass, pos, numli, item, itemClass, itemTheme, itemIcon, icon, a, isDivider, startCount, newStartCount, value, last, splittheme, splitThemeClass, altButtonClass, dividerTheme, li, o = this.options, $list = this.element, ol = !!jQuery.nodeName($list[0], "ol"), start = $list.attr("start"), itemClassDict = {}, countBubbles = $list.find(".ui-li-count"), countTheme = getAttr($list[0], "counttheme") || this.options.countTheme, countThemeClass = countTheme ? "ui-body-" + countTheme : "ui-body-inherit";
+            var buttonClass, pos, numli, item, itemClass, itemTheme, itemIcon, icon, a, isDivider, startCount, newStartCount, value, last, splittheme, splitThemeClass, altButtonClass, li, o = this.options, $list = this.element, ol = !!jQuery.nodeName($list[0], "ol"), start = $list.attr("start"), itemClassDict = {}, countBubbles = $list.find(".ui-li-count"), countTheme = getAttr($list[0], "counttheme") || this.options.countTheme, countThemeClass = countTheme ? "ui-body-" + countTheme : "ui-body-inherit";
             for(o.theme && $list.addClass("ui-group-theme-" + o.theme), ol && (start || 0 === start) && (startCount = parseInt(start, 10) - 1, $list.css("counter-reset", "listnumbering " + startCount)), this._beforeListviewRefresh(), pos = 0, numli = (li = this._getChildrenByTagName($list[0], "li", "LI")).length; pos < numli; pos++)item = li.eq(pos), itemClass = "", (create || 0 > item[0].className.search(/\bui-li-static\b|\bui-li-divider\b/)) && (a = this._getChildrenByTagName(item[0], "a", "A"), isDivider = "list-divider" === getAttr(item[0], "role"), value = item.attr("value"), itemTheme = getAttr(item[0], "theme"), a.length && 0 > a[0].className.search(/\bui-btn\b/) && !isDivider ? (icon = !1 !== (itemIcon = getAttr(item[0], "icon")) && (itemIcon || o.icon), // TODO: Remove in 1.5 together with links.js (links.js / .ui-link deprecated in 1.4)
             a.removeClass("ui-link"), buttonClass = "ui-btn", itemTheme && (buttonClass += " ui-btn-" + itemTheme), a.length > 1 ? (itemClass = "ui-li-has-alt", splitThemeClass = (splittheme = getAttr((last = a.last())[0], "theme") || o.splitTheme || getAttr(item[0], "theme", !0)) ? " ui-btn-" + splittheme : "", altButtonClass = "ui-btn ui-btn-icon-notext ui-icon-" + (getAttr(last[0], "icon") || getAttr(item[0], "icon") || o.splitIcon) + splitThemeClass, last.attr("title", jQuery.trim(last.getEncodedText())).addClass(altButtonClass).empty()) : icon && (buttonClass += " ui-btn-icon-right ui-icon-" + icon), a.first().addClass(buttonClass)) : isDivider ? (itemClass = "ui-li-divider ui-bar-" + (getAttr(item[0], "theme") || o.dividerTheme || o.theme || "inherit"), item.attr("role", "heading")) : a.length <= 0 && (itemClass = "ui-li-static ui-body-" + (itemTheme || "inherit")), ol && value && (newStartCount = parseInt(value, 10) - 1, item.css("counter-reset", "listnumbering " + newStartCount))), itemClassDict[itemClass] || (itemClassDict[itemClass] = []), itemClassDict[itemClass].push(item[0]);
             // Set the appropriate listview item classes on each list item.

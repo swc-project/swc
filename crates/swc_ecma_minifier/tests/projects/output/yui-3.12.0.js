@@ -518,7 +518,7 @@ with any configuration info required for the module.
             this.Array || this._attach([
                 "yui-base"
             ]);
-            var len, loader, handleBoot, i, Y = this, G_ENV = YUI.Env, mods = G_ENV.mods, Env = Y.Env, used = Env._used, aliases = G_ENV.aliases, queue = G_ENV._loaderQueue, firstArg = args[0], YArray = Y.Array, config = Y.config, boot = config.bootstrap, missing = [], r = [], ret = !0, fetchCSS = config.fetchCSS, process1 = function(names, skip) {
+            var len, loader, handleBoot, i, Y = this, G_ENV = YUI.Env, mods = G_ENV.mods, Env = Y.Env, used = Env._used, aliases = G_ENV.aliases, queue = G_ENV._loaderQueue, firstArg = args[0], YArray = Y.Array, config = Y.config, boot = config.bootstrap, missing = [], r = [], fetchCSS = config.fetchCSS, process1 = function(names, skip) {
                 var name, len, m, req, use, i = 0, a = [];
                 if (names.length) {
                     if (aliases) {
@@ -3287,7 +3287,7 @@ Contains the core of YUI's feature test architecture.
     add("load", "3", {
         name: "dom-style-ie",
         test: function(Y) {
-            var testFeature = Y.Features.test, addFeature = Y.Features.add, WINDOW = Y.config.win, DOCUMENT = Y.config.doc, ret = !1;
+            var testFeature = Y.Features.test, addFeature = Y.Features.add, WINDOW = Y.config.win, DOCUMENT = Y.config.doc;
             return addFeature("style", "computedStyle", {
                 test: function() {
                     return WINDOW && "getComputedStyle" in WINDOW;
@@ -6132,7 +6132,7 @@ Contains the core of YUI's feature test architecture.
             condition: {
                 name: "dom-style-ie",
                 test: function(Y) {
-                    var testFeature = Y.Features.test, addFeature = Y.Features.add, WINDOW = Y.config.win, DOCUMENT = Y.config.doc, ret = !1;
+                    var testFeature = Y.Features.test, addFeature = Y.Features.add, WINDOW = Y.config.win, DOCUMENT = Y.config.doc;
                     return addFeature("style", "computedStyle", {
                         test: function() {
                             return WINDOW && "getComputedStyle" in WINDOW;

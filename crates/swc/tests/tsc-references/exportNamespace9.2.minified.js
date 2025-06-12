@@ -15,10 +15,10 @@ export { };
 //!  4 | 
 //!    `----
 //// [/d.ts]
-import { A } from "./c";
+import "./c";
 //// [/e.ts]
 export var A = 1;
 //// [/f.ts]
 export * from "./e";
 //// [/g.ts]
-import { A } from "./f";
+import "./f";

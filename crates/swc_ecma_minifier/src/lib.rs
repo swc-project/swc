@@ -155,21 +155,6 @@ pub fn optimize(
         // TODO: enclose
         // toplevel = toplevel.wrap_enclose(options.enclose);
     }
-    if let Some(ref mut t) = timings {
-        t.section("compress");
-    }
-    if let Some(options) = &options.compress {
-        if options.unused {
-            perform_dce(&mut n, options, extra);
-            debug_assert_valid(&n);
-        }
-    }
-
-    // We don't need validation.
-
-    if let Some(ref mut _t) = timings {
-        // TODO: store `rename`
-    }
 
     // Noop.
     // https://github.com/mishoo/UglifyJS2/issues/2794
@@ -185,6 +170,8 @@ pub fn optimize(
     if let Some(c) = &options.compress {
         {
             let _timer = timer!("compress ast");
+
+            perform_dce(&mut n, c, marks);
 
             n.mutate(&mut compressor(
                 marks,
@@ -262,7 +249,11 @@ pub fn optimize(
     n
 }
 
-fn perform_dce(m: &mut Program, options: &CompressOptions, extra: &ExtraOptions) {
+fn perform_dce(m: &mut Program, options: &CompressOptions, extra: Marks) {
+    if !options.unused && !options.dead_code {
+        return;
+    }
+
     let _timer = timer!("remove dead code");
 
     let mut visitor = swc_ecma_transforms_optimization::simplify::dce::dce(
