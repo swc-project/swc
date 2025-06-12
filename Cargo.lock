@@ -4931,7 +4931,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "23.0.0"
+version = "23.0.1"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -4958,7 +4958,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "3.1.0"
+version = "3.1.1"
 dependencies = [
  "anyhow",
  "bytes-str",
@@ -4987,7 +4987,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "27.0.2"
+version = "27.0.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5506,7 +5506,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "15.0.0"
+version = "15.0.1"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5588,7 +5588,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "21.0.1"
+version = "21.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5636,7 +5636,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "15.0.0"
+version = "15.0.1"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5943,7 +5943,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "17.0.0"
+version = "17.0.1"
 dependencies = [
  "bytes-str",
  "dashmap 5.5.3",
@@ -6080,7 +6080,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "17.0.0"
+version = "17.0.1"
 dependencies = [
  "bitflags 2.6.0",
  "indexmap 2.7.1",
