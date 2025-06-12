@@ -58,9 +58,6 @@
                             let A = (void (h = 0)).filter((m)=>{
                                 var S;
                                 return J(m) && (S = 0, true);
-                            }), L = null, j = "fixed" === G(m).position, B = j ? Q(m) : m;
-                            for(; J(B) && (k = 0, true);){
-                                let m = G(B), S = function(m) {
                             }), O = null, L = "fixed" === G(m).position, j = L ? Q(m) : m;
                             for(; J(j) && (E = 0, true);){
                                 let m = G(j), S = function(m) {
@@ -85,7 +82,6 @@
                                 "fixed" === m.position ? O = null : (L ? S || O : S || "static" !== m.position || !O || ![
                                     "absolute",
                                     "fixed"
-                                ].includes(L.position)) ? L = m : O = O.filter((m)=>m !== B), B = Q(B);
                                 ].includes(O.position)) ? O = m : A = A.filter((m)=>m !== j), j = Q(j);
                             }
                             return S.set(m, A), A;
@@ -143,7 +139,6 @@
                     padding: 5
                 })
             ] })=>{
-                let O;
                 if (!m) return {
                     tooltipStyles: {},
                     tooltipArrowStyles: {},
@@ -422,7 +417,6 @@
                     e,
                     n
                 ]);
-                let ee = d;
                 d;
                 return r ? r({}) : S && S, E && (0, O.jsx)(el, {}), (0, O.jsx)(eo, {});
             };
