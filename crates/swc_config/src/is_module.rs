@@ -63,7 +63,7 @@ impl Visitor<'_> for IsModuleVisitor {
     {
         match s {
             "unknown" => Ok(IsModule::Unknown),
-            "commonjs" | "CommonJS" => Ok(IsModule::CommonJS),
+            "commonjs" => Ok(IsModule::CommonJS),
             _ => Err(serde::de::Error::invalid_value(Unexpected::Str(s), &self)),
         }
     }
