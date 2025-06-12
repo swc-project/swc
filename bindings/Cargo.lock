@@ -245,7 +245,7 @@ dependencies = [
  "bitflags 2.9.0",
  "cexpr",
  "clang-sys",
- "itertools 0.10.5",
+ "itertools 0.13.0",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -281,7 +281,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.12.1-nightly-20250612.1"
+version = "1.12.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -369,7 +369,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.12.1-nightly-20250612.1"
+version = "1.12.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -409,7 +409,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.12.1-nightly-20250612.1"
+version = "1.12.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -4554,7 +4554,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.557"
+version = "0.91.558"
 dependencies = [
  "anyhow",
  "par-core",
