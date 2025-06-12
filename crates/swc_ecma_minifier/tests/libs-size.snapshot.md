@@ -7,7 +7,7 @@
 | lodash.js | 531.35 KiB | 68.91 KiB | 24.60 KiB |
 | moment.js | 169.83 KiB | 57.40 KiB | 18.26 KiB |
 | react.js | 70.45 KiB | 22.44 KiB | 8.04 KiB |
-| terser.js | 1.08 MiB | 446.78 KiB | 120.52 KiB |
+| terser.js | 1.08 MiB | 446.75 KiB | 120.51 KiB |
 | three.js | 1.19 MiB | 630.84 KiB | 154.81 KiB |
 | typescript.js | 10.45 MiB | 3.18 MiB | 840.79 KiB |
 | victory.js | 2.30 MiB | 694.32 KiB | 154.28 KiB |

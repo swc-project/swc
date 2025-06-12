@@ -141,7 +141,7 @@ impl Optimizer<'_> {
 
             if !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL) {
                 match init {
-                    Expr::Lit(..) | Expr::Ident(..) => {}
+                    Expr::Lit(..) | Expr::Ident(..) | Expr::Arrow(..) => {}
 
                     Expr::Unary(UnaryExpr {
                         op: op!("!"), arg, ..
@@ -267,14 +267,14 @@ impl Optimizer<'_> {
                     }) => arg.is_lit(),
                     Expr::This(..) => usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL),
                     Expr::Arrow(arr) => {
-                        is_arrow_simple_enough_for_copy(arr).is_some_and(|cost| cost <= 8)
-                            && !(usage.property_mutation_count > 0
-                                || usage
-                                    .flags
-                                    .contains(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME)
-                                || usage.flags.contains(VarUsageInfoFlags::USED_AS_ARG)
-                                    && ref_count > 1)
-                            && ref_count - 1 <= usage.callee_count
+                        !(usage.property_mutation_count > 0
+                            || usage
+                                .flags
+                                .contains(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME)
+                            || usage.flags.contains(VarUsageInfoFlags::USED_AS_ARG)
+                                && ref_count > 1
+                            || ref_count > usage.callee_count
+                            || !is_arrow_simple_enough_for_copy(arr).is_some_and(|cost| cost <= 8))
                     }
                     _ => false,
                 }
@@ -403,7 +403,7 @@ impl Optimizer<'_> {
 
                     Expr::Lit(..) => {}
 
-                    Expr::Fn(_) if !usage.can_inline_fn_once() => {
+                    Expr::Fn(_) | Expr::Arrow(..) if !usage.can_inline_fn_once() => {
                         return;
                     }
 

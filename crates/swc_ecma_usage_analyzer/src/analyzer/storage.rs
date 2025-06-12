@@ -93,4 +93,6 @@ pub trait VarDataLike: Sized {
     fn mark_used_recursively(&mut self);
 
     fn is_declared(&self) -> bool;
+
+    fn mark_used_as_jsx_callee(&mut self);
 }

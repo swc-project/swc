@@ -1514,7 +1514,12 @@ impl Optimizer<'_> {
             | Expr::Await(..)
             | Expr::Yield(..)
             | Expr::Tpl(..)
-            | Expr::TaggedTpl(..) => return Ok(false),
+            | Expr::TaggedTpl(..)
+            | Expr::JSXElement(..)
+            | Expr::JSXEmpty(..)
+            | Expr::JSXFragment(..)
+            | Expr::JSXNamespacedName(..)
+            | Expr::JSXMember(..) => return Ok(false),
 
             // See https://github.com/swc-project/swc/issues/8924 and https://github.com/swc-project/swc/issues/8942
             Expr::Assign(AssignExpr {
