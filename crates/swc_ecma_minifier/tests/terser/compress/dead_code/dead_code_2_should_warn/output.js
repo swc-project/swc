@@ -1,7 +1,6 @@
 function f() {
-    var x, g;
+    var g;
     g();
-    x = 10;
     throw Error("foo");
 }
 f();

@@ -24,4 +24,4 @@ export { };
 //!  4 | 
 //!    `----
 //// [f.ts]
-import { b } from "./a";
+import "./a";

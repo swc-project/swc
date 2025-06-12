@@ -1,9 +1,9 @@
 //// [awaitUsingDeclarations.1.ts]
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import "@swc/helpers/_/_await_async_generator";
+import "@swc/helpers/_/_class_call_check";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
-import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
+import "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";

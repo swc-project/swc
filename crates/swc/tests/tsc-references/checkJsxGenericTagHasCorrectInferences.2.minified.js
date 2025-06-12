@@ -1,3 +1,3 @@
 //// [file.tsx]
-import * as React from "react";
+import "react";
 GenericComponent, GenericComponent, GenericComponent, GenericComponent;
