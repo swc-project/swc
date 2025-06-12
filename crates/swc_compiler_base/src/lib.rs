@@ -22,7 +22,10 @@ use swc_config::{file_pattern::FilePattern, is_module::IsModule, types::BoolOr};
 use swc_ecma_ast::{EsVersion, Ident, IdentName, Program};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter, Node};
 use swc_ecma_minifier::js::JsMinifyCommentOption;
-use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax};
+use swc_ecma_parser::{
+    parse_file_as_commonjs, parse_file_as_module, parse_file_as_program, parse_file_as_script,
+    Syntax,
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -77,6 +80,10 @@ pub fn parse_js(
             }
             IsModule::Bool(false) => {
                 parse_file_as_script(&fm, syntax, target, comments, &mut errors)
+                    .map(Program::Script)
+            }
+            IsModule::CommonJS => {
+                parse_file_as_commonjs(&fm, syntax, target, comments, &mut errors)
                     .map(Program::Script)
             }
             IsModule::Unknown => parse_file_as_program(&fm, syntax, target, comments, &mut errors),

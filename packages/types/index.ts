@@ -516,7 +516,7 @@ export interface Options extends Config {
 
     plugin?: Plugin;
 
-    isModule?: boolean | "unknown";
+    isModule?: boolean | "unknown" | "commonjs";
 
     /**
      * Destination path. Note that this value is used only to fix source path

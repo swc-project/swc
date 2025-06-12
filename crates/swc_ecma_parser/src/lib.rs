@@ -205,4 +205,5 @@ expose!(parse_file_as_expr, Box<Expr>, |p| {
 });
 expose!(parse_file_as_module, Module, |p| { p.parse_module() });
 expose!(parse_file_as_script, Script, |p| { p.parse_script() });
+expose!(parse_file_as_commonjs, Script, |p| { p.parse_commonjs() });
 expose!(parse_file_as_program, Program, |p| { p.parse_program() });
