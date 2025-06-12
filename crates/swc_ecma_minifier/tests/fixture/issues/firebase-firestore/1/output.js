@@ -2108,10 +2108,10 @@
                  * @param serverTransformResults - The transform results received by the server.
                  * @returns The transform results list.
                  */ function rn(t, e, n) {
+                var n1;
                 const s = new Map();
                 t.length === n.length || L();
                 for(let i = 0; i < n.length; i++){
-                    var n1;
                     const r = t[i], o = r.transform, c = e.data.field(r.field);
                     s.set(r.field, (n1 = n[i], o instanceof Fe ? Me(o, c) : o instanceof Le ? Be(o, c) : n1));
                 }
@@ -7541,12 +7541,12 @@
                  * Applies an OnlineState change to the sync engine and notifies any views of
                  * the change.
                  */ function cc(t, e, n) {
+                var t1;
                 // If we are the secondary client, we explicitly ignore the remote store's
                 // online state (the local client may go offline, even though the primary
                 // tab remains online) and only apply the primary tab's online state from
                 // SharedClientState.
                 if (t.isPrimaryClient && 0 /* RemoteStore */  === n || !t.isPrimaryClient && 1 /* SharedClientState */  === n) {
-                    var t1;
                     let s;
                     const t2 = [];
                     t.Oo.forEach((n, s)=>{

@@ -1,3 +1,4 @@
-console.log(x(function n(o) {
-    return y(x(n(o)));
-}(c)));
+function g(n) {
+    return y(x(g(n)));
+}
+console.log(x(g(c)));

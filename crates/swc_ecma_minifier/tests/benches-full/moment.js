@@ -143,7 +143,11 @@
         var absNumber = '' + Math.abs(number);
         return (number >= 0 ? forceSign ? '+' : '' : '-') + Math.pow(10, Math.max(0, targetLength - absNumber.length)).toString().substr(1) + absNumber;
     }
-    hooks.suppressDeprecationWarnings = !1, hooks.deprecationHandler = null;
+    hooks.suppressDeprecationWarnings = !1, hooks.deprecationHandler = null, keys = Object.keys ? Object.keys : function(obj) {
+        var i, res = [];
+        for(i in obj)hasOwnProp(obj, i) && res.push(i);
+        return res;
+    };
     var formattingTokens = /(\[[^\[]*\])|(\\)?([Hh]mm(ss)?|Mo|MM?M?M?|Do|DDDo|DD?D?D?|ddd?d?|do?|w[o|w]?|W[o|W]?|Qo?|N{1,5}|YYYYYY|YYYYY|YYYY|YY|y{2,4}|yo?|gg(ggg?)?|GG(GGG?)?|e|E|a|A|hh?|HH?|kk?|mm?|ss?|S{1,9}|x|X|zz?|ZZ?|.)/g, localFormattingTokens = /(\[[^\[]*\])|(\\)?(LTS|LT|LL?L?L?|l{1,4})/g, formatFunctions = {}, formatTokenFunctions = {};
     // token:    'M'
     // padded:   ['MM', 2]
@@ -214,11 +218,7 @@
     function set$1(mom, unit, value) {
         mom.isValid() && !isNaN(value) && ('FullYear' === unit && isLeapYear(mom.year()) && 1 === mom.month() && 29 === mom.date() ? (value = toInt(value), mom._d['set' + (mom._isUTC ? 'UTC' : '') + unit](value, mom.month(), daysInMonth(value, mom.month()))) : mom._d['set' + (mom._isUTC ? 'UTC' : '') + unit](value));
     }
-    var hookCallback, some, regexes, keys = Object.keys ? Object.keys : function(obj) {
-        var i, res = [];
-        for(i in obj)hasOwnProp(obj, i) && res.push(i);
-        return res;
-    }, match1 = /\d/, match2 = /\d\d/, match3 = /\d{3}/, match4 = /\d{4}/, match6 = /[+-]?\d{6}/, match1to2 = /\d\d?/, match3to4 = /\d\d\d\d?/, match5to6 = /\d\d\d\d\d\d?/, match1to3 = /\d{1,3}/, match1to4 = /\d{1,4}/, match1to6 = /[+-]?\d{1,6}/, matchUnsigned = /\d+/, matchSigned = /[+-]?\d+/, matchOffset = /Z|[+-]\d\d:?\d\d/gi, matchShortOffset = /Z|[+-]\d\d(?::?\d\d)?/gi, // any word (or two) characters or numbers including two/three word month in arabic.
+    var hookCallback, some, keys, regexes, match1 = /\d/, match2 = /\d\d/, match3 = /\d{3}/, match4 = /\d{4}/, match6 = /[+-]?\d{6}/, match1to2 = /\d\d?/, match3to4 = /\d\d\d\d?/, match5to6 = /\d\d\d\d\d\d?/, match1to3 = /\d{1,3}/, match1to4 = /\d{1,4}/, match1to6 = /[+-]?\d{1,6}/, matchUnsigned = /\d+/, matchSigned = /[+-]?\d+/, matchOffset = /Z|[+-]\d\d:?\d\d/gi, matchShortOffset = /Z|[+-]\d\d(?::?\d\d)?/gi, // any word (or two) characters or numbers including two/three word month in arabic.
     // includes scottish gaelic two word and hyphenated months
     matchWord = /[0-9]{0,256}['a-z\u00A0-\u05FF\u0700-\uD7FF\uF900-\uFDCF\uFDF0-\uFF07\uFF10-\uFFEF]{1,256}|[\u0600-\u06FF\/]{1,256}(\s*?[\u0600-\u06FF]{1,256}){1,2}/i;
     function addRegexToken(token, regex, strictRegex) {

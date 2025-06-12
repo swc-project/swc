@@ -1663,6 +1663,11 @@
             }
             return flags;
         }
+        $.vmouse = {
+            moveDistanceThreshold: 10,
+            clickDistanceThreshold: 10,
+            resetTimerDuration: 1500
+        };
         function startResetTimer() {
             clearResetTimer(), resetTimerID = setTimeout(function() {
                 resetTimerID = 0, lastTouchID = 0, clickBlockList.length = 0, blockMouseTriggers = !1, blockTouchTriggers = !0;
@@ -1732,11 +1737,7 @@
         }
         function dummyMouseHandler() {}
         // Expose our custom events to the jQuery bind/unbind mechanism.
-        for(i = 0, $.vmouse = {
-            moveDistanceThreshold: 10,
-            clickDistanceThreshold: 10,
-            resetTimerDuration: 1500
-        }; i < virtualEventNames.length; i++)$.event.special[virtualEventNames[i]] = function(eventType) {
+        for(i = 0; i < virtualEventNames.length; i++)$.event.special[virtualEventNames[i]] = function(eventType) {
             var realType = eventType.substr(1);
             return {
                 setup: function() {

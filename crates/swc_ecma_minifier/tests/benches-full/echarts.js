@@ -10853,7 +10853,8 @@
         }
     }, FilterOrderComparator = /** @class */ function() {
         function FilterOrderComparator(op, rval) {
-            'number' != typeof rval && throwError('rvalue of "<", ">", "<=", ">=" can only be number in filter.'), this._opFn = ORDER_COMPARISON_OP_MAP[op], this._rvalFloat = numericToNumber(rval);
+            'number' != typeof rval && throwError('rvalue of "<", ">", "<=", ">=" can only be number in filter.');
+            this._opFn = ORDER_COMPARISON_OP_MAP[op], this._rvalFloat = numericToNumber(rval);
         } // Performance sensitive.
         return FilterOrderComparator.prototype.evaluate = function(lval) {
             // Most cases is 'number', and typeof maybe 10 times faseter than parseFloat.
@@ -10919,11 +10920,13 @@
     }();
     function getRawData(upstream) {
         var sourceFormat = upstream.sourceFormat;
-        return isSupportedSourceFormat(sourceFormat) || throwError('`getRawData` is not supported in source format ' + sourceFormat), upstream.data;
+        !isSupportedSourceFormat(sourceFormat) && throwError('`getRawData` is not supported in source format ' + sourceFormat);
+        return upstream.data;
     }
     function cloneRawData(upstream) {
         var sourceFormat = upstream.sourceFormat, data = upstream.data;
-        if (isSupportedSourceFormat(sourceFormat) || throwError('`cloneRawData` is not supported in source format ' + sourceFormat), sourceFormat === SOURCE_FORMAT_ARRAY_ROWS) {
+        !isSupportedSourceFormat(sourceFormat) && throwError('`cloneRawData` is not supported in source format ' + sourceFormat);
+        if (sourceFormat === SOURCE_FORMAT_ARRAY_ROWS) {
             for(var result = [], i = 0, len = data.length; i < len; i++)// Not strictly clone for performance
             result.push(data[i].slice());
             return result;
@@ -36035,7 +36038,7 @@
                 return data.getId(dataIndex);
             };
             var diffByDimName = data.getDimension(dimension), dimInfo = data.getDimensionInfo(diffByDimName);
-            dimInfo || throwError(dimension + " is not a valid dimension.");
+            !dimInfo && throwError(dimension + " is not a valid dimension.");
             var ordinalMeta = dimInfo.ordinalMeta;
             return function(rawIdx, dataIndex) {
                 var key = data.get(diffByDimName, dataIndex);

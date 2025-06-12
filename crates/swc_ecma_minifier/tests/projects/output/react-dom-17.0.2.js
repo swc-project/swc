@@ -543,6 +543,7 @@
         var name = fn ? fn.displayName || fn.name : "", syntheticFrame = name ? describeBuiltInComponentFrame(name) : "";
         return "function" == typeof fn && componentFrameCache.set(fn, syntheticFrame), syntheticFrame;
     }
+    componentFrameCache = new ("function" == typeof WeakMap ? WeakMap : Map)();
     function getStackByFiberInDevAndProd(workInProgress) {
         try {
             var info = "", node = workInProgress;
@@ -618,7 +619,6 @@
         }
         return null;
     }
-    componentFrameCache = new ("function" == typeof WeakMap ? WeakMap : Map)();
     var ReactDebugCurrentFrame = ReactSharedInternals.ReactDebugCurrentFrame, current = null, isRendering = !1;
     function getCurrentFiberOwnerNameInDevOrNull() {
         if (null === current) return null;
@@ -4921,10 +4921,7 @@
         if (element) {
             var owner = element._owner, stack = function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
                 if (null == type) return "";
-                if ("function" == typeof type) {
-                    var prototype;
-                    return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
-                }
+                if ("function" == typeof type) return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
                 if ("string" == typeof type) return describeBuiltInComponentFrame(type);
                 switch(type){
                     case REACT_SUSPENSE_TYPE:
@@ -4941,7 +4938,7 @@
                     case REACT_BLOCK_TYPE:
                         return describeNativeComponentFrame(type._render, !1);
                     case REACT_LAZY_TYPE:
-                        var payload = type._payload, init = type._init;
+                        var prototype, payload = type._payload, init = type._init;
                         try {
                             // Lazy may contain any component type so we recursively resolve it.
                             return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
@@ -5481,6 +5478,7 @@
         }
         currentlyProcessingQueue = null;
     }
+    didWarnUpdateInsideUpdate = !1, currentlyProcessingQueue = null;
     function commitUpdateQueue(finishedWork, finishedQueue, instance) {
         // Commit the effects
         var effects = finishedQueue.effects;
@@ -5493,7 +5491,6 @@
             }
         }
     }
-    didWarnUpdateInsideUpdate = !1, currentlyProcessingQueue = null;
     var fakeInternalInstance = {}, isArray = Array.isArray, emptyRefsObject = new React.Component().refs;
     didWarnAboutStateAssignmentForComponent = new Set(), didWarnAboutUninitializedState = new Set(), didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate = new Set(), didWarnAboutLegacyLifecyclesAndDerivedState = new Set(), didWarnAboutDirectlyAssigningPropsToState = new Set(), didWarnAboutUndefinedDerivedState = new Set(), didWarnAboutContextTypeAndContextTypes = new Set(), didWarnAboutInvalidateContextType = new Set();
     var didWarnOnInvalidCallback = new Set();
