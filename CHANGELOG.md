@@ -14,6 +14,9 @@
 - **(es/minifier)** Fix inlining of arrows ([#10604](https://github.com/swc-project/swc/issues/10604)) ([cc3bc4d](https://github.com/swc-project/swc/commit/cc3bc4d66c381d33d00bc530b57c88447ae8ead8))
 
 
+- **(es/minifier)** Perform DCE on the end ([#10602](https://github.com/swc-project/swc/issues/10602)) ([a97b149](https://github.com/swc-project/swc/commit/a97b1494267bba03436d160d39cd21ce68150173))
+
+
 - **(swc_common)** Add `Files#is_in_file` ([#10599](https://github.com/swc-project/swc/issues/10599)) ([e6b61eb](https://github.com/swc-project/swc/commit/e6b61ebfde2b0680c3e4144e6725803b2d9d7fc8))
 
 ### Features
@@ -2104,9 +2107,6 @@
 
 
 - **(deps)** Update cargo (patch) ([#9454](https://github.com/swc-project/swc/issues/9454)) ([b28047a](https://github.com/swc-project/swc/commit/b28047a48b06e1e505e9cad3c70f5a921862d83b))
-
-
-- **(es/codegen)** Emit .d.ts when using --out-file ([#9582](https://github.com/swc-project/swc/issues/9582)) ([3d9d641](https://github.com/swc-project/swc/commit/3d9d641f8b49725014e7d7a72a6f0a5dfe01f42c))
 
 
 - **(es/minifier)** Ignore using declarations ([#9598](https://github.com/swc-project/swc/issues/9598)) ([1659c21](https://github.com/swc-project/swc/commit/1659c212b2edf1505def54b7222b3b6a633de3dc))
