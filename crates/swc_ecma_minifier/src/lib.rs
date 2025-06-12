@@ -178,7 +178,9 @@ pub fn optimize(
                 c,
                 options.mangle.as_ref(),
                 &Minification,
-            ))
+            ));
+
+            perform_dce(&mut n, c, marks);
         }
 
         // Again, we don't need to validate ast

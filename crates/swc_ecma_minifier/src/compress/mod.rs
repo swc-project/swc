@@ -22,7 +22,6 @@ use crate::{
     debug::dump,
     mode::Mode,
     option::{CompressOptions, MangleOptions},
-    perform_dce,
     program_data::analyze,
     util::force_dump_program,
 };
@@ -194,7 +193,5 @@ impl Compressor<'_> {
             // let done = dump(&*n);
             // debug!("===== Result =====\n{}", done);
         }
-
-        perform_dce(n, self.options, self.marks);
     }
 }
