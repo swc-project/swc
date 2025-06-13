@@ -1,4 +1,4 @@
-use swc_common::Span;
+use swc_common::{BytePos, Span};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::common::{
     lexer::token::TokenFactory,
@@ -6,7 +6,7 @@ use swc_ecma_lexer::common::{
         buffer::Buffer,
         expr::{parse_assignment_expr, parse_str_lit},
         jsx::{
-            jsx_expr_container_to_jsx_attr_value, parse_jsx_empty_expr, parse_jsx_expr_container,
+            jsx_expr_container_to_jsx_attr_value, parse_jsx_expr_container, parse_jsx_spread_child,
         },
         typescript::{parse_ts_type_args, try_parse_ts},
         PResult, Parser as ParserTrait,
@@ -104,16 +104,24 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_jsx_child(&mut self, t: Option<Token>) -> PResult<Option<JSXElementChild>> {
         debug_assert!(self.input().syntax().jsx());
-        let Some(t) = t else {
-            todo!("error handle")
-            // return None;
-        };
+        let Some(t) = t else { todo!("error handle") };
 
         match t {
             Token::JSXTagEnd => Ok(None),
-            Token::LBrace => Ok(Some(JSXElementChild::JSXExprContainer(
-                self.parse_jsx_expr_in_expr_context()?,
-            ))),
+            Token::LBrace => Ok(Some(
+                if self
+                    .input_mut()
+                    .peek()
+                    .is_some_and(|cur| cur == &Token::DotDotDot)
+                {
+                    JSXElementChild::JSXSpreadChild(parse_jsx_spread_child(self)?)
+                } else {
+                    JSXElementChild::JSXExprContainer(parse_jsx_expr_container(
+                        self,
+                        BytePos::DUMMY,
+                    )?)
+                },
+            )),
             Token::Lt => {
                 let ele = self.parse_jsx_element(false)?;
                 match ele {
@@ -126,26 +134,6 @@ impl<I: Tokens> Parser<I> {
             Token::JSXText => Ok(Some(JSXElementChild::JSXText(self.parse_jsx_text()))),
             _ => unreachable!(),
         }
-    }
-
-    fn parse_jsx_expr_in_expr_context(&mut self) -> PResult<JSXExprContainer> {
-        debug_assert!(self.input().syntax().jsx());
-        debug_assert!(self.input_mut().is(&Token::LBrace));
-
-        let start = self.input_mut().cur_pos();
-        self.bump(); // bump `{`
-
-        let expr = if self.input_mut().is(&Token::RBrace) {
-            JSXExpr::JSXEmptyExpr(parse_jsx_empty_expr(self))
-        } else {
-            self.input_mut().eat(&Token::DotDotDot);
-            self.parse_expr().map(JSXExpr::Expr)?
-        };
-        self.expect(&Token::RBrace)?;
-        Ok(JSXExprContainer {
-            span: self.span(start),
-            expr,
-        })
     }
 
     fn parse_jsx_attr_name(&mut self) -> PResult<JSXAttrName> {
