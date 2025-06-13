@@ -53,6 +53,11 @@ impl Lexer<'_> {
                         value.push_str(s);
                         self.atoms.atom(value)
                     };
+                    let atom = self.atoms.atom(s);
+                    if !value.is_empty() {
+                        // Fast path: We don't need to allocate extra buffer for
+                        value.push_str(s);
+                    }
 
                     let raw = {
                         let s = unsafe {
@@ -62,7 +67,7 @@ impl Lexer<'_> {
                         self.atoms.atom(s)
                     };
 
-                    return Ok(Some(Token::JSXText { raw, value }));
+                    return Ok(Some(Token::JSXText { raw, value: atom }));
                 }
                 '>' => {
                     self.emit_error(

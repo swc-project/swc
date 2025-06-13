@@ -273,14 +273,18 @@ impl<I: Tokens> Parser<I> {
             } else {
                 // <xxxxx/>
                 self.expect(&Token::Slash)?;
+                let span;
                 if self.expect_without_advance(&Token::Gt).is_ok() {
                     if in_expr_context {
                         self.bump();
+                        span = Span::new(start, self.last_pos());
                     } else {
                         self.input_mut().scan_jsx_token(true);
+                        span = Span::new(start, self.cur_pos());
                     }
-                }
-                let span = Span::new(start, self.cur_pos());
+                } else {
+                    span = Span::new(start, self.cur_pos());
+                };
                 Ok(either::Either::Right(JSXElement {
                     span,
                     opening: JSXOpeningElement {
