@@ -8,6 +8,7 @@ use swc_ecma_lexer::{
         comments_buffer::{BufferedComment, BufferedCommentKind},
         state::State as StateTrait,
     },
+    error::SyntaxError,
     TokenContexts,
 };
 
@@ -191,7 +192,7 @@ impl Tokens for Lexer<'_> {
                 }
             }
 
-            self.state.set_token_type(token.into());
+            self.state.set_token_type(token);
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
@@ -277,7 +278,7 @@ impl Tokens for Lexer<'_> {
                 }
             }
 
-            self.state.set_token_type(token.into());
+            self.state.set_token_type(token);
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
@@ -344,6 +345,7 @@ impl Lexer<'_> {
 
         if self.input.eat_byte(b'<') {
             return Ok(Some(if self.input.eat_byte(b'/') {
+                // TODO: use `Token::LessSlash`
                 Token::JSXTagEnd
             } else {
                 Token::Lt
@@ -362,7 +364,12 @@ impl Lexer<'_> {
             }
 
             if ch == '>' {
-                todo!("error handle")
+                self.emit_error(
+                    self.input().cur_pos(),
+                    SyntaxError::UnexpectedTokenWithSuggestions {
+                        candidate_list: vec!["`{'>'}`", "`&gt;`"],
+                    },
+                );
             } else if ch == '}' {
                 todo!("error handle")
             }
@@ -427,7 +434,7 @@ impl Iterator for Lexer<'_> {
                 }
             }
 
-            self.state.set_token_type(token.into());
+            self.state.set_token_type(token);
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }

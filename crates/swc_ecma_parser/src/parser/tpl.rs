@@ -92,12 +92,9 @@ impl<I: Tokens> Parser<I> {
 
     pub(super) fn parse_tpl(&mut self, is_tagged_tpl: bool) -> PResult<Tpl> {
         trace_cur!(self, parse_tpl);
-        let start = cur_pos!(self);
+        debug_assert!(matches!(self.input.cur(), Some(&Token::TemplateHead)));
 
-        debug_assert!(matches!(
-            self.input.cur(),
-            Some(&Token::TemplateHead { .. })
-        ));
+        let start = cur_pos!(self);
 
         let (exprs, quasis) = self.parse_tpl_elements(is_tagged_tpl)?;
 
