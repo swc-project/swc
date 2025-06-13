@@ -42,11 +42,15 @@ fn parse_jsx_closing_element_at<'a, P: Parser<'a>>(
 }
 
 /// Parses JSX expression enclosed into curly brackets.
-fn parse_jsx_expr_container<'a, P: Parser<'a>>(p: &mut P, _: BytePos) -> PResult<JSXExprContainer> {
+pub fn parse_jsx_expr_container<'a, P: Parser<'a>>(
+    p: &mut P,
+    _: BytePos,
+) -> PResult<JSXExprContainer> {
     debug_assert!(p.input().syntax().jsx());
+    debug_assert!(p.input_mut().is(&P::Token::LBRACE));
 
     let start = p.input_mut().cur_pos();
-    p.bump();
+    p.bump(); // bump "{"
     let expr = if p.input_mut().is(&P::Token::RBRACE) {
         JSXExpr::JSXEmptyExpr(parse_jsx_empty_expr(p))
     } else {
@@ -138,6 +142,19 @@ pub fn parse_jsx_text<'a>(p: &mut impl Parser<'a>) -> JSXText {
     JSXText { span, value, raw }
 }
 
+pub fn jsx_expr_container_to_jsx_attr_value<'a, P: Parser<'a>>(
+    p: &mut P,
+    start: BytePos,
+    node: JSXExprContainer,
+) -> PResult<JSXAttrValue> {
+    match node.expr {
+        JSXExpr::JSXEmptyExpr(..) => {
+            syntax_error!(p, p.span(start), SyntaxError::EmptyJSXAttr)
+        }
+        JSXExpr::Expr(..) => Ok(node.into()),
+    }
+}
+
 /// Parses any type of JSX attribute value.
 ///
 /// TODO(kdy1): Change return type to JSXAttrValue
@@ -150,12 +167,7 @@ fn parse_jsx_attr_value<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrValue> {
     let cur = cur!(p, true);
     if cur.is_lbrace() {
         let node = parse_jsx_expr_container(p, start)?;
-        match node.expr {
-            JSXExpr::JSXEmptyExpr(..) => {
-                syntax_error!(p, p.span(start), SyntaxError::EmptyJSXAttr)
-            }
-            JSXExpr::Expr(..) => Ok(node.into()),
-        }
+        jsx_expr_container_to_jsx_attr_value(p, start, node)
     } else if cur.is_str() {
         Ok(JSXAttrValue::Lit(Lit::Str(parse_str_lit(p))))
     } else if cur.is_jsx_tag_start() {
@@ -171,12 +183,15 @@ fn parse_jsx_attr_value<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrValue> {
 }
 
 /// Parse JSX spread child
-fn parse_jsx_spread_child<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXSpreadChild> {
+pub fn parse_jsx_spread_child<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXSpreadChild> {
     debug_assert!(p.input().syntax().jsx());
-    let start = p.cur_pos();
+    debug_assert!(p.input_mut().cur().is_some_and(|cur| cur.is_lbrace()));
+    debug_assert!(peek!(p).is_some_and(|peek| peek.is_dotdotdot()));
 
-    expect!(p, &P::Token::LBRACE);
-    expect!(p, &P::Token::DOTDOTDOT);
+    let start = p.cur_pos();
+    p.bump(); // bump "{"
+    let _ = p.input_mut().cur();
+    p.bump(); // bump "..."
     let expr = p.parse_expr()?;
     expect!(p, &P::Token::RBRACE);
 
@@ -242,7 +257,7 @@ fn parse_jsx_opening_element_at<'a, P: Parser<'a>>(
 }
 
 #[inline(always)]
-pub fn parse_jsx_attrs<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<JSXAttrOrSpread>> {
+fn parse_jsx_attrs<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<JSXAttrOrSpread>> {
     let mut attrs = Vec::with_capacity(8);
 
     while p.input_mut().cur().is_some() {
