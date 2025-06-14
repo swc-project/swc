@@ -606,14 +606,14 @@ var C = /*#__PURE__*/ function(B1) {
 }(B);
 _get(_get_prototype_of(C), "w", C).call(C);
 //// [inContainingFuncExprStaticField.ts]
-import { _ as _call_super } from "@swc/helpers/_/_call_super";
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import "@swc/helpers/_/_call_super";
+import "@swc/helpers/_/_class_call_check";
+import "@swc/helpers/_/_get";
+import "@swc/helpers/_/_get_prototype_of";
+import "@swc/helpers/_/_inherits";
 //// [inContainingFuncExprStaticBlock.ts]
-import { _ as _call_super } from "@swc/helpers/_/_call_super";
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-import { _ as _inherits } from "@swc/helpers/_/_inherits";
+import "@swc/helpers/_/_call_super";
+import "@swc/helpers/_/_class_call_check";
+import "@swc/helpers/_/_get";
+import "@swc/helpers/_/_get_prototype_of";
+import "@swc/helpers/_/_inherits";

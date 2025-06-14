@@ -19,6 +19,7 @@ use crate::{
         lexer::token::TokenFactory,
         parser::{
             class_and_fn::{parse_async_fn_decl, parse_class_decl, parse_decorators},
+            eof_error,
             expr::{parse_await_expr, parse_bin_op_recursively, parse_for_head_prefix},
             ident::{parse_binding_ident, parse_label_ident},
             pat::reparse_expr_as_pat,
@@ -323,7 +324,7 @@ pub fn parse_using_decl<'a, P: Parser<'a>>(
     // reader = init()
 
     // is two statements
-    let _ = cur!(p, false);
+    p.input_mut().cur();
     if p.input_mut().has_linebreak_between_cur_and_peeked() {
         return Ok(None);
     }
@@ -1331,7 +1332,10 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
         }
         .into())
     } else {
-        if cur!(p, false)?.is_bin_op() {
+        let Some(cur) = p.input_mut().cur() else {
+            return Err(eof_error(p));
+        };
+        if cur.is_bin_op() {
             p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
             let expr = parse_bin_op_recursively(p, expr, 0)?;
             return Ok(ExprStmt {
@@ -1376,8 +1380,7 @@ pub(super) fn parse_block_body<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>
             );
             false
         } else {
-            let c = cur!(p, false).ok();
-            c != end
+            p.input_mut().cur() != end
         }
     } {
         let stmt = parse_stmt_like(p, true, &handle_import_export)?;

@@ -1,0 +1,7 @@
+import type Animal from "the/jungle/book";
+
+interface King extends Animal {
+    isLouie(): boolean;
+}
+
+export type { King as default };

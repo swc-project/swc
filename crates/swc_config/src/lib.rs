@@ -13,6 +13,10 @@ pub mod merge;
 #[cfg(feature = "regex")]
 pub mod regex;
 
+#[cfg_attr(docsrs, doc(cfg(feature = "regex_js")))]
+#[cfg(feature = "regex_js")]
+pub mod regex_js;
+
 #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
 #[cfg(feature = "sourcemap")]
 pub mod source_map;

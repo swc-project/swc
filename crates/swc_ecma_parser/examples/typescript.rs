@@ -16,7 +16,7 @@ fn main() {
 
     let fm = cm.new_source_file(
         FileName::Custom("test.ts".into()).into(),
-        "interface Foo {}".into(),
+        "interface Foo {}",
     );
 
     let lexer = Lexer::new(

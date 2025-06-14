@@ -74,7 +74,7 @@ criterion_main!(files_document, files_document_fragment);
 fn run_document(src: &str) {
     testing::run_test2(false, |cm, handler| {
         HANDLER.set(&handler, || {
-            let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+            let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
 
             let mut errors = Vec::new();
             let mut document: Document =
@@ -111,7 +111,7 @@ fn run_document(src: &str) {
 fn run_document_fragment(src: &str) {
     testing::run_test2(false, |cm, handler| {
         HANDLER.set(&handler, || {
-            let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+            let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
 
             let mut errors = Vec::new();
             let context_element_namespace = Namespace::HTML;

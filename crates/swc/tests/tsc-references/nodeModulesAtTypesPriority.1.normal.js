@@ -16,4 +16,4 @@ export { };
 //// [/packages/a/node_modules/redux/index.js]
 module.exports = {};
 //// [/packages/a/index.ts]
-import React from "react";
+export { };

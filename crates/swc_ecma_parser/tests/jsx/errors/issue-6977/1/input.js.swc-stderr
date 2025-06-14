@@ -1,0 +1,6 @@
+  x Expression expected
+   ,-[$DIR/tests/jsx/errors/issue-6977/1/input.js:4:1]
+ 3 | 
+ 4 | <Component x={...[1,2,3]} />
+   :               ^^^
+   `----

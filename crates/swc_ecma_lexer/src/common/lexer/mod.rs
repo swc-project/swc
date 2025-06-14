@@ -1,6 +1,7 @@
 use std::borrow::Cow;
 
 use char::{Char, CharExt};
+use comments_buffer::{BufferedComment, BufferedCommentKind};
 use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
 use num_traits::{Num as NumTrait, ToPrimitive};
@@ -9,6 +10,7 @@ use smartstring::{LazyCompact, SmartString};
 use state::State;
 use swc_atoms::Atom;
 use swc_common::{
+    comments::{Comment, CommentKind},
     input::{Input, StringInput},
     BytePos, Span,
 };
@@ -49,8 +51,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn atom<'b>(&self, s: impl Into<Cow<'b, str>>) -> swc_atoms::Atom;
     fn push_error(&self, error: crate::error::Error);
     fn buf(&self) -> std::rc::Rc<std::cell::RefCell<String>>;
-    // TODO: invest why there has regression if implement this by trait
-    fn skip_block_comment(&mut self);
 
     #[inline(always)]
     #[allow(clippy::misnamed_getters)]
@@ -198,14 +198,14 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         while idx < len {
             let b = *unsafe { bytes.get_unchecked(idx) };
             if b == b'\r' || b == b'\n' {
-                self.state_mut().set_had_line_break(true);
+                self.state_mut().mark_had_line_break();
                 break;
             } else if b > 127 {
                 // non-ASCII case: Check for Unicode line termination characters
                 let s = unsafe { input_str.get_unchecked(idx..) };
                 if let Some(first_char) = s.chars().next() {
                     if first_char == '\u{2028}' || first_char == '\u{2029}' {
-                        self.state_mut().set_had_line_break(true);
+                        self.state_mut().mark_had_line_break();
                         break;
                     }
                     idx += first_char.len_utf8() - 1; // `-1` will incrumented
@@ -250,6 +250,117 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         }
     }
 
+    /// Expects current char to be '/' and next char to be '*'.
+    fn skip_block_comment(&mut self) {
+        let start = self.cur_pos();
+
+        debug_assert_eq!(self.cur(), Some('/'));
+        debug_assert_eq!(self.peek(), Some('*'));
+
+        self.input_mut().bump_bytes(2);
+
+        // jsdoc
+        let slice_start = self.cur_pos();
+
+        // Check if there's an asterisk at the beginning (JSDoc style)
+        let mut was_star = if self.input().is_byte(b'*') {
+            self.bump();
+            true
+        } else {
+            false
+        };
+
+        let mut is_for_next =
+            self.state().had_line_break() || !self.state().can_have_trailing_comment();
+
+        // Optimization for finding block comment end position
+        let input_str = self.input().as_str();
+        let bytes = input_str.as_bytes();
+        let mut pos = 0;
+        let len = bytes.len();
+        let mut should_mark_had_line_break = false;
+
+        // Byte-based scanning for faster search
+        while pos < len {
+            let b = *unsafe { bytes.get_unchecked(pos) };
+
+            if was_star && b == b'/' {
+                if should_mark_had_line_break {
+                    self.state_mut().mark_had_line_break();
+                }
+                // Found comment end: "*/"
+                self.input_mut().bump_bytes(pos + 1);
+
+                let end = self.cur_pos();
+
+                self.skip_space::<false>();
+
+                // Check if this is a comment before semicolon
+                if !self.state().had_line_break() && self.input().is_byte(b';') {
+                    is_for_next = false;
+                }
+
+                if self.comments_buffer().is_some() {
+                    let src = unsafe {
+                        // Safety: We got slice_start and end from self.input so those are valid.
+                        self.input_mut().slice(slice_start, end)
+                    };
+                    let s = &src[..src.len() - 2];
+                    let cmt = Comment {
+                        kind: CommentKind::Block,
+                        span: Span::new(start, end),
+                        text: self.atom(s),
+                    };
+
+                    let _ = self.input().peek();
+                    if is_for_next {
+                        self.comments_buffer_mut()
+                            .unwrap()
+                            .push_pending_leading(cmt);
+                    } else {
+                        let pos = self.state().prev_hi();
+                        self.comments_buffer_mut().unwrap().push(BufferedComment {
+                            kind: BufferedCommentKind::Trailing,
+                            pos,
+                            comment: cmt,
+                        });
+                    }
+                }
+
+                return;
+            }
+
+            // Check for line break characters - ASCII case
+            if b == b'\r' || b == b'\n' {
+                should_mark_had_line_break = true;
+            }
+            // Check for Unicode line breaks (rare case)
+            else if b > 127 {
+                let remaining = &input_str[pos..];
+                if let Some(c) = remaining.chars().next() {
+                    if c == '\u{2028}' || c == '\u{2029}' {
+                        should_mark_had_line_break = true;
+                    }
+                    // Skip multibyte characters
+                    pos += c.len_utf8() - 1; // `-1` will incrumented below
+                }
+            }
+
+            was_star = b == b'*';
+            pos += 1;
+        }
+
+        if should_mark_had_line_break {
+            self.state_mut().mark_had_line_break();
+        }
+
+        // If we reached here, it's an unterminated block comment
+        self.input_mut().bump_bytes(len); // skip remaining
+        let end = self.input().end_pos();
+        let span = Span::new(end, end);
+        self.emit_error_span(span, SyntaxError::UnterminatedBlockComment)
+    }
+
     /// Skip comments or whitespaces.
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
@@ -270,7 +381,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
             self.input_mut().bump_bytes(offset as usize);
             if newline {
-                self.state_mut().set_had_line_break(true);
+                self.state_mut().mark_had_line_break();
             }
 
             if LEX_COMMENTS && self.input().is_byte(b'/') {
@@ -979,23 +1090,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 }
             }
         }
-
+        let cur_pos = self.input().cur_pos();
+        let s = unsafe {
+            // Safety: We already checked for the range
+            self.input_slice(chunk_start, cur_pos)
+        };
         let value = if out.is_empty() {
             // Fast path: We don't need to allocate
-
-            let cur_pos = self.input().cur_pos();
-            let value = unsafe {
-                // Safety: We already checked for the range
-                self.input_slice(chunk_start, cur_pos)
-            };
-            self.atom(value)
+            self.atom(s)
         } else {
-            let cur_pos = self.input().cur_pos();
-            let value = unsafe {
-                // Safety: We already checked for the range
-                self.input_slice(chunk_start, cur_pos)
-            };
-            out.push_str(value);
+            out.push_str(s);
             self.atom(out)
         };
 
@@ -1213,7 +1317,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                 cooked_slice_start = self.cur_pos();
             } else if c.is_line_terminator() {
-                self.state_mut().set_had_line_break(true);
+                self.state_mut().mark_had_line_break();
 
                 consume_cooked!();
 

@@ -326,7 +326,13 @@ impl Visit for TypeUsageAnalyzer<'_> {
             for specifier in &node.specifiers {
                 if let Some(name) = specifier.as_named() {
                     if let ModuleExportName::Ident(ident) = &name.orig {
-                        this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::all()), true);
+                        // We should add egdes for all three possible namespaces because there's no
+                        // mechanism to merge SymbolFlags with same Ids
+                        this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Type), true);
+                        if !node.type_only {
+                            this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Value), true);
+                            this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::all()), true);
+                        }
                     }
                 }
             }
@@ -342,6 +348,10 @@ impl Visit for TypeUsageAnalyzer<'_> {
     fn visit_export_default_expr(&mut self, node: &ExportDefaultExpr) {
         self.with_source(self.source, |this| {
             if let Some(ident) = node.expr.as_ident() {
+                // We should add egdes for all three possible namespaces because there's no
+                // mechanism to merge SymbolFlags with same Ids
+                this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Type), true);
+                this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::Value), true);
                 this.add_edge(Symbol::new(ident.to_id(), SymbolFlags::all()), true);
             }
             node.visit_children_with(this);

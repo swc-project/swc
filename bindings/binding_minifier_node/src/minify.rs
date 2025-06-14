@@ -227,7 +227,7 @@ fn do_work(
                 inline_sources_content: options.inline_sources_content,
                 source_map,
                 source_map_names: &source_map_names,
-                orig: orig.as_ref(),
+                orig,
                 comments: Some(&comments),
                 emit_source_map_columns: options.emit_source_map_columns,
                 preamble: &options.format.preamble,

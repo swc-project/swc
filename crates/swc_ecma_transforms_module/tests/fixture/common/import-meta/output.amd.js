@@ -7,5 +7,10 @@ define([
     const url = new URL(module.uri, document.baseURI).href;
     const filename = module.uri.split("/").pop();
     const dirname = require.toUrl(".");
-    console.log(react, url, filename, dirname);
+    const main = module.id == "main";
+    console.log(react);
+    console.log(url);
+    console.log(filename);
+    console.log(dirname);
+    console.log(main);
 });

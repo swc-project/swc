@@ -288,7 +288,7 @@
         },
         // args is for internal usage only
         each: function(obj, callback, args) {
-            var value, i = 0, length = obj.length, isArray = isArraylike(obj);
+            var i = 0, length = obj.length, isArray = isArraylike(obj);
             if (args) {
                 if (isArray) for(; i < length && !1 !== callback.apply(obj[i], args); i++);
                 else for(i in obj)if (!1 === callback.apply(obj[i], args)) break;

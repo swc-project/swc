@@ -2,13 +2,13 @@ use std::{fs::read_to_string, path::PathBuf};
 
 use base64::prelude::{Engine, BASE64_STANDARD};
 use rustc_hash::FxBuildHasher;
-use sourcemap::SourceMap;
 use swc_allocator::api::global::HashSet;
 use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
+use swc_sourcemap::SourceMap;
 
 static IGNORED_PASS_TESTS: &[&str] = &[
     // Temporally ignored

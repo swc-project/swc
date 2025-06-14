@@ -1,3 +1,3 @@
-const x = () => {
+const x = ()=>{
     let o = {};
 };

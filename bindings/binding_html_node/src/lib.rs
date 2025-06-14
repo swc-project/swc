@@ -508,7 +508,7 @@ fn minify_inner(
                 None => FileName::Anon,
             };
 
-            let fm = cm.new_source_file(filename.into(), code.into());
+            let fm = cm.new_source_file(filename.into(), code.to_string());
 
             let scripting_enabled = opts.scripting_enabled;
             let mut errors = vec![];

@@ -1,21 +1,21 @@
 function f(u) {
-    return function () {
+    return function() {
         function r(u) {
             return u * u;
         }
         return [
-            function () {
+            function() {
                 function t(u) {
                     return u * u;
                 }
                 return t;
             },
-            function () {
+            function() {
                 function n(u) {
                     return u * u;
                 }
                 return u(n);
-            },
+            }
         ];
     };
 }

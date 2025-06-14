@@ -1,9 +1,9 @@
 function f(t) {
-    return function () {
+    return function() {
         function r(t) {
             return t * t;
         }
-        return function () {
+        return function() {
             function n(t) {
                 return t * t;
             }

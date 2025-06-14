@@ -1,0 +1,25 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 12
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 12
+      },
+      "expression": {
+        "type": "MetaProperty",
+        "span": {
+          "start": 1,
+          "end": 11
+        },
+        "kind": "new.target"
+      }
+    }
+  ],
+  "interpreter": null
+}

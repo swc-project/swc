@@ -8,7 +8,7 @@ use swc_ecma_transforms::helpers::{Helpers, HELPERS};
 fn run(b: &mut Bencher, src: &str, config: Config) {
     let _ = ::testing::run_test(false, |cm, handler| {
         HELPERS.set(&Helpers::new(true), || {
-            let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+            let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
 
             let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
             let module = parser

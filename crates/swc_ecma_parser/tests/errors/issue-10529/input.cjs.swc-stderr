@@ -1,0 +1,7 @@
+  x `static` cannot be used as an identifier in strict mode
+   ,-[$DIR/tests/errors/issue-10529/input.cjs:2:1]
+ 1 | class A {
+ 2 |     constructor(static) { }
+   :                 ^^^^^^
+ 3 | }
+   `----

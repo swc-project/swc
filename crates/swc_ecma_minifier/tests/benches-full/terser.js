@@ -2087,7 +2087,7 @@
             this.prototype[name] = method;
         }, ctor;
     }
-    const has_tok_flag = (tok, flag)=>!!(tok.flags & flag), set_tok_flag = (tok, flag, truth)=>{
+    const set_tok_flag = (tok, flag, truth)=>{
         truth ? tok.flags |= flag : tok.flags &= ~flag;
     };
     class AST_Token {
@@ -2100,19 +2100,19 @@
             return `${special("[AST_Token")} ${value} at ${this.line}:${this.col}${special("]")}`;
         }
         get nlb() {
-            return has_tok_flag(this, 0b0001);
+            return !!(0b0001 & this.flags);
         }
         set nlb(new_nlb) {
             set_tok_flag(this, 0b0001, new_nlb);
         }
         get quote() {
-            return has_tok_flag(this, 0b0100) ? has_tok_flag(this, 0b0010) ? "'" : '"' : "";
+            return 0b0100 & this.flags ? 0b0010 & this.flags ? "'" : '"' : "";
         }
         set quote(quote_type) {
             set_tok_flag(this, 0b0010, "'" === quote_type), set_tok_flag(this, 0b0100, !!quote_type);
         }
         get template_end() {
-            return has_tok_flag(this, 0b1000);
+            return !!(0b1000 & this.flags);
         }
         set template_end(new_template_end) {
             set_tok_flag(this, 0b1000, new_template_end);
@@ -6002,19 +6002,7 @@
             output.add_mapping(this.start, this.key);
         });
     }();
-    const shallow_cmp = (node1, node2)=>null === node1 && null === node2 || node1.TYPE === node2.TYPE && node1.shallow_cmp(node2), equivalent_to = (tree1, tree2)=>{
-        if (!shallow_cmp(tree1, tree2)) return !1;
-        const walk_1_state = [
-            tree1
-        ], walk_2_state = [
-            tree2
-        ], walk_1_push = walk_1_state.push.bind(walk_1_state), walk_2_push = walk_2_state.push.bind(walk_2_state);
-        for(; walk_1_state.length && walk_2_state.length;){
-            const node_1 = walk_1_state.pop(), node_2 = walk_2_state.pop();
-            if (!shallow_cmp(node_1, node_2) || (node_1._children_backwards(walk_1_push), node_2._children_backwards(walk_2_push), walk_1_state.length !== walk_2_state.length)) return !1;
-        }
-        return 0 == walk_1_state.length && 0 == walk_2_state.length;
-    }, pass_through = ()=>!0;
+    const shallow_cmp = (node1, node2)=>null === node1 && null === node2 || node1.TYPE === node2.TYPE && node1.shallow_cmp(node2), pass_through = ()=>!0;
     AST_Node.prototype.shallow_cmp = function() {
         throw Error("did not find a shallow_cmp function for " + this.constructor.name);
     }, AST_Debugger.prototype.shallow_cmp = pass_through, AST_Directive.prototype.shallow_cmp = function(other) {
@@ -6559,14 +6547,12 @@
     /*#__INLINE__*/ const key_size = (key)=>"string" == typeof key ? key.length : 0;
     AST_ObjectKeyVal.prototype._size = function() {
         return key_size(this.key) + 1;
-    };
-    /*#__INLINE__*/ const static_size = (is_static)=>7 * !!is_static;
-    AST_ObjectGetter.prototype._size = function() {
-        return 5 + static_size(this.static) + key_size(this.key);
+    }, AST_ObjectGetter.prototype._size = function() {
+        return 5 + 7 * !!this.static + key_size(this.key);
     }, AST_ObjectSetter.prototype._size = function() {
-        return 5 + static_size(this.static) + key_size(this.key);
+        return 5 + 7 * !!this.static + key_size(this.key);
     }, AST_ConciseMethod.prototype._size = function() {
-        return static_size(this.static) + key_size(this.key) + lambda_modifiers(this);
+        return 7 * !!this.static + key_size(this.key) + lambda_modifiers(this);
     }, AST_PrivateMethod.prototype._size = function() {
         return AST_ConciseMethod.prototype._size.call(this) + 1;
     }, AST_PrivateGetter.prototype._size = AST_PrivateSetter.prototype._size = function() {
@@ -6579,7 +6565,7 @@
         // "static{}" + semicolons
         return 8 + list_overhead(this.body);
     }, AST_ClassProperty.prototype._size = function() {
-        return static_size(this.static) + ("string" == typeof this.key ? this.key.length + 2 : 0) + +!!this.value;
+        return 7 * !!this.static + ("string" == typeof this.key ? this.key.length + 2 : 0) + +!!this.value;
     }, AST_ClassPrivateProperty.prototype._size = function() {
         return AST_ClassProperty.prototype._size.call(this) + 1;
     }, AST_Symbol.prototype._size = function() {
@@ -9393,7 +9379,19 @@
             }
         }));
     }), AST_Node.DEFMETHOD("equivalent_to", function(node) {
-        return equivalent_to(this, node);
+        return ((tree1, tree2)=>{
+            if (!shallow_cmp(tree1, tree2)) return !1;
+            const walk_1_state = [
+                tree1
+            ], walk_2_state = [
+                tree2
+            ], walk_1_push = walk_1_state.push.bind(walk_1_state), walk_2_push = walk_2_state.push.bind(walk_2_state);
+            for(; walk_1_state.length && walk_2_state.length;){
+                const node_1 = walk_1_state.pop(), node_2 = walk_2_state.pop();
+                if (!shallow_cmp(node_1, node_2) || (node_1._children_backwards(walk_1_push), node_2._children_backwards(walk_2_push), walk_1_state.length !== walk_2_state.length)) return !1;
+            }
+            return 0 == walk_1_state.length && 0 == walk_2_state.length;
+        })(this, node);
     }), AST_Scope.DEFMETHOD("process_expression", function(insert, compressor) {
         var self1 = this, tt = new TreeTransformer(function(node) {
             if (insert && node instanceof AST_SimpleStatement) return make_node(AST_Return, node, {

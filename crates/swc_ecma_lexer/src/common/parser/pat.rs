@@ -775,7 +775,7 @@ pub fn parse_unique_formal_params<'a>(p: &mut impl Parser<'a>) -> PResult<Vec<Pa
     parse_formal_params(p)
 }
 
-pub fn parse_paren_items_as_params<'a, P: Parser<'a>>(
+pub(super) fn parse_paren_items_as_params<'a, P: Parser<'a>>(
     p: &mut P,
     mut exprs: Vec<AssignTargetOrSpread>,
     trailing_comma: Option<Span>,

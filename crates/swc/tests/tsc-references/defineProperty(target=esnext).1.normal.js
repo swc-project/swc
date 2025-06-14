@@ -2,30 +2,25 @@
 var x = "p";
 class A {
     y;
-    a;
+    a = this.y;
     b;
     c;
-    ["computed"];
-    [_x = x];
+    ["computed"] = 13;
+    [x] = 14;
     m() {}
     constructor(y){
         this.y = y;
-        this.a = this.y;
-        this["computed"] = 13;
-        this[_x] = 14;
-        this.z = this.y;
     }
-    z;
+    z = this.y;
 }
 class B {
     a;
 }
 class C extends B {
     ka;
-    z;
+    z = this.ka;
     constructor(ka){
-        super(), this.ka = ka, this.z = this.ka, this.ki = this.ka;
+        super(), this.ka = ka;
     }
-    ki;
+    ki = this.ka;
 }
-var _x;

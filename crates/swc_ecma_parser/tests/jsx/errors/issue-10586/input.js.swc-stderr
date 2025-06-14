@@ -1,0 +1,5 @@
+  x Expression expected
+   ,-[$DIR/tests/jsx/errors/issue-10586/input.js:1:1]
+ 1 | <n c={...b}></n>
+   :       ^^^
+   `----

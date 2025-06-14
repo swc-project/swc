@@ -1,18 +1,5 @@
 /// cur!($parser, required:bool)
 macro_rules! cur {
-    ($p:expr, false) => {{
-        match $p.input_mut().cur() {
-            Some(c) => Ok(c),
-            None => {
-                let pos = $p.input().end_pos();
-                let last = Span::new(pos, pos);
-                Err(crate::error::Error::new(
-                    last,
-                    crate::error::SyntaxError::Eof,
-                ))
-            }
-        }
-    }};
     ($p:expr, true) => {{
         match $p.input_mut().cur() {
             Some(c) => {
@@ -90,7 +77,7 @@ macro_rules! peek {
             $p.input().knows_cur(),
             "parser should not call peek() without knowing current token.
 Current token is {:?}",
-            cur!($p, false),
+            $p.input_mut().cur(),
         );
         $p.input_mut().peek()
     }};
@@ -121,7 +108,7 @@ macro_rules! debug_tracing {
 /// Returns true on eof.
 macro_rules! eof {
     ($p:expr) => {
-        cur!($p, false).is_err()
+        $p.input_mut().cur().is_none()
     };
 }
 

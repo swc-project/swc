@@ -80,7 +80,7 @@ fn internal(input: PathBuf) {
     // run single plugin
     tokio::runtime::Runtime::new().unwrap().block_on(async {
         testing::run_test(false, |cm, _handler| {
-            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)".into());
+            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)");
 
             let parsed = parse_file_as_program(
                 &fm,
@@ -141,7 +141,7 @@ fn internal(input: PathBuf) {
 
         // Run multiple plugins.
         testing::run_test(false, |cm, _handler| {
-            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)".into());
+            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)");
 
             let parsed = parse_file_as_program(
                 &fm,

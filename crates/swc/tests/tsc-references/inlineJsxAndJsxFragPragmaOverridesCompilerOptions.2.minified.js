@@ -9,10 +9,10 @@ export { };
 React.Fragment;
 export { };
 //// [preacty.tsx]
-import { h, Frag } from "./preact";
+import "./preact";
 //// [snabbdomy.tsx]
-import { h } from "./snabbdom";
+import "./snabbdom";
 React.Fragment;
 //// [mix-n-match.tsx]
-import { h } from "./preact";
-import { Fragment } from "./react";
+import "./preact";
+import "./react";

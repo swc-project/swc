@@ -992,6 +992,9 @@ where
 
         if let JSXElementName::Ident(i) = n {
             self.with_ctx(ctx).report_usage(i);
+            self.data
+                .var_or_default(i.to_id())
+                .mark_used_as_jsx_callee();
         }
     }
 

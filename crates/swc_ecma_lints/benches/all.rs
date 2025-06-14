@@ -70,14 +70,15 @@ pub fn bench_files(c: &mut Criterion) {
         });
     };
 
+    // Some of these are too flaky
     bench_file("antd");
-    bench_file("d3");
+    // bench_file("d3");
     bench_file("echarts");
     bench_file("jquery");
     bench_file("lodash");
     bench_file("moment");
     bench_file("react");
-    bench_file("terser");
+    // bench_file("terser");
     bench_file("three");
     bench_file("typescript");
     bench_file("victory");

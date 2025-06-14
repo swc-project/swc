@@ -337,7 +337,7 @@ test!(
     |t| tr(
         t,
         Options {
-            pragma: Some(Lrc::new("dom".into())),
+            pragma: Some("dom".into()),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -808,7 +808,7 @@ test!(
     |t| tr(
         t,
         Options {
-            pragma: Some(Lrc::new("h".into())),
+            pragma: Some("h".into()),
             throw_if_namespace: false.into(),
             ..Default::default()
         },
@@ -1110,7 +1110,7 @@ fn test_script(src: &str, output: &Path, options: Options) {
     Tester::run(|tester| {
         let fm = tester
             .cm
-            .new_source_file(FileName::Real("input.js".into()).into(), src.into());
+            .new_source_file(FileName::Real("input.js".into()).into(), src.to_string());
 
         let syntax = Syntax::Es(EsSyntax {
             jsx: true,

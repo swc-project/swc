@@ -9,7 +9,9 @@ if (2) {
     let w = 48;
 }
 if (3) {
-    class X {}
+    class X {
+    }
 } else {
-    class Y {}
+    class Y {
+    }
 }

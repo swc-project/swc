@@ -22,11 +22,11 @@ fn main() {
 
     let fm1 = cm.new_source_file(
         Lrc::new(FileName::Custom("foo.js".into())),
-        "13579\n12345\n13579".into(),
+        "13579\n12345\n13579",
     );
     let fm2 = cm.new_source_file(
         Lrc::new(FileName::Custom("bar.js".into())),
-        "02468\n12345\n02468".into(),
+        "02468\n12345\n02468",
     );
 
     // This is a simple example.

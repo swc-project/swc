@@ -8,5 +8,10 @@
     const url = import.meta.url;
     const filename = import.meta.filename;
     const dirname = import.meta.dirname;
-    console.log(react, url, filename, dirname);
+    const main = import.meta.main;
+    console.log(react);
+    console.log(url);
+    console.log(filename);
+    console.log(dirname);
+    console.log(main);
 });

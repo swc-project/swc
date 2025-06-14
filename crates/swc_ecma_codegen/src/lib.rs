@@ -1382,6 +1382,10 @@ fn is_empty_comments(span: &Span, comments: &Option<&dyn Comments>) -> bool {
 fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
     let lo = span.lo;
 
+    if lo.is_dummy() {
+        return false;
+    }
+
     // see #415
     if let Some(cmt) = cmt.get_leading(lo) {
         if cmt.iter().any(|cmt| {

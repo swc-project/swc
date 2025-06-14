@@ -11956,7 +11956,7 @@
     /***/ },
     /***/ 20386: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
         "use strict";
-        const strictUriEncode = __webpack_require__(76487), decodeComponent = __webpack_require__(74677), splitOnFirst = __webpack_require__(97044), filterObject = __webpack_require__(47560), isNullOrUndefined = (value)=>null == value;
+        const strictUriEncode = __webpack_require__(76487), decodeComponent = __webpack_require__(74677), splitOnFirst = __webpack_require__(97044), filterObject = __webpack_require__(47560);
         function validateArrayFormatSeparator(value) {
             if ("string" != typeof value || 1 !== value.length) throw TypeError("arrayFormatSeparator must be single character string");
         }
@@ -12061,7 +12061,7 @@
                 arrayFormat: "none",
                 arrayFormatSeparator: ","
             }, options)).arrayFormatSeparator);
-            const shouldFilter = (key)=>options.skipNull && isNullOrUndefined(object[key]) || options.skipEmptyString && "" === object[key], formatter = function(options) {
+            const shouldFilter = (key)=>options.skipNull && null == object[key] || options.skipEmptyString && "" === object[key], formatter = function(options) {
                 switch(options.arrayFormat){
                     case "index":
                         return (key)=>(result, value)=>{

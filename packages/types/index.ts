@@ -85,9 +85,10 @@ export interface JsFormatOptions {
      * - `false`: removes all comments
      * - `'some'`: preserves some comments
      * - `'all'`: preserves all comments
+     * - `{ regex: string }`: preserves comments that match the regex
      * @default false
      */
-    comments?: false | "some" | "all";
+    comments?: false | "some" | "all" | { regex: string };
 
     /**
      * Currently noop.
@@ -351,7 +352,7 @@ export interface TerserMangleOptions {
     reserved?: string[];
 }
 
-export interface TerserManglePropertiesOptions {}
+export interface TerserManglePropertiesOptions { }
 
 /**
  * Programmatic options.
@@ -515,7 +516,7 @@ export interface Options extends Config {
 
     plugin?: Plugin;
 
-    isModule?: boolean | "unknown";
+    isModule?: boolean | "unknown" | "commonjs";
 
     /**
      * Destination path. Note that this value is used only to fix source path
@@ -704,6 +705,15 @@ export interface JscConfig {
     minify?: JsMinifyOptions;
 
     preserveAllComments?: boolean;
+
+    output?: {
+        /**
+         * This can be used to keep the output ascii-only.
+         * If this option is set, `minify.format.asciiOnly` will be ignored.
+         * @default 'utf8'
+         */
+        charset?: 'utf8' | 'ascii';
+    }
 }
 
 export type JscTarget =
@@ -869,10 +879,6 @@ export interface TransformConfig {
      */
     verbatimModuleSyntax?: boolean;
 
-    /**
-     * Native class properties support
-     */
-    nativeClassProperties?: boolean;
 }
 
 export interface ReactConfig {
@@ -915,27 +921,27 @@ export interface ReactConfig {
      * Enable fast refresh feature for React app
      */
     refresh?:
-        | boolean
-        | {
-              /**
-               * Identifier for the `react-refresh` register function.
-               *
-               * Defaults to `$RefreshReg$`
-               */
-              refreshReg?: string;
-              /**
-               * Identifier for the `react-refresh` signature function.
-               *
-               * Defaults to `$RefreshSig$`
-               */
-              refreshSig?: string;
-              /**
-               * Flag to emit full signatures.
-               *
-               * Defaults to `false`
-               */
-              emitFullSignatures?: boolean;
-          };
+    | boolean
+    | {
+        /**
+         * Identifier for the `react-refresh` register function.
+         *
+         * Defaults to `$RefreshReg$`
+         */
+        refreshReg?: string;
+        /**
+         * Identifier for the `react-refresh` signature function.
+         *
+         * Defaults to `$RefreshSig$`
+         */
+        refreshSig?: string;
+        /**
+         * Flag to emit full signatures.
+         *
+         * Defaults to `false`
+         */
+        emitFullSignatures?: boolean;
+    };
 
     /**
      * jsx runtime
@@ -1222,7 +1228,7 @@ export interface Output {
     map?: string;
 }
 
-export interface MatchPattern {}
+export interface MatchPattern { }
 
 // -------------------------------
 // ---------- Ast nodes ----------
@@ -1454,7 +1460,7 @@ export type Expression =
     | OptionalChainingExpression
     | Invalid;
 
-interface ExpressionBase extends Node, HasSpan {}
+interface ExpressionBase extends Node, HasSpan { }
 
 export interface Identifier extends ExpressionBase {
     type: "Identifier";

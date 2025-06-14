@@ -97,9 +97,10 @@ export interface JsFormatOptions {
    * - `false`: removes all comments
    * - `'some'`: preserves some comments
    * - `'all'`: preserves all comments
+   * - `{ regex: string }`: preserves comments that match the regex
    * @default false
    */
-  comments?: false | 'some' | 'all'
+  comments?: false | "some" | "all" | { regex: string };
 
   /**
    * Currently noop.
@@ -684,6 +685,15 @@ export interface JscConfig {
   minify?: JsMinifyOptions;
 
   preserveAllComments?: boolean;
+
+  output?: {
+    /**
+     * This can be used to keep the output ascii-only.
+     * If this option is set, `minify.format.asciiOnly` will be ignored.
+     * @default 'utf8'
+     */
+    charset?: 'utf8' | 'ascii';
+  }
 }
 
 export type JscTarget =

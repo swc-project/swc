@@ -25,7 +25,7 @@ path-clean         = { workspace = true }
 rustc-hash         = { workspace = true }
 serde              = { workspace = true, features = ["derive"] }
 serde_json         = { workspace = true, features = ["unbounded_depth"] }
-sourcemap          = { workspace = true }
+swc_sourcemap      = { workspace = true }
 tracing            = { workspace = true, features = ["release_max_level_info"] }
 tracing-chrome     = { workspace = true }
 tracing-futures    = { workspace = true }

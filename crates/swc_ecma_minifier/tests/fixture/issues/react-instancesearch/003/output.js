@@ -11,8 +11,8 @@ function addAlgoliaAgents(searchClient) {
 const isMultiIndexContext = (widget)=>hasMultipleIndices({
         ais: widget.props.contextValue,
         multiIndexContext: widget.props.indexContextValue
-    }), isTargetedIndexEqualIndex = (widget, indexId)=>widget.props.indexContextValue.targetedIndex === indexId, isIndexWidget = (widget)=>!!widget.props.indexId, isIndexWidgetEqualIndex = (widget, indexId)=>widget.props.indexId === indexId, sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
-    const isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
+    }), sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
+    const isFirstWidgetIndex = !!firstWidget.props.indexId, isSecondWidgetIndex = !!secondWidget.props.indexId;
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
 /**
@@ -81,18 +81,19 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
                 client._cacheHydrated = !0;
                 const baseMethod = client.search;
                 client.search = (requests, ...methodArgs)=>{
-                    const requestsWithSerializedParams = requests.map((request)=>({
+                    const requestsWithSerializedParams = requests.map((request)=>{
+                        var parameters;
+                        return {
                             ...request,
-                            params: // This function is copied from the algoliasearch v4 API Client. If modified,
-                            // consider updating it also in `serializeQueryParameters` from `@algolia/transporter`.
-                            function(parameters) {
-                                const isObjectOrArray = (value)=>"[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value), encode = (format, ...args)=>{
+                            params: Object.keys(parameters = request.params).map((key)=>{
+                                let value;
+                                return ((format, ...args)=>{
                                     let i = 0;
                                     return format.replace(/%s/g, ()=>encodeURIComponent(args[i++]));
-                                };
-                                return Object.keys(parameters).map((key)=>encode("%s=%s", key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key])).join("&");
-                            }(request.params)
-                        }));
+                                })("%s=%s", key, (value = parameters[key], "[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)) ? JSON.stringify(parameters[key]) : parameters[key]);
+                            }).join("&")
+                        };
+                    });
                     return client.transporter.responsesCache.get({
                         method: "search",
                         args: [
@@ -198,13 +199,13 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
         return widgetsManager.getWidgets().filter((widget)=>!!widget.getMetadata).map((widget)=>widget.getMetadata(state));
     }
     function getSearchParameters() {
-        const sharedParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>!isMultiIndexContext(widget) && !isIndexWidget(widget)).reduce((res, widget)=>widget.getSearchParameters(res), initialSearchParameters), mainParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>{
-            const targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = isIndexWidget(widget) && isIndexWidgetEqualIndex(widget, indexName);
+        const sharedParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>!isMultiIndexContext(widget) && !widget.props.indexId).reduce((res, widget)=>widget.getSearchParameters(res), initialSearchParameters), mainParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>{
+            const targetedIndexEqualMainIndex = isMultiIndexContext(widget) && widget.props.indexContextValue.targetedIndex === indexName, subIndexEqualMainIndex = !!widget.props.indexId && widget.props.indexId === indexName;
             return targetedIndexEqualMainIndex || subIndexEqualMainIndex;
         })// We have to sort the `Index` widgets first so the `index` parameter
         // is correctly set in the `reduce` function for the following widgets
         .sort(sortIndexWidgetsFirst).reduce((res, widget)=>widget.getSearchParameters(res), sharedParameters), derivedIndices = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>{
-            const targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName), subIndexNotEqualMainIndex = isIndexWidget(widget) && !isIndexWidgetEqualIndex(widget, indexName);
+            const targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && widget.props.indexContextValue.targetedIndex !== indexName, subIndexNotEqualMainIndex = !!widget.props.indexId && widget.props.indexId !== indexName;
             return targetedIndexNotEqualMainIndex || subIndexNotEqualMainIndex;
         })// We have to sort the `Index` widgets first so the `index` parameter
         // is correctly set in the `reduce` function for the following widgets

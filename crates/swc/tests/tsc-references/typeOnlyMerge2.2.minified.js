@@ -6,4 +6,4 @@ export { };
 //// [c.ts]
 import "./b";
 //// [d.ts]
-import { A } from "./c";
+import "./c";

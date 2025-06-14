@@ -70,8 +70,8 @@ impl common::lexer::state::State for State {
     }
 
     #[inline(always)]
-    fn set_had_line_break(&mut self, had_line_break: bool) {
-        self.had_line_break = had_line_break;
+    fn mark_had_line_break(&mut self) {
+        self.had_line_break = true;
     }
 
     #[inline(always)]
