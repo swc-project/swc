@@ -42,18 +42,15 @@ impl Lexer<'_> {
                         return self.read_token();
                     }
 
+                    let s = unsafe {
+                        // Safety: We already checked for the range
+                        self.input.slice(chunk_start, cur_pos)
+                    };
                     let value = if value.is_empty() {
                         // Fast path: We don't need to allocate extra buffer for value
-                        let s = unsafe {
-                            // Safety: We already checked for the range
-                            self.input.slice(chunk_start, cur_pos)
-                        };
                         self.atoms.atom(s)
                     } else {
-                        value.push_str(unsafe {
-                            // Safety: We already checked for the range
-                            self.input.slice(chunk_start, cur_pos)
-                        });
+                        value.push_str(s);
                         self.atoms.atom(value)
                     };
 
