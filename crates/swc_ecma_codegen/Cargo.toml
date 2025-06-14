@@ -35,7 +35,7 @@ swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features
 swc_atoms = { version = "5.0.0", path = "../swc_atoms" }
 swc_common = { version = "12.0.1", path = "../swc_common" }
 swc_ecma_ast = { version = "12.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen_macros = { version = "2.0.0", path = "../swc_ecma_codegen_macros" }
+swc_ecma_codegen_macros = { version = "2.0.1", path = "../swc_ecma_codegen_macros" }
 
 [dev-dependencies]
 base64                    = { workspace = true }
@@ -47,7 +47,7 @@ swc_allocator = { version = "4.0.0", path = "../swc_allocator" }
 swc_common = { version = "12.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_parser = { version = "15.0.1", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "15.0.2", path = "../swc_ecma_parser" }
 swc_ecma_testing = { version = "13.0.0", path = "../swc_ecma_testing" }
 swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
 testing = { version = "13.0.0", path = "../testing" }

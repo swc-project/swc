@@ -35,7 +35,7 @@ serde         = { workspace = true, features = ["derive", "rc"] }
 serde_json    = { workspace = true }
 swc_sourcemap = { workspace = true, optional = true }
 
-swc_config_macro = { version = "1.0.0", path = "../swc_config_macro" }
+swc_config_macro = { version = "1.0.1", path = "../swc_config_macro" }
 
 [lib]
 bench = false

@@ -69,13 +69,13 @@ tracing               = { workspace = true }
 unicode-width         = { workspace = true }
 url                   = { workspace = true }
 
-ast_node             = { version = "3.0.0", path = "../ast_node" }
-better_scoped_tls    = { version = "1.0.0", path = "../better_scoped_tls" }
-from_variant         = { version = "2.0.0", path = "../from_variant" }
+ast_node             = { version = "3.0.1", path = "../ast_node" }
+better_scoped_tls    = { version = "1.0.1", path = "../better_scoped_tls" }
+from_variant         = { version = "2.0.1", path = "../from_variant" }
 swc_allocator        = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 swc_atoms            = { version = "5.0.0", path = "../swc_atoms" }
-swc_eq_ignore_macros = { version = "1.0.0", path = "../swc_eq_ignore_macros" }
-swc_visit            = { version = "2.0.0", path = "../swc_visit" }
+swc_eq_ignore_macros = { version = "1.0.1", path = "../swc_eq_ignore_macros" }
+swc_visit            = { version = "2.0.1", path = "../swc_visit" }
 
 
 [dev-dependencies]

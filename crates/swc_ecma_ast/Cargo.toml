@@ -51,10 +51,10 @@ serde            = { workspace = true, features = ["derive"], optional = true }
 shrink-to-fit    = { workspace = true, optional = true }
 unicode-id-start = { workspace = true }
 
-string_enum = { version = "1.0.0", path = "../string_enum" }
+string_enum = { version = "1.0.1", path = "../string_enum" }
 swc_atoms   = { version = "5.0.0", path = "../swc_atoms" }
 swc_common  = { version = "12.0.1", path = "../swc_common" }
-swc_visit   = { version = "2.0.0", path = "../swc_visit" }
+swc_visit   = { version = "2.0.1", path = "../swc_visit" }
 
 [dev-dependencies]
 serde_json = { workspace = true }

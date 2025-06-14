@@ -31,6 +31,6 @@ is-macro  = { workspace = true }
 rkyv      = { workspace = true, optional = true }
 serde     = { workspace = true, features = ["derive"], optional = true }
 
-string_enum = { version = "1.0.0", path = "../string_enum/" }
+string_enum = { version = "1.0.1", path = "../string_enum/" }
 swc_atoms   = { version = "5.0.0", path = "../swc_atoms" }
 swc_common  = { version = "12.0.1", path = "../swc_common" }

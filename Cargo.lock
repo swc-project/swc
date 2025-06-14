@@ -205,7 +205,7 @@ dependencies = [
 
 [[package]]
 name = "ast_node"
-version = "3.0.0"
+version = "3.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -300,7 +300,7 @@ dependencies = [
 
 [[package]]
 name = "better_scoped_tls"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "scoped-tls",
 ]
@@ -1605,7 +1605,7 @@ dependencies = [
 
 [[package]]
 name = "from_variant"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "proc-macro2",
  "swc_macros_common",
@@ -3518,7 +3518,7 @@ dependencies = [
 
 [[package]]
 name = "preset_env_base"
-version = "3.0.1"
+version = "3.0.2"
 dependencies = [
  "anyhow",
  "browserslist-rs",
@@ -4687,7 +4687,7 @@ dependencies = [
 
 [[package]]
 name = "string_enum"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -4977,7 +4977,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config_macro"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -4987,7 +4987,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "27.0.4"
+version = "27.0.5"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5091,7 +5091,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen_macros"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -5293,7 +5293,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen_macros"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -5506,7 +5506,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "15.0.1"
+version = "15.0.2"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5588,7 +5588,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "21.0.3"
+version = "21.0.4"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5636,7 +5636,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "15.0.1"
+version = "15.0.2"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5768,7 +5768,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_regexp_common"
-version = "0.0.0"
+version = "0.0.1"
 
 [[package]]
 name = "swc_ecma_regexp_visit"
@@ -5902,7 +5902,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_macros"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -5943,7 +5943,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "17.0.1"
+version = "17.0.2"
 dependencies = [
  "bytes-str",
  "dashmap 5.5.3",
@@ -6149,7 +6149,7 @@ dependencies = [
 
 [[package]]
 name = "swc_eq_ignore_macros"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -6366,7 +6366,7 @@ dependencies = [
 
 [[package]]
 name = "swc_macros_common"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -6423,7 +6423,7 @@ dependencies = [
 
 [[package]]
 name = "swc_nodejs_common"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "anyhow",
  "napi",
@@ -6502,7 +6502,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_testing"
-version = "0.24.1"
+version = "0.24.2"
 
 [[package]]
 name = "swc_sourcemap"
@@ -6573,7 +6573,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "either",
  "new_debug_unreachable",
@@ -6822,7 +6822,7 @@ dependencies = [
 
 [[package]]
 name = "testing_macros"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "anyhow",
  "glob",
