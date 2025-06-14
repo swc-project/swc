@@ -452,9 +452,9 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        let changed = self.eval_str_addition(e);
+        self.eval_str_addition(e);
 
-        if changed {
+        if self.changed {
             self.remove_invalid(e);
         }
 
