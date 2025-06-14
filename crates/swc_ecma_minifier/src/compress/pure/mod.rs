@@ -452,13 +452,17 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        self.eval_str_addition(e);
+        let changed = self.eval_str_addition(e);
 
-        self.remove_invalid(e);
+        if changed {
+            self.remove_invalid(e);
+        }
 
-        self.drop_console(e);
+        let changed = self.drop_console(e);
 
-        self.remove_invalid(e);
+        if changed {
+            self.remove_invalid(e);
+        }
 
         if let Expr::Seq(seq) = e {
             if seq.exprs.is_empty() {

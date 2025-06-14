@@ -11,7 +11,7 @@ use super::Pure;
 impl Pure<'_> {
     /// This only handles `'foo' + ('bar' + baz) because others are handled by
     /// expression simplifier.
-    pub(super) fn eval_str_addition(&mut self, e: &mut Expr) {
+    pub(super) fn eval_str_addition(&mut self, e: &mut Expr) -> bool {
         let (span, l_l, r_l, r_r) = match e {
             Expr::Bin(
                 e @ BinExpr {
@@ -23,18 +23,18 @@ impl Pure<'_> {
                         op: op!(bin, "+"), ..
                     },
                 ) => (e.span, &mut *e.left, &mut *r.left, &mut r.right),
-                _ => return,
+                _ => return false,
             },
-            _ => return,
+            _ => return false,
         };
 
         match l_l.get_type(self.expr_ctx) {
             Known(Type::Str) => {}
-            _ => return,
+            _ => return false,
         }
         match r_l.get_type(self.expr_ctx) {
             Known(Type::Str) => {}
-            _ => return,
+            _ => return false,
         }
 
         let lls = l_l.as_pure_string(self.expr_ctx);
@@ -52,7 +52,9 @@ impl Pure<'_> {
                 right: r_r.take(),
             }
             .into();
+            return true;
         }
+        false
     }
 
     pub(super) fn eval_tpl_as_str(&mut self, e: &mut Expr) {
