@@ -1009,19 +1009,21 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                 left.as_pure_string(expr_ctx),
                 right.as_pure_string(expr_ctx),
             ) {
-                let mut l = l.into_owned();
+                if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
+                    let mut l = l.into_owned();
 
-                l.push_str(&r);
+                    l.push_str(&r);
 
-                *changed = true;
+                    *changed = true;
 
-                *expr = Lit::Str(Str {
-                    raw: None,
-                    value: l.into(),
-                    span: *span,
-                })
-                .into();
-                return;
+                    *expr = Lit::Str(Str {
+                        raw: None,
+                        value: l.into(),
+                        span: *span,
+                    })
+                    .into();
+                    return;
+                }
             }
 
             match expr.get_type(expr_ctx) {
