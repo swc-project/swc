@@ -4,7 +4,7 @@ use active_formatting_element_stack::*;
 use doctypes::*;
 use node::*;
 use open_elements_stack::*;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{Span, DUMMY_SP};
 use swc_html_ast::*;
 
@@ -2650,7 +2650,7 @@ where
                             ) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::EndTagWithUnclosedElements("body".into()),
+                                    ErrorKind::EndTagWithUnclosedElements(atom!("body")),
                                 ));
 
                                 break;
@@ -2712,7 +2712,7 @@ where
                             ) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::EndTagWithUnclosedElements("html".into()),
+                                    ErrorKind::EndTagWithUnclosedElements(atom!("html")),
                                 ));
 
                                 break;
@@ -2929,7 +2929,7 @@ where
                                     Some(node) if !is_html_element!(node, "li") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied("li".into()),
+                                            ErrorKind::UnclosedElementsImplied(atom!("li")),
                                         ));
                                     }
                                     _ => {}
@@ -3026,7 +3026,7 @@ where
                                     Some(node) if !is_html_element!(node, "dd") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied("dd".into()),
+                                            ErrorKind::UnclosedElementsImplied(atom!("dd")),
                                         ));
                                     }
                                     _ => {}
@@ -3049,7 +3049,7 @@ where
                                     Some(node) if !is_html_element!(node, "dt") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied("dt".into()),
+                                            ErrorKind::UnclosedElementsImplied(atom!("dt")),
                                         ));
                                     }
                                     _ => {}
@@ -3893,7 +3893,7 @@ where
                                 token: Token::StartTag { tag_name, .. },
                                 ..
                             } => {
-                                *tag_name = "img".into();
+                                *tag_name = atom!("img");
                             }
                             _ => {
                                 unreachable!();
@@ -6837,7 +6837,7 @@ where
     // name to definitionURL (note the case difference).
     fn adjust_math_ml_attribute(&self, attribute: &mut Attribute) {
         if attribute.name == "definitionurl" {
-            attribute.name = "definitionURL".into();
+            attribute.name = atom!("definitionURL");
         }
     }
 
@@ -6908,64 +6908,64 @@ where
     // zoomandpan	            zoomAndPan
     fn adjust_svg_attribute(&self, attribute: &mut Attribute) {
         match &*attribute.name {
-            "attributename" => attribute.name = "attributeName".into(),
-            "attributetype" => attribute.name = "attributeType".into(),
-            "basefrequency" => attribute.name = "baseFrequency".into(),
-            "baseprofile" => attribute.name = "baseProfile".into(),
-            "calcmode" => attribute.name = "calcMode".into(),
-            "clippathunits" => attribute.name = "clipPathUnits".into(),
-            "diffuseconstant" => attribute.name = "diffuseConstant".into(),
-            "edgemode" => attribute.name = "edgeMode".into(),
-            "filterunits" => attribute.name = "filterUnits".into(),
-            "glyphref" => attribute.name = "glyphRef".into(),
-            "gradienttransform" => attribute.name = "gradientTransform".into(),
-            "gradientunits" => attribute.name = "gradientUnits".into(),
-            "kernelmatrix" => attribute.name = "kernelMatrix".into(),
-            "kernelunitlength" => attribute.name = "kernelUnitLength".into(),
-            "keypoints" => attribute.name = "keyPoints".into(),
-            "keysplines" => attribute.name = "keySplines".into(),
-            "keytimes" => attribute.name = "keyTimes".into(),
-            "lengthadjust" => attribute.name = "lengthAdjust".into(),
-            "limitingconeangle" => attribute.name = "limitingConeAngle".into(),
-            "markerheight" => attribute.name = "markerHeight".into(),
-            "markerunits" => attribute.name = "markerUnits".into(),
-            "markerwidth" => attribute.name = "markerWidth".into(),
-            "maskcontentunits" => attribute.name = "maskContentUnits".into(),
-            "maskunits" => attribute.name = "maskUnits".into(),
-            "numoctaves" => attribute.name = "numOctaves".into(),
-            "pathlength" => attribute.name = "pathLength".into(),
-            "patterncontentunits" => attribute.name = "patternContentUnits".into(),
-            "patterntransform" => attribute.name = "patternTransform".into(),
-            "patternunits" => attribute.name = "patternUnits".into(),
-            "pointsatx" => attribute.name = "pointsAtX".into(),
-            "pointsaty" => attribute.name = "pointsAtY".into(),
-            "pointsatz" => attribute.name = "pointsAtZ".into(),
-            "preservealpha" => attribute.name = "preserveAlpha".into(),
-            "preserveaspectratio" => attribute.name = "preserveAspectRatio".into(),
-            "primitiveunits" => attribute.name = "primitiveUnits".into(),
-            "refx" => attribute.name = "refX".into(),
-            "refy" => attribute.name = "refY".into(),
-            "repeatcount" => attribute.name = "repeatCount".into(),
-            "repeatdur" => attribute.name = "repeatDur".into(),
-            "requiredextensions" => attribute.name = "requiredExtensions".into(),
-            "requiredfeatures" => attribute.name = "requiredFeatures".into(),
-            "specularconstant" => attribute.name = "specularConstant".into(),
-            "specularexponent" => attribute.name = "specularExponent".into(),
-            "spreadmethod" => attribute.name = "spreadMethod".into(),
-            "startoffset" => attribute.name = "startOffset".into(),
-            "stddeviation" => attribute.name = "stdDeviation".into(),
-            "stitchtiles" => attribute.name = "stitchTiles".into(),
-            "surfacescale" => attribute.name = "surfaceScale".into(),
-            "systemlanguage" => attribute.name = "systemLanguage".into(),
-            "tablevalues" => attribute.name = "tableValues".into(),
-            "targetx" => attribute.name = "targetX".into(),
-            "targety" => attribute.name = "targetY".into(),
-            "textlength" => attribute.name = "textLength".into(),
-            "viewbox" => attribute.name = "viewBox".into(),
-            "viewtarget" => attribute.name = "viewTarget".into(),
-            "xchannelselector" => attribute.name = "xChannelSelector".into(),
-            "ychannelselector" => attribute.name = "yChannelSelector".into(),
-            "zoomandpan" => attribute.name = "zoomAndPan".into(),
+           "attributename" => attribute.name = atom!("attributeName"),
+           "attributetype" => attribute.name = atom!("attributeType"),
+           "basefrequency" => attribute.name = atom!("baseFrequency"),
+           "baseprofile" => attribute.name = atom!("baseProfile"),
+           "calcmode" => attribute.name = atom!("calcMode"),
+           "clippathunits" => attribute.name = atom!("clipPathUnits"),
+           "diffuseconstant" => attribute.name = atom!("diffuseConstant"),
+           "edgemode" => attribute.name = atom!("edgeMode"),
+           "filterunits" => attribute.name = atom!("filterUnits"),
+           "glyphref" => attribute.name = atom!("glyphRef"),
+           "gradienttransform" => attribute.name = atom!("gradientTransform"),
+           "gradientunits" => attribute.name = atom!("gradientUnits"),
+           "kernelmatrix" => attribute.name = atom!("kernelMatrix"),
+           "kernelunitlength" => attribute.name = atom!("kernelUnitLength"),
+           "keypoints" => attribute.name = atom!("keyPoints"),
+           "keysplines" => attribute.name = atom!("keySplines"),
+           "keytimes" => attribute.name = atom!("keyTimes"),
+           "lengthadjust" => attribute.name = atom!("lengthAdjust"),
+           "limitingconeangle" => attribute.name = atom!("limitingConeAngle"),
+           "markerheight" => attribute.name = atom!("markerHeight"),
+           "markerunits" => attribute.name = atom!("markerUnits"),
+           "markerwidth" => attribute.name = atom!("markerWidth"),
+           "maskcontentunits" => attribute.name = atom!("maskContentUnits"),
+           "maskunits" => attribute.name = atom!("maskUnits"),
+           "numoctaves" => attribute.name = atom!("numOctaves"),
+           "pathlength" => attribute.name = atom!("pathLength"),
+           "patterncontentunits" => attribute.name = atom!("patternContentUnits"),
+           "patterntransform" => attribute.name = atom!("patternTransform"),
+           "patternunits" => attribute.name = atom!("patternUnits"),
+           "pointsatx" => attribute.name = atom!("pointsAtX"),
+           "pointsaty" => attribute.name = atom!("pointsAtY"),
+           "pointsatz" => attribute.name = atom!("pointsAtZ"),
+           "preservealpha" => attribute.name = atom!("preserveAlpha"),
+           "preserveaspectratio" => attribute.name = atom!("preserveAspectRatio"),
+           "primitiveunits" => attribute.name = atom!("primitiveUnits"),
+           "refx" => attribute.name = atom!("refX"),
+           "refy" => attribute.name = atom!("refY"),
+           "repeatcount" => attribute.name = atom!("repeatCount"),
+           "repeatdur" => attribute.name = atom!("repeatDur"),
+           "requiredextensions" => attribute.name = atom!("requiredExtensions"),
+           "requiredfeatures" => attribute.name = atom!("requiredFeatures"),
+           "specularconstant" => attribute.name = atom!("specularConstant"),
+           "specularexponent" => attribute.name = atom!("specularExponent"),
+           "spreadmethod" => attribute.name = atom!("spreadMethod"),
+           "startoffset" => attribute.name = atom!("startOffset"),
+           "stddeviation" => attribute.name = atom!("stdDeviation"),
+           "stitchtiles" => attribute.name = atom!("stitchTiles"),
+           "surfacescale" => attribute.name = atom!("surfaceScale"),
+           "systemlanguage" => attribute.name = atom!("systemLanguage"),
+           "tablevalues" => attribute.name = atom!("tableValues"),
+           "targetx" => attribute.name = atom!("targetX"),
+           "targety" => attribute.name = atom!("targetY"),
+           "textlength" => attribute.name = atom!("textLength"),
+           "viewbox" => attribute.name = atom!("viewBox"),
+           "viewtarget" => attribute.name = atom!("viewTarget"),
+           "xchannelselector" => attribute.name = atom!("xChannelSelector"),
+           "ychannelselector" => attribute.name = atom!("yChannelSelector"),
+           "zoomandpan" => attribute.name = atom!("zoomAndPan"),
             _ => {}
         }
     }
@@ -6997,58 +6997,58 @@ where
         match &*attribute.name {
             "xlink:actuate" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink".into());
-                attribute.name = "actuate".into();
+                attribute.prefix = Some(atom!("xlink"));
+                attribute.name = atom!("actuate");
             }
             "xlink:arcrole" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink".into());
-                attribute.name = "arcrole".into();
+                attribute.prefix = Some(atom!("xlink"));
+                attribute.name = atom!("arcrole");
             }
             "xlink:href" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink".into());
-                attribute.name = "href".into();
+                attribute.prefix = Some(atom!("xlink"));
+                attribute.name = atom!("href");
             }
             "xlink:role" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink".into());
-                attribute.name = "role".into();
+                attribute.prefix = Some(atom!("xlink"));
+                attribute.name = atom!("role");
             }
             "xlink:show" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink".into());
-                attribute.name = "show".into();
+                attribute.prefix = Some(atom!("xlink"));
+                attribute.name = atom!("show");
             }
             "xlink:title" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink".into());
-                attribute.name = "title".into();
+                attribute.prefix = Some(atom!("xlink"));
+                attribute.name = atom!("title");
             }
             "xlink:type" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink".into());
-                attribute.name = "type".into();
+                attribute.prefix = Some(atom!("xlink"));
+                attribute.name = atom!("type");
             }
             "xml:lang" => {
                 attribute.namespace = Some(Namespace::XML);
-                attribute.prefix = Some("xml".into());
-                attribute.name = "lang".into();
+                attribute.prefix = Some(atom!("xml"));
+                attribute.name = atom!("lang");
             }
             "xml:space" => {
                 attribute.namespace = Some(Namespace::XML);
-                attribute.prefix = Some("xml".into());
-                attribute.name = "space".into();
+                attribute.prefix = Some(atom!("xml"));
+                attribute.name = atom!("space");
             }
             "xmlns" => {
                 attribute.namespace = Some(Namespace::XMLNS);
                 attribute.prefix = None;
-                attribute.name = "xmlns".into();
+                attribute.name = atom!("xmlns");
             }
             "xmlns:xlink" => {
                 attribute.namespace = Some(Namespace::XMLNS);
-                attribute.prefix = Some("xmlns".into());
-                attribute.name = "xlink".into();
+                attribute.prefix = Some(atom!("xmlns"));
+                attribute.name = atom!("xlink");
             }
             _ => {}
         }
@@ -7662,7 +7662,7 @@ where
     fn create_fake_html_element(&self) -> RcNode {
         Node::new(
             Data::Element {
-                tag_name: "html".into(),
+                tag_name: atom!("html"),
                 namespace: Namespace::HTML,
                 attributes: RefCell::new(Vec::new()),
                 is_self_closing: false,

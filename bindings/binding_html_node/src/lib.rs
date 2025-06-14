@@ -402,7 +402,7 @@ impl MinifyCss for CssMinifier {
                                         span: Default::default(),
                                         name: swc_css_ast::AtRuleName::Ident(swc_css_ast::Ident {
                                             span: Default::default(),
-                                            value: "media".into(),
+                                            value: atom!("media"),
                                             raw: None,
                                         }),
                                         prelude: Some(
@@ -423,7 +423,7 @@ impl MinifyCss for CssMinifier {
                                             value: vec![swc_css_ast::ComponentValue::Str(
                                                 Box::new(swc_css_ast::Str {
                                                     span: Default::default(),
-                                                    value: "placeholder".into(),
+                                                    value: atom!("placeholder"),
                                                     raw: None,
                                                 }),
                                             )],

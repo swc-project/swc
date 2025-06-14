@@ -179,7 +179,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                             already_seen.insert(attribute.name.clone());
 
                             if attribute.value.is_none() {
-                                attribute.value = Some("".into());
+                                attribute.value = Some(atom!(""));
                             }
 
                             attribute.span = Default::default();

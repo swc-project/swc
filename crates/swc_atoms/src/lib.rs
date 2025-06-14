@@ -238,7 +238,7 @@ where
 }
 
 #[doc(hidden)]
-pub type CahcedAtom = Lazy<Atom>;
+pub type CachedAtom = Lazy<Atom>;
 
 /// This should be used as a key for hash maps and hash sets.
 ///

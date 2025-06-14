@@ -71,7 +71,7 @@ pub fn process(mut program: Program, metadata: TransformPluginProgramMetadata) -
 
     let _stmt = quote!(
         "const $name = 4;" as Stmt,
-        name = Ident::new_no_ctxt("ref".into(), DUMMY_SP)
+        name = Ident::new_no_ctxt(atom!("ref"), DUMMY_SP)
     );
 
     dbg!();
@@ -135,7 +135,7 @@ pub fn process(mut program: Program, metadata: TransformPluginProgramMetadata) -
 
     dbg!();
 
-    experimental_emit("foo".into(), "bar".into());
+    experimental_emit(atom!("foo"), atom!("bar"));
 
     dbg!();
 

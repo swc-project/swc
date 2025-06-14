@@ -1,5 +1,6 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 
+use swc_atoms::atom;
 use swc_common::{sync::Lrc, FileName};
 
 use super::load::TransformedModule;
@@ -87,6 +88,6 @@ impl Scope {
         }
         let info = self.get_module(id)?;
 
-        Some(Id::new("mod".into(), info.export_ctxt()))
+        Some(Id::new(atom!("mod"), info.export_ctxt()))
     }
 }

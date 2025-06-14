@@ -1,7 +1,7 @@
 use core::f64;
 
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
     BinExpr, BinaryOp, Expr, Ident, Lit, Number, Str, TsEnumDecl, TsEnumMemberId, UnaryExpr,
@@ -50,7 +50,7 @@ impl FastDts {
                         let expr = if v.is_infinite() {
                             Expr::Ident(Ident {
                                 span: DUMMY_SP,
-                                sym: "Infinity".into(),
+                                sym: atom!("Infinity"),
                                 ctxt: SyntaxContext::empty(),
                                 optional: false,
                             })

@@ -1,5 +1,6 @@
 use std::ops::DerefMut;
 
+use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
@@ -686,13 +687,13 @@ fn make_property<'a, P: Parser<'a>>(
         if declare {
             p.emit_err(
                 key.span(),
-                SyntaxError::PrivateNameModifier("declare".into()),
+                SyntaxError::PrivateNameModifier(atom!("declare")),
             )
         }
         if is_abstract {
             p.emit_err(
                 key.span(),
-                SyntaxError::PrivateNameModifier("abstract".into()),
+                SyntaxError::PrivateNameModifier(atom!("abstract")),
             )
         }
     }
@@ -816,12 +817,12 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
                 if is_abstract {
                     p.emit_err(
                         p.input().prev_span(),
-                        SyntaxError::TS1030("abstract".into()),
+                        SyntaxError::TS1030(atom!("abstract")),
                     );
                 } else if is_override {
                     p.emit_err(
                         p.input().prev_span(),
-                        SyntaxError::TS1029("abstract".into(), "override".into()),
+                        SyntaxError::TS1029(atom!("abstract"), atom!("override")),
                     );
                 }
                 is_abstract = true;
@@ -830,17 +831,17 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
                 if is_override {
                     p.emit_err(
                         p.input().prev_span(),
-                        SyntaxError::TS1030("override".into()),
+                        SyntaxError::TS1030(atom!("override")),
                     );
                 } else if readonly.is_some() {
                     p.emit_err(
                         p.input().prev_span(),
-                        SyntaxError::TS1029("override".into(), "readonly".into()),
+                        SyntaxError::TS1029(atom!("override"), atom!("readonly")),
                     );
                 } else if declare {
                     p.emit_err(
                         p.input().prev_span(),
-                        SyntaxError::TS1243("override".into(), "declare".into()),
+                        SyntaxError::TS1243(atom!("override"), atom!("declare")),
                     );
                 } else if !p.ctx().contains(Context::HasSuperClass) {
                     p.emit_err(p.input().prev_span(), SyntaxError::TS4112);
@@ -850,7 +851,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
             "readonly" => {
                 let readonly_span = p.input().prev_span();
                 if readonly.is_some() {
-                    p.emit_err(readonly_span, SyntaxError::TS1030("readonly".into()));
+                    p.emit_err(readonly_span, SyntaxError::TS1030(atom!("readonly")));
                 } else {
                     readonly = Some(readonly_span);
                 }
@@ -859,7 +860,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
                 if is_override {
                     p.emit_err(
                         p.input().prev_span(),
-                        SyntaxError::TS1029("static".into(), "override".into()),
+                        SyntaxError::TS1029(atom!("static"), atom!("override")),
                     );
                 }
 
@@ -948,7 +949,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
             .is_some_and(|cur| cur.is_bang() || cur.is_colon())
     {
         Key::Public(PropName::Ident(IdentName::new(
-            "readonly".into(),
+            atom!("readonly"),
             readonly.unwrap(),
         )))
     } else {
@@ -972,7 +973,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
 
         if is_constructor {
             if p.syntax().typescript() && is_override {
-                p.emit_err(p.span(start), SyntaxError::TS1089("override".into()));
+                p.emit_err(p.span(start), SyntaxError::TS1089(atom!("override")));
             }
 
             if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
@@ -1041,7 +1042,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
             }
 
             if let Some(static_token) = static_token {
-                p.emit_err(static_token, SyntaxError::TS1089("static".into()))
+                p.emit_err(static_token, SyntaxError::TS1089(atom!("static")))
             }
 
             if let Some(span) = modifier_span {
@@ -1125,7 +1126,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
             is_override = true;
             p.emit_err(
                 p.input().prev_span(),
-                SyntaxError::TS1029("override".into(), "async".into()),
+                SyntaxError::TS1029(atom!("override"), atom!("async")),
             );
         }
 
@@ -1256,7 +1257,7 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
         // Handle declare(){}
         if is_class_method(p) {
             let key = Key::Public(PropName::Ident(IdentName::new(
-                "declare".into(),
+                atom!("declare"),
                 p.span(start),
             )));
             let is_optional =
@@ -1284,7 +1285,7 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
             // Property named `declare`
 
             let key = Key::Public(PropName::Ident(IdentName::new(
-                "declare".into(),
+                atom!("declare"),
                 p.span(start),
             )));
             let is_optional =
@@ -1334,7 +1335,7 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
         // Handle accessor(){}
         if is_class_method(p) {
             let key = Key::Public(PropName::Ident(IdentName::new(
-                "accessor".into(),
+                atom!("accessor"),
                 accessor_token,
             )));
             let is_optional =
@@ -1362,7 +1363,7 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
             // Property named `accessor`
 
             let key = Key::Public(PropName::Ident(IdentName::new(
-                "accessor".into(),
+                atom!("accessor"),
                 accessor_token,
             )));
             let is_optional =
@@ -1389,7 +1390,7 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
         // Handle static(){}
         if is_class_method(p) {
             let key = Key::Public(PropName::Ident(IdentName::new(
-                "static".into(),
+                atom!("static"),
                 static_token,
             )));
             let is_optional =
@@ -1422,7 +1423,7 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
             let is_parsing_static_blocks = p.input_mut().is(&P::Token::LBRACE);
             if !is_parsing_static_blocks {
                 let key = Key::Public(PropName::Ident(IdentName::new(
-                    "static".into(),
+                    atom!("static"),
                     static_token,
                 )));
                 let is_optional =

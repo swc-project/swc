@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use swc_atoms::atom;
 use swc_ecma_ast::{BigInt, Bool, Lit, Null, Number, Regex, Str};
 use swc_estree_ast::{
     BigIntLiteral, BooleanLiteral, JSXText as BabelJSXText, Literal, NullLiteral, NumericLiteral,
@@ -39,7 +40,7 @@ impl Babelify for Str {
             // TODO improve me
             raw: match self.raw {
                 Some(value) => value,
-                _ => "".into(),
+                _ => swc_atoms::atom!(""),
             },
         }
     }
@@ -87,7 +88,7 @@ impl Babelify for BigInt {
             // TODO improve me
             raw: match self.raw {
                 Some(value) => value,
-                _ => "".into(),
+                _ => atom!(""),
             },
         }
     }

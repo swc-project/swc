@@ -1,6 +1,7 @@
 use std::mem;
 
 use rustc_hash::FxHashSet;
+use swc_atoms::atom;
 use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
@@ -169,7 +170,7 @@ fn id_for_jsx(e: &Expr) -> Option<Id> {
     match e {
         Expr::Ident(i) => Some(i.to_id()),
         Expr::Member(MemberExpr { obj, .. }) => Some(id_for_jsx(obj)).flatten(),
-        Expr::Lit(Lit::Null(..)) => Some(("null".into(), Default::default())),
+        Expr::Lit(Lit::Null(..)) => Some((atom!("null"), Default::default())),
         _ => None,
     }
 }

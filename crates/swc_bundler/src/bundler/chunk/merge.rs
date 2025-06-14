@@ -4,6 +4,7 @@ use anyhow::Error;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
+use swc_atoms::atom;
 use swc_common::{sync::Lock, FileName, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helpers::Helpers;
@@ -627,7 +628,7 @@ where
                                 ImportSpecifier::Default(s) => {
                                     new.push(
                                         Ident::new(
-                                            "default".into(),
+                                            atom!("default"),
                                             import.span,
                                             ExportMetadata::decode(import.with.as_deref())
                                                 .export_ctxt
@@ -679,7 +680,7 @@ where
                         // To allow using identifier of the declaration in the original module, we
                         // create `const local_default = orig_ident` if original identifier exists.
 
-                        let local = Ident::new("default".into(), DUMMY_SP, info.local_ctxt());
+                        let local = Ident::new(atom!("default"), DUMMY_SP, info.local_ctxt());
 
                         match export.decl {
                             DefaultDecl::Class(c) => {
@@ -761,7 +762,7 @@ where
                             local.sym
                         );
 
-                        let exported = Ident::new("default".into(), DUMMY_SP, info.export_ctxt());
+                        let exported = Ident::new(atom!("default"), DUMMY_SP, info.export_ctxt());
 
                         new.push(
                             local
@@ -802,7 +803,7 @@ where
 
                         // TODO: Check if we really need this.
 
-                        let local = Ident::new("default".into(), DUMMY_SP, info.local_ctxt());
+                        let local = Ident::new(atom!("default"), DUMMY_SP, info.local_ctxt());
 
                         // Create `const local_default = expr`
                         new.push(
@@ -812,7 +813,7 @@ where
                                 .into_module_item(injected_ctxt, "prepare -> export default expr"),
                         );
 
-                        let exported = Ident::new("default".into(), DUMMY_SP, info.export_ctxt());
+                        let exported = Ident::new(atom!("default"), DUMMY_SP, info.export_ctxt());
 
                         new.push(
                             local
@@ -994,7 +995,7 @@ where
                                             CallExpr {
                                                 span: DUMMY_SP,
                                                 callee: Ident::new(
-                                                    "load".into(),
+                                                    atom!("load"),
                                                     DUMMY_SP,
                                                     dep.export_ctxt(),
                                                 )
@@ -1121,7 +1122,7 @@ where
                                     ..
                                 }) => {
                                     new.push(
-                                        Ident::new("default".into(), DUMMY_SP, info.local_ctxt())
+                                        Ident::new(atom!("default"), DUMMY_SP, info.local_ctxt())
                                             .clone()
                                             .assign_to(exported.clone())
                                             .into_module_item(
@@ -1283,7 +1284,7 @@ where
                                     .find(|s| s.0.src.value == import.src.value)
                                 {
                                     let imported =
-                                        Ident::new("default".into(), DUMMY_SP, src.export_ctxt);
+                                        Ident::new(atom!("default"), DUMMY_SP, src.export_ctxt);
                                     vars.push((
                                         module_id,
                                         imported.assign_to(default.local.clone()).into_module_item(

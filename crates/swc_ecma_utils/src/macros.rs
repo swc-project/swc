@@ -107,6 +107,7 @@ macro_rules! member_expr {
 
 #[cfg(test)]
 mod tests {
+    use swc_atoms::atom;
     use swc_common::DUMMY_SP as span;
     use swc_ecma_ast::*;
 
@@ -128,9 +129,9 @@ mod tests {
                 obj: Box::new(Expr::Member(MemberExpr {
                     span,
                     obj: member_expr!(Default::default(), Default::default(), Function),
-                    prop: MemberProp::Ident("prototype".into()),
+                    prop: MemberProp::Ident(atom!("prototype").into()),
                 })),
-                prop: MemberProp::Ident("bind".into()),
+                prop: MemberProp::Ident(atom!("bind").into()),
             }))
         );
     }
