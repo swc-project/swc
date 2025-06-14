@@ -586,4 +586,6 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn is_exp(&self) -> bool {
         Self::EXP.eq(self)
     }
+    fn is_no_substitution_template_literal(&self) -> bool;
+    fn is_template_head(&self) -> bool;
 }
