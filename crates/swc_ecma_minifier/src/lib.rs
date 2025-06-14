@@ -40,6 +40,8 @@
 
 use once_cell::sync::Lazy;
 use pass::mangle_names::mangle_names;
+use rustc_hash::FxHashSet;
+use swc_atoms::Atom;
 use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -99,6 +101,7 @@ pub fn optimize(
     extra: &ExtraOptions,
 ) -> Program {
     let _timer = timer!("minify");
+    let escape_method: FxHashSet<Atom> = FxHashSet::default();
 
     let mut marks = Marks::new();
     marks.top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
@@ -234,6 +237,7 @@ pub fn optimize(
             chars,
             extra.top_level_mark,
             extra.mangle_name_cache.clone(),
+            escape_method,
         );
 
         if let Some(property_mangle_options) = &mangle.props {
