@@ -578,6 +578,9 @@ impl Optimizer<'_> {
         }
     }
 
+    /// This function will be costly if the expr is a very long binary expr.
+    /// Call it only when necessary.
+    /// See also compress::pure::misc::remove_invalid
     fn remove_invalid_bin(&mut self, e: &mut Expr) {
         if let Expr::Bin(BinExpr { left, right, .. }) = e {
             self.remove_invalid_bin(left);
@@ -1707,12 +1710,14 @@ impl VisitMut for Optimizer<'_> {
             )
             .entered()
         };
+
         let ctx = self
             .ctx
             .clone()
             .with(BitCtx::IsExported, false)
             .with(BitCtx::IsCallee, false);
         e.visit_mut_children_with(&mut *self.with_ctx(ctx));
+
         #[cfg(feature = "trace-ast")]
         let _tracing = {
             let s = dump(&*e, true);
@@ -1769,7 +1774,10 @@ impl VisitMut for Optimizer<'_> {
             debug_assert_valid(e);
         }
 
-        self.remove_invalid_bin(e);
+        // This is not accurate check but avoid some trivial cases.
+        if self.changed {
+            self.remove_invalid_bin(e);
+        }
 
         if e.is_seq() {
             debug_assert_valid(e);
