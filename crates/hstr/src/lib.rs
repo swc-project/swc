@@ -96,18 +96,32 @@ pub struct Atom {
 #[doc(hidden)]
 pub type CachedAtom = Lazy<Atom>;
 
+#[doc(hidden)]
+pub const fn inline_atom(s: &str) -> Option<Atom> {
+    dynamic::inline_atom(s)
+}
+
 /// Create an atom from a string literal. This atom is never dropped.
 #[macro_export]
 macro_rules! atom {
-    ($s:tt) => {{
-        #[inline(never)]
-        fn get_atom() -> $crate::Atom {
-            static CACHE: $crate::CachedAtom = $crate::CachedAtom::new(|| $crate::Atom::from($s));
+    ($s:expr) => {{
+        const INLINE: ::core::option::Option<$crate::Atom> = $crate::inline_atom($s);
+        // This condition can be evaluated at compile time to enable inlining as a
+        // simple constant
+        if INLINE.is_some() {
+            INLINE.unwrap()
+        } else {
+            // Otherwise we use a
+            #[inline(never)]
+            fn get_atom() -> $crate::Atom {
+                static CACHE: $crate::CachedAtom =
+                    $crate::CachedAtom::new(|| $crate::Atom::from($s));
 
-            (*CACHE).clone()
+                (*CACHE).clone()
+            }
+
+            get_atom()
         }
-
-        get_atom()
     }};
 }
 
@@ -428,5 +442,41 @@ where
         let s: String = self.deserialize(deserializer)?;
 
         Ok(Atom::new(s))
+    }
+}
+
+#[cfg(test)]
+mod macro_tests {
+
+    use super::*;
+    #[test]
+    fn test_atom() {
+        // Test enough to exceed the small string optimization
+        assert_eq!(atom!(""), Atom::default());
+        assert_eq!(atom!(""), Atom::from(""));
+        assert_eq!(atom!("a"), Atom::from("a"));
+        assert_eq!(atom!("ab"), Atom::from("ab"));
+        assert_eq!(atom!("abc"), Atom::from("abc"));
+        assert_eq!(atom!("abcd"), Atom::from("abcd"));
+        assert_eq!(atom!("abcde"), Atom::from("abcde"));
+        assert_eq!(atom!("abcdef"), Atom::from("abcdef"));
+        assert_eq!(atom!("abcdefg"), Atom::from("abcdefg"));
+        assert_eq!(atom!("abcdefgh"), Atom::from("abcdefgh"));
+        assert_eq!(atom!("abcdefghi"), Atom::from("abcdefghi"));
+    }
+
+    #[test]
+    fn test_inline_atom() {
+        // This is a silly test, just asserts that rustc can evaluate the pattern from
+        // our macro in a constant context.
+        const STR: Atom = {
+            let inline = inline_atom("hello");
+            if inline.is_some() {
+                inline.unwrap()
+            } else {
+                unreachable!();
+            }
+        };
+        assert_eq!(STR, Atom::from("hello"));
     }
 }
