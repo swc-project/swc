@@ -1,2 +1,1 @@
-var b = 10;
-console.log(100, b = 100);
+console.log(100, 100);

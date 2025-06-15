@@ -151,7 +151,8 @@ fn validate_map(map_file: PathBuf) {
     if content.is_empty() {
         return;
     }
-    sourcemap::SourceMap::from_slice(content.as_bytes()).expect("failed to deserialize sourcemap");
+    swc_sourcemap::SourceMap::from_slice(content.as_bytes())
+        .expect("failed to deserialize sourcemap");
 }
 
 #[cfg(not(target_os = "windows"))]
@@ -321,9 +322,10 @@ fn issue_4112() {
                     },
                 )
                 .expect("failed to process js file");
-            let source_count = sourcemap::SourceMap::from_slice(output2.map.unwrap().as_bytes())
-                .expect("failed to deserialize sourcemap")
-                .get_source_count();
+            let source_count =
+                swc_sourcemap::SourceMap::from_slice(output2.map.unwrap().as_bytes())
+                    .expect("failed to deserialize sourcemap")
+                    .get_source_count();
             if source_count == 1 {
                 return Ok(());
             }
@@ -368,7 +370,7 @@ fn should_work_with_emit_source_map_columns() {
                 let map = result.map.unwrap();
 
                 // lookup createElement(...) function call
-                let source_map = sourcemap::SourceMap::from_slice(map.as_bytes())
+                let source_map = swc_sourcemap::SourceMap::from_slice(map.as_bytes())
                     .expect("failed to deserialize sourcemap");
                 let token = source_map
                     .lookup_token(1, 14)
@@ -420,7 +422,7 @@ fn should_work_with_emit_source_map_columns() {
             Ok(result) => {
                 assert!(result.map.is_some());
                 let map = result.map.unwrap();
-                let source_map = sourcemap::SourceMap::from_slice(map.as_bytes())
+                let source_map = swc_sourcemap::SourceMap::from_slice(map.as_bytes())
                     .expect("failed to deserialize sourcemap");
                 let token = source_map
                     .lookup_token(1, 14)
@@ -507,7 +509,7 @@ export const fixupRiskConfigData = (data: any): types.RiskConfigType => {
                 assert!(result.map.is_some());
                 let map = result.map.unwrap();
 
-                let source_map = sourcemap::SourceMap::from_slice(map.as_bytes())
+                let source_map = swc_sourcemap::SourceMap::from_slice(map.as_bytes())
                     .expect("failed to deserialize sourcemap");
 
                 // "export"

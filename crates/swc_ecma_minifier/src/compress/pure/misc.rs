@@ -411,6 +411,9 @@ impl Pure<'_> {
         *args = new_args;
     }
 
+    /// This function will be costly if the expr is a very long binary expr.
+    /// Call it only when necessary.
+    /// See also compress::optimize::remove_invalid_bin
     pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
         match e {
             Expr::Seq(seq) => {

@@ -11,7 +11,7 @@ use crate::{
 
 // https://tc39.es/ecma262/#prod-ModuleExportName
 pub fn parse_module_export_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleExportName> {
-    let Ok(cur) = cur!(p, false) else {
+    let Some(cur) = p.input_mut().cur() else {
         unexpected!(p, "identifier or string");
     };
     let module_export_name = if cur.is_str() {

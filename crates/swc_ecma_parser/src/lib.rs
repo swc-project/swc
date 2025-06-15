@@ -59,7 +59,7 @@
 //!     //     .expect("failed to load test.js");
 //!     let fm = cm.new_source_file(
 //!         FileName::Custom("test.js".into()).into(),
-//!         "function foo() {}".into(),
+//!         "function foo() {}",
 //!     );
 //!     let lexer = Lexer::new(
 //!         // We want to parse ecmascript
@@ -152,7 +152,7 @@ where
     use swc_common::FileName;
 
     ::testing::run_test(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Real("testing".into()).into(), src.into());
+        let fm = cm.new_source_file(FileName::Real("testing".into()).into(), src.to_string());
 
         f(handler, (&*fm).into())
     })
@@ -205,4 +205,5 @@ expose!(parse_file_as_expr, Box<Expr>, |p| {
 });
 expose!(parse_file_as_module, Module, |p| { p.parse_module() });
 expose!(parse_file_as_script, Script, |p| { p.parse_script() });
+expose!(parse_file_as_commonjs, Script, |p| { p.parse_commonjs() });
 expose!(parse_file_as_program, Program, |p| { p.parse_program() });

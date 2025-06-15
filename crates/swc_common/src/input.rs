@@ -155,16 +155,19 @@ impl<'a> Input<'a> for StringInput<'a> {
     where
         F: FnMut(char) -> bool,
     {
-        let s = self.iter.as_str();
-        let mut last = 0;
-
-        for (i, c) in s.char_indices() {
-            if pred(c) {
-                last = i + c.len_utf8();
-            } else {
-                break;
+        let last = {
+            let mut last = 0;
+            for c in self.iter.clone() {
+                if pred(c) {
+                    last += c.len_utf8();
+                } else {
+                    break;
+                }
             }
-        }
+            last
+        };
+
+        let s = self.iter.as_str();
         debug_assert!(last <= s.len());
         let ret = unsafe { s.get_unchecked(..last) };
 
@@ -172,31 +175,6 @@ impl<'a> Input<'a> for StringInput<'a> {
         self.iter = unsafe { s.get_unchecked(last..) }.chars();
 
         ret
-    }
-
-    fn find<F>(&mut self, mut pred: F) -> Option<BytePos>
-    where
-        F: FnMut(char) -> bool,
-    {
-        let s = self.iter.as_str();
-        let mut last = 0;
-
-        for (i, c) in s.char_indices() {
-            if pred(c) {
-                last = i + c.len_utf8();
-                break;
-            }
-        }
-        if last == 0 {
-            return None;
-        }
-
-        debug_assert!(last <= s.len());
-
-        self.last_pos = self.last_pos + BytePos(last as _);
-        self.iter = unsafe { s.get_unchecked(last..) }.chars();
-
-        Some(self.last_pos)
     }
 
     #[inline]
@@ -278,11 +256,6 @@ pub trait Input<'a>: Clone {
     where
         F: FnMut(char) -> bool;
 
-    /// This method modifies [last_pos()] and [cur_pos()].
-    fn find<F>(&mut self, f: F) -> Option<BytePos>
-    where
-        F: FnMut(char) -> bool;
-
     /// # Safety
     ///
     /// - `to` be in the valid range of input.
@@ -324,17 +297,15 @@ pub trait Input<'a>: Clone {
 
 #[cfg(test)]
 mod tests {
-    use std::sync::Arc;
-
     use super::*;
-    use crate::{FileName, FilePathMapping, SourceMap};
+    use crate::{sync::Lrc, FileName, FilePathMapping, SourceMap};
 
-    fn with_test_sess<F>(src: &str, f: F)
+    fn with_test_sess<F>(src: &'static str, f: F)
     where
         F: FnOnce(StringInput<'_>),
     {
-        let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-        let fm = cm.new_source_file(FileName::Real("testing".into()).into(), src.into());
+        let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+        let fm = cm.new_source_file(FileName::Real("testing".into()).into(), src);
 
         f((&*fm).into())
     }
@@ -391,17 +362,17 @@ mod tests {
         });
     }
 
-    #[test]
-    fn src_input_find_01() {
-        with_test_sess("foo/d", |mut i| {
-            assert_eq!(i.cur_pos(), BytePos(1));
-            assert_eq!(i.last_pos, BytePos(1));
+    // #[test]
+    // fn src_input_find_01() {
+    //     with_test_sess("foo/d", |mut i| {
+    //         assert_eq!(i.cur_pos(), BytePos(1));
+    //         assert_eq!(i.last_pos, BytePos(1));
 
-            assert_eq!(i.find(|c| c == '/'), Some(BytePos(5)));
-            assert_eq!(i.last_pos, BytePos(5));
-            assert_eq!(i.cur(), Some('d'));
-        });
-    }
+    //         assert_eq!(i.find(|c| c == '/'), Some(BytePos(5)));
+    //         assert_eq!(i.last_pos, BytePos(5));
+    //         assert_eq!(i.cur(), Some('d'));
+    //     });
+    // }
 
     //    #[test]
     //    fn src_input_smoke_02() {

@@ -129,7 +129,7 @@ impl Tester<'_> {
     {
         let fm = self
             .cm
-            .new_source_file(FileName::Real(file_name.into()).into(), src.into());
+            .new_source_file(FileName::Real(file_name.into()).into(), src.to_string());
 
         let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
         let res = op(&mut p).map_err(|e| e.into_diagnostic(self.handler).emit());
@@ -1007,7 +1007,7 @@ fn test_fixture_inner<'a>(
 }
 
 /// Creates a url for https://evanw.github.io/source-map-visualization/
-fn visualizer_url(code: &str, map: &sourcemap::SourceMap) -> String {
+fn visualizer_url(code: &str, map: &swc_sourcemap::SourceMap) -> String {
     let map = {
         let mut buf = Vec::new();
         map.to_writer(&mut buf).unwrap();

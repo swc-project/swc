@@ -1005,11 +1005,11 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
     match op {
         op!(bin, "+") => {
             // It's string concatenation if either left or right is string.
-            if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
-                if let (Known(l), Known(r)) = (
-                    left.as_pure_string(expr_ctx),
-                    right.as_pure_string(expr_ctx),
-                ) {
+            if let (Known(l), Known(r)) = (
+                left.as_pure_string(expr_ctx),
+                right.as_pure_string(expr_ctx),
+            ) {
+                if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
                     let mut l = l.into_owned();
 
                     l.push_str(&r);

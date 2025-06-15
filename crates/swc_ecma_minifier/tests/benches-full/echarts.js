@@ -5524,7 +5524,7 @@
     }();
     function containStroke(x0, y0, x1, y1, lineWidth, x, y) {
         if (0 === lineWidth) return !1;
-        var _a = 0, _b = x0;
+        var _a = 0;
         if (y > y0 + lineWidth && y > y1 + lineWidth || y < y0 - lineWidth && y < y1 - lineWidth || x > x0 + lineWidth && x > x1 + lineWidth || x < x0 - lineWidth && x < x1 - lineWidth) return !1;
         if (x0 === x1) return Math.abs(x - x0) <= lineWidth / 2;
         var tmp = (_a = (y0 - y1) / (x0 - x1)) * x - y + (x0 * y1 - x1 * y0) / (x0 - x1);
@@ -9017,7 +9017,6 @@
                 isInTargetNameSet && (callback.call(context, currComponentType, currVertex.originalDeps.slice()), delete targetNameSet[currComponentType]), each(currVertex.successor, isInTargetNameSet ? removeEdgeAndAdd : removeEdge);
             }
             each(targetNameSet, function() {
-                var errMsg = '';
                 throw Error(makePrintable('Circular dependency may exists: ', targetNameSet, targetNameList, fullNameList));
             });
         }
@@ -10854,10 +10853,7 @@
         }
     }, FilterOrderComparator = /** @class */ function() {
         function FilterOrderComparator(op, rval) {
-            if ('number' != typeof rval) {
-                var errMsg = '';
-                throwError('rvalue of "<", ">", "<=", ">=" can only be number in filter.');
-            }
+            'number' != typeof rval && throwError('rvalue of "<", ">", "<=", ">=" can only be number in filter.');
             this._opFn = ORDER_COMPARISON_OP_MAP[op], this._rvalFloat = numericToNumber(rval);
         } // Performance sensitive.
         return FilterOrderComparator.prototype.evaluate = function(lval) {
@@ -10924,18 +10920,12 @@
     }();
     function getRawData(upstream) {
         var sourceFormat = upstream.sourceFormat;
-        if (!isSupportedSourceFormat(sourceFormat)) {
-            var errMsg = '';
-            throwError('`getRawData` is not supported in source format ' + sourceFormat);
-        }
+        !isSupportedSourceFormat(sourceFormat) && throwError('`getRawData` is not supported in source format ' + sourceFormat);
         return upstream.data;
     }
     function cloneRawData(upstream) {
         var sourceFormat = upstream.sourceFormat, data = upstream.data;
-        if (!isSupportedSourceFormat(sourceFormat)) {
-            var errMsg = '';
-            throwError('`cloneRawData` is not supported in source format ' + sourceFormat);
-        }
+        !isSupportedSourceFormat(sourceFormat) && throwError('`cloneRawData` is not supported in source format ' + sourceFormat);
         if (sourceFormat === SOURCE_FORMAT_ARRAY_ROWS) {
             for(var result = [], i = 0, len = data.length; i < len; i++)// Not strictly clone for performance
             result.push(data[i].slice());
@@ -11101,26 +11091,22 @@
             assert(resultSourceList && upstreamSignList), this._setLocalSource(resultSourceList, upstreamSignList);
         }, SourceManager.prototype._applyTransform = function(upMgrList) {
             var encodeDefine, source, sourceList, datasetModel = this._sourceHost, transformOption = datasetModel.get('transform', !0), fromTransformResult = datasetModel.get('fromTransformResult', !0);
-            if (assert(null != fromTransformResult || null != transformOption), null != fromTransformResult) {
-                var errMsg = '';
-                1 !== upMgrList.length && doThrow('When using `fromTransformResult`, there should be only one upstream dataset');
-            }
+            (assert(null != fromTransformResult || null != transformOption), null != fromTransformResult) && 1 !== upMgrList.length && doThrow('When using `fromTransformResult`, there should be only one upstream dataset');
             var upSourceList = [], upstreamSignList = [];
             return (each(upMgrList, function(upMgr) {
                 upMgr.prepareSource();
-                var upSource = upMgr.getSource(fromTransformResult || 0), errMsg = '';
+                var upSource = upMgr.getSource(fromTransformResult || 0);
                 null == fromTransformResult || upSource || doThrow('Can not retrieve result by `fromTransformResult`: ' + fromTransformResult), upSourceList.push(upSource), upstreamSignList.push(upMgr._getVersionSign());
             }), transformOption) ? sourceList = function(rawTransOption, sourceList, infoForPrint) {
-                var pipedTransOption = normalizeToArray(rawTransOption), pipeLen = pipedTransOption.length, errMsg = '';
+                var pipedTransOption = normalizeToArray(rawTransOption), pipeLen = pipedTransOption.length;
                 pipeLen || throwError('If `transform` declared, it should at least contain one transform.');
                 for(var i = 0; i < pipeLen; i++)sourceList = function(transOption, upSourceList, infoForPrint, pipeIndex) {
-                    var errMsg = '';
                     upSourceList.length || throwError('Must have at least one upstream dataset.'), isObject(transOption) || throwError('transform declaration must be an object rather than ' + typeof transOption + '.');
                     var transType = transOption.type, externalTransform = externalTransformMap.get(transType);
                     externalTransform || throwError('Can not find transform on type "' + transType + '".');
                     var extUpSourceList = map(upSourceList, function(upSource) {
                         return function(internalSource, externalTransform) {
-                            var extSource = new ExternalSource(), data = internalSource.data, sourceFormat = extSource.sourceFormat = internalSource.sourceFormat, sourceHeaderCount = internalSource.startIndex, errMsg = '';
+                            var extSource = new ExternalSource(), data = internalSource.data, sourceFormat = extSource.sourceFormat = internalSource.sourceFormat, sourceHeaderCount = internalSource.startIndex;
                             internalSource.seriesLayoutBy !== SERIES_LAYOUT_BY_COLUMN && throwError('`seriesLayoutBy` of upstream dataset can only be "column" in data transform.');
                             // Create a new dimensions structure for exposing.
                             // Do not expose all dimension info to users directly.
@@ -11135,13 +11121,7 @@
                                     displayName: dimDef.displayName
                                 };
                                 // do not generate dimension name.
-                                if (dimensions.push(dimDefExt), null != name) {
-                                    // Dimension name should not be duplicated.
-                                    // For simplicity, data transform forbid name duplication, do not generate
-                                    // new name like module `completeDimensions.ts` did, but just tell users.
-                                    var errMsg_1 = '';
-                                    hasOwn(dimsByName, name) && throwError('dimension name "' + name + '" duplicated.'), dimsByName[name] = dimDefExt;
-                                }
+                                (dimensions.push(dimDefExt), null != name) && (hasOwn(dimsByName, name) && throwError('dimension name "' + name + '" duplicated.'), dimsByName[name] = dimDefExt);
                             });
                             else for(var i = 0; i < internalSource.dimensionsDetectedCount || 0; i++)// Do not generete name or anything others. The consequence process in
                             // `transform` or `series` probably have there own name generation strategry.
@@ -11182,9 +11162,8 @@
                             makePrintable(extSource.dimensions)
                         ].join('\n');
                     }).join('\n')), map(resultList, function(result, resultIndex) {
-                        var resultMetaRawOption, errMsg = '';
                         isObject(result) || throwError('A transform should not return some empty results.'), result.data || throwError('Transform result data should be not be null or undefined'), isSupportedSourceFormat(detectSourceFormat(result.data)) || throwError('Transform result data should be array rows or object rows.');
-                        var firstUpSource = upSourceList[0];
+                        var resultMetaRawOption, firstUpSource = upSourceList[0];
                         /**
              * Intuitively, the end users known the content of the original `dataset.source`,
              * calucating the transform result in mind.
@@ -16043,7 +16022,7 @@
         geoSourceManager.registerMap(mapName, geoJson, specialAreas);
     }
     var registerTransform = function(externalTransform) {
-        var type = (externalTransform = clone(externalTransform)).type, errMsg = '';
+        var type = (externalTransform = clone(externalTransform)).type;
         type || throwError('Must have a `type` when `registerTransform`.');
         var typeParsed = type.split(':');
         2 !== typeParsed.length && throwError('Name must include namespace like "ns:regression".');
@@ -32965,10 +32944,7 @@
         type: 'echarts:boxplot',
         transform: function(params) {
             var upstream = params.upstream;
-            if (upstream.sourceFormat !== SOURCE_FORMAT_ARRAY_ROWS) {
-                var errMsg = '';
-                throwError(makePrintable('source data is not applicable for this boxplot transform. Expect number[][].'));
-            }
+            upstream.sourceFormat !== SOURCE_FORMAT_ARRAY_ROWS && throwError(makePrintable('source data is not applicable for this boxplot transform. Expect number[][].'));
             var result = /**
      * See:
      *  <https://en.wikipedia.org/wiki/Box_plot#cite_note-frigge_hoaglin_iglewicz-2>
@@ -36062,10 +36038,7 @@
                 return data.getId(dataIndex);
             };
             var diffByDimName = data.getDimension(dimension), dimInfo = data.getDimensionInfo(diffByDimName);
-            if (!dimInfo) {
-                var errMsg = '';
-                throwError(dimension + " is not a valid dimension.");
-            }
+            !dimInfo && throwError(dimension + " is not a valid dimension.");
             var ordinalMeta = dimInfo.ordinalMeta;
             return function(rawIdx, dataIndex) {
                 var key = data.get(diffByDimName, dataIndex);
@@ -36090,10 +36063,7 @@
         else if ('compoundPath' === graphicType) throw Error('"compoundPath" is not supported yet.');
         else {
             var Clz = getShapeClass(graphicType);
-            if (!Clz) {
-                var errMsg = '';
-                throwError('graphic type "' + graphicType + '" can not be found.');
-            }
+            !Clz && throwError('graphic type "' + graphicType + '" can not be found.');
             el = new Clz();
         }
         return inner$9(el).customGraphicType = graphicType, el.name = elOption.name, // some cases probably be broken: hierarchy layout along z, like circle packing,
@@ -47827,10 +47797,7 @@
         '<>': 'ne' // Might mileading for sake of the different between '==' and '===',
     }, RegExpEvaluator = /** @class */ function() {
         function RegExpEvaluator(rVal) {
-            if (null == (this._condVal = isString(rVal) ? new RegExp(rVal) : isRegExp(rVal) ? rVal : null)) {
-                var errMsg = '';
-                throwError(makePrintable('Illegal regexp', rVal, 'in'));
-            }
+            null == (this._condVal = isString(rVal) ? new RegExp(rVal) : isRegExp(rVal) ? rVal : null) && throwError(makePrintable('Illegal regexp', rVal, 'in'));
         }
         return RegExpEvaluator.prototype.evaluate = function(lVal) {
             var type = typeof lVal;
@@ -47870,7 +47837,6 @@
             var val, subOption, errMsg, cond, cond1 = new ConstConditionInternal();
             return cond1.value = exprOption, cond1;
         }
-        var errMsg1 = '';
         if (isObject(exprOption) && !isArrayLike(exprOption) || throwError(makePrintable('Illegal config. Expect a plain object but actually', exprOption)), exprOption.and) return parseAndOrOption('and', exprOption, getters);
         if (exprOption.or) return parseAndOrOption('or', exprOption, getters);
         if (exprOption.not) {
@@ -47933,19 +47899,13 @@
     var sortTransform = {
         type: 'echarts:sort',
         transform: function(params) {
-            var upstream = params.upstream, config = params.config, errMsg = '', orderExprList = normalizeToArray(config);
+            var upstream = params.upstream, config = params.config, orderExprList = normalizeToArray(config);
             orderExprList.length || throwError('Empty `config` in sort transform.');
             var orderDefList = [];
             each(orderExprList, function(orderExpr) {
                 var dimLoose = orderExpr.dimension, order = orderExpr.order, parserName = orderExpr.parser, incomparable = orderExpr.incomparable;
-                if (null == dimLoose && throwError('Sort transform config must has "dimension" specified.' + sampleLog), 'asc' !== order && 'desc' !== order && throwError('Sort transform config must has "order" specified.' + sampleLog), incomparable && 'min' !== incomparable && 'max' !== incomparable) {
-                    var errMsg_1 = '';
-                    throwError('incomparable must be "min" or "max" rather than "' + incomparable + '".');
-                }
-                if ('asc' !== order && 'desc' !== order) {
-                    var errMsg_2 = '';
-                    throwError('order must be "asc" or "desc" rather than "' + order + '".');
-                }
+                (null == dimLoose && throwError('Sort transform config must has "dimension" specified.' + sampleLog), 'asc' !== order && 'desc' !== order && throwError('Sort transform config must has "order" specified.' + sampleLog), incomparable && 'min' !== incomparable && 'max' !== incomparable) && throwError('incomparable must be "min" or "max" rather than "' + incomparable + '".');
+                'asc' !== order && 'desc' !== order && throwError('order must be "asc" or "desc" rather than "' + order + '".');
                 var dimInfo = upstream.getDimensionInfo(dimLoose);
                 dimInfo || throwError(makePrintable('Can not find dimension info via: ' + dimLoose + '.\n', 'Existing dimensions: ', upstream.cloneAllDimensionInfo(), '.\n', 'Illegal config:', orderExpr, '.\n'));
                 var parser = parserName ? valueParserMap.get(parserName) : null;

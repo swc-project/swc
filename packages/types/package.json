@@ -1,7 +1,7 @@
 {
     "name": "@swc/types",
     "packageManager": "yarn@4.0.2",
-    "version": "0.1.21",
+    "version": "0.1.23",
     "description": "Typings for the swc project.",
     "types": "./index.d.ts",
     "sideEffects": false,

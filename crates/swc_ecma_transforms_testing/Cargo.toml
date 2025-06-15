@@ -6,31 +6,31 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_transforms_testing"
 repository    = { workspace = true }
-version       = "18.0.0"
+version       = "19.0.0"
 
 [lib]
 bench = false
 
 [dependencies]
-ansi_term  = { workspace = true }
-anyhow     = { workspace = true }
-base64     = { workspace = true }
-hex        = { workspace = true }
-serde      = { workspace = true }
-serde_json = { workspace = true }
-sha2       = { workspace = true }
-sourcemap  = { workspace = true }
-tempfile   = { workspace = true }
+ansi_term     = { workspace = true }
+anyhow        = { workspace = true }
+base64        = { workspace = true }
+hex           = { workspace = true }
+serde         = { workspace = true }
+serde_json    = { workspace = true }
+sha2          = { workspace = true }
+swc_sourcemap = { workspace = true }
+tempfile      = { workspace = true }
 
 swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false }
-swc_common = { version = "11.0.0", path = "../swc_common", features = [
+swc_common = { version = "12.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "11.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "13.2.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "14.0.1", path = "../swc_ecma_parser" }
-swc_ecma_testing = { version = "12.0.0", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base = { version = "15.1.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils = { version = "15.0.1", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "11.0.0", path = "../swc_ecma_visit" }
-testing = { version = "12.0.0", path = "../testing" }
+swc_ecma_ast = { version = "12.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "14.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_parser = { version = "15.0.2", path = "../swc_ecma_parser" }
+swc_ecma_testing = { version = "13.0.0", path = "../swc_ecma_testing" }
+swc_ecma_transforms_base = { version = "16.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils = { version = "16.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "12.0.0", path = "../swc_ecma_visit" }
+testing = { version = "13.0.0", path = "../testing" }

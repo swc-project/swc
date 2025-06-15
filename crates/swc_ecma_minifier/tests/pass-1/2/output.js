@@ -1,2 +1,1 @@
-var faderWidth;
-Object.prototype.hasOwnProperty, faderWidth = 48;
+Object.prototype.hasOwnProperty;

@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_error_reporters"
 repository    = { workspace = true }
-version       = "13.0.0"
+version       = "14.0.0"
 
 [lib]
 bench = false
@@ -20,6 +20,6 @@ serde        = { workspace = true }
 serde_derive = { workspace = true }
 serde_json   = { workspace = true }
 
-swc_common = { version = "11.0.0", path = "../swc_common", features = [
+swc_common = { version = "12.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }

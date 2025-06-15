@@ -17,7 +17,7 @@ fn main() {
 
     let fm = cm.new_source_file(
         FileName::Custom("test.js".into()).into(),
-        "function foo() {}".into(),
+        "function foo() {}",
     );
 
     let l = Lexer::new(

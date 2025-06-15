@@ -721,6 +721,11 @@ pub trait ExprExt {
         is_one_of_global_ref_to(self.as_expr(), ctx, ids)
     }
 
+    #[inline(always)]
+    fn is_pure(&self, ctx: ExprCtx) -> bool {
+        self.as_pure_bool(ctx).is_known()
+    }
+
     /// Get bool value of `self` if it does not have any side effects.
     #[inline(always)]
     fn as_pure_bool(&self, ctx: ExprCtx) -> BoolValue {

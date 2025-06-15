@@ -5,6 +5,7 @@ use std::{
 
 use anyhow::{Context, Error};
 use base64::prelude::{Engine, BASE64_STANDARD};
+use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 #[allow(unused)]
@@ -21,7 +22,10 @@ use swc_config::{file_pattern::FilePattern, is_module::IsModule, types::BoolOr};
 use swc_ecma_ast::{EsVersion, Ident, IdentName, Program};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter, Node};
 use swc_ecma_minifier::js::JsMinifyCommentOption;
-use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax};
+use swc_ecma_parser::{
+    parse_file_as_commonjs, parse_file_as_module, parse_file_as_program, parse_file_as_script,
+    Syntax,
+};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -78,6 +82,10 @@ pub fn parse_js(
                 parse_file_as_script(&fm, syntax, target, comments, &mut errors)
                     .map(Program::Script)
             }
+            IsModule::CommonJS => {
+                parse_file_as_commonjs(&fm, syntax, target, comments, &mut errors)
+                    .map(Program::Script)
+            }
             IsModule::Unknown => parse_file_as_program(&fm, syntax, target, comments, &mut errors),
         };
 
@@ -112,7 +120,7 @@ pub struct PrintArgs<'a> {
     pub inline_sources_content: bool,
     pub source_map: SourceMapsConfig,
     pub source_map_names: &'a FxHashMap<BytePos, Atom>,
-    pub orig: Option<sourcemap::SourceMap>,
+    pub orig: Option<swc_sourcemap::SourceMap>,
     pub comments: Option<&'a dyn Comments>,
     pub emit_source_map_columns: bool,
     pub preamble: &'a str,
@@ -243,8 +251,8 @@ where
     };
 
     if let Some(map) = &mut map {
-        if source_root.is_some() {
-            map.set_source_root(source_root)
+        if let Some(source_root) = source_root {
+            map.set_source_root(Some(BytesStr::from_str_slice(source_root)))
         }
     }
 
@@ -403,6 +411,20 @@ pub fn minify_file_comments(
             t.retain(preserve_excl);
         }
 
+        BoolOr::Data(JsMinifyCommentOption::PreserveRegexComments { regex }) => {
+            let preserve_excl = |_: &BytePos, vc: &mut std::vec::Vec<Comment>| -> bool {
+                // Preserve comments that match the regex
+                //
+                // See https://github.com/terser/terser/blob/798135e04baddd94fea403cfaab4ba8b22b1b524/lib/output.js#L286
+                vc.retain(|c: &Comment| regex.find(&c.text).is_some());
+                !vc.is_empty()
+            };
+            let (mut l, mut t) = comments.borrow_all_mut();
+
+            l.retain(preserve_excl);
+            t.retain(preserve_excl);
+        }
+
         BoolOr::Bool(false) => {
             let (mut l, mut t) = comments.borrow_all_mut();
             l.clear();
@@ -449,6 +471,13 @@ impl Visit for IdentCollector {
     }
 
     fn visit_ident_name(&mut self, ident: &IdentName) {
+        // We don't want to specifically include the constructor name in the source map
+        // so that the source map name in thrown errors refers to the class name
+        // instead of the constructor name.
+        if ident.sym == "constructor" {
+            return;
+        }
+
         self.names.insert(ident.span.lo, ident.sym.clone());
     }
 }

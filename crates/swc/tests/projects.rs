@@ -705,8 +705,7 @@ fn should_visit() {
                 "
                     import React from 'react';
                     const comp = () => <amp-something className='something' />;
-                "
-                .into(),
+                ",
             );
             let comments = SingleThreadedComments::default();
             let config = c
@@ -910,8 +909,7 @@ fn issue_1984() {
                     ? new Set()
                     : new Set(derivedHalfSelectedKeys);
             }
-            "
-            .into(),
+            ",
         );
 
         c.minify(

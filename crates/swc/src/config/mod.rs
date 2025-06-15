@@ -6,7 +6,9 @@ use std::{
 };
 
 use anyhow::{bail, Context, Error};
+use bytes_str::BytesStr;
 use dashmap::DashMap;
+use either::Either;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
 use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
@@ -38,10 +40,12 @@ use swc_ecma_loader::resolvers::{
 pub use swc_ecma_minifier::js::*;
 use swc_ecma_minifier::option::terser::TerserTopLevelOptions;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsSyntax};
-use swc_ecma_preset_env::Feature;
+use swc_ecma_preset_env::{Caniuse, Feature};
 pub use swc_ecma_transforms::proposals::DecoratorVersion;
 use swc_ecma_transforms::{
-    hygiene,
+    fixer::{fixer, paren_remover},
+    helpers,
+    hygiene::{self, hygiene_with_config},
     modules::{
         self,
         path::{ImportResolver, NodeImportResolver, Resolver},
@@ -65,12 +69,13 @@ use swc_ecma_transforms_optimization::{
     GlobalExprMap,
 };
 use swc_ecma_utils::NodeIgnoringSpan;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::{visit_mut_pass, VisitMutWith};
 use swc_visit::Optional;
 
 pub use crate::plugin::PluginConfig;
 use crate::{
-    builder::PassBuilder, dropped_comments_preserver::dropped_comments_preserver, SwcImportResolver,
+    builder::MinifierPass, dropped_comments_preserver::dropped_comments_preserver,
+    SwcImportResolver,
 };
 
 #[cfg(test)]
@@ -427,8 +432,6 @@ impl Options {
             });
         }
 
-        let regenerator = transform.regenerator.clone();
-
         let preserve_comments = if preserve_all_comments {
             BoolOr::Bool(true)
         } else {
@@ -550,34 +553,102 @@ impl Options {
         let paths = paths.into_iter().collect();
         let resolver = ModuleConfig::get_resolver(&base_url, paths, base, cfg.module.as_ref());
 
-        let pass = PassBuilder::new(
-            cm,
-            handler,
-            loose,
-            assumptions,
-            top_level_mark,
-            unresolved_mark,
-            pass,
-        )
-        .target(es_version)
-        .skip_helper_injection(self.skip_helper_injection)
-        .minify(js_minify)
-        .hygiene(if self.disable_hygiene {
+        let target = es_version;
+        let inject_helpers = !self.skip_helper_injection;
+        let fixer_enabled = !self.disable_fixer;
+        let hygiene_config = if self.disable_hygiene {
             None
         } else {
             Some(hygiene::Config {
                 keep_class_names,
                 ..Default::default()
             })
-        })
-        .fixer(!self.disable_fixer)
-        .preset_env(cfg.env)
-        .regenerator(regenerator)
-        .finalize(
-            syntax,
-            cfg.module,
-            comments.map(|v| v as _),
-            resolver.clone(),
+        };
+        let env = cfg.env.map(Into::into);
+
+        // Implementing finalize logic directly
+        let (need_analyzer, import_interop, ignore_dynamic) = match cfg.module {
+            Some(ModuleConfig::CommonJs(ref c)) => (true, c.import_interop(), c.ignore_dynamic),
+            Some(ModuleConfig::Amd(ref c)) => {
+                (true, c.config.import_interop(), c.config.ignore_dynamic)
+            }
+            Some(ModuleConfig::Umd(ref c)) => {
+                (true, c.config.import_interop(), c.config.ignore_dynamic)
+            }
+            Some(ModuleConfig::SystemJs(_))
+            | Some(ModuleConfig::Es6(..))
+            | Some(ModuleConfig::NodeNext(..))
+            | None => (false, true.into(), true),
+        };
+
+        let feature_config = env
+            .as_ref()
+            .map(|e: &swc_ecma_preset_env::EnvConfig| e.get_feature_config());
+
+        // compat
+        let compat_pass = {
+            if let Some(env_config) = env {
+                Either::Left(swc_ecma_preset_env::transform_from_env(
+                    unresolved_mark,
+                    comments.map(|v| v as &dyn Comments),
+                    env_config,
+                    assumptions,
+                ))
+            } else {
+                Either::Right(swc_ecma_preset_env::transform_from_es_version(
+                    unresolved_mark,
+                    comments.map(|v| v as &dyn Comments),
+                    target,
+                    assumptions,
+                    loose,
+                ))
+            }
+        };
+
+        let is_mangler_enabled = js_minify
+            .as_ref()
+            .map(|v| v.mangle.is_obj() || v.mangle.is_true())
+            .unwrap_or(false);
+
+        let built_pass = (
+            pass,
+            Optional::new(
+                paren_remover(comments.map(|v| v as &dyn Comments)),
+                fixer_enabled,
+            ),
+            compat_pass,
+            // module / helper
+            Optional::new(
+                modules::import_analysis::import_analyzer(import_interop, ignore_dynamic),
+                need_analyzer,
+            ),
+            Optional::new(helpers::inject_helpers(unresolved_mark), inject_helpers),
+            ModuleConfig::build(
+                cm.clone(),
+                comments.map(|v| v as &dyn Comments),
+                cfg.module,
+                unresolved_mark,
+                resolver.clone(),
+                |f| {
+                    feature_config
+                        .as_ref()
+                        .map_or_else(|| target.caniuse(f), |env| env.caniuse(f))
+                },
+            ),
+            visit_mut_pass(MinifierPass {
+                options: js_minify,
+                cm: cm.clone(),
+                comments: comments.map(|v| v as &dyn Comments),
+                top_level_mark,
+            }),
+            Optional::new(
+                hygiene_with_config(swc_ecma_transforms_base::hygiene::Config {
+                    top_level_mark,
+                    ..hygiene_config.clone().unwrap_or_default()
+                }),
+                hygiene_config.is_some() && !is_mangler_enabled,
+            ),
+            Optional::new(fixer(comments.map(|v| v as &dyn Comments)), fixer_enabled),
         );
 
         let keep_import_attributes = experimental.keep_import_attributes.into_bool();
@@ -630,7 +701,7 @@ impl Options {
                      skipped. Refer https://github.com/swc-project/swc/issues/3934 for the details.",
                 );
 
-                Box::new(noop())
+                Box::new(noop_pass())
             }
         };
 
@@ -695,36 +766,53 @@ impl Options {
                 // keep_import_assertions is false.
                 (
                     Optional::new(import_attributes(), !keep_import_attributes),
-                    Optional::new(
-                        typescript::tsx::<Option<&dyn Comments>>(
-                            cm.clone(),
-                            typescript::Config {
-                                import_export_assign_config,
-                                verbatim_module_syntax,
-                                ..Default::default()
-                            },
-                            typescript::TsxConfig {
-                                pragma: Some(
-                                    transform
-                                        .react
-                                        .pragma
-                                        .clone()
-                                        .unwrap_or_else(default_pragma),
+                    {
+                        let native_class_properties = !assumptions.set_public_class_fields
+                            && feature_config.as_ref().map_or_else(
+                                || target.caniuse(Feature::ClassProperties),
+                                |env| env.caniuse(Feature::ClassProperties),
+                            );
+
+                        let ts_config = typescript::Config {
+                            import_export_assign_config,
+                            verbatim_module_syntax,
+                            native_class_properties,
+                            ..Default::default()
+                        };
+
+                        (
+                            Optional::new(
+                                typescript::typescript(ts_config, unresolved_mark, top_level_mark),
+                                syntax.typescript() && !syntax.jsx(),
+                            ),
+                            Optional::new(
+                                typescript::tsx::<Option<&dyn Comments>>(
+                                    cm.clone(),
+                                    ts_config,
+                                    typescript::TsxConfig {
+                                        pragma: Some(
+                                            transform
+                                                .react
+                                                .pragma
+                                                .clone()
+                                                .unwrap_or_else(default_pragma),
+                                        ),
+                                        pragma_frag: Some(
+                                            transform
+                                                .react
+                                                .pragma_frag
+                                                .clone()
+                                                .unwrap_or_else(default_pragma_frag),
+                                        ),
+                                    },
+                                    comments.map(|v| v as _),
+                                    unresolved_mark,
+                                    top_level_mark,
                                 ),
-                                pragma_frag: Some(
-                                    transform
-                                        .react
-                                        .pragma_frag
-                                        .clone()
-                                        .unwrap_or_else(default_pragma_frag),
-                                ),
-                            },
-                            comments.map(|v| v as _),
-                            unresolved_mark,
-                            top_level_mark,
-                        ),
-                        syntax.typescript(),
-                    ),
+                                syntax.typescript() && syntax.jsx(),
+                            ),
+                        )
+                    },
                 ),
                 (
                     plugin_transforms.take(),
@@ -740,7 +828,7 @@ impl Options {
                         ),
                         syntax.jsx(),
                     ),
-                    pass,
+                    built_pass,
                     Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
                     Optional::new(
                         dropped_comments_preserver(comments.cloned()),
@@ -1482,7 +1570,7 @@ pub struct HiddenTransformConfig {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct ConstModulesConfig {
     #[serde(default)]
-    pub globals: FxHashMap<Atom, FxHashMap<Atom, String>>,
+    pub globals: FxHashMap<Atom, FxHashMap<Atom, BytesStr>>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
