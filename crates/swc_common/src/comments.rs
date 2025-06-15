@@ -33,15 +33,15 @@ pub trait Comments {
     fn add_leading_comments(&self, pos: BytePos, comments: Vec<Comment>);
     fn has_leading(&self, pos: BytePos) -> bool;
     fn move_leading(&self, from: BytePos, to: BytePos);
-    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>>;
-    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>>;
+    fn take_leading(&self, pos: BytePos) -> Vec<Comment>;
+    fn get_leading(&self, pos: BytePos) -> Vec<Comment>;
 
     fn add_trailing(&self, pos: BytePos, cmt: Comment);
     fn add_trailing_comments(&self, pos: BytePos, comments: Vec<Comment>);
     fn has_trailing(&self, pos: BytePos) -> bool;
     fn move_trailing(&self, from: BytePos, to: BytePos);
-    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>>;
-    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>>;
+    fn take_trailing(&self, pos: BytePos) -> Vec<Comment>;
+    fn get_trailing(&self, pos: BytePos) -> Vec<Comment>;
 
     fn add_pure_comment(&self, pos: BytePos);
 
@@ -51,14 +51,9 @@ pub trait Comments {
         F: FnOnce(&[Comment]) -> Ret,
     {
         let cmts = self.take_leading(pos);
+        let ret = f(&cmts);
 
-        let ret = if let Some(cmts) = &cmts {
-            f(cmts)
-        } else {
-            f(&[])
-        };
-
-        if let Some(cmts) = cmts {
+        if !cmts.is_empty() {
             self.add_leading_comments(pos, cmts);
         }
 
@@ -71,14 +66,9 @@ pub trait Comments {
         F: FnOnce(&[Comment]) -> Ret,
     {
         let cmts = self.take_trailing(pos);
+        let ret = f(&cmts);
 
-        let ret = if let Some(cmts) = &cmts {
-            f(cmts)
-        } else {
-            f(&[])
-        };
-
-        if let Some(cmts) = cmts {
+        if !cmts.is_empty() {
             self.add_trailing_comments(pos, cmts);
         }
 
@@ -92,35 +82,33 @@ pub trait Comments {
     fn has_flag(&self, lo: BytePos, flag: &str) -> bool {
         let cmts = self.take_leading(lo);
 
-        let ret = if let Some(comments) = &cmts {
-            (|| {
-                for c in comments {
-                    if c.kind == CommentKind::Block {
-                        for line in c.text.lines() {
-                            // jsdoc
-                            let line = line.trim_start_matches(['*', ' ']);
-                            let line = line.trim();
+        let ret = {
+            for c in &cmts {
+                if c.kind == CommentKind::Block {
+                    for line in c.text.lines() {
+                        // jsdoc
+                        let line = line.trim_start_matches(['*', ' ']);
+                        let line = line.trim();
 
-                            //
-                            if line.len() == (flag.len() + 5)
-                                && (line.starts_with("#__") || line.starts_with("@__"))
-                                && line.ends_with("__")
-                                && flag == &line[3..line.len() - 2]
-                            {
-                                return true;
+                        //
+                        if line.len() == (flag.len() + 5)
+                            && (line.starts_with("#__") || line.starts_with("@__"))
+                            && line.ends_with("__")
+                            && flag == &line[3..line.len() - 2]
+                        {
+                            if !cmts.is_empty() {
+                                self.add_leading_comments(lo, cmts);
                             }
+                            return true;
                         }
                     }
                 }
-
-                false
-            })()
-        } else {
+            }
             false
         };
 
-        if let Some(cmts) = cmts {
-            self.add_trailing_comments(lo, cmts);
+        if !cmts.is_empty() {
+            self.add_leading_comments(lo, cmts);
         }
 
         ret
@@ -145,11 +133,11 @@ macro_rules! delegate {
             (**self).move_leading(from, to)
         }
 
-        fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        fn take_leading(&self, pos: BytePos) -> Vec<Comment> {
             (**self).take_leading(pos)
         }
 
-        fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        fn get_leading(&self, pos: BytePos) -> Vec<Comment> {
             (**self).get_leading(pos)
         }
 
@@ -169,11 +157,11 @@ macro_rules! delegate {
             (**self).move_trailing(from, to)
         }
 
-        fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        fn take_trailing(&self, pos: BytePos) -> Vec<Comment> {
             (**self).take_trailing(pos)
         }
 
-        fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+        fn get_trailing(&self, pos: BytePos) -> Vec<Comment> {
             (**self).get_trailing(pos)
         }
 
@@ -235,13 +223,13 @@ impl Comments for NoopComments {
     fn move_leading(&self, _: BytePos, _: BytePos) {}
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn take_leading(&self, _: BytePos) -> Option<Vec<Comment>> {
-        None
+    fn take_leading(&self, _: BytePos) -> Vec<Comment> {
+        Vec::new()
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn get_leading(&self, _: BytePos) -> Option<Vec<Comment>> {
-        None
+    fn get_leading(&self, _: BytePos) -> Vec<Comment> {
+        Vec::new()
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
@@ -259,13 +247,13 @@ impl Comments for NoopComments {
     fn move_trailing(&self, _: BytePos, _: BytePos) {}
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn take_trailing(&self, _: BytePos) -> Option<Vec<Comment>> {
-        None
+    fn take_trailing(&self, _: BytePos) -> Vec<Comment> {
+        Vec::new()
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn get_trailing(&self, _: BytePos) -> Option<Vec<Comment>> {
-        None
+    fn get_trailing(&self, _: BytePos) -> Vec<Comment> {
+        Vec::new()
     }
 
     #[cfg_attr(not(debug_assertions), inline(always))]
@@ -308,19 +296,19 @@ where
         }
     }
 
-    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+    fn take_leading(&self, pos: BytePos) -> Vec<Comment> {
         if let Some(c) = self {
             c.take_leading(pos)
         } else {
-            None
+            Vec::new()
         }
     }
 
-    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+    fn get_leading(&self, pos: BytePos) -> Vec<Comment> {
         if let Some(c) = self {
             c.get_leading(pos)
         } else {
-            None
+            Vec::new()
         }
     }
 
@@ -350,19 +338,19 @@ where
         }
     }
 
-    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+    fn take_trailing(&self, pos: BytePos) -> Vec<Comment> {
         if let Some(c) = self {
             c.take_trailing(pos)
         } else {
-            None
+            Vec::new()
         }
     }
 
-    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+    fn get_trailing(&self, pos: BytePos) -> Vec<Comment> {
         if let Some(c) = self {
             c.get_trailing(pos)
         } else {
-            None
+            Vec::new()
         }
     }
 
@@ -442,21 +430,22 @@ impl Comments for SingleThreadedComments {
     fn move_leading(&self, from: BytePos, to: BytePos) {
         let cmt = self.take_leading(from);
 
-        if let Some(mut cmt) = cmt {
+        if !cmt.is_empty() {
+            let mut comments = cmt;
             if from < to && self.has_leading(to) {
-                cmt.extend(self.take_leading(to).unwrap());
+                comments.extend(self.take_leading(to));
             }
 
-            self.add_leading_comments(to, cmt);
+            self.add_leading_comments(to, comments);
         }
     }
 
-    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.leading.borrow_mut().remove(&pos)
+    fn take_leading(&self, pos: BytePos) -> Vec<Comment> {
+        self.leading.borrow_mut().remove(&pos).unwrap_or_default()
     }
 
-    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.leading.borrow().get(&pos).map(|c| c.to_owned())
+    fn get_leading(&self, pos: BytePos) -> Vec<Comment> {
+        self.leading.borrow().get(&pos).cloned().unwrap_or_default()
     }
 
     fn add_trailing(&self, pos: BytePos, cmt: Comment) {
@@ -482,21 +471,26 @@ impl Comments for SingleThreadedComments {
     fn move_trailing(&self, from: BytePos, to: BytePos) {
         let cmt = self.take_trailing(from);
 
-        if let Some(mut cmt) = cmt {
+        if !cmt.is_empty() {
+            let mut comments = cmt;
             if from < to && self.has_trailing(to) {
-                cmt.extend(self.take_trailing(to).unwrap());
+                comments.extend(self.take_trailing(to));
             }
 
-            self.add_trailing_comments(to, cmt);
+            self.add_trailing_comments(to, comments);
         }
     }
 
-    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.trailing.borrow_mut().remove(&pos)
+    fn take_trailing(&self, pos: BytePos) -> Vec<Comment> {
+        self.trailing.borrow_mut().remove(&pos).unwrap_or_default()
     }
 
-    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.trailing.borrow().get(&pos).map(|c| c.to_owned())
+    fn get_trailing(&self, pos: BytePos) -> Vec<Comment> {
+        self.trailing
+            .borrow()
+            .get(&pos)
+            .cloned()
+            .unwrap_or_default()
     }
 
     fn add_pure_comment(&self, pos: BytePos) {
@@ -670,22 +664,16 @@ pub trait CommentsExt: Comments {
     where
         F: FnOnce(&[Comment]) -> Ret,
     {
-        if let Some(comments) = self.get_leading(pos) {
-            op(&comments)
-        } else {
-            op(&[])
-        }
+        let comments = self.get_leading(pos);
+        op(&comments)
     }
 
     fn with_trailing<F, Ret>(&self, pos: BytePos, op: F) -> Ret
     where
         F: FnOnce(&[Comment]) -> Ret,
     {
-        if let Some(comments) = self.get_trailing(pos) {
-            op(&comments)
-        } else {
-            op(&[])
-        }
+        let comments = self.get_trailing(pos);
+        op(&comments)
     }
 }
 
