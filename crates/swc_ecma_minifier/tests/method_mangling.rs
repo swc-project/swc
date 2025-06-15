@@ -51,7 +51,10 @@ fn test_method_mangling_enabled() {
         let src = include_str!("method_mangling.js");
 
         let cm = Arc::new(SourceMap::default());
-        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+        let fm = cm.new_source_file(
+            FileName::Anon.into(),
+            <&str as std::convert::Into<T>>::into(src),
+        );
 
         let p = parse_file_as_module(
             &fm,
@@ -125,7 +128,10 @@ fn test_method_mangling_disabled() {
         let src = include_str!("method_mangling.js");
 
         let cm = Arc::new(SourceMap::default());
-        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+        let fm = cm.new_source_file(
+            FileName::Anon.into(),
+            <&str as std::convert::Into<T>>::into(src),
+        );
 
         let p = parse_file_as_module(
             &fm,
