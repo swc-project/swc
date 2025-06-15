@@ -28,8 +28,8 @@ impl VisitMut for ConsoleOutputReplacer {
                     if ident.sym == *"console" {
                         call.args[0].expr = Lit::Str(Str {
                             span: DUMMY_SP,
-                            value: Atom::from("changed_via_plugin"),
-                            raw: Some(Atom::from("\"changed_via_plugin\"")),
+                            value: atom!("changed_via_plugin"),
+                            raw: Some(atom!("\"changed_via_plugin\"")),
                         })
                         .into();
                     }
@@ -135,7 +135,7 @@ pub fn process(mut program: Program, metadata: TransformPluginProgramMetadata) -
 
     dbg!();
 
-    experimental_emit(atom!("foo"), atom!("bar"));
+    experimental_emit("foo".into(), "bar".into());
 
     dbg!();
 
