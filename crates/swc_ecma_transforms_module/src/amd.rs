@@ -352,6 +352,15 @@ where
 
                         *n = n.take().as_call(n.span(), vec![quote_str!(".").as_arg()]);
                     }
+                    "main" => {
+                        *n = BinExpr {
+                            span: *span,
+                            left: self.module().make_member(quote_ident!("id")).into(),
+                            op: op!("=="),
+                            right: quote_str!("main").into(),
+                        }
+                        .into();
+                    }
                     _ => {}
                 }
             }

@@ -23,7 +23,7 @@ fn parse(code: &str) -> Vec<Stmt> {
 
     let fm = cm.new_source_file(
         FileName::Custom(stringify!($name).into()).into(),
-        code.into(),
+        code.to_string(),
     );
     swc_ecma_parser::parse_file_as_script(
         &fm,

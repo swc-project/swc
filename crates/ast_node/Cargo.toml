@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "ast_node"
 repository    = { workspace = true }
-version       = "3.0.0"
+version       = "3.0.1"
 
 [lib]
 bench      = false
@@ -16,7 +16,7 @@ proc-macro = true
 proc-macro2 = { workspace = true }
 quote       = { workspace = true }
 
-swc_macros_common = { version = "1.0.0", path = "../swc_macros_common" }
+swc_macros_common = { version = "1.0.1", path = "../swc_macros_common" }
   [dependencies.syn]
   features  = ["derive", "fold", "parsing", "printing", "visit-mut"]
   workspace = true

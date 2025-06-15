@@ -27,10 +27,11 @@ use std::{
     sync::atomic::{AtomicUsize, Ordering::SeqCst},
 };
 
+use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 #[cfg(feature = "sourcemap")]
-use sourcemap::SourceMapBuilder;
+use swc_sourcemap::SourceMapBuilder;
 use tracing::debug;
 
 pub use crate::syntax_pos::*;
@@ -55,7 +56,7 @@ pub trait FileLoader {
     fn abs_path(&self, path: &Path) -> Option<PathBuf>;
 
     /// Read the contents of an UTF-8 file into memory.
-    fn read_file(&self, path: &Path) -> io::Result<String>;
+    fn read_file(&self, path: &Path) -> io::Result<BytesStr>;
 }
 
 /// A FileLoader that uses std::fs to load real files.
@@ -74,8 +75,14 @@ impl FileLoader for RealFileLoader {
         }
     }
 
-    fn read_file(&self, path: &Path) -> io::Result<String> {
-        fs::read_to_string(path)
+    fn read_file(&self, path: &Path) -> io::Result<BytesStr> {
+        let bytes = fs::read(path)?;
+        BytesStr::from_utf8(bytes.into()).map_err(|_| {
+            io::Error::new(
+                io::ErrorKind::InvalidData,
+                "Failed to convert bytes to UTF-8",
+            )
+        })
     }
 }
 
@@ -205,21 +212,21 @@ impl SourceMap {
 
     /// Creates a new source_file.
     /// This does not ensure that only one SourceFile exists per file name.
-    pub fn new_source_file(&self, filename: Lrc<FileName>, mut src: String) -> Lrc<SourceFile> {
-        remove_bom(&mut src);
-
-        self.new_source_file_from(filename, Lrc::new(src))
-    }
-
-    /// Creates a new source_file.
-    /// This does not ensure that only one SourceFile exists per file name.
     ///
-    /// `src` should not have UTF8 BOM
-    pub fn new_source_file_from(
+    /// - `src` should not have UTF8 BOM
+    /// - `&'static str` and [String] implements `Into<BytesStr>`
+    #[inline(always)]
+    pub fn new_source_file(
         &self,
         filename: Lrc<FileName>,
-        src: Lrc<String>,
+        src: impl Into<BytesStr>,
     ) -> Lrc<SourceFile> {
+        self.new_source_file_impl(filename, src.into())
+    }
+
+    fn new_source_file_impl(&self, filename: Lrc<FileName>, mut src: BytesStr) -> Lrc<SourceFile> {
+        remove_bom(&mut src);
+
         // The path is used to determine the directory for loading submodules and
         // include files, so it must be before remapping.
         // Note that filename may not be a valid path, eg it may be `<anon>` etc,
@@ -241,7 +248,7 @@ impl SourceMap {
 
         let start_pos = self.next_start_pos(src.len());
 
-        let source_file = Lrc::new(SourceFile::new_from(
+        let source_file = Lrc::new(SourceFile::new(
             filename,
             was_remapped,
             unmapped_path,
@@ -1173,10 +1180,17 @@ impl SourceMap {
     pub fn build_source_map(
         &self,
         mappings: &[(BytePos, LineCol)],
-        orig: Option<sourcemap::SourceMap>,
+        orig: Option<swc_sourcemap::SourceMap>,
         config: impl SourceMapGenConfig,
-    ) -> sourcemap::SourceMap {
+    ) -> swc_sourcemap::SourceMap {
         build_source_map(self, mappings, orig, &config)
+    }
+}
+
+/// Remove utf-8 BOM if any.
+fn remove_bom(src: &mut BytesStr) {
+    if src.starts_with('\u{feff}') {
+        src.advance(3);
     }
 }
 
@@ -1244,6 +1258,14 @@ pub trait Files {
         raw_pos
     }
 
+    /// Check if the given byte position is within the given file. This has a
+    /// good default implementation that will work for most cases.
+    ///
+    /// The passed `raw_pos` is the value passed to [Files::map_raw_pos].
+    fn is_in_file(&self, f: &Lrc<SourceFile>, raw_pos: BytePos) -> bool {
+        f.start_pos <= raw_pos && raw_pos < f.end_pos
+    }
+
     /// `raw_pos` is the [BytePos] in the AST. It's the raw value passed to
     /// the source map generator.
     fn try_lookup_source_file(
@@ -1267,9 +1289,9 @@ impl Files for SourceMap {
 pub fn build_source_map(
     files: &impl Files,
     mappings: &[(BytePos, LineCol)],
-    orig: Option<sourcemap::SourceMap>,
+    orig: Option<swc_sourcemap::SourceMap>,
     config: &impl SourceMapGenConfig,
-) -> sourcemap::SourceMap {
+) -> swc_sourcemap::SourceMap {
     let mut builder = SourceMapBuilder::new(None);
 
     let mut src_id = 0u32;
@@ -1306,13 +1328,13 @@ pub fn build_source_map(
 
         let f;
         let f = match cur_file {
-            Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
+            Some(ref f) if files.is_in_file(f, *raw_pos) => f,
             _ => {
                 f = files.try_lookup_source_file(*raw_pos).unwrap();
                 if config.skip(&f.name) {
                     continue;
                 }
-                src_id = builder.add_source(&config.file_name_to_source(&f.name));
+                src_id = builder.add_source(config.file_name_to_source(&f.name).into());
                 // orig.adjust_mappings below will throw this out if orig is Some
                 if orig.is_none() && config.ignore_list(&f.name) {
                     builder.add_to_ignore_list(src_id);
@@ -1322,7 +1344,7 @@ pub fn build_source_map(
                 let inline_sources_content =
                     orig.is_none() && config.inline_sources_content(&f.name);
                 if inline_sources_content {
-                    builder.set_source_contents(src_id, Some(&f.src));
+                    builder.set_source_contents(src_id, Some(f.src.clone()));
                 }
 
                 ch_state = ByteToCharPosState::default();
@@ -1372,8 +1394,12 @@ pub fn build_source_map(
         let name = None;
 
         let name_idx = if orig.is_none() {
-            name.or_else(|| config.name_for_bytepos(pos))
-                .map(|name| builder.add_name(name))
+            name.or_else(|| config.name_for_bytepos(pos)).map(|name| {
+                builder.add_name(unsafe {
+                    // Safety: name is `&str`, which is valid UTF-8
+                    BytesStr::from_utf8_slice_unchecked(name.as_bytes())
+                })
+            })
         } else {
             // orig.adjust_mappings below will throw this out
             None
@@ -1567,12 +1593,12 @@ mod tests {
         let sm = SourceMap::new(FilePathMapping::empty());
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork.rs").into()),
-            "first line.\nsecond line".to_string(),
+            "first line.\nsecond line",
         );
-        sm.new_source_file(Lrc::new(PathBuf::from("empty.rs").into()), String::new());
+        sm.new_source_file(Lrc::new(PathBuf::from("empty.rs").into()), BytesStr::new());
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork2.rs").into()),
-            "first line.\nsecond line".to_string(),
+            "first line.\nsecond line",
         );
         sm
     }
@@ -1628,11 +1654,11 @@ mod tests {
         // € is a three byte utf8 char.
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork.rs").into()),
-            "fir€st €€€€ line.\nsecond line".to_string(),
+            "fir€st €€€€ line.\nsecond line",
         );
         sm.new_source_file(
             Lrc::new(PathBuf::from("blork2.rs").into()),
-            "first line€€.\n€ second line".to_string(),
+            "first line€€.\n€ second line",
         );
         sm
     }
@@ -1694,7 +1720,7 @@ mod tests {
         let selection = "     \n    ~~\n~~~\n~~~~~     \n   \n";
         sm.new_source_file(
             Lrc::new(Path::new("blork.rs").to_path_buf().into()),
-            inputtext.to_string(),
+            inputtext,
         );
         let span = span_from_selection(inputtext, selection);
 
@@ -1748,7 +1774,7 @@ mod tests {
     fn t10() {
         // Test span_to_lines for a span of empty file
         let sm = SourceMap::new(FilePathMapping::empty());
-        sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), "".to_string());
+        sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), "");
         let span = Span::new(BytePos(1), BytePos(1));
         let file_lines = sm.span_to_lines(span).unwrap();
 
@@ -1763,10 +1789,7 @@ mod tests {
         let inputtext = "bbbb BB\ncc CCC\n";
         let selection1 = "     ~~\n      \n";
         let selection2 = "       \n   ~~~\n";
-        sm.new_source_file(
-            Lrc::new(Path::new("blork.rs").to_owned().into()),
-            inputtext.to_owned(),
-        );
+        sm.new_source_file(Lrc::new(Path::new("blork.rs").to_owned().into()), inputtext);
         let span1 = span_from_selection(inputtext, selection1);
         let span2 = span_from_selection(inputtext, selection2);
 
@@ -1777,10 +1800,7 @@ mod tests {
     fn test_calc_utf16_offset() {
         let input = "t¢e∆s💩t";
         let sm = SourceMap::new(FilePathMapping::empty());
-        let file = sm.new_source_file(
-            Lrc::new(PathBuf::from("blork.rs").into()),
-            input.to_string(),
-        );
+        let file = sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), input);
 
         let mut state = ByteToCharPosState::default();
         let mut bpos = file.start_pos;
@@ -1808,10 +1828,7 @@ mod tests {
     fn bytepos_to_charpos() {
         let input = "t¢e∆s💩t";
         let sm = SourceMap::new(FilePathMapping::empty());
-        let file = sm.new_source_file(
-            Lrc::new(PathBuf::from("blork.rs").into()),
-            input.to_string(),
-        );
+        let file = sm.new_source_file(Lrc::new(PathBuf::from("blork.rs").into()), input);
 
         let mut bpos = file.start_pos;
         let mut cpos = CharPos(0);

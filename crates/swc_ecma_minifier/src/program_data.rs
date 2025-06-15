@@ -85,6 +85,9 @@ bitflags::bitflags! {
         const IS_TOP_LEVEL              = 1 << 22;
         const USED_RECURSIVELY          = 1 << 23;
 
+        /// `a` in `foo(<a />)`
+        const USED_AS_JSX_CALLEE       = 1 << 24;
+
     }
 
     #[derive(Debug, Default, Clone, Copy)]
@@ -162,6 +165,7 @@ impl VarUsageInfo {
                 .contains(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME)
                 && (self.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
                     || !self.flags.contains(VarUsageInfoFlags::USED_IN_NON_CHILD_FN)))
+            && !self.flags.contains(VarUsageInfoFlags::USED_AS_JSX_CALLEE)
             && !(self.flags.contains(
                 VarUsageInfoFlags::USED_RECURSIVELY.union(VarUsageInfoFlags::HAS_PROPERTY_ACCESS),
             ) && self.property_mutation_count != 0)
@@ -646,6 +650,10 @@ impl VarDataLike for VarUsageInfo {
 
     fn is_declared(&self) -> bool {
         self.flags.contains(VarUsageInfoFlags::DECLARED)
+    }
+
+    fn mark_used_as_jsx_callee(&mut self) {
+        self.flags.insert(VarUsageInfoFlags::USED_AS_JSX_CALLEE);
     }
 }
 

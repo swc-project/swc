@@ -1090,23 +1090,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 }
             }
         }
-
+        let cur_pos = self.input().cur_pos();
+        let s = unsafe {
+            // Safety: We already checked for the range
+            self.input_slice(chunk_start, cur_pos)
+        };
         let value = if out.is_empty() {
             // Fast path: We don't need to allocate
-
-            let cur_pos = self.input().cur_pos();
-            let value = unsafe {
-                // Safety: We already checked for the range
-                self.input_slice(chunk_start, cur_pos)
-            };
-            self.atom(value)
+            self.atom(s)
         } else {
-            let cur_pos = self.input().cur_pos();
-            let value = unsafe {
-                // Safety: We already checked for the range
-                self.input_slice(chunk_start, cur_pos)
-            };
-            out.push_str(value);
+            out.push_str(s);
             self.atom(out)
         };
 

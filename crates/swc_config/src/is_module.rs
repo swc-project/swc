@@ -11,6 +11,7 @@ use crate::merge::Merge;
 pub enum IsModule {
     Bool(bool),
     Unknown,
+    CommonJS,
 }
 
 impl Default for IsModule {
@@ -35,6 +36,7 @@ impl Serialize for IsModule {
         match *self {
             IsModule::Bool(ref b) => b.serialize(serializer),
             IsModule::Unknown => "unknown".serialize(serializer),
+            IsModule::CommonJS => "commonjs".serialize(serializer),
         }
     }
 }
@@ -61,6 +63,7 @@ impl Visitor<'_> for IsModuleVisitor {
     {
         match s {
             "unknown" => Ok(IsModule::Unknown),
+            "commonjs" => Ok(IsModule::CommonJS),
             _ => Err(serde::de::Error::invalid_value(Unexpected::Str(s), &self)),
         }
     }

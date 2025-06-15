@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license       = { workspace = true }
 name          = "swc_bundler"
 repository    = { workspace = true }
-version       = "19.0.0"
+version       = "20.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -39,16 +39,16 @@ rustc-hash    = { workspace = true }
 tracing       = { workspace = true }
 
 swc_atoms                        = { version = "5.0.0", path = "../swc_atoms" }
-swc_common                       = { version = "11.1.3", path = "../swc_common" }
-swc_ecma_ast                     = { version = "11.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen                 = { version = "13.2.0", path = "../swc_ecma_codegen" }
-swc_ecma_loader                  = { version = "11.0.0", path = "../swc_ecma_loader" }
-swc_ecma_parser                  = { version = "14.0.2", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base         = { version = "15.1.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "16.0.0", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils                   = { version = "15.0.2", path = "../swc_ecma_utils" }
-swc_ecma_visit                   = { version = "11.0.0", path = "../swc_ecma_visit" }
-swc_graph_analyzer               = { version = "12.0.0", path = "../swc_graph_analyzer/" }
+swc_common                       = { version = "12.0.1", path = "../swc_common" }
+swc_ecma_ast                     = { version = "12.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen                 = { version = "14.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_loader                  = { version = "12.0.0", path = "../swc_ecma_loader" }
+swc_ecma_parser                  = { version = "15.0.2", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base         = { version = "16.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "17.0.2", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_utils                   = { version = "16.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit                   = { version = "12.0.0", path = "../swc_ecma_visit" }
+swc_graph_analyzer               = { version = "13.0.0", path = "../swc_graph_analyzer/" }
 
 [dev-dependencies]
 hex        = { workspace = true }
@@ -60,15 +60,15 @@ sha1       = { workspace = true }
 tempfile   = { workspace = true }
 url        = { workspace = true }
 
-swc_ecma_loader = { version = "11.0.0", path = "../swc_ecma_loader", features = [
+swc_ecma_loader = { version = "12.0.0", path = "../swc_ecma_loader", features = [
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "20.0.5", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "21.0.4", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_transforms_proposal = { version = "15.0.0", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_react = { version = "17.0.0", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "17.0.0", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_proposal = { version = "16.0.0", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_react = { version = "18.0.0", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_typescript = { version = "18.0.0", path = "../swc_ecma_transforms_typescript" }
 swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
-testing = { version = "12.0.0", path = "../testing" }
+testing = { version = "13.0.0", path = "../testing" }

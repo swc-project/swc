@@ -13,11 +13,11 @@ export function minify(src: string, opts?: JsMinifyOptions): Promise<Output>;
 export function minifySync(code: string, opts?: JsMinifyOptions): Output;
 
 export function parse(src: string, options: ParseOptions & {
-    isModule: false;
+    isModule: false | "commonjs";
 }): Promise<Script>;
 export function parse(src: string, options?: ParseOptions): Promise<Module>;
 export function parseSync(src: string, options: ParseOptions & {
-    isModule: false;
+    isModule: false | "commonjs";
 }): Script;
 export function parseSync(src: string, options?: ParseOptions): Module;
 

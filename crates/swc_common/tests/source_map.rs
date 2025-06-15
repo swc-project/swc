@@ -31,8 +31,7 @@ export class Product extends TimestampedEntity {
 
   @OneToMany(() => Discount, (discount) => discount.product)
   public discounts!: Discount[];
-}"
-            .into(),
+}",
         );
     })
 }

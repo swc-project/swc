@@ -352,7 +352,7 @@ export interface TerserMangleOptions {
     reserved?: string[];
 }
 
-export interface TerserManglePropertiesOptions {}
+export interface TerserManglePropertiesOptions { }
 
 /**
  * Programmatic options.
@@ -516,7 +516,7 @@ export interface Options extends Config {
 
     plugin?: Plugin;
 
-    isModule?: boolean | "unknown";
+    isModule?: boolean | "unknown" | "commonjs";
 
     /**
      * Destination path. Note that this value is used only to fix source path
@@ -879,10 +879,6 @@ export interface TransformConfig {
      */
     verbatimModuleSyntax?: boolean;
 
-    /**
-     * Native class properties support
-     */
-    nativeClassProperties?: boolean;
 }
 
 export interface ReactConfig {
@@ -925,27 +921,27 @@ export interface ReactConfig {
      * Enable fast refresh feature for React app
      */
     refresh?:
-        | boolean
-        | {
-              /**
-               * Identifier for the `react-refresh` register function.
-               *
-               * Defaults to `$RefreshReg$`
-               */
-              refreshReg?: string;
-              /**
-               * Identifier for the `react-refresh` signature function.
-               *
-               * Defaults to `$RefreshSig$`
-               */
-              refreshSig?: string;
-              /**
-               * Flag to emit full signatures.
-               *
-               * Defaults to `false`
-               */
-              emitFullSignatures?: boolean;
-          };
+    | boolean
+    | {
+        /**
+         * Identifier for the `react-refresh` register function.
+         *
+         * Defaults to `$RefreshReg$`
+         */
+        refreshReg?: string;
+        /**
+         * Identifier for the `react-refresh` signature function.
+         *
+         * Defaults to `$RefreshSig$`
+         */
+        refreshSig?: string;
+        /**
+         * Flag to emit full signatures.
+         *
+         * Defaults to `false`
+         */
+        emitFullSignatures?: boolean;
+    };
 
     /**
      * jsx runtime
@@ -1232,7 +1228,7 @@ export interface Output {
     map?: string;
 }
 
-export interface MatchPattern {}
+export interface MatchPattern { }
 
 // -------------------------------
 // ---------- Ast nodes ----------
@@ -1464,7 +1460,7 @@ export type Expression =
     | OptionalChainingExpression
     | Invalid;
 
-interface ExpressionBase extends Node, HasSpan {}
+interface ExpressionBase extends Node, HasSpan { }
 
 export interface Identifier extends ExpressionBase {
     type: "Identifier";

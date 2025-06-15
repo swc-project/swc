@@ -9,7 +9,7 @@ export { };
 //// [c.ts]
 export { };
 //// [d.ts]
-import { A } from './b';
+import './b';
 //// [e.ts]
 import { ns } from './c';
 ns.A;

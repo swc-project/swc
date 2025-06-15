@@ -18,6 +18,7 @@ use crate::common::Normalizer;
 mod common;
 
 #[testing::fixture("tests/js/**/*.js")]
+#[testing::fixture("tests/js/**/*.cjs")]
 fn spec(file: PathBuf) {
     let output = file.parent().unwrap().join(format!(
         "{}.json",
@@ -28,6 +29,8 @@ fn spec(file: PathBuf) {
 }
 
 fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
+    let is_commonjs = file.extension().map(|ext| ext == "cjs").unwrap_or_default();
+
     let file_name = file
         .display()
         .to_string()
@@ -49,7 +52,13 @@ fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
     }
 
     with_parser(false, file, false, config_path, |p, _| {
-        let program = p.parse_program()?.fold_with(&mut Normalizer {
+        let program = if is_commonjs {
+            p.parse_commonjs().map(Program::Script)?
+        } else {
+            p.parse_program()?
+        };
+
+        let program = program.fold_with(&mut Normalizer {
             drop_span: false,
             is_test262: false,
         });
@@ -79,7 +88,7 @@ where
 {
     ::testing::run_test(treat_error_as_bug, |cm, handler| {
         if shift {
-            cm.new_source_file(FileName::Anon.into(), "".into());
+            cm.new_source_file(FileName::Anon.into(), "");
         }
 
         let comments = SingleThreadedComments::default();
