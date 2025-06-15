@@ -46,15 +46,12 @@ fn count_method_names(program: &Program) -> Vec<String> {
 }
 
 #[test]
-fn test_method_mangling_enabled<T>() {
+fn test_method_mangling_enabled() {
     GLOBALS.set(&Default::default(), || {
         let src = include_str!("method_mangling.js");
 
         let cm = Arc::new(SourceMap::default());
-        let fm = cm.new_source_file(
-            FileName::Anon.into(),
-            <&str as std::convert::Into<T>>::into(src),
-        );
+        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
         let p = parse_file_as_module(
             &fm,
@@ -123,15 +120,12 @@ fn test_method_mangling_enabled<T>() {
 }
 
 #[test]
-fn test_method_mangling_disabled<T>() {
+fn test_method_mangling_disabled() {
     GLOBALS.set(&Default::default(), || {
         let src = include_str!("method_mangling.js");
 
         let cm = Arc::new(SourceMap::default());
-        let fm = cm.new_source_file(
-            FileName::Anon.into(),
-            <&str as std::convert::Into<T>>::into(src),
-        );
+        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
 
         let p = parse_file_as_module(
             &fm,
