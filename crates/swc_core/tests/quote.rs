@@ -1,5 +1,8 @@
 #[cfg(feature = "ecma_quote")]
-use swc_core::{common::DUMMY_SP, ecma::ast::Ident, ecma::utils::private_ident, quote, quote_expr};
+use swc_core::{
+    common::DUMMY_SP, ecma::ast::Ident, ecma::atoms::atom, ecma::utils::private_ident, quote,
+    quote_expr,
+};
 
 #[cfg(feature = "ecma_quote")]
 #[test]
