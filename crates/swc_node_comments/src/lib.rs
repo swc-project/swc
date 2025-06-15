@@ -39,21 +39,25 @@ impl Comments for SwcComments {
     fn move_leading(&self, from: BytePos, to: BytePos) {
         let cmt = self.take_leading(from);
 
-        if let Some(mut cmt) = cmt {
+        if !cmt.is_empty() {
+            let mut comments = cmt;
             if from < to && self.has_leading(to) {
-                cmt.extend(self.take_leading(to).unwrap());
+                comments.extend(self.take_leading(to));
             }
 
-            self.add_leading_comments(to, cmt);
+            self.add_leading_comments(to, comments);
         }
     }
 
-    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.leading.remove(&pos).map(|v| v.1)
+    fn take_leading(&self, pos: BytePos) -> Vec<Comment> {
+        self.leading.remove(&pos).map(|v| v.1).unwrap_or_default()
     }
 
-    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.leading.get(&pos).map(|v| v.to_owned())
+    fn get_leading(&self, pos: BytePos) -> Vec<Comment> {
+        self.leading
+            .get(&pos)
+            .map(|v| v.to_owned())
+            .unwrap_or_default()
     }
 
     fn add_trailing(&self, pos: BytePos, cmt: Comment) {
@@ -75,21 +79,25 @@ impl Comments for SwcComments {
     fn move_trailing(&self, from: BytePos, to: BytePos) {
         let cmt = self.take_trailing(from);
 
-        if let Some(mut cmt) = cmt {
+        if !cmt.is_empty() {
+            let mut comments = cmt;
             if from < to && self.has_trailing(to) {
-                cmt.extend(self.take_trailing(to).unwrap());
+                comments.extend(self.take_trailing(to));
             }
 
-            self.add_trailing_comments(to, cmt);
+            self.add_trailing_comments(to, comments);
         }
     }
 
-    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.trailing.remove(&pos).map(|v| v.1)
+    fn take_trailing(&self, pos: BytePos) -> Vec<Comment> {
+        self.trailing.remove(&pos).map(|v| v.1).unwrap_or_default()
     }
 
-    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.trailing.get(&pos).map(|v| v.to_owned())
+    fn get_trailing(&self, pos: BytePos) -> Vec<Comment> {
+        self.trailing
+            .get(&pos)
+            .map(|v| v.to_owned())
+            .unwrap_or_default()
     }
 
     fn add_pure_comment(&self, pos: BytePos) {
