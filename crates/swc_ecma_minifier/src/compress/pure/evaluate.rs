@@ -1,4 +1,5 @@
 use radix_fmt::Radix;
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Type, Value};
@@ -398,7 +399,7 @@ impl Pure<'_> {
 
                 *e = Str {
                     span: call.span,
-                    value: "function(){}".into(),
+                    value: atom!("function(){}"),
                     raw: None,
                 }
                 .into();
@@ -864,7 +865,7 @@ impl Pure<'_> {
                             report_change!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
                             );
-                            *e = Ident::new("NaN".into(), e.span(), SyntaxContext::empty()).into()
+                            *e = Ident::new(atom!("NaN"), e.span(), SyntaxContext::empty()).into()
                         }
                     }
                 }
@@ -901,7 +902,7 @@ impl Pure<'_> {
                                 "evaluate: Evaluated `codePointAt` of a string literal as `NaN`",
                             );
                             *e = Ident::new(
-                                "NaN".into(),
+                                atom!("NaN"),
                                 e.span(),
                                 SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                             )

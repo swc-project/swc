@@ -2,7 +2,7 @@ use std::mem;
 
 use indexmap::IndexMap;
 use rustc_hash::FxBuildHasher;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -96,7 +96,7 @@ impl FnEnvHoister {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: id.into(),
-                init: Some(Ident::new_no_ctxt("arguments".into(), DUMMY_SP).into()),
+                init: Some(Ident::new_no_ctxt(atom!("arguments"), DUMMY_SP).into()),
                 definite: false,
             });
         }
@@ -159,7 +159,7 @@ impl FnEnvHoister {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: id.into(),
-                init: Some(Ident::new_no_ctxt("arguments".into(), DUMMY_SP).into()),
+                init: Some(Ident::new_no_ctxt(atom!("arguments"), DUMMY_SP).into()),
                 definite: false,
             });
         }
@@ -532,7 +532,7 @@ impl VisitMut for FnEnvHoister {
                             callee: self.super_update_computed(*span).as_callee(),
                             ..Default::default()
                         })
-                        .make_member("_".into())
+                        .make_member(atom!("_").into())
                         .into()
                     } else {
                         CallExpr {
@@ -661,7 +661,7 @@ fn extend_super(
                     props: vec![
                         Prop::Getter(GetterProp {
                             span: DUMMY_SP,
-                            key: PropName::Ident("_".into()),
+                            key: PropName::Ident(atom!("_").into()),
                             type_ann: None,
                             body: Some(BlockStmt {
                                 stmts: vec![Expr::Ident(
@@ -679,7 +679,7 @@ fn extend_super(
                         }),
                         Prop::Setter(SetterProp {
                             span: DUMMY_SP,
-                            key: PropName::Ident("_".into()),
+                            key: PropName::Ident(atom!("_").into()),
                             this_param: None,
                             param: value.clone().into(),
                             body: Some(BlockStmt {
@@ -723,7 +723,7 @@ fn extend_super(
                             props: vec![
                                 Prop::Getter(GetterProp {
                                     span: DUMMY_SP,
-                                    key: PropName::Ident("_".into()),
+                                    key: PropName::Ident(atom!("_").into()),
                                     type_ann: None,
                                     body: Some(BlockStmt {
                                         stmts: vec![Expr::Ident(
@@ -740,7 +740,7 @@ fn extend_super(
                                 }),
                                 Prop::Setter(SetterProp {
                                     span: DUMMY_SP,
-                                    key: PropName::Ident("_".into()),
+                                    key: PropName::Ident(atom!("_").into()),
                                     this_param: None,
                                     param: value.clone().into(),
                                     body: Some(BlockStmt {

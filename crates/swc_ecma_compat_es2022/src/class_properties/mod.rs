@@ -1,4 +1,5 @@
 use rustc_hash::FxHashMap;
+use swc_atoms::{atom, Atom};
 use swc_common::{
     errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Span, Spanned, SyntaxContext,
     DUMMY_SP,
@@ -194,8 +195,8 @@ impl VisitMut for ClassProperties {
         {
             let ident = private_ident!(orig_ident
                 .clone()
-                .map(|id| format!("_{}", id.sym))
-                .unwrap_or_else(|| "_class".into()));
+                .map(|id| Atom::from(format!("_{}", id.sym)))
+                .unwrap_or(atom!("_class")));
             let (decl, ClassExtra { lets, vars, stmts }) =
                 self.visit_mut_class_as_decl(ident.clone(), class.take());
 

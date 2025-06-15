@@ -18,7 +18,7 @@ use number::ToJsString;
 use once_cell::sync::Lazy;
 use parallel::{Parallel, ParallelExt};
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
@@ -1428,7 +1428,7 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
 
     Constructor {
         span: DUMMY_SP,
-        key: PropName::Ident("constructor".into()),
+        key: PropName::Ident(atom!("constructor").into()),
         is_optional: false,
         params: if has_super {
             vec![ParamOrTsParamProp::Param(Param {

@@ -2,6 +2,7 @@ use std::ops::DerefMut;
 
 use either::Either;
 use rustc_hash::FxHashMap;
+use swc_atoms::atom;
 use swc_common::{util::take::Take, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
@@ -579,14 +580,14 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     syntax_error!(
                         p,
                         p.input().cur_span(),
-                        SyntaxError::TsNonNullAssertionNotAllowed("super".into())
+                        SyntaxError::TsNonNullAssertionNotAllowed(atom!("super"))
                     )
                 }
                 Callee::Import(..) => {
                     syntax_error!(
                         p,
                         p.input().cur_span(),
-                        SyntaxError::TsNonNullAssertionNotAllowed("import".into())
+                        SyntaxError::TsNonNullAssertionNotAllowed(atom!("import"))
                     )
                 }
                 Callee::Expr(expr) => expr,
@@ -1637,7 +1638,7 @@ pub fn parse_await_expr<'a, P: Parser<'a>>(
             p.emit_err(span, SyntaxError::InvalidIdentInAsync);
         }
 
-        return Ok(Ident::new_no_ctxt("await".into(), span).into());
+        return Ok(Ident::new_no_ctxt(atom!("await"), span).into());
     }
 
     // This has been checked if start_of_await_token == true,
@@ -2230,7 +2231,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
         return Ok(CallExpr {
             span: p.span(async_span.lo()),
             callee: Callee::Expr(Box::new(
-                Ident::new_no_ctxt("async".into(), async_span).into(),
+                Ident::new_no_ctxt(atom!("async"), async_span).into(),
             )),
             args: expr_or_spreads,
             ..Default::default()

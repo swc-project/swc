@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_css_ast::{AbsoluteColorBase, ComponentValue, FunctionName};
 
 use crate::compiler::Compiler;
@@ -16,10 +17,10 @@ impl Compiler {
                 };
 
                 if name.value.eq_ignore_ascii_case("rgb") {
-                    name.value = "rgba".into();
+                    name.value = atom!("rgba");
                     name.raw = None;
                 } else if name.value.eq_ignore_ascii_case("hsl") {
-                    name.value = "hsla".into();
+                    name.value = atom!("hsla");
                     name.raw = None;
                 }
             } else {
@@ -31,10 +32,10 @@ impl Compiler {
                 };
 
                 if name.value.eq_ignore_ascii_case("rgba") {
-                    name.value = "rgb".into();
+                    name.value = atom!("rgb");
                     name.raw = None;
                 } else if name.value.eq_ignore_ascii_case("hsla") {
-                    name.value = "hsl".into();
+                    name.value = atom!("hsl");
                     name.raw = None;
                 }
             }

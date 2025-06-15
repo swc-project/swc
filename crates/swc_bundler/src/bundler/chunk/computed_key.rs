@@ -1,6 +1,7 @@
 use std::mem::take;
 
 use anyhow::{bail, Error};
+use swc_atoms::atom;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_top_level_await, find_pat_ids, private_ident, ExprFactory};
@@ -254,7 +255,7 @@ impl Fold for ExportToReturn {
                     let ident = ident.unwrap_or_else(|| private_ident!("_default_decl"));
 
                     self.export_key_value(
-                        Ident::new_no_ctxt("default".into(), export.span),
+                        Ident::new_no_ctxt(atom!("default"), export.span),
                         ident.clone(),
                     );
 
@@ -272,7 +273,7 @@ impl Fold for ExportToReturn {
                     let ident = ident.unwrap_or_else(|| private_ident!("_default_decl"));
 
                     self.export_key_value(
-                        Ident::new_no_ctxt("default".into(), export.span),
+                        Ident::new_no_ctxt(atom!("default"), export.span),
                         ident.clone(),
                     );
 

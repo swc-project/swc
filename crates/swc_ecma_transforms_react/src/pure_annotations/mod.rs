@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{comments::Comments, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -59,10 +59,10 @@ where
                         }
                         ImportSpecifier::Default(default) => {
                             self.imports
-                                .insert(default.local.to_id(), (src, "default".into()));
+                                .insert(default.local.to_id(), (src, atom!("default")));
                         }
                         ImportSpecifier::Namespace(ns) => {
-                            self.imports.insert(ns.local.to_id(), (src, "*".into()));
+                            self.imports.insert(ns.local.to_id(), (src, atom!("*")));
                         }
                     }
                 }

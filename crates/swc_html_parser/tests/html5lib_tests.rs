@@ -6,7 +6,7 @@ use std::{fs, mem::take, path::PathBuf};
 use common::{document_span_visualizer, DomVisualizer};
 use rustc_hash::FxHashSet;
 use serde_json::Value;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{
     input::{SourceFileInput, StringInput},
     BytePos,
@@ -179,7 +179,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                             already_seen.insert(attribute.name.clone());
 
                             if attribute.value.is_none() {
-                                attribute.value = Some("".into());
+                                attribute.value = Some(atom!(""));
                             }
 
                             attribute.span = Default::default();

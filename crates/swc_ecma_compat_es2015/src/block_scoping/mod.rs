@@ -3,7 +3,7 @@ use std::{iter::once, mem::take};
 use indexmap::IndexMap;
 use rustc_hash::{FxHashMap, FxHashSet};
 use smallvec::SmallVec;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -772,7 +772,7 @@ impl VisitMut for FlowHelper<'_> {
                         .insert(value.clone(), Label::Continue(label.clone()));
                     value
                 } else {
-                    "continue".into()
+                    atom!("continue")
                 };
 
                 *node = ReturnStmt {
@@ -799,7 +799,7 @@ impl VisitMut for FlowHelper<'_> {
                     value
                 } else {
                     self.has_break = true;
-                    "break".into()
+                    atom!("break")
                 };
                 *node = ReturnStmt {
                     span,
@@ -825,7 +825,7 @@ impl VisitMut for FlowHelper<'_> {
                             span,
                             props: vec![PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                 KeyValueProp {
-                                    key: PropName::Ident(IdentName::new("v".into(), DUMMY_SP)),
+                                    key: PropName::Ident(IdentName::new(atom!("v"), DUMMY_SP)),
                                     value: s.arg.take().unwrap_or_else(|| {
                                         Box::new(Expr::Unary(UnaryExpr {
                                             span: DUMMY_SP,

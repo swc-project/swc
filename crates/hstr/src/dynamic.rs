@@ -4,6 +4,7 @@ use std::{
     ffi::c_void,
     hash::{BuildHasherDefault, Hash, Hasher},
     mem::{forget, ManuallyDrop},
+    num::NonZeroU8,
     ops::Deref,
     ptr::{self, NonNull},
 };
@@ -13,7 +14,7 @@ use triomphe::{HeaderWithLength, ThinArc};
 
 use crate::{
     tagged_value::{TaggedValue, MAX_INLINE_LEN},
-    Atom, INLINE_TAG_INIT, LEN_OFFSET, TAG_MASK,
+    Atom, INLINE_TAG, INLINE_TAG_INIT, LEN_OFFSET, TAG_MASK,
 };
 
 #[derive(PartialEq, Eq)]
@@ -144,6 +145,28 @@ where
     Atom {
         unsafe_data: TaggedValue::new_ptr(ptr),
     }
+}
+
+/// Attempts to construct an Atom but only if it can be constructed inline.
+/// This is primarily useful in constant contexts.
+pub(crate) const fn inline_atom(text: &str) -> Option<Atom> {
+    let len = text.len();
+    if len < MAX_INLINE_LEN {
+        // INLINE_TAG ensures this is never zero
+        let tag = INLINE_TAG | ((len as u8) << LEN_OFFSET);
+        let mut unsafe_data = TaggedValue::new_tag(NonZeroU8::new(tag).unwrap());
+        // This odd pattern is needed because we cannot create slices from ranges in
+        // constant context.
+        unsafe {
+            unsafe_data
+                .data_mut()
+                .split_at_mut(len)
+                .0
+                .copy_from_slice(text.as_bytes());
+        }
+        return Some(Atom { unsafe_data });
+    }
+    None
 }
 
 pub(crate) trait Storage {

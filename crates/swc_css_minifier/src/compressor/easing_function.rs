@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_css_ast::*;
 
 use super::Compressor;
@@ -21,7 +22,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: function.span,
-                            value: "linear".into(),
+                            value: atom!("linear"),
                             raw: None,
                         }))
                     } else if matches!(first, ComponentValue::Number(number) if number.value == 0.25)
@@ -31,7 +32,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: function.span,
-                            value: "ease".into(),
+                            value: atom!("ease"),
                             raw: None,
                         }))
                     } else if matches!(first, ComponentValue::Number(number) if number.value == 0.42)
@@ -41,7 +42,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: function.span,
-                            value: "ease-in".into(),
+                            value: atom!("ease-in"),
                             raw: None,
                         }))
                     } else if matches!(first, ComponentValue::Integer(integer) if integer.value == 0)
@@ -51,7 +52,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: function.span,
-                            value: "ease-out".into(),
+                            value: atom!("ease-out"),
                             raw: None,
                         }))
                     } else if matches!(first, ComponentValue::Number(number) if number.value == 0.42)
@@ -61,7 +62,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: function.span,
-                            value: "ease-in-out".into(),
+                            value: atom!("ease-in-out"),
                             raw: None,
                         }))
                     }
@@ -78,14 +79,14 @@ impl Compressor {
                             "start" | "jump-start" => {
                                 *component_value = ComponentValue::Ident(Box::new(Ident {
                                     span: function.span,
-                                    value: "step-start".into(),
+                                    value: atom!("step-start"),
                                     raw: None,
                                 }))
                             }
                             "end" | "jump-end" => {
                                 *component_value = ComponentValue::Ident(Box::new(Ident {
                                     span: function.span,
-                                    value: "step-end".into(),
+                                    value: atom!("step-end"),
                                     raw: None,
                                 }))
                             }
@@ -97,7 +98,7 @@ impl Compressor {
                     {
                         function.value[2] = ComponentValue::Ident(Box::new(Ident {
                             span: function.span,
-                            value: "start".into(),
+                            value: atom!("start"),
                             raw: None,
                         }))
                     }

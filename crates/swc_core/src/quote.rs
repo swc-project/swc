@@ -48,7 +48,7 @@
 /// // This will return ast for `const ref = 4;`
 /// let _stmt = quote!(
 ///                 "const $name = $val;" as Stmt,
-///                 name = Ident::new("ref".into(), DUMMY_SP),
+///                 name = Ident::new(atom!("ref"), DUMMY_SP),
 ///                 val: Expr = 4.into(),
 ///             );
 /// ```
@@ -63,7 +63,7 @@
 ///
 /// // This will return ast for `const ref = 4;`
 /// let _stmt = quote!("const $name = 4;" as Stmt, name =
-/// Ident::new("ref".into(), DUMMY_SP));
+/// Ident::new(atom!("ref"), DUMMY_SP));
 ///
 /// // Tip: Use private_ident!("ref") for real identifiers.
 /// ```

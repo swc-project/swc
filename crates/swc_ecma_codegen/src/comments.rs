@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::comments::Comment;
 
 use super::*;
@@ -108,7 +109,7 @@ where
                 Some(vec![Comment {
                     kind: CommentKind::Block,
                     span: DUMMY_SP,
-                    text: "#__PURE__".into(),
+                    text: atom!("#__PURE__"),
                 }])
             );
         }

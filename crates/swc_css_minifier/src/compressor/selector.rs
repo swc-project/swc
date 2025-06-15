@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
@@ -41,7 +42,7 @@ impl Compressor {
             }) if *a == 2 && (*b == 1 || b % 2 == -1) => {
                 *an_plus_b = AnPlusB::Ident(Ident {
                     span: *span,
-                    value: "odd".into(),
+                    value: atom!("odd"),
                     raw: None,
                 });
             }
@@ -135,7 +136,7 @@ impl Compressor {
                         span: *span,
                         name: Ident {
                             span: DUMMY_SP,
-                            value: "first-child".into(),
+                            value: atom!("first-child"),
                             raw: None,
                         },
                         children: None,
@@ -160,7 +161,7 @@ impl Compressor {
                         span: *span,
                         name: Ident {
                             span: DUMMY_SP,
-                            value: "last-child".into(),
+                            value: atom!("last-child"),
                             raw: None,
                         },
                         children: None,
@@ -185,7 +186,7 @@ impl Compressor {
                         span: *span,
                         name: Ident {
                             span: DUMMY_SP,
-                            value: "first-of-type".into(),
+                            value: atom!("first-of-type"),
                             raw: None,
                         },
                         children: None,
@@ -211,7 +212,7 @@ impl Compressor {
                             span: *span,
                             name: Ident {
                                 span: DUMMY_SP,
-                                value: "last-of-type".into(),
+                                value: atom!("last-of-type"),
                                 raw: None,
                             },
                             children: None,

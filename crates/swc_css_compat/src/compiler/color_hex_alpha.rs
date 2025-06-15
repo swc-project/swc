@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::DUMMY_SP;
 use swc_css_ast::{
     AbsoluteColorBase, AlphaValue, Color, ComponentValue, Delimiter, DelimiterValue, Function,
@@ -48,7 +49,7 @@ impl Compiler {
                     span: hex_color.span,
                     name: FunctionName::Ident(Ident {
                         span: DUMMY_SP,
-                        value: "rgba".into(),
+                        value: atom!("rgba"),
                         raw: None,
                     }),
                     value: vec![

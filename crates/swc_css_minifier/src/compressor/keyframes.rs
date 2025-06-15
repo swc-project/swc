@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
@@ -50,7 +51,7 @@ impl Compressor {
             KeyframeSelector::Percentage(i) if i.value.value == 100.0 => {
                 *keyframe_selector = KeyframeSelector::Ident(Ident {
                     span: i.span,
-                    value: "to".into(),
+                    value: atom!("to"),
                     raw: None,
                 })
             }

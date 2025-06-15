@@ -1,4 +1,5 @@
 use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::atom;
 use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
@@ -168,10 +169,10 @@ impl Optimizer<'_> {
             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                 match init {
                     Expr::Fn(..) | Expr::Arrow(..) | Expr::Class(..) => {
-                        self.typeofs.insert(ident.to_id(), "function".into());
+                        self.typeofs.insert(ident.to_id(), atom!("function"));
                     }
                     Expr::Array(..) | Expr::Object(..) => {
-                        self.typeofs.insert(ident.to_id(), "object".into());
+                        self.typeofs.insert(ident.to_id(), atom!("object"));
                     }
                     _ => {}
                 }
@@ -620,7 +621,7 @@ impl Optimizer<'_> {
                 trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.ctxt);
                 match &*decl {
                     Decl::Fn(..) | Decl::Class(..) => {
-                        self.typeofs.insert(i.to_id(), "function".into());
+                        self.typeofs.insert(i.to_id(), atom!("function"));
                     }
                     _ => {}
                 }

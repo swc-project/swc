@@ -1316,9 +1316,9 @@ impl From<Word> for Atom {
             }
             .into(),
 
-            Word::Null => "null".into(),
-            Word::True => "true".into(),
-            Word::False => "false".into(),
+            Word::Null => atom!("null"),
+            Word::True => atom!("true"),
+            Word::False => atom!("false"),
 
             Word::Ident(w) => w.into(),
         }

@@ -26,6 +26,7 @@ impl<I: Tokens> Parser<I> {
 
 #[cfg(test)]
 mod tests {
+    use swc_atoms::atom;
     use swc_common::{comments::SingleThreadedComments, DUMMY_SP as span};
     use swc_ecma_lexer::common::parser::stmt::TempForHead;
     use swc_ecma_visit::assert_eq_ignore_span;
@@ -74,7 +75,7 @@ mod tests {
                             span,
                             dot3_token: span,
                             arg: Box::new(Pat::Ident(
-                                Ident::new_no_ctxt("a34".into(), span).into()
+                                Ident::new_no_ctxt(atom!("a34"), span).into()
                             )),
                             type_ann: None
                         })],
@@ -115,12 +116,12 @@ mod tests {
                     decls: vec![VarDeclarator {
                         span,
                         init: None,
-                        name: Pat::Ident(Ident::new_no_ctxt("a".into(), span).into()),
+                        name: Pat::Ident(Ident::new_no_ctxt(atom!("a"), span).into()),
                         definite: false,
                     }],
                     ..Default::default()
                 })),
-                right: Box::new(Expr::Ident(Ident::new_no_ctxt("b".into(), span))),
+                right: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("b"), span))),
 
                 body: Box::new(Stmt::Empty(EmptyStmt { span })),
             })
@@ -177,7 +178,7 @@ mod tests {
                 |p| p.parse_stmt_list_item(),
             ),
             Stmt::Decl(Decl::Class(ClassDecl {
-                ident: Ident::new_no_ctxt("Foo".into(), span),
+                ident: Ident::new_no_ctxt(atom!("Foo"), span),
                 class: Box::new(Class {
                     span,
                     decorators: vec![
@@ -610,11 +611,11 @@ export default function waitUntil(callback, options = {}) {
                             elems: vec![
                                 None,
                                 None,
-                                Some(Pat::Ident(Ident::new_no_ctxt("t".into(), span).into()))
+                                Some(Pat::Ident(Ident::new_no_ctxt(atom!("t"), span).into()))
                             ]
                         }),
                         init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
-                            "simple_array".into(),
+                            atom!("simple_array"),
                             span
                         )))),
                         definite: false
@@ -641,12 +642,12 @@ export default function waitUntil(callback, options = {}) {
                             span,
                             props: vec![ObjectPatProp::Assign(AssignPatProp {
                                 span,
-                                key: Ident::new_no_ctxt("num".into(), span).into(),
+                                key: Ident::new_no_ctxt(atom!("num"), span).into(),
                                 value: None
                             })]
                         }),
                         init: Some(Box::new(Expr::Ident(Ident::new_no_ctxt(
-                            "obj".into(),
+                            atom!("obj"),
                             span
                         )))),
                         definite: false
@@ -799,7 +800,7 @@ export default function waitUntil(callback, options = {}) {
             Box::new(Expr::Class(ClassExpr {
                 ident: Some(Ident {
                     span,
-                    sym: "Foo".into(),
+                    sym: atom!("Foo"),
                     ..Default::default()
                 }),
                 class: Box::new(Class {
@@ -832,7 +833,7 @@ export default function waitUntil(callback, options = {}) {
             Box::new(Expr::Class(ClassExpr {
                 ident: Some(Ident {
                     span,
-                    sym: "Foo".into(),
+                    sym: atom!("Foo"),
                     ..Default::default()
                 }),
                 class: Box::new(Class {
@@ -877,7 +878,7 @@ export default function waitUntil(callback, options = {}) {
             Box::new(Expr::Class(ClassExpr {
                 ident: Some(Ident {
                     span,
-                    sym: "Foo".into(),
+                    sym: atom!("Foo"),
                     ..Default::default()
                 }),
                 class: Box::new(Class {
@@ -908,7 +909,7 @@ export default function waitUntil(callback, options = {}) {
             Box::new(Expr::Class(ClassExpr {
                 ident: Some(Ident {
                     span,
-                    sym: "Foo".into(),
+                    sym: atom!("Foo"),
                     ..Default::default()
                 }),
                 class: Box::new(Class {

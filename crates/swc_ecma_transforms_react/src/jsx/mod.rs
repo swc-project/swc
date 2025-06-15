@@ -1246,7 +1246,7 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
                 span: DUMMY_SP,
                 callee: Callee::Expr(Box::new(Expr::Ident(Ident {
                     ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
-                    sym: "require".into(),
+                    sym: atom!("require"),
                     optional: false,
                     ..Default::default()
                 }))),

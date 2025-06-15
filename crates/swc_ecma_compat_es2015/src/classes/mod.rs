@@ -2,6 +2,7 @@ use std::iter;
 
 use rustc_hash::FxBuildHasher;
 use serde::Deserialize;
+use swc_atoms::atom;
 use swc_common::{util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -564,8 +565,8 @@ impl Classes {
                 &mut stmts,
                 Lit::Str(Str {
                     span: DUMMY_SP,
-                    value: "use strict".into(),
-                    raw: Some("\"use strict\"".into()),
+                    value: atom!("use strict"),
+                    raw: Some(atom!("\"use strict\"")),
                 })
                 .into_stmt(),
             );

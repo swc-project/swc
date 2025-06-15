@@ -455,18 +455,18 @@ impl Pure<'_> {
         };
 
         let separator = if call.args.is_empty() {
-            ",".into()
+            atom!(",")
         } else if call.args.len() == 1 {
             if call.args[0].spread.is_some() {
                 return;
             }
 
             if is_pure_undefined(self.expr_ctx, &call.args[0].expr) {
-                ",".into()
+                atom!(",")
             } else {
                 match &*call.args[0].expr {
                     Expr::Lit(Lit::Str(s)) => s.value.clone(),
-                    Expr::Lit(Lit::Null(..)) => "null".into(),
+                    Expr::Lit(Lit::Null(..)) => atom!("null"),
                     _ => return,
                 }
             }
@@ -688,7 +688,7 @@ impl Pure<'_> {
         }
 
         let (pattern, flag) = match args.as_slice() {
-            [ExprOrSpread { spread: None, expr }] => (valid_pattern(expr)?, "".into()),
+            [ExprOrSpread { spread: None, expr }] => (valid_pattern(expr)?, atom!("")),
             [ExprOrSpread {
                 spread: None,
                 expr: pattern,
@@ -907,7 +907,7 @@ impl Pure<'_> {
                         [] => Some(
                             Lit::Str(Str {
                                 span: *span,
-                                value: "".into(),
+                                value: atom!(""),
                                 raw: None,
                             })
                             .into(),
@@ -921,7 +921,7 @@ impl Pure<'_> {
                                     op: op!(bin, "+"),
                                     right: Lit::Str(Str {
                                         span: *span,
-                                        value: "".into(),
+                                        value: atom!(""),
                                         raw: None,
                                     })
                                     .into(),

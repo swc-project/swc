@@ -1,7 +1,7 @@
 use std::ops::Deref;
 
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{
     util::{move_map::MoveMap, take::Take},
     BytePos, Spanned, DUMMY_SP,
@@ -317,7 +317,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                             op: op!("==="),
                             right: Box::new(Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
-                                value: "undefined".into(),
+                                value: atom!("undefined"),
                                 raw: None,
                             }))),
                         }
@@ -340,7 +340,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 right: Box::new(
                     Lit::Str(Str {
                         span: DUMMY_SP,
-                        value: "undefined".into(),
+                        value: atom!("undefined"),
                         raw: None,
                     })
                     .into(),

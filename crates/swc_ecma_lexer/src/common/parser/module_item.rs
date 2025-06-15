@@ -1,5 +1,6 @@
 use std::ops::DerefMut;
 
+use swc_atoms::atom;
 use swc_common::Span;
 use swc_ecma_ast::*;
 
@@ -490,7 +491,7 @@ fn parse_export<'a, P: Parser<'a>>(
                 || (p.input_mut().is(&P::Token::COMMA)
                     && (peek!(p).is_some_and(|peek| peek.is_star() || peek.is_lbrace()))))
         {
-            export_default = Some(Ident::new_no_ctxt("default".into(), p.input().prev_span()))
+            export_default = Some(Ident::new_no_ctxt(atom!("default"), p.input().prev_span()))
         } else {
             let expr = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
             p.expect_general_semi()?;

@@ -1,6 +1,6 @@
 use std::{borrow::Cow, iter, iter::once};
 
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -989,7 +989,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                             raw: None,
                         }))
                     } else {
-                        Expr::Ident(Ident::new("NaN".into(), *span, expr_ctx.unresolved_ctxt))
+                        Expr::Ident(Ident::new(atom!("NaN"), *span, expr_ctx.unresolved_ctxt))
                     };
 
                     *expr = *expr_ctx.preserve_effects(*span, value_expr.into(), {
@@ -1072,7 +1072,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                                     })
                                     .into()
                                 } else {
-                                    Ident::new("NaN".into(), span, expr_ctx.unresolved_ctxt).into()
+                                    Ident::new(atom!("NaN"), span, expr_ctx.unresolved_ctxt).into()
                                 };
 
                                 *expr = *expr_ctx.preserve_effects(
@@ -1245,7 +1245,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                             })
                             .into()
                         } else {
-                            Ident::new("NaN".into(), *span, expr_ctx.unresolved_ctxt).into()
+                            Ident::new(atom!("NaN"), *span, expr_ctx.unresolved_ctxt).into()
                         };
 
                         *changed = true;
@@ -1319,7 +1319,7 @@ pub fn optimize_unary_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut boo
                 if v.is_nan() {
                     *expr = *expr_ctx.preserve_effects(
                         *span,
-                        Ident::new("NaN".into(), *span, expr_ctx.unresolved_ctxt).into(),
+                        Ident::new(atom!("NaN"), *span, expr_ctx.unresolved_ctxt).into(),
                         iter::once(arg.take()),
                     );
                     return;

@@ -1,6 +1,7 @@
 use std::mem::take;
 
 use serde::Deserialize;
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
@@ -384,25 +385,25 @@ impl ForOf {
         let iterator_return = iterator.clone().make_member(quote_ident!("return")).into();
 
         let normal_completion_ident =
-            Ident::new("_iteratorNormalCompletion".into(), var_span, var_ctxt);
+            Ident::new(atom!("_iteratorNormalCompletion"), var_span, var_ctxt);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: normal_completion_ident.clone().into(),
             init: Some(true.into()),
             definite: false,
         });
-        let error_flag_ident = Ident::new("_didIteratorError".into(), var_span, var_ctxt);
+        let error_flag_ident = Ident::new(atom!("_didIteratorError"), var_span, var_ctxt);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: error_flag_ident.clone().into(),
             init: Some(false.into()),
             definite: false,
         });
-        let error_ident = Ident::new("_iteratorError".into(), var_span, var_ctxt);
+        let error_ident = Ident::new(atom!("_iteratorError"), var_span, var_ctxt);
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: error_ident.clone().into(),
-            init: Some(Ident::new_no_ctxt("undefined".into(), DUMMY_SP).into()),
+            init: Some(Ident::new_no_ctxt(atom!("undefined"), DUMMY_SP).into()),
             definite: false,
         });
 

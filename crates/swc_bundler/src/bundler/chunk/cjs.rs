@@ -2,6 +2,7 @@ use std::{collections::HashMap, sync::atomic::Ordering};
 
 use anyhow::Error;
 use rustc_hash::FxHashMap;
+use swc_atoms::atom;
 use swc_common::{Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{quote_ident, ExprFactory};
@@ -19,7 +20,7 @@ where
     R: Resolve,
 {
     fn make_cjs_load_var(&self, info: &TransformedModule, span: Span) -> Ident {
-        Ident::new("load".into(), span, info.export_ctxt())
+        Ident::new(atom!("load"), span, info.export_ctxt())
     }
 
     pub(super) fn replace_cjs_require_calls(
@@ -103,8 +104,8 @@ fn wrap_module(
         // Those are unresolved, but it's actually an injected variable.
 
         let mut from = HashMap::default();
-        from.insert(("module".into(), unresolved_ctxt), local_ctxt);
-        from.insert(("exports".into(), unresolved_ctxt), local_ctxt);
+        from.insert((atom!("module"), unresolved_ctxt), local_ctxt);
+        from.insert((atom!("exports"), unresolved_ctxt), local_ctxt);
 
         dep.visit_mut_with(&mut Remapper { vars: from })
     }
@@ -118,13 +119,13 @@ fn wrap_module(
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(Ident::new("module".into(), DUMMY_SP, local_ctxt).into()),
+                    pat: Pat::Ident(Ident::new(atom!("module"), DUMMY_SP, local_ctxt).into()),
                 },
                 // exports
                 Param {
                     span: DUMMY_SP,
                     decorators: Default::default(),
-                    pat: Pat::Ident(Ident::new("exports".into(), DUMMY_SP, local_ctxt).into()),
+                    pat: Pat::Ident(Ident::new(atom!("exports"), DUMMY_SP, local_ctxt).into()),
                 },
             ],
             decorators: Vec::new(),
@@ -161,7 +162,7 @@ fn wrap_module(
             name: Pat::Ident(load_var.into()),
             init: Some(Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
-                callee: Ident::new("__swcpack_require__".into(), DUMMY_SP, helper_ctxt)
+                callee: Ident::new(atom!("__swcpack_require__"), DUMMY_SP, helper_ctxt)
                     .make_member(quote_ident!("bind"))
                     .as_callee(),
                 args: vec![Expr::undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
@@ -205,7 +206,7 @@ where
                         }
                         let load = CallExpr {
                             span: node.span,
-                            callee: Ident::new("load".into(), i.span, i.ctxt).as_callee(),
+                            callee: Ident::new(atom!("load"), i.span, i.ctxt).as_callee(),
                             args: Vec::new(),
                             ..Default::default()
                         };
@@ -287,7 +288,7 @@ where
                     },
                     ImportSpecifier::Default(s) => {
                         props.push(ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(IdentName::new("default".into(), DUMMY_SP)),
+                            key: PropName::Ident(IdentName::new(atom!("default"), DUMMY_SP)),
                             value: Box::new(s.local.into()),
                         }));
                     }
@@ -362,7 +363,7 @@ impl VisitMut for DefaultHandler {
             if i.sym == "default" {
                 *e = MemberExpr {
                     span: i.span,
-                    obj: Ident::new("module".into(), DUMMY_SP, self.local_ctxt).into(),
+                    obj: Ident::new(atom!("module"), DUMMY_SP, self.local_ctxt).into(),
                     prop: MemberProp::Ident(quote_ident!("exports")),
                 }
                 .into();

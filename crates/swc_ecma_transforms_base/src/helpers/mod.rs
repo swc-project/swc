@@ -2,7 +2,7 @@ use std::{cell::RefCell, mem::replace};
 
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
@@ -472,7 +472,7 @@ impl InjectHelpers {
             callee: Expr::from(Ident {
                 span: DUMMY_SP,
                 ctxt: SyntaxContext::empty().apply_mark(self.global_mark),
-                sym: "require".into(),
+                sym: atom!("require"),
                 ..Default::default()
             })
             .as_callee(),
@@ -507,7 +507,7 @@ impl InjectHelpers {
                 MemberExpr {
                     span: ref_ident.span,
                     obj: Box::new(ident.into()),
-                    prop: MemberProp::Ident("_".into()),
+                    prop: MemberProp::Ident(atom!("_").into()),
                 }
                 .into()
             })

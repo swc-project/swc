@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_ecma_parser::Syntax;
 
 use super::*;
@@ -80,7 +81,7 @@ fn test_mark_for() {
         folder2
             .current
             .declared_symbols
-            .insert("foo".into(), DeclKind::Var);
+            .insert(atom!("foo"), DeclKind::Var);
 
         let mut folder3 = Resolver::new(
             Scope::new(ScopeKind::Block, mark3, Some(&folder2.current)),
@@ -93,8 +94,8 @@ fn test_mark_for() {
         folder3
             .current
             .declared_symbols
-            .insert("bar".into(), DeclKind::Var);
-        assert_eq!(folder3.mark_for_ref(&"bar".into()), Some(mark3));
+            .insert(atom!("bar"), DeclKind::Var);
+        assert_eq!(folder3.mark_for_ref(&atom!("bar")), Some(mark3));
 
         let mut folder4 = Resolver::new(
             Scope::new(ScopeKind::Block, mark4, Some(&folder3.current)),
@@ -107,10 +108,10 @@ fn test_mark_for() {
         folder4
             .current
             .declared_symbols
-            .insert("foo".into(), DeclKind::Var);
+            .insert(atom!("foo"), DeclKind::Var);
 
-        assert_eq!(folder4.mark_for_ref(&"foo".into()), Some(mark4));
-        assert_eq!(folder4.mark_for_ref(&"bar".into()), Some(mark3));
+        assert_eq!(folder4.mark_for_ref(&atom!("foo")), Some(mark4));
+        assert_eq!(folder4.mark_for_ref(&atom!("bar")), Some(mark3));
         Ok(())
     })
     .unwrap();

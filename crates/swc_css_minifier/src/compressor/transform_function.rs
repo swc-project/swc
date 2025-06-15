@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::Spanned;
 use swc_css_ast::*;
 
@@ -16,7 +17,7 @@ impl Compressor {
                     (Some(ComponentValue::Integer(first)), Some(second)) if first.value == 0 => {
                         function.name = FunctionName::Ident(Ident {
                             span: function.name.span(),
-                            value: "translatey".into(),
+                            value: atom!("translatey"),
                             raw: None,
                         });
                         function.value = vec![second.clone()];
@@ -39,7 +40,7 @@ impl Compressor {
                     ) if first.value == 0 && second.value == 0 => {
                         function.name = FunctionName::Ident(Ident {
                             span: function.name.span(),
-                            value: "translatez".into(),
+                            value: atom!("translatez"),
                             raw: None,
                         });
                         function.value = vec![third.clone()];
@@ -62,7 +63,7 @@ impl Compressor {
                     {
                         function.name = FunctionName::Ident(Ident {
                             span: function.name.span(),
-                            value: "scalex".into(),
+                            value: atom!("scalex"),
                             raw: None,
                         });
                         function.value = vec![first.clone()];
@@ -72,7 +73,7 @@ impl Compressor {
                     {
                         function.name = FunctionName::Ident(Ident {
                             span: function.name.span(),
-                            value: "scaley".into(),
+                            value: atom!("scaley"),
                             raw: None,
                         });
                         function.value = vec![second.clone()];
@@ -95,7 +96,7 @@ impl Compressor {
                     ) if second_number.value == 1 && third_number.value == 1 => {
                         function.name = FunctionName::Ident(Ident {
                             span: function.name.span(),
-                            value: "scalex".into(),
+                            value: atom!("scalex"),
                             raw: None,
                         });
                         function.value = vec![first.clone()];
@@ -107,7 +108,7 @@ impl Compressor {
                     ) if first_number.value == 1 && third_number.value == 1 => {
                         function.name = FunctionName::Ident(Ident {
                             span: function.name.span(),
-                            value: "scaley".into(),
+                            value: atom!("scaley"),
                             raw: None,
                         });
                         function.value = vec![second.clone()];
@@ -119,7 +120,7 @@ impl Compressor {
                     ) if first_number.value == 1 && second_number.value == 1 => {
                         function.name = FunctionName::Ident(Ident {
                             span: function.name.span(),
-                            value: "scalez".into(),
+                            value: atom!("scalez"),
                             raw: None,
                         });
                         function.value = vec![third.clone()];
@@ -188,7 +189,7 @@ impl Compressor {
                     {
                         function.name = FunctionName::Ident(Ident {
                             span: function.name.span(),
-                            value: "matrix".into(),
+                            value: atom!("matrix"),
                             raw: None,
                         });
                         function.value = vec![
@@ -228,7 +229,7 @@ impl Compressor {
                     {
                         function.name = FunctionName::Ident(Ident {
                             span: function.name.span(),
-                            value: "rotatex".into(),
+                            value: atom!("rotatex"),
                             raw: None,
                         });
                         function.value = vec![fourth_value.clone()];
@@ -244,7 +245,7 @@ impl Compressor {
                     {
                         function.name = FunctionName::Ident(Ident {
                             span: function.name.span(),
-                            value: "rotatey".into(),
+                            value: atom!("rotatey"),
                             raw: None,
                         });
                         function.value = vec![fourth_value.clone()];
@@ -260,7 +261,7 @@ impl Compressor {
                     {
                         function.name = FunctionName::Ident(Ident {
                             span: function.name.span(),
-                            value: "rotate".into(),
+                            value: atom!("rotate"),
                             raw: None,
                         });
                         function.value = vec![fourth_value.clone()];
@@ -273,7 +274,7 @@ impl Compressor {
             {
                 function.name = FunctionName::Ident(Ident {
                     span: function.name.span(),
-                    value: "rotate".into(),
+                    value: atom!("rotate"),
                     raw: None,
                 });
             }
@@ -287,7 +288,7 @@ impl Compressor {
                     {
                         function.name = FunctionName::Ident(Ident {
                             span: function.name.span(),
-                            value: "skewx".into(),
+                            value: atom!("skewx"),
                             raw: None,
                         });
                         function.value = vec![first.clone()];
@@ -298,7 +299,7 @@ impl Compressor {
                     {
                         function.name = FunctionName::Ident(Ident {
                             span: function.name.span(),
-                            value: "skewy".into(),
+                            value: atom!("skewy"),
                             raw: None,
                         });
                         function.value = vec![second.clone()];

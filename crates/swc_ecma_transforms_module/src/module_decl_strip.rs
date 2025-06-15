@@ -1,6 +1,6 @@
 use indexmap::IndexMap;
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Mark, Span, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident, ExprFactory};
@@ -226,7 +226,7 @@ impl VisitMut for ModuleDeclStrip {
                     .clone();
 
                 self.export.insert(
-                    "default".into(),
+                    atom!("default"),
                     ExportItem::new((n.span, Default::default()), ident),
                 );
             }
@@ -237,7 +237,7 @@ impl VisitMut for ModuleDeclStrip {
                     .clone();
 
                 self.export.insert(
-                    "default".into(),
+                    atom!("default"),
                     ExportItem::new((n.span, Default::default()), ident),
                 );
             }
@@ -258,7 +258,7 @@ impl VisitMut for ModuleDeclStrip {
         let ident = private_ident!(n.span, "_default");
 
         self.export.insert(
-            "default".into(),
+            atom!("default"),
             ExportItem::new((n.span, Default::default()), ident.clone()),
         );
 
@@ -665,7 +665,7 @@ impl LinkSpecifierReducer for FxHashSet<LinkSpecifier> {
                     id,
                     (
                         mod_ident.clone(),
-                        (!default_nowrap).then(|| "default".into()),
+                        (!default_nowrap).then(|| atom!("default")),
                     ),
                 );
             }
@@ -711,7 +711,7 @@ impl LinkSpecifierReducer for FxHashSet<LinkSpecifier> {
                 // foo -> mod.default
                 import_map.insert(
                     (key.clone(), span.1),
-                    (mod_ident.clone(), Some("default".into())),
+                    (mod_ident.clone(), Some(atom!("default"))),
                 );
 
                 export_obj_prop_list.push((

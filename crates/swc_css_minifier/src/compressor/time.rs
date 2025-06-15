@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_css_ast::*;
 
 use super::Compressor;
@@ -15,7 +16,7 @@ impl Compressor {
                 };
                 time.unit = Ident {
                     span: time.unit.span,
-                    value: "s".into(),
+                    value: atom!("s"),
                     raw: None,
                 };
             }
@@ -29,7 +30,7 @@ impl Compressor {
                 };
                 time.unit = Ident {
                     span: time.unit.span,
-                    value: "ms".into(),
+                    value: atom!("ms"),
                     raw: None,
                 };
             }

@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::Span;
 use swc_css_ast::*;
 
@@ -571,7 +571,7 @@ fn try_to_reduce_node_with_resolutions(
         (Some(idx_dppx), None) => {
             // rename "dppx" into "x"
             if let CalcNode::Dimension(Dimension::Resolution(r)) = &mut nodes[*idx_dppx] {
-                r.unit.value = "x".into();
+                r.unit.value = atom!("x");
                 dimensions.insert("x".into(), *idx_dppx);
                 dimensions.remove("dppx");
             }

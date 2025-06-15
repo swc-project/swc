@@ -1,4 +1,4 @@
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::{angle_to_deg, hsl_to_rgb, hwb_to_rgb, to_rgb255, NAMED_COLORS};
@@ -121,7 +121,7 @@ macro_rules! make_color {
                     span: $span,
                     name: FunctionName::Ident(Ident {
                         span: DUMMY_SP,
-                        value: "rgba".into(),
+                        value: atom!("rgba"),
                         raw: None,
                     }),
                     value: vec![
