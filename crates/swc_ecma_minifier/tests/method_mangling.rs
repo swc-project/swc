@@ -46,7 +46,7 @@ fn count_method_names(program: &Program) -> Vec<String> {
 }
 
 #[test]
-fn test_method_mangling_enabled() {
+fn test_method_mangling_enabled<T>() {
     GLOBALS.set(&Default::default(), || {
         let src = include_str!("method_mangling.js");
 
@@ -123,7 +123,7 @@ fn test_method_mangling_enabled() {
 }
 
 #[test]
-fn test_method_mangling_disabled() {
+fn test_method_mangling_disabled<T>() {
     GLOBALS.set(&Default::default(), || {
         let src = include_str!("method_mangling.js");
 
