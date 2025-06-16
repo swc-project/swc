@@ -6005,6 +6005,7 @@ dependencies = [
  "bytes-str",
  "dashmap 5.5.3",
  "indexmap 2.7.1",
+ "memchr",
  "once_cell",
  "rayon",
  "rustc-hash 2.1.1",
