@@ -41,18 +41,14 @@ mod refresh;
 pub fn react<C>(
     cm: Lrc<SourceMap>,
     comments: Option<C>,
-    mut options: Options,
+    options: Options,
     top_level_mark: Mark,
     unresolved_mark: Mark,
 ) -> impl Pass
 where
     C: Comments + Clone,
 {
-    let development = match options.runtime {
-        Runtime::Automatic(ref auto) => auto.common.development,
-        Runtime::Classic(ref classic) => classic.common.development,
-        Runtime::Preserve => false,
-    };
+    let development = options.common.development.into_bool();
 
     let (auto_config, classic_config) = match parse_directives(options.runtime, comments.clone()) {
         Runtime::Automatic(ref mut config) => (Some(mem::take(config)), None),
@@ -60,20 +56,20 @@ where
         Runtime::Preserve => unreachable!(),
     };
 
-    let refresh_options = options.refresh.take();
+    let refresh_options = options.refresh;
 
     (
         jsx_src(development, cm.clone()),
         jsx_self(development),
         refresh(
             development,
-            refresh_options.clone(),
+            refresh_options,
             cm.clone(),
             comments.clone(),
             top_level_mark,
         ),
-        auto_config.map(|config| automatic(config, unresolved_mark)),
-        classic_config.map(|config| classic(cm.clone(), config, top_level_mark)),
+        auto_config.map(|config| automatic(config, options.common, unresolved_mark)),
+        classic_config.map(|config| classic(config, options.common, top_level_mark, cm.clone())),
         display_name(),
         pure_annotations(comments.clone()),
     )

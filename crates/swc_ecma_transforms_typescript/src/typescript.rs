@@ -206,7 +206,6 @@ where
                 Runtime::Classic(ClassicConfig {
                     pragma,
                     pragma_frag,
-                    common: Default::default(),
                 }),
                 Some(self.comments.clone()),
             );

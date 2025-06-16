@@ -1,7 +1,6 @@
 #![allow(clippy::redundant_allocation)]
 
 use std::{
-    borrow::Cow,
     iter::{self},
     sync::RwLock,
 };
@@ -9,17 +8,16 @@ use std::{
 use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
 use swc_common::{
-    errors::HANDLER, iter::IdentifyLast, source_map::PURE_SP, sync::Lrc, util::take::Take,
-    FileName, Mark, SourceMap, Spanned, DUMMY_SP,
+    errors::HANDLER, source_map::PURE_SP, sync::Lrc, util::take::Take, FileName, Mark, SourceMap,
+    Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
 use swc_ecma_utils::{drop_span, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
-use crate::ClassicConfig;
+use crate::{jsx_text_to_str, ClassicConfig, CommonConfig};
 
 /// Parse `src` to use as a `pragma` or `pragmaFrag` in jsx.
 pub fn parse_expr_for_jsx(
@@ -73,16 +71,9 @@ fn apply_mark(e: &mut Expr, mark: Mark) {
 
 /// `@babel/plugin-transform-react-jsx`
 ///
-/// Turn JSX into React function calls
-///
-///
-/// `top_level_mark` should be [Mark] passed to
-/// [swc_ecma_transforms_base::resolver::resolver_with_mark].
-///
-///
 /// # Parameters
 ///
-/// ## `top_level_ctxt`
+/// ## `pragma_mark`
 ///
 /// This is used to reference `React` defined by the user.
 ///
@@ -92,9 +83,10 @@ fn apply_mark(e: &mut Expr, mark: Mark) {
 /// import React from 'react';
 /// ```
 pub fn classic(
-    cm: Lrc<SourceMap>,
     options: ClassicConfig,
+    common: CommonConfig,
     pragma_mark: Mark,
+    cm: Lrc<SourceMap>,
 ) -> impl Pass + VisitMut {
     let mut pragma = parse_expr_for_jsx(&cm, "pragma", options.pragma, pragma_mark);
 
@@ -108,7 +100,7 @@ pub fn classic(
         pragma,
 
         pragma_frag,
-        throw_if_namespace: options.common.throw_if_namespace.into_bool(),
+        throw_if_namespace: common.throw_if_namespace.into_bool(),
     })
 }
 
@@ -441,37 +433,6 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
             })
         }
     }
-}
-
-#[inline]
-fn jsx_text_to_str(t: Atom) -> Atom {
-    let mut buf = String::new();
-    let replaced = t.replace('\t', " ");
-
-    for (is_last, (i, line)) in replaced.lines().enumerate().identify_last() {
-        if line.is_empty() {
-            continue;
-        }
-        let line = Cow::from(line);
-        let line = if i != 0 {
-            Cow::Borrowed(line.trim_start_matches(' '))
-        } else {
-            line
-        };
-        let line = if is_last {
-            line
-        } else {
-            Cow::Borrowed(line.trim_end_matches(' '))
-        };
-        if line.is_empty() {
-            continue;
-        }
-        if i != 0 && !buf.is_empty() {
-            buf.push(' ')
-        }
-        buf.push_str(&line);
-    }
-    buf.into()
 }
 
 fn transform_jsx_attr_str(v: &str) -> String {

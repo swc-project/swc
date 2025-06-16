@@ -1,39 +1,28 @@
 #![allow(clippy::redundant_allocation)]
 
-use std::{borrow::Cow, iter::once};
+use std::iter::once;
 
 use swc_atoms::Atom;
 use swc_common::{
-    errors::HANDLER, iter::IdentifyLast, source_map::PURE_SP, util::take::Take, Mark, Spanned,
-    SyntaxContext, DUMMY_SP,
+    errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, private_ident, quote_ident, ExprFactory, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
-use crate::{jsx::should_use_create_element, AutomaticConfig};
+use crate::{jsx::should_use_create_element, jsx_text_to_str, AutomaticConfig, CommonConfig};
 
-/// `@babel/plugin-transform-react-jsx`
+/// Automatic runtime JSX transformer
 ///
-/// Turn JSX into React function calls
+/// Transforms JSX using the automatic runtime where imports are injected
+/// automatically and JSX elements are converted to jsx() and jsxs() calls.
 ///
-///
-/// `top_level_mark` should be [Mark] passed to
-/// [swc_ecma_transforms_base::resolver::resolver_with_mark].
-///
-///
-/// # Parameters
-///
-/// ## `top_level_ctxt`
-///
-/// This is used to reference `React` defined by the user.
-///
-/// e.g.
-///
-/// ```js
-/// import React from 'react';
-/// ```
-pub fn automatic(options: AutomaticConfig, unresolved_mark: Mark) -> impl Pass + VisitMut {
+/// https://github.com/reactjs/rfcs/blob/createlement-rfc/text/0000-create-element-changes.md
+pub fn automatic(
+    options: AutomaticConfig,
+    common: CommonConfig,
+    unresolved_mark: Mark,
+) -> impl Pass + VisitMut {
     visit_mut_pass(Automatic {
         unresolved_mark,
         import_source: options.import_source,
@@ -42,8 +31,8 @@ pub fn automatic(options: AutomaticConfig, unresolved_mark: Mark) -> impl Pass +
         import_fragment: None,
         import_create_element: None,
 
-        development: options.common.development,
-        throw_if_namespace: options.common.throw_if_namespace.into_bool(),
+        development: common.development.into_bool(),
+        throw_if_namespace: common.throw_if_namespace.into_bool(),
     })
 }
 
@@ -679,37 +668,6 @@ impl Automatic {
             }
         }
     }
-}
-
-#[inline]
-fn jsx_text_to_str(t: Atom) -> Atom {
-    let mut buf = String::new();
-    let replaced = t.replace('\t', " ");
-
-    for (is_last, (i, line)) in replaced.lines().enumerate().identify_last() {
-        if line.is_empty() {
-            continue;
-        }
-        let line = Cow::from(line);
-        let line = if i != 0 {
-            Cow::Borrowed(line.trim_start_matches(' '))
-        } else {
-            line
-        };
-        let line = if is_last {
-            line
-        } else {
-            Cow::Borrowed(line.trim_end_matches(' '))
-        };
-        if line.is_empty() {
-            continue;
-        }
-        if i != 0 && !buf.is_empty() {
-            buf.push(' ')
-        }
-        buf.push_str(&line);
-    }
-    buf.into()
 }
 
 fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {

@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use dashmap::DashMap;
 use swc_common::{
-    comments::{self, Comment, CommentKind, Comments},
+    comments::{Comment, CommentKind, Comments},
     BytePos, DUMMY_SP,
 };
 use swc_ecma_parser::{parse_file_as_module, EsSyntax, Syntax};

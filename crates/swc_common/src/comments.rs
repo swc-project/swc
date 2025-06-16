@@ -62,10 +62,10 @@ pub trait Comments {
     ///
     /// // Count all comments
     /// let mut count = 0;
-    /// comments.for_each(|_| count += 1);
+    /// comments.for_each(&mut |_| count += 1);
     ///
     /// // Process comment text (order is not guaranteed)
-    /// comments.for_each(|comment| {
+    /// comments.for_each(&mut |comment| {
     ///     if comment.text.starts_with("//") {
     ///         println!("Line comment: {}", comment.text);
     ///     }

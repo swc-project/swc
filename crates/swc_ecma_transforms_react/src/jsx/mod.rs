@@ -1,9 +1,12 @@
 #![allow(clippy::redundant_allocation)]
 
+use std::borrow::Cow;
+
 use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{atom, Atom};
+use swc_common::iter::IdentifyLast;
 use swc_config::{merge::Merge, types::BoolConfig};
 
 use self::static_check::should_use_create_element;
@@ -21,11 +24,11 @@ pub use parse_directives::parse_directives;
 #[cfg(test)]
 mod tests;
 
-#[derive(Debug, Default, Clone, Copy, Deserialize, Serialize)]
+#[derive(Debug, Default, Clone, Copy, Deserialize, Serialize, Merge)]
 #[serde(rename_all = "camelCase")]
 pub struct CommonConfig {
     #[serde(default)]
-    pub development: bool,
+    pub development: BoolConfig<false>,
     #[serde(default)]
     pub pure: BoolConfig<true>,
     #[serde(default)]
@@ -39,9 +42,6 @@ pub struct AutomaticConfig {
     /// Import source for automatic runtime
     #[serde(default = "default_import_source")]
     pub import_source: Atom,
-
-    #[serde(flatten)]
-    pub common: CommonConfig,
 }
 
 /// Configuration for classic JSX runtime transformation
@@ -55,9 +55,6 @@ pub struct ClassicConfig {
     /// The pragma for JSX fragments (e.g., "React.Fragment")
     #[serde(default = "default_pragma_frag")]
     pub pragma_frag: BytesStr,
-
-    #[serde(flatten)]
-    pub common: CommonConfig,
 }
 
 impl Default for ClassicConfig {
@@ -65,7 +62,6 @@ impl Default for ClassicConfig {
         Self {
             pragma: default_pragma(),
             pragma_frag: default_pragma_frag(),
-            common: CommonConfig::default(),
         }
     }
 }
@@ -108,7 +104,6 @@ impl<'de> Deserialize<'de> for Runtime {
                 formatter.write_str("a string or an object for runtime configuration")
             }
 
-            // 处理字符串反序列化
             fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
             where
                 E: Error,
@@ -124,7 +119,6 @@ impl<'de> Deserialize<'de> for Runtime {
                 }
             }
 
-            // 处理对象反序列化
             fn visit_map<A>(self, map: A) -> Result<Self::Value, A::Error>
             where
                 A: serde::de::MapAccess<'de>,
@@ -136,12 +130,8 @@ impl<'de> Deserialize<'de> for Runtime {
                     pragma: Option<BytesStr>,
                     pragma_frag: Option<BytesStr>,
                     import_source: Option<Atom>,
-                    development: Option<bool>,
-                    pure: Option<BoolConfig<true>>,
-                    throw_if_namespace: Option<BoolConfig<true>>,
                 }
 
-                // 先反序列化为辅助结构
                 let helper: ConfigHelper =
                     Deserialize::deserialize(serde::de::value::MapAccessDeserializer::new(map))?;
 
@@ -151,11 +141,6 @@ impl<'de> Deserialize<'de> for Runtime {
                             import_source: helper
                                 .import_source
                                 .unwrap_or_else(default_import_source),
-                            common: CommonConfig {
-                                development: helper.development.unwrap_or_default(),
-                                pure: helper.pure.unwrap_or_default(),
-                                throw_if_namespace: helper.throw_if_namespace.unwrap_or_default(),
-                            },
                         };
                         Ok(Runtime::Automatic(config))
                     }
@@ -163,11 +148,6 @@ impl<'de> Deserialize<'de> for Runtime {
                         let config = ClassicConfig {
                             pragma: helper.pragma.unwrap_or_else(default_pragma),
                             pragma_frag: helper.pragma_frag.unwrap_or_else(default_pragma_frag),
-                            common: CommonConfig {
-                                development: helper.development.unwrap_or_default(),
-                                pure: helper.pure.unwrap_or_default(),
-                                throw_if_namespace: helper.throw_if_namespace.unwrap_or_default(),
-                            },
                         };
                         Ok(Runtime::Classic(config))
                     }
@@ -177,31 +157,13 @@ impl<'de> Deserialize<'de> for Runtime {
                         &["automatic", "classic", "preserve"],
                     )),
                     None => {
-                        if helper.import_source.is_some() {
-                            let config = AutomaticConfig {
-                                import_source: helper
-                                    .import_source
-                                    .unwrap_or_else(default_import_source),
-                                common: CommonConfig {
-                                    development: helper.development.unwrap_or_default(),
-                                    pure: helper.pure.unwrap_or_default(),
-                                    throw_if_namespace: helper
-                                        .throw_if_namespace
-                                        .unwrap_or_default(),
-                                },
-                            };
+                        if let Some(import_source) = helper.import_source {
+                            let config = AutomaticConfig { import_source };
                             Ok(Runtime::Automatic(config))
                         } else {
                             let config = ClassicConfig {
                                 pragma: helper.pragma.unwrap_or_else(default_pragma),
                                 pragma_frag: helper.pragma_frag.unwrap_or_else(default_pragma_frag),
-                                common: CommonConfig {
-                                    development: helper.development.unwrap_or_default(),
-                                    pure: helper.pure.unwrap_or_default(),
-                                    throw_if_namespace: helper
-                                        .throw_if_namespace
-                                        .unwrap_or_default(),
-                                },
                             };
                             Ok(Runtime::Classic(config))
                         }
@@ -214,21 +176,17 @@ impl<'de> Deserialize<'de> for Runtime {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, Default)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default, Merge)]
 pub struct Options {
     #[serde(flatten)]
     pub runtime: Runtime,
 
+    #[serde(flatten)]
+    pub common: CommonConfig,
+
     #[serde(default, deserialize_with = "deserialize_refresh")]
     // default to disabled since this is still considered as experimental by now
     pub refresh: Option<RefreshOptions>,
-}
-
-impl Merge for Options {
-    fn merge(&mut self, other: Self) {
-        self.runtime.merge(other.runtime);
-        self.refresh.merge(other.refresh);
-    }
 }
 
 #[cfg(feature = "concurrent")]
@@ -258,26 +216,59 @@ pub fn default_pragma_frag() -> BytesStr {
     static_str!("React.Fragment")
 }
 
+#[inline]
+pub fn jsx_text_to_str(t: Atom) -> Atom {
+    let mut buf = String::new();
+    let replaced = t.replace('\t', " ");
+
+    for (is_last, (i, line)) in replaced.lines().enumerate().identify_last() {
+        if line.is_empty() {
+            continue;
+        }
+        let line = Cow::from(line);
+        let line = if i != 0 {
+            Cow::Borrowed(line.trim_start_matches(' '))
+        } else {
+            line
+        };
+        let line = if is_last {
+            line
+        } else {
+            Cow::Borrowed(line.trim_end_matches(' '))
+        };
+        if line.is_empty() {
+            continue;
+        }
+        if i != 0 && !buf.is_empty() {
+            buf.push(' ')
+        }
+        buf.push_str(&line);
+    }
+    buf.into()
+}
+
 pub fn jsx<C>(
     cm: std::sync::Arc<swc_common::SourceMap>,
     comments: Option<C>,
-    options: Options,
+    mut options: Options,
     top_level_mark: swc_common::Mark,
     unresolved_mark: swc_common::Mark,
 ) -> impl swc_ecma_ast::Pass
 where
     C: swc_common::comments::Comments + Clone,
 {
-    use std::mem;
+    options.runtime = parse_directives(options.runtime, comments.clone());
 
-    let (auto_config, classic_config) = match parse_directives(options.runtime, comments.clone()) {
-        Runtime::Automatic(ref mut config) => (Some(mem::take(config)), None),
-        Runtime::Classic(ref mut config) => (None, Some(mem::take(config))),
-        Runtime::Preserve => unreachable!(),
-    };
+    let Options {
+        runtime, common, ..
+    } = options;
 
-    (
-        auto_config.map(|config| automatic(config, unresolved_mark)),
-        classic_config.map(|config| classic(cm.clone(), config, top_level_mark)),
-    )
+    match runtime {
+        Runtime::Automatic(config) => (Some(automatic(config, common, unresolved_mark)), None),
+        Runtime::Classic(config) => (
+            None,
+            Some(classic(config, common, top_level_mark, cm.clone())),
+        ),
+        Runtime::Preserve => (None, None),
+    }
 }

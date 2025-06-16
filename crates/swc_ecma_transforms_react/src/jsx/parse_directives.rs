@@ -24,12 +24,6 @@ where
     let mut pragma = (None, 0u32);
     let mut pragma_frag = (None, 0u32);
 
-    let common = match &runtime {
-        Runtime::Automatic(config) => config.common,
-        Runtime::Classic(config) => config.common,
-        Runtime::Preserve => unreachable!(),
-    };
-
     match &mut runtime {
         Runtime::Automatic(config) => {
             jsx_runtime = (JSXRuntime::Automatic, 0);
@@ -116,12 +110,10 @@ where
     match jsx_runtime.0 {
         JSXRuntime::Automatic => Runtime::Automatic(AutomaticConfig {
             import_source: import_source.0.unwrap_or_else(|| "react".into()),
-            common,
         }),
         JSXRuntime::Classic => Runtime::Classic(ClassicConfig {
             pragma: pragma.0.unwrap_or_else(|| "React.createElement".into()),
             pragma_frag: pragma_frag.0.unwrap_or_else(|| "React.Fragment".into()),
-            common,
         }),
     }
 }
