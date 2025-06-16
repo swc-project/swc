@@ -2,7 +2,7 @@ use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 use swc_ecma_lexer::common::{lexer::LexResult, parser::buffer::Buffer as BufferTrait};
 
-use crate::lexer::{NextTokenAndSpan, TokenAndSpan, TokenValue};
+use crate::lexer::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
 
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.
@@ -18,7 +18,7 @@ pub trait Tokens: swc_ecma_lexer::common::input::Tokens<TokenAndSpan> {
         allow_multiline_jsx_text: bool,
         reset: BytePos,
     ) -> Option<TokenAndSpan>;
-    fn scan_jsx_identifier(&mut self);
+    fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan;
     fn scan_jsx_attribute_value(&mut self) -> Option<TokenAndSpan>;
     fn rescan_template_token(
         &mut self,
@@ -132,7 +132,10 @@ impl<I: Tokens> Buffer<I> {
         if !cur.is_word() {
             return;
         }
-        self.iter_mut().scan_jsx_identifier();
+        let start = self.cur.as_ref().unwrap().span.lo;
+        let cur = self.iter_mut().scan_jsx_identifier(start);
+        debug_assert!(cur.token == Token::JSXName);
+        self.set_cur(cur);
     }
 
     pub fn scan_jsx_attribute_value(&mut self) {

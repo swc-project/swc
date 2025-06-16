@@ -139,7 +139,7 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
     }
 }
 
-impl Tokens for Lexer<'_> {
+impl crate::input::Tokens for Lexer<'_> {
     fn clone_token_value(&self) -> Option<TokenValue> {
         self.state.token_value.clone()
     }
@@ -206,21 +206,39 @@ impl Tokens for Lexer<'_> {
         })
     }
 
-    fn scan_jsx_identifier(&mut self) {
-        // debug_assert!(self
-        //     .get_token_value()
-        //     .is_some_and(|t| matches!(t, TokenValue::Str { .. })));
-
+    fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan {
+        let token = self.state.token_type.unwrap();
+        debug_assert!(token.is_word());
+        let mut v = String::with_capacity(16);
         while let Some(ch) = self.input().cur() {
             if ch == '-' {
-                todo!()
+                v.push(ch);
+                self.bump();
             } else {
                 let old_pos = self.cur_pos();
-                // TODO: scan_identifier_parts
+                v.push_str(&self.scan_identifier_parts());
                 if self.cur_pos() == old_pos {
                     break;
                 }
             }
+        }
+        let v = if !v.is_empty() {
+            let v = if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
+                format!("{value}{v}")
+            } else {
+                format!("{}{}", token.to_string(None), v)
+            };
+            self.atom(v)
+        } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
+            value
+        } else {
+            self.atom(token.to_string(None))
+        };
+        self.state.set_token_value(TokenValue::Word(v));
+        TokenAndSpan {
+            token: Token::JSXName,
+            had_line_break: self.had_line_break_before_last(),
+            span: self.span(start),
         }
     }
 
@@ -400,7 +418,24 @@ impl Lexer<'_> {
             value,
         });
 
+        self.state.start = start;
+
         Ok(Some(Token::JSXText))
+    }
+
+    fn scan_identifier_parts(&mut self) -> String {
+        let mut v = String::with_capacity(16);
+        while let Some(ch) = self.input().cur() {
+            if ch.is_ident_part() {
+                v.push(ch);
+                self.input_mut().bump_bytes(ch.len_utf8());
+            } else if ch == '\\' {
+                todo!("unicode escape");
+            } else {
+                break;
+            }
+        }
+        v
     }
 }
 
@@ -469,9 +504,7 @@ impl State {
             token_type: None,
         }
     }
-}
 
-impl State {
     pub(crate) fn set_token_value(&mut self, token_value: TokenValue) {
         self.token_value = Some(token_value);
     }

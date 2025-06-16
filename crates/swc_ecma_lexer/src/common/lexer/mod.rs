@@ -1026,7 +1026,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             let ch = match self.input().cur() {
                 Some(c) => c,
                 None => {
-                    let start = self.state().start();
                     self.emit_error(start, SyntaxError::UnterminatedStrLit);
                     break;
                 }
