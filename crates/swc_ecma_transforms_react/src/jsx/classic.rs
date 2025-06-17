@@ -9,8 +9,8 @@ use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use swc_common::{
-    errors::HANDLER, sync::Lrc, util::take::Take, BytePos, FileName, Mark,
-    SourceMap, Spanned, DUMMY_SP,
+    errors::HANDLER, sync::Lrc, util::take::Take, BytePos, FileName, Mark, SourceMap, Spanned,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};

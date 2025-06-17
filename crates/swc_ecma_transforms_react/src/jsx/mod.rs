@@ -278,7 +278,12 @@ where
 
     match runtime {
         Runtime::Automatic(config) => (
-            Some(automatic(config, common, unresolved_mark, create_add_pure_comment())),
+            Some(automatic(
+                config,
+                common,
+                unresolved_mark,
+                create_add_pure_comment(),
+            )),
             None,
         ),
         Runtime::Classic(config) => (

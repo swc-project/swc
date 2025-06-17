@@ -6,6 +6,7 @@ use swc_common::comments::Comments;
 
 use crate::{AutomaticConfig, ClassicConfig, Runtime};
 
+#[derive(Debug)]
 enum JSXRuntime {
     Automatic,
     Classic,
@@ -53,18 +54,18 @@ where
 
             match b {
                 b'R' => {
-                    if bytes.get((offset + 5)..(offset + 8)) == Some(b"untime") {
+                    if bytes.get((offset + 5)..(offset + 11)) == Some(b"untime") {
                         // @jsxRuntime
                         if pos < jsx_runtime.1 {
                             continue;
                         }
 
-                        if let Some(value) = extract_value(bytes, offset + 8) {
-                            match value {
-                                "automatic" => jsx_runtime = (JSXRuntime::Automatic, pos),
-                                "classic" => jsx_runtime = (JSXRuntime::Classic, pos),
-                                _ => {}
-                            }
+                        if let Some(value) = extract_value(bytes, offset + 11) {
+                            jsx_runtime = match value {
+                                "automatic" => (JSXRuntime::Automatic, pos),
+                                "classic" => (JSXRuntime::Classic, pos),
+                                _ => continue,
+                            };
                         }
                     }
                 }

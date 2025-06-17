@@ -38,7 +38,6 @@ mod refresh;
 /// # Note
 ///
 /// This pass uses [swc_ecma_utils::HANDLER].
-
 pub fn react<C>(
     cm: Lrc<SourceMap>,
     comments: Option<C>,
