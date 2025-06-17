@@ -18,7 +18,7 @@ use swc_ecma_ast::{EsVersion, Ident};
 
 use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
-use crate::error::SyntaxError;
+use crate::{error::SyntaxError, lexer::TokenFlags};
 
 pub mod char;
 pub mod comments_buffer;
@@ -1882,10 +1882,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_ident_unknown(&mut self) -> LexResult<Self::Token> {
         debug_assert!(self.cur().is_some());
 
-        let (word, _) = self.read_word_as_str_with(|l, s, _, _| {
+        let (word, has_escape) = self.read_word_as_str_with(|l, s, _, _| {
             let atom = l.atom(s);
             Self::Token::unknown_ident(atom, l)
         })?;
+        if has_escape {
+            self.update_token_flags(|flags| *flags |= TokenFlags::UNICODE);
+        }
 
         Ok(word)
     }

@@ -47,7 +47,8 @@ pub(super) fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bo
         || cur.is_num()
         || cur.is_bigint()
         || cur.is_str()
-        || cur.is_backquote()
+        || cur.is_no_substitution_template_literal()
+        || cur.is_template_head()
         || cur.is_lparen()
         || cur.is_lbrace()
         || cur.is_lbracket()
@@ -56,7 +57,8 @@ pub(super) fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bo
         || cur.is_new()
         || cur.is_regexp()
         || cur.is_ident_ref(ctx)
-        || cur.is_import() && {
+        || cur.is_import()
+        || cur.is_backquote() && {
             peek!(p).is_some_and(|peek| peek.is_lparen() || peek.is_less() || peek.is_dot())
         }
 }
@@ -667,7 +669,11 @@ fn parse_subscript<'a, P: Parser<'a>>(
                         .into(),
                         true,
                     )))
-                } else if p.input_mut().is(&P::Token::BACKQUOTE) {
+                } else if p.input_mut().cur().is_some_and(|cur| {
+                    cur.is_no_substitution_template_literal()
+                        || cur.is_template_head()
+                        || cur.is_backquote()
+                }) {
                     p.parse_tagged_tpl(
                         match mut_obj_opt {
                             Some(Callee::Expr(obj)) => obj.take(),

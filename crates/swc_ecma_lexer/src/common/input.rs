@@ -47,4 +47,6 @@ pub trait Tokens<TokenAndSpan>: Clone + Iterator<Item = TokenAndSpan> {
     /// If the program was parsed as a script, this contains the module
     /// errors should the program be identified as a module in the future.
     fn take_script_module_errors(&mut self) -> Vec<Error>;
+    fn update_token_flags(&mut self, f: impl FnOnce(&mut lexer::TokenFlags));
+    fn token_flags(&self) -> lexer::TokenFlags;
 }

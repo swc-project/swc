@@ -22,6 +22,13 @@ use crate::{
     *,
 };
 
+bitflags::bitflags! {
+    #[derive(Debug, Default, Clone, Copy)]
+    pub struct TokenFlags: u8 {
+        const UNICODE = 1 << 0;
+    }
+}
+
 /// State of lexer.
 ///
 /// Ported from babylon.
@@ -750,6 +757,14 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
     #[inline]
     fn set_can_skip_space(&mut self, _: bool) {
         unreachable!("`can_skip_space` is determined by the current context")
+    }
+
+    fn update_token_flags(&mut self, _: impl FnOnce(&mut lexer::TokenFlags)) {
+        // TODO: update token flags if needed.
+    }
+
+    fn token_flags(&self) -> lexer::TokenFlags {
+        Default::default()
     }
 }
 

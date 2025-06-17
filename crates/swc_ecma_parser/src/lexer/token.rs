@@ -168,12 +168,13 @@ pub enum Token {
     /// `??`
     NullishCoalescing,
 
+    /// `</`
+    LessSlash,
     /// `${`
     DollarLBrace,
 
     // JSX-related tokens
     JSXTagStart,
-    /// `</`
     JSXTagEnd,
 
     // Literals
@@ -1176,6 +1177,7 @@ impl Token {
             Token::Meta => "meta",
             Token::Target => "target",
             Token::Shebang => "#!",
+            Token::LessSlash => "</",
         }
         .to_string()
     }
@@ -1425,7 +1427,8 @@ impl Token {
                 | Self::LParen
                 | Self::LBrace
                 | Self::LBracket
-                | Self::BackQuote
+                | Self::TemplateHead
+                | Self::NoSubstitutionTemplateLiteral
                 | Self::DollarLBrace
                 | Self::PlusPlus
                 | Self::MinusMinus
@@ -1450,6 +1453,7 @@ impl Token {
                 | Self::Null
                 | Self::True
                 | Self::False
+                | Self::BackQuote
         ) || self.is_known_ident()
     }
 

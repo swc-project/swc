@@ -887,7 +887,7 @@ pub(super) fn try_parse_ts_type_args<'a, P: Parser<'a>>(
         if cur.is_some_and(|cur| {
             cur.is_less() // invalid syntax
             || cur.is_greater() || cur.is_equal() || cur.is_rshift() || cur.is_greater_eq() || cur.is_plus() || cur.is_minus() // becomes relational expression
-            || cur.is_lparen() || cur.is_backquote() // these should be type
+            || cur.is_lparen() || cur.is_no_substitution_template_literal() || cur.is_template_head() || cur.is_backquote() // these should be type
                                                      // arguments in function
                                                      // call or template, not
                                                      // instantiation
@@ -1102,7 +1102,7 @@ fn parse_ts_tpl_type_elements<'a, P: Parser<'a>>(
 }
 
 /// `tsParseLiteralTypeNode`
-pub fn parse_ts_lit_type_node<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsLitType> {
+fn parse_ts_lit_type_node<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsLitType> {
     debug_assert!(p.input().syntax().typescript());
 
     let start = p.cur_pos();
@@ -2414,7 +2414,7 @@ fn parse_ts_ambient_external_module_decl<'a, P: Parser<'a>>(
 }
 
 /// `tsParseNonArrayType`
-pub fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>> {
+fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>> {
     if !cfg!(feature = "typescript") {
         unreachable!()
     }
@@ -2491,6 +2491,8 @@ pub fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTy
         || cur.is_backquote()
     {
         return parse_ts_lit_type_node(p).map(TsType::from).map(Box::new);
+    } else if cur.is_no_substitution_template_literal() || cur.is_template_head() {
+        return p.parse_tagged_tpl_ty().map(TsType::from).map(Box::new);
     } else if cur.is_minus() {
         let start = p.cur_pos();
 

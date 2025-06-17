@@ -140,6 +140,15 @@ impl Tokens<TokenAndSpan> for TokensInput {
     fn set_can_skip_space(&mut self, _: bool) {
         unreachable!()
     }
+
+    #[inline]
+    fn update_token_flags(&mut self, _: impl FnOnce(&mut lexer::TokenFlags)) {
+        // TODO: Implement this method if needed.
+    }
+
+    fn token_flags(&self) -> lexer::TokenFlags {
+        Default::default()
+    }
 }
 
 /// Note: Lexer need access to parser's context to lex correctly.
@@ -286,6 +295,15 @@ impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
     #[inline]
     fn set_can_skip_space(&mut self, _: bool) {
         unreachable!()
+    }
+
+    #[inline]
+    fn update_token_flags(&mut self, _: impl FnOnce(&mut lexer::TokenFlags)) {
+        // TODO: Implement this method if needed.
+    }
+
+    fn token_flags(&self) -> lexer::TokenFlags {
+        Default::default()
     }
 }
 

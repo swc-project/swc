@@ -506,6 +506,7 @@ pub trait Parser<'a>: Sized + Clone {
         tag: Box<Expr>,
         type_params: Option<Box<TsTypeParamInstantiation>>,
     ) -> PResult<TaggedTpl>;
+    fn parse_tagged_tpl_ty(&mut self) -> PResult<TsLitType>;
 }
 
 pub fn parse_shebang<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Atom>> {

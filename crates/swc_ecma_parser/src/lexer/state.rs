@@ -137,6 +137,16 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
     fn set_can_skip_space(&mut self, can_skip_space: bool) {
         self.state.can_skip_space = can_skip_space;
     }
+
+    #[inline]
+    fn update_token_flags(&mut self, f: impl FnOnce(&mut swc_ecma_lexer::lexer::TokenFlags)) {
+        f(&mut self.token_flags)
+    }
+
+    #[inline]
+    fn token_flags(&self) -> swc_ecma_lexer::lexer::TokenFlags {
+        self.token_flags
+    }
 }
 
 impl crate::input::Tokens for Lexer<'_> {
@@ -284,7 +294,12 @@ impl crate::input::Tokens for Lexer<'_> {
             Ok(t) => t,
             Err(e) => e,
         };
-        let span = self.span(start);
+        let span = if start_with_back_tick {
+            self.span(start)
+        } else {
+            // `+ BytePos(1)` is used to skip `{`
+            self.span(start + BytePos(1))
+        };
         if let Some(token) = token {
             if let Some(comments) = self.comments_buffer.as_mut() {
                 for comment in comments.take_pending_leading() {
@@ -363,8 +378,7 @@ impl Lexer<'_> {
 
         if self.input.eat_byte(b'<') {
             return Ok(Some(if self.input.eat_byte(b'/') {
-                // TODO: use `Token::LessSlash`
-                Token::JSXTagEnd
+                Token::LessSlash
             } else {
                 Token::Lt
             }));
@@ -389,7 +403,12 @@ impl Lexer<'_> {
                     },
                 );
             } else if ch == '}' {
-                todo!("error handle")
+                self.emit_error(
+                    self.input().cur_pos(),
+                    SyntaxError::UnexpectedTokenWithSuggestions {
+                        candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
+                    },
+                );
             }
 
             if first_non_whitespace == 0 && ch.is_line_terminator() {
@@ -430,7 +449,20 @@ impl Lexer<'_> {
                 v.push(ch);
                 self.input_mut().bump_bytes(ch.len_utf8());
             } else if ch == '\\' {
-                todo!("unicode escape");
+                self.bump(); // bump '\'
+                if !self.is(b'u') {
+                    self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
+                    continue;
+                }
+                self.bump(); // bump 'u'
+                let Ok(chars) = self.read_unicode_escape() else {
+                    self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
+                    break;
+                };
+                for c in chars {
+                    v.extend(c);
+                }
+                self.token_flags |= swc_ecma_lexer::lexer::TokenFlags::UNICODE;
             } else {
                 break;
             }

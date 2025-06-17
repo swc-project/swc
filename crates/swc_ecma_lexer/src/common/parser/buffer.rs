@@ -276,4 +276,9 @@ pub trait Buffer<'a> {
     fn end_pos(&self) -> BytePos {
         self.iter().end_pos()
     }
+
+    #[inline]
+    fn token_flags(&self) -> crate::lexer::TokenFlags {
+        self.iter().token_flags()
+    }
 }

@@ -9,9 +9,12 @@ use swc_common::{
     BytePos,
 };
 use swc_ecma_ast::EsVersion;
-use swc_ecma_lexer::common::lexer::{
-    char::CharExt, comments_buffer::CommentsBuffer, fixed_len_span, pos_span, LexResult,
-    Lexer as LexerTrait,
+use swc_ecma_lexer::{
+    common::lexer::{
+        char::CharExt, comments_buffer::CommentsBuffer, fixed_len_span, pos_span, LexResult,
+        Lexer as LexerTrait,
+    },
+    lexer::TokenFlags,
 };
 
 use self::table::{ByteHandler, BYTE_HANDLERS};
@@ -38,6 +41,7 @@ pub struct Lexer<'a> {
     start_pos: BytePos,
 
     state: self::state::State,
+    token_flags: TokenFlags,
     pub(crate) syntax: Syntax,
     pub(crate) target: EsVersion,
 
@@ -142,11 +146,13 @@ impl<'a> Lexer<'a> {
             module_errors: Default::default(),
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
             atoms: Default::default(),
+            token_flags: TokenFlags::empty(),
         }
     }
 
     /// babel: `getTokenFromCode`
     fn read_token(&mut self) -> LexResult<Option<Token>> {
+        self.token_flags = TokenFlags::empty();
         let byte = match self.input.as_str().as_bytes().first() {
             Some(&v) => v,
             None => return Ok(None),
@@ -343,8 +349,9 @@ impl Lexer<'_> {
         start: BytePos,
         started_with_backtick: bool,
     ) -> LexResult<Token> {
+        debug_assert!(self.cur() == Some(if started_with_backtick { '`' } else { '}' }));
         let mut cooked = Ok(String::with_capacity(8));
-        self.bump();
+        self.bump(); // `}` or `\``
         let mut cooked_slice_start = self.cur_pos();
         let raw_slice_start = cooked_slice_start;
         let raw_atom = |this: &mut Self| {

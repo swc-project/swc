@@ -146,10 +146,10 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn rescan_template_token(&mut self, start_with_back_tick: bool) {
         debug_assert!(self.cur.is_some());
-        let pos = self.cur_pos();
+        let start = self.cur_pos();
         self.cur = self
             .iter_mut()
-            .rescan_template_token(pos, start_with_back_tick);
+            .rescan_template_token(start, start_with_back_tick);
     }
 }
 

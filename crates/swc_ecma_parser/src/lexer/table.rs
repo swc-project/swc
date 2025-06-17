@@ -355,6 +355,7 @@ macro_rules! single_char {
 single_char!(SEM, b';', Semi);
 single_char!(COM, b',', Comma);
 
+/// `\``
 const TPL: ByteHandler = Some(|lexer| lexer.read_token_back_quote());
 
 single_char!(TLD, b'~', Tilde);

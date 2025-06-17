@@ -3,7 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_lexer::{
     common::{
         lexer::token::TokenFactory,
-        parser::{buffer::Buffer, PResult, Parser as ParserTrait},
+        parser::{buffer::Buffer, typescript::parse_ts_type, PResult, Parser as ParserTrait},
     },
     error::SyntaxError,
 };
@@ -132,14 +132,14 @@ impl<I: Tokens> Parser<I> {
         if self.input_mut().is(&Token::RBrace) {
             self.input_mut().rescan_template_token(false);
         }
-        let start = cur_pos!(self);
+        let start = self.cur_pos();
         let (raw, cooked, tail, span) = match *cur!(self, true) {
             Token::TemplateMiddle => match self.bump() {
                 t @ Token::TemplateMiddle => {
                     let (cooked, raw) = t.take_template(self.input_mut());
                     let pos = self.input.prev_span().hi;
                     debug_assert!(start.0 <= pos.0 - 2);
-                    // ___${
+                    // case: ___${
                     // `pos.0 - 2` means skip '${'
                     let span = Span::new(start, BytePos::from_u32(pos.0 - 2));
                     match cooked {
@@ -159,12 +159,10 @@ impl<I: Tokens> Parser<I> {
                 t @ Token::TemplateTail => {
                     let (cooked, raw) = t.take_template(self.input_mut());
                     let pos = self.input.prev_span().hi;
-                    debug_assert!(start.0 <= pos.0 - 2);
-                    // $____`
-                    // `start.0 + 1` means skip '$'
+                    debug_assert!(start.0 < pos.0);
+                    // case: ____`
                     // `pos.0 - 1` means skip '`'
-                    let span =
-                        Span::new(BytePos::from_u32(start.0 + 1), BytePos::from_u32(pos.0 - 1));
+                    let span = Span::new(start, BytePos::from_u32(pos.0 - 1));
                     match cooked {
                         Ok(cooked) => (raw, Some(cooked), true, span),
                         Err(err) => {
@@ -178,14 +176,13 @@ impl<I: Tokens> Parser<I> {
                 }
                 _ => unreachable!(),
             },
-            _ => todo!(),
+            _ => unexpected!(self, "TemplateMiddle or TemplateTail"),
         };
 
         Ok(TplElement {
             span,
             raw,
             tail,
-
             cooked,
         })
     }
@@ -220,5 +217,83 @@ impl<I: Tokens> Parser<I> {
             tpl,
             ..Default::default()
         })
+    }
+
+    fn parse_tpl_ty_elements(&mut self) -> PResult<(Vec<Box<TsType>>, Vec<TplElement>)> {
+        trace_cur!(self, parse_tpl_elements);
+
+        let mut tys = Vec::new();
+        let cur_elem = self.parse_template_head(false)?;
+        let mut is_tail = cur_elem.tail;
+        let mut quasis = vec![cur_elem];
+
+        while !is_tail {
+            tys.push(parse_ts_type(self)?);
+            let elem = self.parse_tpl_element(false)?;
+            is_tail = elem.tail;
+            quasis.push(elem);
+        }
+        Ok((tys, quasis))
+    }
+
+    fn parse_no_substitution_template_ty(&mut self) -> PResult<TsTplLitType> {
+        let start = self.input.cur_pos();
+        let (raw, cooked) = match self.bump() {
+            t @ Token::NoSubstitutionTemplateLiteral => {
+                let (cooked, raw) = t.take_template(self.input_mut());
+                match cooked {
+                    Ok(cooked) => (raw, Some(cooked)),
+                    Err(_) => (raw, None),
+                }
+            }
+            _ => unreachable!(),
+        };
+        let pos = self.input.prev_span().hi;
+        debug_assert!(start.0 <= pos.0);
+        let span = Span::new(start, pos);
+        Ok(TsTplLitType {
+            span,
+            types: vec![],
+            quasis: vec![TplElement {
+                span: {
+                    debug_assert!(start.0 <= pos.0 - 2);
+                    // `____`
+                    // `start.0 + 1` means skip the first backtick
+                    // `pos.0 - 1` means skip the last backtick
+                    Span::new(BytePos::from_u32(start.0 + 1), BytePos::from_u32(pos.0 - 1))
+                },
+                tail: true,
+                raw,
+                cooked,
+            }],
+        })
+    }
+
+    fn parse_tpl_ty(&mut self) -> PResult<TsTplLitType> {
+        trace_cur!(self, parse_tpl_ty);
+        debug_assert!(matches!(self.input.cur(), Some(&Token::TemplateHead)));
+
+        let start = cur_pos!(self);
+
+        let (types, quasis) = self.parse_tpl_ty_elements()?;
+
+        let _ = self.input.cur();
+
+        let span = span!(self, start);
+        Ok(TsTplLitType {
+            span,
+            types,
+            quasis,
+        })
+    }
+
+    pub(super) fn parse_tagged_tpl_ty(&mut self) -> PResult<TsTplLitType> {
+        debug_assert!(self.input().syntax().typescript());
+        trace_cur!(self, parse_tagged_tpl);
+        if self.input_mut().is(&Token::NoSubstitutionTemplateLiteral) {
+            self.parse_no_substitution_template_ty()
+        } else {
+            self.parse_tpl_ty()
+        }
     }
 }

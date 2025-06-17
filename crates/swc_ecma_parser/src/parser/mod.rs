@@ -114,6 +114,18 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     ) -> PResult<TaggedTpl> {
         self.parse_tagged_tpl(tag, type_params)
     }
+
+    #[inline(always)]
+    fn parse_tagged_tpl_ty(&mut self) -> PResult<TsLitType> {
+        let start = self.cur_pos();
+        self.parse_tagged_tpl_ty().map(|tpl_ty| {
+            let lit = TsLit::Tpl(tpl_ty);
+            TsLitType {
+                span: self.span(start),
+                lit,
+            }
+        })
+    }
 }
 
 impl<'a> Parser<crate::lexer::Lexer<'a>> {

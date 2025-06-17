@@ -101,6 +101,10 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     ) -> PResult<TaggedTpl> {
         parse_tagged_tpl(self, tag, type_params)
     }
+
+    fn parse_tagged_tpl_ty(&mut self) -> PResult<TsLitType> {
+        unreachable!("use `common::parser::expr::parse_ts_tpl_lit_type` directly");
+    }
 }
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
