@@ -1,22 +1,23 @@
-/**@jsxRuntime automatic */ const App = /*#__PURE__*/ React.createElement("div", {
-    __source: {
-        fileName: "input.js",
-        lineNumber: 3,
-        columnNumber: 5
-    },
-    __self: this
-}, /*#__PURE__*/ React.createElement("div", {
-    __source: {
-        fileName: "input.js",
-        lineNumber: 4,
-        columnNumber: 9
-    },
-    __self: this
-}), /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement("div", {
-    __source: {
-        fileName: "input.js",
-        lineNumber: 6,
-        columnNumber: 13
-    },
-    __self: this
-}, "hoge")));
+/**@jsxRuntime automatic */ const { jsxDEV: _jsxDEV, Fragment: _Fragment } = require("react/jsx-dev-runtime");
+const App = /*#__PURE__*/ _jsxDEV("div", {
+    children: [
+        /*#__PURE__*/ _jsxDEV("div", {}, void 0, false, {
+            fileName: "input.js",
+            lineNumber: 4,
+            columnNumber: 9
+        }, this),
+        /*#__PURE__*/ _jsxDEV(_Fragment, {
+            children: /*#__PURE__*/ _jsxDEV("div", {
+                children: "hoge"
+            }, void 0, false, {
+                fileName: "input.js",
+                lineNumber: 6,
+                columnNumber: 13
+            }, this)
+        }, void 0, false)
+    ]
+}, void 0, true, {
+    fileName: "input.js",
+    lineNumber: 3,
+    columnNumber: 5
+}, this);
