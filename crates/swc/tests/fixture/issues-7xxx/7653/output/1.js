@@ -1,1 +1,1 @@
-export default function Home(){return /*#__PURE__*/React.createElement("div",{dangerouslySetInnerHTML:{__html:"Hello World"}})}
+export default function Home(){return React.createElement("div",{dangerouslySetInnerHTML:{__html:"Hello World"}})}

@@ -13,5 +13,5 @@ export function PositionRender({ isRtl, position }) {
     let display = ('fe-fe-fe' === isRtl ? rtlPositions : {
         a: positions
     })[position];
-    return /*#__PURE__*/ React.createElement("h1", null, "PositionRender: ", display);
+    return React.createElement("h1", null, "PositionRender: ", display);
 }

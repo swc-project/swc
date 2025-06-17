@@ -1,2 +1,2 @@
 ;
-/*#__PURE__*/ React.createElement("a", null);
+React.createElement("a", null);

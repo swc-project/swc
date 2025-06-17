@@ -2,7 +2,7 @@
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
 this.props.children, Component, foo, bar, Composite, this.props.children, Composite, Composite2;
-var x = /*#__PURE__*/ React.createElement("div", {
+var x = React.createElement("div", {
     attr1: "foobar",
     attr2: "foobarbazbug",
     attr3: "foobarbazbug",

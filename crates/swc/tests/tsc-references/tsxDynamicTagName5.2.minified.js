@@ -11,6 +11,6 @@ export var Text = /*#__PURE__*/ function(_React_Component) {
         return _class_call_check(this, Text), _this = _call_super(this, Text, arguments), _this._tagName = 'div', _this;
     }
     return _inherits(Text, _React_Component), Text.prototype.render = function() {
-        return /*#__PURE__*/ React.createElement(this._tagName, null);
+        return React.createElement(this._tagName, null);
     }, Text;
 }(React.Component);

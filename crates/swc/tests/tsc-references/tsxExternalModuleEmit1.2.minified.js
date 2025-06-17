@@ -14,7 +14,7 @@ var _call_super = require("@swc/helpers/_/_call_super"), _class_call_check = req
         return _class_call_check._(this, App), _call_super._(this, App, arguments);
     }
     return _inherits._(App, _React_Component), App.prototype.render = function() {
-        return /*#__PURE__*/ _react.createElement(_button.Button, null);
+        return _react.createElement(_button.Button, null);
     }, App;
 }(_react.Component);
 //// [button.tsx]
@@ -31,6 +31,6 @@ var _call_super = require("@swc/helpers/_/_call_super"), _class_call_check = req
         return _class_call_check._(this, Button), _call_super._(this, Button, arguments);
     }
     return _inherits._(Button, _React_Component), Button.prototype.render = function() {
-        return /*#__PURE__*/ _react.createElement("button", null, "Some button");
+        return _react.createElement("button", null, "Some button");
     }, Button;
 }(_react.Component);
