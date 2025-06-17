@@ -6,8 +6,9 @@ use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{atom, Atom};
-use swc_common::iter::IdentifyLast;
+use swc_common::{iter::IdentifyLast, Spanned};
 use swc_config::{merge::Merge, types::BoolConfig};
+use swc_ecma_ast::*;
 
 use self::static_check::should_use_create_element;
 use crate::refresh::options::{deserialize_refresh, RefreshOptions};
@@ -217,7 +218,7 @@ pub fn default_pragma_frag() -> BytesStr {
 }
 
 #[inline]
-pub fn jsx_text_to_str(t: Atom) -> Atom {
+pub(crate) fn jsx_text_to_str(t: Atom) -> Atom {
     let mut buf = String::new();
     let replaced = t.replace('\t', " ");
 
@@ -263,27 +264,9 @@ where
         runtime, common, ..
     } = options;
 
-    type AddPureCommentFn = Box<dyn Fn(swc_common::BytePos)>;
-    let create_add_pure_comment = || -> AddPureCommentFn {
-        match comments.as_ref() {
-            Some(c) => {
-                let c = c.clone();
-                Box::new(move |pos: swc_common::BytePos| {
-                    c.add_pure_comment(pos);
-                })
-            }
-            None => Box::new(|_pos| {}),
-        }
-    };
-
     match runtime {
         Runtime::Automatic(config) => (
-            Some(automatic(
-                config,
-                common,
-                unresolved_mark,
-                create_add_pure_comment(),
-            )),
+            Some(automatic(config, common, unresolved_mark, comments.clone())),
             None,
         ),
         Runtime::Classic(config) => (
@@ -292,10 +275,133 @@ where
                 config,
                 common,
                 top_level_mark,
-                create_add_pure_comment(),
+                comments.clone(),
                 cm.clone(),
             )),
         ),
         Runtime::Preserve => (None, None),
+    }
+}
+
+/// Transform JSX attribute string by handling escape sequences and whitespace
+pub(crate) fn transform_jsx_attr_str(v: &str) -> String {
+    let single_quote = false;
+    let mut buf = String::with_capacity(v.len());
+    let mut iter = v.chars().peekable();
+
+    while let Some(c) = iter.next() {
+        match c {
+            '\u{0008}' => buf.push_str("\\b"),
+            '\u{000c}' => buf.push_str("\\f"),
+            ' ' => buf.push(' '),
+
+            '\n' | '\r' | '\t' => {
+                buf.push(' ');
+
+                while let Some(' ') = iter.peek() {
+                    iter.next();
+                }
+            }
+            '\u{000b}' => buf.push_str("\\v"),
+            '\0' => buf.push_str("\\x00"),
+
+            '\'' if single_quote => buf.push_str("\\'"),
+            '"' if !single_quote => buf.push('\"'),
+
+            '\x01'..='\x0f' | '\x10'..='\x1f' => {
+                buf.push(c);
+            }
+
+            '\x20'..='\x7e' => {
+                //
+                buf.push(c);
+            }
+            '\u{7f}'..='\u{ff}' => {
+                buf.push(c);
+            }
+
+            _ => {
+                buf.push(c);
+            }
+        }
+    }
+
+    buf
+}
+
+/// Convert JSX element name to expression
+pub(crate) fn jsx_name(name: JSXElementName, throw_if_namespace: bool) -> Box<Expr> {
+    let span = name.span();
+    match name {
+        JSXElementName::Ident(i) => {
+            if i.sym == "this" {
+                return ThisExpr { span }.into();
+            }
+
+            // If it starts with lowercase
+            if i.as_ref().starts_with(|c: char| c.is_ascii_lowercase()) {
+                Lit::Str(Str {
+                    span,
+                    raw: None,
+                    value: i.sym,
+                })
+                .into()
+            } else {
+                i.into()
+            }
+        }
+        JSXElementName::JSXNamespacedName(JSXNamespacedName {
+            ref ns, ref name, ..
+        }) => {
+            if throw_if_namespace {
+                swc_common::errors::HANDLER.with(|handler| {
+                    handler
+                        .struct_span_err(
+                            span,
+                            "JSX Namespace is disabled by default because react does not support \
+                             it yet. You can specify jsc.transform.react.throwIfNamespace to \
+                             false to override default behavior",
+                        )
+                        .emit()
+                });
+            }
+
+            let value = format!("{}:{}", ns.sym, name.sym);
+
+            Lit::Str(Str {
+                span,
+                raw: None,
+                value: value.into(),
+            })
+            .into()
+        }
+        JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop, .. }) => {
+            fn convert_obj(obj: JSXObject) -> Box<Expr> {
+                let span = obj.span();
+
+                (match obj {
+                    JSXObject::Ident(i) => {
+                        if i.sym == "this" {
+                            Expr::This(ThisExpr { span })
+                        } else {
+                            i.into()
+                        }
+                    }
+                    JSXObject::JSXMemberExpr(e) => MemberExpr {
+                        span,
+                        obj: convert_obj(e.obj),
+                        prop: MemberProp::Ident(e.prop),
+                    }
+                    .into(),
+                })
+                .into()
+            }
+            MemberExpr {
+                span,
+                obj: convert_obj(obj),
+                prop: MemberProp::Ident(prop),
+            }
+            .into()
+        }
     }
 }

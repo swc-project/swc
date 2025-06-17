@@ -4,13 +4,17 @@ use std::iter::once;
 
 use swc_atoms::Atom;
 use swc_common::{
-    errors::HANDLER, util::take::Take, BytePos, Mark, Spanned, SyntaxContext, DUMMY_SP,
+    comments::Comments, errors::HANDLER, sync::Lrc, util::take::Take, BytePos, Mark, Spanned,
+    SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, private_ident, quote_ident, ExprFactory, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
-use crate::{jsx::should_use_create_element, jsx_text_to_str, AutomaticConfig, CommonConfig};
+use crate::{
+    jsx::should_use_create_element, jsx_name, jsx_text_to_str, transform_jsx_attr_str,
+    AutomaticConfig, CommonConfig,
+};
 
 /// Automatic runtime JSX transformer
 ///
@@ -18,12 +22,22 @@ use crate::{jsx::should_use_create_element, jsx_text_to_str, AutomaticConfig, Co
 /// automatically and JSX elements are converted to jsx() and jsxs() calls.
 ///
 /// https://github.com/reactjs/rfcs/blob/createlement-rfc/text/0000-create-element-changes.md
-pub fn automatic(
+pub fn automatic<C>(
     options: AutomaticConfig,
     common: CommonConfig,
     unresolved_mark: Mark,
-    add_pure_comment: Box<dyn Fn(BytePos)>,
-) -> impl Pass + VisitMut {
+    comments: Option<C>,
+) -> impl Pass + VisitMut
+where
+    C: Comments + 'static,
+{
+    let add_pure_comment: Lrc<dyn Fn(BytePos)> = match comments {
+        Some(c) => Lrc::new(move |pos: BytePos| {
+            c.add_pure_comment(pos);
+        }),
+        None => Lrc::new(|_pos| {}),
+    };
+
     visit_mut_pass(Automatic {
         unresolved_mark,
         import_source: options.import_source,
@@ -50,7 +64,7 @@ struct Automatic {
     development: bool,
     throw_if_namespace: bool,
 
-    add_pure_comment: Box<dyn Fn(BytePos)>,
+    add_pure_comment: Lrc<dyn Fn(BytePos)>,
 }
 
 impl Automatic {
@@ -207,7 +221,7 @@ impl Automatic {
 
         let use_create_element = should_use_create_element(&el.opening.attrs);
 
-        let name = self.jsx_name(el.opening.name);
+        let name = jsx_name(el.opening.name, self.throw_if_namespace);
 
         let count = count_children(&el.children);
         let use_jsxs = count > 1
@@ -610,85 +624,6 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
     .into()
 }
 
-impl Automatic {
-    fn jsx_name(&self, name: JSXElementName) -> Box<Expr> {
-        let span = name.span();
-        match name {
-            JSXElementName::Ident(i) => {
-                if i.sym == "this" {
-                    return ThisExpr { span }.into();
-                }
-
-                // If it starts with lowercase
-                if i.as_ref().starts_with(|c: char| c.is_ascii_lowercase()) {
-                    Lit::Str(Str {
-                        span,
-                        raw: None,
-                        value: i.sym,
-                    })
-                    .into()
-                } else {
-                    i.into()
-                }
-            }
-            JSXElementName::JSXNamespacedName(JSXNamespacedName {
-                ref ns, ref name, ..
-            }) => {
-                if self.throw_if_namespace {
-                    HANDLER.with(|handler| {
-                        handler
-                            .struct_span_err(
-                                span,
-                                "JSX Namespace is disabled by default because react does not \
-                                 support it yet. You can specify \
-                                 jsc.transform.react.throwIfNamespace to false to override \
-                                 default behavior",
-                            )
-                            .emit()
-                    });
-                }
-
-                let value = format!("{}:{}", ns.sym, name.sym);
-
-                Lit::Str(Str {
-                    span,
-                    raw: None,
-                    value: value.into(),
-                })
-                .into()
-            }
-            JSXElementName::JSXMemberExpr(JSXMemberExpr { obj, prop, .. }) => {
-                fn convert_obj(obj: JSXObject) -> Box<Expr> {
-                    let span = obj.span();
-
-                    (match obj {
-                        JSXObject::Ident(i) => {
-                            if i.sym == "this" {
-                                Expr::This(ThisExpr { span })
-                            } else {
-                                i.into()
-                            }
-                        }
-                        JSXObject::JSXMemberExpr(e) => MemberExpr {
-                            span,
-                            obj: convert_obj(e.obj),
-                            prop: MemberProp::Ident(e.prop),
-                        }
-                        .into(),
-                    })
-                    .into()
-                }
-                MemberExpr {
-                    span,
-                    obj: convert_obj(obj),
-                    prop: MemberProp::Ident(prop),
-                }
-                .into()
-            }
-        }
-    }
-}
-
 fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
     Some(match v {
         JSXAttrValue::Lit(Lit::Str(s)) => {
@@ -728,49 +663,4 @@ fn count_children(children: &[JSXElementChild]) -> usize {
             JSXElementChild::JSXFragment(_) => true,
         })
         .count()
-}
-
-fn transform_jsx_attr_str(v: &str) -> String {
-    let single_quote = false;
-    let mut buf = String::with_capacity(v.len());
-    let mut iter = v.chars().peekable();
-
-    while let Some(c) = iter.next() {
-        match c {
-            '\u{0008}' => buf.push_str("\\b"),
-            '\u{000c}' => buf.push_str("\\f"),
-            ' ' => buf.push(' '),
-
-            '\n' | '\r' | '\t' => {
-                buf.push(' ');
-
-                while let Some(' ') = iter.peek() {
-                    iter.next();
-                }
-            }
-            '\u{000b}' => buf.push_str("\\v"),
-            '\0' => buf.push_str("\\x00"),
-
-            '\'' if single_quote => buf.push_str("\\'"),
-            '"' if !single_quote => buf.push('\"'),
-
-            '\x01'..='\x0f' | '\x10'..='\x1f' => {
-                buf.push(c);
-            }
-
-            '\x20'..='\x7e' => {
-                //
-                buf.push(c);
-            }
-            '\u{7f}'..='\u{ff}' => {
-                buf.push(c);
-            }
-
-            _ => {
-                buf.push(c);
-            }
-        }
-    }
-
-    buf
 }

@@ -120,10 +120,14 @@ where
 }
 
 fn extract_value(bytes: &[u8], start_offset: usize) -> Option<&str> {
+    if !is_ascii_whitespace_sameline(bytes[start_offset]) {
+        return None;
+    }
+
     // Skip whitespace after the pragma name
     let mut offset = start_offset;
     while let Some(&b) = bytes.get(offset) {
-        if b.is_ascii_whitespace() {
+        if is_ascii_whitespace_sameline(b) {
             offset += 1;
         } else {
             break;
@@ -150,6 +154,7 @@ fn extract_value(bytes: &[u8], start_offset: usize) -> Option<&str> {
     }
 }
 
+#[inline(always)]
 fn is_ascii_whitespace_sameline(c: u8) -> bool {
     matches!(c, b'\t' | b'\x0C' | b' ')
 }
