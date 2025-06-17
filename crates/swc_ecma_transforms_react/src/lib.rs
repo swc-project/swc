@@ -38,6 +38,7 @@ mod refresh;
 /// # Note
 ///
 /// This pass uses [swc_ecma_utils::HANDLER].
+
 pub fn react<C>(
     cm: Lrc<SourceMap>,
     comments: Option<C>,
@@ -46,7 +47,7 @@ pub fn react<C>(
     unresolved_mark: Mark,
 ) -> impl Pass
 where
-    C: Comments + Clone,
+    C: Comments + Clone + 'static,
 {
     let development = options.common.development.into_bool();
 
@@ -58,6 +59,19 @@ where
 
     let refresh_options = options.refresh;
 
+    type AddPureCommentFn = Box<dyn Fn(swc_common::BytePos)>;
+    let create_add_pure_comment = || -> AddPureCommentFn {
+        match comments.as_ref() {
+            Some(c) => {
+                let c = c.clone();
+                Box::new(move |pos: swc_common::BytePos| {
+                    c.add_pure_comment(pos);
+                })
+            }
+            None => Box::new(|_pos| {}),
+        }
+    };
+
     (
         jsx_src(development, cm.clone()),
         jsx_self(development),
@@ -68,8 +82,23 @@ where
             comments.clone(),
             top_level_mark,
         ),
-        auto_config.map(|config| automatic(config, options.common, unresolved_mark)),
-        classic_config.map(|config| classic(config, options.common, top_level_mark, cm.clone())),
+        auto_config.map(|config| {
+            automatic(
+                config,
+                options.common,
+                unresolved_mark,
+                create_add_pure_comment(),
+            )
+        }),
+        classic_config.map(|config| {
+            classic(
+                config,
+                options.common,
+                top_level_mark,
+                create_add_pure_comment(),
+                cm.clone(),
+            )
+        }),
         display_name(),
         pure_annotations(comments.clone()),
     )

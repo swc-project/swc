@@ -818,9 +818,9 @@ impl Options {
                     custom_before_pass(&program),
                     // handle jsx
                     Optional::new(
-                        react::react::<&dyn Comments>(
+                        react::react(
                             cm.clone(),
-                            comments.map(|v| v as _),
+                            comments.cloned(),
                             transform.react,
                             top_level_mark,
                             unresolved_mark,

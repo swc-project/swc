@@ -9,8 +9,8 @@ use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use swc_common::{
-    errors::HANDLER, source_map::PURE_SP, sync::Lrc, util::take::Take, FileName, Mark, SourceMap,
-    Spanned, DUMMY_SP,
+    errors::HANDLER, sync::Lrc, util::take::Take, BytePos, FileName, Mark,
+    SourceMap, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
@@ -86,11 +86,10 @@ pub fn classic(
     options: ClassicConfig,
     common: CommonConfig,
     pragma_mark: Mark,
+    add_pure_comment: Box<dyn Fn(BytePos)>,
     cm: Lrc<SourceMap>,
 ) -> impl Pass + VisitMut {
-    let mut pragma = parse_expr_for_jsx(&cm, "pragma", options.pragma, pragma_mark);
-
-    pragma.set_span(PURE_SP);
+    let pragma = parse_expr_for_jsx(&cm, "pragma", options.pragma, pragma_mark);
     let pragma = Lrc::new(pragma);
 
     let pragma_frag = parse_expr_for_jsx(&cm, "pragmaFrag", options.pragma_frag, pragma_mark);
@@ -101,6 +100,7 @@ pub fn classic(
 
         pragma_frag,
         throw_if_namespace: common.throw_if_namespace.into_bool(),
+        add_pure_comment,
     })
 }
 
@@ -109,6 +109,8 @@ struct Classic {
 
     pragma_frag: Lrc<Box<Expr>>,
     throw_if_namespace: bool,
+
+    add_pure_comment: Box<dyn Fn(BytePos)>,
 }
 
 #[cfg(feature = "concurrent")]
@@ -144,7 +146,12 @@ fn cache_filename(name: &str) -> Lrc<FileName> {
 
 impl Classic {
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
-        let span = el.span();
+        let mut span = el.span();
+
+        if span.lo.is_dummy() {
+            span.lo = swc_common::Span::dummy_with_cmt().lo;
+        }
+        (*self.add_pure_comment)(span.lo);
 
         CallExpr {
             span,
@@ -172,7 +179,12 @@ impl Classic {
     ///
     /// <div></div> => React.createElement('div', null);
     fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
-        let span = el.span();
+        let mut span = el.span();
+
+        if span.lo.is_dummy() {
+            span.lo = swc_common::Span::dummy_with_cmt().lo;
+        }
+        (*self.add_pure_comment)(span.lo);
 
         let name = self.jsx_name(el.opening.name);
 

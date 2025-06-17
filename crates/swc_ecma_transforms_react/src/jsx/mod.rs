@@ -248,14 +248,14 @@ pub fn jsx_text_to_str(t: Atom) -> Atom {
 }
 
 pub fn jsx<C>(
-    cm: std::sync::Arc<swc_common::SourceMap>,
+    cm: swc_common::sync::Lrc<swc_common::SourceMap>,
     comments: Option<C>,
     mut options: Options,
     top_level_mark: swc_common::Mark,
     unresolved_mark: swc_common::Mark,
 ) -> impl swc_ecma_ast::Pass
 where
-    C: swc_common::comments::Comments + Clone,
+    C: swc_common::comments::Comments + Clone + 'static,
 {
     options.runtime = parse_directives(options.runtime, comments.clone());
 
@@ -263,11 +263,33 @@ where
         runtime, common, ..
     } = options;
 
+    type AddPureCommentFn = Box<dyn Fn(swc_common::BytePos)>;
+    let create_add_pure_comment = || -> AddPureCommentFn {
+        match comments.as_ref() {
+            Some(c) => {
+                let c = c.clone();
+                Box::new(move |pos: swc_common::BytePos| {
+                    c.add_pure_comment(pos);
+                })
+            }
+            None => Box::new(|_pos| {}),
+        }
+    };
+
     match runtime {
-        Runtime::Automatic(config) => (Some(automatic(config, common, unresolved_mark)), None),
+        Runtime::Automatic(config) => (
+            Some(automatic(config, common, unresolved_mark, create_add_pure_comment())),
+            None,
+        ),
         Runtime::Classic(config) => (
             None,
-            Some(classic(config, common, top_level_mark, cm.clone())),
+            Some(classic(
+                config,
+                common,
+                top_level_mark,
+                create_add_pure_comment(),
+                cm.clone(),
+            )),
         ),
         Runtime::Preserve => (None, None),
     }

@@ -1184,7 +1184,7 @@ fn test_script(src: &str, output: &Path, options: Options) {
             resolver(Mark::new(), top_level_mark, false),
             react(
                 tester.cm.clone(),
-                Some(&tester.comments),
+                Some(tester.comments.clone()),
                 options,
                 top_level_mark,
                 unresolved_mark,

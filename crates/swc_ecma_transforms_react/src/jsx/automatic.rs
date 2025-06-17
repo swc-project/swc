@@ -4,7 +4,7 @@ use std::iter::once;
 
 use swc_atoms::Atom;
 use swc_common::{
-    errors::HANDLER, source_map::PURE_SP, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP,
+    errors::HANDLER, util::take::Take, BytePos, Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, private_ident, quote_ident, ExprFactory, StmtLike};
@@ -22,6 +22,7 @@ pub fn automatic(
     options: AutomaticConfig,
     common: CommonConfig,
     unresolved_mark: Mark,
+    add_pure_comment: Box<dyn Fn(BytePos)>,
 ) -> impl Pass + VisitMut {
     visit_mut_pass(Automatic {
         unresolved_mark,
@@ -33,6 +34,7 @@ pub fn automatic(
 
         development: common.development.into_bool(),
         throw_if_namespace: common.throw_if_namespace.into_bool(),
+        add_pure_comment,
     })
 }
 
@@ -47,6 +49,8 @@ struct Automatic {
 
     development: bool,
     throw_if_namespace: bool,
+
+    add_pure_comment: Box<dyn Fn(BytePos)>,
 }
 
 impl Automatic {
@@ -105,13 +109,18 @@ impl Automatic {
     }
 
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
-        let span = el.span();
+        let mut span = el.span();
+
+        if span.lo.is_dummy() {
+            span.lo = swc_common::Span::dummy_with_cmt().lo;
+        }
+        (*self.add_pure_comment)(span.lo);
 
         let count = count_children(&el.children);
         let use_jsxs = count > 1
             || (count == 1 && matches!(&el.children[0], JSXElementChild::JSXSpreadChild(..)));
 
-        let mut jsx = if use_jsxs && !self.development {
+        let jsx = if use_jsxs && !self.development {
             self.import_jsxs
                 .get_or_insert_with(|| private_ident!("_jsxs"))
                 .clone()
@@ -121,8 +130,6 @@ impl Automatic {
                 .get_or_insert_with(|| private_ident!(jsx))
                 .clone()
         };
-
-        jsx.span = PURE_SP;
 
         let fragment = self
             .import_fragment
@@ -192,7 +199,12 @@ impl Automatic {
     ///
     /// <div></div> => React.createElement('div', null);
     fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
-        let span = el.span();
+        let mut span = el.span();
+        if span.lo.is_dummy() {
+            span.lo = swc_common::Span::dummy_with_cmt().lo;
+        }
+        (*self.add_pure_comment)(span.lo);
+
         let use_create_element = should_use_create_element(&el.opening.attrs);
 
         let name = self.jsx_name(el.opening.name);
@@ -201,7 +213,7 @@ impl Automatic {
         let use_jsxs = count > 1
             || (count == 1 && matches!(&el.children[0], JSXElementChild::JSXSpreadChild(..)));
 
-        let mut jsx = if use_create_element {
+        let jsx = if use_create_element {
             self.import_create_element
                 .get_or_insert_with(|| private_ident!("_createElement"))
                 .clone()
@@ -215,7 +227,6 @@ impl Automatic {
                 .get_or_insert_with(|| private_ident!(jsx))
                 .clone()
         };
-        jsx.span = PURE_SP;
 
         let mut props_obj = ObjectLit {
             span: DUMMY_SP,
@@ -418,13 +429,21 @@ impl Automatic {
         } else {
             args.chain(key).collect()
         };
-        CallExpr {
+
+        let mut call_expr = CallExpr {
             span,
             callee: jsx.as_callee(),
             args,
             ..Default::default()
+        };
+
+        // Add pure comment
+        if call_expr.span.lo.is_dummy() {
+            call_expr.span.lo = swc_common::Span::dummy_with_cmt().lo;
         }
-        .into()
+        (*self.add_pure_comment)(call_expr.span.lo);
+
+        call_expr.into()
     }
 
     fn jsx_elem_child_to_expr(&mut self, c: JSXElementChild) -> Option<ExprOrSpread> {
