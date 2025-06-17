@@ -7,7 +7,7 @@
     "Base"
   ],
   "sources": [
-    "../../input/source/a/a.ts"
+    "../input/source/a/a.ts"
   ],
   "sourcesContent": [
     "import { Base } from \"../b/base\";\nexport class Foo extends Base {\n    bar() {\n        return 1 + this.foo();\n    }\n}"

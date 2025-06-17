@@ -5,7 +5,7 @@
     "arr"
   ],
   "sources": [
-    "../../input/index.ts"
+    "../input/index.ts"
   ],
   "sourcesContent": [
     "export const foo = {\n    arr: [],\n};\n"

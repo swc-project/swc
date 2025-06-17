@@ -4,7 +4,7 @@
     "foo"
   ],
   "sources": [
-    "../../input/index.ts"
+    "../input/index.ts"
   ],
   "sourcesContent": [
     "export const foo = 1;\n"

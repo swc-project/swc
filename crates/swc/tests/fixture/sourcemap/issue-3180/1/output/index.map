@@ -2,7 +2,7 @@
   "mappings": "AAAA,cAAc,iBAAiB;AAC/B,cAAc,wBAAwB;AACtC,cAAc,eAAe;AAC7B,cAAc,WAAW;AACzB,cAAc,eAAe",
   "names": [],
   "sources": [
-    "../../input/index.ts"
+    "../input/index.ts"
   ],
   "sourcesContent": [
     "export * from \"./createColors\";\nexport * from \"./createColorsFromMap\";\nexport * from \"./interfaces\";\nexport * from \"./rgbHex\";\nexport * from \"./rgbaString\";\n"

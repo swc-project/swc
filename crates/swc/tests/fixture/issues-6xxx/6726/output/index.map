@@ -11,7 +11,7 @@
     "globalThis"
   ],
   "sources": [
-    "../../input/index.jsx"
+    "../input/index.jsx"
   ],
   "sourcesContent": [
     "export function App() {\n    let [counter, setCounter] = React.useState(0);\n    if (counter === 10) throw new Error(\"Too high!\");\n    return Other();\n}\n\nfunction Other() {\n    return \"Change me\";\n}\n\nglobalThis.Other = Other;"
