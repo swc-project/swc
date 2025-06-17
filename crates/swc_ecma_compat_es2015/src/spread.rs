@@ -95,7 +95,7 @@ impl VisitMut for Spread {
                         (obj.as_ident().unwrap().clone().into(), None)
                     }
 
-                    Expr::Ident(Ident { .. }) => (Expr::undefined(DUMMY_SP), None),
+                    Expr::Ident(Ident { span, .. }) => (Expr::undefined(*span), None),
 
                     Expr::Member(MemberExpr { span, obj, prop }) => {
                         let ident = alias_ident_for(obj, "_instance");
