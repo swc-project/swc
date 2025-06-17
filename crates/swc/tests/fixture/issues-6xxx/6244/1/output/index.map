@@ -8,7 +8,7 @@
     "getElementById"
   ],
   "sources": [
-    "../../input/index.tsx"
+    "../input/index.tsx"
   ],
   "sourcesContent": [
     "import {render} from 'react-dom'\nimport {App} from './app'\n\nconst appContainer = document.getElementById('project-root')\n\nrender(<App />, appContainer)"

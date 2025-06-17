@@ -8,7 +8,7 @@
     "str"
   ],
   "sources": [
-    "../../input/index.js"
+    "../input/index.js"
   ],
   "sourcesContent": [
     "describe(\"foo\", () => {\n    it(\"test1\", () => {\n        expect(false).toBe(true);\n    });\n\n    it(\"test2\", () => {\n        const str = `\n        bar\n      `;\n\n        expect(false).toBe(true);\n    });\n\n    it(\"test3\", () => {\n        expect(false).toBe(true);\n    });\n});\n"

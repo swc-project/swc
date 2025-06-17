@@ -29,7 +29,7 @@
     "delete"
   ],
   "sources": [
-    "../../input/CommentControlller.ts"
+    "../input/CommentControlller.ts"
   ],
   "sourcesContent": [
     "import { Body, Controller, Delete, Param, Put, UseGuards, UseInterceptors } from '@nestjs/common';\n\nimport {\n    COMMENT_CONTROLLER_ROUTE,\n    COMMENT_DELETE_ENDPOINT,\n    COMMENT_UPDATE_ENDPOINT,\n} from '@server/constants/controllers';\nimport { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';\nimport { Comment } from '@server/comment/schemas/CommentSchema';\nimport { CommentService } from '@server/comment/CommentService';\nimport { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';\nimport { User } from '@server/decorators/UserDecorator';\nimport { User as UserType } from '@server/user/schemas/UserSchema';\nimport { UpdateCommentDto } from '@server/comment/dto/UpdateCommentDto';\n\n@Controller(COMMENT_CONTROLLER_ROUTE)\n@UseInterceptors(MongooseClassSerializerInterceptor(Comment))\nexport class CommentController {\n    constructor(private commentService: CommentService) { }\n\n    @UseGuards(JwtAuthGuard)\n    @Put(COMMENT_UPDATE_ENDPOINT)\n    public updateComment(\n        @Param('id') id: string,\n        @Body() updateCommentDto: UpdateCommentDto,\n        @User() user: UserType,\n    ) {\n        return this.commentService.update(id, updateCommentDto, user.id);\n    }\n\n    @UseGuards(JwtAuthGuard)\n    @Delete(COMMENT_DELETE_ENDPOINT)\n    public deleteComment(@Param('id') id: string, @User() user: UserType) {\n        return this.commentService.delete(id, user.id);\n    }\n}\n"

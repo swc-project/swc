@@ -11,7 +11,7 @@
     "foo"
   ],
   "sources": [
-    "../../input/source/a/a.spec.ts"
+    "../input/source/a/a.spec.ts"
   ],
   "sourcesContent": [
     "import { Foo } from \"./a\";\n\ndescribe(\"a\", () => {\n    it(\"does its thing\", () => {\n        const a = new Foo();\n        expect(a.bar()).toBe(3);\n        expect(a.foo()).toBe(2);\n    });\n});"

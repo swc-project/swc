@@ -8,7 +8,7 @@
     "bbb"
   ],
   "sources": [
-    "../../input/index.js"
+    "../input/index.js"
   ],
   "sourcesContent": [
     "const xxx = ', something'\nconsole.error(`❌ ${message}`);\n\nconst bbb = ''\n"

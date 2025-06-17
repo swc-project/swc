@@ -5,7 +5,7 @@
     "log"
   ],
   "sources": [
-    "../../input/index.js"
+    "../input/index.js"
   ],
   "sourcesContent": [
     "/*!\n\n something v5.1.0\n\nmore\n\nelse\n*/\n// a\nconsole.log(1);\n// b"

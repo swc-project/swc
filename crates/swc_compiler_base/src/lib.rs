@@ -320,9 +320,8 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
             return file_name.to_string();
         }
 
-        let base_path = match self.output_path {
-            Some(v) => v,
-            None => return f.to_string(),
+        let Some(base_path) = self.output_path.as_ref().and_then(|v| v.parent()) else {
+            return f.to_string();
         };
         let target = match f {
             FileName::Real(v) => v,
