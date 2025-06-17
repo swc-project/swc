@@ -4,7 +4,7 @@ export { };
 export { };
 //// [component.tsx]
 import { predom } from "./renderer2";
-export default predom("h", null);
+export default /*#__PURE__*/ predom("h", null);
 //// [index.tsx]
 import "./renderer";
 import "./component";

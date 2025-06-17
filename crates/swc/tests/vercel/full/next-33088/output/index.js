@@ -2,19 +2,19 @@ import { _ as e } from "@swc/helpers/_/_async_to_generator";
 import { _ as t } from "@swc/helpers/_/_sliced_to_array";
 import { _ as r } from "@swc/helpers/_/_ts_generator";
 import { jsx as n, jsxs as s, Fragment as a } from "react/jsx-runtime";
-import * as c from "react";
-export default function i() {
-    var i = t(c.useState({
+import * as _ from "react";
+export default function c() {
+    var c = t(_.useState({
         hits: []
-    }), 2), o = i[0], u = i[1], l = t(c.useState("react"), 2), h = l[0], f = l[1];
-    return c.useEffect(function() {
-        "" !== h && e(function() {
+    }), 2), i = c[0], o = c[1], u = t(_.useState("react"), 2), l = u[0], h = u[1];
+    return _.useEffect(function() {
+        "" !== l && e(function() {
             return r(this, function(e) {
                 switch(e.label){
                     case 0:
                         return [
                             4,
-                            fetch("https://hn.algolia.com/api/v1/search?query=" + h)
+                            fetch("https://hn.algolia.com/api/v1/search?query=" + l)
                         ];
                     case 1:
                         return [
@@ -22,26 +22,26 @@ export default function i() {
                             e.sent().json()
                         ];
                     case 2:
-                        return u(e.sent()), [
+                        return o(e.sent()), [
                             2
                         ];
                 }
             });
         })();
     }, [
-        h
-    ]), s(a, {
+        l
+    ]), /*#__PURE__*/ s(a, {
         children: [
-            n("input", {
-                value: h,
+            /*#__PURE__*/ n("input", {
+                value: l,
                 onChange: function(e) {
-                    return f(e.target.value);
+                    return h(e.target.value);
                 }
             }),
-            n("ul", {
-                children: o.hits.map(function(e) {
-                    return n("li", {
-                        children: n("a", {
+            /*#__PURE__*/ n("ul", {
+                children: i.hits.map(function(e) {
+                    return /*#__PURE__*/ n("li", {
+                        children: /*#__PURE__*/ n("a", {
                             href: e.url,
                             children: e.title
                         })

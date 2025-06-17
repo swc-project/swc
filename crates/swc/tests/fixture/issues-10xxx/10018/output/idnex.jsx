@@ -1,3 +1,2 @@
-var _require = require("foo/jsx-runtime"), _jsx = _require.jsx;
 ;
-_jsx("a", {});
+/*#__PURE__*/ React.createElement("a", null);

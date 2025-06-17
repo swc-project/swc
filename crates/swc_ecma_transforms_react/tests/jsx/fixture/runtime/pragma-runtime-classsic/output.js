@@ -1,2 +1,4 @@
-/** @jsxRuntime classic */
-var x = /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", null));
+/** @jsxRuntime classic */ import { jsx as _jsx } from "react/jsx-runtime";
+var x = /*#__PURE__*/ _jsx("div", {
+    children: /*#__PURE__*/ _jsx("span", {})
+});

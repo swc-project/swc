@@ -1,7 +1,7 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 export const IconSpecHotkey = (param)=>{
     let { icon } = param;
-    return _jsx("div", {
+    return /*#__PURE__*/ _jsx("div", {
         children: icon
     });
 };

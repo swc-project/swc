@@ -8,7 +8,7 @@ import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 var _this = this;
 import { predom } from "./renderer2";
 export var MySFC = function(props) {
-    return predom.apply(void 0, [
+    return /*#__PURE__*/ predom.apply(void 0, [
         "p",
         null,
         props.x,
@@ -23,7 +23,7 @@ export var MyClass = /*#__PURE__*/ function() {
         _class_call_check(this, MyClass), this.props = props;
     }
     return MyClass.prototype.render = function() {
-        return predom.apply(void 0, [
+        return /*#__PURE__*/ predom.apply(void 0, [
             "p",
             null,
             this.props.x,
@@ -34,17 +34,17 @@ export var MyClass = /*#__PURE__*/ function() {
         ].concat(_to_consumable_array(this.props.children)));
     }, MyClass;
 }();
-export var tree = predom(MySFC, {
+export var tree = /*#__PURE__*/ predom(MySFC, {
     x: 1,
     y: 2
-}, predom(MyClass, {
+}, /*#__PURE__*/ predom(MyClass, {
     x: 3,
     y: 4
-}), predom(MyClass, {
+}), /*#__PURE__*/ predom(MyClass, {
     x: 5,
     y: 6
 }));
-export default predom("h", null);
+export default /*#__PURE__*/ predom("h", null);
 //// [index.tsx]
 import "@swc/helpers/_/_class_call_check";
 import "@swc/helpers/_/_to_consumable_array";

@@ -4,5 +4,5 @@ texts.push(100), texts.push(100), texts.push("100");
 //// [b.tsx]
 import * as React from "react";
 export function MyComponent(props) {
-    return React.createElement("div", null);
+    return /*#__PURE__*/ React.createElement("div", null);
 }

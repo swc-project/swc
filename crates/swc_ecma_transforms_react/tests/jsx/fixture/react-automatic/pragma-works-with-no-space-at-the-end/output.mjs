@@ -1,4 +1,4 @@
-/* @jsxImportSource foo*/ /*#__PURE__*/ import { jsx as _jsx } from "foo/jsx-runtime";
-_jsx("div", {
+/* @jsxImportSource foo*/ import { jsx as _jsx } from "react/jsx-runtime";
+/*#__PURE__*/ _jsx("div", {
     children: "Hi"
 });
