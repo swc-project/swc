@@ -5,7 +5,7 @@ var render = function(ctrl, model) {
         class: "todoapp"
     }, /*#__PURE__*/ React.createElement("header", {
         class: "header"
-    }, /*#__PURE__*/ React.createElement("h1", null, "todos <x>"), /*#__PURE__*/ React.createElement("input", {
+    }, /*#__PURE__*/ React.createElement("h1", null, "todos &lt;x&gt;"), /*#__PURE__*/ React.createElement("input", {
         class: "new-todo",
         autofocus: true,
         autocomplete: "off",

@@ -3,7 +3,7 @@ export { };
 //// [renderer2.d.ts]
 export { };
 //// [component.tsx]
-/** @jsx predom */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+/** @jsx predom */ /** @jsx predom */ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 var _this = this;
 import { predom } from "./renderer2";

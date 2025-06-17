@@ -1,7 +1,7 @@
 //// [file.tsx]
-/*#__PURE__*/ React.createElement("div", null, "Dot goes here: \xb7 &notAnEntity; ");
-/*#__PURE__*/ React.createElement("div", null, 'Be careful of "-ed strings!');
-/*#__PURE__*/ React.createElement("div", null, "{{braces}}");
+/*#__PURE__*/ React.createElement("div", null, "Dot goes here: &middot; &notAnEntity; ");
+/*#__PURE__*/ React.createElement("div", null, "Be careful of &quot;-ed strings!");
+/*#__PURE__*/ React.createElement("div", null, "&#0123;&#123;braces&#x7d;&#x7D;");
 // Escapes do nothing
 /*#__PURE__*/ React.createElement("div", null, "\\n");
 // Also works in string literal attributes
@@ -17,4 +17,4 @@
     attr: '"'
 });
 // https://github.com/microsoft/TypeScript/issues/35732
-/*#__PURE__*/ React.createElement("div", null, "\uD83D\uDC08\uD83D\uDC15\uD83D\uDC07\uD83D\uDC11");
+/*#__PURE__*/ React.createElement("div", null, "&#x1F408;&#x1F415;&#128007;&#128017;");

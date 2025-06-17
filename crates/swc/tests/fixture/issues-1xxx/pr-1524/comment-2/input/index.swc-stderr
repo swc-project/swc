@@ -1,0 +1,14 @@
+  x Expression expected
+   ,-[$DIR/tests/fixture/issues-1xxx/pr-1524/comment-2/input/index.tsx:6:1]
+ 5 |     });
+ 6 |     return <h1>{ foo } < /h1>;
+   :                          ^
+ 7 | }
+   `----
+  x Expression expected
+   ,-[$DIR/tests/fixture/issues-1xxx/pr-1524/comment-2/input/index.tsx:6:1]
+ 5 |     });
+ 6 |     return <h1>{ foo } < /h1>;
+   :                              ^
+ 7 | }
+   `----
