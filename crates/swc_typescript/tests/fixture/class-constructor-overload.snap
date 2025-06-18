@@ -1,16 +1,24 @@
 ```==================== .D.TS ====================
 
 // @isolatedDeclarations: true
-export declare class Foo {
+export declare class C1 {
     private prop;
     constructor(prop: string);
 }
-export declare class Bar {
+export declare class C2 {
     private prop;
     constructor(prop: string);
 }
-export declare class Baz {
+export declare class C3 {
     readonly prop: any;
+    constructor(prop: string);
+}
+export declare class C4 {
+    readonly prop: any;
+    constructor(prop: string);
+}
+export declare class C5 {
+    private readonly prop;
     constructor(prop: string);
 }
 
