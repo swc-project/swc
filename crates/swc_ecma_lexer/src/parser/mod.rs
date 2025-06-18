@@ -10,7 +10,7 @@ use crate::{
         input::Tokens,
         parser::{
             buffer::Buffer as BufferTrait,
-            expr::{parse_primary_expr, parse_tagged_tpl, parse_unary_expr},
+            expr::{parse_lhs_expr, parse_primary_expr, parse_tagged_tpl, parse_unary_expr},
             jsx::parse_jsx_element,
             module_item::parse_module_item_block_body,
             parse_shebang,
@@ -104,6 +104,10 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
 
     fn parse_tagged_tpl_ty(&mut self) -> PResult<TsLitType> {
         unreachable!("use `common::parser::expr::parse_ts_tpl_lit_type` directly");
+    }
+
+    fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
+        parse_lhs_expr::<Self, true>(self)
     }
 }
 

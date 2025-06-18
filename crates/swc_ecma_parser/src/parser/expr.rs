@@ -4,9 +4,9 @@ use swc_ecma_lexer::{
     common::parser::{
         class_and_fn::parse_fn_expr,
         expr::{
-            parse_array_lit, parse_await_expr, parse_lhs_expr, parse_lit,
-            parse_member_expr_or_new_expr, parse_paren_expr_or_arrow_fn, parse_primary_expr_rest,
-            parse_this_expr, try_parse_async_start, try_parse_regexp,
+            parse_array_lit, parse_await_expr, parse_lit, parse_member_expr_or_new_expr,
+            parse_paren_expr_or_arrow_fn, parse_primary_expr_rest, parse_this_expr,
+            try_parse_async_start, try_parse_regexp,
         },
         object::parse_object_expr,
         typescript::parse_ts_type_assertion,
@@ -159,7 +159,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         // UpdateExpression
-        let expr = parse_lhs_expr(self)?;
+        let expr = self.parse_lhs_expr()?;
         if let Expr::Arrow { .. } = *expr {
             return Ok(expr);
         }

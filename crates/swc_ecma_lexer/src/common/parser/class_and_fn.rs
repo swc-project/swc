@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 
 use super::{
     buffer::Buffer,
-    expr::{parse_args, parse_assignment_expr, parse_lhs_expr},
+    expr::{parse_args, parse_assignment_expr},
     has_use_strict,
     ident::{parse_binding_ident, parse_opt_binding_ident, parse_private_name},
     is_constructor,
@@ -169,7 +169,7 @@ pub fn parse_access_modifier<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Acce
 pub fn parse_super_class<'a, P: Parser<'a>>(
     p: &mut P,
 ) -> PResult<(Box<Expr>, Option<Box<TsTypeParamInstantiation>>)> {
-    let super_class = parse_lhs_expr(p)?;
+    let super_class = p.parse_lhs_expr()?;
     match *super_class {
         Expr::TsInstantiation(TsInstantiation {
             expr, type_args, ..

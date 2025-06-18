@@ -1583,7 +1583,7 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
     }
 
     // UpdateExpression
-    let expr = parse_lhs_expr(p)?;
+    let expr = p.parse_lhs_expr()?;
     return_if_arrow!(p, expr);
 
     // Line terminator isn't allowed here.
@@ -1680,13 +1680,13 @@ pub(super) fn parse_for_head_prefix<'a>(p: &mut impl Parser<'a>) -> PResult<Box<
     feature = "tracing-spans",
     tracing::instrument(level = "debug", skip_all)
 )]
-pub fn parse_lhs_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
+pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PResult<Box<Expr>> {
     trace_cur!(p, parse_lhs_expr);
 
     let start = p.cur_pos();
 
     // parse jsx
-    if p.input().syntax().jsx() {
+    if PARSE_JSX && p.input().syntax().jsx() {
         fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
             match e {
                 Either::Left(l) => l.into(),

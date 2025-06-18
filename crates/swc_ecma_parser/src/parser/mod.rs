@@ -6,8 +6,8 @@ use std::ops::DerefMut;
 use swc_common::{comments::Comments, input::StringInput};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::common::parser::{
-    buffer::Buffer as BufferTrait, module_item::parse_module_item_block_body, parse_shebang,
-    stmt::parse_stmt_block_body, Parser as ParserTrait,
+    buffer::Buffer as BufferTrait, expr::parse_lhs_expr, module_item::parse_module_item_block_body,
+    parse_shebang, stmt::parse_stmt_block_body, Parser as ParserTrait,
 };
 
 use crate::{
@@ -125,6 +125,11 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
                 lit,
             }
         })
+    }
+
+    #[inline(always)]
+    fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
+        parse_lhs_expr::<Self, false>(self)
     }
 }
 

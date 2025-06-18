@@ -223,6 +223,33 @@ fn issue_2264_2() {
 }
 
 #[test]
+fn should_only_has_one_block_comment() {
+    let c = SingleThreadedComments::default();
+    let s = "
+/** block comment */
+import h from 'h';
+<div></div>
+";
+    let _ = super::test_parser_comment(
+        &c,
+        s,
+        Syntax::Typescript(TsSyntax {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| p.parse_typescript_module(),
+    );
+
+    let (leading, trailing) = c.take_all();
+
+    assert!(!leading.borrow().is_empty());
+    for leading in leading.borrow().values() {
+        assert_eq!(leading.len(), 1);
+    }
+    assert!(trailing.borrow().is_empty());
+}
+
+#[test]
 fn issue_2264_3() {
     let c = SingleThreadedComments::default();
     let s = "const foo = <h1>/* no */{/* 1 */ bar /* 2 */}/* no */</h1>;";

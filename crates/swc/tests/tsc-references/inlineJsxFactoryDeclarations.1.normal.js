@@ -1,7 +1,7 @@
 //// [renderer.d.ts]
 export { dom as default };
 //// [otherreacty.tsx]
-/** @jsx React.createElement */ /** @jsx React.createElement */ import * as React from "./renderer";
+/** @jsx React.createElement */ import * as React from "./renderer";
 /*#__PURE__*/ React.createElement("h", null);
 //// [other.tsx]
 /** @jsx h */ import { dom as h } from "./renderer";

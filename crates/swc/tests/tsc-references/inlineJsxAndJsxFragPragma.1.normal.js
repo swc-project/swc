@@ -31,13 +31,10 @@ export { };
 /**
  * @jsx h
  * @jsxFrag Fragment
- */ /**
- * @jsx h
- * @jsxFrag Fragment
  */ import { h, Fragment } from "./renderer";
 /*#__PURE__*/ h("div", null);
 //// [snabbdomy-no-fragment.tsx]
-/* @jsx jsx */ /* @jsxfrag null */ /* @jsx jsx */ /* @jsxfrag null */ import { jsx } from "./renderer";
+/* @jsx jsx */ /* @jsxfrag null */ import { jsx } from "./renderer";
 /*#__PURE__*/ jsx("div", null);
 //// [preacty-only-component.tsx]
 /**
