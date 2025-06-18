@@ -137,6 +137,9 @@ impl TypeUsageAnalyzer<'_> {
                 used_refs.add_usage(symbol.id.clone(), symbol.kind);
             }
         }
+        dbg!(&analyzer.references);
+        dbg!(&analyzer.graph);
+        dbg!(&used_refs);
         used_refs
     }
 
@@ -243,23 +246,37 @@ impl Visit for TypeUsageAnalyzer<'_> {
             }
             Decl::Var(var_decl) => {
                 for decl in &var_decl.decls {
-                    decl.name.visit_with(self);
+                    // When the name of the decl is a binding ident, the usage of its type
+                    // annotation should also depend on the usage of the ident name
                     if let Some(name) = decl.name.as_ident() {
+                        name.id.visit_with(self);
                         self.with_source_ident(
                             Symbol::new(name.id.to_id(), SymbolFlags::Value),
-                            |this| decl.init.visit_with(this),
+                            |this| {
+                                name.type_ann.visit_with(this);
+                                decl.init.visit_with(this);
+                            },
                         );
+                    } else {
+                        decl.name.visit_with(self);
                     }
                 }
             }
             Decl::Using(using_decl) => {
                 for decl in &using_decl.decls {
-                    decl.name.visit_with(self);
+                    // When the name of the decl is a binding ident, the usage of its type
+                    // annotation should also depend on the usage of the ident name
                     if let Some(name) = decl.name.as_ident() {
+                        name.id.visit_with(self);
                         self.with_source_ident(
                             Symbol::new(name.to_id(), SymbolFlags::Value),
-                            |this| decl.init.visit_with(this),
+                            |this| {
+                                name.type_ann.visit_with(this);
+                                decl.init.visit_with(this);
+                            },
                         );
+                    } else {
+                        decl.name.visit_with(self);
                     }
                 }
             }
