@@ -1,7 +1,7 @@
 use std::{iter, mem};
 
 use serde_derive::Deserialize;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
@@ -169,7 +169,7 @@ impl VisitMut for TemplateLiteral {
                                         span: DUMMY_SP,
                                         obj,
                                         prop: MemberProp::Ident(IdentName::new(
-                                            "concat".into(),
+                                            atom!("concat"),
                                             expr_span,
                                         )),
                                     }
@@ -212,7 +212,7 @@ impl VisitMut for TemplateLiteral {
                                         span: DUMMY_SP,
                                         obj,
                                         prop: MemberProp::Ident(IdentName::new(
-                                            "concat".into(),
+                                            atom!("concat"),
                                             expr_span,
                                         )),
                                     }

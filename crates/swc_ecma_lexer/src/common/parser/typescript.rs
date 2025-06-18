@@ -681,27 +681,27 @@ fn parse_ts_type_param<'a, P: Parser<'a>>(
             "const" => {
                 is_const = true;
                 if !permit_const {
-                    p.emit_err(p.input().prev_span(), SyntaxError::TS1277("const".into()));
+                    p.emit_err(p.input().prev_span(), SyntaxError::TS1277(atom!("const")));
                 }
             }
             "in" => {
                 if !permit_in_out {
-                    p.emit_err(p.input().prev_span(), SyntaxError::TS1274("in".into()));
+                    p.emit_err(p.input().prev_span(), SyntaxError::TS1274(atom!("in")));
                 } else if is_in {
-                    p.emit_err(p.input().prev_span(), SyntaxError::TS1030("in".into()));
+                    p.emit_err(p.input().prev_span(), SyntaxError::TS1030(atom!("in")));
                 } else if is_out {
                     p.emit_err(
                         p.input().prev_span(),
-                        SyntaxError::TS1029("in".into(), "out".into()),
+                        SyntaxError::TS1029(atom!("in"), atom!("out")),
                     );
                 }
                 is_in = true;
             }
             "out" => {
                 if !permit_in_out {
-                    p.emit_err(p.input().prev_span(), SyntaxError::TS1274("out".into()));
+                    p.emit_err(p.input().prev_span(), SyntaxError::TS1274(atom!("out")));
                 } else if is_out {
-                    p.emit_err(p.input().prev_span(), SyntaxError::TS1030("out".into()));
+                    p.emit_err(p.input().prev_span(), SyntaxError::TS1030(atom!("out")));
                 }
                 is_out = true;
             }
@@ -2224,8 +2224,8 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
         p.emit_err(arg_span, SyntaxError::TS1141);
         Str {
             span: arg_span,
-            value: "".into(),
-            raw: Some("\"\"".into()),
+            value: atom!(""),
+            raw: Some(atom!("\"\"")),
         }
     };
 

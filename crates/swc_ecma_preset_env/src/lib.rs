@@ -557,7 +557,7 @@ impl VisitMut for Polyfills {
                             span,
                             callee: Ident {
                                 ctxt: SyntaxContext::empty().apply_mark(self.unresolved_mark),
-                                sym: "require".into(),
+                                sym: atom!("require"),
                                 ..Default::default()
                             }
                             .as_callee(),
@@ -585,7 +585,7 @@ impl VisitMut for Polyfills {
                             span,
                             callee: Ident {
                                 ctxt: SyntaxContext::empty().apply_mark(self.unresolved_mark),
-                                sym: "require".into(),
+                                sym: atom!("require"),
                                 ..Default::default()
                             }
                             .as_callee(),

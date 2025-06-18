@@ -2,7 +2,7 @@
 
 use std::iter::once;
 
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{
     comments::Comments, errors::HANDLER, sync::Lrc, util::take::Take, BytePos, Mark, Spanned,
     SyntaxContext, DUMMY_SP,
@@ -603,7 +603,7 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
                 span: DUMMY_SP,
                 callee: Callee::Expr(Box::new(Expr::Ident(Ident {
                     ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
-                    sym: "require".into(),
+                    sym: atom!("require"),
                     optional: false,
                     ..Default::default()
                 }))),

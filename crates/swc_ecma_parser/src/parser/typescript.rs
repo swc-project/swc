@@ -1,5 +1,6 @@
 #[cfg(test)]
 mod tests {
+    use swc_atoms::atom;
     use swc_common::DUMMY_SP;
     use swc_ecma_ast::*;
     use swc_ecma_visit::assert_eq_ignore_span;
@@ -21,14 +22,14 @@ mod tests {
                 let first = TsTypeAliasDecl {
                     span: DUMMY_SP,
                     declare: false,
-                    id: Ident::new_no_ctxt("test".into(), DUMMY_SP),
+                    id: Ident::new_no_ctxt(atom!("test"), DUMMY_SP),
                     type_params: None,
                     type_ann: Box::new(TsType::TsLitType(TsLitType {
                         span: DUMMY_SP,
                         lit: TsLit::Number(Number {
                             span: DUMMY_SP,
                             value: -1.0,
-                            raw: Some("-1".into()),
+                            raw: Some(atom!("-1")),
                         }),
                     })),
                 }
@@ -58,14 +59,14 @@ mod tests {
                     declare: false,
                     decls: vec![VarDeclarator {
                         span: DUMMY_SP,
-                        name: Pat::Ident(Ident::new_no_ctxt("t".into(), DUMMY_SP).into()),
+                        name: Pat::Ident(Ident::new_no_ctxt(atom!("t"), DUMMY_SP).into()),
                         init: Some(Box::new(Expr::Unary(UnaryExpr {
                             span: DUMMY_SP,
                             op: op!(unary, "-"),
                             arg: Box::new(Expr::Lit(Lit::Num(Number {
                                 span: DUMMY_SP,
                                 value: 1.0,
-                                raw: Some("1".into()),
+                                raw: Some(atom!("1")),
                             }))),
                         }))),
                         definite: false,

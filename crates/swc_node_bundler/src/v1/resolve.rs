@@ -1,7 +1,7 @@
 use std::{collections::HashMap, path::PathBuf};
 
 use serde::Deserialize;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 
 /// https://webpack.js.org/configuration/resolve/
 #[derive(Debug, Deserialize)]
@@ -31,12 +31,12 @@ pub struct ResolveConfig {
 
 fn default_extensions() -> Vec<Atom> {
     vec![
-        ".wasm".into(),
-        ".mjs".into(),
-        ".js".into(),
-        ".json".into(),
-        ".ts".into(),
-        ".tsc".into(),
+        atom!(".wasm"),
+        atom!(".mjs"),
+        atom!(".js"),
+        atom!(".json"),
+        atom!(".ts"),
+        atom!(".tsc"),
     ]
 }
 

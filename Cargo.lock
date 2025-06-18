@@ -4716,7 +4716,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "26.0.0"
+version = "26.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4931,7 +4931,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "23.0.1"
+version = "23.0.2"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -4987,7 +4987,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "27.0.5"
+version = "27.0.6"
 dependencies = [
  "anyhow",
  "binding_macros",

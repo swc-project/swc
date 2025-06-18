@@ -1,6 +1,6 @@
 use indexmap::IndexMap;
 use rustc_hash::FxBuildHasher;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{FileName, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;
@@ -184,7 +184,7 @@ where
                     .entry(None)
                     .or_default()
                     .push(Specifier::Specific {
-                        local: Id::new("default".into(), SyntaxContext::empty()),
+                        local: Id::new(atom!("default"), SyntaxContext::empty()),
                         alias: None,
                     });
             }
@@ -195,7 +195,7 @@ where
                     .entry(None)
                     .or_default()
                     .push(Specifier::Specific {
-                        local: Id::new("default".into(), SyntaxContext::empty()),
+                        local: Id::new(atom!("default"), SyntaxContext::empty()),
                         alias: None,
                     });
             }
@@ -234,7 +234,7 @@ where
                         ExportSpecifier::Default(d) => {
                             v.push(Specifier::Specific {
                                 local: d.exported.clone().into(),
-                                alias: Some(Id::new("default".into(), SyntaxContext::empty())),
+                                alias: Some(Id::new(atom!("default"), SyntaxContext::empty())),
                             });
                         }
                         ExportSpecifier::Named(n) => {

@@ -1,4 +1,4 @@
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
@@ -124,7 +124,7 @@ impl Optimizer<'_> {
                 if let (Expr::Lit(Lit::Num(l)), Expr::Lit(Lit::Num(r))) = (&**left, &**right) {
                     if l.value == 0.0 && r.value == 0.0 {
                         *n = Ident::new(
-                            "NaN".into(),
+                            atom!("NaN"),
                             *span,
                             SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                         )

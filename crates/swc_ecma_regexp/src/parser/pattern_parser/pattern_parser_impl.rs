@@ -1,7 +1,7 @@
 use std::vec;
 
 use diagnostics::Result;
-use swc_atoms::Atom as SpanAtom;
+use swc_atoms::{atom, Atom as SpanAtom};
 
 use crate::{
     ast, diagnostics,
@@ -1868,7 +1868,7 @@ impl<'a> PatternParser<'a> {
             // property of strings listed in the “Property name” column of Table 67.
             if unicode_property::is_valid_unicode_property("General_Category", &name_or_value) {
                 return Ok(Some((
-                    "General_Category".into(),
+                    atom!("General_Category"),
                     Some(name_or_value),
                     false,
                 )));

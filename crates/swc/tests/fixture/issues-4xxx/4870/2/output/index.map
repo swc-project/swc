@@ -4,7 +4,7 @@
     "test"
   ],
   "sources": [
-    "../../input/index.js"
+    "../input/index.js"
   ],
   "sourcesContent": [
     "function test() {\n    // only remove number separators, but keep Binary literals\n    return 0b1_1111_0111 === 503 && 0o767 === 503;\n}\ntest();\n"

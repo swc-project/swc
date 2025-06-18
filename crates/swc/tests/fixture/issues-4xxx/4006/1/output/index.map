@@ -15,7 +15,7 @@
     "define"
   ],
   "sources": [
-    "../../input/index.ts"
+    "../input/index.ts"
   ],
   "sourcesContent": [
     "import { html, css, LitElement } from \"lit\";\n\nexport class App extends LitElement {\n    name: string;\n\n    static styles = css`\n        p {\n            color: blue;\n        }\n    `;\n\n    static properties = {\n        name: { type: String },\n    };\n\n    constructor() {\n        super();\n        this.name = \"Somebody\";\n    }\n\n    render() {\n        return html`<p>Hello, ${this.name}!</p>`;\n    }\n}\ncustomElements.define(\"app\", App);\n"

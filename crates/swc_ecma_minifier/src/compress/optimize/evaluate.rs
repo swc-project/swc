@@ -360,7 +360,7 @@ impl Optimizer<'_> {
 
                 if value.is_nan() {
                     *e = Ident::new(
-                        "NaN".into(),
+                        atom!("NaN"),
                         e.span(),
                         SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                     )
@@ -390,7 +390,7 @@ impl Optimizer<'_> {
 
                         if l.is_nan() || r.is_nan() {
                             *e = Ident::new(
-                                "NaN".into(),
+                                atom!("NaN"),
                                 bin.span,
                                 SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                             )
@@ -440,7 +440,7 @@ impl Optimizer<'_> {
 
                             // Sign does not matter for NaN
                             *e = Ident::new(
-                                "NaN".into(),
+                                atom!("NaN"),
                                 bin.span,
                                 SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                             )
@@ -452,12 +452,12 @@ impl Optimizer<'_> {
 
                             // Sign does not matter for NaN
                             *e = if ln.is_sign_positive() == rn.is_sign_positive() {
-                                Ident::new_no_ctxt("Infinity".into(), bin.span).into()
+                                Ident::new_no_ctxt(atom!("Infinity"), bin.span).into()
                             } else {
                                 UnaryExpr {
                                     span: bin.span,
                                     op: op!(unary, "-"),
-                                    arg: Ident::new_no_ctxt("Infinity".into(), bin.span).into(),
+                                    arg: Ident::new_no_ctxt(atom!("Infinity"), bin.span).into(),
                                 }
                                 .into()
                             };

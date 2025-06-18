@@ -1838,8 +1838,9 @@ fn build_resolver(
     resolve_fully: bool,
     file_extension: &str,
 ) -> SwcImportResolver {
-    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths, bool), SwcImportResolver, FxBuildHasher>> =
-        Lazy::new(Default::default);
+    static CACHE: Lazy<
+        DashMap<(PathBuf, CompiledPaths, bool, String), SwcImportResolver, FxBuildHasher>,
+    > = Lazy::new(Default::default);
 
     // On Windows, we need to normalize path as UNC path.
     if cfg!(target_os = "windows") {
@@ -1855,7 +1856,12 @@ fn build_resolver(
             .unwrap();
     }
 
-    if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone(), resolve_fully)) {
+    if let Some(cached) = CACHE.get(&(
+        base_url.clone(),
+        paths.clone(),
+        resolve_fully,
+        file_extension.to_owned(),
+    )) {
         return cached.clone();
     }
 
@@ -1882,7 +1888,10 @@ fn build_resolver(
         Arc::new(r)
     };
 
-    CACHE.insert((base_url, paths, resolve_fully), r.clone());
+    CACHE.insert(
+        (base_url, paths, resolve_fully, file_extension.to_owned()),
+        r.clone(),
+    );
 
     r
 }

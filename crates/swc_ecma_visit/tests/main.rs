@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::NodeRef;
@@ -9,7 +10,7 @@ fn traverse_lookup() {
         callee: Callee::Expr(
             AwaitExpr {
                 span: DUMMY_SP,
-                arg: Ident::new_no_ctxt("foo".into(), DUMMY_SP).into(),
+                arg: Ident::new_no_ctxt(atom!("foo"), DUMMY_SP).into(),
             }
             .into(),
         ),
