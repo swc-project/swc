@@ -137,9 +137,6 @@ impl TypeUsageAnalyzer<'_> {
                 used_refs.add_usage(symbol.id.clone(), symbol.kind);
             }
         }
-        dbg!(&analyzer.references);
-        dbg!(&analyzer.graph);
-        dbg!(&used_refs);
         used_refs
     }
 
