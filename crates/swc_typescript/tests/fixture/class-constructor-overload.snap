@@ -9,5 +9,9 @@ export declare class Bar {
     private prop;
     constructor(prop: string);
 }
+export declare class Baz {
+    readonly prop: any;
+    constructor(prop: string);
+}
 
 
