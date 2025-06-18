@@ -1,7 +1,10 @@
-  x Unexpected token `HeaderAction`. Expected jsx identifier
-   ,-[$DIR/tests/typescript-errors/issue-2173/case1/input.tsx:3:1]
- 2 |     setCurrentAction({
- 3 |         ...(<HeaderAction>getCurrentAction()),
-   :              ^^^^^^^^^^^^
+  x Unexpected eof
+   ,-[$DIR/tests/typescript-errors/issue-2173/case1/input.tsx:5:9]
+ 5 |     });
+   `----
+  x Unexpected token. Did you mean `{'}'}` or `&rbrace;`?
+   ,-[$DIR/tests/typescript-errors/issue-2173/case1/input.tsx:5:1]
  4 |         ...fields,
+ 5 |     });
+   :     ^
    `----

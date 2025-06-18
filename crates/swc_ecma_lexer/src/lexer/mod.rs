@@ -10,7 +10,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{AssignOp, EsVersion};
 
-pub use self::state::{TokenContext, TokenContexts, TokenType};
+pub use self::state::{TokenContext, TokenContexts, TokenFlags, TokenType};
 use self::table::{ByteHandler, BYTE_HANDLERS};
 use crate::{
     common::{

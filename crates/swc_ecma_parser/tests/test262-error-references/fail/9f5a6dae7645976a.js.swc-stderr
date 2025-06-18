@@ -1,5 +1,4 @@
-  x Legacy octal escape is not permitted in strict mode
+  x Unexpected eof
    ,-[$DIR/tests/test262-parser/fail/9f5a6dae7645976a.js:1:1]
  1 | `\37`
-   :  ^^
    `----

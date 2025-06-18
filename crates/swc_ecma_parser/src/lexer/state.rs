@@ -1,7 +1,6 @@
 use std::mem::take;
 
-use smallvec::smallvec;
-use swc_common::{BytePos, Span};
+use swc_common::BytePos;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::{
     common::lexer::{
@@ -9,12 +8,14 @@ use swc_ecma_lexer::{
         comments_buffer::{BufferedComment, BufferedCommentKind},
         state::State as StateTrait,
     },
-    TokenContext, TokenContexts,
+    error::SyntaxError,
+    TokenContexts,
 };
 
 use super::{Context, Input, Lexer, LexerTrait};
 use crate::{
-    error::{Error, SyntaxError},
+    error::Error,
+    input::Tokens,
     lexer::token::{Token, TokenAndSpan, TokenValue},
     Syntax,
 };
@@ -25,20 +26,20 @@ use crate::{
 #[derive(Clone)]
 pub struct State {
     pub is_expr_allowed: bool,
-    pub next_regexp: Option<BytePos>,
     /// if line break exists between previous token and new token?
     pub had_line_break: bool,
     /// if line break exists before last?
     pub had_line_break_before_last: bool,
+    pub can_skip_space: bool,
     /// TODO: Remove this field.
     is_first: bool,
+    pub next_regexp: Option<BytePos>,
     pub start: BytePos,
     pub cur_line: usize,
     pub line_start: BytePos,
     pub prev_hi: BytePos,
     pub tpl_start: BytePos,
 
-    context: TokenContexts,
     syntax: Syntax,
 
     pub(super) token_value: Option<TokenValue>,
@@ -87,17 +88,17 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
 
     #[inline]
     fn token_context(&self) -> &TokenContexts {
-        &self.state.context
+        unreachable!();
     }
 
     #[inline]
     fn token_context_mut(&mut self) -> &mut TokenContexts {
-        &mut self.state.context
+        unreachable!();
     }
 
     #[inline]
-    fn set_token_context(&mut self, c: TokenContexts) {
-        self.state.context = c;
+    fn set_token_context(&mut self, _: TokenContexts) {
+        unreachable!();
     }
 
     fn add_error(&self, error: Error) {
@@ -112,20 +113,43 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
         self.module_errors.borrow_mut().push(error);
     }
 
+    #[inline]
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
 
+    #[inline]
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         take(&mut self.module_errors.borrow_mut())
     }
 
+    #[inline]
     fn end_pos(&self) -> BytePos {
         self.input.end_pos()
     }
+
+    #[inline]
+    fn can_skip_space(&self) -> bool {
+        self.state.can_skip_space
+    }
+
+    #[inline]
+    fn set_can_skip_space(&mut self, can_skip_space: bool) {
+        self.state.can_skip_space = can_skip_space;
+    }
+
+    #[inline]
+    fn update_token_flags(&mut self, f: impl FnOnce(&mut swc_ecma_lexer::lexer::TokenFlags)) {
+        f(&mut self.token_flags)
+    }
+
+    #[inline]
+    fn token_flags(&self) -> swc_ecma_lexer::lexer::TokenFlags {
+        self.token_flags
+    }
 }
 
-impl crate::parser::input::Tokens for Lexer<'_> {
+impl crate::input::Tokens for Lexer<'_> {
     fn clone_token_value(&self) -> Option<TokenValue> {
         self.state.token_value.clone()
     }
@@ -140,6 +164,165 @@ impl crate::parser::input::Tokens for Lexer<'_> {
 
     fn take_token_value(&mut self) -> Option<TokenValue> {
         self.state.token_value.take()
+    }
+
+    fn rescan_jsx_token(
+        &mut self,
+        allow_multiline_jsx_text: bool,
+        reset: BytePos,
+    ) -> Option<TokenAndSpan> {
+        unsafe {
+            self.input.reset_to(reset);
+        }
+        Tokens::scan_jsx_token(self, allow_multiline_jsx_text)
+    }
+
+    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Option<TokenAndSpan> {
+        let start = self.cur_pos();
+        let res = match self.scan_jsx_token(allow_multiline_jsx_text) {
+            Ok(res) => Ok(res),
+            Err(error) => {
+                self.state.set_token_value(TokenValue::Error(error));
+                Err(Token::Error)
+            }
+        };
+        let token = match res.map_err(Some) {
+            Ok(t) => t,
+            Err(e) => e,
+        };
+        let span = self.span(start);
+        if let Some(token) = token {
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                for comment in comments.take_pending_leading() {
+                    comments.push(BufferedComment {
+                        kind: BufferedCommentKind::Leading,
+                        pos: start,
+                        comment,
+                    });
+                }
+            }
+
+            self.state.set_token_type(token);
+            self.state.prev_hi = self.last_pos();
+            self.state.had_line_break_before_last = self.had_line_break_before_last();
+        }
+        token.map(|token| {
+            // Attach span to token.
+            TokenAndSpan {
+                token,
+                had_line_break: self.had_line_break_before_last(),
+                span,
+            }
+        })
+    }
+
+    fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan {
+        let token = self.state.token_type.unwrap();
+        debug_assert!(token.is_word());
+        let mut v = String::with_capacity(16);
+        while let Some(ch) = self.input().cur() {
+            if ch == '-' {
+                v.push(ch);
+                self.bump();
+            } else {
+                let old_pos = self.cur_pos();
+                v.push_str(&self.scan_identifier_parts());
+                if self.cur_pos() == old_pos {
+                    break;
+                }
+            }
+        }
+        let v = if !v.is_empty() {
+            let v = if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
+                format!("{value}{v}")
+            } else {
+                format!("{}{}", token.to_string(None), v)
+            };
+            self.atom(v)
+        } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
+            value
+        } else {
+            self.atom(token.to_string(None))
+        };
+        self.state.set_token_value(TokenValue::Word(v));
+        TokenAndSpan {
+            token: Token::JSXName,
+            had_line_break: self.had_line_break_before_last(),
+            span: self.span(start),
+        }
+    }
+
+    fn scan_jsx_attribute_value(&mut self) -> Option<TokenAndSpan> {
+        let Some(cur) = self.cur() else {
+            return self.next();
+        };
+        let start = self.cur_pos();
+
+        match cur {
+            '\'' | '"' => {
+                let token = self.read_jsx_str(cur).ok()?;
+                debug_assert!(self
+                    .get_token_value()
+                    .is_some_and(|t| matches!(t, TokenValue::Str { .. })));
+                debug_assert!(token == Token::Str);
+                Some(TokenAndSpan {
+                    token,
+                    had_line_break: self.had_line_break_before_last(),
+                    span: self.span(start),
+                })
+            }
+            _ => self.next(),
+        }
+    }
+
+    fn rescan_template_token(
+        &mut self,
+        start: BytePos,
+        start_with_back_tick: bool,
+    ) -> Option<TokenAndSpan> {
+        unsafe { self.input.reset_to(start) };
+        let res = self
+            .scan_template_token(start, start_with_back_tick)
+            .map(Some);
+        let token = match res
+            .map_err(|e| {
+                self.state.set_token_value(TokenValue::Error(e));
+                Token::Error
+            })
+            .map_err(Some)
+        {
+            Ok(t) => t,
+            Err(e) => e,
+        };
+        let span = if start_with_back_tick {
+            self.span(start)
+        } else {
+            // `+ BytePos(1)` is used to skip `{`
+            self.span(start + BytePos(1))
+        };
+        if let Some(token) = token {
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                for comment in comments.take_pending_leading() {
+                    comments.push(BufferedComment {
+                        kind: BufferedCommentKind::Leading,
+                        pos: start,
+                        comment,
+                    });
+                }
+            }
+
+            self.state.set_token_type(token);
+            self.state.prev_hi = self.last_pos();
+            self.state.had_line_break_before_last = self.had_line_break_before_last();
+        }
+        token.map(|token| {
+            // Attach span to token.
+            TokenAndSpan {
+                token,
+                had_line_break: self.had_line_break_before_last(),
+                span,
+            }
+        })
     }
 }
 
@@ -160,7 +343,7 @@ impl Lexer<'_> {
         self.state.is_first = false;
 
         // skip spaces before getting next character, if we are allowed to.
-        if self.state.can_skip_space() {
+        if self.state.can_skip_space {
             self.skip_space::<true>();
             *start = self.input.cur_pos();
         };
@@ -183,68 +366,108 @@ impl Lexer<'_> {
 
         self.state.start = *start;
 
-        if self.syntax.jsx()
-            && !self.ctx.contains(Context::InPropertyName)
-            && !self.ctx.contains(Context::InType)
-        {
-            //jsx
-            if self.state.context.current() == Some(TokenContext::JSXExpr) {
-                return self.read_jsx_token();
-            }
-
-            let c = self.cur();
-            if let Some(c) = c {
-                if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
-                    || self.state.context.current() == Some(TokenContext::JSXClosingTag)
-                {
-                    if c.is_ident_start() {
-                        return self.read_jsx_word().map(Some);
-                    }
-
-                    if c == '>' {
-                        unsafe {
-                            // Safety: cur() is Some('>')
-                            self.input.bump();
-                        }
-                        return Ok(Some(Token::JSXTagEnd));
-                    }
-
-                    if (c == '\'' || c == '"')
-                        && self.state.context.current() == Some(TokenContext::JSXOpeningTag)
-                    {
-                        return self.read_jsx_str(c).map(Some);
-                    }
-                }
-
-                if c == '<' && self.state.is_expr_allowed && self.input.peek() != Some('!') {
-                    let had_line_break_before_last = self.had_line_break_before_last();
-                    let cur_pos = self.input.cur_pos();
-
-                    unsafe {
-                        // Safety: cur() is Some('<')
-                        self.input.bump();
-                    }
-
-                    if had_line_break_before_last && self.is_str("<<<<<< ") {
-                        let span = Span::new(cur_pos, cur_pos + BytePos(7));
-
-                        self.emit_error_span(span, SyntaxError::TS1185);
-                        self.skip_line_comment(6);
-                        self.skip_space::<true>();
-                        return self.read_token();
-                    }
-
-                    return Ok(Some(Token::JSXTagStart));
-                }
-            }
-        }
-
-        if let Some(TokenContext::Tpl) = self.state.context.current() {
-            let start = self.state.tpl_start;
-            return self.read_tmpl_token(start).map(Some);
-        }
-
         self.read_token()
+    }
+
+    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Result<Option<Token>, Error> {
+        let start = self.input.cur_pos();
+        debug_assert!(self.syntax.jsx());
+        if self.input_mut().cur().is_none() {
+            return Ok(None);
+        };
+
+        if self.input.eat_byte(b'<') {
+            return Ok(Some(if self.input.eat_byte(b'/') {
+                Token::LessSlash
+            } else {
+                Token::Lt
+            }));
+        } else if self.input.eat_byte(b'{') {
+            return Ok(Some(Token::LBrace));
+        }
+
+        let mut first_non_whitespace = 0;
+        while let Some(ch) = self.input_mut().cur() {
+            if ch == '{' {
+                break;
+            } else if ch == '<' {
+                // TODO: check git conflict mark
+                break;
+            }
+
+            if ch == '>' {
+                self.emit_error(
+                    self.input().cur_pos(),
+                    SyntaxError::UnexpectedTokenWithSuggestions {
+                        candidate_list: vec!["`{'>'}`", "`&gt;`"],
+                    },
+                );
+            } else if ch == '}' {
+                self.emit_error(
+                    self.input().cur_pos(),
+                    SyntaxError::UnexpectedTokenWithSuggestions {
+                        candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
+                    },
+                );
+            }
+
+            if first_non_whitespace == 0 && ch.is_line_terminator() {
+                first_non_whitespace = -1;
+            } else if !allow_multiline_jsx_text
+                && ch.is_line_terminator()
+                && first_non_whitespace > 0
+            {
+                break;
+            } else if ch.is_whitespace() {
+                first_non_whitespace = self.cur_pos().0 as i32;
+            }
+
+            self.bump();
+        }
+
+        let end = self.input().cur_pos();
+        let value = unsafe {
+            // Safety: Both of `start` and `end` are generated from `cur_pos()`
+            self.input_slice(start, end)
+        };
+        let value = self.atom(value);
+
+        self.state.set_token_value(TokenValue::Str {
+            raw: value.clone(),
+            value,
+        });
+
+        self.state.start = start;
+
+        Ok(Some(Token::JSXText))
+    }
+
+    fn scan_identifier_parts(&mut self) -> String {
+        let mut v = String::with_capacity(16);
+        while let Some(ch) = self.input().cur() {
+            if ch.is_ident_part() {
+                v.push(ch);
+                self.input_mut().bump_bytes(ch.len_utf8());
+            } else if ch == '\\' {
+                self.bump(); // bump '\'
+                if !self.is(b'u') {
+                    self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
+                    continue;
+                }
+                self.bump(); // bump 'u'
+                let Ok(chars) = self.read_unicode_escape() else {
+                    self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
+                    break;
+                };
+                for c in chars {
+                    v.extend(c);
+                }
+                self.token_flags |= swc_ecma_lexer::lexer::TokenFlags::UNICODE;
+            } else {
+                break;
+            }
+        }
+        v
     }
 }
 
@@ -254,8 +477,7 @@ impl Iterator for Lexer<'_> {
     fn next(&mut self) -> Option<Self::Item> {
         let mut start = self.cur_pos();
 
-        let res = self.next_token(&mut start);
-        let res = match res {
+        let res = match self.next_token(&mut start) {
             Ok(res) => Ok(res),
             Err(error) => {
                 self.state.set_token_value(TokenValue::Error(error));
@@ -279,7 +501,7 @@ impl Iterator for Lexer<'_> {
                 }
             }
 
-            self.state.update(start, token);
+            self.state.set_token_type(token);
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
@@ -297,28 +519,24 @@ impl Iterator for Lexer<'_> {
 
 impl State {
     pub fn new(syntax: Syntax, start_pos: BytePos) -> Self {
-        let context = TokenContexts(smallvec![TokenContext::BraceStmt]);
-
         State {
             is_expr_allowed: true,
-            next_regexp: None,
             had_line_break: false,
             had_line_break_before_last: false,
             is_first: true,
+            can_skip_space: true,
+            next_regexp: None,
             start: BytePos(0),
             cur_line: 1,
             line_start: BytePos(0),
             prev_hi: start_pos,
             tpl_start: BytePos::DUMMY,
-            context,
             syntax,
             token_value: None,
             token_type: None,
         }
     }
-}
 
-impl State {
     pub(crate) fn set_token_value(&mut self, token_value: TokenValue) {
         self.token_value = Some(token_value);
     }
@@ -360,12 +578,12 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
 
     #[inline(always)]
     fn token_contexts(&self) -> &swc_ecma_lexer::TokenContexts {
-        &self.context
+        unreachable!();
     }
 
     #[inline(always)]
     fn mut_token_contexts(&mut self) -> &mut swc_ecma_lexer::TokenContexts {
-        &mut self.context
+        unreachable!();
     }
 
     #[inline(always)]
@@ -406,5 +624,10 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
     #[inline(always)]
     fn set_line_start(&mut self, line_start: BytePos) {
         self.line_start = line_start;
+    }
+
+    #[inline(always)]
+    fn can_skip_space(&self) -> bool {
+        self.can_skip_space
     }
 }

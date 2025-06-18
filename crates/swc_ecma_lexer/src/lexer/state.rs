@@ -12,13 +12,22 @@ use crate::{
         lexer::{
             char::CharExt,
             comments_buffer::{BufferedComment, BufferedCommentKind},
-            state::State as StateTrait,
+            state::{
+                State as StateTrait, TokenKind as TokenKindTrait, TokenType as TokenTypeTrait,
+            },
         },
     },
     error::{Error, SyntaxError},
     token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
     *,
 };
+
+bitflags::bitflags! {
+    #[derive(Debug, Default, Clone, Copy)]
+    pub struct TokenFlags: u8 {
+        const UNICODE = 1 << 0;
+    }
+}
 
 /// State of lexer.
 ///
@@ -43,6 +52,244 @@ pub struct State {
     syntax: Syntax,
 
     token_type: Option<TokenType>,
+}
+
+impl State {
+    pub(super) fn update(&mut self, start: BytePos, next: TokenKind) {
+        if cfg!(feature = "debug") {
+            tracing::trace!(
+                "updating state: next={:?}, had_line_break={} ",
+                next,
+                self.had_line_break()
+            );
+        }
+        let prev = self.token_type();
+        self.set_token_type(next.into());
+        let is_expr_allowed_on_next = self.is_expr_allowed_on_next(prev, start, next);
+        self.set_is_expr_allowed(is_expr_allowed_on_next);
+    }
+
+    /// Returns true if following `LBrace` token is `block statement` according
+    /// to  `ctx`, `prev`, `is_expr_allowed`.
+    fn is_brace_block(
+        token_contexts: &TokenContexts,
+        prev: Option<TokenType>,
+        had_line_break: bool,
+        is_expr_allowed: bool,
+    ) -> bool {
+        let Some(prev) = prev else {
+            return true;
+        };
+
+        if prev.is_colon() {
+            match token_contexts.current() {
+                Some(TokenContext::BraceStmt) => return true,
+                // `{ a: {} }`
+                //     ^ ^
+                Some(TokenContext::BraceExpr) => return false,
+                _ => {}
+            };
+        }
+
+        //  function a() {
+        //      return { a: "" };
+        //  }
+        //  function a() {
+        //      return
+        //      {
+        //          function b(){}
+        //      };
+        //  }
+        if prev.is_keyword_return() || prev.is_keyword_yield() {
+            had_line_break
+        } else if prev.is_rparen()
+            || prev.is_semi()
+            || prev.is_keyword_else()
+            || prev.is_lt()
+            || prev.is_gt()
+            || prev.is_arrow()
+        {
+            true
+        } else if prev.is_lbrace() {
+            // If previous token was `{`
+            // https://github.com/swc-project/swc/issues/3241#issuecomment-1029584460
+            // <Blah blah={function (): void {}} />
+            let c = token_contexts.current();
+            if c == Some(TokenContext::BraceExpr) {
+                let len = token_contexts.len();
+                if let Some(TokenContext::JSXOpeningTag) = token_contexts.0.get(len - 2) {
+                    return true;
+                }
+            }
+            c == Some(TokenContext::BraceStmt)
+        } else {
+            if had_line_break && prev.is_other_and_before_expr_is_false() {
+                return true;
+            }
+            !is_expr_allowed
+        }
+    }
+
+    /// `is_expr_allowed`: previous value.
+    /// `start`: start of newly produced token.
+    fn is_expr_allowed_on_next(
+        &mut self,
+        prev: Option<TokenType>,
+        start: BytePos,
+        next: TokenKind,
+    ) -> bool {
+        let is_expr_allowed = self.is_expr_allowed();
+        let had_line_break = self.had_line_break();
+        let had_line_break_before_last = self.had_line_break_before_last();
+        let is_next_keyword = next.is_keyword();
+        let syntax = self.syntax();
+        let context = self.mut_token_contexts();
+
+        if is_next_keyword && prev.is_some_and(|prev| prev.is_dot()) {
+            false
+        } else if next.is_rparen() || next.is_rbrace() {
+            // TODO: Verify
+            if context.len() == 1 {
+                return true;
+            } else {
+                let out = context.pop().unwrap();
+                // let a = function(){}
+                if out == TokenContext::BraceStmt
+                    && matches!(
+                        context.current(),
+                        Some(TokenContext::FnExpr | TokenContext::ClassExpr)
+                    )
+                {
+                    context.pop();
+                    return false;
+                }
+
+                // ${} in template
+                if out == TokenContext::TplQuasi {
+                    match context.current() {
+                        Some(TokenContext::Tpl) => return false,
+                        _ => return true,
+                    }
+                }
+                // expression cannot follow expression
+                !out.is_expr()
+            }
+        } else if next.is_keyword_fn() {
+            // This is required to lex
+            // `x = function(){}/42/i`
+            if is_expr_allowed
+                && !Self::is_brace_block(context, prev, had_line_break, is_expr_allowed)
+            {
+                context.push(TokenContext::FnExpr);
+            }
+            false
+        } else if next.is_keyword_class() {
+            if is_expr_allowed
+                && !Self::is_brace_block(context, prev, had_line_break, is_expr_allowed)
+            {
+                context.push(TokenContext::ClassExpr);
+            }
+            false
+        } else if next.is_colon()
+            && matches!(
+                context.current(),
+                Some(TokenContext::FnExpr | TokenContext::ClassExpr)
+            )
+        {
+            // `function`/`class` keyword is object prop
+            //
+            // ```JavaScript
+            // { function: expr, class: expr }
+            // ```
+            context.pop(); // Remove FnExpr or ClassExpr
+            true
+        } else if next.is_known_ident_of()
+            && context.current() == Some(TokenContext::ParenStmt { is_for_loop: true })
+        {
+            // for (a of b) {}
+
+            // e.g. for (a of _) => true
+            !prev
+                .expect("context.current() if ParenStmt, so prev token cannot be None")
+                .before_expr()
+        } else if next.is_ident() {
+            let Some(prev) = prev else {
+                return false;
+            };
+            had_line_break_before_last
+                && (prev.is_keyword_var() || prev.is_keyword_let() || prev.is_keyword_const())
+        } else if next.is_lbrace() {
+            let cur = context.current();
+            if syntax.jsx() && cur == Some(TokenContext::JSXOpeningTag) {
+                context.push(TokenContext::BraceExpr)
+            } else if syntax.jsx() && cur == Some(TokenContext::JSXExpr) {
+                context.push(TokenContext::TplQuasi);
+            } else {
+                let next_ctxt =
+                    if Self::is_brace_block(context, prev, had_line_break, is_expr_allowed) {
+                        TokenContext::BraceStmt
+                    } else {
+                        TokenContext::BraceExpr
+                    };
+                context.push(next_ctxt);
+            }
+            true
+        } else if next.is_slash()
+            && syntax.jsx()
+            && prev.is_some_and(|prev| prev.is_jsx_tag_start())
+        {
+            context.pop();
+            context.pop(); // do not consider JSX expr -> JSX open tag ->... anymore
+            context.push(TokenContext::JSXClosingTag); // reconsider as closing tag context
+            false
+        } else if next.is_dollar_lbrace() {
+            context.push(TokenContext::TplQuasi);
+            true
+        } else if next.is_lparen() {
+            let c = match prev {
+                Some(prev) => {
+                    if prev.is_keyword_if() || prev.is_keyword_while() || prev.is_keyword_with() {
+                        TokenContext::ParenStmt { is_for_loop: false }
+                    } else if prev.is_keyword_for() {
+                        TokenContext::ParenStmt { is_for_loop: true }
+                    } else {
+                        TokenContext::ParenExpr
+                    }
+                }
+                None => TokenContext::ParenExpr,
+            };
+            context.push(c);
+            true
+        } else if next.is_plus_plus() || next.is_minus_minus() {
+            is_expr_allowed
+        } else if next.is_back_quote() {
+            // If we are in template, ` terminates template.
+            if let Some(TokenContext::Tpl) = context.current() {
+                context.pop();
+            } else {
+                context.push(TokenContext::Tpl);
+                self.set_tpl_start(start);
+            }
+            false
+        } else if next.is_jsx_tag_start() {
+            context.push(TokenContext::JSXExpr); // treat as beginning of JSX expression
+            context.push(TokenContext::JSXOpeningTag); // start opening tag context
+            false
+        } else if next.is_jsx_tag_end() {
+            let out = context.pop();
+            if (out == Some(TokenContext::JSXOpeningTag)
+                && prev.is_some_and(|prev| prev.is_slash()))
+                || out == Some(TokenContext::JSXClosingTag)
+            {
+                context.pop();
+                context.current() == Some(TokenContext::JSXExpr)
+            } else {
+                true
+            }
+        } else {
+            next.before_expr()
+        }
+    }
 }
 
 impl common::lexer::state::State for State {
@@ -128,6 +375,15 @@ impl common::lexer::state::State for State {
     fn set_line_start(&mut self, line_start: BytePos) {
         self.line_start = line_start;
     }
+
+    #[inline(always)]
+    fn can_skip_space(&self) -> bool {
+        !self
+            .token_contexts()
+            .current()
+            .map(|t| t.preserve_space())
+            .unwrap_or_default()
+    }
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq)]
@@ -150,6 +406,7 @@ pub enum TokenType {
         can_have_trailing_comment: bool,
     },
 }
+
 impl TokenType {
     #[inline]
     pub const fn before_expr(self) -> bool {
@@ -490,6 +747,24 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
     #[inline]
     fn end_pos(&self) -> BytePos {
         self.input.end_pos()
+    }
+
+    #[inline]
+    fn can_skip_space(&self) -> bool {
+        unreachable!("`can_skip_space` is determined by the current context")
+    }
+
+    #[inline]
+    fn set_can_skip_space(&mut self, _: bool) {
+        unreachable!("`can_skip_space` is determined by the current context")
+    }
+
+    fn update_token_flags(&mut self, _: impl FnOnce(&mut lexer::TokenFlags)) {
+        // TODO: update token flags if needed.
+    }
+
+    fn token_flags(&self) -> lexer::TokenFlags {
+        Default::default()
     }
 }
 

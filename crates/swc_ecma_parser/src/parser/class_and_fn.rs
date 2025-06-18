@@ -11,7 +11,7 @@ mod tests {
     use crate::test_parser;
 
     fn lhs(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::default(), |p| parse_lhs_expr(p))
+        test_parser(s, Syntax::default(), |p| parse_lhs_expr::<_, false>(p))
     }
 
     fn expr(s: &'static str) -> Box<Expr> {

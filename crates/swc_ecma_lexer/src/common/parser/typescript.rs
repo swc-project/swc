@@ -21,9 +21,7 @@ use crate::{
         lexer::token::TokenFactory,
         parser::{
             buffer::Buffer,
-            expr::{
-                parse_assignment_expr, parse_lit, parse_str_lit, parse_subscripts, parse_unary_expr,
-            },
+            expr::{parse_assignment_expr, parse_lit, parse_str_lit, parse_subscripts},
             ident::{parse_ident, parse_ident_name},
             module_item::parse_module_item_block_body,
             object::parse_object_expr,
@@ -148,7 +146,7 @@ where
 }
 
 /// In no lexer context
-fn ts_in_no_context<'a, P: Parser<'a>, T, F>(p: &mut P, op: F) -> PResult<T>
+pub(crate) fn ts_in_no_context<'a, P: Parser<'a>, T, F>(p: &mut P, op: F) -> PResult<T>
 where
     F: FnOnce(&mut P) -> PResult<T>,
 {
@@ -473,7 +471,7 @@ pub fn parse_ts_type_args<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTypePar
     let params = p.in_type().parse_with(|p| {
         // Temporarily remove a JSX parsing context, which makes us scan different
         // tokens.
-        ts_in_no_context(p, |p| {
+        p.ts_in_no_context(|p| {
             if p.input_mut().is(&P::Token::LSHIFT) {
                 p.input_mut().cut_lshift();
             } else {
@@ -731,7 +729,7 @@ pub fn parse_ts_type_params<'a, P: Parser<'a>>(
     permit_const: bool,
 ) -> PResult<Box<TsTypeParamDecl>> {
     p.in_type().parse_with(|p| {
-        ts_in_no_context(p, |p| {
+        p.ts_in_no_context(|p| {
             let start = p.input_mut().cur_pos();
 
             let Some(cur) = p.input_mut().cur() else {
@@ -889,7 +887,7 @@ pub(super) fn try_parse_ts_type_args<'a, P: Parser<'a>>(
         if cur.is_some_and(|cur| {
             cur.is_less() // invalid syntax
             || cur.is_greater() || cur.is_equal() || cur.is_rshift() || cur.is_greater_eq() || cur.is_plus() || cur.is_minus() // becomes relational expression
-            || cur.is_lparen() || cur.is_backquote() // these should be type
+            || cur.is_lparen() || cur.is_no_substitution_template_literal() || cur.is_template_head() || cur.is_backquote() // these should be type
                                                      // arguments in function
                                                      // call or template, not
                                                      // instantiation
@@ -1104,7 +1102,7 @@ fn parse_ts_tpl_type_elements<'a, P: Parser<'a>>(
 }
 
 /// `tsParseLiteralTypeNode`
-pub fn parse_ts_lit_type_node<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsLitType> {
+fn parse_ts_lit_type_node<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsLitType> {
     debug_assert!(p.input().syntax().typescript());
 
     let start = p.cur_pos();
@@ -2185,7 +2183,7 @@ pub fn parse_ts_interface_decl<'a, P: Parser<'a>>(
 }
 
 /// `tsParseTypeAssertion`
-pub(super) fn parse_ts_type_assertion<'a, P: Parser<'a>>(
+pub fn parse_ts_type_assertion<'a, P: Parser<'a>>(
     p: &mut P,
     start: BytePos,
 ) -> PResult<TsTypeAssertion> {
@@ -2200,7 +2198,7 @@ pub(super) fn parse_ts_type_assertion<'a, P: Parser<'a>>(
     // `tsParseType`.
     let type_ann = p.in_type().parse_with(parse_ts_type)?;
     expect!(p, &P::Token::GREATER);
-    let expr = parse_unary_expr(p)?;
+    let expr = p.parse_unary_expr()?;
     Ok(TsTypeAssertion {
         span: p.span(start),
         type_ann,
@@ -2416,7 +2414,7 @@ fn parse_ts_ambient_external_module_decl<'a, P: Parser<'a>>(
 }
 
 /// `tsParseNonArrayType`
-pub fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>> {
+fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>> {
     if !cfg!(feature = "typescript") {
         unreachable!()
     }
@@ -2493,6 +2491,8 @@ pub fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTy
         || cur.is_backquote()
     {
         return parse_ts_lit_type_node(p).map(TsType::from).map(Box::new);
+    } else if cur.is_no_substitution_template_literal() || cur.is_template_head() {
+        return p.parse_tagged_tpl_ty().map(TsType::from).map(Box::new);
     } else if cur.is_minus() {
         let start = p.cur_pos();
 

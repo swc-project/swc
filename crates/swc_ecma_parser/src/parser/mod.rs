@@ -6,8 +6,8 @@ use std::ops::DerefMut;
 use swc_common::{comments::Comments, input::StringInput};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::common::parser::{
-    buffer::Buffer as BufferTrait, module_item::parse_module_item_block_body, parse_shebang,
-    stmt::parse_stmt_block_body, Parser as ParserTrait,
+    buffer::Buffer as BufferTrait, expr::parse_lhs_expr, module_item::parse_module_item_block_body,
+    parse_shebang, stmt::parse_stmt_block_body, Parser as ParserTrait,
 };
 
 use crate::{
@@ -32,6 +32,7 @@ mod pat;
 mod stmt;
 #[cfg(test)]
 mod tests;
+mod tpl;
 #[cfg(feature = "typescript")]
 mod typescript;
 
@@ -76,6 +77,59 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     #[inline(always)]
     fn mark_found_module_item(&mut self) {
         self.found_module_item = true;
+    }
+
+    #[inline(always)]
+    fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
+        self.parse_unary_expr()
+    }
+
+    #[inline(always)]
+    fn parse_jsx_element(
+        &mut self,
+        in_expr_context: bool,
+    ) -> PResult<either::Either<JSXFragment, JSXElement>> {
+        self.parse_jsx_element(in_expr_context)
+    }
+
+    #[inline(always)]
+    fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
+        self.parse_primary_expr()
+    }
+
+    #[inline(always)]
+    fn ts_in_no_context<T>(&mut self, op: impl FnOnce(&mut Self) -> PResult<T>) -> PResult<T> {
+        debug_assert!(self.input().syntax().typescript());
+        trace_cur!(self, ts_in_no_context__before);
+        let res = op(self);
+        trace_cur!(self, ts_in_no_context__after);
+        res
+    }
+
+    #[inline(always)]
+    fn parse_tagged_tpl(
+        &mut self,
+        tag: Box<Expr>,
+        type_params: Option<Box<TsTypeParamInstantiation>>,
+    ) -> PResult<TaggedTpl> {
+        self.parse_tagged_tpl(tag, type_params)
+    }
+
+    #[inline(always)]
+    fn parse_tagged_tpl_ty(&mut self) -> PResult<TsLitType> {
+        let start = self.cur_pos();
+        self.parse_tagged_tpl_ty().map(|tpl_ty| {
+            let lit = TsLit::Tpl(tpl_ty);
+            TsLitType {
+                span: self.span(start),
+                lit,
+            }
+        })
+    }
+
+    #[inline(always)]
+    fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
+        parse_lhs_expr::<Self, false>(self)
     }
 }
 

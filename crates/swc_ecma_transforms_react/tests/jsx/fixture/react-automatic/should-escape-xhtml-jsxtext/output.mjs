@@ -9,10 +9,10 @@ _jsx("div", {
     children: "w & w"
 });
 /*#__PURE__*/ _jsx("div", {
-    children: "w & w"
+    children: "w &amp; w"
 });
 /*#__PURE__*/ _jsx("div", {
-    children: "w   w"
+    children: "w &nbsp; w"
 });
 /*#__PURE__*/ _jsx("div", {
     children: "this should not parse as unicode: \\u00a0"
@@ -27,5 +27,5 @@ _jsx("div", {
     ]
 });
 /*#__PURE__*/ _jsx("div", {
-    children: "w < w"
+    children: "w &lt; w"
 });
