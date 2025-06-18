@@ -36,13 +36,21 @@ pub struct CommonConfig {
     pub throw_if_namespace: BoolConfig<true>,
 }
 
-#[derive(Debug, Default, Clone, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
 pub struct AutomaticConfig {
     /// Import source for automatic runtime
     #[serde(default = "default_import_source")]
     pub import_source: Atom,
+}
+
+impl Default for AutomaticConfig {
+    fn default() -> Self {
+        Self {
+            import_source: default_import_source(),
+        }
+    }
 }
 
 /// Configuration for classic JSX runtime transformation
