@@ -192,7 +192,7 @@ pub fn take_leading_comments_proxy(
     unwrap_comments_storage_or_default(
         |comments| {
             let leading_comments = comments.take_leading(BytePos(byte_pos));
-            if let Some(leading_comments) = leading_comments {
+            if !leading_comments.is_empty() {
                 let serialized_leading_comments_vec_bytes = PluginSerializedBytes::try_serialize(
                     &VersionedSerializable::new(leading_comments),
                 )
@@ -238,7 +238,7 @@ pub fn get_leading_comments_proxy(
     unwrap_comments_storage_or_default(
         |comments| {
             let leading_comments = comments.get_leading(BytePos(byte_pos));
-            if let Some(leading_comments) = leading_comments {
+            if !leading_comments.is_empty() {
                 let serialized_leading_comments_vec_bytes = PluginSerializedBytes::try_serialize(
                     &VersionedSerializable::new(leading_comments),
                 )
@@ -320,9 +320,9 @@ pub fn take_trailing_comments_proxy(
     unwrap_comments_storage_or_default(
         |comments| {
             let trailing_comments = comments.take_trailing(BytePos(byte_pos));
-            if let Some(leading_comments) = trailing_comments {
+            if !trailing_comments.is_empty() {
                 let serialized_leading_comments_vec_bytes = PluginSerializedBytes::try_serialize(
-                    &VersionedSerializable::new(leading_comments),
+                    &VersionedSerializable::new(trailing_comments),
                 )
                 .expect("Should be serializable");
 
@@ -361,9 +361,9 @@ pub fn get_trailing_comments_proxy(
     unwrap_comments_storage_or_default(
         |comments| {
             let trailing_comments = comments.get_trailing(BytePos(byte_pos));
-            if let Some(leading_comments) = trailing_comments {
+            if !trailing_comments.is_empty() {
                 let serialized_leading_comments_vec_bytes = PluginSerializedBytes::try_serialize(
-                    &VersionedSerializable::new(leading_comments),
+                    &VersionedSerializable::new(trailing_comments),
                 )
                 .expect("Should be serializable");
 

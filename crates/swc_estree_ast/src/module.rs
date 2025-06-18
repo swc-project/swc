@@ -62,7 +62,7 @@ pub struct File {
     pub base: BaseNode,
     pub program: Program,
     #[serde(default)]
-    pub comments: Option<Vec<Comment>>,
+    pub comments: Vec<Comment>,
     #[serde(default)]
     pub tokens: Option<Vec<Value>>, // TODO: is this the right way to model any?
 }

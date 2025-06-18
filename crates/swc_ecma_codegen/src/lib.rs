@@ -1387,17 +1387,16 @@ fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
     }
 
     // see #415
-    if let Some(cmt) = cmt.get_leading(lo) {
-        if cmt.iter().any(|cmt| {
-            cmt.kind == CommentKind::Line
-                || cmt
-                    .text
-                    .chars()
-                    // https://tc39.es/ecma262/#table-line-terminator-code-points
-                    .any(|c| c == '\n' || c == '\r' || c == '\u{2028}' || c == '\u{2029}')
-        }) {
-            return true;
-        }
+    let cmt = cmt.get_leading(lo);
+    if cmt.iter().any(|cmt| {
+        cmt.kind == CommentKind::Line
+            || cmt
+                .text
+                .chars()
+                // https://tc39.es/ecma262/#table-line-terminator-code-points
+                .any(|c| c == '\n' || c == '\r' || c == '\u{2028}' || c == '\u{2029}')
+    }) {
+        return true;
     }
 
     false

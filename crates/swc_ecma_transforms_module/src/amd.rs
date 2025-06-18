@@ -497,7 +497,6 @@ where
             comments
                 .get_leading(span.lo)
                 .iter()
-                .flatten()
                 .rev()
                 .find_map(|cmt| {
                     if cmt.kind != CommentKind::Line {

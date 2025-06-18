@@ -40,7 +40,7 @@ impl Babelify for Program {
                 },
             },
             program,
-            comments: Some(ctx.convert_comments(comments)),
+            comments: ctx.convert_comments(comments),
             tokens: Default::default(),
         }
     }
@@ -123,13 +123,16 @@ fn base_with_trailing_newline(span: Span, ctx: &Context) -> BaseNode {
 /// line comments. Swc ignores them and starts the program on the next line
 /// down, while babel includes them in the file start/end.
 fn has_comment_first_line(sp: Span, ctx: &Context) -> bool {
-    if let Some(comments) = ctx.comments.leading.get(&sp.hi) {
-        !comments
-            .first()
-            .map(|c| c.span.lo == ctx.fm.start_pos)
-            .unwrap_or(false)
-    } else {
-        true
+    match ctx.comments.leading.get(&sp.hi) {
+        Some(ref_comments) => {
+            let comments = ref_comments.value();
+            if comments.is_empty() {
+                true
+            } else {
+                !comments.first().map(|c| c.span.lo == ctx.fm.start_pos).unwrap_or(false)
+            }
+        },
+        None => true
     }
 }
 
@@ -192,21 +195,25 @@ impl Visit for CommentCollector {
         // Comments must be deduped since it's possible for a single comment to show up
         // multiple times since they are not removed from the comments map.
         // For example, this happens when the first line in a file is a comment.
-        if let Some(comments) = self.comments.leading.get(&sp.lo) {
-            for comment in comments.iter() {
+        
+        if let Some(leading_ref) = self.comments.leading.get(&sp.lo) {
+            let leading_comments = leading_ref.value();
+            for comment in leading_comments {
                 if !self.collected.contains(comment) {
                     span_comments.push(comment.clone());
                 }
             }
         }
 
-        if let Some(comments) = self.comments.trailing.get(&sp.hi) {
-            for comment in comments.iter() {
+        if let Some(trailing_ref) = self.comments.trailing.get(&sp.hi) {
+            let trailing_comments = trailing_ref.value();
+            for comment in trailing_comments {
                 if !self.collected.contains(comment) {
                     span_comments.push(comment.clone());
                 }
             }
         }
+        
         self.collected.append(&mut span_comments);
     }
 }

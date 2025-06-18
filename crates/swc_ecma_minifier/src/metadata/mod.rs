@@ -317,12 +317,10 @@ where
     let mut found = false;
     if let Some(comments) = comments {
         let cs = comments.get_leading(span.lo);
-        if let Some(cs) = cs {
-            for c in &cs {
-                found |= op(c);
-                if found {
-                    break;
-                }
+        for c in &cs {
+            found |= op(c);
+            if found {
+                break;
             }
         }
     }

@@ -100,12 +100,12 @@ impl Comments for SwcComments {
         }
     }
 
-    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.leading.remove(&pos).map(|v| v.1)
+    fn take_leading(&self, pos: BytePos) -> Vec<Comment> {
+        self.leading.remove(&pos).map(|v| v.1).unwrap_or_default()
     }
 
-    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.leading.get(&pos).map(|v| v.to_owned())
+    fn get_leading(&self, pos: BytePos) -> Vec<Comment> {
+        self.leading.get(&pos).map(|v| v.to_owned()).unwrap_or_default()
     }
 
     fn add_trailing(&self, pos: BytePos, cmt: Comment) {
@@ -132,12 +132,12 @@ impl Comments for SwcComments {
         }
     }
 
-    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.trailing.remove(&pos).map(|v| v.1)
+    fn take_trailing(&self, pos: BytePos) -> Vec<Comment> {
+        self.trailing.remove(&pos).map(|v| v.1).unwrap_or_default()
     }
 
-    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
-        self.trailing.get(&pos).map(|v| v.to_owned())
+    fn get_trailing(&self, pos: BytePos) -> Vec<Comment> {
+        self.trailing.get(&pos).map(|v| v.to_owned()).unwrap_or_default()
     }
 
     fn add_pure_comment(&self, pos: BytePos) {

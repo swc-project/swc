@@ -4,10 +4,7 @@ use super::*;
 
 macro_rules! write_comments {
     ($e:expr, $prefix_space:expr, $cmts:expr) => {{
-        let cmts = match $cmts {
-            Some(v) => v,
-            None => return Ok(()),
-        };
+        let cmts = $cmts;
 
         for cmt in cmts.iter() {
             match cmt.kind {
@@ -67,7 +64,7 @@ where
     ) -> Result {
         let cmts = self.take_trailing_comments_of_pos(pos);
 
-        write_comments!(self, prefix_space, &cmts)
+        write_comments!(self, prefix_space, cmts)
     }
 
     pub(super) fn emit_trailing_comments_of_pos_with(
@@ -80,17 +77,17 @@ where
 
         callback(self)?;
 
-        write_comments!(self, prefix_space, &cmts)
+        write_comments!(self, prefix_space, cmts)
     }
 
-    fn take_trailing_comments_of_pos(&mut self, pos: BytePos) -> Option<Vec<Comment>> {
+    fn take_trailing_comments_of_pos(&mut self, pos: BytePos) -> Vec<Comment> {
         if pos.is_dummy() {
-            return None;
+            return Vec::new();
         }
 
         let comments = match self.comments {
             Some(ref comments) => comments,
-            None => return None,
+            None => return Vec::new(),
         };
 
         comments.take_trailing(pos)
@@ -105,11 +102,11 @@ where
             write_comments!(
                 self,
                 false,
-                Some(vec![Comment {
+                vec![Comment {
                     kind: CommentKind::Block,
                     span: DUMMY_SP,
                     text: "#__PURE__".into(),
-                }])
+                }]
             );
         }
 

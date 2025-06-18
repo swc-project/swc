@@ -713,11 +713,9 @@ impl Compiler {
                 self.get_orig_src_map(
                     &fm,
                     &config.input_source_map,
-                    config
+                    &config
                         .comments
-                        .get_trailing(config.program.span_hi())
-                        .as_deref()
-                        .unwrap_or_default(),
+                        .get_trailing(config.program.span_hi()),
                     false,
                 )?
             } else {

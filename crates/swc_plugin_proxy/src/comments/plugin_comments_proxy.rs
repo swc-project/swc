@@ -107,11 +107,11 @@ impl Comments for PluginCommentsProxy {
         });
     }
 
-    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+    fn take_leading(&self, pos: BytePos) -> Vec<Comment> {
         swc_common::comments::COMMENTS.with(|c| c.take_leading(pos))
     }
 
-    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+    fn get_leading(&self, pos: BytePos) -> Vec<Comment> {
         swc_common::comments::COMMENTS.with(|c| c.get_leading(pos))
     }
 
@@ -137,11 +137,11 @@ impl Comments for PluginCommentsProxy {
         });
     }
 
-    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+    fn take_trailing(&self, pos: BytePos) -> Vec<Comment> {
         swc_common::comments::COMMENTS.with(|c| c.take_trailing(pos))
     }
 
-    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+    fn get_trailing(&self, pos: BytePos) -> Vec<Comment> {
         swc_common::comments::COMMENTS.with(|c| c.get_trailing(pos))
     }
 
@@ -192,24 +192,24 @@ impl Comments for PluginCommentsProxy {
         }
     }
 
-    fn take_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+    fn take_leading(&self, pos: BytePos) -> Vec<Comment> {
         #[cfg(target_arch = "wasm32")]
         return read_returned_result_from_host(|serialized_ptr| unsafe {
             __take_leading_comments_proxy(pos.0, serialized_ptr)
-        });
+        }).unwrap_or_default();
 
         #[cfg(not(target_arch = "wasm32"))]
-        None
+        Vec::new()
     }
 
-    fn get_leading(&self, pos: BytePos) -> Option<Vec<Comment>> {
+    fn get_leading(&self, pos: BytePos) -> Vec<Comment> {
         #[cfg(target_arch = "wasm32")]
         return read_returned_result_from_host(|serialized_ptr| unsafe {
             __get_leading_comments_proxy(pos.0, serialized_ptr)
-        });
+        }).unwrap_or_default();
 
         #[cfg(not(target_arch = "wasm32"))]
-        None
+        Vec::new()
     }
 
     fn add_trailing(&self, pos: BytePos, cmt: Comment) {
@@ -248,24 +248,24 @@ impl Comments for PluginCommentsProxy {
         }
     }
 
-    fn take_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+    fn take_trailing(&self, pos: BytePos) -> Vec<Comment> {
         #[cfg(target_arch = "wasm32")]
         return read_returned_result_from_host(|serialized_ptr| unsafe {
             __take_trailing_comments_proxy(pos.0, serialized_ptr)
-        });
+        }).unwrap_or_default();
 
         #[cfg(not(target_arch = "wasm32"))]
-        None
+        Vec::new()
     }
 
-    fn get_trailing(&self, pos: BytePos) -> Option<Vec<Comment>> {
+    fn get_trailing(&self, pos: BytePos) -> Vec<Comment> {
         #[cfg(target_arch = "wasm32")]
         return read_returned_result_from_host(|serialized_ptr| unsafe {
             __get_trailing_comments_proxy(pos.0, serialized_ptr)
-        });
+        }).unwrap_or_default();
 
         #[cfg(not(target_arch = "wasm32"))]
-        None
+        Vec::new()
     }
 
     fn add_pure_comment(&self, pos: BytePos) {
