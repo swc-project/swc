@@ -33,22 +33,19 @@ impl FastDts {
                     if self.has_internal_annotation(constructor.span_lo()) {
                         continue;
                     }
-                    if !(constructor.is_optional) && constructor.body.is_none() {
-                        is_function_overloads = true;
-                    } else if is_function_overloads {
-                        is_function_overloads = false;
-                        continue;
-                    }
-
-                    if self.report_property_key(&constructor.key) {
-                        continue;
-                    }
 
                     // Transform parameters
                     class.body.splice(
                         0..0,
                         self.transform_constructor_params(&mut constructor.params),
                     );
+
+                    if !(constructor.is_optional) && constructor.body.is_none() {
+                        is_function_overloads = true;
+                    } else if is_function_overloads {
+                        is_function_overloads = false;
+                        continue;
+                    }
 
                     if constructor
                         .accessibility

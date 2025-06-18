@@ -1,0 +1,13 @@
+```==================== .D.TS ====================
+
+// @isolatedDeclarations: true
+export declare class Foo {
+    private prop;
+    constructor(prop: string);
+}
+export declare class Bar {
+    private prop;
+    constructor(prop: string);
+}
+
+
