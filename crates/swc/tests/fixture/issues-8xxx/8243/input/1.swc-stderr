@@ -1,7 +1,0 @@
-  x Expected '</', got ':'
-   ,-[$DIR/tests/fixture/issues-8xxx/8243/input/1.js:4:1]
- 3 |         <Baz>
- 4 |             {(): unknown => null}
-   :                ^
- 5 |         </Baz>
-   `----
