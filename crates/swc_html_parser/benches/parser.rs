@@ -1,6 +1,7 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use swc_atoms::atom;
 use swc_common::{input::StringInput, FileName};
 use swc_html_ast::{DocumentMode, Element, Namespace};
 use swc_html_parser::{lexer::Lexer, parser::Parser};
@@ -34,7 +35,7 @@ fn bench_document_fragment(b: &mut Bencher, src: &'static str) {
                 parser.parse_document_fragment(
                     Element {
                         span: Default::default(),
-                        tag_name: "template".into(),
+                        tag_name: atom!("template"),
                         namespace: Namespace::HTML,
                         attributes: Vec::new(),
                         is_self_closing: false,

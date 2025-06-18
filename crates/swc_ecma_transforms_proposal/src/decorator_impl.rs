@@ -1,7 +1,7 @@
 use std::{collections::VecDeque, iter::once, mem::take};
 
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
@@ -174,7 +174,7 @@ impl DecoratorPass {
             None
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
-                key: PropName::Ident("e".into()),
+                key: PropName::Ident(atom!("e").into()),
                 value: ArrayPat {
                     span: DUMMY_SP,
                     elems: e_lhs,
@@ -189,7 +189,7 @@ impl DecoratorPass {
             None
         } else {
             Some(ObjectPatProp::KeyValue(KeyValuePatProp {
-                key: PropName::Ident("c".into()),
+                key: PropName::Ident(atom!("c").into()),
                 value: ArrayPat {
                     span: DUMMY_SP,
                     elems: self.state.class_lhs.take(),
@@ -360,7 +360,7 @@ impl DecoratorPass {
             insert_index,
             ClassMember::Constructor(Constructor {
                 span: DUMMY_SP,
-                key: PropName::Ident("constructor".into()),
+                key: PropName::Ident(atom!("constructor").into()),
                 params: Vec::new(),
                 body: Some(BlockStmt {
                     span: DUMMY_SP,

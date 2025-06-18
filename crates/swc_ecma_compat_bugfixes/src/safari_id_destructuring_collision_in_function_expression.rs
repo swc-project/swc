@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use rustc_hash::FxHashSet;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::hygiene::rename;
@@ -78,7 +78,7 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
             // fn_expr_name assgin empty to express that it is a non-ident-function
             // Otherwise, it will be treated as a function with an ident name due to the
             // previous function
-            self.fn_expr_name = "".into();
+            self.fn_expr_name = atom!("");
             self.in_body = false;
             n.function.params.visit_mut_children_with(self);
             self.in_body = true;

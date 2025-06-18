@@ -295,7 +295,7 @@ impl SourceMap {
 
     /// Lookup source information about a BytePos
     pub fn try_lookup_char_pos(&self, pos: BytePos) -> Result<Loc, SourceMapLookupError> {
-        let fm = self.try_lookup_source_file(pos)?;
+        let fm = self.try_lookup_source_file(pos)?.unwrap();
         self.try_lookup_char_pos_with(fm, pos)
     }
 
@@ -402,7 +402,7 @@ impl SourceMap {
 
     /// If the relevant source_file is empty, we don't return a line number.
     pub fn lookup_line(&self, pos: BytePos) -> Result<SourceFileAndLine, Lrc<SourceFile>> {
-        let f = self.try_lookup_source_file(pos).unwrap();
+        let f = self.try_lookup_source_file(pos).unwrap().unwrap();
 
         self.lookup_line_with(f, pos)
     }
@@ -987,14 +987,14 @@ impl SourceMap {
         &self,
         bpos: BytePos,
     ) -> Result<SourceFileAndBytePos, SourceMapLookupError> {
-        let sf = self.try_lookup_source_file(bpos)?;
+        let sf = self.try_lookup_source_file(bpos)?.unwrap();
         let offset = bpos - sf.start_pos;
         Ok(SourceFileAndBytePos { sf, pos: offset })
     }
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
     fn bytepos_to_file_charpos(&self, bpos: BytePos) -> Result<CharPos, SourceMapLookupError> {
-        let map = self.try_lookup_source_file(bpos)?;
+        let map = self.try_lookup_source_file(bpos)?.unwrap();
 
         Ok(self.bytepos_to_file_charpos_with(&map, bpos))
     }
@@ -1065,7 +1065,7 @@ impl SourceMap {
     /// This is not a public api.
     #[doc(hidden)]
     pub fn lookup_source_file(&self, pos: BytePos) -> Lrc<SourceFile> {
-        self.try_lookup_source_file(pos).unwrap()
+        self.try_lookup_source_file(pos).unwrap().unwrap()
     }
 
     /// Return the index of the source_file (in self.files) which contains pos.
@@ -1075,12 +1075,12 @@ impl SourceMap {
     pub fn try_lookup_source_file(
         &self,
         pos: BytePos,
-    ) -> Result<Lrc<SourceFile>, SourceMapLookupError> {
+    ) -> Result<Option<Lrc<SourceFile>>, SourceMapLookupError> {
         let files = self.files.borrow();
         let files = &files.source_files;
         let fm = Self::lookup_source_file_in(files, pos);
         match fm {
-            Some(fm) => Ok(fm),
+            Some(fm) => Ok(Some(fm)),
             None => Err(SourceMapLookupError::NoFileFor(pos)),
         }
     }
@@ -1271,14 +1271,14 @@ pub trait Files {
     fn try_lookup_source_file(
         &self,
         raw_pos: BytePos,
-    ) -> Result<Lrc<SourceFile>, SourceMapLookupError>;
+    ) -> Result<Option<Lrc<SourceFile>>, SourceMapLookupError>;
 }
 
 impl Files for SourceMap {
     fn try_lookup_source_file(
         &self,
         pos: BytePos,
-    ) -> Result<Lrc<SourceFile>, SourceMapLookupError> {
+    ) -> Result<Option<Lrc<SourceFile>>, SourceMapLookupError> {
         self.try_lookup_source_file(pos)
     }
 }
@@ -1330,7 +1330,12 @@ pub fn build_source_map(
         let f = match cur_file {
             Some(ref f) if files.is_in_file(f, *raw_pos) => f,
             _ => {
-                f = files.try_lookup_source_file(*raw_pos).unwrap();
+                let source_file = files.try_lookup_source_file(*raw_pos).unwrap();
+                if let Some(source_file) = source_file {
+                    f = source_file;
+                } else {
+                    continue;
+                }
                 if config.skip(&f.name) {
                     continue;
                 }

@@ -18,7 +18,7 @@ use swc_ecma_ast::{EsVersion, Ident};
 
 use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
-use crate::error::SyntaxError;
+use crate::{error::SyntaxError, lexer::TokenFlags};
 
 pub mod char;
 pub mod comments_buffer;
@@ -1026,7 +1026,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             let ch = match self.input().cur() {
                 Some(c) => c,
                 None => {
-                    let start = self.state().start();
                     self.emit_error(start, SyntaxError::UnterminatedStrLit);
                     break;
                 }
@@ -1883,15 +1882,19 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_ident_unknown(&mut self) -> LexResult<Self::Token> {
         debug_assert!(self.cur().is_some());
 
-        let (word, _) = self.read_word_as_str_with(|l, s, _, _| {
+        let (word, has_escape) = self.read_word_as_str_with(|l, s, _, _| {
             let atom = l.atom(s);
             Self::Token::unknown_ident(atom, l)
         })?;
+        if has_escape {
+            self.update_token_flags(|flags| *flags |= TokenFlags::UNICODE);
+        }
 
         Ok(word)
     }
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
+    // TODO: merge `read_str_lit` and `read_jsx_str`
     fn read_str_lit(&mut self) -> LexResult<Self::Token> {
         debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
         let start = self.cur_pos();

@@ -1,4 +1,5 @@
-  x Unexpected eof
+  x Unterminated template
    ,-[$DIR/tests/test262-parser/fail/f06a0e67a0041175.js:1:1]
  1 | `test
+   : ^^^^^
    `----

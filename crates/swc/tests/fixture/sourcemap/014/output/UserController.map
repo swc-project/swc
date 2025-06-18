@@ -31,7 +31,7 @@
     "id"
   ],
   "sources": [
-    "../../input/UserController.ts"
+    "../input/UserController.ts"
   ],
   "sourcesContent": [
     "import {\n    Controller,\n    Post,\n    UseGuards,\n    Body,\n    Put,\n    Param,\n    ForbiddenException,\n    UseInterceptors,\n} from '@nestjs/common';\n\nimport {\n    USER_CONTROLLER_ROUTE,\n    USER_CREATE_ENDPOINT,\n    USER_UPDATE_ENDPOINT,\n} from '@server/constants/controllers';\nimport { CreateUserDto } from '@server/user/dto/CreateUserDto';\nimport { UpdateUserDto } from '@server/user/dto/UpdateUserDto';\nimport { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';\nimport { User } from '@server/decorators/UserDecorator';\nimport { User as UserType } from '@server/user/schemas/UserSchema';\nimport { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';\nimport { UserService } from '@server/user/UserService';\n\n@Controller(USER_CONTROLLER_ROUTE)\n@UseInterceptors(MongooseClassSerializerInterceptor(UserType))\nexport class UserController {\n    constructor(private userService: UserService) { }\n\n    @Post(USER_CREATE_ENDPOINT)\n    async signup(@Body() createUserDto: CreateUserDto) {\n        return this.userService.create(createUserDto);\n    }\n\n    @UseGuards(JwtAuthGuard)\n    @Put(USER_UPDATE_ENDPOINT)\n    async update(\n        @Param('id') userId: string,\n        @Body() updateUserDto: UpdateUserDto,\n        @User() user: UserType,\n    ) {\n        if (user.id !== userId) {\n            throw new ForbiddenException();\n        }\n\n        return this.userService.update(userId, updateUserDto);\n    }\n}\n"

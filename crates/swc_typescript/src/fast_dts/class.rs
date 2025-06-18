@@ -1,4 +1,5 @@
 use rustc_hash::FxHashMap;
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
     Accessibility, BindingIdent, Class, ClassMember, ClassProp, Expr, Key, Lit, MethodKind, Param,
@@ -32,22 +33,19 @@ impl FastDts {
                     if self.has_internal_annotation(constructor.span_lo()) {
                         continue;
                     }
-                    if !(constructor.is_optional) && constructor.body.is_none() {
-                        is_function_overloads = true;
-                    } else if is_function_overloads {
-                        is_function_overloads = false;
-                        continue;
-                    }
-
-                    if self.report_property_key(&constructor.key) {
-                        continue;
-                    }
 
                     // Transform parameters
                     class.body.splice(
                         0..0,
                         self.transform_constructor_params(&mut constructor.params),
                     );
+
+                    if !(constructor.is_optional) && constructor.body.is_none() {
+                        is_function_overloads = true;
+                    } else if is_function_overloads {
+                        is_function_overloads = false;
+                        continue;
+                    }
 
                     if constructor
                         .accessibility
@@ -128,7 +126,7 @@ impl FastDts {
                                     span: DUMMY_SP,
                                     decorators: Vec::new(),
                                     pat: Pat::Ident(BindingIdent {
-                                        id: "value".into(),
+                                        id: atom!("value").into(),
                                         type_ann: None,
                                     }),
                                 }];
@@ -148,7 +146,7 @@ impl FastDts {
                                     span: DUMMY_SP,
                                     decorators: Vec::new(),
                                     pat: Pat::Ident(BindingIdent {
-                                        id: "value".into(),
+                                        id: atom!("value").into(),
                                         type_ann: None,
                                     }),
                                 });
@@ -256,7 +254,7 @@ impl FastDts {
                     ctxt: SyntaxContext::empty(),
                     key: PrivateName {
                         span: DUMMY_SP,
-                        name: "private".into(),
+                        name: atom!("private"),
                     },
                     value: None,
                     type_ann: None,

@@ -8,7 +8,7 @@
     "log"
   ],
   "sources": [
-    "../../input/index.ts"
+    "../input/index.ts"
   ],
   "sourcesContent": [
     "namespace A {\n    export const v = 25;\n    export function a() {\n        console.log(v);\n    }\n}\n"

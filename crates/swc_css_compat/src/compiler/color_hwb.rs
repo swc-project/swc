@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_css_ast::{
     AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Delimiter, DelimiterValue, FunctionName,
     Hue, Ident, Number, Percentage,
@@ -115,7 +116,7 @@ impl Compiler {
             if a == 1.0 {
                 *n = AbsoluteColorBase::Function(swc_css_ast::Function {
                     name: FunctionName::Ident(Ident {
-                        value: "rgb".into(),
+                        value: atom!("rgb"),
                         span: Default::default(),
                         raw: None,
                     }),
@@ -149,7 +150,7 @@ impl Compiler {
             } else {
                 *n = AbsoluteColorBase::Function(swc_css_ast::Function {
                     name: FunctionName::Ident(Ident {
-                        value: "rgba".into(),
+                        value: atom!("rgba"),
                         span: Default::default(),
                         raw: None,
                     }),

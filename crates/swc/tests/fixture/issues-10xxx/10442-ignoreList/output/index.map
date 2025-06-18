@@ -8,7 +8,7 @@
     "log"
   ],
   "sources": [
-    "../../input/index.js"
+    "../input/index.js"
   ],
   "sourcesContent": [
     "console.log('foo');"

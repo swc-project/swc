@@ -21,7 +21,9 @@ pub trait Tokens<TokenAndSpan>: Clone + Iterator<Item = TokenAndSpan> {
 
     fn token_context(&self) -> &lexer::TokenContexts;
     fn token_context_mut(&mut self) -> &mut lexer::TokenContexts;
-    fn set_token_context(&mut self, _c: lexer::TokenContexts);
+    fn set_token_context(&mut self, c: lexer::TokenContexts);
+    fn can_skip_space(&self) -> bool;
+    fn set_can_skip_space(&mut self, can_skip_space: bool);
 
     /// Implementors should use Rc<RefCell<Vec<Error>>>.
     ///
@@ -45,4 +47,6 @@ pub trait Tokens<TokenAndSpan>: Clone + Iterator<Item = TokenAndSpan> {
     /// If the program was parsed as a script, this contains the module
     /// errors should the program be identified as a module in the future.
     fn take_script_module_errors(&mut self) -> Vec<Error>;
+    fn update_token_flags(&mut self, f: impl FnOnce(&mut lexer::TokenFlags));
+    fn token_flags(&self) -> lexer::TokenFlags;
 }

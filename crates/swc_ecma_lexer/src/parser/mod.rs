@@ -9,8 +9,14 @@ use crate::{
     common::{
         input::Tokens,
         parser::{
-            buffer::Buffer as BufferTrait, module_item::parse_module_item_block_body,
-            parse_shebang, stmt::parse_stmt_block_body, Parser as ParserTrait,
+            buffer::Buffer as BufferTrait,
+            expr::{parse_lhs_expr, parse_primary_expr, parse_tagged_tpl, parse_unary_expr},
+            jsx::parse_jsx_element,
+            module_item::parse_module_item_block_body,
+            parse_shebang,
+            stmt::parse_stmt_block_body,
+            typescript::ts_in_no_context,
+            Parser as ParserTrait,
         },
     },
     error::Error,
@@ -63,6 +69,45 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     #[inline(always)]
     fn mark_found_module_item(&mut self) {
         self.found_module_item = true;
+    }
+
+    #[inline(always)]
+    fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
+        parse_unary_expr(self)
+    }
+
+    #[inline(always)]
+    fn parse_jsx_element(
+        &mut self,
+        _in_expr_context: bool,
+    ) -> PResult<either::Either<JSXFragment, JSXElement>> {
+        parse_jsx_element(self)
+    }
+
+    #[inline(always)]
+    fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
+        parse_primary_expr(self)
+    }
+
+    #[inline(always)]
+    fn ts_in_no_context<T>(&mut self, op: impl FnOnce(&mut Self) -> PResult<T>) -> PResult<T> {
+        ts_in_no_context(self, op)
+    }
+
+    fn parse_tagged_tpl(
+        &mut self,
+        tag: Box<Expr>,
+        type_params: Option<Box<TsTypeParamInstantiation>>,
+    ) -> PResult<TaggedTpl> {
+        parse_tagged_tpl(self, tag, type_params)
+    }
+
+    fn parse_tagged_tpl_ty(&mut self) -> PResult<TsLitType> {
+        unreachable!("use `common::parser::expr::parse_ts_tpl_lit_type` directly");
+    }
+
+    fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
+        parse_lhs_expr::<Self, true>(self)
     }
 }
 

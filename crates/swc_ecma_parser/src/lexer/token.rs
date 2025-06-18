@@ -168,6 +168,8 @@ pub enum Token {
     /// `??`
     NullishCoalescing,
 
+    /// `</`
+    LessSlash,
     /// `${`
     DollarLBrace,
 
@@ -181,6 +183,10 @@ pub enum Token {
     BigInt,
     Regex,
     Template,
+    NoSubstitutionTemplateLiteral,
+    TemplateHead,
+    TemplateMiddle,
+    TemplateTail,
     JSXName,
     JSXText,
     // Identifiers and keyword
@@ -864,6 +870,16 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     fn take_shebang(self, buffer: &mut Self::Buffer) -> Atom {
         buffer.expect_word_token_value()
     }
+
+    #[inline(always)]
+    fn is_no_substitution_template_literal(&self) -> bool {
+        Token::NoSubstitutionTemplateLiteral.eq(self)
+    }
+
+    #[inline(always)]
+    fn is_template_head(&self) -> bool {
+        Token::TemplateHead.eq(self)
+    }
 }
 
 impl std::fmt::Debug for Token {
@@ -1068,6 +1084,15 @@ impl Token {
                 };
                 w.as_ref()
             }
+            Token::NoSubstitutionTemplateLiteral
+            | Token::TemplateHead
+            | Token::TemplateMiddle
+            | Token::TemplateTail => {
+                let Some(TokenValue::Template { raw, .. }) = value else {
+                    unreachable!("{:#?}", value)
+                };
+                raw
+            }
             Token::Await => "await",
             Token::Break => "break",
             Token::Case => "case",
@@ -1152,6 +1177,7 @@ impl Token {
             Token::Meta => "meta",
             Token::Target => "target",
             Token::Shebang => "#!",
+            Token::LessSlash => "</",
         }
         .to_string()
     }
@@ -1401,7 +1427,8 @@ impl Token {
                 | Self::LParen
                 | Self::LBrace
                 | Self::LBracket
-                | Self::BackQuote
+                | Self::TemplateHead
+                | Self::NoSubstitutionTemplateLiteral
                 | Self::DollarLBrace
                 | Self::PlusPlus
                 | Self::MinusMinus
@@ -1426,6 +1453,7 @@ impl Token {
                 | Self::Null
                 | Self::True
                 | Self::False
+                | Self::BackQuote
         ) || self.is_known_ident()
     }
 
@@ -1443,7 +1471,7 @@ impl Token {
     }
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct TokenAndSpan {
     pub token: Token,
     /// Had a line break before this token?

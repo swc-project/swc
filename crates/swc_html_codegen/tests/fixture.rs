@@ -5,6 +5,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
+use swc_atoms::atom;
 use swc_common::{FileName, Span};
 use swc_html_ast::*;
 use swc_html_codegen::{
@@ -356,7 +357,7 @@ fn test_document(input: PathBuf) {
 fn test_document_fragment(input: PathBuf) {
     let context_element = Element {
         span: Default::default(),
-        tag_name: "template".into(),
+        tag_name: atom!("template"),
         namespace: Namespace::HTML,
         attributes: Vec::new(),
         is_self_closing: false,
