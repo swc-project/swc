@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_css_ast::*;
 
 use super::Compressor;
@@ -15,7 +16,7 @@ impl Compressor {
                 };
                 frequency.unit = Ident {
                     span: frequency.unit.span,
-                    value: "khz".into(),
+                    value: atom!("khz"),
                     raw: None,
                 };
             }
@@ -32,7 +33,7 @@ impl Compressor {
                 };
                 frequency.unit = Ident {
                     span: frequency.unit.span,
-                    value: "hz".into(),
+                    value: atom!("hz"),
                     raw: None,
                 };
             }

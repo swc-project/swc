@@ -9,7 +9,7 @@
     "code"
   ],
   "sources": [
-    "../../input/index.js"
+    "../input/index.js"
   ],
   "sourcesContent": [
     "function foo(span, error) {\n  span.setStatus({\n      message: `${error.message} ${\n          error.code\n              ? `\\nMon\\tgo\\nos\ne Error\\n C\nod\\ne: ${error.code}`\n              : \"1\\n23\"\n      }`,\n  });\n}\nfoo();\n"

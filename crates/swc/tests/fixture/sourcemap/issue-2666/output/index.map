@@ -6,7 +6,7 @@
     "for"
   ],
   "sources": [
-    "../../input/index.js"
+    "../input/index.js"
   ],
   "sourcesContent": [
     "if (true) {\n    var h = Symbol.for;\n}\n"

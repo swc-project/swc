@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_css_ast::*;
 
@@ -87,7 +88,7 @@ impl Compressor {
                         {
                             declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                                 span: outside_ident.span,
-                                value: "inline-block".into(),
+                                value: atom!("inline-block"),
                                 raw: None,
                             }))];
                         }
@@ -318,14 +319,14 @@ impl Compressor {
                             ("repeat", "no-repeat") => {
                                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                                     span: first_ident.span,
-                                    value: "repeat-x".into(),
+                                    value: atom!("repeat-x"),
                                     raw: None,
                                 }))];
                             }
                             ("no-repeat", "repeat") => {
                                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                                     span: first_ident.span,
-                                    value: "repeat-y".into(),
+                                    value: atom!("repeat-y"),
                                     raw: None,
                                 }))];
                             }
@@ -634,7 +635,7 @@ impl Compressor {
             | "z-index" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "auto".into(),
+                    value: atom!("auto"),
                     raw: None,
                 }))];
             }
@@ -709,7 +710,7 @@ impl Compressor {
             | "translate" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "none".into(),
+                    value: atom!("none"),
                     raw: None,
                 }))];
             }
@@ -756,7 +757,7 @@ impl Compressor {
             | "grid-column-gap" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "normal".into(),
+                    value: atom!("normal"),
                     raw: None,
                 }))];
             }
@@ -774,7 +775,7 @@ impl Compressor {
                         },
                         unit: Ident {
                             span: DUMMY_SP,
-                            value: "s".into(),
+                            value: atom!("s"),
                             raw: None,
                         },
                     })))];
@@ -798,21 +799,21 @@ impl Compressor {
             "animation-timing-function" | "transition-timing-function" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "ease".into(),
+                    value: atom!("ease"),
                     raw: None,
                 }))];
             }
             "azimuth" | "mask-position" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "center".into(),
+                    value: atom!("center"),
                     raw: None,
                 }))];
             }
             "background-attachment" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "scroll".into(),
+                    value: atom!("scroll"),
                     raw: None,
                 }))];
             }
@@ -849,14 +850,14 @@ impl Compressor {
             "background-repeat" | "mask-repeat" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "repeat".into(),
+                    value: atom!("repeat"),
                     raw: None,
                 }))];
             }
             "block-overflow" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "clip".into(),
+                    value: atom!("clip"),
                     raw: None,
                 }))];
             }
@@ -875,7 +876,7 @@ impl Compressor {
             | "outline-width" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "medium".into(),
+                    value: atom!("medium"),
                     raw: None,
                 }))];
             }
@@ -899,7 +900,7 @@ impl Compressor {
                         },
                         unit: Ident {
                             span: DUMMY_SP,
-                            value: "px".into(),
+                            value: atom!("px"),
                             raw: None,
                         },
                     }),
@@ -955,7 +956,7 @@ impl Compressor {
                         },
                         unit: Ident {
                             span: DUMMY_SP,
-                            value: "px".into(),
+                            value: atom!("px"),
                             raw: None,
                         },
                     },
@@ -964,7 +965,7 @@ impl Compressor {
             "flex-direction" | "grid-auto-flow" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "row".into(),
+                    value: atom!("row"),
                     raw: None,
                 }))];
             }
@@ -995,28 +996,28 @@ impl Compressor {
             "box-decoration-break" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "slice".into(),
+                    value: atom!("slice"),
                     raw: None,
                 }))];
             }
             "caption-side" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "top".into(),
+                    value: atom!("top"),
                     raw: None,
                 }))];
             }
             "direction" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "ltr".into(),
+                    value: atom!("ltr"),
                     raw: None,
                 }))];
             }
             "empty-cells" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "show".into(),
+                    value: atom!("show"),
                     raw: None,
                 }))];
             }
@@ -1037,14 +1038,14 @@ impl Compressor {
             "flex-wrap" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "nowrap".into(),
+                    value: atom!("nowrap"),
                     raw: None,
                 }))];
             }
             "hyphens" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "manual".into(),
+                    value: atom!("manual"),
                     raw: None,
                 }))];
             }
@@ -1059,7 +1060,7 @@ impl Compressor {
                         },
                         unit: Ident {
                             span: DUMMY_SP,
-                            value: "dppx".into(),
+                            value: atom!("dppx"),
                             raw: None,
                         },
                     }),
@@ -1068,35 +1069,35 @@ impl Compressor {
             "justify-items" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "legacy".into(),
+                    value: atom!("legacy"),
                     raw: None,
                 }))];
             }
             "list-style-type" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "disk".into(),
+                    value: atom!("disk"),
                     raw: None,
                 }))];
             }
             "mask-border-mode" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "alpha".into(),
+                    value: atom!("alpha"),
                     raw: None,
                 }))];
             }
             "mask-composite" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "add".into(),
+                    value: atom!("add"),
                     raw: None,
                 }))];
             }
             "masonry-auto-flow" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "pack".into(),
+                    value: atom!("pack"),
                     raw: None,
                 }))];
             }
@@ -1110,7 +1111,7 @@ impl Compressor {
             "object-fit" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "fill".into(),
+                    value: atom!("fill"),
                     raw: None,
                 }))];
             }
@@ -1125,7 +1126,7 @@ impl Compressor {
                         },
                         unit: Ident {
                             span: DUMMY_SP,
-                            value: "px".into(),
+                            value: atom!("px"),
                             raw: None,
                         },
                     },
@@ -1134,14 +1135,14 @@ impl Compressor {
             "position" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "static".into(),
+                    value: atom!("static"),
                     raw: None,
                 }))];
             }
             "scroll-timeline-axis" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "block".into(),
+                    value: atom!("block"),
                     raw: None,
                 }))];
             }
@@ -1155,35 +1156,35 @@ impl Compressor {
             "text-decoration-style" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "solid".into(),
+                    value: atom!("solid"),
                     raw: None,
                 }))];
             }
             "text-orientation" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "mixed".into(),
+                    value: atom!("mixed"),
                     raw: None,
                 }))];
             }
             "text-overflow" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "clip".into(),
+                    value: atom!("clip"),
                     raw: None,
                 }))];
             }
             "transform-style" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "flat".into(),
+                    value: atom!("flat"),
                     raw: None,
                 }))];
             }
             "transition-property" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "all".into(),
+                    value: atom!("all"),
                     raw: None,
                 }))];
             }
@@ -1211,7 +1212,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("border-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1222,7 +1223,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("transparent") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1233,7 +1234,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("padding-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1249,7 +1250,7 @@ impl Compressor {
                     {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: first.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1272,7 +1273,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("currentcolor") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1283,7 +1284,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("separate") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1294,7 +1295,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("content-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1305,7 +1306,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("canvastext") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1321,7 +1322,7 @@ impl Compressor {
                     {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: first.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1332,7 +1333,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("from-image") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1345,7 +1346,7 @@ impl Compressor {
                     {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1356,7 +1357,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("luminance") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1367,7 +1368,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("space-around") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1378,7 +1379,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("separate") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1389,7 +1390,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("alternate") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1404,7 +1405,7 @@ impl Compressor {
                     {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: first.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1415,7 +1416,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("view-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1457,7 +1458,7 @@ impl Compressor {
                     {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1468,7 +1469,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("baseline") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }
@@ -1479,7 +1480,7 @@ impl Compressor {
                     if ident.value.eq_ignore_ascii_case("horizontal-tb") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: ident.span,
-                            value: "initial".into(),
+                            value: atom!("initial"),
                             raw: None,
                         }))];
                     }

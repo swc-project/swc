@@ -4,6 +4,7 @@ use std::collections::HashMap;
 
 use anyhow::{anyhow, Error};
 use rustc_hash::FxHashMap;
+use swc_atoms::atom;
 use swc_common::FileName;
 use swc_ecma_loader::{
     resolve::{Resolution, Resolve},
@@ -42,7 +43,7 @@ fn exact() {
             resolved,
             Resolution {
                 filename: FileName::Custom("success".into()),
-                slug: Some("jquery".into())
+                slug: Some(atom!("jquery"))
             }
         );
     }
@@ -134,7 +135,7 @@ fn base_url_works_for_resolves_full_filenames_with_dot_suffix() {
             resolved,
             Resolution {
                 filename: FileName::Custom("suffix1".into()),
-                slug: Some("file1.suffix1".into())
+                slug: Some(atom!("file1.suffix1"))
             }
         );
     }
@@ -148,7 +149,7 @@ fn base_url_works_for_resolves_full_filenames_with_dot_suffix() {
             resolved,
             Resolution {
                 filename: FileName::Custom("suffix2".into()),
-                slug: Some("file2-suffix2".into())
+                slug: Some(atom!("file2-suffix2"))
             }
         );
     }

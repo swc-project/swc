@@ -3,9 +3,9 @@ class MobileHomeActivityTaskPriorityIcon extends React.PureComponent {
     render() {
         return /*#__PURE__*/ _jsxs(Text, {
             children: [
-                " ",
+                "&nbsp;",
                 this.props.value,
-                " "
+                "&nbsp;"
             ]
         });
     }

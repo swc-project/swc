@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.js"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms_base"
 repository    = { workspace = true }
-version       = "16.0.0"
+version       = "17.0.0"
 
 [lib]
 bench = false
@@ -29,12 +29,12 @@ serde             = { workspace = true, features = ["derive"] }
 smallvec          = { workspace = true }
 tracing           = { workspace = true }
 
-swc_atoms       = { version = "5.0.0", path = "../swc_atoms" }
-swc_common      = { version = "12.0.1", path = "../swc_common" }
-swc_ecma_ast    = { version = "12.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "15.0.2", path = "../swc_ecma_parser" }
-swc_ecma_utils  = { version = "16.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit  = { version = "12.0.0", path = "../swc_ecma_visit" }
+swc_atoms       = { version = "6.0.0", path = "../swc_atoms" }
+swc_common      = { version = "13.0.0", path = "../swc_common" }
+swc_ecma_ast    = { version = "13.0.0", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "16.0.0", path = "../swc_ecma_parser" }
+swc_ecma_utils  = { version = "17.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit  = { version = "13.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
@@ -42,10 +42,10 @@ criterion                 = { workspace = true }
 par-core                  = { workspace = true, features = ["chili"] }
 rayon                     = { workspace = true }
 
-swc_ecma_codegen           = { version = "14.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen           = { version = "15.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_transforms_macros = { version = "1.0.1", path = "../swc_ecma_transforms_macros" }
 swc_malloc                 = { version = "1.2.3", path = "../swc_malloc" }
-testing                    = { version = "13.0.0", path = "../testing" }
+testing                    = { version = "14.0.0", path = "../testing" }
 
 [[bench]]
 harness = false

@@ -17,7 +17,7 @@ define([
         });
         var a2 = /*#__PURE__*/ _react.createElement(OverloadComponent, _object_spread_props._(_object_spread._({}, arg1), {
             "ignore-prop": true
-        })) // missing a
-        ;
+        }));
+    // missing a
     }
 });

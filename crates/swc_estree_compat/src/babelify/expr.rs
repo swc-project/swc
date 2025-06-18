@@ -1,5 +1,6 @@
 use copyless::BoxHelper;
 use serde::{Deserialize, Serialize};
+use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
     ArrayLit, ArrowExpr, AssignExpr, AssignTarget, AssignTargetPat, AwaitExpr, BinExpr, BinaryOp,
@@ -551,7 +552,7 @@ impl Babelify for MetaPropExpr {
                         hi: self.span.hi - BytePos(5),
                         ..self.span
                     },
-                    sym: "import".into(),
+                    sym: atom!("import"),
                     ..Default::default()
                 }
                 .babelify(ctx),
@@ -560,7 +561,7 @@ impl Babelify for MetaPropExpr {
                         lo: self.span.lo + BytePos(7),
                         ..self.span
                     },
-                    sym: "meta".into(),
+                    sym: atom!("meta"),
                     ..Default::default()
                 }
                 .babelify(ctx),
@@ -571,7 +572,7 @@ impl Babelify for MetaPropExpr {
                         hi: self.span.hi - BytePos(7),
                         ..self.span
                     },
-                    sym: "new".into(),
+                    sym: atom!("new"),
                     ..Default::default()
                 }
                 .babelify(ctx),
@@ -580,7 +581,7 @@ impl Babelify for MetaPropExpr {
                         hi: self.span.hi + BytePos(4),
                         ..self.span
                     },
-                    sym: "target".into(),
+                    sym: atom!("target"),
                     ..Default::default()
                 }
                 .babelify(ctx),

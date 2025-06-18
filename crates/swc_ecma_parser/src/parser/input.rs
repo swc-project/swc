@@ -1,8 +1,8 @@
 use swc_atoms::Atom;
-use swc_common::Span;
-use swc_ecma_lexer::common::lexer::LexResult;
+use swc_common::{BytePos, Span};
+use swc_ecma_lexer::common::{lexer::LexResult, parser::buffer::Buffer as BufferTrait};
 
-use crate::lexer::{NextTokenAndSpan, TokenAndSpan, TokenValue};
+use crate::lexer::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
 
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.
@@ -11,6 +11,20 @@ pub trait Tokens: swc_ecma_lexer::common::input::Tokens<TokenAndSpan> {
     fn take_token_value(&mut self) -> Option<TokenValue>;
     fn get_token_value(&self) -> Option<&TokenValue>;
     fn set_token_value(&mut self, token_value: Option<TokenValue>);
+
+    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Option<TokenAndSpan>;
+    fn rescan_jsx_token(
+        &mut self,
+        allow_multiline_jsx_text: bool,
+        reset: BytePos,
+    ) -> Option<TokenAndSpan>;
+    fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan;
+    fn scan_jsx_attribute_value(&mut self) -> Option<TokenAndSpan>;
+    fn rescan_template_token(
+        &mut self,
+        start: BytePos,
+        start_with_back_tick: bool,
+    ) -> Option<TokenAndSpan>;
 }
 
 /// This struct is responsible for managing current token and peeked token.
@@ -88,6 +102,54 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn get_token_value(&self) -> Option<&TokenValue> {
         self.iter.get_token_value()
+    }
+
+    pub fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
+        if let Some(t) = self.iter_mut().scan_jsx_token(allow_multiline_jsx_text) {
+            self.set_cur(t);
+        }
+    }
+
+    pub fn rescan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
+        let start = match self.cur.as_ref() {
+            Some(cur) => cur.span.lo,
+            None => {
+                return self.scan_jsx_token(allow_multiline_jsx_text);
+            }
+        };
+        if let Some(t) = self
+            .iter_mut()
+            .rescan_jsx_token(allow_multiline_jsx_text, start)
+        {
+            self.set_cur(t);
+        }
+    }
+
+    pub fn scan_jsx_identifier(&mut self) {
+        let Some(cur) = self.cur() else {
+            return;
+        };
+        if !cur.is_word() {
+            return;
+        }
+        let start = self.cur.as_ref().unwrap().span.lo;
+        let cur = self.iter_mut().scan_jsx_identifier(start);
+        debug_assert!(cur.token == Token::JSXName);
+        self.set_cur(cur);
+    }
+
+    pub fn scan_jsx_attribute_value(&mut self) {
+        if let Some(t) = self.iter_mut().scan_jsx_attribute_value() {
+            self.set_cur(t);
+        }
+    }
+
+    pub fn rescan_template_token(&mut self, start_with_back_tick: bool) {
+        debug_assert!(self.cur.is_some());
+        let start = self.cur_pos();
+        self.cur = self
+            .iter_mut()
+            .rescan_template_token(start, start_with_back_tick);
     }
 }
 

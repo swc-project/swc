@@ -4,7 +4,7 @@
     "foo"
   ],
   "sources": [
-    "../../input/input.js"
+    "../input/input.js"
   ],
   "sourcesContent": [
     "\nexport const foo = 1;"

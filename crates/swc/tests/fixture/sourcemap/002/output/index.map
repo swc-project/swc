@@ -9,7 +9,7 @@
     "props"
   ],
   "sources": [
-    "../../input/index.js"
+    "../input/index.js"
   ],
   "sourcesContent": [
     "export default function StaticPage({ data }) {\n    return <div>{data.foo}</div>;\n}\n\nexport async function getStaticProps() {\n    return {\n        props: {\n            data: {\n                foo: \"bar\",\n            },\n        },\n    };\n}\n"

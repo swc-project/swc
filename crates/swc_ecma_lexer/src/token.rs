@@ -907,6 +907,16 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
             _ => unreachable!(),
         }
     }
+
+    #[inline(always)]
+    fn is_no_substitution_template_literal(&self) -> bool {
+        false
+    }
+
+    #[inline(always)]
+    fn is_template_head(&self) -> bool {
+        false
+    }
 }
 
 impl Token {
@@ -1316,9 +1326,9 @@ impl From<Word> for Atom {
             }
             .into(),
 
-            Word::Null => "null".into(),
-            Word::True => "true".into(),
-            Word::False => "false".into(),
+            Word::Null => atom!("null"),
+            Word::True => atom!("true"),
+            Word::False => atom!("false"),
 
             Word::Ident(w) => w.into(),
         }

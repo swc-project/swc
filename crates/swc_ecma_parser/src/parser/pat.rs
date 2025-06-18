@@ -13,6 +13,7 @@ impl<I: Tokens> Parser<I> {
 
 #[cfg(test)]
 mod tests {
+    use swc_atoms::atom;
     use swc_common::DUMMY_SP as span;
     use swc_ecma_lexer::common::parser::pat::parse_array_binding_pat;
     use swc_ecma_visit::assert_eq_ignore_span;
@@ -173,7 +174,7 @@ mod tests {
                         right: Box::new(Expr::Lit(Lit::Num(Number {
                             span,
                             value: 1.0,
-                            raw: Some("1".into())
+                            raw: Some(atom!("1"))
                         })))
                     }))
                 ],
@@ -255,7 +256,7 @@ mod tests {
                     value: Some(Box::new(Expr::Lit(Lit::Num(Number {
                         span,
                         value: 10.0,
-                        raw: Some("10".into())
+                        raw: Some(atom!("10"))
                     }))))
                 })]
             })
@@ -297,33 +298,33 @@ mod tests {
                                 Expr::Lit(Lit::Num(Number {
                                     span,
                                     value: 10.0,
-                                    raw: Some("10".into())
+                                    raw: Some(atom!("10"))
                                 }))
                             ),
                             prop(
                                 PropName::Str(Str {
                                     span,
-                                    value: "".into(),
-                                    raw: Some("''".into()),
+                                    value: atom!(""),
+                                    raw: Some(atom!("''")),
                                 }),
                                 "sym",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
-                                    value: "".into(),
-                                    raw: Some("''".into()),
+                                    value: atom!(""),
+                                    raw: Some(atom!("''")),
                                 }))
                             ),
                             prop(
                                 PropName::Str(Str {
                                     span,
-                                    value: " ".into(),
-                                    raw: Some("\" \"".into()),
+                                    value: atom!(" "),
+                                    raw: Some(atom!("\" \"")),
                                 }),
                                 "quote",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
-                                    value: " ".into(),
-                                    raw: Some("\" \"".into()),
+                                    value: atom!(" "),
+                                    raw: Some(atom!("\" \"")),
                                 }))
                             ),
                             prop(

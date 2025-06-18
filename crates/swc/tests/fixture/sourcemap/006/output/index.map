@@ -28,7 +28,7 @@
     "toBeLessThan"
   ],
   "sources": [
-    "../../input/index.js"
+    "../input/index.js"
   ],
   "sourcesContent": [
     "it(\"should compress avif smaller than webp and smaller than jpg\", async () => {\n    /**\n     *\n     * 'Foo bar baz'\n     *\n     * Return @\n     */\n    const query = { url: \"/test.jpg\", w, q: 75 };\n    const res1 = await fetchViaHTTP(appPort, \"/_next/image\", query, {\n        headers: {\n            accept: \"image/avif\",\n        },\n    });\n    expect(res1.status).toBe(200);\n    expect(res1.headers.get(\"Content-Type\")).toBe(\"image/avif\");\n\n    const res2 = await fetchViaHTTP(appPort, \"/_next/image\", query, {\n        headers: {\n            accept: \"image/webp\",\n        },\n    });\n    expect(res2.status).toBe(200);\n    expect(res2.headers.get(\"Content-Type\")).toBe(\"image/webp\");\n\n    const res3 = await fetchViaHTTP(appPort, \"/_next/image\", query, {\n        headers: {\n            accept: \"image/jpeg\",\n        },\n    });\n    expect(res3.status).toBe(200);\n    expect(res3.headers.get(\"Content-Type\")).toBe(\"image/jpeg\");\n\n    const avif = (await res1.buffer()).byteLength;\n    const webp = (await res2.buffer()).byteLength;\n    const jpeg = (await res3.buffer()).byteLength;\n\n    console.log({ isSharp, w, avif, webp, jpeg });\n\n    expect(webp).toBeLessThan(jpeg);\n    expect(avif).toBeLessThan(webp);\n});\n"

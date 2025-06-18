@@ -1,7 +1,7 @@
 use anyhow::Context;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{
     comments::{CommentKind, Comments},
     source_map::PURE_SP,
@@ -313,11 +313,11 @@ where
                         *obj = require.into();
 
                         match prop {
-                            MemberProp::Ident(IdentName { sym, .. }) => *sym = "toUrl".into(),
+                            MemberProp::Ident(IdentName { sym, .. }) => *sym = atom!("toUrl"),
                             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                                 match &mut **expr {
                                     Expr::Lit(Lit::Str(s)) => {
-                                        s.value = "toUrl".into();
+                                        s.value = atom!("toUrl");
                                         s.raw = None;
                                     }
                                     _ => unreachable!(),
@@ -337,11 +337,11 @@ where
                         *obj = require.into();
 
                         match prop {
-                            MemberProp::Ident(IdentName { sym, .. }) => *sym = "toUrl".into(),
+                            MemberProp::Ident(IdentName { sym, .. }) => *sym = atom!("toUrl"),
                             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                                 match &mut **expr {
                                     Expr::Lit(Lit::Str(s)) => {
-                                        s.value = "toUrl".into();
+                                        s.value = atom!("toUrl");
                                         s.raw = None;
                                     }
                                     _ => unreachable!(),
@@ -577,7 +577,7 @@ fn amd_import_meta_url(span: Span, module: Ident) -> Expr {
                 ]),
             )
             .into(),
-        prop: MemberProp::Ident("href".into()),
+        prop: MemberProp::Ident(atom!("href").into()),
     }
     .into()
 }

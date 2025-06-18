@@ -1,3 +1,4 @@
+use swc_atoms::atom;
 use swc_common::comments::Comment;
 
 use super::*;
@@ -107,6 +108,7 @@ where
                     span: DUMMY_SP,
                     text: "#__PURE__".into(),
                 }]
+
             );
         }
 
