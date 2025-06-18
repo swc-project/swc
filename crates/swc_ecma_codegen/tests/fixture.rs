@@ -4,6 +4,7 @@ use std::{
 };
 
 use serde::Deserialize;
+use swc_common::comments::SingleThreadedComments;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::{
     text_writer::{JsWriter, WriteJs},
@@ -65,6 +66,7 @@ fn run(input: &Path, minify: bool) {
     run_test2(false, |cm, _| {
         let config = find_config(dir);
         let fm = cm.load_file(input).unwrap();
+        let comments = SingleThreadedComments::default();
 
         let m = parse_file_as_module(
             &fm,
@@ -74,7 +76,7 @@ fn run(input: &Path, minify: bool) {
                 ..Default::default()
             }),
             EsVersion::latest(),
-            None,
+            Some(&comments),
             &mut Vec::new(),
         )
         .expect("failed to parse input as a module");
@@ -94,7 +96,7 @@ fn run(input: &Path, minify: bool) {
                     .with_minify(minify)
                     .with_reduce_escaped_newline(config.reduce_escaped_newline),
                 cm,
-                comments: None,
+                comments: Some(&comments),
                 wr,
             };
 
