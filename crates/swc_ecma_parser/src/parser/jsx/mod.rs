@@ -169,20 +169,20 @@ impl<I: Tokens> Parser<I> {
 
         match t {
             Token::LessSlash => Ok(None),
-            Token::LBrace => Ok(Some(
-                if self
-                    .input_mut()
-                    .peek()
-                    .is_some_and(|cur| cur == &Token::DotDotDot)
-                {
-                    JSXElementChild::JSXSpreadChild(parse_jsx_spread_child(self)?)
-                } else {
-                    JSXElementChild::JSXExprContainer(parse_jsx_expr_container(
-                        self,
-                        BytePos::DUMMY,
-                    )?)
-                },
-            )),
+            Token::LBrace => Ok(Some({
+                let ctx = self.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond;
+                self.with_ctx(ctx).parse_with(|p| {
+                    if p.input_mut()
+                        .peek()
+                        .is_some_and(|cur| cur == &Token::DotDotDot)
+                    {
+                        parse_jsx_spread_child(p).map(JSXElementChild::JSXSpreadChild)
+                    } else {
+                        parse_jsx_expr_container(p, BytePos::DUMMY)
+                            .map(JSXElementChild::JSXExprContainer)
+                    }
+                })?
+            })),
             Token::Lt => {
                 let ele = self.parse_jsx_element(false)?;
                 match ele {
