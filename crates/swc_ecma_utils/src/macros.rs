@@ -1,6 +1,9 @@
 /// Shortcut for `quote_ident!(span.apply_mark(Mark::fresh(Mark::root())), s)`
 #[macro_export]
 macro_rules! private_ident {
+    ($s:literal) => {
+        private_ident!($crate::swc_atoms::atom!($s))
+    };
     ($s:expr) => {
         private_ident!($crate::swc_common::DUMMY_SP, $s)
     };
@@ -15,11 +18,17 @@ macro_rules! private_ident {
 /// `quote_ident!("foo").into()`.
 #[macro_export]
 macro_rules! quote_ident {
+    ($s:literal) => {{
+        quote_ident!($crate::swc_atoms::atom!($s))
+    }};
     ($s:expr) => {{
         let sym: $crate::swc_atoms::Atom = $s.into();
         let id: $crate::swc_ecma_ast::IdentName = sym.into();
 
         id
+    }};
+    ($ctxt:expr, $s:literal) => {{
+        quote_ident!($ctxt, $crate::swc_atoms::atom!($s))
     }};
     ($ctxt:expr, $s:expr) => {{
         let sym: $crate::swc_atoms::Atom = $s.into();
@@ -36,6 +45,9 @@ macro_rules! quote_ident {
 
 #[macro_export]
 macro_rules! quote_str {
+    ($s:literal) => {
+        quote_str!($crate::swc_atoms::atom!($s))
+    };
     ($s:expr) => {
         quote_str!($crate::swc_common::DUMMY_SP, $s)
     };
@@ -107,6 +119,7 @@ macro_rules! member_expr {
 
 #[cfg(test)]
 mod tests {
+    use swc_atoms::atom;
     use swc_common::DUMMY_SP as span;
     use swc_ecma_ast::*;
 
@@ -128,9 +141,9 @@ mod tests {
                 obj: Box::new(Expr::Member(MemberExpr {
                     span,
                     obj: member_expr!(Default::default(), Default::default(), Function),
-                    prop: MemberProp::Ident("prototype".into()),
+                    prop: MemberProp::Ident(atom!("prototype").into()),
                 })),
-                prop: MemberProp::Ident("bind".into()),
+                prop: MemberProp::Ident(atom!("bind").into()),
             }))
         );
     }

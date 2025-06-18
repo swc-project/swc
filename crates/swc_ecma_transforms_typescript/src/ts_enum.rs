@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -54,14 +54,14 @@ impl From<TsEnumRecordValue> for Expr {
             TsEnumRecordValue::String(string) => Lit::Str(string.into()).into(),
             TsEnumRecordValue::Number(num) if num.is_nan() => Ident {
                 span: DUMMY_SP,
-                sym: "NaN".into(),
+                sym: atom!("NaN"),
                 ..Default::default()
             }
             .into(),
             TsEnumRecordValue::Number(num) if num.is_infinite() => {
                 let value: Expr = Ident {
                     span: DUMMY_SP,
-                    sym: "Infinity".into(),
+                    sym: atom!("Infinity"),
                     ..Default::default()
                 }
                 .into();

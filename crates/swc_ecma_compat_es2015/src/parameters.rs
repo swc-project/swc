@@ -2,6 +2,7 @@ use std::mem;
 
 use arrayvec::ArrayVec;
 use serde::Deserialize;
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 // use swc_ecma_transforms_base::perf::Parallel;
@@ -816,13 +817,13 @@ impl VisitMut for Params {
 }
 
 fn make_arg_nth(n: usize) -> MemberExpr {
-    Ident::new_no_ctxt("arguments".into(), DUMMY_SP).computed_member(n)
+    Ident::new_no_ctxt(atom!("arguments"), DUMMY_SP).computed_member(n)
 }
 
 fn check_arg_len(n: usize) -> Expr {
     BinExpr {
-        left: Expr::Ident(Ident::new_no_ctxt("arguments".into(), DUMMY_SP))
-            .make_member(IdentName::new("length".into(), DUMMY_SP))
+        left: Expr::Ident(Ident::new_no_ctxt(atom!("arguments"), DUMMY_SP))
+            .make_member(IdentName::new(atom!("length"), DUMMY_SP))
             .into(),
         op: op!(">"),
         right: n.into(),

@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{hygiene::*, DUMMY_SP};
 use swc_ecma_parser::Syntax;
 use swc_ecma_utils::quote_ident;
@@ -649,7 +649,7 @@ fn params_in_fn() {
                             span: DUMMY_SP,
                             decorators: Default::default(),
                             pat: Ident::new(
-                                "param".into(),
+                                atom!("param"),
                                 DUMMY_SP,
                                 SyntaxContext::empty().apply_mark(mark1),
                             )
@@ -659,7 +659,7 @@ fn params_in_fn() {
                             span: DUMMY_SP,
                             decorators: Default::default(),
                             pat: Ident::new(
-                                "param".into(),
+                                atom!("param"),
                                 DUMMY_SP,
                                 SyntaxContext::empty().apply_mark(mark2),
                             )

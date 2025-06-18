@@ -1,5 +1,6 @@
 use std::ops::DerefMut;
 
+use swc_atoms::atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -72,7 +73,7 @@ impl VisitMut for DisplayName {
                     Lit::Str(Str {
                         span: DUMMY_SP,
                         raw: None,
-                        value: "input".into(),
+                        value: atom!("input"),
                     })
                     .into(),
                 ),
@@ -179,7 +180,7 @@ fn add_display_name(call: &mut CallExpr, name: Box<Expr>) {
     }
 
     props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-        key: PropName::Ident("displayName".into()),
+        key: PropName::Ident(atom!("displayName").into()),
         value: name,
     }))));
 }

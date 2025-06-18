@@ -5,6 +5,7 @@ use std::hash::Hash;
 use rustc_hash::FxBuildHasher;
 #[cfg(not(feature = "concurrent"))]
 use rustc_hash::FxHashMap;
+use swc_atoms::atom;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ident::IdentLike;
@@ -33,7 +34,7 @@ pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
                         raw: None,
                         value: name.into(),
                     }
-                    .assign_to(Ident::new_no_ctxt("INJECTED_FROM".into(), DUMMY_SP)),
+                    .assign_to(Ident::new_no_ctxt(atom!("INJECTED_FROM"), DUMMY_SP)),
                 ]
             } else {
                 vec![self.into()]

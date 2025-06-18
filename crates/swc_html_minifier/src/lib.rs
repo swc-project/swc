@@ -2154,7 +2154,7 @@ impl<C: MinifyCss> Minifier<'_, C> {
                 // `template` element, because it can be used in any place in source code
                 context_element = Some(Element {
                     span: Default::default(),
-                    tag_name: "template".into(),
+                    tag_name: atom!("template"),
                     namespace: Namespace::HTML,
                     attributes: Vec::new(),
                     children: Vec::new(),
@@ -2505,7 +2505,7 @@ impl<C: MinifyCss> VisitMut for Minifier<'_, C> {
             return;
         }
 
-        n.name = Some("html".into());
+        n.name = Some(atom!("html"));
         n.system_id = None;
         n.public_id = None;
     }
@@ -2933,7 +2933,7 @@ impl MinifyCss for DefaultCssMinifier {
                                 span: Default::default(),
                                 name: swc_css_ast::AtRuleName::Ident(swc_css_ast::Ident {
                                     span: Default::default(),
-                                    value: "media".into(),
+                                    value: atom!("media"),
                                     raw: None,
                                 }),
                                 prelude: Some(
@@ -2951,7 +2951,7 @@ impl MinifyCss for DefaultCssMinifier {
                                     value: vec![swc_css_ast::ComponentValue::Str(Box::new(
                                         swc_css_ast::Str {
                                             span: Default::default(),
-                                            value: "placeholder".into(),
+                                            value: atom!("placeholder"),
                                             raw: None,
                                         },
                                     ))],

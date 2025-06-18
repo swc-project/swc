@@ -4,6 +4,7 @@ use anyhow::{Context, Error};
 use is_macro::Is;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
+use swc_atoms::atom;
 use swc_common::{
     sync::{Lock, Lrc},
     FileName, SourceFile, SyntaxContext,
@@ -364,7 +365,7 @@ where
                         }
                         ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
                             local: s.local.into(),
-                            alias: Some(Id::new("default".into(), SyntaxContext::empty())),
+                            alias: Some(Id::new(atom!("default"), SyntaxContext::empty())),
                         }),
                         ImportSpecifier::Namespace(s) => {
                             specifiers.push(Specifier::Namespace {

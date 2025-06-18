@@ -1,5 +1,6 @@
 use std::iter;
 
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -145,7 +146,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
-        let apply = self.make_member(IdentName::new("apply".into(), span));
+        let apply = self.make_member(IdentName::new(atom!("apply"), span));
 
         CallExpr {
             span,
@@ -163,7 +164,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
             span,
             args,
             callee: self
-                .make_member(IdentName::new("call".into(), span))
+                .make_member(IdentName::new(atom!("call"), span))
                 .as_callee(),
             ..Default::default()
         }
