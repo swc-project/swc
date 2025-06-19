@@ -41,7 +41,7 @@ swc_ecma_utils             = { version = "17.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit             = { version = "13.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_ecma_codegen            = { version = "15.0.0", path = "../swc_ecma_codegen/" }
+swc_ecma_codegen            = { version = "15.0.1", path = "../swc_ecma_codegen/" }
 swc_ecma_transforms_compat  = { version = "19.0.0", path = "../swc_ecma_transforms_compat/" }
 swc_ecma_transforms_testing = { version = "20.0.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "14.0.0", path = "../testing" }

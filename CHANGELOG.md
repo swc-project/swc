@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/codgen)** Emit leading comments of JSXExprContainer ([#10627](https://github.com/swc-project/swc/issues/10627)) ([2d2162a](https://github.com/swc-project/swc/commit/2d2162a1e90b997db130ba8ab9b262cd145f998a))
+
 ## [1.12.2] - 2025-06-19
 
 ### Bug Fixes
@@ -2088,9 +2096,6 @@
 
 
 
-- **(ci)** Fix target triples ([#9622](https://github.com/swc-project/swc/issues/9622)) ([f625035](https://github.com/swc-project/swc/commit/f625035f8a21eb6d2bc487669a534257f3ef7c7c))
-
-
 - **(es/codegen)** Fix source map so it works with Sentry ([#9627](https://github.com/swc-project/swc/issues/9627)) ([9c90a73](https://github.com/swc-project/swc/commit/9c90a733691e9a15bc1c4182edabcefa8054e9d3))
 
 ### Features
@@ -2098,12 +2103,6 @@
 
 
 - **(bindings/html)** Accept `Buffer|string` instead of `Buffer` ([#9625](https://github.com/swc-project/swc/issues/9625)) ([62edb36](https://github.com/swc-project/swc/commit/62edb3628b26036cdc767b31d59e109c3970497c))
-
-
-- **(es/preset-env)** Update preset-env data ([#9573](https://github.com/swc-project/swc/issues/9573)) ([9a11d34](https://github.com/swc-project/swc/commit/9a11d34ee569f64e8db02fc90beacbba0f2de0cf))
-
-
-- **(es/testing)** Parse test code as a `Program` instead of a `Module` ([#9623](https://github.com/swc-project/swc/issues/9623)) ([bfea322](https://github.com/swc-project/swc/commit/bfea3223515e378c3ebe669f4a9012919f4f9547))
 
 ### Build
 
