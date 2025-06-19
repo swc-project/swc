@@ -25,7 +25,6 @@ use crate::{
 /// Ported from babylon.
 #[derive(Clone)]
 pub struct State {
-    pub is_expr_allowed: bool,
     /// if line break exists between previous token and new token?
     pub had_line_break: bool,
     /// if line break exists before last?
@@ -76,9 +75,7 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
     }
 
     #[inline]
-    fn set_expr_allowed(&mut self, allow: bool) {
-        self.state.is_expr_allowed = allow;
-    }
+    fn set_expr_allowed(&mut self, _: bool) {}
 
     #[inline]
     fn set_next_regexp(&mut self, start: Option<BytePos>) {
@@ -506,7 +503,6 @@ impl Iterator for Lexer<'_> {
 impl State {
     pub fn new(syntax: Syntax, start_pos: BytePos) -> Self {
         State {
-            is_expr_allowed: true,
             had_line_break: false,
             had_line_break_before_last: false,
             is_first: true,
@@ -533,12 +529,12 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
 
     #[inline(always)]
     fn is_expr_allowed(&self) -> bool {
-        self.is_expr_allowed
+        unreachable!("is_expr_allowed should not be called in Parser/State")
     }
 
     #[inline(always)]
-    fn set_is_expr_allowed(&mut self, is_expr_allowed: bool) {
-        self.is_expr_allowed = is_expr_allowed;
+    fn set_is_expr_allowed(&mut self, _: bool) {
+        // noop
     }
 
     #[inline(always)]
