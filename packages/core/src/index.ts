@@ -74,7 +74,7 @@ export class Compiler {
 
     minifySync(src: string | Buffer, opts?: JsMinifyOptions, extras?: NapiMinifyExtra): Output {
         if (bindings) {
-            return bindings.minifySync(Buffer.from(src), toBuffer(opts ?? {}), false, extras ?? {});
+            return bindings.minifySync(Buffer.from(typeof src === 'object' ? JSON.stringify(src) : src), toBuffer(opts ?? {}), false, extras ?? {});
         } else if (fallbackBindings) {
             return fallbackBindings.minifySync(src, opts);
         }

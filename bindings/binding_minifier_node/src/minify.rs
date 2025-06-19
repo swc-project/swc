@@ -38,49 +38,19 @@ pub struct NapiMinifyExtra {
 }
 
 struct MinifyTask {
-    input: Option<MinifyTarget>,
+    input: Option<String>,
     options: String,
     extras: Option<NapiMinifyExtra>,
 }
 
-#[derive(Deserialize)]
-#[serde(untagged)]
-enum MinifyTarget {
-    /// Code to minify.
-    Single(String),
-    /// `{ filename: code }`
-    Json(String),
-}
-
-impl MinifyTarget {
-    fn to_file(&self, cm: Lrc<SourceMap>) -> Lrc<SourceFile> {
-        match self {
-            MinifyTarget::Single(code) => cm.new_source_file(FileName::Anon.into(), code.clone()),
-            MinifyTarget::Json(json) => {
-                let codes: FxHashMap<String, String> =
-                    serde_json::from_str(json).expect("Invalid JSON");
-                assert_eq!(
-                    codes.len(),
-                    1,
-                    "swc.minify does not support concatting multiple files yet"
-                );
-
-                let (filename, code) = codes.iter().next().unwrap();
-
-                cm.new_source_file(FileName::Real(filename.clone().into()).into(), code.clone())
-            }
-        }
-    }
-}
-
 fn do_work(
-    input: MinifyTarget,
+    input: String,
     options: JsMinifyOptions,
     extras: NapiMinifyExtra,
 ) -> anyhow::Result<TransformOutput> {
     let cm: Arc<SourceMap> = Arc::default();
 
-    let fm = input.to_file(cm.clone());
+    let fm = cm.new_source_file(FileName::Anon.into(), input);
 
     try_with(cm.clone(), false, |handler| {
         let target = options.ecma.clone().into();
@@ -274,20 +244,15 @@ fn new_mangle_name_cache() -> NameMangleCache {
 fn minify(
     code: Buffer,
     opts: Buffer,
-    is_json: bool,
     extras: NapiMinifyExtra,
     signal: Option<AbortSignal>,
 ) -> AsyncTask<MinifyTask> {
     crate::util::init_default_trace_subscriber();
-    let code = String::from_utf8_lossy(code.as_ref()).to_string();
-    let options = String::from_utf8_lossy(opts.as_ref()).to_string();
+    let code = String::from_utf8_lossy(code.as_ref()).into_owned();
+    let options = String::from_utf8_lossy(opts.as_ref()).into_owned();
 
     let task = MinifyTask {
-        input: Some(if is_json {
-            MinifyTarget::Json(code)
-        } else {
-            MinifyTarget::Single(code)
-        }),
+        input: Some(code),
         options,
         extras: Some(extras),
     };
@@ -299,19 +264,13 @@ fn minify(
 pub fn minify_sync(
     code: Buffer,
     opts: Buffer,
-    is_json: bool,
     extras: NapiMinifyExtra,
 ) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
-    let input = if is_json {
-        MinifyTarget::Json(code)
-    } else {
-        MinifyTarget::Single(code)
-    };
     let opts = get_deserialized(opts)?;
 
     let cm = Lrc::new(SourceMap::default());
 
-    try_with(cm.clone(), false, |_| do_work(input, opts, extras)).convert_err()
+    try_with(cm.clone(), false, |_| do_work(code, opts, extras)).convert_err()
 }

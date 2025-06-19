@@ -6,7 +6,7 @@ import * as binding from './binding'
  * TODO
  */
 export async function minify(code: string | Buffer, options: JsMinifyOptions) {
-    return await binding.minify(Buffer.from(code), toBuffer(options), false, {})
+    return await binding.minify(Buffer.from(code), toBuffer(options), {})
 }
 
 
@@ -14,7 +14,7 @@ export async function minify(code: string | Buffer, options: JsMinifyOptions) {
  * TODO
  */
 export function minifySync(code: string | Buffer, options: JsMinifyOptions): binding.TransformOutput {
-    return binding.minifySync(Buffer.from(code), toBuffer(options), false, {})
+    return binding.minifySync(Buffer.from(code), toBuffer(options),  {})
 }
 
 
