@@ -13,6 +13,8 @@ pub trait Tokens: swc_ecma_lexer::common::input::Tokens<TokenAndSpan> {
     fn set_token_value(&mut self, token_value: Option<TokenValue>);
 
     fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Option<TokenAndSpan>;
+    fn scan_jsx_open_el_terminal_token(&mut self) -> Option<TokenAndSpan>;
+    fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> Option<TokenAndSpan>;
     fn rescan_jsx_token(
         &mut self,
         allow_multiline_jsx_text: bool,
@@ -106,6 +108,36 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
         if let Some(t) = self.iter_mut().scan_jsx_token(allow_multiline_jsx_text) {
+            self.set_cur(t);
+        }
+    }
+
+    fn scan_jsx_open_el_terminal_token(&mut self) {
+        if let Some(t) = self.iter_mut().scan_jsx_open_el_terminal_token() {
+            self.set_cur(t);
+        }
+    }
+
+    pub fn rescan_jsx_open_el_terminal_token(&mut self) {
+        // rescan `>=`, `>>`, `>>=`, `>>>`, `>>>=` into `>`
+        let cur = match self.cur.as_ref() {
+            Some(cur) => cur,
+            None => {
+                return self.scan_jsx_open_el_terminal_token();
+            }
+        };
+        if !matches!(
+            cur.token,
+            Token::GtEq
+                | Token::RShift
+                | Token::RShiftEq
+                | Token::ZeroFillRShift
+                | Token::ZeroFillRShiftEq
+        ) {
+            return;
+        }
+        let start = cur.span.lo;
+        if let Some(t) = self.iter_mut().rescan_jsx_open_el_terminal_token(start) {
             self.set_cur(t);
         }
     }

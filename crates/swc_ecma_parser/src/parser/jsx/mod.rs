@@ -280,9 +280,13 @@ impl<I: Tokens> Parser<I> {
     fn parse_jsx_attrs(&mut self) -> PResult<Vec<JSXAttrOrSpread>> {
         let mut attrs = Vec::with_capacity(8);
 
-        while let Some(cur) = self.input_mut().cur().copied() {
+        loop {
             trace_cur!(self, parse_jsx_opening__attrs_loop);
-            if matches!(cur, Token::Gt | Token::Slash) {
+            self.input_mut().rescan_jsx_open_el_terminal_token();
+            let Some(cur) = self.input_mut().get_cur() else {
+                break;
+            };
+            if matches!(cur.token, Token::Gt | Token::Slash) {
                 break;
             }
             let attr = self.parse_jsx_attr()?;
