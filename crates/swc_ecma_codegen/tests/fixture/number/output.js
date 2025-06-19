@@ -99,9 +99,12 @@ const foo71 = 0XfF;
 1234..toString();
 1e0.toString();
 77..toExponential();
+// or
 77..toExponential();
 (77).toExponential();
+// or
 77..toExponential();
+// or
 77.0.toExponential();
 const hugefoo = 1000000000001..test();
 const hugefoo1 = 0xEE.test();

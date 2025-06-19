@@ -1,4 +1,4 @@
-use swc_common::{SourceMapper, Spanned};
+use swc_common::{BytePos, SourceMapper, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
@@ -149,6 +149,7 @@ impl MacroNode for JSXSpreadChild {
 impl MacroNode for JSXExprContainer {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         punct!(emitter, "{");
+        emitter.emit_trailing_comments_of_pos(self.span.lo + BytePos(1), true, false)?;
         emit!(self.expr);
         punct!(emitter, "}");
         Ok(())
