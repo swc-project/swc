@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Performance
+
+
+
+- **(es/minifier)** Remove needless JSON conversion ([#10628](https://github.com/swc-project/swc/issues/10628)) ([4a58dca](https://github.com/swc-project/swc/commit/4a58dca92c71c2db871be3a09ea0aa6c9a6702fc))
+
+## [swc_core@v28.0.1] - 2025-06-18
+
 ### Bug Fixes
 
 
@@ -2595,12 +2603,6 @@
 
 
 - **(es/testing)** Parse test code as a `Program` instead of a `Module` ([#9264](https://github.com/swc-project/swc/issues/9264)) ([166b858](https://github.com/swc-project/swc/commit/166b8581c226b127f5d503cd21c22c0a3a8c675c))
-
-### Miscellaneous Tasks
-
-
-
-- **(atoms)** Update `hstr` ([#9612](https://github.com/swc-project/swc/issues/9612)) ([e2e9a9c](https://github.com/swc-project/swc/commit/e2e9a9ccfce75e69546c54fc88a708b4e1dda13b))
 
 ### Performance
 
