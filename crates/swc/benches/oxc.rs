@@ -62,8 +62,11 @@ fn full_group(c: &mut Criterion) {
                                         })),
                                         transform: Some(TransformConfig {
                                             react: swc_ecma_transforms::react::Options {
-                                                runtime: Some(Runtime::Automatic),
-                                                development: Some(react_dev),
+                                                runtime: Runtime::Automatic(Default::default()),
+                                                common: swc_ecma_transforms::react::CommonConfig {
+                                                    development: react_dev.into(),
+                                                    ..Default::default()
+                                                },
                                                 ..Default::default()
                                             },
                                             ..Default::default()

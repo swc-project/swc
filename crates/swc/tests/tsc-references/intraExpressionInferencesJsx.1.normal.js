@@ -1,11 +1,12 @@
 //// [intraExpressionInferencesJsx.tsx]
 /// <reference path="/.lib/react16.d.ts" />
 // repro from #52798
+import { jsx as _jsx, Fragment as _Fragment } from "react/jsx-runtime";
 var Component = function(param) {
     var animations = param.animations, style = param.style;
-    return /*#__PURE__*/ React.createElement(React.Fragment, null);
+    return /*#__PURE__*/ _jsx(_Fragment, {});
 };
-/*#__PURE__*/ React.createElement(Component, {
+/*#__PURE__*/ _jsx(Component, {
     animations: {
         test: {
             kind: "a",
@@ -17,7 +18,7 @@ var Component = function(param) {
         return "";
     }
 });
-/*#__PURE__*/ React.createElement(Component, {
+/*#__PURE__*/ _jsx(Component, {
     animations: {
         test: {
             kind: "a",
@@ -34,7 +35,7 @@ var Component = function(param) {
         return "";
     }
 });
-/*#__PURE__*/ React.createElement(Component, {
+/*#__PURE__*/ _jsx(Component, {
     animations: {
         test: {
             kind: "a",
@@ -52,9 +53,9 @@ var Component = function(param) {
     }
 });
 function Foo(props) {
-    return /*#__PURE__*/ React.createElement("div", null);
+    return /*#__PURE__*/ _jsx("div", {});
 }
-/*#__PURE__*/ React.createElement(Foo, {
+/*#__PURE__*/ _jsx(Foo, {
     a: function() {
         return 10;
     },
@@ -62,7 +63,7 @@ function Foo(props) {
         arg.toString();
     }
 });
-/*#__PURE__*/ React.createElement(Foo, {
+/*#__PURE__*/ _jsx(Foo, {
     a: function(x) {
         return 10;
     },
@@ -70,7 +71,7 @@ function Foo(props) {
         arg.toString();
     }
 });
-/*#__PURE__*/ React.createElement(Foo, {
+/*#__PURE__*/ _jsx(Foo, {
     a: function(x) {
         return 10;
     },
