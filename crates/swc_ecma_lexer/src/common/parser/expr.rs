@@ -2441,7 +2441,12 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
 
 pub fn try_parse_regexp<'a, P: Parser<'a>>(p: &mut P, start: BytePos) -> Option<Box<Expr>> {
     // Regexp
-    p.bump();
+    debug_assert!(p
+        .input_mut()
+        .cur()
+        .is_some_and(|token| token.is_slash() || token.is_slash_eq()));
+
+    p.bump(); // `/` or `/=`
 
     p.input_mut().set_next_regexp(Some(start));
 

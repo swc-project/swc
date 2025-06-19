@@ -43,8 +43,6 @@ pub struct State {
     /// TODO: Remove this field.
     is_first: bool,
     pub start: BytePos,
-    pub cur_line: usize,
-    pub line_start: BytePos,
     pub prev_hi: BytePos,
     pub tpl_start: BytePos,
 
@@ -268,7 +266,7 @@ impl State {
                 context.pop();
             } else {
                 context.push(TokenContext::Tpl);
-                self.set_tpl_start(start);
+                self.tpl_start = start;
             }
             false
         } else if next.is_jsx_tag_start() {
@@ -347,11 +345,6 @@ impl common::lexer::state::State for State {
     }
 
     #[inline(always)]
-    fn set_tpl_start(&mut self, start: BytePos) {
-        self.tpl_start = start;
-    }
-
-    #[inline(always)]
     fn syntax(&self) -> crate::Syntax {
         self.syntax
     }
@@ -364,25 +357,6 @@ impl common::lexer::state::State for State {
     #[inline(always)]
     fn start(&self) -> BytePos {
         self.start
-    }
-
-    #[inline(always)]
-    fn add_current_line(&mut self, offset: usize) {
-        self.cur_line += offset;
-    }
-
-    #[inline(always)]
-    fn set_line_start(&mut self, line_start: BytePos) {
-        self.line_start = line_start;
-    }
-
-    #[inline(always)]
-    fn can_skip_space(&self) -> bool {
-        !self
-            .token_contexts()
-            .current()
-            .map(|t| t.preserve_space())
-            .unwrap_or_default()
     }
 }
 
@@ -749,18 +723,8 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
         self.input.end_pos()
     }
 
-    #[inline]
-    fn can_skip_space(&self) -> bool {
-        unreachable!("`can_skip_space` is determined by the current context")
-    }
-
-    #[inline]
-    fn set_can_skip_space(&mut self, _: bool) {
-        unreachable!("`can_skip_space` is determined by the current context")
-    }
-
     fn update_token_flags(&mut self, _: impl FnOnce(&mut lexer::TokenFlags)) {
-        // TODO: update token flags if needed.
+        // noop
     }
 
     fn token_flags(&self) -> lexer::TokenFlags {
@@ -784,7 +748,13 @@ impl Lexer<'_> {
         self.state.is_first = false;
 
         // skip spaces before getting next character, if we are allowed to.
-        if self.state.can_skip_space() {
+        let can_skip_space = !self
+            .state
+            .context
+            .current()
+            .map(|t| t.preserve_space())
+            .unwrap_or_default();
+        if can_skip_space {
             self.skip_space::<true>();
             *start = self.input.cur_pos();
         };
@@ -924,8 +894,6 @@ impl State {
             had_line_break_before_last: false,
             is_first: true,
             start: BytePos(0),
-            cur_line: 1,
-            line_start: BytePos(0),
             prev_hi: start_pos,
             tpl_start: BytePos::DUMMY,
             context,

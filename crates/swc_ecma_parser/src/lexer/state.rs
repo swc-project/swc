@@ -26,22 +26,15 @@ use crate::{
 /// Ported from babylon.
 #[derive(Clone)]
 pub struct State {
-    pub is_expr_allowed: bool,
     /// if line break exists between previous token and new token?
     pub had_line_break: bool,
     /// if line break exists before last?
     pub had_line_break_before_last: bool,
-    pub can_skip_space: bool,
     /// TODO: Remove this field.
     is_first: bool,
     pub next_regexp: Option<BytePos>,
     pub start: BytePos,
-    pub cur_line: usize,
-    pub line_start: BytePos,
     pub prev_hi: BytePos,
-    pub tpl_start: BytePos,
-
-    syntax: Syntax,
 
     pub(super) token_value: Option<TokenValue>,
     token_type: Option<Token>,
@@ -78,9 +71,7 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
     }
 
     #[inline]
-    fn set_expr_allowed(&mut self, allow: bool) {
-        self.state.is_expr_allowed = allow;
-    }
+    fn set_expr_allowed(&mut self, _: bool) {}
 
     #[inline]
     fn set_next_regexp(&mut self, start: Option<BytePos>) {
@@ -127,16 +118,6 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
     #[inline]
     fn end_pos(&self) -> BytePos {
         self.input.end_pos()
-    }
-
-    #[inline]
-    fn can_skip_space(&self) -> bool {
-        self.state.can_skip_space
-    }
-
-    #[inline]
-    fn set_can_skip_space(&mut self, can_skip_space: bool) {
-        self.state.can_skip_space = can_skip_space;
     }
 
     #[inline]
@@ -390,11 +371,8 @@ impl Lexer<'_> {
         self.state.had_line_break = self.state.is_first;
         self.state.is_first = false;
 
-        // skip spaces before getting next character, if we are allowed to.
-        if self.state.can_skip_space {
-            self.skip_space::<true>();
-            *start = self.input.cur_pos();
-        };
+        self.skip_space::<true>();
+        *start = self.input.cur_pos();
 
         match self.input.cur() {
             Some(..) => {}
@@ -579,20 +557,14 @@ impl Iterator for Lexer<'_> {
 }
 
 impl State {
-    pub fn new(syntax: Syntax, start_pos: BytePos) -> Self {
+    pub fn new(start_pos: BytePos) -> Self {
         State {
-            is_expr_allowed: true,
             had_line_break: false,
             had_line_break_before_last: false,
             is_first: true,
-            can_skip_space: true,
             next_regexp: None,
             start: BytePos(0),
-            cur_line: 1,
-            line_start: BytePos(0),
             prev_hi: start_pos,
-            tpl_start: BytePos::DUMMY,
-            syntax,
             token_value: None,
             token_type: None,
         }
@@ -609,12 +581,12 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
 
     #[inline(always)]
     fn is_expr_allowed(&self) -> bool {
-        self.is_expr_allowed
+        unreachable!("is_expr_allowed should not be called in Parser/State")
     }
 
     #[inline(always)]
-    fn set_is_expr_allowed(&mut self, is_expr_allowed: bool) {
-        self.is_expr_allowed = is_expr_allowed;
+    fn set_is_expr_allowed(&mut self, _: bool) {
+        // noop
     }
 
     #[inline(always)]
@@ -658,13 +630,8 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
     }
 
     #[inline(always)]
-    fn set_tpl_start(&mut self, start: BytePos) {
-        self.tpl_start = start;
-    }
-
-    #[inline(always)]
     fn syntax(&self) -> swc_ecma_lexer::Syntax {
-        self.syntax
+        unreachable!("syntax is not stored in State, but in Lexer")
     }
 
     #[inline(always)]
@@ -675,20 +642,5 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
     #[inline(always)]
     fn start(&self) -> BytePos {
         self.start
-    }
-
-    #[inline(always)]
-    fn add_current_line(&mut self, offset: usize) {
-        self.cur_line += offset;
-    }
-
-    #[inline(always)]
-    fn set_line_start(&mut self, line_start: BytePos) {
-        self.line_start = line_start;
-    }
-
-    #[inline(always)]
-    fn can_skip_space(&self) -> bool {
-        self.can_skip_space
     }
 }

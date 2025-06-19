@@ -1,4 +1,4 @@
-use swc_common::{BytePos, Span, Spanned};
+use swc_common::{Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::{
     common::{
@@ -178,8 +178,7 @@ impl<I: Tokens> Parser<I> {
                     {
                         parse_jsx_spread_child(p).map(JSXElementChild::JSXSpreadChild)
                     } else {
-                        parse_jsx_expr_container(p, BytePos::DUMMY)
-                            .map(JSXElementChild::JSXExprContainer)
+                        parse_jsx_expr_container(p).map(JSXElementChild::JSXExprContainer)
                     }
                 })?
             })),
@@ -233,7 +232,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 Token::LBrace => {
                     let start = self.cur_pos();
-                    let node = parse_jsx_expr_container(self, start)?;
+                    let node = parse_jsx_expr_container(self)?;
                     jsx_expr_container_to_jsx_attr_value(self, start, node).map(Some)
                 }
                 Token::Lt => match self.parse_jsx_element(true)? {

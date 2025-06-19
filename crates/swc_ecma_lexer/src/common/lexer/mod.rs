@@ -999,17 +999,11 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         self.bump();
 
         let out = if ch == '\r' && self.input().cur() == Some('\n') {
-            unsafe {
-                // Safety: cur() was Some('\n')
-                self.input_mut().bump();
-            }
+            self.bump(); // `\n`
             Either::Left(if normalize_crlf { "\n" } else { "\r\n" })
         } else {
             Either::Right(ch)
         };
-        let cur_pos = self.input().cur_pos();
-        self.state_mut().add_current_line(1);
-        self.state_mut().set_line_start(cur_pos);
         Ok(out)
     }
 

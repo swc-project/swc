@@ -132,16 +132,6 @@ impl Tokens<TokenAndSpan> for TokensInput {
     }
 
     #[inline]
-    fn can_skip_space(&self) -> bool {
-        unreachable!()
-    }
-
-    #[inline]
-    fn set_can_skip_space(&mut self, _: bool) {
-        unreachable!()
-    }
-
-    #[inline]
     fn update_token_flags(&mut self, _: impl FnOnce(&mut lexer::TokenFlags)) {
         // TODO: Implement this method if needed.
     }
@@ -285,16 +275,6 @@ impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
 
     fn end_pos(&self) -> BytePos {
         self.inner.end_pos()
-    }
-
-    #[inline]
-    fn can_skip_space(&self) -> bool {
-        unreachable!()
-    }
-
-    #[inline]
-    fn set_can_skip_space(&mut self, _: bool) {
-        unreachable!()
     }
 
     #[inline]

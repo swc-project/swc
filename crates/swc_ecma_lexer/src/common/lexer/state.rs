@@ -57,13 +57,9 @@ pub trait State: Clone {
     fn mut_token_contexts(&mut self) -> &mut crate::TokenContexts;
     fn set_token_type(&mut self, token_type: Self::TokenType);
     fn token_type(&self) -> Option<Self::TokenType>;
-    fn set_tpl_start(&mut self, start: BytePos);
     fn syntax(&self) -> crate::Syntax;
     fn prev_hi(&self) -> BytePos;
     fn start(&self) -> BytePos;
-    fn add_current_line(&mut self, offset: usize);
-    fn set_line_start(&mut self, line_start: BytePos);
-    fn can_skip_space(&self) -> bool;
 
     fn can_have_trailing_line_comment(&self) -> bool {
         let Some(t) = self.token_type() else {

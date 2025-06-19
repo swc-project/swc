@@ -195,8 +195,7 @@ impl<I: Tokens> Parser<I> {
 
     pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_primary_expr);
-        let _ = self.input.cur();
-        let start = cur_pos!(self);
+        let start = self.input_mut().cur_pos();
         let can_be_arrow = self
             .state
             .potential_arrow_start
