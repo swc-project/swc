@@ -14,9 +14,9 @@ export declare function getTargetTriple(): string
 
 export declare function initCustomTraceSubscriber(traceOutFilePath?: string | undefined | null): void
 
-export declare function minify(code: Buffer, opts: Buffer, extras: NapiMinifyExtra, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
+export declare function minify(code: Buffer, opts: Buffer, isJson: boolean, extras: NapiMinifyExtra, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
 
-export declare function minifySync(code: Buffer, opts: Buffer, extras: NapiMinifyExtra): TransformOutput
+export declare function minifySync(code: Buffer, opts: Buffer, isJson: boolean, extras: NapiMinifyExtra): TransformOutput
 
 export interface NapiMinifyExtra {
   mangleNameCache?: object
