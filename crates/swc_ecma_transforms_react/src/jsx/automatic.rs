@@ -71,7 +71,6 @@ impl Automatic {
     fn inject_runtime<T, F>(&mut self, body: &mut Vec<T>, inject: F)
     where
         T: StmtLike,
-        // Fn(Vec<(local, imported)>, src, body)
         F: Fn(Vec<(Ident, IdentName)>, &str, &mut Vec<T>),
     {
         if let Some(local) = self.import_create_element.take() {
@@ -205,13 +204,7 @@ impl Automatic {
         .into()
     }
 
-    /// # Automatic
-    ///
     /// <div></div> => jsx('div', null);
-    ///
-    /// # Classic
-    ///
-    /// <div></div> => React.createElement('div', null);
     fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
         let mut span = el.span();
         if span.lo.is_dummy() {

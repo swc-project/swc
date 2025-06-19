@@ -181,12 +181,6 @@ impl Classic {
         .into()
     }
 
-    /// # Automatic
-    ///
-    /// <div></div> => jsx('div', null);
-    ///
-    /// # Classic
-    ///
     /// <div></div> => React.createElement('div', null);
     fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
         let mut span = el.span();
