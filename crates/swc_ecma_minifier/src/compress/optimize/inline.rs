@@ -8,7 +8,10 @@ use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
 use crate::{
-    compress::optimize::{util::is_valid_for_lhs, BitCtx},
+    compress::{
+        optimize::{util::is_valid_for_lhs, BitCtx},
+        util::contains_super,
+    },
     program_data::{ScopeData, VarUsageInfo, VarUsageInfoFlags},
     util::{
         idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
@@ -42,6 +45,12 @@ impl Optimizer<'_> {
         // We will inline if possible.
         if ident.sym == "arguments" {
             return;
+        }
+
+        if let Expr::Arrow(ArrowExpr { body, .. }) = init {
+            if contains_super(body) {
+                return;
+            }
         }
 
         if let Some(usage) = self.data.vars.get(&ident.to_id()) {
@@ -966,7 +975,9 @@ fn is_arrow_simple_enough_for_copy(e: &ArrowExpr) -> Option<u8> {
 fn is_arrow_body_simple_enough_for_copy(e: &Expr) -> Option<u8> {
     match e {
         Expr::Ident(..) | Expr::Lit(..) => return Some(1),
-        Expr::Member(MemberExpr { prop, .. }) if !prop.is_computed() => return Some(3),
+        Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
+            return Some(is_arrow_body_simple_enough_for_copy(obj)? + 2)
+        }
         Expr::Unary(u) => return Some(is_arrow_body_simple_enough_for_copy(&u.arg)? + 1),
 
         Expr::Bin(b) => {

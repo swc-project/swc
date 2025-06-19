@@ -11,7 +11,7 @@ function addAlgoliaAgents(searchClient) {
 const isMultiIndexContext = (widget)=>hasMultipleIndices({
         ais: widget.props.contextValue,
         multiIndexContext: widget.props.indexContextValue
-    }), sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
+    }), isTargetedIndexEqualIndex = (widget, indexId)=>widget.props.indexContextValue.targetedIndex === indexId, sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
     const isFirstWidgetIndex = !!firstWidget.props.indexId, isSecondWidgetIndex = !!secondWidget.props.indexId;
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
@@ -182,12 +182,12 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
     }
     function getSearchParameters() {
         const sharedParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>!isMultiIndexContext(widget) && !widget.props.indexId).reduce((res, widget)=>widget.getSearchParameters(res), initialSearchParameters), mainParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>{
-            const targetedIndexEqualMainIndex = isMultiIndexContext(widget) && widget.props.indexContextValue.targetedIndex === indexName, subIndexEqualMainIndex = !!widget.props.indexId && widget.props.indexId === indexName;
+            const targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = !!widget.props.indexId && widget.props.indexId === indexName;
             return targetedIndexEqualMainIndex || subIndexEqualMainIndex;
         })// We have to sort the `Index` widgets first so the `index` parameter
         // is correctly set in the `reduce` function for the following widgets
         .sort(sortIndexWidgetsFirst).reduce((res, widget)=>widget.getSearchParameters(res), sharedParameters), derivedIndices = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>{
-            const targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && widget.props.indexContextValue.targetedIndex !== indexName, subIndexNotEqualMainIndex = !!widget.props.indexId && widget.props.indexId !== indexName;
+            const targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName), subIndexNotEqualMainIndex = !!widget.props.indexId && widget.props.indexId !== indexName;
             return targetedIndexNotEqualMainIndex || subIndexNotEqualMainIndex;
         })// We have to sort the `Index` widgets first so the `index` parameter
         // is correctly set in the `reduce` function for the following widgets
