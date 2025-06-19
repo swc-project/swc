@@ -9,7 +9,7 @@ use swc_core::common::{
     sync::{Lrc, OnceCell},
     SourceMap, GLOBALS,
 };
-use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
+use swc_error_reporters::handler::try_with_handler;
 use tracing::instrument;
 use tracing_chrome::ChromeLayerBuilder;
 use tracing_subscriber::{
@@ -64,7 +64,7 @@ where
         .set(&Default::default(), || {
             try_with_handler(
                 cm,
-                HandlerOpts {
+                swc_error_reporters::handler::HandlerOpts {
                     skip_filename,
                     ..Default::default()
                 },
