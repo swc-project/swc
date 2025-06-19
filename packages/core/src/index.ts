@@ -65,7 +65,7 @@ export class Compiler {
 
     async minify(src: string | Buffer, opts?: JsMinifyOptions, extras?: NapiMinifyExtra): Promise<Output> {
         if (bindings) {
-            return bindings.minify(Buffer.from(typeof src === 'object' ? JSON.stringify(src) : src), toBuffer(opts ?? {}), typeof src === 'object', extras ?? {});
+            return bindings.minify(Buffer.from(!Buffer.isBuffer(src) && typeof src === 'object' ? JSON.stringify(src) : src), toBuffer(opts ?? {}), !Buffer.isBuffer(src) && typeof src === 'object', extras ?? {});
         } else if (fallbackBindings) {
             return fallbackBindings.minify(src, opts);
         }
@@ -74,7 +74,7 @@ export class Compiler {
 
     minifySync(src: string | Buffer, opts?: JsMinifyOptions, extras?: NapiMinifyExtra): Output {
         if (bindings) {
-            return bindings.minifySync(Buffer.from(typeof src === 'object' ? JSON.stringify(src) : src), toBuffer(opts ?? {}), typeof src === 'object', extras ?? {});
+            return bindings.minifySync(Buffer.from(!Buffer.isBuffer(src) && typeof src === 'object' ? JSON.stringify(src) : src), toBuffer(opts ?? {}), !Buffer.isBuffer(src) && typeof src === 'object', extras ?? {});
         } else if (fallbackBindings) {
             return fallbackBindings.minifySync(src, opts);
         }
