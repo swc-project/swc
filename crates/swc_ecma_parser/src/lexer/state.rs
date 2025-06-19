@@ -7,6 +7,7 @@ use swc_ecma_lexer::{
         char::CharExt,
         comments_buffer::{BufferedComment, BufferedCommentKind},
         state::State as StateTrait,
+        LexResult,
     },
     error::SyntaxError,
     TokenContexts,
@@ -158,9 +159,56 @@ impl crate::input::Tokens for Lexer<'_> {
         Tokens::scan_jsx_token(self, allow_multiline_jsx_text)
     }
 
+    fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> Option<TokenAndSpan> {
+        unsafe {
+            self.input.reset_to(reset);
+        }
+        Tokens::scan_jsx_open_el_terminal_token(self)
+    }
+
     fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Option<TokenAndSpan> {
         let start = self.cur_pos();
         let res = match self.scan_jsx_token(allow_multiline_jsx_text) {
+            Ok(res) => Ok(res),
+            Err(error) => {
+                self.state.set_token_value(TokenValue::Error(error));
+                Err(Token::Error)
+            }
+        };
+        let token = match res.map_err(Some) {
+            Ok(t) => t,
+            Err(e) => e,
+        };
+        let span = self.span(start);
+        if let Some(token) = token {
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                for comment in comments.take_pending_leading() {
+                    comments.push(BufferedComment {
+                        kind: BufferedCommentKind::Leading,
+                        pos: start,
+                        comment,
+                    });
+                }
+            }
+
+            self.state.set_token_type(token);
+            self.state.prev_hi = self.last_pos();
+            self.state.had_line_break_before_last = self.had_line_break_before_last();
+        }
+        token.map(|token| {
+            // Attach span to token.
+            TokenAndSpan {
+                token,
+                had_line_break: self.had_line_break_before_last(),
+                span,
+            }
+        })
+    }
+
+    fn scan_jsx_open_el_terminal_token(&mut self) -> Option<TokenAndSpan> {
+        self.skip_space::<true>();
+        let start = self.input.cur_pos();
+        let res = match self.scan_jsx_attrs_terminal_token() {
             Ok(res) => Ok(res),
             Err(error) => {
                 self.state.set_token_value(TokenValue::Error(error));
@@ -348,9 +396,9 @@ impl Lexer<'_> {
     }
 
     fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Result<Option<Token>, Error> {
-        let start = self.input.cur_pos();
         debug_assert!(self.syntax.jsx());
-        if self.input_mut().cur().is_none() {
+
+        if self.input_mut().as_str().is_empty() {
             return Ok(None);
         };
 
@@ -364,6 +412,7 @@ impl Lexer<'_> {
             return Ok(Some(Token::LBrace));
         }
 
+        let start = self.input.cur_pos();
         let mut first_non_whitespace = 0;
         while let Some(ch) = self.input_mut().cur() {
             if ch == '{' {
@@ -418,6 +467,18 @@ impl Lexer<'_> {
         self.state.start = start;
 
         Ok(Some(Token::JSXText))
+    }
+
+    fn scan_jsx_attrs_terminal_token(&mut self) -> LexResult<Option<Token>> {
+        if self.input_mut().as_str().is_empty() {
+            Ok(None)
+        } else if self.input.eat_byte(b'>') {
+            Ok(Some(Token::Gt))
+        } else if self.input.eat_byte(b'/') {
+            Ok(Some(Token::Slash))
+        } else {
+            self.read_token()
+        }
     }
 
     fn scan_identifier_parts(&mut self) -> String {
