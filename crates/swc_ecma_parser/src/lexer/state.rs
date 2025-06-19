@@ -35,8 +35,6 @@ pub struct State {
     pub start: BytePos,
     pub prev_hi: BytePos,
 
-    syntax: Syntax,
-
     pub(super) token_value: Option<TokenValue>,
     token_type: Option<Token>,
 }
@@ -498,7 +496,7 @@ impl Iterator for Lexer<'_> {
 }
 
 impl State {
-    pub fn new(syntax: Syntax, start_pos: BytePos) -> Self {
+    pub fn new(start_pos: BytePos) -> Self {
         State {
             had_line_break: false,
             had_line_break_before_last: false,
@@ -506,7 +504,6 @@ impl State {
             next_regexp: None,
             start: BytePos(0),
             prev_hi: start_pos,
-            syntax,
             token_value: None,
             token_type: None,
         }
@@ -573,7 +570,7 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
 
     #[inline(always)]
     fn syntax(&self) -> swc_ecma_lexer::Syntax {
-        self.syntax
+        unreachable!("syntax is not stored in State, but in Lexer")
     }
 
     #[inline(always)]
