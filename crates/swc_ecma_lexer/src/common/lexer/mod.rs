@@ -1004,8 +1004,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         } else {
             Either::Right(ch)
         };
-        let cur_pos = self.input().cur_pos();
-        self.state_mut().set_line_start(cur_pos);
         Ok(out)
     }
 

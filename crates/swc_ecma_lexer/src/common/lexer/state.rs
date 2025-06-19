@@ -60,7 +60,6 @@ pub trait State: Clone {
     fn syntax(&self) -> crate::Syntax;
     fn prev_hi(&self) -> BytePos;
     fn start(&self) -> BytePos;
-    fn set_line_start(&mut self, line_start: BytePos);
 
     fn can_have_trailing_line_comment(&self) -> bool {
         let Some(t) = self.token_type() else {

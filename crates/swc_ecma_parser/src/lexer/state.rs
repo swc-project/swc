@@ -33,7 +33,6 @@ pub struct State {
     is_first: bool,
     pub next_regexp: Option<BytePos>,
     pub start: BytePos,
-    pub line_start: BytePos,
     pub prev_hi: BytePos,
 
     syntax: Syntax,
@@ -506,7 +505,6 @@ impl State {
             is_first: true,
             next_regexp: None,
             start: BytePos(0),
-            line_start: BytePos(0),
             prev_hi: start_pos,
             syntax,
             token_value: None,
@@ -586,10 +584,5 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
     #[inline(always)]
     fn start(&self) -> BytePos {
         self.start
-    }
-
-    #[inline(always)]
-    fn set_line_start(&mut self, line_start: BytePos) {
-        self.line_start = line_start;
     }
 }
