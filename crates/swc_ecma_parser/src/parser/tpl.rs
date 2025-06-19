@@ -100,9 +100,8 @@ impl<I: Tokens> Parser<I> {
 
         let _ = self.input.cur();
 
-        let span = span!(self, start);
         Ok(Tpl {
-            span,
+            span: self.span(start),
             exprs,
             quasis,
         })
@@ -279,9 +278,8 @@ impl<I: Tokens> Parser<I> {
 
         let _ = self.input.cur();
 
-        let span = span!(self, start);
         Ok(TsTplLitType {
-            span,
+            span: self.span(start),
             types,
             quasis,
         })

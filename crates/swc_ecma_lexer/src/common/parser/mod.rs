@@ -265,25 +265,20 @@ pub trait Parser<'a>: Sized + Clone {
     #[inline]
     fn span(&self, start: BytePos) -> Span {
         let end = self.last_pos();
-        if cfg!(debug_assertions) && start > end {
-            unreachable!(
-                "assertion failed: (span.start <= span.end).
- start = {}, end = {}",
-                start.0, end.0
-            )
-        }
+        debug_assert!(
+            start <= end,
+            "assertion failed: (span.start <= span.end). start = {start:?}, end = {end:?}",
+        );
         Span::new(start, end)
     }
 
     #[inline(always)]
     fn assert_and_bump(&mut self, token: &Self::Token) -> PResult<()> {
-        if cfg!(debug_assertions) && !self.input_mut().is(token) {
-            unreachable!(
-                "assertion failed: expected {:?}, got {:?}",
-                token,
-                self.input_mut().cur()
-            );
-        }
+        debug_assert!(
+            self.input_mut().is(token),
+            "assertion failed: expected {token:?}, got {:?}",
+            self.input_mut().cur()
+        );
         let _ = cur!(self, true);
         self.bump();
         Ok(())

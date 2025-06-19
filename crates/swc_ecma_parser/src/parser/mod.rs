@@ -179,7 +179,7 @@ impl<I: Tokens> Parser<I> {
         let shebang = parse_shebang(self)?;
 
         parse_stmt_block_body(self, true, None).map(|body| Script {
-            span: span!(self, start),
+            span: self.span(start),
             body,
             shebang,
         })
@@ -198,7 +198,7 @@ impl<I: Tokens> Parser<I> {
         let shebang = parse_shebang(self)?;
 
         parse_stmt_block_body(self, true, None).map(|body| Script {
-            span: span!(self, start),
+            span: self.span(start),
             body,
             shebang,
         })
@@ -218,7 +218,7 @@ impl<I: Tokens> Parser<I> {
         let shebang = parse_shebang(self)?;
 
         parse_module_item_block_body(self, true, None).map(|body| Module {
-            span: span!(self, start),
+            span: self.span(start),
             body,
             shebang,
         })
@@ -252,7 +252,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(if has_module_item {
             Program::Module(Module {
-                span: span!(self, start),
+                span: self.span(start),
                 body,
                 shebang,
             })
@@ -265,7 +265,7 @@ impl<I: Tokens> Parser<I> {
                 })
                 .collect();
             Program::Script(Script {
-                span: span!(self, start),
+                span: self.span(start),
                 body,
                 shebang,
             })
@@ -285,7 +285,7 @@ impl<I: Tokens> Parser<I> {
         let shebang = parse_shebang(self)?;
 
         parse_module_item_block_body(self, true, None).map(|body| Module {
-            span: span!(self, start),
+            span: self.span(start),
             body,
             shebang,
         })
