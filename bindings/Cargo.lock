@@ -245,7 +245,7 @@ dependencies = [
  "bitflags 2.9.0",
  "cexpr",
  "clang-sys",
- "itertools 0.10.5",
+ "itertools 0.13.0",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -281,7 +281,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.12.2"
+version = "1.12.3-nightly-20250619.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -370,7 +370,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.12.2"
+version = "1.12.3-nightly-20250619.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -410,7 +410,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.12.2"
+version = "1.12.3-nightly-20250619.1"
 dependencies = [
  "anyhow",
  "getrandom 0.2.15",
@@ -4555,7 +4555,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.562"
+version = "0.91.563"
 dependencies = [
  "anyhow",
  "par-core",
@@ -4683,9 +4683,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "28.0.1"
+version = "28.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0dcaa338049f015565c97cb0ccb910daa0742010543fd610928a83c65fb4d367"
+checksum = "6f3b84e8f13132fc3d3b71a542ab423619d1c54f283c7a33171ce267e8865f2c"
 dependencies = [
  "binding_macros",
  "swc",
@@ -4833,9 +4833,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "15.0.0"
+version = "15.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ccce02e2655270f33c7d1f3debe6a9d2703aff901167380429715ca493eb1aec"
+checksum = "1719b3bb5bff1c99cfb6fbd2129e7a7a363d3ddf50e22b95143c1877559d872a"
 dependencies = [
  "ascii",
  "compact_str",
