@@ -76,7 +76,7 @@ checksum = "d92bec98840b8f03a5ff5413de5293bfcd8bf96467cf5452609f939ec6f5de16"
 
 [[package]]
 name = "ast_node"
-version = "3.0.0"
+version = "3.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -119,14 +119,14 @@ dependencies = [
 
 [[package]]
 name = "better_scoped_tls"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "scoped-tls",
 ]
 
 [[package]]
 name = "binding_macros"
-version = "25.0.0"
+version = "28.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -501,7 +501,7 @@ dependencies = [
 
 [[package]]
 name = "from_variant"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "proc-macro2",
  "swc_macros_common",
@@ -593,7 +593,7 @@ checksum = "d231dfb89cfffdbc30e7fc41579ed6066ad03abda9e567ccafae602b97ec5024"
 
 [[package]]
 name = "hstr"
-version = "1.0.0"
+version = "1.1.0"
 dependencies = [
  "hashbrown 0.14.5",
  "new_debug_unreachable",
@@ -999,18 +999,18 @@ checksum = "1036865bb9422d3300cf723f657c2851d0e9ab12567854b1f4eba3d77decf564"
 
 [[package]]
 name = "par-core"
-version = "1.0.3"
+version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6b506ab63a8bd3cd38858c7bfc2d078a189dc3210c7f8c9be1bbaf50c082a0ae"
+checksum = "e96cbd21255b7fb29a5d51ef38a779b517a91abd59e2756c039583f43ef4c90f"
 dependencies = [
  "once_cell",
 ]
 
 [[package]]
 name = "par-iter"
-version = "1.0.2"
+version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8a5b20f31e9ba82bfcbbb54a67aa40be6cebec9f668ba5753be138f9523c531a"
+checksum = "3eae0176a010bb94b9a67f0eb9da0fd31410817d58850649c54f485124c9a71a"
 dependencies = [
  "either",
  "par-core",
@@ -1123,7 +1123,7 @@ checksum = "3b3cff922bd51709b605d9ead9aa71031d81447142d828eb4a6eba76fe619f9b"
 
 [[package]]
 name = "preset_env_base"
-version = "3.0.1"
+version = "3.0.2"
 dependencies = [
  "anyhow",
  "browserslist-rs",
@@ -1452,7 +1452,7 @@ checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
 
 [[package]]
 name = "string_enum"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1481,7 +1481,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "25.0.0"
+version = "28.0.0"
 dependencies = [
  "anyhow",
  "base64",
@@ -1543,7 +1543,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "5.0.0"
+version = "6.0.0"
 dependencies = [
  "hstr",
  "once_cell",
@@ -1553,7 +1553,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "11.1.3"
+version = "13.0.0"
 dependencies = [
  "anyhow",
  "ast_node",
@@ -1581,7 +1581,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "22.0.1"
+version = "25.0.0"
 dependencies = [
  "anyhow",
  "base64",
@@ -1606,7 +1606,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "3.0.0"
+version = "3.1.1"
 dependencies = [
  "anyhow",
  "bytes-str",
@@ -1625,7 +1625,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config_macro"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1635,7 +1635,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "26.4.5"
+version = "29.0.0"
 dependencies = [
  "binding_macros",
  "swc",
@@ -1651,7 +1651,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "11.0.0"
+version = "13.0.0"
 dependencies = [
  "bitflags",
  "is-macro",
@@ -1670,7 +1670,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "13.2.0"
+version = "15.0.1"
 dependencies = [
  "ascii",
  "compact_str",
@@ -1692,7 +1692,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen_macros"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1702,7 +1702,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_bugfixes"
-version = "16.0.0"
+version = "19.0.0"
 dependencies = [
  "rustc-hash",
  "swc_atoms",
@@ -1718,7 +1718,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_common"
-version = "15.0.0"
+version = "18.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -1729,7 +1729,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "16.0.0"
+version = "19.0.0"
 dependencies = [
  "arrayvec",
  "indexmap",
@@ -1754,7 +1754,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2016"
-version = "15.0.0"
+version = "18.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -1769,7 +1769,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "15.0.0"
+version = "18.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -1785,7 +1785,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2018"
-version = "15.0.0"
+version = "18.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -1802,7 +1802,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2019"
-version = "15.0.0"
+version = "18.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -1816,7 +1816,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "16.0.0"
+version = "19.0.0"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -1832,7 +1832,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2021"
-version = "15.0.0"
+version = "18.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -1846,7 +1846,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2022"
-version = "16.0.0"
+version = "19.0.0"
 dependencies = [
  "rustc-hash",
  "swc_atoms",
@@ -1864,7 +1864,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es3"
-version = "15.0.0"
+version = "18.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -1877,7 +1877,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "15.0.0"
+version = "18.0.0"
 dependencies = [
  "phf",
  "swc_atoms",
@@ -1889,7 +1889,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "14.0.5"
+version = "17.0.0"
 dependencies = [
  "arrayvec",
  "bitflags",
@@ -1912,7 +1912,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "16.0.0"
+version = "19.0.0"
 dependencies = [
  "auto_impl",
  "dashmap",
@@ -1931,7 +1931,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "11.0.0"
+version = "13.0.0"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -1951,7 +1951,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "20.0.5"
+version = "23.0.0"
 dependencies = [
  "arrayvec",
  "bitflags",
@@ -1987,7 +1987,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "14.0.2"
+version = "17.0.0"
 dependencies = [
  "arrayvec",
  "bitflags",
@@ -2011,7 +2011,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "20.0.0"
+version = "23.0.0"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -2034,7 +2034,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "19.0.0"
+version = "22.0.0"
 dependencies = [
  "par-core",
  "swc_atoms",
@@ -2053,7 +2053,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "15.1.1"
+version = "18.0.0"
 dependencies = [
  "better_scoped_tls",
  "bitflags",
@@ -2075,7 +2075,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "15.0.0"
+version = "18.0.0"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -2087,7 +2087,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "17.0.0"
+version = "20.0.0"
 dependencies = [
  "arrayvec",
  "indexmap",
@@ -2122,7 +2122,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_macros"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2132,7 +2132,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "17.0.0"
+version = "20.0.0"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -2158,7 +2158,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "16.0.0"
+version = "19.0.0"
 dependencies = [
  "bytes-str",
  "dashmap",
@@ -2181,7 +2181,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "15.0.0"
+version = "18.0.0"
 dependencies = [
  "either",
  "rustc-hash",
@@ -2199,7 +2199,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "17.0.0"
+version = "20.0.0"
 dependencies = [
  "base64",
  "bytes-str",
@@ -2224,7 +2224,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "17.0.0"
+version = "20.0.0"
 dependencies = [
  "bytes-str",
  "once_cell",
@@ -2242,7 +2242,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "16.0.1"
+version = "19.0.0"
 dependencies = [
  "bitflags",
  "indexmap",
@@ -2258,7 +2258,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "15.0.2"
+version = "18.0.0"
 dependencies = [
  "indexmap",
  "num_cpus",
@@ -2277,7 +2277,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "11.0.0"
+version = "13.0.0"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -2290,7 +2290,7 @@ dependencies = [
 
 [[package]]
 name = "swc_eq_ignore_macros"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2299,7 +2299,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "13.0.0"
+version = "15.0.0"
 dependencies = [
  "anyhow",
  "miette",
@@ -2313,7 +2313,7 @@ dependencies = [
 
 [[package]]
 name = "swc_macros_common"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2322,7 +2322,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_comments"
-version = "11.0.0"
+version = "13.0.0"
 dependencies = [
  "dashmap",
  "rustc-hash",
@@ -2367,7 +2367,7 @@ dependencies = [
 
 [[package]]
 name = "swc_transform_common"
-version = "5.0.0"
+version = "7.0.0"
 dependencies = [
  "better_scoped_tls",
  "once_cell",
@@ -2379,7 +2379,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "14.0.3"
+version = "17.0.0"
 dependencies = [
  "bitflags",
  "petgraph",
@@ -2394,7 +2394,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "either",
  "new_debug_unreachable",
