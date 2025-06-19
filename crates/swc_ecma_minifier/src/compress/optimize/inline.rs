@@ -966,7 +966,9 @@ fn is_arrow_simple_enough_for_copy(e: &ArrowExpr) -> Option<u8> {
 fn is_arrow_body_simple_enough_for_copy(e: &Expr) -> Option<u8> {
     match e {
         Expr::Ident(..) | Expr::Lit(..) => return Some(1),
-        Expr::Member(MemberExpr { prop, .. }) if !prop.is_computed() => return Some(3),
+        Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
+            return Some(is_arrow_body_simple_enough_for_copy(obj)? + 2)
+        }
         Expr::Unary(u) => return Some(is_arrow_body_simple_enough_for_copy(&u.arg)? + 1),
 
         Expr::Bin(b) => {
