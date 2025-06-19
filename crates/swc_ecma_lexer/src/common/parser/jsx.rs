@@ -42,10 +42,7 @@ fn parse_jsx_closing_element_at<'a, P: Parser<'a>>(
 }
 
 /// Parses JSX expression enclosed into curly brackets.
-pub fn parse_jsx_expr_container<'a, P: Parser<'a>>(
-    p: &mut P,
-    _: BytePos,
-) -> PResult<JSXExprContainer> {
+pub fn parse_jsx_expr_container<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXExprContainer> {
     debug_assert!(p.input().syntax().jsx());
     debug_assert!(p.input_mut().is(&P::Token::LBRACE));
 
@@ -166,7 +163,7 @@ fn parse_jsx_attr_value<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrValue> {
 
     let cur = cur!(p, true);
     if cur.is_lbrace() {
-        let node = parse_jsx_expr_container(p, start)?;
+        let node = parse_jsx_expr_container(p)?;
         jsx_expr_container_to_jsx_attr_value(p, start, node)
     } else if cur.is_str() {
         Ok(JSXAttrValue::Lit(Lit::Str(parse_str_lit(p))))
@@ -364,12 +361,10 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
                 } else if cur.is_jsx_text() {
                     children.push(JSXElementChild::from(parse_jsx_text(p)))
                 } else if cur.is_lbrace() {
-                    let start = p.cur_pos();
                     if peek!(p).is_some_and(|peek| peek.is_dotdotdot()) {
                         children.push(parse_jsx_spread_child(p).map(JSXElementChild::from)?);
                     } else {
-                        children
-                            .push(parse_jsx_expr_container(p, start).map(JSXElementChild::from)?);
+                        children.push(parse_jsx_expr_container(p).map(JSXElementChild::from)?);
                     }
                 } else {
                     unexpected!(p, "< (jsx tag start), jsx text or {")
