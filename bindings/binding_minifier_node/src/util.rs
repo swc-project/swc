@@ -1,15 +1,21 @@
 #![deny(warnings)]
 
-use std::panic::{catch_unwind, AssertUnwindSafe};
+use std::{
+    panic::{catch_unwind, AssertUnwindSafe},
+    sync::Arc,
+};
 
 use anyhow::{anyhow, Error};
 use napi::Env;
-use swc_core::common::{
-    errors::Handler,
-    sync::{Lrc, OnceCell},
-    SourceMap, GLOBALS,
+use swc_core::{
+    base::{config::ErrorFormat, Compiler},
+    common::{
+        errors::Handler,
+        sync::{Lrc, OnceCell},
+        FilePathMapping, SourceMap, GLOBALS,
+    },
 };
-use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
+use swc_error_reporters::handler::try_with_handler;
 use tracing::instrument;
 use tracing_chrome::ChromeLayerBuilder;
 use tracing_subscriber::{
@@ -55,8 +61,19 @@ pub fn init_custom_trace_subscriber(
     Ok(())
 }
 
+pub fn get_fresh_compiler() -> Arc<Compiler> {
+    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
+
+    Arc::new(Compiler::new(cm))
+}
+
 #[instrument(level = "trace", skip_all)]
-pub fn try_with<F, Ret>(cm: Lrc<SourceMap>, skip_filename: bool, op: F) -> Result<Ret, Error>
+pub fn try_with<F, Ret>(
+    cm: Lrc<SourceMap>,
+    skip_filename: bool,
+    _error_format: ErrorFormat,
+    op: F,
+) -> Result<Ret, Error>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
@@ -64,7 +81,7 @@ where
         .set(&Default::default(), || {
             try_with_handler(
                 cm,
-                HandlerOpts {
+                swc_core::base::HandlerOpts {
                     skip_filename,
                     ..Default::default()
                 },
