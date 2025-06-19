@@ -266,7 +266,7 @@ dependencies = [
  "napi-build",
  "napi-derive",
  "node_macro_deps",
- "par-core",
+ "par-core 2.0.0",
  "path-clean 1.0.1",
  "rustc-hash 2.1.1",
  "serde",
@@ -350,7 +350,7 @@ dependencies = [
  "napi-build",
  "napi-derive",
  "node_macro_deps",
- "par-core",
+ "par-core 2.0.0",
  "path-clean 1.0.1",
  "rustc-hash 2.1.1",
  "serde",
@@ -2950,9 +2950,9 @@ dependencies = [
 
 [[package]]
 name = "once_cell"
-version = "1.21.1"
+version = "1.21.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d75b0bedcc4fe52caa0e03d9f1151a323e4aa5e2d78ba3580400cd3c9e2bc4bc"
+checksum = "42f5e15c9953c5e4ccceeb2e7382a716482c34515315f7b03532b8b4e8393d2d"
 
 [[package]]
 name = "openssl"
@@ -3030,9 +3030,19 @@ checksum = "1036865bb9422d3300cf723f657c2851d0e9ab12567854b1f4eba3d77decf564"
 
 [[package]]
 name = "par-core"
-version = "1.0.3"
+version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6b506ab63a8bd3cd38858c7bfc2d078a189dc3210c7f8c9be1bbaf50c082a0ae"
+checksum = "757892557993c69e82f9de0f9051e87144278aa342f03bf53617bbf044554484"
+dependencies = [
+ "chili",
+ "once_cell",
+]
+
+[[package]]
+name = "par-core"
+version = "2.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e96cbd21255b7fb29a5d51ef38a779b517a91abd59e2756c039583f43ef4c90f"
 dependencies = [
  "chili",
  "once_cell",
@@ -3045,7 +3055,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8a5b20f31e9ba82bfcbbb54a67aa40be6cebec9f668ba5753be138f9523c531a"
 dependencies = [
  "either",
- "par-core",
+ "par-core 1.0.4",
 ]
 
 [[package]]
@@ -4452,7 +4462,7 @@ dependencies = [
  "napi",
  "napi-derive",
  "once_cell",
- "par-core",
+ "par-core 1.0.4",
  "par-iter",
  "parking_lot",
  "pathdiff",
@@ -4558,7 +4568,7 @@ name = "swc_cli"
 version = "0.91.565"
 dependencies = [
  "anyhow",
- "par-core",
+ "par-core 2.0.0",
  "swc_cli_impl",
 ]
 
@@ -4571,7 +4581,7 @@ dependencies = [
  "anyhow",
  "clap",
  "glob",
- "par-core",
+ "par-core 1.0.4",
  "path-absolutize",
  "rayon",
  "relative-path",
@@ -5111,7 +5121,7 @@ checksum = "0bf7439dcd382ff4410cf75bbf8374b966a882276250fc92c73ce6641ed8b364"
 dependencies = [
  "auto_impl",
  "dashmap 5.5.3",
- "par-core",
+ "par-core 1.0.4",
  "parking_lot",
  "regex",
  "rustc-hash 2.1.1",
@@ -5158,7 +5168,7 @@ dependencies = [
  "num-bigint",
  "num_cpus",
  "once_cell",
- "par-core",
+ "par-core 1.0.4",
  "par-iter",
  "parking_lot",
  "phf",
@@ -5253,7 +5263,7 @@ version = "21.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e7b5a009481bc6d57527bfa9a8e07aa0f9ea8346dcbf3667218c961cb80ff358"
 dependencies = [
- "par-core",
+ "par-core 1.0.4",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -5278,7 +5288,7 @@ dependencies = [
  "bitflags 2.9.0",
  "indexmap 2.8.0",
  "once_cell",
- "par-core",
+ "par-core 1.0.4",
  "phf",
  "rayon",
  "rustc-hash 2.1.1",
@@ -5317,7 +5327,7 @@ dependencies = [
  "indexmap 2.8.0",
  "is-macro",
  "num-bigint",
- "par-core",
+ "par-core 1.0.4",
  "rayon",
  "serde",
  "smallvec",
@@ -5395,7 +5405,7 @@ dependencies = [
  "dashmap 5.5.3",
  "indexmap 2.8.0",
  "once_cell",
- "par-core",
+ "par-core 1.0.4",
  "petgraph 0.7.1",
  "rayon",
  "rustc-hash 2.1.1",
@@ -5506,7 +5516,7 @@ dependencies = [
  "indexmap 2.8.0",
  "num_cpus",
  "once_cell",
- "par-core",
+ "par-core 1.0.4",
  "par-iter",
  "rayon",
  "rustc-hash 2.1.1",

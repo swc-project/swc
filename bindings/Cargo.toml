@@ -28,7 +28,7 @@ resolver = "2"
   napi-build              = "2"
   napi-derive             = { version = "2", default-features = false }
   owo-colors              = "4.0.0"
-  par-core                = "1.0.0"
+  par-core                = "2.0.0"
   path-clean              = "1.0"
   quote                   = "1"
   rustc-hash              = "2"

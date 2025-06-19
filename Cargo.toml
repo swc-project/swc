@@ -75,8 +75,8 @@ resolver = "2"
   num-traits                = "0.2.15"
   num_cpus                  = "1.13.1"
   once_cell                 = "1.19.0"
-  par-core                  = { version = "1.0.3", default-features = false }
-  par-iter                  = "1.0.2"
+  par-core                  = { version = "2.0.0", default-features = false }
+  par-iter                  = "2.0.0"
   parking_lot               = "0.12.1"
   path-absolutize           = "3.0.11"
   pathdiff                  = "0.2.1"
