@@ -22,6 +22,7 @@ base64     = { workspace = true }
 bytes-str  = { workspace = true }
 dashmap    = { workspace = true }
 indexmap   = { workspace = true }
+memchr     = { workspace = true }
 once_cell  = { workspace = true }
 rayon      = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
