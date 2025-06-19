@@ -436,31 +436,6 @@ impl Automatic {
         call_expr.into()
     }
 
-    fn source_props(&self, pos: BytePos) -> ObjectLit {
-        let loc = self.cm.lookup_char_pos(pos);
-
-        ObjectLit {
-            props: vec![
-                Prop::KeyValue(KeyValueProp {
-                    key: quote_ident!("fileName").into(),
-                    value: loc.file.name.to_string().into(),
-                })
-                .into(),
-                Prop::KeyValue(KeyValueProp {
-                    key: quote_ident!("lineNumber").into(),
-                    value: loc.line.into(),
-                })
-                .into(),
-                Prop::KeyValue(KeyValueProp {
-                    key: quote_ident!("columnNumber").into(),
-                    value: (loc.col.0 + 1).into(),
-                })
-                .into(),
-            ],
-            ..Default::default()
-        }
-    }
-
     fn jsx_elem_child_to_expr(&mut self, c: JSXElementChild) -> Option<ExprOrSpread> {
         Some(match c {
             JSXElementChild::JSXText(text) => {
@@ -493,6 +468,33 @@ impl Automatic {
                 expr,
             },
         })
+    }
+}
+
+impl Automatic {
+    fn source_props(&self, pos: BytePos) -> ObjectLit {
+        let loc = self.cm.lookup_char_pos(pos);
+
+        ObjectLit {
+            props: vec![
+                Prop::KeyValue(KeyValueProp {
+                    key: quote_ident!("fileName").into(),
+                    value: loc.file.name.to_string().into(),
+                })
+                .into(),
+                Prop::KeyValue(KeyValueProp {
+                    key: quote_ident!("lineNumber").into(),
+                    value: loc.line.into(),
+                })
+                .into(),
+                Prop::KeyValue(KeyValueProp {
+                    key: quote_ident!("columnNumber").into(),
+                    value: (loc.col.0 + 1).into(),
+                })
+                .into(),
+            ],
+            ..Default::default()
+        }
     }
 }
 
