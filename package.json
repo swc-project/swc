@@ -19,6 +19,7 @@
         "build:ts": "cd ./packages/core && yarn build:ts",
         "test": "cd ./packages/core && yarn test",
         "test:core": "cd ./packages/core && yarn test",
+        "test:minifier": "cd ./packages/minifier && yarn test",
         "test:html": "cd ./packages/html && yarn test",
         "test:react-compiler": "cd ./packages/react-compiler && yarn test"
     },
