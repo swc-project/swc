@@ -268,7 +268,7 @@ impl State {
                 context.pop();
             } else {
                 context.push(TokenContext::Tpl);
-                self.set_tpl_start(start);
+                self.tpl_start = start;
             }
             false
         } else if next.is_jsx_tag_start() {
@@ -344,11 +344,6 @@ impl common::lexer::state::State for State {
     #[inline(always)]
     fn token_type(&self) -> Option<Self::TokenType> {
         self.token_type
-    }
-
-    #[inline(always)]
-    fn set_tpl_start(&mut self, start: BytePos) {
-        self.tpl_start = start;
     }
 
     #[inline(always)]

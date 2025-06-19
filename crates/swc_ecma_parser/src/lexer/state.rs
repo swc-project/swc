@@ -36,7 +36,6 @@ pub struct State {
     pub cur_line: usize,
     pub line_start: BytePos,
     pub prev_hi: BytePos,
-    pub tpl_start: BytePos,
 
     syntax: Syntax,
 
@@ -511,7 +510,6 @@ impl State {
             cur_line: 1,
             line_start: BytePos(0),
             prev_hi: start_pos,
-            tpl_start: BytePos::DUMMY,
             syntax,
             token_value: None,
             token_type: None,
@@ -575,11 +573,6 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
     #[inline(always)]
     fn token_type(&self) -> Option<Self::TokenType> {
         self.token_type
-    }
-
-    #[inline(always)]
-    fn set_tpl_start(&mut self, start: BytePos) {
-        self.tpl_start = start;
     }
 
     #[inline(always)]
