@@ -31,8 +31,6 @@ struct MinifyTask {
     extras: JsMinifyExtras,
 }
 
-#[derive(Deserialize)]
-#[serde(untagged)]
 enum MinifyTarget {
     /// Code to minify.
     Single(String),
