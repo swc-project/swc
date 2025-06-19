@@ -55,7 +55,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_template_head(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
-        let start = cur_pos!(self);
+        let start = self.cur_pos();
         debug_assert!(matches!(self.input.cur(), Some(&Token::TemplateHead)));
         let (raw, cooked) = match self.input_mut().bump() {
             t @ Token::TemplateHead => {
@@ -94,7 +94,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_tpl);
         debug_assert!(matches!(self.input.cur(), Some(&Token::TemplateHead)));
 
-        let start = cur_pos!(self);
+        let start = self.cur_pos();
 
         let (exprs, quasis) = self.parse_tpl_elements(is_tagged_tpl)?;
 
@@ -273,7 +273,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_tpl_ty);
         debug_assert!(matches!(self.input.cur(), Some(&Token::TemplateHead)));
 
-        let start = cur_pos!(self);
+        let start = self.cur_pos();
 
         let (types, quasis) = self.parse_tpl_ty_elements()?;
 

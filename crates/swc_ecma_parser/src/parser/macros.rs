@@ -1,9 +1,3 @@
-macro_rules! cur_pos {
-    ($p:expr) => {{
-        $p.input.cur_pos()
-    }};
-}
-
 macro_rules! cur {
     ($p:expr, true) => {{
         match $p.input_mut().cur() {

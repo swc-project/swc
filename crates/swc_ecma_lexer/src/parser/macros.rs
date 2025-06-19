@@ -1,9 +1,3 @@
-macro_rules! cur_pos {
-    ($p:expr) => {{
-        $p.input.cur_pos()
-    }};
-}
-
 macro_rules! last_pos {
     ($p:expr) => {
         $p.input.prev_span().hi
