@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
 name        = "swc_ecma_lints"
 repository  = { workspace = true }
-version     = "18.0.0"
+version     = "19.0.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [lib]
@@ -29,7 +29,7 @@ swc_config = { version = "3.1.1", path = "../swc_config" }
 swc_ecma_ast = { version = "13.0.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_utils = { version = "17.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "18.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
@@ -38,9 +38,9 @@ codspeed-criterion-compat = { workspace = true }
 criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 swc_ecma_codegen          = { version = "15.0.1", path = "../swc_ecma_codegen" }
-swc_ecma_parser           = { version = "16.0.2", path = "../swc_ecma_parser" }
+swc_ecma_parser           = { version = "17.0.0", path = "../swc_ecma_parser" }
 swc_ecma_testing          = { version = "14.0.0", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base  = { version = "17.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base  = { version = "18.0.0", path = "../swc_ecma_transforms_base" }
 swc_malloc                = { version = "1.2.3", path = "../swc_malloc" }
 testing                   = { version = "14.0.0", path = "../testing" }
 walkdir                   = { workspace = true }

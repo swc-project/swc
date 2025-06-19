@@ -89,7 +89,7 @@ swc_ecma_ast = { version = "13.0.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
 swc_ecma_loader = { version = "13.0.0", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "16.0.2", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "17.0.0", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
 testing = { version = "14.0.0", path = "../testing" }
