@@ -86,12 +86,7 @@ mod method_mangler {
                         return;
                     }
 
-                    if name == "constructor"
-                        || name == "toString"
-                        || name == "valueOf"
-                        || name.starts_with("__")
-                        || name.starts_with('_')
-                    {
+                    if name.starts_with("__") || name.starts_with('_') {
                         return;
                     }
                     let new_sym = if let Some(cached) = self.renamed_methods.get(&ident.sym) {

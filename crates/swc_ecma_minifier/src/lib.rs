@@ -101,7 +101,24 @@ pub fn optimize(
     extra: &ExtraOptions,
 ) -> Program {
     let _timer = timer!("minify");
-    let escape_method: FxHashSet<Atom> = FxHashSet::default();
+    
+    let escape_method: FxHashSet<Atom> = if let Some(mangle) = &options.mangle {
+        if mangle.mangle_methods {
+            let mut methods = FxHashSet::default();
+            methods.insert(Atom::new("constructor"));
+            methods.insert(Atom::new("toString"));
+            methods.insert(Atom::new("valueOf"));
+            methods.insert(Atom::new("hasOwnProperty"));
+            methods.insert(Atom::new("isPrototypeOf"));
+            methods.insert(Atom::new("propertyIsEnumerable"));
+            methods.insert(Atom::new("toLocaleString"));
+            methods
+        } else {
+            FxHashSet::default()
+        }
+    } else {
+        FxHashSet::default()
+    };
 
     let mut marks = Marks::new();
     marks.top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
