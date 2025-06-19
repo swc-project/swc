@@ -12,7 +12,6 @@ use swc_compiler_base::{
 };
 use swc_config::types::BoolOr;
 use swc_core::{
-    base::JsMinifyExtras,
     common::{
         comments::{Comments, SingleThreadedComments},
         sync::Lrc,
@@ -41,7 +40,7 @@ pub struct NapiMinifyExtra {
 struct MinifyTask {
     input: Option<MinifyTarget>,
     options: String,
-    extras: JsMinifyExtras,
+    extras: Option<NapiMinifyExtra>,
 }
 
 #[derive(Deserialize)]
@@ -77,7 +76,7 @@ impl MinifyTarget {
 fn do_work(
     input: MinifyTarget,
     options: JsMinifyOptions,
-    extras: JsMinifyExtras,
+    extras: NapiMinifyExtra,
 ) -> anyhow::Result<TransformOutput> {
     let cm: Arc<SourceMap> = Arc::default();
 
@@ -197,7 +196,7 @@ fn do_work(
                 &swc_core::ecma::minifier::option::ExtraOptions {
                     unresolved_mark,
                     top_level_mark,
-                    mangle_name_cache: extras.mangle_name_cache,
+                    mangle_name_cache: extras.mangle_name_cache.as_deref().cloned(),
                 },
             );
 
@@ -255,7 +254,7 @@ impl Task for MinifyTask {
         let input = self.input.take().unwrap();
         let options: JsMinifyOptions = deserialize_json(&self.options)?;
 
-        do_work(input, options, self.extras.clone()).convert_err()
+        do_work(input, options, self.extras.take().unwrap()).convert_err()
     }
 
     fn resolve(&mut self, _env: napi::Env, output: Self::Output) -> napi::Result<Self::JsValue> {
@@ -282,8 +281,6 @@ fn minify(
     crate::util::init_default_trace_subscriber();
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
-    let extras = JsMinifyExtras::default()
-        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().cloned());
 
     let task = MinifyTask {
         input: Some(if is_json {
@@ -292,7 +289,7 @@ fn minify(
             MinifyTarget::Single(code)
         }),
         options,
-        extras,
+        extras: Some(extras),
     };
 
     AsyncTask::with_optional_signal(task, signal)
@@ -313,8 +310,6 @@ pub fn minify_sync(
         MinifyTarget::Single(code)
     };
     let opts = get_deserialized(opts)?;
-    let extras = JsMinifyExtras::default()
-        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().cloned());
 
     let cm = Lrc::new(SourceMap::default());
 
