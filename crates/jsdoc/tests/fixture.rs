@@ -154,4 +154,17 @@ impl Comments for SwcComments {
             leading.push(pure_comment);
         }
     }
+
+    fn for_each(&self, f: &mut dyn FnMut(&Comment)) {
+        for entry in self.leading.iter() {
+            for cmt in entry.value() {
+                f(cmt);
+            }
+        }
+        for entry in self.trailing.iter() {
+            for cmt in entry.value() {
+                f(cmt);
+            }
+        }
+    }
 }
