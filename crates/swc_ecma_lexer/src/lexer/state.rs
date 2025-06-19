@@ -43,7 +43,6 @@ pub struct State {
     /// TODO: Remove this field.
     is_first: bool,
     pub start: BytePos,
-    pub cur_line: usize,
     pub line_start: BytePos,
     pub prev_hi: BytePos,
     pub tpl_start: BytePos,
@@ -359,11 +358,6 @@ impl common::lexer::state::State for State {
     #[inline(always)]
     fn start(&self) -> BytePos {
         self.start
-    }
-
-    #[inline(always)]
-    fn add_current_line(&mut self, offset: usize) {
-        self.cur_line += offset;
     }
 
     #[inline(always)]
@@ -736,7 +730,7 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
     }
 
     fn update_token_flags(&mut self, _: impl FnOnce(&mut lexer::TokenFlags)) {
-        // TODO: update token flags if needed.
+        // noop
     }
 
     fn token_flags(&self) -> lexer::TokenFlags {
@@ -906,7 +900,6 @@ impl State {
             had_line_break_before_last: false,
             is_first: true,
             start: BytePos(0),
-            cur_line: 1,
             line_start: BytePos(0),
             prev_hi: start_pos,
             tpl_start: BytePos::DUMMY,
