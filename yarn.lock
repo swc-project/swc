@@ -4644,6 +4644,66 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@swc/html-darwin-arm64@workspace:packages/html/scripts/npm/darwin-arm64":
+  version: 0.0.0-use.local
+  resolution: "@swc/html-darwin-arm64@workspace:packages/html/scripts/npm/darwin-arm64"
+  languageName: unknown
+  linkType: soft
+
+"@swc/html-darwin-x64@workspace:packages/html/scripts/npm/darwin-x64":
+  version: 0.0.0-use.local
+  resolution: "@swc/html-darwin-x64@workspace:packages/html/scripts/npm/darwin-x64"
+  languageName: unknown
+  linkType: soft
+
+"@swc/html-linux-arm-gnueabihf@workspace:packages/html/scripts/npm/linux-arm-gnueabihf":
+  version: 0.0.0-use.local
+  resolution: "@swc/html-linux-arm-gnueabihf@workspace:packages/html/scripts/npm/linux-arm-gnueabihf"
+  languageName: unknown
+  linkType: soft
+
+"@swc/html-linux-arm64-gnu@workspace:packages/html/scripts/npm/linux-arm64-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/html-linux-arm64-gnu@workspace:packages/html/scripts/npm/linux-arm64-gnu"
+  languageName: unknown
+  linkType: soft
+
+"@swc/html-linux-arm64-musl@workspace:packages/html/scripts/npm/linux-arm64-musl":
+  version: 0.0.0-use.local
+  resolution: "@swc/html-linux-arm64-musl@workspace:packages/html/scripts/npm/linux-arm64-musl"
+  languageName: unknown
+  linkType: soft
+
+"@swc/html-linux-x64-gnu@workspace:packages/html/scripts/npm/linux-x64-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/html-linux-x64-gnu@workspace:packages/html/scripts/npm/linux-x64-gnu"
+  languageName: unknown
+  linkType: soft
+
+"@swc/html-linux-x64-musl@workspace:packages/html/scripts/npm/linux-x64-musl":
+  version: 0.0.0-use.local
+  resolution: "@swc/html-linux-x64-musl@workspace:packages/html/scripts/npm/linux-x64-musl"
+  languageName: unknown
+  linkType: soft
+
+"@swc/html-win32-arm64-msvc@workspace:packages/html/scripts/npm/win32-arm64-msvc":
+  version: 0.0.0-use.local
+  resolution: "@swc/html-win32-arm64-msvc@workspace:packages/html/scripts/npm/win32-arm64-msvc"
+  languageName: unknown
+  linkType: soft
+
+"@swc/html-win32-ia32-msvc@workspace:packages/html/scripts/npm/win32-ia32-msvc":
+  version: 0.0.0-use.local
+  resolution: "@swc/html-win32-ia32-msvc@workspace:packages/html/scripts/npm/win32-ia32-msvc"
+  languageName: unknown
+  linkType: soft
+
+"@swc/html-win32-x64-msvc@workspace:packages/html/scripts/npm/win32-x64-msvc":
+  version: 0.0.0-use.local
+  resolution: "@swc/html-win32-x64-msvc@workspace:packages/html/scripts/npm/win32-x64-msvc"
+  languageName: unknown
+  linkType: soft
+
 "@swc/html@workspace:packages/html":
   version: 0.0.0-use.local
   resolution: "@swc/html@workspace:packages/html"
@@ -4735,6 +4795,66 @@ __metadata:
   checksum: 29f17d0479d04fca495991ffe900c504fe739424c44c4546e5e3dc202d47849e17cee0d35fef95fbc29bf378829768db25cb14521a6a52ff04b5b91b685e2145
   languageName: node
   linkType: hard
+
+"@swc/react-compiler-darwin-arm64@workspace:packages/react-compiler/scripts/npm/darwin-arm64":
+  version: 0.0.0-use.local
+  resolution: "@swc/react-compiler-darwin-arm64@workspace:packages/react-compiler/scripts/npm/darwin-arm64"
+  languageName: unknown
+  linkType: soft
+
+"@swc/react-compiler-darwin-x64@workspace:packages/react-compiler/scripts/npm/darwin-x64":
+  version: 0.0.0-use.local
+  resolution: "@swc/react-compiler-darwin-x64@workspace:packages/react-compiler/scripts/npm/darwin-x64"
+  languageName: unknown
+  linkType: soft
+
+"@swc/react-compiler-linux-arm-gnueabihf@workspace:packages/react-compiler/scripts/npm/linux-arm-gnueabihf":
+  version: 0.0.0-use.local
+  resolution: "@swc/react-compiler-linux-arm-gnueabihf@workspace:packages/react-compiler/scripts/npm/linux-arm-gnueabihf"
+  languageName: unknown
+  linkType: soft
+
+"@swc/react-compiler-linux-arm64-gnu@workspace:packages/react-compiler/scripts/npm/linux-arm64-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/react-compiler-linux-arm64-gnu@workspace:packages/react-compiler/scripts/npm/linux-arm64-gnu"
+  languageName: unknown
+  linkType: soft
+
+"@swc/react-compiler-linux-arm64-musl@workspace:packages/react-compiler/scripts/npm/linux-arm64-musl":
+  version: 0.0.0-use.local
+  resolution: "@swc/react-compiler-linux-arm64-musl@workspace:packages/react-compiler/scripts/npm/linux-arm64-musl"
+  languageName: unknown
+  linkType: soft
+
+"@swc/react-compiler-linux-x64-gnu@workspace:packages/react-compiler/scripts/npm/linux-x64-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/react-compiler-linux-x64-gnu@workspace:packages/react-compiler/scripts/npm/linux-x64-gnu"
+  languageName: unknown
+  linkType: soft
+
+"@swc/react-compiler-linux-x64-musl@workspace:packages/react-compiler/scripts/npm/linux-x64-musl":
+  version: 0.0.0-use.local
+  resolution: "@swc/react-compiler-linux-x64-musl@workspace:packages/react-compiler/scripts/npm/linux-x64-musl"
+  languageName: unknown
+  linkType: soft
+
+"@swc/react-compiler-win32-arm64-msvc@workspace:packages/react-compiler/scripts/npm/win32-arm64-msvc":
+  version: 0.0.0-use.local
+  resolution: "@swc/react-compiler-win32-arm64-msvc@workspace:packages/react-compiler/scripts/npm/win32-arm64-msvc"
+  languageName: unknown
+  linkType: soft
+
+"@swc/react-compiler-win32-ia32-msvc@workspace:packages/react-compiler/scripts/npm/win32-ia32-msvc":
+  version: 0.0.0-use.local
+  resolution: "@swc/react-compiler-win32-ia32-msvc@workspace:packages/react-compiler/scripts/npm/win32-ia32-msvc"
+  languageName: unknown
+  linkType: soft
+
+"@swc/react-compiler-win32-x64-msvc@workspace:packages/react-compiler/scripts/npm/win32-x64-msvc":
+  version: 0.0.0-use.local
+  resolution: "@swc/react-compiler-win32-x64-msvc@workspace:packages/react-compiler/scripts/npm/win32-x64-msvc"
+  languageName: unknown
+  linkType: soft
 
 "@swc/react-compiler@workspace:packages/react-compiler":
   version: 0.0.0-use.local
