@@ -1,4 +1,18 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix `Buffer` handling of `minify()` API ([#10643](https://github.com/swc-project/swc/issues/10643)) ([cdf068e](https://github.com/swc-project/swc/commit/cdf068e1bd8f007e06f41bd05f98055243468ba4))
+
+
+- **(es/minifier)** Fix arrow inlining ([#10642](https://github.com/swc-project/swc/issues/10642)) ([7232c10](https://github.com/swc-project/swc/commit/7232c102d36bbf6957bd7326d9392d2b00155ee9))
+
+
+- Fix CI ([#10641](https://github.com/swc-project/swc/issues/10641)) ([9df98f7](https://github.com/swc-project/swc/commit/9df98f748eba99de4c51dc407de34b97456e93ce))
+
 ## [swc_core@v29.0.0] - 2025-06-19
 
 ### Bug Fixes

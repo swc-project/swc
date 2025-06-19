@@ -5,10 +5,19 @@
 
 
 
+- **(es/minifier)** Fix `Buffer` handling of `minify()` API ([#10643](https://github.com/swc-project/swc/issues/10643)) ([cdf068e](https://github.com/swc-project/swc/commit/cdf068e1bd8f007e06f41bd05f98055243468ba4))
+
+
+- **(es/minifier)** Fix arrow inlining ([#10642](https://github.com/swc-project/swc/issues/10642)) ([7232c10](https://github.com/swc-project/swc/commit/7232c102d36bbf6957bd7326d9392d2b00155ee9))
+
+
 - **(es/parser)** Don't be greedy in the end of jsx open el ([#10637](https://github.com/swc-project/swc/issues/10637)) ([8a2c656](https://github.com/swc-project/swc/commit/8a2c656d50dd1fe86b7338dc83cc1397a99ebbbe))
 
 
 - Update `par-core` and `par-iter` ([#10629](https://github.com/swc-project/swc/issues/10629)) ([38f7d51](https://github.com/swc-project/swc/commit/38f7d51d3ca2d55a85020cca0cffc22b2e5b5b8a))
+
+
+- Fix CI ([#10641](https://github.com/swc-project/swc/issues/10641)) ([9df98f7](https://github.com/swc-project/swc/commit/9df98f748eba99de4c51dc407de34b97456e93ce))
 
 ### Refactor
 
