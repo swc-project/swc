@@ -30,6 +30,7 @@ tracing            = { workspace = true, features = ["release_max_level_info"] }
 tracing-chrome     = { workspace = true }
 tracing-futures    = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
+par-core           = { workspace = true, features = ["chili"] }
 
 
 swc_compiler_base = { workspace = true, features = ["node"] }

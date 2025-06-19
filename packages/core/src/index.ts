@@ -63,18 +63,18 @@ export function plugins(ps: Plugin[]): Plugin {
 export class Compiler {
     private fallbackBindingsPluginWarningDisplayed = false;
 
-    async minify(src: string, opts?: JsMinifyOptions, extras?: NapiMinifyExtra): Promise<Output> {
+    async minify(src: string | Buffer, opts?: JsMinifyOptions, extras?: NapiMinifyExtra): Promise<Output> {
         if (bindings) {
-            return bindings.minify(toBuffer(src), toBuffer(opts ?? {}), extras ?? {});
+            return bindings.minify(Buffer.from(typeof src === 'object' ? JSON.stringify(src) : src), toBuffer(opts ?? {}), typeof src === 'object', extras ?? {});
         } else if (fallbackBindings) {
             return fallbackBindings.minify(src, opts);
         }
         throw new Error("Bindings not found.");
     }
 
-    minifySync(src: string, opts?: JsMinifyOptions, extras?: NapiMinifyExtra): Output {
+    minifySync(src: string | Buffer, opts?: JsMinifyOptions, extras?: NapiMinifyExtra): Output {
         if (bindings) {
-            return bindings.minifySync(toBuffer(src), toBuffer(opts ?? {}), extras ?? {});
+            return bindings.minifySync(Buffer.from(typeof src === 'object' ? JSON.stringify(src) : src), toBuffer(opts ?? {}), typeof src === 'object', extras ?? {});
         } else if (fallbackBindings) {
             return fallbackBindings.minifySync(src, opts);
         }
@@ -487,14 +487,14 @@ export function bundle(
 }
 
 export async function minify(
-    src: string,
+    src: string | Buffer,
     opts?: JsMinifyOptions,
     extras?: NapiMinifyExtra
 ): Promise<Output> {
     return compiler.minify(src, opts, extras);
 }
 
-export function minifySync(src: string, opts?: JsMinifyOptions, extras?: NapiMinifyExtra): Output {
+export function minifySync(src: string | Buffer, opts?: JsMinifyOptions, extras?: NapiMinifyExtra): Output {
     return compiler.minifySync(src, opts, extras);
 }
 
