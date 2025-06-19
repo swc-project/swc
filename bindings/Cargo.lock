@@ -350,6 +350,7 @@ dependencies = [
  "napi-build",
  "napi-derive",
  "node_macro_deps",
+ "par-core",
  "path-clean 1.0.1",
  "rustc-hash 2.1.1",
  "serde",
