@@ -1,4 +1,4 @@
-/** @jsxImportSource baz */ import { jsx as _jsx } from "baz/jsx-runtime";
+/** @jsxImportSource baz */ import { jsx as _jsx } from "react/jsx-runtime";
 var x = /*#__PURE__*/ _jsx("div", {
     children: /*#__PURE__*/ _jsx("span", {})
 });
