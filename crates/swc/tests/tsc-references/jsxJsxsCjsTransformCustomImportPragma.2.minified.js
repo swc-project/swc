@@ -1,10 +1,10 @@
 //// [preact.tsx]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), require("preact/jsx-runtime").Fragment;
+}), require("react/jsx-dev-runtime").Fragment;
 //// [react.tsx]
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _jsxruntime = require("react/jsx-runtime");
-require("./preact"), _jsxruntime.Fragment;
+var _jsxdevruntime = require("react/jsx-dev-runtime");
+require("./preact"), _jsxdevruntime.Fragment;
