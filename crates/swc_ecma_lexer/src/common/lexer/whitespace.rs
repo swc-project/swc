@@ -134,9 +134,11 @@ impl SkipWhitespace<'_> {
         let bytes = self.input.as_bytes();
         let len = bytes.len();
         let mut pos = self.offset as usize;
+        debug_assert!(pos == 0);
+        debug_assert!(pos <= len);
 
         // Optimization: return immediately if input is empty
-        if pos >= len {
+        if pos == len {
             return;
         }
 
