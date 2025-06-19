@@ -30,7 +30,6 @@ pub struct State {
     pub had_line_break: bool,
     /// if line break exists before last?
     pub had_line_break_before_last: bool,
-    pub can_skip_space: bool,
     /// TODO: Remove this field.
     is_first: bool,
     pub next_regexp: Option<BytePos>,
@@ -126,16 +125,6 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
     #[inline]
     fn end_pos(&self) -> BytePos {
         self.input.end_pos()
-    }
-
-    #[inline]
-    fn can_skip_space(&self) -> bool {
-        self.state.can_skip_space
-    }
-
-    #[inline]
-    fn set_can_skip_space(&mut self, can_skip_space: bool) {
-        self.state.can_skip_space = can_skip_space;
     }
 
     #[inline]
@@ -342,11 +331,8 @@ impl Lexer<'_> {
         self.state.had_line_break = self.state.is_first;
         self.state.is_first = false;
 
-        // skip spaces before getting next character, if we are allowed to.
-        if self.state.can_skip_space {
-            self.skip_space::<true>();
-            *start = self.input.cur_pos();
-        };
+        self.skip_space::<true>();
+        *start = self.input.cur_pos();
 
         match self.input.cur() {
             Some(..) => {}
@@ -524,7 +510,6 @@ impl State {
             had_line_break: false,
             had_line_break_before_last: false,
             is_first: true,
-            can_skip_space: true,
             next_regexp: None,
             start: BytePos(0),
             cur_line: 1,
@@ -624,10 +609,5 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
     #[inline(always)]
     fn set_line_start(&mut self, line_start: BytePos) {
         self.line_start = line_start;
-    }
-
-    #[inline(always)]
-    fn can_skip_space(&self) -> bool {
-        self.can_skip_space
     }
 }

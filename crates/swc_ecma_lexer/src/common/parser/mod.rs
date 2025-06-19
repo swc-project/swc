@@ -153,8 +153,7 @@ pub trait Parser<'a>: Sized + Clone {
         if self.ctx().contains(Context::IgnoreError) || !self.syntax().early_errors() {
             return;
         }
-        let cur = self.input_mut().cur();
-        if cur.is_some_and(|cur| cur.is_error()) {
+        if self.input_mut().cur().is_some_and(|cur| cur.is_error()) {
             let err = self.input_mut().bump();
             let err = err.take_error(self.input_mut());
             self.input().iter().add_error(err);
