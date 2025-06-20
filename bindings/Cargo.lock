@@ -4677,15 +4677,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-<<<<<<< HEAD
 version = "29.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4eac24711dba6846f2831f7e0948bcf94436ba114a72c03d5b0e4938bd5af167"
-=======
-version = "28.0.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2524b60fcd71c02307860451db7d619423593099ae621975a7a25ff147d310f8"
->>>>>>> f7afaddfc2 (feat: reduce wasmer-wasix size)
 dependencies = [
  "binding_macros",
  "swc",
@@ -5186,15 +5180,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-<<<<<<< HEAD
 version = "17.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "edd5b2817de790499de9e9e7d6cd9301ca96f143b7434c25ce0ff96e6a72efd5"
-=======
-version = "16.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fa3abdbc6e104574a47e768bc39d77e23eb26856e855ffb92665da8f819ee516"
->>>>>>> f7afaddfc2 (feat: reduce wasmer-wasix size)
 dependencies = [
  "arrayvec",
  "bitflags 2.9.0",
