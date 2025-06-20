@@ -78,8 +78,6 @@ pub fn build_wasi_runtime(
         module_cache: Arc::new(cache),
         http_client: None,
         package_loader: Arc::new(dummy_loader),
-        read_only_journals: vec![],
-        writable_journals: vec![],
     };
 
     Some(Arc::new(rt))
