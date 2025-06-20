@@ -759,15 +759,11 @@ impl Lexer<'_> {
             *start = self.input.cur_pos();
         };
 
-        match self.input.cur() {
-            Some(..) => {}
+        if self.input.last_pos() == self.input.end_pos() {
             // End of input.
-            None => {
-                self.consume_pending_comments();
-
-                return Ok(None);
-            }
-        };
+            self.consume_pending_comments();
+            return Ok(None);
+        }
 
         // println!(
         //     "\tContext: ({:?}) {:?}",
