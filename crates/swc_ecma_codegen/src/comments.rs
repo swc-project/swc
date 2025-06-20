@@ -1,4 +1,3 @@
-use swc_atoms::atom;
 use swc_common::comments::Comment;
 
 use super::*;
