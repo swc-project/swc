@@ -461,10 +461,11 @@ impl Lexer<'_> {
                 };
                 value.push_str(s);
 
-                let jsx_entity = self.read_jsx_entity()?;
-                value.push(jsx_entity.0);
+                if let Ok(jsx_entity) = self.read_jsx_entity() {
+                    value.push(jsx_entity.0);
 
-                chunk_start = self.input.cur_pos();
+                    chunk_start = self.input.cur_pos();
+                }
             } else {
                 self.bump();
             }
@@ -478,6 +479,11 @@ impl Lexer<'_> {
         let value = if value.is_empty() {
             self.atom(raw)
         } else {
+            let s = unsafe {
+                // Safety: We already checked for the range
+                self.input_slice(chunk_start, end)
+            };
+            value.push_str(s);
             self.atom(value)
         };
 
