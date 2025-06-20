@@ -21,7 +21,6 @@ mod static_check;
 
 pub use automatic::automatic;
 pub use classic::{classic, parse_expr_for_jsx};
-pub use development::{DevelopmentContext, JsxDev};
 pub use parse_directives::parse_directives;
 
 #[cfg(test)]

@@ -4,12 +4,12 @@ use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 /// Context for tracking jsx self state
 #[derive(Clone, Copy, Default)]
-pub struct DevelopmentContext {
+pub(crate) struct DevelopmentContext {
     pub in_constructor: bool,
     pub in_derived_class: bool,
 }
 
-pub trait JsxDev: VisitMut {
+pub(crate) trait JsxDev: VisitMut {
     fn development_ctxt(&mut self) -> &mut DevelopmentContext;
 
     /// Helper method to run a closure with modified in_constructor state
@@ -68,7 +68,6 @@ pub trait JsxDev: VisitMut {
     }
 }
 
-#[macro_export]
 macro_rules! visit_mut_development {
     () => {
         fn visit_mut_class(&mut self, n: &mut Class) {
@@ -92,3 +91,5 @@ macro_rules! visit_mut_development {
         }
     };
 }
+
+pub(crate) use visit_mut_development;

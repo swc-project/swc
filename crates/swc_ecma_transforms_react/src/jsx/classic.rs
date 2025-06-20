@@ -18,9 +18,8 @@ use swc_ecma_utils::{drop_span, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 use crate::{
-    jsx::{DevelopmentContext, JsxDev},
-    jsx_name, jsx_text_to_str, transform_jsx_attr_str, visit_mut_development, ClassicConfig,
-    CommonConfig,
+    jsx::development::{visit_mut_development, DevelopmentContext, JsxDev},
+    jsx_name, jsx_text_to_str, transform_jsx_attr_str, ClassicConfig, CommonConfig,
 };
 
 /// Parse `src` to use as a `pragma` or `pragmaFrag` in jsx.

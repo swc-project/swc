@@ -12,9 +12,11 @@ use swc_ecma_utils::{prepend_stmt, private_ident, quote_ident, ExprFactory, Stmt
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 use crate::{
-    jsx::{should_use_create_element, DevelopmentContext, JsxDev},
-    jsx_name, jsx_text_to_str, transform_jsx_attr_str, visit_mut_development, AutomaticConfig,
-    CommonConfig,
+    jsx::{
+        development::{visit_mut_development, DevelopmentContext, JsxDev},
+        should_use_create_element,
+    },
+    jsx_name, jsx_text_to_str, transform_jsx_attr_str, AutomaticConfig, CommonConfig,
 };
 
 /// Automatic runtime JSX transformer
