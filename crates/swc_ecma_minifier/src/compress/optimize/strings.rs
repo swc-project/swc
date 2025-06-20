@@ -1,4 +1,7 @@
-use swc_atoms::{atom, Atom};
+use std::borrow::Cow;
+
+use cow_utils::CowUtils;
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
@@ -156,7 +159,7 @@ impl Optimizer<'_> {
                     quasis: vec![TplElement {
                         span: s.span,
                         cooked: Some(s.value.clone()),
-                        raw: convert_str_value_to_tpl_raw(&s.value),
+                        raw: convert_str_value_to_tpl_raw(&s.value).into(),
                         tail: true,
                     }],
                 });
@@ -167,11 +170,17 @@ impl Optimizer<'_> {
     }
 }
 
-pub(super) fn convert_str_value_to_tpl_raw(value: &Atom) -> Atom {
-    value
-        .replace('\\', "\\\\")
-        .replace('`', "\\`")
-        .replace("${", "\\${")
-        .replace('\r', "\\r")
-        .into()
+pub(super) fn convert_str_value_to_tpl_raw(value: &str) -> Cow<str> {
+    if value.contains(['\\', '`', '$', '\r']) {
+        Cow::Owned(
+            value
+                .cow_replace('\\', "\\\\")
+                .cow_replace('`', "\\`")
+                .cow_replace("${", "\\${")
+                .cow_replace('\r', "\\r")
+                .into_owned(),
+        )
+    } else {
+        Cow::Borrowed(value)
+    }
 }

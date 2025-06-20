@@ -34,6 +34,7 @@ trace-ast   = []
 arrayvec          = { workspace = true }
 backtrace         = { workspace = true, optional = true }
 bitflags          = { workspace = true }
+cow-utils         = { workspace = true }
 indexmap          = { workspace = true }
 num-bigint        = { workspace = true }
 num_cpus          = { workspace = true }

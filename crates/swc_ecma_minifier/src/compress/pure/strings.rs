@@ -1,5 +1,6 @@
 use std::{borrow::Cow, mem::take};
 
+use cow_utils::CowUtils;
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -579,15 +580,25 @@ pub(super) fn convert_str_value_to_tpl_cooked(value: &Atom) -> Cow<str> {
 }
 
 pub(super) fn convert_str_value_to_tpl_raw(value: &Atom) -> Cow<str> {
-    value
-        .replace('\\', "\\\\")
-        .replace('`', "\\`")
-        .replace('$', "\\$")
-        .replace('\n', "\\n")
-        .replace('\r', "\\r")
-        .into()
+    if value.contains(['\\', '`', '$', '\r']) {
+        Cow::Owned(
+            value
+                .cow_replace('\\', "\\\\")
+                .cow_replace('`', "\\`")
+                .cow_replace('$', "\\$")
+                .cow_replace('\n', "\\n")
+                .cow_replace('\r', "\\r")
+                .into_owned(),
+        )
+    } else {
+        Cow::Borrowed(value)
+    }
 }
 
 pub(super) fn convert_str_raw_to_tpl_raw(value: &str) -> Atom {
-    value.replace('`', "\\`").replace('$', "\\$").into()
+    value
+        .cow_replace('`', "\\`")
+        .cow_replace('$', "\\$")
+        .cow_replace('\r', "\\r")
+        .into()
 }

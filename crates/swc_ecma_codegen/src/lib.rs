@@ -8,6 +8,7 @@
 use std::{borrow::Cow, fmt::Write, io, ops::Deref, str};
 
 use compact_str::{format_compact, CompactString};
+use cow_utils::CowUtils;
 use memchr::memmem::Finder;
 use once_cell::sync::Lazy;
 use swc_atoms::Atom;
@@ -2051,7 +2052,8 @@ impl MacroNode for Tpl {
 #[node_impl]
 impl MacroNode for TplElement {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        let raw = self.raw.replace("\r\n", "\n").replace('\r', "\n");
+        let raw = self.raw.cow_replace("\r\n", "\n");
+        let raw = raw.cow_replace('\r', "\n");
         if emitter.cfg.minify || (emitter.cfg.ascii_only && !self.raw.is_ascii()) {
             let v = get_template_element_from_raw(
                 &raw,

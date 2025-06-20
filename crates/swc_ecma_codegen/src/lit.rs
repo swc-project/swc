@@ -2,6 +2,7 @@ use std::{fmt::Write, io, str};
 
 use ascii::AsciiChar;
 use compact_str::CompactString;
+use cow_utils::CowUtils;
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
@@ -92,8 +93,8 @@ impl MacroNode for Str {
         if emitter.cfg.inline_script {
             value = CowStr::Owned(
                 replace_close_inline_script(&value)
-                    .replace("\x3c!--", "\\x3c!--")
-                    .replace("--\x3e", "--\\x3e")
+                    .cow_replace("\x3c!--", "\\x3c!--")
+                    .cow_replace("--\x3e", "--\\x3e")
                     .into(),
             );
         }
@@ -143,7 +144,9 @@ impl MacroNode for BigInt {
                 Some(raw) => {
                     if raw.len() > 2 && emitter.cfg.target < EsVersion::Es2021 && raw.contains('_')
                     {
-                        emitter.wr.write_str_lit(self.span, &raw.replace('_', ""))?;
+                        emitter
+                            .wr
+                            .write_str_lit(self.span, &raw.cow_replace('_', ""))?;
                     } else {
                         emitter.wr.write_str_lit(self.span, raw)?;
                     }
@@ -258,7 +261,7 @@ where
                         && self.cfg.target < EsVersion::Es2021
                         && raw.contains('_')
                     {
-                        let value = raw.replace('_', "");
+                        let value = raw.cow_replace('_', "");
                         self.wr.write_str_lit(DUMMY_SP, &value)?;
 
                         striped_raw = Some(value);
@@ -269,7 +272,7 @@ where
                             return Ok(false);
                         }
 
-                        striped_raw = Some(raw.replace('_', ""));
+                        striped_raw = Some(raw.cow_replace('_', ""));
                     }
                 }
                 _ => {

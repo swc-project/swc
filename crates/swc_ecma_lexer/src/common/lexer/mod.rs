@@ -2,6 +2,7 @@ use std::borrow::Cow;
 
 use char::{Char, CharExt};
 use comments_buffer::{BufferedComment, BufferedCommentKind};
+use cow_utils::CowUtils;
 use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
 use num_traits::{Num as NumTrait, ToPrimitive};
@@ -569,12 +570,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.input_slice(start, end)
         };
         // Remove number separator from number
-        let raw_number_str = raw.replace('_', "");
+        let raw_number_str = raw.cow_replace('_', "");
         let parsed_float = BigIntValue::from_str_radix(&raw_number_str, RADIX as u32)
             .expect("failed to parse float using BigInt")
             .to_f64()
             .expect("failed to parse float using BigInt");
-        Ok((parsed_float, LazyBigInt::new(raw_number_str), non_octal))
+        Ok((
+            parsed_float,
+            LazyBigInt::new(raw_number_str.into_owned()),
+            non_octal,
+        ))
     }
 
     /// Read an integer in the given radix. Return `None` if zero digits
@@ -720,13 +725,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 };
 
                 // Remove number separator from number
-                if raw.contains('_') {
-                    Cow::Owned(raw.replace('_', ""))
-                } else {
-                    Cow::Borrowed(raw)
-                }
-                .parse()
-                .expect("failed to parse float using rust's impl")
+                raw.cow_replace('_', "")
+                    .parse()
+                    .expect("failed to parse float using rust's impl")
             };
         }
 
@@ -771,13 +772,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.input_slice(start, end)
                     };
 
-                    if raw.contains('_') {
-                        Cow::Owned(raw.replace('_', ""))
-                    } else {
-                        Cow::Borrowed(raw)
-                    }
-                    .parse()
-                    .expect("failed to parse float literal")
+                    raw.cow_replace('_', "")
+                        .parse()
+                        .expect("failed to parse float literal")
                 }
             }
             _ => {}

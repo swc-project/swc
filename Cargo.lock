@@ -877,6 +877,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "cow-utils"
+version = "0.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "417bef24afe1460300965a25ff4a24b8b45ad011948302ec221e8a0a81eb2c79"
+
+[[package]]
 name = "cpufeatures"
 version = "0.2.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5269,6 +5275,7 @@ dependencies = [
  "base64 0.22.1",
  "codspeed-criterion-compat",
  "compact_str",
+ "cow-utils",
  "criterion",
  "memchr",
  "num-bigint",
@@ -5511,6 +5518,7 @@ dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
  "codspeed-criterion-compat",
+ "cow-utils",
  "criterion",
  "either",
  "new_debug_unreachable",
@@ -5596,6 +5604,7 @@ dependencies = [
  "backtrace",
  "bitflags 2.6.0",
  "codspeed-criterion-compat",
+ "cow-utils",
  "criterion",
  "flate2",
  "humansize",
