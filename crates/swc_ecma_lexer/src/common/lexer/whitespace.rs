@@ -174,14 +174,6 @@ impl SkipWhitespace<'_> {
                     }
                     continue;
                 }
-                b'\t' => {
-                    pos += 1;
-
-                    if pos >= len {
-                        break;
-                    }
-                    continue;
-                }
                 b'\r' => {
                     pos += 1;
 
@@ -201,6 +193,7 @@ impl SkipWhitespace<'_> {
                 }
                 // Case where handler is needed
                 _ => {
+                    debug_assert!(byte != b' ' && byte != b'\n' && byte != b'\r');
                     // Temporarily update offset
                     self.offset = pos as u32;
 
@@ -215,7 +208,7 @@ impl SkipWhitespace<'_> {
                                 // offset is already updated
                                 return;
                             }
-                            pos = self.offset as usize + delta as usize;
+                            pos = (self.offset + delta) as usize;
 
                             if pos >= len {
                                 break;
