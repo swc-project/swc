@@ -1,3 +1,5 @@
+use super::simd_whitespace::{find_first_non_whitespace, is_javascript_ascii_whitespace};
+
 /// Returns true if it's done
 type ByteHandler = Option<for<'aa> fn(&mut SkipWhitespace<'aa>) -> u32>;
 
@@ -132,6 +134,23 @@ impl SkipWhitespace<'_> {
     #[inline(always)]
     pub fn scan(&mut self) {
         let bytes = self.input.as_bytes();
+
+        if let Some(pos) = find_first_non_whitespace(bytes) {
+            debug_assert!(
+                bytes[0..pos]
+                    .iter()
+                    .all(|&b| is_javascript_ascii_whitespace(b)),
+                "{:#?}",
+                unsafe { str::from_utf8_unchecked(&bytes[0..pos]) }
+            );
+            debug_assert!(!is_javascript_ascii_whitespace(bytes[pos]));
+            self.offset = pos as u32;
+            return;
+        }
+        // } else {
+        //     self.offset = bytes.len() as u32;
+        // }
+
         let len = bytes.len();
         let mut pos = self.offset as usize;
         debug_assert!(pos == 0);

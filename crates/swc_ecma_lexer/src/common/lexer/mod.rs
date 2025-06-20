@@ -24,6 +24,7 @@ pub mod char;
 pub mod comments_buffer;
 mod jsx;
 pub mod number;
+mod simd_whitespace;
 pub mod state;
 pub mod token;
 pub mod whitespace;

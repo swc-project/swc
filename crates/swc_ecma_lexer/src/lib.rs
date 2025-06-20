@@ -14,6 +14,7 @@
 #![allow(clippy::wrong_self_convention)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(unexpected_cfgs)]
+#![feature(portable_simd)]
 
 pub mod common;
 pub mod lexer;
