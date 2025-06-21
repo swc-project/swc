@@ -47,6 +47,23 @@ pub(crate) struct ProgramData {
     pub(crate) property_atoms: Option<Vec<Atom>>,
 }
 
+impl ProgramData {
+    /// Create a new ProgramData with pre-allocated capacity for better
+    /// performance
+    pub fn with_capacity(vars_capacity: usize, scopes_capacity: usize) -> Self {
+        Self {
+            vars: FxHashMap::with_capacity_and_hasher(vars_capacity, Default::default()),
+            top: ScopeData::default(),
+            scopes: FxHashMap::with_capacity_and_hasher(scopes_capacity, Default::default()),
+            initialized_vars: IndexSet::with_capacity_and_hasher(
+                vars_capacity / 2,
+                Default::default(),
+            ),
+            property_atoms: None,
+        }
+    }
+}
+
 bitflags::bitflags! {
     #[derive(Debug, Clone, Copy)]
     pub(crate) struct VarUsageInfoFlags: u32 {
@@ -188,10 +205,13 @@ impl Storage for ProgramData {
         if collect_prop_atom {
             ProgramData {
                 property_atoms: Some(Vec::with_capacity(128)),
+                vars: FxHashMap::with_capacity_and_hasher(256, Default::default()),
+                scopes: FxHashMap::with_capacity_and_hasher(64, Default::default()),
+                initialized_vars: IndexSet::with_capacity_and_hasher(128, Default::default()),
                 ..Default::default()
             }
         } else {
-            ProgramData::default()
+            ProgramData::with_capacity(256, 64)
         }
     }
 
@@ -213,13 +233,21 @@ impl Storage for ProgramData {
     }
 
     fn merge(&mut self, kind: ScopeKind, child: Self) {
-        self.scopes.reserve(child.scopes.len());
+        // Optimize scope merging by batching operations
+        if !child.scopes.is_empty() {
+            self.scopes.reserve(child.scopes.len());
 
-        for (ctxt, scope) in child.scopes {
-            let to = self.scopes.entry(ctxt).or_default();
-            self.top.merge(scope, true);
+            for (ctxt, scope) in child.scopes {
+                let to = self.scopes.entry(ctxt).or_default();
+                self.top.merge(scope, true);
 
-            to.merge(scope, false);
+                to.merge(scope, false);
+            }
+        }
+
+        // Early exit if no variables to merge
+        if child.vars.is_empty() {
+            return;
         }
 
         self.vars.reserve(child.vars.len());
@@ -413,35 +441,53 @@ impl Storage for ProgramData {
             e.usage_count = e.usage_count.saturating_sub(1);
         }
 
+        // Optimize infection tracking with visited set to prevent cycles
         let mut to_visit: IndexSet<Id, FxBuildHasher> =
-            IndexSet::from_iter(e.infects_to.iter().cloned().map(|i| i.0));
+            IndexSet::from_iter(e.infects_to.iter().map(|access| access.0.clone()));
+        let mut visited: FxHashSet<Id> = FxHashSet::default();
 
-        let mut idx = 0;
+        // Process in batches to improve cache locality
+        let mut current_batch = Vec::with_capacity(32);
+        let mut next_batch = Vec::with_capacity(32);
 
-        while idx < to_visit.len() {
-            let curr = &to_visit[idx];
+        // Initialize first batch
+        current_batch.extend(to_visit.iter().cloned());
+        to_visit.clear();
 
-            if let Some(usage) = self.vars.get_mut(curr) {
-                if ctx.inline_prevented() {
-                    usage.flags.insert(VarUsageInfoFlags::INLINE_PREVENTED);
-                }
-                if ctx.executed_multiple_time() {
-                    usage
-                        .flags
-                        .insert(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME);
-                }
-                if ctx.in_cond() {
-                    usage.flags.insert(VarUsageInfoFlags::USED_IN_COND);
+        while !current_batch.is_empty() {
+            for curr in current_batch.drain(..) {
+                if !visited.insert(curr.clone()) {
+                    continue; // Already processed
                 }
 
-                if is_op {
-                    usage.usage_count += 1;
-                }
+                if let Some(usage) = self.vars.get_mut(&curr) {
+                    if ctx.inline_prevented() {
+                        usage.flags.insert(VarUsageInfoFlags::INLINE_PREVENTED);
+                    }
+                    if ctx.executed_multiple_time() {
+                        usage
+                            .flags
+                            .insert(VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME);
+                    }
+                    if ctx.in_cond() {
+                        usage.flags.insert(VarUsageInfoFlags::USED_IN_COND);
+                    }
 
-                to_visit.extend(usage.infects_to.iter().cloned().map(|i| i.0))
+                    if is_op {
+                        usage.usage_count += 1;
+                    }
+
+                    // Add new infections to next batch if not already visited
+                    for access in &usage.infects_to {
+                        if !visited.contains(&access.0) {
+                            next_batch.push(access.0.clone());
+                        }
+                    }
+                }
             }
 
-            idx += 1;
+            // Swap batches for next iteration
+            std::mem::swap(&mut current_batch, &mut next_batch);
         }
     }
 
