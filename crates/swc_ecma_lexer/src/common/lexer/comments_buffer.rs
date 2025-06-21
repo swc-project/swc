@@ -1,4 +1,4 @@
-use std::{iter::Rev, rc::Rc, vec::IntoIter};
+use std::{iter::Rev, vec::IntoIter};
 
 use swc_common::{comments::Comment, BytePos};
 
@@ -17,8 +17,8 @@ pub enum BufferedCommentKind {
 
 #[derive(Clone)]
 pub struct CommentsBuffer {
-    comments: OneDirectionalList<BufferedComment>,
-    pending_leading: OneDirectionalList<Comment>,
+    comments: Vec<BufferedComment>,
+    pending_leading: Vec<Comment>,
 }
 
 impl Default for CommentsBuffer {
@@ -30,8 +30,8 @@ impl Default for CommentsBuffer {
 impl CommentsBuffer {
     pub fn new() -> Self {
         Self {
-            comments: OneDirectionalList::new(),
-            pending_leading: OneDirectionalList::new(),
+            comments: Vec::with_capacity(32),
+            pending_leading: Vec::with_capacity(16),
         }
     }
 
@@ -44,50 +44,10 @@ impl CommentsBuffer {
     }
 
     pub fn take_comments(&mut self) -> Rev<IntoIter<BufferedComment>> {
-        self.comments.take_all()
+        std::mem::take(&mut self.comments).into_iter().rev()
     }
 
     pub fn take_pending_leading(&mut self) -> Rev<IntoIter<Comment>> {
-        self.pending_leading.take_all()
+        std::mem::take(&mut self.pending_leading).into_iter().rev()
     }
-}
-
-/// A one direction linked list that can be cheaply
-/// cloned with the clone maintaining its position in the list.
-#[derive(Clone)]
-struct OneDirectionalList<T: Clone> {
-    last_node: Option<Rc<OneDirectionalListNode<T>>>,
-}
-
-impl<T: Clone> OneDirectionalList<T> {
-    pub fn new() -> Self {
-        Self { last_node: None }
-    }
-
-    pub fn take_all(&mut self) -> Rev<IntoIter<T>> {
-        // these are stored in reverse, so we need to reverse them back
-        let mut items = Vec::new();
-        let mut current_node = self.last_node.take();
-        while let Some(node) = current_node {
-            let mut node = match Rc::try_unwrap(node) {
-                Ok(n) => n,
-                Err(n) => n.as_ref().clone(),
-            };
-            items.push(node.item);
-            current_node = node.previous.take();
-        }
-        items.into_iter().rev()
-    }
-
-    pub fn push(&mut self, item: T) {
-        let previous = self.last_node.take();
-        let new_item = OneDirectionalListNode { item, previous };
-        self.last_node = Some(Rc::new(new_item));
-    }
-}
-
-#[derive(Clone)]
-struct OneDirectionalListNode<T: Clone> {
-    item: T,
-    previous: Option<Rc<OneDirectionalListNode<T>>>,
 }
