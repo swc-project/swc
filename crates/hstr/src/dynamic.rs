@@ -259,7 +259,7 @@ mod tests {
 
     #[test]
     fn global_ref_count_dynamic() {
-        // The strings should be long enough so that the are not inline even under
+        // The strings should be long enough so that they are not inline even under
         // feature `atom_size_128`
         let atom1 = Atom::new("Hello, beautiful world!");
 
