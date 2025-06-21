@@ -10,6 +10,9 @@ repository    = { workspace = true }
 version       = "22.0.0"
 
 
+[features]
+nightly = []
+
 [dependencies]
 anyhow       = { workspace = true }
 bytes-str    = { workspace = true }

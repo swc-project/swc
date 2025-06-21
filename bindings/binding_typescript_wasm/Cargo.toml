@@ -13,7 +13,7 @@ bench      = false
 crate-type = ["cdylib"]
 
 [features]
-nightly = []
+nightly = ["swc_fast_ts_strip/nightly"]
 
 [dependencies]
 anyhow               = { workspace = true }
