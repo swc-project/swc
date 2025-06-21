@@ -125,6 +125,7 @@ fn opts(mode: Mode) -> Options {
                 native_class_properties: true,
                 ..Default::default()
             },
+            #[cfg(feature = "nightly")]
             jsx: Default::default(),
         }),
         deprecated_ts_module_as_error: true.into(),

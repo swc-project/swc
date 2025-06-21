@@ -64,6 +64,7 @@ pub struct Options {
 #[derive(Debug, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct TransformConfig {
+    #[cfg(feature = "nightly")]
     #[serde(default)]
     pub jsx: Option<JsxConfig>,
 
@@ -71,11 +72,27 @@ pub struct TransformConfig {
     pub typescript: typescript::Config,
 }
 
+#[cfg(feature = "nightly")]
 #[derive(Debug, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct JsxConfig {
     #[serde(default)]
-    pub transform: Option<String>,
+    pub transform: Option<JsxTransform>,
+
+    #[serde(default)]
+    pub import_source: Option<Atom>
+}   
+
+
+#[cfg(feature = "nightly")]
+#[derive(Debug, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum JsxTransform {
+    #[default]
+    #[serde(rename = "react-jsx")]
+    ReactJsx,
+    #[serde(rename = "react-jsxdev")]
+    ReactJsxDev,
 }
 
 #[cfg(feature = "wasm-bindgen")]
@@ -417,10 +434,31 @@ pub fn operate(
                     }
                 }
 
+                let transform = options.transform.unwrap_or_default();
+
                 program.mutate(&mut typescript::typescript(
-                    options.transform.unwrap_or_default().typescript,
+                    transform.typescript,
                     unresolved_mark,
                     top_level_mark,
+                ));
+
+                #[cfg(feature = "nightly")]
+                program.mutate(&mut swc_ecma_transforms_react::jsx(
+                    cm.clone(),
+                    Some(comments),
+                    swc_ecma_transforms_react::Options {
+                        next: Some(true),
+                        runtime: Some(swc_ecma_transforms_react::Runtime::Automatic),
+                        import_source: transform.jsx.as_ref().map(|jsx| jsx.import_source.clone()).unwrap_or_else(|| swc_ecma_transforms_react::default_import_source()),
+                        development: match transform.jsx {
+                            Some(JsxConfig { transform:Some(transform), .. }) => Some(transform == JsxTransform::ReactJsxDev),
+                            _ => None,  
+                        },
+                        refresh: None,
+                        ..Default::default()
+                    },
+                    top_level_mark,
+                    unresolved_mark,
                 ));
 
                 program.mutate(&mut inject_helpers(unresolved_mark));
