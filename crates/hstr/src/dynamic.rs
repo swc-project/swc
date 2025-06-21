@@ -155,14 +155,16 @@ pub(crate) const fn inline_atom(text: &str) -> Option<Atom> {
         // INLINE_TAG ensures this is never zero
         let tag = INLINE_TAG | ((len as u8) << LEN_OFFSET);
         let mut unsafe_data = TaggedValue::new_tag(NonZeroU8::new(tag).unwrap());
-        // This odd pattern is needed because we cannot create slices from ranges in
-        // constant context.
+        // This odd pattern is needed because we cannot create slices from ranges or
+        // ranges at all in constant context.  So we write our own copying loop.
         unsafe {
-            unsafe_data
-                .data_mut()
-                .split_at_mut(len)
-                .0
-                .copy_from_slice(text.as_bytes());
+            let data = unsafe_data.data_mut();
+            let bytes = text.as_bytes();
+            let mut i = 0;
+            while i < len {
+                data[i] = bytes[i];
+                i += 1;
+            }
         }
         return Some(Atom { unsafe_data });
     }
@@ -257,9 +259,11 @@ mod tests {
 
     #[test]
     fn global_ref_count_dynamic() {
-        let atom1 = Atom::new("Hello, world!");
+        // The strings should be long enough so that they are not inline even under
+        // feature `atom_size_128`
+        let atom1 = Atom::new("Hello, beautiful world!");
 
-        let atom2 = Atom::new("Hello, world!");
+        let atom2 = Atom::new("Hello, beautiful world!");
 
         // 2 for the two atoms, 1 for the global store
         assert_eq!(atom1.ref_count(), 3);
