@@ -48,94 +48,138 @@ const fn hex_byte_to_value(b: u8) -> u8 {
 /// Fast decimal parsing for short numbers
 #[expect(clippy::cast_precision_loss, clippy::cast_lossless)]
 pub fn parse_decimal_fast(s: &str) -> Option<f64> {
-    if s.is_empty() || s.len() > MAX_FAST_DECIMAL_LEN {
-        return None;
+    if s.is_empty()
+        || s.len() > MAX_FAST_DECIMAL_LEN
+        || s.as_bytes()
+            .iter()
+            .any(|&b| !b.is_ascii_digit() && b != b'_')
+    {
+        None
+    } else {
+        Some(parse_ensured_decimal_fast(s))
     }
+}
 
+#[expect(clippy::cast_precision_loss, clippy::cast_lossless)]
+pub fn parse_ensured_decimal_fast(s: &str) -> f64 {
+    debug_assert!(!s.is_empty() && s.len() <= MAX_FAST_DECIMAL_LEN);
+    debug_assert!(s
+        .as_bytes()
+        .iter()
+        .all(|&b| b.is_ascii_digit() || b == b'_'));
     let mut result = 0_u64;
     for &b in s.as_bytes() {
         if b == b'_' {
             continue; // Skip separators
         }
-        if !b.is_ascii_digit() {
-            return None;
-        }
-
         // Use multiplication latency hiding - issue multiply before we need result
         result *= 10;
         let digit = decimal_byte_to_value(b);
         result += digit as u64;
     }
-    Some(result as f64)
+    result as f64
 }
 
 /// Fast binary parsing using bit shifts
 #[expect(clippy::cast_precision_loss, clippy::cast_lossless)]
 pub fn parse_binary_fast(s: &str) -> Option<f64> {
-    if s.is_empty() || s.len() > MAX_FAST_BINARY_LEN {
-        return None;
+    if s.is_empty()
+        || s.len() > MAX_FAST_BINARY_LEN
+        || s.as_bytes()
+            .iter()
+            .any(|&b| b != b'0' && b != b'1' && b != b'_')
+    {
+        None
+    } else {
+        Some(parse_ensured_binary_fast(s))
     }
+}
 
+#[expect(clippy::cast_precision_loss, clippy::cast_lossless)]
+pub fn parse_ensured_binary_fast(s: &str) -> f64 {
+    debug_assert!(!s.is_empty() && s.len() <= MAX_FAST_BINARY_LEN);
+    debug_assert!(s
+        .as_bytes()
+        .iter()
+        .all(|&b| b == b'0' || b == b'1' || b == b'_'));
     let mut result = 0_u64;
     for &b in s.as_bytes() {
         if b == b'_' {
-            continue; // Skip separators
+            continue;
         }
-        if b != b'0' && b != b'1' {
-            return None;
-        }
-
         // Bit shifting is much faster than multiplication for powers of 2
         result <<= 1;
         result |= binary_byte_to_value(b) as u64;
     }
-    Some(result as f64)
+    result as f64
 }
 
 /// Fast octal parsing using bit shifts
 #[expect(clippy::cast_precision_loss, clippy::cast_lossless)]
 pub fn parse_octal_fast(s: &str) -> Option<f64> {
-    if s.is_empty() || s.len() > MAX_FAST_OCTAL_LEN {
-        return None;
+    if s.is_empty()
+        || s.len() > MAX_FAST_OCTAL_LEN
+        || s.as_bytes()
+            .iter()
+            .any(|&b| !matches!(b, b'0'..=b'7') && b != b'_')
+    {
+        None
+    } else {
+        Some(parse_ensured_octal_fast(s))
     }
+}
 
+#[expect(clippy::cast_precision_loss, clippy::cast_lossless)]
+pub fn parse_ensured_octal_fast(s: &str) -> f64 {
+    debug_assert!(!s.is_empty() && s.len() <= MAX_FAST_OCTAL_LEN);
+    debug_assert!(s
+        .as_bytes()
+        .iter()
+        .all(|&b| matches!(b, b'0'..=b'7') || b == b'_'));
     let mut result = 0_u64;
     for &b in s.as_bytes() {
         if b == b'_' {
             continue; // Skip separators
         }
-        if !(b'0'..=b'7').contains(&b) {
-            return None;
-        }
-
         // Bit shifting for octal (multiply by 8)
         result <<= 3;
         result |= octal_byte_to_value(b) as u64;
     }
-    Some(result as f64)
+    result as f64
 }
 
 /// Fast hex parsing using bit shifts
 #[expect(clippy::cast_precision_loss, clippy::cast_lossless)]
 pub fn parse_hex_fast(s: &str) -> Option<f64> {
-    if s.is_empty() || s.len() > MAX_FAST_HEX_LEN {
-        return None;
+    if s.is_empty()
+        || s.len() > MAX_FAST_HEX_LEN
+        || s.as_bytes()
+            .iter()
+            .any(|&b| !b.is_ascii_hexdigit() && b != b'_')
+    {
+        None
+    } else {
+        Some(parse_ensured_hex_fast(s))
     }
+}
 
+#[expect(clippy::cast_precision_loss, clippy::cast_lossless)]
+pub fn parse_ensured_hex_fast(s: &str) -> f64 {
+    debug_assert!(!s.is_empty() && s.len() <= MAX_FAST_HEX_LEN);
+    debug_assert!(s
+        .as_bytes()
+        .iter()
+        .all(|&b| b.is_ascii_hexdigit() || b == b'_'));
     let mut result = 0_u64;
     for &b in s.as_bytes() {
         if b == b'_' {
             continue; // Skip separators
         }
-        if !b.is_ascii_hexdigit() {
-            return None;
-        }
-
         // Bit shifting for hex (multiply by 16)
         result <<= 4;
         result |= hex_byte_to_value(b) as u64;
     }
-    Some(result as f64)
+    result as f64
 }
 
 #[cfg(test)]
