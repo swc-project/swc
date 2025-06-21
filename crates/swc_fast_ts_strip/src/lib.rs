@@ -80,7 +80,7 @@ pub struct JsxConfig {
     pub transform: Option<JsxTransform>,
 
     #[serde(default)]
-    pub import_source: Option<Atom>,
+    pub import_source: Option<swc_atoms::Atom>,
 }
 
 #[cfg(feature = "nightly")]
@@ -444,20 +444,19 @@ pub fn operate(
                 #[cfg(feature = "nightly")]
                 program.mutate(&mut swc_ecma_transforms_react::jsx(
                     cm.clone(),
-                    Some(comments),
+                    Some(comments.clone()),
                     swc_ecma_transforms_react::Options {
                         next: Some(true),
                         runtime: Some(swc_ecma_transforms_react::Runtime::Automatic),
                         import_source: transform
                             .jsx
                             .as_ref()
-                            .map(|jsx| jsx.import_source.clone())
-                            .unwrap_or_else(|| swc_ecma_transforms_react::default_import_source()),
+                            .and_then(|jsx| jsx.import_source.clone()),
                         development: match transform.jsx {
                             Some(JsxConfig {
                                 transform: Some(transform),
                                 ..
-                            }) => Some(transform == JsxTransform::ReactJsxDev),
+                            }) => Some(matches!(transform, JsxTransform::ReactJsxDev)),
                             _ => None,
                         },
                         refresh: None,

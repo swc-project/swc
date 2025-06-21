@@ -11,6 +11,7 @@ version       = "22.0.0"
 
 
 [features]
+default = ["nightly"]
 nightly = []
 
 [dependencies]
@@ -31,6 +32,7 @@ swc_ecma_transforms_base = { version = "18.0.0", path = "../swc_ecma_transforms_
 swc_ecma_transforms_react = { version = "20.0.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_typescript = { version = "20.0.0", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
+swc_atoms = { version = "6.0.0", path = "../swc_atoms" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
