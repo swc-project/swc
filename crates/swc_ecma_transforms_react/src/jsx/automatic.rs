@@ -4,16 +4,19 @@ use std::iter::once;
 
 use swc_atoms::{atom, Atom};
 use swc_common::{
-    comments::Comments, errors::HANDLER, sync::Lrc, util::take::Take, BytePos, Mark, Spanned,
-    SyntaxContext, DUMMY_SP,
+    comments::Comments, errors::HANDLER, sync::Lrc, util::take::Take, BytePos, Mark, SourceMap,
+    Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmt, private_ident, quote_ident, ExprFactory, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 use crate::{
-    jsx::should_use_create_element, jsx_name, jsx_text_to_str, transform_jsx_attr_str,
-    AutomaticConfig, CommonConfig,
+    jsx::{
+        development::{visit_mut_development, DevelopmentContext, JsxDev},
+        should_use_create_element,
+    },
+    jsx_name, jsx_text_to_str, transform_jsx_attr_str, AutomaticConfig, CommonConfig,
 };
 
 /// Automatic runtime JSX transformer
@@ -27,6 +30,7 @@ pub fn automatic<C>(
     common: CommonConfig,
     unresolved_mark: Mark,
     comments: Option<C>,
+    cm: Lrc<SourceMap>,
 ) -> impl Pass + VisitMut
 where
     C: Comments + 'static,
@@ -46,9 +50,13 @@ where
         import_fragment: None,
         import_create_element: None,
 
-        development: common.development.into_bool(),
         throw_if_namespace: common.throw_if_namespace.into_bool(),
+
+        development: common.development.into_bool(),
+        development_ctx: DevelopmentContext::default(),
+
         add_pure_comment,
+        cm,
     })
 }
 
@@ -61,10 +69,13 @@ struct Automatic {
     import_create_element: Option<Ident>,
     import_fragment: Option<Ident>,
 
-    development: bool,
     throw_if_namespace: bool,
 
+    development: bool,
+    development_ctx: DevelopmentContext,
+
     add_pure_comment: Lrc<dyn Fn(BytePos)>,
+    cm: Lrc<SourceMap>,
 }
 
 impl Automatic {
@@ -241,8 +252,6 @@ impl Automatic {
         };
 
         let mut key = None;
-        let mut source_props = None;
-        let mut self_props = None;
 
         for attr in el.opening.attrs {
             match attr {
@@ -267,36 +276,6 @@ impl Automatic {
                                             .emit();
                                     });
                                 }
-                                continue;
-                            }
-
-                            if !use_create_element && *i.sym == *"__source" && self.development {
-                                if source_props.is_some() {
-                                    panic!("Duplicate __source is found");
-                                }
-                                source_props = attr
-                                    .value
-                                    .and_then(jsx_attr_value_to_expr)
-                                    .map(|expr| expr.as_arg());
-                                assert_ne!(
-                                    source_props, None,
-                                    "value of property '__source' should not be empty"
-                                );
-                                continue;
-                            }
-
-                            if !use_create_element && *i.sym == *"__self" && self.development {
-                                if self_props.is_some() {
-                                    panic!("Duplicate __self is found");
-                                }
-                                self_props = attr
-                                    .value
-                                    .and_then(jsx_attr_value_to_expr)
-                                    .map(|expr| expr.as_arg());
-                                assert_ne!(
-                                    self_props, None,
-                                    "value of property '__self' should not be empty"
-                                );
                                 continue;
                             }
 
@@ -407,6 +386,23 @@ impl Automatic {
             }
         }
 
+        if use_create_element && self.development {
+            props_obj.props.push(
+                Prop::KeyValue(KeyValueProp {
+                    key: quote_ident!("__source").into(),
+                    value: self.source_props(el.span.lo).into(),
+                })
+                .into(),
+            );
+            props_obj.props.push(
+                Prop::KeyValue(KeyValueProp {
+                    key: quote_ident!("__self").into(),
+                    value: self.self_props().into(),
+                })
+                .into(),
+            );
+        }
+
         let args = once(name.as_arg()).chain(once(props_obj.as_arg()));
         let args = if use_create_element {
             args.chain(children.into_iter().flatten()).collect()
@@ -417,21 +413,10 @@ impl Automatic {
                 None => Expr::undefined(DUMMY_SP).as_arg(),
             };
 
-            // set undefined literal to __source if __source is None
-            let source_props = match source_props {
-                Some(source_props) => source_props,
-                None => Expr::undefined(DUMMY_SP).as_arg(),
-            };
-
-            // set undefined literal to __self if __self is None
-            let self_props = match self_props {
-                Some(self_props) => self_props,
-                None => Expr::undefined(DUMMY_SP).as_arg(),
-            };
             args.chain(once(key))
                 .chain(once(use_jsxs.as_arg()))
-                .chain(once(source_props))
-                .chain(once(self_props))
+                .chain(once(self.source_props(el.span.lo).as_arg()))
+                .chain(once(self.self_props().as_arg()))
                 .collect()
         } else {
             args.chain(key).collect()
@@ -488,8 +473,43 @@ impl Automatic {
     }
 }
 
+impl Automatic {
+    fn source_props(&self, pos: BytePos) -> ObjectLit {
+        let loc = self.cm.lookup_char_pos(pos);
+
+        ObjectLit {
+            props: vec![
+                Prop::KeyValue(KeyValueProp {
+                    key: quote_ident!("fileName").into(),
+                    value: loc.file.name.to_string().into(),
+                })
+                .into(),
+                Prop::KeyValue(KeyValueProp {
+                    key: quote_ident!("lineNumber").into(),
+                    value: loc.line.into(),
+                })
+                .into(),
+                Prop::KeyValue(KeyValueProp {
+                    key: quote_ident!("columnNumber").into(),
+                    value: (loc.col.0 + 1).into(),
+                })
+                .into(),
+            ],
+            ..Default::default()
+        }
+    }
+}
+
+impl JsxDev for Automatic {
+    fn development_ctxt(&mut self) -> &mut DevelopmentContext {
+        &mut self.development_ctx
+    }
+}
+
 impl VisitMut for Automatic {
     noop_visit_mut_type!();
+
+    visit_mut_development!();
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         if let Expr::JSXElement(el) = expr {
