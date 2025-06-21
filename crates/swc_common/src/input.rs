@@ -56,6 +56,7 @@ impl<'a> StringInput<'a> {
         self.orig_start
     }
 
+    #[inline(always)]
     pub fn end_pos(&self) -> BytePos {
         self.orig_end
     }
