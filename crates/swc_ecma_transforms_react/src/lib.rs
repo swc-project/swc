@@ -12,16 +12,12 @@ use swc_ecma_ast::Pass;
 pub use self::{
     display_name::display_name,
     jsx::*,
-    jsx_self::jsx_self,
-    jsx_src::jsx_src,
     pure_annotations::pure_annotations,
     refresh::{options::RefreshOptions, refresh},
 };
 
 mod display_name;
 mod jsx;
-mod jsx_self;
-mod jsx_src;
 mod pure_annotations;
 mod refresh;
 
@@ -59,8 +55,6 @@ where
     let refresh_options = options.refresh;
 
     (
-        jsx_src(development, cm.clone()),
-        jsx_self(development),
         refresh(
             development,
             refresh_options,
@@ -68,8 +62,15 @@ where
             comments.clone(),
             top_level_mark,
         ),
-        auto_config
-            .map(|config| automatic(config, options.common, unresolved_mark, comments.clone())),
+        auto_config.map(|config| {
+            automatic(
+                config,
+                options.common,
+                unresolved_mark,
+                comments.clone(),
+                cm.clone(),
+            )
+        }),
         classic_config.map(|config| {
             classic(
                 config,

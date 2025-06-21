@@ -14,10 +14,13 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
-use swc_ecma_utils::{drop_span, ExprFactory};
+use swc_ecma_utils::{drop_span, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
-use crate::{jsx_name, jsx_text_to_str, transform_jsx_attr_str, ClassicConfig, CommonConfig};
+use crate::{
+    jsx::development::{visit_mut_development, DevelopmentContext, JsxDev},
+    jsx_name, jsx_text_to_str, transform_jsx_attr_str, ClassicConfig, CommonConfig,
+};
 
 /// Parse `src` to use as a `pragma` or `pragmaFrag` in jsx.
 pub fn parse_expr_for_jsx(
@@ -107,20 +110,29 @@ where
 
     visit_mut_pass(Classic {
         pragma,
-
         pragma_frag,
+
         throw_if_namespace: common.throw_if_namespace.into_bool(),
+
+        development: common.development.into_bool(),
+        development_ctx: DevelopmentContext::default(),
+
         add_pure_comment,
+        cm,
     })
 }
 
 struct Classic {
     pragma: Lrc<Box<Expr>>,
-
     pragma_frag: Lrc<Box<Expr>>,
+
     throw_if_namespace: bool,
 
+    development: bool,
+    development_ctx: DevelopmentContext,
+
     add_pure_comment: Lrc<dyn Fn(BytePos)>,
+    cm: Lrc<SourceMap>,
 }
 
 #[cfg(feature = "concurrent")]
@@ -317,10 +329,20 @@ impl Classic {
     }
 }
 
+impl JsxDev for Classic {
+    fn development_ctxt(&mut self) -> &mut DevelopmentContext {
+        &mut self.development_ctx
+    }
+}
+
 impl VisitMut for Classic {
     noop_visit_mut_type!();
 
+    visit_mut_development!();
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
+        expr.visit_mut_children_with(self);
+
         if let Expr::JSXElement(el) = expr {
             // <div></div> => React.createElement('div', null);
             *expr = self.jsx_elem_to_expr(*el.take());
@@ -340,8 +362,69 @@ impl VisitMut for Classic {
                 *expr = self.jsx_frag_to_expr(frag.take());
             }
         }
+    }
 
-        expr.visit_mut_children_with(self);
+    fn visit_mut_jsx_opening_element(&mut self, e: &mut JSXOpeningElement) {
+        e.visit_mut_children_with(self);
+
+        if !self.development {
+            return;
+        }
+
+        let loc = self.cm.lookup_char_pos(e.span.lo);
+        let file_name = loc.file.name.to_string();
+
+        e.attrs.push(
+            JSXAttr {
+                span: DUMMY_SP,
+                name: quote_ident!("__source").into(),
+                value: Some(
+                    JSXExprContainer {
+                        span: DUMMY_SP,
+                        expr: JSXExpr::Expr(
+                            ObjectLit {
+                                span: DUMMY_SP,
+                                props: vec![
+                                    Prop::KeyValue(KeyValueProp {
+                                        key: quote_ident!("fileName").into(),
+                                        value: file_name.into(),
+                                    })
+                                    .into(),
+                                    Prop::KeyValue(KeyValueProp {
+                                        key: quote_ident!("lineNumber").into(),
+                                        value: loc.line.into(),
+                                    })
+                                    .into(),
+                                    Prop::KeyValue(KeyValueProp {
+                                        key: quote_ident!("columnNumber").into(),
+                                        value: (loc.col.0 + 1).into(),
+                                    })
+                                    .into(),
+                                ],
+                            }
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                ),
+            }
+            .into(),
+        );
+
+        e.attrs.push(
+            JSXAttr {
+                span: DUMMY_SP,
+                name: quote_ident!("__self").into(),
+                value: Some(
+                    JSXExprContainer {
+                        span: DUMMY_SP,
+                        expr: JSXExpr::Expr(self.self_props().into()),
+                    }
+                    .into(),
+                ),
+            }
+            .into(),
+        );
     }
 }
 
