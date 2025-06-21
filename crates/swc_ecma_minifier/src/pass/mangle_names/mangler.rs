@@ -21,19 +21,21 @@ mod label_manger {
         pub(super) fn new(chars: Base54Chars) -> Self {
             Self {
                 chars,
-                cache: Default::default(),
+                cache: FxHashMap::with_capacity_and_hasher(64, Default::default()),
                 n: Default::default(),
             }
         }
 
         pub(super) fn mangle(&mut self, label: &mut Ident) {
-            let v = self
-                .cache
-                .entry(label.sym.clone())
-                .or_insert_with(|| self.chars.encode(&mut self.n, true))
-                .clone();
+            // Avoid cloning the symbol if it's already cached
+            if let Some(cached) = self.cache.get(&label.sym) {
+                label.sym = cached.clone();
+                return;
+            }
 
-            label.sym = v;
+            let new_sym = self.chars.encode(&mut self.n, true);
+            self.cache.insert(label.sym.clone(), new_sym.clone());
+            label.sym = new_sym;
         }
     }
 }
