@@ -820,42 +820,9 @@ impl VisitMut for DecoratorPass {
                 args: vec![ThisExpr { span: DUMMY_SP }.as_arg()],
                 ..Default::default()
             };
-            let mut proto_inited = false;
-            for member in n.body.iter_mut() {
-                if let ClassMember::ClassProp(prop) = member {
-                    if prop.is_static {
-                        continue;
-                    }
-                    if let Some(value) = prop.value.clone() {
-                        prop.value = Some(Expr::from_exprs(vec![
-                            init_proto_expr.clone().into(),
-                            value,
-                        ]));
+            let c = self.ensure_constructor(n);
 
-                        proto_inited = true;
-                        break;
-                    }
-                } else if let ClassMember::PrivateProp(prop) = member {
-                    if prop.is_static {
-                        continue;
-                    }
-                    if let Some(value) = prop.value.clone() {
-                        prop.value = Some(Expr::from_exprs(vec![
-                            init_proto_expr.clone().into(),
-                            value,
-                        ]));
-
-                        proto_inited = true;
-                        break;
-                    }
-                }
-            }
-
-            if !proto_inited {
-                let c = self.ensure_constructor(n);
-
-                inject_after_super(c, vec![Box::new(init_proto_expr.into())])
-            }
+            inject_after_super(c, vec![Box::new(init_proto_expr.into())])
         }
 
         self.consume_inits();
@@ -1780,6 +1747,9 @@ impl VisitMut for DecoratorPass {
             self.state.init_static_args.push(Some(initialize_init));
         } else {
             self.state.proto_lhs.push(init);
+            self.state
+                .init_proto
+                .get_or_insert_with(|| private_ident!("_initProto"));
             self.state.init_proto_args.push(Some(initialize_init));
         }
     }
