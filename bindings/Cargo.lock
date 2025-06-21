@@ -4108,6 +4108,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "seq-macro"
+version = "0.3.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1bc711410fbe7399f390ca1c3b60ad0f53f80e95c5eb935e52268a0e2cd49acc"
+
+[[package]]
 name = "serde"
 version = "1.0.219"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5080,9 +5086,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "17.0.1"
+version = "17.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d4ed9a9272057cdce866a7e2a42379ce0f4690aaa1f642afb9b5ef47c4fff366"
+checksum = "5bc377700d6e293f2c357660769625b97f9318b057d90ebc11c5f1e6d3b22729"
 dependencies = [
  "arrayvec",
  "bitflags 2.9.0",
@@ -5092,6 +5098,7 @@ dependencies = [
  "num-traits",
  "phf",
  "rustc-hash 2.1.1",
+ "seq-macro",
  "serde",
  "smallvec",
  "smartstring",
@@ -5563,19 +5570,21 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "22.0.0"
+version = "23.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1f0fd128a7edcb72a55edc07b36f9fb18fa0b43a8cc091de5be9dc7bdb8b7bea"
+checksum = "a67d12f3925456189b89d47c03f305088b891a02089bad2a5e588d3d5a105df3"
 dependencies = [
  "anyhow",
  "bytes-str",
  "serde",
  "swc_allocator",
+ "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
  "swc_ecma_lexer",
  "swc_ecma_transforms_base",
+ "swc_ecma_transforms_react",
  "swc_ecma_transforms_typescript",
  "swc_ecma_visit",
  "wasm-bindgen",
