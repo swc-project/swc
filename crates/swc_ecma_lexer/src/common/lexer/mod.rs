@@ -4,8 +4,6 @@ use char::{Char, CharExt};
 use comments_buffer::{BufferedComment, BufferedCommentKind};
 use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
-use num_traits::{Num as NumTrait, ToPrimitive};
-use number::LazyBigInt;
 use smartstring::{LazyCompact, SmartString};
 use state::State;
 use swc_atoms::Atom;
@@ -18,7 +16,11 @@ use swc_ecma_ast::{EsVersion, Ident};
 
 use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
-use crate::{error::SyntaxError, lexer::TokenFlags};
+use crate::{
+    common::lexer::number::{parse_integer, LazyInteger},
+    error::SyntaxError,
+    lexer::TokenFlags,
+};
 
 pub mod char;
 pub mod comments_buffer;
@@ -585,80 +587,29 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// "13612536612375123612312312312312312312312".
     ///
     /// - Returned `bool` is `true` is there was `8` or `9`.
-    fn read_number_no_dot_as_str<const RADIX: u8>(
-        &mut self,
-    ) -> LexResult<(f64, LazyBigInt<RADIX>, bool)> {
+    fn read_number_no_dot_as_str<const RADIX: u8>(&mut self) -> LexResult<LazyInteger> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {RADIX}"
         );
         let start = self.cur_pos();
 
-        let mut non_octal = false;
-
-        // Fast path: try to parse using optimized integer arithmetic
-        let start_pos = self.cur_pos();
-        'fast_result: {
-            let mut digit_count = 0;
-
-            while let Some(c) = self.input().cur() {
-                if c == '_' {
-                    self.bump();
-                    continue;
-                }
-                if c == '8' || c == '9' {
-                    non_octal = true;
-                }
-                if c.is_digit(RADIX as u32) {
-                    digit_count += 1;
-                    self.bump();
-                } else {
-                    break;
-                }
-            }
-
-            if digit_count == 0 {
-                break 'fast_result;
-            }
-
-            let end_pos = self.cur_pos();
-            let raw_str = unsafe {
-                // Safety: We got both start and end position from `self.input`
-                self.input_slice(start_pos, end_pos)
-            };
-
-            // Try fast parsing, but skip octal fast path if non_octal digits found
-            let fast_value = match RADIX {
-                10 => fast_number::parse_decimal_fast(raw_str),
-                2 => fast_number::parse_binary_fast(raw_str),
-                8 => fast_number::parse_octal_fast(raw_str),
-                16 => fast_number::parse_hex_fast(raw_str),
-                _ => None,
-            };
-
-            if let Some(value) = fast_value {
-                let raw_number_str = raw_str.replace('_', "");
-
-                return Ok((value, LazyBigInt::new(raw_number_str), non_octal));
-            }
-        }
-
-        // Slow path: reset and use original method
         unsafe {
             self.input_mut().reset_to(start);
         }
 
+        let mut not_octal = false;
         let mut read_any = false;
 
-        self.read_digits::<_, f64, RADIX>(
-            |total, radix, v| {
+        self.read_digits::<_, (), RADIX>(
+            |_, _, v| {
                 read_any = true;
 
                 if v == 8 || v == 9 {
-                    non_octal = true;
+                    not_octal = true;
                 }
 
-                Ok((f64::mul_add(total, radix as f64, v as f64), true))
+                Ok(((), true))
             },
             true,
         )?;
@@ -667,18 +618,11 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.error(start, SyntaxError::ExpectedDigit { radix: RADIX })?;
         }
 
-        let end = self.cur_pos();
-        let raw = unsafe {
-            // Safety: We got both start and end position from `self.input`
-            self.input_slice(start, end)
-        };
-        // Remove number separator from number
-        let raw_number_str = raw.replace('_', "");
-        let parsed_float = BigIntValue::from_str_radix(&raw_number_str, RADIX as u32)
-            .expect("failed to parse float using BigInt")
-            .to_f64()
-            .expect("failed to parse float using BigInt");
-        Ok((parsed_float, LazyBigInt::new(raw_number_str), non_octal))
+        Ok(LazyInteger {
+            start,
+            end: self.cur_pos(),
+            not_octal,
+        })
     }
 
     /// Read an integer in the given radix. Return `None` if zero digits
@@ -712,18 +656,26 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let start = self.cur_pos();
 
-        let val = if starts_with_dot {
+        let lazy_integer = if starts_with_dot {
             // first char is '.'
             debug_assert!(
                 self.cur().is_some_and(|c| c == '.'),
                 "read_number(starts_with_dot = true) expects current char to be '.'"
             );
-            0f64
+            LazyInteger {
+                start,
+                end: start,
+                not_octal: true,
+            }
         } else {
             let starts_with_zero = self.cur().unwrap() == '0';
 
             // Use read_number_no_dot to support long numbers.
-            let (val, s, not_octal) = self.read_number_no_dot_as_str::<10>()?;
+            let lazy_integer = self.read_number_no_dot_as_str::<10>()?;
+            let s = unsafe {
+                // Safety: We got both start and end position from `self.input`
+                self.input_slice(lazy_integer.start, lazy_integer.end)
+            };
 
             if self.eat(b'n') {
                 let end = self.cur_pos();
@@ -731,14 +683,14 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     // Safety: We got both start and end position from `self.input`
                     self.input_slice(start, end)
                 };
-
-                return Ok(Either::Right((Box::new(s.into_value()), self.atom(raw))));
+                let bigint_value = num_bigint::BigInt::parse_bytes(s.as_bytes(), 10).unwrap();
+                return Ok(Either::Right((Box::new(bigint_value), self.atom(raw))));
             }
 
             if starts_with_zero {
                 // TODO: I guess it would be okay if I don't use -ffast-math
                 // (or something like that), but needs review.
-                if val == 0.0f64 {
+                if s.as_bytes().iter().all(|&c| c == b'0') {
                     // If only one zero is used, it's decimal.
                     // And if multiple zero is used, it's octal.
                     //
@@ -746,8 +698,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     //
                     // e.g. `000` is octal
                     if start.0 != self.last_pos().0 - 1 {
-                        // `-1` is utf 8 length of `0`
-
                         let end = self.cur_pos();
                         let raw = unsafe {
                             // Safety: We got both start and end position from `self.input`
@@ -758,56 +708,34 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             .make_legacy_octal(start, 0f64)
                             .map(|value| Either::Left((value, raw)));
                     }
+                } else if lazy_integer.not_octal {
+                    // if it contains '8' or '9', it's decimal.
+                    self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                 } else {
-                    // strict mode hates non-zero decimals starting with zero.
-                    // e.g. 08.1 is strict mode violation but 0.1 is valid float.
-
-                    if val.fract() == 0.0 {
-                        let val_str = &s.value;
-
-                        // if it contains '8' or '9', it's decimal.
-                        if not_octal {
-                            // Continue parsing
-                            self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
-                        } else {
-                            // It's Legacy octal, and we should reinterpret value.
-                            let val = BigIntValue::from_str_radix(val_str, 8)
-                                .unwrap_or_else(|err| {
-                                    panic!(
-                                        "failed to parse {val_str} using `from_str_radix`: {err:?}"
-                                    )
-                                })
-                                .to_f64()
-                                .unwrap_or_else(|| {
-                                    panic!("failed to parse {val_str} into float using BigInt")
-                                });
-
-                            let end = self.cur_pos();
-                            let raw = unsafe {
-                                // Safety: We got both start and end position from `self.input`
-                                self.input_slice(start, end)
-                            };
-                            let raw = self.atom(raw);
-
-                            return self
-                                .make_legacy_octal(start, val)
-                                .map(|value| Either::Left((value, raw)));
-                        }
-                    }
+                    // It's Legacy octal, and we should reinterpret value.
+                    let val = parse_integer::<8>(s);
+                    let end = self.cur_pos();
+                    let raw = unsafe {
+                        // Safety: We got both start and end position from `self.input`
+                        self.input_slice(start, end)
+                    };
+                    let raw = self.atom(raw);
+                    return self
+                        .make_legacy_octal(start, val)
+                        .map(|value| Either::Left((value, raw)));
                 }
             }
 
-            val
+            lazy_integer
         };
 
         // At this point, number cannot be an octal literal.
 
-        let mut val: f64 = val;
-
+        let has_dot = self.cur() == Some('.');
         //  `0.a`, `08.a`, `102.a` are invalid.
         //
         // `.1.a`, `.1e-4.a` are valid,
-        if self.cur() == Some('.') {
+        if has_dot {
             self.bump();
 
             // equal: if starts_with_dot { debug_assert!(xxxx) }
@@ -815,77 +743,51 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
             // Read numbers after dot
             self.read_int::<10>(0)?;
-
-            val = {
-                let end = self.cur_pos();
-                let raw = unsafe {
-                    // Safety: We got both start and end position from `self.input`
-                    self.input_slice(start, end)
-                };
-
-                // Remove number separator from number
-                if raw.contains('_') {
-                    Cow::Owned(raw.replace('_', ""))
-                } else {
-                    Cow::Borrowed(raw)
-                }
-                .parse()
-                .expect("failed to parse float using rust's impl")
-            };
         }
 
+        let has_e = self.cur().is_some_and(|c| c == 'e' || c == 'E');
         // Handle 'e' and 'E'
         //
         // .5e1 = 5
         // 1e2 = 100
         // 1e+2 = 100
         // 1e-2 = 0.01
-        match self.cur() {
-            Some('e') | Some('E') => {
-                self.bump();
+        if has_e {
+            self.bump(); // `e`/`E`
 
-                let next = match self.cur() {
-                    Some(next) => next,
-                    None => {
-                        let pos = self.cur_pos();
-                        self.error(pos, SyntaxError::NumLitTerminatedWithExp)?
-                    }
-                };
-
-                let positive = if next == '+' || next == '-' {
-                    self.bump(); // remove '+', '-'
-
-                    next == '+'
-                } else {
-                    true
-                };
-
-                let exp = self.read_number_no_dot::<10>()?;
-
-                val = if exp == f64::INFINITY {
-                    if positive && val != 0.0 {
-                        f64::INFINITY
-                    } else {
-                        0.0
-                    }
-                } else {
-                    let end = self.cur_pos();
-                    let raw = unsafe {
-                        // Safety: We got both start and end position from `self.input`
-                        self.input_slice(start, end)
-                    };
-
-                    if raw.contains('_') {
-                        Cow::Owned(raw.replace('_', ""))
-                    } else {
-                        Cow::Borrowed(raw)
-                    }
-                    .parse()
-                    .expect("failed to parse float literal")
+            let next = match self.cur() {
+                Some(next) => next,
+                None => {
+                    let pos = self.cur_pos();
+                    self.error(pos, SyntaxError::NumLitTerminatedWithExp)?
                 }
+            };
+
+            if next == '+' || next == '-' {
+                self.bump(); // remove '+', '-'
             }
-            _ => {}
+
+            self.read_number_no_dot::<10>()?;
         }
+
+        let val = if has_dot || has_e {
+            let end = self.cur_pos();
+            let raw = unsafe {
+                // Safety: We got both start and end position from `self.input`
+                self.input_slice(start, end)
+            };
+
+            if raw.contains('_') {
+                Cow::Owned(raw.replace('_', ""))
+            } else {
+                Cow::Borrowed(raw)
+            }
+            .parse()
+            .expect("failed to parse float literal")
+        } else {
+            let s = unsafe { self.input_slice(lazy_integer.start, lazy_integer.end) };
+            parse_integer::<10>(s)
+        };
 
         self.ensure_not_ident()?;
 
@@ -933,15 +835,21 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {RADIX}"
         );
-        debug_assert_eq!(self.cur(), Some('0'));
-
         let start = self.cur_pos();
 
-        self.bump();
+        debug_assert_eq!(self.cur(), Some('0'));
         self.bump();
 
-        let (val, s, _) = self.read_number_no_dot_as_str::<RADIX>()?;
+        debug_assert!(self
+            .cur()
+            .is_some_and(|c| matches!(c, 'b' | 'B' | 'o' | 'O' | 'x' | 'X')));
+        self.bump();
 
+        let lazy_integer = self.read_number_no_dot_as_str::<RADIX>()?;
+        let s = unsafe {
+            // Safety: We got both start and end position from `self.input`
+            self.input_slice(lazy_integer.start, lazy_integer.end)
+        };
         if self.eat(b'n') {
             let end = self.cur_pos();
             let raw = unsafe {
@@ -949,8 +857,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.input_slice(start, end)
             };
 
-            return Ok(Either::Right((Box::new(s.into_value()), self.atom(raw))));
+            let bigint_value = num_bigint::BigInt::parse_bytes(s.as_bytes(), RADIX as _).unwrap();
+            return Ok(Either::Right((Box::new(bigint_value), self.atom(raw))));
         }
+        let val = parse_integer::<RADIX>(s);
 
         self.ensure_not_ident()?;
 
