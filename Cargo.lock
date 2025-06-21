@@ -4993,7 +4993,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "29.0.4"
+version = "29.1.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6216,7 +6216,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "22.0.0"
+version = "23.0.0"
 dependencies = [
  "anyhow",
  "bytes-str",
