@@ -2,6 +2,35 @@ use std::iter::FusedIterator;
 
 use arrayvec::ArrayVec;
 
+/// Fast hex formatting for u16 without allocations
+const HEX_CHARS: &[u8; 16] = b"0123456789abcdef";
+
+#[inline]
+fn hex_format_u16(mut value: u16, buf: &mut [u8; 4]) -> &[u8] {
+    let mut i = 3;
+    loop {
+        buf[i] = HEX_CHARS[(value & 0xf) as usize];
+        value >>= 4;
+        if value == 0 || i == 0 {
+            break &buf[i..];
+        }
+        i -= 1;
+    }
+}
+
+#[inline]
+fn hex_format_u32(mut value: u32, buf: &mut [u8; 8]) -> &[u8] {
+    let mut i = 7;
+    loop {
+        buf[i] = HEX_CHARS[(value & 0xf) as usize];
+        value >>= 4;
+        if value == 0 || i == 0 {
+            break &buf[i..];
+        }
+        i -= 1;
+    }
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Char(u32);
 
@@ -54,13 +83,17 @@ impl IntoIterator for Char {
                     unsafe {
                         buf.push_unchecked('\\');
                         buf.push_unchecked('u');
-                        for c in format!("{high:x}").chars() {
-                            buf.push_unchecked(c);
+                        // Optimized hex formatting without allocations
+                        let mut temp = [0u8; 4];
+                        let high_hex = hex_format_u16(high, &mut temp);
+                        for &byte in high_hex {
+                            buf.push_unchecked(byte as char);
                         }
                         buf.push_unchecked('\\');
                         buf.push_unchecked('u');
-                        for c in format!("{low:x}").chars() {
-                            buf.push_unchecked(c);
+                        let low_hex = hex_format_u16(low, &mut temp);
+                        for &byte in low_hex {
+                            buf.push_unchecked(byte as char);
                         }
                     }
                 } else {
@@ -71,8 +104,11 @@ impl IntoIterator for Char {
                     unsafe {
                         buf.push_unchecked('\\');
                         buf.push_unchecked('u');
-                        for c in format!("{astral_code_point:x}").chars() {
-                            buf.push_unchecked(c);
+                        // Optimized hex formatting without allocations
+                        let mut temp = [0u8; 8];
+                        let astral_hex = hex_format_u32(astral_code_point, &mut temp);
+                        for &byte in astral_hex {
+                            buf.push_unchecked(byte as char);
                         }
                     }
                 }
