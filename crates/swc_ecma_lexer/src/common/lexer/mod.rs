@@ -64,6 +64,14 @@ static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
 static TEMPLATE_LITERAL_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| matches!(b, b'$' | b'`' | b'\r' | b'\\'));
 
+static WHITESPACE_IN_ASCII_TABLE: SafeByteMatchTable =
+    safe_byte_match_table!(|b| matches!(b, b' ' | b'\n' | b'\r' | b'\t' | b'\x0B' | b'\x0C'));
+
+static NON_WHITESPACE_IN_ASCII_TABLE: SafeByteMatchTable = WHITESPACE_IN_ASCII_TABLE.contrary();
+
+static NEW_LINE_WHITESPACE_TABLE: SafeByteMatchTable =
+    safe_byte_match_table!(|b| matches!(b, b'\n' | b'\r'));
+
 pub type LexResult<T> = Result<T, crate::error::Error>;
 
 pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
@@ -451,19 +459,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     #[inline(never)]
     fn skip_space<const LEX_COMMENTS: bool>(&mut self) {
         loop {
-            let (offset, newline) = {
-                let mut skip = self::whitespace::SkipWhitespace {
-                    input: self.input().as_str(),
-                    newline: false,
-                    offset: 0,
-                };
-
-                skip.scan();
-
-                (skip.offset, skip.newline)
+            let newline = {
+                let mut skip = self::whitespace::SkipWhitespace { newline: false };
+                skip.scan(self);
+                skip.newline
             };
 
-            self.input_mut().bump_bytes(offset as usize);
             if newline {
                 self.state_mut().mark_had_line_break();
             }

@@ -34,6 +34,16 @@ impl SafeByteMatchTable {
         Self(bytes)
     }
 
+    pub const fn contrary(&self) -> Self {
+        let mut bytes = [false; 256];
+        let mut i = 0;
+        while i < 256 {
+            bytes[i] = !self.0[i];
+            i += 1;
+        }
+        Self(bytes)
+    }
+
     #[inline]
     pub const fn use_table(&self) {}
 
