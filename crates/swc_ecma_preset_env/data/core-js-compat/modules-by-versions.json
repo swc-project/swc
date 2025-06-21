@@ -544,5 +544,35 @@
   "3.38": [
     "esnext.uint8-array.set-from-base64",
     "esnext.uint8-array.set-from-hex"
+  ],
+  "3.39": [
+    "es.iterator.constructor",
+    "es.iterator.drop",
+    "es.iterator.every",
+    "es.iterator.filter",
+    "es.iterator.find",
+    "es.iterator.flat-map",
+    "es.iterator.for-each",
+    "es.iterator.from",
+    "es.iterator.map",
+    "es.iterator.reduce",
+    "es.iterator.some",
+    "es.iterator.take",
+    "es.iterator.to-array",
+    "es.promise.try",
+    "esnext.iterator.concat",
+    "esnext.map.get-or-insert",
+    "esnext.map.get-or-insert-computed",
+    "esnext.weak-map.get-or-insert",
+    "esnext.weak-map.get-or-insert-computed"
+  ],
+  "3.40": [
+    "esnext.error.is-error"
+  ],
+  "3.41": [
+    "es.data-view.get-float16",
+    "es.data-view.set-float16",
+    "es.math.f16round",
+    "es.regexp.escape"
   ]
 }
