@@ -1,9 +1,7 @@
 use std::borrow::Cow;
 
-use ascii::AsciiChar;
 use char::{Char, CharExt};
 use comments_buffer::{BufferedComment, BufferedCommentKind};
-use cow_replace::ReplaceString;
 use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
 use smartstring::{LazyCompact, SmartString};
@@ -677,56 +675,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         );
         let start = self.cur_pos();
 
-        let mut non_octal = false;
-
-        // Fast path: try to parse using optimized integer arithmetic
-        let start_pos = self.cur_pos();
-        'fast_result: {
-            let mut digit_count = 0;
-
-            while let Some(c) = self.input().cur() {
-                if c == '_' {
-                    self.bump();
-                    continue;
-                }
-                if c == '8' || c == '9' {
-                    non_octal = true;
-                }
-                if c.is_digit(RADIX as u32) {
-                    digit_count += 1;
-                    self.bump();
-                } else {
-                    break;
-                }
-            }
-
-            if digit_count == 0 {
-                break 'fast_result;
-            }
-
-            let end_pos = self.cur_pos();
-            let raw_str = unsafe {
-                // Safety: We got both start and end position from `self.input`
-                self.input_slice(start_pos, end_pos)
-            };
-
-            // Try fast parsing, but skip octal fast path if non_octal digits found
-            let fast_value = match RADIX {
-                10 => fast_number::parse_decimal_fast(raw_str),
-                2 => fast_number::parse_binary_fast(raw_str),
-                8 => fast_number::parse_octal_fast(raw_str),
-                16 => fast_number::parse_hex_fast(raw_str),
-                _ => None,
-            };
-
-            if let Some(value) = fast_value {
-                let raw_number_str = raw_str.remove_all_ascii(AsciiChar::UnderScore);
-
-                return Ok((value, LazyBigInt::new(raw_number_str), non_octal));
-            }
-        }
-
-        // Slow path: reset and use original method
         unsafe {
             self.input_mut().reset_to(start);
         }
@@ -876,19 +824,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
             // Read numbers after dot
             self.read_int::<10>(0)?;
-
-            val = {
-                let end = self.cur_pos();
-                let raw = unsafe {
-                    // Safety: We got both start and end position from `self.input`
-                    self.input_slice(start, end)
-                };
-
-                // Remove number separator from number - optimized allocation
-                raw.remove_all_ascii(AsciiChar::UnderScore)
-                    .parse()
-                    .expect("failed to parse float using rust's impl")
-            };
         }
 
         let has_e = self.cur().is_some_and(|c| c == 'e' || c == 'E');
