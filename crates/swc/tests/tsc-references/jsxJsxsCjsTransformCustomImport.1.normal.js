@@ -4,6 +4,21 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var a = /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement("p", null), "text", /*#__PURE__*/ React.createElement("div", {
-    className: "foo"
-}));
+var _jsxdevruntime = require("react/jsx-dev-runtime");
+var a = /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)(_jsxdevruntime.Fragment, {
+    children: [
+        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("p", {}, void 0, false, {
+            fileName: "jsxJsxsCjsTransformCustomImport.tsx",
+            lineNumber: 3,
+            columnNumber: 3
+        }, void 0),
+        "text",
+        /*#__PURE__*/ (0, _jsxdevruntime.jsxDEV)("div", {
+            className: "foo"
+        }, void 0, false, {
+            fileName: "jsxJsxsCjsTransformCustomImport.tsx",
+            lineNumber: 5,
+            columnNumber: 3
+        }, void 0)
+    ]
+}, void 0, true);

@@ -23,6 +23,7 @@ use swc::{
 use swc_common::{errors::ColorConfig, FileName, SourceFile, SourceMap, GLOBALS};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::{Syntax, TsSyntax};
+use swc_ecma_transforms::react;
 use testing::NormalizedOutput;
 
 #[testing::fixture(
@@ -106,6 +107,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
     let mut decorator_metadata = false;
     let mut use_define_for_class_fields = false;
     let mut verbatim_module_syntax = false;
+    let mut react = react::Options::default();
 
     let filename = input
         .file_name()
@@ -131,7 +133,16 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                 "target" => {
                     targets.extend(target(&meta_data_value.to_lowercase()));
                 }
-                "jsx" => {}
+                "jsx" => {
+                    // react-jsx,react-jsxdev
+                    if meta_data_value.contains("react-jsx") {
+                        react.runtime = react::Runtime::Automatic(Default::default());
+                    }
+
+                    if meta_data_value.contains("react-jsxdev") {
+                        react.common.development = true.into();
+                    }
+                }
                 "removecomments" => {}
                 "importhelpers" => {}
                 "downleveliteration" => {}
@@ -399,6 +410,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                                 use_define_for_class_fields: use_define_for_class_fields.into(),
                                 decorator_metadata: decorator_metadata.into(),
                                 verbatim_module_syntax: verbatim_module_syntax.into(),
+                                react: react.clone(),
                                 ..Default::default()
                             })
                             .into(),

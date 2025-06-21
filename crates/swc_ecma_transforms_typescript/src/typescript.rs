@@ -4,17 +4,14 @@ use rustc_hash::FxHashSet;
 use swc_atoms::atom;
 use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
+use swc_ecma_transforms_react::{
+    default_pragma, default_pragma_frag, parse_directives, parse_expr_for_jsx, ClassicConfig,
+    Runtime,
+};
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 pub use crate::config::*;
 use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
-
-macro_rules! static_str {
-    ($s:expr) => {
-        $s.into()
-    };
-}
 
 pub fn typescript(config: Config, unresolved_mark: Mark, top_level_mark: Mark) -> impl Pass {
     debug_assert_ne!(unresolved_mark, top_level_mark);
@@ -150,7 +147,7 @@ pub fn tsx<C>(
     top_level_mark: Mark,
 ) -> impl Pass
 where
-    C: Comments,
+    C: Comments + Clone,
 {
     visit_mut_pass(TypeScriptReact {
         config,
@@ -177,7 +174,7 @@ fn id_for_jsx(e: &Expr) -> Option<Id> {
 
 struct TypeScriptReact<C>
 where
-    C: Comments,
+    C: Comments + Clone,
 {
     config: Config,
     tsx_config: TsxConfig,
@@ -190,64 +187,45 @@ where
 
 impl<C> VisitMut for TypeScriptReact<C>
 where
-    C: Comments,
+    C: Comments + Clone,
 {
-    fn visit_mut_module(&mut self, n: &mut Module) {
+    fn visit_mut_module(&mut self, _n: &mut Module) {
         // We count `React` or pragma from config as ident usage and do not strip it
         // from import statement.
         // But in `verbatim_module_syntax` mode, we do not remove any unused imports.
         // So we do not need to collect usage info.
         if !self.config.verbatim_module_syntax {
-            let pragma = parse_expr_for_jsx(
-                &self.cm,
-                "pragma",
-                self.tsx_config
-                    .pragma
-                    .clone()
-                    .unwrap_or_else(|| static_str!("React.createElement")),
-                self.top_level_mark,
+            let pragma = self.tsx_config.pragma.take().unwrap_or_else(default_pragma);
+
+            let pragma_frag = self
+                .tsx_config
+                .pragma_frag
+                .take()
+                .unwrap_or_else(default_pragma_frag);
+
+            let runtime = parse_directives(
+                Runtime::Classic(ClassicConfig {
+                    pragma,
+                    pragma_frag,
+                }),
+                Some(self.comments.clone()),
             );
 
-            let pragma_frag = parse_expr_for_jsx(
-                &self.cm,
-                "pragma",
-                self.tsx_config
-                    .pragma_frag
-                    .clone()
-                    .unwrap_or_else(|| static_str!("React.Fragment")),
-                self.top_level_mark,
-            );
+            if let Runtime::Classic(config) = runtime {
+                let pragma =
+                    parse_expr_for_jsx(&self.cm, "pragma", config.pragma, self.top_level_mark);
 
-            let pragma_id = id_for_jsx(&pragma).unwrap();
-            let pragma_frag_id = id_for_jsx(&pragma_frag).unwrap();
-
-            self.id_usage.insert(pragma_id);
-            self.id_usage.insert(pragma_frag_id);
-        }
-
-        if !self.config.verbatim_module_syntax {
-            let span = if n.shebang.is_some() {
-                n.span
-                    .with_lo(n.body.first().map(|s| s.span_lo()).unwrap_or(n.span.lo))
-            } else {
-                n.span
-            };
-
-            let JsxDirectives {
-                pragma,
-                pragma_frag,
-                ..
-            } = self.comments.with_leading(span.lo, |comments| {
-                JsxDirectives::from_comments(&self.cm, span, comments, self.top_level_mark)
-            });
-
-            if let Some(pragma) = pragma {
                 if let Some(pragma_id) = id_for_jsx(&pragma) {
                     self.id_usage.insert(pragma_id);
                 }
-            }
 
-            if let Some(pragma_frag) = pragma_frag {
+                let pragma_frag = parse_expr_for_jsx(
+                    &self.cm,
+                    "pragmaFrag",
+                    config.pragma_frag,
+                    self.top_level_mark,
+                );
+
                 if let Some(pragma_frag_id) = id_for_jsx(&pragma_frag) {
                     self.id_usage.insert(pragma_frag_id);
                 }

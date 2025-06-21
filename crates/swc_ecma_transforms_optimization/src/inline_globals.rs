@@ -210,7 +210,7 @@ mod tests {
 
             let v = tester
                 .apply_transform(
-                    visit_mut_pass(DropSpan),
+                    |_| visit_mut_pass(DropSpan),
                     "global.js",
                     ::swc_ecma_parser::Syntax::default(),
                     None,
