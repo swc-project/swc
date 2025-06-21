@@ -15,6 +15,7 @@ use crate::refresh::options::{deserialize_refresh, RefreshOptions};
 
 mod automatic;
 mod classic;
+mod development;
 mod parse_directives;
 mod static_check;
 
@@ -274,7 +275,13 @@ where
 
     match runtime {
         Runtime::Automatic(config) => (
-            Some(automatic(config, common, unresolved_mark, comments.clone())),
+            Some(automatic(
+                config,
+                common,
+                unresolved_mark,
+                comments.clone(),
+                cm.clone(),
+            )),
             None,
         ),
         Runtime::Classic(config) => (
