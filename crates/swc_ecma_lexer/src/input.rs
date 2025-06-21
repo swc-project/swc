@@ -161,7 +161,7 @@ impl<I: Tokens<TokenAndSpan>> Capturing<I> {
     pub fn new(input: I) -> Self {
         Capturing {
             inner: input,
-            captured: Default::default(),
+            captured: Rc::new(RefCell::new(Vec::with_capacity(64))),
         }
     }
 
