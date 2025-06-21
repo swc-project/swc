@@ -369,24 +369,47 @@ impl Pure<'_> {
         let mut i = 0;
         let len = cases.len();
 
+        // Early exit for small switch statements
+        if len <= 1 {
+            return;
+        }
+
+        // Precompute termination info to avoid repeated checks
+        let mut case_terminates = Vec::with_capacity(len);
+        let mut primitive_tests = Vec::with_capacity(len);
+
+        for case in &cases {
+            case_terminates.push(case.cons.last().map(|s| s.terminates()).unwrap_or(false));
+
+            primitive_tests.push(
+                case.test
+                    .as_deref()
+                    .map(|test| is_primitive(self.expr_ctx, test).is_some())
+                    .unwrap_or(true),
+            );
+        }
+
         // may some smarter person find a better solution
         while i < len {
             if cases[i].cons.is_empty() {
                 i += 1;
                 continue;
             }
+
+            // Early termination if this case doesn't terminate
+            if !case_terminates[i] {
+                i += 1;
+                continue;
+            }
+
             let mut block_start = i + 1;
             let mut cannot_cross_block = false;
+            let mut found_match = false;
 
             for j in (i + 1)..len {
-                cannot_cross_block |= cases[j]
-                    .test
-                    .as_deref()
-                    .map(|test| is_primitive(self.expr_ctx, test).is_none())
-                    .unwrap_or(false)
-                    || !(cases[j].cons.is_empty()
-                        || cases[j].cons.iter().rev().any(|s| s.terminates())
-                        || j == cases.len() - 1);
+                // Use precomputed values instead of recomputing
+                cannot_cross_block |= !primitive_tests[j]
+                    || !(cases[j].cons.is_empty() || case_terminates[j] || j == cases.len() - 1);
 
                 if cases[j].cons.is_empty() {
                     continue;
@@ -398,33 +421,26 @@ impl Pure<'_> {
 
                 block_start = j + 1;
 
-                // To merge cases, the first one should be terminate the switch statement.
-                //
-                // Otherwise fallthough will be skipped
-                let case_i_terminates = cases[i]
-                    .cons
-                    .last()
-                    .map(|s| s.terminates())
-                    .unwrap_or(false);
+                // Optimized comparison - first check if we already found a match
+                if found_match {
+                    break;
+                }
 
                 // first case with a body and don't cross non-primitive branch
-                let found = case_i_terminates
-                    && if j != len - 1 {
-                        cases[i].cons.eq_ignore_span(&cases[j].cons)
+                let found = if j != len - 1 {
+                    cases[i].cons.eq_ignore_span(&cases[j].cons)
+                } else {
+                    if let Some(Stmt::Break(BreakStmt { label: None, .. })) = cases[i].cons.last() {
+                        SyntaxContext::within_ignored_ctxt(|| {
+                            cases[i].cons[..(cases[i].cons.len() - 1)]
+                                .eq_ignore_span(&cases[j].cons)
+                        })
                     } else {
-                        if let Some(Stmt::Break(BreakStmt { label: None, .. })) =
-                            cases[i].cons.last()
-                        {
-                            SyntaxContext::within_ignored_ctxt(|| {
-                                cases[i].cons[..(cases[i].cons.len() - 1)]
-                                    .eq_ignore_span(&cases[j].cons)
-                            })
-                        } else {
-                            SyntaxContext::within_ignored_ctxt(|| {
-                                cases[i].cons.eq_ignore_span(&cases[j].cons)
-                            })
-                        }
-                    };
+                        SyntaxContext::within_ignored_ctxt(|| {
+                            cases[i].cons.eq_ignore_span(&cases[j].cons)
+                        })
+                    }
+                };
 
                 if found {
                     self.changed = true;
@@ -436,6 +452,8 @@ impl Pure<'_> {
                     cases[j].cons = cases[i].cons.take();
                     cases[(i + 1)..=j].rotate_right(len);
                     i += len;
+                    found_match = true;
+                    break; // Exit early once we found a match
                 }
             }
 
