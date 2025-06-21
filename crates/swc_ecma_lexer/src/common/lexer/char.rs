@@ -85,13 +85,13 @@ impl IntoIterator for Char {
                         buf.push_unchecked('u');
                         // Optimized hex formatting without allocations
                         let mut temp = [0u8; 4];
-                        let high_hex = hex_format_u16(high, &mut temp);
+                        let high_hex = hex_format_u16(high as u16, &mut temp);
                         for &byte in high_hex {
                             buf.push_unchecked(byte as char);
                         }
                         buf.push_unchecked('\\');
                         buf.push_unchecked('u');
-                        let low_hex = hex_format_u16(low, &mut temp);
+                        let low_hex = hex_format_u16(low as u16, &mut temp);
                         for &byte in low_hex {
                             buf.push_unchecked(byte as char);
                         }
