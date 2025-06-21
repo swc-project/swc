@@ -1,7 +1,9 @@
 use std::borrow::Cow;
 
+use ascii::AsciiChar;
 use char::{Char, CharExt};
 use comments_buffer::{BufferedComment, BufferedCommentKind};
+use cow_replace::ReplaceString;
 use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
 use smartstring::{LazyCompact, SmartString};
@@ -718,18 +720,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             };
 
             if let Some(value) = fast_value {
-                // Optimized separator removal - only allocate if separators exist
-                let raw_number_str = if raw_str.contains('_') {
-                    let mut result = String::with_capacity(raw_str.len());
-                    for byte in raw_str.bytes() {
-                        if byte != b'_' {
-                            result.push(byte as char);
-                        }
-                    }
-                    result
-                } else {
-                    raw_str.to_string()
-                };
+                let raw_number_str = raw_str.remove_all_ascii(AsciiChar::UnderScore);
 
                 return Ok((value, LazyBigInt::new(raw_number_str), non_octal));
             }
@@ -894,19 +885,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 };
 
                 // Remove number separator from number - optimized allocation
-                if raw.contains('_') {
-                    let mut result = String::with_capacity(raw.len());
-                    for byte in raw.bytes() {
-                        if byte != b'_' {
-                            result.push(byte as char);
-                        }
-                    }
-                    Cow::Owned(result)
-                } else {
-                    Cow::Borrowed(raw)
-                }
-                .parse()
-                .expect("failed to parse float using rust's impl")
+                raw.remove_all_ascii(AsciiChar::UnderScore)
+                    .parse()
+                    .expect("failed to parse float using rust's impl")
             };
         }
 
