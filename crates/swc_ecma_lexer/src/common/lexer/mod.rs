@@ -637,7 +637,18 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             };
 
             if let Some(value) = fast_value {
-                let raw_number_str = raw_str.replace('_', "");
+                // Optimized separator removal - only allocate if separators exist
+                let raw_number_str = if raw_str.contains('_') {
+                    let mut result = String::with_capacity(raw_str.len());
+                    for byte in raw_str.bytes() {
+                        if byte != b'_' {
+                            result.push(byte as char);
+                        }
+                    }
+                    result
+                } else {
+                    raw_str.to_string()
+                };
 
                 return Ok((value, LazyBigInt::new(raw_number_str), non_octal));
             }
@@ -823,9 +834,15 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     self.input_slice(start, end)
                 };
 
-                // Remove number separator from number
+                // Remove number separator from number - optimized allocation
                 if raw.contains('_') {
-                    Cow::Owned(raw.replace('_', ""))
+                    let mut result = String::with_capacity(raw.len());
+                    for byte in raw.bytes() {
+                        if byte != b'_' {
+                            result.push(byte as char);
+                        }
+                    }
+                    Cow::Owned(result)
                 } else {
                     Cow::Borrowed(raw)
                 }
