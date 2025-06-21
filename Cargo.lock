@@ -877,6 +877,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "cow-replace"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a6cab584c4b83b5b36f81a10bd15191fd77f70432d624787ee68ec64edd6d7ed"
+dependencies = [
+ "ascii",
+]
+
+[[package]]
 name = "cpufeatures"
 version = "0.2.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5517,6 +5526,7 @@ dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
  "codspeed-criterion-compat",
+ "cow-replace",
  "criterion",
  "either",
  "new_debug_unreachable",
