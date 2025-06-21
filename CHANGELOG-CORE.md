@@ -1,6 +1,14 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(hstr)** Support MSRV = `1.86` ([#10673](https://github.com/swc-project/swc/issues/10673)) ([de19d1e](https://github.com/swc-project/swc/commit/de19d1e79d9626b82ee07c3cdefcdcaa317e64e3))
+
+## [swc_core@v29.0.3] - 2025-06-21
+
 ### Performance
 
 
