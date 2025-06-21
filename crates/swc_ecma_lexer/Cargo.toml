@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_lexer"
 repository    = { workspace = true }
-version       = "17.0.1"
+version       = "17.0.2"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -31,6 +31,7 @@ either      = { workspace = true }
 num-bigint  = { workspace = true }
 num-traits  = { workspace = true }
 rustc-hash  = { workspace = true }
+seq-macro   = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 smallvec    = { workspace = true }
 smartstring = { workspace = true }

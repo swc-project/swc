@@ -4342,6 +4342,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "seq-macro"
+version = "0.3.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1bc711410fbe7399f390ca1c3b60ad0f53f80e95c5eb935e52268a0e2cd49acc"
+
+[[package]]
 name = "serde"
 version = "1.0.219"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4987,7 +4993,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "29.0.2"
+version = "29.0.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5506,7 +5512,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "17.0.1"
+version = "17.0.2"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5519,6 +5525,7 @@ dependencies = [
  "phf",
  "pretty_assertions",
  "rustc-hash 2.1.1",
+ "seq-macro",
  "serde",
  "serde_json",
  "smallvec",
@@ -5588,7 +5595,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "23.0.1"
+version = "23.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
