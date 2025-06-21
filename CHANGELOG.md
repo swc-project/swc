@@ -1,4 +1,27 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/parser)** Parse jsx entity ([#10652](https://github.com/swc-project/swc/issues/10652)) ([bfd3bc5](https://github.com/swc-project/swc/commit/bfd3bc5456a33e3d66008ea198d9c5f38660af39))
+
+
+- **(es/parser)** Consider reseved ident in jsx name ([#10647](https://github.com/swc-project/swc/issues/10647)) ([9262a59](https://github.com/swc-project/swc/commit/9262a591fd8f35200948fa298aa0f9cc4d0a06e7))
+
+### Performance
+
+
+
+- **(es/parser)** Optimize `next_token` ([#10654](https://github.com/swc-project/swc/issues/10654)) ([1be2ca0](https://github.com/swc-project/swc/commit/1be2ca0d6e0cbe096352521b016320b6a30d36b7))
+
+### Refactor
+
+
+
+- **(es/lexer)** Remove faster path for `\t` ([#10650](https://github.com/swc-project/swc/issues/10650)) ([d6ac3b7](https://github.com/swc-project/swc/commit/d6ac3b7adbe067b3796cba57480806b3e23cfafb))
+
 ## [1.12.4] - 2025-06-20
 
 ### Bug Fixes
@@ -2088,15 +2111,6 @@
 
 
 - **(es)** Run esnext transforms on esnext target ([#9644](https://github.com/swc-project/swc/issues/9644)) ([8a19201](https://github.com/swc-project/swc/commit/8a192018247ad7ac253c2964038de5f626acb8c4))
-
-
-- **(es/codegen)** Emit space after div if rhs has leading comment ([#9631](https://github.com/swc-project/swc/issues/9631)) ([f2be26e](https://github.com/swc-project/swc/commit/f2be26efe090f5c1575f5bb9e4067f7ae531f11c))
-
-
-- **(es/lints)** Correct the false positive error of TS2309 ([#9635](https://github.com/swc-project/swc/issues/9635)) ([f74c1f3](https://github.com/swc-project/swc/commit/f74c1f3e5a117c22aa87a2754715066cb8dfe0fe))
-
-
-- **(es/minifier)** Only merge last if return ([#9633](https://github.com/swc-project/swc/issues/9633)) ([6f52949](https://github.com/swc-project/swc/commit/6f52949210ee2a71ed119cbcdf2db1842a2e63cb))
 
 
 - **(es/minifier)** Check type of assignment target before merging assignments ([#9617](https://github.com/swc-project/swc/issues/9617)) ([4436621](https://github.com/swc-project/swc/commit/44366215644f3fff2f897e509a56b36cb5e1f8a2))

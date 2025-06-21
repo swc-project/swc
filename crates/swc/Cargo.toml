@@ -74,7 +74,7 @@ url           = { workspace = true }
 
 
 swc_atoms = { version = "6.0.0", path = "../swc_atoms" }
-swc_common = { version = "13.0.0", path = "../swc_common", features = [
+swc_common = { version = "13.0.1", path = "../swc_common", features = [
   "sourcemap",
   "parking_lot",
 ] }
@@ -90,7 +90,7 @@ swc_ecma_loader = { version = "13.0.0", path = "../swc_ecma_loader", features = 
   "tsc",
 ] }
 swc_ecma_minifier = { version = "23.0.1", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "17.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "17.0.1", path = "../swc_ecma_parser" }
 swc_ecma_preset_env = { version = "23.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "22.0.0", path = "../swc_ecma_transforms", features = [
   "compat",

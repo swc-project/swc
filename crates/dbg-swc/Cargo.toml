@@ -27,7 +27,7 @@ tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"] }
 url                = { workspace = true }
 
 swc_atoms = { version = "6.0.0", path = "../swc_atoms" }
-swc_common = { version = "13.0.0", features = [
+swc_common = { version = "13.0.1", features = [
   "concurrent",
   "tty-emitter",
 ], path = "../swc_common" }
@@ -36,7 +36,7 @@ swc_ecma_codegen = { version = "15.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_minifier = { version = "23.0.1", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_parser = { version = "17.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "17.0.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "18.0.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "15.0.0", path = "../swc_error_reporters" }
