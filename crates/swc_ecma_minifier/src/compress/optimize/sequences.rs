@@ -156,9 +156,9 @@ impl Optimizer<'_> {
         report_change!("sequences: Compressing statements as a sequences");
 
         self.changed = true;
-        let mut exprs = Vec::new();
-        // This is bigger than required.
-        let mut new_stmts = Vec::with_capacity(stmts.len());
+        let mut exprs = Vec::with_capacity(32); // Start with reasonable capacity
+                                                // Pre-allocate with better size estimation
+        let mut new_stmts = Vec::with_capacity(stmts.len() / 2 + 1);
 
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
