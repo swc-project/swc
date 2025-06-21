@@ -30,7 +30,7 @@ pub mod comments_buffer;
 mod fast_number;
 mod jsx;
 pub mod number;
-pub mod search;
+mod search;
 pub mod state;
 pub mod token;
 pub mod whitespace;
