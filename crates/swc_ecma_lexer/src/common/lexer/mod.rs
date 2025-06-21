@@ -22,6 +22,7 @@ use crate::{error::SyntaxError, lexer::TokenFlags};
 
 pub mod char;
 pub mod comments_buffer;
+mod fast_number;
 mod jsx;
 pub mod number;
 pub mod state;
@@ -513,6 +514,56 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         );
         let start = self.cur_pos();
 
+        // Fast path: try to parse using optimized integer arithmetic
+        let fast_result = 'fast_result: {
+            // Get the raw string for fast parsing
+            let start_pos = self.cur_pos();
+
+            // Count digits first to determine if we can use fast path
+            let mut digit_count = 0;
+
+            while let Some(c) = self.input().cur() {
+                if c == '_' {
+                    self.bump();
+                    continue;
+                }
+                if c.is_digit(RADIX as u32) {
+                    digit_count += 1;
+                    self.bump();
+                } else {
+                    break;
+                }
+            }
+
+            if digit_count == 0 {
+                break 'fast_result None;
+            }
+
+            let end_pos = self.cur_pos();
+            let raw_str = unsafe {
+                // Safety: We got both start and end position from `self.input`
+                self.input_slice(start_pos, end_pos)
+            };
+
+            // Try fast parsing based on radix
+            match RADIX {
+                10 => fast_number::parse_decimal_fast(raw_str),
+                2 => fast_number::parse_binary_fast(raw_str),
+                8 => fast_number::parse_octal_fast(raw_str),
+                16 => fast_number::parse_hex_fast(raw_str),
+                _ => None,
+            }
+        };
+
+        if let Some(result) = fast_result {
+            return Ok(result);
+        }
+
+        // Slow path: reset position and use original method
+        unsafe {
+            self.input_mut().reset_to(start);
+        }
+
         let mut read_any = false;
 
         let res = self.read_digits::<_, f64, RADIX>(
@@ -543,7 +594,58 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         );
         let start = self.cur_pos();
 
+        // Fast path: try to parse using optimized integer arithmetic
+        let start_pos = self.cur_pos();
+        let mut digit_count = 0;
+
         let mut non_octal = false;
+
+        while let Some(c) = self.input().cur() {
+            if c == '_' {
+                self.bump();
+                continue;
+            }
+            if c == '8' || c == '9' {
+                non_octal = true;
+            }
+            if c.is_digit(RADIX as u32) {
+                digit_count += 1;
+                self.bump();
+            } else {
+                break;
+            }
+        }
+
+        if digit_count == 0 {
+            self.error(start, SyntaxError::ExpectedDigit { radix: RADIX })?;
+        }
+
+        let end_pos = self.cur_pos();
+        let raw_str = unsafe {
+            // Safety: We got both start and end position from `self.input`
+            self.input_slice(start_pos, end_pos)
+        };
+
+        // Try fast parsing, but skip octal fast path if non_octal digits found
+        let fast_value = match RADIX {
+            10 => fast_number::parse_decimal_fast(raw_str),
+            2 => fast_number::parse_binary_fast(raw_str),
+            8 => fast_number::parse_octal_fast(raw_str),
+            16 => fast_number::parse_hex_fast(raw_str),
+            _ => None,
+        };
+
+        if let Some(value) = fast_value {
+            let raw_number_str = raw_str.replace('_', "");
+
+            return Ok((value, LazyBigInt::new(raw_number_str), non_octal));
+        }
+
+        // Slow path: reset and use original method
+        unsafe {
+            self.input_mut().reset_to(start);
+        }
+
         let mut read_any = false;
 
         self.read_digits::<_, f64, RADIX>(
