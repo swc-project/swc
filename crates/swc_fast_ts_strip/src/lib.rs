@@ -52,13 +52,30 @@ pub struct Options {
     pub mode: Mode,
 
     #[serde(default)]
-    pub transform: Option<typescript::Config>,
+    pub transform: Option<TransformConfig>,
 
     #[serde(default)]
     pub deprecated_ts_module_as_error: Option<bool>,
 
     #[serde(default)]
     pub source_map: bool,
+}
+
+#[derive(Debug, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TransformConfig {
+    #[serde(default)]
+    pub jsx: Option<JsxConfig>,
+
+    #[serde(flatten)]
+    pub typescript: typescript::Config,
+}
+
+#[derive(Debug, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct JsxConfig {
+    #[serde(default)]
+    pub transform: Option<String>,
 }
 
 #[cfg(feature = "wasm-bindgen")]
@@ -100,6 +117,20 @@ interface TransformConfig {
      * Defaults to false.
      */
     tsEnumIsMutable?: boolean;
+
+    /**
+     * Available only on nightly builds.
+     */
+    jsx?: JsxConfig;
+}
+
+interface JsxConfig {
+    /**
+     * How to transform JSX.
+     * 
+     * @default "react-jsx"
+     */
+    transform?: "react-jsx" | "react-jsxdev";
 }
 "#;
 
@@ -387,7 +418,7 @@ pub fn operate(
                 }
 
                 program.mutate(&mut typescript::typescript(
-                    options.transform.unwrap_or_default(),
+                    options.transform.unwrap_or_default().typescript,
                     unresolved_mark,
                     top_level_mark,
                 ));
