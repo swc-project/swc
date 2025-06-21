@@ -378,7 +378,7 @@ impl Pure<'_> {
         let mut case_terminates = Vec::with_capacity(len);
         let mut primitive_tests = Vec::with_capacity(len);
 
-        for case in &cases {
+        for case in &*cases {
             case_terminates.push(case.cons.last().map(|s| s.terminates()).unwrap_or(false));
 
             primitive_tests.push(
@@ -404,7 +404,6 @@ impl Pure<'_> {
 
             let mut block_start = i + 1;
             let mut cannot_cross_block = false;
-            let mut found_match = false;
 
             for j in (i + 1)..len {
                 // Use precomputed values instead of recomputing
@@ -420,11 +419,6 @@ impl Pure<'_> {
                 }
 
                 block_start = j + 1;
-
-                // Optimized comparison - first check if we already found a match
-                if found_match {
-                    break;
-                }
 
                 // first case with a body and don't cross non-primitive branch
                 let found = if j != len - 1 {
@@ -452,7 +446,6 @@ impl Pure<'_> {
                     cases[j].cons = cases[i].cons.take();
                     cases[(i + 1)..=j].rotate_right(len);
                     i += len;
-                    found_match = true;
                     break; // Exit early once we found a match
                 }
             }
