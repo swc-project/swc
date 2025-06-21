@@ -1,7 +1,7 @@
 use std::collections::hash_map::Entry;
 
 use indexmap::IndexSet;
-use rustc_hash::{FxBuildHasher, FxHashMap};
+use rustc_hash::{FxBuildHasher, FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
