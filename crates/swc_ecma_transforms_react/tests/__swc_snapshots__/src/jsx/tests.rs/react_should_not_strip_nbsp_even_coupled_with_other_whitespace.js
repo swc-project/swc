@@ -1,1 +1,1 @@
-/*#__PURE__*/ React.createElement("div", null, "&nbsp; ");
+/*#__PURE__*/ React.createElement("div", null, "  ");

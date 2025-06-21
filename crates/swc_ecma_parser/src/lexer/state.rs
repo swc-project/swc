@@ -414,6 +414,9 @@ impl Lexer<'_> {
 
         let start = self.input.cur_pos();
         let mut first_non_whitespace = 0;
+        let mut chunk_start = start;
+        let mut value = String::new();
+
         while let Some(ch) = self.input_mut().cur() {
             if ch == '{' {
                 break;
@@ -449,20 +452,44 @@ impl Lexer<'_> {
                 first_non_whitespace = self.cur_pos().0 as i32;
             }
 
-            self.bump();
+            if ch == '&' {
+                let cur_pos = self.input().cur_pos();
+
+                let s = unsafe {
+                    // Safety: We already checked for the range
+                    self.input_slice(chunk_start, cur_pos)
+                };
+                value.push_str(s);
+
+                if let Ok(jsx_entity) = self.read_jsx_entity() {
+                    value.push(jsx_entity.0);
+
+                    chunk_start = self.input.cur_pos();
+                }
+            } else {
+                self.bump();
+            }
         }
 
         let end = self.input().cur_pos();
-        let value = unsafe {
+        let raw = unsafe {
             // Safety: Both of `start` and `end` are generated from `cur_pos()`
             self.input_slice(start, end)
         };
-        let value = self.atom(value);
+        let value = if value.is_empty() {
+            self.atom(raw)
+        } else {
+            let s = unsafe {
+                // Safety: We already checked for the range
+                self.input_slice(chunk_start, end)
+            };
+            value.push_str(s);
+            self.atom(value)
+        };
 
-        self.state.set_token_value(TokenValue::Str {
-            raw: value.clone(),
-            value,
-        });
+        let raw: swc_atoms::Atom = self.atom(raw);
+
+        self.state.set_token_value(TokenValue::Str { raw, value });
 
         self.state.start = start;
 

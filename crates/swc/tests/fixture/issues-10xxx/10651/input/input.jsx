@@ -1,0 +1,5 @@
+const a = () => {
+    return (
+        <>&middot;</>
+    )
+}

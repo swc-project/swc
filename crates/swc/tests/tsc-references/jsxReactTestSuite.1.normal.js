@@ -20,8 +20,8 @@ var x = /*#__PURE__*/ React.createElement("div", {
 , {
     attr2: "bar"
 }));
-/*#__PURE__*/ React.createElement("div", null, "&nbsp;");
-/*#__PURE__*/ React.createElement("div", null, "&nbsp; ");
+/*#__PURE__*/ React.createElement("div", null, "\xa0");
+/*#__PURE__*/ React.createElement("div", null, "\xa0 ");
 /*#__PURE__*/ React.createElement("hasOwnProperty", null, "testing");
 /*#__PURE__*/ React.createElement(Component, {
     constructor: "foo"
