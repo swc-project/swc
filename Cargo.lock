@@ -5524,6 +5524,7 @@ name = "swc_ecma_lexer"
 version = "17.0.2"
 dependencies = [
  "arrayvec",
+ "ascii",
  "bitflags 2.6.0",
  "codspeed-criterion-compat",
  "cow-replace",
