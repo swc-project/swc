@@ -5,7 +5,7 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::{lexer::Lexer, Capturing, EsSyntax, Parser, StringInput, Syntax, TsSyntax};
-use swc_fast_ts_strip::{operate, Mode, Options};
+use swc_fast_ts_strip::{operate, Mode, Options, TransformConfig};
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixture/**/*.ts")]
@@ -120,9 +120,13 @@ fn opts(mode: Mode) -> Options {
             ..Default::default()
         },
         mode,
-        transform: Some(swc_ecma_transforms_typescript::Config {
-            native_class_properties: true,
-            ..Default::default()
+        transform: Some(TransformConfig {
+            typescript: swc_ecma_transforms_typescript::Config {
+                native_class_properties: true,
+                ..Default::default()
+            },
+            #[cfg(feature = "nightly")]
+            jsx: Default::default(),
         }),
         deprecated_ts_module_as_error: true.into(),
         ..Default::default()

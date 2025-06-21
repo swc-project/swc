@@ -54,15 +54,15 @@ static BLOCK_COMMENT_SCAN_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| { matches!(b, b'*' | b'\n' | b'\r' | LS_OR_PS_FIRST) });
 
 static DOUBLE_QUOTE_STRING_END_TABLE: SafeByteMatchTable =
-    safe_byte_match_table!(|b| matches!(b, b'"' | b'\r' | b'\n' | b'\\'));
+    safe_byte_match_table!(|b| matches!(b, b'"' | b'\n' | b'\\' | b'\r'));
 static SINGLE_QUOTE_STRING_END_TABLE: SafeByteMatchTable =
-    safe_byte_match_table!(|b| matches!(b, b'\'' | b'\r' | b'\n' | b'\\'));
+    safe_byte_match_table!(|b| matches!(b, b'\'' | b'\n' | b'\\' | b'\r'));
 
 static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| !(b.is_ascii_alphanumeric() || b == b'_' || b == b'$'));
 
 static TEMPLATE_LITERAL_TABLE: SafeByteMatchTable =
-    safe_byte_match_table!(|b| matches!(b, b'$' | b'`' | b'\r' | b'\\'));
+    safe_byte_match_table!(|b| matches!(b, b'$' | b'`' | b'\\' | b'\r'));
 
 static WHITESPACE_IN_ASCII_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| matches!(b, b' ' | b'\n' | b'\r' | b'\t' | b'\x0B' | b'\x0C'));
@@ -2177,7 +2177,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         slice_start = l.cur_pos();
                         continue;
                     }
-                    b'\r' | b'\n' => {
+                    b'\n' | b'\r' => {
                         let end = l.cur_pos();
                         let s = unsafe {
                             // Safety: start and end are valid position because we got them from

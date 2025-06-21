@@ -52,13 +52,46 @@ pub struct Options {
     pub mode: Mode,
 
     #[serde(default)]
-    pub transform: Option<typescript::Config>,
+    pub transform: Option<TransformConfig>,
 
     #[serde(default)]
     pub deprecated_ts_module_as_error: Option<bool>,
 
     #[serde(default)]
     pub source_map: bool,
+}
+
+#[derive(Debug, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TransformConfig {
+    #[cfg(feature = "nightly")]
+    #[serde(default)]
+    pub jsx: Option<JsxConfig>,
+
+    #[serde(flatten)]
+    pub typescript: typescript::Config,
+}
+
+#[cfg(feature = "nightly")]
+#[derive(Debug, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct JsxConfig {
+    #[serde(default)]
+    pub transform: Option<JsxTransform>,
+
+    #[serde(default)]
+    pub import_source: Option<swc_atoms::Atom>,
+}
+
+#[cfg(feature = "nightly")]
+#[derive(Debug, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub enum JsxTransform {
+    #[default]
+    #[serde(rename = "react-jsx")]
+    ReactJsx,
+    #[serde(rename = "react-jsxdev")]
+    ReactJsxDev,
 }
 
 #[cfg(feature = "wasm-bindgen")]
@@ -100,6 +133,20 @@ interface TransformConfig {
      * Defaults to false.
      */
     tsEnumIsMutable?: boolean;
+
+    /**
+     * Available only on nightly builds.
+     */
+    jsx?: JsxConfig;
+}
+
+interface JsxConfig {
+    /**
+     * How to transform JSX.
+     * 
+     * @default "react-jsx"
+     */
+    transform?: "react-jsx" | "react-jsxdev";
 }
 "#;
 
@@ -386,10 +433,37 @@ pub fn operate(
                     }
                 }
 
+                let transform = options.transform.unwrap_or_default();
+
                 program.mutate(&mut typescript::typescript(
-                    options.transform.unwrap_or_default(),
+                    transform.typescript,
                     unresolved_mark,
                     top_level_mark,
+                ));
+
+                #[cfg(feature = "nightly")]
+                program.mutate(&mut swc_ecma_transforms_react::jsx(
+                    cm.clone(),
+                    Some(comments.clone()),
+                    swc_ecma_transforms_react::Options {
+                        next: Some(true),
+                        runtime: Some(swc_ecma_transforms_react::Runtime::Automatic),
+                        import_source: transform
+                            .jsx
+                            .as_ref()
+                            .and_then(|jsx| jsx.import_source.clone()),
+                        development: match transform.jsx {
+                            Some(JsxConfig {
+                                transform: Some(transform),
+                                ..
+                            }) => Some(matches!(transform, JsxTransform::ReactJsxDev)),
+                            _ => None,
+                        },
+                        refresh: None,
+                        ..Default::default()
+                    },
+                    top_level_mark,
+                    unresolved_mark,
                 ));
 
                 program.mutate(&mut inject_helpers(unresolved_mark));
