@@ -14,7 +14,7 @@ use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 #[derive(Clone, Copy)]
 
-pub(crate) struct CharFreq([i32; 64]);
+pub(crate) struct CharFreq([i32; 65]);
 
 #[derive(Clone, Copy)]
 pub(crate) struct Base54Chars {
@@ -23,7 +23,7 @@ pub(crate) struct Base54Chars {
 
 impl Default for CharFreq {
     fn default() -> Self {
-        CharFreq([0; 64])
+        CharFreq([0; 65])
     }
 }
 
@@ -193,37 +193,41 @@ impl CharFreq {
             return;
         }
 
-        // #[cfg(feature = "debug")]
-        // {
-        //     let considered = s
-        //         .chars()
-        //         .filter(|&c| Ident::is_valid_continue(c))
-        //         .collect::<String>();
-        //     if !considered.is_empty() {
-        //         tracing::debug!("Scanning: `{}` with delta {}", considered, delta);
-        //     }
-        // }
+        static SCAN_INDEX_TABLE: [u32; 128] = {
+            let mut table = [0; 128];
+            let mut i = 0;
+            loop {
+                match i as u8 {
+                    b'a'..=b'z' => {
+                        table[i] = i as u32 - 'a' as u32;
+                    }
+                    b'A'..=b'Z' => {
+                        table[i] = i as u32 - 'A' as u32 + 26;
+                    }
+                    b'0'..=b'9' => {
+                        table[i] = i as u32 - '0' as u32 + 52;
+                    }
+                    b'$' => {
+                        table[i] = 62;
+                    }
+                    b'_' => {
+                        table[i] = 63;
+                    }
+                    _ => {
+                        table[i] = 64;
+                    }
+                }
+
+                i += 1;
+                if i == 128 {
+                    break;
+                }
+            }
+            table
+        };
 
         for &c in s.as_bytes() {
-            match c {
-                b'a'..=b'z' => {
-                    self.0[c as usize - 'a' as usize] += delta;
-                }
-                b'A'..=b'Z' => {
-                    self.0[c as usize - 'A' as usize + 26] += delta;
-                }
-                b'0'..=b'9' => {
-                    self.0[c as usize - '0' as usize + 52] += delta;
-                }
-                b'$' => {
-                    self.0[62] += delta;
-                }
-                b'_' => {
-                    self.0[63] += delta;
-                }
-
-                _ => {}
-            }
+            self.0[c as usize] += delta;
         }
     }
 
