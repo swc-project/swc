@@ -193,8 +193,8 @@ impl CharFreq {
             return;
         }
 
-        static SCAN_INDEX_TABLE: [u32; 128] = {
-            let mut table = [0; 128];
+        static SCAN_INDEX_TABLE: [u32; 256] = {
+            let mut table = [0; 256];
             let mut i = 0;
             loop {
                 match i as u8 {
@@ -219,7 +219,7 @@ impl CharFreq {
                 }
 
                 i += 1;
-                if i == 128 {
+                if i == 256 {
                     break;
                 }
             }
