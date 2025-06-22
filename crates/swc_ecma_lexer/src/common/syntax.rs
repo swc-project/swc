@@ -156,9 +156,9 @@ impl Syntax {
 
     pub fn into_flags(self) -> SyntaxFlags {
         match self {
-            Syntax::Es(es) => SyntaxFlags::Es(es.into_flags()),
+            Syntax::Es(es) => es.into_flags(),
             #[cfg(feature = "typescript")]
-            Syntax::Typescript(ts) => SyntaxFlags::Ts(ts.into_flags()),
+            Syntax::Typescript(ts) => ts.into_flags(),
         }
     }
 }
@@ -189,22 +189,28 @@ pub struct TsSyntax {
 }
 
 impl TsSyntax {
-    fn into_flags(self) -> TsSyntaxFlags {
-        let mut flags = TsSyntaxFlags::empty();
+    fn into_flags(self) -> SyntaxFlags {
+        let mut flags = SyntaxFlags::TS
+            .union(SyntaxFlags::AUTO_ACCESSORS)
+            .union(SyntaxFlags::IMPORT_ATTRIBUTES)
+            .union(SyntaxFlags::DECORATORS_BEFORE_EXPORT)
+            .union(SyntaxFlags::ALLOW_SUPER_OUTSIDE_METHOD)
+            .union(SyntaxFlags::EXPLICIT_RESOURCE_MANAGEMENT);
+
         if self.tsx {
-            flags |= TsSyntaxFlags::TSX;
+            flags |= SyntaxFlags::JSX;
         }
         if self.decorators {
-            flags |= TsSyntaxFlags::DECORATORS;
+            flags |= SyntaxFlags::DECORATORS;
         }
         if self.dts {
-            flags |= TsSyntaxFlags::DTS;
+            flags |= SyntaxFlags::DTS;
         }
         if self.no_early_errors {
-            flags |= TsSyntaxFlags::NO_EARLY_ERRORS;
+            flags |= SyntaxFlags::NO_EARLY_ERRORS;
         }
         if self.disallow_ambiguous_jsx_like {
-            flags |= TsSyntaxFlags::DISALLOW_AMBIGUOUS_JSX_LIKE;
+            flags |= SyntaxFlags::DISALLOW_AMBIGUOUS_JSX_LIKE;
         }
         flags
     }
@@ -254,196 +260,140 @@ pub struct EsSyntax {
 }
 
 impl EsSyntax {
-    fn into_flags(self) -> EsSyntaxFlags {
-        let mut flags = EsSyntaxFlags::empty();
+    fn into_flags(self) -> SyntaxFlags {
+        let mut flags = SyntaxFlags::empty();
         if self.jsx {
-            flags |= EsSyntaxFlags::JSX;
+            flags |= SyntaxFlags::JSX;
         }
         if self.fn_bind {
-            flags |= EsSyntaxFlags::FN_BIND;
+            flags |= SyntaxFlags::FN_BIND;
         }
         if self.decorators {
-            flags |= EsSyntaxFlags::DECORATORS;
+            flags |= SyntaxFlags::DECORATORS;
         }
         if self.decorators_before_export {
-            flags |= EsSyntaxFlags::DECORATORS_BEFORE_EXPORT;
+            flags |= SyntaxFlags::DECORATORS_BEFORE_EXPORT;
         }
         if self.export_default_from {
-            flags |= EsSyntaxFlags::EXPORT_DEFAULT_FROM;
+            flags |= SyntaxFlags::EXPORT_DEFAULT_FROM;
         }
         if self.import_attributes {
-            flags |= EsSyntaxFlags::IMPORT_ATTRIBUTES;
+            flags |= SyntaxFlags::IMPORT_ATTRIBUTES;
         }
         if self.allow_super_outside_method {
-            flags |= EsSyntaxFlags::ALLOW_SUPER_OUTSIDE_METHOD;
+            flags |= SyntaxFlags::ALLOW_SUPER_OUTSIDE_METHOD;
         }
         if self.allow_return_outside_function {
-            flags |= EsSyntaxFlags::ALLOW_RETURN_OUTSIDE_FUNCTION;
+            flags |= SyntaxFlags::ALLOW_RETURN_OUTSIDE_FUNCTION;
         }
         if self.auto_accessors {
-            flags |= EsSyntaxFlags::AUTO_ACCESSORS;
+            flags |= SyntaxFlags::AUTO_ACCESSORS;
         }
         if self.explicit_resource_management {
-            flags |= EsSyntaxFlags::EXPLICIT_RESOURCE_MANAGEMENT;
+            flags |= SyntaxFlags::EXPLICIT_RESOURCE_MANAGEMENT;
         }
         flags
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum SyntaxFlags {
-    Es(EsSyntaxFlags),
-    #[cfg(feature = "typescript")]
-    #[cfg_attr(docsrs, doc(cfg(feature = "typescript")))]
-    Ts(TsSyntaxFlags),
-}
-
-impl Default for SyntaxFlags {
-    fn default() -> Self {
-        SyntaxFlags::Es(Default::default())
-    }
-}
-
 impl SyntaxFlags {
-    pub fn auto_accessors(self) -> bool {
-        match self {
-            #[cfg(feature = "typescript")]
-            Self::Ts(_) => true,
-            Self::Es(flags) => flags.contains(EsSyntaxFlags::AUTO_ACCESSORS),
-        }
+    #[inline(always)]
+    pub fn auto_accessors(&self) -> bool {
+        self.contains(Self::AUTO_ACCESSORS)
     }
 
-    pub fn import_attributes(self) -> bool {
-        match self {
-            #[cfg(feature = "typescript")]
-            Self::Ts(_) => true,
-            Self::Es(flags) => flags.contains(EsSyntaxFlags::IMPORT_ATTRIBUTES),
-        }
+    #[inline(always)]
+    pub fn import_attributes(&self) -> bool {
+        true
     }
 
     /// Should we parse jsx?
-    pub fn jsx(self) -> bool {
-        match self {
-            #[cfg(feature = "typescript")]
-            Self::Ts(flags) => flags.contains(TsSyntaxFlags::TSX),
-            Self::Es(flags) => flags.contains(EsSyntaxFlags::JSX),
-        }
+    #[inline(always)]
+    pub fn jsx(&self) -> bool {
+        self.contains(SyntaxFlags::JSX)
     }
 
-    pub fn fn_bind(self) -> bool {
-        match self {
-            #[cfg(feature = "typescript")]
-            Self::Ts(_) => false,
-            Self::Es(flags) => flags.contains(EsSyntaxFlags::FN_BIND),
-        }
+    #[inline(always)]
+    pub fn fn_bind(&self) -> bool {
+        self.contains(SyntaxFlags::FN_BIND)
     }
 
-    pub fn decorators(self) -> bool {
-        match self {
-            #[cfg(feature = "typescript")]
-            SyntaxFlags::Ts(flags) => flags.contains(TsSyntaxFlags::DECORATORS),
-            SyntaxFlags::Es(flags) => flags.contains(EsSyntaxFlags::DECORATORS),
-        }
+    #[inline(always)]
+    pub fn decorators(&self) -> bool {
+        self.contains(SyntaxFlags::DECORATORS)
     }
 
-    pub fn decorators_before_export(self) -> bool {
-        match self {
-            #[cfg(feature = "typescript")]
-            SyntaxFlags::Ts(_) => true,
-            SyntaxFlags::Es(flags) => flags.contains(EsSyntaxFlags::DECORATORS_BEFORE_EXPORT),
-        }
+    #[inline(always)]
+    pub fn decorators_before_export(&self) -> bool {
+        self.contains(SyntaxFlags::DECORATORS_BEFORE_EXPORT)
     }
 
     /// Should we parse typescript?
     #[cfg(not(feature = "typescript"))]
-    pub const fn typescript(self) -> bool {
+    #[inline(always)]
+    pub const fn typescript(&self) -> bool {
         false
     }
 
     /// Should we parse typescript?
     #[cfg(feature = "typescript")]
-    pub const fn typescript(self) -> bool {
-        matches!(self, SyntaxFlags::Ts(..))
+    #[inline(always)]
+    pub const fn typescript(&self) -> bool {
+        self.contains(SyntaxFlags::TS)
     }
 
-    pub fn export_default_from(self) -> bool {
-        match self {
-            #[cfg(feature = "typescript")]
-            SyntaxFlags::Ts(_) => false,
-            SyntaxFlags::Es(flags) => flags.contains(EsSyntaxFlags::EXPORT_DEFAULT_FROM),
-        }
+    #[inline(always)]
+    pub fn export_default_from(&self) -> bool {
+        self.contains(SyntaxFlags::EXPORT_DEFAULT_FROM)
     }
 
-    pub fn dts(self) -> bool {
-        match self {
-            #[cfg(feature = "typescript")]
-            SyntaxFlags::Ts(flags) => flags.contains(TsSyntaxFlags::DTS),
-            _ => false,
-        }
+    #[inline(always)]
+    pub fn dts(&self) -> bool {
+        self.contains(SyntaxFlags::DTS)
     }
 
-    pub fn allow_super_outside_method(self) -> bool {
-        match self {
-            #[cfg(feature = "typescript")]
-            SyntaxFlags::Ts(_) => true,
-            SyntaxFlags::Es(flags) => flags.contains(EsSyntaxFlags::ALLOW_SUPER_OUTSIDE_METHOD),
-        }
+    #[inline(always)]
+    pub fn allow_super_outside_method(&self) -> bool {
+        self.contains(SyntaxFlags::ALLOW_SUPER_OUTSIDE_METHOD)
     }
 
-    pub fn allow_return_outside_function(self) -> bool {
-        match self {
-            #[cfg(feature = "typescript")]
-            SyntaxFlags::Ts(_) => false,
-            SyntaxFlags::Es(flags) => flags.contains(EsSyntaxFlags::ALLOW_RETURN_OUTSIDE_FUNCTION),
-        }
+    #[inline(always)]
+    pub fn allow_return_outside_function(&self) -> bool {
+        self.contains(SyntaxFlags::ALLOW_RETURN_OUTSIDE_FUNCTION)
     }
 
-    pub fn early_errors(self) -> bool {
-        match self {
-            #[cfg(feature = "typescript")]
-            SyntaxFlags::Ts(flags) => !flags.contains(TsSyntaxFlags::NO_EARLY_ERRORS),
-            SyntaxFlags::Es(..) => true,
-        }
+    #[inline(always)]
+    pub fn early_errors(&self) -> bool {
+        !self.contains(SyntaxFlags::NO_EARLY_ERRORS)
     }
 
-    pub fn disallow_ambiguous_jsx_like(self) -> bool {
-        match self {
-            #[cfg(feature = "typescript")]
-            SyntaxFlags::Ts(flags) => flags.contains(TsSyntaxFlags::DISALLOW_AMBIGUOUS_JSX_LIKE),
-            _ => false,
-        }
+    #[inline(always)]
+    pub fn disallow_ambiguous_jsx_like(&self) -> bool {
+        self.contains(SyntaxFlags::TS.union(SyntaxFlags::DISALLOW_AMBIGUOUS_JSX_LIKE))
     }
 
+    #[inline(always)]
     pub fn explicit_resource_management(&self) -> bool {
-        match self {
-            #[cfg(feature = "typescript")]
-            SyntaxFlags::Ts(_) => true,
-            SyntaxFlags::Es(flags) => flags.contains(EsSyntaxFlags::EXPLICIT_RESOURCE_MANAGEMENT),
-        }
+        self.contains(SyntaxFlags::EXPLICIT_RESOURCE_MANAGEMENT)
     }
 }
 
 bitflags::bitflags! {
     #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
-    pub struct EsSyntaxFlags: u16 {
-     const JSX = 1 << 0;
-     const FN_BIND = 1 << 1;
-     const DECORATORS = 1 << 2;
-     const DECORATORS_BEFORE_EXPORT = 1 << 3;
-     const EXPORT_DEFAULT_FROM = 1 << 4;
-     const IMPORT_ATTRIBUTES = 1 << 5;
-     const ALLOW_SUPER_OUTSIDE_METHOD = 1 << 6;
-     const ALLOW_RETURN_OUTSIDE_FUNCTION = 1 << 7;
-     const AUTO_ACCESSORS = 1 << 8;
-     const EXPLICIT_RESOURCE_MANAGEMENT = 1 << 9;
-    }
-
-    #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
-    pub struct TsSyntaxFlags: u8 {
-         const TSX = 1 << 0;
-         const DECORATORS = 1 << 1;
-         const DTS = 1 << 2;
-         const NO_EARLY_ERRORS = 1 << 3;
-         const DISALLOW_AMBIGUOUS_JSX_LIKE = 1 << 4;
+    pub struct SyntaxFlags: u16 {
+        const JSX = 1 << 0;
+        const FN_BIND = 1 << 1;
+        const DECORATORS = 1 << 2;
+        const DECORATORS_BEFORE_EXPORT = 1 << 3;
+        const EXPORT_DEFAULT_FROM = 1 << 4;
+        const IMPORT_ATTRIBUTES = 1 << 5;
+        const ALLOW_SUPER_OUTSIDE_METHOD = 1 << 6;
+        const ALLOW_RETURN_OUTSIDE_FUNCTION = 1 << 7;
+        const AUTO_ACCESSORS = 1 << 8;
+        const EXPLICIT_RESOURCE_MANAGEMENT = 1 << 9;
+        const DTS = 1 << 10;
+        const NO_EARLY_ERRORS = 1 << 11;
+        const DISALLOW_AMBIGUOUS_JSX_LIKE = 1 << 12;
+        const TS = 1 << 13;
     }
 }
