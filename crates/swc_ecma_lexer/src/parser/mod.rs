@@ -22,7 +22,7 @@ use crate::{
     error::Error,
     input::Buffer,
     token::{Token, TokenAndSpan},
-    Context, Syntax, TsSyntax, *,
+    Context, *,
 };
 
 #[macro_use]
@@ -113,13 +113,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
 
 impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub fn new_from(mut input: I) -> Self {
-        #[cfg(feature = "typescript")]
-        let in_declare = matches!(
-            input.syntax(),
-            Syntax::Typescript(TsSyntax { dts: true, .. })
-        );
-        #[cfg(not(feature = "typescript"))]
-        let in_declare = false;
+        let in_declare = input.syntax().dts();
         let mut ctx = input.ctx() | Context::TopLevel;
         ctx.set(Context::InDeclare, in_declare);
         input.set_ctx(ctx);

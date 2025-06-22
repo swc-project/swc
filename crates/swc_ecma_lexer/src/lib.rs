@@ -29,7 +29,7 @@ pub use swc_common::input::StringInput;
 
 use self::common::{context::Context, parser::PResult};
 pub use self::{
-    common::syntax::{EsSyntax, Syntax, TsSyntax},
+    common::syntax::{EsSyntax, EsSyntaxFlags, Syntax, TsSyntax, TsSyntaxFlags},
     input::Capturing,
     lexer::{Lexer, TokenContext, TokenContexts, TokenType},
     parser::Parser,

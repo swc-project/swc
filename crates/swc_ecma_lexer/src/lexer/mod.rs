@@ -18,7 +18,7 @@ use crate::{
             char::CharExt, comments_buffer::CommentsBuffer, fixed_len_span, pos_span, LexResult,
             Lexer as LexerTrait,
         },
-        syntax::Syntax,
+        syntax::{Syntax, SyntaxFlags},
     },
     error::{Error, SyntaxError},
     tok,
@@ -44,7 +44,7 @@ pub struct Lexer<'a> {
     start_pos: BytePos,
 
     state: self::state::State,
-    pub(crate) syntax: Syntax,
+    pub(crate) syntax: SyntaxFlags,
     pub(crate) target: EsVersion,
 
     errors: Rc<RefCell<Vec<Error>>>,
@@ -132,6 +132,7 @@ impl<'a> Lexer<'a> {
         comments: Option<&'a dyn Comments>,
     ) -> Self {
         let start_pos = input.last_pos();
+        let syntax_flags = syntax.into_flags();
 
         Lexer {
             comments,
@@ -139,8 +140,8 @@ impl<'a> Lexer<'a> {
             ctx: Default::default(),
             input,
             start_pos,
-            state: self::state::State::new(syntax, start_pos),
-            syntax,
+            state: self::state::State::new(syntax_flags, start_pos),
+            syntax: syntax_flags,
             target,
             errors: Default::default(),
             module_errors: Default::default(),

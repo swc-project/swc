@@ -1,5 +1,7 @@
 use swc_common::BytePos;
 
+use crate::common::syntax::SyntaxFlags;
+
 pub trait TokenType: TokenKind {
     fn is_other_and_can_have_trailing_comment(self) -> bool;
     fn is_other_and_before_expr_is_false(self) -> bool;
@@ -57,7 +59,7 @@ pub trait State: Clone {
     fn mut_token_contexts(&mut self) -> &mut crate::TokenContexts;
     fn set_token_type(&mut self, token_type: Self::TokenType);
     fn token_type(&self) -> Option<Self::TokenType>;
-    fn syntax(&self) -> crate::Syntax;
+    fn syntax(&self) -> SyntaxFlags;
     fn prev_hi(&self) -> BytePos;
     fn start(&self) -> BytePos;
 
