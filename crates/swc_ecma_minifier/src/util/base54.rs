@@ -193,19 +193,20 @@ impl CharFreq {
             return;
         }
 
-        static SCAN_INDEX_TABLE: [u32; 256] = {
+        static SCAN_INDEX_TABLE: [u8; 256] = {
             let mut table = [0; 256];
             let mut i = 0;
             loop {
-                match i as u8 {
+                let b = i as u8;
+                match b {
                     b'a'..=b'z' => {
-                        table[i] = i as u32 - 'a' as u32;
+                        table[i] = b - b'a';
                     }
                     b'A'..=b'Z' => {
-                        table[i] = i as u32 - 'A' as u32 + 26;
+                        table[i] = b - b'A' + 26;
                     }
                     b'0'..=b'9' => {
-                        table[i] = i as u32 - '0' as u32 + 52;
+                        table[i] = b - b'0' + 52;
                     }
                     b'$' => {
                         table[i] = 62;
