@@ -4,6 +4,59 @@
 /// How many bytes we process per batch when scanning.
 pub const SEARCH_BATCH_SIZE: usize = 32;
 
+/// Compile-time lookup table guaranteeing UTF-8 boundary safety.
+#[repr(C, align(64))]
+pub struct SafeByteMatchTable([bool; 256]);
+
+impl SafeByteMatchTable {
+    pub const fn new(bytes: [bool; 256]) -> Self {
+        // Safety guarantee: either all leading bytes (0xC0..0xF7) match, or all
+        // continuation bytes (0x80..0xBF) *do not* match. This ensures that if
+        // we stop on a match the input cursor is on a UTF-8 char boundary.
+        let mut unicode_start_all_match = true;
+        let mut unicode_cont_all_no_match = true;
+        let mut i = 0;
+        while i < 256 {
+            let m = bytes[i];
+            if m {
+                if i >= 0x80 && i < 0xc0 {
+                    unicode_cont_all_no_match = false;
+                }
+            } else if i >= 0xc0 && i < 0xf8 {
+                unicode_start_all_match = false;
+            }
+            i += 1;
+        }
+        assert!(
+            unicode_start_all_match || unicode_cont_all_no_match,
+            "Cannot create SafeByteMatchTable with an unsafe pattern"
+        );
+        Self(bytes)
+    }
+
+    #[inline]
+    pub const fn use_table(&self) {}
+
+    #[inline]
+    pub const fn matches(&self, b: u8) -> bool {
+        self.0[b as usize]
+    }
+}
+
+// ------------------------- Macros -------------------------
+
+#[macro_export]
+macro_rules! safe_byte_match_table {
+    (|$byte:ident| $body:expr) => {{
+        use $crate::util::search::SafeByteMatchTable;
+        #[allow(clippy::eq_op, clippy::allow_attributes)]
+        const TABLE: SafeByteMatchTable = seq_macro::seq!($byte in 0u8..=255 {
+            SafeByteMatchTable::new([#($body,)*])
+        });
+        TABLE
+    }};
+}
+
 #[macro_export]
 macro_rules! byte_search {
     // Simple version without continue_if

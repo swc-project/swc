@@ -12,6 +12,8 @@ use swc_atoms::Atom;
 use swc_common::{
     comments::{Comment, CommentKind},
     input::{Input, StringInput},
+    safe_byte_match_table,
+    util::search::SafeByteMatchTable,
     BytePos, Span,
 };
 use swc_ecma_ast::{EsVersion, Ident};
@@ -40,8 +42,7 @@ pub mod whitespace;
 use token::TokenFactory;
 
 // Byte-search utilities
-use self::search::SafeByteMatchTable;
-use crate::{byte_search, safe_byte_match_table};
+use crate::byte_search;
 
 // ===== Byte match tables for comment scanning =====
 // Irregular line breaks - '\u{2028}' (LS) and '\u{2029}' (PS)
