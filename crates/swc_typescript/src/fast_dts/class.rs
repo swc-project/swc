@@ -34,10 +34,16 @@ impl FastDts {
                         continue;
                     }
 
+                    let private_constructor =
+                        constructor.accessibility == Some(Accessibility::Private);
+
                     // Transform parameters
                     class.body.splice(
                         0..0,
-                        self.transform_constructor_params(&mut constructor.params),
+                        self.transform_constructor_params(
+                            &mut constructor.params,
+                            private_constructor,
+                        ),
                     );
 
                     if !(constructor.is_optional) && constructor.body.is_none() {
@@ -47,10 +53,7 @@ impl FastDts {
                         continue;
                     }
 
-                    if constructor
-                        .accessibility
-                        .is_some_and(|accessibility| accessibility == Accessibility::Private)
-                    {
+                    if private_constructor {
                         constructor.params.clear();
                     }
 
@@ -273,6 +276,7 @@ impl FastDts {
     pub(crate) fn transform_constructor_params(
         &mut self,
         params: &mut [ParamOrTsParamProp],
+        private_constructor: bool,
     ) -> Vec<ClassMember> {
         let mut is_required = false;
         let mut private_properties = Vec::new();
@@ -292,6 +296,10 @@ impl FastDts {
                     ts_param_prop.accessibility = None;
                 }
                 ParamOrTsParamProp::Param(param) => {
+                    if private_constructor {
+                        continue;
+                    }
+
                     self.transform_fn_param(param, is_required);
                     is_required |= match &param.pat {
                         Pat::Ident(binding_ident) => !binding_ident.optional,
