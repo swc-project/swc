@@ -227,7 +227,7 @@ impl CharFreq {
         };
 
         for &c in s.as_bytes() {
-            self.0[c as usize] += delta;
+            self.0[SCAN_INDEX_TABLE[c as usize] as usize] += delta;
         }
     }
 
