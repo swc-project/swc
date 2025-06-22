@@ -237,6 +237,7 @@ pub fn operate(
         .filename
         .map_or(FileName::Anon, |f| FileName::Real(f.into()));
 
+    let source_len = input.len();
     let fm = cm.new_source_file(filename.into(), input);
 
     let syntax = Syntax::Typescript(options.parser);
@@ -475,7 +476,7 @@ pub fn operate(
                 Ok(())
             })?;
 
-            let mut src = std::vec::Vec::new();
+            let mut src = std::vec::Vec::with_capacity(source_len);
             let mut src_map_buf = if options.source_map {
                 Some(Vec::new())
             } else {
