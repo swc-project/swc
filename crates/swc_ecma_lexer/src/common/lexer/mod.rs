@@ -1,7 +1,9 @@
 use std::borrow::Cow;
 
+use ascii::AsciiChar;
 use char::{Char, CharExt};
 use comments_buffer::{BufferedComment, BufferedCommentKind};
+use cow_replace::ReplaceString;
 use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
 use smartstring::{LazyCompact, SmartString};
@@ -858,13 +860,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.input_slice(start, end)
             };
 
-            if raw.contains('_') {
-                Cow::Owned(raw.replace('_', ""))
-            } else {
-                Cow::Borrowed(raw)
-            }
-            .parse()
-            .expect("failed to parse float literal")
+            raw.remove_all_ascii(AsciiChar::UnderScore)
+                .parse()
+                .expect("failed to parse float literal")
         } else {
             let s = unsafe { self.input_slice(lazy_integer.start, lazy_integer.end) };
             parse_integer::<10>(s)
