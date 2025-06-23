@@ -107,7 +107,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
     let mut decorator_metadata = false;
     let mut use_define_for_class_fields = false;
     let mut verbatim_module_syntax = false;
-    let mut react = react::Options::default();
+    let mut react = vec![];
 
     let filename = input
         .file_name()
@@ -135,12 +135,47 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                 }
                 "jsx" => {
                     // react-jsx,react-jsxdev
-                    if meta_data_value.contains("react-jsx") {
-                        react.runtime = react::Runtime::Automatic(Default::default());
-                    }
+                    // split by comma and trim each value
+                    let values: Vec<_> = meta_data_value
+                        .split(',')
+                        .map(|v| v.trim().to_lowercase())
+                        .collect();
 
-                    if meta_data_value.contains("react-jsxdev") {
-                        react.common.development = true.into();
+                    for value in values {
+                        match value.as_str() {
+                            "react-jsx" => {
+                                let options = react::Options {
+                                    runtime: react::Runtime::Automatic(Default::default()),
+                                    ..Default::default()
+                                };
+                                react.push(options);
+                            }
+                            "react-jsxdev" => {
+                                let options = react::Options {
+                                    runtime: react::Runtime::Automatic(Default::default()),
+                                    common: react::CommonConfig {
+                                        development: true.into(),
+                                        ..Default::default()
+                                    },
+                                    ..Default::default()
+                                };
+                                react.push(options);
+                            }
+                            "preserve" => {
+                                react.push(react::Options {
+                                    runtime: react::Runtime::Preserve,
+                                    ..Default::default()
+                                });
+                            }
+                            "react" => {
+                                let options = react::Options {
+                                    runtime: react::Runtime::Classic(Default::default()),
+                                    ..Default::default()
+                                };
+                                react.push(options);
+                            }
+                            _ => {}
+                        }
                     }
                 }
                 "removecomments" => {}
@@ -364,74 +399,82 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
     let base_name = input.with_extension("");
     let base_name = base_name.file_name().map(OsStr::to_string_lossy).unwrap();
 
-    for minify in [None, Some(default_minify)] {
-        for target in targets.clone() {
-            for module in modules.clone() {
-                let mut vary_name = Vec::new();
+    let react_len = react.len();
+    for react in react {
+        for minify in [None, Some(&default_minify)] {
+            for target in targets.clone() {
+                for module in modules.clone() {
+                    let mut vary_name = Vec::new();
 
-                if modules.len() > 1 {
-                    vary_name.push(format!("module={}", &module));
-                }
+                    if modules.len() > 1 {
+                        vary_name.push(format!("module={}", &module));
+                    }
 
-                if targets.len() > 1 {
-                    vary_name.push(format!(
-                        "target={}",
-                        serde_json::to_string(&target).unwrap().replace('"', "")
-                    ));
-                }
+                    if targets.len() > 1 {
+                        vary_name.push(format!(
+                            "target={}",
+                            serde_json::to_string(&target).unwrap().replace('"', "")
+                        ));
+                    }
 
-                let mut filename = base_name.to_string();
-                if !vary_name.is_empty() {
-                    filename.push('(');
-                    filename.push_str(&vary_name.join(","));
-                    filename.push(')');
-                }
+                    let mut filename = base_name.to_string();
+                    if !vary_name.is_empty() {
+                        filename.push('(');
+                        filename.push_str(&vary_name.join(","));
+                        filename.push(')');
+                    }
 
-                if minify.is_some() {
-                    filename.push_str(".2.minified.js");
-                } else {
-                    filename.push_str(".1.normal.js");
-                }
+                    if react_len > 1 {
+                        filename.push('_');
+                        filename.push_str(&react_options_to_file_name(&react));
+                    }
 
-                let opts = Options {
-                    config: Config {
-                        jsc: JscConfig {
-                            syntax: Some(Syntax::Typescript(TsSyntax {
-                                tsx: is_jsx,
-                                decorators,
-                                dts: false,
-                                no_early_errors: false,
-                                disallow_ambiguous_jsx_like: false,
-                            })),
-                            external_helpers: true.into(),
-                            target: Some(target),
-                            minify: minify.clone(),
-                            transform: Some(TransformConfig {
-                                use_define_for_class_fields: use_define_for_class_fields.into(),
-                                decorator_metadata: decorator_metadata.into(),
-                                verbatim_module_syntax: verbatim_module_syntax.into(),
-                                react: react.clone(),
-                                ..Default::default()
-                            })
-                            .into(),
-                            experimental: JscExperimental {
-                                disable_all_lints: false.into(),
+                    if minify.is_some() {
+                        filename.push_str(".2.minified.js");
+                    } else {
+                        filename.push_str(".1.normal.js");
+                    }
+
+                    let opts = Options {
+                        config: Config {
+                            jsc: JscConfig {
+                                syntax: Some(Syntax::Typescript(TsSyntax {
+                                    tsx: is_jsx,
+                                    decorators,
+                                    dts: false,
+                                    no_early_errors: false,
+                                    disallow_ambiguous_jsx_like: false,
+                                })),
+                                external_helpers: true.into(),
+                                target: Some(target),
+                                minify: minify.cloned(),
+                                transform: Some(TransformConfig {
+                                    use_define_for_class_fields: use_define_for_class_fields.into(),
+                                    decorator_metadata: decorator_metadata.into(),
+                                    verbatim_module_syntax: verbatim_module_syntax.into(),
+                                    react: react.clone(),
+                                    ..Default::default()
+                                })
+                                .into(),
+                                experimental: JscExperimental {
+                                    disable_all_lints: false.into(),
+                                    ..Default::default()
+                                },
                                 ..Default::default()
                             },
+                            module: Some(module.into()),
                             ..Default::default()
                         },
-                        module: Some(module.into()),
                         ..Default::default()
-                    },
-                    ..Default::default()
-                };
+                    };
 
-                test_unit_data_list.push(TestUnitData {
-                    cm: cm.clone(),
-                    files: files.clone(),
-                    opts,
-                    output: filename,
-                })
+                    test_unit_data_list.push(TestUnitData {
+                        cm: cm.clone(),
+                        files: files.clone(),
+                        opts,
+                        output: filename,
+                    })
+                }
             }
         }
     }
@@ -480,4 +523,20 @@ fn compile(output: &Path, test_unit_data: TestUnitData) {
     NormalizedOutput::from(result)
         .compare_to_file(output)
         .unwrap();
+}
+
+fn react_options_to_file_name(options: &react::Options) -> String {
+    let mut name = String::new();
+
+    match options.runtime {
+        react::Runtime::Automatic(_) => name.push_str("react-jsx"),
+        react::Runtime::Classic(_) => name.push_str("react"),
+        react::Runtime::Preserve => name.push_str("preserve"),
+    }
+
+    if options.common.development.into_bool() {
+        name.push_str("-dev");
+    }
+
+    name
 }

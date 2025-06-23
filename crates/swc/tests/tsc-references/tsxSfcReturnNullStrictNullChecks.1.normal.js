@@ -14,6 +14,6 @@ define([
     function Greet(x) {
         return null;
     }
-    var foo = /*#__PURE__*/ _react.createElement(Foo, null);
-    var G = /*#__PURE__*/ _react.createElement(Greet, null);
+    var foo = <Foo/>;
+    var G = <Greet/>;
 });

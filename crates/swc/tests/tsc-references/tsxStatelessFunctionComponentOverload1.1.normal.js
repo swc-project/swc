@@ -9,67 +9,22 @@ define([
         value: true
     });
     // OK
-    var c1 = /*#__PURE__*/ _react.createElement(OneThing, {
-        yxx: "ok"
-    });
-    var c2 = /*#__PURE__*/ _react.createElement(OneThing, {
-        yy: 100,
-        yy1: "hello"
-    });
-    var c3 = /*#__PURE__*/ _react.createElement(OneThing, {
-        yxx: "hello",
-        "ignore-prop": true
-    });
-    var c4 = /*#__PURE__*/ _react.createElement(OneThing, {
-        data: "hello",
-        "data-prop": true
-    });
-    var c5 = /*#__PURE__*/ _react.createElement(OneThing, {
-        yxx1: "ok"
-    }, "Hello");
+    var c1 = <OneThing yxx='ok'/>;
+    var c2 = <OneThing yy={100} yy1="hello"/>;
+    var c3 = <OneThing yxx="hello" ignore-prop/>;
+    var c4 = <OneThing data="hello" data-prop/>;
+    var c5 = <OneThing yxx1='ok'>Hello</OneThing>;
     // OK
-    var d1 = /*#__PURE__*/ _react.createElement(TestingOneThing, {
-        y1: true,
-        "extra-data": true
-    });
-    var d2 = /*#__PURE__*/ _react.createElement(TestingOneThing, {
-        "extra-data": "hello"
-    });
-    var d3 = /*#__PURE__*/ _react.createElement(TestingOneThing, {
-        "extra-data": "hello",
-        yy: "hihi"
-    });
-    var d4 = /*#__PURE__*/ _react.createElement(TestingOneThing, {
-        "extra-data": "hello",
-        yy: 9,
-        direction: 10
-    });
-    var d5 = /*#__PURE__*/ _react.createElement(TestingOneThing, {
-        "extra-data": "hello",
-        yy: "hello",
-        name: "Bob"
-    });
+    var d1 = <TestingOneThing y1 extra-data/>;
+    var d2 = <TestingOneThing extra-data="hello"/>;
+    var d3 = <TestingOneThing extra-data="hello" yy="hihi"/>;
+    var d4 = <TestingOneThing extra-data="hello" yy={9} direction={10}/>;
+    var d5 = <TestingOneThing extra-data="hello" yy="hello" name="Bob"/>;
     // OK
-    var e1 = /*#__PURE__*/ _react.createElement(TestingOptional, null);
-    var e3 = /*#__PURE__*/ _react.createElement(TestingOptional, {
-        y1: "hello"
-    });
-    var e4 = /*#__PURE__*/ _react.createElement(TestingOptional, {
-        y1: "hello",
-        y2: 1000
-    });
-    var e5 = /*#__PURE__*/ _react.createElement(TestingOptional, {
-        y1: true,
-        y3: true
-    });
-    var e6 = /*#__PURE__*/ _react.createElement(TestingOptional, {
-        y1: true,
-        y3: true,
-        y2: 10
-    });
-    var e2 = /*#__PURE__*/ _react.createElement(TestingOptional, {
-        y1: true,
-        y3: true,
-        "extra-prop": true
-    });
+    var e1 = <TestingOptional/>;
+    var e3 = <TestingOptional y1="hello"/>;
+    var e4 = <TestingOptional y1="hello" y2={1000}/>;
+    var e5 = <TestingOptional y1 y3/>;
+    var e6 = <TestingOptional y1 y3 y2={10}/>;
+    var e2 = <TestingOptional y1 y3 extra-prop/>;
 });

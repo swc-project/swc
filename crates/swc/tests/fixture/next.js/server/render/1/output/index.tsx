@@ -1,3 +1,4 @@
+import { jsx as _jsx } from "react/jsx-runtime";
 import { Writable } from "stream";
 import React from "react";
 import * as ReactDOMServer from "react-dom/server";
@@ -247,15 +248,19 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         locales: renderOpts.locales,
         defaultLocale: renderOpts.defaultLocale,
         AppTree: (props)=>{
-            return /*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(App, {
-                ...props,
-                Component: Component,
-                router: router
-            }));
+            return /*#__PURE__*/ _jsx(AppContainer, {
+                children: /*#__PURE__*/ _jsx(App, {
+                    ...props,
+                    Component: Component,
+                    router: router
+                })
+            });
         },
         defaultGetInitialProps: async (docCtx)=>{
             const enhanceApp = (AppComp)=>{
-                return (props)=>/*#__PURE__*/ React.createElement(AppComp, props);
+                return (props)=>/*#__PURE__*/ _jsx(AppComp, {
+                        ...props
+                    });
             };
             const { html, head } = await docCtx.renderPage({
                 enhanceApp
@@ -279,26 +284,31 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
     let head = defaultHead(inAmpMode);
     let scriptLoader = {};
     const nextExport = !isSSG && (renderOpts.nextExport || dev && (isAutoExport || isFallback));
-    const AppContainer = ({ children })=>/*#__PURE__*/ React.createElement(RouterContext.Provider, {
-            value: router
-        }, /*#__PURE__*/ React.createElement(AmpStateContext.Provider, {
-            value: ampState
-        }, /*#__PURE__*/ React.createElement(HeadManagerContext.Provider, {
-            value: {
-                updateHead: (state)=>{
-                    head = state;
-                },
-                updateScripts: (scripts)=>{
-                    scriptLoader = scripts;
-                },
-                scripts: {},
-                mountedInstances: new Set()
-            }
-        }, /*#__PURE__*/ React.createElement(LoadableContext.Provider, {
-            value: (moduleName)=>reactLoadableModules.push(moduleName)
-        }, /*#__PURE__*/ React.createElement(StyleRegistry, {
-            registry: jsxStyleRegistry
-        }, children)))));
+    const AppContainer = ({ children })=>/*#__PURE__*/ _jsx(RouterContext.Provider, {
+            value: router,
+            children: /*#__PURE__*/ _jsx(AmpStateContext.Provider, {
+                value: ampState,
+                children: /*#__PURE__*/ _jsx(HeadManagerContext.Provider, {
+                    value: {
+                        updateHead: (state)=>{
+                            head = state;
+                        },
+                        updateScripts: (scripts)=>{
+                            scriptLoader = scripts;
+                        },
+                        scripts: {},
+                        mountedInstances: new Set()
+                    },
+                    children: /*#__PURE__*/ _jsx(LoadableContext.Provider, {
+                        value: (moduleName)=>reactLoadableModules.push(moduleName),
+                        children: /*#__PURE__*/ _jsx(StyleRegistry, {
+                            registry: jsxStyleRegistry,
+                            children: children
+                        })
+                    })
+                })
+            })
+        });
     props = await loadGetInitialProps(App, {
         AppTree: ctx.AppTree,
         Component,
@@ -547,7 +557,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         if (Document.getInitialProps) {
             const renderPage = (options = {})=>{
                 if (ctx.err && ErrorDebug) {
-                    const html = ReactDOMServer.renderToString(/*#__PURE__*/ React.createElement(ErrorDebug, {
+                    const html = ReactDOMServer.renderToString(/*#__PURE__*/ _jsx(ErrorDebug, {
                         error: ctx.err
                     }));
                     return {
@@ -559,11 +569,13 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                     throw new Error(`'router' and 'Component' can not be returned in getInitialProps from _app.js https://nextjs.org/docs/messages/cant-override-next-props`);
                 }
                 const { App: EnhancedApp, Component: EnhancedComponent } = enhanceComponents(options, App, Component);
-                const html = ReactDOMServer.renderToString(/*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(EnhancedApp, {
-                    Component: EnhancedComponent,
-                    router: router,
-                    ...props
-                })));
+                const html = ReactDOMServer.renderToString(/*#__PURE__*/ _jsx(AppContainer, {
+                    children: /*#__PURE__*/ _jsx(EnhancedApp, {
+                        Component: EnhancedComponent,
+                        router: router,
+                        ...props
+                    })
+                }));
                 return {
                     html,
                     head
@@ -584,7 +596,7 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                 bodyResult: piperFromArray([
                     docProps.html
                 ]),
-                documentElement: (htmlProps)=>/*#__PURE__*/ React.createElement(Document, {
+                documentElement: (htmlProps)=>/*#__PURE__*/ _jsx(Document, {
                         ...htmlProps,
                         ...docProps
                     }),
@@ -593,13 +605,15 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
                 styles: docProps.styles
             };
         } else {
-            const content = ctx.err && ErrorDebug ? /*#__PURE__*/ React.createElement(ErrorDebug, {
+            const content = ctx.err && ErrorDebug ? /*#__PURE__*/ _jsx(ErrorDebug, {
                 error: ctx.err
-            }) : /*#__PURE__*/ React.createElement(AppContainer, null, /*#__PURE__*/ React.createElement(App, {
-                ...props,
-                Component: Component,
-                router: router
-            }));
+            }) : /*#__PURE__*/ _jsx(AppContainer, {
+                children: /*#__PURE__*/ _jsx(App, {
+                    ...props,
+                    Component: Component,
+                    router: router
+                })
+            });
             const bodyResult = concurrentFeatures ? await renderToStream(content, generateStaticHTML) : piperFromArray([
                 ReactDOMServer.renderToString(content)
             ]);
@@ -676,11 +690,13 @@ export async function renderToHTML(req, res, pathname, query, renderOpts) {
         styles: documentResult.styles,
         useMaybeDeferContent
     };
-    const documentHTML = ReactDOMServer.renderToStaticMarkup(/*#__PURE__*/ React.createElement(AmpStateContext.Provider, {
-        value: ampState
-    }, /*#__PURE__*/ React.createElement(HtmlContext.Provider, {
-        value: htmlProps
-    }, documentResult.documentElement(htmlProps))));
+    const documentHTML = ReactDOMServer.renderToStaticMarkup(/*#__PURE__*/ _jsx(AmpStateContext.Provider, {
+        value: ampState,
+        children: /*#__PURE__*/ _jsx(HtmlContext.Provider, {
+            value: htmlProps,
+            children: documentResult.documentElement(htmlProps)
+        })
+    }));
     if (process.env.NODE_ENV !== "production") {
         const nonRenderedComponents = [];
         const expectedDocComponents = [

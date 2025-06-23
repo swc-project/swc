@@ -1,6 +1,4 @@
 //// [file.tsx]
-var div;
+var div1;
 // Still an error
-/*#__PURE__*/ React.createElement("div", {
-    n: "x"
-});
+<div n='x'/>;

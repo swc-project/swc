@@ -1,2 +1,2 @@
 //// [file.tsx]
-/*#__PURE__*/ React.createElement(A.B.C.D, null, "foo");
+<A.B.C.D>foo</A.B.C.D>;
