@@ -245,7 +245,7 @@ dependencies = [
  "bitflags 2.9.1",
  "cexpr",
  "clang-sys",
- "itertools 0.13.0",
+ "itertools 0.10.5",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -281,7 +281,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.12.6-nightly-20250623.1"
+version = "1.12.6-nightly-20250623.2"
 dependencies = [
  "anyhow",
  "getrandom 0.3.3",
@@ -370,7 +370,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.12.6-nightly-20250623.1"
+version = "1.12.6-nightly-20250623.2"
 dependencies = [
  "anyhow",
  "getrandom 0.3.3",
@@ -410,7 +410,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.12.6-nightly-20250623.1"
+version = "1.12.6-nightly-20250623.2"
 dependencies = [
  "anyhow",
  "getrandom 0.3.3",
@@ -3483,7 +3483,7 @@ dependencies = [
  "once_cell",
  "socket2",
  "tracing",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -3888,7 +3888,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys 0.4.15",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -3901,7 +3901,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys 0.9.4",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -4373,7 +4373,7 @@ dependencies = [
  "cfg-if",
  "libc",
  "psm",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -4543,7 +4543,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.571"
+version = "0.91.572"
 dependencies = [
  "anyhow",
  "par-core",
@@ -5987,7 +5987,7 @@ dependencies = [
  "getrandom 0.3.3",
  "once_cell",
  "rustix 1.0.7",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -7399,7 +7399,7 @@ version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf221c93e13a30d793f7645a0e7762c55d169dbb0a49671918a2319d289b10bb"
 dependencies = [
- "windows-sys 0.48.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
