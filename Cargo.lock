@@ -5002,7 +5002,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "29.1.1"
+version = "29.1.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5654,7 +5654,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "17.0.1"
+version = "17.0.2"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -6551,7 +6551,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ts_fast_strip"
-version = "23.0.2"
+version = "23.0.3"
 dependencies = [
  "anyhow",
  "bytes-str",
