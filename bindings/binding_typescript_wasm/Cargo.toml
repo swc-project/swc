@@ -13,7 +13,7 @@ bench      = false
 crate-type = ["cdylib"]
 
 [features]
-nightly = ["swc_fast_ts_strip/nightly"]
+nightly = ["swc_ts_fast_strip/nightly"]
 
 [dependencies]
 anyhow               = { workspace = true }
@@ -26,7 +26,7 @@ serde-wasm-bindgen   = { workspace = true }
 serde_json           = { workspace = true }
 swc_common           = { workspace = true }
 swc_error_reporters  = { workspace = true }
-swc_fast_ts_strip    = { workspace = true, features = ["wasm-bindgen"] }
+swc_ts_fast_strip    = { workspace = true, features = ["wasm-bindgen"] }
 tracing              = { workspace = true, features = ["max_level_off"] }
 unicode-width        = { workspace = true }
 wasm-bindgen         = { workspace = true, features = ["enable-interning"] }

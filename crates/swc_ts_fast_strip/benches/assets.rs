@@ -1,5 +1,5 @@
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_fast_ts_strip::{operate, Options};
+use swc_ts_fast_strip::{operate, Options};
 
 static SOURCE: &str = include_str!("assets/test.ts");
 

@@ -422,7 +422,7 @@ dependencies = [
  "serde_json",
  "swc_common",
  "swc_error_reporters",
- "swc_fast_ts_strip",
+ "swc_ts_fast_strip",
  "tracing",
  "unicode-width 0.1.14",
  "wasm-bindgen",
@@ -5569,7 +5569,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_fast_ts_strip"
+name = "swc_ts_fast_strip"
 version = "23.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a67d12f3925456189b89d47c03f305088b891a02089bad2a5e588d3d5a105df3"

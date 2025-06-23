@@ -5,7 +5,7 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::{lexer::Lexer, Capturing, EsSyntax, Parser, StringInput, Syntax, TsSyntax};
-use swc_fast_ts_strip::{operate, Mode, Options, TransformConfig};
+use swc_ts_fast_strip::{operate, Mode, Options, TransformConfig};
 use testing::NormalizedOutput;
 
 #[testing::fixture("tests/fixture/**/*.ts")]
@@ -54,7 +54,7 @@ fn verify(input: PathBuf) {
     let output = PathBuf::from(
         input
             .to_string_lossy()
-            .replace("swc_ecma_parser", "swc_fast_ts_strip"),
+            .replace("swc_ecma_parser", "swc_ts_fast_strip"),
     );
 
     let output_file = output.with_extension("strip.js");
