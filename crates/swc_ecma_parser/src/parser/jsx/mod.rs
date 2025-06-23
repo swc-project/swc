@@ -369,12 +369,11 @@ impl<I: Tokens> Parser<I> {
                 } else {
                     // <xxxxx/>
                     p.expect(&Token::Slash)?;
-                    if p.expect_without_advance(&Token::Gt).is_ok() {
-                        if in_expr_context {
-                            p.bump();
-                        } else {
-                            p.input_mut().scan_jsx_token(true);
-                        }
+                    p.expect_without_advance(&Token::Gt)?;
+                    if in_expr_context {
+                        p.bump();
+                    } else {
+                        p.input_mut().scan_jsx_token(true);
                     }
                     let span = if in_expr_context {
                         Span::new(start, p.last_pos())
