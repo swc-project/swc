@@ -5002,7 +5002,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "29.1.0"
+version = "29.1.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5521,7 +5521,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "17.0.2"
+version = "17.0.3"
 dependencies = [
  "arrayvec",
  "ascii",
@@ -5742,7 +5742,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_react_compiler"
-version = "6.0.0"
+version = "6.0.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -6227,7 +6227,7 @@ dependencies = [
 
 [[package]]
 name = "swc_fast_ts_strip"
-version = "23.0.1"
+version = "23.0.2"
 dependencies = [
  "anyhow",
  "bytes-str",
@@ -6574,7 +6574,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "17.0.0"
+version = "17.0.1"
 dependencies = [
  "bitflags 2.6.0",
  "petgraph 0.7.1",
