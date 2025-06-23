@@ -50,6 +50,8 @@ ryu-js            = { workspace = true }
 serde             = { workspace = true, features = ["derive"] }
 serde_json        = { workspace = true }
 tracing           = { workspace = true }
+precomputed-map   = { workspace = true }
+xxhash-rust       = { workspace = true, features = [ "xxh3" ] }
 
 
 swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false }

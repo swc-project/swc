@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use std::time::Instant;
+use std::{hash::Hasher, time::Instant};
 
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
@@ -638,4 +638,14 @@ macro_rules! maybe_par {
   ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*).$operator3:ident($($rest3:expr)*), $threshold:expr) => {
     $name.iter().$operator($($rest)*).$operator2($($rest2)*).$operator3($($rest3)*)
   };
+}
+
+pub struct SwcXxh3;
+
+impl precomputed_map::phf::HashOne for SwcXxh3 {
+    fn hash_one<T: std::hash::Hash>(k: u64, v: T) -> u64 {
+        let mut hasher = xxhash_rust::xxh3::Xxh3::with_seed(k);
+        v.hash(&mut hasher);
+        hasher.finish()
+    }
 }

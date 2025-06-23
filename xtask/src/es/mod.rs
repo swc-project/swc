@@ -2,8 +2,10 @@ use anyhow::Result;
 use clap::{Args, Subcommand};
 
 use self::minifier::MinifierCmd;
+use self::codegen::CodegenCmd;
 
 mod minifier;
+mod codegen;
 
 /// Commands for ECMAScript crates.
 #[derive(Debug, Args)]
@@ -16,6 +18,7 @@ impl EsCmd {
     pub fn run(self) -> Result<()> {
         match self.cmd {
             Cmd::Minifier(cmd) => cmd.run(),
+            Cmd::Codegen(cmd) => cmd.run(),
         }
     }
 }
@@ -23,4 +26,5 @@ impl EsCmd {
 #[derive(Debug, Subcommand)]
 enum Cmd {
     Minifier(MinifierCmd),
+    Codegen(CodegenCmd),
 }

@@ -79,6 +79,7 @@ mod program_data;
 mod size_hint;
 pub mod timing;
 mod util;
+mod generated;
 
 pub mod marks {
     pub use swc_ecma_usage_analyzer::marks::Marks;
