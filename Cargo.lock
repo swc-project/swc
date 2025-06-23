@@ -3503,6 +3503,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 
 [[package]]
+name = "precomputed-map"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "75577436a9c39f017a35e5bf79cfa85b069a508c3753bf3f326e6600b6170b34"
+
+[[package]]
 name = "predicates"
 version = "3.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -8266,12 +8272,14 @@ dependencies = [
  "anyhow",
  "chrono",
  "clap 4.5.9",
+ "precomputed-map",
  "semver",
  "serde",
  "serde_derive",
  "serde_json",
  "toml",
  "walkdir",
+ "xxhash-rust",
 ]
 
 [[package]]
