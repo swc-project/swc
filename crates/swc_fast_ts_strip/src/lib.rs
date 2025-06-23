@@ -448,15 +448,17 @@ pub fn operate(
                     swc_ecma_transforms_react::Options {
                         runtime: match &transform.jsx {
                             Some(jsx_config) => {
-                                let import_source = jsx_config
-                                    .import_source
-                                    .clone()
-                                    .unwrap_or_else(swc_ecma_transforms_react::default_import_source);
+                                let import_source =
+                                    jsx_config.import_source.clone().unwrap_or_else(
+                                        swc_ecma_transforms_react::default_import_source,
+                                    );
                                 swc_ecma_transforms_react::Runtime::Automatic(
                                     swc_ecma_transforms_react::AutomaticConfig { import_source },
                                 )
                             }
-                            None => swc_ecma_transforms_react::Runtime::Automatic(Default::default()),
+                            None => {
+                                swc_ecma_transforms_react::Runtime::Automatic(Default::default())
+                            }
                         },
                         common: swc_ecma_transforms_react::CommonConfig {
                             development: transform
