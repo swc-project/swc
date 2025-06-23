@@ -52,6 +52,12 @@
 
 - **(ts/fast-strip)** Rename crate ([#10685](https://github.com/swc-project/swc/issues/10685)) ([6b5904c](https://github.com/swc-project/swc/commit/6b5904c838394def3b45bd0d1c9bbdc75a1c1af9))
 
+### Build
+
+
+
+- **(wasm)** Fix wasm builds ([eee0578](https://github.com/swc-project/swc/commit/eee05787231c07b41430d5bfed73f3c39011c491))
+
 ## [1.12.5] - 2025-06-21
 
 ### Bug Fixes

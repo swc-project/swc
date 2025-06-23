@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Build
+
+
+
+- **(wasm)** Fix wasm builds ([eee0578](https://github.com/swc-project/swc/commit/eee05787231c07b41430d5bfed73f3c39011c491))
+
 ## [swc_core@v29.1.2] - 2025-06-23
 
 ### Bug Fixes
