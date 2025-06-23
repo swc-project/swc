@@ -126,6 +126,9 @@ resolver = "2"
   wasmer                    = { version = "6.0.0", default-features = false }
   wasmer-wasix              = { version = "0.600.0", default-features = false }
 
+  precomputed-map           = "0.1"
+  xxhash-rust               = "0.8"  
+
   [workspace.metadata.cargo-shear]
   # `serde` is used when #[ast_node] is expanded
   # the rests are used for enabling features
@@ -139,7 +142,6 @@ resolver = "2"
     "num-bigint",
     "swc_ecma_utils",
   ]
-
 
 [profile.release]
 lto = true
