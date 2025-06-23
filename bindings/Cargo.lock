@@ -281,10 +281,10 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.12.5"
+version = "1.12.6-nightly-20250623.1"
 dependencies = [
  "anyhow",
- "getrandom 0.2.16",
+ "getrandom 0.3.3",
  "serde",
  "serde-wasm-bindgen 0.6.5",
  "swc_core",
@@ -370,10 +370,10 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.12.5"
+version = "1.12.6-nightly-20250623.1"
 dependencies = [
  "anyhow",
- "getrandom 0.2.16",
+ "getrandom 0.3.3",
  "serde",
  "serde-wasm-bindgen 0.6.5",
  "swc_core",
@@ -410,10 +410,10 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.12.5"
+version = "1.12.6-nightly-20250623.1"
 dependencies = [
  "anyhow",
- "getrandom 0.2.16",
+ "getrandom 0.3.3",
  "js-sys",
  "miette",
  "owo-colors",
@@ -424,7 +424,7 @@ dependencies = [
  "swc_error_reporters",
  "swc_ts_fast_strip",
  "tracing",
- "unicode-width 0.1.14",
+ "unicode-width 0.2.1",
  "wasm-bindgen",
  "wasm-bindgen-futures",
 ]
@@ -3483,7 +3483,7 @@ dependencies = [
  "once_cell",
  "socket2",
  "tracing",
- "windows-sys 0.59.0",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -3888,7 +3888,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys 0.4.15",
- "windows-sys 0.59.0",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -3901,7 +3901,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys 0.9.4",
- "windows-sys 0.59.0",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -4373,7 +4373,7 @@ dependencies = [
  "cfg-if",
  "libc",
  "psm",
- "windows-sys 0.59.0",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -4543,7 +4543,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.570"
+version = "0.91.571"
 dependencies = [
  "anyhow",
  "par-core",
@@ -5987,7 +5987,7 @@ dependencies = [
  "getrandom 0.3.3",
  "once_cell",
  "rustix 1.0.7",
- "windows-sys 0.59.0",
+ "windows-sys 0.52.0",
 ]
 
 [[package]]
@@ -7399,7 +7399,7 @@ version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "cf221c93e13a30d793f7645a0e7762c55d169dbb0a49671918a2319d289b10bb"
 dependencies = [
- "windows-sys 0.59.0",
+ "windows-sys 0.48.0",
 ]
 
 [[package]]

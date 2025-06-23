@@ -13,10 +13,16 @@ rustdocflags = ["--cfg", "docsrs"]
 rustflags    = ["-Zshare-generics=y"]
 
 [target.x86_64-unknown-linux-gnu]
-rustflags = ["-C", "target-feature=+sse2", "-Zshare-generics=y", "-C", "link-args=-Wl,-z,nodelete"]
+rustflags = [
+  "-C",
+  "target-feature=+sse2",
+  "-Zshare-generics=y",
+  "-C",
+  "link-args=-Wl,-z,nodelete",
+]
 
 [target.aarch64-unknown-linux-gnu]
-linker = "aarch64-linux-gnu-gcc"
+linker    = "aarch64-linux-gnu-gcc"
 rustflags = ["-C", "link-args=-Wl,-z,nodelete"]
 
 [target.aarch64-unknown-linux-musl]
@@ -30,7 +36,7 @@ rustflags = [
 ]
 
 [target.armv7-unknown-linux-gnueabihf]
-linker = "arm-linux-gnueabihf-gcc"
+linker    = "arm-linux-gnueabihf-gcc"
 rustflags = ["-C", "link-args=-Wl,-z,nodelete"]
 
 [target.x86_64-pc-windows-msvc]
@@ -40,3 +46,6 @@ rustflags = ["-C", "target-feature=+crt-static", "-Zshare-generics=y"]
 
 [target.aarch64-pc-windows-msvc]
 linker = "rust-lld"
+
+[target.wasm32-unknown-unknown]
+rustflags = ["-Zshare-generics=y", "--cfg", 'getrandom_backend="wasm_js"']
