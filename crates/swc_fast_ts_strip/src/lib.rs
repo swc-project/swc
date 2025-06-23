@@ -446,21 +446,29 @@ pub fn operate(
                     cm.clone(),
                     Some(comments.clone()),
                     swc_ecma_transforms_react::Options {
-                        next: Some(true),
-                        runtime: Some(swc_ecma_transforms_react::Runtime::Automatic),
-                        import_source: transform
-                            .jsx
-                            .as_ref()
-                            .and_then(|jsx| jsx.import_source.clone()),
-                        development: match transform.jsx {
-                            Some(JsxConfig {
-                                transform: Some(transform),
-                                ..
-                            }) => Some(matches!(transform, JsxTransform::ReactJsxDev)),
-                            _ => None,
+                        runtime: match &transform.jsx {
+                            Some(jsx_config) => {
+                                let import_source = jsx_config
+                                    .import_source
+                                    .clone()
+                                    .unwrap_or_else(swc_ecma_transforms_react::default_import_source);
+                                swc_ecma_transforms_react::Runtime::Automatic(
+                                    swc_ecma_transforms_react::AutomaticConfig { import_source },
+                                )
+                            }
+                            None => swc_ecma_transforms_react::Runtime::Automatic(Default::default()),
+                        },
+                        common: swc_ecma_transforms_react::CommonConfig {
+                            development: transform
+                                .jsx
+                                .as_ref()
+                                .and_then(|jsx| jsx.transform.as_ref())
+                                .map(|t| matches!(t, JsxTransform::ReactJsxDev))
+                                .unwrap_or(false)
+                                .into(),
+                            ..Default::default()
                         },
                         refresh: None,
-                        ..Default::default()
                     },
                     top_level_mark,
                     unresolved_mark,
