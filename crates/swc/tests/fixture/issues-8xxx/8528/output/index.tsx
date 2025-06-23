@@ -1,5 +1,4 @@
 import { _ as _apply_decs_2203_r } from "@swc/helpers/_/_apply_decs_2203_r";
-import { jsx as _jsx } from "react/jsx-runtime";
 var _initClass, _React_Component;
 import { observer } from "mobx";
 import * as React from "react";
@@ -12,7 +11,7 @@ class BetButtonWrapper extends (_React_Component = React.Component) {
         ], _React_Component));
     }
     render() {
-        return /*#__PURE__*/ _jsx(S.BetButtonWrapper, {});
+        return /*#__PURE__*/ React.createElement(S.BetButtonWrapper, null);
     }
     static{
         _initClass();

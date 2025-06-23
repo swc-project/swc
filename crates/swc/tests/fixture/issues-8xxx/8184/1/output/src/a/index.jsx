@@ -1,7 +1,6 @@
-import { jsx as _jsx } from "react/jsx-runtime";
 import React from "react";
 var a = function(props) {
-    return /*#__PURE__*/ _jsx("div", {});
+    return /*#__PURE__*/ React.createElement("div", null);
 };
 a.propTypes = {};
 export default a;
