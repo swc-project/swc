@@ -26,4 +26,5 @@ define([
         }
         return MyComponent.prototype.render = function() {}, MyComponent;
     }();
+    <MyComponent foo="bar"/>, <MyComponent foo={0}/>;
 });

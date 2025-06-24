@@ -84,9 +84,8 @@ pub enum Runtime {
 }
 
 impl Default for Runtime {
-    // [TODO]: change to automatic runtime
     fn default() -> Self {
-        Runtime::Classic(Default::default())
+        Runtime::Automatic(Default::default())
     }
 }
 
@@ -166,18 +165,18 @@ impl<'de> Deserialize<'de> for Runtime {
                         other,
                         &["automatic", "classic", "preserve"],
                     )),
-                    None => {
-                        if let Some(import_source) = helper.import_source {
-                            let config = AutomaticConfig { import_source };
-                            Ok(Runtime::Automatic(config))
-                        } else {
-                            let config = ClassicConfig {
-                                pragma: helper.pragma.unwrap_or_else(default_pragma),
-                                pragma_frag: helper.pragma_frag.unwrap_or_else(default_pragma_frag),
-                            };
-                            Ok(Runtime::Classic(config))
+                    None => match (helper.pragma, helper.pragma_frag, helper.import_source) {
+                        (pragma @ Some(..), pragma_frag, None)
+                        | (pragma, pragma_frag @ Some(..), None) => {
+                            Ok(Runtime::Classic(ClassicConfig {
+                                pragma: pragma.unwrap_or_else(default_pragma),
+                                pragma_frag: pragma_frag.unwrap_or_else(default_pragma_frag),
+                            }))
                         }
-                    }
+                        (_, _, import_source) => Ok(Runtime::Automatic(AutomaticConfig {
+                            import_source: import_source.unwrap_or_else(default_import_source),
+                        })),
+                    },
                 }
             }
         }

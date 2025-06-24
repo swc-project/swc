@@ -1,2 +1,2 @@
 //// [file.tsx]
-var x = /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement("span", null, /*#__PURE__*/ React.createElement("div", null))));
+var x = <div><div><span><div></div></span></div></div>;

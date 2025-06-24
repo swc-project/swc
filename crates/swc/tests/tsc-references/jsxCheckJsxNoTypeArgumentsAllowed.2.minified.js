@@ -1,5 +1,6 @@
 //// [component.d.ts]
 import "react";
 //// [file.jsx]
-import "./component";
+import { MyComp } from "./component";
 import "react";
+<MyComp a={10} b="hi"/>;

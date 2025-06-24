@@ -36,15 +36,9 @@ define([
         return MyComponent;
     }();
     // Should be an error
-    /*#__PURE__*/ React.createElement(MyComponent, {
-        bar: "world"
-    });
+    <MyComponent bar='world'/>;
     // Should be OK
-    /*#__PURE__*/ React.createElement(MyComponent, {
-        bar: true
-    });
+    <MyComponent bar={true}/>;
     // Should be ok
-    /*#__PURE__*/ React.createElement(MyComponent, {
-        "data-bar": "hello"
-    });
+    <MyComponent data-bar='hello'/>;
 });

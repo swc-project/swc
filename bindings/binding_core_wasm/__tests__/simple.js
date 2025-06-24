@@ -113,8 +113,8 @@ describe("parse", () => {
                     "ctxt": 2,
                     "optional": false,
                     "span": {
-                      "end": 254,
-                      "start": 251,
+                      "end": 114,
+                      "start": 111,
                     },
                     "type": "Identifier",
                     "value": "Foo",
@@ -122,8 +122,8 @@ describe("parse", () => {
                   "implements": [],
                   "isAbstract": false,
                   "span": {
-                    "end": 257,
-                    "start": 245,
+                    "end": 117,
+                    "start": 105,
                   },
                   "superClass": null,
                   "superTypeParams": null,
@@ -133,8 +133,8 @@ describe("parse", () => {
               ],
               "interpreter": null,
               "span": {
-                "end": 257,
-                "start": 245,
+                "end": 117,
+                "start": 105,
               },
               "type": "Module",
             }
@@ -159,8 +159,8 @@ describe("parse", () => {
                     "ctxt": 2,
                     "optional": false,
                     "span": {
-                      "end": 267,
-                      "start": 264,
+                      "end": 127,
+                      "start": 124,
                     },
                     "type": "Identifier",
                     "value": "Foo",
@@ -168,8 +168,8 @@ describe("parse", () => {
                   "implements": [],
                   "isAbstract": false,
                   "span": {
-                    "end": 270,
-                    "start": 258,
+                    "end": 130,
+                    "start": 118,
                   },
                   "superClass": null,
                   "superTypeParams": null,
@@ -179,8 +179,8 @@ describe("parse", () => {
               ],
               "interpreter": null,
               "span": {
-                "end": 270,
-                "start": 258,
+                "end": 130,
+                "start": 118,
               },
               "type": "Module",
             }

@@ -26,4 +26,5 @@ define([
         }
         return MyComponent.prototype.render = function() {}, MyComponent;
     }();
+    <MyComponent bar='world'/>, <MyComponent bar={!0}/>, <MyComponent data-bar='hello'/>;
 });
