@@ -11477,3 +11477,28 @@ fn issue_10133() {
     ",
     );
 }
+
+#[test]
+fn issue_10435() {
+    run_default_exec_test(
+        "
+    const errorMessages = {
+  '001': () => '[React Flow]: Seems like you have not used zustand \
+         provider as an ancestor. Help: https://reactflow.dev/error#001',
+  '010': () => 'Handle: No node id found. Make sure to only use a Handle inside a custom Node.',
+};
+
+const ERR1 = errorMessages['001']();
+
+const ERR2 = errorMessages['010']();
+
+function printError() {
+  console.log(ERR1);
+  console.log(ERR2)
+}
+
+printError()
+    
+        ",
+    );
+}
