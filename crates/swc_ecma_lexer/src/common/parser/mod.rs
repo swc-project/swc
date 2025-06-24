@@ -513,6 +513,8 @@ pub fn parse_shebang<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Atom>> {
     })
 }
 
+#[cold]
+#[inline(never)]
 pub fn eof_error<'a, P: Parser<'a>>(p: &mut P) -> crate::error::Error {
     debug_assert!(
         p.input_mut().cur().is_none(),
