@@ -983,7 +983,7 @@ impl Optimizer<'_> {
                 return true;
             }
 
-            if sym.parse::<f64>().is_ok() ||    sym.parse::<i32>().is_ok() {
+            if sym.parse::<f64>().is_ok() || sym.parse::<i32>().is_ok() {
                 return true;
             }
 
