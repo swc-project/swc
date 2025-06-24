@@ -76,7 +76,8 @@ impl Default for ClassicConfig {
     }
 }
 
-#[derive(Debug, Clone, Serialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(try_from = "RuntimeRaw")]
 pub enum Runtime {
     Classic(ClassicConfig),
     Automatic(AutomaticConfig),
@@ -95,97 +96,53 @@ impl Merge for Runtime {
     }
 }
 
-impl<'de> Deserialize<'de> for Runtime {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: serde::Deserializer<'de>,
-    {
-        use std::fmt;
+#[derive(Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct RuntimeRaw {
+    #[serde(default)]
+    runtime: Option<String>,
+    #[serde(default)]
+    pragma: Option<BytesStr>,
+    #[serde(default)]
+    pragma_frag: Option<BytesStr>,
+    #[serde(default)]
+    import_source: Option<Atom>,
+}
 
-        use serde::de::{Error, Visitor};
+impl TryFrom<RuntimeRaw> for Runtime {
+    type Error = String;
 
-        struct RuntimeVisitor;
-
-        impl<'de> Visitor<'de> for RuntimeVisitor {
-            type Value = Runtime;
-
-            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
-                formatter.write_str("a string or an object for runtime configuration")
-            }
-
-            fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
-            where
-                E: Error,
-            {
-                match value {
-                    "automatic" => Ok(Runtime::Automatic(AutomaticConfig::default())),
-                    "classic" => Ok(Runtime::Classic(ClassicConfig::default())),
-                    "preserve" => Ok(Runtime::Preserve),
-                    _ => Err(Error::unknown_variant(
-                        value,
-                        &["automatic", "classic", "preserve"],
-                    )),
+    fn try_from(raw: RuntimeRaw) -> Result<Self, Self::Error> {
+        match raw.runtime.as_deref() {
+            Some("automatic") => Ok(Runtime::Automatic(AutomaticConfig {
+                import_source: raw.import_source.unwrap_or_else(default_import_source),
+            })),
+            Some("classic") => Ok(Runtime::Classic(ClassicConfig {
+                pragma: raw.pragma.unwrap_or_else(default_pragma),
+                pragma_frag: raw.pragma_frag.unwrap_or_else(default_pragma_frag),
+            })),
+            Some("preserve") => Ok(Runtime::Preserve),
+            Some(other) => Err(format!(
+                "unknown runtime variant `{other}`, expected one of `automatic`, `classic`, \
+                 `preserve`"
+            )),
+            None => match (raw.pragma, raw.pragma_frag, raw.import_source) {
+                (pragma @ Some(..), pragma_frag, None) | (pragma, pragma_frag @ Some(..), None) => {
+                    Ok(Runtime::Classic(ClassicConfig {
+                        pragma: pragma.unwrap_or_else(default_pragma),
+                        pragma_frag: pragma_frag.unwrap_or_else(default_pragma_frag),
+                    }))
                 }
-            }
-
-            fn visit_map<A>(self, map: A) -> Result<Self::Value, A::Error>
-            where
-                A: serde::de::MapAccess<'de>,
-            {
-                #[derive(Deserialize)]
-                #[serde(rename_all = "camelCase")]
-                struct ConfigHelper {
-                    runtime: Option<String>,
-                    pragma: Option<BytesStr>,
-                    pragma_frag: Option<BytesStr>,
-                    import_source: Option<Atom>,
-                }
-
-                let helper: ConfigHelper =
-                    Deserialize::deserialize(serde::de::value::MapAccessDeserializer::new(map))?;
-
-                match helper.runtime.as_deref() {
-                    Some("automatic") => {
-                        let config = AutomaticConfig {
-                            import_source: helper
-                                .import_source
-                                .unwrap_or_else(default_import_source),
-                        };
-                        Ok(Runtime::Automatic(config))
-                    }
-                    Some("classic") => {
-                        let config = ClassicConfig {
-                            pragma: helper.pragma.unwrap_or_else(default_pragma),
-                            pragma_frag: helper.pragma_frag.unwrap_or_else(default_pragma_frag),
-                        };
-                        Ok(Runtime::Classic(config))
-                    }
-                    Some("preserve") => Ok(Runtime::Preserve),
-                    Some(other) => Err(Error::unknown_variant(
-                        other,
-                        &["automatic", "classic", "preserve"],
-                    )),
-                    None => match (helper.pragma, helper.pragma_frag, helper.import_source) {
-                        (pragma @ Some(..), pragma_frag, None)
-                        | (pragma, pragma_frag @ Some(..), None) => {
-                            Ok(Runtime::Classic(ClassicConfig {
-                                pragma: pragma.unwrap_or_else(default_pragma),
-                                pragma_frag: pragma_frag.unwrap_or_else(default_pragma_frag),
-                            }))
-                        }
-                        (_, _, import_source) => Ok(Runtime::Automatic(AutomaticConfig {
-                            import_source: import_source.unwrap_or_else(default_import_source),
-                        })),
-                    },
-                }
-            }
+                (_, _, import_source) => Ok(Runtime::Automatic(AutomaticConfig {
+                    import_source: import_source.unwrap_or_else(default_import_source),
+                })),
+            },
         }
-
-        deserializer.deserialize_any(RuntimeVisitor)
     }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, Default, Merge)]
+#[serde(try_from = "OptionsRaw")]
 pub struct Options {
     #[serde(flatten)]
     pub runtime: Runtime,
@@ -196,6 +153,75 @@ pub struct Options {
     #[serde(default, deserialize_with = "deserialize_refresh")]
     // default to disabled since this is still considered as experimental by now
     pub refresh: Option<RefreshOptions>,
+}
+
+impl TryFrom<&str> for Options {
+    type Error = String;
+
+    fn try_from(s: &str) -> Result<Self, Self::Error> {
+        match s {
+            "react" => Ok(Options {
+                runtime: Runtime::Classic(ClassicConfig::default()),
+                common: CommonConfig::default(),
+                refresh: None,
+            }),
+            "react-jsx" => Ok(Options {
+                runtime: Runtime::Automatic(AutomaticConfig::default()),
+                common: CommonConfig::default(),
+                refresh: None,
+            }),
+            "react-jsxdev" => Ok(Options {
+                runtime: Runtime::Automatic(AutomaticConfig::default()),
+                common: CommonConfig {
+                    development: true.into(),
+                    ..CommonConfig::default()
+                },
+                refresh: None,
+            }),
+            "preserve" => Ok(Options {
+                runtime: Runtime::Preserve,
+                common: CommonConfig::default(),
+                refresh: None,
+            }),
+            other => Err(format!(
+                "unknown preset `{other}`, expected one of `react`, `react-jsx`, `react-jsxdev`, \
+                 `preserve`"
+            )),
+        }
+    }
+}
+
+#[derive(Deserialize)]
+#[serde(untagged)]
+enum OptionsRaw {
+    Preset(String),
+    Object {
+        #[serde(flatten)]
+        runtime: Runtime,
+        #[serde(flatten)]
+        common: CommonConfig,
+        #[serde(default, deserialize_with = "deserialize_refresh")]
+        refresh: Option<RefreshOptions>,
+    },
+}
+
+impl TryFrom<OptionsRaw> for Options {
+    type Error = String;
+
+    fn try_from(raw: OptionsRaw) -> Result<Self, Self::Error> {
+        match raw {
+            OptionsRaw::Preset(preset) => preset.as_str().try_into(),
+            OptionsRaw::Object {
+                runtime,
+                common,
+                refresh,
+            } => Ok(Options {
+                runtime,
+                common,
+                refresh,
+            }),
+        }
+    }
 }
 
 #[cfg(feature = "concurrent")]
