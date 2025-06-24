@@ -142,40 +142,10 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                         .collect();
 
                     for value in values {
-                        match value.as_str() {
-                            "react-jsx" => {
-                                let options = react::Options {
-                                    runtime: react::Runtime::Automatic(Default::default()),
-                                    ..Default::default()
-                                };
-                                react.push(options);
-                            }
-                            "react-jsxdev" => {
-                                let options = react::Options {
-                                    runtime: react::Runtime::Automatic(Default::default()),
-                                    common: react::CommonConfig {
-                                        development: true.into(),
-                                        ..Default::default()
-                                    },
-                                    ..Default::default()
-                                };
-                                react.push(options);
-                            }
-                            "preserve" => {
-                                react.push(react::Options {
-                                    runtime: react::Runtime::Preserve,
-                                    ..Default::default()
-                                });
-                            }
-                            "react" => {
-                                let options = react::Options {
-                                    runtime: react::Runtime::Classic(Default::default()),
-                                    ..Default::default()
-                                };
-                                react.push(options);
-                            }
-                            _ => {}
-                        }
+                        let Ok(options) = react::Options::try_from(value.as_str()) else {
+                            continue;
+                        };
+                        react.push(options);
                     }
                 }
                 "removecomments" => {}
