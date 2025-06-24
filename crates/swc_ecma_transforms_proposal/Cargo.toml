@@ -36,7 +36,7 @@ swc_ecma_visit              = { version = "13.0.0", path = "../swc_ecma_visit" }
 serde_json = { workspace = true }
 
 swc_ecma_codegen            = { version = "15.0.1", path = "../swc_ecma_codegen" }
-swc_ecma_parser             = { version = "17.0.2", path = "../swc_ecma_parser" }
+swc_ecma_parser             = { version = "17.0.3", path = "../swc_ecma_parser" }
 swc_ecma_transforms_compat  = { version = "20.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_testing = { version = "21.0.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "14.0.0", path = "../testing" }
