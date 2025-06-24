@@ -1,5 +1,5 @@
 //// [file.tsx]
 // OK
-/*#__PURE__*/ React.createElement("div", null);
+<div/>;
 // OK
-/*#__PURE__*/ React.createElement("span", null);
+<span/>;

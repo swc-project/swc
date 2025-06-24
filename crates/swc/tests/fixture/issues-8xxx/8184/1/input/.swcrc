@@ -9,6 +9,11 @@
             "~/*": [
                 "./src/*"
             ]
+        },
+        "transform": {
+            "react": {
+                "runtime": "classic"
+            }
         }
     }
 }

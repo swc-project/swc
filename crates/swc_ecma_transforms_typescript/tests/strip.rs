@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use swc_common::{comments::NoopComments, pass::Optional, Mark};
+use swc_common::{pass::Optional, Mark};
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
@@ -45,7 +45,7 @@ fn tr_config(
         typescript(config, unresolved_mark, top_level_mark),
         jsx(
             t.cm.clone(),
-            None::<NoopComments>,
+            Some(t.comments.clone()),
             Default::default(),
             top_level_mark,
             unresolved_mark,

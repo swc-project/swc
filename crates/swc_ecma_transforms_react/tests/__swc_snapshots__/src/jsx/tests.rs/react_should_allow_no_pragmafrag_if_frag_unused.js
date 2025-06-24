@@ -1,1 +1,4 @@
-/** @jsx dom */ /*#__PURE__*/ dom("div", null, "no fragment is used");
+/** @jsx dom */ /*#__PURE__*/ import { jsx as _jsx } from "react/jsx-runtime";
+_jsx("div", {
+    children: "no fragment is used"
+});
