@@ -2,10 +2,8 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/_/_object_spread",
-    "@swc/helpers/_/_object_spread_props",
     "react"
-], function(require, exports, _object_spread, _object_spread_props, _react) {
+], function(require, exports, _react) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
@@ -15,18 +13,15 @@ define([
     }, obj1 = {
         yy: !0
     };
-    OneThing, OneThing, OneThing, OneThing, _object_spread._({}, obj1, obj), OneThing, _object_spread_props._(_object_spread._({}, obj1), {
-        yy: 42,
+    <OneThing/>, <OneThing {...obj}/>, <OneThing {...{}}/>, <OneThing {...obj1} {...obj}/>, <OneThing {...obj1} yy={42} {...{
         yy1: "hi"
-    }), OneThing, _object_spread_props._(_object_spread._({}, obj1), {
+    }}/>, <OneThing {...obj1} {...{
         yy: 10000,
         yy1: "true"
-    }), OneThing, _object_spread._(_object_spread_props._(_object_spread._({}, defaultObj), {
-        yy: !0
-    }), obj), OneThing, OneThing, OneThing, _object_spread_props._(_object_spread._({}, {
+    }}/>, <OneThing {...defaultObj} yy {...obj}/>, <OneThing ignore-prop={100}/>, <OneThing {...{
+        "ignore-prop": 200
+    }}/>, <OneThing {...{
         yy: 500,
         "ignore-prop": "hello"
-    }), {
-        yy1: "boo"
-    });
+    }} yy1="boo"/>;
 });

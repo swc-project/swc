@@ -131,10 +131,12 @@ test!(
 test!(
     create_element_jsx,
     r#"
+  // @jsxRuntime classic
   import React from 'react';
   const x = <div />;
   "#,
     r#"
+  // @jsxRuntime classic
   import React from 'react';
   const x = /*#__PURE__*/ React.createElement("div", null);
   "#
@@ -143,10 +145,12 @@ test!(
 test!(
     create_element_fragment_jsx,
     r#"
+  // @jsxRuntime classic
   import React from 'react';
   const x = <><div /></>;
   "#,
     r#"
+  // @jsxRuntime classic
   import React from 'react';
   const x = /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement("div", null));
   "#

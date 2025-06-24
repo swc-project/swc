@@ -35,7 +35,7 @@ where
             pragma = (Some(mem::take(&mut config.pragma)), 0);
             pragma_frag = (Some(mem::take(&mut config.pragma_frag)), 0);
         }
-        Runtime::Preserve => unreachable!(),
+        Runtime::Preserve => return runtime,
     };
 
     comments.for_each(&mut |comment| {

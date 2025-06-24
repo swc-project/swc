@@ -1,1 +1,1 @@
-/* @jsx h */ /* @jsxFrag null */ React.createElement(React.Fragment, null);
+/* @jsxRuntime classic */ /* @jsx h */ /* @jsxFrag null */ /*#__PURE__*/ h(null, null);

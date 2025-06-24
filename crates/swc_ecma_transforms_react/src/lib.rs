@@ -49,7 +49,7 @@ where
     let (auto_config, classic_config) = match parse_directives(options.runtime, comments.clone()) {
         Runtime::Automatic(ref mut config) => (Some(mem::take(config)), None),
         Runtime::Classic(ref mut config) => (None, Some(mem::take(config))),
-        Runtime::Preserve => unreachable!(),
+        Runtime::Preserve => (None, None),
     };
 
     let refresh_options = options.refresh;
