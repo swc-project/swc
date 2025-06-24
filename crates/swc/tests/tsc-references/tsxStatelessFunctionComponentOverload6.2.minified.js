@@ -2,14 +2,8 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/_/_object_spread",
-    "@swc/helpers/_/_object_spread_props",
     "react"
-], function(require, exports, _object_spread, _object_spread_props, _react) {
-    var obj1;
-    function MainButton(props) {
-        return props.to ? this._buildMainLink(props) : this._buildMainButton(props);
-    }
+], function(require, exports, _react) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), Object.defineProperty(exports, "MainButton", {
@@ -17,12 +11,23 @@ define([
         get: function() {
             return MainButton;
         }
-    }), _object_spread._({
-        to: 10000
-    }, {
+    });
+    var obj1, obj = {
         children: "hi",
         to: "boo"
-    }), _object_spread_props._(_object_spread._({}, obj1), {
-        to: "/to/somewhere"
-    });
+    };
+    function MainButton(props) {
+        return props.to ? this._buildMainLink(props) : this._buildMainButton(props);
+    }
+    <MainButton to='/some/path'>GO</MainButton>, <MainButton onClick={function(e) {}}>Hello world</MainButton>, <MainButton {...obj}/>, <MainButton {...{
+        to: 10000
+    }} {...obj}/>, <MainButton {...obj1}/>, <MainButton {...obj1} to="/to/somewhere"/>, <MainButton {...{
+        onClick: function() {}
+    }}/>, <MainButton {...{
+        onClick: function() {
+            console.log("hi");
+        }
+    }}/>, <MainButton {...{
+        onClick: function() {}
+    }}/>, <MainButton to='/some/path' extra-prop>GO</MainButton>, <MainButton to='/some/path' children="hi"></MainButton>, <MainButton onClick={function(e) {}} className="hello" data-format>Hello world</MainButton>, <MainButton data-format="Hello world"/>;
 });

@@ -1,8 +1,8 @@
 //// [tsxElementResolution.tsx]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var foundFirst = function foundFirst() {
+var foundFirst1 = function foundFirst1() {
     "use strict";
-    _class_call_check(this, foundFirst);
+    _class_call_check(this, foundFirst1);
 };
 var Other = function Other() {
     "use strict";
@@ -16,13 +16,11 @@ var Other = function Other() {
     Dotted.Name = Name;
 })(Dotted || (Dotted = {}));
 // Should find the intrinsic element, not the class element
-var a = /*#__PURE__*/ React.createElement("foundFirst", {
-    x: "hello"
-});
-var b = /*#__PURE__*/ React.createElement("string_named", null);
+var a = <foundFirst x="hello"/>;
+var b = <string_named/>;
 // TODO: This should not be a parse error (should
 //        parse a property name here, not identifier)
 // var c = <var />;
-var d = /*#__PURE__*/ React.createElement(Other, null);
-var e = /*#__PURE__*/ React.createElement(Dotted.Name, null);
+var d = <Other/>;
+var e = <Dotted.Name/>;
 var Dotted;

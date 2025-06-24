@@ -1,1 +1,9 @@
-/*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement("span", null, "Hello something long to not trigger line break"), " ");
+/*#__PURE__*/ const { jsx: _jsx, jsxs: _jsxs, Fragment: _Fragment } = require("react/jsx-runtime");
+_jsxs(_Fragment, {
+    children: [
+        /*#__PURE__*/ _jsx("span", {
+            children: "Hello something long to not trigger line break"
+        }),
+        " "
+    ]
+});

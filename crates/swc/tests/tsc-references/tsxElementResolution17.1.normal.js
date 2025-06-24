@@ -22,5 +22,5 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: true
     });
-    /*#__PURE__*/ React.createElement(_elements1.MyElement, null);
+    <s1.MyElement/>;
 });

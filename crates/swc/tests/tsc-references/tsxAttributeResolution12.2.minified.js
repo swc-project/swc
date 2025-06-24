@@ -1,4 +1,5 @@
 //// [tsxAttributeResolution12.tsx]
 //// [react.d.ts]
 //// [file.tsx]
-TestMod.Test, TestMod.Test;
+var T = TestMod.Test;
+<T/>, <TestMod.Test/>;

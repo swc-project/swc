@@ -1,2 +1,3 @@
+var _require = require("react/jsx-runtime"), _jsx = _require.jsx;
 ;
-React.createElement("a", null);
+_jsx("a", {});

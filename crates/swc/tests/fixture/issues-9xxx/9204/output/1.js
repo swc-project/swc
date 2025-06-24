@@ -1,4 +1,7 @@
+import { jsx as _jsx } from "react/jsx-runtime";
 let Foo = createFoo();
 export function App() {
-    return React.createElement("view", null, React.createElement(Foo, null));
+    return _jsx("view", {
+        children: _jsx(Foo, {})
+    });
 }
