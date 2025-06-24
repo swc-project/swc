@@ -793,14 +793,16 @@ export interface EsParserConfig {
   importAssertions?: boolean;
 }
 
+type JSXPreset = "react" | "react-jsx" | "react-jsxdev" | "preserve" | "react-native";
+
 /**
  * Options for transform.
  */
 export interface TransformConfig {
   /**
-   * Effective only if `syntax` supports ƒ.
+   * Effective only if `syntax` supports.
    */
-  react?: ReactConfig;
+  react?: JSXPreset | ReactConfig;
 
   constModules?: ConstModulesConfig;
 
@@ -889,7 +891,7 @@ export interface ReactConfig {
   /**
    * jsx runtime
    */
-  runtime?: 'automatic' | 'classic'
+  runtime?: 'automatic' | 'classic' | 'preserve';
 
   /**
    * Declares the module specifier to be used for importing the `jsx` and `jsxs` factory functions when using `runtime` 'automatic'
