@@ -178,14 +178,14 @@ impl TryFrom<&str> for Options {
                 },
                 refresh: None,
             }),
-            "preserve" => Ok(Options {
+            "preserve" | "react-native" => Ok(Options {
                 runtime: Runtime::Preserve,
                 common: CommonConfig::default(),
                 refresh: None,
             }),
             other => Err(format!(
                 "unknown preset `{other}`, expected one of `react`, `react-jsx`, `react-jsxdev`, \
-                 `preserve`"
+                 `preserve`, `react-native`"
             )),
         }
     }

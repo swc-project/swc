@@ -836,7 +836,7 @@ export interface EsParserConfig {
     explicitResourceManagement?: boolean;
 }
 
-type JSXPreset = "react" | "react-jsx" | "react-jsxdev" | "preserve";
+type JSXPreset = "react" | "react-jsx" | "react-jsxdev" | "preserve" | "react-native";
 
 /**
  * Options for transform.
