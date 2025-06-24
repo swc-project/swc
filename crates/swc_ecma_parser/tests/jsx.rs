@@ -46,6 +46,7 @@ where
 }
 
 #[testing::fixture("tests/jsx/basic/**/*.js")]
+#[testing::fixture("tests/jsx/basic/**/*.jsx")]
 fn references(entry: PathBuf) {
     run_test(false, |cm, handler| {
         let input = read_to_string(&entry).unwrap();
