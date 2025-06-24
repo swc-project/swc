@@ -66,6 +66,7 @@ fn shopify_1_check_filename() {
         let fm = cm.new_source_file(
             FileName::Anon.into(),
             "
+            // @jsxRuntime classic
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
 
@@ -164,6 +165,7 @@ fn shopify_2_same_opt() {
         let fm = cm.new_source_file(
             FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()).into(),
             "
+            // @jsxRuntime classic
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
 
@@ -231,6 +233,7 @@ fn shopify_3_reduce_defaults() {
         let fm = cm.new_source_file(
             FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()).into(),
             "
+            // @jsxRuntime classic
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
 
@@ -293,6 +296,7 @@ fn shopify_4_reduce_more() {
         let fm = cm.new_source_file(
             FileName::Real("/Users/kdy1/projects/example-swcify/src/App/App.tsx".into()).into(),
             "
+            // @jsxRuntime classic
             import React from 'react';
             import { useI18n } from '@shopify/react-i18n';
 

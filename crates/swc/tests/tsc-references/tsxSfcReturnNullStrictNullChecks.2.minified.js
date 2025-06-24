@@ -7,4 +7,11 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
+    var Foo = function(props) {
+        return null;
+    };
+    function Greet(x) {
+        return null;
+    }
+    <Foo/>, <Greet/>;
 });

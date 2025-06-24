@@ -5,4 +5,7 @@ define([
 //// [test.tsx]
 define([
     "require"
-], function(require) {});
+], function(require) {
+    var Route;
+    <Route/>;
+});
