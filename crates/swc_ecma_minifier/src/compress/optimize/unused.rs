@@ -979,6 +979,10 @@ impl Optimizer<'_> {
         }
 
         let should_preserve_property = |sym: &Atom| {
+            if sym.parse::<f64>().is_ok() {
+                return true;
+            }
+
             if let "toString" = &**sym {
                 return true;
             }
