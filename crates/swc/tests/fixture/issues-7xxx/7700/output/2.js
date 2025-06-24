@@ -1,3 +1,4 @@
+import { jsxs as _jsxs } from "react/jsx-runtime";
 let positions = {
     top: 1,
     left: 2,
@@ -10,10 +11,14 @@ let positions = {
     bottom: 4
 };
 export function PositionRender({ isRtl, position }) {
-    let display = ('fe-fe-fe' === isRtl ? [
-        rtlPositions
-    ] : {
-        positions
-    })[position];
-    return React.createElement("h1", null, "PositionRender: ", display);
+    return _jsxs("h1", {
+        children: [
+            "PositionRender: ",
+            ('fe-fe-fe' === isRtl ? [
+                rtlPositions
+            ] : {
+                positions
+            })[position]
+        ]
+    });
 }

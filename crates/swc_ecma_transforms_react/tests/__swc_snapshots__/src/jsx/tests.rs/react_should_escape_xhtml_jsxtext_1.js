@@ -1,7 +1,25 @@
-/*#__PURE__*/ React.createElement("div", null, "wow");
-/*#__PURE__*/ React.createElement("div", null, "wôw");
-/*#__PURE__*/ React.createElement("div", null, "w & w");
-/*#__PURE__*/ React.createElement("div", null, "w & w");
-/*#__PURE__*/ React.createElement("div", null, "w   w");
-/*#__PURE__*/ React.createElement("div", null, "this should parse as unicode: ", '\u00a0 ');
-/*#__PURE__*/ React.createElement("div", null, "w < w");
+/*#__PURE__*/ import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+_jsx("div", {
+    children: "wow"
+});
+/*#__PURE__*/ _jsx("div", {
+    children: "wôw"
+});
+/*#__PURE__*/ _jsx("div", {
+    children: "w & w"
+});
+/*#__PURE__*/ _jsx("div", {
+    children: "w & w"
+});
+/*#__PURE__*/ _jsx("div", {
+    children: "w   w"
+});
+/*#__PURE__*/ _jsxs("div", {
+    children: [
+        "this should parse as unicode: ",
+        '\u00a0 '
+    ]
+});
+/*#__PURE__*/ _jsx("div", {
+    children: "w < w"
+});

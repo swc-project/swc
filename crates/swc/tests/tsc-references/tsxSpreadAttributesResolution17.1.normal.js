@@ -11,9 +11,9 @@ export var Empty = /*#__PURE__*/ function(_React_Component) {
     }
     var _proto = Empty.prototype;
     _proto.render = function render() {
-        return /*#__PURE__*/ React.createElement("div", null, "Hello");
+        return <div>Hello</div>;
     };
     return Empty;
 }(React.Component);
 // OK
-var unionedSpread = /*#__PURE__*/ React.createElement(Empty, obj);
+var unionedSpread = <Empty {...obj}/>;

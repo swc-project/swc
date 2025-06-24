@@ -8,6 +8,11 @@
         "parser": {
             "syntax": "typescript",
             "tsx": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "classic"
+            }
         }
     },
     "module": {

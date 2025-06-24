@@ -1,3 +1,5 @@
+/* @jsxRuntime classic */
+//
 import React from "react";
 import ReactDOM from "react-dom";
 import { _Component } from "./Component";
