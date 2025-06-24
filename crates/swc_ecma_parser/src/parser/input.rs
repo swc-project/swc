@@ -119,6 +119,12 @@ impl<I: Tokens> Buffer<I> {
     }
 
     pub fn rescan_jsx_open_el_terminal_token(&mut self) {
+        if !self
+            .cur()
+            .is_some_and(|token| token.should_rescan_into_gt_in_jsx())
+        {
+            return;
+        }
         // rescan `>=`, `>>`, `>>=`, `>>>`, `>>>=` into `>`
         let cur = match self.cur.as_ref() {
             Some(cur) => cur,
@@ -126,16 +132,7 @@ impl<I: Tokens> Buffer<I> {
                 return self.scan_jsx_open_el_terminal_token();
             }
         };
-        if !matches!(
-            cur.token,
-            Token::GtEq
-                | Token::RShift
-                | Token::RShiftEq
-                | Token::ZeroFillRShift
-                | Token::ZeroFillRShiftEq
-        ) {
-            return;
-        }
+
         let start = cur.span.lo;
         if let Some(t) = self.iter_mut().rescan_jsx_open_el_terminal_token(start) {
             self.set_cur(t);
