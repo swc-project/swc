@@ -10,9 +10,7 @@
             "tsx": true
         },
         "transform": {
-            "react": {
-                "runtime": "classic"
-            }
+            "react": "react"
         }
     },
     "module": {

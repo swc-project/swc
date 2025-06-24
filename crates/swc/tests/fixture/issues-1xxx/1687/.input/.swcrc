@@ -7,9 +7,7 @@
             "dynamicImport": true
         },
         "transform": {
-            "react": {
-                "runtime": "automatic"
-            }
+            "react": "react-jsx"
         },
         "externalHelpers": true
     },
