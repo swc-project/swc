@@ -1469,6 +1469,17 @@ impl Token {
             _ => false,
         }
     }
+
+    pub(crate) fn should_rescan_into_gt_in_jsx(self) -> bool {
+        matches!(
+            self,
+            Token::GtEq
+                | Token::RShift
+                | Token::RShiftEq
+                | Token::ZeroFillRShift
+                | Token::ZeroFillRShiftEq
+        )
+    }
 }
 
 #[derive(Clone, Copy, Debug)]

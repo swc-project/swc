@@ -53,10 +53,9 @@ impl<I: Tokens> Parser<I> {
                         .map(Box::new)
                 };
             } else if self.input().syntax().jsx()
-                && self
-                    .input_mut()
-                    .peek()
-                    .is_some_and(|peek| (*peek).is_word() || peek == &Token::Gt)
+                && self.input_mut().peek().is_some_and(|peek| {
+                    (*peek).is_word() || peek == &Token::Gt || peek.should_rescan_into_gt_in_jsx()
+                })
             {
                 fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
                     match e {
