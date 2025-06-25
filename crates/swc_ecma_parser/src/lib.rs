@@ -125,13 +125,21 @@
 #![allow(clippy::wrong_self_convention)]
 #![allow(clippy::match_like_matches_macro)]
 
+#[cfg(feature = "unstable")]
+pub mod unstable {
+    pub use swc_ecma_lexer::common::lexer::token::TokenFactory;
+
+    pub use crate::lexer::token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
+}
+
+pub mod lexer;
+mod parser;
+
+pub use lexer::Lexer;
 pub use swc_common::input::{Input, StringInput};
 use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::{common::parser::Parser as ParserTrait, error::Error};
-pub mod lexer;
-
-pub use lexer::Lexer;
 pub use swc_ecma_lexer::{
     common::{
         context::Context,
@@ -141,8 +149,6 @@ pub use swc_ecma_lexer::{
 };
 
 pub use self::parser::*;
-
-mod parser;
 
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>
