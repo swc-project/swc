@@ -1,5 +1,5 @@
-var _s = $RefreshSig$();
 import { jsx as _jsx } from "react/jsx-runtime";
+var _s = $RefreshSig$();
 import { useFancyState } from './hooks';
 import useFoo from './foo';
 export default function App() {
