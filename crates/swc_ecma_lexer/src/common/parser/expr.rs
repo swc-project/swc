@@ -19,6 +19,7 @@ use crate::{
                 parse_async_fn_expr, parse_class_expr, parse_decorators,
                 parse_fn_block_or_expr_body, parse_fn_expr,
             },
+            eof_error,
             expr_ext::ExprExt,
             ident::{parse_binding_ident, parse_ident, parse_maybe_private_name},
             is_simple_param_list::IsSimpleParameterList,
@@ -241,7 +242,9 @@ pub fn parse_str_lit<'a>(p: &mut impl Parser<'a>) -> swc_ecma_ast::Str {
 
 pub fn parse_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Lit> {
     let start = p.cur_pos();
-    let cur = cur!(p, true);
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
     let v = if cur.is_null() {
         p.bump();
         let span = p.span(start);
@@ -275,6 +278,10 @@ pub fn parse_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Lit> {
             value,
             raw: Some(raw),
         })
+    } else if cur.is_error() {
+        let c = p.input_mut().bump();
+        let err = c.take_error(p.input_mut());
+        return Err(err);
     } else {
         unreachable!("parse_lit should not be called for {:?}", cur)
     };
@@ -421,7 +428,16 @@ fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>
         return parse_yield_expr(p);
     }
 
-    let cur = cur!(p, true);
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
+
+    if cur.is_error() {
+        let c = p.input_mut().bump();
+        let err = c.take_error(p.input_mut());
+        return Err(err);
+    }
+
     p.state_mut().potential_arrow_start =
         if cur.is_known_ident() || cur.is_unknown_ident() || cur.is_yield() || cur.is_lparen() {
             Some(p.cur_pos())
@@ -1241,8 +1257,14 @@ pub fn parse_bin_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
         Err(err) => {
             trace_cur!(p, parse_bin_expr__recovery_unary_err);
 
-            let cur = cur!(p, true);
-            if (cur.is_in() && ctx.contains(Context::IncludeInExpr))
+            let Some(cur) = p.input_mut().cur() else {
+                return Err(eof_error(p));
+            };
+            if cur.is_error() {
+                let c = p.input_mut().bump();
+                let err = c.take_error(p.input_mut());
+                return Err(err);
+            } else if (cur.is_in() && ctx.contains(Context::IncludeInExpr))
                 || cur.is_instanceof()
                 || cur.is_bin_op()
             {
@@ -1693,11 +1715,18 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
                 Either::Right(r) => r.into(),
             }
         }
-        let cur = cur!(p, true);
+        let Some(cur) = p.input_mut().cur() else {
+            return Err(eof_error(p));
+        };
+
         if cur.is_jsx_text() {
             return Ok(Box::new(Expr::Lit(Lit::JSXText(parse_jsx_text(p)))));
         } else if cur.is_jsx_tag_start() {
             return parse_jsx_element(p).map(into_expr);
+        } else if cur.is_error() {
+            let c = p.input_mut().bump();
+            let err = c.take_error(p.input_mut());
+            return Err(err);
         }
 
         if p.input_mut().is(&P::Token::LESS) && !peek!(p).is_some_and(|peek| peek.is_bang()) {

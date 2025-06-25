@@ -1,11 +1,11 @@
 use either::Either;
 use swc_atoms::atom;
-use swc_common::{BytePos, Span};
+use swc_common::BytePos;
 use swc_ecma_ast::*;
 
 use super::{buffer::Buffer, expr::parse_str_lit, PResult, Parser};
 use crate::{
-    common::{context::Context, lexer::token::TokenFactory},
+    common::{context::Context, lexer::token::TokenFactory, parser::eof_error},
     error::SyntaxError,
 };
 
@@ -28,7 +28,9 @@ pub fn parse_module_export_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleE
 /// This allows idents like `catch`.
 pub fn parse_ident_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<IdentName> {
     let start = p.cur_pos();
-    let cur = cur!(p, true);
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
     let w = if cur.is_word() {
         let t = p.bump();
         t.take_word(p.input_mut()).unwrap()
@@ -148,7 +150,9 @@ pub fn parse_ident<'a>(
     let start = p.cur_pos();
 
     let word = p.parse_with(|p| {
-        let t = cur!(p, true);
+        let Some(t) = p.input_mut().cur() else {
+            return Err(eof_error(p));
+        };
         if !t.is_word() {
             syntax_error!(p, SyntaxError::ExpectedIdent)
         }

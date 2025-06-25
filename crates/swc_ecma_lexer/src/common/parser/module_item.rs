@@ -21,6 +21,7 @@ use crate::{
             class_and_fn::{
                 parse_async_fn_decl, parse_class_decl, parse_decorators, parse_default_class,
             },
+            eof_error,
             expr::parse_str_lit,
             ident::parse_binding_ident,
             object::parse_object_expr,
@@ -65,7 +66,9 @@ fn parse_from_clause_and_semi<'a, P: Parser<'a>>(
 ) -> PResult<(Box<Str>, Option<Box<ObjectLit>>)> {
     expect!(p, &P::Token::FROM);
 
-    let cur = cur!(p, true);
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
     let src = if cur.is_str() {
         Box::new(parse_str_lit(p))
     } else {
@@ -346,7 +349,16 @@ fn parse_export<'a, P: Parser<'a>>(
 
     let start = p.cur_pos();
     p.assert_and_bump(&P::Token::EXPORT)?;
-    let _ = cur!(p, true);
+
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
+    if cur.is_error() {
+        let c = p.input_mut().bump();
+        let err = c.take_error(p.input_mut());
+        return Err(err);
+    }
+
     let after_export_start = p.cur_pos();
 
     // "export declare" is equivalent to just "export".
@@ -363,16 +375,17 @@ fn parse_export<'a, P: Parser<'a>>(
         }
     }
 
-    if p.input().syntax().typescript() && p.input_mut().cur().is_some_and(|cur| cur.is_word()) {
-        let cur = cur!(p, true);
-        let sym = cur.clone().take_word(p.input()).unwrap();
-        // TODO: remove clone
-        if let Some(decl) = try_parse_ts_export_decl(p, decorators.clone(), sym) {
-            return Ok(ExportDecl {
-                span: p.span(start),
-                decl,
+    if p.input().syntax().typescript() {
+        if let Some(cur) = p.input_mut().cur().filter(|cur| cur.is_word()) {
+            let sym = cur.clone().take_word(p.input()).unwrap();
+            // TODO: remove clone
+            if let Some(decl) = try_parse_ts_export_decl(p, decorators.clone(), sym) {
+                return Ok(ExportDecl {
+                    span: p.span(start),
+                    decl,
+                }
+                .into());
             }
-            .into());
         }
     }
 
@@ -449,7 +462,14 @@ fn parse_export<'a, P: Parser<'a>>(
             {
                 let class_start = p.cur_pos();
                 p.assert_and_bump(&P::Token::ABSTRACT)?;
-                let _ = cur!(p, true);
+                let Some(cur) = p.input_mut().cur() else {
+                    return Err(eof_error(p));
+                };
+                if cur.is_error() {
+                    let c = p.input_mut().bump();
+                    let err = c.take_error(p.input_mut());
+                    return Err(err);
+                }
 
                 return parse_default_class(p, start, class_start, decorators, true)
                     .map(ModuleDecl::ExportDefaultDecl);
@@ -532,7 +552,9 @@ fn parse_export<'a, P: Parser<'a>>(
     {
         let enum_start = p.cur_pos();
         p.assert_and_bump(&P::Token::CONST)?;
-        let _ = cur!(p, true);
+        let Some(_) = p.input_mut().cur() else {
+            return Err(eof_error(p));
+        };
         p.assert_and_bump(&P::Token::ENUM)?;
         return parse_ts_enum_decl(p, enum_start, /* is_const */ true)
             .map(Decl::from)
@@ -881,7 +903,7 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
 
     let src = {
         expect!(p, &P::Token::FROM);
-        if cur!(p, true).is_str() {
+        if p.input_mut().cur().is_some_and(|cur| cur.is_str()) {
             Box::new(parse_str_lit(p))
         } else {
             unexpected!(p, "a string literal")
