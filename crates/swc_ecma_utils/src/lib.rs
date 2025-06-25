@@ -3304,6 +3304,34 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
             prop: MemberProp::Ident(prop),
             ..
         }) => {
+            // Some methods of string are pure
+            fn is_pure_str_method(method: &str) -> bool {
+                matches!(
+                    method,
+                    "charAt"
+                        | "charCodeAt"
+                        | "concat"
+                        | "endsWith"
+                        | "includes"
+                        | "indexOf"
+                        | "lastIndexOf"
+                        | "localeCompare"
+                        | "slice"
+                        | "split"
+                        | "startsWith"
+                        | "substr"
+                        | "substring"
+                        | "toLocaleLowerCase"
+                        | "toLocaleUpperCase"
+                        | "toLowerCase"
+                        | "toString"
+                        | "toUpperCase"
+                        | "trim"
+                        | "trimEnd"
+                        | "trimStart"
+                )
+            }
+
             obj.is_global_ref_to(ctx, "Math")
                 || match &**obj {
                     // Allow dummy span
@@ -3311,15 +3339,10 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
                         ctxt, sym: math, ..
                     }) => &**math == "Math" && *ctxt == SyntaxContext::empty(),
 
-                    // Some methods of string are pure
-                    Expr::Lit(Lit::Str(..)) => match &*prop.sym {
-                        "charAt" | "charCodeAt" | "concat" | "endsWith" | "includes"
-                        | "indexOf" | "lastIndexOf" | "localeCompare" | "slice" | "split"
-                        | "startsWith" | "substr" | "substring" | "toLocaleLowerCase"
-                        | "toLocaleUpperCase" | "toLowerCase" | "toString" | "toUpperCase"
-                        | "trim" | "trimEnd" | "trimStart" => true,
-                        _ => false,
-                    },
+                    Expr::Lit(Lit::Str(..)) => is_pure_str_method(&prop.sym),
+                    Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty() => {
+                        is_pure_str_method(&prop.sym)
+                    }
 
                     _ => false,
                 }
