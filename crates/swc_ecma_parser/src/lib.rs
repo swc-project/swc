@@ -127,6 +127,18 @@
 
 #[cfg(feature = "unstable")]
 pub mod unstable {
+    //! This module expose tokens related to the `swc_ecma_parser::lexer`.
+    //!
+    //! Unlike the tokens re-exported from `swc_ecma_lexer`, the token kinds
+    //! defined in the `swc_ecma_parser` here are non-strict for higher
+    //! performance.
+    //!
+    //! Although it's marked as unstable, we can ensure that we will not
+    //! introduce too many breaking changes. And we also encourage the
+    //! applications to migrate to the lexer and tokens in the respect to
+    //! the performance.
+    //!
+    //! Also see the dicussion https://github.com/swc-project/swc/discussions/10683
     pub use swc_ecma_lexer::common::lexer::token::TokenFactory;
 
     pub use crate::lexer::token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
