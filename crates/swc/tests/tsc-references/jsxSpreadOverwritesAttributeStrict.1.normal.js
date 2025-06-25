@@ -1,10 +1,21 @@
 //// [file.tsx]
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[2:1]
-//!  1 | 
-//!  2 | import React = require('react');
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  3 | 
-//!  4 | interface Props {
-//!  5 |     a: number;
-//!    `----
+var props = {
+    a: 1,
+    b: 1
+};
+var Foo = function(props) {
+    return <div>{props.a}</div>;
+};
+// ok
+var a1 = <Foo {...props}></Foo>;
+var a2 = <Foo d={1} {...props}></Foo>;
+// error
+var b1 = <Foo a={1} {...props}></Foo>;
+var b2 = <Foo a={1} b={2} {...props}></Foo>;
+var b3 = <Foo a={1} d={1} {...props} {...{
+    d: 1
+}}></Foo>;
+var b4 = <Foo a={1} d={1} {...props} {...{
+    a: 1,
+    d: 1
+}}></Foo>;

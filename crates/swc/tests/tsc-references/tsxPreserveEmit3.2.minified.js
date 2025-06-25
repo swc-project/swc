@@ -24,9 +24,8 @@ define([
 //// [react-consumer.tsx]
 define([
     "require",
-    "exports",
-    "./test"
-], function(require, exports, _test) {
+    "exports"
+], function(require, exports) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
