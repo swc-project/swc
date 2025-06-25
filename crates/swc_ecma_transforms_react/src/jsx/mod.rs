@@ -299,6 +299,7 @@ where
 
     match runtime {
         Runtime::Automatic(config) => (
+            None,
             Some(automatic(
                 config,
                 common,
@@ -306,11 +307,10 @@ where
                 comments.clone(),
                 cm.clone(),
             )),
-            None,
         ),
         Runtime::Classic(config) => (
-            None,
             Some(classic(config, common, comments.clone(), cm.clone())),
+            None,
         ),
         Runtime::Preserve => (None, None),
     }

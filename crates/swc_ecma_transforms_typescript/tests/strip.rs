@@ -1805,7 +1805,8 @@ test!(
     }),
     |t| tsxr(t),
     imports_not_used_as_values_jsx_prag,
-    r#"/** @jsx h */
+    r#"/** @jsxRuntime classic */
+/** @jsx h */
 import html, { h } from "example";
 serve((_req) =>
   html({
@@ -1823,6 +1824,7 @@ test!(
     |t| tsxr(t),
     imports_not_used_as_values_shebang_jsx_prag,
     r#"#!/usr/bin/env -S deno run -A
+/** @jsxRuntime classic */
 /** @jsx h */
 import html, { h } from "example";
 serve((_req) =>
