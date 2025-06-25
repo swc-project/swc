@@ -1037,6 +1037,7 @@ export default function waitUntil(callback, options = {}) {
         });
     }
 
+    #[ignore = "see https://github.com/swc-project/swc/pull/3018#issuecomment-991947907"]
     #[test]
     #[should_panic(expected = "Trailing comma is disallowed inside import(...) arguments")]
     fn error_for_trailing_comma_inside_dynamic_import() {
