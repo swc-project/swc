@@ -191,6 +191,7 @@ const L_O: ByteHandler = Some(|lexer| {
     lexer.read_word_with(&|s| match s {
         "of" => Some(Token::Of),
         "object" => Some(Token::Object),
+        "out" => Some(Token::Out),
         "override" => Some(Token::Override),
         _ => None,
     })
