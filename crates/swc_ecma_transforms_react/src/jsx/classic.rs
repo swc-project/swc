@@ -9,8 +9,8 @@ use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use swc_common::{
-    comments::Comments, errors::HANDLER, sync::Lrc, util::take::Take, BytePos, FileName, Mark,
-    SourceMap, Spanned, DUMMY_SP,
+    comments::Comments, errors::HANDLER, sync::Lrc, util::take::Take, BytePos, FileName, SourceMap,
+    Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
@@ -23,12 +23,7 @@ use crate::{
 };
 
 /// Parse `src` to use as a `pragma` or `pragmaFrag` in jsx.
-pub fn parse_expr_for_jsx(
-    cm: &SourceMap,
-    name: &str,
-    src: BytesStr,
-    top_level_mark: Mark,
-) -> Box<Expr> {
+pub fn parse_expr_for_jsx(cm: &SourceMap, name: &str, src: BytesStr) -> Box<Expr> {
     let fm = cm.new_source_file(cache_filename(name), src);
 
     parse_file_as_expr(
@@ -48,28 +43,12 @@ pub fn parse_expr_for_jsx(
         }
     })
     .map(drop_span)
-    .map(|mut expr| {
-        apply_mark(&mut expr, top_level_mark);
-        expr
-    })
     .unwrap_or_else(|()| {
         panic!(
             "failed to parse jsx option {}: '{}' is not an expression",
             name, fm.src,
         )
     })
-}
-
-fn apply_mark(e: &mut Expr, mark: Mark) {
-    match e {
-        Expr::Ident(i) => {
-            i.ctxt = i.ctxt.apply_mark(mark);
-        }
-        Expr::Member(MemberExpr { obj, .. }) => {
-            apply_mark(obj, mark);
-        }
-        _ => {}
-    }
 }
 
 /// `@babel/plugin-transform-react-jsx`
@@ -88,7 +67,6 @@ fn apply_mark(e: &mut Expr, mark: Mark) {
 pub fn classic<C>(
     options: ClassicConfig,
     common: CommonConfig,
-    pragma_mark: Mark,
     comments: Option<C>,
     cm: Lrc<SourceMap>,
 ) -> impl Pass + VisitMut
@@ -102,10 +80,10 @@ where
         None => Lrc::new(|_pos| {}),
     };
 
-    let pragma = parse_expr_for_jsx(&cm, "pragma", options.pragma, pragma_mark);
+    let pragma = parse_expr_for_jsx(&cm, "pragma", options.pragma);
     let pragma = Lrc::new(pragma);
 
-    let pragma_frag = parse_expr_for_jsx(&cm, "pragmaFrag", options.pragma_frag, pragma_mark);
+    let pragma_frag = parse_expr_for_jsx(&cm, "pragmaFrag", options.pragma_frag);
     let pragma_frag = Lrc::new(pragma_frag);
 
     visit_mut_pass(Classic {
