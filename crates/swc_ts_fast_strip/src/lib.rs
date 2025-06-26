@@ -21,10 +21,10 @@ use swc_ecma_ast::{
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
     TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
 };
-use swc_ecma_lexer::{
+use swc_ecma_parser::{
     lexer::Lexer,
-    token::{BinOpToken, IdentLike, KnownIdent, Token, TokenAndSpan, Word},
-    Capturing, Parser, StringInput, Syntax, TsSyntax,
+    unstable::{Capturing, Token, TokenAndSpan, TokenFactory},
+    Parser, StringInput, Syntax, TsSyntax,
 };
 use swc_ecma_transforms_base::{
     fixer::fixer,
@@ -564,16 +564,13 @@ impl Visit for ErrorOnTsModule<'_> {
                 .binary_search_by_key(&pos, |t| t.span.lo)
                 .unwrap();
 
-            debug_assert_eq!(
-                self.tokens[declare_index].token,
-                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Declare)))
-            );
+            debug_assert_eq!(self.tokens[declare_index].token, Token::Declare);
 
             let TokenAndSpan { token, span, .. } = &self.tokens[declare_index + 1];
             // declare global
             // declare module
             // declare namespace
-            if let Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Namespace))) = token {
+            if matches!(token, Token::Namespace) {
                 return;
             }
 
@@ -688,8 +685,10 @@ impl TsStrip {
         match token {
             Token::LParen
             | Token::LBracket
-            | Token::BackQuote
-            | Token::BinOp(BinOpToken::Add | BinOpToken::Sub | BinOpToken::Div) => {
+            | Token::NoSubstitutionTemplateLiteral
+            | Token::Plus
+            | Token::Minus
+            | Token::Slash => {
                 if prev_token == &Token::Semi {
                     self.add_overwrite(prev_span.lo, b';');
                     return;
@@ -710,7 +709,7 @@ impl TsStrip {
 
         if let TokenAndSpan {
             // Only `(`, `[` and backtick affect ASI.
-            token: Token::LParen | Token::LBracket | Token::BackQuote,
+            token: Token::LParen | Token::LBracket | Token::NoSubstitutionTemplateLiteral,
             had_line_break: true,
             ..
         } = &self.tokens[index + 1]
@@ -735,34 +734,30 @@ impl TsStrip {
 
             // see ts_next_token_can_follow_modifier
             // class { public public() {} }
-            if !matches!(
-                next.token,
-                Token::LBracket
-                    | Token::LBrace
-                    | Token::BinOp(BinOpToken::Mul)
-                    | Token::DotDotDot
-                    | Token::Hash
-                    | Token::Word(_)
-                    | Token::Str { .. }
-                    | Token::Num { .. }
-                    | Token::BigInt { .. }
-            ) {
+            if !<Token as TokenFactory<'_, TokenAndSpan, Capturing<Lexer>>>::is_word(&next.token)
+                && !matches!(
+                    next.token,
+                    Token::LBracket
+                        | Token::LBrace
+                        | Token::Asterisk
+                        | Token::DotDotDot
+                        | Token::Hash
+                        | Token::Str
+                        | Token::Num
+                        | Token::BigInt
+                )
+            {
                 return;
             }
 
             match token {
-                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Static))) => {
+                Token::Static => {
                     continue;
                 }
-                Token::Word(Word::Ident(IdentLike::Known(
-                    KnownIdent::Readonly
-                    | KnownIdent::Public
-                    | KnownIdent::Protected
-                    | KnownIdent::Private,
-                ))) => {
+                Token::Readonly | Token::Public | Token::Protected | Token::Private => {
                     self.add_replacement(*span);
                 }
-                Token::Word(Word::Ident(IdentLike::Other(o))) if *o == "override" => {
+                Token::Override => {
                     self.add_replacement(*span);
                 }
                 _ => {
@@ -980,19 +975,13 @@ impl Visit for TsStrip {
             let mark_pos = n.decorators.last().map_or(n.span.lo, |d| d.span.hi);
             let r#abstract = self.get_next_token_index(mark_pos);
 
-            self.strip_token(
-                r#abstract,
-                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Abstract))),
-            )
+            self.strip_token(r#abstract, Token::Abstract)
         }
 
         if !n.implements.is_empty() {
             let implements =
                 self.get_prev_token(n.implements.first().unwrap().span.lo - BytePos(1));
-            debug_assert_eq!(
-                implements.token,
-                Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Implements)))
-            );
+            debug_assert_eq!(implements.token, Token::Implements);
 
             let last = n.implements.last().unwrap();
             let span = span(implements.span.lo, last.span.hi);
@@ -1335,10 +1324,7 @@ impl Visit for TsStrip {
             span: as_span,
             ..
         } = self.get_next_token(n.expr.span_hi());
-        debug_assert_eq!(
-            token,
-            &Token::Word(Word::Ident(IdentLike::Known(KnownIdent::As)))
-        );
+        debug_assert_eq!(token, &Token::As);
         self.fix_asi_in_expr(span(as_span.lo, n.span.hi));
 
         n.expr.visit_children_with(self);
@@ -1440,10 +1426,7 @@ impl Visit for TsStrip {
             span: as_span,
             ..
         } = self.get_next_token(n.expr.span_hi());
-        debug_assert_eq!(
-            token,
-            &Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Satisfies)))
-        );
+        debug_assert_eq!(token, &Token::Satisfies);
         self.fix_asi_in_expr(span(as_span.lo, n.span.hi));
 
         n.expr.visit_children_with(self);
