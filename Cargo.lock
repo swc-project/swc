@@ -4731,7 +4731,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "28.0.1"
+version = "28.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5002,7 +5002,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "29.3.0"
+version = "29.3.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5521,7 +5521,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "17.0.6"
+version = "17.0.7"
 dependencies = [
  "arrayvec",
  "ascii",
