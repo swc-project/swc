@@ -5622,6 +5622,7 @@ dependencies = [
  "codspeed-criterion-compat",
  "indexmap 2.7.1",
  "once_cell",
+ "precomputed-map",
  "preset_env_base",
  "pretty_assertions",
  "rustc-hash 2.1.1",
@@ -5637,6 +5638,7 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "testing",
+ "xxhash-rust",
 ]
 
 [[package]]
