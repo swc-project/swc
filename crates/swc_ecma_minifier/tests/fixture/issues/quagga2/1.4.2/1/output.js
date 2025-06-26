@@ -203,48 +203,39 @@
             var gl_vec2 = __webpack_require__(7), gl_vec3 = __webpack_require__(84), vec2 = {
                 clone: gl_vec2.clone,
                 dot: gl_vec2.dot
-            }, cluster = {
-                create: function(point, threshold) {
-                    var points = [], center = {
-                        rad: 0,
-                        vec: vec2.clone([
-                            0,
-                            0
-                        ])
-                    }, pointMap = {};
-                    function _add(pointToAdd) {
-                        pointMap[pointToAdd.id] = pointToAdd, points.push(pointToAdd);
-                    }
-                    function updateCenter() {
-                        var i, sum = 0;
-                        for(i = 0; i < points.length; i++)sum += points[i].rad;
-                        center.rad = sum / points.length, center.vec = vec2.clone([
-                            Math.cos(center.rad),
-                            Math.sin(center.rad)
-                        ]);
-                    }
-                    return _add(point), updateCenter(), {
-                        add: function(pointToAdd) {
-                            pointMap[pointToAdd.id] || (_add(pointToAdd), updateCenter());
-                        },
-                        fits: function(otherPoint) {
-                            return Math.abs(vec2.dot(otherPoint.point.vec, center.vec)) > threshold;
-                        },
-                        getPoints: function() {
-                            return points;
-                        },
-                        getCenter: function() {
-                            return center;
-                        }
-                    };
-                },
-                createPoint: function(newPoint, id, property) {
-                    return {
-                        rad: newPoint[property],
-                        point: newPoint,
-                        id: id
-                    };
+            }, cluster_create = function(point, threshold) {
+                var points = [], center = {
+                    rad: 0,
+                    vec: vec2.clone([
+                        0,
+                        0
+                    ])
+                }, pointMap = {};
+                function _add(pointToAdd) {
+                    pointMap[pointToAdd.id] = pointToAdd, points.push(pointToAdd);
                 }
+                function updateCenter() {
+                    var i, sum = 0;
+                    for(i = 0; i < points.length; i++)sum += points[i].rad;
+                    center.rad = sum / points.length, center.vec = vec2.clone([
+                        Math.cos(center.rad),
+                        Math.sin(center.rad)
+                    ]);
+                }
+                return _add(point), updateCenter(), {
+                    add: function(pointToAdd) {
+                        pointMap[pointToAdd.id] || (_add(pointToAdd), updateCenter());
+                    },
+                    fits: function(otherPoint) {
+                        return Math.abs(vec2.dot(otherPoint.point.vec, center.vec)) > threshold;
+                    },
+                    getPoints: function() {
+                        return points;
+                    },
+                    getCenter: function() {
+                        return center;
+                    }
+                };
             }, array_helper = __webpack_require__(10), cv_utils_vec2 = {
                 clone: gl_vec2.clone
             }, vec3 = {
@@ -307,14 +298,18 @@
                 return threshold;
             } // local thresholding
             function cv_utils_cluster(points, threshold, property) {
-                var i, k, thisCluster, point, clusters = [];
+                var newPoint, id, i, k, thisCluster, point, clusters = [];
                 for(property || // eslint-disable-next-line no-param-reassign
                 (property = "rad"), i = 0; i < points.length; i++)!function(newPoint) {
                     var found = !1;
                     for(k = 0; k < clusters.length; k++)(thisCluster = clusters[k]).fits(newPoint) && (thisCluster.add(newPoint), found = !0);
                     return found;
                 } // iterate over each cloud
-                (point = cluster.createPoint(points[i], i, property)) && clusters.push(cluster.create(point, threshold));
+                ((newPoint = points[i], id = i, point = {
+                    rad: newPoint[property],
+                    point: newPoint,
+                    id: id
+                })) && clusters.push(cluster_create(point, threshold));
                 return clusters;
             }
             function topGeneric(list, top, scoreFunc) {
@@ -867,13 +862,10 @@
         /* 23 */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             /* WEBPACK VAR INJECTION */ (function(global) {
-                /* harmony import */ var _config, _currentImageWrapper, _skelImageWrapper, _subImageWrapper, _labelImageWrapper, _patchGrid, _patchLabelGrid, _imageToPatchGrid, _binaryImageWrapper, _patchSize, _inputImageWrapper, _skeletonizer, gl_vec2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7), gl_mat2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(34), _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11), _common_cv_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9), _rasterizer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(87), _tracer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(21), _skeletonizer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(88), _canvasContainer = {
-                    ctx: {
-                        binary: null
-                    },
-                    dom: {
-                        binary: null
-                    }
+                /* harmony import */ var _config, _currentImageWrapper, _skelImageWrapper, _subImageWrapper, _labelImageWrapper, _patchGrid, _patchLabelGrid, _imageToPatchGrid, _binaryImageWrapper, _patchSize, _inputImageWrapper, _skeletonizer, gl_vec2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(7), gl_mat2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(34), _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(11), _common_cv_utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(8), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(10), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(9), _rasterizer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(87), _tracer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(21), _skeletonizer__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(88), _canvasContainer_ctx = {
+                    binary: null
+                }, _canvasContainer_dom = {
+                    binary: null
                 }, _numPatches = {
                     x: 0,
                     y: 0
@@ -893,16 +885,16 @@
                             x: _currentImageWrapper.size.x / _subImageWrapper.size.x | 0,
                             // eslint-disable-next-line no-bitwise
                             y: _currentImageWrapper.size.y / _subImageWrapper.size.y | 0
-                        }, void 0, Array, !0), _patchGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_imageToPatchGrid.size, void 0, void 0, !0), _patchLabelGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_imageToPatchGrid.size, void 0, Int32Array, !0), _config.useWorker || "undefined" == typeof document || (_canvasContainer.dom.binary = document.createElement("canvas"), _canvasContainer.dom.binary.className = "binaryBuffer", !0 === _config.debug.showCanvas && document.querySelector("#debug").appendChild(_canvasContainer.dom.binary), _canvasContainer.ctx.binary = _canvasContainer.dom.binary.getContext("2d"), _canvasContainer.dom.binary.width = _binaryImageWrapper.size.x, _canvasContainer.dom.binary.height = _binaryImageWrapper.size.y);
+                        }, void 0, Array, !0), _patchGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_imageToPatchGrid.size, void 0, void 0, !0), _patchLabelGrid = new _common_image_wrapper__WEBPACK_IMPORTED_MODULE_2__./* default */ a(_imageToPatchGrid.size, void 0, Int32Array, !0), _config.useWorker || "undefined" == typeof document || (_canvasContainer_dom.binary = document.createElement("canvas"), _canvasContainer_dom.binary.className = "binaryBuffer", !0 === _config.debug.showCanvas && document.querySelector("#debug").appendChild(_canvasContainer_dom.binary), _canvasContainer_ctx.binary = _canvasContainer_dom.binary.getContext("2d"), _canvasContainer_dom.binary.width = _binaryImageWrapper.size.x, _canvasContainer_dom.binary.height = _binaryImageWrapper.size.y);
                     },
                     locate: function() {
-                        _config.halfSample && Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* halfSample */ f)(_inputImageWrapper, _currentImageWrapper), Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* otsuThreshold */ i)(_currentImageWrapper, _binaryImageWrapper), _binaryImageWrapper.zeroBorder(), _config.debug.showCanvas && _binaryImageWrapper.show(_canvasContainer.dom.binary, 255);
+                        _config.halfSample && Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* halfSample */ f)(_inputImageWrapper, _currentImageWrapper), Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* otsuThreshold */ i)(_currentImageWrapper, _binaryImageWrapper), _binaryImageWrapper.zeroBorder(), _config.debug.showCanvas && _binaryImageWrapper.show(_canvasContainer_dom.binary, 255);
                         var patchesFound = /**
                      * Iterate over the entire image
                      * extract patches
                      */ function() {
                             var x, y, i, j, x1, y1, moments, rasterResult, patch, patchesFound = [];
-                            for(i = 0; i < _numPatches.x; i++)for(j = 0; j < _numPatches.y; j++)x = x1 = _subImageWrapper.size.x * i, y = y1 = _subImageWrapper.size.y * j, _binaryImageWrapper.subImageAsCopy(_subImageWrapper, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* imageRef */ h)(x, y)), _skeletonizer.skeletonize(), _config.debug.showSkeleton && _skelImageWrapper.overlay(_canvasContainer.dom.binary, 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* imageRef */ h)(x, y)), _skelImageWrapper.zeroBorder(), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__./* default */ a.init(_labelImageWrapper.data, 0), rasterResult = _rasterizer__WEBPACK_IMPORTED_MODULE_6__./* default */ a.create(_skelImageWrapper, _labelImageWrapper).rasterize(0), _config.debug.showLabels && _labelImageWrapper.overlay(_canvasContainer.dom.binary, Math.floor(360 / rasterResult.count), {
+                            for(i = 0; i < _numPatches.x; i++)for(j = 0; j < _numPatches.y; j++)x = x1 = _subImageWrapper.size.x * i, y = y1 = _subImageWrapper.size.y * j, _binaryImageWrapper.subImageAsCopy(_subImageWrapper, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* imageRef */ h)(x, y)), _skeletonizer.skeletonize(), _config.debug.showSkeleton && _skelImageWrapper.overlay(_canvasContainer_dom.binary, 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* imageRef */ h)(x, y)), _skelImageWrapper.zeroBorder(), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__./* default */ a.init(_labelImageWrapper.data, 0), rasterResult = _rasterizer__WEBPACK_IMPORTED_MODULE_6__./* default */ a.create(_skelImageWrapper, _labelImageWrapper).rasterize(0), _config.debug.showLabels && _labelImageWrapper.overlay(_canvasContainer_dom.binary, Math.floor(360 / rasterResult.count), {
                                 x: x1,
                                 y: y1
                             }), moments = _labelImageWrapper.moments(rasterResult.count), patchesFound = patchesFound.concat(/**
@@ -971,7 +963,7 @@
                                 i,
                                 j
                             ], x1, y1));
-                            if (_config.debug.showFoundPatches) for(i = 0; i < patchesFound.length; i++)patch = patchesFound[i], _common_image_debug__WEBPACK_IMPORTED_MODULE_5__./* default */ a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
+                            if (_config.debug.showFoundPatches) for(i = 0; i < patchesFound.length; i++)patch = patchesFound[i], _common_image_debug__WEBPACK_IMPORTED_MODULE_5__./* default */ a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer_ctx.binary, {
                                 color: "#99ff00",
                                 lineWidth: 2
                             });
@@ -1013,7 +1005,7 @@
                             } // prepare for finding the right patches
                             (currIdx);
                              // draw patch-labels if requested
-                            if (_config.debug.showPatchLabels) for(j = 0; j < _patchLabelGrid.data.length; j++)_patchLabelGrid.data[j] > 0 && _patchLabelGrid.data[j] <= label && (patch = _imageToPatchGrid.data[j], hsv[0] = _patchLabelGrid.data[j] / (label + 1) * 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* hsv2rgb */ g)(hsv, rgb), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__./* default */ a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
+                            if (_config.debug.showPatchLabels) for(j = 0; j < _patchLabelGrid.data.length; j++)_patchLabelGrid.data[j] > 0 && _patchLabelGrid.data[j] <= label && (patch = _imageToPatchGrid.data[j], hsv[0] = _patchLabelGrid.data[j] / (label + 1) * 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* hsv2rgb */ g)(hsv, rgb), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__./* default */ a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer_ctx.binary, {
                                 color: "rgb(".concat(rgb.join(","), ")"),
                                 lineWidth: 2
                             }));
@@ -1059,7 +1051,7 @@
                      * @returns {Array} The minimal bounding box
                      */ function(patches) {
                                     var overAvg, i, j, patch, transMat, box, scale, minx = _binaryImageWrapper.size.x, miny = _binaryImageWrapper.size.y, maxx = -_binaryImageWrapper.size.x, maxy = -_binaryImageWrapper.size.y;
-                                    for(i = 0, overAvg = 0; i < patches.length; i++)overAvg += (patch = patches[i]).rad, _config.debug.showPatches && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__./* default */ a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
+                                    for(i = 0, overAvg = 0; i < patches.length; i++)overAvg += (patch = patches[i]).rad, _config.debug.showPatches && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__./* default */ a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer_ctx.binary, {
                                         color: "red"
                                     });
                                     for(overAvg /= patches.length, (overAvg = (180 * overAvg / Math.PI + 90) % 180 - 90) < 0 && (overAvg += 180), overAvg = (180 - overAvg) * Math.PI / 180, transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.copy(gl_mat2__WEBPACK_IMPORTED_MODULE_1__.create(), [
@@ -1072,7 +1064,7 @@
                                         _config.debug.boxFromPatches.showTransformed && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__./* default */ a.drawPath(patch.box, {
                                             x: 0,
                                             y: 1
-                                        }, _canvasContainer.ctx.binary, {
+                                        }, _canvasContainer_ctx.binary, {
                                             color: "#99ff00",
                                             lineWidth: 2
                                         });
@@ -1098,19 +1090,19 @@
                                     ], _config.debug.boxFromPatches.showTransformedBox && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__./* default */ a.drawPath(box, {
                                         x: 0,
                                         y: 1
-                                    }, _canvasContainer.ctx.binary, {
+                                    }, _canvasContainer_ctx.binary, {
                                         color: "#ff0000",
                                         lineWidth: 2
                                     }), scale = _config.halfSample ? 2 : 1, transMat = gl_mat2__WEBPACK_IMPORTED_MODULE_1__.invert(transMat, transMat), j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.transformMat2(box[j], box[j], transMat);
                                     for(_config.debug.boxFromPatches.showBB && _common_image_debug__WEBPACK_IMPORTED_MODULE_5__./* default */ a.drawPath(box, {
                                         x: 0,
                                         y: 1
-                                    }, _canvasContainer.ctx.binary, {
+                                    }, _canvasContainer_ctx.binary, {
                                         color: "#ff0000",
                                         lineWidth: 2
                                     }), j = 0; j < 4; j++)gl_vec2__WEBPACK_IMPORTED_MODULE_0__.scale(box[j], box[j], scale);
                                     return box;
-                                }(patches)) && (boxes.push(box), _config.debug.showRemainingPatchLabels)) for(j = 0; j < patches.length; j++)patch = patches[j], hsv[0] = topLabels[i].label / (maxLabel + 1) * 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* hsv2rgb */ g)(hsv, rgb), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__./* default */ a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer.ctx.binary, {
+                                }(patches)) && (boxes.push(box), _config.debug.showRemainingPatchLabels)) for(j = 0; j < patches.length; j++)patch = patches[j], hsv[0] = topLabels[i].label / (maxLabel + 1) * 360, Object(_common_cv_utils__WEBPACK_IMPORTED_MODULE_3__./* hsv2rgb */ g)(hsv, rgb), _common_image_debug__WEBPACK_IMPORTED_MODULE_5__./* default */ a.drawRect(patch.pos, _subImageWrapper.size, _canvasContainer_ctx.binary, {
                                     color: "rgb(".concat(rgb.join(","), ")"),
                                     lineWidth: 2
                                 });
@@ -4985,12 +4977,7 @@
             var helpers_typeof = __webpack_require__(19), typeof_default = /*#__PURE__*/ __webpack_require__.n(helpers_typeof), merge = __webpack_require__(16), merge_default = /*#__PURE__*/ __webpack_require__.n(merge);
             __webpack_require__(152);
             // EXTERNAL MODULE: ./src/common/image_wrapper.ts
-            var image_wrapper = __webpack_require__(11), Bresenham = {}, Slope = {
-                DIR: {
-                    UP: 1,
-                    DOWN: -1
-                }
-            };
+            var image_wrapper = __webpack_require__(11), Bresenham = {};
             /**
                  * Scans a line of the given image from point p1 to p2 and returns a result object containing
                  * gray-scale values (0-255) of the underlying pixels in addition to the min
@@ -5020,10 +5007,10 @@
                  * @param {Object} result {line, min, max}
                  */ Bresenham.toBinaryLine = function(result) {
                 var slope, slope2, currentDir, dir, i, j, min = result.min, max = result.max, line = result.line, center = min + (max - min) / 2, extrema = [], threshold = (max - min) / 12, rThreshold = -threshold;
-                for(currentDir = line[0] > center ? Slope.DIR.UP : Slope.DIR.DOWN, extrema.push({
+                for(currentDir = line[0] > center ? 1 : -1, extrema.push({
                     pos: 0,
                     val: line[0]
-                }), i = 0; i < line.length - 2; i++)dir = (slope = line[i + 1] - line[i]) + (slope2 = line[i + 2] - line[i + 1]) < rThreshold && line[i + 1] < 1.5 * center ? Slope.DIR.DOWN : slope + slope2 > threshold && line[i + 1] > 0.5 * center ? Slope.DIR.UP : currentDir, currentDir !== dir && (extrema.push({
+                }), i = 0; i < line.length - 2; i++)dir = (slope = line[i + 1] - line[i]) + (slope2 = line[i + 2] - line[i + 1]) < rThreshold && line[i + 1] < 1.5 * center ? -1 : slope + slope2 > threshold && line[i + 1] > 0.5 * center ? 1 : currentDir, currentDir !== dir && (extrema.push({
                     pos: i,
                     val: line[i]
                 }), currentDir = dir);
@@ -6796,10 +6783,7 @@
                         }
                     }
                 ]), Code39Reader;
-            }(barcode_reader), get = __webpack_require__(13), get_default = /*#__PURE__*/ __webpack_require__.n(get), patterns = {
-                IOQ: /[IOQ]/g,
-                AZ09: /[A-Z0-9]{17}/
-            }, code_39_vin_reader = /*#__PURE__*/ function(_Code39Reader) {
+            }(barcode_reader), get = __webpack_require__(13), get_default = /*#__PURE__*/ __webpack_require__.n(get), patterns_IOQ = /[IOQ]/g, patterns_AZ09 = /[A-Z0-9]{17}/, code_39_vin_reader = /*#__PURE__*/ function(_Code39Reader) {
                 inherits_default()(Code39VINReader, _Code39Reader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -6835,7 +6819,7 @@
                             var result = get_default()(getPrototypeOf_default()(Code39VINReader.prototype), "decode", this).call(this, row, start);
                             if (!result) return null;
                             var code = result.code;
-                            return code ? (code = code.replace(patterns.IOQ, "")).match(patterns.AZ09) ? this._checkChecksum(code) ? (result.code = code, result) : null : (console.log("Failed AZ09 pattern code:", code), null) : null;
+                            return code ? (code = code.replace(patterns_IOQ, "")).match(patterns_AZ09) ? this._checkChecksum(code) ? (result.code = code, result) : null : (console.log("Failed AZ09 pattern code:", code), null) : null;
                         }
                     }
                 ]), Code39VINReader;
@@ -8103,9 +8087,7 @@
                         }
                     }
                 ]), Code93Reader;
-            }(barcode_reader), code_32_reader_patterns = {
-                AEIO: /[AEIO]/g
-            }, code_32_reader = /*#__PURE__*/ function(_Code39Reader) {
+            }(barcode_reader), code_32_reader_patterns_AEIO = /[AEIO]/g, code_32_reader = /*#__PURE__*/ function(_Code39Reader) {
                 inherits_default()(Code32Reader, _Code39Reader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -8149,7 +8131,7 @@
                             var result = get_default()(getPrototypeOf_default()(Code32Reader.prototype), "decode", this).call(this, row, start);
                             if (!result) return null;
                             var code = result.code;
-                            if (!code || (code = code.replace(code_32_reader_patterns.AEIO, ""), !this._checkChecksum(code))) return null;
+                            if (!code || (code = code.replace(code_32_reader_patterns_AEIO, ""), !this._checkChecksum(code))) return null;
                             var code32 = this._decodeCode32(code);
                             return code32 ? (result.code = code32, result) : null;
                         }
@@ -8175,17 +8157,14 @@
                     READERS[name] = reader;
                 },
                 create: function(config, inputImageWrapper) {
-                    var _canvas = {
-                        ctx: {
-                            frequency: null,
-                            pattern: null,
-                            overlay: null
-                        },
-                        dom: {
-                            frequency: null,
-                            pattern: null,
-                            overlay: null
-                        }
+                    var _canvas_ctx = {
+                        frequency: null,
+                        pattern: null,
+                        overlay: null
+                    }, _canvas_dom = {
+                        frequency: null,
+                        pattern: null,
+                        overlay: null
                     }, _barcodeReaders = [];
                     function initReaders() {
                         config.readers.forEach(function(readerConfig) {
@@ -8211,10 +8190,10 @@
                         for(config.debug.showFrequency && (image_debug.a.drawPath(line, {
                             x: "x",
                             y: "y"
-                        }, _canvas.ctx.overlay, {
+                        }, _canvas_ctx.overlay, {
                             color: "red",
                             lineWidth: 3
-                        }), Bresenham.debug.printFrequency(barcodeLine.line, _canvas.dom.frequency)), Bresenham.toBinaryLine(barcodeLine), config.debug.showPattern && Bresenham.debug.printPattern(barcodeLine.line, _canvas.dom.pattern), i = 0; i < _barcodeReaders.length && null === result; i++)result = _barcodeReaders[i].decodePattern(barcodeLine.line);
+                        }), Bresenham.debug.printFrequency(barcodeLine.line, _canvas_dom.frequency)), Bresenham.toBinaryLine(barcodeLine), config.debug.showPattern && Bresenham.debug.printPattern(barcodeLine.line, _canvas_dom.pattern), i = 0; i < _barcodeReaders.length && null === result; i++)result = _barcodeReaders[i].decodePattern(barcodeLine.line);
                         return null === result ? null : {
                             codeResult: result,
                             barcodeLine: barcodeLine
@@ -8226,7 +8205,7 @@
                          * @param {Object} box The area to search in
                          * @returns {Object} the result {codeResult, line, angle, pattern, threshold}
                          */ function _decodeFromBoundingBox(box) {
-                        var line, line1, result, ctx = _canvas.ctx.overlay;
+                        var line, line1, result, ctx = _canvas_ctx.overlay;
                         config.debug.drawBoundingBox && ctx && image_debug.a.drawPath(box, {
                             x: 0,
                             y: 1
@@ -8291,17 +8270,17 @@
                     return function() {
                         if ("undefined" != typeof document) {
                             var $debug = document.querySelector("#debug.detection");
-                            _canvas.dom.frequency = document.querySelector("canvas.frequency"), !_canvas.dom.frequency && (_canvas.dom.frequency = document.createElement("canvas"), _canvas.dom.frequency.className = "frequency", $debug && $debug.appendChild(_canvas.dom.frequency)), _canvas.ctx.frequency = _canvas.dom.frequency.getContext("2d"), _canvas.dom.pattern = document.querySelector("canvas.patternBuffer"), !_canvas.dom.pattern && (_canvas.dom.pattern = document.createElement("canvas"), _canvas.dom.pattern.className = "patternBuffer", $debug && $debug.appendChild(_canvas.dom.pattern)), _canvas.ctx.pattern = _canvas.dom.pattern.getContext("2d"), _canvas.dom.overlay = document.querySelector("canvas.drawingBuffer"), _canvas.dom.overlay && (_canvas.ctx.overlay = _canvas.dom.overlay.getContext("2d"));
+                            _canvas_dom.frequency = document.querySelector("canvas.frequency"), !_canvas_dom.frequency && (_canvas_dom.frequency = document.createElement("canvas"), _canvas_dom.frequency.className = "frequency", $debug && $debug.appendChild(_canvas_dom.frequency)), _canvas_ctx.frequency = _canvas_dom.frequency.getContext("2d"), _canvas_dom.pattern = document.querySelector("canvas.patternBuffer"), !_canvas_dom.pattern && (_canvas_dom.pattern = document.createElement("canvas"), _canvas_dom.pattern.className = "patternBuffer", $debug && $debug.appendChild(_canvas_dom.pattern)), _canvas_ctx.pattern = _canvas_dom.pattern.getContext("2d"), _canvas_dom.overlay = document.querySelector("canvas.drawingBuffer"), _canvas_dom.overlay && (_canvas_ctx.overlay = _canvas_dom.overlay.getContext("2d"));
                         }
                     }(), initReaders(), function() {
                         if ("undefined" != typeof document) {
                             var i, vis = [
                                 {
-                                    node: _canvas.dom.frequency,
+                                    node: _canvas_dom.frequency,
                                     prop: config.debug.showFrequency
                                 },
                                 {
-                                    node: _canvas.dom.pattern,
+                                    node: _canvas_dom.pattern,
                                     prop: config.debug.showPattern
                                 }
                             ];

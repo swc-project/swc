@@ -804,9 +804,7 @@
             getRequiredChunkKey: getRequiredChunkKey,
             invariant: invariant,
             Context: Context
-        }), LOADABLE_SHARED = {
-            initialChunks: {}
-        }, STATUS_PENDING = "PENDING", STATUS_REJECTED = "REJECTED", withChunkExtractor = function(Component) {
+        }), LOADABLE_SHARED_initialChunks = {}, STATUS_PENDING = "PENDING", STATUS_REJECTED = "REJECTED", withChunkExtractor = function(Component) {
             var LoadableWithChunkExtractor = function(props) {
                 return _react_17_0_2_react.createElement(Context.Consumer, null, function(extractor) {
                     return _react_17_0_2_react.createElement(Component, Object.assign({
@@ -864,7 +862,7 @@
                             return self1;
                         }(_this)) : (!1 !== options.ssr && // is ready - was loaded in this session
                         (ctor.isReady && ctor.isReady(props) || // is ready - was loaded during SSR process
-                        ctor.chunkName && LOADABLE_SHARED.initialChunks[ctor.chunkName(props)]) && _this.loadSync(), _this) // Client-side with `isReady` method present (SSR probably)
+                        ctor.chunkName && LOADABLE_SHARED_initialChunks[ctor.chunkName(props)]) && _this.loadSync(), _this) // Client-side with `isReady` method present (SSR probably)
                         ;
                     }
                     (0, inheritsLoose /* default */ .Z)(InnerLoadable, _React$Component), InnerLoadable.getDerivedStateFromProps = function(props, state) {
@@ -1026,7 +1024,7 @@
                     requiredChunks = JSON.parse(dataElement.textContent);
                     var extElement = document.getElementById(id + "_ext");
                     if (extElement) JSON.parse(extElement.textContent).namedChunks.forEach(function(chunkName) {
-                        LOADABLE_SHARED.initialChunks[chunkName] = !0;
+                        LOADABLE_SHARED_initialChunks[chunkName] = !0;
                     });
                     else // version mismatch
                     throw Error("loadable-component: @loadable/server does not match @loadable/component");
@@ -12801,10 +12799,7 @@
             var b = a.textContent;
             b === a._wrapperState.initialValue && "" !== b && null !== b && (a.value = b);
         }
-        var kb = {
-            html: "http://www.w3.org/1999/xhtml",
-            svg: "http://www.w3.org/2000/svg"
-        };
+        var kb_html = "http://www.w3.org/1999/xhtml";
         function lb(a) {
             switch(a){
                 case "svg":
@@ -12819,7 +12814,7 @@
             return null == a || "http://www.w3.org/1999/xhtml" === a ? lb(b) : "http://www.w3.org/2000/svg" === a && "foreignObject" === b ? "http://www.w3.org/1999/xhtml" : a;
         }
         var a, Ma, nb, ob = (a = function(a, b) {
-            if (a.namespaceURI !== kb.svg || "innerHTML" in a) a.innerHTML = b;
+            if ("http://www.w3.org/2000/svg" !== a.namespaceURI || "innerHTML" in a) a.innerHTML = b;
             else {
                 for((nb = nb || document.createElement("div")).innerHTML = "<svg>" + b.valueOf().toString() + "</svg>", b = nb.firstChild; a.firstChild;)a.removeChild(a.firstChild);
                 for(; b.firstChild;)a.appendChild(b.firstChild);
@@ -16382,7 +16377,7 @@
                                         }
                                         d = a, b.updateQueue = d, null !== d && (b.flags |= 4);
                                     } else {
-                                        switch(g = 9 === e.nodeType ? e : e.ownerDocument, a === kb.html && (a = lb(c)), a === kb.html ? "script" === c ? ((a = g.createElement("div")).innerHTML = "<script>\x3c/script>", a = a.removeChild(a.firstChild)) : "string" == typeof d.is ? a = g.createElement(c, {
+                                        switch(g = 9 === e.nodeType ? e : e.ownerDocument, a === kb_html && (a = lb(c)), a === kb_html ? "script" === c ? ((a = g.createElement("div")).innerHTML = "<script>\x3c/script>", a = a.removeChild(a.firstChild)) : "string" == typeof d.is ? a = g.createElement(c, {
                                             is: d.is
                                         }) : (a = g.createElement(c), "select" === c && (g = a, d.multiple ? g.multiple = !0 : d.size && (g.size = d.size))) : a = g.createElementNS(a, c), a[wf] = b, a[xf] = d, Bi(a, b, !1, !1), b.stateNode = a, g = wb(c, d), c){
                                             case "dialog":
