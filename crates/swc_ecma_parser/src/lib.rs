@@ -125,13 +125,33 @@
 #![allow(clippy::wrong_self_convention)]
 #![allow(clippy::match_like_matches_macro)]
 
+#[cfg(feature = "unstable")]
+pub mod unstable {
+    //! This module expose tokens related to the `swc_ecma_parser::lexer`.
+    //!
+    //! Unlike the tokens re-exported from `swc_ecma_lexer`, the token kinds
+    //! defined in the `swc_ecma_parser` here are non-strict for higher
+    //! performance.
+    //!
+    //! Although it's marked as unstable, we can ensure that we will not
+    //! introduce too many breaking changes. And we also encourage the
+    //! applications to migrate to the lexer and tokens in the respect to
+    //! the performance.
+    //!
+    //! Also see the dicussion https://github.com/swc-project/swc/discussions/10683
+    pub use swc_ecma_lexer::common::lexer::token::TokenFactory;
+
+    pub use crate::lexer::token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
+}
+
+pub mod lexer;
+mod parser;
+
+pub use lexer::Lexer;
 pub use swc_common::input::{Input, StringInput};
 use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::{common::parser::Parser as ParserTrait, error::Error};
-pub mod lexer;
-
-pub use lexer::Lexer;
 pub use swc_ecma_lexer::{
     common::{
         context::Context,
@@ -141,8 +161,6 @@ pub use swc_ecma_lexer::{
 };
 
 pub use self::parser::*;
-
-mod parser;
 
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>

@@ -26,7 +26,7 @@ use crate::{
 
 mod state;
 mod table;
-mod token;
+pub(crate) mod token;
 
 pub(crate) use token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
 
