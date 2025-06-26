@@ -827,13 +827,13 @@ impl Compiler {
                 .context("failed to parse input file")?;
 
             if let Some(opts) = &mut min_opts.compress {
-                if opts.top_level.is_none() {
+                if opts.top_level.is_none() && program.is_module() {
                     opts.top_level = Some(TopLevelOptions { functions: true });
                 }
             }
 
             if let Some(opts) = &mut min_opts.mangle {
-                if opts.top_level.is_none() {
+                if opts.top_level.is_none() && program.is_module() {
                     opts.top_level = Some(true);
                 }
             }
