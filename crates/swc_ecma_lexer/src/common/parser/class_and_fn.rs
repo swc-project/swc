@@ -324,13 +324,20 @@ where
 }
 
 pub fn parse_async_fn_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
+    debug_assert!(p.input_mut().is(&P::Token::ASYNC));
+    debug_assert!(p
+        .input_mut()
+        .peek()
+        .is_some_and(|peek| peek == &P::Token::FUNCTION));
+
     let start = p.cur_pos();
-    expect!(p, &P::Token::ASYNC);
+    p.bump(); // consume `async`
     parse_fn(p, None, Some(start), Vec::new())
 }
 
 /// Parse function expression
 pub fn parse_fn_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
+    debug_assert!(p.input_mut().is(&P::Token::FUNCTION));
     parse_fn(p, None, None, Vec::new())
 }
 
@@ -338,12 +345,19 @@ pub fn parse_async_fn_decl<'a, P: Parser<'a>>(
     p: &mut P,
     decorators: Vec<Decorator>,
 ) -> PResult<Decl> {
+    debug_assert!(p.input_mut().is(&P::Token::ASYNC));
+    debug_assert!(p
+        .input_mut()
+        .peek()
+        .is_some_and(|peek| peek == &P::Token::FUNCTION));
+
     let start = p.cur_pos();
-    expect!(p, &P::Token::ASYNC);
+    p.bump(); // consume `async`
     parse_fn(p, None, Some(start), decorators)
 }
 
 pub fn parse_fn_decl<'a, P: Parser<'a>>(p: &mut P, decorators: Vec<Decorator>) -> PResult<Decl> {
+    debug_assert!(p.input_mut().is(&P::Token::FUNCTION));
     parse_fn(p, None, None, decorators)
 }
 
@@ -352,8 +366,14 @@ pub fn parse_default_async_fn<'a, P: Parser<'a>>(
     start: BytePos,
     decorators: Vec<Decorator>,
 ) -> PResult<ExportDefaultDecl> {
+    debug_assert!(p.input_mut().is(&P::Token::ASYNC));
+    debug_assert!(p
+        .input_mut()
+        .peek()
+        .is_some_and(|peek| peek == &P::Token::FUNCTION));
+
     let start_of_async = p.cur_pos();
-    expect!(p, &P::Token::ASYNC);
+    p.bump(); // consume `async`
     parse_fn(p, Some(start), Some(start_of_async), decorators)
 }
 
@@ -1491,8 +1511,8 @@ fn parse_class_body<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<ClassMember>> {
     Ok(elems)
 }
 
-pub fn parse_class<'a, T>(
-    p: &mut impl Parser<'a>,
+pub fn parse_class<'a, T, P: Parser<'a>>(
+    p: &mut P,
     start: BytePos,
     class_start: BytePos,
     decorators: Vec<Decorator>,
@@ -1501,6 +1521,7 @@ pub fn parse_class<'a, T>(
 where
     T: OutputType,
 {
+    debug_assert!(p.input_mut().is(&P::Token::CLASS));
     let (ident, mut class) = parse_class_inner(
         p.with_ctx(p.ctx() | Context::InClass).deref_mut(),
         start,
@@ -1544,7 +1565,8 @@ fn parse_class_inner<'a, P: Parser<'a>>(
     is_ident_required: bool,
 ) -> PResult<(Option<Ident>, Box<Class>)> {
     p.strict_mode().parse_with(|p| {
-        expect!(p, &P::Token::CLASS);
+        debug_assert!(p.input_mut().is(&P::Token::CLASS));
+        p.bump(); // consume `class`
 
         let ident = parse_maybe_opt_binding_ident(p, is_ident_required, true)?;
         if p.input().syntax().typescript() {

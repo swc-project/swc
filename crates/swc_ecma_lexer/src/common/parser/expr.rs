@@ -79,7 +79,7 @@ pub fn parse_array_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
 
     while !eof!(p) && !p.input_mut().is(&P::Token::RBRACKET) {
         if p.input_mut().is(&P::Token::COMMA) {
-            expect!(p, &P::Token::COMMA);
+            p.bump();
             elems.push(None);
             continue;
         }
@@ -748,7 +748,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
     let question_dot_token =
         if p.input_mut().is(&P::Token::QUESTION) && peek!(p).is_some_and(|peek| peek.is_dot()) {
             let start = p.cur_pos();
-            expect!(p, &P::Token::QUESTION);
+            p.bump(); // consume `?`
             Some(p.span(start))
         } else {
             None
@@ -1924,7 +1924,8 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                     }
                     true
                 } else if matches!(arg, ExprOrSpread { spread: None, .. }) {
-                    expect!(p, &P::Token::QUESTION);
+                    debug_assert!(p.input_mut().is(&P::Token::QUESTION));
+                    p.bump(); // consume `?`
                     let test = arg.expr;
                     let ctx = p.ctx()
                         | Context::InCondExpr
@@ -1939,7 +1940,6 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                         spread: None,
                         expr: CondExpr {
                             span: Span::new(start, alt.span_hi()),
-
                             test,
                             cons,
                             alt,
@@ -2517,6 +2517,8 @@ pub fn try_parse_async_start<'a, P: Parser<'a>>(
     p: &mut P,
     can_be_arrow: bool,
 ) -> Option<PResult<Box<Expr>>> {
+    debug_assert!(p.input_mut().is(&P::Token::ASYNC));
+
     if peek!(p).is_some_and(|peek| peek.is_function())
         && !p.input_mut().has_linebreak_between_cur_and_peeked()
     {

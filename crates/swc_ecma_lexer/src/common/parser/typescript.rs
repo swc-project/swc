@@ -415,7 +415,8 @@ where
 /// `tsParseThisTypeNode`
 pub fn parse_ts_this_type_node<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsThisType> {
     debug_assert!(p.input().syntax().typescript());
-    expect!(p, &P::Token::THIS);
+    debug_assert!(p.input_mut().cur().is_some_and(|cur| cur.is_this()));
+    p.bump(); // consume `this`
     Ok(TsThisType {
         span: p.input().prev_span(),
     })
@@ -1288,7 +1289,7 @@ pub fn try_parse_ts_index_signature<'a, P: Parser<'a>>(
         return Ok(None);
     }
 
-    expect!(p, &P::Token::LBRACKET);
+    p.assert_and_bump(&P::Token::LBRACKET)?;
 
     let ident_start = p.cur_pos();
     let mut id = parse_ident_name(p).map(BindingIdent::from)?;
@@ -1342,10 +1343,11 @@ fn parse_ts_module_ref<'a>(p: &mut impl Parser<'a>) -> PResult<TsModuleRef> {
 /// `tsParseExternalModuleReference`
 fn parse_ts_external_module_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsExternalModuleRef> {
     debug_assert!(p.input().syntax().typescript());
+    debug_assert!(is_ts_external_module_ref(p));
 
     let start = p.cur_pos();
-    expect!(p, &P::Token::REQUIRE);
-    expect!(p, &P::Token::LPAREN);
+    p.bump(); // consume `require`
+    p.assert_and_bump(&P::Token::LPAREN)?;
     let Some(cur) = p.input_mut().cur() else {
         return Err(eof_error(p));
     };
@@ -1604,9 +1606,10 @@ pub fn parse_ts_tuple_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTupleType>
 /// `tsParseMappedType`
 pub fn parse_ts_mapped_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsMappedType> {
     debug_assert!(p.input().syntax().typescript());
+    debug_assert!(p.input_mut().cur().is_some_and(|cur| cur.is_lbrace()));
 
     let start = p.cur_pos();
-    expect!(p, &P::Token::LBRACE);
+    p.bump(); // consume `{`
     let mut readonly = None;
     if p.input_mut()
         .cur()
@@ -1664,11 +1667,13 @@ pub fn parse_ts_mapped_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsMappedTyp
 
 /// `tsParseParenthesizedType`
 pub fn parse_ts_parenthesized_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsParenthesizedType> {
-    debug_assert!(p.input().syntax().typescript());
     trace_cur!(p, parse_ts_parenthesized_type);
 
+    debug_assert!(p.input().syntax().typescript());
+    debug_assert!(p.input_mut().cur().is_some_and(|cur| cur.is_lparen()));
+
     let start = p.cur_pos();
-    expect!(p, &P::Token::LPAREN);
+    p.bump(); // consume `(`
     let type_ann = parse_ts_type(p)?;
     expect!(p, &P::Token::RPAREN);
     Ok(TsParenthesizedType {
@@ -1825,9 +1830,11 @@ fn parse_ts_type_operator<'a, P: Parser<'a>>(
 /// `tsParseInferType`
 fn parse_ts_infer_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsInferType> {
     debug_assert!(p.input().syntax().typescript());
+    debug_assert!(p.input_mut().is(&P::Token::INFER));
 
     let start = p.cur_pos();
-    expect!(p, &P::Token::INFER);
+    p.bump(); // consume `infer`
+
     let type_param_name = parse_ident_name(p)?;
     let constraint = try_parse_ts(p, |p| {
         expect!(p, &P::Token::EXTENDS);
@@ -2095,8 +2102,8 @@ fn parse_ts_type_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeElement> 
 
         let (computed, key) = parse_ts_property_name(p)?;
 
+        expect!(p, &P::Token::LPAREN);
         if is_get {
-            expect!(p, &P::Token::LPAREN);
             expect!(p, &P::Token::RPAREN);
             let type_ann = try_parse_ts_type_ann(p)?;
 
@@ -2109,7 +2116,6 @@ fn parse_ts_type_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeElement> 
                 type_ann,
             })))
         } else {
-            expect!(p, &P::Token::LPAREN);
             let params = parse_ts_binding_list_for_signature(p)?;
             if params.is_empty() {
                 syntax_error!(p, SyntaxError::SetterParamRequired)
@@ -2148,6 +2154,7 @@ fn parse_ts_object_type_members<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<TsT
 /// `tsParseTypeLiteral`
 pub fn parse_ts_type_lit<'a>(p: &mut impl Parser<'a>) -> PResult<TsTypeLit> {
     debug_assert!(p.input().syntax().typescript());
+    debug_assert!(p.input_mut().cur().is_some_and(|cur| cur.is_lbrace()));
 
     let start = p.cur_pos();
     let members = parse_ts_object_type_members(p)?;
@@ -2321,9 +2328,10 @@ fn parse_ts_call_options<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportCallOp
 /// `tsParseTypeQuery`
 fn parse_ts_type_query<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeQuery> {
     debug_assert!(p.input().syntax().typescript());
+    debug_assert!(p.input_mut().cur().is_some_and(|cur| cur.is_typeof()));
 
     let start = p.cur_pos();
-    expect!(p, &P::Token::TYPEOF);
+    p.bump();
     let expr_name = if p.input_mut().is(&P::Token::IMPORT) {
         parse_ts_import_type(p).map(From::from)?
     } else {
