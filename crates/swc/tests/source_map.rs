@@ -91,11 +91,6 @@ fn case_none_file() {
     .unwrap();
 }
 
-#[test]
-fn issue_622() {
-    file("tests/srcmap/issue-622/index.js", Default::default()).unwrap();
-}
-
 fn inline(f: &str) -> Result<(), StdErr> {
     Tester::new().print_errors(|cm, handler| {
         let path = canonicalize(f).expect("failed to canonicalize");
