@@ -29,7 +29,6 @@ use crate::{
 
 pub mod char;
 pub mod comments_buffer;
-mod fast_number;
 mod jsx;
 pub mod number;
 mod search;
@@ -592,82 +591,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
     /// This can read long integers like
     /// "13612536612375123612312312312312312312312".
-    fn read_number_no_dot<const RADIX: u8>(&mut self) -> LexResult<f64> {
-        debug_assert!(
-            RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
-            "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {RADIX}"
-        );
-        let start = self.cur_pos();
-
-        // Fast path: try to parse using optimized integer arithmetic
-        let fast_result = 'fast_result: {
-            // Get the raw string for fast parsing
-            let start_pos = self.cur_pos();
-
-            // Count digits first to determine if we can use fast path
-            let mut digit_count = 0;
-
-            while let Some(c) = self.input().cur() {
-                if c == '_' {
-                    self.bump();
-                    continue;
-                }
-                if c.is_digit(RADIX as u32) {
-                    digit_count += 1;
-                    self.bump();
-                } else {
-                    break;
-                }
-            }
-
-            if digit_count == 0 {
-                break 'fast_result None;
-            }
-
-            let end_pos = self.cur_pos();
-            let raw_str = unsafe {
-                // Safety: We got both start and end position from `self.input`
-                self.input_slice(start_pos, end_pos)
-            };
-
-            // Try fast parsing based on radix
-            match RADIX {
-                10 => fast_number::parse_decimal_fast(raw_str),
-                2 => fast_number::parse_binary_fast(raw_str),
-                8 => fast_number::parse_octal_fast(raw_str),
-                16 => fast_number::parse_hex_fast(raw_str),
-                _ => None,
-            }
-        };
-
-        if let Some(result) = fast_result {
-            return Ok(result);
-        }
-
-        // Slow path: reset position and use original method
-        unsafe {
-            self.input_mut().reset_to(start);
-        }
-
-        let mut read_any = false;
-
-        let res = self.read_digits::<_, f64, RADIX>(
-            |total, radix, v| {
-                read_any = true;
-
-                Ok((f64::mul_add(total, radix as f64, v as f64), true))
-            },
-            true,
-        );
-
-        if !read_any {
-            self.error(start, SyntaxError::ExpectedDigit { radix: RADIX })?;
-        }
-        res
-    }
-
-    /// This can read long integers like
-    /// "13612536612375123612312312312312312312312".
     ///
     /// - Returned `bool` is `true` is there was `8` or `9`.
     fn read_number_no_dot_as_str<const RADIX: u8>(&mut self) -> LexResult<LazyInteger> {
@@ -850,7 +773,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.bump(); // remove '+', '-'
             }
 
-            self.read_number_no_dot::<10>()?;
+            self.read_number_no_dot_as_str::<10>()?;
         }
 
         let val = if has_dot || has_e {
