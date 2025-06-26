@@ -734,7 +734,7 @@ impl TsStrip {
 
             // see ts_next_token_can_follow_modifier
             // class { public public() {} }
-            if <Token as TokenFactory<'_, TokenAndSpan, Capturing<Lexer>>>::is_word(&next.token)
+            if !<Token as TokenFactory<'_, TokenAndSpan, Capturing<Lexer>>>::is_word(&next.token)
                 && !matches!(
                     next.token,
                     Token::LBracket
