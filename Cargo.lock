@@ -4731,7 +4731,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "28.0.0"
+version = "28.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5002,7 +5002,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "29.2.0"
+version = "29.3.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5521,7 +5521,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "17.0.5"
+version = "17.0.6"
 dependencies = [
  "arrayvec",
  "ascii",
@@ -5606,7 +5606,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "23.0.3"
+version = "23.0.4"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5654,7 +5654,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "17.1.0"
+version = "17.2.0"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -6551,7 +6551,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ts_fast_strip"
-version = "23.0.3"
+version = "23.1.0"
 dependencies = [
  "anyhow",
  "bytes-str",
