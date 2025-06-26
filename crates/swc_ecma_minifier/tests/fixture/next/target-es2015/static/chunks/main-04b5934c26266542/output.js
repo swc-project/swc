@@ -1291,46 +1291,41 @@ You should only use "next/router" on the client side of your app.
                     statusCode: res && res.statusCode ? res.statusCode : err ? err.statusCode : 404
                 };
             }
-            const styles = {
-                error: {
-                    fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", "Fira Sans", Avenir, "Helvetica Neue", "Lucida Grande", sans-serif',
-                    height: "100vh",
-                    textAlign: "center",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center"
-                },
-                desc: {
-                    display: "inline-block",
-                    textAlign: "left",
-                    lineHeight: "49px",
-                    height: "49px",
-                    verticalAlign: "middle"
-                },
-                h1: {
-                    display: "inline-block",
-                    margin: 0,
-                    marginRight: "20px",
-                    padding: "0 23px 0 0",
-                    fontSize: "24px",
-                    fontWeight: 500,
-                    verticalAlign: "top",
-                    lineHeight: "49px"
-                },
-                h2: {
-                    fontSize: "14px",
-                    fontWeight: "normal",
-                    lineHeight: "49px",
-                    margin: 0,
-                    padding: 0
-                }
+            const styles_error = {
+                fontFamily: '-apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", "Fira Sans", Avenir, "Helvetica Neue", "Lucida Grande", sans-serif',
+                height: "100vh",
+                textAlign: "center",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center"
+            }, styles_desc = {
+                display: "inline-block",
+                textAlign: "left",
+                lineHeight: "49px",
+                height: "49px",
+                verticalAlign: "middle"
+            }, styles_h1 = {
+                display: "inline-block",
+                margin: 0,
+                marginRight: "20px",
+                padding: "0 23px 0 0",
+                fontSize: "24px",
+                fontWeight: 500,
+                verticalAlign: "top",
+                lineHeight: "49px"
+            }, styles_h2 = {
+                fontSize: "14px",
+                fontWeight: "normal",
+                lineHeight: "49px",
+                margin: 0,
+                padding: 0
             };
             class Error1 extends (_Component = _react.default.Component) {
                 render() {
                     const { statusCode, withDarkMode = !0 } = this.props, title = this.props.title || statusCodes[statusCode] || "An unexpected error has occurred";
                     return /*#__PURE__*/ _react.default.createElement("div", {
-                        style: styles.error
+                        style: styles_error
                     }, /*#__PURE__*/ _react.default.createElement(_head.default, null, /*#__PURE__*/ _react.default.createElement("title", null, statusCode ? "".concat(statusCode, ": ").concat(title) : "Application error: a client-side exception has occurred")), /*#__PURE__*/ _react.default.createElement("div", null, /*#__PURE__*/ _react.default.createElement("style", {
                         dangerouslySetInnerHTML: {
                             __html: `
@@ -1348,11 +1343,11 @@ You should only use "next/router" on the client side of your app.
                         }
                     }), statusCode ? /*#__PURE__*/ _react.default.createElement("h1", {
                         className: "next-error-h1",
-                        style: styles.h1
+                        style: styles_h1
                     }, statusCode) : null, /*#__PURE__*/ _react.default.createElement("div", {
-                        style: styles.desc
+                        style: styles_desc
                     }, /*#__PURE__*/ _react.default.createElement("h2", {
-                        style: styles.h2
+                        style: styles_h2
                     }, this.props.title || statusCode ? title : /*#__PURE__*/ _react.default.createElement(_react.default.Fragment, null, "Application error: a client-side exception has occurred (see the browser console for more information)"), "."))));
                 }
             }

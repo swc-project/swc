@@ -1,8 +1,4 @@
 //// [typeGuardsOnClassProperty.ts]
 import "@swc/helpers/_/_class_call_check";
-var o = {
-    prop1: "string"
-};
-"string" == typeof o.prop1 && o.prop1.toLowerCase();
-var prop1 = o.prop1;
-"string" == typeof prop1 && prop1.toLocaleLowerCase();
+var o_prop1 = "string";
+"string" == typeof o_prop1 && o_prop1.toLowerCase(), "string" == typeof o_prop1 && o_prop1.toLocaleLowerCase();

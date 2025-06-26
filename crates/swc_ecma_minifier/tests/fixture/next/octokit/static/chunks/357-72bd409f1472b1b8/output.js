@@ -1,17 +1,14 @@
 export default function(module, __unused_webpack_exports, __webpack_require__) {
     module.exports = function() {
         'use strict';
-        var commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {}, parser = {
-            load: function(received, defaults, onto = {}) {
-                var k, ref, v;
-                for(k in defaults)v = defaults[k], onto[k] = null != (ref = received[k]) ? ref : v;
-                return onto;
-            },
-            overwrite: function(received, defaults, onto = {}) {
-                var k, v;
-                for(k in received)v = received[k], void 0 !== defaults[k] && (onto[k] = v);
-                return onto;
-            }
+        var commonjsGlobal = 'undefined' != typeof globalThis ? globalThis : 'undefined' != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : 'undefined' != typeof self ? self : {}, parser_load = function(received, defaults, onto = {}) {
+            var k, ref, v;
+            for(k in defaults)v = defaults[k], onto[k] = null != (ref = received[k]) ? ref : v;
+            return onto;
+        }, parser_overwrite = function(received, defaults, onto = {}) {
+            var k, v;
+            for(k in received)v = received[k], void 0 !== defaults[k] && (onto[k] = v);
+            return onto;
         };
         DLList = class {
             constructor(incr, decr){
@@ -127,7 +124,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
         };
         Job = class {
             constructor(task, args, options, jobDefaults, rejectOnDrop, Events, _states, Promise1){
-                this.task = task, this.args = args, this.rejectOnDrop = rejectOnDrop, this.Events = Events, this._states = _states, this.Promise = Promise1, this.options = parser.load(options, jobDefaults), this.options.priority = this._sanitizePriority(this.options.priority), this.options.id === jobDefaults.id && (this.options.id = `${this.options.id}-${this._randomIndex()}`), this.promise = new this.Promise((_resolve, _reject)=>{
+                this.task = task, this.args = args, this.rejectOnDrop = rejectOnDrop, this.Events = Events, this._states = _states, this.Promise = Promise1, this.options = parser_load(options, jobDefaults), this.options.priority = this._sanitizePriority(this.options.priority), this.options.id === jobDefaults.id && (this.options.id = `${this.options.id}-${this._randomIndex()}`), this.promise = new this.Promise((_resolve, _reject)=>{
                     this._resolve = _resolve, this._reject = _reject;
                 }), this.retryCount = 0;
             }
@@ -200,7 +197,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
             }
         }, LocalDatastore = class {
             constructor(instance, storeOptions, storeInstanceOptions){
-                this.instance = instance, this.storeOptions = storeOptions, this.clientId = this.instance._randomIndex(), parser.load(storeInstanceOptions, storeInstanceOptions, this), this._nextRequest = this._lastReservoirRefresh = this._lastReservoirIncrease = Date.now(), this._running = 0, this._done = 0, this._unblockTime = 0, this.ready = this.Promise.resolve(), this.clients = {}, this._startHeartbeat();
+                this.instance = instance, this.storeOptions = storeOptions, this.clientId = this.instance._randomIndex(), parser_load(storeInstanceOptions, storeInstanceOptions, this), this._nextRequest = this._lastReservoirRefresh = this._lastReservoirIncrease = Date.now(), this._running = 0, this._done = 0, this._unblockTime = 0, this.ready = this.Promise.resolve(), this.clients = {}, this._startHeartbeat();
             }
             _startHeartbeat() {
                 var base;
@@ -225,7 +222,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
                 return null != (ref = this.storeOptions.penalty) ? ref : 15 * this.storeOptions.minTime || 5000;
             }
             async __updateSettings__(options) {
-                return await this.yieldLoop(), parser.overwrite(options, options, this.storeOptions), this._startHeartbeat(), this.instance._drainAll(this.computeCapacity()), !0;
+                return await this.yieldLoop(), parser_overwrite(options, options, this.storeOptions), this._startHeartbeat(), this.instance._drainAll(this.computeCapacity()), !0;
             }
             async __running__() {
                 return await this.yieldLoop(), this._running;
@@ -364,7 +361,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
         Scripts$1 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), Group = (function() {
             class Group {
                 constructor(limiterOptions = {}){
-                    this.deleteKey = this.deleteKey.bind(this), this.limiterOptions = limiterOptions, parser.load(this.limiterOptions, this.defaults, this), this.Events = new Events(this), this.instances = {}, this.Bottleneck = Bottleneck_1, this._startAutoCleanup(), this.sharedConnection = null != this.connection, null == this.connection && ("redis" === this.limiterOptions.datastore ? this.connection = new require$$2(Object.assign({}, this.limiterOptions, {
+                    this.deleteKey = this.deleteKey.bind(this), this.limiterOptions = limiterOptions, parser_load(this.limiterOptions, this.defaults, this), this.Events = new Events(this), this.instances = {}, this.Bottleneck = Bottleneck_1, this._startAutoCleanup(), this.sharedConnection = null != this.connection, null == this.connection && ("redis" === this.limiterOptions.datastore ? this.connection = new require$$2(Object.assign({}, this.limiterOptions, {
                         Events: this.Events
                     })) : "ioredis" === this.limiterOptions.datastore && (this.connection = new require$$3(Object.assign({}, this.limiterOptions, {
                         Events: this.Events
@@ -425,7 +422,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
                     }, this.timeout / 2)).unref ? base.unref() : void 0;
                 }
                 updateSettings(options = {}) {
-                    if (parser.overwrite(options, this.defaults, this), parser.overwrite(options, options, this.limiterOptions), null != options.timeout) return this._startAutoCleanup();
+                    if (parser_overwrite(options, this.defaults, this), parser_overwrite(options, options, this.limiterOptions), null != options.timeout) return this._startAutoCleanup();
                 }
                 disconnect(flush = !0) {
                     var ref;
@@ -441,7 +438,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
         }).call(commonjsGlobal), Batcher = (function() {
             class Batcher {
                 constructor(options = {}){
-                    this.options = options, parser.load(this.options, this.defaults, this), this.Events = new Events(this), this._arr = [], this._resetPromise(), this._lastFlush = Date.now();
+                    this.options = options, parser_load(this.options, this.defaults, this), this.Events = new Events(this), this._arr = [], this._resetPromise(), this._lastFlush = Date.now();
                 }
                 _resetPromise() {
                     return this._promise = new this.Promise((res, rej)=>this._resolve = res);
@@ -466,16 +463,16 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
             class Bottleneck {
                 constructor(options = {}, ...invalid){
                     var storeOptions;
-                    this._addToQueue = this._addToQueue.bind(this), this._validateOptions(options, invalid), parser.load(options, this.instanceDefaults, this), this._queues = new Queues(10), this._scheduled = {}, this._states = new States([
+                    this._addToQueue = this._addToQueue.bind(this), this._validateOptions(options, invalid), parser_load(options, this.instanceDefaults, this), this._queues = new Queues(10), this._scheduled = {}, this._states = new States([
                         "RECEIVED",
                         "QUEUED",
                         "RUNNING",
                         "EXECUTING"
                     ].concat(this.trackDoneStatus ? [
                         "DONE"
-                    ] : [])), this._limiter = null, this.Events = new Events(this), this._submitLock = new Sync("submit", this.Promise), this._registerLock = new Sync("register", this.Promise), storeOptions = parser.load(options, this.storeDefaults, {}), this._store = (function() {
-                        if ("redis" === this.datastore || "ioredis" === this.datastore || null != this.connection) return new RedisDatastore$1(this, storeOptions, parser.load(options, this.redisStoreDefaults, {}));
-                        if ("local" === this.datastore) return new LocalDatastore(this, storeOptions, parser.load(options, this.localStoreDefaults, {}));
+                    ] : [])), this._limiter = null, this.Events = new Events(this), this._submitLock = new Sync("submit", this.Promise), this._registerLock = new Sync("register", this.Promise), storeOptions = parser_load(options, this.storeDefaults, {}), this._store = (function() {
+                        if ("redis" === this.datastore || "ioredis" === this.datastore || null != this.connection) return new RedisDatastore$1(this, storeOptions, parser_load(options, this.redisStoreDefaults, {}));
+                        if ("local" === this.datastore) return new LocalDatastore(this, storeOptions, parser_load(options, this.localStoreDefaults, {}));
                         throw new Bottleneck.prototype.BottleneckError(`Invalid datastore type: ${this.datastore}`);
                     }).call(this), this._queues.on("leftzero", ()=>{
                         var ref;
@@ -588,7 +585,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
                 }
                 stop(options = {}) {
                     var done, waitForExecuting;
-                    return options = parser.load(options, this.stopDefaults), waitForExecuting = (at)=>{
+                    return options = parser_load(options, this.stopDefaults), waitForExecuting = (at)=>{
                         var finished;
                         return finished = ()=>{
                             var counts;
@@ -634,7 +631,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
                 }
                 submit(...args) {
                     var cb, fn, job, options, ref, ref1;
-                    return "function" == typeof args[0] ? (ref = args, [fn, ...args] = ref, [cb] = splice.call(args, -1), options = parser.load({}, this.jobDefaults)) : (ref1 = args, [options, fn, ...args] = ref1, [cb] = splice.call(args, -1), options = parser.load(options, this.jobDefaults)), (job = new Job((...args)=>new this.Promise(function(resolve, reject) {
+                    return "function" == typeof args[0] ? (ref = args, [fn, ...args] = ref, [cb] = splice.call(args, -1), options = parser_load({}, this.jobDefaults)) : (ref1 = args, [options, fn, ...args] = ref1, [cb] = splice.call(args, -1), options = parser_load(options, this.jobDefaults)), (job = new Job((...args)=>new this.Promise(function(resolve, reject) {
                             return fn(...args, function(...args) {
                                 return (null != args[0] ? reject : resolve)(args);
                             });
@@ -657,7 +654,7 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
                     }, wrapped;
                 }
                 async updateSettings(options = {}) {
-                    return await this._store.__updateSettings__(parser.overwrite(options, this.storeDefaults)), parser.overwrite(options, this.instanceDefaults, this), this;
+                    return await this._store.__updateSettings__(parser_overwrite(options, this.storeDefaults)), parser_overwrite(options, this.instanceDefaults, this), this;
                 }
                 currentReservoir() {
                     return this._store.__currentReservoir__();

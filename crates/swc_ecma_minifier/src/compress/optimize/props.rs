@@ -41,8 +41,7 @@ impl Optimizer<'_> {
             let usage = self.data.vars.get(&name.to_id())?;
             if usage.mutated()
                 || usage.flags.intersects(
-                    VarUsageInfoFlags::USED_IN_COND
-                        .union(VarUsageInfoFlags::USED_ABOVE_DECL)
+                    VarUsageInfoFlags::USED_ABOVE_DECL
                         .union(VarUsageInfoFlags::USED_AS_REF)
                         .union(VarUsageInfoFlags::USED_AS_ARG)
                         .union(VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY)

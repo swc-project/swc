@@ -2759,16 +2759,12 @@
             var maxX = mathMax(lt.x, rb.x, lb.x, rt.x), maxY = mathMax(lt.y, rb.y, lb.y, rt.y);
             target.width = maxX - target.x, target.height = maxY - target.y;
         }, BoundingRect;
-    }(), textWidthCache = {}, DEFAULT_FONT = '12px sans-serif', methods$1 = {
-        measureText: function(text, font) {
-            return _ctx || (_ctx = createCanvas().getContext('2d')), _cachedFont !== font && (_cachedFont = _ctx.font = font || DEFAULT_FONT), _ctx.measureText(text);
-        }
-    };
+    }(), textWidthCache = {}, DEFAULT_FONT = '12px sans-serif';
     function getWidth(text, font) {
-        var cacheOfFont = textWidthCache[font = font || DEFAULT_FONT];
+        var font1, cacheOfFont = textWidthCache[font = font || DEFAULT_FONT];
         cacheOfFont || (cacheOfFont = textWidthCache[font] = new LRU(500));
         var width = cacheOfFont.get(text);
-        return null == width && (width = methods$1.measureText(text, font).width, cacheOfFont.put(text, width)), width;
+        return null == width && (width = (font1 = font, _ctx || (_ctx = createCanvas().getContext('2d')), _cachedFont !== font1 && (_cachedFont = _ctx.font = font1 || DEFAULT_FONT), _ctx.measureText(text)).width, cacheOfFont.put(text, width)), width;
     }
     function innerGetBoundingRect(text, font, textAlign, textBaseline) {
         var width = getWidth(text, font), height = getLineHeight(font);
@@ -3600,16 +3596,13 @@
             'touchmove'
         ],
         pointer: pointerHandlerNames
-    }), globalNativeListenerNames = {
-        mouse: [
-            'mousemove',
-            'mouseup'
-        ],
-        pointer: [
-            'pointermove',
-            'pointerup'
-        ]
-    }, wheelEventSupported = !1;
+    }), globalNativeListenerNames_mouse = [
+        'mousemove',
+        'mouseup'
+    ], globalNativeListenerNames_pointer = [
+        'pointermove',
+        'pointerup'
+    ], wheelEventSupported = !1;
     function isPointerFromTouch(event) {
         var pointerType = event.pointerType;
         return 'pen' === pointerType || 'touch' === pointerType;
@@ -3731,7 +3724,7 @@
                 this.__pointerCapturing = isPointerCapturing;
                 var globalHandlerScope = this._globalHandlerScope;
                 isPointerCapturing ? function(instance, scope) {
-                    env.pointerEventsSupported ? each(globalNativeListenerNames.pointer, mount) : env.touchEventsSupported || each(globalNativeListenerNames.mouse, mount);
+                    env.pointerEventsSupported ? each(globalNativeListenerNames_pointer, mount) : env.touchEventsSupported || each(globalNativeListenerNames_mouse, mount);
                     function mount(nativeEventName) {
                         mountSingleDOMEventListener(scope, nativeEventName, function(event) {
                             if (!isLocalEl(instance, (event = getNativeEvent(event)).target)) {
@@ -9254,11 +9247,7 @@
         'itemName',
         'itemId',
         'seriesName'
-    ]), SOURCE_FORMAT_ORIGINAL = 'original', SOURCE_FORMAT_ARRAY_ROWS = 'arrayRows', SOURCE_FORMAT_OBJECT_ROWS = 'objectRows', SOURCE_FORMAT_KEYED_COLUMNS = 'keyedColumns', SOURCE_FORMAT_TYPED_ARRAY = 'typedArray', SOURCE_FORMAT_UNKNOWN = 'unknown', SERIES_LAYOUT_BY_COLUMN = 'column', BE_ORDINAL = {
-        Must: 1,
-        Might: 2,
-        Not: 3 // Other cases
-    }, innerGlobalModel = makeInner();
+    ]), SOURCE_FORMAT_ORIGINAL = 'original', SOURCE_FORMAT_ARRAY_ROWS = 'arrayRows', SOURCE_FORMAT_OBJECT_ROWS = 'objectRows', SOURCE_FORMAT_KEYED_COLUMNS = 'keyedColumns', SOURCE_FORMAT_TYPED_ARRAY = 'typedArray', SOURCE_FORMAT_UNKNOWN = 'unknown', SERIES_LAYOUT_BY_COLUMN = 'column', innerGlobalModel = makeInner();
     /**
      * [The strategy of the arrengment of data dimensions for dataset]:
      * "value way": all axes are non-category axes. So series one by one take
@@ -9327,10 +9316,11 @@
             for(var idxRes0 = {}, idxRes1 = {}, guessRecords = [], i = 0, len = Math.min(5, dimCount); i < len; i++){
                 var guessResult = doGuessOrdinal(source.data, sourceFormat, source.seriesLayoutBy, dimensionsDefine, source.startIndex, i);
                 guessRecords.push(guessResult);
-                var isPureNumber = guessResult === BE_ORDINAL.Not; // [Strategy of idxRes0]: find the first BE_ORDINAL.Not as the value dim,
-                if (isPureNumber && null == idxRes0.v && i !== potentialNameDimIndex && (idxRes0.v = i), null != idxRes0.n && idxRes0.n !== idxRes0.v && (isPureNumber || guessRecords[idxRes0.n] !== BE_ORDINAL.Not) || (idxRes0.n = i), fulfilled(idxRes0) && guessRecords[idxRes0.n] !== BE_ORDINAL.Not) return idxRes0;
+                var isPureNumber = 3 // Other cases
+                 === guessResult; // [Strategy of idxRes0]: find the first BE_ORDINAL.Not as the value dim,
+                if (isPureNumber && null == idxRes0.v && i !== potentialNameDimIndex && (idxRes0.v = i), null != idxRes0.n && idxRes0.n !== idxRes0.v && (isPureNumber || 3 !== guessRecords[idxRes0.n]) || (idxRes0.n = i), fulfilled(idxRes0) && 3 !== guessRecords[idxRes0.n]) return idxRes0;
                  // [Strategy of idxRes1]: if idxRes0 not satisfied (that is, no BE_ORDINAL.Not),
-                isPureNumber || (guessResult === BE_ORDINAL.Might && null == idxRes1.v && i !== potentialNameDimIndex && (idxRes1.v = i), (null == idxRes1.n || idxRes1.n === idxRes1.v) && (idxRes1.n = i));
+                isPureNumber || (2 === guessResult && null == idxRes1.v && i !== potentialNameDimIndex && (idxRes1.v = i), (null == idxRes1.n || idxRes1.n === idxRes1.v) && (idxRes1.n = i));
             }
             function fulfilled(idxResult) {
                 return null != idxResult.v && null != idxResult.n;
@@ -9362,13 +9352,13 @@
     // return {BE_ORDINAL}
     function doGuessOrdinal(data, sourceFormat, seriesLayoutBy, dimensionsDefine, startIndex, dimIndex) {
         var result, dimName, dimType;
-        if (isTypedArray(data)) return BE_ORDINAL.Not;
+        if (isTypedArray(data)) return 3;
          // When sourceType is 'objectRows' or 'keyedColumns', dimensionsDefine
         if (dimensionsDefine) {
             var dimDefItem = dimensionsDefine[dimIndex];
             isObject(dimDefItem) ? (dimName = dimDefItem.name, dimType = dimDefItem.type) : isString(dimDefItem) && (dimName = dimDefItem);
         }
-        if (null != dimType) return 'ordinal' === dimType ? BE_ORDINAL.Must : BE_ORDINAL.Not;
+        if (null != dimType) return 'ordinal' === dimType ? 1 : 3;
         if (sourceFormat === SOURCE_FORMAT_ARRAY_ROWS) if ('row' === seriesLayoutBy) {
             for(var sample = data[dimIndex], i = 0; i < (sample || []).length && i < 5; i++)if (null != (result = detectValue(sample[startIndex + i]))) return result;
         } else for(var i = 0; i < data.length && i < 5; i++){
@@ -9376,27 +9366,27 @@
             if (row && null != (result = detectValue(row[dimIndex]))) return result;
         }
         else if (sourceFormat === SOURCE_FORMAT_OBJECT_ROWS) {
-            if (!dimName) return BE_ORDINAL.Not;
+            if (!dimName) return 3;
             for(var i = 0; i < data.length && i < 5; i++){
                 var item = data[i];
                 if (item && null != (result = detectValue(item[dimName]))) return result;
             }
         } else if (sourceFormat === SOURCE_FORMAT_KEYED_COLUMNS) {
-            if (!dimName) return BE_ORDINAL.Not;
+            if (!dimName) return 3;
             var sample = data[dimName];
-            if (!sample || isTypedArray(sample)) return BE_ORDINAL.Not;
+            if (!sample || isTypedArray(sample)) return 3;
             for(var i = 0; i < sample.length && i < 5; i++)if (null != (result = detectValue(sample[i]))) return result;
         } else if (sourceFormat === SOURCE_FORMAT_ORIGINAL) for(var i = 0; i < data.length && i < 5; i++){
             var item = data[i], val = getDataItemValue(item);
-            if (!isArray(val)) return BE_ORDINAL.Not;
+            if (!isArray(val)) return 3;
             if (null != (result = detectValue(val[dimIndex]))) return result;
         }
         function detectValue(val) {
             var beStr = isString(val); // Consider usage convenience, '1', '2' will be treated as "number".
             return(// `isFinit('')` get `true`.
-            null != val && isFinite(val) && '' !== val ? beStr ? BE_ORDINAL.Might : BE_ORDINAL.Not : beStr && '-' !== val ? BE_ORDINAL.Must : void 0);
+            null != val && isFinite(val) && '' !== val ? beStr ? 2 : 3 : beStr && '-' !== val ? 1 : void 0);
         }
-        return BE_ORDINAL.Not;
+        return 3;
     }
     var internalOptionCreatorMap = createHashMap(), innerColor = makeInner(), innerDecal = makeInner(), PaletteMixin = /** @class */ function() {
         function PaletteMixin() {}
@@ -14971,66 +14961,29 @@
                 specialAreas: this._specialAreas
             };
         }, GeoJSONResource);
-    }(), storage = createHashMap(), geoSourceManager = {
-        /**
-         * Compatible with previous `echarts.registerMap`.
-         *
-         * @usage
-         * ```js
-         *
-         * echarts.registerMap('USA', geoJson, specialAreas);
-         *
-         * echarts.registerMap('USA', {
-         *     geoJson: geoJson,
-         *     specialAreas: {...}
-         * });
-         * echarts.registerMap('USA', {
-         *     geoJSON: geoJson,
-         *     specialAreas: {...}
-         * });
-         *
-         * echarts.registerMap('airport', {
-         *     svg: svg
-         * }
-         * ```
-         *
-         * Note:
-         * Do not support that register multiple geoJSON or SVG
-         * one map name. Because different geoJSON and SVG have
-         * different unit. It's not easy to make sure how those
-         * units are mapping/normalize.
-         * If intending to use multiple geoJSON or SVG, we can
-         * use multiple geo coordinate system.
-         */ registerMap: function(mapName, rawDef, rawSpecialAreas) {
-            if (rawDef.svg) {
-                var resource = new GeoSVGResource(mapName, rawDef.svg);
-                storage.set(mapName, resource);
-            } else {
-                // Recommend:
-                //     echarts.registerMap('eu', { geoJSON: xxx, specialAreas: xxx });
-                // Backward compatibility:
-                //     echarts.registerMap('eu', geoJSON, specialAreas);
-                //     echarts.registerMap('eu', { geoJson: xxx, specialAreas: xxx });
-                var geoJSON = rawDef.geoJson || rawDef.geoJSON;
-                geoJSON && !rawDef.features ? rawSpecialAreas = rawDef.specialAreas : geoJSON = rawDef;
-                var resource = new GeoJSONResource(mapName, geoJSON, rawSpecialAreas);
-                storage.set(mapName, resource);
-            }
-        },
-        getGeoResource: function(mapName) {
-            return storage.get(mapName);
-        },
-        /**
-         * Only for exporting to users.
-         * **MUST NOT** used internally.
-         */ getMapForUser: function(mapName) {
-            var resource = storage.get(mapName); // Do not support return SVG until some real requirement come.
-            return resource && 'geoJSON' === resource.type && resource.getMapForUser();
-        },
-        load: function(mapName, nameMap, nameProperty) {
-            var resource = storage.get(mapName);
-            return resource ? resource.load(nameMap, nameProperty) : void console.error('Map ' + mapName + ' not exists. The GeoJSON of the map must be provided.');
+    }(), storage = createHashMap(), geoSourceManager_registerMap = function(mapName, rawDef, rawSpecialAreas) {
+        if (rawDef.svg) {
+            var resource = new GeoSVGResource(mapName, rawDef.svg);
+            storage.set(mapName, resource);
+        } else {
+            // Recommend:
+            //     echarts.registerMap('eu', { geoJSON: xxx, specialAreas: xxx });
+            // Backward compatibility:
+            //     echarts.registerMap('eu', geoJSON, specialAreas);
+            //     echarts.registerMap('eu', { geoJson: xxx, specialAreas: xxx });
+            var geoJSON = rawDef.geoJson || rawDef.geoJSON;
+            geoJSON && !rawDef.features ? rawSpecialAreas = rawDef.specialAreas : geoJSON = rawDef;
+            var resource = new GeoJSONResource(mapName, geoJSON, rawSpecialAreas);
+            storage.set(mapName, resource);
         }
+    }, geoSourceManager_getGeoResource = function(mapName) {
+        return storage.get(mapName);
+    }, geoSourceManager_getMapForUser = function(mapName) {
+        var resource = storage.get(mapName); // Do not support return SVG until some real requirement come.
+        return resource && 'geoJSON' === resource.type && resource.getMapForUser();
+    }, geoSourceManager_load = function(mapName, nameMap, nameProperty) {
+        var resource = storage.get(mapName);
+        return resource ? resource.load(nameMap, nameProperty) : void console.error('Map ' + mapName + ' not exists. The GeoJSON of the map must be provided.');
     }, isObject$2 = isObject, hasWindow = 'undefined' != typeof window, PRIORITY = {
         PROCESSOR: {
             FILTER: 1000,
@@ -16019,7 +15972,7 @@
      * The parameters and usage: see `geoSourceManager.registerMap`.
      * Compatible with previous `echarts.registerMap`.
      */ function registerMap(mapName, geoJson, specialAreas) {
-        geoSourceManager.registerMap(mapName, geoJson, specialAreas);
+        geoSourceManager_registerMap(mapName, geoJson, specialAreas);
     }
     var registerTransform = function(externalTransform) {
         var type = (externalTransform = clone(externalTransform)).type;
@@ -17493,8 +17446,8 @@
             generateCoordCount = generateCoord ? generateCoordCount || 1 : 0;
             for(var extra = generateCoord || 'value', resultDimIdx = 0; resultDimIdx < dimCount; resultDimIdx++){
                 var source1, sysDims1, optDimCount, dimCount1, source2, dimIndex, resultItem = result[resultDimIdx] = result[resultDimIdx] || new DataDimensionInfo();
-                null == resultItem.coordDim && (resultItem.coordDim = genName(extra, coordDimNameMap, fromZero), resultItem.coordDimIndex = 0, (!generateCoord || generateCoordCount <= 0) && (resultItem.isExtraCoord = !0), generateCoordCount--), null == resultItem.name && (resultItem.name = genName(resultItem.coordDim, dataDimNameMap, !1)), null == resultItem.type && (source2 = source, dimIndex = resultDimIdx, doGuessOrdinal(source2.data, source2.sourceFormat, source2.seriesLayoutBy, source2.dimensionsDefine, source2.startIndex, dimIndex) === BE_ORDINAL.Must // Consider the case:
-                 || resultItem.isExtraCoord && (null != resultItem.otherDims.itemName || null != resultItem.otherDims.seriesName)) && (resultItem.type = 'ordinal');
+                null == resultItem.coordDim && (resultItem.coordDim = genName(extra, coordDimNameMap, fromZero), resultItem.coordDimIndex = 0, (!generateCoord || generateCoordCount <= 0) && (resultItem.isExtraCoord = !0), generateCoordCount--), null == resultItem.name && (resultItem.name = genName(resultItem.coordDim, dataDimNameMap, !1)), null == resultItem.type && (source2 = source, dimIndex = resultDimIdx, 1 === doGuessOrdinal(source2.data, source2.sourceFormat, source2.seriesLayoutBy, source2.dimensionsDefine, source2.startIndex, dimIndex) || resultItem.isExtraCoord && (null != resultItem.otherDims.itemName || null != resultItem.otherDims.seriesName) // Consider the case:
+                ) && (resultItem.type = 'ordinal');
             }
             return result;
         } // ??? TODO
@@ -25060,7 +25013,7 @@
         }, MapDraw.prototype._svgResourceChanged = function(mapName) {
             return this._svgMapName !== mapName;
         }, MapDraw.prototype._useSVG = function(mapName) {
-            var resource = geoSourceManager.getGeoResource(mapName);
+            var resource = geoSourceManager_getGeoResource(mapName);
             if (resource && 'geoSVG' === resource.type) {
                 var svgGraphic = resource.useGraphic(this.uid);
                 this._svgGroup.add(svgGraphic.root), this._svgGraphicRecord = svgGraphic, this._svgMapName = mapName;
@@ -25068,7 +25021,7 @@
         }, MapDraw.prototype._freeSVG = function() {
             var mapName = this._svgMapName;
             if (null != mapName) {
-                var resource = geoSourceManager.getGeoResource(mapName);
+                var resource = geoSourceManager_getGeoResource(mapName);
                 resource && 'geoSVG' === resource.type && resource.freeGraphic(this.uid), this._svgGraphicRecord = null, this._svgDispatcherMap = null, this._svgGroup.removeAll(), this._svgMapName = null;
             }
         }, MapDraw.prototype._updateController = function(mapOrGeoModel, ecModel, api) {
@@ -25322,7 +25275,7 @@
                 var name_2 = data.getName(i);
                 dataNameMap.set(name_2, !0);
             }
-            return each(geoSourceManager.load(this.getMapType(), this.option.nameMap, this.option.nameProperty).regions, function(region) {
+            return each(geoSourceManager_load(this.getMapType(), this.option.nameMap, this.option.nameProperty).regions, function(region) {
                 var name = region.name;
                 dataNameMap.get(name) || toAppendNames.push(name);
             }), // map and render) can not be performed without a "full data". For example,
@@ -25635,7 +25588,7 @@
                 'lng',
                 'lat'
             ], _this.type = 'geo', _this._nameCoordMap = createHashMap(), _this.map = map;
-            var source = geoSourceManager.load(map, opt.nameMap, opt.nameProperty), resource = geoSourceManager.getGeoResource(map);
+            var source = geoSourceManager_load(map, opt.nameMap, opt.nameProperty), resource = geoSourceManager_getGeoResource(map);
             _this.resourceType = resource ? resource.type : null;
             var defaultParmas = GEO_DEFAULT_PARAMS[resource.type];
             _this._regionsMap = source.regionsMap, _this._invertLongitute = defaultParmas.invertLongitute, _this.regions = source.regions, _this.aspectScale = retrieve2(opt.aspectScale, defaultParmas.aspectScale);
@@ -25766,7 +25719,7 @@
              * Fill given regions array
              */ GeoCreator.prototype.getFilledRegions = function(originRegionArr, mapName, nameMap, nameProperty) {
             for(var regionsArr = (originRegionArr || []).slice(), dataNameMap = createHashMap(), i = 0; i < regionsArr.length; i++)dataNameMap.set(regionsArr[i].name, regionsArr[i]);
-            return each(geoSourceManager.load(mapName, nameMap, nameProperty).regions, function(region) {
+            return each(geoSourceManager_load(mapName, nameMap, nameProperty).regions, function(region) {
                 var name = region.name;
                 dataNameMap.get(name) || regionsArr.push({
                     name: name
@@ -25779,7 +25732,7 @@
             return _this.type = GeoModel.type, _this;
         }
         return __extends(GeoModel, _super), GeoModel.prototype.init = function(option, parentModel, ecModel) {
-            var source = geoSourceManager.getGeoResource(option.map);
+            var source = geoSourceManager_getGeoResource(option.map);
             if (source && 'geoJSON' === source.type) {
                 var itemStyle = option.itemStyle = option.itemStyle || {};
                 'color' in itemStyle || (itemStyle.color = '#eee');
@@ -46044,13 +45997,9 @@
     function install$L(registers) {
         registers.registerComponentModel(SliderZoomModel), registers.registerComponentView(SliderZoomView), installCommon(registers);
     }
-    var visualDefault = {
-        /**
-         * @public
-         */ get: function(visualType, key, isCategory) {
-            var value = clone((defaultOption$1[visualType] || {})[key]);
-            return isCategory && isArray(value) ? value[value.length - 1] : value;
-        }
+    var visualDefault_get = function(visualType, key, isCategory) {
+        var value = clone((defaultOption$1[visualType] || {})[key]);
+        return isCategory && isArray(value) ? value[value.length - 1] : value;
     }, defaultOption$1 = {
         color: {
             active: [
@@ -46269,7 +46218,7 @@
                 var optExist = base[stateExist], optAbsent = base[stateAbsent];
                 optExist && !optAbsent && (optAbsent = base[stateAbsent] = {}, each(optExist, function(visualData, visualType) {
                     if (VisualMapping.isValidType(visualType)) {
-                        var defa = visualDefault.get(visualType, 'inactive', isCategory);
+                        var defa = visualDefault_get(visualType, 'inactive', isCategory);
                         null != defa && (optAbsent[visualType] = defa, 'color' !== visualType || optAbsent.hasOwnProperty('opacity') || optAbsent.hasOwnProperty('colorAlpha') || (optAbsent.opacity = [
                             0,
                             0
@@ -47260,7 +47209,7 @@
                 each(this.stateList, function(state) {
                     exists = exists || has(option, state, visualType) || has(option.target, state, visualType);
                 }, this), exists || each(this.stateList, function(state) {
-                    (option[state] || (option[state] = {}))[visualType] = visualDefault.get(visualType, 'inRange' === state ? 'active' : 'inactive', isCategory);
+                    (option[state] || (option[state] = {}))[visualType] = visualDefault_get(visualType, 'inRange' === state ? 'active' : 'inactive', isCategory);
                 });
             }, this), _super.prototype.completeVisualOption.apply(this, arguments);
         }, PiecewiseModel.prototype._resetSelected = function(newOption, isInit) {
@@ -48495,7 +48444,7 @@
     }, exports1.getInstanceByDom = getInstanceByDom, exports1.getInstanceById = function(key) {
         return instances$1[key];
     }, exports1.getMap = function(mapName) {
-        return geoSourceManager.getMapForUser(mapName);
+        return geoSourceManager_getMapForUser(mapName);
     }, exports1.graphic = graphic$1, exports1.helper = helper, exports1.init = /**
      * @param opts.devicePixelRatio Use window.devicePixelRatio by default
      * @param opts.renderer Can choose 'canvas' or 'svg' to render the chart.

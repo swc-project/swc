@@ -1,5 +1,3 @@
 //// [subtypingWithOptionalProperties.ts]
-var r = {
-    s: {}
-};
-r.s && r.s.toFixed();
+var r_s = {};
+r_s && r_s.toFixed();

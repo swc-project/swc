@@ -23428,9 +23428,7 @@ class Zip {
             async function readAsBlobOrTypedArray(reader, offset, length, type) {
                 return reader.sliceAsBlob ? await reader.sliceAsBlob(offset, length, type) : await reader.read(offset, length);
             }
-            const crc$1 = {
-                unsigned: ()=>0
-            };
+            const crc$1_unsigned = ()=>0;
             function getUint16LE(uint8View, offset) {
                 return uint8View[offset] + 0x100 * uint8View[offset + 1];
             }
@@ -23584,7 +23582,7 @@ class Zip {
                     // see https://github.com/thejoshwolfe/yauzl/issues/33
                     const nameField = rawEntry.extraFields.find((e)=>0x7075 === e.id && e.data.length >= 6 && // too short to be meaningful
                         1 === e.data[0] && // Version       1 byte      version of this extra field, currently 1
-                        getUint32LE(e.data, 1), crc$1.unsigned(rawEntry.nameBytes)); // NameCRC32     4 bytes     File Name Field CRC32 Checksum
+                        getUint32LE(e.data, 1), crc$1_unsigned(rawEntry.nameBytes)); // NameCRC32     4 bytes     File Name Field CRC32 Checksum
                     // validate file size
                     if (nameField && // UnicodeName Variable UTF-8 version of the entry File Name
                     (rawEntry.fileName = decodeBuffer(nameField.data.slice(5))), 0 === rawEntry.compressionMethod) {
