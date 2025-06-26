@@ -1,9 +1,8 @@
 //// [file.tsx]
 define([
     "require",
-    "exports",
-    "react"
-], function(require, exports, _react) {
+    "exports"
+], function(require, exports) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), Object.defineProperty(exports, "MainButton", {

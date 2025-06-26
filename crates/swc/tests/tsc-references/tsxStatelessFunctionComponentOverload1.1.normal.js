@@ -1,13 +1,8 @@
 //// [file.tsx]
 define([
-    "require",
-    "exports",
-    "react"
-], function(require, exports, _react) {
+    "require"
+], function(require) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
     // OK
     var c1 = <OneThing yxx='ok'/>;
     var c2 = <OneThing yy={100} yy1="hello"/>;

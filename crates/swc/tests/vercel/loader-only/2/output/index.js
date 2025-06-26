@@ -1,5 +1,4 @@
 import { jsx as _jsx, Fragment as _Fragment } from "react/jsx-runtime";
-import React from "react";
 import { useRouter } from "next/router";
 import { useProject } from "@swr/use-project";
 import useTeam from "@swr/use-team";
