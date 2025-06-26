@@ -484,21 +484,13 @@ impl Visit for Analyzer<'_> {
     }
 
     fn visit_class_expr(&mut self, n: &ClassExpr) {
-        self.with_ast_path(
-            n.ident.as_ref().map(|i| i.to_id()).into_iter().collect(),
-            |v| {
-                let old = v.cur_class_id.take();
-                v.cur_class_id = n.ident.as_ref().map(|i| i.to_id());
-                n.visit_children_with(v);
-                v.cur_class_id = old;
+        n.visit_children_with(self);
 
-                if !n.class.decorators.is_empty() {
-                    if let Some(i) = &n.ident {
-                        v.add(i.to_id(), false);
-                    }
-                }
-            },
-        )
+        if !n.class.decorators.is_empty() {
+            if let Some(i) = &n.ident {
+                self.add(i.to_id(), false);
+            }
+        }
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
