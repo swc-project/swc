@@ -14,7 +14,7 @@ use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 #[derive(Clone, Copy)]
 
-pub(crate) struct CharFreq([i32; 65]);
+pub(crate) struct CharFreq([i32; 256]);
 
 #[derive(Clone, Copy)]
 pub(crate) struct Base54Chars {
@@ -23,7 +23,7 @@ pub(crate) struct Base54Chars {
 
 impl Default for CharFreq {
     fn default() -> Self {
-        CharFreq([0; 65])
+        CharFreq([0; 256])
     }
 }
 
@@ -193,42 +193,8 @@ impl CharFreq {
             return;
         }
 
-        static SCAN_INDEX_TABLE: [u8; 256] = {
-            let mut table = [0; 256];
-            let mut i = 0;
-            loop {
-                let b = i as u8;
-                match b {
-                    b'a'..=b'z' => {
-                        table[i] = b - b'a';
-                    }
-                    b'A'..=b'Z' => {
-                        table[i] = b - b'A' + 26;
-                    }
-                    b'0'..=b'9' => {
-                        table[i] = b - b'0' + 52;
-                    }
-                    b'$' => {
-                        table[i] = 62;
-                    }
-                    b'_' => {
-                        table[i] = 63;
-                    }
-                    _ => {
-                        table[i] = 64;
-                    }
-                }
-
-                i += 1;
-                if i == 256 {
-                    break;
-                }
-            }
-            table
-        };
-
         for &c in s.as_bytes() {
-            self.0[SCAN_INDEX_TABLE[c as usize] as usize] += delta;
+            self.0[c as usize] += delta;
         }
     }
 
@@ -285,8 +251,7 @@ impl CharFreq {
         let mut arr = BASE54_DEFAULT_CHARS
             .iter()
             .copied()
-            .enumerate()
-            .map(|(idx, c)| (self.0[idx], c))
+            .map(|c| (self.0[c as usize], c))
             .collect::<Vec<_>>();
 
         arr.sort_by_key(|&(freq, _)| Reverse(freq));
@@ -409,7 +374,7 @@ impl Visit for CharFreqAnalyzer<'_> {
 
 impl AddAssign for CharFreq {
     fn add_assign(&mut self, rhs: Self) {
-        for i in 0..64 {
+        for i in 0..256 {
             self.0[i] += rhs.0[i];
         }
     }
