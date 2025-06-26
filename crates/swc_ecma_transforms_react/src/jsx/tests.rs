@@ -23,15 +23,17 @@ use crate::{display_name, pure_annotations, react};
 fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Pass {
     let unresolved_mark = Mark::new();
 
+    let (before_resolver_jsx, after_resolver_jsx) = jsx(
+        t.cm.clone(),
+        Some(t.comments.clone()),
+        options,
+        unresolved_mark,
+    );
+
     (
+        before_resolver_jsx,
         resolver(unresolved_mark, top_level_mark, false),
-        jsx(
-            t.cm.clone(),
-            Some(t.comments.clone()),
-            options,
-            top_level_mark,
-            unresolved_mark,
-        ),
+        after_resolver_jsx,
         display_name(),
         classes(Default::default()),
         arrow(unresolved_mark),
@@ -120,15 +122,17 @@ fn fixture_tr(t: &mut Tester, options: FixtureOptions) -> impl Pass {
 
     let options = options.into();
 
+    let (before_resolver_jsx, after_resolver_jsx) = jsx(
+        t.cm.clone(),
+        Some(t.comments.clone()),
+        options,
+        unresolved_mark,
+    );
+
     (
+        before_resolver_jsx,
         resolver(unresolved_mark, top_level_mark, false),
-        jsx(
-            t.cm.clone(),
-            Some(t.comments.clone()),
-            options,
-            top_level_mark,
-            unresolved_mark,
-        ),
+        after_resolver_jsx,
         display_name(),
         pure_annotations(Some(t.comments.clone())),
     )
@@ -1037,7 +1041,7 @@ test!(
         ..Default::default()
     }),
     |t| {
-        let top_level_mark = Mark::fresh(Mark::root());
+        let _top_level_mark = Mark::fresh(Mark::root());
         let unresolved_mark = Mark::fresh(Mark::root());
 
         (
@@ -1046,7 +1050,6 @@ test!(
                 t.cm.clone(),
                 Some(t.comments.clone()),
                 Default::default(),
-                top_level_mark,
                 unresolved_mark,
             ),
         )
@@ -1082,15 +1085,17 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
+        let (before_resolver_jsx, after_resolver_jsx) = jsx(
+            t.cm.clone(),
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        );
+
         (
+            before_resolver_jsx,
             resolver(unresolved_mark, top_level_mark, false),
-            jsx(
-                t.cm.clone(),
-                Some(t.comments.clone()),
-                Default::default(),
-                top_level_mark,
-                unresolved_mark,
-            ),
+            after_resolver_jsx,
         )
     },
     issue_4956,
