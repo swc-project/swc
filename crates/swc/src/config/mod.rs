@@ -297,15 +297,41 @@ impl Options {
 
         let mut transform = transform.into_inner().unwrap_or_default();
 
-        // Do a resolver pass before everything.
-        //
-        // We do this before creating custom passes, so custom passses can use the
-        // variable management system based on the syntax contexts.
         if syntax.typescript() {
             assumptions.set_class_methods |= !transform.use_define_for_class_fields.into_bool();
         }
 
         assumptions.set_public_class_fields |= !transform.use_define_for_class_fields.into_bool();
+
+        // Do a resolver pass before everything.
+        //
+        // We do this before creating custom passes, so custom passses can use the
+        // variable management system based on the syntax contexts.
+        //
+        // Exception: Classic JSX transformation runs before the resolver
+        // because it's a context-free syntactic transformation that doesn't require
+        // scope information.
+        // Running resolver first would mark identifiers (like JSX pragma functions)
+        // with syntax contexts, making it harder for the JSX transform to
+        // handle pragma references that should resolve to local scope declarations.
+
+        let jsx_pass = 'jsx_pass: {
+            if !syntax.jsx() {
+                break 'jsx_pass None;
+            }
+
+            let (mut before_resolver, after_resolver) = react::react(
+                cm.clone(),
+                comments.cloned(),
+                transform.react,
+                top_level_mark,
+                unresolved_mark,
+            );
+
+            program.mutate(&mut before_resolver);
+
+            Some(after_resolver)
+        };
 
         program.visit_mut_with(&mut resolver(
             unresolved_mark,
@@ -788,36 +814,9 @@ impl Options {
                             ..Default::default()
                         };
 
-                        (
-                            Optional::new(
-                                typescript::typescript(ts_config, unresolved_mark, top_level_mark),
-                                syntax.typescript() && !syntax.jsx(),
-                            ),
-                            // [TODO]: Remove tsx
-                            Optional::new(
-                                {
-                                    let (pragma, pragma_frag) = match transform.react.runtime {
-                                        react::Runtime::Classic(ref config) => (
-                                            Some(config.pragma.clone()),
-                                            Some(config.pragma_frag.clone()),
-                                        ),
-                                        _ => (None, None),
-                                    };
-
-                                    typescript::tsx::<Option<&dyn Comments>>(
-                                        cm.clone(),
-                                        ts_config,
-                                        typescript::TsxConfig {
-                                            pragma,
-                                            pragma_frag,
-                                        },
-                                        comments.map(|v| v as _),
-                                        unresolved_mark,
-                                        top_level_mark,
-                                    )
-                                },
-                                syntax.typescript() && syntax.jsx(),
-                            ),
+                        Optional::new(
+                            typescript::typescript(ts_config, unresolved_mark, top_level_mark),
+                            syntax.typescript(),
                         )
                     },
                 ),
@@ -825,16 +824,7 @@ impl Options {
                     plugin_transforms.take(),
                     custom_before_pass(&program),
                     // handle jsx
-                    Optional::new(
-                        react::react(
-                            cm.clone(),
-                            comments.cloned(),
-                            transform.react,
-                            top_level_mark,
-                            unresolved_mark,
-                        ),
-                        syntax.jsx(),
-                    ),
+                    jsx_pass,
                     built_pass,
                     Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
                     Optional::new(

@@ -355,9 +355,8 @@ pub fn jsx<C>(
     cm: swc_common::sync::Lrc<swc_common::SourceMap>,
     comments: Option<C>,
     mut options: Options,
-    top_level_mark: swc_common::Mark,
     unresolved_mark: swc_common::Mark,
-) -> impl swc_ecma_ast::Pass
+) -> (impl swc_ecma_ast::Pass, impl swc_ecma_ast::Pass)
 where
     C: swc_common::comments::Comments + Clone + 'static,
 {
@@ -369,6 +368,7 @@ where
 
     match runtime {
         Runtime::Automatic(config) => (
+            None,
             Some(automatic(
                 config,
                 common,
@@ -376,17 +376,10 @@ where
                 comments.clone(),
                 cm.clone(),
             )),
-            None,
         ),
         Runtime::Classic(config) => (
+            Some(classic(config, common, comments.clone(), cm.clone())),
             None,
-            Some(classic(
-                config,
-                common,
-                top_level_mark,
-                comments.clone(),
-                cm.clone(),
-            )),
         ),
         Runtime::Preserve => (None, None),
     }

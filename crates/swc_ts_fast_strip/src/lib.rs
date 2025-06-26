@@ -415,6 +415,49 @@ pub fn operate(
             let top_level_mark = Mark::new();
 
             HELPERS.set(&Helpers::new(false), || {
+                let transform = options.transform.unwrap_or_default();
+
+                #[cfg(feature = "nightly")]
+                let mut jsx_pass = {
+                    let (mut before_resolver_jsx, after_resolver_jsx) =
+                        swc_ecma_transforms_react::jsx(
+                            cm.clone(),
+                            Some(comments.clone()),
+                            swc_ecma_transforms_react::Options {
+                                runtime: match &transform.jsx {
+                                    Some(jsx_config) => {
+                                        let import_source =
+                                            jsx_config.import_source.clone().unwrap_or_else(
+                                                swc_ecma_transforms_react::default_import_source,
+                                            );
+                                        swc_ecma_transforms_react::Runtime::Automatic(
+                                            swc_ecma_transforms_react::AutomaticConfig {
+                                                import_source,
+                                            },
+                                        )
+                                    }
+                                    None => swc_ecma_transforms_react::Runtime::Automatic(
+                                        Default::default(),
+                                    ),
+                                },
+                                common: swc_ecma_transforms_react::CommonConfig {
+                                    development: transform
+                                        .jsx
+                                        .as_ref()
+                                        .and_then(|jsx| jsx.transform.as_ref())
+                                        .map(|t| matches!(t, JsxTransform::ReactJsxDev))
+                                        .unwrap_or(false)
+                                        .into(),
+                                    ..Default::default()
+                                },
+                                refresh: None,
+                            },
+                            unresolved_mark,
+                        );
+                    program.mutate(&mut before_resolver_jsx);
+                    after_resolver_jsx
+                };
+
                 program.mutate(&mut resolver(unresolved_mark, top_level_mark, true));
 
                 if deprecated_ts_module_as_error {
@@ -434,8 +477,6 @@ pub fn operate(
                     }
                 }
 
-                let transform = options.transform.unwrap_or_default();
-
                 program.mutate(&mut typescript::typescript(
                     transform.typescript,
                     unresolved_mark,
@@ -443,39 +484,7 @@ pub fn operate(
                 ));
 
                 #[cfg(feature = "nightly")]
-                program.mutate(&mut swc_ecma_transforms_react::jsx(
-                    cm.clone(),
-                    Some(comments.clone()),
-                    swc_ecma_transforms_react::Options {
-                        runtime: match &transform.jsx {
-                            Some(jsx_config) => {
-                                let import_source =
-                                    jsx_config.import_source.clone().unwrap_or_else(
-                                        swc_ecma_transforms_react::default_import_source,
-                                    );
-                                swc_ecma_transforms_react::Runtime::Automatic(
-                                    swc_ecma_transforms_react::AutomaticConfig { import_source },
-                                )
-                            }
-                            None => {
-                                swc_ecma_transforms_react::Runtime::Automatic(Default::default())
-                            }
-                        },
-                        common: swc_ecma_transforms_react::CommonConfig {
-                            development: transform
-                                .jsx
-                                .as_ref()
-                                .and_then(|jsx| jsx.transform.as_ref())
-                                .map(|t| matches!(t, JsxTransform::ReactJsxDev))
-                                .unwrap_or(false)
-                                .into(),
-                            ..Default::default()
-                        },
-                        refresh: None,
-                    },
-                    top_level_mark,
-                    unresolved_mark,
-                ));
+                program.mutate(&mut jsx_pass);
 
                 program.mutate(&mut inject_helpers(unresolved_mark));
 
