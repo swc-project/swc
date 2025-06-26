@@ -526,6 +526,7 @@ impl Options {
         };
 
         let verbatim_module_syntax = transform.verbatim_module_syntax.into_bool();
+        let ts_enum_is_mutable = transform.ts_enum_is_mutable.into_bool();
 
         let charset = cfg.jsc.output.charset.or_else(|| {
             if js_minify.as_ref()?.format.ascii_only {
@@ -777,6 +778,7 @@ impl Options {
                             import_export_assign_config,
                             verbatim_module_syntax,
                             native_class_properties,
+                            ts_enum_is_mutable,
                             ..Default::default()
                         };
 
@@ -1557,6 +1559,9 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub decorator_version: Option<DecoratorVersion>,
+
+    #[serde(default)]
+    pub ts_enum_is_mutable: BoolConfig<false>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]

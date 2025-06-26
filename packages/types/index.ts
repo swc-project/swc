@@ -879,6 +879,7 @@ export interface TransformConfig {
      */
     verbatimModuleSyntax?: boolean;
 
+    tsEnumIsMutable?: boolean;
 }
 
 export interface ReactConfig {
