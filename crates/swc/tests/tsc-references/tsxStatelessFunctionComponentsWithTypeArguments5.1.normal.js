@@ -1,13 +1,8 @@
 //// [file.tsx]
 define([
-    "require",
-    "exports",
-    "react"
-], function(require, exports, _react) {
+    "require"
+], function(require) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
     function createComponent(arg) {
         var a1 = <Component {...arg}/>;
         var a2 = <Component {...arg} prop1/>;

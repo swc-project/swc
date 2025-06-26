@@ -40,7 +40,7 @@ pub fn react<C>(
     options: Options,
     top_level_mark: Mark,
     unresolved_mark: Mark,
-) -> impl Pass
+) -> (impl Pass, impl Pass)
 where
     C: Comments + Clone + 'static,
 {
@@ -54,7 +54,10 @@ where
 
     let refresh_options = options.refresh;
 
-    (
+    let before_resolver =
+        classic_config.map(|config| classic(config, options.common, comments.clone(), cm.clone()));
+
+    let after_resolver = (
         refresh(
             development,
             refresh_options,
@@ -71,16 +74,9 @@ where
                 cm.clone(),
             )
         }),
-        classic_config.map(|config| {
-            classic(
-                config,
-                options.common,
-                top_level_mark,
-                comments.clone(),
-                cm.clone(),
-            )
-        }),
         display_name(),
         pure_annotations(comments.clone()),
-    )
+    );
+
+    (before_resolver, after_resolver)
 }

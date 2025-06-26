@@ -1,10 +1,34 @@
 //// [file.tsx]
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[2:1]
-//!  1 | 
-//!  2 | import React = require('react');
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  3 | 
-//!  4 | interface Prop {
-//!  5 |     a: number,
-//!    `----
+function Comp(p) {
+    return <div>{p.b}</div>;
+}
+// Error: missing children
+var k = <Comp a={10} b="hi"/>;
+var k0 = <Comp a={10} b="hi" children="Random">
+        hi hi hi!
+    </Comp>;
+var o = {
+    children: "Random"
+};
+var k1 = <Comp a={10} b="hi" {...o}>
+        hi hi hi!
+    </Comp>;
+// Error: incorrect type
+var k2 = <Comp a={10} b="hi">
+        <div> My Div </div>
+        {function(name) {
+    return <div> My name {name} </div>;
+}}
+    </Comp>;
+var k3 = <Comp a={10} b="hi">
+        <div> My Div </div>
+        {1000000}
+    </Comp>;
+var k4 = <Comp a={10} b="hi">
+        <div> My Div </div>
+        hi hi hi!
+    </Comp>;
+var k5 = <Comp a={10} b="hi">
+        <div> My Div </div>
+        <div> My Div </div>
+    </Comp>;

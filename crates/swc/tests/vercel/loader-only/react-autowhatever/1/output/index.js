@@ -6,7 +6,7 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
 import { jsx as _jsx } from "react/jsx-runtime";
-import React, { Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import Item from "./Item";
 import compareObjects from "./compareObjects";
