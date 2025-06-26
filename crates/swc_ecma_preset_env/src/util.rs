@@ -687,3 +687,17 @@ impl<T> DataMapExt<T> for DataMap<T> {
         self
     }
 }
+
+pub struct PooledStr(u32);
+
+pub struct SwcXxh3;
+
+impl precomputed_map::phf::HashOne for SwcXxh3 {
+    fn hash_one<T: std::hash::Hash>(k: u64, v: T) -> u64 {
+        use std::hash::Hasher;
+        
+        let mut hasher = xxhash_rust::xxh3::Xxh3::with_seed(k);
+        v.hash(&mut hasher);
+        hasher.finish()
+    }
+}

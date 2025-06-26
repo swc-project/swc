@@ -26,6 +26,9 @@ serde      = { workspace = true, features = ["derive"], optional = true }
 serde_json = { workspace = true }
 st-map     = { workspace = true }
 
+precomputed-map = { workspace = true }
+xxhash-rust     = { workspace = true, features = [ "xxh3" ] }
+
 preset_env_base = { version = "3.0.2", path = "../preset_env_base" }
 rustc-hash = { workspace = true }
 string_enum = { version = "1.0.1", path = "../string_enum" }
