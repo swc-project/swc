@@ -1,5 +1,35 @@
 //// [exportsAndImportsWithUnderscores4.ts]
 //// [m1.ts]
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+});
+var target = exports, all = {
+    get _ () {
+        return _;
+    },
+    get __ () {
+        return __;
+    },
+    get ___ () {
+        return ___;
+    },
+    get ___hello () {
+        return ___hello;
+    },
+    get __esmodule () {
+        return __esmodule;
+    },
+    get __proto () {
+        return __proto;
+    },
+    get _hi () {
+        return _hi;
+    }
+};
+for(var name in all)Object.defineProperty(target, name, {
+    enumerable: !0,
+    get: Object.getOwnPropertyDescriptor(all, name).get
+});
 function _() {
     console.log("_");
 }
@@ -21,36 +51,6 @@ function __esmodule() {
 function ___hello() {
     console.log("___hello");
 }
-Object.defineProperty(exports, "__esModule", {
-    value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
-    _: function() {
-        return _;
-    },
-    __: function() {
-        return __;
-    },
-    ___: function() {
-        return ___;
-    },
-    ___hello: function() {
-        return ___hello;
-    },
-    __esmodule: function() {
-        return __esmodule;
-    },
-    __proto: function() {
-        return __proto;
-    },
-    _hi: function() {
-        return _hi;
-    }
-});
 //// [m2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

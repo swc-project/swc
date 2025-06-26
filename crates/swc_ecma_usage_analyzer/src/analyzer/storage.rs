@@ -10,6 +10,12 @@ pub trait Storage: Sized + Default {
     type ScopeData: ScopeDataLike;
     type VarData: VarDataLike;
 
+    fn new(collect_prop_atom: bool) -> Self;
+
+    fn need_collect_prop_atom(&self) -> bool;
+
+    fn add_property_atom(&mut self, atom: Atom);
+
     fn scope(&mut self, ctxt: SyntaxContext) -> &mut Self::ScopeData;
 
     fn top_scope(&mut self) -> &mut Self::ScopeData;
@@ -34,6 +40,8 @@ pub trait Storage: Sized + Default {
     fn truncate_initialized_cnt(&mut self, len: usize);
 
     fn mark_property_mutation(&mut self, id: Id);
+
+    fn get_var_data(&self, id: Id) -> Option<&Self::VarData>;
 }
 
 pub trait ScopeDataLike: Sized + Default + Clone {
@@ -83,4 +91,8 @@ pub trait VarDataLike: Sized {
     fn mark_used_above_decl(&mut self);
 
     fn mark_used_recursively(&mut self);
+
+    fn is_declared(&self) -> bool;
+
+    fn mark_used_as_jsx_callee(&mut self);
 }

@@ -57,7 +57,7 @@ fn test(input: PathBuf) {
             let module = match module {
                 Ok(v) => v,
                 Err(err) => {
-                    panic!("{:?}", err)
+                    panic!("{err:?}")
                 }
             };
 

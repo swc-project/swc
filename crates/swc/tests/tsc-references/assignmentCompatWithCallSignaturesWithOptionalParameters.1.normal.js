@@ -3,9 +3,8 @@
 var b;
 var a;
 a = function() {
-    return 1 // ok, same number of required params
-    ;
-};
+    return 1;
+}; // ok, same number of required params
 a = function(x) {
     return 1;
 }; // ok, same number of required params

@@ -11,6 +11,7 @@ use std::{
 };
 
 use anyhow::Error;
+use swc_atoms::atom;
 use swc_bundler::{Bundle, Bundler, Load, ModuleData, ModuleRecord};
 use swc_common::{
     errors::{ColorConfig, Handler},
@@ -90,9 +91,7 @@ fn do_test(_entry: &Path, entries: HashMap<String, FileName>, inline: bool, mini
             Box::new(Hook),
         );
 
-        let mut modules = bundler
-            .bundle(entries)
-            .map_err(|err| println!("{:?}", err))?;
+        let mut modules = bundler.bundle(entries).map_err(|err| println!("{err:?}"))?;
         println!("Bundled as {} modules", modules.len());
 
         #[cfg(feature = "concurrent")]
@@ -191,7 +190,7 @@ impl swc_bundler::Hook for Hook {
 
         Ok(vec![
             KeyValueProp {
-                key: PropName::Ident(IdentName::new("url".into(), span)),
+                key: PropName::Ident(IdentName::new(atom!("url"), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
                     raw: None,
@@ -199,7 +198,7 @@ impl swc_bundler::Hook for Hook {
                 }))),
             },
             KeyValueProp {
-                key: PropName::Ident(IdentName::new("main".into(), span)),
+                key: PropName::Ident(IdentName::new(atom!("main"), span)),
                 value: Box::new(if module_record.is_entry {
                     Expr::Member(MemberExpr {
                         span,
@@ -207,7 +206,7 @@ impl swc_bundler::Hook for Hook {
                             span,
                             kind: MetaPropKind::ImportMeta,
                         })),
-                        prop: MemberProp::Ident(IdentName::new("main".into(), span)),
+                        prop: MemberProp::Ident(IdentName::new(atom!("main"), span)),
                     })
                 } else {
                     Expr::Lit(Lit::Bool(Bool { span, value: false }))

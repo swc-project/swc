@@ -1,5 +1,6 @@
 use std::path::PathBuf;
 
+use ascii::AsciiChar;
 use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_ecma_parser;
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
@@ -7,7 +8,7 @@ use testing::DebugUsingDisplay;
 
 use self::swc_ecma_parser::{EsSyntax, Parser, StringInput, Syntax};
 use super::*;
-use crate::text_writer::omit_trailing_semi;
+use crate::{lit::get_quoted_utf16, text_writer::omit_trailing_semi};
 
 struct Builder {
     cfg: Config,
@@ -74,7 +75,7 @@ fn parse_then_emit(from: &str, cfg: Config, syntax: Syntax) -> String {
             res?
         };
 
-        let out = Builder { cfg, cm, comments }.text(from, |e| e.emit_module(&res).unwrap());
+        let out = Builder { cfg, cm, comments }.text(from, |e| res.emit_with(e).unwrap());
         Ok(out)
     })
     .unwrap()
@@ -140,8 +141,8 @@ pub(crate) fn assert_pretty(from: &str, to: &str) {
         Syntax::default(),
     );
 
-    println!("Expected: {:?}", to);
-    println!("Actual:   {:?}", out);
+    println!("Expected: {to:?}");
+    println!("Actual:   {out:?}");
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
 }
 
@@ -199,7 +200,7 @@ a;",
 
 #[test]
 fn comment_2() {
-    test_from_to("a // foo", "a // foo\n;\n");
+    test_from_to("a // foo", "a; // foo");
 }
 
 #[test]
@@ -210,7 +211,7 @@ fn comment_3() {
 a
 // foo
 b // bar",
-        "// foo\n// bar\na;\n// foo\nb // bar\n;\n",
+        "// foo\n// bar\na;\n// foo\nb; // bar",
     );
 }
 
@@ -595,7 +596,7 @@ fn test_get_quoted_utf16() {
     #[track_caller]
     fn es2020(src: &str, expected: &str) {
         assert_eq!(
-            combine(super::get_quoted_utf16(src, true, EsVersion::Es2020)),
+            combine(get_quoted_utf16(src, true, EsVersion::Es2020)),
             expected
         )
     }
@@ -603,7 +604,7 @@ fn test_get_quoted_utf16() {
     #[track_caller]
     fn es2020_nonascii(src: &str, expected: &str) {
         assert_eq!(
-            combine(super::get_quoted_utf16(src, true, EsVersion::Es2020)),
+            combine(get_quoted_utf16(src, true, EsVersion::Es2020)),
             expected
         )
     }
@@ -611,7 +612,7 @@ fn test_get_quoted_utf16() {
     #[track_caller]
     fn es5(src: &str, expected: &str) {
         assert_eq!(
-            combine(super::get_quoted_utf16(src, true, EsVersion::Es5)),
+            combine(get_quoted_utf16(src, true, EsVersion::Es5)),
             expected
         )
     }
@@ -723,10 +724,11 @@ fn issue_3617() {
     let from = r"// a string of all valid unicode whitespaces
     module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
       '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF' + '\u{a0}';";
+
     let expected = "// a string of all valid unicode whitespaces\nmodule.exports = \
                     '\\u0009\\u000A\\u000B\\u000C\\u000D\\u0020\\u00A0\\u1680\\u2000\\u2001\\\
                     u2002' + '\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200A\\u202F\\\
-                    u205F\\u3000\\u2028\\u2029\\uFEFF' + '\\u{a0}';\n";
+                    u205F\\u3000\\u2028\\u2029\\uFEFF' + \"\\xa0\";\n";
 
     let out = parse_then_emit(
         from,

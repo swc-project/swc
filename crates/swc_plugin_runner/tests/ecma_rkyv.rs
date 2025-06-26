@@ -23,7 +23,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         let mut cmd = Command::new("cargo");
         cmd.env("CARGO_TARGET_DIR", &*CARGO_TARGET_DIR);
         cmd.current_dir(dir);
-        cmd.args(["build", "--target=wasm32-wasi", "--release"])
+        cmd.args(["build", "--target=wasm32-wasip1", "--release"])
             .stderr(Stdio::inherit());
         cmd.output()?;
 
@@ -36,7 +36,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         }
     }
 
-    for entry in fs::read_dir(CARGO_TARGET_DIR.join("wasm32-wasi").join("release"))? {
+    for entry in fs::read_dir(CARGO_TARGET_DIR.join("wasm32-wasip1").join("release"))? {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();
@@ -80,7 +80,7 @@ fn internal(input: PathBuf) {
     // run single plugin
     tokio::runtime::Runtime::new().unwrap().block_on(async {
         testing::run_test(false, |cm, _handler| {
-            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)".into());
+            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)");
 
             let parsed = parse_file_as_program(
                 &fm,
@@ -116,6 +116,7 @@ fn internal(input: PathBuf) {
                     "development".to_string(),
                     Some(experimental_metadata),
                 )),
+                None,
                 Box::new(PLUGIN_BYTES.clone()),
                 Some(json!({ "pluginConfig": "testValue" })),
                 None,
@@ -140,7 +141,7 @@ fn internal(input: PathBuf) {
 
         // Run multiple plugins.
         testing::run_test(false, |cm, _handler| {
-            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)".into());
+            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)");
 
             let parsed = parse_file_as_program(
                 &fm,
@@ -174,6 +175,7 @@ fn internal(input: PathBuf) {
                     "development".to_string(),
                     Some(experimental_metadata.clone()),
                 )),
+                None,
                 Box::new(PLUGIN_BYTES.clone()),
                 Some(json!({ "pluginConfig": "testValue" })),
                 None,
@@ -192,6 +194,7 @@ fn internal(input: PathBuf) {
                     "development".to_string(),
                     Some(experimental_metadata),
                 )),
+                None,
                 Box::new(PLUGIN_BYTES.clone()),
                 Some(json!({ "pluginConfig": "testValue" })),
                 None,

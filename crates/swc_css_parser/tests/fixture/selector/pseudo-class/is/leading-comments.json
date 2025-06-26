@@ -1,4 +1,14 @@
 {
+  "719": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 701,
+        "end": 718
+      },
+      "text": "/* Forgiving */"
+    }
+  ],
   "376": [
     {
       "kind": "Block",
@@ -15,16 +25,6 @@
         "end": 375
       },
       "text": "/*:is(foo < bar) {}*/"
-    }
-  ],
-  "719": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 701,
-        "end": 718
-      },
-      "text": "/* Forgiving */"
     }
   ]
 }

@@ -135,21 +135,121 @@ impl ExplicitResourceManagement {
 
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
-                Ok(mut stmt) => {
-                    if matches!(stmt, Stmt::Decl(Decl::Fn(_)) | Stmt::Decl(Decl::Class(_))) {
-                        // function declarations should preserve original level
+                Ok(mut stmt) => match stmt {
+                    // top level function declarations should preserve original level
+                    Stmt::Decl(Decl::Fn(..)) if !self.is_not_top_level => {
                         extras.push(stmt.into());
-                    } else {
-                        if !self.is_not_top_level {
-                            if let Stmt::Decl(Decl::Var(ref mut var)) = stmt {
-                                // top level variable declarations should hoist
-                                var.kind = VarDeclKind::Var;
-                            }
-                        }
+                    }
+                    Stmt::Decl(Decl::Class(ClassDecl { ident, class, .. }))
+                        if !self.is_not_top_level =>
+                    {
+                        // var C = class C { ... };
+                        try_block.stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.clone().into()),
+                                init: Some(
+                                    ClassExpr {
+                                        ident: Some(ident),
+                                        class,
+                                    }
+                                    .into(),
+                                ),
+                                definite: false,
+                            }],
+                            ..Default::default()
+                        }))));
+                    }
+                    // top level variable declarations should hoist from inner scope
+                    Stmt::Decl(Decl::Var(ref mut var)) if !self.is_not_top_level => {
+                        var.kind = VarDeclKind::Var;
                         try_block.stmts.push(stmt);
                     }
-                }
-                Err(t) => extras.push(t),
+                    _ => {
+                        try_block.stmts.push(stmt);
+                    }
+                },
+                Err(t) => match t.try_into_module_decl() {
+                    Ok(ModuleDecl::ExportDecl(ExportDecl {
+                        decl: Decl::Class(ClassDecl { ident, class, .. }),
+                        span,
+                    })) => {
+                        // export { C };
+                        extras.push(
+                            T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                specifiers: vec![ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: ident.clone().into(),
+                                    exported: None,
+                                    is_type_only: false,
+                                }
+                                .into()],
+                                ..NamedExport::dummy()
+                            }))
+                            .unwrap(),
+                        );
+
+                        // var C = class C { ... };
+                        try_block.stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.clone().into()),
+                                init: Some(
+                                    ClassExpr {
+                                        ident: Some(ident),
+                                        class,
+                                    }
+                                    .into(),
+                                ),
+                                definite: false,
+                            }],
+                            span,
+                            ..Default::default()
+                        }))));
+                    }
+                    Ok(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                        decl: DefaultDecl::Class(class_expr),
+                        span,
+                        ..
+                    })) => {
+                        let ident = class_expr
+                            .ident
+                            .clone()
+                            .unwrap_or_else(|| private_ident!("_default"));
+
+                        // export { C as default };
+                        extras.push(
+                            T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                specifiers: vec![ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: ident.clone().into(),
+                                    exported: Some(quote_ident!("default").into()),
+                                    is_type_only: false,
+                                }
+                                .into()],
+                                ..NamedExport::dummy()
+                            }))
+                            .unwrap(),
+                        );
+
+                        // var C = class { ... };
+
+                        try_block.stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                            decls: vec![VarDeclarator {
+                                span: DUMMY_SP,
+                                name: Pat::Ident(ident.into()),
+                                init: Some(class_expr.into()),
+                                definite: false,
+                            }],
+                            span,
+                            ..Default::default()
+                        }))));
+                    }
+                    Ok(module_decl) => {
+                        extras.push(T::try_from_module_decl(module_decl).unwrap());
+                    }
+                    Err(t) => extras.push(t),
+                },
             }
         }
 

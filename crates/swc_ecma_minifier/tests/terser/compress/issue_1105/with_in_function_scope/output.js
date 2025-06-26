@@ -1,5 +1,5 @@
 function foo() {
     var o = 42;
-    with (o) var foo = "something";
+    with (o);
     doSomething(o);
 }

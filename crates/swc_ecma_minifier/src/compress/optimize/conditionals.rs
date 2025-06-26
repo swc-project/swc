@@ -9,9 +9,10 @@ use swc_ecma_utils::{ExprExt, ExprFactory, IdentUsageFinder, StmtExt, StmtLike};
 use super::Optimizer;
 use crate::{
     compress::{
-        optimize::Ctx,
+        optimize::BitCtx,
         util::{negate, negate_cost},
     },
+    program_data::VarUsageInfoFlags,
     DISABLE_BUGGY_PASSES,
 };
 
@@ -32,10 +33,7 @@ impl Optimizer<'_> {
 
         if negate_cost(self.ctx.expr_ctx, &stmt.test, true, false) < 0 {
             report_change!("if_return: Negating `cond` of an if statement which has cons and alt");
-            let ctx = Ctx {
-                in_bool_ctx: true,
-                ..self.ctx.clone()
-            };
+            let ctx = self.ctx.clone().with(BitCtx::InBoolCtx, true);
             self.with_ctx(ctx).negate(&mut stmt.test, false);
             swap(alt, &mut *stmt.cons);
             return;
@@ -383,6 +381,12 @@ impl Optimizer<'_> {
 
         match (cons, alt) {
             (Expr::Call(cons), Expr::Call(alt)) => {
+                // Test expr may change the variables that cons and alt **may use** in their
+                // common args. For example:
+                // from (a = 1) ? f(a, true) : f(a, false)
+                // to   f(a, a = 1 ? true : false)
+                let side_effects_in_test = test.may_have_side_effects(self.ctx.expr_ctx);
+
                 if self.data.contains_unresolved(test) {
                     return None;
                 }
@@ -401,7 +405,11 @@ impl Optimizer<'_> {
                     .data
                     .vars
                     .get(&cons_callee.to_id())
-                    .map(|v| v.is_fn_local && v.declared)
+                    .map(|v| {
+                        v.flags.contains(
+                            VarUsageInfoFlags::IS_FN_LOCAL.union(VarUsageInfoFlags::DECLARED),
+                        )
+                    })
                     .unwrap_or(false);
 
                 if side_effect_free
@@ -409,24 +417,28 @@ impl Optimizer<'_> {
                     && cons.args.iter().all(|arg| arg.spread.is_none())
                     && alt.args.iter().all(|arg| arg.spread.is_none())
                 {
-                    let diff_count = cons
-                        .args
-                        .iter()
-                        .zip(alt.args.iter())
-                        .filter(|(cons, alt)| !cons.eq_ignore_span(alt))
-                        .count();
+                    let mut diff_count = 0;
+                    let mut diff_idx = None;
+
+                    for (idx, (cons, alt)) in cons.args.iter().zip(alt.args.iter()).enumerate() {
+                        if !cons.eq_ignore_span(alt) {
+                            diff_count += 1;
+                            diff_idx = Some(idx);
+                        } else {
+                            // See the comments for `side_effects_in_test`
+                            if side_effects_in_test && !cons.expr.is_pure(self.ctx.expr_ctx) {
+                                return None;
+                            }
+                        }
+                    }
 
                     if diff_count == 1 {
+                        let diff_idx = diff_idx.unwrap();
+
                         report_change!(
                             "conditionals: Merging cons and alt as only one argument differs"
                         );
                         self.changed = true;
-                        let diff_idx = cons
-                            .args
-                            .iter()
-                            .zip(alt.args.iter())
-                            .position(|(cons, alt)| !cons.eq_ignore_span(alt))
-                            .unwrap();
 
                         let mut new_args = Vec::new();
 
@@ -444,7 +456,6 @@ impl Optimizer<'_> {
                                     .into(),
                                 })
                             } else {
-                                //
                                 new_args.push(arg)
                             }
                         }
@@ -617,6 +628,26 @@ impl Optimizer<'_> {
                         .into(),
                         cons: cons.cons.take(),
                         alt: cons.alt.take(),
+                    }
+                    .into(),
+                )
+            }
+
+            // a ? c() : b ? c() : d() => a || b ? c() : d()
+            (cons, Expr::Cond(alt)) if cons.eq_ignore_span(&*alt.cons) => {
+                report_change!("conditionals: a ? c() : b ? c() : d() => a || b ? c() : d()");
+                Some(
+                    CondExpr {
+                        span: DUMMY_SP,
+                        test: BinExpr {
+                            span: DUMMY_SP,
+                            left: test.take(),
+                            op: op!("||"),
+                            right: alt.test.take(),
+                        }
+                        .into(),
+                        cons: alt.cons.take(),
+                        alt: alt.alt.take(),
                     }
                     .into(),
                 )

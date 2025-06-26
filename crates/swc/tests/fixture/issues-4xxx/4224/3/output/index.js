@@ -12,23 +12,26 @@ var A = /*#__PURE__*/ function() {
             key: "method",
             value: function method() {
                 var _this = this;
-                this.foo = /*#__PURE__*/ _async_to_generator._(function() {
-                    return _ts_generator._(this, function(_state) {
-                        _this.x();
-                        return [
-                            2
-                        ];
-                    });
-                });
-                var _this1 = this;
-                this.bar = /*#__PURE__*/ _async_to_generator._(function() {
-                    return _ts_generator._(this, function(_state) {
-                        _this1.x();
-                        return [
-                            2
-                        ];
-                    });
-                });
+                this.foo = function() {
+                    return _async_to_generator._(function() {
+                        return _ts_generator._(this, function(_state) {
+                            this.x();
+                            return [
+                                2
+                            ];
+                        });
+                    }).call(_this);
+                };
+                this.bar = function() {
+                    return _async_to_generator._(function() {
+                        return _ts_generator._(this, function(_state) {
+                            this.x();
+                            return [
+                                2
+                            ];
+                        });
+                    }).call(_this);
+                };
             }
         }
     ]);

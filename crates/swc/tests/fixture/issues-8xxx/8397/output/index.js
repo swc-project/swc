@@ -13,10 +13,7 @@ function f() {
     ];
 }
 function af() {
-    return _af.apply(this, arguments);
-}
-function _af() {
-    _af = _async_to_generator._(function() {
+    return _async_to_generator._(function() {
         var a, b;
         return _ts_generator._(this, function(_state) {
             a = [
@@ -33,6 +30,5 @@ function _af() {
                 2
             ];
         });
-    });
-    return _af.apply(this, arguments);
+    })();
 }

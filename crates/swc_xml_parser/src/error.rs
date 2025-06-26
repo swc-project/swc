@@ -106,7 +106,7 @@ impl Error {
                 "Missing whitespace before '?'".into()
             }
             ErrorKind::UnescapedCharacterInAttributeValue(c) => {
-                format!("Unescaped \"{}\" not allowed in attribute values", c).into()
+                format!("Unescaped \"{c}\" not allowed in attribute values").into()
             }
 
             // Parser errors

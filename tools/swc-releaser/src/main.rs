@@ -65,16 +65,16 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
     for (pkg_name, release) in changeset.releases {
         let is_breaking = worker
             .is_breaking(pkg_name.as_str(), release.change_type())
-            .with_context(|| format!("failed to check if package {} is breaking", pkg_name))?;
+            .with_context(|| format!("failed to check if package {pkg_name} is breaking"))?;
 
         worker
             .bump_crate(pkg_name.as_str(), release.change_type(), is_breaking)
-            .with_context(|| format!("failed to bump package {}", pkg_name))?;
+            .with_context(|| format!("failed to bump package {pkg_name}"))?;
     }
 
     for (pkg_name, version) in new_versions {
         run_cargo_set_version(&pkg_name, &version, dry_run)
-            .with_context(|| format!("failed to set version for {}", pkg_name))?;
+            .with_context(|| format!("failed to set version for {pkg_name}"))?;
     }
 
     {
@@ -103,7 +103,7 @@ fn run_cargo_set_version(pkg_name: &str, version: &Version, dry_run: bool) -> Re
         .arg(pkg_name)
         .arg(version.to_string());
 
-    eprintln!("Running {:?}", cmd);
+    eprintln!("Running {cmd:?}");
 
     if dry_run {
         return Ok(());
@@ -132,11 +132,10 @@ fn git_commit(dry_run: bool) -> Result<()> {
 
     let mut cmd = Command::new("git");
     cmd.arg("commit").arg("-am").arg(format!(
-        "chore: Publish crates with `swc_core` `v{}`",
-        core_ver
+        "chore: Publish crates with `swc_core` `v{core_ver}`"
     ));
 
-    eprintln!("Running {:?}", cmd);
+    eprintln!("Running {cmd:?}");
 
     if dry_run {
         return Ok(());
@@ -151,9 +150,9 @@ fn git_tag_core(dry_run: bool) -> Result<()> {
     let core_ver = get_swc_core_version()?;
 
     let mut cmd = Command::new("git");
-    cmd.arg("tag").arg(format!("swc_core@v{}", core_ver));
+    cmd.arg("tag").arg(format!("swc_core@v{core_ver}"));
 
-    eprintln!("Running {:?}", cmd);
+    eprintln!("Running {cmd:?}");
 
     if dry_run {
         return Ok(());
@@ -178,7 +177,7 @@ impl Bump<'_> {
         let original_version = self
             .versions
             .get(pkg_name)
-            .context(format!("failed to find original version for {}", pkg_name))?;
+            .context(format!("failed to find original version for {pkg_name}"))?;
 
         Ok(match change_type {
             Some(ChangeType::Major) => true,
@@ -188,7 +187,7 @@ impl Bump<'_> {
                 if label == "breaking" {
                     true
                 } else {
-                    panic!("unknown custom change type: {}", label)
+                    panic!("unknown custom change type: {label}")
                 }
             }
             None => false,
@@ -201,12 +200,12 @@ impl Bump<'_> {
         change_type: Option<&ChangeType>,
         is_breaking: bool,
     ) -> Result<()> {
-        eprintln!("Bumping crate: {}", pkg_name);
+        eprintln!("Bumping crate: {pkg_name}");
 
         let original_version = self
             .versions
             .get(pkg_name)
-            .context(format!("failed to find original version for {}", pkg_name))?;
+            .context(format!("failed to find original version for {pkg_name}"))?;
 
         let mut new_version = original_version.clone();
 
@@ -234,7 +233,7 @@ impl Bump<'_> {
                         new_version.patch = 0;
                     }
                 } else {
-                    panic!("unknown custom change type: {}", label)
+                    panic!("unknown custom change type: {label}")
                 }
             }
             None => {
@@ -268,7 +267,7 @@ impl Bump<'_> {
             let a = self.graph.node(pkg_name);
             for dep in self.graph.g.neighbors_directed(a, Direction::Incoming) {
                 let dep_name = &*self.graph.ix[dep];
-                eprintln!("Bumping dependant crate: {}", dep_name);
+                eprintln!("Bumping dependant crate: {dep_name}");
                 self.bump_crate(dep_name, None, true)?;
             }
         }
@@ -282,7 +281,7 @@ fn update_changelog() -> Result<()> {
     let mut cmd = Command::new("yarn");
     cmd.arg("changelog");
 
-    eprintln!("Running {:?}", cmd);
+    eprintln!("Running {cmd:?}");
 
     cmd.status().context("failed to run yarn changelog")?;
 
@@ -308,7 +307,7 @@ impl InternedGraph {
 
     fn node(&self, name: &str) -> usize {
         self.ix.get_index_of(name).unwrap_or_else(|| {
-            panic!("unknown node: {}", name);
+            panic!("unknown node: {name}");
         })
     }
 }

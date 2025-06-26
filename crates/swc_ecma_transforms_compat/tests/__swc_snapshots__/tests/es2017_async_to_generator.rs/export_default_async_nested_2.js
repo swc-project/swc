@@ -1,24 +1,11 @@
 export default function(x) {
-    return _ref.apply(this, arguments);
-}
-function _ref() {
-    _ref = _async_to_generator(function*(x) {
+    return _async_to_generator(function*() {
         function bar(y) {
-            return _bar.apply(this, arguments);
-        }
-        function _bar() {
-            _bar = _async_to_generator(function*(y) {
-                (function() {
-                    var _ref = _async_to_generator(function*(z) {
+            return _async_to_generator(function*() {
+                ((z)=>_async_to_generator(function*() {
                         return x(y)(z);
-                    });
-                    return function(z) {
-                        return _ref.apply(this, arguments);
-                    };
-                })()();
-            });
-            return _bar.apply(this, arguments);
+                    })())();
+            })();
         }
-    });
-    return _ref.apply(this, arguments);
+    })();
 }

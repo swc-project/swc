@@ -5,8 +5,11 @@ use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
 
-use super::Optimizer;
-use crate::{compress::util::eval_as_number, maybe_par, DISABLE_BUGGY_PASSES};
+use super::{BitCtx, Optimizer};
+use crate::{
+    compress::util::eval_as_number, maybe_par, program_data::VarUsageInfoFlags,
+    DISABLE_BUGGY_PASSES,
+};
 
 /// Methods related to the option `evaluate`.
 impl Optimizer<'_> {
@@ -24,7 +27,11 @@ impl Optimizer<'_> {
     }
 
     fn eval_fn_props(&mut self, e: &mut Expr) -> Option<()> {
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self
+            .ctx
+            .bit_ctx
+            .intersects(BitCtx::IsDeleteArg | BitCtx::IsUpdateArg | BitCtx::IsLhsOfAssign)
+        {
             return None;
         }
 
@@ -40,7 +47,7 @@ impl Optimizer<'_> {
 
                 let usage = self.data.vars.get(&obj.to_id())?;
 
-                if usage.reassigned {
+                if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                     return None;
                 }
 
@@ -84,11 +91,9 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_delete_arg
-            || self.ctx.is_update_arg
-            || self.ctx.is_lhs_of_assign
-            || self.ctx.in_with_stmt
-        {
+        if self.ctx.bit_ctx.intersects(
+            BitCtx::IsDeleteArg | BitCtx::IsUpdateArg | BitCtx::IsLhsOfAssign | BitCtx::InWithStmt,
+        ) {
             return;
         }
 
@@ -98,7 +103,7 @@ impl Optimizer<'_> {
                 .data
                 .vars
                 .get(&i.to_id())
-                .map(|var| var.declared)
+                .map(|var| var.flags.contains(VarUsageInfoFlags::DECLARED))
                 .unwrap_or(false)
             {
                 return;
@@ -145,7 +150,11 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self
+            .ctx
+            .bit_ctx
+            .intersects(BitCtx::IsDeleteArg | BitCtx::IsUpdateArg | BitCtx::IsLhsOfAssign)
+        {
             return;
         }
 
@@ -336,7 +345,11 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_delete_arg || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self
+            .ctx
+            .bit_ctx
+            .intersects(BitCtx::IsDeleteArg | BitCtx::IsUpdateArg | BitCtx::IsLhsOfAssign)
+        {
             return;
         }
 
@@ -347,7 +360,7 @@ impl Optimizer<'_> {
 
                 if value.is_nan() {
                     *e = Ident::new(
-                        "NaN".into(),
+                        atom!("NaN"),
                         e.span(),
                         SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                     )
@@ -377,7 +390,7 @@ impl Optimizer<'_> {
 
                         if l.is_nan() || r.is_nan() {
                             *e = Ident::new(
-                                "NaN".into(),
+                                atom!("NaN"),
                                 bin.span,
                                 SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                             )
@@ -414,7 +427,9 @@ impl Optimizer<'_> {
                             // If a variable named `NaN` is in scope, don't convert e into NaN.
                             let data = &self.data.vars;
                             if maybe_par!(
-                                data.iter().any(|(name, v)| v.declared && name.0 == "NaN"),
+                                data.iter()
+                                    .any(|(name, v)| v.flags.contains(VarUsageInfoFlags::DECLARED)
+                                        && name.0 == "NaN"),
                                 *crate::LIGHT_TASK_PARALLELS
                             ) {
                                 return;
@@ -425,7 +440,7 @@ impl Optimizer<'_> {
 
                             // Sign does not matter for NaN
                             *e = Ident::new(
-                                "NaN".into(),
+                                atom!("NaN"),
                                 bin.span,
                                 SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                             )
@@ -437,12 +452,12 @@ impl Optimizer<'_> {
 
                             // Sign does not matter for NaN
                             *e = if ln.is_sign_positive() == rn.is_sign_positive() {
-                                Ident::new_no_ctxt("Infinity".into(), bin.span).into()
+                                Ident::new_no_ctxt(atom!("Infinity"), bin.span).into()
                             } else {
                                 UnaryExpr {
                                     span: bin.span,
                                     op: op!(unary, "-"),
-                                    arg: Ident::new_no_ctxt("Infinity".into(), bin.span).into(),
+                                    arg: Ident::new_no_ctxt(atom!("Infinity"), bin.span).into(),
                                 }
                                 .into()
                             };

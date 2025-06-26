@@ -6,7 +6,7 @@ use swc_css_parser::{lexer::Lexer, parser::Parser};
 
 fn bench_stylesheet(b: &mut Bencher, src: &'static str) {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src);
 
         b.iter(|| {
             let _ = black_box({
@@ -22,7 +22,7 @@ fn bench_stylesheet(b: &mut Bencher, src: &'static str) {
 }
 
 fn run(c: &mut Criterion, id: &str, src: &'static str) {
-    c.bench_function(&format!("css/parser/{}", id), |b| {
+    c.bench_function(&format!("css/parser/{id}"), |b| {
         bench_stylesheet(b, src);
     });
 }

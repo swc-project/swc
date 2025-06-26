@@ -37,7 +37,9 @@
         value: true
     });
     _a = /*#__PURE__*/ _interop_require_default._(_a);
-    _async_to_generator._(function*() {
-        const value = yield _a.default;
+    (function() {
+        return _async_to_generator._(function*() {
+            const value = yield _a.default;
+        })();
     })();
 });

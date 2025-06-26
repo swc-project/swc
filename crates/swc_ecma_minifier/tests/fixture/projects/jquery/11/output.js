@@ -101,7 +101,8 @@ jQuery.support = function() {
         div.style.display = "block", div.innerHTML = "<div></div>", div.firstChild.style.width = "5px", support.shrinkWrapBlocks = 3 !== div.offsetWidth, support.inlineBlockNeedsLayout && // Prevent IE 6 from affecting layout for positioned elements #11048
         // Prevent IE from shrinking the body in IE 7 mode #12869
         // Support: IE<8
-        (body.style.zoom = 1)), body.removeChild(container), div = null);
+        (body.style.zoom = 1)), body.removeChild(container), // Null elements to avoid leaks in IE
+        container = div = tds = marginDiv = null);
     }), // Null elements to avoid leaks in IE
     all = select = fragment = opt = a = input = null, support;
 }();

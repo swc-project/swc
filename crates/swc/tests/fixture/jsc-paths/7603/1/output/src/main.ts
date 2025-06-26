@@ -3,10 +3,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 function bootstrap() {
-    return _bootstrap.apply(this, arguments);
-}
-function _bootstrap() {
-    _bootstrap = _async_to_generator(function() {
+    return _async_to_generator(function() {
         var app;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -28,7 +25,6 @@ function _bootstrap() {
                     ];
             }
         });
-    });
-    return _bootstrap.apply(this, arguments);
+    })();
 }
 bootstrap();

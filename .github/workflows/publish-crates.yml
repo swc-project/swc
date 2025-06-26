@@ -27,7 +27,7 @@ jobs:
     name: "Publish cargo crates"
     runs-on: ubuntu-latest
     if: >-
-      ${{ startsWith(github.event.head_commit.message, 'chore: Publish') }}
+      ${{ github.ref == 'refs/heads/main' && startsWith(github.event.head_commit.message, 'chore: Publish') }}
     steps:
       - uses: actions/checkout@v4
 

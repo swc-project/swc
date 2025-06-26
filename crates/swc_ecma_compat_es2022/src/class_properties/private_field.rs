@@ -49,7 +49,7 @@ impl PrivateRecord {
             }
         }
 
-        let error = format!("private name #{} is not defined.", name);
+        let error = format!("private name #{name} is not defined.");
         HANDLER.with(|handler| handler.struct_span_err(span, &error).emit());
         (Mark::root(), PrivateKind::default(), &self.0[0].class_name)
     }

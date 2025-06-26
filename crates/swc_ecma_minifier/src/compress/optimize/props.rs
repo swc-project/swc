@@ -2,8 +2,8 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
 
-use super::{unused::PropertyAccessOpts, Optimizer};
-use crate::util::deeply_contains_this_expr;
+use super::{unused::PropertyAccessOpts, BitCtx, Optimizer};
+use crate::{program_data::VarUsageInfoFlags, util::deeply_contains_this_expr};
 
 /// Methods related to the option `hoist_props`.
 impl Optimizer<'_> {
@@ -15,7 +15,7 @@ impl Optimizer<'_> {
             log_abort!("hoist_props: option is disabled");
             return None;
         }
-        if self.ctx.is_exported {
+        if self.ctx.bit_ctx.contains(BitCtx::IsExported) {
             log_abort!("hoist_props: Exported variable is not hoisted");
             return None;
         }
@@ -40,12 +40,14 @@ impl Optimizer<'_> {
             // smart.
             let usage = self.data.vars.get(&name.to_id())?;
             if usage.mutated()
-                || usage.used_in_cond
-                || usage.used_above_decl
-                || usage.used_as_ref
-                || usage.used_as_arg
-                || usage.indexed_with_dynamic_key
-                || usage.used_recursively
+                || usage.flags.intersects(
+                    VarUsageInfoFlags::USED_IN_COND
+                        .union(VarUsageInfoFlags::USED_ABOVE_DECL)
+                        .union(VarUsageInfoFlags::USED_AS_REF)
+                        .union(VarUsageInfoFlags::USED_AS_ARG)
+                        .union(VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY)
+                        .union(VarUsageInfoFlags::USED_RECURSIVELY),
+                )
             {
                 log_abort!("hoist_props: Variable `{}` is not a candidate", name.id);
                 return None;
@@ -145,7 +147,6 @@ impl Optimizer<'_> {
                         PropName::Str(s) => (
                             s.value.clone(),
                             s.value
-                                .clone()
                                 .replace(|c: char| !Ident::is_valid_continue(c), "$")
                                 .into(),
                         ),
@@ -248,7 +249,11 @@ impl Optimizer<'_> {
             return;
         }
 
-        if self.ctx.is_update_arg || self.ctx.is_callee || self.ctx.is_exact_lhs_of_assign {
+        if self
+            .ctx
+            .bit_ctx
+            .intersects(BitCtx::IsUpdateArg | BitCtx::IsCallee | BitCtx::IsExactLhsOfAssign)
+        {
             return;
         }
 

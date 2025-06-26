@@ -3,18 +3,18 @@ var global, factory;
 global = this, factory = function(exports1) {
     Object.defineProperty(exports1, "__esModule", {
         value: !0
-    }), function(target, all) {
-        for(var name in all)Object.defineProperty(target, name, {
-            enumerable: !0,
-            get: all[name]
-        });
-    }(exports1, {
-        B: function() {
+    });
+    var all = {
+        get B () {
             return B;
         },
-        foo: function() {
+        get foo () {
             return foo;
         }
+    };
+    for(var name in all)Object.defineProperty(exports1, name, {
+        enumerable: !0,
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
     class B {
         print() {

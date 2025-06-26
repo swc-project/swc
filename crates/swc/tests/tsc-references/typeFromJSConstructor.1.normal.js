@@ -12,30 +12,19 @@ function Installer() {
     this.twices = null;
 }
 Installer.prototype.first = function() {
-    this.arg = 'hi' // error
-    ;
-    this.unknown = 'hi' // ok
-    ;
-    this.newProperty = 1 // ok: number | boolean
-    ;
-    this.twice = undefined // ok
-    ;
-    this.twice = 'hi' // ok
-    ;
+    this.arg = 'hi'; // error
+    this.unknown = 'hi'; // ok
+    this.newProperty = 1; // ok: number | boolean
+    this.twice = undefined; // ok
+    this.twice = 'hi'; // ok
 };
 Installer.prototype.second = function() {
-    this.arg = false // error
-    ;
-    this.unknown = false // ok
-    ;
-    this.newProperty = false // ok
-    ;
-    this.twice = null // error
-    ;
-    this.twice = false // error
-    ;
-    this.twices.push(1) // error: Object is possibly null
-    ;
+    this.arg = false; // error
+    this.unknown = false; // ok
+    this.newProperty = false; // ok
+    this.twice = null; // error
+    this.twice = false; // error
+    this.twices.push(1); // error: Object is possibly null
     if (this.twices != null) {
         this.twices.push('hi');
     }

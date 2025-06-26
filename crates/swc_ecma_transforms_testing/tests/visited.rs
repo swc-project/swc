@@ -11,7 +11,7 @@ impl Fold for Panicking {
         println!("HMM");
 
         if let JSXElementName::Ident(Ident { sym, .. }) = name {
-            panic!("visited: {}", sym)
+            panic!("visited: {sym}")
         }
 
         node

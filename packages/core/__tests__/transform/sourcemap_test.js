@@ -125,4 +125,13 @@ describe("sourceMaps: true in .swcrc", () => {
 
         expect(out.map).toBeUndefined();
     });
+
+    it(`should have names `, async () => {
+        const out = await swc.transformFile(
+            path.join(__dirname, "..", "..", "tests", "issue-2120", "input.js")
+        );
+
+        expect(out.map).toBeTruthy();
+        expect(JSON.parse(out.map).names).toEqual(["Foo", "Array", "console", "log"]);
+    });
 });

@@ -70,15 +70,15 @@ fn load_url(url: Url) -> Result<String, Error> {
 
     eprintln!("Storing `{}` at `{}`", url, cache_path.display());
 
-    let resp = reqwest::blocking::get(url.clone())
-        .with_context(|| format!("failed to fetch `{}`", url))?;
+    let resp =
+        reqwest::blocking::get(url.clone()).with_context(|| format!("failed to fetch `{url}`"))?;
 
     let bytes = resp
         .bytes()
-        .with_context(|| format!("failed to read data from `{}`", url))?;
+        .with_context(|| format!("failed to read data from `{url}`"))?;
 
     let mut content = Vec::new();
-    write!(content, "// Loaded from {}\n\n\n", url).unwrap();
+    write!(content, "// Loaded from {url}\n\n\n").unwrap();
     content.extend_from_slice(&bytes);
 
     write(&cache_path, &content)?;
@@ -88,7 +88,7 @@ fn load_url(url: Url) -> Result<String, Error> {
 
 impl Load for Loader {
     fn load(&self, f: &FileName) -> Result<ModuleData, Error> {
-        eprintln!("load: {}", f);
+        eprintln!("load: {f}");
 
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
@@ -183,7 +183,7 @@ impl NodeResolver {
             let mut ext_path = path.to_path_buf();
             let name = name.to_string_lossy();
             for ext in EXTENSIONS {
-                ext_path.set_file_name(format!("{}.{}", name, ext));
+                ext_path.set_file_name(format!("{name}.{ext}"));
                 if ext_path.is_file() {
                     return Ok(ext_path);
                 }
@@ -246,7 +246,7 @@ impl NodeResolver {
         // 2. If X/index.json is a file, parse X/index.json to a JavaScript object.
         // 3. If X/index.node is a file, load X/index.node as binary addon.
         for ext in EXTENSIONS {
-            let ext_path = path.join(format!("index.{}", ext));
+            let ext_path = path.join(format!("index.{ext}"));
             if ext_path.is_file() {
                 return Ok(ext_path);
             }
@@ -288,7 +288,7 @@ impl NodeResolver {
                 let base_url = options.base_url(Some(&base_url));
                 let url = base_url
                     .parse(target)
-                    .with_context(|| format!("failed to resolve `{}`", target))?;
+                    .with_context(|| format!("failed to resolve `{target}`"))?;
 
                 return Ok(FileName::Custom(url.to_string()));
             }

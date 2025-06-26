@@ -16,10 +16,7 @@ System.register([
     "use strict";
     var _async_to_generator, _ts_generator;
     function foo() {
-        return _foo.apply(this, arguments);
-    }
-    function _foo() {
-        _foo = _async_to_generator(function() {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -39,8 +36,7 @@ System.register([
                         ];
                 }
             });
-        });
-        return _foo.apply(this, arguments);
+        })();
     }
     return {
         setters: [

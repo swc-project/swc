@@ -9,7 +9,7 @@ use swc_core::common::{
     sync::{Lrc, OnceCell},
     SourceMap, GLOBALS,
 };
-use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
+use swc_error_reporters::handler::try_with_handler;
 use tracing::instrument;
 use tracing_chrome::ChromeLayerBuilder;
 use tracing_subscriber::{
@@ -60,32 +60,34 @@ pub fn try_with<F, Ret>(cm: Lrc<SourceMap>, skip_filename: bool, op: F) -> Resul
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
-    GLOBALS.set(&Default::default(), || {
-        try_with_handler(
-            cm,
-            HandlerOpts {
-                skip_filename,
-                ..Default::default()
-            },
-            |handler| {
-                //
-                let result = catch_unwind(AssertUnwindSafe(|| op(handler)));
+    GLOBALS
+        .set(&Default::default(), || {
+            try_with_handler(
+                cm,
+                swc_error_reporters::handler::HandlerOpts {
+                    skip_filename,
+                    ..Default::default()
+                },
+                |handler| {
+                    //
+                    let result = catch_unwind(AssertUnwindSafe(|| op(handler)));
 
-                let p = match result {
-                    Ok(v) => return v,
-                    Err(v) => v,
-                };
+                    let p = match result {
+                        Ok(v) => return v,
+                        Err(v) => v,
+                    };
 
-                if let Some(s) = p.downcast_ref::<String>() {
-                    Err(anyhow!("failed to handle: {}", s))
-                } else if let Some(s) = p.downcast_ref::<&str>() {
-                    Err(anyhow!("failed to handle: {}", s))
-                } else {
-                    Err(anyhow!("failed to handle with unknown panic message"))
-                }
-            },
-        )
-    })
+                    if let Some(s) = p.downcast_ref::<String>() {
+                        Err(anyhow!("failed to handle: {}", s))
+                    } else if let Some(s) = p.downcast_ref::<&str>() {
+                        Err(anyhow!("failed to handle: {}", s))
+                    } else {
+                        Err(anyhow!("failed to handle with unknown panic message"))
+                    }
+                },
+            )
+        })
+        .map_err(|e| e.to_pretty_error())
 }
 
 // This was originally under swc_nodejs_common, but this is not a public

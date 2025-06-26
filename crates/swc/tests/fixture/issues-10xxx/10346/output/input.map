@@ -1,0 +1,13 @@
+{
+  "mappings": "AACA,OAAO,IAAMA,MAAM,EAAE",
+  "names": [
+    "foo"
+  ],
+  "sources": [
+    "../input/input.js"
+  ],
+  "sourcesContent": [
+    "\nexport const foo = 1;"
+  ],
+  "version": 3
+}

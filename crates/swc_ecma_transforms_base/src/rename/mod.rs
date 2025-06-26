@@ -2,6 +2,7 @@
 
 use std::{borrow::Cow, collections::hash_map::Entry};
 
+use analyer_and_collector::AnalyzerAndCollector;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_ecma_ast::*;
@@ -10,20 +11,16 @@ use swc_ecma_visit::{
     noop_visit_mut_type, visit_mut_pass, Fold, VisitMut, VisitMutWith, VisitWith,
 };
 
+pub use self::eval::contains_eval;
 #[cfg(feature = "concurrent-renamer")]
 use self::renamer_concurrent::{Send, Sync};
 #[cfg(not(feature = "concurrent-renamer"))]
 use self::renamer_single::{Send, Sync};
-use self::{
-    analyzer::Analyzer,
-    collector::{collect_decls, CustomBindingCollector, IdCollector},
-    eval::contains_eval,
-    ops::Operator,
-};
+use self::{analyzer::Analyzer, ops::Operator};
 use crate::hygiene::Config;
 
+mod analyer_and_collector;
 mod analyzer;
-mod collector;
 mod eval;
 mod ops;
 
@@ -34,14 +31,6 @@ pub trait Renamer: Send + Sync {
     /// It should be true if you expect lots of collisions
     const MANGLE: bool;
 
-    fn preserved_ids_for_module(&mut self, _: &Module) -> FxHashSet<Id> {
-        Default::default()
-    }
-
-    fn preserved_ids_for_script(&mut self, _: &Script) -> FxHashSet<Id> {
-        Default::default()
-    }
-
     fn get_cached(&self) -> Option<Cow<RenameMap>> {
         None
     }
@@ -50,6 +39,16 @@ pub trait Renamer: Send + Sync {
 
     /// Should increment `n`.
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom;
+
+    fn unresolved_symbols(&self) -> Vec<Atom> {
+        Default::default()
+    }
+
+    /// Return true if the identifier should be preserved.
+    #[inline]
+    fn preserve_name(&self, _orig: &Id) -> bool {
+        false
+    }
 }
 
 pub type RenameMap = FxHashMap<Id, Atom>;
@@ -111,61 +110,25 @@ impl<R> RenamePass<R>
 where
     R: Renamer,
 {
-    fn get_unresolved<N>(&self, n: &N, has_eval: bool) -> FxHashSet<Atom>
-    where
-        N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
-    {
-        let usages = {
-            let mut v = IdCollector {
-                ids: Default::default(),
-            };
-            n.visit_with(&mut v);
-            v.ids
-        };
-        let (decls, preserved) = collect_decls(
-            n,
-            if has_eval {
-                Some(self.config.top_level_mark)
-            } else {
-                None
-            },
-        );
-        usages
-            .into_iter()
-            .filter(|used_id| !decls.contains(used_id))
-            .map(|v| v.0)
-            .chain(preserved.into_iter().map(|v| v.0))
-            .collect()
-    }
-
     fn get_map<N>(&mut self, node: &N, skip_one: bool, top_level: bool, has_eval: bool) -> RenameMap
     where
-        N: VisitWith<IdCollector> + VisitWith<CustomBindingCollector<Id>>,
-        N: VisitWith<Analyzer>,
+        N: VisitWith<AnalyzerAndCollector>,
     {
-        let mut scope = {
-            let mut v = Analyzer {
-                has_eval,
-                top_level_mark: self.config.top_level_mark,
+        let (mut scope, unresolved) = analyer_and_collector::analyzer_and_collect_unresolved(
+            node,
+            has_eval,
+            self.config.top_level_mark,
+            skip_one,
+        );
 
-                ..Default::default()
-            };
-            if skip_one {
-                node.visit_children_with(&mut v);
-            } else {
-                node.visit_with(&mut v);
-            }
-            v.scope
-        };
         scope.prepare_renaming();
 
-        let mut map = RenameMap::default();
-
         let mut unresolved = if !top_level {
-            let mut unresolved = self.unresolved.clone();
-            unresolved.extend(self.get_unresolved(node, has_eval));
-            Cow::Owned(unresolved)
+            let mut set = self.unresolved.clone();
+            set.extend(unresolved);
+            Cow::Owned(set)
         } else {
+            self.unresolved = unresolved;
             Cow::Borrowed(&self.unresolved)
         };
 
@@ -175,11 +138,15 @@ where
                 .extend(self.preserved.iter().map(|v| v.0.clone()));
         }
 
-        if !self.config.preserved_symbols.is_empty() {
-            unresolved
-                .to_mut()
-                .extend(self.config.preserved_symbols.iter().cloned());
+        {
+            let extra_unresolved = self.renamer.unresolved_symbols();
+
+            if !extra_unresolved.is_empty() {
+                unresolved.to_mut().extend(extra_unresolved);
+            }
         }
+
+        let mut map = RenameMap::default();
 
         if R::MANGLE {
             let cost = scope.rename_cost();
@@ -245,20 +212,6 @@ macro_rules! unit {
                 n.visit_mut_children_with(self);
             } else {
                 let map = self.get_map(n, false, false, false);
-
-                if !map.is_empty() {
-                    n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
-                }
-            }
-        }
-    };
-    ($name:ident, $T:ty, true) => {
-        /// Only called if `eval` exists
-        fn $name(&mut self, n: &mut $T) {
-            if !self.config.ignore_eval && contains_eval(n, true) {
-                n.visit_mut_children_with(self);
-            } else {
-                let map = self.get_map(n, true, false, false);
 
                 if !map.is_empty() {
                     n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
@@ -347,11 +300,7 @@ where
     fn visit_mut_module(&mut self, m: &mut Module) {
         self.load_cache();
 
-        self.preserved = self.renamer.preserved_ids_for_module(m);
-
         let has_eval = !self.config.ignore_eval && contains_eval(m, true);
-
-        self.unresolved = self.get_unresolved(m, has_eval);
 
         let map = self.get_map(m, false, true, has_eval);
 
@@ -392,11 +341,7 @@ where
     fn visit_mut_script(&mut self, m: &mut Script) {
         self.load_cache();
 
-        self.preserved = self.renamer.preserved_ids_for_script(m);
-
         let has_eval = !self.config.ignore_eval && contains_eval(m, true);
-
-        self.unresolved = self.get_unresolved(m, has_eval);
 
         let map = self.get_map(m, false, true, has_eval);
 

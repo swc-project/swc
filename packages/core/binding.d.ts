@@ -6,15 +6,17 @@ export class Compiler {
 }
 export type JsCompiler = Compiler
 
+export declare function analyze(src: string, options: Buffer, signal?: AbortSignal | undefined | null): Promise<string>
+
 export declare function bundle(confItems: Buffer, signal?: AbortSignal | undefined | null): Promise<{ [index: string]: { code: string, map?: string } }>
 
 export declare function getTargetTriple(): string
 
 export declare function initCustomTraceSubscriber(traceOutFilePath?: string | undefined | null): void
 
-export declare function minify(code: Buffer, opts: Buffer, extras: NapiMinifyExtra, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
+export declare function minify(code: Buffer, opts: Buffer, isJson: boolean, extras: NapiMinifyExtra, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
 
-export declare function minifySync(code: Buffer, opts: Buffer, extras: NapiMinifyExtra): TransformOutput
+export declare function minifySync(code: Buffer, opts: Buffer, isJson: boolean, extras: NapiMinifyExtra): TransformOutput
 
 export interface NapiMinifyExtra {
   mangleNameCache?: object
@@ -22,13 +24,13 @@ export interface NapiMinifyExtra {
 
 export declare function newMangleNameCache(): object
 
-export declare function parse(src: string, options: Buffer, filename?: string | undefined | null, signal?: AbortSignal | undefined | null): Promise<string>
+export declare function parse(src: Buffer | string, options: Buffer, filename?: string | undefined | null, signal?: AbortSignal | undefined | null): Promise<string>
 
 export declare function parseFile(path: string, options: Buffer, signal?: AbortSignal | undefined | null): Promise<string>
 
 export declare function parseFileSync(path: string, opts: Buffer): string
 
-export declare function parseSync(src: string, opts: Buffer, filename?: string | undefined | null): string
+export declare function parseSync(src: Buffer | string, opts: Buffer, filename?: string | undefined | null): string
 
 export declare function print(programJson: string, options: Buffer, signal?: AbortSignal | undefined | null): Promise<TransformOutput>
 
@@ -44,6 +46,7 @@ export interface TransformOutput {
   code: string
   map?: string
   output?: string
+  diagnostics: Array<string>
 }
 
 /** Hack for `Type Generation` */

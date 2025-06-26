@@ -1,5 +1,5 @@
 {
-  "mappings": ";AAAA,SAASA,IAAI,EAAEC,GAAG,EAAEC,UAAU,QAAQ,MAAM;AAE5C,OAAO,MAAMC,YAAYD;IAkBrBE,SAAS;QACL,OAAOJ,IAAI,CAAC,UAAU,EAAE,IAAI,CAACK,IAAI,CAAC,KAAK,CAAC;IAC5C;IAPAC,aAAc;QACV,KAAK,IAbTD,uBAAAA,QAAAA,KAAAA;QAcI,IAAI,CAACA,IAAI,GAAG;IAChB;AAKJ;AAlBI,iBAHSF,KAGFI,UAASN,GAAG,CAAC;;;;IAIpB,CAAC;AAED,iBATSE,KASFK,cAAa;IAChBH,MAAM;QAAEI,MAAMC;IAAO;AACzB;AAWJC,eAAeC,MAAM,CAAC,OAAOT",
+  "mappings": ";AAAA,SAASA,IAAI,EAAEC,GAAG,EAAEC,UAAU,QAAQ,MAAM;AAE5C,OAAO,MAAMC,YAAYD;IAkBrBE,SAAS;QACL,OAAOJ,IAAI,CAAC,UAAU,EAAE,IAAI,CAACK,IAAI,CAAC,KAAK,CAAC;IAC5C;IAPA,aAAc;QACV,KAAK,IAbTA,uBAAAA,QAAAA,KAAAA;QAcI,IAAI,CAACA,IAAI,GAAG;IAChB;AAKJ;AAlBI,iBAHSF,KAGFG,UAASL,GAAG,CAAC;;;;IAIpB,CAAC;AAED,iBATSE,KASFI,cAAa;IAChBF,MAAM;QAAEG,MAAMC;IAAO;AACzB;AAWJC,eAAeC,MAAM,CAAC,OAAOR",
   "names": [
     "html",
     "css",
@@ -7,7 +7,6 @@
     "App",
     "render",
     "name",
-    "constructor",
     "styles",
     "properties",
     "type",
@@ -16,7 +15,7 @@
     "define"
   ],
   "sources": [
-    "../../input/index.ts"
+    "../input/index.ts"
   ],
   "sourcesContent": [
     "import { html, css, LitElement } from \"lit\";\n\nexport class App extends LitElement {\n    name: string;\n\n    static styles = css`\n        p {\n            color: blue;\n        }\n    `;\n\n    static properties = {\n        name: { type: String },\n    };\n\n    constructor() {\n        super();\n        this.name = \"Somebody\";\n    }\n\n    render() {\n        return html`<p>Hello, ${this.name}!</p>`;\n    }\n}\ncustomElements.define(\"app\", App);\n"

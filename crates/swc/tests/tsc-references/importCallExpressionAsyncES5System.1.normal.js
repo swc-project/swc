@@ -7,10 +7,7 @@ System.register([
     "use strict";
     var _async_to_generator, _class_call_check, _ts_generator, cl1, obj, cl2, l;
     function fn() {
-        return _fn.apply(this, arguments);
-    }
-    function _fn() {
-        _fn = _async_to_generator(function() {
+        return _async_to_generator(function() {
             var req;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
@@ -26,8 +23,7 @@ System.register([
                         ];
                 }
             });
-        });
-        return _fn.apply(this, arguments);
+        })();
     }
     _export("fn", fn);
     return {
@@ -71,36 +67,15 @@ System.register([
                 return cl1;
             }());
             _export("obj", obj = {
-                m: /*#__PURE__*/ _async_to_generator(function() {
-                    var req;
-                    return _ts_generator(this, function(_state) {
-                        switch(_state.label){
-                            case 0:
-                                return [
-                                    4,
-                                    _context.import('./test') // THREE
-                                ];
-                            case 1:
-                                req = _state.sent();
-                                return [
-                                    2
-                                ];
-                        }
-                    });
-                })
-            });
-            _export("cl2", cl2 = function cl2() {
-                "use strict";
-                _class_call_check(this, cl2);
-                this.p = {
-                    m: /*#__PURE__*/ _async_to_generator(function() {
+                m: function() {
+                    return _async_to_generator(function() {
                         var req;
                         return _ts_generator(this, function(_state) {
                             switch(_state.label){
                                 case 0:
                                     return [
                                         4,
-                                        _context.import('./test') // FOUR
+                                        _context.import('./test') // THREE
                                     ];
                                 case 1:
                                     req = _state.sent();
@@ -109,11 +84,36 @@ System.register([
                                     ];
                             }
                         });
-                    })
+                    })();
+                }
+            });
+            _export("cl2", cl2 = function cl2() {
+                "use strict";
+                _class_call_check(this, cl2);
+                this.p = {
+                    m: function() {
+                        return _async_to_generator(function() {
+                            var req;
+                            return _ts_generator(this, function(_state) {
+                                switch(_state.label){
+                                    case 0:
+                                        return [
+                                            4,
+                                            _context.import('./test') // FOUR
+                                        ];
+                                    case 1:
+                                        req = _state.sent();
+                                        return [
+                                            2
+                                        ];
+                                }
+                            });
+                        })();
+                    }
                 };
             });
-            _export("l", l = /*#__PURE__*/ function() {
-                var _ref = _async_to_generator(function() {
+            _export("l", l = function() {
+                return _async_to_generator(function() {
                     var req;
                     return _ts_generator(this, function(_state) {
                         switch(_state.label){
@@ -129,11 +129,8 @@ System.register([
                                 ];
                         }
                     });
-                });
-                return function l() {
-                    return _ref.apply(this, arguments);
-                };
-            }());
+                })();
+            });
         }
     };
 });

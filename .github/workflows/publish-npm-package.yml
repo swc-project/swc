@@ -46,6 +46,8 @@ jobs:
   check-if-build-required:
     name: Check if build is required
     runs-on: ubuntu-latest
+    # Run only on main branch
+    if: github.ref == 'refs/heads/main'
     outputs:
       need-build: ${{ steps.check.outputs.need-build }}
     steps:
@@ -105,7 +107,7 @@ jobs:
               rm -rf ../../bindings/target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
               cp ../../bindings/target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               if [[ ${{ inputs.package }} == "core" ]]; then
-                yarn build --target x86_64-unknown-linux-gnu --no-default-features --features swc_v1
+                yarn build --target x86_64-unknown-linux-gnu --no-default-features --features swc_v1,plugin
               else
                 yarn build --target x86_64-unknown-linux-gnu
               fi
@@ -115,6 +117,10 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: >-
               set -e &&
+              rm /etc/apk/repositories &&
+              echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/main" >> /etc/apk/repositories &&
+              echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community" >> /etc/apk/repositories &&
+              apk update &&
               apk add --upgrade clang-static llvm-dev &&
               export CARGO_PROFILE_RELEASE_LTO=false &&
               if [[ ${{ inputs.package }} == "core" ]]; then
@@ -149,10 +155,10 @@ jobs:
               if [[ ${{ inputs.package }} == "core" ]]; then
                 RUSTFLAGS='' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-gnu &&
                 cp ../../bindings/target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
-                export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
+                export CC_aarch64_unknown_linux_gnu=clang &&
                 yarn build --target aarch64-unknown-linux-gnu
               else
-                export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
+                export CC_aarch64_unknown_linux_gnu=clang &&
                 yarn build --target aarch64-unknown-linux-gnu
               fi
           - host: ubuntu-latest
@@ -171,6 +177,10 @@ jobs:
             downloadTarget: aarch64-unknown-linux-musl
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: >-
+              rm /etc/apk/repositories &&
+              echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/main" >> /etc/apk/repositories &&
+              echo "https://dl-cdn.alpinelinux.org/alpine/v3.21/community" >> /etc/apk/repositories &&
+              apk update &&
               apk add --upgrade clang-static llvm-dev &&
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup toolchain install $(cat ../../rust-toolchain) &&
@@ -268,6 +278,7 @@ jobs:
         with:
           image: ${{ matrix.settings.docker }}
           options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
+          shell: bash
           run: >-
             cd ./packages/${{ inputs.package }} &&
             npm install -f -g yarn@1.22 &&
@@ -300,8 +311,8 @@ jobs:
           - host: macos-latest
             target: x86_64-apple-darwin
         node:
-          - "18"
           - "20"
+          - "22"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
@@ -340,8 +351,8 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - "18"
           - "20"
+          - "22"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -377,8 +388,8 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - "18"
           - "20"
+          - "22"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -446,6 +457,7 @@ jobs:
   #       with:
   #         image: node:lts-alpine
   #         options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
+  #         shell: bash
   #         run: >-
   #           set -e &&
   #           npm install -f -g yarn@1.22 &&
@@ -459,8 +471,8 @@ jobs:
   #     fail-fast: false
   #     matrix:
   #       node:
-  #         - "18"
   #         - "20"
+  #         - "22"
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v4
@@ -493,6 +505,7 @@ jobs:
   #       with:
   #         image: node:${{ matrix.node }}-slim
   #         options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
+  #         shell: bash
   #         run: >-
   #           set -e &&
   #           npm install -f -g yarn@1.22 &&

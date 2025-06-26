@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -54,14 +54,14 @@ impl From<TsEnumRecordValue> for Expr {
             TsEnumRecordValue::String(string) => Lit::Str(string.into()).into(),
             TsEnumRecordValue::Number(num) if num.is_nan() => Ident {
                 span: DUMMY_SP,
-                sym: "NaN".into(),
+                sym: atom!("NaN"),
                 ..Default::default()
             }
             .into(),
             TsEnumRecordValue::Number(num) if num.is_infinite() => {
                 let value: Expr = Ident {
                     span: DUMMY_SP,
-                    sym: "Infinity".into(),
+                    sym: atom!("Infinity"),
                     ..Default::default()
                 }
                 .into();
@@ -221,17 +221,17 @@ impl EnumValueComputer<'_> {
                 TsEnumRecordValue::Number(value)
             }
             (TsEnumRecordValue::String(left), TsEnumRecordValue::String(right), op!(bin, "+")) => {
-                TsEnumRecordValue::String(format!("{}{}", left, right).into())
+                TsEnumRecordValue::String(format!("{left}{right}").into())
             }
             (TsEnumRecordValue::Number(left), TsEnumRecordValue::String(right), op!(bin, "+")) => {
                 let left = left.to_js_string();
 
-                TsEnumRecordValue::String(format!("{}{}", left, right).into())
+                TsEnumRecordValue::String(format!("{left}{right}").into())
             }
             (TsEnumRecordValue::String(left), TsEnumRecordValue::Number(right), op!(bin, "+")) => {
                 let right = right.to_js_string();
 
-                TsEnumRecordValue::String(format!("{}{}", left, right).into())
+                TsEnumRecordValue::String(format!("{left}{right}").into())
             }
             (left, right, _) => {
                 let mut origin_expr = origin_expr;

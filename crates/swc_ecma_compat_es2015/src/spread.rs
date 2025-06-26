@@ -1,6 +1,7 @@
 use std::mem;
 
 use serde::Deserialize;
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
@@ -425,7 +426,7 @@ impl Spread {
             let callee = buf
                 .remove(0)
                 .expr
-                .make_member(IdentName::new("concat".into(), DUMMY_SP))
+                .make_member(IdentName::new(atom!("concat"), DUMMY_SP))
                 .as_callee();
 
             return CallExpr {
@@ -452,7 +453,7 @@ impl Spread {
                         elems: Vec::new(),
                     })
                 })
-                .make_member(IdentName::new("concat".into(), span))
+                .make_member(IdentName::new(atom!("concat"), span))
                 .as_callee(),
 
             args: buf,
@@ -462,7 +463,7 @@ impl Spread {
     }
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[tracing::instrument(level = "debug", skip_all)]
 fn expand_literal_args(
     args: impl ExactSizeIterator<Item = Option<ExprOrSpread>>,
 ) -> Vec<Option<ExprOrSpread>> {

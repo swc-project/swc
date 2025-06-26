@@ -5,6 +5,7 @@ use std::{
     process::{Command, Stdio},
 };
 
+use swc_atoms::atom;
 use swc_common::{errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{
@@ -185,7 +186,7 @@ fn fixture(input: PathBuf) {
 #[track_caller]
 fn assert_mangled(src: &str, expected: &str, opts: MangleOptions) {
     testing::run_test2(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
 
         let p = parse_fm(&handler, fm)?;
 
@@ -242,7 +243,7 @@ function n() {
         expected,
         MangleOptions {
             top_level: Some(true),
-            reserved: vec!["func1".into()],
+            reserved: vec![atom!("func1")],
             ..Default::default()
         },
     )
@@ -269,7 +270,7 @@ class l {
         expected,
         MangleOptions {
             top_level: Some(true),
-            reserved: vec!["Class1".into()],
+            reserved: vec![atom!("Class1")],
             ..Default::default()
         },
     )
@@ -296,9 +297,9 @@ class s {
         expected,
         MangleOptions {
             top_level: Some(true),
-            reserved: vec!["hello1".into()],
+            reserved: vec![atom!("hello1")],
             props: Some(ManglePropertiesOptions {
-                reserved: vec!["hello2".into()],
+                reserved: vec![atom!("hello2")],
                 ..Default::default()
             }),
             ..Default::default()
@@ -327,7 +328,7 @@ class s {
         expected,
         MangleOptions {
             top_level: Some(true),
-            reserved: vec!["hello1".into()],
+            reserved: vec![atom!("hello1")],
             ..Default::default()
         },
     )

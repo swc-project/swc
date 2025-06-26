@@ -46,8 +46,7 @@ where
 
                     debug_assert_ne!(
                         id1, id2,
-                        "Dependency analysis created duplicate entries: {:?}",
-                        id1
+                        "Dependency analysis created duplicate entries: {id1:?}"
                     )
                 }
             }

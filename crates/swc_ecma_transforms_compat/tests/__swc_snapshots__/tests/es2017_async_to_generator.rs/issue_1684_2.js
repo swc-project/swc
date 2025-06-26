@@ -1,9 +1,6 @@
 const cache = {};
 function getThing(key) {
-    return _getThing.apply(this, arguments);
-}
-function _getThing() {
-    _getThing = _async_to_generator(function(key) {
+    return _async_to_generator(function() {
         var it, _tmp;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -28,8 +25,7 @@ function _getThing() {
                     ];
             }
         });
-    });
-    return _getThing.apply(this, arguments);
+    })();
 }
 function fetchThing(key) {
     return Promise.resolve(key.toUpperCase()).then((val)=>cache[key] = val);

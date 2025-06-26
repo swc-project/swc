@@ -56,6 +56,11 @@ Note that you need
 
 command to run the script.
 
+Supported Node Versions:
+
+-   Node v10+ for usage
+-   Node v20+ for development
+
 ---
 
 If you are using SWC from JavaScript, please refer to [docs on the website](https://swc.rs/docs/installation/).
@@ -75,6 +80,10 @@ Please see [benchmark results](https://swc.rs/docs/benchmark-transform) on the w
 # Supporting development
 
 <h2 align="center">Supporting swc</h2>
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=swc-project/swc&type=Timeline)](https://www.star-history.com/#swc-project/swc&Timeline)
 
 ## Powered by
 

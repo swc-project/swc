@@ -10,8 +10,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
             _class_call_check(this, AstWalkOptions);
             this.goChildren = true;
             this.goNextSibling = true;
-            this.reverseSiblings = false // visit siblings in reverse execution order
-            ;
+            this.reverseSiblings = false; // visit siblings in reverse execution order
         }
         var _proto = AstWalkOptions.prototype;
         _proto.stopWalk = function stopWalk() {

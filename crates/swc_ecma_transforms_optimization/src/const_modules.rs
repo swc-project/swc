@@ -3,6 +3,7 @@ use std::{
     sync::Arc,
 };
 
+use bytes_str::BytesStr;
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use rustc_hash::{FxBuildHasher, FxHashMap};
@@ -20,7 +21,7 @@ use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith
 
 pub fn const_modules(
     cm: Lrc<SourceMap>,
-    globals: FxHashMap<Atom, FxHashMap<Atom, String>>,
+    globals: FxHashMap<Atom, FxHashMap<Atom, BytesStr>>,
 ) -> impl Pass {
     visit_mut_pass(ConstModules {
         globals: globals
@@ -42,14 +43,14 @@ pub fn const_modules(
     })
 }
 
-fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
-    static CACHE: Lazy<DashMap<String, Arc<Expr>, FxBuildHasher>> = Lazy::new(DashMap::default);
+fn parse_option(cm: &SourceMap, name: &str, src: BytesStr) -> Arc<Expr> {
+    static CACHE: Lazy<DashMap<BytesStr, Arc<Expr>, FxBuildHasher>> = Lazy::new(DashMap::default);
 
     let fm = cm.new_source_file(
-        FileName::Internal(format!("<const-module-{}.js>", name)).into(),
+        FileName::Internal(format!("<const-module-{name}.js>")).into(),
         src,
     );
-    if let Some(expr) = CACHE.get(&**fm.src) {
+    if let Some(expr) = CACHE.get(&fm.src) {
         return expr.clone();
     }
 
@@ -75,7 +76,7 @@ fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
 
     let expr = Arc::new(*expr);
 
-    CACHE.insert((*fm.src).clone(), expr.clone());
+    CACHE.insert(fm.src.clone(), expr.clone());
 
     expr
 }
@@ -163,8 +164,7 @@ impl VisitMut for ConstModules {
 
                 if self.scope.namespace.contains(&id.to_id()) {
                     panic!(
-                        "The const_module namespace `{}` cannot be used without member accessor",
-                        sym
+                        "The const_module namespace `{sym}` cannot be used without member accessor"
                     )
                 }
             }
@@ -189,9 +189,8 @@ impl VisitMut for ConstModules {
                         .and_then(|entry| entry.get(imported_name))
                         .unwrap_or_else(|| {
                             panic!(
-                                "The requested const_module `{}` does not provide an export named \
-                                 `{}`",
-                                module_name, imported_name
+                                "The requested const_module `{module_name}` does not provide an \
+                                 export named `{imported_name}`"
                             )
                         });
 

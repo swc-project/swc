@@ -44,7 +44,8 @@ jobs:
   determine-nightly-version:
     name: "Determine nightly version"
     runs-on: ubuntu-latest
-
+    # Run only on main branch
+    if: github.ref == 'refs/heads/main'
     outputs:
       version: ${{ steps.determine-nightly-version.outputs.version }}
     steps:
@@ -76,6 +77,8 @@ jobs:
         package:
           - core
           - html
+          - minifier
+          - react-compiler
     needs:
       - git-tag-nightly
       - determine-nightly-version
@@ -123,6 +126,8 @@ jobs:
         package:
           - core
           - html
+          - minifier
+          - react-compiler
     needs:
       - run-ecosystem-ci-with-nightly
       - git-tag-stable

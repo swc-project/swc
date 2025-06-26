@@ -1,13 +1,14 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use swc_atoms::atom;
 use swc_common::{input::StringInput, FileName};
 use swc_html_ast::{DocumentMode, Element, Namespace};
 use swc_html_parser::{lexer::Lexer, parser::Parser};
 
 fn bench_document(b: &mut Bencher, src: &'static str) {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src);
 
         b.iter(|| {
             let _ = black_box({
@@ -24,7 +25,7 @@ fn bench_document(b: &mut Bencher, src: &'static str) {
 
 fn bench_document_fragment(b: &mut Bencher, src: &'static str) {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src);
 
         b.iter(|| {
             let _ = black_box({
@@ -34,7 +35,7 @@ fn bench_document_fragment(b: &mut Bencher, src: &'static str) {
                 parser.parse_document_fragment(
                     Element {
                         span: Default::default(),
-                        tag_name: "template".into(),
+                        tag_name: atom!("template"),
                         namespace: Namespace::HTML,
                         attributes: Vec::new(),
                         is_self_closing: false,
@@ -52,12 +53,12 @@ fn bench_document_fragment(b: &mut Bencher, src: &'static str) {
 }
 
 fn run_document(c: &mut Criterion, id: &str, src: &'static str) {
-    c.bench_function(&format!("html/parser/{}", id), |b| {
+    c.bench_function(&format!("html/parser/{id}"), |b| {
         bench_document(b, src);
     });
 }
 fn run_document_fragment(c: &mut Criterion, id: &str, src: &'static str) {
-    c.bench_function(&format!("html/parser/{}", id), |b| {
+    c.bench_function(&format!("html/parser/{id}"), |b| {
         bench_document_fragment(b, src);
     });
 }

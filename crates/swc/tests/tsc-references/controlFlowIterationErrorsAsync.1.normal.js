@@ -3,24 +3,17 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 var cond;
 function len(s) {
-    return _len.apply(this, arguments);
-}
-function _len() {
-    _len = _async_to_generator(function(s) {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,
                 s.length
             ];
         });
-    });
-    return _len.apply(this, arguments);
+    })();
 }
 function f1() {
-    return _f1.apply(this, arguments);
-}
-function _f1() {
-    _f1 = _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -50,14 +43,10 @@ function _f1() {
                     ];
             }
         });
-    });
-    return _f1.apply(this, arguments);
+    })();
 }
 function f2() {
-    return _f2.apply(this, arguments);
-}
-function _f2() {
-    _f2 = _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -87,14 +76,10 @@ function _f2() {
                     ];
             }
         });
-    });
-    return _f2.apply(this, arguments);
+    })();
 }
 function g1() {
-    return _g1.apply(this, arguments);
-}
-function _g1() {
-    _g1 = _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -124,14 +109,10 @@ function _g1() {
                     ];
             }
         });
-    });
-    return _g1.apply(this, arguments);
+    })();
 }
 function g2() {
-    return _g2.apply(this, arguments);
-}
-function _g2() {
-    _g2 = _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -161,28 +142,20 @@ function _g2() {
                     ];
             }
         });
-    });
-    return _g2.apply(this, arguments);
+    })();
 }
 function asNumber(x) {
-    return _asNumber.apply(this, arguments);
-}
-function _asNumber() {
-    _asNumber = _async_to_generator(function(x) {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,
                 +x
             ];
         });
-    });
-    return _asNumber.apply(this, arguments);
+    })();
 }
 function h1() {
-    return _h1.apply(this, arguments);
-}
-function _h1() {
-    _h1 = _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
             x = "0";
@@ -194,14 +167,10 @@ function _h1() {
                 2
             ];
         });
-    });
-    return _h1.apply(this, arguments);
+    })();
 }
 function h2() {
-    return _h2.apply(this, arguments);
-}
-function _h2() {
-    _h2 = _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -230,14 +199,10 @@ function _h2() {
                     ];
             }
         });
-    });
-    return _h2.apply(this, arguments);
+    })();
 }
 function h3() {
-    return _h3.apply(this, arguments);
-}
-function _h3() {
-    _h3 = _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x, y;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -267,14 +232,10 @@ function _h3() {
                     ];
             }
         });
-    });
-    return _h3.apply(this, arguments);
+    })();
 }
 function h4() {
-    return _h4.apply(this, arguments);
-}
-function _h4() {
-    _h4 = _async_to_generator(function() {
+    return _async_to_generator(function() {
         var x, y;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -305,15 +266,11 @@ function _h4() {
                     ];
             }
         });
-    });
-    return _h4.apply(this, arguments);
+    })();
 }
+// repro #51115
 function get_things(_) {
-    return _get_things.apply(this, arguments);
-}
-function _get_things() {
-    _get_things = // repro #51115
-    _async_to_generator(function(_) {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,
@@ -322,14 +279,10 @@ function _get_things() {
                 ]
             ];
         });
-    });
-    return _get_things.apply(this, arguments);
+    })();
 }
 function foobar() {
-    return _foobar.apply(this, arguments);
-}
-function _foobar() {
-    _foobar = _async_to_generator(function() {
+    return _async_to_generator(function() {
         var before, i, results;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -362,43 +315,41 @@ function _foobar() {
                     ];
             }
         });
-    });
-    return _foobar.apply(this, arguments);
+    })();
 }
-/*#__PURE__*/ _async_to_generator(function() {
-    var bar, baz;
-    return _ts_generator(this, function(_state) {
-        switch(_state.label){
-            case 0:
-                bar = undefined;
-                _state.label = 1;
-            case 1:
-                return [
-                    4,
-                    foox(bar)
-                ];
-            case 2:
-                baz = _state.sent();
-                bar = baz;
-                _state.label = 3;
-            case 3:
-                if (bar) return [
-                    3,
-                    1
-                ];
-                _state.label = 4;
-            case 4:
-                return [
-                    2
-                ];
-        }
-    });
+(function() {
+    return _async_to_generator(function() {
+        var bar, baz;
+        return _ts_generator(this, function(_state) {
+            switch(_state.label){
+                case 0:
+                    bar = undefined;
+                    _state.label = 1;
+                case 1:
+                    return [
+                        4,
+                        foox(bar)
+                    ];
+                case 2:
+                    baz = _state.sent();
+                    bar = baz;
+                    _state.label = 3;
+                case 3:
+                    if (bar) return [
+                        3,
+                        1
+                    ];
+                    _state.label = 4;
+                case 4:
+                    return [
+                        2
+                    ];
+            }
+        });
+    })();
 });
 function myFunc() {
-    return _myFunc.apply(this, arguments);
-}
-function _myFunc() {
-    _myFunc = _async_to_generator(function() {
+    return _async_to_generator(function() {
         var lastId, entities;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -429,6 +380,5 @@ function _myFunc() {
                     ];
             }
         });
-    });
-    return _myFunc.apply(this, arguments);
+    })();
 }

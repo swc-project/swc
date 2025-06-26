@@ -37,12 +37,10 @@
                     return newInterval(function(date) {
                         if (date >= date) for(; floori(date), !test(date);)date.setTime(date - 1);
                     }, function(date, step) {
-                        if (date >= date) {
-                            if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
-                             // eslint-disable-line no-empty
-                            else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
-                             // eslint-disable-line no-empty
-                        }
+                        if (date >= date) if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
+                         // eslint-disable-line no-empty
+                        else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
+                         // eslint-disable-line no-empty
                     });
                 }, count && (interval.count = function(start, end) {
                     return t0.setTime(+start), t1.setTime(+end), floori(t0), floori(t1), Math.floor(count(t0, t1));
@@ -583,7 +581,7 @@
                 return +d;
             }
             function formatUnixTimestampSeconds(d) {
-                return Math.floor(+d / 1000);
+                return Math.floor(d / 1000);
             } // CONCATENATED MODULE: ../node_modules/d3-time-format/src/defaultLocale.js
             (locale = function(locale) {
                 var locale_dateTime = locale.dateTime, locale_date = locale.date, locale_time = locale.time, locale_periods = locale.periods, locale_weekdays = locale.days, locale_shortWeekdays = locale.shortDays, locale_months = locale.months, locale_shortMonths = locale.shortMonths, periodRe = formatRe(locale_periods), periodLookup = formatLookup(locale_periods), weekdayRe = formatRe(locale_weekdays), weekdayLookup = formatLookup(locale_weekdays), shortWeekdayRe = formatRe(locale_shortWeekdays), shortWeekdayLookup = formatLookup(locale_shortWeekdays), monthRe = formatRe(locale_months), monthLookup = formatLookup(locale_months), shortMonthRe = formatRe(locale_shortMonths), shortMonthLookup = formatLookup(locale_shortMonths), formats = {

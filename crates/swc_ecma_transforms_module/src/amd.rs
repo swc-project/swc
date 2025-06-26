@@ -1,7 +1,7 @@
 use anyhow::Context;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{
     comments::{CommentKind, Comments},
     source_map::PURE_SP,
@@ -9,7 +9,7 @@ use swc_common::{
     Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
+use swc_ecma_transforms_base::helper_expr;
 use swc_ecma_utils::{
     member_expr, private_ident, quote_ident, quote_str, ExprFactory, FunctionFactory, IsDirective,
 };
@@ -38,6 +38,12 @@ pub struct Config {
     pub config: InnerConfig,
 }
 
+#[derive(Default)]
+pub struct FeatureFlag {
+    pub support_block_scoping: bool,
+    pub support_arrow: bool,
+}
+
 pub fn amd<C>(
     resolver: Resolver,
     unresolved_mark: Mark,
@@ -57,13 +63,12 @@ where
         resolver,
         comments,
 
-        support_arrow: caniuse!(available_features.ArrowFunctions),
-        const_var_kind: if caniuse!(available_features.BlockScoping) {
+        support_arrow: available_features.support_arrow,
+        const_var_kind: if available_features.support_block_scoping {
             VarDeclKind::Const
         } else {
             VarDeclKind::Var
         },
-
         dep_list: Default::default(),
         require: quote_ident!(
             SyntaxContext::empty().apply_mark(unresolved_mark),
@@ -148,10 +153,7 @@ where
 
         let mut import_map = Default::default();
 
-        stmts.extend(
-            self.handle_import_export(&mut import_map, link, export, is_export_assign)
-                .map(From::from),
-        );
+        stmts.extend(self.handle_import_export(&mut import_map, link, export, is_export_assign));
 
         stmts.extend(n.body.take().into_iter().filter_map(|item| match item {
             ModuleItem::Stmt(stmt) if !stmt.is_empty() => Some(stmt),
@@ -197,7 +199,7 @@ where
                 let src_path = match &self.resolver {
                     Resolver::Real { resolver, base } => resolver
                         .resolve_import(base, &src_path)
-                        .with_context(|| format!("failed to resolve `{}`", src_path))
+                        .with_context(|| format!("failed to resolve `{src_path}`"))
                         .unwrap(),
                     Resolver::Default => src_path,
                 };
@@ -311,11 +313,11 @@ where
                         *obj = require.into();
 
                         match prop {
-                            MemberProp::Ident(IdentName { sym, .. }) => *sym = "toUrl".into(),
+                            MemberProp::Ident(IdentName { sym, .. }) => *sym = atom!("toUrl"),
                             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                                 match &mut **expr {
                                     Expr::Lit(Lit::Str(s)) => {
-                                        s.value = "toUrl".into();
+                                        s.value = atom!("toUrl");
                                         s.raw = None;
                                     }
                                     _ => unreachable!(),
@@ -335,11 +337,11 @@ where
                         *obj = require.into();
 
                         match prop {
-                            MemberProp::Ident(IdentName { sym, .. }) => *sym = "toUrl".into(),
+                            MemberProp::Ident(IdentName { sym, .. }) => *sym = atom!("toUrl"),
                             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                                 match &mut **expr {
                                     Expr::Lit(Lit::Str(s)) => {
-                                        s.value = "toUrl".into();
+                                        s.value = atom!("toUrl");
                                         s.raw = None;
                                     }
                                     _ => unreachable!(),
@@ -349,6 +351,15 @@ where
                         }
 
                         *n = n.take().as_call(n.span(), vec![quote_str!(".").as_arg()]);
+                    }
+                    "main" => {
+                        *n = BinExpr {
+                            span: *span,
+                            left: self.module().make_member(quote_ident!("id")).into(),
+                            op: op!("=="),
+                            right: quote_str!("main").into(),
+                        }
+                        .into();
                     }
                     _ => {}
                 }
@@ -567,7 +578,7 @@ fn amd_import_meta_url(span: Span, module: Ident) -> Expr {
                 ]),
             )
             .into(),
-        prop: MemberProp::Ident("href".into()),
+        prop: MemberProp::Ident(atom!("href").into()),
     }
     .into()
 }

@@ -1,0 +1,17 @@
+{
+  "ignoreList": [
+    0
+  ],
+  "mappings": "AAAAA,QAAQC,GAAG,CAAC",
+  "names": [
+    "console",
+    "log"
+  ],
+  "sources": [
+    "../input/index.js"
+  ],
+  "sourcesContent": [
+    "console.log('foo');"
+  ],
+  "version": 3
+}

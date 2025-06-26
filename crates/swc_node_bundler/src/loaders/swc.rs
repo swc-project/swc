@@ -134,7 +134,7 @@ impl SwcLoader {
                 FileName::Real(v) => v,
                 _ => bail!("swc-loader only accepts path. Got `{}`", name),
             })
-            .with_context(|| format!("failed to load file `{}`", name))?;
+            .with_context(|| format!("failed to load file `{name}`"))?;
 
         if let FileName::Real(path) = name {
             if let Some(ext) = path.extension() {
@@ -185,7 +185,9 @@ impl SwcLoader {
                     ));
 
                     program.mutate(&mut inline_globals(
+                        unresolved_mark,
                         self.env_map(),
+                        Default::default(),
                         Default::default(),
                         Default::default(),
                     ));
@@ -280,7 +282,9 @@ impl SwcLoader {
                         ));
 
                         program.mutate(&mut inline_globals(
+                            unresolved_mark,
                             self.env_map(),
+                            Default::default(),
                             Default::default(),
                             Default::default(),
                         ));
@@ -327,5 +331,6 @@ impl Load for SwcLoader {
         try_with_handler(self.compiler.cm.clone(), Default::default(), |handler| {
             self.load_with_handler(handler, name)
         })
+        .map_err(|e| e.to_pretty_error())
     }
 }

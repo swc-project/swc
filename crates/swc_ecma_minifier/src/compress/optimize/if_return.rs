@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_utils::StmtLike;
@@ -7,41 +7,14 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use super::Optimizer;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
-use crate::{compress::util::is_pure_undefined, util::ExprOptExt};
+use crate::{
+    compress::{optimize::BitCtx, util::is_pure_undefined},
+    util::ExprOptExt,
+};
 
 /// Methods related to the option `if_return`. All methods are noop if
 /// `if_return` is false.
 impl Optimizer<'_> {
-    pub(super) fn merge_nested_if(&mut self, s: &mut IfStmt) {
-        if !self.options.conditionals && !self.options.bools {
-            return;
-        }
-
-        if s.alt.is_some() {
-            return;
-        }
-
-        if let Stmt::If(IfStmt {
-            test,
-            cons,
-            alt: None,
-            ..
-        }) = &mut *s.cons
-        {
-            self.changed = true;
-            report_change!("if_return: Merging nested if statements");
-
-            s.test = BinExpr {
-                span: s.test.span(),
-                op: op!("&&"),
-                left: s.test.take(),
-                right: test.take(),
-            }
-            .into();
-            s.cons = cons.take();
-        }
-    }
-
     pub(super) fn merge_if_returns(
         &mut self,
         stmts: &mut Vec<Stmt>,
@@ -250,7 +223,7 @@ impl Optimizer<'_> {
                 .last()
                 .map(|stmt| match stmt.as_stmt() {
                     Some(Stmt::If(IfStmt { alt: None, .. }))
-                        if self.ctx.is_nested_if_return_merging =>
+                        if self.ctx.bit_ctx.contains(BitCtx::IsNestedIfReturnMerging) =>
                     {
                         false
                     }

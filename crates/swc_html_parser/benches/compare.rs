@@ -1,6 +1,7 @@
 extern crate swc_malloc;
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use swc_atoms::atom;
 use swc_common::{input::StringInput, FileName, Span, DUMMY_SP};
 use swc_html_ast::{Document, DocumentFragment, DocumentMode, Element, Namespace};
 use swc_html_parser::{lexer::Lexer, parser::Parser};
@@ -13,7 +14,7 @@ where
     F: FnMut(Document) -> Document,
 {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE);
 
         let lexer = Lexer::new(StringInput::from(&*fm));
         let mut parser = Parser::new(lexer, Default::default());
@@ -35,7 +36,7 @@ where
     F: FnMut(DocumentFragment) -> DocumentFragment,
 {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), SOURCE);
 
         let lexer = Lexer::new(StringInput::from(&*fm));
         let mut parser = Parser::new(lexer, Default::default());
@@ -43,7 +44,7 @@ where
             .parse_document_fragment(
                 Element {
                     span: Default::default(),
-                    tag_name: "template".into(),
+                    tag_name: atom!("template"),
                     namespace: Namespace::HTML,
                     attributes: Vec::new(),
                     is_self_closing: false,

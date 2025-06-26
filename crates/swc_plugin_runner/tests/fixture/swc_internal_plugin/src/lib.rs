@@ -8,6 +8,7 @@ use swc_core::{
     },
     quote,
 };
+use swc_transform_common::output::experimental_emit;
 
 struct ConsoleOutputReplacer {
     metadata: TransformPluginProgramMetadata,
@@ -27,8 +28,8 @@ impl VisitMut for ConsoleOutputReplacer {
                     if ident.sym == *"console" {
                         call.args[0].expr = Lit::Str(Str {
                             span: DUMMY_SP,
-                            value: Atom::from("changed_via_plugin"),
-                            raw: Some(Atom::from("\"changed_via_plugin\"")),
+                            value: atom!("changed_via_plugin"),
+                            raw: Some(atom!("\"changed_via_plugin\"")),
                         })
                         .into();
                     }
@@ -70,7 +71,7 @@ pub fn process(mut program: Program, metadata: TransformPluginProgramMetadata) -
 
     let _stmt = quote!(
         "const $name = 4;" as Stmt,
-        name = Ident::new_no_ctxt("ref".into(), DUMMY_SP)
+        name = Ident::new_no_ctxt(atom!("ref"), DUMMY_SP)
     );
 
     dbg!();
@@ -131,6 +132,10 @@ pub fn process(mut program: Program, metadata: TransformPluginProgramMetadata) -
     if plugin_config != "{\"pluginConfig\":\"testValue\"}" {
         panic!("Plugin config should be testValue");
     }
+
+    dbg!();
+
+    experimental_emit("foo".into(), "bar".into());
 
     dbg!();
 

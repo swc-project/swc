@@ -1,4 +1,5 @@
 use rustc_hash::FxHashSet;
+use swc_atoms::atom;
 use swc_common::{
     comments::Comments, sync::Lrc, util::take::Take, BytePos, Mark, SourceMap, SourceMapper, Span,
     Spanned, SyntaxContext, DUMMY_SP,
@@ -37,7 +38,7 @@ enum Persist {
 fn get_persistent_id(ident: &Ident) -> Persist {
     if ident.sym.starts_with(|c: char| c.is_ascii_uppercase()) {
         if cfg!(debug_assertions) && ident.ctxt == SyntaxContext::empty() {
-            panic!("`{}` should be resolved", ident)
+            panic!("`{ident}` should be resolved")
         }
         Persist::Component(ident.clone())
     } else {
@@ -347,7 +348,7 @@ impl<C: Comments> VisitMut for Refresh<C> {
                                 call,
                                 vec![(
                                     private_ident!("_c"),
-                                    ("%default%".into(), SyntaxContext::empty()),
+                                    (atom!("%default%"), SyntaxContext::empty()),
                                 )],
                                 &mut hook_visitor,
                             )

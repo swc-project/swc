@@ -11,4 +11,3 @@ import "core-js/modules/es7.string.pad-start.js";
 import "core-js/modules/es7.string.trim-left.js";
 import "core-js/modules/es7.string.trim-right.js";
 import "core-js/modules/es7.symbol.async-iterator.js";
-import "regenerator-runtime/runtime.js";

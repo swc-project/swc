@@ -1,21 +1,14 @@
 function region() {
-    return _region.apply(this, arguments);
-}
-function _region() {
-    _region = _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2
             ];
         });
-    });
-    return _region.apply(this, arguments);
+    })();
 }
 export default function() {
-    return _ref.apply(this, arguments);
-}
-function _ref() {
-    _ref = _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -30,6 +23,5 @@ function _ref() {
                     ];
             }
         });
-    });
-    return _ref.apply(this, arguments);
+    })();
 }

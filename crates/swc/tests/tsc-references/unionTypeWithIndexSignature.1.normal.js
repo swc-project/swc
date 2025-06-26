@@ -10,7 +10,6 @@ num['0'] = 'ok';
 const sym = Symbol();
 both['s'] = 'ok';
 both[0] = 1;
-both[1] = 0 // not ok
-;
+both[1] = 0; // not ok
 both[0] = 'not ok';
 both[sym] = 'not ok';

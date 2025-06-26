@@ -1,314 +1,195 @@
-use std::{cell::RefCell, mem, mem::take, rc::Rc};
-
-use debug_unreachable::debug_unreachable;
-use lexer::TokenContexts;
+use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
+use swc_ecma_lexer::common::{lexer::LexResult, parser::buffer::Buffer as BufferTrait};
 
-use super::Parser;
-use crate::{
-    error::Error,
-    lexer::{self},
-    token::*,
-    Context, EsVersion, Syntax,
-};
+use crate::lexer::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
 
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.
-pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
-    fn set_ctx(&mut self, ctx: Context);
-    fn ctx(&self) -> Context;
-    fn syntax(&self) -> Syntax;
-    fn target(&self) -> EsVersion;
+pub trait Tokens: swc_ecma_lexer::common::input::Tokens<TokenAndSpan> {
+    fn clone_token_value(&self) -> Option<TokenValue>;
+    fn take_token_value(&mut self) -> Option<TokenValue>;
+    fn get_token_value(&self) -> Option<&TokenValue>;
+    fn set_token_value(&mut self, token_value: Option<TokenValue>);
 
-    fn start_pos(&self) -> BytePos {
-        BytePos(0)
-    }
-
-    fn set_expr_allowed(&mut self, allow: bool);
-    fn set_next_regexp(&mut self, start: Option<BytePos>);
-
-    fn token_context(&self) -> &lexer::TokenContexts;
-    fn token_context_mut(&mut self) -> &mut lexer::TokenContexts;
-    fn set_token_context(&mut self, _c: lexer::TokenContexts);
-
-    /// Implementors should use Rc<RefCell<Vec<Error>>>.
-    ///
-    /// It is required because parser should backtrack while parsing typescript
-    /// code.
-    fn add_error(&self, error: Error);
-
-    /// Add an error which is valid syntax in script mode.
-    ///
-    /// This errors should be dropped if it's not a module.
-    ///
-    /// Implementor should check for if [Context].module, and buffer errors if
-    /// module is false. Also, implementors should move errors to the error
-    /// buffer on set_ctx if the parser mode become module mode.
-    fn add_module_mode_error(&self, error: Error);
-
-    fn end_pos(&self) -> BytePos;
-
-    fn take_errors(&mut self) -> Vec<Error>;
-
-    /// If the program was parsed as a script, this contains the module
-    /// errors should the program be identified as a module in the future.
-    fn take_script_module_errors(&mut self) -> Vec<Error>;
-}
-
-#[derive(Clone)]
-pub struct TokensInput {
-    iter: <Vec<TokenAndSpan> as IntoIterator>::IntoIter,
-    ctx: Context,
-    syntax: Syntax,
-    start_pos: BytePos,
-    target: EsVersion,
-    token_ctx: TokenContexts,
-    errors: Rc<RefCell<Vec<Error>>>,
-    module_errors: Rc<RefCell<Vec<Error>>>,
-}
-
-impl TokensInput {
-    pub fn new(tokens: Vec<TokenAndSpan>, ctx: Context, syntax: Syntax, target: EsVersion) -> Self {
-        let start_pos = tokens.first().map(|t| t.span.lo).unwrap_or(BytePos(0));
-
-        TokensInput {
-            iter: tokens.into_iter(),
-            ctx,
-            syntax,
-            start_pos,
-            target,
-            token_ctx: Default::default(),
-            errors: Default::default(),
-            module_errors: Default::default(),
-        }
-    }
-}
-
-impl Iterator for TokensInput {
-    type Item = TokenAndSpan;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        self.iter.next()
-    }
-}
-
-impl Tokens for TokensInput {
-    fn set_ctx(&mut self, ctx: Context) {
-        if ctx.module && !self.module_errors.borrow().is_empty() {
-            let mut module_errors = self.module_errors.borrow_mut();
-            self.errors.borrow_mut().append(&mut *module_errors);
-        }
-        self.ctx = ctx;
-    }
-
-    fn ctx(&self) -> Context {
-        self.ctx
-    }
-
-    fn syntax(&self) -> Syntax {
-        self.syntax
-    }
-
-    fn target(&self) -> EsVersion {
-        self.target
-    }
-
-    fn start_pos(&self) -> BytePos {
-        self.start_pos
-    }
-
-    fn set_expr_allowed(&mut self, _: bool) {}
-
-    fn set_next_regexp(&mut self, _: Option<BytePos>) {}
-
-    fn token_context(&self) -> &TokenContexts {
-        &self.token_ctx
-    }
-
-    fn token_context_mut(&mut self) -> &mut TokenContexts {
-        &mut self.token_ctx
-    }
-
-    fn set_token_context(&mut self, c: TokenContexts) {
-        self.token_ctx = c;
-    }
-
-    fn add_error(&self, error: Error) {
-        self.errors.borrow_mut().push(error);
-    }
-
-    fn add_module_mode_error(&self, error: Error) {
-        if self.ctx.module {
-            self.add_error(error);
-            return;
-        }
-        self.module_errors.borrow_mut().push(error);
-    }
-
-    fn take_errors(&mut self) -> Vec<Error> {
-        take(&mut self.errors.borrow_mut())
-    }
-
-    fn take_script_module_errors(&mut self) -> Vec<Error> {
-        take(&mut self.module_errors.borrow_mut())
-    }
-
-    fn end_pos(&self) -> BytePos {
-        self.iter
-            .as_slice()
-            .last()
-            .map(|t| t.span.hi)
-            .unwrap_or(self.start_pos)
-    }
-}
-
-/// Note: Lexer need access to parser's context to lex correctly.
-#[derive(Debug)]
-pub struct Capturing<I: Tokens> {
-    inner: I,
-    captured: Rc<RefCell<Vec<TokenAndSpan>>>,
-}
-
-impl<I: Tokens> Clone for Capturing<I> {
-    fn clone(&self) -> Self {
-        Capturing {
-            inner: self.inner.clone(),
-            captured: self.captured.clone(),
-        }
-    }
-}
-
-impl<I: Tokens> Capturing<I> {
-    pub fn new(input: I) -> Self {
-        Capturing {
-            inner: input,
-            captured: Default::default(),
-        }
-    }
-
-    pub fn tokens(&self) -> Rc<RefCell<Vec<TokenAndSpan>>> {
-        self.captured.clone()
-    }
-
-    /// Take captured tokens
-    pub fn take(&mut self) -> Vec<TokenAndSpan> {
-        mem::take(&mut *self.captured.borrow_mut())
-    }
-}
-
-impl<I: Tokens> Iterator for Capturing<I> {
-    type Item = TokenAndSpan;
-
-    fn next(&mut self) -> Option<Self::Item> {
-        let next = self.inner.next();
-
-        match next {
-            Some(ts) => {
-                let mut v = self.captured.borrow_mut();
-
-                // remove tokens that could change due to backtracing
-                while let Some(last) = v.last() {
-                    if last.span.lo >= ts.span.lo {
-                        v.pop();
-                    } else {
-                        break;
-                    }
-                }
-
-                v.push(ts.clone());
-
-                Some(ts)
-            }
-            None => None,
-        }
-    }
-}
-
-impl<I: Tokens> Tokens for Capturing<I> {
-    fn set_ctx(&mut self, ctx: Context) {
-        self.inner.set_ctx(ctx)
-    }
-
-    fn ctx(&self) -> Context {
-        self.inner.ctx()
-    }
-
-    fn syntax(&self) -> Syntax {
-        self.inner.syntax()
-    }
-
-    fn target(&self) -> EsVersion {
-        self.inner.target()
-    }
-
-    fn start_pos(&self) -> BytePos {
-        self.inner.start_pos()
-    }
-
-    fn set_expr_allowed(&mut self, allow: bool) {
-        self.inner.set_expr_allowed(allow)
-    }
-
-    fn set_next_regexp(&mut self, start: Option<BytePos>) {
-        self.inner.set_next_regexp(start);
-    }
-
-    fn token_context(&self) -> &TokenContexts {
-        self.inner.token_context()
-    }
-
-    fn token_context_mut(&mut self) -> &mut TokenContexts {
-        self.inner.token_context_mut()
-    }
-
-    fn set_token_context(&mut self, c: TokenContexts) {
-        self.inner.set_token_context(c)
-    }
-
-    fn add_error(&self, error: Error) {
-        self.inner.add_error(error);
-    }
-
-    fn add_module_mode_error(&self, error: Error) {
-        self.inner.add_module_mode_error(error)
-    }
-
-    fn take_errors(&mut self) -> Vec<Error> {
-        self.inner.take_errors()
-    }
-
-    fn take_script_module_errors(&mut self) -> Vec<Error> {
-        self.inner.take_script_module_errors()
-    }
-
-    fn end_pos(&self) -> BytePos {
-        self.inner.end_pos()
-    }
+    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Option<TokenAndSpan>;
+    fn scan_jsx_open_el_terminal_token(&mut self) -> Option<TokenAndSpan>;
+    fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> Option<TokenAndSpan>;
+    fn rescan_jsx_token(
+        &mut self,
+        allow_multiline_jsx_text: bool,
+        reset: BytePos,
+    ) -> Option<TokenAndSpan>;
+    fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan;
+    fn scan_jsx_attribute_value(&mut self) -> Option<TokenAndSpan>;
+    fn rescan_template_token(
+        &mut self,
+        start: BytePos,
+        start_with_back_tick: bool,
+    ) -> Option<TokenAndSpan>;
 }
 
 /// This struct is responsible for managing current token and peeked token.
 #[derive(Clone)]
-pub(super) struct Buffer<I: Tokens> {
-    iter: I,
+pub struct Buffer<I> {
+    pub iter: I,
     /// Span of the previous token.
-    prev_span: Span,
-    cur: Option<TokenAndSpan>,
+    pub prev_span: Span,
+    pub cur: Option<TokenAndSpan>,
     /// Peeked token
-    next: Option<TokenAndSpan>,
-}
-
-impl<I: Tokens> Parser<I> {
-    pub fn input(&mut self) -> &mut I {
-        &mut self.input.iter
-    }
-
-    pub(crate) fn input_ref(&self) -> &I {
-        &self.input.iter
-    }
+    pub next: Option<NextTokenAndSpan>,
 }
 
 impl<I: Tokens> Buffer<I> {
-    pub fn new(lexer: I) -> Self {
+    pub fn expect_word_token_value(&mut self) -> Atom {
+        let Some(crate::lexer::TokenValue::Word(word)) = self.iter.take_token_value() else {
+            unreachable!()
+        };
+        word
+    }
+
+    pub fn expect_word_token_value_ref(&self) -> &Atom {
+        let Some(crate::lexer::TokenValue::Word(word)) = self.iter.get_token_value() else {
+            unreachable!("token_value: {:?}", self.iter.get_token_value())
+        };
+        word
+    }
+
+    pub fn expect_number_token_value(&mut self) -> (f64, Atom) {
+        let Some(crate::lexer::TokenValue::Num { value, raw }) = self.iter.take_token_value()
+        else {
+            unreachable!()
+        };
+        (value, raw)
+    }
+
+    pub fn expect_string_token_value(&mut self) -> (Atom, Atom) {
+        let Some(crate::lexer::TokenValue::Str { value, raw }) = self.iter.take_token_value()
+        else {
+            unreachable!()
+        };
+        (value, raw)
+    }
+
+    pub fn expect_bigint_token_value(&mut self) -> (Box<num_bigint::BigInt>, Atom) {
+        let Some(crate::lexer::TokenValue::BigInt { value, raw }) = self.iter.take_token_value()
+        else {
+            unreachable!()
+        };
+        (value, raw)
+    }
+
+    pub fn expect_regex_token_value(&mut self) -> (Atom, Atom) {
+        let Some(crate::lexer::TokenValue::Regex { value, flags }) = self.iter.take_token_value()
+        else {
+            unreachable!()
+        };
+        (value, flags)
+    }
+
+    pub fn expect_template_token_value(&mut self) -> (LexResult<Atom>, Atom) {
+        let Some(crate::lexer::TokenValue::Template { cooked, raw }) = self.iter.take_token_value()
+        else {
+            unreachable!()
+        };
+        (cooked, raw)
+    }
+
+    pub fn expect_error_token_value(&mut self) -> swc_ecma_lexer::error::Error {
+        let Some(crate::lexer::TokenValue::Error(error)) = self.iter.take_token_value() else {
+            unreachable!()
+        };
+        error
+    }
+
+    pub fn get_token_value(&self) -> Option<&TokenValue> {
+        self.iter.get_token_value()
+    }
+
+    pub fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
+        if let Some(t) = self.iter_mut().scan_jsx_token(allow_multiline_jsx_text) {
+            self.set_cur(t);
+        }
+    }
+
+    fn scan_jsx_open_el_terminal_token(&mut self) {
+        if let Some(t) = self.iter_mut().scan_jsx_open_el_terminal_token() {
+            self.set_cur(t);
+        }
+    }
+
+    pub fn rescan_jsx_open_el_terminal_token(&mut self) {
+        if !self
+            .cur()
+            .is_some_and(|token| token.should_rescan_into_gt_in_jsx())
+        {
+            return;
+        }
+        // rescan `>=`, `>>`, `>>=`, `>>>`, `>>>=` into `>`
+        let cur = match self.cur.as_ref() {
+            Some(cur) => cur,
+            None => {
+                return self.scan_jsx_open_el_terminal_token();
+            }
+        };
+
+        let start = cur.span.lo;
+        if let Some(t) = self.iter_mut().rescan_jsx_open_el_terminal_token(start) {
+            self.set_cur(t);
+        }
+    }
+
+    pub fn rescan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
+        let start = match self.cur.as_ref() {
+            Some(cur) => cur.span.lo,
+            None => {
+                return self.scan_jsx_token(allow_multiline_jsx_text);
+            }
+        };
+        if let Some(t) = self
+            .iter_mut()
+            .rescan_jsx_token(allow_multiline_jsx_text, start)
+        {
+            self.set_cur(t);
+        }
+    }
+
+    pub fn scan_jsx_identifier(&mut self) {
+        let Some(cur) = self.cur() else {
+            return;
+        };
+        if !cur.is_word() {
+            return;
+        }
+        let start = self.cur.as_ref().unwrap().span.lo;
+        let cur = self.iter_mut().scan_jsx_identifier(start);
+        debug_assert!(cur.token == Token::JSXName);
+        self.set_cur(cur);
+    }
+
+    pub fn scan_jsx_attribute_value(&mut self) {
+        if let Some(t) = self.iter_mut().scan_jsx_attribute_value() {
+            self.set_cur(t);
+        }
+    }
+
+    pub fn rescan_template_token(&mut self, start_with_back_tick: bool) {
+        debug_assert!(self.cur.is_some());
+        let start = self.cur_pos();
+        self.cur = self
+            .iter_mut()
+            .rescan_template_token(start, start_with_back_tick);
+    }
+}
+
+impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffer<I> {
+    type I = I;
+    type Lexer = super::super::lexer::Lexer<'a>;
+    type Next = NextTokenAndSpan;
+    type Token = super::super::lexer::Token;
+    type TokenAndSpan = TokenAndSpan;
+
+    fn new(lexer: I) -> Self {
         let start_pos = lexer.start_pos();
         Buffer {
             iter: lexer,
@@ -318,260 +199,88 @@ impl<I: Tokens> Buffer<I> {
         }
     }
 
-    pub fn store(&mut self, token: Token) {
-        debug_assert!(self.next.is_none());
-        debug_assert!(self.cur.is_none());
-        let span = self.prev_span;
-
-        self.cur = Some(TokenAndSpan {
-            span,
-            token,
-            had_line_break: false,
-        });
-    }
-
-    #[allow(dead_code)]
-    pub fn cur_debug(&self) -> Option<&Token> {
-        self.cur.as_ref().map(|it| &it.token)
-    }
-
     #[cold]
     #[inline(never)]
-    pub fn dump_cur(&mut self) -> String {
+    fn dump_cur(&mut self) -> String {
         match self.cur() {
-            Some(v) => format!("{:?}", v),
+            Some(v) => v.to_string(self.get_token_value()),
             None => "<eof>".to_string(),
         }
     }
 
-    /// Returns current token.
-    pub fn bump(&mut self) -> Token {
-        let prev = match self.cur.take() {
-            Some(t) => t,
-            None => unsafe {
-                debug_unreachable!(
-                    "Current token is `None`. Parser should not call bump() without knowing \
-                     current token"
-                )
-            },
-        };
-        self.prev_span = prev.span;
-
-        prev.token
+    fn set_cur(&mut self, token: TokenAndSpan) {
+        self.cur = Some(token);
     }
 
-    pub fn knows_cur(&self) -> bool {
-        self.cur.is_some()
+    fn next(&self) -> Option<&Self::Next> {
+        self.next.as_ref()
     }
 
-    pub fn peek(&mut self) -> Option<&Token> {
+    fn set_next(&mut self, token: Option<Self::Next>) {
+        self.next = token;
+    }
+
+    fn next_mut(&mut self) -> &mut Option<Self::Next> {
+        &mut self.next
+    }
+
+    fn cur(&mut self) -> Option<&super::super::lexer::Token> {
+        if self.cur.is_none() {
+            // If we have peeked a token, take it instead of calling lexer.next()
+            if let Some(next) = self.next.take() {
+                self.cur = Some(next.token_and_span);
+                self.iter.set_token_value(next.value);
+            } else {
+                self.cur = self.iter.next()
+            }
+        }
+
+        self.cur.as_ref().map(|v| &v.token)
+    }
+
+    fn get_cur(&self) -> Option<&TokenAndSpan> {
+        self.cur.as_ref()
+    }
+
+    fn get_cur_mut(&mut self) -> &mut Option<TokenAndSpan> {
+        &mut self.cur
+    }
+
+    fn prev_span(&self) -> Span {
+        self.prev_span
+    }
+
+    fn set_prev_span(&mut self, span: Span) {
+        self.prev_span = span;
+    }
+
+    fn iter(&self) -> &I {
+        &self.iter
+    }
+
+    fn iter_mut(&mut self) -> &mut I {
+        &mut self.iter
+    }
+
+    fn peek<'b>(&'b mut self) -> Option<&'b super::super::lexer::Token>
+    where
+        TokenAndSpan: 'b,
+    {
         debug_assert!(
             self.cur.is_some(),
             "parser should not call peek() without knowing current token"
         );
 
         if self.next.is_none() {
-            self.next = self.iter.next();
+            let old = self.iter.take_token_value();
+            let next_token = self.iter.next();
+            self.next = next_token.map(|t| NextTokenAndSpan {
+                token_and_span: t,
+                value: self.iter.take_token_value(),
+            });
+            self.iter.set_token_value(old);
         }
 
-        self.next.as_ref().map(|ts| &ts.token)
-    }
-
-    /// Returns true on eof.
-    pub fn had_line_break_before_cur(&mut self) -> bool {
-        self.cur();
-
-        self.cur
-            .as_ref()
-            .map(|it| it.had_line_break)
-            .unwrap_or_else(|| true)
-    }
-
-    /// This returns true on eof.
-    pub fn has_linebreak_between_cur_and_peeked(&mut self) -> bool {
-        let _ = self.peek();
-        self.next
-            .as_ref()
-            .map(|item| item.had_line_break)
-            .unwrap_or({
-                // return true on eof.
-                true
-            })
-    }
-
-    /// Get current token. Returns `None` only on eof.
-    #[inline]
-    pub fn cur(&mut self) -> Option<&Token> {
-        if self.cur.is_none() {
-            // If we have peeked a token, take it instead of calling lexer.next()
-            self.cur = self.next.take().or_else(|| self.iter.next());
-        }
-
-        match &self.cur {
-            Some(v) => Some(&v.token),
-            None => None,
-        }
-    }
-
-    #[inline]
-    pub fn cut_lshift(&mut self) {
-        debug_assert!(
-            self.is(&tok!("<<")),
-            "parser should only call cut_lshift when encountering LShift token"
-        );
-        self.cur = Some(TokenAndSpan {
-            token: tok!('<'),
-            span: self.cur_span().with_lo(self.cur_span().lo + BytePos(1)),
-            had_line_break: false,
-        });
-    }
-
-    pub fn merge_lt_gt(&mut self) {
-        debug_assert!(
-            self.is(&tok!('<')) || self.is(&tok!('>')),
-            "parser should only call merge_lt_gt when encountering '<' or '>' token"
-        );
-
-        let span = self.cur_span();
-
-        if self.peek().is_none() {
-            return;
-        }
-
-        let next = self.next.as_ref().unwrap();
-
-        if span.hi != next.span.lo {
-            return;
-        }
-
-        let cur = self.cur.take().unwrap();
-        let next = self.next.take().unwrap();
-
-        let token = match (&cur.token, &next.token) {
-            (tok!('>'), tok!('>')) => tok!(">>"),
-            (tok!('>'), tok!('=')) => tok!(">="),
-            (tok!('>'), tok!(">>")) => tok!(">>>"),
-            (tok!('>'), tok!(">=")) => tok!(">>="),
-            (tok!('>'), tok!(">>=")) => tok!(">>>="),
-            (tok!('<'), tok!('<')) => tok!("<<"),
-            (tok!('<'), tok!('=')) => tok!("<="),
-            (tok!('<'), tok!("<=")) => tok!("<<="),
-
-            _ => {
-                self.cur = Some(cur);
-                self.next = Some(next);
-                return;
-            }
-        };
-        let span = span.with_hi(next.span.hi);
-
-        self.cur = Some(TokenAndSpan {
-            token,
-            span,
-            had_line_break: cur.had_line_break,
-        });
-    }
-
-    #[inline]
-    pub fn is(&mut self, expected: &Token) -> bool {
-        match self.cur() {
-            Some(t) => *expected == *t,
-            _ => false,
-        }
-    }
-
-    #[inline]
-    pub fn eat(&mut self, expected: &Token) -> bool {
-        let v = self.is(expected);
-        if v {
-            self.bump();
-        }
-        v
-    }
-
-    /// Returns start of current token.
-    #[inline]
-    pub fn cur_pos(&mut self) -> BytePos {
-        let _ = self.cur();
-        self.cur
-            .as_ref()
-            .map(|item| item.span.lo)
-            .unwrap_or_else(|| {
-                // eof
-                self.last_pos()
-            })
-    }
-
-    #[inline]
-    pub fn cur_span(&self) -> Span {
-        let data = self
-            .cur
-            .as_ref()
-            .map(|item| item.span)
-            .unwrap_or(self.prev_span);
-
-        Span::new(data.lo, data.hi)
-    }
-
-    /// Returns last byte position of previous token.
-    #[inline]
-    pub fn last_pos(&self) -> BytePos {
-        self.prev_span.hi
-    }
-
-    /// Returns span of the previous token.
-    #[inline]
-    pub fn prev_span(&self) -> Span {
-        self.prev_span
-    }
-
-    #[inline]
-    pub(crate) fn get_ctx(&self) -> Context {
-        self.iter.ctx()
-    }
-
-    #[inline]
-    pub(crate) fn set_ctx(&mut self, ctx: Context) {
-        self.iter.set_ctx(ctx);
-    }
-
-    #[inline]
-    pub fn syntax(&self) -> Syntax {
-        self.iter.syntax()
-    }
-
-    #[inline]
-    pub fn target(&self) -> EsVersion {
-        self.iter.target()
-    }
-
-    #[inline]
-    pub(crate) fn set_expr_allowed(&mut self, allow: bool) {
-        self.iter.set_expr_allowed(allow)
-    }
-
-    #[inline]
-    pub fn set_next_regexp(&mut self, start: Option<BytePos>) {
-        self.iter.set_next_regexp(start);
-    }
-
-    #[inline]
-    pub(crate) fn token_context(&self) -> &lexer::TokenContexts {
-        self.iter.token_context()
-    }
-
-    #[inline]
-    pub(crate) fn token_context_mut(&mut self) -> &mut lexer::TokenContexts {
-        self.iter.token_context_mut()
-    }
-
-    #[inline]
-    pub(crate) fn set_token_context(&mut self, c: lexer::TokenContexts) {
-        self.iter.set_token_context(c)
-    }
-
-    #[inline]
-    pub(crate) fn end_pos(&self) -> BytePos {
-        self.iter.end_pos()
+        self.next.as_ref().map(|ts| &ts.token_and_span.token)
     }
 }

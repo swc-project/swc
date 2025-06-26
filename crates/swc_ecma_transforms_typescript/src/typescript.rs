@@ -1,6 +1,7 @@
 use std::mem;
 
 use rustc_hash::FxHashSet;
+use swc_atoms::atom;
 use swc_common::{comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_react::{parse_expr_for_jsx, JsxDirectives};
@@ -9,19 +10,9 @@ use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 pub use crate::config::*;
 use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
 
-#[cfg(feature = "concurrent")]
-macro_rules! static_str {
-    ($s:expr) => {{
-        static VAL: once_cell::sync::Lazy<Lrc<String>> =
-            once_cell::sync::Lazy::new(|| Lrc::new($s.into()));
-        VAL.clone()
-    }};
-}
-
-#[cfg(not(feature = "concurrent"))]
 macro_rules! static_str {
     ($s:expr) => {
-        Lrc::new($s.into())
+        $s.into()
     };
 }
 
@@ -146,7 +137,7 @@ impl EsModuleDecl for ModuleDecl {
 impl EsModuleDecl for ModuleItem {
     fn is_es_module_decl(&self) -> bool {
         self.as_module_decl()
-            .map_or(false, ModuleDecl::is_es_module_decl)
+            .is_some_and(ModuleDecl::is_es_module_decl)
     }
 }
 
@@ -179,7 +170,7 @@ fn id_for_jsx(e: &Expr) -> Option<Id> {
     match e {
         Expr::Ident(i) => Some(i.to_id()),
         Expr::Member(MemberExpr { obj, .. }) => Some(id_for_jsx(obj)).flatten(),
-        Expr::Lit(Lit::Null(..)) => Some(("null".into(), Default::default())),
+        Expr::Lit(Lit::Null(..)) => Some((atom!("null"), Default::default())),
         _ => None,
     }
 }

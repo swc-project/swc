@@ -92,8 +92,8 @@ impl EnsureSize {
                 .sum::<usize>();
 
             println!("Total");
-            println!("  swc: {} bytes", swc_total);
-            println!("  terser: {} bytes", terser_total);
+            println!("  swc: {swc_total} bytes");
+            println!("  terser: {terser_total} bytes");
             println!("  Size ratio: {}", swc_total as f64 / terser_total as f64);
 
             let swc_smaller_file_count = results
@@ -121,8 +121,8 @@ impl EnsureSize {
                 .sum::<usize>();
 
             println!("Total (gzipped)");
-            println!("  swc: {} bytes", swc_total);
-            println!("  terser: {} bytes", terser_total);
+            println!("  swc: {swc_total} bytes");
+            println!("  terser: {terser_total} bytes");
             println!("  Size ratio: {}", swc_total as f64 / terser_total as f64);
 
             let swc_smaller_file_count = results

@@ -172,7 +172,7 @@ impl NormalizedOutput {
         }
 
         if !update && self.0.lines().count() <= 5 {
-            assert_eq!(expected, self, "Actual:\n{}", self);
+            assert_eq!(expected, self, "Actual:\n{self}");
         }
 
         let diff = Diff {

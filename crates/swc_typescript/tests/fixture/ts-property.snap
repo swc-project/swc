@@ -6,6 +6,14 @@ export interface I {
     [A]: "123";
     [B]: "456";
 }
+export declare const foo: {
+    "foo"(): string;
+    ["bar"](): string;
+    123(): string;
+    [456](): string;
+    1n(): string;
+    ["x\ny"](): string;
+};
 export { };
 
 

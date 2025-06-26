@@ -64,8 +64,8 @@ struct Capturing {
 }
 
 impl Emitter for Capturing {
-    fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
-        self.errors.lock().push((**db).clone());
+    fn emit(&mut self, db: &mut DiagnosticBuilder<'_>) {
+        self.errors.lock().push(db.take());
     }
 }
 

@@ -6,7 +6,7 @@ use std::{fs, mem::take, path::PathBuf};
 use common::{document_span_visualizer, DomVisualizer};
 use rustc_hash::FxHashSet;
 use serde_json::Value;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{
     input::{SourceFileInput, StringInput},
     BytePos,
@@ -110,7 +110,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
         };
 
         for state in states.iter() {
-            eprintln!("==== ==== Description ==== ====\n{}\n", description);
+            eprintln!("==== ==== Description ==== ====\n{description}\n");
 
             let json_input = test["input"].clone();
             let mut input: String =
@@ -127,12 +127,12 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 };
             }
 
-            eprintln!("==== ==== Input ==== ====\n{}\n", input);
+            eprintln!("==== ==== Input ==== ====\n{input}\n");
 
             let json_output = test["output"].clone();
             let output = json_output.to_string();
 
-            eprintln!("==== ==== Output ==== ====\n{}\n", output);
+            eprintln!("==== ==== Output ==== ====\n{output}\n");
 
             let lexer_str_input = StringInput::new(&input, BytePos(0), BytePos(input.len() as u32));
             let mut lexer = Lexer::new(lexer_str_input);
@@ -179,7 +179,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                             already_seen.insert(attribute.name.clone());
 
                             if attribute.value.is_none() {
-                                attribute.value = Some("".into());
+                                attribute.value = Some(atom!(""));
                             }
 
                             attribute.span = Default::default();
@@ -378,7 +378,7 @@ fn html5lib_test_tokenizer(input: PathBuf) {
                 let expected_errors = json_errors.as_array().expect("failed to deserialize error");
                 let actual_errors = lexer.take_errors();
 
-                eprintln!("==== ==== Errors ==== ====\n{:?}\n", actual_errors);
+                eprintln!("==== ==== Errors ==== ====\n{actual_errors:?}\n");
 
                 assert_eq!(actual_errors.len(), expected_errors.len());
 

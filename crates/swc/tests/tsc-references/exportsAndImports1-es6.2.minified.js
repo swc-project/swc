@@ -2,35 +2,35 @@
 //// [t1.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
-    C: function() {
+});
+var E, D, target = exports, all = {
+    get C () {
         return C;
     },
-    D: function() {
+    get D () {
         return D1;
     },
-    E: function() {
+    get E () {
         return E1;
     },
-    M: function() {
+    get M () {
         return M;
     },
-    a: function() {
+    get a () {
         return a;
     },
-    f: function() {
+    get f () {
         return f;
     },
-    v: function() {
+    get v () {
         return v;
     }
+};
+for(var name in all)Object.defineProperty(target, name, {
+    enumerable: !0,
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
-var E, D, M, v = 1;
+var M, v = 1;
 function f() {}
 class C {
 }
@@ -40,82 +40,82 @@ const a = M.x;
 //// [t2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
-    C: function() {
+});
+var target = exports, all = {
+    get C () {
         return _t1.C;
     },
-    D: function() {
+    get D () {
         return _t1.D;
     },
-    E: function() {
+    get E () {
         return _t1.E;
     },
-    I: function() {
+    get I () {
         return _t1.I;
     },
-    M: function() {
+    get M () {
         return _t1.M;
     },
-    N: function() {
+    get N () {
         return _t1.N;
     },
-    T: function() {
+    get T () {
         return _t1.T;
     },
-    a: function() {
+    get a () {
         return _t1.a;
     },
-    f: function() {
+    get f () {
         return _t1.f;
     },
-    v: function() {
+    get v () {
         return _t1.v;
     }
+};
+for(var name in all)Object.defineProperty(target, name, {
+    enumerable: !0,
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 const _t1 = require("./t1");
 //// [t3.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
-    C: function() {
+});
+var target = exports, all = {
+    get C () {
         return _t1.C;
     },
-    D: function() {
+    get D () {
         return _t1.D;
     },
-    E: function() {
+    get E () {
         return _t1.E;
     },
-    I: function() {
+    get I () {
         return _t1.I;
     },
-    M: function() {
+    get M () {
         return _t1.M;
     },
-    N: function() {
+    get N () {
         return _t1.N;
     },
-    T: function() {
+    get T () {
         return _t1.T;
     },
-    a: function() {
+    get a () {
         return _t1.a;
     },
-    f: function() {
+    get f () {
         return _t1.f;
     },
-    v: function() {
+    get v () {
         return _t1.v;
     }
+};
+for(var name in all)Object.defineProperty(target, name, {
+    enumerable: !0,
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 const _t1 = require("./t1");

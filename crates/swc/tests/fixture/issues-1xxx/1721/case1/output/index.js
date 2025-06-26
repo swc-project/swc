@@ -3,10 +3,7 @@ var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 var _wrap_async_generator = require("@swc/helpers/_/_wrap_async_generator");
 var _ts_generator = require("@swc/helpers/_/_ts_generator");
 function lol() {
-    return _lol.apply(this, arguments);
-}
-function _lol() {
-    _lol = _wrap_async_generator._(function() {
+    return _wrap_async_generator._(function() {
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -27,14 +24,10 @@ function _lol() {
                     ];
             }
         });
-    });
-    return _lol.apply(this, arguments);
+    })();
 }
 function main() {
-    return _main.apply(this, arguments);
-}
-function _main() {
-    _main = _async_to_generator._(function() {
+    return _async_to_generator._(function() {
         var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, x, err;
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
@@ -123,7 +116,6 @@ function _main() {
                     ];
             }
         });
-    });
-    return _main.apply(this, arguments);
+    })();
 }
 main();

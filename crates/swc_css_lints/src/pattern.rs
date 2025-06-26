@@ -1,4 +1,4 @@
-use swc_cached::regex::CachedRegex;
+use swc_config::regex::CachedRegex;
 
 #[derive(Debug)]
 pub(crate) enum NamePattern {
@@ -20,7 +20,7 @@ impl NamePattern {
 }
 
 impl TryFrom<String> for NamePattern {
-    type Error = swc_cached::regex::Error;
+    type Error = anyhow::Error;
 
     fn try_from(pattern: String) -> Result<Self, Self::Error> {
         if let Some(pattern) = pattern

@@ -59,7 +59,7 @@ fn fixture(path: PathBuf) {
             }
         }
 
-        let s = NormalizedOutput::from(format!("{:#?}", res));
+        let s = NormalizedOutput::from(format!("{res:#?}"));
         s.compare_to_file(path.with_extension("debug")).unwrap();
         Ok(())
     })

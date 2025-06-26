@@ -41,7 +41,7 @@ impl Timings {
             .flat_map(|(name, duration)| {
                 let sec_duration = duration.as_micros() / 1_000_000;
 
-                format!("- {}: {:.6}s\n", name, sec_duration).into_bytes()
+                format!("- {name}: {sec_duration:.6}s\n").into_bytes()
             })
             .collect();
 

@@ -9,8 +9,7 @@ class Foo {
         var _class;
         this.Bar = (_class = class {
             constructor(){
-                this.q = void 0 // should not replace
-                ;
+                this.q = void 0; // should not replace
             }
         }, _class.p = void 0, _class.p1 = class {
             constructor(){

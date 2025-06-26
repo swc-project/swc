@@ -3,6 +3,7 @@ use std::path::{Path, PathBuf};
 use anyhow::Error;
 use relative_path::RelativePath;
 use rustc_hash::FxHashMap;
+use swc_atoms::atom;
 use swc_common::{util::move_map::MoveMap, FileName, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
@@ -209,7 +210,7 @@ where
                                         props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                             KeyValueProp {
                                                 key: PropName::Ident(IdentName::new(
-                                                    "default".into(),
+                                                    atom!("default"),
                                                     DUMMY_SP,
                                                 )),
                                                 value: s.exported.into(),
@@ -261,7 +262,7 @@ where
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
                                         key: PropName::Ident(IdentName::new(
-                                            "default".into(),
+                                            atom!("default"),
                                             export.span,
                                         )),
                                         value: ident.clone().into(),
@@ -285,7 +286,7 @@ where
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
                                         key: PropName::Ident(IdentName::new(
-                                            "default".into(),
+                                            atom!("default"),
                                             export.span,
                                         )),
                                         value: ident.clone().into(),
@@ -426,7 +427,7 @@ where
                     value: if value.starts_with('.') {
                         value.into()
                     } else {
-                        format!("./{}", value).into()
+                        format!("./{value}").into()
                     },
                     ..*import.src
                 }),

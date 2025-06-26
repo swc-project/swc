@@ -1,4 +1,5 @@
 use rustc_hash::FxHashMap;
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
     Accessibility, BindingIdent, Class, ClassMember, ClassProp, Expr, Key, Lit, MethodKind, Param,
@@ -8,7 +9,7 @@ use swc_ecma_ast::{
 
 use super::{
     type_ann,
-    util::ast_ext::{ExprExit, PatExt, PropNameExit},
+    util::ast_ext::{ExprExit, PatExt, PropNameExit, StaticProp},
     FastDts,
 };
 
@@ -32,6 +33,19 @@ impl FastDts {
                     if self.has_internal_annotation(constructor.span_lo()) {
                         continue;
                     }
+
+                    let private_constructor =
+                        constructor.accessibility == Some(Accessibility::Private);
+
+                    // Transform parameters
+                    class.body.splice(
+                        0..0,
+                        self.transform_constructor_params(
+                            &mut constructor.params,
+                            private_constructor,
+                        ),
+                    );
+
                     if !(constructor.is_optional) && constructor.body.is_none() {
                         is_function_overloads = true;
                     } else if is_function_overloads {
@@ -39,20 +53,7 @@ impl FastDts {
                         continue;
                     }
 
-                    if self.report_property_key(&constructor.key) {
-                        continue;
-                    }
-
-                    // Transform parameters
-                    class.body.splice(
-                        0..0,
-                        self.transform_constructor_params(&mut constructor.params),
-                    );
-
-                    if constructor
-                        .accessibility
-                        .is_some_and(|accessibility| accessibility == Accessibility::Private)
-                    {
+                    if private_constructor {
                         constructor.params.clear();
                     }
 
@@ -128,7 +129,7 @@ impl FastDts {
                                     span: DUMMY_SP,
                                     decorators: Vec::new(),
                                     pat: Pat::Ident(BindingIdent {
-                                        id: "value".into(),
+                                        id: atom!("value").into(),
                                         type_ann: None,
                                     }),
                                 }];
@@ -148,17 +149,17 @@ impl FastDts {
                                     span: DUMMY_SP,
                                     decorators: Vec::new(),
                                     pat: Pat::Ident(BindingIdent {
-                                        id: "value".into(),
+                                        id: atom!("value").into(),
                                         type_ann: None,
                                     }),
                                 });
                             } else {
                                 method.function.params.truncate(1);
                                 let param = method.function.params.first_mut().unwrap();
-                                let static_name = method.key.static_name();
+                                let static_prop = method.key.static_prop(self.unresolved_mark);
 
-                                if let Some(type_ann) = static_name
-                                    .and_then(|name| setter_getter_annotations.get(name.as_ref()))
+                                if let Some(type_ann) = static_prop
+                                    .and_then(|prop| setter_getter_annotations.get(&prop))
                                 {
                                     param.pat.set_type_ann(Some(type_ann.clone()));
                                 }
@@ -179,8 +180,8 @@ impl FastDts {
                             if method.function.return_type.is_none() {
                                 method.function.return_type = method
                                     .key
-                                    .static_name()
-                                    .and_then(|name| setter_getter_annotations.get(name.as_ref()))
+                                    .static_prop(self.unresolved_mark)
+                                    .and_then(|prop| setter_getter_annotations.get(&prop))
                                     .cloned();
                             }
                             if method.function.return_type.is_none() {
@@ -256,7 +257,7 @@ impl FastDts {
                     ctxt: SyntaxContext::empty(),
                     key: PrivateName {
                         span: DUMMY_SP,
-                        name: "private".into(),
+                        name: atom!("private"),
                     },
                     value: None,
                     type_ann: None,
@@ -275,6 +276,7 @@ impl FastDts {
     pub(crate) fn transform_constructor_params(
         &mut self,
         params: &mut [ParamOrTsParamProp],
+        private_constructor: bool,
     ) -> Vec<ClassMember> {
         let mut is_required = false;
         let mut private_properties = Vec::new();
@@ -294,6 +296,10 @@ impl FastDts {
                     ts_param_prop.accessibility = None;
                 }
                 ParamOrTsParamProp::Param(param) => {
+                    if private_constructor {
+                        continue;
+                    }
+
                     self.transform_fn_param(param, is_required);
                     is_required |= match &param.pat {
                         Pat::Ident(binding_ident) => !binding_ident.optional,
@@ -410,9 +416,7 @@ impl FastDts {
     }
 
     pub(crate) fn transform_class_property(&mut self, prop: &mut ClassProp) {
-        if prop.accessibility.map_or(true, |accessibility| {
-            accessibility != Accessibility::Private
-        }) {
+        if prop.accessibility != Some(Accessibility::Private) {
             if prop.type_ann.is_none() {
                 if let Some(value) = prop.value.as_ref() {
                     if prop.readonly {
@@ -462,7 +466,7 @@ impl FastDts {
     pub(crate) fn collect_getter_or_setter_annotations(
         &mut self,
         class: &Class,
-    ) -> FxHashMap<String, Box<TsTypeAnn>> {
+    ) -> FxHashMap<StaticProp, Box<TsTypeAnn>> {
         let mut annotations = FxHashMap::default();
         for member in &class.body {
             let ClassMember::Method(method) = member else {
@@ -475,12 +479,12 @@ impl FastDts {
                 || (method
                     .key
                     .as_computed()
-                    .map_or(false, |computed| Self::is_literal(&computed.expr)))
+                    .is_some_and(|computed| Self::is_literal(&computed.expr)))
             {
                 continue;
             }
 
-            let Some(static_name) = method.key.static_name().map(|name| name.to_string()) else {
+            let Some(static_prop) = method.key.static_prop(self.unresolved_mark) else {
                 continue;
             };
 
@@ -492,7 +496,7 @@ impl FastDts {
                         .clone()
                         .or_else(|| self.infer_function_return_type(&method.function))
                     {
-                        annotations.insert(static_name, type_ann);
+                        annotations.insert(static_prop, type_ann);
                     }
                 }
                 MethodKind::Setter => {
@@ -501,7 +505,7 @@ impl FastDts {
                     };
 
                     if let Some(type_ann) = first_param.pat.get_type_ann() {
-                        annotations.insert(static_name, type_ann.clone());
+                        annotations.insert(static_prop, type_ann.clone());
                     }
                 }
                 _ => continue,
@@ -524,31 +528,6 @@ impl FastDts {
     }
 
     pub(crate) fn is_global_symbol_object(&self, expr: &Expr) -> bool {
-        let Some(obj) = (match expr {
-            Expr::Member(member) => Some(&member.obj),
-            Expr::OptChain(opt_chain) => opt_chain.base.as_member().map(|member| &member.obj),
-            _ => None,
-        }) else {
-            return false;
-        };
-
-        // https://github.com/microsoft/TypeScript/blob/cbac1ddfc73ca3b9d8741c1b51b74663a0f24695/src/compiler/transformers/declarations.ts#L1011
-        if let Some(ident) = obj.as_ident() {
-            // Exactly `Symbol.something` and `Symbol` either does not resolve
-            // or definitely resolves to the global Symbol
-            return ident.sym.as_str() == "Symbol" && ident.ctxt.has_mark(self.unresolved_mark);
-        }
-
-        if let Some(member_expr) = obj.as_member() {
-            // Exactly `globalThis.Symbol.something` and `globalThis` resolves
-            // to the global `globalThis`
-            if let Some(ident) = member_expr.obj.as_ident() {
-                return ident.sym.as_str() == "globalThis"
-                    && ident.ctxt.has_mark(self.unresolved_mark)
-                    && member_expr.prop.is_ident_with("Symbol");
-            }
-        }
-
-        false
+        expr.get_global_symbol_prop(self.unresolved_mark).is_some()
     }
 }

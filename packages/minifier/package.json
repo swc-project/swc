@@ -1,6 +1,6 @@
 {
     "name": "@swc/minifier",
-    "version": "1.11.11",
+    "version": "1.12.7-nightly-20250626.1",
     "description": "Super-fast alternative for terser",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -43,7 +43,7 @@
     "types": "./index.d.ts",
     "scripts": {
         "artifacts": "napi artifacts --npm-dir scripts/npm",
-        "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
+        "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm",
         "pack": "wasm-pack",
         "build:ts": "tsc -d",
         "build:wasm": "npm-run-all \"pack -- build ../../bindings/binding_minifier_wasm --scope swc {1} -t {2}\" --",

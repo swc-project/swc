@@ -5,7 +5,7 @@ edition     = { workspace = true }
 license     = { workspace = true }
 name        = "swc_plugin_proxy"
 repository  = { workspace = true }
-version     = "8.0.0"
+version     = "13.0.0"
 
 [lib]
 bench = false
@@ -27,7 +27,7 @@ rkyv       = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
 tracing    = { workspace = true }
 
-better_scoped_tls = { version = "1.0.0", path = "../better_scoped_tls" }
-swc_common        = { version = "8.0.0", path = "../swc_common" }
-swc_ecma_ast      = { version = "8.0.1", path = "../swc_ecma_ast" }
-swc_trace_macro   = { version = "2.0.0", path = "../swc_trace_macro" }
+better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls" }
+swc_common        = { version = "13.0.1", path = "../swc_common" }
+swc_ecma_ast      = { version = "13.0.0", path = "../swc_ecma_ast" }
+swc_trace_macro   = { version = "2.0.1", path = "../swc_trace_macro" }

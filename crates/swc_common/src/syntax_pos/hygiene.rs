@@ -79,7 +79,7 @@ struct SyntaxContextData {
 pub struct Mark(u32);
 
 #[allow(unused)]
-#[derive(Clone, Debug)]
+#[derive(Clone, Copy, Debug)]
 pub(crate) struct MarkData {
     pub(crate) parent: Mark,
 }
@@ -267,8 +267,7 @@ impl Mark {
     }
 }
 
-#[allow(unused)]
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub(crate) struct HygieneData {
     syntax_contexts: Vec<SyntaxContextData>,
     markings: FxHashMap<(SyntaxContext, Mark), SyntaxContext>,
@@ -294,10 +293,6 @@ impl HygieneData {
 
     fn with<T, F: FnOnce(&mut HygieneData) -> T>(f: F) -> T {
         GLOBALS.with(|globals| {
-            #[cfg(feature = "parking_lot")]
-            return f(&mut globals.hygiene_data.lock());
-
-            #[cfg(not(feature = "parking_lot"))]
             return f(&mut globals.hygiene_data.lock().unwrap());
         })
     }
@@ -307,10 +302,6 @@ impl HygieneData {
 #[allow(unused)]
 pub(crate) fn with_marks<T, F: FnOnce(&mut Vec<MarkData>) -> T>(f: F) -> T {
     GLOBALS.with(|globals| {
-        #[cfg(feature = "parking_lot")]
-        return f(&mut globals.marks.lock());
-
-        #[cfg(not(feature = "parking_lot"))]
         return f(&mut globals.marks.lock().unwrap());
     })
 }
@@ -443,114 +434,6 @@ impl SyntaxContext {
             *self = data.syntax_contexts[self.0 as usize].prev_ctxt;
             outer_mark
         })
-    }
-
-    /// Adjust this context for resolution in a scope created by the given
-    /// expansion. For example, consider the following three resolutions of
-    /// `f`:
-    ///
-    /// ```rust,ignore
-    /// mod foo {
-    ///     pub fn f() {}
-    /// } // `f`'s `SyntaxContext` is empty.
-    /// m!(f);
-    /// macro m($f:ident) {
-    ///     mod bar {
-    ///         pub fn f() {} // `f`'s `SyntaxContext` has a single `Mark` from `m`.
-    ///         pub fn $f() {} // `$f`'s `SyntaxContext` is empty.
-    ///     }
-    ///     foo::f(); // `f`'s `SyntaxContext` has a single `Mark` from `m`
-    ///               //^ Since `mod foo` is outside this expansion, `adjust` removes the mark from `f`,
-    ///               //| and it resolves to `::foo::f`.
-    ///     bar::f(); // `f`'s `SyntaxContext` has a single `Mark` from `m`
-    ///               //^ Since `mod bar` not outside this expansion, `adjust` does not change `f`,
-    ///               //| and it resolves to `::bar::f`.
-    ///     bar::$f(); // `f`'s `SyntaxContext` is empty.
-    ///                //^ Since `mod bar` is not outside this expansion, `adjust` does not change `$f`,
-    ///                //| and it resolves to `::bar::$f`.
-    /// }
-    /// ```
-    /// This returns the expansion whose definition scope we use to privacy
-    /// check the resolution, or `None` if we privacy check as usual (i.e.
-    /// not w.r.t. a macro definition scope).
-    pub fn adjust(&mut self, expansion: Mark) -> Option<Mark> {
-        let mut scope = None;
-        while !expansion.is_descendant_of(self.outer()) {
-            scope = Some(self.remove_mark());
-        }
-        scope
-    }
-
-    /// Adjust this context for resolution in a scope created by the given
-    /// expansion via a glob import with the given `SyntaxContext`.
-    /// For example:
-    ///
-    /// ```rust,ignore
-    /// m!(f);
-    /// macro m($i:ident) {
-    ///     mod foo {
-    ///         pub fn f() {} // `f`'s `SyntaxContext` has a single `Mark` from `m`.
-    ///         pub fn $i() {} // `$i`'s `SyntaxContext` is empty.
-    ///     }
-    ///     n(f);
-    ///     macro n($j:ident) {
-    ///         use foo::*;
-    ///         f(); // `f`'s `SyntaxContext` has a mark from `m` and a mark from `n`
-    ///              //^ `glob_adjust` removes the mark from `n`, so this resolves to `foo::f`.
-    ///         $i(); // `$i`'s `SyntaxContext` has a mark from `n`
-    ///               //^ `glob_adjust` removes the mark from `n`, so this resolves to `foo::$i`.
-    ///         $j(); // `$j`'s `SyntaxContext` has a mark from `m`
-    ///               //^ This cannot be glob-adjusted, so this is a resolution error.
-    ///     }
-    /// }
-    /// ```
-    /// This returns `None` if the context cannot be glob-adjusted.
-    /// Otherwise, it returns the scope to use when privacy checking (see
-    /// `adjust` for details).
-    pub fn glob_adjust(
-        &mut self,
-        expansion: Mark,
-        mut glob_ctxt: SyntaxContext,
-    ) -> Option<Option<Mark>> {
-        let mut scope = None;
-        while !expansion.is_descendant_of(glob_ctxt.outer()) {
-            scope = Some(glob_ctxt.remove_mark());
-            if self.remove_mark() != scope.unwrap() {
-                return None;
-            }
-        }
-        if self.adjust(expansion).is_some() {
-            return None;
-        }
-        Some(scope)
-    }
-
-    /// Undo `glob_adjust` if possible:
-    ///
-    /// ```rust,ignore
-    /// if let Some(privacy_checking_scope) = self.reverse_glob_adjust(expansion, glob_ctxt) {
-    ///     assert!(self.glob_adjust(expansion, glob_ctxt) == Some(privacy_checking_scope));
-    /// }
-    /// ```
-    pub fn reverse_glob_adjust(
-        &mut self,
-        expansion: Mark,
-        mut glob_ctxt: SyntaxContext,
-    ) -> Option<Option<Mark>> {
-        if self.adjust(expansion).is_some() {
-            return None;
-        }
-
-        let mut marks = Vec::new();
-        while !expansion.is_descendant_of(glob_ctxt.outer()) {
-            marks.push(glob_ctxt.remove_mark());
-        }
-
-        let scope = marks.last().cloned();
-        while let Some(mark) = marks.pop() {
-            *self = self.apply_mark(mark);
-        }
-        Some(scope)
     }
 
     #[inline]

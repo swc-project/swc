@@ -6,6 +6,7 @@ use std::{
     sync::RwLock,
 };
 
+use bytes_str::BytesStr;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
@@ -65,9 +66,9 @@ pub struct Options {
     pub import_source: Option<Atom>,
 
     #[serde(default)]
-    pub pragma: Option<Lrc<String>>,
+    pub pragma: Option<BytesStr>,
     #[serde(default)]
-    pub pragma_frag: Option<Lrc<String>>,
+    pub pragma_frag: Option<BytesStr>,
 
     #[serde(default)]
     pub throw_if_namespace: Option<bool>,
@@ -102,7 +103,7 @@ pub struct Options {
 #[cfg(feature = "concurrent")]
 macro_rules! static_str {
     ($s:expr) => {{
-        static VAL: Lazy<Lrc<String>> = Lazy::new(|| Lrc::new($s.into()));
+        static VAL: Lazy<BytesStr> = Lazy::new(|| $s.into());
         VAL.clone()
     }};
 }
@@ -110,7 +111,7 @@ macro_rules! static_str {
 #[cfg(not(feature = "concurrent"))]
 macro_rules! static_str {
     ($s:expr) => {
-        Lrc::new($s.into())
+        $s.into()
     };
 }
 
@@ -118,11 +119,11 @@ pub fn default_import_source() -> Atom {
     atom!("react")
 }
 
-pub fn default_pragma() -> Lrc<String> {
+pub fn default_pragma() -> BytesStr {
     static_str!("React.createElement")
 }
 
-pub fn default_pragma_frag() -> Lrc<String> {
+pub fn default_pragma_frag() -> BytesStr {
     static_str!("React.Fragment")
 }
 
@@ -134,13 +135,10 @@ fn default_throw_if_namespace() -> bool {
 pub fn parse_expr_for_jsx(
     cm: &SourceMap,
     name: &str,
-    src: Lrc<String>,
+    src: BytesStr,
     top_level_mark: Mark,
 ) -> Box<Expr> {
-    let fm = cm.new_source_file_from(
-        FileName::Internal(format!("jsx-config-{}.js", name)).into(),
-        src,
-    );
+    let fm = cm.new_source_file(cache_filename(name), src);
 
     parse_file_as_expr(
         &fm,
@@ -396,9 +394,42 @@ impl JsxDirectives {
 }
 
 #[cfg(feature = "concurrent")]
-fn cache_source(src: &str) -> Lrc<String> {
-    static CACHE: Lazy<RwLock<FxHashMap<String, Lrc<String>>>> =
+fn cache_filename(name: &str) -> Lrc<FileName> {
+    static FILENAME_CACHE: Lazy<RwLock<FxHashMap<String, Lrc<FileName>>>> =
         Lazy::new(|| RwLock::new(FxHashMap::default()));
+
+    {
+        let cache = FILENAME_CACHE
+            .read()
+            .expect("Failed to read FILENAME_CACHE");
+        if let Some(f) = cache.get(name) {
+            return f.clone();
+        }
+    }
+
+    let file = Lrc::new(FileName::Internal(format!("jsx-config-{name}.js")));
+
+    {
+        let mut cache = FILENAME_CACHE
+            .write()
+            .expect("Failed to write FILENAME_CACHE");
+        cache.insert(name.to_string(), file.clone());
+    }
+
+    file
+}
+
+#[cfg(not(feature = "concurrent"))]
+fn cache_filename(name: &str) -> Lrc<FileName> {
+    Lrc::new(FileName::Internal(format!("jsx-config-{name}.js")))
+}
+
+#[cfg(feature = "concurrent")]
+fn cache_source(src: &str) -> BytesStr {
+    use rustc_hash::FxHashSet;
+
+    static CACHE: Lazy<RwLock<FxHashSet<BytesStr>>> =
+        Lazy::new(|| RwLock::new(FxHashSet::default()));
 
     {
         let cache = CACHE.write().unwrap();
@@ -408,18 +439,18 @@ fn cache_source(src: &str) -> Lrc<String> {
         }
     }
 
-    let cached = Lrc::new(src.to_string());
+    let cached: BytesStr = src.to_string().into();
     {
         let mut cache = CACHE.write().unwrap();
-        cache.insert(src.to_string(), cached.clone());
+        cache.insert(cached.clone());
     }
     cached
 }
 
 #[cfg(not(feature = "concurrent"))]
-fn cache_source(src: &str) -> Lrc<String> {
+fn cache_source(src: &str) -> BytesStr {
     // We cannot cache because Rc does not implement Send.
-    Lrc::new(src.to_string())
+    src.to_string().into()
 }
 
 fn is_valid_for_pragma(s: &str) -> bool {
@@ -1215,7 +1246,7 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
                 span: DUMMY_SP,
                 callee: Callee::Expr(Box::new(Expr::Ident(Ident {
                     ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
-                    sym: "require".into(),
+                    sym: atom!("require"),
                     optional: false,
                     ..Default::default()
                 }))),
@@ -1365,7 +1396,7 @@ fn jsx_text_to_str(t: Atom) -> Atom {
         } else {
             Cow::Borrowed(line.trim_end_matches(' '))
         };
-        if line.len() == 0 {
+        if line.is_empty() {
             continue;
         }
         if i != 0 && !buf.is_empty() {

@@ -8,6 +8,8 @@
         "./packages/*",
         "./packages/core/scripts/npm/*",
         "./packages/minifier/scripts/npm/*",
+        "./packages/html/scripts/npm/*",
+        "./packages/react-compiler/scripts/npm/*",
         "./bindings/*",
         "./bindings/binding_core_wasm/*"
     ],
@@ -19,7 +21,9 @@
         "build:ts": "cd ./packages/core && yarn build:ts",
         "test": "cd ./packages/core && yarn test",
         "test:core": "cd ./packages/core && yarn test",
-        "test:html": "cd ./packages/html && yarn test"
+        "test:minifier": "cd ./packages/minifier && yarn test",
+        "test:html": "cd ./packages/html && yarn test",
+        "test:react-compiler": "cd ./packages/react-compiler && yarn test"
     },
     "devDependencies": {
         "@babel/compat-data": "^7.25.4",
@@ -97,5 +101,8 @@
             "prettier --write"
         ]
     },
-    "version": "1.5.30-nightly-20240614.2"
+    "version": "1.5.30-nightly-20240614.2",
+    "engines": {
+        "node": ">= 20"
+    }
 }

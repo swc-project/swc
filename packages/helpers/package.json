@@ -1,7 +1,7 @@
 {
     "name": "@swc/helpers",
     "packageManager": "yarn@4.0.2",
-    "version": "0.5.16",
+    "version": "0.5.17",
     "description": "External helpers for the swc project.",
     "module": "esm/index.js",
     "main": "cjs/index.cjs",
@@ -492,6 +492,12 @@
             "webpack": "./esm/_object_without_properties_loose.js",
             "import": "./esm/_object_without_properties_loose.js",
             "default": "./cjs/_object_without_properties_loose.cjs"
+        },
+        "./_/_overload_yield": {
+            "module-sync": "./esm/_overload_yield.js",
+            "webpack": "./esm/_overload_yield.js",
+            "import": "./esm/_overload_yield.js",
+            "default": "./cjs/_overload_yield.cjs"
         },
         "./_/_possible_constructor_return": {
             "module-sync": "./esm/_possible_constructor_return.js",

@@ -4,21 +4,18 @@ var _define_property = require("@swc/helpers/_/_define_property");
 var _ts_generator = require("@swc/helpers/_/_ts_generator");
 var Test = function Test(name) {
     "use strict";
-    _class_call_check._(this, Test);
     var _this = this;
-    _define_property._(this, "print", /*#__PURE__*/ function() {
-        var _ref = _async_to_generator._(function(arg) {
+    _class_call_check._(this, Test);
+    _define_property._(this, "print", function(arg) {
+        return _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
-                console.log(_this.name, arg);
+                console.log(this.name, arg);
                 return [
                     2
                 ];
             });
-        });
-        return function(arg) {
-            return _ref.apply(this, arguments);
-        };
-    }());
+        }).call(_this);
+    });
     this.name = name;
 };
 function Parent() {

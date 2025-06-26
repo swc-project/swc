@@ -6,7 +6,7 @@ use swc_html_parser::lexer::Lexer;
 
 fn bench_document(b: &mut Bencher, src: &'static str) {
     let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src);
 
         b.iter(|| {
             let lexer = Lexer::new(StringInput::from(&*fm));
@@ -21,7 +21,7 @@ fn bench_document(b: &mut Bencher, src: &'static str) {
 }
 
 fn run(c: &mut Criterion, id: &str, src: &'static str) {
-    c.bench_function(&format!("html/lexer/{}", id), |b| {
+    c.bench_function(&format!("html/lexer/{id}"), |b| {
         bench_document(b, src);
     });
 }

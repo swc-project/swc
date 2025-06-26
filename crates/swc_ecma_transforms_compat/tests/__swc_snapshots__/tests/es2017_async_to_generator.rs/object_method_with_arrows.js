@@ -1,16 +1,15 @@
 class Class {
     method() {
-        var _this = this;
         return _async_to_generator(function*() {
-            var _this1 = _this;
-            _this;
+            var _this = this;
+            this;
             (function() {
-                return _this1;
+                return _this;
             });
             (function() {
-                _this1;
+                _this;
                 (function() {
-                    return _this1;
+                    return _this;
                 });
                 function x() {
                     var _this = this;
@@ -18,8 +17,10 @@ class Class {
                     (function() {
                         _this;
                     });
-                    /*#__PURE__*/ _async_to_generator(function*() {
-                        _this;
+                    (function() {
+                        return _async_to_generator(function*() {
+                            _this;
+                        })();
                     });
                 }
             });
@@ -29,10 +30,12 @@ class Class {
                 (function() {
                     _this;
                 });
-                /*#__PURE__*/ _async_to_generator(function*() {
-                    _this;
+                (function() {
+                    return _async_to_generator(function*() {
+                        _this;
+                    })();
                 });
             }
-        })();
+        }).call(this);
     }
 }

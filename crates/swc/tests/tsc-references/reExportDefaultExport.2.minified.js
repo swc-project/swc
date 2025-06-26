@@ -1,21 +1,21 @@
 //// [reExportDefaultExport.ts]
 //// [m1.ts]
-function f() {}
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
-    default: function() {
+});
+var target = exports, all = {
+    get default () {
         return f;
     },
-    f: function() {
+    get f () {
         return f;
     }
+};
+for(var name in all)Object.defineProperty(target, name, {
+    enumerable: !0,
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
+function f() {}
 //// [m2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

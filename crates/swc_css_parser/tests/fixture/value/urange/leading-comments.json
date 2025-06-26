@@ -1,24 +1,4 @@
 {
-  "455": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 433,
-        "end": 455
-      },
-      "text": "/* multiple values */"
-    }
-  ],
-  "374": [
-    {
-      "kind": "Block",
-      "span": {
-        "start": 352,
-        "end": 374
-      },
-      "text": "/* multiple values */"
-    }
-  ],
   "140": [
     {
       "kind": "Block",
@@ -37,6 +17,26 @@
         "end": 313
       },
       "text": "/* wildcard range */"
+    }
+  ],
+  "374": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 352,
+        "end": 374
+      },
+      "text": "/* multiple values */"
+    }
+  ],
+  "455": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 433,
+        "end": 455
+      },
+      "text": "/* multiple values */"
     }
   ],
   "253": [

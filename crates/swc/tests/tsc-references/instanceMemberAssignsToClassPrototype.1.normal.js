@@ -10,8 +10,7 @@ var C = /*#__PURE__*/ function() {
         C.prototype.foo = function() {};
     };
     _proto.bar = function bar(x) {
-        C.prototype.bar = function() {} // error
-        ;
+        C.prototype.bar = function() {}; // error
         C.prototype.bar = function(x) {
             return x;
         }; // ok

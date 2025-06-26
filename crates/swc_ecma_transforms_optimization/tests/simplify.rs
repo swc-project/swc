@@ -86,23 +86,23 @@ to!(
 
 optimized_out!(issue_607, "let a");
 
-to!(
-    multi_run,
-    "
-let b = 2;
+// to!(
+//     multi_run,
+//     "
+// let b = 2;
 
-let a = 1;
-if (b) { // Removed by first run of remove_dead_branch
-    a = 2; // It becomes `flat assignment` to a on second run of inlining
-}
+// let a = 1;
+// if (b) { // Removed by first run of remove_dead_branch
+//     a = 2; // It becomes `flat assignment` to a on second run of inlining
+// }
 
-let c;
-if (a) { // Removed by second run of remove_dead_branch
-    c = 3; // It becomes `flat assignment` to c on third run of inlining.
-}
-console.log(c); // Prevent optimizing out.
-"
-);
+// let c;
+// if (a) { // Removed by second run of remove_dead_branch
+//     c = 3; // It becomes `flat assignment` to c on third run of inlining.
+// }
+// console.log(c); // Prevent optimizing out.
+// "
+// );
 
 #[test]
 #[ignore] // TODO

@@ -1,14 +1,14 @@
 //// [usingDeclarations.1.ts]
-import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
-import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
-import { _ as _call_super } from "@swc/helpers/_/_call_super";
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-import { _ as _create_class } from "@swc/helpers/_/_create_class";
+import "@swc/helpers/_/_assert_this_initialized";
+import "@swc/helpers/_/_async_to_generator";
+import "@swc/helpers/_/_await_async_generator";
+import "@swc/helpers/_/_call_super";
+import "@swc/helpers/_/_class_call_check";
+import "@swc/helpers/_/_create_class";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
-import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
-import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+import "@swc/helpers/_/_inherits";
+import "@swc/helpers/_/_wrap_async_generator";
+import "@swc/helpers/_/_ts_generator";
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
 var env = {
@@ -17,7 +17,7 @@ var env = {
     hasError: !1
 };
 try {
-    _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1), function(N) {
+    _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1), function() {
         var env = {
             stack: [],
             error: void 0,
@@ -30,7 +30,7 @@ try {
         } finally{
             _ts_dispose_resources(env);
         }
-    }(N || (N = {}));
+    }(), N || (N = {});
     var N, env1 = {
         stack: [],
         error: void 0,
@@ -42,6 +42,18 @@ try {
         env1.error = e, env1.hasError = !0;
     } finally{
         _ts_dispose_resources(env1);
+    }
+    var env11 = {
+        stack: [],
+        error: void 0,
+        hasError: !1
+    };
+    try {
+        _ts_add_disposable_resource(env11, _define_property({}, Symbol.dispose, function() {}), !1);
+    } catch (e) {
+        env11.error = e, env11.hasError = !0;
+    } finally{
+        _ts_dispose_resources(env11);
     }
     switch(Math.random()){
         case 0:
@@ -152,18 +164,18 @@ try {
         }
     }
     for(;;){
-        var env11 = {
+        var env111 = {
             stack: [],
             error: void 0,
             hasError: !1
         };
         try {
-            _ts_add_disposable_resource(env11, _define_property({}, Symbol.dispose, function() {}), !1);
+            _ts_add_disposable_resource(env111, _define_property({}, Symbol.dispose, function() {}), !1);
             break;
         } catch (e) {
-            env11.error = e, env11.hasError = !0;
+            env111.error = e, env111.hasError = !0;
         } finally{
-            _ts_dispose_resources(env11);
+            _ts_dispose_resources(env111);
         }
     }
     for(;;){
@@ -215,17 +227,3 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
-!function() {
-    var env = {
-        stack: [],
-        error: void 0,
-        hasError: !1
-    };
-    try {
-        _ts_add_disposable_resource(env, _define_property({}, Symbol.dispose, function() {}), !1);
-    } catch (e) {
-        env.error = e, env.hasError = !0;
-    } finally{
-        _ts_dispose_resources(env);
-    }
-}();

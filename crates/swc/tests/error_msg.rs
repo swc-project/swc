@@ -22,10 +22,10 @@ fn file(f: impl AsRef<Path>) -> NormalizedOutput {
                 },
             );
             if let Err(e) = s {
-                return Ok(format!("{:?}", e).into());
+                return Ok(format!("{e:?}").into());
             }
 
-            panic!("invalid swcrc should abort build, but got {:?}", s);
+            panic!("invalid swcrc should abort build, but got {s:?}");
         })
         .unwrap()
 }
@@ -33,7 +33,7 @@ fn file(f: impl AsRef<Path>) -> NormalizedOutput {
 #[test]
 fn swcrc_simple() {
     let f = file("tests/swcrc_errors/simple/foo.js");
-    println!("{}", f);
+    println!("{f}");
 }
 
 #[testing::fixture("tests/errors/**/input.js")]
@@ -82,10 +82,11 @@ fn fixture(input: PathBuf) {
                 Ok(())
             },
         )
+        .map_err(|e| e.to_pretty_error())
         .expect_err("should fail")
     });
 
-    let output = NormalizedOutput::from(format!("{}", err));
+    let output = NormalizedOutput::from(format!("{err}"));
 
     output.compare_to_file(output_path).unwrap();
 }

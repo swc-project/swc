@@ -1,4 +1,5 @@
-use swc_common::comments::SingleThreadedComments;
+use swc_common::{comments::SingleThreadedComments, BytePos, Span};
+use swc_ecma_lexer::error::SyntaxError;
 
 use super::*;
 use crate::EsSyntax;
@@ -222,6 +223,33 @@ fn issue_2264_2() {
 }
 
 #[test]
+fn should_only_has_one_block_comment() {
+    let c = SingleThreadedComments::default();
+    let s = "
+/** block comment */
+import h from 'h';
+<div></div>
+";
+    let _ = super::test_parser_comment(
+        &c,
+        s,
+        Syntax::Typescript(TsSyntax {
+            tsx: true,
+            ..Default::default()
+        }),
+        |p| p.parse_typescript_module(),
+    );
+
+    let (leading, trailing) = c.take_all();
+
+    assert!(!leading.borrow().is_empty());
+    for leading in leading.borrow().values() {
+        assert_eq!(leading.len(), 1);
+    }
+    assert!(trailing.borrow().is_empty());
+}
+
+#[test]
 fn issue_2264_3() {
     let c = SingleThreadedComments::default();
     let s = "const foo = <h1>/* no */{/* 1 */ bar /* 2 */}/* no */</h1>;";
@@ -236,6 +264,7 @@ fn issue_2264_3() {
     );
 
     let (leading, trailing) = c.take_all();
+
     assert!(leading.borrow().is_empty());
     assert_eq!(trailing.borrow().len(), 2);
     assert_eq!(trailing.borrow().get(&BytePos(26)).unwrap().len(), 1);
@@ -309,7 +338,7 @@ fn illegal_language_mode_directive1() {
                         lo: BytePos(21),
                         hi: BytePos(34),
                     },
-                    crate::parser::SyntaxError::IllegalLanguageModeDirective
+                    SyntaxError::IllegalLanguageModeDirective
                 )]
             );
 
@@ -334,7 +363,7 @@ fn illegal_language_mode_directive2() {
                         lo: BytePos(22),
                         hi: BytePos(35),
                     },
-                    crate::parser::SyntaxError::IllegalLanguageModeDirective
+                    SyntaxError::IllegalLanguageModeDirective
                 )]
             );
 
@@ -362,7 +391,7 @@ fn parse_program_take_script_module_errors() {
                     lo: BytePos(1),
                     hi: BytePos(4),
                 },
-                crate::parser::SyntaxError::LegacyOctal
+                SyntaxError::LegacyOctal
             )]
         );
 

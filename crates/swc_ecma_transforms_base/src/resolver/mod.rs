@@ -1874,7 +1874,16 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_ts_module_block(&mut self, _: &mut TsModuleBlock) {}
 
     #[inline]
-    fn visit_mut_using_decl(&mut self, _: &mut UsingDecl) {}
+    fn visit_mut_using_decl(&mut self, node: &mut UsingDecl) {
+        if self.in_block {
+            return;
+        }
+
+        let old_kind = self.kind;
+        self.kind = DeclKind::Lexical;
+        node.visit_mut_children_with(self);
+        self.kind = old_kind;
+    }
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
         if node.declare && !self.resolver.config.handle_types {

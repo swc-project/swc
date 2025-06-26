@@ -56,6 +56,7 @@ impl<'a> StringInput<'a> {
         self.orig_start
     }
 
+    #[inline(always)]
     pub fn end_pos(&self) -> BytePos {
         self.orig_end
     }
@@ -72,20 +73,27 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
     }
 }
 
-impl Input for StringInput<'_> {
+impl<'a> Input<'a> for StringInput<'a> {
     #[inline]
-    fn cur(&mut self) -> Option<char> {
+    fn cur(&self) -> Option<char> {
         self.iter.clone().next()
     }
 
     #[inline]
-    fn peek(&mut self) -> Option<char> {
-        self.iter.clone().nth(1)
+    fn peek(&self) -> Option<char> {
+        let mut iter = self.iter.clone();
+        // https://github.com/rust-lang/rust/blob/1.86.0/compiler/rustc_lexer/src/cursor.rs#L56 say `next` is faster.
+        iter.next();
+        iter.next()
     }
 
     #[inline]
-    fn peek_ahead(&mut self) -> Option<char> {
-        self.iter.clone().nth(2)
+    fn peek_ahead(&self) -> Option<char> {
+        let mut iter = self.iter.clone();
+        // https://github.com/rust-lang/rust/blob/1.86.0/compiler/rustc_lexer/src/cursor.rs#L56 say `next` is faster
+        iter.next();
+        iter.next();
+        iter.next()
     }
 
     #[inline]
@@ -100,7 +108,7 @@ impl Input for StringInput<'_> {
     }
 
     #[inline]
-    fn cur_as_ascii(&mut self) -> Option<u8> {
+    fn cur_as_ascii(&self) -> Option<u8> {
         let first_byte = *self.as_str().as_bytes().first()?;
         if first_byte <= 0x7f {
             Some(first_byte)
@@ -116,7 +124,7 @@ impl Input for StringInput<'_> {
 
     /// TODO(kdy1): Remove this?
     #[inline]
-    fn cur_pos(&mut self) -> BytePos {
+    fn cur_pos(&self) -> BytePos {
         self.last_pos
     }
 
@@ -126,8 +134,8 @@ impl Input for StringInput<'_> {
     }
 
     #[inline]
-    unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &str {
-        debug_assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
+    unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &'a str {
+        debug_assert!(start <= end, "Cannot slice {start:?}..{end:?}");
         let s = self.orig;
 
         let start_idx = (start - self.orig_start).0 as usize;
@@ -144,20 +152,23 @@ impl Input for StringInput<'_> {
     }
 
     #[inline]
-    fn uncons_while<F>(&mut self, mut pred: F) -> &str
+    fn uncons_while<F>(&mut self, mut pred: F) -> &'a str
     where
         F: FnMut(char) -> bool,
     {
-        let s = self.iter.as_str();
-        let mut last = 0;
-
-        for (i, c) in s.char_indices() {
-            if pred(c) {
-                last = i + c.len_utf8();
-            } else {
-                break;
+        let last = {
+            let mut last = 0;
+            for c in self.iter.clone() {
+                if pred(c) {
+                    last += c.len_utf8();
+                } else {
+                    break;
+                }
             }
-        }
+            last
+        };
+
+        let s = self.iter.as_str();
         debug_assert!(last <= s.len());
         let ret = unsafe { s.get_unchecked(..last) };
 
@@ -165,31 +176,6 @@ impl Input for StringInput<'_> {
         self.iter = unsafe { s.get_unchecked(last..) }.chars();
 
         ret
-    }
-
-    fn find<F>(&mut self, mut pred: F) -> Option<BytePos>
-    where
-        F: FnMut(char) -> bool,
-    {
-        let s = self.iter.as_str();
-        let mut last = 0;
-
-        for (i, c) in s.char_indices() {
-            if pred(c) {
-                last = i + c.len_utf8();
-                break;
-            }
-        }
-        if last == 0 {
-            return None;
-        }
-
-        debug_assert!(last <= s.len());
-
-        self.last_pos = self.last_pos + BytePos(last as _);
-        self.iter = unsafe { s.get_unchecked(last..) }.chars();
-
-        Some(self.last_pos)
     }
 
     #[inline]
@@ -204,7 +190,7 @@ impl Input for StringInput<'_> {
     }
 
     #[inline]
-    fn is_byte(&mut self, c: u8) -> bool {
+    fn is_byte(&self, c: u8) -> bool {
         self.iter
             .as_str()
             .as_bytes()
@@ -230,10 +216,10 @@ impl Input for StringInput<'_> {
     }
 }
 
-pub trait Input: Clone {
-    fn cur(&mut self) -> Option<char>;
-    fn peek(&mut self) -> Option<char>;
-    fn peek_ahead(&mut self) -> Option<char>;
+pub trait Input<'a>: Clone {
+    fn cur(&self) -> Option<char>;
+    fn peek(&self) -> Option<char>;
+    fn peek_ahead(&self) -> Option<char>;
 
     /// # Safety
     ///
@@ -244,7 +230,7 @@ pub trait Input: Clone {
     /// Returns [None] if it's end of input **or** current character is not an
     /// ascii character.
     #[inline]
-    fn cur_as_ascii(&mut self) -> Option<u8> {
+    fn cur_as_ascii(&self) -> Option<u8> {
         self.cur().and_then(|i| {
             if i.is_ascii() {
                 return Some(i as u8);
@@ -255,7 +241,7 @@ pub trait Input: Clone {
 
     fn is_at_start(&self) -> bool;
 
-    fn cur_pos(&mut self) -> BytePos;
+    fn cur_pos(&self) -> BytePos;
 
     fn last_pos(&self) -> BytePos;
 
@@ -263,16 +249,11 @@ pub trait Input: Clone {
     ///
     /// - start should be less than or equal to end.
     /// - start and end should be in the valid range of input.
-    unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &str;
+    unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &'a str;
 
     /// Takes items from stream, testing each one with predicate. returns the
     /// range of items which passed predicate.
-    fn uncons_while<F>(&mut self, f: F) -> &str
-    where
-        F: FnMut(char) -> bool;
-
-    /// This method modifies [last_pos()] and [cur_pos()].
-    fn find<F>(&mut self, f: F) -> Option<BytePos>
+    fn uncons_while<F>(&mut self, f: F) -> &'a str
     where
         F: FnMut(char) -> bool;
 
@@ -286,7 +267,7 @@ pub trait Input: Clone {
     /// `c` must be ASCII.
     #[inline]
     #[allow(clippy::wrong_self_convention)]
-    fn is_byte(&mut self, c: u8) -> bool {
+    fn is_byte(&self, c: u8) -> bool {
         match self.cur() {
             Some(ch) => ch == c as char,
             _ => false,
@@ -317,17 +298,15 @@ pub trait Input: Clone {
 
 #[cfg(test)]
 mod tests {
-    use std::sync::Arc;
-
     use super::*;
-    use crate::{FileName, FilePathMapping, SourceMap};
+    use crate::{sync::Lrc, FileName, FilePathMapping, SourceMap};
 
-    fn with_test_sess<F>(src: &str, f: F)
+    fn with_test_sess<F>(src: &'static str, f: F)
     where
         F: FnOnce(StringInput<'_>),
     {
-        let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-        let fm = cm.new_source_file(FileName::Real("testing".into()).into(), src.into());
+        let cm = Lrc::new(SourceMap::new(FilePathMapping::empty()));
+        let fm = cm.new_source_file(FileName::Real("testing".into()).into(), src);
 
         f((&*fm).into())
     }
@@ -384,17 +363,17 @@ mod tests {
         });
     }
 
-    #[test]
-    fn src_input_find_01() {
-        with_test_sess("foo/d", |mut i| {
-            assert_eq!(i.cur_pos(), BytePos(1));
-            assert_eq!(i.last_pos, BytePos(1));
+    // #[test]
+    // fn src_input_find_01() {
+    //     with_test_sess("foo/d", |mut i| {
+    //         assert_eq!(i.cur_pos(), BytePos(1));
+    //         assert_eq!(i.last_pos, BytePos(1));
 
-            assert_eq!(i.find(|c| c == '/'), Some(BytePos(5)));
-            assert_eq!(i.last_pos, BytePos(5));
-            assert_eq!(i.cur(), Some('d'));
-        });
-    }
+    //         assert_eq!(i.find(|c| c == '/'), Some(BytePos(5)));
+    //         assert_eq!(i.last_pos, BytePos(5));
+    //         assert_eq!(i.cur(), Some('d'));
+    //     });
+    // }
 
     //    #[test]
     //    fn src_input_smoke_02() {

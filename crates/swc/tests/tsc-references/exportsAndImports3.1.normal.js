@@ -8,50 +8,50 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    C: function() {
+    get C () {
         return C;
     },
-    C1: function() {
+    get C1 () {
         return C;
     },
-    D: function() {
+    get D () {
         return D;
     },
-    D1: function() {
+    get D1 () {
         return D;
     },
-    E: function() {
+    get E () {
         return E;
     },
-    E1: function() {
+    get E1 () {
         return E;
     },
-    M: function() {
+    get M () {
         return M;
     },
-    M1: function() {
+    get M1 () {
         return M;
     },
-    a: function() {
+    get a () {
         return a;
     },
-    a1: function() {
+    get a1 () {
         return a;
     },
-    f: function() {
+    get f () {
         return f;
     },
-    f1: function() {
+    get f1 () {
         return f;
     },
-    v: function() {
+    get v () {
         return v;
     },
-    v1: function() {
+    get v1 () {
         return v;
     }
 });
@@ -85,38 +85,38 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    C: function() {
+    get C () {
         return _t1.C1;
     },
-    D: function() {
+    get D () {
         return _t1.D1;
     },
-    E: function() {
+    get E () {
         return _t1.E1;
     },
-    I: function() {
+    get I () {
         return _t1.I1;
     },
-    M: function() {
+    get M () {
         return _t1.M1;
     },
-    N: function() {
+    get N () {
         return _t1.N1;
     },
-    T: function() {
+    get T () {
         return _t1.T1;
     },
-    a: function() {
+    get a () {
         return _t1.a1;
     },
-    f: function() {
+    get f () {
         return _t1.f1;
     },
-    v: function() {
+    get v () {
         return _t1.v1;
     }
 });
@@ -129,38 +129,38 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    C: function() {
+    get C () {
         return _t1.C1;
     },
-    D: function() {
+    get D () {
         return _t1.D1;
     },
-    E: function() {
+    get E () {
         return _t1.E1;
     },
-    I: function() {
+    get I () {
         return _t1.I1;
     },
-    M: function() {
+    get M () {
         return _t1.M1;
     },
-    N: function() {
+    get N () {
         return _t1.N1;
     },
-    T: function() {
+    get T () {
         return _t1.T1;
     },
-    a: function() {
+    get a () {
         return _t1.a1;
     },
-    f: function() {
+    get f () {
         return _t1.f1;
     },
-    v: function() {
+    get v () {
         return _t1.v1;
     }
 });

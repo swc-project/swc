@@ -5,8 +5,7 @@ System.register([
     "@swc/helpers/_/_ts_dispose_resources"
 ], function(_export, _context) {
     "use strict";
-    var _ts_decorate, _ts_add_disposable_resource, _ts_dispose_resources, C, env;
-    _export("default", void 0);
+    var _ts_decorate, _ts_add_disposable_resource, _ts_dispose_resources, env;
     return {
         setters: [
             function(_ts_decorate1) {
@@ -27,6 +26,8 @@ System.register([
             };
             try {
                 var before = _ts_add_disposable_resource(env, null, false);
+                var C = class C {
+                };
                 _export("default", C = _ts_decorate([
                     dec
                 ], C));
@@ -36,8 +37,6 @@ System.register([
             } finally{
                 _ts_dispose_resources(env);
             }
-            _export("default", C = class C {
-            });
         }
     };
 });

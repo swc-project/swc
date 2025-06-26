@@ -3,6 +3,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
+use swc_atoms::atom;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, FileName, Span};
 use swc_css_ast::*;
 use swc_css_codegen::{
@@ -190,7 +191,7 @@ impl VisitMut for NormalizeTest {
     fn visit_mut_hex_color(&mut self, n: &mut HexColor) {
         n.visit_mut_children_with(self);
 
-        n.value = "fff".into();
+        n.value = atom!("fff");
         n.raw = None;
     }
 
@@ -323,7 +324,7 @@ impl VisitMut for NormalizeTest {
         n.visit_mut_children_with(self);
 
         if let Token::WhiteSpace { .. } = &n.token {
-            n.token = Token::WhiteSpace { value: "".into() };
+            n.token = Token::WhiteSpace { value: atom!("") };
         }
     }
 
@@ -647,7 +648,7 @@ fn parse_again(input: PathBuf) {
             gen.emit(&stylesheet).unwrap();
         }
 
-        eprintln!("==== ==== Codegen ==== ====\n{}\n", css_str);
+        eprintln!("==== ==== Codegen ==== ====\n{css_str}\n");
 
         let new_fm = cm.new_source_file(Lrc::new(FileName::Anon), css_str);
         let mut parsed_errors = Vec::new();

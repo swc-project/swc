@@ -351,6 +351,7 @@ impl VisitMut for Finalizer<'_> {
                     let sym = match &e.prop {
                         MemberProp::Ident(i) => &i.sym,
                         MemberProp::Computed(e) => match &*e.expr {
+                            Expr::Ident(ident) => &ident.sym,
                             Expr::Lit(Lit::Str(s)) => &s.value,
                             _ => return,
                         },
@@ -452,6 +453,20 @@ impl VisitMut for Finalizer<'_> {
         n.visit_mut_children_with(self);
 
         n.retain(|v| !v.name.is_invalid());
+    }
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        n.visit_mut_children_with(self);
+
+        if let Prop::Shorthand(i) = n {
+            if let Some(expr) = self.lits.get(&i.to_id()) {
+                *n = Prop::KeyValue(KeyValueProp {
+                    key: i.take().into(),
+                    value: expr.clone(),
+                });
+                self.changed = true;
+            }
+        }
     }
 }
 

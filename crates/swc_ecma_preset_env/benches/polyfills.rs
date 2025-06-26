@@ -2,13 +2,13 @@ use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Benc
 use swc_common::{comments::SingleThreadedComments, FileName, Mark};
 use swc_ecma_ast::Program;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
-use swc_ecma_preset_env::{preset_env, Config};
+use swc_ecma_preset_env::{transform_from_env, Config};
 use swc_ecma_transforms::helpers::{Helpers, HELPERS};
 
 fn run(b: &mut Bencher, src: &str, config: Config) {
     let _ = ::testing::run_test(false, |cm, handler| {
         HELPERS.set(&Helpers::new(true), || {
-            let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+            let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
 
             let mut parser = Parser::new(Syntax::default(), StringInput::from(&*fm), None);
             let module = parser
@@ -20,12 +20,11 @@ fn run(b: &mut Bencher, src: &str, config: Config) {
                 e.into_diagnostic(handler).emit()
             }
 
-            let mut folder = preset_env(
+            let mut folder = transform_from_env(
                 Mark::fresh(Mark::root()),
                 Some(SingleThreadedComments::default()),
-                config,
+                config.into(),
                 Default::default(),
-                &mut Default::default(),
             );
 
             b.iter(|| black_box(Program::Module(module.clone()).apply(&mut folder)));

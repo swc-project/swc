@@ -12,8 +12,7 @@ var Point = /*#__PURE__*/ function() {
             x: 0,
             y: 0
         };
-    } // unexpected error here bug 840246
-    ;
+    }; // unexpected error here bug 840246
     return Point;
 }();
 (function(Point) {
@@ -35,8 +34,7 @@ var Point = /*#__PURE__*/ function() {
                 x: 0,
                 y: 0
             };
-        } // unexpected error here bug 840246
-        ;
+        }; // unexpected error here bug 840246
         return Point;
     }();
     A.Point = Point;

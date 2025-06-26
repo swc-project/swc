@@ -27,7 +27,7 @@ use crate::syntax_pos::{MultiSpan, Span};
 pub struct Message(pub String, pub Style);
 
 #[must_use]
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash, Default)]
 #[cfg_attr(
     feature = "diagnostic-serde",
     derive(serde::Serialize, serde::Deserialize)
@@ -38,12 +38,21 @@ pub struct Message(pub String, pub Style);
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+/// Represents a diagnostic message with its level, message, unique identifier,
+/// span, children, and suggestions.
 pub struct Diagnostic {
+    /// The level of the diagnostic (e.g., error, warning, help)
     pub level: Level,
+    /// The message(s) associated with the diagnostic
     pub message: Vec<Message>,
+    /// A unique identifier for the diagnostic, which can be used to look up
+    /// more information
     pub code: Option<DiagnosticId>,
+    /// The span of the source code where the diagnostic is located
     pub span: MultiSpan,
+    /// Child diagnostics that are related to this diagnostic
     pub children: Vec<SubDiagnostic>,
+    /// Suggestions for how to fix the issue identified by the diagnostic
     pub suggestions: Vec<CodeSuggestion>,
 }
 
@@ -200,18 +209,18 @@ impl Diagnostic {
         expected_extra: &dyn fmt::Display,
         found_extra: &dyn fmt::Display,
     ) -> &mut Self {
-        let mut msg: Vec<_> = vec![Message(format!("expected {} `", label), Style::NoStyle)];
+        let mut msg: Vec<_> = vec![Message(format!("expected {label} `"), Style::NoStyle)];
         msg.extend(expected.0.iter().map(|x| match *x {
             StringPart::Normal(ref s) => Message(s.to_owned(), Style::NoStyle),
             StringPart::Highlighted(ref s) => Message(s.to_owned(), Style::Highlight),
         }));
-        msg.push(Message(format!("`{}\n", expected_extra), Style::NoStyle));
-        msg.push(Message(format!("   found {} `", label), Style::NoStyle));
+        msg.push(Message(format!("`{expected_extra}\n"), Style::NoStyle));
+        msg.push(Message(format!("   found {label} `"), Style::NoStyle));
         msg.extend(found.0.iter().map(|x| match *x {
             StringPart::Normal(ref s) => Message(s.to_owned(), Style::NoStyle),
             StringPart::Highlighted(ref s) => Message(s.to_owned(), Style::Highlight),
         }));
-        msg.push(Message(format!("`{}", found_extra), Style::NoStyle));
+        msg.push(Message(format!("`{found_extra}"), Style::NoStyle));
 
         // For now, just attach these as notes
         self.highlighted_note(msg);
@@ -220,7 +229,7 @@ impl Diagnostic {
 
     pub fn note_trait_signature(&mut self, name: String, signature: String) -> &mut Self {
         self.highlighted_note(vec![
-            Message(format!("`{}` from trait: `", name), Style::NoStyle),
+            Message(format!("`{name}` from trait: `"), Style::NoStyle),
             Message(signature, Style::Highlight),
             Message("`".to_string(), Style::NoStyle),
         ]);

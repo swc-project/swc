@@ -33,8 +33,8 @@ var C = /*#__PURE__*/ function() {
         var loadAsync = import("./0");
         this.myModule.then(function(Zero) {
             console.log(Zero.foo());
-        }, /*#__PURE__*/ function() {
-            var _ref = _async_to_generator(function(err) {
+        }, function(err) {
+            return _async_to_generator(function() {
                 var one;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
@@ -52,11 +52,8 @@ var C = /*#__PURE__*/ function() {
                             ];
                     }
                 });
-            });
-            return function(err) {
-                return _ref.apply(this, arguments);
-            };
-        }());
+            })();
+        });
     };
     return C;
 }();

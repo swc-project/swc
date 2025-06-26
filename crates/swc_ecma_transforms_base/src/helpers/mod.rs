@@ -2,7 +2,7 @@ use std::{cell::RefCell, mem::replace};
 
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
@@ -23,7 +23,7 @@ fn parse(code: &str) -> Vec<Stmt> {
 
     let fm = cm.new_source_file(
         FileName::Custom(stringify!($name).into()).into(),
-        code.into(),
+        code.to_string(),
     );
     swc_ecma_parser::parse_file_as_script(
         &fm,
@@ -256,11 +256,11 @@ define_helpers!(Helpers {
     array_with_holes: (),
     array_without_holes: (array_like_to_array),
     assert_this_initialized: (),
-    async_generator: (await_value),
-    async_generator_delegate: (),
+    async_generator: (overload_yield),
+    async_generator_delegate: (overload_yield),
     async_iterator: (),
     async_to_generator: (),
-    await_async_generator: (await_value),
+    await_async_generator: (overload_yield),
     await_value: (),
     call_super: (
         get_prototype_of,
@@ -333,6 +333,7 @@ define_helpers!(Helpers {
     object_spread_props: (),
     object_without_properties: (object_without_properties_loose),
     object_without_properties_loose: (),
+    overload_yield: (),
     possible_constructor_return: (type_of, assert_this_initialized),
     read_only_error: (),
     set: (super_prop_base, define_property),
@@ -471,13 +472,13 @@ impl InjectHelpers {
             callee: Expr::from(Ident {
                 span: DUMMY_SP,
                 ctxt: SyntaxContext::empty().apply_mark(self.global_mark),
-                sym: "require".into(),
+                sym: atom!("require"),
                 ..Default::default()
             })
             .as_callee(),
             args: vec![Str {
                 span: DUMMY_SP,
-                value: format!("@swc/helpers/_/_{}", name).into(),
+                value: format!("@swc/helpers/_/_{name}").into(),
                 raw: None,
             }
             .as_arg()],
@@ -488,7 +489,7 @@ impl InjectHelpers {
             kind: VarDeclKind::Var,
             decls: vec![VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(Ident::new(format!("_{}", name).into(), DUMMY_SP, ctxt).into()),
+                name: Pat::Ident(Ident::new(format!("_{name}").into(), DUMMY_SP, ctxt).into()),
                 init: Some(c.into()),
                 definite: false,
             }],
@@ -506,7 +507,7 @@ impl InjectHelpers {
                 MemberExpr {
                     span: ref_ident.span,
                     obj: Box::new(ident.into()),
-                    prop: MemberProp::Ident("_".into()),
+                    prop: MemberProp::Ident(atom!("_").into()),
                 }
                 .into()
             })
@@ -667,8 +668,8 @@ _throw();",
                     return Ok(());
                 }
 
-                println!(">>>>> Orig <<<<<\n{}", input);
-                println!(">>>>> Code <<<<<\n{}", actual_src);
+                println!(">>>>> Orig <<<<<\n{input}");
+                println!(">>>>> Code <<<<<\n{actual_src}");
                 assert_eq!(
                     DebugUsingDisplay(&actual_src),
                     DebugUsingDisplay(&expected_src)

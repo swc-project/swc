@@ -74,10 +74,7 @@ impl PluginTransformState {
                             .expect("Should able to convert size"),
                     )
                     .unwrap_or_else(|_| {
-                        panic!(
-                            "Should able to allocate memory for the size of {}",
-                            serialized_len
-                        )
+                        panic!("Should able to allocate memory for the size of {serialized_len}")
                     })
             },
         );
@@ -176,6 +173,7 @@ pub struct TransformExecutor {
     source_map: Arc<SourceMap>,
     unresolved_mark: swc_common::Mark,
     metadata_context: Arc<TransformPluginMetadataContext>,
+    plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
     plugin_config: Option<serde_json::Value>,
     module_bytes: Box<dyn PluginModuleBytes>,
     runtime: Option<Arc<dyn Runtime + Send + Sync>>,
@@ -192,6 +190,7 @@ impl TransformExecutor {
         source_map: &Arc<SourceMap>,
         unresolved_mark: &swc_common::Mark,
         metadata_context: &Arc<TransformPluginMetadataContext>,
+        plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
         plugin_config: Option<serde_json::Value>,
         runtime: Option<Arc<dyn Runtime + Send + Sync>>,
     ) -> Self {
@@ -208,6 +207,7 @@ impl TransformExecutor {
             source_map: source_map.clone(),
             unresolved_mark: *unresolved_mark,
             metadata_context: metadata_context.clone(),
+            plugin_env_vars,
             plugin_config,
             module_bytes,
             runtime,
@@ -268,10 +268,10 @@ impl TransformExecutor {
             &diagnostics_env,
         );
 
-        // Plugin binary can be either wasm32-wasi or wasm32-unknown-unknown.
-        // Wasi specific env need to be initialized if given module targets wasm32-wasi.
-        // TODO: wasm host native runtime throws 'Memory should be set on `WasiEnv`
-        // first'
+        // Plugin binary can be either wasm32-wasip1 or wasm32-unknown-unknown.
+        // Wasi specific env need to be initialized if given module targets
+        // wasm32-wasip1. TODO: wasm host native runtime throws 'Memory should
+        // be set on `WasiEnv` first'
         let (instance, wasi_env) = if is_wasi_module(&module) {
             let builder = WasiEnv::builder(self.module_bytes.get_module_name());
             let builder = if let Some(runtime) = &self.runtime {
@@ -289,13 +289,21 @@ impl TransformExecutor {
             // - should we support this?
             // - can we limit to allowlisted input / output only?
             // - should there be a top-level config from .swcrc to manually override this?
-            let wasi_env_builder = if let Ok(cwd) = env::current_dir() {
+            let mut wasi_env_builder = if let Ok(cwd) = env::current_dir() {
                 builder
                     .fs(default_fs_backing())
                     .map_dirs(vec![("/cwd".to_string(), cwd)].drain(..))?
             } else {
                 builder
             };
+
+            if let Some(env_vars) = self.plugin_env_vars.as_ref() {
+                for env in env_vars.iter() {
+                    if let Ok(value) = env::var(env.as_str()) {
+                        wasi_env_builder.add_env(env.as_str(), value);
+                    }
+                }
+            }
 
             //create the `WasiEnv`
             let mut wasi_env = wasi_env_builder.finalize(&mut store)?;
@@ -397,19 +405,19 @@ impl TransformExecutor {
                      used by the plugin is compatible with the host runtime. See the \
                      documentation for compatibility information. If you are an author of the \
                      plugin, please update `swc_core` to the compatible version.
-                 
+
                 Note that if you want to use the os features like filesystem, you need to use \
                      `wasi`. Wasm itself does not have concept of filesystem.
-                 
+
                 https://swc.rs/docs/plugin/selecting-swc-core
 
                 See https://plugins.swc.rs/versions/from-plugin-runner/{PKG_VERSION} for the list of the compatible versions.
-                 
-                Build info: 
+
+                Build info:
                     Date: {BUILD_DATE}
                     Timestamp: {BUILD_TIMESTAMP}
-                    
-                Version info: 
+
+                Version info:
                     swc_plugin_runner: {PKG_VERSION}
                     Dependencies: {PKG_DEPS}
                 "

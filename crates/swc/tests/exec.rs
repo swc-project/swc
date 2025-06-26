@@ -255,71 +255,73 @@ fn get_expected_stdout(input: &Path) -> Result<String, Error> {
     let cm = Arc::new(SourceMap::default());
     let c = Compiler::new(cm.clone());
 
-    GLOBALS.set(&Default::default(), || {
-        try_with_handler(
-            cm.clone(),
-            HandlerOpts {
-                color: ColorConfig::Always,
-                skip_filename: true,
-            },
-            |handler| {
-                let fm = cm.load_file(input).context("failed to load file")?;
+    GLOBALS
+        .set(&Default::default(), || {
+            try_with_handler(
+                cm.clone(),
+                HandlerOpts {
+                    color: ColorConfig::Always,
+                    skip_filename: true,
+                },
+                |handler| {
+                    let fm = cm.load_file(input).context("failed to load file")?;
 
-                if let Ok(output) = stdout_of(&fm.src, NodeModuleType::Module) {
-                    return Ok(output);
-                }
-                if let Ok(output) = stdout_of(&fm.src, NodeModuleType::CommonJs) {
-                    return Ok(output);
-                }
+                    if let Ok(output) = stdout_of(&fm.src, NodeModuleType::Module) {
+                        return Ok(output);
+                    }
+                    if let Ok(output) = stdout_of(&fm.src, NodeModuleType::CommonJs) {
+                        return Ok(output);
+                    }
 
-                let res = c
-                    .process_js_file(
-                        fm,
-                        handler,
-                        &Options {
-                            config: Config {
-                                jsc: JscConfig {
-                                    target: Some(EsVersion::Es2022),
-                                    syntax: Some(Syntax::Typescript(TsSyntax {
-                                        decorators: true,
-                                        ..Default::default()
-                                    })),
-                                    transform: Some(TransformConfig {
-                                        use_define_for_class_fields: (!input
-                                            .to_string_lossy()
-                                            .contains("set_public_class_fields"))
+                    let res = c
+                        .process_js_file(
+                            fm,
+                            handler,
+                            &Options {
+                                config: Config {
+                                    jsc: JscConfig {
+                                        target: Some(EsVersion::Es2022),
+                                        syntax: Some(Syntax::Typescript(TsSyntax {
+                                            decorators: true,
+                                            ..Default::default()
+                                        })),
+                                        transform: Some(TransformConfig {
+                                            use_define_for_class_fields: (!input
+                                                .to_string_lossy()
+                                                .contains("set_public_class_fields"))
+                                            .into(),
+                                            ..Default::default()
+                                        })
                                         .into(),
                                         ..Default::default()
-                                    })
-                                    .into(),
+                                    },
+                                    module: match input.extension() {
+                                        Some(ext) if ext == "ts" => {
+                                            Some(ModuleConfig::CommonJs(Default::default()))
+                                        }
+                                        Some(ext) if ext == "mjs" => None,
+                                        _ => None,
+                                    },
                                     ..Default::default()
-                                },
-                                module: match input.extension() {
-                                    Some(ext) if ext == "ts" => {
-                                        Some(ModuleConfig::CommonJs(Default::default()))
-                                    }
-                                    Some(ext) if ext == "mjs" => None,
-                                    _ => None,
                                 },
                                 ..Default::default()
                             },
-                            ..Default::default()
+                        )
+                        .context("failed to process file")?;
+
+                    let res = stdout_of(
+                        &res.code,
+                        match input.extension() {
+                            Some(ext) if ext == "mjs" => NodeModuleType::Module,
+                            _ => NodeModuleType::CommonJs,
                         },
-                    )
-                    .context("failed to process file")?;
+                    )?;
 
-                let res = stdout_of(
-                    &res.code,
-                    match input.extension() {
-                        Some(ext) if ext == "mjs" => NodeModuleType::Module,
-                        _ => NodeModuleType::CommonJs,
-                    },
-                )?;
-
-                Ok(res)
-            },
-        )
-    })
+                    Ok(res)
+                },
+            )
+        })
+        .map_err(|e| e.to_pretty_error())
 }
 
 fn test_file_with_opts(
@@ -381,7 +383,8 @@ fn test_file_with_opts(
                 Ok(())
             },
         )
-        .with_context(|| format!("failed to compile with opts: {:#?}", opts))
+        .map_err(|e| e.to_pretty_error())
+        .with_context(|| format!("failed to compile with opts: {opts:#?}"))
     })
 }
 
@@ -397,18 +400,16 @@ fn stdout_of(code: &str, module_type: NodeModuleType) -> Result<String, Error> {
                 format!(
                     "
                     const expect = require('expect');
-                    {}
-                    ",
-                    code
+                    {code}
+                    "
                 )
             }
             NodeModuleType::Module => {
                 format!(
                     "
                     import expect from 'expect';
-                    {}
-                    ",
-                    code
+                    {code}
+                    "
                 )
             }
         },

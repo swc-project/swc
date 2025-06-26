@@ -5,10 +5,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
 function main() {
-    return _main.apply(this, arguments);
-}
-function _main() {
-    _main = _async_to_generator(function() {
+    return _async_to_generator(function() {
         var _i, _iter, _, env, d1, e, result;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -90,6 +87,5 @@ function _main() {
                     ];
             }
         });
-    });
-    return _main.apply(this, arguments);
+    })();
 }

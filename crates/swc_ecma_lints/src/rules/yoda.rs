@@ -66,7 +66,7 @@ impl Yoda {
             YodaConfigMode::Never => "right",
         };
 
-        let message = format!("Expected literal to be on the {} side of {}", side, op);
+        let message = format!("Expected literal to be on the {side} side of {op}");
 
         HANDLER.with(|handler| match self.expected_reaction {
             LintRuleReaction::Error => {

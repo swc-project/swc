@@ -1,20 +1,14 @@
 class A {
     val = '1';
     foo() {
-        var _this = this;
         return _async_to_generator(function*() {
             try {
-                return yield (function() {
-                    var _ref = _async_to_generator(function*(x) {
-                        return x + _this.val;
-                    });
-                    return function(x) {
-                        return _ref.apply(this, arguments);
-                    };
-                })()('a');
+                return yield ((x)=>_async_to_generator(function*() {
+                        return x + this.val;
+                    }).call(this))('a');
             } catch (e) {
                 throw e;
             }
-        })();
+        }).call(this);
     }
 }

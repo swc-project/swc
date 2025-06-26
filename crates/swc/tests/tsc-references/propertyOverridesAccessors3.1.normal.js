@@ -12,12 +12,10 @@ class Animal {
     }
 }
 const a = new Animal;
-a.makeSound() // 'rustling noise in the bushes'
-;
+a.makeSound(); // 'rustling noise in the bushes'
 class Lion extends Animal {
     sound = 'RAWR!' // error here
     ;
 }
 const lion = new Lion;
-lion.makeSound() // with [[Define]]: Expected "RAWR!" but got "rustling noise in the bushes"
-;
+lion.makeSound(); // with [[Define]]: Expected "RAWR!" but got "rustling noise in the bushes"

@@ -15,8 +15,10 @@ pub extern crate swc_ecma_ast;
 use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
 use number::ToJsString;
+use once_cell::sync::Lazy;
+use parallel::{Parallel, ParallelExt};
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
@@ -59,6 +61,9 @@ pub use node_ignore_span::NodeIgnoringSpan;
 pub struct ThisVisitor {
     found: bool,
 }
+
+pub(crate) static CPU_COUNT: Lazy<usize> = Lazy::new(num_cpus::get);
+pub(crate) static LIGHT_TASK_PARALLELS: Lazy<usize> = Lazy::new(|| *CPU_COUNT * 100);
 
 impl Visit for ThisVisitor {
     noop_visit_type!();
@@ -354,7 +359,7 @@ where
     fn prepend_stmt(&mut self, insert_with: S) {
         let directive_pos = self
             .iter()
-            .position(|stmt| !stmt.as_stmt().map_or(false, is_maybe_branch_directive))
+            .position(|stmt| !stmt.as_stmt().is_some_and(is_maybe_branch_directive))
             .unwrap_or(self.len());
 
         self.insert(directive_pos, insert_with);
@@ -367,7 +372,7 @@ where
     {
         let directive_pos = self
             .iter()
-            .position(|stmt| !stmt.as_stmt().map_or(false, is_maybe_branch_directive))
+            .position(|stmt| !stmt.as_stmt().is_some_and(is_maybe_branch_directive))
             .unwrap_or(self.len());
 
         self.splice(directive_pos..directive_pos, insert_with);
@@ -462,20 +467,59 @@ pub trait StmtExt {
 
     /// stmts contain top level return/break/continue/throw
     fn terminates(&self) -> bool {
-        fn terminates(stmt: &Stmt) -> bool {
+        fn terminates_many(stmts: &[Stmt], allow_break: bool, allow_throw: bool) -> bool {
+            stmts
+                .iter()
+                .rev()
+                .any(|s| terminates(s, allow_break, allow_throw))
+        }
+
+        fn terminates(stmt: &Stmt, allow_break: bool, allow_throw: bool) -> bool {
             match stmt {
-                Stmt::Break(_) | Stmt::Continue(_) | Stmt::Throw(_) | Stmt::Return(_) => true,
-                Stmt::Block(block) => block.stmts.iter().rev().any(|s| s.terminates()),
+                Stmt::Break(_) => allow_break,
+                Stmt::Throw(_) => allow_throw,
+                Stmt::Continue(_) | Stmt::Return(_) => true,
+                Stmt::Block(block) => terminates_many(&block.stmts, allow_break, allow_throw),
                 Stmt::If(IfStmt {
                     cons,
                     alt: Some(alt),
                     ..
                 }) => cons.terminates() && alt.terminates(),
+                Stmt::Switch(s) => {
+                    let mut has_default = false;
+                    let mut has_non_empty_terminates = false;
+
+                    for case in &s.cases {
+                        if case.test.is_none() {
+                            has_default = true
+                        }
+
+                        if !case.cons.is_empty() {
+                            let t = terminates_many(&case.cons, false, allow_throw);
+
+                            if t {
+                                has_non_empty_terminates = true
+                            } else {
+                                return false;
+                            }
+                        }
+                    }
+
+                    has_default && has_non_empty_terminates
+                }
+                Stmt::Try(t) => {
+                    if let Some(h) = &t.handler {
+                        terminates_many(&t.block.stmts, allow_break, false)
+                            && terminates_many(&h.body.stmts, allow_break, allow_throw)
+                    } else {
+                        terminates_many(&t.block.stmts, allow_break, allow_throw)
+                    }
+                }
                 _ => false,
             }
         }
 
-        terminates(self.as_stmt())
+        terminates(self.as_stmt(), true, true)
     }
 
     fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {
@@ -493,14 +537,14 @@ pub trait StmtExt {
                         || if_stmt
                             .alt
                             .as_ref()
-                            .map_or(false, |stmt| stmt.may_have_side_effects(ctx))
+                            .is_some_and(|stmt| stmt.may_have_side_effects(ctx))
                 }
                 Stmt::Switch(switch_stmt) => {
                     switch_stmt.discriminant.may_have_side_effects(ctx)
                         || switch_stmt.cases.iter().any(|case| {
                             case.test
                                 .as_ref()
-                                .map_or(false, |expr| expr.may_have_side_effects(ctx))
+                                .is_some_and(|expr| expr.may_have_side_effects(ctx))
                                 || case.cons.iter().any(|con| con.may_have_side_effects(ctx))
                         })
                 }
@@ -510,14 +554,14 @@ pub trait StmtExt {
                         .stmts
                         .iter()
                         .any(|stmt| stmt.may_have_side_effects(ctx))
-                        || try_stmt.handler.as_ref().map_or(false, |handler| {
+                        || try_stmt.handler.as_ref().is_some_and(|handler| {
                             handler
                                 .body
                                 .stmts
                                 .iter()
                                 .any(|stmt| stmt.may_have_side_effects(ctx))
                         })
-                        || try_stmt.finalizer.as_ref().map_or(false, |finalizer| {
+                        || try_stmt.finalizer.as_ref().is_some_and(|finalizer| {
                             finalizer
                                 .stmts
                                 .iter()
@@ -558,6 +602,8 @@ pub struct Hoister {
 impl Visit for Hoister {
     noop_visit_type!();
 
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
     fn visit_assign_expr(&mut self, node: &AssignExpr) {
         node.right.visit_children_with(self);
     }
@@ -568,9 +614,15 @@ impl Visit for Hoister {
         self.vars.push(node.key.clone().into());
     }
 
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
     fn visit_fn_decl(&mut self, f: &FnDecl) {
         self.vars.push(f.ident.clone());
     }
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_getter_prop(&mut self, _: &GetterProp) {}
 
     fn visit_pat(&mut self, p: &Pat) {
         p.visit_children_with(self);
@@ -580,6 +632,8 @@ impl Visit for Hoister {
         }
     }
 
+    fn visit_setter_prop(&mut self, _: &SetterProp) {}
+
     fn visit_var_decl(&mut self, v: &VarDecl) {
         if v.kind != VarDeclKind::Var {
             return;
@@ -587,8 +641,6 @@ impl Visit for Hoister {
 
         v.visit_children_with(self)
     }
-
-    fn visit_fn_expr(&mut self, _n: &FnExpr) {}
 }
 
 #[derive(Debug, Clone, Copy)]
@@ -667,6 +719,11 @@ pub trait ExprExt {
     #[inline(always)]
     fn is_one_of_global_ref_to(&self, ctx: ExprCtx, ids: &[&str]) -> bool {
         is_one_of_global_ref_to(self.as_expr(), ctx, ids)
+    }
+
+    #[inline(always)]
+    fn is_pure(&self, ctx: ExprCtx) -> bool {
+        self.as_pure_bool(ctx).is_known()
     }
 
     /// Get bool value of `self` if it does not have any side effects.
@@ -1039,7 +1096,11 @@ impl Visit for LiteralVisitor {
         self.is_lit = false;
     }
 
-    fn visit_member_expr(&mut self, _: &MemberExpr) {
+    fn visit_member_expr(&mut self, m: &MemberExpr) {
+        if m.obj.is_ident_ref_to("Symbol") {
+            return;
+        }
+
         self.is_lit = false;
     }
 
@@ -1247,7 +1308,7 @@ pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
     }
 
     if !sym.starts_with('_') {
-        sym = format!("_{}", sym)
+        sym = format!("_{sym}")
     }
     quote_ident!(ctxt, span, sym)
 }
@@ -1299,7 +1360,7 @@ pub fn alias_ident_for_simple_assign_tatget(expr: &SimpleAssignTarget, default: 
     }
 
     if !sym.starts_with('_') {
-        sym = format!("_{}", sym)
+        sym = format!("_{sym}")
     }
     quote_ident!(ctxt, span, sym)
 }
@@ -1367,7 +1428,7 @@ pub fn default_constructor_with_span(has_super: bool, super_call_span: Span) -> 
 
     Constructor {
         span: DUMMY_SP,
-        key: PropName::Ident("constructor".into()),
+        key: PropName::Ident(atom!("constructor").into()),
         is_optional: false,
         params: if has_super {
             vec![ParamOrTsParamProp::Param(Param {
@@ -1474,10 +1535,10 @@ pub trait IsDirective {
     fn as_ref(&self) -> Option<&Stmt>;
 
     fn directive_continue(&self) -> bool {
-        self.as_ref().map_or(false, Stmt::can_precede_directive)
+        self.as_ref().is_some_and(Stmt::can_precede_directive)
     }
     fn is_use_strict(&self) -> bool {
-        self.as_ref().map_or(false, Stmt::is_use_strict)
+        self.as_ref().is_some_and(Stmt::is_use_strict)
     }
 }
 
@@ -1569,7 +1630,7 @@ where
 }
 
 pub fn is_valid_ident(s: &Atom) -> bool {
-    if s.len() == 0 {
+    if s.is_empty() {
         return false;
     }
 
@@ -1608,6 +1669,19 @@ pub struct IdentUsageFinder<'a> {
     found: bool,
 }
 
+impl Parallel for IdentUsageFinder<'_> {
+    fn create(&self) -> Self {
+        Self {
+            ident: self.ident,
+            found: self.found,
+        }
+    }
+
+    fn merge(&mut self, other: Self) {
+        self.found = self.found || other.found;
+    }
+}
+
 impl Visit for IdentUsageFinder<'_> {
     noop_visit_type!();
 
@@ -1617,6 +1691,50 @@ impl Visit for IdentUsageFinder<'_> {
         if i.ctxt == self.ident.1 && i.sym == self.ident.0 {
             self.found = true;
         }
+    }
+
+    fn visit_class_members(&mut self, n: &[ClassMember]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, item| {
+            item.visit_with(v);
+        });
+    }
+
+    fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, item| {
+            item.visit_with(v);
+        });
+    }
+
+    fn visit_exprs(&mut self, exprs: &[Box<Expr>]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, exprs, |v, expr| {
+            expr.visit_with(v);
+        });
+    }
+
+    fn visit_module_items(&mut self, n: &[ModuleItem]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, item| {
+            item.visit_with(v);
+        });
+    }
+
+    fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, item| {
+            if let Some(e) = item {
+                e.visit_with(v);
+            }
+        });
+    }
+
+    fn visit_stmts(&mut self, stmts: &[Stmt]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, stmts, |v, stmt| {
+            stmt.visit_with(v);
+        });
+    }
+
+    fn visit_var_declarators(&mut self, n: &[VarDeclarator]) {
+        self.maybe_par(*LIGHT_TASK_PARALLELS, n, |v, item| {
+            item.visit_with(v);
+        });
     }
 }
 
@@ -3186,6 +3304,34 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
             prop: MemberProp::Ident(prop),
             ..
         }) => {
+            // Some methods of string are pure
+            fn is_pure_str_method(method: &str) -> bool {
+                matches!(
+                    method,
+                    "charAt"
+                        | "charCodeAt"
+                        | "concat"
+                        | "endsWith"
+                        | "includes"
+                        | "indexOf"
+                        | "lastIndexOf"
+                        | "localeCompare"
+                        | "slice"
+                        | "split"
+                        | "startsWith"
+                        | "substr"
+                        | "substring"
+                        | "toLocaleLowerCase"
+                        | "toLocaleUpperCase"
+                        | "toLowerCase"
+                        | "toString"
+                        | "toUpperCase"
+                        | "trim"
+                        | "trimEnd"
+                        | "trimStart"
+                )
+            }
+
             obj.is_global_ref_to(ctx, "Math")
                 || match &**obj {
                     // Allow dummy span
@@ -3193,15 +3339,10 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
                         ctxt, sym: math, ..
                     }) => &**math == "Math" && *ctxt == SyntaxContext::empty(),
 
-                    // Some methods of string are pure
-                    Expr::Lit(Lit::Str(..)) => match &*prop.sym {
-                        "charAt" | "charCodeAt" | "concat" | "endsWith" | "includes"
-                        | "indexOf" | "lastIndexOf" | "localeCompare" | "slice" | "split"
-                        | "startsWith" | "substr" | "substring" | "toLocaleLowerCase"
-                        | "toLocaleUpperCase" | "toLowerCase" | "toString" | "toUpperCase"
-                        | "trim" | "trimEnd" | "trimStart" => true,
-                        _ => false,
-                    },
+                    Expr::Lit(Lit::Str(..)) => is_pure_str_method(&prop.sym),
+                    Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty() => {
+                        is_pure_str_method(&prop.sym)
+                    }
 
                     _ => false,
                 }
@@ -3504,5 +3645,109 @@ mod tests {
     fn top_level_export_await() {
         assert!(has_top_level_await("export const foo = await 1;"));
         assert!(has_top_level_await("export default await 1;"));
+    }
+}
+
+#[cfg(test)]
+mod ident_usage_finder_parallel_tests {
+    use swc_atoms::Atom;
+    use swc_common::SyntaxContext;
+    use swc_ecma_ast::*;
+
+    use super::*;
+
+    fn make_id(name: &str) -> Id {
+        (Atom::from(name), SyntaxContext::empty())
+    }
+
+    #[test]
+    fn test_visit_class_members() {
+        let id = make_id("foo");
+        let member = ClassMember::ClassProp(ClassProp {
+            key: PropName::Ident(quote_ident!("foo")),
+            value: Some(Box::new(Expr::Ident(quote_ident!("foo").into()))),
+            ..Default::default()
+        });
+        let found = IdentUsageFinder::find(&id, &vec![member.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![member]);
+        assert!(!not_found);
+    }
+
+    #[test]
+    fn test_visit_expr_or_spreads() {
+        let id = make_id("foo");
+        let expr = ExprOrSpread {
+            spread: None,
+            expr: Box::new(Expr::Ident(quote_ident!("foo").into())),
+        };
+        let found = IdentUsageFinder::find(&id, &vec![expr.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![expr]);
+        assert!(!not_found);
+    }
+
+    #[test]
+    fn test_visit_module_items() {
+        let id = make_id("foo");
+        let item = ModuleItem::Stmt(Stmt::Expr(ExprStmt {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Ident(quote_ident!("foo").into())),
+        }));
+        let found = IdentUsageFinder::find(&id, &vec![item.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![item]);
+        assert!(!not_found);
+    }
+
+    #[test]
+    fn test_visit_stmts() {
+        let id = make_id("foo");
+        let stmt = Stmt::Expr(ExprStmt {
+            span: DUMMY_SP,
+            expr: Box::new(Expr::Ident(quote_ident!("foo").into())),
+        });
+        let found = IdentUsageFinder::find(&id, &vec![stmt.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![stmt]);
+        assert!(!not_found);
+    }
+
+    #[test]
+    fn test_visit_opt_vec_expr_or_spreads() {
+        let id = make_id("foo");
+        let expr = Some(ExprOrSpread {
+            spread: None,
+            expr: Box::new(Expr::Ident(quote_ident!("foo").into())),
+        });
+        let found = IdentUsageFinder::find(&id, &vec![expr.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![expr]);
+        assert!(!not_found);
+    }
+
+    #[test]
+    fn test_visit_var_declarators() {
+        let id = make_id("foo");
+        let decl = VarDeclarator {
+            span: DUMMY_SP,
+            name: Pat::Ident(quote_ident!("foo").into()),
+            init: None,
+            definite: false,
+        };
+        let found = IdentUsageFinder::find(&id, &vec![decl.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![decl]);
+        assert!(!not_found);
+    }
+
+    #[test]
+    fn test_visit_exprs() {
+        let id = make_id("foo");
+        let expr = Box::new(Expr::Ident(quote_ident!("foo").into()));
+        let found = IdentUsageFinder::find(&id, &vec![expr.clone()]);
+        assert!(found);
+        let not_found = IdentUsageFinder::find(&make_id("bar"), &vec![expr]);
+        assert!(!not_found);
     }
 }

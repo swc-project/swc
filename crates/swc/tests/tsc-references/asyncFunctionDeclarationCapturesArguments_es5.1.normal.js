@@ -11,10 +11,7 @@ var C = /*#__PURE__*/ function() {
     _proto.method = function method() {
         function other() {}
         function fn() {
-            return _fn.apply(this, arguments);
-        }
-        function _fn() {
-            _fn = _async_to_generator(function() {
+            return _async_to_generator(function() {
                 var _arguments = arguments;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
@@ -30,8 +27,7 @@ var C = /*#__PURE__*/ function() {
                             ];
                     }
                 });
-            });
-            return _fn.apply(this, arguments);
+            }).apply(this, arguments);
         }
     };
     return C;

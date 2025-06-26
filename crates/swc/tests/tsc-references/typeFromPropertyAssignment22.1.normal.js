@@ -11,5 +11,4 @@ Installer.prototype.loadArgMetadata = function(next) {
     });
 };
 var i = new Installer();
-i.newProperty = i.args // ok, number ==> number | undefined
-;
+i.newProperty = i.args; // ok, number ==> number | undefined

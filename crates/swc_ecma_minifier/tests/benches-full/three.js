@@ -5,7 +5,7 @@ function(global, factory) {
     ], factory) : factory((global = 'undefined' != typeof globalThis ? globalThis : global || self).THREE = {});
 }(this, function(exports1) {
     'use strict';
-    void 0 === Number.EPSILON && (Number.EPSILON = 0.0000000000000002220446049250313), void 0 === Number.isInteger && // Missing in IE
+    void 0 === Number.EPSILON && (Number.EPSILON = 2.220446049250313e-16), void 0 === Number.isInteger && // Missing in IE
     // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isInteger
     (Number.isInteger = function(value) {
         return 'number' == typeof value && isFinite(value) && Math.floor(value) === value;
@@ -1215,7 +1215,7 @@ function(global, factory) {
                 _f2.x,
                 0
             ];
-            return !!(satForAxes(axes, _v0, _v1, _v2, _extents) && satForAxes(axes = [
+            return !!satForAxes(axes, _v0, _v1, _v2, _extents) && !!satForAxes(axes = [
                 1,
                 0,
                 0,
@@ -1225,7 +1225,7 @@ function(global, factory) {
                 0,
                 0,
                 1
-            ], _v0, _v1, _v2, _extents)) && (// use already existing triangle edge vectors here
+            ], _v0, _v1, _v2, _extents) && (// use already existing triangle edge vectors here
             _triangleNormal.crossVectors(_f0, _f1), satForAxes(axes = [
                 _triangleNormal.x,
                 _triangleNormal.y,
@@ -1348,24 +1348,21 @@ function(global, factory) {
             // - The closest point on the segment
             _segCenter.copy(v0).add(v1).multiplyScalar(0.5), _segDir.copy(v1).sub(v0).normalize(), _diff.copy(this.origin).sub(_segCenter);
             var s0, s1, sqrDist, extDet, segExtent = 0.5 * v0.distanceTo(v1), a01 = -this.direction.dot(_segDir), b0 = _diff.dot(this.direction), b1 = -_diff.dot(_segDir), c = _diff.lengthSq(), det = Math.abs(1 - a01 * a01);
-            if (det > 0) {
-                if (// The ray and segment are not parallel.
-                s0 = a01 * b1 - b0, s1 = a01 * b0 - b1, extDet = segExtent * det, s0 >= 0) {
-                    if (s1 >= -extDet) {
-                        if (s1 <= extDet) {
-                            // region 0
-                            // Minimum at interior points of ray and segment.
-                            var invDet = 1 / det;
-                            s0 *= invDet, s1 *= invDet, sqrDist = s0 * (s0 + a01 * s1 + 2 * b0) + s1 * (a01 * s0 + s1 + 2 * b1) + c;
-                        } else sqrDist = -(s0 = Math.max(0, -(a01 * // region 1
-                        (s1 = segExtent) + b0))) * s0 + s1 * (s1 + 2 * b1) + c;
-                    } else sqrDist = -(s0 = Math.max(0, -(a01 * // region 5
-                    (s1 = -segExtent) + b0))) * s0 + s1 * (s1 + 2 * b1) + c;
-                } else s1 <= -extDet ? (s1 = // region 4
-                (s0 = Math.max(0, -(-a01 * segExtent + b0))) > 0 ? -segExtent : Math.min(Math.max(-segExtent, -b1), segExtent), sqrDist = -s0 * s0 + s1 * (s1 + 2 * b1) + c) : s1 <= extDet ? (// region 3
-                s0 = 0, sqrDist = (s1 = Math.min(Math.max(-segExtent, -b1), segExtent)) * (s1 + 2 * b1) + c) : (s1 = // region 2
-                (s0 = Math.max(0, -(a01 * segExtent + b0))) > 0 ? segExtent : Math.min(Math.max(-segExtent, -b1), segExtent), sqrDist = -s0 * s0 + s1 * (s1 + 2 * b1) + c);
-            } else // Ray and segment are parallel.
+            if (det > 0) if (// The ray and segment are not parallel.
+            s0 = a01 * b1 - b0, s1 = a01 * b0 - b1, extDet = segExtent * det, s0 >= 0) if (s1 >= -extDet) if (s1 <= extDet) {
+                // region 0
+                // Minimum at interior points of ray and segment.
+                var invDet = 1 / det;
+                s0 *= invDet, s1 *= invDet, sqrDist = s0 * (s0 + a01 * s1 + 2 * b0) + s1 * (a01 * s0 + s1 + 2 * b1) + c;
+            } else sqrDist = -(s0 = Math.max(0, -(a01 * // region 1
+            (s1 = segExtent) + b0))) * s0 + s1 * (s1 + 2 * b1) + c;
+            else sqrDist = -(s0 = Math.max(0, -(a01 * // region 5
+            (s1 = -segExtent) + b0))) * s0 + s1 * (s1 + 2 * b1) + c;
+            else s1 <= -extDet ? (s1 = // region 4
+            (s0 = Math.max(0, -(-a01 * segExtent + b0))) > 0 ? -segExtent : Math.min(Math.max(-segExtent, -b1), segExtent), sqrDist = -s0 * s0 + s1 * (s1 + 2 * b1) + c) : s1 <= extDet ? (// region 3
+            s0 = 0, sqrDist = (s1 = Math.min(Math.max(-segExtent, -b1), segExtent)) * (s1 + 2 * b1) + c) : (s1 = // region 2
+            (s0 = Math.max(0, -(a01 * segExtent + b0))) > 0 ? segExtent : Math.min(Math.max(-segExtent, -b1), segExtent), sqrDist = -s0 * s0 + s1 * (s1 + 2 * b1) + c);
+            else // Ray and segment are parallel.
             s1 = a01 > 0 ? -segExtent : segExtent, sqrDist = -(s0 = Math.max(0, -(a01 * s1 + b0))) * s0 + s1 * (s1 + 2 * b1) + c;
             return optionalPointOnRay && optionalPointOnRay.copy(this.direction).multiplyScalar(s0).add(this.origin), optionalPointOnSegment && optionalPointOnSegment.copy(_segDir).multiplyScalar(s1).add(_segCenter), sqrDist;
         }, _proto.intersectSphere = function(sphere, target) {
@@ -1393,8 +1390,7 @@ function(global, factory) {
             return !!(0 === distToPoint || plane.normal.dot(this.direction) * distToPoint < 0);
         }, _proto.intersectBox = function(box, target) {
             var tmin, tmax, tymin, tymax, tzmin, tzmax, invdirx = 1 / this.direction.x, invdiry = 1 / this.direction.y, invdirz = 1 / this.direction.z, origin = this.origin;
-            return (invdirx >= 0 ? (tmin = (box.min.x - origin.x) * invdirx, tmax = (box.max.x - origin.x) * invdirx) : (tmin = (box.max.x - origin.x) * invdirx, tmax = (box.min.x - origin.x) * invdirx), invdiry >= 0 ? (tymin = (box.min.y - origin.y) * invdiry, tymax = (box.max.y - origin.y) * invdiry) : (tymin = (box.max.y - origin.y) * invdiry, tymax = (box.min.y - origin.y) * invdiry), tmin > tymax || tymin > tmax) ? null : ((tymin > tmin || tmin != tmin) && (tmin = tymin), (tymax < tmax || tmax != tmax) && (tmax = tymax), invdirz >= 0 ? (tzmin = (box.min.z - origin.z) * invdirz, tzmax = (box.max.z - origin.z) * invdirz) : (tzmin = (box.max.z - origin.z) * invdirz, tzmax = (box.min.z - origin.z) * invdirz), tmin > tzmax || tzmin > tmax) ? null : ((tzmin > tmin || tmin != tmin) && (tmin = tzmin), (tzmax < tmax || tmax != tmax) && (tmax = tzmax), tmax < 0) ? null : this.at(tmin >= 0 ? tmin : tmax, target) // These lines also handle the case where tmin or tmax is NaN
-            ;
+            return (invdirx >= 0 ? (tmin = (box.min.x - origin.x) * invdirx, tmax = (box.max.x - origin.x) * invdirx) : (tmin = (box.max.x - origin.x) * invdirx, tmax = (box.min.x - origin.x) * invdirx), invdiry >= 0 ? (tymin = (box.min.y - origin.y) * invdiry, tymax = (box.max.y - origin.y) * invdiry) : (tymin = (box.max.y - origin.y) * invdiry, tymax = (box.min.y - origin.y) * invdiry), tmin > tymax || tymin > tmax || ((tymin > tmin || tmin != tmin) && (tmin = tymin), (tymax < tmax || tmax != tmax) && (tmax = tymax), invdirz >= 0 ? (tzmin = (box.min.z - origin.z) * invdirz, tzmax = (box.max.z - origin.z) * invdirz) : (tzmin = (box.max.z - origin.z) * invdirz, tzmax = (box.min.z - origin.z) * invdirz), tmin > tzmax || tzmin > tmax || ((tzmin > tmin || tmin != tmin) && (tmin = tzmin), (tzmax < tmax || tmax != tmax) && (tmax = tzmax), tmax < 0))) ? null : this.at(tmin >= 0 ? tmin : tmax, target);
         }, _proto.intersectsBox = function(box) {
             return null !== this.intersectBox(box, _vector$2);
         }, _proto.intersectTriangle = function(a, b, c, backfaceCulling, target) {
@@ -1514,7 +1510,7 @@ function(global, factory) {
         }, _proto.determinant = function() {
             var te = this.elements, n11 = te[0], n12 = te[4], n13 = te[8], n14 = te[12], n21 = te[1], n22 = te[5], n23 = te[9], n24 = te[13], n31 = te[2], n32 = te[6], n33 = te[10], n34 = te[14];
             //( based on http://www.euclideanspace.com/maths/algebra/matrix/functions/inverse/fourD/index.htm )
-            return te[3] * (+n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34) + te[7] * (+n11 * n23 * n34 - n11 * n24 * n33 + n14 * n21 * n33 - n13 * n21 * n34 + n13 * n24 * n31 - n14 * n23 * n31) + te[11] * (+n11 * n24 * n32 - n11 * n22 * n34 - n14 * n21 * n32 + n12 * n21 * n34 + n14 * n22 * n31 - n12 * n24 * n31) + te[15] * (-n13 * n22 * n31 - n11 * n23 * n32 + n11 * n22 * n33 + n13 * n21 * n32 - n12 * n21 * n33 + n12 * n23 * n31);
+            return te[3] * (n14 * n23 * n32 - n13 * n24 * n32 - n14 * n22 * n33 + n12 * n24 * n33 + n13 * n22 * n34 - n12 * n23 * n34) + te[7] * (n11 * n23 * n34 - n11 * n24 * n33 + n14 * n21 * n33 - n13 * n21 * n34 + n13 * n24 * n31 - n14 * n23 * n31) + te[11] * (n11 * n24 * n32 - n11 * n22 * n34 - n14 * n21 * n32 + n12 * n21 * n34 + n14 * n22 * n31 - n12 * n24 * n31) + te[15] * (-n13 * n22 * n31 - n11 * n23 * n32 + n11 * n22 * n33 + n13 * n21 * n32 - n12 * n21 * n33 + n12 * n23 * n31);
         }, _proto.transpose = function() {
             var tmp, te = this.elements;
             return tmp = te[1], te[1] = te[4], te[4] = tmp, tmp = te[2], te[2] = te[8], te[8] = tmp, tmp = te[6], te[6] = te[9], te[9] = tmp, tmp = te[3], te[3] = te[12], te[12] = tmp, tmp = te[7], te[7] = te[13], te[13] = tmp, tmp = te[11], te[11] = te[14], te[14] = tmp, this;
@@ -1687,15 +1683,15 @@ function(global, factory) {
         }
         var _proto = Layers.prototype;
         return _proto.set = function(channel) {
-            this.mask = 1 << channel | 0;
+            this.mask = 1 << channel;
         }, _proto.enable = function(channel) {
-            this.mask |= 1 << channel | 0;
+            this.mask |= 1 << channel;
         }, _proto.enableAll = function() {
             this.mask = -1;
         }, _proto.toggle = function(channel) {
-            this.mask ^= 1 << channel | 0;
+            this.mask ^= 1 << channel;
         }, _proto.disable = function(channel) {
-            this.mask &= ~(1 << channel | 0);
+            this.mask &= ~(1 << channel);
         }, _proto.disableAll = function() {
             this.mask = 0;
         }, _proto.test = function(layers) {
@@ -1927,12 +1923,11 @@ function(global, factory) {
                     else serialize(meta.shapes, shapes);
                 }
             }
-            if (this.isSkinnedMesh && (object.bindMode = this.bindMode, object.bindMatrix = this.bindMatrix.toArray(), void 0 !== this.skeleton && (serialize(meta.skeletons, this.skeleton), object.skeleton = this.skeleton.uuid)), void 0 !== this.material) {
-                if (Array.isArray(this.material)) {
-                    for(var uuids = [], _i = 0, _l = this.material.length; _i < _l; _i++)uuids.push(serialize(meta.materials, this.material[_i]));
-                    object.material = uuids;
-                } else object.material = serialize(meta.materials, this.material);
-            } //
+            if (this.isSkinnedMesh && (object.bindMode = this.bindMode, object.bindMatrix = this.bindMatrix.toArray(), void 0 !== this.skeleton && (serialize(meta.skeletons, this.skeleton), object.skeleton = this.skeleton.uuid)), void 0 !== this.material) if (Array.isArray(this.material)) {
+                for(var uuids = [], _i = 0, _l = this.material.length; _i < _l; _i++)uuids.push(serialize(meta.materials, this.material[_i]));
+                object.material = uuids;
+            } else object.material = serialize(meta.materials, this.material);
+             //
             if (this.children.length > 0) {
                 object.children = [];
                 for(var _i2 = 0; _i2 < this.children.length; _i2++)object.children.push(this.children[_i2].toJSON(meta).object);
@@ -2361,7 +2356,7 @@ function(global, factory) {
         }, _proto.convertLinearToSRGB = function() {
             return this.copyLinearToSRGB(this), this;
         }, _proto.getHex = function() {
-            return 255 * this.r << 16 ^ 255 * this.g << 8 ^ 255 * this.b << 0;
+            return 255 * this.r << 16 ^ 255 * this.g << 8 ^ (255 * this.b | 0);
         }, _proto.getHexString = function() {
             return ('000000' + this.getHex().toString(16)).slice(-6);
         }, _proto.getHSL = function(target) {
@@ -3022,10 +3017,7 @@ function(global, factory) {
             }
         },
         merge: function(geometry, offset) {
-            if (!(geometry && geometry.isBufferGeometry)) {
-                console.error('THREE.BufferGeometry.merge(): geometry not an instance of THREE.BufferGeometry.', geometry);
-                return;
-            }
+            if (!(geometry && geometry.isBufferGeometry)) return void console.error('THREE.BufferGeometry.merge(): geometry not an instance of THREE.BufferGeometry.', geometry);
             void 0 === offset && (offset = 0, console.warn("THREE.BufferGeometry.merge(): Overwriting original geometry, starting at offset=0. Use BufferGeometryUtils.mergeBufferGeometries() for lossless merge."));
             var attributes = this.attributes;
             for(var key in attributes)if (void 0 !== geometry.attributes[key]) for(var attributeArray1 = attributes[key].array, attribute2 = geometry.attributes[key], attributeArray2 = attribute2.array, attributeOffset = attribute2.itemSize * offset, length = Math.min(attributeArray2.length, attributeArray1.length - attributeOffset), i = 0, j = attributeOffset; i < length; i++, j++)attributeArray1[j] = attributeArray2[i];
@@ -3216,19 +3208,15 @@ function(global, factory) {
         },
         raycast: function(raycaster, intersects) {
             var geometry = this.geometry, material = this.material, matrixWorld = this.matrixWorld;
-            if (void 0 !== material && (null === geometry.boundingSphere && geometry.computeBoundingSphere(), _sphere.copy(geometry.boundingSphere), _sphere.applyMatrix4(matrixWorld), !1 !== raycaster.ray.intersectsSphere(_sphere))) {
-                if (_inverseMatrix.copy(matrixWorld).invert(), _ray.copy(raycaster.ray).applyMatrix4(_inverseMatrix), null !== geometry.boundingBox && !1 === _ray.intersectsBox(geometry.boundingBox)) return;
+            if (void 0 !== material && (null === geometry.boundingSphere && geometry.computeBoundingSphere(), _sphere.copy(geometry.boundingSphere), _sphere.applyMatrix4(matrixWorld), !1 !== raycaster.ray.intersectsSphere(_sphere) && (_inverseMatrix.copy(matrixWorld).invert(), _ray.copy(raycaster.ray).applyMatrix4(_inverseMatrix), null === geometry.boundingBox || !1 !== _ray.intersectsBox(geometry.boundingBox)))) {
                 if (geometry.isBufferGeometry) {
                     var index = geometry.index, position = geometry.attributes.position, morphPosition = geometry.morphAttributes.position, morphTargetsRelative = geometry.morphTargetsRelative, uv = geometry.attributes.uv, uv2 = geometry.attributes.uv2, groups = geometry.groups, drawRange = geometry.drawRange;
-                    if (null !== index) {
-                        // indexed buffer geometry
-                        if (Array.isArray(material)) for(var i = 0, il = groups.length; i < il; i++)for(var group = groups[i], groupMaterial = material[group.materialIndex], start = Math.max(group.start, drawRange.start), end = Math.min(group.start + group.count, drawRange.start + drawRange.count), j = start; j < end; j += 3)(intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, index.getX(j), index.getX(j + 1), index.getX(j + 2))) && (intersection.faceIndex = Math.floor(j / 3), intersection.face.materialIndex = group.materialIndex, intersects.push(intersection));
-                        else for(var _start = Math.max(0, drawRange.start), _end = Math.min(index.count, drawRange.start + drawRange.count), _i = _start; _i < _end; _i += 3)(intersection = checkBufferGeometryIntersection(this, material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, index.getX(_i), index.getX(_i + 1), index.getX(_i + 2))) && (intersection.faceIndex = Math.floor(_i / 3), intersects.push(intersection));
-                    } else if (void 0 !== position) {
-                        // non-indexed buffer geometry
-                        if (Array.isArray(material)) for(var _i2 = 0, _il2 = groups.length; _i2 < _il2; _i2++)for(var _group = groups[_i2], _groupMaterial = material[_group.materialIndex], _start2 = Math.max(_group.start, drawRange.start), _end2 = Math.min(_group.start + _group.count, drawRange.start + drawRange.count), _j = _start2; _j < _end2; _j += 3)(intersection = checkBufferGeometryIntersection(this, _groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, _j, _j + 1, _j + 2)) && (intersection.faceIndex = Math.floor(_j / 3), intersection.face.materialIndex = _group.materialIndex, intersects.push(intersection));
-                        else for(var _start3 = Math.max(0, drawRange.start), _end3 = Math.min(position.count, drawRange.start + drawRange.count), _i3 = _start3; _i3 < _end3; _i3 += 3)(intersection = checkBufferGeometryIntersection(this, material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, _i3, _i3 + 1, _i3 + 2)) && (intersection.faceIndex = Math.floor(_i3 / 3), intersects.push(intersection));
-                    }
+                    if (null !== index) // indexed buffer geometry
+                    if (Array.isArray(material)) for(var i = 0, il = groups.length; i < il; i++)for(var group = groups[i], groupMaterial = material[group.materialIndex], start = Math.max(group.start, drawRange.start), end = Math.min(group.start + group.count, drawRange.start + drawRange.count), j = start; j < end; j += 3)(intersection = checkBufferGeometryIntersection(this, groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, index.getX(j), index.getX(j + 1), index.getX(j + 2))) && (intersection.faceIndex = Math.floor(j / 3), intersection.face.materialIndex = group.materialIndex, intersects.push(intersection));
+                    else for(var _start = Math.max(0, drawRange.start), _end = Math.min(index.count, drawRange.start + drawRange.count), _i = _start; _i < _end; _i += 3)(intersection = checkBufferGeometryIntersection(this, material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, index.getX(_i), index.getX(_i + 1), index.getX(_i + 2))) && (intersection.faceIndex = Math.floor(_i / 3), intersects.push(intersection));
+                    else if (void 0 !== position) // non-indexed buffer geometry
+                    if (Array.isArray(material)) for(var _i2 = 0, _il2 = groups.length; _i2 < _il2; _i2++)for(var _group = groups[_i2], _groupMaterial = material[_group.materialIndex], _start2 = Math.max(_group.start, drawRange.start), _end2 = Math.min(_group.start + _group.count, drawRange.start + drawRange.count), _j = _start2; _j < _end2; _j += 3)(intersection = checkBufferGeometryIntersection(this, _groupMaterial, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, _j, _j + 1, _j + 2)) && (intersection.faceIndex = Math.floor(_j / 3), intersection.face.materialIndex = _group.materialIndex, intersects.push(intersection));
+                    else for(var _start3 = Math.max(0, drawRange.start), _end3 = Math.min(position.count, drawRange.start + drawRange.count), _i3 = _start3; _i3 < _end3; _i3 += 3)(intersection = checkBufferGeometryIntersection(this, material, raycaster, _ray, position, morphPosition, morphTargetsRelative, uv, uv2, _i3, _i3 + 1, _i3 + 2)) && (intersection.faceIndex = Math.floor(_i3 / 3), intersects.push(intersection));
                 } else if (geometry.isGeometry) {
                     var intersection, uvs, isMultiMaterial = Array.isArray(material), vertices = geometry.vertices, faces = geometry.faces, faceVertexUvs = geometry.faceVertexUvs[0];
                     faceVertexUvs.length > 0 && (uvs = faceVertexUvs);
@@ -3354,10 +3342,7 @@ function(global, factory) {
         void 0 === fov && (fov = 50), void 0 === aspect && (aspect = 1), void 0 === near && (near = 0.1), void 0 === far && (far = 2000), Camera.call(this), this.type = 'PerspectiveCamera', this.fov = fov, this.zoom = 1, this.near = near, this.far = far, this.focus = 10, this.aspect = aspect, this.view = null, this.filmGauge = 35, this.filmOffset = 0, this.updateProjectionMatrix();
     }
     function CubeCamera(near, far, renderTarget) {
-        if (Object3D.call(this), this.type = 'CubeCamera', !0 !== renderTarget.isWebGLCubeRenderTarget) {
-            console.error('THREE.CubeCamera: The constructor now expects an instance of WebGLCubeRenderTarget as third parameter.');
-            return;
-        }
+        if (Object3D.call(this), this.type = 'CubeCamera', !0 !== renderTarget.isWebGLCubeRenderTarget) return void console.error('THREE.CubeCamera: The constructor now expects an instance of WebGLCubeRenderTarget as third parameter.');
         this.renderTarget = renderTarget;
         var cameraPX = new PerspectiveCamera(90, 1, near, far);
         cameraPX.layers = this.layers, cameraPX.up.set(0, -1, 0), cameraPX.lookAt(new Vector3(1, 0, 0)), this.add(cameraPX);
@@ -4576,10 +4561,7 @@ function(global, factory) {
             var extension, methodName;
             if (0 !== primcount) {
                 if (isWebGL2) extension = gl, methodName = 'drawArraysInstanced';
-                else if (extension = extensions.get('ANGLE_instanced_arrays'), methodName = 'drawArraysInstancedANGLE', null === extension) {
-                    console.error('THREE.WebGLBufferRenderer: using THREE.InstancedBufferGeometry but hardware does not support extension ANGLE_instanced_arrays.');
-                    return;
-                }
+                else if (extension = extensions.get('ANGLE_instanced_arrays'), methodName = 'drawArraysInstancedANGLE', null === extension) return void console.error('THREE.WebGLBufferRenderer: using THREE.InstancedBufferGeometry but hardware does not support extension ANGLE_instanced_arrays.');
                 extension[methodName](mode, start, count, primcount), info.update(count, mode, primcount);
             }
         } //
@@ -4676,8 +4658,8 @@ function(global, factory) {
             get: function(texture) {
                 if (texture && texture.isTexture) {
                     var mapping = texture.mapping;
-                    if (303 === mapping || 304 === mapping) {
-                        if (cubemaps.has(texture)) return mapTextureMapping(cubemaps.get(texture).texture, texture.mapping);
+                    if (303 === mapping || 304 === mapping) if (cubemaps.has(texture)) return mapTextureMapping(cubemaps.get(texture).texture, texture.mapping);
+                    else {
                         var image = texture.image;
                         if (!image || !(image.height > 0)) // image not yet ready. try the conversion next frame
                         return null;
@@ -4787,10 +4769,7 @@ function(global, factory) {
             var extension, methodName;
             if (0 !== primcount) {
                 if (isWebGL2) extension = gl, methodName = 'drawElementsInstanced';
-                else if (extension = extensions.get('ANGLE_instanced_arrays'), methodName = 'drawElementsInstancedANGLE', null === extension) {
-                    console.error('THREE.WebGLIndexedBufferRenderer: using THREE.InstancedBufferGeometry but hardware does not support extension ANGLE_instanced_arrays.');
-                    return;
-                }
+                else if (extension = extensions.get('ANGLE_instanced_arrays'), methodName = 'drawElementsInstancedANGLE', null === extension) return void console.error('THREE.WebGLIndexedBufferRenderer: using THREE.InstancedBufferGeometry but hardware does not support extension ANGLE_instanced_arrays.');
                 extension[methodName](mode, count, type, start * bytesPerElement, primcount), info.update(count, mode, primcount);
             }
         } //
@@ -6108,7 +6087,7 @@ function(global, factory) {
     }
     var nextVersion = 0;
     function shadowCastingLightsFirst(lightA, lightB) {
-        return +!!lightB.castShadow - +!!lightA.castShadow;
+        return !!lightB.castShadow - !!lightA.castShadow;
     }
     function WebGLLights(extensions, capabilities) {
         for(var lights, cache = new UniformsCache(), shadowCache = (lights = {}, {
@@ -6213,8 +6192,7 @@ function(global, factory) {
                         _uniforms4.skyColor.copy(light.color).multiplyScalar(intensity), _uniforms4.groundColor.copy(light.groundColor).multiplyScalar(intensity), state.hemi[hemiLength] = _uniforms4, hemiLength++;
                     }
                 }
-                rectAreaLength > 0 && (capabilities.isWebGL2 ? (// WebGL 2
-                state.rectAreaLTC1 = UniformsLib.LTC_FLOAT_1, state.rectAreaLTC2 = UniformsLib.LTC_FLOAT_2) : !0 === extensions.has('OES_texture_float_linear') ? (state.rectAreaLTC1 = UniformsLib.LTC_FLOAT_1, state.rectAreaLTC2 = UniformsLib.LTC_FLOAT_2) : !0 === extensions.has('OES_texture_half_float_linear') ? (state.rectAreaLTC1 = UniformsLib.LTC_HALF_1, state.rectAreaLTC2 = UniformsLib.LTC_HALF_2) : console.error('THREE.WebGLRenderer: Unable to use RectAreaLight. Missing WebGL extensions.')), state.ambient[0] = r, state.ambient[1] = g, state.ambient[2] = b;
+                rectAreaLength > 0 && (capabilities.isWebGL2 || !0 === extensions.has('OES_texture_float_linear') ? (state.rectAreaLTC1 = UniformsLib.LTC_FLOAT_1, state.rectAreaLTC2 = UniformsLib.LTC_FLOAT_2) : !0 === extensions.has('OES_texture_half_float_linear') ? (state.rectAreaLTC1 = UniformsLib.LTC_HALF_1, state.rectAreaLTC2 = UniformsLib.LTC_HALF_2) : console.error('THREE.WebGLRenderer: Unable to use RectAreaLight. Missing WebGL extensions.')), state.ambient[0] = r, state.ambient[1] = g, state.ambient[2] = b;
                 var hash = state.hash;
                 (hash.directionalLength !== directionalLength || hash.pointLength !== pointLength || hash.spotLength !== spotLength || hash.rectAreaLength !== rectAreaLength || hash.hemiLength !== hemiLength || hash.numDirectionalShadows !== numDirectionalShadows || hash.numPointShadows !== numPointShadows || hash.numSpotShadows !== numSpotShadows) && (state.directional.length = directionalLength, state.spot.length = spotLength, state.rectArea.length = rectAreaLength, state.point.length = pointLength, state.hemi.length = hemiLength, state.directionalShadow.length = numDirectionalShadows, state.directionalShadowMap.length = numDirectionalShadows, state.pointShadow.length = numPointShadows, state.pointShadowMap.length = numPointShadows, state.spotShadow.length = numSpotShadows, state.spotShadowMap.length = numSpotShadows, state.directionalShadowMatrix.length = numDirectionalShadows, state.pointShadowMatrix.length = numPointShadows, state.spotShadowMatrix.length = numSpotShadows, hash.directionalLength = directionalLength, hash.pointLength = pointLength, hash.spotLength = spotLength, hash.rectAreaLength = rectAreaLength, hash.hemiLength = hemiLength, hash.numDirectionalShadows = numDirectionalShadows, hash.numPointShadows = numPointShadows, hash.numSpotShadows = numSpotShadows, state.version = nextVersion++);
             },
@@ -6359,7 +6337,7 @@ function(global, factory) {
         ]), 3));
         var fullScreenMesh = new Mesh(fullScreenTri, shadowMaterialVertical), scope = this;
         function getDepthMaterialVariant(useMorphing, useSkinning, useInstancing) {
-            var index = useMorphing << 0 | useSkinning << 1 | useInstancing << 2, material = _depthMaterials[index];
+            var index = 0 | useMorphing | useSkinning << 1 | useInstancing << 2, material = _depthMaterials[index];
             return void 0 === material && (material = new MeshDepthMaterial({
                 depthPacking: 3201,
                 morphTargets: useMorphing,
@@ -6367,7 +6345,7 @@ function(global, factory) {
             }), _depthMaterials[index] = material), material;
         }
         function getDistanceMaterialVariant(useMorphing, useSkinning, useInstancing) {
-            var index = useMorphing << 0 | useSkinning << 1 | useInstancing << 2, material = _distanceMaterials[index];
+            var index = 0 | useMorphing | useSkinning << 1 | useInstancing << 2, material = _distanceMaterials[index];
             return void 0 === material && (material = new MeshDistanceMaterial({
                 morphTargets: useMorphing,
                 skinning: useSkinning
@@ -6717,16 +6695,13 @@ function(global, factory) {
         }
         function resizeImage(image, needsPowerOfTwo, needsNewCanvas, maxSize) {
             var scale = 1; // handle case if texture exceeds max size
-            if ((image.width > maxSize || image.height > maxSize) && (scale = maxSize / Math.max(image.width, image.height)), scale < 1 || !0 === needsPowerOfTwo) {
-                // only perform resize for certain image types
-                if ('undefined' != typeof HTMLImageElement && image instanceof HTMLImageElement || 'undefined' != typeof HTMLCanvasElement && image instanceof HTMLCanvasElement || 'undefined' != typeof ImageBitmap && image instanceof ImageBitmap) {
-                    var floor = needsPowerOfTwo ? MathUtils.floorPowerOfTwo : Math.floor, width = floor(scale * image.width), height = floor(scale * image.height);
-                    void 0 === _canvas && (_canvas = createCanvas(width, height));
-                    var canvas = needsNewCanvas ? createCanvas(width, height) : _canvas;
-                    return canvas.width = width, canvas.height = height, canvas.getContext('2d').drawImage(image, 0, 0, width, height), console.warn('THREE.WebGLRenderer: Texture has been resized from (' + image.width + 'x' + image.height + ') to (' + width + 'x' + height + ').'), canvas;
-                }
-                'data' in image && console.warn('THREE.WebGLRenderer: Image in DataTexture is too big (' + image.width + 'x' + image.height + ').');
-            }
+            if ((image.width > maxSize || image.height > maxSize) && (scale = maxSize / Math.max(image.width, image.height)), scale < 1 || !0 === needsPowerOfTwo) // only perform resize for certain image types
+            if ('undefined' != typeof HTMLImageElement && image instanceof HTMLImageElement || 'undefined' != typeof HTMLCanvasElement && image instanceof HTMLCanvasElement || 'undefined' != typeof ImageBitmap && image instanceof ImageBitmap) {
+                var floor = needsPowerOfTwo ? MathUtils.floorPowerOfTwo : Math.floor, width = floor(scale * image.width), height = floor(scale * image.height);
+                void 0 === _canvas && (_canvas = createCanvas(width, height));
+                var canvas = needsNewCanvas ? createCanvas(width, height) : _canvas;
+                return canvas.width = width, canvas.height = height, canvas.getContext('2d').drawImage(image, 0, 0, width, height), console.warn('THREE.WebGLRenderer: Texture has been resized from (' + image.width + 'x' + image.height + ') to (' + width + 'x' + height + ').'), canvas;
+            } else 'data' in image && console.warn('THREE.WebGLRenderer: Image in DataTexture is too big (' + image.width + 'x' + image.height + ').');
             return image;
         }
         function isPowerOfTwo(image) {
@@ -6772,55 +6747,51 @@ function(global, factory) {
             if (texture.isVideoTexture && (frame = info.render.frame, _videoTextures.get(texture) !== frame && (_videoTextures.set(texture, frame), texture.update())), texture.version > 0 && textureProperties.__version !== texture.version) {
                 var image = texture.image;
                 if (void 0 === image) console.warn('THREE.WebGLRenderer: Texture marked for update but image is undefined');
-                else if (!1 === image.complete) console.warn('THREE.WebGLRenderer: Texture marked for update but image is incomplete');
                 else {
-                    uploadTexture(textureProperties, texture, slot);
-                    return;
+                    if (!1 !== image.complete) return void uploadTexture(textureProperties, texture, slot);
+                    console.warn('THREE.WebGLRenderer: Texture marked for update but image is incomplete');
                 }
             }
             state.activeTexture(33984 + slot), state.bindTexture(3553, textureProperties.__webglTexture);
         }
         function setTextureCube(texture, slot) {
             var textureProperties = properties.get(texture);
-            if (texture.version > 0 && textureProperties.__version !== texture.version) {
-                !function(textureProperties, texture, slot) {
-                    if (6 === texture.image.length) {
-                        initTexture(textureProperties, texture), state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture), _gl.pixelStorei(37440, texture.flipY);
-                        for(var mipmaps, isCompressed = texture && (texture.isCompressedTexture || texture.image[0].isCompressedTexture), isDataTexture = texture.image[0] && texture.image[0].isDataTexture, cubeImage = [], i = 0; i < 6; i++)isCompressed || isDataTexture ? cubeImage[i] = isDataTexture ? texture.image[i].image : texture.image[i] : cubeImage[i] = resizeImage(texture.image[i], !1, !0, maxCubemapSize);
-                        var image = cubeImage[0], supportsMips = isPowerOfTwo(image) || isWebGL2, glFormat = utils.convert(texture.format), glType = utils.convert(texture.type), glInternalFormat = getInternalFormat(texture.internalFormat, glFormat, glType);
-                        if (setTextureParameters(34067, texture, supportsMips), isCompressed) {
-                            for(var _i3 = 0; _i3 < 6; _i3++){
-                                mipmaps = cubeImage[_i3].mipmaps;
-                                for(var j = 0; j < mipmaps.length; j++){
-                                    var mipmap = mipmaps[j];
-                                    1023 !== texture.format && 1022 !== texture.format ? null !== glFormat ? state.compressedTexImage2D(34069 + _i3, j, glInternalFormat, mipmap.width, mipmap.height, 0, mipmap.data) : console.warn('THREE.WebGLRenderer: Attempt to load unsupported compressed texture format in .setTextureCube()') : state.texImage2D(34069 + _i3, j, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data);
-                                }
+            if (texture.version > 0 && textureProperties.__version !== texture.version) return void function(textureProperties, texture, slot) {
+                if (6 === texture.image.length) {
+                    initTexture(textureProperties, texture), state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture), _gl.pixelStorei(37440, texture.flipY);
+                    for(var mipmaps, isCompressed = texture && (texture.isCompressedTexture || texture.image[0].isCompressedTexture), isDataTexture = texture.image[0] && texture.image[0].isDataTexture, cubeImage = [], i = 0; i < 6; i++)isCompressed || isDataTexture ? cubeImage[i] = isDataTexture ? texture.image[i].image : texture.image[i] : cubeImage[i] = resizeImage(texture.image[i], !1, !0, maxCubemapSize);
+                    var image = cubeImage[0], supportsMips = isPowerOfTwo(image) || isWebGL2, glFormat = utils.convert(texture.format), glType = utils.convert(texture.type), glInternalFormat = getInternalFormat(texture.internalFormat, glFormat, glType);
+                    if (setTextureParameters(34067, texture, supportsMips), isCompressed) {
+                        for(var _i3 = 0; _i3 < 6; _i3++){
+                            mipmaps = cubeImage[_i3].mipmaps;
+                            for(var j = 0; j < mipmaps.length; j++){
+                                var mipmap = mipmaps[j];
+                                1023 !== texture.format && 1022 !== texture.format ? null !== glFormat ? state.compressedTexImage2D(34069 + _i3, j, glInternalFormat, mipmap.width, mipmap.height, 0, mipmap.data) : console.warn('THREE.WebGLRenderer: Attempt to load unsupported compressed texture format in .setTextureCube()') : state.texImage2D(34069 + _i3, j, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data);
                             }
-                            textureProperties.__maxMipLevel = mipmaps.length - 1;
-                        } else {
-                            mipmaps = texture.mipmaps;
-                            for(var _i4 = 0; _i4 < 6; _i4++)if (isDataTexture) {
-                                state.texImage2D(34069 + _i4, 0, glInternalFormat, cubeImage[_i4].width, cubeImage[_i4].height, 0, glFormat, glType, cubeImage[_i4].data);
-                                for(var _j = 0; _j < mipmaps.length; _j++){
-                                    var mipmapImage = mipmaps[_j].image[_i4].image;
-                                    state.texImage2D(34069 + _i4, _j + 1, glInternalFormat, mipmapImage.width, mipmapImage.height, 0, glFormat, glType, mipmapImage.data);
-                                }
-                            } else {
-                                state.texImage2D(34069 + _i4, 0, glInternalFormat, glFormat, glType, cubeImage[_i4]);
-                                for(var _j2 = 0; _j2 < mipmaps.length; _j2++){
-                                    var _mipmap2 = mipmaps[_j2];
-                                    state.texImage2D(34069 + _i4, _j2 + 1, glInternalFormat, glFormat, glType, _mipmap2.image[_i4]);
-                                }
-                            }
-                            textureProperties.__maxMipLevel = mipmaps.length;
                         }
-                        textureNeedsGenerateMipmaps(texture, supportsMips) && // We assume images for cube map have the same size.
-                        generateMipmap(34067, texture, image.width, image.height), textureProperties.__version = texture.version, texture.onUpdate && texture.onUpdate(texture);
+                        textureProperties.__maxMipLevel = mipmaps.length - 1;
+                    } else {
+                        mipmaps = texture.mipmaps;
+                        for(var _i4 = 0; _i4 < 6; _i4++)if (isDataTexture) {
+                            state.texImage2D(34069 + _i4, 0, glInternalFormat, cubeImage[_i4].width, cubeImage[_i4].height, 0, glFormat, glType, cubeImage[_i4].data);
+                            for(var _j = 0; _j < mipmaps.length; _j++){
+                                var mipmapImage = mipmaps[_j].image[_i4].image;
+                                state.texImage2D(34069 + _i4, _j + 1, glInternalFormat, mipmapImage.width, mipmapImage.height, 0, glFormat, glType, mipmapImage.data);
+                            }
+                        } else {
+                            state.texImage2D(34069 + _i4, 0, glInternalFormat, glFormat, glType, cubeImage[_i4]);
+                            for(var _j2 = 0; _j2 < mipmaps.length; _j2++){
+                                var _mipmap2 = mipmaps[_j2];
+                                state.texImage2D(34069 + _i4, _j2 + 1, glInternalFormat, glFormat, glType, _mipmap2.image[_i4]);
+                            }
+                        }
+                        textureProperties.__maxMipLevel = mipmaps.length;
                     }
-                } // Render targets
-                (textureProperties, texture, slot);
-                return;
-            }
+                    textureNeedsGenerateMipmaps(texture, supportsMips) && // We assume images for cube map have the same size.
+                    generateMipmap(34067, texture, image.width, image.height), textureProperties.__version = texture.version, texture.onUpdate && texture.onUpdate(texture);
+                }
+            } // Render targets
+            (textureProperties, texture, slot);
             state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture);
         }
         var wrappingToGL = ((_wrappingToGL = {})[1000] = 10497, _wrappingToGL[1001] = 33071, _wrappingToGL[1002] = 33648, _wrappingToGL), filterToGL = ((_filterToGL = {})[1003] = 9728, _filterToGL[1004] = 9984, _filterToGL[1005] = 9986, _filterToGL[1006] = 9729, _filterToGL[1007] = 9985, _filterToGL[1008] = 9987, _filterToGL);
@@ -6845,15 +6816,14 @@ function(global, factory) {
             glInternalFormat = 6402, isWebGL2 ? glInternalFormat = 1015 === texture.type ? 36012 : 1014 === texture.type ? 33190 : 1020 === texture.type ? 35056 : 33189 : 1015 === texture.type && console.error('WebGLRenderer: Floating point depth texture requires WebGL2.'), 1026 === texture.format && 6402 === glInternalFormat && 1012 !== texture.type && 1014 !== texture.type && (console.warn('THREE.WebGLRenderer: Use UnsignedShortType or UnsignedIntType for DepthFormat DepthTexture.'), texture.type = 1012, glType = utils.convert(texture.type)), 1027 === texture.format && 6402 === glInternalFormat && (// Depth stencil textures need the DEPTH_STENCIL internal format
             // (https://www.khronos.org/registry/webgl/extensions/WEBGL_depth_texture/)
             glInternalFormat = 34041, 1020 !== texture.type && (console.warn('THREE.WebGLRenderer: Use UnsignedInt248Type for DepthStencilFormat DepthTexture.'), texture.type = 1020, glType = utils.convert(texture.type))), state.texImage2D(3553, 0, glInternalFormat, image.width, image.height, 0, glFormat, glType, null);
-            else if (texture.isDataTexture) {
-                // use manually created mipmaps if available
-                // if there are no manual mipmaps
-                // set 0 level mipmap and then use GL to generate other mipmap levels
-                if (mipmaps.length > 0 && supportsMips) {
-                    for(var i = 0, il = mipmaps.length; i < il; i++)mipmap = mipmaps[i], state.texImage2D(3553, i, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data);
-                    texture.generateMipmaps = !1, textureProperties.__maxMipLevel = mipmaps.length - 1;
-                } else state.texImage2D(3553, 0, glInternalFormat, image.width, image.height, 0, glFormat, glType, image.data), textureProperties.__maxMipLevel = 0;
-            } else if (texture.isCompressedTexture) {
+            else if (texture.isDataTexture) // use manually created mipmaps if available
+            // if there are no manual mipmaps
+            // set 0 level mipmap and then use GL to generate other mipmap levels
+            if (mipmaps.length > 0 && supportsMips) {
+                for(var i = 0, il = mipmaps.length; i < il; i++)mipmap = mipmaps[i], state.texImage2D(3553, i, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data);
+                texture.generateMipmaps = !1, textureProperties.__maxMipLevel = mipmaps.length - 1;
+            } else state.texImage2D(3553, 0, glInternalFormat, image.width, image.height, 0, glFormat, glType, image.data), textureProperties.__maxMipLevel = 0;
+            else if (texture.isCompressedTexture) {
                 for(var _i = 0, _il = mipmaps.length; _i < _il; _i++)mipmap = mipmaps[_i], 1023 !== texture.format && 1022 !== texture.format ? null !== glFormat ? state.compressedTexImage2D(3553, _i, glInternalFormat, mipmap.width, mipmap.height, 0, mipmap.data) : console.warn('THREE.WebGLRenderer: Attempt to load unsupported compressed texture format in .uploadTexture()') : state.texImage2D(3553, _i, glInternalFormat, mipmap.width, mipmap.height, 0, glFormat, glType, mipmap.data);
                 textureProperties.__maxMipLevel = mipmaps.length - 1;
             } else if (texture.isDataTexture2DArray) state.texImage3D(35866, 0, glInternalFormat, image.width, image.height, image.depth, 0, glFormat, glType, image.data), textureProperties.__maxMipLevel = 0;
@@ -6910,17 +6880,11 @@ function(global, factory) {
             textureUnits = 0;
         }, this.setTexture2D = setTexture2D, this.setTexture2DArray = function(texture, slot) {
             var textureProperties = properties.get(texture);
-            if (texture.version > 0 && textureProperties.__version !== texture.version) {
-                uploadTexture(textureProperties, texture, slot);
-                return;
-            }
+            if (texture.version > 0 && textureProperties.__version !== texture.version) return void uploadTexture(textureProperties, texture, slot);
             state.activeTexture(33984 + slot), state.bindTexture(35866, textureProperties.__webglTexture);
         }, this.setTexture3D = function(texture, slot) {
             var textureProperties = properties.get(texture);
-            if (texture.version > 0 && textureProperties.__version !== texture.version) {
-                uploadTexture(textureProperties, texture, slot);
-                return;
-            }
+            if (texture.version > 0 && textureProperties.__version !== texture.version) return void uploadTexture(textureProperties, texture, slot);
             state.activeTexture(33984 + slot), state.bindTexture(32879, textureProperties.__webglTexture);
         }, this.setTextureCube = setTextureCube, this.setupRenderTarget = function(renderTarget) {
             var renderTargetProperties = properties.get(renderTarget), textureProperties = properties.get(renderTarget.texture);
@@ -6929,13 +6893,11 @@ function(global, factory) {
             if (isWebGL2 && 1022 === renderTarget.texture.format && (1015 === renderTarget.texture.type || 1016 === renderTarget.texture.type) && (renderTarget.texture.format = 1023, console.warn('THREE.WebGLRenderer: Rendering to textures with RGB format is not supported. Using RGBA format instead.')), isCube) {
                 renderTargetProperties.__webglFramebuffer = [];
                 for(var i = 0; i < 6; i++)renderTargetProperties.__webglFramebuffer[i] = _gl.createFramebuffer();
-            } else if (renderTargetProperties.__webglFramebuffer = _gl.createFramebuffer(), isMultisample) {
-                if (isWebGL2) {
-                    renderTargetProperties.__webglMultisampledFramebuffer = _gl.createFramebuffer(), renderTargetProperties.__webglColorRenderbuffer = _gl.createRenderbuffer(), _gl.bindRenderbuffer(36161, renderTargetProperties.__webglColorRenderbuffer);
-                    var glFormat = utils.convert(renderTarget.texture.format), glType = utils.convert(renderTarget.texture.type), glInternalFormat = getInternalFormat(renderTarget.texture.internalFormat, glFormat, glType), samples = getRenderTargetSamples(renderTarget);
-                    _gl.renderbufferStorageMultisample(36161, samples, glInternalFormat, renderTarget.width, renderTarget.height), _gl.bindFramebuffer(36160, renderTargetProperties.__webglMultisampledFramebuffer), _gl.framebufferRenderbuffer(36160, 36064, 36161, renderTargetProperties.__webglColorRenderbuffer), _gl.bindRenderbuffer(36161, null), renderTarget.depthBuffer && (renderTargetProperties.__webglDepthRenderbuffer = _gl.createRenderbuffer(), setupRenderBufferStorage(renderTargetProperties.__webglDepthRenderbuffer, renderTarget, !0)), _gl.bindFramebuffer(36160, null);
-                } else console.warn('THREE.WebGLRenderer: WebGLMultisampleRenderTarget can only be used with WebGL2.');
-            }
+            } else if (renderTargetProperties.__webglFramebuffer = _gl.createFramebuffer(), isMultisample) if (isWebGL2) {
+                renderTargetProperties.__webglMultisampledFramebuffer = _gl.createFramebuffer(), renderTargetProperties.__webglColorRenderbuffer = _gl.createRenderbuffer(), _gl.bindRenderbuffer(36161, renderTargetProperties.__webglColorRenderbuffer);
+                var glFormat = utils.convert(renderTarget.texture.format), glType = utils.convert(renderTarget.texture.type), glInternalFormat = getInternalFormat(renderTarget.texture.internalFormat, glFormat, glType), samples = getRenderTargetSamples(renderTarget);
+                _gl.renderbufferStorageMultisample(36161, samples, glInternalFormat, renderTarget.width, renderTarget.height), _gl.bindFramebuffer(36160, renderTargetProperties.__webglMultisampledFramebuffer), _gl.framebufferRenderbuffer(36160, 36064, 36161, renderTargetProperties.__webglColorRenderbuffer), _gl.bindRenderbuffer(36161, null), renderTarget.depthBuffer && (renderTargetProperties.__webglDepthRenderbuffer = _gl.createRenderbuffer(), setupRenderBufferStorage(renderTargetProperties.__webglDepthRenderbuffer, renderTarget, !0)), _gl.bindFramebuffer(36160, null);
+            } else console.warn('THREE.WebGLRenderer: WebGLMultisampleRenderTarget can only be used with WebGL2.');
              // Setup color buffer
             if (isCube) {
                 state.bindTexture(34067, textureProperties.__webglTexture), setTextureParameters(34067, renderTarget.texture, supportsMips);
@@ -6947,17 +6909,15 @@ function(global, factory) {
                 var renderTargetProperties = properties.get(renderTarget), isCube = !0 === renderTarget.isWebGLCubeRenderTarget;
                 if (renderTarget.depthTexture) {
                     if (isCube) throw Error('target.depthTexture not supported in Cube render targets');
-                    !function(framebuffer, renderTarget) {
-                        if (renderTarget && renderTarget.isWebGLCubeRenderTarget) throw Error('Depth Texture with cube render targets is not supported');
-                        if (_gl.bindFramebuffer(36160, framebuffer), !(renderTarget.depthTexture && renderTarget.depthTexture.isDepthTexture)) throw Error('renderTarget.depthTexture must be an instance of THREE.DepthTexture');
-                         // upload an empty depth texture with framebuffer size
-                        properties.get(renderTarget.depthTexture).__webglTexture && renderTarget.depthTexture.image.width === renderTarget.width && renderTarget.depthTexture.image.height === renderTarget.height || (renderTarget.depthTexture.image.width = renderTarget.width, renderTarget.depthTexture.image.height = renderTarget.height, renderTarget.depthTexture.needsUpdate = !0), setTexture2D(renderTarget.depthTexture, 0);
-                        var webglDepthTexture = properties.get(renderTarget.depthTexture).__webglTexture;
-                        if (1026 === renderTarget.depthTexture.format) _gl.framebufferTexture2D(36160, 36096, 3553, webglDepthTexture, 0);
-                        else if (1027 === renderTarget.depthTexture.format) _gl.framebufferTexture2D(36160, 33306, 3553, webglDepthTexture, 0);
-                        else throw Error('Unknown depthTexture format');
-                    } // Setup GL resources for a non-texture depth buffer
-                    (renderTargetProperties.__webglFramebuffer, renderTarget);
+                    var framebuffer = renderTargetProperties.__webglFramebuffer;
+                    if (renderTarget && renderTarget.isWebGLCubeRenderTarget) throw Error('Depth Texture with cube render targets is not supported');
+                    if (_gl.bindFramebuffer(36160, framebuffer), !(renderTarget.depthTexture && renderTarget.depthTexture.isDepthTexture)) throw Error('renderTarget.depthTexture must be an instance of THREE.DepthTexture');
+                     // upload an empty depth texture with framebuffer size
+                    properties.get(renderTarget.depthTexture).__webglTexture && renderTarget.depthTexture.image.width === renderTarget.width && renderTarget.depthTexture.image.height === renderTarget.height || (renderTarget.depthTexture.image.width = renderTarget.width, renderTarget.depthTexture.image.height = renderTarget.height, renderTarget.depthTexture.needsUpdate = !0), setTexture2D(renderTarget.depthTexture, 0);
+                    var webglDepthTexture = properties.get(renderTarget.depthTexture).__webglTexture;
+                    if (1026 === renderTarget.depthTexture.format) _gl.framebufferTexture2D(36160, 36096, 3553, webglDepthTexture, 0);
+                    else if (1027 === renderTarget.depthTexture.format) _gl.framebufferTexture2D(36160, 33306, 3553, webglDepthTexture, 0);
+                    else throw Error('Unknown depthTexture format');
                 } else if (isCube) {
                     renderTargetProperties.__webglDepthbuffer = [];
                     for(var i = 0; i < 6; i++)_gl.bindFramebuffer(36160, renderTargetProperties.__webglFramebuffer[i]), renderTargetProperties.__webglDepthbuffer[i] = _gl.createRenderbuffer(), setupRenderBufferStorage(renderTargetProperties.__webglDepthbuffer[i], renderTarget, !1);
@@ -6972,14 +6932,12 @@ function(global, factory) {
                 state.bindTexture(target, webglTexture), generateMipmap(target, texture, renderTarget.width, renderTarget.height), state.bindTexture(target, null);
             }
         }, this.updateMultisampleRenderTarget = function(renderTarget) {
-            if (renderTarget.isWebGLMultisampleRenderTarget) {
-                if (isWebGL2) {
-                    var renderTargetProperties = properties.get(renderTarget);
-                    _gl.bindFramebuffer(36008, renderTargetProperties.__webglMultisampledFramebuffer), _gl.bindFramebuffer(36009, renderTargetProperties.__webglFramebuffer);
-                    var width = renderTarget.width, height = renderTarget.height, mask = 16384;
-                    renderTarget.depthBuffer && (mask |= 256), renderTarget.stencilBuffer && (mask |= 1024), _gl.blitFramebuffer(0, 0, width, height, 0, 0, width, height, mask, 9728), _gl.bindFramebuffer(36160, renderTargetProperties.__webglMultisampledFramebuffer);
-                } else console.warn('THREE.WebGLRenderer: WebGLMultisampleRenderTarget can only be used with WebGL2.');
-            }
+            if (renderTarget.isWebGLMultisampleRenderTarget) if (isWebGL2) {
+                var renderTargetProperties = properties.get(renderTarget);
+                _gl.bindFramebuffer(36008, renderTargetProperties.__webglMultisampledFramebuffer), _gl.bindFramebuffer(36009, renderTargetProperties.__webglFramebuffer);
+                var width = renderTarget.width, height = renderTarget.height, mask = 16384;
+                renderTarget.depthBuffer && (mask |= 256), renderTarget.stencilBuffer && (mask |= 1024), _gl.blitFramebuffer(0, 0, width, height, 0, 0, width, height, mask, 9728), _gl.bindFramebuffer(36160, renderTargetProperties.__webglMultisampledFramebuffer);
+            } else console.warn('THREE.WebGLRenderer: WebGLMultisampleRenderTarget can only be used with WebGL2.');
         }, this.safeSetTexture2D = function(texture, slot) {
             texture && texture.isWebGLRenderTarget && (!1 === warnedTexture2D && (console.warn('THREE.WebGLTextures.safeSetTexture2D: don\'t use render targets as textures. Use their .texture property instead.'), warnedTexture2D = !0), texture = texture.texture), setTexture2D(texture, slot);
         }, this.safeSetTextureCube = function(texture, slot) {
@@ -7140,27 +7098,14 @@ function(global, factory) {
                 depthNear: cameraVR.near,
                 depthFar: cameraVR.far
             }), _currentDepthNear = cameraVR.near, _currentDepthFar = cameraVR.far);
-            var parent = camera.parent, cameras = cameraVR.cameras;
+            var ipd, projL, projR, near, far, topFov, bottomFov, leftFov, rightFov, zOffset, xOffset, near2, far2, parent = camera.parent, cameras = cameraVR.cameras;
             updateCamera(cameraVR, parent);
             for(var i = 0; i < cameras.length; i++)updateCamera(cameras[i], parent);
              // update camera and its children
             camera.matrixWorld.copy(cameraVR.matrixWorld);
             for(var children = camera.children, _i3 = 0, l = children.length; _i3 < l; _i3++)children[_i3].updateMatrixWorld(!0);
              // update projection matrix for proper view frustum culling
-            return 2 === cameras.length ? /**
-		 * Assumes 2 cameras that are parallel and share an X-axis, and that
-		 * the cameras' projection and world matrices have already been set.
-		 * And that near and far planes are identical for both cameras.
-		 * Visualization of this technique: https://computergraphics.stackexchange.com/a/4765
-		 */ function(camera, cameraL, cameraR) {
-                cameraLPos.setFromMatrixPosition(cameraL.matrixWorld), cameraRPos.setFromMatrixPosition(cameraR.matrixWorld);
-                var ipd = cameraLPos.distanceTo(cameraRPos), projL = cameraL.projectionMatrix.elements, projR = cameraR.projectionMatrix.elements, near = projL[14] / (projL[10] - 1), far = projL[14] / (projL[10] + 1), topFov = (projL[9] + 1) / projL[5], bottomFov = (projL[9] - 1) / projL[5], leftFov = (projL[8] - 1) / projL[0], rightFov = (projR[8] + 1) / projR[0], zOffset = ipd / (-leftFov + rightFov), xOffset = -(zOffset * leftFov);
-                cameraL.matrixWorld.decompose(camera.position, camera.quaternion, camera.scale), camera.translateX(xOffset), camera.translateZ(zOffset), camera.matrixWorld.compose(camera.position, camera.quaternion, camera.scale), camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
-                // the values so that the near plane's position does not change in world space,
-                // although must now be relative to the new union camera.
-                var near2 = near + zOffset, far2 = far + zOffset;
-                camera.projectionMatrix.makePerspective(near * leftFov - xOffset, near * rightFov + (ipd - xOffset), topFov * far / far2 * near2, bottomFov * far / far2 * near2, near2, far2);
-            }(cameraVR, cameraL, cameraR) : // assume single camera setup (AR)
+            return 2 === cameras.length ? (cameraLPos.setFromMatrixPosition(cameraL.matrixWorld), cameraRPos.setFromMatrixPosition(cameraR.matrixWorld), ipd = cameraLPos.distanceTo(cameraRPos), projL = cameraL.projectionMatrix.elements, projR = cameraR.projectionMatrix.elements, near = projL[14] / (projL[10] - 1), far = projL[14] / (projL[10] + 1), topFov = (projL[9] + 1) / projL[5], bottomFov = (projL[9] - 1) / projL[5], xOffset = -((zOffset = ipd / (-(leftFov = (projL[8] - 1) / projL[0]) + (rightFov = (projR[8] + 1) / projR[0]))) * leftFov), cameraL.matrixWorld.decompose(cameraVR.position, cameraVR.quaternion, cameraVR.scale), cameraVR.translateX(xOffset), cameraVR.translateZ(zOffset), cameraVR.matrixWorld.compose(cameraVR.position, cameraVR.quaternion, cameraVR.scale), cameraVR.matrixWorldInverse.copy(cameraVR.matrixWorld).invert(), near2 = near + zOffset, far2 = far + zOffset, cameraVR.projectionMatrix.makePerspective(near * leftFov - xOffset, near * rightFov + (ipd - xOffset), topFov * far / far2 * near2, bottomFov * far / far2 * near2, near2, far2)) : // assume single camera setup (AR)
             cameraVR.projectionMatrix.copy(cameraL.projectionMatrix), cameraVR;
         };
         var onAnimationFrameCallback = null, animation = new WebGLAnimation();
@@ -7251,10 +7196,8 @@ function(global, factory) {
                     preserveDrawingBuffer: _preserveDrawingBuffer,
                     powerPreference: _powerPreference,
                     failIfMajorPerformanceCaveat: _failIfMajorPerformanceCaveat
-                }), null === _gl) {
-                    if (getContext(contextNames)) throw Error('Error creating WebGL context with your selected attributes.');
-                    throw Error('Error creating WebGL context.');
-                }
+                }), null === _gl) if (getContext(contextNames)) throw Error('Error creating WebGL context with your selected attributes.');
+                else throw Error('Error creating WebGL context.');
             } // Some experimental-webgl implementations do not have getShaderPrecisionFormat
             void 0 === _gl.getShaderPrecisionFormat && (_gl.getShaderPrecisionFormat = function() {
                 return {
@@ -7304,10 +7247,7 @@ function(global, factory) {
         }, this.getSize = function(target) {
             return void 0 === target && (console.warn('WebGLRenderer: .getsize() now requires a Vector2 as an argument'), target = new Vector2()), target.set(_width, _height);
         }, this.setSize = function(width, height, updateStyle) {
-            if (xr.isPresenting) {
-                console.warn('THREE.WebGLRenderer: Can\'t change size while VR device is presenting.');
-                return;
-            }
+            if (xr.isPresenting) return void console.warn('THREE.WebGLRenderer: Can\'t change size while VR device is presenting.');
             _width = width, _height = height, _canvas.width = Math.floor(width * _pixelRatio), _canvas.height = Math.floor(height * _pixelRatio), !1 !== updateStyle && (_canvas.style.width = width + 'px', _canvas.style.height = height + 'px'), this.setViewport(0, 0, width, height);
         }, this.getDrawingBufferSize = function(target) {
             return void 0 === target && (console.warn('WebGLRenderer: .getdrawingBufferSize() now requires a Vector2 as an argument'), target = new Vector2()), target.set(_width * _pixelRatio, _height * _pixelRatio).floor();
@@ -7389,13 +7329,11 @@ function(global, factory) {
             var compiled = new WeakMap();
             scene.traverse(function(object) {
                 var material = object.material;
-                if (material) {
-                    if (Array.isArray(material)) for(var i = 0; i < material.length; i++){
-                        var material2 = material[i];
-                        !1 === compiled.has(material2) && (initMaterial(material2, scene, object), compiled.set(material2));
-                    }
-                    else !1 === compiled.has(material) && (initMaterial(material, scene, object), compiled.set(material));
+                if (material) if (Array.isArray(material)) for(var i = 0; i < material.length; i++){
+                    var material2 = material[i];
+                    !1 === compiled.has(material2) && (initMaterial(material2, scene, object), compiled.set(material2));
                 }
+                else !1 === compiled.has(material) && (initMaterial(material, scene, object), compiled.set(material));
             });
         };
         var onAnimationFrameCallback = null, animation = new WebGLAnimation();
@@ -7412,11 +7350,9 @@ function(global, factory) {
         function renderObject(object, scene, camera, geometry, material, group) {
             if (object.onBeforeRender(_this, scene, camera, geometry, material, group), object.modelViewMatrix.multiplyMatrices(camera.matrixWorldInverse, object.matrixWorld), object.normalMatrix.getNormalMatrix(object.modelViewMatrix), object.isImmediateRenderObject) {
                 var program = setProgram(camera, scene, material, object);
-                state.setMaterial(material), bindingStates.reset(), function(object, program) {
-                    object.render(function(object) {
-                        _this.renderBufferImmediate(object, program);
-                    });
-                }(object, program);
+                state.setMaterial(material), bindingStates.reset(), object.render(function(object) {
+                    _this.renderBufferImmediate(object, program);
+                });
             } else _this.renderBufferDirect(camera, scene, geometry, material, object, group);
             object.onAfterRender(_this, scene, camera, geometry, material, group);
         }
@@ -7451,7 +7387,7 @@ function(global, factory) {
                 // (#8465, #8379)
                 clipping.setState(material, camera, useCache);
             }
-            material.version === materialProperties.__version ? material.fog && materialProperties.fog !== fog ? initMaterial(material, scene, object) : materialProperties.environment !== environment ? initMaterial(material, scene, object) : materialProperties.needsLights && materialProperties.lightsStateVersion !== lights.state.version ? initMaterial(material, scene, object) : void 0 !== materialProperties.numClippingPlanes && (materialProperties.numClippingPlanes !== clipping.numPlanes || materialProperties.numIntersection !== clipping.numIntersection) ? initMaterial(material, scene, object) : materialProperties.outputEncoding !== encoding ? initMaterial(material, scene, object) : materialProperties.envMap !== envMap && initMaterial(material, scene, object) : (initMaterial(material, scene, object), materialProperties.__version = material.version);
+            material.version === materialProperties.__version ? material.fog && materialProperties.fog !== fog || materialProperties.environment !== environment || materialProperties.needsLights && materialProperties.lightsStateVersion !== lights.state.version || void 0 !== materialProperties.numClippingPlanes && (materialProperties.numClippingPlanes !== clipping.numPlanes || materialProperties.numIntersection !== clipping.numIntersection) || materialProperties.outputEncoding !== encoding ? initMaterial(material, scene, object) : materialProperties.envMap !== envMap && initMaterial(material, scene, object) : (initMaterial(material, scene, object), materialProperties.__version = material.version);
             var refreshProgram = !1, refreshMaterial = !1, refreshLights = !1, program = materialProperties.program, p_uniforms = program.getUniforms(), m_uniforms = materialProperties.uniforms;
             if (state.useProgram(program.program) && (refreshProgram = !0, refreshMaterial = !0, refreshLights = !0), material.id !== _currentMaterialId && (_currentMaterialId = material.id, refreshMaterial = !0), refreshProgram || _currentCamera !== camera) {
                 // (shader material also gets them for the sake of genericity)
@@ -7494,10 +7430,7 @@ function(global, factory) {
         }), 'undefined' != typeof window && animation.setContext(window), this.setAnimationLoop = function(callback) {
             onAnimationFrameCallback = callback, xr.setAnimationLoop(callback), null === callback ? animation.stop() : animation.start();
         }, this.render = function(scene, camera) {
-            if (void 0 !== arguments[2] && (console.warn('THREE.WebGLRenderer.render(): the renderTarget argument has been removed. Use .setRenderTarget() instead.'), renderTarget = arguments[2]), void 0 !== arguments[3] && (console.warn('THREE.WebGLRenderer.render(): the forceClear argument has been removed. Use .clear() instead.'), forceClear = arguments[3]), void 0 !== camera && !0 !== camera.isCamera) {
-                console.error('THREE.WebGLRenderer.render: camera is not an instance of THREE.Camera.');
-                return;
-            }
+            if (void 0 !== arguments[2] && (console.warn('THREE.WebGLRenderer.render(): the renderTarget argument has been removed. Use .setRenderTarget() instead.'), renderTarget = arguments[2]), void 0 !== arguments[3] && (console.warn('THREE.WebGLRenderer.render(): the forceClear argument has been removed. Use .clear() instead.'), forceClear = arguments[3]), void 0 !== camera && !0 !== camera.isCamera) return void console.error('THREE.WebGLRenderer.render: camera is not an instance of THREE.Camera.');
             if (!0 !== _isContextLost) {
                 bindingStates.resetDefaultState(), _currentMaterialId = -1, _currentCamera = null, !0 === scene.autoUpdate && scene.updateMatrixWorld(), null === camera.parent && camera.updateMatrixWorld(), !0 === xr.enabled && !0 === xr.isPresenting && (camera = xr.getCamera(camera)), !0 === scene.isScene && scene.onBeforeRender(_this, scene, camera, renderTarget || _currentRenderTarget), (currentRenderState = renderStates.get(scene, renderStateStack.length)).init(), renderStateStack.push(currentRenderState), _projScreenMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse), _frustum.setFromProjectionMatrix(_projScreenMatrix), _localClippingEnabled = this.localClippingEnabled, _clippingEnabled = clipping.init(this.clippingPlanes, _localClippingEnabled, camera), (currentRenderList = renderLists.get(scene, camera)).init(), function projectObject(object, camera, groupOrder, sortObjects) {
                     if (!1 !== object.visible) {
@@ -7555,26 +7488,17 @@ function(global, factory) {
                 _gl.framebufferTexture2D(36160, 36064, 34069 + activeCubeFace, textureProperties.__webglTexture, activeMipmapLevel);
             }
         }, this.readRenderTargetPixels = function(renderTarget, x, y, width, height, buffer, activeCubeFaceIndex) {
-            if (!(renderTarget && renderTarget.isWebGLRenderTarget)) {
-                console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not THREE.WebGLRenderTarget.');
-                return;
-            }
+            if (!(renderTarget && renderTarget.isWebGLRenderTarget)) return void console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not THREE.WebGLRenderTarget.');
             var framebuffer = properties.get(renderTarget).__webglFramebuffer;
             if (renderTarget.isWebGLCubeRenderTarget && void 0 !== activeCubeFaceIndex && (framebuffer = framebuffer[activeCubeFaceIndex]), framebuffer) {
                 var restore = !1;
                 framebuffer !== _currentFramebuffer && (_gl.bindFramebuffer(36160, framebuffer), restore = !0);
                 try {
                     var texture = renderTarget.texture, textureFormat = texture.format, textureType = texture.type;
-                    if (1023 !== textureFormat && utils.convert(textureFormat) !== _gl.getParameter(35739)) {
-                        console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not in RGBA or implementation defined format.');
-                        return;
-                    }
+                    if (1023 !== textureFormat && utils.convert(textureFormat) !== _gl.getParameter(35739)) return void console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not in RGBA or implementation defined format.');
                     if (1009 !== textureType && utils.convert(textureType) !== _gl.getParameter(35738) && // IE11, Edge and Chrome Mac < 52 (#9513)
                     !(1015 === textureType && (capabilities.isWebGL2 || extensions.get('OES_texture_float') || extensions.get('WEBGL_color_buffer_float'))) && // Chrome Mac >= 52 and Firefox
-                    !(1016 === textureType && (capabilities.isWebGL2 ? extensions.get('EXT_color_buffer_float') : extensions.get('EXT_color_buffer_half_float')))) {
-                        console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not in UnsignedByteType or implementation defined type.');
-                        return;
-                    }
+                    !(1016 === textureType && (capabilities.isWebGL2 ? extensions.get('EXT_color_buffer_float') : extensions.get('EXT_color_buffer_half_float')))) return void console.error('THREE.WebGLRenderer.readRenderTargetPixels: renderTarget is not in UnsignedByteType or implementation defined type.');
                     36053 === _gl.checkFramebufferStatus(36160) ? x >= 0 && x <= renderTarget.width - width && y >= 0 && y <= renderTarget.height - height && _gl.readPixels(x, y, width, height, utils.convert(textureFormat), utils.convert(textureType), buffer) : console.error('THREE.WebGLRenderer.readRenderTargetPixels: readPixels from renderTarget failed. Framebuffer not complete.');
                 } finally{
                     restore && _gl.bindFramebuffer(36160, _currentFramebuffer);
@@ -7639,27 +7563,25 @@ function(global, factory) {
         },
         update: function(inputSource, frame, referenceSpace) {
             var inputPose = null, gripPose = null, handPose = null, targetRay = this._targetRay, grip = this._grip, hand = this._hand;
-            if (inputSource && 'visible-blurred' !== frame.session.visibilityState) {
-                if (hand && inputSource.hand) {
-                    handPose = !0;
-                    for(var i = 0; i <= window.XRHand.LITTLE_PHALANX_TIP; i++)if (inputSource.hand[i]) {
-                        // Update the joints groups with the XRJoint poses
-                        var jointPose = frame.getJointPose(inputSource.hand[i], referenceSpace), joint = hand.joints[i];
-                        null !== jointPose && (joint.matrix.fromArray(jointPose.transform.matrix), joint.matrix.decompose(joint.position, joint.rotation, joint.scale), joint.jointRadius = jointPose.radius), joint.visible = null !== jointPose;
-                        // Check pinch
-                        var indexTip = hand.joints[window.XRHand.INDEX_PHALANX_TIP], thumbTip = hand.joints[window.XRHand.THUMB_PHALANX_TIP], distance = indexTip.position.distanceTo(thumbTip.position);
-                        hand.inputState.pinching && distance > 0.025 ? (hand.inputState.pinching = !1, this.dispatchEvent({
-                            type: 'pinchend',
-                            handedness: inputSource.handedness,
-                            target: this
-                        })) : !hand.inputState.pinching && distance <= 0.015 && (hand.inputState.pinching = !0, this.dispatchEvent({
-                            type: 'pinchstart',
-                            handedness: inputSource.handedness,
-                            target: this
-                        }));
-                    }
-                } else null !== targetRay && null !== (inputPose = frame.getPose(inputSource.targetRaySpace, referenceSpace)) && (targetRay.matrix.fromArray(inputPose.transform.matrix), targetRay.matrix.decompose(targetRay.position, targetRay.rotation, targetRay.scale)), null !== grip && inputSource.gripSpace && null !== (gripPose = frame.getPose(inputSource.gripSpace, referenceSpace)) && (grip.matrix.fromArray(gripPose.transform.matrix), grip.matrix.decompose(grip.position, grip.rotation, grip.scale));
-            }
+            if (inputSource && 'visible-blurred' !== frame.session.visibilityState) if (hand && inputSource.hand) {
+                handPose = !0;
+                for(var i = 0; i <= window.XRHand.LITTLE_PHALANX_TIP; i++)if (inputSource.hand[i]) {
+                    // Update the joints groups with the XRJoint poses
+                    var jointPose = frame.getJointPose(inputSource.hand[i], referenceSpace), joint = hand.joints[i];
+                    null !== jointPose && (joint.matrix.fromArray(jointPose.transform.matrix), joint.matrix.decompose(joint.position, joint.rotation, joint.scale), joint.jointRadius = jointPose.radius), joint.visible = null !== jointPose;
+                    // Check pinch
+                    var indexTip = hand.joints[window.XRHand.INDEX_PHALANX_TIP], thumbTip = hand.joints[window.XRHand.THUMB_PHALANX_TIP], distance = indexTip.position.distanceTo(thumbTip.position);
+                    hand.inputState.pinching && distance > 0.025 ? (hand.inputState.pinching = !1, this.dispatchEvent({
+                        type: 'pinchend',
+                        handedness: inputSource.handedness,
+                        target: this
+                    })) : !hand.inputState.pinching && distance <= 0.015 && (hand.inputState.pinching = !0, this.dispatchEvent({
+                        type: 'pinchstart',
+                        handedness: inputSource.handedness,
+                        target: this
+                    }));
+                }
+            } else null !== targetRay && null !== (inputPose = frame.getPose(inputSource.targetRaySpace, referenceSpace)) && (targetRay.matrix.fromArray(inputPose.transform.matrix), targetRay.matrix.decompose(targetRay.position, targetRay.rotation, targetRay.scale)), null !== grip && inputSource.gripSpace && null !== (gripPose = frame.getPose(inputSource.gripSpace, referenceSpace)) && (grip.matrix.fromArray(gripPose.transform.matrix), grip.matrix.decompose(grip.position, grip.rotation, grip.scale));
             return null !== targetRay && (targetRay.visible = null !== inputPose), null !== grip && (grip.visible = null !== gripPose), null !== hand && (hand.visible = null !== handPose), this;
         }
     }), Object.assign(WebXRManager.prototype, EventDispatcher.prototype), WebGL1Renderer.prototype = Object.assign(Object.create(WebGLRenderer.prototype), {
@@ -8187,15 +8109,14 @@ function(global, factory) {
         },
         computeLineDistances: function() {
             var geometry = this.geometry;
-            if (geometry.isBufferGeometry) {
-                // we assume non-indexed geometry
-                if (null === geometry.index) {
-                    for(var positionAttribute = geometry.attributes.position, lineDistances = [
-                        0
-                    ], i = 1, l = positionAttribute.count; i < l; i++)_start.fromBufferAttribute(positionAttribute, i - 1), _end.fromBufferAttribute(positionAttribute, i), lineDistances[i] = lineDistances[i - 1], lineDistances[i] += _start.distanceTo(_end);
-                    geometry.setAttribute('lineDistance', new Float32BufferAttribute(lineDistances, 1));
-                } else console.warn('THREE.Line.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.');
-            } else if (geometry.isGeometry) {
+            if (geometry.isBufferGeometry) // we assume non-indexed geometry
+            if (null === geometry.index) {
+                for(var positionAttribute = geometry.attributes.position, lineDistances = [
+                    0
+                ], i = 1, l = positionAttribute.count; i < l; i++)_start.fromBufferAttribute(positionAttribute, i - 1), _end.fromBufferAttribute(positionAttribute, i), lineDistances[i] = lineDistances[i - 1], lineDistances[i] += _start.distanceTo(_end);
+                geometry.setAttribute('lineDistance', new Float32BufferAttribute(lineDistances, 1));
+            } else console.warn('THREE.Line.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.');
+            else if (geometry.isGeometry) {
                 var vertices = geometry.vertices, _lineDistances = geometry.lineDistances;
                 _lineDistances[0] = 0;
                 for(var _i = 1, _l = vertices.length; _i < _l; _i++)_lineDistances[_i] = _lineDistances[_i - 1], _lineDistances[_i] += vertices[_i - 1].distanceTo(vertices[_i]);
@@ -8305,13 +8226,12 @@ function(global, factory) {
         isLineSegments: !0,
         computeLineDistances: function() {
             var geometry = this.geometry;
-            if (geometry.isBufferGeometry) {
-                // we assume non-indexed geometry
-                if (null === geometry.index) {
-                    for(var positionAttribute = geometry.attributes.position, lineDistances = [], i = 0, l = positionAttribute.count; i < l; i += 2)_start$1.fromBufferAttribute(positionAttribute, i), _end$1.fromBufferAttribute(positionAttribute, i + 1), lineDistances[i] = 0 === i ? 0 : lineDistances[i - 1], lineDistances[i + 1] = lineDistances[i] + _start$1.distanceTo(_end$1);
-                    geometry.setAttribute('lineDistance', new Float32BufferAttribute(lineDistances, 1));
-                } else console.warn('THREE.LineSegments.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.');
-            } else if (geometry.isGeometry) for(var vertices = geometry.vertices, _lineDistances = geometry.lineDistances, _i = 0, _l = vertices.length; _i < _l; _i += 2)_start$1.copy(vertices[_i]), _end$1.copy(vertices[_i + 1]), _lineDistances[_i] = 0 === _i ? 0 : _lineDistances[_i - 1], _lineDistances[_i + 1] = _lineDistances[_i] + _start$1.distanceTo(_end$1);
+            if (geometry.isBufferGeometry) // we assume non-indexed geometry
+            if (null === geometry.index) {
+                for(var positionAttribute = geometry.attributes.position, lineDistances = [], i = 0, l = positionAttribute.count; i < l; i += 2)_start$1.fromBufferAttribute(positionAttribute, i), _end$1.fromBufferAttribute(positionAttribute, i + 1), lineDistances[i] = 0 === i ? 0 : lineDistances[i - 1], lineDistances[i + 1] = lineDistances[i] + _start$1.distanceTo(_end$1);
+                geometry.setAttribute('lineDistance', new Float32BufferAttribute(lineDistances, 1));
+            } else console.warn('THREE.LineSegments.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.');
+            else if (geometry.isGeometry) for(var vertices = geometry.vertices, _lineDistances = geometry.lineDistances, _i = 0, _l = vertices.length; _i < _l; _i += 2)_start$1.copy(vertices[_i]), _end$1.copy(vertices[_i + 1]), _lineDistances[_i] = 0 === _i ? 0 : _lineDistances[_i - 1], _lineDistances[_i + 1] = _lineDistances[_i] + _start$1.distanceTo(_end$1);
             return this;
         }
     }), LineLoop.prototype = Object.assign(Object.create(Line.prototype), {
@@ -8578,10 +8498,7 @@ function(global, factory) {
             null === this.boundingSphere && (this.boundingSphere = new Sphere()), this.boundingSphere.setFromPoints(this.vertices);
         },
         merge: function(geometry, matrix, materialIndexOffset) {
-            if (void 0 === materialIndexOffset && (materialIndexOffset = 0), !(geometry && geometry.isGeometry)) {
-                console.error('THREE.Geometry.merge(): geometry not an instance of THREE.Geometry.', geometry);
-                return;
-            }
+            if (void 0 === materialIndexOffset && (materialIndexOffset = 0), !(geometry && geometry.isGeometry)) return void console.error('THREE.Geometry.merge(): geometry not an instance of THREE.Geometry.', geometry);
             var normalMatrix, vertexOffset = this.vertices.length, vertices1 = this.vertices, vertices2 = geometry.vertices, faces1 = this.faces, faces2 = geometry.faces, colors1 = this.colors, colors2 = geometry.colors;
             void 0 !== matrix && (normalMatrix = new Matrix3().getNormalMatrix(matrix));
             for(var i = 0, il = vertices2.length; i < il; i++){
@@ -8608,10 +8525,7 @@ function(global, factory) {
             }
         },
         mergeMesh: function(mesh) {
-            if (!(mesh && mesh.isMesh)) {
-                console.error('THREE.Geometry.mergeMesh(): mesh not an instance of THREE.Mesh.', mesh);
-                return;
-            }
+            if (!(mesh && mesh.isMesh)) return void console.error('THREE.Geometry.mergeMesh(): mesh not an instance of THREE.Mesh.', mesh);
             mesh.matrixAutoUpdate && mesh.updateMatrix(), this.merge(mesh.geometry, mesh.matrix);
         },
         /*
@@ -10780,16 +10694,15 @@ function(global, factory) {
             for(var i = 1, key = jsonKeys[0]; void 0 !== key && void 0 === key[valuePropertyName];)key = jsonKeys[i++];
             if (void 0 !== key) {
                 var value = key[valuePropertyName];
-                if (void 0 !== value) {
-                    if (Array.isArray(value)) do void 0 !== (value = key[valuePropertyName]) && (times.push(key.time), values.push.apply(values, value)), key = jsonKeys[i++];
-                    while (void 0 !== key)
-                    else if (void 0 !== value.toArray) // ...assume THREE.Math-ish
-                    do void 0 !== (value = key[valuePropertyName]) && (times.push(key.time), value.toArray(values, values.length)), key = jsonKeys[i++];
-                    while (void 0 !== key)
-                    else // otherwise push as-is
-                    do void 0 !== (value = key[valuePropertyName]) && (times.push(key.time), values.push(value)), key = jsonKeys[i++];
-                    while (void 0 !== key)
-                } // no data
+                if (void 0 !== value) if (Array.isArray(value)) do void 0 !== (value = key[valuePropertyName]) && (times.push(key.time), values.push.apply(values, value)), key = jsonKeys[i++];
+                while (void 0 !== key)
+                else if (void 0 !== value.toArray) // ...assume THREE.Math-ish
+                do void 0 !== (value = key[valuePropertyName]) && (times.push(key.time), value.toArray(values, values.length)), key = jsonKeys[i++];
+                while (void 0 !== key)
+                else // otherwise push as-is
+                do void 0 !== (value = key[valuePropertyName]) && (times.push(key.time), values.push(value)), key = jsonKeys[i++];
+                while (void 0 !== key)
+                 // no data
             } // no data
         },
         subclip: function(sourceClip, name, startFrame, endFrame, fps) {
@@ -11106,11 +11019,9 @@ function(global, factory) {
             }
             if (void 0 === factoryMethod) {
                 var message = 'unsupported interpolation for ' + this.ValueTypeName + ' keyframe track named ' + this.name;
-                if (void 0 === this.createInterpolant) {
-                    // fall back to default, unless the default itself is messed up
-                    if (interpolation !== this.DefaultInterpolation) this.setInterpolation(this.DefaultInterpolation);
-                    else throw Error(message); // fatal, in this case
-                }
+                if (void 0 === this.createInterpolant) // fall back to default, unless the default itself is messed up
+                if (interpolation !== this.DefaultInterpolation) this.setInterpolation(this.DefaultInterpolation);
+                else throw Error(message); // fatal, in this case
                 return console.warn('THREE.KeyframeTrack:', message), this;
             }
             return this.createInterpolant = factoryMethod, this;
@@ -11182,16 +11093,15 @@ function(global, factory) {
         optimize: function() {
             for(var times = AnimationUtils.arraySlice(this.times), values = AnimationUtils.arraySlice(this.values), stride = this.getValueSize(), smoothInterpolation = 2302 === this.getInterpolation(), lastIndex = times.length - 1, writeIndex = 1, i = 1; i < lastIndex; ++i){
                 var keep = !1, time = times[i];
-                if (time !== times[i + 1] && (1 !== i || time !== time[0])) {
-                    if (smoothInterpolation) keep = !0;
-                    else for(var offset = i * stride, offsetP = offset - stride, offsetN = offset + stride, j = 0; j !== stride; ++j){
-                        var value = values[offset + j];
-                        if (value !== values[offsetP + j] || value !== values[offsetN + j]) {
-                            keep = !0;
-                            break;
-                        }
+                if (time !== times[i + 1] && (1 !== i || time !== time[0])) if (smoothInterpolation) keep = !0;
+                else for(var offset = i * stride, offsetP = offset - stride, offsetN = offset + stride, j = 0; j !== stride; ++j){
+                    var value = values[offset + j];
+                    if (value !== values[offsetP + j] || value !== values[offsetN + j]) {
+                        keep = !0;
+                        break;
                     }
-                } // in-place compaction
+                }
+                 // in-place compaction
                 if (keep) {
                     if (i !== writeIndex) {
                         times[writeIndex] = times[i];
@@ -11336,28 +11246,27 @@ function(global, factory) {
                 }
             }, tracks = [], clipName = animation.name || 'default', fps = animation.fps || 30, blendMode = animation.blendMode, duration = animation.length || -1, hierarchyTracks = animation.hierarchy || [], h = 0; h < hierarchyTracks.length; h++){
                 var animationKeys = hierarchyTracks[h].keys; // skip empty tracks
-                if (animationKeys && 0 !== animationKeys.length) {
-                    if (animationKeys[0].morphTargets) {
-                        // figure out all morph targets used in this track
-                        var morphTargetNames = {}, k = void 0;
-                        for(k = 0; k < animationKeys.length; k++)if (animationKeys[k].morphTargets) for(var m = 0; m < animationKeys[k].morphTargets.length; m++)morphTargetNames[animationKeys[k].morphTargets[m]] = -1;
-                         // create a track for each morph target with all zero
-                        // morphTargetInfluences except for the keys in which
-                        // the morphTarget is named.
-                        for(var morphTargetName in morphTargetNames){
-                            for(var times = [], values = [], _m = 0; _m !== animationKeys[k].morphTargets.length; ++_m){
-                                var animationKey = animationKeys[k];
-                                times.push(animationKey.time), values.push(+(animationKey.morphTarget === morphTargetName));
-                            }
-                            tracks.push(new NumberKeyframeTrack('.morphTargetInfluence[' + morphTargetName + ']', times, values));
+                if (animationKeys && 0 !== animationKeys.length) if (animationKeys[0].morphTargets) {
+                    // figure out all morph targets used in this track
+                    var morphTargetNames = {}, k = void 0;
+                    for(k = 0; k < animationKeys.length; k++)if (animationKeys[k].morphTargets) for(var m = 0; m < animationKeys[k].morphTargets.length; m++)morphTargetNames[animationKeys[k].morphTargets[m]] = -1;
+                     // create a track for each morph target with all zero
+                    // morphTargetInfluences except for the keys in which
+                    // the morphTarget is named.
+                    for(var morphTargetName in morphTargetNames){
+                        for(var times = [], values = [], _m = 0; _m !== animationKeys[k].morphTargets.length; ++_m){
+                            var animationKey = animationKeys[k];
+                            times.push(animationKey.time), values.push(+(animationKey.morphTarget === morphTargetName));
                         }
-                        duration = morphTargetNames.length * (fps || 1.0);
-                    } else {
-                        // ...assume skeletal animation
-                        var boneName = '.bones[' + bones[h].name + ']';
-                        addNonemptyTrack(VectorKeyframeTrack, boneName + '.position', animationKeys, 'pos', tracks), addNonemptyTrack(QuaternionKeyframeTrack, boneName + '.quaternion', animationKeys, 'rot', tracks), addNonemptyTrack(VectorKeyframeTrack, boneName + '.scale', animationKeys, 'scl', tracks);
+                        tracks.push(new NumberKeyframeTrack('.morphTargetInfluence[' + morphTargetName + ']', times, values));
                     }
-                } // process morph targets
+                    duration = morphTargetNames.length * (fps || 1.0);
+                } else {
+                    // ...assume skeletal animation
+                    var boneName = '.bones[' + bones[h].name + ']';
+                    addNonemptyTrack(VectorKeyframeTrack, boneName + '.position', animationKeys, 'pos', tracks), addNonemptyTrack(QuaternionKeyframeTrack, boneName + '.quaternion', animationKeys, 'rot', tracks), addNonemptyTrack(VectorKeyframeTrack, boneName + '.scale', animationKeys, 'scl', tracks);
+                }
+                 // process morph targets
             }
             return 0 === tracks.length ? null : new AnimationClip(clipName, duration, tracks, blendMode);
         }
@@ -11579,14 +11488,11 @@ function(global, factory) {
                 onLoad && onLoad(cached), scope.manager.itemEnd(url);
             }, 0), cached;
              // Check if request is duplicate
-            if (void 0 !== loading[url]) {
-                loading[url].push({
-                    onLoad: onLoad,
-                    onProgress: onProgress,
-                    onError: onError
-                });
-                return;
-            } // Check for data: URI
+            if (void 0 !== loading[url]) return void loading[url].push({
+                onLoad: onLoad,
+                onProgress: onProgress,
+                onError: onError
+            }); // Check for data: URI
             var dataUriRegexResult = url.match(/^data:(.*?)(;base64)?,(.*)$/);
             if (dataUriRegexResult) {
                 var mimeType = dataUriRegexResult[1], isBase64 = !!dataUriRegexResult[2], data = dataUriRegexResult[3];
@@ -11951,7 +11857,7 @@ function(global, factory) {
     }
     CatmullRomCurve3.prototype = Object.create(Curve.prototype), CatmullRomCurve3.prototype.constructor = CatmullRomCurve3, CatmullRomCurve3.prototype.isCatmullRomCurve3 = !0, CatmullRomCurve3.prototype.getPoint = function(t, optionalTarget) {
         void 0 === optionalTarget && (optionalTarget = new Vector3());
-        var p0, p3, point = optionalTarget, points = this.points, l = points.length, p = (l - +!this.closed) * t, intPoint = Math.floor(p), weight = p - intPoint;
+        var p0, p3, point = optionalTarget, points = this.points, l = points.length, p = (l - !this.closed) * t, intPoint = Math.floor(p), weight = p - intPoint;
         this.closed ? intPoint += intPoint > 0 ? 0 : (Math.floor(Math.abs(intPoint) / l) + 1) * l : 0 === weight && intPoint === l - 1 && (intPoint = l - 2, weight = 1), this.closed || intPoint > 0 ? p0 = points[(intPoint - 1) % l] : (// extrapolate first point
         tmp.subVectors(points[0], points[1]).add(points[0]), p0 = tmp);
         var p1 = points[intPoint % l], p2 = points[(intPoint + 1) % l];
@@ -12793,10 +12699,7 @@ function(global, factory) {
                     return;
                 }
                 var metadata = json.metadata;
-                if (void 0 === metadata || void 0 === metadata.type || 'geometry' === metadata.type.toLowerCase()) {
-                    console.error('THREE.ObjectLoader: Can\'t load ' + url);
-                    return;
-                }
+                if (void 0 === metadata || void 0 === metadata.type || 'geometry' === metadata.type.toLowerCase()) return void console.error('THREE.ObjectLoader: Can\'t load ' + url);
                 scope.parse(json, onLoad);
             }, onProgress, onError);
         }, _proto.parse = function(json, onLoad) {
@@ -13260,10 +13163,7 @@ function(global, factory) {
                     else {
                         var ret = function(char, scale, offsetX, offsetY, data) {
                             var x, y, cpx, cpy, cpx1, cpy1, cpx2, cpy2, glyph = data.glyphs[char] || data.glyphs['?'];
-                            if (!glyph) {
-                                console.error('THREE.Font: character "' + char + '" does not exists in font family ' + data.familyName + '.');
-                                return;
-                            }
+                            if (!glyph) return void console.error('THREE.Font: character "' + char + '" does not exists in font family ' + data.familyName + '.');
                             var path = new ShapePath();
                             if (glyph.o) for(var outline = glyph._cachedOutline || (glyph._cachedOutline = glyph.o.split(' ')), i = 0, l = outline.length; i < l;)switch(outline[i++]){
                                 case 'm':
@@ -13465,31 +13365,17 @@ function(global, factory) {
         }, _proto.setBuffer = function(audioBuffer) {
             return this.buffer = audioBuffer, this.sourceType = 'buffer', this.autoplay && this.play(), this;
         }, _proto.play = function(delay) {
-            if (void 0 === delay && (delay = 0), !0 === this.isPlaying) {
-                console.warn('THREE.Audio: Audio is already playing.');
-                return;
-            }
-            if (!1 === this.hasPlaybackControl) {
-                console.warn('THREE.Audio: this Audio has no playback control.');
-                return;
-            }
+            if (void 0 === delay && (delay = 0), !0 === this.isPlaying) return void console.warn('THREE.Audio: Audio is already playing.');
+            if (!1 === this.hasPlaybackControl) return void console.warn('THREE.Audio: this Audio has no playback control.');
             this._startedAt = this.context.currentTime + delay;
             var source = this.context.createBufferSource();
             return source.buffer = this.buffer, source.loop = this.loop, source.loopStart = this.loopStart, source.loopEnd = this.loopEnd, source.onended = this.onEnded.bind(this), source.start(this._startedAt, this._progress + this.offset, this.duration), this.isPlaying = !0, this.source = source, this.setDetune(this.detune), this.setPlaybackRate(this.playbackRate), this.connect();
         }, _proto.pause = function() {
-            if (!1 === this.hasPlaybackControl) {
-                console.warn('THREE.Audio: this Audio has no playback control.');
-                return;
-            }
-            return !0 === this.isPlaying && (// update current progress
+            return !1 === this.hasPlaybackControl ? void console.warn('THREE.Audio: this Audio has no playback control.') : (!0 === this.isPlaying && (// update current progress
             this._progress += Math.max(this.context.currentTime - this._startedAt, 0) * this.playbackRate, !0 === this.loop && // ensure _progress does not exceed duration with looped audios
-            (this._progress = this._progress % (this.duration || this.buffer.duration)), this.source.stop(), this.source.onended = null, this.isPlaying = !1), this;
+            (this._progress = this._progress % (this.duration || this.buffer.duration)), this.source.stop(), this.source.onended = null, this.isPlaying = !1), this);
         }, _proto.stop = function() {
-            if (!1 === this.hasPlaybackControl) {
-                console.warn('THREE.Audio: this Audio has no playback control.');
-                return;
-            }
-            return this._progress = 0, this.source.stop(), this.source.onended = null, this.isPlaying = !1, this;
+            return !1 === this.hasPlaybackControl ? void console.warn('THREE.Audio: this Audio has no playback control.') : (this._progress = 0, this.source.stop(), this.source.onended = null, this.isPlaying = !1, this);
         }, _proto.connect = function() {
             if (this.filters.length > 0) {
                 this.source.connect(this.filters[0]);
@@ -13520,11 +13406,7 @@ function(global, factory) {
                 filter
             ] : []);
         }, _proto.setPlaybackRate = function(value) {
-            if (!1 === this.hasPlaybackControl) {
-                console.warn('THREE.Audio: this Audio has no playback control.');
-                return;
-            }
-            return this.playbackRate = value, !0 === this.isPlaying && this.source.playbackRate.setTargetAtTime(this.playbackRate, this.context.currentTime, 0.01), this;
+            return !1 === this.hasPlaybackControl ? void console.warn('THREE.Audio: this Audio has no playback control.') : (this.playbackRate = value, !0 === this.isPlaying && this.source.playbackRate.setTargetAtTime(this.playbackRate, this.context.currentTime, 0.01), this);
         }, _proto.getPlaybackRate = function() {
             return this.playbackRate;
         }, _proto.onEnded = function() {
@@ -13532,11 +13414,7 @@ function(global, factory) {
         }, _proto.getLoop = function() {
             return !1 === this.hasPlaybackControl ? (console.warn('THREE.Audio: this Audio has no playback control.'), !1) : this.loop;
         }, _proto.setLoop = function(value) {
-            if (!1 === this.hasPlaybackControl) {
-                console.warn('THREE.Audio: this Audio has no playback control.');
-                return;
-            }
-            return this.loop = value, !0 === this.isPlaying && (this.source.loop = this.loop), this;
+            return !1 === this.hasPlaybackControl ? void console.warn('THREE.Audio: this Audio has no playback control.') : (this.loop = value, !0 === this.isPlaying && (this.source.loop = this.loop), this);
         }, _proto.setLoopStart = function(value) {
             return this.loopStart = value, this;
         }, _proto.setLoopEnd = function(value) {
@@ -13937,29 +13815,17 @@ function(global, factory) {
         // create getter / setter pair for a property in the scene graph
         bind: function() {
             var targetObject = this.node, parsedPath = this.parsedPath, objectName = parsedPath.objectName, propertyName = parsedPath.propertyName, propertyIndex = parsedPath.propertyIndex;
-            if (targetObject || (targetObject = PropertyBinding.findNode(this.rootNode, parsedPath.nodeName) || this.rootNode, this.node = targetObject), this.getValue = this._getValue_unavailable, this.setValue = this._setValue_unavailable, !targetObject) {
-                console.error('THREE.PropertyBinding: Trying to update node for track: ' + this.path + ' but it wasn\'t found.');
-                return;
-            }
+            if (targetObject || (targetObject = PropertyBinding.findNode(this.rootNode, parsedPath.nodeName) || this.rootNode, this.node = targetObject), this.getValue = this._getValue_unavailable, this.setValue = this._setValue_unavailable, !targetObject) return void console.error('THREE.PropertyBinding: Trying to update node for track: ' + this.path + ' but it wasn\'t found.');
             if (objectName) {
                 var objectIndex = parsedPath.objectIndex; // special cases were we need to reach deeper into the hierarchy to get the face materials....
                 switch(objectName){
                     case 'materials':
-                        if (!targetObject.material) {
-                            console.error('THREE.PropertyBinding: Can not bind to material as node does not have a material.', this);
-                            return;
-                        }
-                        if (!targetObject.material.materials) {
-                            console.error('THREE.PropertyBinding: Can not bind to material.materials as node.material does not have a materials array.', this);
-                            return;
-                        }
+                        if (!targetObject.material) return void console.error('THREE.PropertyBinding: Can not bind to material as node does not have a material.', this);
+                        if (!targetObject.material.materials) return void console.error('THREE.PropertyBinding: Can not bind to material.materials as node.material does not have a materials array.', this);
                         targetObject = targetObject.material.materials;
                         break;
                     case 'bones':
-                        if (!targetObject.skeleton) {
-                            console.error('THREE.PropertyBinding: Can not bind to bones as node does not have a skeleton.', this);
-                            return;
-                        } // potential future optimization: skip this if propertyIndex is already an integer
+                        if (!targetObject.skeleton) return void console.error('THREE.PropertyBinding: Can not bind to bones as node does not have a skeleton.', this); // potential future optimization: skip this if propertyIndex is already an integer
                         // and convert the integer string to a true integer.
                         targetObject = targetObject.skeleton.bones; // support resolving morphTarget names into indices.
                         for(var i = 0; i < targetObject.length; i++)if (targetObject[i].name === objectIndex) {
@@ -13968,25 +13834,16 @@ function(global, factory) {
                         }
                         break;
                     default:
-                        if (void 0 === targetObject[objectName]) {
-                            console.error('THREE.PropertyBinding: Can not bind to objectName of node undefined.', this);
-                            return;
-                        }
+                        if (void 0 === targetObject[objectName]) return void console.error('THREE.PropertyBinding: Can not bind to objectName of node undefined.', this);
                         targetObject = targetObject[objectName];
                 }
                 if (void 0 !== objectIndex) {
-                    if (void 0 === targetObject[objectIndex]) {
-                        console.error('THREE.PropertyBinding: Trying to bind to objectIndex of objectName, but is undefined.', this, targetObject);
-                        return;
-                    }
+                    if (void 0 === targetObject[objectIndex]) return void console.error('THREE.PropertyBinding: Trying to bind to objectIndex of objectName, but is undefined.', this, targetObject);
                     targetObject = targetObject[objectIndex];
                 }
             } // resolve property
             var nodeProperty = targetObject[propertyName];
-            if (void 0 === nodeProperty) {
-                console.error('THREE.PropertyBinding: Trying to update property for track: ' + parsedPath.nodeName + '.' + propertyName + ' but it wasn\'t found.', targetObject);
-                return;
-            } // determine versioning scheme
+            if (void 0 === nodeProperty) return void console.error('THREE.PropertyBinding: Trying to update property for track: ' + parsedPath.nodeName + '.' + propertyName + ' but it wasn\'t found.', targetObject); // determine versioning scheme
             var versioning = this.Versioning.None;
             this.targetObject = targetObject, void 0 !== targetObject.needsUpdate ? // material
             versioning = this.Versioning.NeedsUpdate : void 0 !== targetObject.matrixWorldNeedsUpdate && // node transform
@@ -13997,20 +13854,10 @@ function(global, factory) {
                 if ('morphTargetInfluences' === propertyName) {
                     // potential optimization, skip this if propertyIndex is already an integer, and convert the integer string to a true integer.
                     // support resolving morphTarget names into indices.
-                    if (!targetObject.geometry) {
-                        console.error('THREE.PropertyBinding: Can not bind to morphTargetInfluences because node does not have a geometry.', this);
-                        return;
-                    }
-                    if (targetObject.geometry.isBufferGeometry) {
-                        if (!targetObject.geometry.morphAttributes) {
-                            console.error('THREE.PropertyBinding: Can not bind to morphTargetInfluences because node does not have a geometry.morphAttributes.', this);
-                            return;
-                        }
-                        void 0 !== targetObject.morphTargetDictionary[propertyIndex] && (propertyIndex = targetObject.morphTargetDictionary[propertyIndex]);
-                    } else {
-                        console.error('THREE.PropertyBinding: Can not bind to morphTargetInfluences on THREE.Geometry. Use THREE.BufferGeometry instead.', this);
-                        return;
-                    }
+                    if (!targetObject.geometry) return void console.error('THREE.PropertyBinding: Can not bind to morphTargetInfluences because node does not have a geometry.', this);
+                    if (!targetObject.geometry.isBufferGeometry) return void console.error('THREE.PropertyBinding: Can not bind to morphTargetInfluences on THREE.Geometry. Use THREE.BufferGeometry instead.', this);
+                    if (!targetObject.geometry.morphAttributes) return void console.error('THREE.PropertyBinding: Can not bind to morphTargetInfluences because node does not have a geometry.morphAttributes.', this);
+                    void 0 !== targetObject.morphTargetDictionary[propertyIndex] && (propertyIndex = targetObject.morphTargetDictionary[propertyIndex]);
                 }
                 bindingType = this.BindingType.ArrayElement, this.resolvedProperty = nodeProperty, this.propertyIndex = propertyIndex;
             } else void 0 !== nodeProperty.fromArray && void 0 !== nodeProperty.toArray ? (// must use copy for Object3D.Euler/Quaternion
@@ -14068,25 +13915,24 @@ function(global, factory) {
         uncache: function() {
             for(var objects = this._objects, indicesByUUID = this._indicesByUUID, bindings = this._bindings, nBindings = bindings.length, nCachedObjects = this.nCachedObjects_, nObjects = objects.length, i = 0, n = arguments.length; i !== n; ++i){
                 var object = arguments[i], uuid = object.uuid, index = indicesByUUID[uuid];
-                if (void 0 !== index) {
-                    if (delete indicesByUUID[uuid], index < nCachedObjects) {
-                        // object is cached, shrink the CACHED region
-                        var firstActiveIndex = --nCachedObjects, lastCachedObject = objects[firstActiveIndex], lastIndex = --nObjects, lastObject = objects[lastIndex]; // last cached object takes this object's place
-                        indicesByUUID[lastCachedObject.uuid] = index, objects[index] = lastCachedObject, indicesByUUID[lastObject.uuid] = firstActiveIndex, objects[firstActiveIndex] = lastObject, objects.pop();
-                        for(var j = 0; j !== nBindings; ++j){
-                            var bindingsForPath = bindings[j], lastCached = bindingsForPath[firstActiveIndex], last = bindingsForPath[lastIndex];
-                            bindingsForPath[index] = lastCached, bindingsForPath[firstActiveIndex] = last, bindingsForPath.pop();
-                        }
-                    } else {
-                        // object is active, just swap with the last and pop
-                        var _lastIndex = --nObjects, _lastObject = objects[_lastIndex];
-                        _lastIndex > 0 && (indicesByUUID[_lastObject.uuid] = index), objects[index] = _lastObject, objects.pop();
-                        for(var _j2 = 0; _j2 !== nBindings; ++_j2){
-                            var _bindingsForPath = bindings[_j2];
-                            _bindingsForPath[index] = _bindingsForPath[_lastIndex], _bindingsForPath.pop();
-                        }
-                    } // cached or active
-                } // if object is known
+                if (void 0 !== index) if (delete indicesByUUID[uuid], index < nCachedObjects) {
+                    // object is cached, shrink the CACHED region
+                    var firstActiveIndex = --nCachedObjects, lastCachedObject = objects[firstActiveIndex], lastIndex = --nObjects, lastObject = objects[lastIndex]; // last cached object takes this object's place
+                    indicesByUUID[lastCachedObject.uuid] = index, objects[index] = lastCachedObject, indicesByUUID[lastObject.uuid] = firstActiveIndex, objects[firstActiveIndex] = lastObject, objects.pop();
+                    for(var j = 0; j !== nBindings; ++j){
+                        var bindingsForPath = bindings[j], lastCached = bindingsForPath[firstActiveIndex], last = bindingsForPath[lastIndex];
+                        bindingsForPath[index] = lastCached, bindingsForPath[firstActiveIndex] = last, bindingsForPath.pop();
+                    }
+                } else {
+                    // object is active, just swap with the last and pop
+                    var _lastIndex = --nObjects, _lastObject = objects[_lastIndex];
+                    _lastIndex > 0 && (indicesByUUID[_lastObject.uuid] = index), objects[index] = _lastObject, objects.pop();
+                    for(var _j2 = 0; _j2 !== nBindings; ++_j2){
+                        var _bindingsForPath = bindings[_j2];
+                        _bindingsForPath[index] = _bindingsForPath[_lastIndex], _bindingsForPath.pop();
+                    }
+                } // cached or active
+                 // if object is known
             } // for arguments
             this.nCachedObjects_ = nCachedObjects;
         },
@@ -14196,11 +14042,8 @@ function(global, factory) {
         } // Interna
         , _proto._update = function(time, deltaTime, timeDirection, accuIndex) {
             // called by the mixer
-            if (!this.enabled) {
-                // call ._updateWeight() to update ._effectiveWeight
-                this._updateWeight(time);
-                return;
-            }
+            if (!this.enabled) return void // call ._updateWeight() to update ._effectiveWeight
+            this._updateWeight(time);
             var startTime = this._startTime;
             if (null !== startTime) {
                 // check for scheduled start of action

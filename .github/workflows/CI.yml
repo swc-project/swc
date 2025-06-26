@@ -108,7 +108,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "yarn"
 
       - name: Install node dependencies
@@ -149,14 +149,14 @@ jobs:
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo update -p swc_core -p swc_fast_ts_strip
+          cd bindings && cargo update -p swc_core -p swc_ts_fast_strip
 
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "yarn"
 
       - name: Install node dependencies
@@ -211,7 +211,7 @@ jobs:
       # Source map format
       - uses: actions/setup-node@v4
         with:
-          node-version: "18"
+          node-version: "20"
           cache: "yarn"
 
       # We explicitly do this to cache properly.
@@ -219,7 +219,8 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          target: wasm32-wasi
+          target: wasm32-wasip1
+          components: rustfmt
           # MSRV is current stable for ES crates and nightly for other languages
           # toolchain: stable
           # override: true
@@ -268,8 +269,6 @@ jobs:
           path: |
             .swc-exec-cache
           key: swc-exec-cache-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            swc-exec-cache-${{ matrix.settings.crate }}
 
       - name: Run cargo test
         if: matrix.settings.crate != 'swc_plugin_runner' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm'
@@ -301,7 +300,7 @@ jobs:
       - name: Run cargo test (swc_ecma_minifier)
         if: matrix.settings.crate == 'swc_ecma_minifier'
         run: |
-          cargo test -p swc_ecma_minifier --features concurrent --release
+          cargo test -p swc_ecma_minifier --features concurrent --features par-core/chili
 
       - name: Run cargo test (swc_ecma_parser)
         if: matrix.settings.crate == 'swc_ecma_parser'
@@ -368,7 +367,7 @@ jobs:
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo update -p swc_core -p swc_fast_ts_strip
+          cd bindings && cargo update -p swc_core -p swc_ts_fast_strip
 
       - name: Set platform name
         run: |
@@ -381,7 +380,7 @@ jobs:
 
       - name: Prepare
         run: |
-          rustup target add wasm32-wasi
+          rustup target add wasm32-wasip1
           corepack enable
           yarn
 
@@ -425,11 +424,11 @@ jobs:
         run: |
           echo '[patch.crates-io]' >> bindings/Cargo.toml
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
-          cd bindings && cargo update -p swc_core -p swc_fast_ts_strip
+          cd bindings && cargo update -p swc_core -p swc_ts_fast_strip
 
       - name: Prepare
         run: |
-          rustup target add wasm32-wasi
+          rustup target add wasm32-wasip1
           corepack enable
           yarn
 

@@ -100,7 +100,7 @@ fn run(
 ) -> Option<Program> {
     let compress_config = config.map(|config| parse_compressor_config(cm.clone(), config).1);
 
-    let fm = cm.new_source_file(FileName::Anon.into(), input.into());
+    let fm = cm.new_source_file(FileName::Anon.into(), input.to_string());
     let comments = SingleThreadedComments::default();
 
     eprintln!("---- {} -----\n{}", Color::Green.paint("Input"), fm.src);
@@ -11475,5 +11475,30 @@ fn issue_10133() {
     _updateBezierControlPoints(points);
     console.log(points)
     ",
+    );
+}
+
+#[test]
+fn issue_10435() {
+    run_default_exec_test(
+        "
+    const errorMessages = {
+  '001': () => '[React Flow]: Seems like you have not used zustand \
+         provider as an ancestor. Help: https://reactflow.dev/error#001',
+  '010': () => 'Handle: No node id found. Make sure to only use a Handle inside a custom Node.',
+};
+
+const ERR1 = errorMessages['001']();
+
+const ERR2 = errorMessages['010']();
+
+function printError() {
+  console.log(ERR1);
+  console.log(ERR2)
+}
+
+printError()
+    
+        ",
     );
 }

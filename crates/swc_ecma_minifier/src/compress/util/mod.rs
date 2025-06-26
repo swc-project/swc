@@ -70,7 +70,7 @@ fn negate_inner(
         }) if is_ok_to_negate_rhs(expr_ctx, right) => {
             trace_op!("negate: a && b => !a || !b");
 
-            let a = negate_inner(expr_ctx, left, in_bool_ctx, false);
+            let a = negate_inner(expr_ctx, left, in_bool_ctx || is_ret_val_ignored, false);
             let b = negate_inner(expr_ctx, right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("||");
             return a || b;
@@ -84,7 +84,7 @@ fn negate_inner(
         }) if is_ok_to_negate_rhs(expr_ctx, right) => {
             trace_op!("negate: a || b => !a && !b");
 
-            let a = negate_inner(expr_ctx, left, in_bool_ctx, false);
+            let a = negate_inner(expr_ctx, left, in_bool_ctx || is_ret_val_ignored, false);
             let b = negate_inner(expr_ctx, right, in_bool_ctx, is_ret_val_ignored);
             *op = op!("&&");
             return a || b;
@@ -231,7 +231,10 @@ pub(crate) fn is_ok_to_negate_rhs(expr_ctx: ExprCtx, rhs: &Expr) -> bool {
 }
 
 /// A negative value means that it's efficient to negate the expression.
-#[cfg_attr(feature = "debug", tracing::instrument(skip(e)))]
+#[cfg_attr(
+    feature = "debug",
+    tracing::instrument(level = "debug", skip(e, expr_ctx))
+)]
 #[allow(clippy::let_and_return)]
 pub(crate) fn negate_cost(
     expr_ctx: ExprCtx,
@@ -240,7 +243,7 @@ pub(crate) fn negate_cost(
     is_ret_val_ignored: bool,
 ) -> isize {
     #[allow(clippy::only_used_in_recursion)]
-    #[cfg_attr(test, tracing::instrument(skip(e)))]
+    #[cfg_attr(test, tracing::instrument(level = "debug", skip(e)))]
     fn cost(
         expr_ctx: ExprCtx,
         e: &Expr,
@@ -300,7 +303,13 @@ pub(crate) fn negate_cost(
                     right,
                     ..
                 }) => {
-                    let l_cost = cost(expr_ctx, left, in_bool_ctx, Some(*op), false);
+                    let l_cost = cost(
+                        expr_ctx,
+                        left,
+                        in_bool_ctx || is_ret_val_ignored,
+                        Some(*op),
+                        false,
+                    );
 
                     if !is_ret_val_ignored && !is_ok_to_negate_rhs(expr_ctx, right) {
                         return l_cost + 3;
@@ -346,6 +355,9 @@ pub(crate) fn negate_cost(
     }
 
     let cost = cost(expr_ctx, e, in_bool_ctx, None, is_ret_val_ignored);
+
+    #[cfg(feature = "debug")]
+    trace_op!("negate_cost of `{}`: {}", dump(e, false), cost);
 
     cost
 }

@@ -7,7 +7,7 @@ use swc_atoms::Atom;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
-use swc_ecma_utils::{stack_size::maybe_grow_default, DropSpan, ModuleItemLike, StmtLike, Value};
+use swc_ecma_utils::{DropSpan, ModuleItemLike, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, visit_mut_pass, visit_obj_and_computed, Visit, VisitWith};
 
 pub(crate) mod base54;
@@ -234,10 +234,8 @@ impl Visit for LeapFinder {
         n.visit_children_with(self);
 
         if let Some(label) = &n.label {
-            self.found_continue_with_label |= self
-                .target_label
-                .as_ref()
-                .map_or(false, |l| *l == label.sym);
+            self.found_continue_with_label |=
+                self.target_label.as_ref().is_some_and(|l| *l == label.sym);
         }
     }
 
@@ -478,48 +476,6 @@ pub fn now() -> Option<Instant> {
     }
 }
 
-pub(crate) fn contains_eval<N>(node: &N, include_with: bool) -> bool
-where
-    N: VisitWith<EvalFinder>,
-{
-    let mut v = EvalFinder {
-        found: false,
-        include_with,
-    };
-
-    node.visit_with(&mut v);
-    v.found
-}
-
-pub(crate) struct EvalFinder {
-    found: bool,
-    include_with: bool,
-}
-
-impl Visit for EvalFinder {
-    noop_visit_type!();
-
-    visit_obj_and_computed!();
-
-    fn visit_expr(&mut self, n: &Expr) {
-        maybe_grow_default(|| n.visit_children_with(self));
-    }
-
-    fn visit_ident(&mut self, i: &Ident) {
-        if i.sym == "eval" {
-            self.found = true;
-        }
-    }
-
-    fn visit_with_stmt(&mut self, s: &WithStmt) {
-        if self.include_with {
-            self.found = true;
-        } else {
-            s.visit_children_with(self);
-        }
-    }
-}
-
 #[allow(unused)]
 pub(crate) fn dump_program(p: &Program) -> String {
     #[cfg(feature = "debug")]
@@ -550,7 +506,7 @@ pub(crate) fn force_dump_program(p: &Program) -> String {
 macro_rules! maybe_par {
   ($prefix:ident.$name:ident.iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
       if $prefix.$name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $prefix.$name.par_iter().$operator($($rest)*)
       } else {
           $prefix.$name.iter().$operator($($rest)*)
@@ -559,7 +515,7 @@ macro_rules! maybe_par {
 
   ($prefix:ident.$name:ident.into_iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
       if $prefix.$name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $prefix.$name.into_par_iter().$operator($($rest)*)
       } else {
           $prefix.$name.into_iter().$operator($($rest)*)
@@ -568,7 +524,7 @@ macro_rules! maybe_par {
 
   ($name:ident.iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.par_iter().$operator($($rest)*)
       } else {
           $name.iter().$operator($($rest)*)
@@ -577,7 +533,7 @@ macro_rules! maybe_par {
 
   ($name:ident.into_iter().$operator:ident($($rest:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.into_par_iter().$operator($($rest)*)
       } else {
           $name.into_iter().$operator($($rest)*)
@@ -586,7 +542,7 @@ macro_rules! maybe_par {
 
   ($name:ident.iter_mut().$operator:ident($($rest:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.par_iter_mut().$operator($($rest)*)
       } else {
           $name.iter_mut().$operator($($rest)*)
@@ -595,7 +551,7 @@ macro_rules! maybe_par {
 
   ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.par_iter().$operator($($rest)*).$operator2($($rest2)*)
       } else {
           $name.iter().$operator($($rest)*).$operator2($($rest2)*)
@@ -604,7 +560,7 @@ macro_rules! maybe_par {
 
   ($name:ident.into_iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.into_par_iter().$operator($($rest)*).$operator2($($rest2)*)
       } else {
           $name.into_iter().$operator($($rest)*).$operator2($($rest2)*)
@@ -613,7 +569,7 @@ macro_rules! maybe_par {
 
   ($name:ident.iter_mut().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.par_iter_mut().$operator($($rest)*).$operator2($($rest2)*)
       } else {
           $name.iter_mut().$operator($($rest)*).$operator2($($rest2)*)
@@ -622,7 +578,7 @@ macro_rules! maybe_par {
 
   ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident::<$t:ty>($($rest2:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.par_iter().$operator($($rest)*).$operator2::<$t>($($rest2)*)
       } else {
           $name.iter().$operator($($rest)*).$operator2::<$t>($($rest2)*)
@@ -631,7 +587,7 @@ macro_rules! maybe_par {
 
   ($name:ident.iter().$operator:ident($($rest:expr)*).$operator2:ident($($rest2:expr)*).$operator3:ident($($rest3:expr)*), $threshold:expr) => {
       if $name.len() >= $threshold {
-          use rayon::prelude::*;
+          use par_iter::prelude::*;
           $name.par_iter().$operator($($rest)*).$operator2($($rest2)*).$operator3($($rest3)*)
       } else {
           $name.iter().$operator($($rest)*).$operator2($($rest2)*).$operator3($($rest3)*)

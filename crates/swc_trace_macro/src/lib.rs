@@ -24,7 +24,7 @@ pub fn swc_trace(
                 pound_token: Default::default(),
                 style: AttrStyle::Outer,
                 bracket_token: Default::default(),
-                meta: parse_quote!(tracing::instrument(level = "info", skip_all)),
+                meta: parse_quote!(tracing::instrument(level = "debug", skip_all)),
             };
             m.attrs.push(attr);
         }

@@ -3,16 +3,15 @@ use std::sync::Arc;
 use anyhow::{Context, Error};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer, External},
-    JsObject, Task,
+    Task,
 };
 use rustc_hash::FxHashMap;
 use serde::Deserialize;
 use swc_compiler_base::{
     minify_file_comments, parse_js, IdentCollector, PrintArgs, SourceMapsConfig, TransformOutput,
 };
-use swc_config::config_types::BoolOr;
+use swc_config::types::BoolOr;
 use swc_core::{
-    base::JsMinifyExtras,
     common::{
         comments::{Comments, SingleThreadedComments},
         sync::Lrc,
@@ -25,7 +24,7 @@ use swc_core::{
         },
         parser::{EsSyntax, Syntax},
         transforms::base::{fixer::fixer, hygiene::hygiene, resolver},
-        visit::{FoldWith, VisitMutWith, VisitWith},
+        visit::{VisitMutWith, VisitWith},
     },
 };
 use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
@@ -39,47 +38,19 @@ pub struct NapiMinifyExtra {
 }
 
 struct MinifyTask {
-    code: String,
+    input: Option<String>,
     options: String,
-    extras: JsMinifyExtras,
-}
-
-#[derive(Deserialize)]
-#[serde(untagged)]
-enum MinifyTarget {
-    /// Code to minify.
-    Single(String),
-    /// `{ filename: code }`
-    Map(FxHashMap<String, String>),
-}
-
-impl MinifyTarget {
-    fn to_file(&self, cm: Lrc<SourceMap>) -> Lrc<SourceFile> {
-        match self {
-            MinifyTarget::Single(code) => cm.new_source_file(FileName::Anon.into(), code.clone()),
-            MinifyTarget::Map(codes) => {
-                assert_eq!(
-                    codes.len(),
-                    1,
-                    "swc.minify does not support concatting multiple files yet"
-                );
-
-                let (filename, code) = codes.iter().next().unwrap();
-
-                cm.new_source_file(FileName::Real(filename.clone().into()).into(), code.clone())
-            }
-        }
-    }
+    extras: Option<NapiMinifyExtra>,
 }
 
 fn do_work(
-    input: MinifyTarget,
+    input: String,
     options: JsMinifyOptions,
-    extras: JsMinifyExtras,
-) -> napi::Result<TransformOutput> {
+    extras: NapiMinifyExtra,
+) -> anyhow::Result<TransformOutput> {
     let cm: Arc<SourceMap> = Arc::default();
 
-    let fm = input.to_file(cm.clone());
+    let fm = cm.new_source_file(FileName::Anon.into(), input);
 
     try_with(cm.clone(), false, |handler| {
         let target = options.ecma.clone().into();
@@ -195,7 +166,7 @@ fn do_work(
                 &swc_core::ecma::minifier::option::ExtraOptions {
                     unresolved_mark,
                     top_level_mark,
-                    mangle_name_cache: extras.mangle_name_cache,
+                    mangle_name_cache: extras.mangle_name_cache.as_deref().cloned(),
                 },
             );
 
@@ -227,7 +198,7 @@ fn do_work(
                 inline_sources_content: options.inline_sources_content,
                 source_map,
                 source_map_names: &source_map_names,
-                orig: orig.as_ref(),
+                orig,
                 comments: Some(&comments),
                 emit_source_map_columns: options.emit_source_map_columns,
                 preamble: &options.format.preamble,
@@ -242,7 +213,6 @@ fn do_work(
             },
         )
     })
-    .convert_err()
 }
 
 #[napi]
@@ -251,10 +221,10 @@ impl Task for MinifyTask {
     type Output = TransformOutput;
 
     fn compute(&mut self) -> napi::Result<Self::Output> {
-        let input: MinifyTarget = deserialize_json(&self.code)?;
+        let input = self.input.take().unwrap();
         let options: JsMinifyOptions = deserialize_json(&self.options)?;
 
-        do_work(input, options, self.extras.clone())
+        do_work(input, options, self.extras.take().unwrap()).convert_err()
     }
 
     fn resolve(&mut self, _env: napi::Env, output: Self::Output) -> napi::Result<Self::JsValue> {
@@ -278,15 +248,13 @@ fn minify(
     signal: Option<AbortSignal>,
 ) -> AsyncTask<MinifyTask> {
     crate::util::init_default_trace_subscriber();
-    let code = String::from_utf8_lossy(code.as_ref()).to_string();
-    let options = String::from_utf8_lossy(opts.as_ref()).to_string();
-    let extras = JsMinifyExtras::default()
-        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().cloned());
+    let code = String::from_utf8_lossy(code.as_ref()).into_owned();
+    let options = String::from_utf8_lossy(opts.as_ref()).into_owned();
 
     let task = MinifyTask {
-        code,
+        input: Some(code),
         options,
-        extras,
+        extras: Some(extras),
     };
 
     AsyncTask::with_optional_signal(task, signal)
@@ -299,10 +267,10 @@ pub fn minify_sync(
     extras: NapiMinifyExtra,
 ) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
-    let input: MinifyTarget = get_deserialized(code)?;
-    let options = get_deserialized(opts)?;
-    let extras = JsMinifyExtras::default()
-        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().cloned());
+    let code = String::from_utf8_lossy(code.as_ref()).to_string();
+    let opts = get_deserialized(opts)?;
 
-    do_work(input, options, extras)
+    let cm = Lrc::new(SourceMap::default());
+
+    try_with(cm.clone(), false, |_| do_work(code, opts, extras)).convert_err()
 }

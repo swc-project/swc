@@ -6,8 +6,6 @@ if (!!false) {
 //// [use.js]
 var util = require('./mod');
 function n() {
-    util.existy // no error
-    ;
+    util.existy; // no error
 }
-util.existy // no error
-;
+util.existy; // no error

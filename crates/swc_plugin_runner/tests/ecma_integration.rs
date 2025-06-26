@@ -26,7 +26,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         let mut cmd = Command::new("cargo");
         cmd.env("CARGO_TARGET_DIR", &*CARGO_TARGET_DIR);
         cmd.current_dir(dir);
-        cmd.args(["build", "--target=wasm32-wasi"])
+        cmd.args(["build", "--target=wasm32-wasip1"])
             .stderr(Stdio::inherit());
         cmd.output()?;
 
@@ -39,7 +39,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         }
     }
 
-    for entry in fs::read_dir(CARGO_TARGET_DIR.join("wasm32-wasi").join("debug"))? {
+    for entry in fs::read_dir(CARGO_TARGET_DIR.join("wasm32-wasip1").join("debug"))? {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();
@@ -101,13 +101,14 @@ static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPlugin
 #[test]
 fn internal() {
     use swc_common::plugin::serialized::VersionedSerializable;
+    use swc_transform_common::output::capture;
 
     tokio::runtime::Runtime::new().unwrap().block_on(async {
         // run single plugin
         testing::run_test(false, |cm, _handler| {
             eprint!("First run start");
 
-            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)".into());
+            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)");
 
             let program = parse_file_as_program(
                 &fm,
@@ -139,6 +140,7 @@ fn internal() {
                     "development".to_string(),
                     Some(experimental_metadata),
                 )),
+                None,
                 Box::new(PLUGIN_BYTES.clone()),
                 Some(json!({ "pluginConfig": "testValue" })),
                 None,
@@ -151,9 +153,13 @@ fn internal() {
                 .is_empty());
              */
 
-            let program_bytes = plugin_transform_executor
-                .transform(&program, Some(false))
-                .expect("Plugin should apply transform");
+            let (program_bytes, captured_output) = capture(|| {
+                plugin_transform_executor
+                    .transform(&program, Some(false))
+                    .expect("Plugin should apply transform")
+            });
+            let captured_output = serde_json::to_string(&captured_output).unwrap();
+            assert_eq!(captured_output, "{\"foo\":\"bar\"}");
 
             let program: Program = program_bytes
                 .deserialize()
@@ -175,7 +181,7 @@ fn internal() {
         // run single plugin with handler
         testing::run_test2(false, |cm, handler| {
             eprintln!("Second run start");
-            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)".into());
+            let fm = cm.new_source_file(FileName::Anon.into(), "console.log(foo)");
 
             let program = parse_file_as_program(
                 &fm,
@@ -209,14 +215,18 @@ fn internal() {
                             "development".to_string(),
                             Some(experimental_metadata),
                         )),
+                        None,
                         Box::new(PLUGIN_BYTES.clone()),
                         Some(json!({ "pluginConfig": "testValue" })),
                         None,
                     );
 
-                plugin_transform_executor
-                    .transform(&program, Some(false))
-                    .expect("Plugin should apply transform")
+                capture(|| {
+                    plugin_transform_executor
+                        .transform(&program, Some(false))
+                        .expect("Plugin should apply transform")
+                })
+                .1
             });
 
             eprintln!("Second run retured");

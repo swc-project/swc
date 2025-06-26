@@ -35,7 +35,7 @@ const ANONYMIZED_LINE_NUM: &str = "LL";
 /// Emitter trait for emitting errors.
 pub trait Emitter: crate::sync::Send {
     /// Emit a structured diagnostic.
-    fn emit(&mut self, db: &DiagnosticBuilder<'_>);
+    fn emit(&mut self, db: &mut DiagnosticBuilder<'_>);
 
     /// Check if should show explanations about "rustc --explain"
     fn should_show_explain(&self) -> bool {
@@ -48,7 +48,7 @@ pub trait Emitter: crate::sync::Send {
 }
 
 impl Emitter for EmitterWriter {
-    fn emit(&mut self, db: &DiagnosticBuilder<'_>) {
+    fn emit(&mut self, db: &mut DiagnosticBuilder<'_>) {
         let mut primary_span = db.span.clone();
         let mut children = db.children.clone();
         let mut suggestions: &[_] = &[];
@@ -1364,7 +1364,7 @@ impl EmitterWriter {
                         self.short_message,
                     ) {
                         Ok(()) => (),
-                        Err(e) => panic!("failed to emit error: {}", e),
+                        Err(e) => panic!("failed to emit error: {e}"),
                     }
                 }
                 if !self.short_message {
@@ -1378,24 +1378,24 @@ impl EmitterWriter {
                             max_line_num_len,
                             true,
                         ) {
-                            panic!("failed to emit error: {}", e)
+                            panic!("failed to emit error: {e}")
                         }
                     }
                     for sugg in suggestions {
                         if let Err(e) =
                             self.emit_suggestion_default(sugg, Level::Help, max_line_num_len)
                         {
-                            panic!("failed to emit error: {}", e)
+                            panic!("failed to emit error: {e}")
                         }
                     }
                 }
             }
-            Err(e) => panic!("failed to emit error: {}", e),
+            Err(e) => panic!("failed to emit error: {e}"),
         }
 
         let mut dst = self.dst.writable();
         if let Err(e) = writeln!(dst).and_then(|_| dst.flush()) {
-            panic!("failed to emit error: {}", e)
+            panic!("failed to emit error: {e}")
         }
     }
 }

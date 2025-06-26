@@ -1,8 +1,7 @@
-use std::sync::Arc;
-
 use anyhow::{bail, Context, Result};
+use bytes_str::BytesStr;
 use serde::{Deserialize, Serialize};
-use sourcemap::{vlq::parse_vlq_segment, RawToken, SourceMap};
+use swc_sourcemap::{vlq::parse_vlq_segment, RawToken, SourceMap};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(untagged)]
@@ -11,19 +10,19 @@ pub enum SourceMapContent {
     #[serde(rename_all = "camelCase")]
     Parsed {
         #[serde(default)]
-        sources: Vec<Arc<str>>,
+        sources: Vec<BytesStr>,
         #[serde(default)]
-        names: Vec<Arc<str>>,
+        names: Vec<BytesStr>,
         #[serde(default)]
         mappings: String,
         #[serde(default)]
         range_mappings: String,
         #[serde(default)]
-        file: Option<Arc<str>>,
+        file: Option<BytesStr>,
         #[serde(default)]
         source_root: Option<String>,
         #[serde(default)]
-        sources_content: Option<Vec<Option<Arc<str>>>>,
+        sources_content: Option<Vec<Option<BytesStr>>>,
     },
 }
 

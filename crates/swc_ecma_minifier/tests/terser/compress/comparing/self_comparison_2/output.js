@@ -1,5 +1,3 @@
-function f() {
-}
-var o = {
-};
+function f() {}
+var o = {};
 console.log(!1, !0);

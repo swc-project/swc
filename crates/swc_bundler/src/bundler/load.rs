@@ -4,6 +4,7 @@ use anyhow::{Context, Error};
 use is_macro::Is;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
+use swc_atoms::atom;
 use swc_common::{
     sync::{Lock, Lrc},
     FileName, SourceFile, SyntaxContext,
@@ -121,7 +122,7 @@ where
             let data = self
                 .loader
                 .load(file_name)
-                .with_context(|| format!("Bundler.loader.load({}) failed", file_name))?;
+                .with_context(|| format!("Bundler.loader.load({file_name}) failed"))?;
             self.scope.mark_as_loaded(module_id);
             Ok((module_id, data))
         })
@@ -364,7 +365,7 @@ where
                         }
                         ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
                             local: s.local.into(),
-                            alias: Some(Id::new("default".into(), SyntaxContext::empty())),
+                            alias: Some(Id::new(atom!("default"), SyntaxContext::empty())),
                         }),
                         ImportSpecifier::Namespace(s) => {
                             specifiers.push(Specifier::Namespace {

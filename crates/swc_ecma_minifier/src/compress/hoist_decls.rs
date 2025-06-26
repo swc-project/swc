@@ -1,5 +1,4 @@
-#[cfg(feature = "concurrent")]
-use rayon::prelude::*;
+use par_iter::prelude::*;
 use rustc_hash::FxHashSet;
 use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -9,7 +8,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use super::util::drop_invalid_stmts;
 use crate::{
-    program_data::ProgramData,
+    program_data::{ProgramData, VarUsageInfoFlags},
     util::{is_hoisted_var_decl_without_init, sort::is_sorted_by, IsModuleItem, ModuleItemExt},
 };
 
@@ -62,7 +61,7 @@ impl Hoister<'_> {
                             self.data
                                 .vars
                                 .get(id)
-                                .map(|v| !v.used_above_decl)
+                                .map(|v| !v.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL))
                                 .unwrap_or(false)
                         }) {
                             2
@@ -77,20 +76,10 @@ impl Hoister<'_> {
             PartialOrd::partial_cmp,
         ) || (self.config.hoist_vars
             && if len >= *crate::LIGHT_TASK_PARALLELS {
-                #[cfg(feature = "concurrent")]
-                {
-                    stmts.par_chunks(2).any(|stmts| {
-                        is_hoisted_var_decl_without_init(&stmts[0])
-                            && is_hoisted_var_decl_without_init(&stmts[1])
-                    })
-                }
-                #[cfg(not(feature = "concurrent"))]
-                {
-                    stmts.chunks(2).any(|stmts| {
-                        is_hoisted_var_decl_without_init(&stmts[0])
-                            && is_hoisted_var_decl_without_init(&stmts[1])
-                    })
-                }
+                stmts.par_chunks(2).any(|stmts| {
+                    is_hoisted_var_decl_without_init(&stmts[0])
+                        && is_hoisted_var_decl_without_init(&stmts[1])
+                })
             } else {
                 stmts.windows(2).any(|stmts| {
                     is_hoisted_var_decl_without_init(&stmts[0])
@@ -141,7 +130,11 @@ impl Hoister<'_> {
                                                 .data
                                                 .vars
                                                 .get(&id.to_id())
-                                                .map(|v| v.declared_as_fn_param)
+                                                .map(|v| {
+                                                    v.flags.contains(
+                                                        VarUsageInfoFlags::DECLARED_AS_FN_PARAM,
+                                                    )
+                                                })
                                                 .unwrap_or(false)
                                         {
                                             continue;
@@ -223,7 +216,11 @@ impl Hoister<'_> {
                                                 .data
                                                 .vars
                                                 .get(&name.to_id())
-                                                .map(|v| v.declared_as_fn_param)
+                                                .map(|v| {
+                                                    v.flags.contains(
+                                                        VarUsageInfoFlags::DECLARED_AS_FN_PARAM,
+                                                    )
+                                                })
                                                 .unwrap_or(false)
                                         {
                                             return false;

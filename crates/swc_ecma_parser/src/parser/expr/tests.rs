@@ -1,6 +1,8 @@
 use std::hint::black_box;
 
+use swc_atoms::atom;
 use swc_common::{FileName, SourceMap, DUMMY_SP as span};
+use swc_ecma_lexer::common::parser::expr::{parse_lhs_expr, parse_new_expr};
 use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
@@ -14,11 +16,11 @@ fn syntax() -> Syntax {
 }
 
 fn lhs(s: &'static str) -> Box<Expr> {
-    test_parser(s, syntax(), |p| p.parse_lhs_expr())
+    test_parser(s, syntax(), |p| parse_lhs_expr::<_, false>(p))
 }
 
 fn new_expr(s: &'static str) -> Box<Expr> {
-    test_parser(s, syntax(), |p| p.parse_new_expr())
+    test_parser(s, syntax(), |p| parse_new_expr(p))
 }
 
 fn member_expr(s: &'static str) -> Box<Expr> {
@@ -27,7 +29,7 @@ fn member_expr(s: &'static str) -> Box<Expr> {
 
 fn expr(s: &'static str) -> Box<Expr> {
     test_parser(s, syntax(), |p| {
-        p.parse_stmt(true).map(|stmt| match stmt {
+        p.parse_stmt().map(|stmt| match stmt {
             Stmt::Expr(expr) => expr.expr,
             _ => unreachable!(),
         })
@@ -36,13 +38,13 @@ fn expr(s: &'static str) -> Box<Expr> {
 fn regex_expr() -> Box<Expr> {
     AssignExpr {
         span,
-        left: Ident::new_no_ctxt("re".into(), span).into(),
+        left: Ident::new_no_ctxt(atom!("re"), span).into(),
         op: AssignOp::Assign,
         right: Box::new(
             Lit::Regex(Regex {
                 span,
-                exp: "w+".into(),
-                flags: "".into(),
+                exp: atom!("w+"),
+                flags: atom!(""),
             })
             .into(),
         ),
@@ -84,7 +86,7 @@ fn arrow_assign() {
         expr("a = b => false"),
         Box::new(Expr::Assign(AssignExpr {
             span,
-            left: Ident::new_no_ctxt("a".into(), span).into(),
+            left: Ident::new_no_ctxt(atom!("a"), span).into(),
             op: op!("="),
             right: expr("b => false"),
         }))
@@ -133,7 +135,7 @@ fn object_rest_pat() {
                 props: vec![ObjectPatProp::Rest(RestPat {
                     span,
                     dot3_token: span,
-                    arg: Box::new(Pat::Ident(Ident::new_no_ctxt("a34".into(), span).into())),
+                    arg: Box::new(Pat::Ident(Ident::new_no_ctxt(atom!("a34"), span).into())),
                     type_ann: None,
                 })],
                 type_ann: None
@@ -153,17 +155,17 @@ fn object_spread() {
         expr("foo = {a, ...bar, b}"),
         Box::new(Expr::Assign(AssignExpr {
             span,
-            left: Ident::new_no_ctxt("foo".into(), span).into(),
+            left: Ident::new_no_ctxt(atom!("foo"), span).into(),
             op: op!("="),
             right: Box::new(Expr::Object(ObjectLit {
                 span,
                 props: vec![
-                    PropOrSpread::Prop(Box::new(Ident::new_no_ctxt("a".into(), span).into())),
+                    PropOrSpread::Prop(Box::new(Ident::new_no_ctxt(atom!("a"), span).into())),
                     PropOrSpread::Spread(SpreadElement {
                         dot3_token: span,
-                        expr: Box::new(Expr::Ident(Ident::new_no_ctxt("bar".into(), span))),
+                        expr: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("bar"), span))),
                     }),
-                    PropOrSpread::Prop(Box::new(Ident::new_no_ctxt("b".into(), span).into())),
+                    PropOrSpread::Prop(Box::new(Ident::new_no_ctxt(atom!("b"), span).into())),
                 ]
             }))
         }))
@@ -177,7 +179,7 @@ fn new_expr_should_not_eat_too_much() {
         Box::new(Expr::Member(MemberExpr {
             span,
             obj: member_expr("new Date()"),
-            prop: MemberProp::Ident(IdentName::new("toString".into(), span)),
+            prop: MemberProp::Ident(IdentName::new(atom!("toString"), span)),
         }))
     );
 }
@@ -229,7 +231,7 @@ fn arrow_fn() {
             span,
             is_async: false,
             is_generator: false,
-            params: vec![Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())],
+            params: vec![Pat::Ident(Ident::new_no_ctxt(atom!("a"), span).into())],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
             ..Default::default()
         }))
@@ -246,7 +248,7 @@ fn arrow_fn_rest() {
             params: vec![Pat::Rest(RestPat {
                 span,
                 dot3_token: span,
-                arg: Box::new(Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())),
+                arg: Box::new(Pat::Ident(Ident::new_no_ctxt(atom!("a"), span).into())),
                 type_ann: None
             })],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
@@ -261,7 +263,7 @@ fn arrow_fn_no_paren() {
         expr("a => 1"),
         Box::new(Expr::Arrow(ArrowExpr {
             span,
-            params: vec![Pat::Ident(Ident::new_no_ctxt("a".into(), span).into())],
+            params: vec![Pat::Ident(Ident::new_no_ctxt(atom!("a"), span).into())],
             body: Box::new(BlockStmtOrExpr::Expr(expr("1"))),
             ..Default::default()
         }))
@@ -303,7 +305,7 @@ fn array_lit() {
             elems: vec![
                 Some(ExprOrSpread {
                     spread: None,
-                    expr: Box::new(Expr::Ident(Ident::new_no_ctxt("a".into(), span))),
+                    expr: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("a"), span))),
                 }),
                 None,
                 None,
@@ -311,12 +313,12 @@ fn array_lit() {
                 None,
                 Some(ExprOrSpread {
                     spread: Some(span),
-                    expr: Box::new(Expr::Ident(Ident::new_no_ctxt("d".into(), span))),
+                    expr: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("d"), span))),
                 }),
                 None,
                 Some(ExprOrSpread {
                     spread: None,
-                    expr: Box::new(Expr::Ident(Ident::new_no_ctxt("e".into(), span))),
+                    expr: Box::new(Expr::Ident(Ident::new_no_ctxt(atom!("e"), span))),
                 }),
             ]
         }))
@@ -330,7 +332,7 @@ fn max_integer() {
         Box::new(Expr::Lit(Lit::Num(Number {
             span,
             value: 1.797_693_134_862_315_7e308,
-            raw: Some("1.7976931348623157e+308".into()),
+            raw: Some(atom!("1.7976931348623157e+308")),
         })))
     )
 }
@@ -368,7 +370,7 @@ fn issue_319_1() {
 fn issue_328() {
     assert_eq_ignore_span!(
         test_parser("import('test')", Syntax::Es(Default::default()), |p| {
-            p.parse_stmt(true)
+            p.parse_stmt()
         }),
         Stmt::Expr(ExprStmt {
             span,
@@ -382,8 +384,8 @@ fn issue_328() {
                     spread: None,
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span,
-                        value: "test".into(),
-                        raw: Some("'test'".into()),
+                        value: atom!("test"),
+                        raw: Some(atom!("'test'")),
                     }))),
                 }],
                 ..Default::default()
@@ -411,8 +413,8 @@ hehe.";"#,
         ),
         Box::new(Expr::Lit(Lit::Str(Str {
             span,
-            value: "okokhehe.".into(),
-            raw: Some("\"ok\\\nok\\\nhehe.\"".into()),
+            value: atom!("okokhehe."),
+            raw: Some(atom!("\"ok\\\nok\\\nhehe.\"")),
         })))
     );
 }
@@ -445,7 +447,7 @@ fn super_expr() {
                 obj: Super { span },
                 prop: SuperProp::Ident(IdentName {
                     span,
-                    sym: "foo".into(),
+                    sym: atom!("foo"),
                 })
             }))),
             ..Default::default()
@@ -467,7 +469,7 @@ fn super_expr_computed() {
                     span,
                     expr: Box::new(Expr::Ident(Ident {
                         span,
-                        sym: "a".into(),
+                        sym: atom!("a"),
                         ..Default::default()
                     })),
                 })
@@ -476,7 +478,7 @@ fn super_expr_computed() {
             right: Box::new(Expr::Lit(Lit::Num(Number {
                 span,
                 value: 123f64,
-                raw: Some("123".into()),
+                raw: Some(atom!("123")),
             })))
         }))
     );

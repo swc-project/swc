@@ -6,26 +6,26 @@ Object.defineProperty(exports, "__esModule", {
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
         enumerable: true,
-        get: all[name]
+        get: Object.getOwnPropertyDescriptor(all, name).get
     });
 }
 _export(exports, {
-    ClassWithPrivateNamedAccessors: function() {
+    get ClassWithPrivateNamedAccessors () {
         return ClassWithPrivateNamedAccessors;
     },
-    ClassWithPrivateNamedMethods: function() {
+    get ClassWithPrivateNamedMethods () {
         return ClassWithPrivateNamedMethods;
     },
-    ClassWithPrivateNamedProperties: function() {
+    get ClassWithPrivateNamedProperties () {
         return ClassWithPrivateNamedProperties;
     },
-    classExpression: function() {
+    get classExpression () {
         return classExpression;
     },
-    funcInferredReturnType: function() {
+    get funcInferredReturnType () {
         return funcInferredReturnType;
     },
-    obj: function() {
+    get obj () {
         return obj;
     }
 });

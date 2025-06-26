@@ -19,6 +19,8 @@ const env = {
 };
 try {
     var before = _ts_add_disposable_resource._(env, null, false);
+    var _class = class _class {
+    };
     _class = _ts_decorate._([
         dec
     ], _class);
@@ -27,6 +29,4 @@ try {
     env.hasError = true;
 } finally{
     _ts_dispose_resources._(env);
-}
-class _class {
 }

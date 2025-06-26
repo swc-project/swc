@@ -10,5 +10,4 @@ var a0;
 var a1;
 a1 = function(foo, bar) {
     return true;
-} // Error
-;
+}; // Error

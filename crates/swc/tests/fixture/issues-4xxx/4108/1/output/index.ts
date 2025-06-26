@@ -6,8 +6,8 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _ts_values } from "@swc/helpers/_/_ts_values";
 import { Transaction } from "@solana/web3.js";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
-export var getErrorForTransaction = /*#__PURE__*/ function() {
-    var _ref = _async_to_generator(function(connection, txid) {
+export var getErrorForTransaction = function(connection, txid) {
+    return _async_to_generator(function() {
         var tx, errors;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -47,11 +47,8 @@ export var getErrorForTransaction = /*#__PURE__*/ function() {
                     ];
             }
         });
-    });
-    return function getErrorForTransaction(connection, txid) {
-        return _ref.apply(this, arguments);
-    };
-}();
+    })();
+};
 export var SequenceType = /*#__PURE__*/ function(SequenceType) {
     SequenceType[SequenceType["Sequential"] = 0] = "Sequential";
     SequenceType[SequenceType["Parallel"] = 1] = "Parallel";
@@ -59,10 +56,7 @@ export var SequenceType = /*#__PURE__*/ function(SequenceType) {
     return SequenceType;
 }({});
 export function sendTransactionsWithManualRetry(connection, wallet, instructions, signers) {
-    return _sendTransactionsWithManualRetry.apply(this, arguments);
-}
-function _sendTransactionsWithManualRetry() {
-    _sendTransactionsWithManualRetry = _async_to_generator(function(connection, wallet, instructions, signers) {
+    return _async_to_generator(function() {
         var stopPoint, tries, lastInstructionsLength, toRemoveSigners, ids, filteredSigners, id, txs, e;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -154,13 +148,14 @@ function _sendTransactionsWithManualRetry() {
                     ];
             }
         });
-    });
-    return _sendTransactionsWithManualRetry.apply(this, arguments);
+    })();
 }
-export var sendTransactions = /*#__PURE__*/ function() {
-    var _ref = _async_to_generator(function(connection, wallet, instructionSet, signersSet) {
-        var _loop, _loop1, sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, _ret, result, _tmp;
-        var _arguments = arguments;
+export var sendTransactions = function(connection, wallet, instructionSet, signersSet) {
+    var sequenceType = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : 1, commitment = arguments.length > 5 && arguments[5] !== void 0 ? arguments[5] : "singleGossip", successCallback = arguments.length > 6 && arguments[6] !== void 0 ? arguments[6] : function(txid, ind) {}, failCallback = arguments.length > 7 && arguments[7] !== void 0 ? arguments[7] : function(txid, ind) {
+        return false;
+    }, block = arguments.length > 8 ? arguments[8] : void 0, beforeTransactions = arguments.length > 9 && arguments[9] !== void 0 ? arguments[9] : [], afterTransactions = arguments.length > 10 && arguments[10] !== void 0 ? arguments[10] : [];
+    return _async_to_generator(function() {
+        var _loop, _loop1, _unsignedTxns, unsignedTxns, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, _ret, result, _tmp;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -264,9 +259,6 @@ export var sendTransactions = /*#__PURE__*/ function() {
                             }
                         });
                     };
-                    sequenceType = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : 1, commitment = _arguments.length > 5 && _arguments[5] !== void 0 ? _arguments[5] : "singleGossip", successCallback = _arguments.length > 6 && _arguments[6] !== void 0 ? _arguments[6] : function(txid, ind) {}, failCallback = _arguments.length > 7 && _arguments[7] !== void 0 ? _arguments[7] : function(txid, ind) {
-                        return false;
-                    }, block = _arguments.length > 8 ? _arguments[8] : void 0, beforeTransactions = _arguments.length > 9 && _arguments[9] !== void 0 ? _arguments[9] : [], afterTransactions = _arguments.length > 10 && _arguments[10] !== void 0 ? _arguments[10] : [];
                     if (!wallet.publicKey) throw new WalletNotConnectedError();
                     unsignedTxns = beforeTransactions;
                     if (!!block) return [
@@ -359,19 +351,15 @@ export var sendTransactions = /*#__PURE__*/ function() {
                     ];
             }
         });
-    });
-    return function sendTransactions(connection, wallet, instructionSet, signersSet) {
-        return _ref.apply(this, arguments);
-    };
-}();
-export var sendTransaction = /*#__PURE__*/ function() {
-    var _ref = _async_to_generator(function(connection, wallet, instructions, signers) {
-        var awaitConfirmation, commitment, includesFeePayer, block, transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, confirmation, errors;
-        var _arguments = arguments;
+    })();
+};
+export var sendTransaction = function(connection, wallet, instructions, signers) {
+    var awaitConfirmation = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : true, commitment = arguments.length > 5 && arguments[5] !== void 0 ? arguments[5] : "singleGossip", includesFeePayer = arguments.length > 6 && arguments[6] !== void 0 ? arguments[6] : false, block = arguments.length > 7 ? arguments[7] : void 0;
+    return _async_to_generator(function() {
+        var transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, confirmation, errors;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
-                    awaitConfirmation = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : true, commitment = _arguments.length > 5 && _arguments[5] !== void 0 ? _arguments[5] : "singleGossip", includesFeePayer = _arguments.length > 6 && _arguments[6] !== void 0 ? _arguments[6] : false, block = _arguments.length > 7 ? _arguments[7] : void 0;
                     if (!wallet.publicKey) throw new WalletNotConnectedError();
                     if (!_instanceof(instructions, Transaction)) return [
                         3,
@@ -477,19 +465,15 @@ export var sendTransaction = /*#__PURE__*/ function() {
                     ];
             }
         });
-    });
-    return function sendTransaction(connection, wallet, instructions, signers) {
-        return _ref.apply(this, arguments);
-    };
-}();
-export var sendTransactionWithRetry = /*#__PURE__*/ function() {
-    var _ref = _async_to_generator(function(connection, wallet, instructions, signers) {
-        var commitment, includesFeePayer, block, beforeSend, transaction, _tmp, _transaction, _transaction1, _transaction2, _ref, txid, slot;
-        var _arguments = arguments;
+    })();
+};
+export var sendTransactionWithRetry = function(connection, wallet, instructions, signers) {
+    var commitment = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : "singleGossip", includesFeePayer = arguments.length > 5 && arguments[5] !== void 0 ? arguments[5] : false, block = arguments.length > 6 ? arguments[6] : void 0, beforeSend = arguments.length > 7 ? arguments[7] : void 0;
+    return _async_to_generator(function() {
+        var transaction, _tmp, _transaction, _transaction1, _transaction2, _ref, txid, slot;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
-                    commitment = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : "singleGossip", includesFeePayer = _arguments.length > 5 && _arguments[5] !== void 0 ? _arguments[5] : false, block = _arguments.length > 6 ? _arguments[6] : void 0, beforeSend = _arguments.length > 7 ? _arguments[7] : void 0;
                     if (!wallet.publicKey) throw new WalletNotConnectedError();
                     transaction = new Transaction();
                     instructions.forEach(function(instruction) {
@@ -560,20 +544,14 @@ export var sendTransactionWithRetry = /*#__PURE__*/ function() {
                     ];
             }
         });
-    });
-    return function sendTransactionWithRetry(connection, wallet, instructions, signers) {
-        return _ref.apply(this, arguments);
-    };
-}();
+    })();
+};
 export var getUnixTs = function() {
     return new Date().getTime() / 1000;
 };
 var DEFAULT_TIMEOUT = 15000;
-export function sendSignedTransaction(_) {
-    return _sendSignedTransaction.apply(this, arguments);
-}
-function _sendSignedTransaction() {
-    _sendSignedTransaction = _async_to_generator(function(param) {
+export function sendSignedTransaction(_0) {
+    return _async_to_generator(function(param) {
         var signedTransaction, connection, _param_timeout, timeout, rawTransaction, startTime, slot, txid, done, confirmation, err, simulateResult, e, i, line;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -592,33 +570,35 @@ function _sendSignedTransaction() {
                     txid = _state.sent();
                     console.log("Started awaiting confirmation for", txid);
                     done = false;
-                    _async_to_generator(function() {
-                        return _ts_generator(this, function(_state) {
-                            switch(_state.label){
-                                case 0:
-                                    if (!(!done && getUnixTs() - startTime < timeout)) return [
-                                        3,
-                                        2
-                                    ];
-                                    connection.sendRawTransaction(rawTransaction, {
-                                        skipPreflight: true
-                                    });
-                                    return [
-                                        4,
-                                        sleep(500)
-                                    ];
-                                case 1:
-                                    _state.sent();
-                                    return [
-                                        3,
-                                        0
-                                    ];
-                                case 2:
-                                    return [
-                                        2
-                                    ];
-                            }
-                        });
+                    (function() {
+                        return _async_to_generator(function() {
+                            return _ts_generator(this, function(_state) {
+                                switch(_state.label){
+                                    case 0:
+                                        if (!(!done && getUnixTs() - startTime < timeout)) return [
+                                            3,
+                                            2
+                                        ];
+                                        connection.sendRawTransaction(rawTransaction, {
+                                            skipPreflight: true
+                                        });
+                                        return [
+                                            4,
+                                            sleep(500)
+                                        ];
+                                    case 1:
+                                        _state.sent();
+                                        return [
+                                            3,
+                                            0
+                                        ];
+                                    case 2:
+                                        return [
+                                            2
+                                        ];
+                                }
+                            });
+                        })();
                     })();
                     _state.label = 2;
                 case 2:
@@ -707,14 +687,10 @@ function _sendSignedTransaction() {
                     ];
             }
         });
-    });
-    return _sendSignedTransaction.apply(this, arguments);
+    }).apply(this, arguments);
 }
 function simulateTransaction(connection, transaction, commitment) {
-    return _simulateTransaction.apply(this, arguments);
-}
-function _simulateTransaction() {
-    _simulateTransaction = _async_to_generator(function(connection, transaction, commitment) {
+    return _async_to_generator(function() {
         var signData, wireTransaction, encodedTransaction, config, args, res;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -754,20 +730,15 @@ function _simulateTransaction() {
                     ];
             }
         });
-    });
-    return _simulateTransaction.apply(this, arguments);
+    })();
 }
 function awaitTransactionSignatureConfirmation(txid, timeout, connection) {
-    return _awaitTransactionSignatureConfirmation.apply(this, arguments);
-}
-function _awaitTransactionSignatureConfirmation() {
-    _awaitTransactionSignatureConfirmation = _async_to_generator(function(txid, timeout, connection) {
-        var commitment, queryStatus, done, status, subId;
-        var _arguments = arguments;
+    var commitment = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : "recent", queryStatus = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : false;
+    return _async_to_generator(function() {
+        var done, status, subId;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
-                    commitment = _arguments.length > 3 && _arguments[3] !== void 0 ? _arguments[3] : "recent", queryStatus = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : false;
                     done = false;
                     status = {
                         slot: 0,
@@ -777,8 +748,8 @@ function _awaitTransactionSignatureConfirmation() {
                     subId = 0;
                     return [
                         4,
-                        new Promise(/*#__PURE__*/ function() {
-                            var _ref = _async_to_generator(function(resolve, reject) {
+                        new Promise(function(resolve, reject) {
+                            return _async_to_generator(function() {
                                 return _ts_generator(this, function(_state) {
                                     switch(_state.label){
                                         case 0:
@@ -819,60 +790,62 @@ function _awaitTransactionSignatureConfirmation() {
                                                 3
                                             ];
                                             // eslint-disable-next-line no-loop-func
-                                            _async_to_generator(function() {
-                                                var signatureStatuses, e;
-                                                return _ts_generator(this, function(_state) {
-                                                    switch(_state.label){
-                                                        case 0:
-                                                            _state.trys.push([
-                                                                0,
-                                                                2,
-                                                                ,
-                                                                3
-                                                            ]);
-                                                            return [
-                                                                4,
-                                                                connection.getSignatureStatuses([
-                                                                    txid
-                                                                ])
-                                                            ];
-                                                        case 1:
-                                                            signatureStatuses = _state.sent();
-                                                            status = signatureStatuses && signatureStatuses.value[0];
-                                                            if (!done) {
-                                                                if (!status) {
-                                                                    console.log("REST null result for", txid, status);
-                                                                } else if (status.err) {
-                                                                    console.log("REST error for", txid, status);
-                                                                    done = true;
-                                                                    reject(status.err);
-                                                                } else if (!status.confirmations) {
-                                                                    console.log("REST no confirmations for", txid, status);
-                                                                } else {
-                                                                    console.log("REST confirmation for", txid, status);
-                                                                    done = true;
-                                                                    resolve(status);
+                                            (function() {
+                                                return _async_to_generator(function() {
+                                                    var signatureStatuses, e;
+                                                    return _ts_generator(this, function(_state) {
+                                                        switch(_state.label){
+                                                            case 0:
+                                                                _state.trys.push([
+                                                                    0,
+                                                                    2,
+                                                                    ,
+                                                                    3
+                                                                ]);
+                                                                return [
+                                                                    4,
+                                                                    connection.getSignatureStatuses([
+                                                                        txid
+                                                                    ])
+                                                                ];
+                                                            case 1:
+                                                                signatureStatuses = _state.sent();
+                                                                status = signatureStatuses && signatureStatuses.value[0];
+                                                                if (!done) {
+                                                                    if (!status) {
+                                                                        console.log("REST null result for", txid, status);
+                                                                    } else if (status.err) {
+                                                                        console.log("REST error for", txid, status);
+                                                                        done = true;
+                                                                        reject(status.err);
+                                                                    } else if (!status.confirmations) {
+                                                                        console.log("REST no confirmations for", txid, status);
+                                                                    } else {
+                                                                        console.log("REST confirmation for", txid, status);
+                                                                        done = true;
+                                                                        resolve(status);
+                                                                    }
                                                                 }
-                                                            }
-                                                            return [
-                                                                3,
-                                                                3
-                                                            ];
-                                                        case 2:
-                                                            e = _state.sent();
-                                                            if (!done) {
-                                                                console.log("REST connection error: txid", txid, e);
-                                                            }
-                                                            return [
-                                                                3,
-                                                                3
-                                                            ];
-                                                        case 3:
-                                                            return [
-                                                                2
-                                                            ];
-                                                    }
-                                                });
+                                                                return [
+                                                                    3,
+                                                                    3
+                                                                ];
+                                                            case 2:
+                                                                e = _state.sent();
+                                                                if (!done) {
+                                                                    console.log("REST connection error: txid", txid, e);
+                                                                }
+                                                                return [
+                                                                    3,
+                                                                    3
+                                                                ];
+                                                            case 3:
+                                                                return [
+                                                                    2
+                                                                ];
+                                                        }
+                                                    });
+                                                })();
                                             })();
                                             return [
                                                 4,
@@ -890,11 +863,8 @@ function _awaitTransactionSignatureConfirmation() {
                                             ];
                                     }
                                 });
-                            });
-                            return function(resolve, reject) {
-                                return _ref.apply(this, arguments);
-                            };
-                        }())
+                            })();
+                        })
                     ];
                 case 1:
                     status = _state.sent();
@@ -908,8 +878,7 @@ function _awaitTransactionSignatureConfirmation() {
                     ];
             }
         });
-    });
-    return _awaitTransactionSignatureConfirmation.apply(this, arguments);
+    })();
 }
 export function sleep(ms) {
     return new Promise(function(resolve) {

@@ -83,7 +83,6 @@ var C3 = /*#__PURE__*/ function() {
 //// [C4.ts]
 import { _ as _async_generator_delegate } from "@swc/helpers/_/_async_generator_delegate";
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
@@ -104,7 +103,7 @@ var C4 = /*#__PURE__*/ function() {
                             5,
                             _ts_values(_async_generator_delegate(_async_iterator([
                                 1
-                            ]), _await_async_generator))
+                            ])))
                         ];
                     case 1:
                         x = _state.sent();
@@ -120,7 +119,6 @@ var C4 = /*#__PURE__*/ function() {
 //// [C5.ts]
 import { _ as _async_generator_delegate } from "@swc/helpers/_/_async_generator_delegate";
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
@@ -139,22 +137,24 @@ var C5 = /*#__PURE__*/ function() {
                     case 0:
                         return [
                             5,
-                            _ts_values(_async_generator_delegate(_async_iterator(_wrap_async_generator(function() {
-                                return _ts_generator(this, function(_state) {
-                                    switch(_state.label){
-                                        case 0:
-                                            return [
-                                                4,
-                                                1
-                                            ];
-                                        case 1:
-                                            _state.sent();
-                                            return [
-                                                2
-                                            ];
-                                    }
-                                });
-                            })()), _await_async_generator))
+                            _ts_values(_async_generator_delegate(_async_iterator(function() {
+                                return _wrap_async_generator(function() {
+                                    return _ts_generator(this, function(_state) {
+                                        switch(_state.label){
+                                            case 0:
+                                                return [
+                                                    4,
+                                                    1
+                                                ];
+                                            case 1:
+                                                _state.sent();
+                                                return [
+                                                    2
+                                                ];
+                                        }
+                                    });
+                                })();
+                            }())))
                         ];
                     case 1:
                         x = _state.sent();
@@ -233,15 +233,14 @@ var C8 = /*#__PURE__*/ function() {
     var _proto = C8.prototype;
     _proto.g = function g() {};
     _proto.f = function f() {
-        var _this = this;
         return _wrap_async_generator(function() {
             return _ts_generator(this, function(_state) {
-                _this.g();
+                this.g();
                 return [
                     2
                 ];
             });
-        })();
+        }).call(this);
     };
     return C8;
 }();

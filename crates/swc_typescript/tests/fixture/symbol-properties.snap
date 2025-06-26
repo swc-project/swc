@@ -4,8 +4,8 @@
 export declare const foo: {
     [Symbol.iterator]: () => void;
     [Symbol.asyncIterator]: () => Promise<void>;
-    [globalThis.Symbol.iterator]: () => void;
-    [Symbol.toStringTag]: string;
+    [Symbol.iterator]: () => void;
+    readonly [Symbol.toStringTag]: string;
 };
 export declare abstract class Foo {
     [Symbol.iterator](): void;

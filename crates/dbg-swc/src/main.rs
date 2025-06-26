@@ -1,6 +1,6 @@
 use std::{env, path::PathBuf, str::FromStr, sync::Arc};
 
-use anyhow::{bail, Result};
+use anyhow::{bail, Error, Result};
 use clap::{StructOpt, Subcommand};
 use es::EsCommand;
 use swc_common::{
@@ -51,7 +51,7 @@ fn init() -> Result<()> {
     Ok(())
 }
 
-fn main() -> Result<()> {
+fn main() -> Result<(), Error> {
     init()?;
 
     let cm = Arc::new(SourceMap::default());
@@ -104,7 +104,8 @@ fn main() -> Result<()> {
                     })
                 })
             },
-        );
+        )
+        .map_err(|e| e.to_pretty_error());
     }
 
     let args = AppArgs::parse();
@@ -118,9 +119,10 @@ fn main() -> Result<()> {
         |handler| {
             GLOBALS.set(&Globals::default(), || {
                 HANDLER.set(handler, || match args.cmd {
-                    Cmd::Es(cmd) => cmd.run(cm),
+                    Cmd::Es(cmd) => cmd.run(cm.clone()),
                 })
             })
         },
     )
+    .map_err(|e| e.to_pretty_error())
 }

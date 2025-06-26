@@ -1,0 +1,17 @@
+{
+    "$schema": "https://swc.rs/schema.json",
+    "jsc": {
+        "minify": {
+            "mangle": true
+        },
+        "parser": {
+            "syntax": "typescript"
+        },
+        "target": "es2024",
+        "loose": false,
+        "externalHelpers": false,
+        "keepClassNames": false
+    },
+    "minify": true,
+    "sourceMaps": true
+}

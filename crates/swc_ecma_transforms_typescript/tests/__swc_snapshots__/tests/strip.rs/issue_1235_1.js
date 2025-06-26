@@ -5,6 +5,6 @@ class Service {
         })();
     }
 }
-_async_to_generator(function*() {
-    yield new Service().is('ABC');
-})();
+(()=>_async_to_generator(function*() {
+        yield new Service().is('ABC');
+    })())();

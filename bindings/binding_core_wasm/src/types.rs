@@ -97,9 +97,10 @@ export interface JsFormatOptions {
    * - `false`: removes all comments
    * - `'some'`: preserves some comments
    * - `'all'`: preserves all comments
+   * - `{ regex: string }`: preserves comments that match the regex
    * @default false
    */
-  comments?: false | 'some' | 'all'
+  comments?: false | "some" | "all" | { regex: string };
 
   /**
    * Currently noop.
@@ -546,7 +547,7 @@ export interface Options extends Config {
 
   plugin?: Plugin;
 
-  isModule?: boolean | 'unknown';
+  isModule?: boolean | 'unknown' | 'commonjs';
 
   /**
    * Destination path. Note that this value is used only to fix source path
@@ -684,6 +685,15 @@ export interface JscConfig {
   minify?: JsMinifyOptions;
 
   preserveAllComments?: boolean;
+
+  output?: {
+    /**
+     * This can be used to keep the output ascii-only.
+     * If this option is set, `minify.format.asciiOnly` will be ignored.
+     * @default 'utf8'
+     */
+    charset?: 'utf8' | 'ascii';
+  }
 }
 
 export type JscTarget =
@@ -924,7 +934,7 @@ export interface GlobalPassOption {
   /**
    * Name of environment variables to inline.
    *
-   * Defaults to `["NODE_ENV", "SWC_ENV"]`
+   * Defaults to `[]`
    */
   envs?: string[] | Record<string, string>;
 }
@@ -1087,10 +1097,16 @@ export interface BaseModuleConfig {
    */
   importInterop?: "swc" | "babel" | "node" | "none";
   /**
+   * Output extension for generated files.
+   *
+   * Defaults to `js`.
+  */
+  outFileExtension?: "js" | "mjs" | "cjs";
+  /**
    * Emits `cjs-module-lexer` annotation
    * `cjs-module-lexer` is used in Node.js core for detecting the named exports available when importing a CJS module into ESM.
    * swc will emit `cjs-module-lexer` detectable annotation with this option enabled.
-   * 
+   *
    * Defaults to `true` if import_interop is Node, else `false`
    */
   exportInteropAnnotation?: boolean;
@@ -1100,6 +1116,10 @@ export interface BaseModuleConfig {
   ignoreDynamic?: boolean;
   allowTopLevelThis?: boolean;
   preserveImportMeta?: boolean;
+  /**
+   * If set to true, This will resolve top .mjs
+   */
+  resolveFully?: boolean;
 }
 
 export interface Es6Config extends BaseModuleConfig {

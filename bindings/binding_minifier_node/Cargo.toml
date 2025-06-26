@@ -25,15 +25,16 @@ path-clean         = { workspace = true }
 rustc-hash         = { workspace = true }
 serde              = { workspace = true, features = ["derive"] }
 serde_json         = { workspace = true, features = ["unbounded_depth"] }
-sourcemap          = { workspace = true }
+swc_sourcemap      = { workspace = true }
 tracing            = { workspace = true, features = ["release_max_level_info"] }
 tracing-chrome     = { workspace = true }
 tracing-futures    = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
+par-core           = { workspace = true, features = ["chili"] }
 
 
 swc_compiler_base = { workspace = true, features = ["node"] }
-swc_config = { workspace = true }
+swc_config = { workspace = true, features = ["regex"] }
 swc_core = { workspace = true, features = [
   "allocator_node",
   "common_concurrent",

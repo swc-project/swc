@@ -53,7 +53,7 @@ impl NoParamReassign {
     }
 
     fn emit_report(&self, span: Span, name: &str) {
-        let message = format!("Assignment to function parameter '{}'", name);
+        let message = format!("Assignment to function parameter '{name}'");
 
         HANDLER.with(|handler| match self.expected_reaction {
             LintRuleReaction::Error => {

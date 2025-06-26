@@ -5,16 +5,16 @@ import * as binding from './binding'
 /**
  * TODO
  */
-export async function minify(code: Buffer, options: JsMinifyOptions) {
-    return await binding.minify(code, toBuffer(options))
+export async function minify(code: string | Buffer, options: JsMinifyOptions) {
+    return await binding.minify(Buffer.from(code), toBuffer(options), {})
 }
 
 
 /**
  * TODO
  */
-export function minifySync(code: Buffer, options: JsMinifyOptions): binding.TransformOutput {
-    return binding.minifySync(code, toBuffer(options))
+export function minifySync(code: string | Buffer, options: JsMinifyOptions): binding.TransformOutput {
+    return binding.minifySync(Buffer.from(code), toBuffer(options),  {})
 }
 
 

@@ -8,15 +8,13 @@ var x = 1;
 var C = function C(x1) {
     "use strict";
     _class_call_check(this, C);
-    this.b = x // error, evaluated in scope of constructor, cannot reference x
-    ;
+    this.b = x; // error, evaluated in scope of constructor, cannot reference x
     x1 = 2; // error, x is string
 };
 var y = 1;
 var D = function D(x) {
     "use strict";
     _class_call_check(this, D);
-    this.b = y // error, evaluated in scope of constructor, cannot reference y
-    ;
+    this.b = y; // error, evaluated in scope of constructor, cannot reference y
     var y1 = "";
 };

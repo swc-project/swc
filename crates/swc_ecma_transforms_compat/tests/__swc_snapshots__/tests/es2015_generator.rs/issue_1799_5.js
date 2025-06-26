@@ -1,6 +1,6 @@
 export default function Foo() {
-    return call(/*#__PURE__*/ function() {
-        var _ref = _async_to_generator(function(e) {
+    return call(function(e) {
+        return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -15,9 +15,6 @@ export default function Foo() {
                         ];
                 }
             });
-        });
-        return function(e) {
-            return _ref.apply(this, arguments);
-        };
-    }());
+        })();
+    });
 }

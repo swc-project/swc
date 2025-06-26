@@ -129,13 +129,12 @@ use common::{
 use jsonc_parser::{parse_to_serde_value, ParseOptions};
 use once_cell::sync::Lazy;
 use serde_json::error::Category;
-pub use sourcemap;
 use swc_common::{
     comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap, Spanned,
     GLOBALS,
 };
 pub use swc_compiler_base::{PrintArgs, TransformOutput};
-pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
+pub use swc_config::types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{noop_pass, EsVersion, Pass, Program};
 use swc_ecma_codegen::{to_code_with_comments, Node};
 use swc_ecma_loader::resolvers::{
@@ -154,13 +153,13 @@ use swc_ecma_transforms_base::fixer::paren_remover;
 use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
+pub use swc_sourcemap as sourcemap;
 use swc_timer::timer;
-use swc_transform_common::output::emit;
+use swc_transform_common::output::experimental_emit;
 use swc_typescript::fast_dts::FastDts;
 use tracing::warn;
 use url::Url;
 
-pub use crate::builder::PassBuilder;
 use crate::config::{
     BuiltInput, Config, ConfigFile, InputSourceMap, IsModule, JsMinifyCommentOption,
     JsMinifyOptions, Options, OutputCharset, Rc, RootMode, SourceMapsConfig,
@@ -170,6 +169,7 @@ mod builder;
 pub mod config;
 mod dropped_comments_preserver;
 mod plugin;
+pub mod wasm_analysis;
 pub mod resolver {
     use std::path::PathBuf;
 
@@ -258,7 +258,7 @@ impl Compiler {
             let read_inline_sourcemap =
                 |data_url: &str| -> Result<Option<sourcemap::SourceMap>, Error> {
                     let url = Url::parse(data_url).with_context(|| {
-                        format!("failed to parse inline source map url\n{}", data_url)
+                        format!("failed to parse inline source map url\n{data_url}")
                     })?;
 
                     let idx = match url.path().find("base64,") {
@@ -366,8 +366,7 @@ impl Compiler {
                                         || {
                                             format!(
                                                 "failed to read input source map
-                                from file at {}",
-                                                path
+                                from file at {path}"
                                             )
                                         },
                                     )?))
@@ -413,7 +412,7 @@ impl Compiler {
                     } else {
                         // Load source map passed by user
                         Ok(Some(
-                            sourcemap::SourceMap::from_slice(s.as_bytes()).context(
+                            swc_sourcemap::SourceMap::from_slice(s.as_bytes()).context(
                                 "failed to read input source map from user-provided sourcemap",
                             )?,
                         ))
@@ -571,7 +570,7 @@ impl Compiler {
                 }
             }
         })
-        .with_context(|| format!("failed to read .swcrc file for input file at `{}`", name))
+        .with_context(|| format!("failed to read .swcrc file for input file at `{name}`"))
     }
 
     /// This method returns [None] if a file should be skipped.
@@ -625,6 +624,7 @@ impl Compiler {
                 opts.output_path.as_deref(),
                 opts.source_root.clone(),
                 opts.source_file_name.clone(),
+                config.source_map_ignore_list.clone(),
                 handler,
                 Some(config),
                 comments,
@@ -724,7 +724,7 @@ impl Compiler {
                 None
             };
 
-            self.apply_transforms(handler, comments.clone(), fm.clone(), orig.as_ref(), config)
+            self.apply_transforms(handler, comments.clone(), fm.clone(), orig, config)
         })
     }
 
@@ -759,18 +759,18 @@ impl Compiler {
 
             let target = opts.ecma.clone().into();
 
-            let (source_map, orig) = opts
+            let (source_map, orig, source_map_url) = opts
                 .source_map
                 .as_ref()
                 .map(|obj| -> Result<_, Error> {
                     let orig = obj.content.as_ref().map(|s| s.to_sourcemap()).transpose()?;
 
-                    Ok((SourceMapsConfig::Bool(true), orig))
+                    Ok((SourceMapsConfig::Bool(true), orig, obj.url.as_deref()))
                 })
                 .unwrap_as_option(|v| {
                     Some(Ok(match v {
-                        Some(true) => (SourceMapsConfig::Bool(true), None),
-                        _ => (SourceMapsConfig::Bool(false), None),
+                        Some(true) => (SourceMapsConfig::Bool(true), None, None),
+                        _ => (SourceMapsConfig::Bool(false), None, None),
                     }))
                 })
                 .unwrap()?;
@@ -900,8 +900,9 @@ impl Compiler {
                     output_path: opts.output_path.clone().map(From::from),
                     inline_sources_content: opts.inline_sources_content,
                     source_map,
+                    source_map_ignore_list: opts.source_map_ignore_list.clone(),
                     source_map_names: &source_map_names,
-                    orig: orig.as_ref(),
+                    orig,
                     comments: Some(&comments),
                     emit_source_map_columns: opts.emit_source_map_columns,
                     preamble: &opts.format.preamble,
@@ -912,8 +913,16 @@ impl Compiler {
                         .with_emit_assert_for_import_attributes(
                             opts.format.emit_assert_for_import_attributes,
                         )
-                        .with_inline_script(opts.format.inline_script),
+                        .with_inline_script(opts.format.inline_script)
+                        .with_reduce_escaped_newline(
+                            min_opts
+                                .compress
+                                .unwrap_or_default()
+                                .experimental
+                                .reduce_escaped_newline,
+                        ),
                     output: None,
+                    source_map_url,
                 },
             );
 
@@ -927,7 +936,7 @@ impl Compiler {
 
     /// You can use custom pass with this method.
     ///
-    /// There exists a [PassBuilder] to help building custom passes.
+    /// Pass building logic has been inlined into the configuration system.
     #[tracing::instrument(skip_all)]
     pub fn process_js(
         &self,
@@ -955,7 +964,7 @@ impl Compiler {
         handler: &Handler,
         comments: SingleThreadedComments,
         fm: Arc<SourceFile>,
-        orig: Option<&sourcemap::SourceMap>,
+        orig: Option<sourcemap::SourceMap>,
         config: BuiltInput<impl Pass>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
@@ -1012,10 +1021,7 @@ impl Compiler {
             let pass = config.pass;
             let (program, output) = swc_transform_common::output::capture(|| {
                 if let Some(dts_code) = dts_code {
-                    emit(
-                        "__swc_isolated_declarations__".into(),
-                        serde_json::Value::String(dts_code),
-                    );
+                    experimental_emit("__swc_isolated_declarations__".into(), dts_code);
                 }
 
                 helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
@@ -1039,6 +1045,7 @@ impl Compiler {
                 PrintArgs {
                     source_root: config.source_root.as_deref(),
                     source_file_name: config.source_file_name.as_deref(),
+                    source_map_ignore_list: config.source_map_ignore_list.clone(),
                     output_path: config.output_path,
                     inline_sources_content: config.inline_sources_content,
                     source_map: config.source_maps,
@@ -1066,6 +1073,7 @@ impl Compiler {
                     } else {
                         Some(output)
                     },
+                    source_map_url: config.output.source_map_url.as_deref(),
                 },
             )
         })
@@ -1125,8 +1133,7 @@ fn parse_swcrc(s: &str) -> Result<Rc, Error> {
             Category::Eof => "unexpected eof",
         };
         Error::new(e).context(format!(
-            "failed to deserialize .swcrc (json) file: {}: {}:{}",
-            msg, line, column
+            "failed to deserialize .swcrc (json) file: {msg}: {line}:{column}"
         ))
     }
 

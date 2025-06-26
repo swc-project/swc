@@ -1,130 +1,49 @@
 use std::mem::take;
 
-use smallvec::{smallvec, SmallVec};
-use swc_common::{BytePos, Span};
-use tracing::trace;
-
-use super::{
-    comments_buffer::{BufferedComment, BufferedCommentKind},
-    Context, Input, Lexer,
+use swc_common::BytePos;
+use swc_ecma_ast::EsVersion;
+use swc_ecma_lexer::{
+    common::lexer::{
+        char::CharExt,
+        comments_buffer::{BufferedComment, BufferedCommentKind},
+        state::State as StateTrait,
+        LexResult,
+    },
+    error::SyntaxError,
+    TokenContexts,
 };
+
+use super::{Context, Input, Lexer, LexerTrait};
 use crate::{
-    error::{Error, SyntaxError},
+    error::Error,
     input::Tokens,
-    lexer::util::CharExt,
-    token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
-    EsVersion, Syntax,
+    lexer::token::{Token, TokenAndSpan, TokenValue},
+    Syntax,
 };
 
 /// State of lexer.
 ///
 /// Ported from babylon.
 #[derive(Clone)]
-pub(super) struct State {
-    pub is_expr_allowed: bool,
-    pub next_regexp: Option<BytePos>,
+pub struct State {
     /// if line break exists between previous token and new token?
     pub had_line_break: bool,
     /// if line break exists before last?
     pub had_line_break_before_last: bool,
     /// TODO: Remove this field.
     is_first: bool,
+    pub next_regexp: Option<BytePos>,
     pub start: BytePos,
-    pub cur_line: usize,
-    pub line_start: BytePos,
     pub prev_hi: BytePos,
-    pub tpl_start: BytePos,
 
-    context: TokenContexts,
-    syntax: Syntax,
-
-    token_type: Option<TokenType>,
+    pub(super) token_value: Option<TokenValue>,
+    token_type: Option<Token>,
 }
 
-#[derive(Debug, Copy, Clone, PartialEq, Eq)]
-enum TokenType {
-    Template,
-    Dot,
-    Colon,
-    LBrace,
-    RParen,
-    Semi,
-    BinOp(BinOpToken),
-    Keyword(Keyword),
-    JSXName,
-    JSXText,
-    JSXTagStart,
-    JSXTagEnd,
-    Arrow,
-    Other {
-        before_expr: bool,
-        can_have_trailing_comment: bool,
-    },
-}
-impl TokenType {
-    #[inline]
-    const fn before_expr(self) -> bool {
-        match self {
-            TokenType::JSXName
-            | TokenType::JSXTagStart
-            | TokenType::JSXTagEnd
-            | TokenType::Template
-            | TokenType::Dot
-            | TokenType::RParen => false,
-
-            TokenType::JSXText
-            | TokenType::Colon
-            | TokenType::LBrace
-            | TokenType::Semi
-            | TokenType::Arrow => true,
-
-            TokenType::BinOp(b) => b.before_expr(),
-            TokenType::Keyword(k) => k.before_expr(),
-            TokenType::Other { before_expr, .. } => before_expr,
-        }
-    }
-}
-
-impl From<TokenKind> for TokenType {
-    #[inline]
-    fn from(t: TokenKind) -> Self {
-        match t {
-            TokenKind::Template { .. } => TokenType::Template,
-            TokenKind::Dot => TokenType::Dot,
-            TokenKind::Colon => TokenType::Colon,
-            TokenKind::LBrace => TokenType::LBrace,
-            TokenKind::RParen => TokenType::RParen,
-            TokenKind::Semi => TokenType::Semi,
-            TokenKind::JSXTagEnd => TokenType::JSXTagEnd,
-            TokenKind::JSXTagStart => TokenType::JSXTagStart,
-            TokenKind::JSXText { .. } => TokenType::JSXText,
-            TokenKind::JSXName { .. } => TokenType::JSXName,
-            TokenKind::BinOp(op) => TokenType::BinOp(op),
-            TokenKind::Arrow => TokenType::Arrow,
-
-            TokenKind::Word(WordKind::Keyword(k)) => TokenType::Keyword(k),
-            _ => TokenType::Other {
-                before_expr: t.before_expr(),
-                can_have_trailing_comment: matches!(
-                    t,
-                    TokenKind::Num { .. }
-                        | TokenKind::Str { .. }
-                        | TokenKind::Word(WordKind::Ident(..))
-                        | TokenKind::DollarLBrace
-                        | TokenKind::Regex
-                        | TokenKind::BigInt { .. }
-                        | TokenKind::JSXText { .. }
-                        | TokenKind::RBrace
-                ),
-            },
-        }
-    }
-}
-
-impl Tokens for Lexer<'_> {
+impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
-        if ctx.module && !self.module_errors.borrow().is_empty() {
+        if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {
             let mut module_errors = self.module_errors.borrow_mut();
             self.errors.borrow_mut().append(&mut *module_errors);
         }
@@ -152,9 +71,7 @@ impl Tokens for Lexer<'_> {
     }
 
     #[inline]
-    fn set_expr_allowed(&mut self, allow: bool) {
-        self.set_expr_allowed(allow)
-    }
+    fn set_expr_allowed(&mut self, _: bool) {}
 
     #[inline]
     fn set_next_regexp(&mut self, start: Option<BytePos>) {
@@ -163,17 +80,17 @@ impl Tokens for Lexer<'_> {
 
     #[inline]
     fn token_context(&self) -> &TokenContexts {
-        &self.state.context
+        unreachable!();
     }
 
     #[inline]
     fn token_context_mut(&mut self) -> &mut TokenContexts {
-        &mut self.state.context
+        unreachable!();
     }
 
     #[inline]
-    fn set_token_context(&mut self, c: TokenContexts) {
-        self.state.context = c;
+    fn set_token_context(&mut self, _: TokenContexts) {
+        unreachable!();
     }
 
     fn add_error(&self, error: Error) {
@@ -181,186 +98,89 @@ impl Tokens for Lexer<'_> {
     }
 
     fn add_module_mode_error(&self, error: Error) {
-        if self.ctx.module {
+        if self.ctx.contains(Context::Module) {
             self.add_error(error);
             return;
         }
         self.module_errors.borrow_mut().push(error);
     }
 
+    #[inline]
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
 
+    #[inline]
     fn take_script_module_errors(&mut self) -> Vec<Error> {
         take(&mut self.module_errors.borrow_mut())
     }
 
+    #[inline]
     fn end_pos(&self) -> BytePos {
         self.input.end_pos()
     }
-}
 
-impl Lexer<'_> {
-    /// Consume pending comments.
-    ///
-    /// This is called when the input is exhausted.
-    #[cold]
-    #[inline(never)]
-    fn consume_pending_comments(&mut self) {
-        if let Some(comments) = self.comments.as_mut() {
-            let comments_buffer = self.comments_buffer.as_mut().unwrap();
-            let last = self.state.prev_hi;
-
-            // move the pending to the leading or trailing
-            for c in comments_buffer.take_pending_leading() {
-                // if the file had no tokens and no shebang, then treat any
-                // comments in the leading comments buffer as leading.
-                // Otherwise treat them as trailing.
-                if last == self.start_pos {
-                    comments_buffer.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: last,
-                        comment: c,
-                    });
-                } else {
-                    comments_buffer.push(BufferedComment {
-                        kind: BufferedCommentKind::Trailing,
-                        pos: last,
-                        comment: c,
-                    });
-                }
-            }
-
-            // now fill the user's passed in comments
-            for comment in comments_buffer.take_comments() {
-                match comment.kind {
-                    BufferedCommentKind::Leading => {
-                        comments.add_leading(comment.pos, comment.comment);
-                    }
-                    BufferedCommentKind::Trailing => {
-                        comments.add_trailing(comment.pos, comment.comment);
-                    }
-                }
-            }
-        }
+    #[inline]
+    fn update_token_flags(&mut self, f: impl FnOnce(&mut swc_ecma_lexer::lexer::TokenFlags)) {
+        f(&mut self.token_flags)
     }
 
-    fn next_token(&mut self, start: &mut BytePos) -> Result<Option<Token>, Error> {
-        if let Some(start) = self.state.next_regexp {
-            return Ok(Some(self.read_regexp(start)?));
-        }
-
-        if self.state.is_first {
-            if let Some(shebang) = self.read_shebang()? {
-                return Ok(Some(Token::Shebang(shebang)));
-            }
-        }
-
-        self.state.had_line_break = self.state.is_first;
-        self.state.is_first = false;
-
-        // skip spaces before getting next character, if we are allowed to.
-        if self.state.can_skip_space() {
-            self.skip_space::<true>();
-            *start = self.input.cur_pos();
-        };
-
-        match self.input.cur() {
-            Some(..) => {}
-            // End of input.
-            None => {
-                self.consume_pending_comments();
-
-                return Ok(None);
-            }
-        };
-
-        // println!(
-        //     "\tContext: ({:?}) {:?}",
-        //     self.input.cur().unwrap(),
-        //     self.state.context.0
-        // );
-
-        self.state.start = *start;
-
-        if self.syntax.jsx() && !self.ctx.in_property_name && !self.ctx.in_type {
-            //jsx
-            if self.state.context.current() == Some(TokenContext::JSXExpr) {
-                return self.read_jsx_token();
-            }
-
-            let c = self.cur();
-            if let Some(c) = c {
-                if self.state.context.current() == Some(TokenContext::JSXOpeningTag)
-                    || self.state.context.current() == Some(TokenContext::JSXClosingTag)
-                {
-                    if c.is_ident_start() {
-                        return self.read_jsx_word().map(Some);
-                    }
-
-                    if c == '>' {
-                        unsafe {
-                            // Safety: cur() is Some('>')
-                            self.input.bump();
-                        }
-                        return Ok(Some(Token::JSXTagEnd));
-                    }
-
-                    if (c == '\'' || c == '"')
-                        && self.state.context.current() == Some(TokenContext::JSXOpeningTag)
-                    {
-                        return self.read_jsx_str(c).map(Some);
-                    }
-                }
-
-                if c == '<' && self.state.is_expr_allowed && self.input.peek() != Some('!') {
-                    let had_line_break_before_last = self.had_line_break_before_last();
-                    let cur_pos = self.input.cur_pos();
-
-                    unsafe {
-                        // Safety: cur() is Some('<')
-                        self.input.bump();
-                    }
-
-                    if had_line_break_before_last && self.is_str("<<<<<< ") {
-                        let span = Span::new(cur_pos, cur_pos + BytePos(7));
-
-                        self.emit_error_span(span, SyntaxError::TS1185);
-                        self.skip_line_comment(6);
-                        self.skip_space::<true>();
-                        return self.read_token();
-                    }
-
-                    return Ok(Some(Token::JSXTagStart));
-                }
-            }
-        }
-
-        if let Some(TokenContext::Tpl {}) = self.state.context.current() {
-            let start = self.state.tpl_start;
-            return self.read_tmpl_token(start).map(Some);
-        }
-
-        self.read_token()
+    #[inline]
+    fn token_flags(&self) -> swc_ecma_lexer::lexer::TokenFlags {
+        self.token_flags
     }
 }
 
-impl Iterator for Lexer<'_> {
-    type Item = TokenAndSpan;
+impl crate::input::Tokens for Lexer<'_> {
+    fn clone_token_value(&self) -> Option<TokenValue> {
+        self.state.token_value.clone()
+    }
 
-    fn next(&mut self) -> Option<Self::Item> {
-        let mut start = self.cur_pos();
+    fn get_token_value(&self) -> Option<&TokenValue> {
+        self.state.token_value.as_ref()
+    }
 
-        let res = self.next_token(&mut start);
+    fn set_token_value(&mut self, token_value: Option<TokenValue>) {
+        self.state.token_value = token_value;
+    }
 
-        let token = match res.map_err(Token::Error).map_err(Some) {
+    fn take_token_value(&mut self) -> Option<TokenValue> {
+        self.state.token_value.take()
+    }
+
+    fn rescan_jsx_token(
+        &mut self,
+        allow_multiline_jsx_text: bool,
+        reset: BytePos,
+    ) -> Option<TokenAndSpan> {
+        unsafe {
+            self.input.reset_to(reset);
+        }
+        Tokens::scan_jsx_token(self, allow_multiline_jsx_text)
+    }
+
+    fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> Option<TokenAndSpan> {
+        unsafe {
+            self.input.reset_to(reset);
+        }
+        Tokens::scan_jsx_open_el_terminal_token(self)
+    }
+
+    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Option<TokenAndSpan> {
+        let start = self.cur_pos();
+        let res = match self.scan_jsx_token(allow_multiline_jsx_text) {
+            Ok(res) => Ok(res),
+            Err(error) => {
+                self.state.set_token_value(TokenValue::Error(error));
+                Err(Token::Error)
+            }
+        };
+        let token = match res.map_err(Some) {
             Ok(t) => t,
             Err(e) => e,
         };
-
         let span = self.span(start);
-        if let Some(ref token) = token {
+        if let Some(token) = token {
             if let Some(comments) = self.comments_buffer.as_mut() {
                 for comment in comments.take_pending_leading() {
                     comments.push(BufferedComment {
@@ -371,7 +191,383 @@ impl Iterator for Lexer<'_> {
                 }
             }
 
-            self.state.update(start, token.kind());
+            self.state.set_token_type(token);
+            self.state.prev_hi = self.last_pos();
+            self.state.had_line_break_before_last = self.had_line_break_before_last();
+        }
+        token.map(|token| {
+            // Attach span to token.
+            TokenAndSpan {
+                token,
+                had_line_break: self.had_line_break_before_last(),
+                span,
+            }
+        })
+    }
+
+    fn scan_jsx_open_el_terminal_token(&mut self) -> Option<TokenAndSpan> {
+        self.skip_space::<true>();
+        let start = self.input.cur_pos();
+        let res = match self.scan_jsx_attrs_terminal_token() {
+            Ok(res) => Ok(res),
+            Err(error) => {
+                self.state.set_token_value(TokenValue::Error(error));
+                Err(Token::Error)
+            }
+        };
+        let token = match res.map_err(Some) {
+            Ok(t) => t,
+            Err(e) => e,
+        };
+        let span = self.span(start);
+        if let Some(token) = token {
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                for comment in comments.take_pending_leading() {
+                    comments.push(BufferedComment {
+                        kind: BufferedCommentKind::Leading,
+                        pos: start,
+                        comment,
+                    });
+                }
+            }
+
+            self.state.set_token_type(token);
+            self.state.prev_hi = self.last_pos();
+            self.state.had_line_break_before_last = self.had_line_break_before_last();
+        }
+        token.map(|token| {
+            // Attach span to token.
+            TokenAndSpan {
+                token,
+                had_line_break: self.had_line_break_before_last(),
+                span,
+            }
+        })
+    }
+
+    fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan {
+        let token = self.state.token_type.unwrap();
+        debug_assert!(token.is_word());
+        let mut v = String::with_capacity(16);
+        while let Some(ch) = self.input().cur() {
+            if ch == '-' {
+                v.push(ch);
+                self.bump();
+            } else {
+                let old_pos = self.cur_pos();
+                v.push_str(&self.scan_identifier_parts());
+                if self.cur_pos() == old_pos {
+                    break;
+                }
+            }
+        }
+        let v = if !v.is_empty() {
+            let v = if token.is_known_ident() {
+                format!("{}{}", token.to_string(None), v)
+            } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
+                format!("{value}{v}")
+            } else {
+                format!("{}{}", token.to_string(None), v)
+            };
+            self.atom(v)
+        } else if token.is_known_ident() {
+            self.atom(token.to_string(None))
+        } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
+            value
+        } else {
+            self.atom(token.to_string(None))
+        };
+        self.state.set_token_value(TokenValue::Word(v));
+        TokenAndSpan {
+            token: Token::JSXName,
+            had_line_break: self.had_line_break_before_last(),
+            span: self.span(start),
+        }
+    }
+
+    fn scan_jsx_attribute_value(&mut self) -> Option<TokenAndSpan> {
+        let Some(cur) = self.cur() else {
+            return self.next();
+        };
+        let start = self.cur_pos();
+
+        match cur {
+            '\'' | '"' => {
+                let token = self.read_jsx_str(cur).ok()?;
+                debug_assert!(self
+                    .get_token_value()
+                    .is_some_and(|t| matches!(t, TokenValue::Str { .. })));
+                debug_assert!(token == Token::Str);
+                Some(TokenAndSpan {
+                    token,
+                    had_line_break: self.had_line_break_before_last(),
+                    span: self.span(start),
+                })
+            }
+            _ => self.next(),
+        }
+    }
+
+    fn rescan_template_token(
+        &mut self,
+        start: BytePos,
+        start_with_back_tick: bool,
+    ) -> Option<TokenAndSpan> {
+        unsafe { self.input.reset_to(start) };
+        let res = self
+            .scan_template_token(start, start_with_back_tick)
+            .map(Some);
+        let token = match res
+            .map_err(|e| {
+                self.state.set_token_value(TokenValue::Error(e));
+                Token::Error
+            })
+            .map_err(Some)
+        {
+            Ok(t) => t,
+            Err(e) => e,
+        };
+        let span = if start_with_back_tick {
+            self.span(start)
+        } else {
+            // `+ BytePos(1)` is used to skip `{`
+            self.span(start + BytePos(1))
+        };
+        if let Some(token) = token {
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                for comment in comments.take_pending_leading() {
+                    comments.push(BufferedComment {
+                        kind: BufferedCommentKind::Leading,
+                        pos: start,
+                        comment,
+                    });
+                }
+            }
+
+            self.state.set_token_type(token);
+            self.state.prev_hi = self.last_pos();
+            self.state.had_line_break_before_last = self.had_line_break_before_last();
+        }
+        token.map(|token| {
+            // Attach span to token.
+            TokenAndSpan {
+                token,
+                had_line_break: self.had_line_break_before_last(),
+                span,
+            }
+        })
+    }
+}
+
+impl Lexer<'_> {
+    fn next_token(&mut self, start: &mut BytePos) -> Result<Option<Token>, Error> {
+        if let Some(start) = self.state.next_regexp {
+            return Ok(Some(self.read_regexp(start)?));
+        }
+
+        if self.state.is_first {
+            if let Some(shebang) = self.read_shebang()? {
+                self.state.set_token_value(TokenValue::Word(shebang));
+                return Ok(Some(Token::Shebang));
+            }
+        }
+
+        self.state.had_line_break = self.state.is_first;
+        self.state.is_first = false;
+
+        self.skip_space::<true>();
+        *start = self.input.cur_pos();
+
+        if self.input.last_pos() == self.input.end_pos() {
+            // End of input.
+            self.consume_pending_comments();
+            return Ok(None);
+        }
+
+        // println!(
+        //     "\tContext: ({:?}) {:?}",
+        //     self.input.cur().unwrap(),
+        //     self.state.context.0
+        // );
+
+        self.state.start = *start;
+
+        self.read_token()
+    }
+
+    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Result<Option<Token>, Error> {
+        debug_assert!(self.syntax.jsx());
+
+        if self.input_mut().as_str().is_empty() {
+            return Ok(None);
+        };
+
+        if self.input.eat_byte(b'<') {
+            return Ok(Some(if self.input.eat_byte(b'/') {
+                Token::LessSlash
+            } else {
+                Token::Lt
+            }));
+        } else if self.input.eat_byte(b'{') {
+            return Ok(Some(Token::LBrace));
+        }
+
+        let start = self.input.cur_pos();
+        let mut first_non_whitespace = 0;
+        let mut chunk_start = start;
+        let mut value = String::new();
+
+        while let Some(ch) = self.input_mut().cur() {
+            if ch == '{' {
+                break;
+            } else if ch == '<' {
+                // TODO: check git conflict mark
+                break;
+            }
+
+            if ch == '>' {
+                self.emit_error(
+                    self.input().cur_pos(),
+                    SyntaxError::UnexpectedTokenWithSuggestions {
+                        candidate_list: vec!["`{'>'}`", "`&gt;`"],
+                    },
+                );
+            } else if ch == '}' {
+                self.emit_error(
+                    self.input().cur_pos(),
+                    SyntaxError::UnexpectedTokenWithSuggestions {
+                        candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
+                    },
+                );
+            }
+
+            if first_non_whitespace == 0 && ch.is_line_terminator() {
+                first_non_whitespace = -1;
+            } else if !allow_multiline_jsx_text
+                && ch.is_line_terminator()
+                && first_non_whitespace > 0
+            {
+                break;
+            } else if ch.is_whitespace() {
+                first_non_whitespace = self.cur_pos().0 as i32;
+            }
+
+            if ch == '&' {
+                let cur_pos = self.input().cur_pos();
+
+                let s = unsafe {
+                    // Safety: We already checked for the range
+                    self.input_slice(chunk_start, cur_pos)
+                };
+                value.push_str(s);
+
+                if let Ok(jsx_entity) = self.read_jsx_entity() {
+                    value.push(jsx_entity.0);
+
+                    chunk_start = self.input.cur_pos();
+                }
+            } else {
+                self.bump();
+            }
+        }
+
+        let end = self.input().cur_pos();
+        let raw = unsafe {
+            // Safety: Both of `start` and `end` are generated from `cur_pos()`
+            self.input_slice(start, end)
+        };
+        let value = if value.is_empty() {
+            self.atom(raw)
+        } else {
+            let s = unsafe {
+                // Safety: We already checked for the range
+                self.input_slice(chunk_start, end)
+            };
+            value.push_str(s);
+            self.atom(value)
+        };
+
+        let raw: swc_atoms::Atom = self.atom(raw);
+
+        self.state.set_token_value(TokenValue::Str { raw, value });
+
+        self.state.start = start;
+
+        Ok(Some(Token::JSXText))
+    }
+
+    fn scan_jsx_attrs_terminal_token(&mut self) -> LexResult<Option<Token>> {
+        if self.input_mut().as_str().is_empty() {
+            Ok(None)
+        } else if self.input.eat_byte(b'>') {
+            Ok(Some(Token::Gt))
+        } else if self.input.eat_byte(b'/') {
+            Ok(Some(Token::Slash))
+        } else {
+            self.read_token()
+        }
+    }
+
+    fn scan_identifier_parts(&mut self) -> String {
+        let mut v = String::with_capacity(16);
+        while let Some(ch) = self.input().cur() {
+            if ch.is_ident_part() {
+                v.push(ch);
+                self.input_mut().bump_bytes(ch.len_utf8());
+            } else if ch == '\\' {
+                self.bump(); // bump '\'
+                if !self.is(b'u') {
+                    self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
+                    continue;
+                }
+                self.bump(); // bump 'u'
+                let Ok(chars) = self.read_unicode_escape() else {
+                    self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
+                    break;
+                };
+                for c in chars {
+                    v.extend(c);
+                }
+                self.token_flags |= swc_ecma_lexer::lexer::TokenFlags::UNICODE;
+            } else {
+                break;
+            }
+        }
+        v
+    }
+}
+
+impl Iterator for Lexer<'_> {
+    type Item = TokenAndSpan;
+
+    fn next(&mut self) -> Option<Self::Item> {
+        let mut start = self.cur_pos();
+
+        let res = match self.next_token(&mut start) {
+            Ok(res) => Ok(res),
+            Err(error) => {
+                self.state.set_token_value(TokenValue::Error(error));
+                Err(Token::Error)
+            }
+        };
+        let token = match res.map_err(Some) {
+            Ok(t) => t,
+            Err(e) => e,
+        };
+
+        let span = self.span(start);
+        if let Some(token) = token {
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                for comment in comments.take_pending_leading() {
+                    comments.push(BufferedComment {
+                        kind: BufferedCommentKind::Leading,
+                        pos: start,
+                        comment,
+                    });
+                }
+            }
+
+            self.state.set_token_type(token);
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
@@ -388,496 +584,90 @@ impl Iterator for Lexer<'_> {
 }
 
 impl State {
-    pub fn new(syntax: Syntax, start_pos: BytePos) -> Self {
-        let context = TokenContexts(smallvec![TokenContext::BraceStmt]);
-
+    pub fn new(start_pos: BytePos) -> Self {
         State {
-            is_expr_allowed: true,
-            next_regexp: None,
             had_line_break: false,
             had_line_break_before_last: false,
             is_first: true,
+            next_regexp: None,
             start: BytePos(0),
-            cur_line: 1,
-            line_start: BytePos(0),
             prev_hi: start_pos,
-            tpl_start: BytePos::DUMMY,
-            context,
-            syntax,
+            token_value: None,
             token_type: None,
         }
     }
-}
 
-impl State {
-    pub fn can_skip_space(&self) -> bool {
-        !self
-            .context
-            .current()
-            .map(|t| t.preserve_space())
-            .unwrap_or(false)
-    }
-
-    pub fn can_have_trailing_line_comment(&self) -> bool {
-        match self.token_type {
-            Some(TokenType::BinOp(..)) => false,
-            _ => true,
-        }
-    }
-
-    pub fn can_have_trailing_comment(&self) -> bool {
-        match self.token_type {
-            Some(TokenType::Keyword(..)) => false,
-            Some(TokenType::Semi) | Some(TokenType::LBrace) => true,
-            Some(TokenType::Other {
-                can_have_trailing_comment,
-                ..
-            }) => can_have_trailing_comment,
-            _ => false,
-        }
-    }
-
-    pub fn last_was_tpl_element(&self) -> bool {
-        matches!(self.token_type, Some(TokenType::Template))
-    }
-
-    fn update(&mut self, start: BytePos, next: TokenKind) {
-        if cfg!(feature = "debug") {
-            trace!(
-                "updating state: next={:?}, had_line_break={} ",
-                next,
-                self.had_line_break
-            );
-        }
-
-        let prev = self.token_type.take();
-        self.token_type = Some(TokenType::from(next));
-
-        self.is_expr_allowed = self.is_expr_allowed_on_next(prev, start, next);
-    }
-
-    /// `is_expr_allowed`: previous value.
-    /// `start`: start of newly produced token.
-    fn is_expr_allowed_on_next(
-        &mut self,
-        prev: Option<TokenType>,
-        start: BytePos,
-        next: TokenKind,
-    ) -> bool {
-        let State {
-            ref mut context,
-            had_line_break,
-            had_line_break_before_last,
-            is_expr_allowed,
-            syntax,
-            ..
-        } = *self;
-
-        let is_next_keyword = matches!(next, TokenKind::Word(WordKind::Keyword(..)));
-
-        if is_next_keyword && prev == Some(TokenType::Dot) {
-            false
-        } else {
-            // ported updateContext
-            match next {
-                TokenKind::RParen | TokenKind::RBrace => {
-                    // TODO: Verify
-                    if context.len() == 1 {
-                        return true;
-                    }
-
-                    let out = context.pop().unwrap();
-
-                    // let a = function(){}
-                    if out == TokenContext::BraceStmt
-                        && matches!(
-                            context.current(),
-                            Some(TokenContext::FnExpr | TokenContext::ClassExpr)
-                        )
-                    {
-                        context.pop();
-                        return false;
-                    }
-
-                    // ${} in template
-                    if out == TokenContext::TplQuasi {
-                        match context.current() {
-                            Some(TokenContext::Tpl { .. }) => return false,
-                            _ => return true,
-                        }
-                    }
-
-                    // expression cannot follow expression
-                    !out.is_expr()
-                }
-
-                TokenKind::Word(WordKind::Keyword(Keyword::Function)) => {
-                    // This is required to lex
-                    // `x = function(){}/42/i`
-                    if is_expr_allowed
-                        && !context.is_brace_block(prev, had_line_break, is_expr_allowed)
-                    {
-                        context.push(TokenContext::FnExpr);
-                    }
-                    false
-                }
-
-                TokenKind::Word(WordKind::Keyword(Keyword::Class)) => {
-                    if is_expr_allowed
-                        && !context.is_brace_block(prev, had_line_break, is_expr_allowed)
-                    {
-                        context.push(TokenContext::ClassExpr);
-                    }
-                    false
-                }
-
-                TokenKind::Colon
-                    if matches!(
-                        context.current(),
-                        Some(TokenContext::FnExpr | TokenContext::ClassExpr)
-                    ) =>
-                {
-                    // `function`/`class` keyword is object prop
-                    //
-                    // ```JavaScript
-                    // { function: expr, class: expr }
-                    // ```
-                    context.pop(); // Remove FnExpr or ClassExpr
-                    true
-                }
-
-                // for (a of b) {}
-                known_ident_token!("of")
-                    if Some(TokenContext::ParenStmt { is_for_loop: true }) == context.current() =>
-                {
-                    // e.g. for (a of _) => true
-                    !prev
-                        .expect("context.current() if ParenStmt, so prev token cannot be None")
-                        .before_expr()
-                }
-
-                TokenKind::Word(WordKind::Ident(..)) => {
-                    // variable declaration
-                    match prev {
-                        Some(prev) => match prev {
-                            // handle automatic semicolon insertion.
-                            TokenType::Keyword(Keyword::Let)
-                            | TokenType::Keyword(Keyword::Const)
-                            | TokenType::Keyword(Keyword::Var)
-                                if had_line_break_before_last =>
-                            {
-                                true
-                            }
-                            _ => false,
-                        },
-                        _ => false,
-                    }
-                }
-
-                TokenKind::LBrace => {
-                    let cur = context.current();
-                    if syntax.jsx() && cur == Some(TokenContext::JSXOpeningTag) {
-                        context.push(TokenContext::BraceExpr)
-                    } else if syntax.jsx() && cur == Some(TokenContext::JSXExpr) {
-                        context.push(TokenContext::TplQuasi);
-                    } else {
-                        let next_ctxt =
-                            if context.is_brace_block(prev, had_line_break, is_expr_allowed) {
-                                TokenContext::BraceStmt
-                            } else {
-                                TokenContext::BraceExpr
-                            };
-                        context.push(next_ctxt);
-                    }
-                    true
-                }
-
-                TokenKind::BinOp(BinOpToken::Div)
-                    if syntax.jsx() && prev == Some(TokenType::JSXTagStart) =>
-                {
-                    context.pop();
-                    context.pop(); // do not consider JSX expr -> JSX open tag -> ... anymore
-                    context.push(TokenContext::JSXClosingTag); // reconsider as closing tag context
-                    false
-                }
-
-                TokenKind::DollarLBrace => {
-                    context.push(TokenContext::TplQuasi);
-                    true
-                }
-
-                TokenKind::LParen => {
-                    // if, for, with, while is statement
-
-                    context.push(match prev {
-                        Some(TokenType::Keyword(k)) => match k {
-                            Keyword::If | Keyword::With | Keyword::While => {
-                                TokenContext::ParenStmt { is_for_loop: false }
-                            }
-                            Keyword::For => TokenContext::ParenStmt { is_for_loop: true },
-                            _ => TokenContext::ParenExpr,
-                        },
-                        _ => TokenContext::ParenExpr,
-                    });
-                    true
-                }
-
-                // remains unchanged.
-                TokenKind::PlusPlus | TokenKind::MinusMinus => is_expr_allowed,
-
-                TokenKind::BackQuote => {
-                    // If we are in template, ` terminates template.
-                    if let Some(TokenContext::Tpl { .. }) = context.current() {
-                        context.pop();
-                    } else {
-                        self.tpl_start = start;
-                        context.push(TokenContext::Tpl);
-                    }
-                    false
-                }
-
-                // tt.jsxTagStart.updateContext
-                TokenKind::JSXTagStart => {
-                    context.push(TokenContext::JSXExpr); // treat as beginning of JSX expression
-                    context.push(TokenContext::JSXOpeningTag); // start opening tag context
-                    false
-                }
-
-                // tt.jsxTagEnd.updateContext
-                TokenKind::JSXTagEnd => {
-                    let out = context.pop();
-                    if (out == Some(TokenContext::JSXOpeningTag)
-                        && prev == Some(TokenType::BinOp(BinOpToken::Div)))
-                        || out == Some(TokenContext::JSXClosingTag)
-                    {
-                        context.pop();
-                        context.current() == Some(TokenContext::JSXExpr)
-                    } else {
-                        true
-                    }
-                }
-
-                _ => next.before_expr(),
-            }
-        }
+    pub(crate) fn set_token_value(&mut self, token_value: TokenValue) {
+        self.token_value = Some(token_value);
     }
 }
 
-#[derive(Clone, Default)]
-pub struct TokenContexts(pub(crate) SmallVec<[TokenContext; 128]>);
+impl swc_ecma_lexer::common::lexer::state::State for State {
+    type TokenKind = Token;
+    type TokenType = Token;
 
-impl TokenContexts {
-    /// Returns true if following `LBrace` token is `block statement` according
-    /// to  `ctx`, `prev`, `is_expr_allowed`.
-    fn is_brace_block(
-        &self,
-        prev: Option<TokenType>,
-        had_line_break: bool,
-        is_expr_allowed: bool,
-    ) -> bool {
-        if let Some(TokenType::Colon) = prev {
-            match self.current() {
-                Some(TokenContext::BraceStmt) => return true,
-                // `{ a: {} }`
-                //     ^ ^
-                Some(TokenContext::BraceExpr) => return false,
-                _ => {}
-            };
-        }
-
-        match prev {
-            //  function a() {
-            //      return { a: "" };
-            //  }
-            //  function a() {
-            //      return
-            //      {
-            //          function b(){}
-            //      };
-            //  }
-            Some(TokenType::Keyword(Keyword::Return))
-            | Some(TokenType::Keyword(Keyword::Yield)) => {
-                return had_line_break;
-            }
-
-            Some(TokenType::Keyword(Keyword::Else))
-            | Some(TokenType::Semi)
-            | None
-            | Some(TokenType::RParen) => {
-                return true;
-            }
-
-            // If previous token was `{`
-            Some(TokenType::LBrace) => {
-                // https://github.com/swc-project/swc/issues/3241#issuecomment-1029584460
-                // <Blah blah={function (): void {}} />
-                if self.current() == Some(TokenContext::BraceExpr) {
-                    let len = self.len();
-                    if let Some(TokenContext::JSXOpeningTag) = self.0.get(len - 2) {
-                        return true;
-                    }
-                }
-
-                return self.current() == Some(TokenContext::BraceStmt);
-            }
-
-            // `class C<T> { ... }`
-            Some(TokenType::BinOp(BinOpToken::Lt)) | Some(TokenType::BinOp(BinOpToken::Gt)) => {
-                return true
-            }
-
-            // () => {}
-            Some(TokenType::Arrow) => return true,
-            _ => {}
-        }
-
-        if had_line_break {
-            if let Some(TokenType::Other {
-                before_expr: false, ..
-            }) = prev
-            {
-                return true;
-            }
-        }
-
-        !is_expr_allowed
+    #[inline(always)]
+    fn is_expr_allowed(&self) -> bool {
+        unreachable!("is_expr_allowed should not be called in Parser/State")
     }
 
-    #[inline]
-    pub fn len(&self) -> usize {
-        self.0.len()
+    #[inline(always)]
+    fn set_is_expr_allowed(&mut self, _: bool) {
+        // noop
     }
 
-    #[inline]
-    pub fn is_empty(&self) -> bool {
-        self.0.is_empty()
+    #[inline(always)]
+    fn set_next_regexp(&mut self, start: Option<BytePos>) {
+        self.next_regexp = start;
     }
 
-    #[inline]
-    pub fn pop(&mut self) -> Option<TokenContext> {
-        let opt = self.0.pop();
-        if cfg!(feature = "debug") {
-            trace!("context.pop({:?}): {:?}", opt, self.0);
-        }
-        opt
+    #[inline(always)]
+    fn had_line_break(&self) -> bool {
+        self.had_line_break
     }
 
-    #[inline]
-    pub fn current(&self) -> Option<TokenContext> {
-        self.0.last().cloned()
+    #[inline(always)]
+    fn mark_had_line_break(&mut self) {
+        self.had_line_break = true;
     }
 
-    #[inline]
-    fn push(&mut self, t: TokenContext) {
-        self.0.push(t);
-
-        if cfg!(feature = "debug") {
-            trace!("context.push({:?}): {:?}", t, self.0);
-        }
-    }
-}
-
-/// The algorithm used to determine whether a regexp can appear at a
-/// given point in the program is loosely based on sweet.js' approach.
-/// See https://github.com/mozilla/sweet.js/wiki/design
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum TokenContext {
-    BraceStmt,
-    BraceExpr,
-    TplQuasi,
-    ParenStmt {
-        /// Is this `for` loop?
-        is_for_loop: bool,
-    },
-    ParenExpr,
-    Tpl,
-    FnExpr,
-    ClassExpr,
-    JSXOpeningTag,
-    JSXClosingTag,
-    JSXExpr,
-}
-
-impl TokenContext {
-    pub(crate) const fn is_expr(&self) -> bool {
-        matches!(
-            self,
-            Self::BraceExpr
-                | Self::TplQuasi
-                | Self::ParenExpr
-                | Self::Tpl
-                | Self::FnExpr
-                | Self::ClassExpr
-                | Self::JSXExpr
-        )
+    #[inline(always)]
+    fn had_line_break_before_last(&self) -> bool {
+        self.had_line_break_before_last
     }
 
-    pub(crate) const fn preserve_space(&self) -> bool {
-        match self {
-            Self::Tpl | Self::JSXExpr => true,
-            _ => false,
-        }
+    #[inline(always)]
+    fn token_contexts(&self) -> &swc_ecma_lexer::TokenContexts {
+        unreachable!();
     }
-}
 
-#[cfg(test)]
-pub(crate) fn with_lexer<F, Ret>(
-    syntax: Syntax,
-    target: EsVersion,
-    s: &str,
-    f: F,
-) -> Result<Ret, ::testing::StdErr>
-where
-    F: FnOnce(&mut Lexer<'_>) -> Result<Ret, ()>,
-{
-    crate::with_test_sess(s, |_, fm| {
-        let mut l = Lexer::new(syntax, target, fm, None);
-        let res = f(&mut l);
+    #[inline(always)]
+    fn mut_token_contexts(&mut self) -> &mut swc_ecma_lexer::TokenContexts {
+        unreachable!();
+    }
 
-        #[cfg(debug_assertions)]
-        let c = TokenContexts(smallvec![TokenContext::BraceStmt]);
-        #[cfg(debug_assertions)]
-        debug_assert_eq!(l.state.context.0, c.0);
+    #[inline(always)]
+    fn set_token_type(&mut self, token_type: Self::TokenType) {
+        self.token_type = Some(token_type);
+    }
 
-        res
-    })
-}
+    #[inline(always)]
+    fn token_type(&self) -> Option<Self::TokenType> {
+        self.token_type
+    }
 
-#[cfg(test)]
-pub(crate) fn lex(syntax: Syntax, s: &'static str) -> Vec<TokenAndSpan> {
-    with_lexer(syntax, Default::default(), s, |l| Ok(l.collect())).unwrap()
-}
+    #[inline(always)]
+    fn syntax(&self) -> swc_ecma_lexer::Syntax {
+        unreachable!("syntax is not stored in State, but in Lexer")
+    }
 
-/// lex `s` within module context.
-#[cfg(test)]
-pub(crate) fn lex_module_errors(syntax: Syntax, s: &'static str) -> Vec<Error> {
-    with_lexer(syntax, Default::default(), s, |l| {
-        l.ctx.strict = true;
-        l.ctx.module = true;
+    #[inline(always)]
+    fn prev_hi(&self) -> BytePos {
+        self.prev_hi
+    }
 
-        let _: Vec<_> = l.collect();
-
-        Ok(l.take_errors())
-    })
-    .unwrap()
-}
-
-#[cfg(test)]
-pub(crate) fn lex_tokens(syntax: Syntax, s: &'static str) -> Vec<Token> {
-    with_lexer(syntax, Default::default(), s, |l| {
-        Ok(l.map(|ts| ts.token).collect())
-    })
-    .unwrap()
-}
-
-/// Returns `(tokens, recovered_errors)`. `(tokens)` may contain an error token
-/// if the lexer fails to recover from it.
-#[cfg(test)]
-pub(crate) fn lex_errors(syntax: Syntax, s: &'static str) -> (Vec<Token>, Vec<Error>) {
-    with_lexer(syntax, EsVersion::Es2020, s, |l| {
-        let tokens = l.map(|ts| ts.token).collect();
-        let errors = l.take_errors();
-        Ok((tokens, errors))
-    })
-    .unwrap()
+    #[inline(always)]
+    fn start(&self) -> BytePos {
+        self.start
+    }
 }

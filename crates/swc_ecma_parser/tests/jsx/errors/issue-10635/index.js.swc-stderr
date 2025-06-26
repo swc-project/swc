@@ -1,0 +1,12 @@
+  x Unexpected token. Did you mean `{'>'}` or `&gt;`?
+   ,-[$DIR/tests/jsx/errors/issue-10635/index.js:1:1]
+ 1 | <div >>=</div>;
+   :       ^
+ 2 | <div className={styles.foo}>>=</div>;
+   `----
+  x Unexpected token. Did you mean `{'>'}` or `&gt;`?
+   ,-[$DIR/tests/jsx/errors/issue-10635/index.js:2:1]
+ 1 | <div >>=</div>;
+ 2 | <div className={styles.foo}>>=</div>;
+   :                             ^
+   `----

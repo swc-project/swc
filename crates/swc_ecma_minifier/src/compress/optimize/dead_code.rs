@@ -1,7 +1,8 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 
-use super::Optimizer;
+use super::{BitCtx, Optimizer};
+use crate::program_data::VarUsageInfoFlags;
 
 /// Methods related to option `dead_code`.
 impl Optimizer<'_> {
@@ -38,7 +39,7 @@ impl Optimizer<'_> {
         }
 
         // A return statement in a try block may not terminate function.
-        if self.ctx.in_try_block {
+        if self.ctx.bit_ctx.contains(BitCtx::InTryBlock) {
             return false;
         }
 
@@ -51,7 +52,11 @@ impl Optimizer<'_> {
                     .data
                     .vars
                     .get(&lhs.to_id())
-                    .map(|var| var.declared && var.is_fn_local && !var.declared_as_fn_param)
+                    .map(|var| {
+                        var.flags.contains(
+                            VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL),
+                        ) && !var.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM)
+                    })
                     .unwrap_or(false)
                 {
                     report_change!(
@@ -78,7 +83,11 @@ impl Optimizer<'_> {
                         .data
                         .vars
                         .get(&lhs.to_id())
-                        .map(|var| var.declared && var.is_fn_local)
+                        .map(|var| {
+                            var.flags.contains(
+                                VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL),
+                            )
+                        })
                         .unwrap_or(false)
                     {
                         report_change!(

@@ -6,7 +6,7 @@ use std::{mem::take, sync::Arc};
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_utils::{
@@ -61,7 +61,7 @@ fn should_enable(
             (target_name, maybe_target_version),
             ((_, maybe_low_version), (_, maybe_high_version)),
         )| {
-            maybe_target_version.map_or(false, |target_version| {
+            maybe_target_version.is_some_and(|target_version| {
                 let low_or_fallback_version = maybe_low_version.or_else(|| match target_name {
                     // Fall back to Chrome versions if Android browser data
                     // is missing from the feature data. It appears the
@@ -111,7 +111,7 @@ pub fn should_prefix(property: &str, target: &Versions, default: bool) -> bool {
 }
 
 pub fn prefixer(options: Options) -> impl VisitMut {
-    let env = targets_to_versions(options.env).expect("failed to parse targets");
+    let env = targets_to_versions(options.env, None).expect("failed to parse targets");
 
     Prefixer {
         env,
@@ -258,7 +258,7 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
                 span: node.span,
                 name: Ident {
                     span: DUMMY_SP,
-                    value: "url".into(),
+                    value: atom!("url"),
                     raw: None,
                 },
                 value: Some(Box::new(UrlValue::Str(Str {
@@ -413,25 +413,25 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                         if angle == 0.0 {
                             n.value[0] = ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
-                                value: "bottom".into(),
+                                value: atom!("bottom"),
                                 raw: None,
                             }));
                         } else if angle == 90.0 {
                             n.value[0] = ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
-                                value: "left".into(),
+                                value: atom!("left"),
                                 raw: None,
                             }));
                         } else if angle == 180.0 {
                             n.value[0] = ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
-                                value: "top".into(),
+                                value: atom!("top"),
                                 raw: None,
                             }));
                         } else if angle == 270.0 {
                             n.value[0] = ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
-                                value: "right".into(),
+                                value: atom!("right"),
                                 raw: None,
                             }));
                         } else {
@@ -448,7 +448,7 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                                     },
                                     unit: Ident {
                                         span: unit.span,
-                                        value: "deg".into(),
+                                        value: atom!("deg"),
                                         raw: None,
                                     },
                                 })));
@@ -689,7 +689,7 @@ impl VisitMut for ClampReplacer {
                 span: n.span,
                 name: FunctionName::Ident(Ident {
                     span: n.span,
-                    value: "min".into(),
+                    value: atom!("min"),
                     raw: None,
                 }),
                 value: vec![middle.clone(), comma.clone(), right.clone()],
@@ -703,7 +703,7 @@ impl VisitMut for ClampReplacer {
                 span: n.span,
                 name: FunctionName::Ident(Ident {
                     span: n.span,
-                    value: "max".into(),
+                    value: atom!("max"),
                     raw: None,
                 }),
                 value: vec![
@@ -926,7 +926,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: *span,
-                                value: "-ms-viewport".into(),
+                                value: atom!("-ms-viewport"),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -942,7 +942,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: *span,
-                                value: "-o-viewport".into(),
+                                value: atom!("-o-viewport"),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -959,7 +959,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: *span,
-                                value: "-webkit-keyframes".into(),
+                                value: atom!("-webkit-keyframes"),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -975,7 +975,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: *span,
-                                value: "-moz-keyframes".into(),
+                                value: atom!("-moz-keyframes"),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -991,7 +991,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: DUMMY_SP,
-                                value: "-o-keyframes".into(),
+                                value: atom!("-o-keyframes"),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -2200,7 +2200,7 @@ impl VisitMut for Prefixer {
                                         },
                                         unit: Ident {
                                             span: DUMMY_SP,
-                                            value: "px".into(),
+                                            value: atom!("px"),
                                             raw: None,
                                         },
                                     },
@@ -3344,7 +3344,7 @@ impl VisitMut for Prefixer {
                             span: n.span,
                             name: DeclarationName::Ident(Ident {
                                 span: DUMMY_SP,
-                                value: "overflow-x".into(),
+                                value: atom!("overflow-x"),
                                 raw: None,
                             }),
                             value: vec![left.clone()],
@@ -3354,7 +3354,7 @@ impl VisitMut for Prefixer {
                             span: n.span,
                             name: DeclarationName::Ident(Ident {
                                 span: DUMMY_SP,
-                                value: "overflow-y".into(),
+                                value: atom!("overflow-y"),
                                 raw: None,
                             }),
                             value: vec![right.clone()],

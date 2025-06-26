@@ -1,8 +1,9 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ExprFactory;
+use swc_ecma_utils::{ExprFactory, StmtLike};
 
 use super::Pure;
+use crate::compress::util::is_pure_undefined;
 
 impl Pure<'_> {
     pub(super) fn drop_useless_ident_ref_in_seq(&mut self, seq: &mut SeqExpr) {
@@ -30,6 +31,138 @@ impl Pure<'_> {
                 }
             }
         }
+    }
+
+    ///
+    /// - `(path += 'foo', path)` => `(path += 'foo')`
+    pub(super) fn shift_assignment(&mut self, e: &mut SeqExpr) {
+        if e.exprs.len() < 2 {
+            return;
+        }
+
+        if let Some(last) = e.exprs.last() {
+            let last_id = match &**last {
+                Expr::Ident(i) => i,
+                _ => return,
+            };
+
+            if let Expr::Assign(assign @ AssignExpr { op: op!("="), .. }) =
+                &*e.exprs[e.exprs.len() - 2]
+            {
+                if let Some(lhs) = assign.left.as_ident() {
+                    if lhs.sym == last_id.sym && lhs.ctxt == last_id.ctxt {
+                        e.exprs.pop();
+                        self.changed = true;
+                        report_change!("sequences: Shifting assignment");
+                    }
+                };
+            }
+        }
+    }
+
+    pub(super) fn shift_void(&mut self, e: &mut SeqExpr) {
+        if e.exprs.len() < 2 {
+            return;
+        }
+
+        if let Expr::Unary(UnaryExpr {
+            op: op!("void"), ..
+        }) = &*e.exprs[e.exprs.len() - 2]
+        {
+            return;
+        }
+
+        if let Some(last) = e.exprs.last() {
+            if is_pure_undefined(self.expr_ctx, last) {
+                self.changed = true;
+                report_change!("sequences: Shifting void");
+
+                e.exprs.pop();
+                let last = e.exprs.last_mut().unwrap();
+
+                *last = UnaryExpr {
+                    span: DUMMY_SP,
+                    op: op!("void"),
+                    arg: last.take(),
+                }
+                .into()
+            }
+        }
+    }
+
+    /// Break assignments in sequences.
+    ///
+    /// This may result in less parenthesis.
+    pub(super) fn break_assignments_in_seqs<T>(&mut self, stmts: &mut Vec<T>)
+    where
+        T: StmtLike,
+    {
+        // TODO
+        if true {
+            return;
+        }
+        let need_work = stmts.iter().any(|stmt| match stmt.as_stmt() {
+            Some(Stmt::Expr(e)) => match &*e.expr {
+                Expr::Seq(seq) => {
+                    seq.exprs.len() > 1
+                        && seq.exprs.iter().all(|expr| {
+                            matches!(&**expr, Expr::Assign(AssignExpr { op: op!("="), .. }))
+                        })
+                }
+                _ => false,
+            },
+
+            _ => false,
+        });
+
+        if !need_work {
+            return;
+        }
+
+        let mut new_stmts = Vec::new();
+
+        for stmt in stmts.take() {
+            match stmt.try_into_stmt() {
+                Ok(stmt) => match stmt {
+                    Stmt::Expr(es)
+                        if match &*es.expr {
+                            Expr::Seq(seq) => {
+                                seq.exprs.len() > 1
+                                    && seq.exprs.iter().all(|expr| {
+                                        matches!(
+                                            &**expr,
+                                            Expr::Assign(AssignExpr { op: op!("="), .. })
+                                        )
+                                    })
+                            }
+                            _ => false,
+                        } =>
+                    {
+                        let span = es.span;
+                        let seq = es.expr.seq().unwrap();
+                        new_stmts.extend(
+                            seq.exprs
+                                .into_iter()
+                                .map(|expr| ExprStmt { span, expr })
+                                .map(Stmt::Expr)
+                                .map(T::from),
+                        );
+                    }
+
+                    _ => {
+                        new_stmts.push(T::from(stmt));
+                    }
+                },
+                Err(stmt) => {
+                    new_stmts.push(stmt);
+                }
+            }
+        }
+        self.changed = true;
+        report_change!(
+            "sequences: Splitted a sequence expression to multiple expression statements"
+        );
+        *stmts = new_stmts;
     }
 
     ///

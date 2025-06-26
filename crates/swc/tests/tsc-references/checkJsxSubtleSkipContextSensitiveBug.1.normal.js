@@ -20,10 +20,7 @@ var AsyncLoader = /*#__PURE__*/ function(_React_Component) {
     return AsyncLoader;
 }(React.Component);
 function load() {
-    return _load.apply(this, arguments);
-}
-function _load() {
-    _load = _async_to_generator(function() {
+    return _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
             return [
                 2,
@@ -32,8 +29,7 @@ function _load() {
                 }
             ];
         });
-    });
-    return _load.apply(this, arguments);
+    })();
 }
 var loader = /*#__PURE__*/ React.createElement(AsyncLoader, {
     prop1: load,

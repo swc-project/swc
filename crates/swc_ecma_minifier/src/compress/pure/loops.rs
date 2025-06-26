@@ -1,10 +1,77 @@
+use std::mem::take;
+
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ExprExt, Value};
+use swc_ecma_utils::{ExprExt, StmtExt, Value};
 
-use super::Pure;
+use super::{DropOpts, Pure};
 
 impl Pure<'_> {
+    pub(super) fn optimize_for_init(&mut self, init: &mut Option<VarDeclOrExpr>) {
+        if !self.options.loops {
+            return;
+        }
+
+        if let Some(VarDeclOrExpr::Expr(e)) = init {
+            self.ignore_return_value(
+                e,
+                DropOpts {
+                    drop_number: true,
+                    drop_str_lit: true,
+                    ..Default::default()
+                },
+            );
+
+            if e.is_invalid() {
+                *init = None;
+            }
+        }
+
+        if let Some(VarDeclOrExpr::Expr(e)) = init {
+            self.make_bool_short(e, false, true);
+        }
+    }
+
+    pub(super) fn optimize_for_update(&mut self, update: &mut Option<Box<Expr>>) {
+        if !self.options.loops {
+            return;
+        }
+
+        if let Some(e) = update {
+            self.ignore_return_value(
+                e,
+                DropOpts {
+                    drop_number: true,
+                    drop_str_lit: true,
+                    ..Default::default()
+                },
+            );
+
+            if e.is_invalid() {
+                *update = None;
+                return;
+            }
+
+            self.make_bool_short(e, false, true);
+        }
+    }
+
+    pub(super) fn optimize_body_of_loop_stmt(&mut self, s: &mut Stmt) {
+        if !self.options.loops {
+            return;
+        }
+
+        match s {
+            Stmt::For(ForStmt { body, .. })
+            | Stmt::ForIn(ForInStmt { body, .. })
+            | Stmt::ForOf(ForOfStmt { body, .. })
+            | Stmt::While(WhileStmt { body, .. }) => {
+                optimize_loop_body(body);
+            }
+            _ => (),
+        }
+    }
+
     ///
     /// - `while(test);` => `for(;;test);
     /// - `do; while(true)` => `for(;;);
@@ -196,5 +263,93 @@ impl Pure<'_> {
                 s.body.take();
             }
         }
+    }
+
+    pub(super) fn optimize_loops_with_constant_condition(&mut self, s: &mut Stmt) {
+        if !self.options.loops {
+            return;
+        }
+
+        match s {
+            Stmt::DoWhile(stmt) => {
+                let val = stmt.test.as_pure_bool(self.expr_ctx);
+                if let Value::Known(false) = val {
+                    if should_not_inline_loop_body(&stmt.body, true) {
+                        return;
+                    }
+
+                    *s = take(&mut *stmt.body);
+                    report_change!(
+                        "loops: Removing a do while loop with a constant false condition (single \
+                         run)"
+                    );
+                    self.changed = true;
+                }
+            }
+
+            Stmt::While(stmt) => {
+                let val = stmt.test.as_pure_bool(self.expr_ctx);
+                if let Value::Known(false) = val {
+                    let var_ids = stmt.body.extract_var_ids_as_var();
+
+                    *s = var_ids
+                        .map(|decl| Stmt::Decl(Decl::Var(Box::new(decl))))
+                        .unwrap_or_else(Stmt::dummy);
+                    report_change!(
+                        "loops: Removing a while loop with a constant false condition (no run)"
+                    );
+                    self.changed = true;
+                }
+            }
+            _ => {}
+        }
+    }
+}
+
+fn optimize_loop_body(loop_body: &mut Stmt) {
+    if loop_body.is_empty() {
+        return;
+    }
+
+    if let Stmt::Continue(ContinueStmt { label: None, .. }) = loop_body {
+        *loop_body = Stmt::dummy();
+    }
+}
+
+fn should_not_inline_loop_body(s: &Stmt, allow_break_continue: bool) -> bool {
+    match s {
+        Stmt::Block(s) => s
+            .stmts
+            .iter()
+            .any(|s| should_not_inline_loop_body(s, allow_break_continue)),
+
+        Stmt::If(s) => {
+            should_not_inline_loop_body(&s.cons, false)
+                || s.alt
+                    .as_deref()
+                    .map(|s| should_not_inline_loop_body(s, false))
+                    .unwrap_or_default()
+        }
+        Stmt::Switch(s) => s
+            .cases
+            .iter()
+            .any(|c| c.cons.iter().any(|s| should_not_inline_loop_body(s, false))),
+
+        Stmt::Continue(ContinueStmt {
+            label: Some(..), ..
+        })
+        | Stmt::Break(BreakStmt {
+            label: Some(..), ..
+        }) => true,
+
+        Stmt::Break(..) | Stmt::Continue(..) => !allow_break_continue,
+
+        Stmt::Return(..)
+        | Stmt::Throw(..)
+        | Stmt::Empty(..)
+        | Stmt::Expr(..)
+        | Stmt::Debugger(..) => false,
+
+        _ => true,
     }
 }

@@ -118,8 +118,7 @@ var propAcc1;
 var C2 = function C2() {
     "use strict";
     _class_call_check(this, C2);
-    this.n = this.n // n: any
-    ;
+    this.n = this.n; // n: any
 };
 var c2inst = new C2().n;
 var c2inst;

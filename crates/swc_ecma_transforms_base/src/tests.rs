@@ -37,7 +37,7 @@ impl Tester<'_> {
 
         match out {
             Ok(()) => {}
-            Err(stderr) => panic!("Stderr:\n{}", stderr),
+            Err(stderr) => panic!("Stderr:\n{stderr}"),
         }
     }
 
@@ -53,7 +53,7 @@ impl Tester<'_> {
     {
         let fm = self
             .cm
-            .new_source_file(FileName::Real(file_name.into()).into(), src.into());
+            .new_source_file(FileName::Real(file_name.into()).into(), src.to_string());
 
         let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
         let res = op(&mut p).map_err(|e| e.into_diagnostic(self.handler).emit());
@@ -93,7 +93,7 @@ impl Tester<'_> {
     ) -> Result<Program, ()> {
         let fm = self
             .cm
-            .new_source_file(FileName::Real(name.into()).into(), src.into());
+            .new_source_file(FileName::Real(name.into()).into(), src.to_string());
 
         let module = {
             let mut p = Parser::new(syntax, StringInput::from(&*fm), Some(&self.comments));
@@ -169,7 +169,7 @@ pub(crate) fn test_transform<F, P>(
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
                 let hygiene_src = tester.print(&actual.clone().fold_with(&mut HygieneVisualizer));
-                println!("----- Hygiene -----\n{}", hygiene_src);
+                println!("----- Hygiene -----\n{hygiene_src}");
             }
             _ => {}
         }
@@ -190,13 +190,13 @@ pub(crate) fn test_transform<F, P>(
                 return Ok(());
             }
             // Diff it
-            println!(">>>>> Code <<<<<\n{}", actual_src);
+            println!(">>>>> Code <<<<<\n{actual_src}");
             assert_eq!(actual, expected, "different ast was detected");
             return Err(());
         }
 
-        println!(">>>>> Orig <<<<<\n{}", input);
-        println!(">>>>> Code <<<<<\n{}", actual_src);
+        println!(">>>>> Orig <<<<<\n{input}");
+        println!(">>>>> Code <<<<<\n{actual_src}");
         if actual_src != expected_src {
             panic!(
                 r#"assertion failed: `(left == right)`

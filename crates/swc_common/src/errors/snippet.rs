@@ -134,11 +134,7 @@ impl Annotation {
 
     pub fn len(&self) -> usize {
         // Account for usize underflows
-        if self.end_col > self.start_col {
-            self.end_col - self.start_col
-        } else {
-            self.start_col - self.end_col
-        }
+        self.end_col.abs_diff(self.start_col)
     }
 
     pub fn has_label(&self) -> bool {

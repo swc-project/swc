@@ -13,18 +13,18 @@ Object.defineProperty(exports, "__esModule", {
 //// [1.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
-    D: function() {
+});
+var target = exports, all = {
+    get D () {
         return D;
     },
-    p2: function() {
+    get p2 () {
         return p2;
     }
+};
+for(var name in all)Object.defineProperty(target, name, {
+    enumerable: !0,
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 var _class_call_check = require("@swc/helpers/_/_class_call_check"), _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 Promise.resolve().then(function() {

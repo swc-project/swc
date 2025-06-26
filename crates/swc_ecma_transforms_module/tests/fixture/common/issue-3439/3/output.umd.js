@@ -12,23 +12,23 @@
     function _export(target, all) {
         for(var name in all)Object.defineProperty(target, name, {
             enumerable: true,
-            get: all[name]
+            get: Object.getOwnPropertyDescriptor(all, name).get
         });
     }
     _export(exports, {
-        bar: function() {
+        get bar () {
             return bar;
         },
-        bar2: function() {
+        get bar2 () {
             return bar;
         },
-        default: function() {
+        get default () {
             return bar;
         },
-        foo: function() {
+        get foo () {
             return foo;
         },
-        foo1: function() {
+        get foo1 () {
             return foo;
         }
     });

@@ -82,7 +82,7 @@ impl FontFamilyNoDuplicateNames {
                 let name = font.name();
                 if seen.contains(&font) && self.ignored.iter().all(|item| !item.is_match(name)) {
                     self.ctx
-                        .report(span, format!("Unexpected duplicate name '{}'.", name));
+                        .report(span, format!("Unexpected duplicate name '{name}'."));
                 }
                 seen.insert(font);
                 seen

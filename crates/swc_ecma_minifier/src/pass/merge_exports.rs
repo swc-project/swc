@@ -55,7 +55,8 @@ impl VisitMut for Merger {
         }
 
         // export {}, to preserve module semantics
-        if was_module && stmts.iter().all(|s| matches!(s, ModuleItem::Stmt(..))) {
+        if stmts.iter().all(|s| matches!(s, ModuleItem::Stmt(..))) {
+            debug_assert!(was_module);
             stmts.push(
                 NamedExport {
                     src: None,

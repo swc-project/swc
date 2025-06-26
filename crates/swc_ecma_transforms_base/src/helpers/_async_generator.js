@@ -3,9 +3,8 @@ function _async_generator(gen) {
     function send(key, arg) {
         return new Promise(function(resolve, reject) {
             var request = { key: key, arg: arg, resolve: resolve, reject: reject, next: null };
-            if (back) {
-                back = back.next = request;
-            } else {
+            if (back) back = back.next = request;
+            else {
                 front = back = request;
                 resume(key, arg);
             }
@@ -15,11 +14,12 @@ function _async_generator(gen) {
         try {
             var result = gen[key](arg);
             var value = result.value;
-            var wrappedAwait = value instanceof _await_value;
-            Promise.resolve(wrappedAwait ? value.wrapped : value).then(function(arg) {
-                if (wrappedAwait) {
-                    resume("next", arg);
-                    return;
+            var overloaded = value instanceof _overload_yield;
+            Promise.resolve(overloaded ? value.v : value).then(function(arg) {
+                if (overloaded) {
+                    var nextKey = key === "return" ? "return" : "next";
+                    if (!value.k || arg.done) return resume(nextKey, arg);
+                    else arg = gen[nextKey](arg).value;
                 }
                 settle(result.done ? "return" : "normal", arg);
             }, function(err) {
@@ -42,22 +42,16 @@ function _async_generator(gen) {
                 break;
         }
         front = front.next;
-        if (front) {
-            resume(front.key, front.arg);
-        } else {
-            back = null;
-        }
+        if (front) resume(front.key, front.arg);
+        else back = null;
     }
+
     this._invoke = send;
-    if (typeof gen.return !== "function") {
-        this.return = undefined;
-    }
+    if (typeof gen.return !== "function") this.return = undefined;
 }
-if (typeof Symbol === "function" && Symbol.asyncIterator) {
-    _async_generator.prototype[Symbol.asyncIterator] = function() {
-        return this;
-    };
-}
+_async_generator.prototype[(typeof Symbol === "function" && Symbol.asyncIterator) || "@@asyncIterator"] = function() {
+    return this;
+};
 _async_generator.prototype.next = function(arg) {
     return this._invoke("next", arg);
 };

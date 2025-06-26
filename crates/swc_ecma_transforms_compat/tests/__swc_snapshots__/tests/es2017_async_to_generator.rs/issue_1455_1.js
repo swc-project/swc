@@ -4,18 +4,15 @@ const obj = {
             platform
         };
     },
-    byPlatform: /*#__PURE__*/ function() {
-        var _ref = _async_to_generator(function*(platform) {
+    byPlatform: function(platform) {
+        return _async_to_generator(function*() {
             const result = yield this.find({
                 platform: {
                     $eq: platform
                 }
             });
             return result;
-        });
-        return function(platform) {
-            return _ref.apply(this, arguments);
-        };
-    }()
+        }).call(this);
+    }
 };
 obj.byPlatform('foo').then((v)=>console.log(v));

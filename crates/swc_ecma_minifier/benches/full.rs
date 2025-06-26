@@ -26,9 +26,9 @@ fn bench_libs(c: &mut Criterion) {
     group.sample_size(10);
 
     let mut bench_file = |name: &str| {
-        let src = read_to_string(format!("benches/full/{}.js", name)).unwrap();
+        let src = read_to_string(format!("benches/full/{name}.js")).unwrap();
 
-        group.bench_function(format!("es/minifier/libs/{}", name), |b| {
+        group.bench_function(format!("es/minifier/libs/{name}"), |b| {
             b.iter(|| {
                 // We benchmark full time, including time for creating cm, handler
 
@@ -148,7 +148,7 @@ fn expand_dirs(dir: &Path) -> Vec<PathBuf> {
 
 fn run(src: &str) {
     testing::run_test2(false, |cm, handler| {
-        let fm = cm.new_source_file(FileName::Anon.into(), src.into());
+        let fm = cm.new_source_file(FileName::Anon.into(), src.to_string());
 
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();

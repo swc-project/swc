@@ -28,10 +28,7 @@ define([
         value: true
     });
     function foo() {
-        return _foo.apply(this, arguments);
-    }
-    function _foo() {
-        _foo = _async_to_generator._(function() {
+        return _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -63,7 +60,6 @@ define([
                         ];
                 }
             });
-        });
-        return _foo.apply(this, arguments);
+        })();
     }
 });

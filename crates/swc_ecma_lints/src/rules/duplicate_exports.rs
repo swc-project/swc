@@ -1,7 +1,7 @@
 use std::{collections::hash_map::Entry, mem};
 
 use rustc_hash::FxHashMap;
-use swc_atoms::Atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -29,7 +29,7 @@ impl DuplicateExports {
                     handler
                         .struct_span_err(
                             id.span,
-                            &format!("the name `{}` is exported multiple times", name),
+                            &format!("the name `{name}` is exported multiple times"),
                         )
                         .span_label(*prev.get(), "previous exported here")
                         .span_label(id.span, "exported more than once")
@@ -92,7 +92,7 @@ impl Visit for DuplicateExports {
 
         d.visit_children_with(self);
 
-        self.add(&Ident::new_no_ctxt("default".into(), d.span));
+        self.add(&Ident::new_no_ctxt(atom!("default"), d.span));
     }
 
     fn visit_export_default_expr(&mut self, d: &ExportDefaultExpr) {
@@ -103,7 +103,7 @@ impl Visit for DuplicateExports {
             _ => {}
         }
 
-        self.add(&Ident::new_no_ctxt("default".into(), d.span));
+        self.add(&Ident::new_no_ctxt(atom!("default"), d.span));
     }
 
     fn visit_export_default_specifier(&mut self, s: &ExportDefaultSpecifier) {

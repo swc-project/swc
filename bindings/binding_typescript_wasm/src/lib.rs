@@ -1,19 +1,25 @@
 use std::{
+    iter::once,
     mem::take,
     sync::{Arc, Mutex},
 };
 
 use anyhow::Error;
+use error_reporter::SwcReportHandler;
 use js_sys::Uint8Array;
+use miette::{GraphicalTheme, LabeledSpan, ThemeCharacters, ThemeStyles};
 use serde::Serialize;
 use swc_common::{
     errors::{DiagnosticBuilder, DiagnosticId, Emitter, Handler, HANDLER},
     sync::Lrc,
-    SourceMap, SourceMapper, GLOBALS,
+    SourceMap, Span, GLOBALS,
 };
-use swc_fast_ts_strip::{Options, TransformOutput};
+use swc_error_reporters::{convert_span, to_pretty_source_code};
+use swc_ts_fast_strip::{Options, TransformOutput};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
+
+mod error_reporter;
 
 /// Custom interface definitions for the @swc/wasm's public interface instead of
 /// auto generated one, which is not reflecting most of types in detail.
@@ -64,13 +70,14 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<JsonD
     let cm = Lrc::new(SourceMap::default());
 
     try_with_json_handler(cm.clone(), |handler| {
-        swc_fast_ts_strip::operate(&cm, handler, input, options).map_err(anyhow::Error::new)
+        swc_ts_fast_strip::operate(&cm, handler, input, options).map_err(anyhow::Error::new)
     })
 }
 
 #[derive(Clone)]
-struct LockedWriter {
+struct JsonErrorWriter {
     errors: Arc<Mutex<Vec<JsonDiagnostic>>>,
+    reporter: SwcReportHandler,
     cm: Lrc<SourceMap>,
 }
 
@@ -78,8 +85,27 @@ fn try_with_json_handler<F, Ret>(cm: Lrc<SourceMap>, op: F) -> Result<Ret, Vec<J
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
-    let wr = LockedWriter {
+    let wr = JsonErrorWriter {
         errors: Default::default(),
+        reporter: SwcReportHandler::default().with_theme(GraphicalTheme {
+            characters: ThemeCharacters {
+                hbar: ' ',
+                vbar: ' ',
+                xbar: ' ',
+                vbar_break: ' ',
+                ltop: ' ',
+                rtop: ' ',
+                mtop: ' ',
+                lbot: ' ',
+                rbot: ' ',
+                mbot: ' ',
+                error: "".into(),
+                warning: "".into(),
+                advice: "".into(),
+                ..ThemeCharacters::ascii()
+            },
+            styles: ThemeStyles::none(),
+        }),
         cm,
     };
     let emitter: Box<dyn Emitter> = Box::new(wr.clone());
@@ -98,9 +124,23 @@ where
     }
 }
 
-impl Emitter for LockedWriter {
-    fn emit(&mut self, db: &DiagnosticBuilder) {
+impl Emitter for JsonErrorWriter {
+    fn emit(&mut self, db: &mut DiagnosticBuilder) {
         let d = &**db;
+
+        let snippet = d.span.primary_span().and_then(|span| {
+            let mut snippet = String::new();
+            match self.reporter.render_report(
+                &mut snippet,
+                &Snippet {
+                    source_code: &to_pretty_source_code(&self.cm, true),
+                    span,
+                },
+            ) {
+                Ok(()) => Some(snippet),
+                Err(_) => None,
+            }
+        });
 
         let children = d
             .children
@@ -114,25 +154,27 @@ impl Emitter for LockedWriter {
             None => None,
         };
 
-        let loc = d
+        let start = d
             .span
             .primary_span()
             .and_then(|span| self.cm.try_lookup_char_pos(span.lo()).ok());
 
-        let snippet = d
+        let end = d
             .span
             .primary_span()
-            .and_then(|span| self.cm.span_to_snippet(span).ok());
+            .and_then(|span| self.cm.try_lookup_char_pos(span.hi()).ok());
 
-        let filename = loc.as_ref().map(|loc| loc.file.name.to_string());
+        let filename = start.as_ref().map(|loc| loc.file.name.to_string());
 
         let error = JsonDiagnostic {
             code: error_code.map(|s| s.to_string()),
             message: d.message[0].0.to_string(),
             snippet,
             filename,
-            line: loc.as_ref().map(|loc| loc.line),
-            column: loc.as_ref().map(|loc| loc.col_display),
+            start_line: start.as_ref().map(|loc| loc.line),
+            start_column: start.as_ref().map(|loc| loc.col_display),
+            end_line: end.as_ref().map(|loc| loc.line),
+            end_column: end.as_ref().map(|loc| loc.col_display),
             children,
         };
 
@@ -145,6 +187,7 @@ impl Emitter for LockedWriter {
 }
 
 #[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
 struct JsonDiagnostic {
     /// Error code
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -158,18 +201,61 @@ struct JsonDiagnostic {
     filename: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    line: Option<usize>,
+    start_line: Option<usize>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    column: Option<usize>,
+    start_column: Option<usize>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    end_line: Option<usize>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    end_column: Option<usize>,
 
     #[serde(skip_serializing_if = "Vec::is_empty")]
     children: Vec<JsonSubdiagnostic>,
 }
 
 #[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
 struct JsonSubdiagnostic {
     message: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
     snippet: Option<String>,
     filename: String,
     line: usize,
+}
+
+struct Snippet<'a> {
+    source_code: &'a dyn miette::SourceCode,
+    span: Span,
+}
+
+impl miette::Diagnostic for Snippet<'_> {
+    fn source_code(&self) -> Option<&dyn miette::SourceCode> {
+        if self.span.lo().is_dummy() || self.span.hi().is_dummy() {
+            return None;
+        }
+
+        Some(self.source_code)
+    }
+
+    fn labels(&self) -> Option<Box<dyn Iterator<Item = miette::LabeledSpan> + '_>> {
+        Some(Box::new(once(LabeledSpan::new_with_span(
+            None,
+            convert_span(self.span),
+        ))))
+    }
+}
+
+impl std::error::Error for Snippet<'_> {}
+
+impl std::fmt::Display for Snippet<'_> {
+    fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        Ok(())
+    }
+}
+
+impl std::fmt::Debug for Snippet<'_> {
+    fn fmt(&self, _: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        Ok(())
+    }
 }

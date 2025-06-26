@@ -1756,11 +1756,9 @@ requires: Slick.Parser
                     }
                     if (item) {
                         if (this.document !== node && !this.contains(node, item)) return;
-                    } else {
-                        // if the context is in the dom we return, else we will try GEBTN, breaking the getById label
-                        if (this.contains(this.root, node)) return;
-                        break getById;
-                    }
+                    } else // if the context is in the dom we return, else we will try GEBTN, breaking the getById label
+                    if (this.contains(this.root, node)) return;
+                    else break getById;
                     this.push(item, tag, null, classes, attributes, pseudos);
                     return;
                 }
@@ -1945,7 +1943,7 @@ requires: Slick.Parser
         return local.setDocument(node), local.hasAttribute(node, name);
     }, // Slick matcher
     Slick1.match = function(node, selector) {
-        return !!node && !!selector && (!selector || selector === node || (local.setDocument(node), local.matchNode(node, selector)));
+        return !!(node && selector) && (!selector || selector === node || (local.setDocument(node), local.matchNode(node, selector)));
     }, // Slick attribute accessor
     Slick1.defineAttributeGetter = function(name, fn) {
         return local.attributeGetters[name] = fn, this;
@@ -1990,7 +1988,7 @@ provides: [Element, Elements, $, $$, Iframe, Selectors]
         var parsed = Slick.parse(tag).expressions[0][0];
         tag = "*" == parsed.tag ? "div" : parsed.tag, parsed.id && null == props.id && (props.id = parsed.id);
         var attributes = parsed.attributes;
-        if (attributes) for(var attr, i = 0, l = attributes.length; i < l; i++)null != props[(attr = attributes[i]).key] || (null != attr.value && "=" == attr.operator ? props[attr.key] = attr.value : attr.value || attr.operator || (props[attr.key] = !0));
+        if (attributes) for(var attr, i = 0, l = attributes.length; i < l; i++)null == props[(attr = attributes[i]).key] && (null != attr.value && "=" == attr.operator ? props[attr.key] = attr.value : attr.value || attr.operator || (props[attr.key] = !0));
         parsed.classList && null == props.class && (props.class = parsed.classList.join(" "));
     }
     return document.newElement(tag, props);
@@ -2246,7 +2244,7 @@ function() {
     }), null == window.$$ && Window.implement("$$", function(selector) {
         if (1 == arguments.length) {
             if ("string" == typeof selector) return Slick.search(this.document, selector, new Elements());
-            if (Type.isEnumerable(selector)) return new Elements(selector);
+            else if (Type.isEnumerable(selector)) return new Elements(selector);
         }
         return new Elements(arguments);
     });
@@ -4199,7 +4197,7 @@ provides: Cookie
     write: function(value) {
         if (this.options.encode && (value = encodeURIComponent(value)), this.options.domain && (value += "; domain=" + this.options.domain), this.options.path && (value += "; path=" + this.options.path), this.options.duration) {
             var date = new Date();
-            date.setTime(date.getTime() + 86400000 * this.options.duration), value += "; expires=" + date.toGMTString();
+            date.setTime(date.getTime() + 24 * this.options.duration * 3600000), value += "; expires=" + date.toGMTString();
         }
         return this.options.secure && (value += "; secure"), this.options.document.cookie = this.key + "=" + value, this;
     },

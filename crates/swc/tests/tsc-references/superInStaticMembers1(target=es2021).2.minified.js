@@ -297,19 +297,15 @@ _get(_get_prototype_of(C), "w", C).call(C);
 //// [inContainingClassExprStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-(()=>{
-    class C extends B {
-    }
-    C._ = _get(_get_prototype_of(C), "w", C).call(C);
-})();
+class C extends B {
+}
+C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [inContainingClassExprStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-(()=>{
-    class C extends B {
-    }
-    _get(_get_prototype_of(C), "w", C).call(C);
-})();
+class C extends B {
+}
+_get(_get_prototype_of(C), "w", C).call(C);
 //// [funcExprInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
@@ -323,8 +319,8 @@ class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
 //// [inContainingFuncExprStaticField.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+import "@swc/helpers/_/_get";
+import "@swc/helpers/_/_get_prototype_of";
 //// [inContainingFuncExprStaticBlock.ts]
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+import "@swc/helpers/_/_get";
+import "@swc/helpers/_/_get_prototype_of";

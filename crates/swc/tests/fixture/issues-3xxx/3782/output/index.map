@@ -1,5 +1,5 @@
 {
-  "mappings": "AAAA,WAAW;;;;;;;;;IAKEA,IAAI;eAAJA;;IAJDC,GAAG;;;;qBAAM;AAId,MAAMD,OAAO,CAACE;IACjB,sBAAsB;IACtB,OAAO,IAAIC,QAAQ,CAACC,UAChBC,WAAW;YACPD,QAAQ;QACZ,GAAG;AAEX",
+  "mappings": "AAAA,WAAW;;;;;;;;;QAKEA;eAAAA;;QAJDC;;;;qBAAS;AAId,MAAMD,OAAO,CAACE;IACjB,sBAAsB;IACtB,OAAO,IAAIC,QAAQ,CAACC,UAChBC,WAAW;YACPD,QAAQ;QACZ,GAAG;AAEX",
   "names": [
     "byID",
     "get",
@@ -9,7 +9,7 @@
     "setTimeout"
   ],
   "sources": [
-    "../../input/index.ts"
+    "../input/index.ts"
   ],
   "sourcesContent": [
     "// index.ts\nexport * as get from \"./get\";\n\n// get/index.ts\n\nexport const byID = (id: string): Promise<string> => {\n    // Do some async stuff\n    return new Promise((resolve) =>\n        setTimeout(() => {\n            resolve(\"result\");\n        }, 2000)\n    );\n};\n"

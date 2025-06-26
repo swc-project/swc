@@ -9,6 +9,7 @@ use std::{
     sync::{Arc, RwLock},
 };
 
+use swc_atoms::atom;
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
@@ -156,15 +157,12 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
         let module = file_name.contains("module");
 
-        let name = format!("fixer::{}", file_name);
+        let name = format!("fixer::{file_name}");
 
         add_test(tests, name, ignore, {
             let normal = normal.clone();
             move || {
-                eprintln!(
-                    "\n\n========== Running fixer test {}\nSource:\n{}\n",
-                    file_name, input
-                );
+                eprintln!("\n\n========== Running fixer test {file_name}\nSource:\n{input}\n");
 
                 ::testing::run_test(false, |cm, handler| {
                     let src = cm.load_file(&entry.path()).expect("failed to load file");
@@ -261,7 +259,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                     if output == expected {
                         return Ok(());
                     }
-                    eprintln!("Wrong output:\n{}\n-----\n{}", output, expected);
+                    eprintln!("Wrong output:\n{output}\n-----\n{expected}");
 
                     Err(())
                 })
@@ -326,18 +324,18 @@ impl Fold for Normalizer {
                 span: i.span,
             }),
             PropName::Num(n) => {
-                let s = if n.value.is_infinite() {
+                let value = if n.value.is_infinite() {
                     if n.value.is_sign_positive() {
-                        "Infinity".into()
+                        atom!("Infinity")
                     } else {
-                        "-Infinity".into()
+                        atom!("-Infinity")
                     }
                 } else {
-                    format!("{}", n.value)
+                    format!("{}", n.value).into()
                 };
                 PropName::Str(Str {
                     raw: None,
-                    value: s.into(),
+                    value,
                     span: n.span,
                 })
             }

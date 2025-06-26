@@ -183,12 +183,10 @@ function(global, factory) {
                 // otherwise, we simply remove the last threshold. Note that we don’t
                 // coerce values or the domain to numbers, and thus must be careful to
                 // compare order (>=) rather than strict equality (===)!
-                if (domain === extent && ([x0, x1] = nice(x0, x1, tn)), (tz = ticks(x0, x1, tn))[tz.length - 1] >= x1) {
-                    if (max >= x1 && domain === extent) {
-                        const step = tickIncrement(x0, x1, tn);
-                        isFinite(step) && (step > 0 ? x1 = (Math.floor(x1 / step) + 1) * step : step < 0 && (x1 = -((Math.ceil(-(x1 * step)) + 1) / step)));
-                    } else tz.pop();
-                }
+                if (domain === extent && ([x0, x1] = nice(x0, x1, tn)), (tz = ticks(x0, x1, tn))[tz.length - 1] >= x1) if (max >= x1 && domain === extent) {
+                    const step = tickIncrement(x0, x1, tn);
+                    isFinite(step) && (step > 0 ? x1 = (Math.floor(x1 / step) + 1) * step : step < 0 && (x1 = -((Math.ceil(-(x1 * step)) + 1) / step)));
+                } else tz.pop();
             }
             for(// Remove any thresholds outside the domain.
             var m = tz.length; tz[0] <= x0;)tz.shift(), --m;
@@ -270,7 +268,7 @@ function(global, factory) {
             if ((p *= 1) <= 0 || n < 2) return +valueof(values[0], 0, values);
             if (p >= 1) return +valueof(values[n - 1], n - 1, values);
             var n, i = (n - 1) * p, i0 = Math.floor(i), value0 = +valueof(values[i0], i0, values);
-            return value0 + (+valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
+            return value0 + (valueof(values[i0 + 1], i0 + 1, values) - value0) * (i - i0);
         }
     }
     function maxIndex(values, valueof) {
@@ -1677,10 +1675,10 @@ function(global, factory) {
                         x: interpolateNumber(ya, yb)
                     });
                 } else (xb || yb) && s.push("translate(" + xb + pxComma + yb + pxParen);
-            }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), (a1 = a.rotate) !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
+            }(a.translateX, a.translateY, b.translateX, b.translateY, s, q), a1 = a.rotate, a1 !== (b1 = b.rotate) ? (a1 - b1 > 180 ? b1 += 360 : b1 - a1 > 180 && (a1 += 360), q.push({
                 i: s.push(pop(s) + "rotate(", null, degParen) - 2,
                 x: interpolateNumber(a1, b1)
-            })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), (a2 = a.skewX) !== (b2 = b.skewX) ? q.push({
+            })) : b1 && s.push(pop(s) + "rotate(" + b1 + degParen), a2 = a.skewX, a2 !== (b2 = b.skewX) ? q.push({
                 i: s.push(pop(s) + "skewX(", null, degParen) - 2,
                 x: interpolateNumber(a2, b2)
             }) : b2 && s.push(pop(s) + "skewX(" + b2 + degParen), !function(xa, ya, xb, yb, s, q) {
@@ -2701,9 +2699,7 @@ function(global, factory) {
             }
             function ended(event) {
                 var extent;
-                if (!function(event) {
-                    event.stopImmediatePropagation();
-                }(event), event.touches) {
+                if (event.stopImmediatePropagation(), event.touches) {
                     if (event.touches.length) return;
                     touchending && clearTimeout(touchending), touchending = setTimeout(function() {
                         touchending = null;
@@ -2910,12 +2906,10 @@ function(global, factory) {
             if (r < 0) throw Error("negative radius: " + r);
             // Is this path empty? Move to (x1,y1).
             if (null === this._x1) this._ += "M" + (this._x1 = x1) + "," + (this._y1 = y1);
-            else if (l01_2 > 1e-6) {
-                if (Math.abs(y01 * x21 - y21 * x01) > 1e-6 && r) {
-                    var x20 = x2 - x0, y20 = y2 - y0, l21_2 = x21 * x21 + y21 * y21, l21 = Math.sqrt(l21_2), l01 = Math.sqrt(l01_2), l = r * Math.tan((pi$2 - Math.acos((l21_2 + l01_2 - (x20 * x20 + y20 * y20)) / (2 * l21 * l01))) / 2), t01 = l / l01, t21 = l / l21;
-                    Math.abs(t01 - 1) > 1e-6 && (this._ += "L" + (x1 + t01 * x01) + "," + (y1 + t01 * y01)), this._ += "A" + r + "," + r + ",0,0," + +(y01 * x20 > x01 * y20) + "," + (this._x1 = x1 + t21 * x21) + "," + (this._y1 = y1 + t21 * y21);
-                } else this._ += "L" + (this._x1 = x1) + "," + (this._y1 = y1);
-            }
+            else if (l01_2 > 1e-6) if (Math.abs(y01 * x21 - y21 * x01) > 1e-6 && r) {
+                var x20 = x2 - x0, y20 = y2 - y0, l21_2 = x21 * x21 + y21 * y21, l21 = Math.sqrt(l21_2), l01 = Math.sqrt(l01_2), l = r * Math.tan((pi$2 - Math.acos((l21_2 + l01_2 - (x20 * x20 + y20 * y20)) / (2 * l21 * l01))) / 2), t01 = l / l01, t21 = l / l21;
+                Math.abs(t01 - 1) > 1e-6 && (this._ += "L" + (x1 + t01 * x01) + "," + (y1 + t01 * y01)), this._ += "A" + r + "," + r + ",0,0," + +(y01 * x20 > x01 * y20) + "," + (this._x1 = x1 + t21 * x21) + "," + (this._y1 = y1 + t21 * y21);
+            } else this._ += "L" + (this._x1 = x1) + "," + (this._y1 = y1);
         },
         arc: function(x, y, r, a0, a1, ccw) {
             x *= 1, y *= 1, r *= 1, ccw = !!ccw;
@@ -2962,12 +2956,10 @@ function(global, factory) {
         var source = defaultSource, target = defaultTarget, sourceRadius = defaultRadius, targetRadius = defaultRadius, startAngle = defaultStartAngle, endAngle = defaultEndAngle, padAngle = defaultPadAngle, context = null;
         function ribbon() {
             var buffer, s = source.apply(this, arguments), t = target.apply(this, arguments), ap = padAngle.apply(this, arguments) / 2, argv = slice$2.call(arguments), sr = +sourceRadius.apply(this, (argv[0] = s, argv)), sa0 = startAngle.apply(this, argv) - halfPi$1, sa1 = endAngle.apply(this, argv) - halfPi$1, tr = +targetRadius.apply(this, (argv[0] = t, argv)), ta0 = startAngle.apply(this, argv) - halfPi$1, ta1 = endAngle.apply(this, argv) - halfPi$1;
-            if (context || (context = buffer = path()), ap > 1e-12 && (abs$1(sa1 - sa0) > 2 * ap + 1e-12 ? sa1 > sa0 ? (sa0 += ap, sa1 -= ap) : (sa0 -= ap, sa1 += ap) : sa0 = sa1 = (sa0 + sa1) / 2, abs$1(ta1 - ta0) > 2 * ap + 1e-12 ? ta1 > ta0 ? (ta0 += ap, ta1 -= ap) : (ta0 -= ap, ta1 += ap) : ta0 = ta1 = (ta0 + ta1) / 2), context.moveTo(sr * cos(sa0), sr * sin(sa0)), context.arc(0, 0, sr, sa0, sa1), sa0 !== ta0 || sa1 !== ta1) {
-                if (headRadius) {
-                    var hr = +headRadius.apply(this, arguments), tr2 = tr - hr, ta2 = (ta0 + ta1) / 2;
-                    context.quadraticCurveTo(0, 0, tr2 * cos(ta0), tr2 * sin(ta0)), context.lineTo(tr * cos(ta2), tr * sin(ta2)), context.lineTo(tr2 * cos(ta1), tr2 * sin(ta1));
-                } else context.quadraticCurveTo(0, 0, tr * cos(ta0), tr * sin(ta0)), context.arc(0, 0, tr, ta0, ta1);
-            }
+            if (context || (context = buffer = path()), ap > 1e-12 && (abs$1(sa1 - sa0) > 2 * ap + 1e-12 ? sa1 > sa0 ? (sa0 += ap, sa1 -= ap) : (sa0 -= ap, sa1 += ap) : sa0 = sa1 = (sa0 + sa1) / 2, abs$1(ta1 - ta0) > 2 * ap + 1e-12 ? ta1 > ta0 ? (ta0 += ap, ta1 -= ap) : (ta0 -= ap, ta1 += ap) : ta0 = ta1 = (ta0 + ta1) / 2), context.moveTo(sr * cos(sa0), sr * sin(sa0)), context.arc(0, 0, sr, sa0, sa1), sa0 !== ta0 || sa1 !== ta1) if (headRadius) {
+                var hr = +headRadius.apply(this, arguments), tr2 = tr - hr, ta2 = (ta0 + ta1) / 2;
+                context.quadraticCurveTo(0, 0, tr2 * cos(ta0), tr2 * sin(ta0)), context.lineTo(tr * cos(ta2), tr * sin(ta2)), context.lineTo(tr2 * cos(ta1), tr2 * sin(ta1));
+            } else context.quadraticCurveTo(0, 0, tr * cos(ta0), tr * sin(ta0)), context.arc(0, 0, tr, ta0, ta1);
             if (context.quadraticCurveTo(0, 0, sr * cos(sa0), sr * sin(sa0)), context.closePath(), buffer) return context = null, buffer + "" || null;
         }
         return headRadius && (ribbon.headRadius = function(_) {
@@ -3215,7 +3207,7 @@ function(global, factory) {
                 for(// Special case for the first row (y = -1, t2 = t3 = 0).
                 x = y = -1, cases[(t1 = values[0] >= value) << 1].forEach(stitch); ++x < dx - 1;)cases[(t0 = t1) | (t1 = values[x + 1] >= value) << 1].forEach(stitch);
                 // General case for the intermediate rows.
-                for(cases[t1 << 0].forEach(stitch); ++y < dy - 1;){
+                for(cases[0 | t1].forEach(stitch); ++y < dy - 1;){
                     for(x = -1, cases[(t1 = values[y * dx + dx] >= value) << 1 | (t2 = values[y * dx] >= value) << 2].forEach(stitch); ++x < dx - 1;)t0 = t1, t1 = values[y * dx + dx + x + 1] >= value, t3 = t2, cases[t0 | t1 << 1 | (t2 = values[y * dx + x + 1] >= value) << 2 | t3 << 3].forEach(stitch);
                     cases[t1 | t2 << 3].forEach(stitch);
                 }
@@ -3268,10 +3260,7 @@ function(global, factory) {
                         return contains;
                     }(ring, hole[i])) return c;
                     return 0;
-                }((polygon = polygons[i])[0], hole)) {
-                    polygon.push(hole);
-                    return;
-                }
+                }((polygon = polygons[i])[0], hole)) return void polygon.push(hole);
             }), {
                 type: "MultiPolygon",
                 value: value,
@@ -3413,7 +3402,7 @@ function(global, factory) {
             for(let k = 0, xp, yp; k < this._ids.length; k++){
                 const i = this._ids[k], x = coords[2 * i], y = coords[2 * i + 1];
                 // skip near-duplicate points
-                if (k > 0 && 0.0000000000000002220446049250313 >= Math.abs(x - xp) && 0.0000000000000002220446049250313 >= Math.abs(y - yp) || (xp = x, yp = y, i === i0 || i === i1 || i === i2)) continue;
+                if (k > 0 && 2.220446049250313e-16 >= Math.abs(x - xp) && 2.220446049250313e-16 >= Math.abs(y - yp) || (xp = x, yp = y, i === i0 || i === i1 || i === i2)) continue;
                 // find a visible edge on the convex hull using edge hash
                 let start = 0;
                 for(let j = 0, key = this._hashKey(x, y); j < this._hashSize && (-1 === (start = hullHash[(key + j) % this._hashSize]) || start === hullNext[start]); j++);
@@ -3608,14 +3597,13 @@ function(global, factory) {
             const { delaunay: { points, hull, triangles }, vectors } = this, circumcenters = this.circumcenters = this._circumcenters.subarray(0, triangles.length / 3 * 2);
             for(let i = 0, j = 0, n = triangles.length, x, y; i < n; i += 3, j += 2){
                 const t1 = 2 * triangles[i], t2 = 2 * triangles[i + 1], t3 = 2 * triangles[i + 2], x1 = points[t1], y1 = points[t1 + 1], x2 = points[t2], y2 = points[t2 + 1], x3 = points[t3], y3 = points[t3 + 1], dx = x2 - x1, dy = y2 - y1, ex = x3 - x1, ey = y3 - y1, bl = dx * dx + dy * dy, cl = ex * ex + ey * ey, ab = (dx * ey - dy * ex) * 2;
-                if (ab) {
-                    if (1e-8 > Math.abs(ab)) // almost equal points (degenerate triangle)
-                    x = (x1 + x3) / 2, y = (y1 + y3) / 2;
-                    else {
-                        const d = 1 / ab;
-                        x = x1 + (ey * bl - dy * cl) * d, y = y1 + (dx * cl - ex * bl) * d;
-                    }
-                } else // degenerate case (collinear diagram)
+                if (ab) if (1e-8 > Math.abs(ab)) // almost equal points (degenerate triangle)
+                x = (x1 + x3) / 2, y = (y1 + y3) / 2;
+                else {
+                    const d = 1 / ab;
+                    x = x1 + (ey * bl - dy * cl) * d, y = y1 + (dx * cl - ex * bl) * d;
+                }
+                else // degenerate case (collinear diagram)
                 x = (x1 + x3) / 2 - 1e8 * ey, y = (y1 + y3) / 2 + 1e8 * ex;
                 circumcenters[j] = x, circumcenters[j + 1] = y;
             }
@@ -4292,17 +4280,15 @@ function(global, factory) {
     }, treeProto.find = function(x, y, radius) {
         var data, x1, y1, x2, y2, q, i, x0 = this._x0, y0 = this._y0, x3 = this._x1, y3 = this._y1, quads = [], node = this._root;
         for(node && quads.push(new Quad(node, x0, y0, x3, y3)), null == radius ? radius = 1 / 0 : (x0 = x - radius, y0 = y - radius, x3 = x + radius, y3 = y + radius, radius *= radius); q = quads.pop();)// Stop searching if this quadrant can’t contain a closer node.
-        if ((node = q.node) && !((x1 = q.x0) > x3) && !((y1 = q.y0) > y3) && !((x2 = q.x1) < x0) && !((y2 = q.y1) < y0)) {
-            // Bisect the current quadrant.
-            if (node.length) {
-                var xm = (x1 + x2) / 2, ym = (y1 + y2) / 2;
-                quads.push(new Quad(node[3], xm, ym, x2, y2), new Quad(node[2], x1, ym, xm, y2), new Quad(node[1], xm, y1, x2, ym), new Quad(node[0], x1, y1, xm, ym)), (i = (y >= ym) << 1 | x >= xm) && (q = quads[quads.length - 1], quads[quads.length - 1] = quads[quads.length - 1 - i], quads[quads.length - 1 - i] = q);
-            } else {
-                var dx = x - +this._x.call(null, node.data), dy = y - +this._y.call(null, node.data), d2 = dx * dx + dy * dy;
-                if (d2 < radius) {
-                    var d = Math.sqrt(radius = d2);
-                    x0 = x - d, y0 = y - d, x3 = x + d, y3 = y + d, data = node.data;
-                }
+        if ((node = q.node) && !((x1 = q.x0) > x3) && !((y1 = q.y0) > y3) && !((x2 = q.x1) < x0) && !((y2 = q.y1) < y0)) // Bisect the current quadrant.
+        if (node.length) {
+            var xm = (x1 + x2) / 2, ym = (y1 + y2) / 2;
+            quads.push(new Quad(node[3], xm, ym, x2, y2), new Quad(node[2], x1, ym, xm, y2), new Quad(node[1], xm, y1, x2, ym), new Quad(node[0], x1, y1, xm, ym)), (i = (y >= ym) << 1 | x >= xm) && (q = quads[quads.length - 1], quads[quads.length - 1] = quads[quads.length - 1 - i], quads[quads.length - 1 - i] = q);
+        } else {
+            var dx = x - this._x.call(null, node.data), dy = y - this._y.call(null, node.data), d2 = dx * dx + dy * dy;
+            if (d2 < radius) {
+                var d = Math.sqrt(radius = d2);
+                x0 = x - d, y0 = y - d, x3 = x + d, y3 = y + d, data = node.data;
             }
         }
         return data;
@@ -4997,7 +4983,7 @@ function(global, factory) {
         // Second, count the (signed) number of times a segment crosses a lambda
         // from the point to the South pole.  If it is zero, then the point is the
         // same side as the South pole.
-        return (angle < -0.000001 || angle < 1e-6 && sum < -0.000000000001) ^ 1 & winding;
+        return (angle < -0.000001 || angle < 1e-6 && sum < -1e-12) ^ 1 & winding;
     }
     function clip(pointVisible, clipLine, interpolate, start) {
         return function(sink) {
@@ -5829,7 +5815,7 @@ function(global, factory) {
         }
     });
     function scaleTranslateRotate(k, dx, dy, sx, sy, alpha) {
-        if (!alpha) return function(k, dx, dy, sx, sy) {
+        if (!alpha) {
             function transform(x, y) {
                 return [
                     dx + k * (x *= sx),
@@ -5842,20 +5828,20 @@ function(global, factory) {
                     (dy - y) / k * sy
                 ];
             }, transform;
-        }(k, dx, dy, sx, sy);
+        }
         var cosAlpha = cos$1(alpha), sinAlpha = sin$1(alpha), a = cosAlpha * k, b = sinAlpha * k, ai = cosAlpha / k, bi = sinAlpha / k, ci = (sinAlpha * dy - cosAlpha * dx) / k, fi = (sinAlpha * dx + cosAlpha * dy) / k;
-        function transform(x, y) {
+        function transform1(x, y) {
             return [
                 a * (x *= sx) - b * (y *= sy) + dx,
                 dy - b * x - a * y
             ];
         }
-        return transform.invert = function(x, y) {
+        return transform1.invert = function(x, y) {
             return [
                 sx * (ai * x - bi * y + ci),
                 sy * (fi - bi * x - ai * y)
             ];
-        }, transform;
+        }, transform1;
     }
     function projection(project) {
         return projectionMutator(function() {
@@ -5955,8 +5941,8 @@ function(global, factory) {
     function conicEqualAreaRaw(y0, y1) {
         var sy0 = sin$1(y0), n = (sy0 + sin$1(y1)) / 2;
         // Are the parallels symmetrical around the Equator?
-        if (1e-6 > abs$2(n)) return function(phi0) {
-            var cosPhi0 = cos$1(phi0);
+        if (1e-6 > abs$2(n)) {
+            var cosPhi0 = cos$1(y0);
             function forward(lambda, phi) {
                 return [
                     lambda * cosPhi0,
@@ -5969,7 +5955,7 @@ function(global, factory) {
                     asin(y * cosPhi0)
                 ];
             }, forward;
-        }(y0);
+        }
         var c = 1 + sy0 * (2 * n - sy0), r0 = sqrt(c) / n;
         function project(x, y) {
             var r = sqrt(c - 2 * n * sin$1(y)) / n;
@@ -7115,12 +7101,10 @@ function(global, factory) {
             return newInterval(function(date) {
                 if (date >= date) for(; floori(date), !test(date);)date.setTime(date - 1);
             }, function(date, step) {
-                if (date >= date) {
-                    if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
-                     // eslint-disable-line no-empty
-                    else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
-                     // eslint-disable-line no-empty
-                }
+                if (date >= date) if (step < 0) for(; ++step <= 0;)for(; offseti(date, -1), !test(date););
+                 // eslint-disable-line no-empty
+                else for(; --step >= 0;)for(; offseti(date, 1), !test(date););
+                 // eslint-disable-line no-empty
             });
         }, count && (interval.count = function(start, end) {
             return t0$1.setTime(+start), t1$1.setTime(+end), floori(t0$1), floori(t1$1), Math.floor(count(t0$1, t1$1));
@@ -7735,7 +7719,7 @@ function(global, factory) {
         return +d;
     }
     function formatUnixTimestampSeconds(d) {
-        return Math.floor(+d / 1000);
+        return Math.floor(d / 1000);
     }
     function defaultLocale$1(definition) {
         return exports1.timeFormat = (locale$1 = formatLocale$1(definition)).format, exports1.timeParse = locale$1.parse, exports1.utcFormat = locale$1.utcFormat, exports1.utcParse = locale$1.utcParse, locale$1;
@@ -8208,12 +8192,10 @@ function(global, factory) {
         function area(data) {
             var i, j, k, d, buffer, n = (data = array$5(data)).length, defined0 = !1, x0z = Array(n), y0z = Array(n);
             for(null == context && (output = curve(buffer = path())), i = 0; i <= n; ++i){
-                if (!(i < n && defined(d = data[i], i, data)) === defined0) {
-                    if (defined0 = !defined0) j = i, output.areaStart(), output.lineStart();
-                    else {
-                        for(output.lineEnd(), output.lineStart(), k = i - 1; k >= j; --k)output.point(x0z[k], y0z[k]);
-                        output.lineEnd(), output.areaEnd();
-                    }
+                if (!(i < n && defined(d = data[i], i, data)) === defined0) if (defined0 = !defined0) j = i, output.areaStart(), output.lineStart();
+                else {
+                    for(output.lineEnd(), output.lineStart(), k = i - 1; k >= j; --k)output.point(x0z[k], y0z[k]);
+                    output.lineEnd(), output.areaEnd();
                 }
                 defined0 && (x0z[i] = +x0(d, i, data), y0z[i] = +y0(d, i, data), output.point(x1 ? +x1(d, i, data) : x0z[i], y1 ? +y1(d, i, data) : y0z[i]));
             }
@@ -9017,10 +8999,8 @@ function(global, factory) {
         },
         lineEnd: function() {
             var x = this._x, y = this._y, n = x.length;
-            if (n) {
-                if (this._line ? this._context.lineTo(x[0], y[0]) : this._context.moveTo(x[0], y[0]), 2 === n) this._context.lineTo(x[1], y[1]);
-                else for(var px = controlPoints(x), py = controlPoints(y), i0 = 0, i1 = 1; i1 < n; ++i0, ++i1)this._context.bezierCurveTo(px[0][i0], py[0][i0], px[1][i0], py[1][i0], x[i1], y[i1]);
-            }
+            if (n) if (this._line ? this._context.lineTo(x[0], y[0]) : this._context.moveTo(x[0], y[0]), 2 === n) this._context.lineTo(x[1], y[1]);
+            else for(var px = controlPoints(x), py = controlPoints(y), i0 = 0, i1 = 1; i1 < n; ++i0, ++i1)this._context.bezierCurveTo(px[0][i0], py[0][i0], px[1][i0], py[1][i0], x[i1], y[i1]);
             (this._line || 0 !== this._line && 1 === n) && this._context.closePath(), this._line = 1 - this._line, this._x = this._y = null;
         },
         point: function(x, y) {
@@ -9204,34 +9184,33 @@ function(global, factory) {
         function arc() {
             var buffer, r, r0 = +innerRadius.apply(this, arguments), r1 = +outerRadius.apply(this, arguments), a0 = startAngle.apply(this, arguments) - halfPi$3, a1 = endAngle.apply(this, arguments) - halfPi$3, da = abs$3(a1 - a0), cw = a1 > a0;
             // Is it a point?
-            if (context || (context = buffer = path()), r1 < r0 && (r = r1, r1 = r0, r0 = r), r1 > 1e-12) {
-                if (da > tau$5 - 1e-12) context.moveTo(r1 * cos$2(a0), r1 * sin$2(a0)), context.arc(0, 0, r1, a0, a1, !cw), r0 > 1e-12 && (context.moveTo(r0 * cos$2(a1), r0 * sin$2(a1)), context.arc(0, 0, r0, a1, a0, cw));
-                else {
-                    var t0, t1, a01 = a0, a11 = a1, a00 = a0, a10 = a1, da0 = da, da1 = da, ap = padAngle.apply(this, arguments) / 2, rp = ap > 1e-12 && (padRadius ? +padRadius.apply(this, arguments) : sqrt$2(r0 * r0 + r1 * r1)), rc = min$2(abs$3(r1 - r0) / 2, +cornerRadius.apply(this, arguments)), rc0 = rc, rc1 = rc;
-                    // Apply padding? Note that since r1 ≥ r0, da1 ≥ da0.
-                    if (rp > 1e-12) {
-                        var p0 = asin$1(rp / r0 * sin$2(ap)), p1 = asin$1(rp / r1 * sin$2(ap));
-                        (da0 -= 2 * p0) > 1e-12 ? (p0 *= cw ? 1 : -1, a00 += p0, a10 -= p0) : (da0 = 0, a00 = a10 = (a0 + a1) / 2), (da1 -= 2 * p1) > 1e-12 ? (p1 *= cw ? 1 : -1, a01 += p1, a11 -= p1) : (da1 = 0, a01 = a11 = (a0 + a1) / 2);
-                    }
-                    var x01 = r1 * cos$2(a01), y01 = r1 * sin$2(a01), x10 = r0 * cos$2(a10), y10 = r0 * sin$2(a10);
-                    // Apply rounded corners?
-                    if (rc > 1e-12) {
-                        var oc, x11 = r1 * cos$2(a11), y11 = r1 * sin$2(a11), x00 = r0 * cos$2(a00), y00 = r0 * sin$2(a00);
-                        // Restrict the corner radius according to the sector angle.
-                        if (da < pi$4 && (oc = function(x0, y0, x1, y1, x2, y2, x3, y3) {
-                            var x10 = x1 - x0, y10 = y1 - y0, x32 = x3 - x2, y32 = y3 - y2, t = y32 * x10 - x32 * y10;
-                            if (!(t * t < 1e-12)) return t = (x32 * (y0 - y2) - y32 * (x0 - x2)) / t, [
-                                x0 + t * x10,
-                                y0 + t * y10
-                            ];
-                        }(x01, y01, x00, y00, x11, y11, x10, y10))) {
-                            var x, ax = x01 - oc[0], ay = y01 - oc[1], bx = x11 - oc[0], by = y11 - oc[1], kc = 1 / sin$2(((x = (ax * bx + ay * by) / (sqrt$2(ax * ax + ay * ay) * sqrt$2(bx * bx + by * by))) > 1 ? 0 : x < -1 ? pi$4 : Math.acos(x)) / 2), lc = sqrt$2(oc[0] * oc[0] + oc[1] * oc[1]);
-                            rc0 = min$2(rc, (r0 - lc) / (kc - 1)), rc1 = min$2(rc, (r1 - lc) / (kc + 1));
-                        }
-                    }
-                    da1 > 1e-12 ? rc1 > 1e-12 ? (t0 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw), t1 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw), context.moveTo(t0.cx + t0.x01, t0.cy + t0.y01), rc1 < rc ? context.arc(t0.cx, t0.cy, rc1, atan2$1(t0.y01, t0.x01), atan2$1(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc1, atan2$1(t0.y01, t0.x01), atan2$1(t0.y11, t0.x11), !cw), context.arc(0, 0, r1, atan2$1(t0.cy + t0.y11, t0.cx + t0.x11), atan2$1(t1.cy + t1.y11, t1.cx + t1.x11), !cw), context.arc(t1.cx, t1.cy, rc1, atan2$1(t1.y11, t1.x11), atan2$1(t1.y01, t1.x01), !cw))) : (context.moveTo(x01, y01), context.arc(0, 0, r1, a01, a11, !cw)) : context.moveTo(x01, y01), r0 > 1e-12 && da0 > 1e-12 ? rc0 > 1e-12 ? (t0 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw), t1 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw), context.lineTo(t0.cx + t0.x01, t0.cy + t0.y01), rc0 < rc ? context.arc(t0.cx, t0.cy, rc0, atan2$1(t0.y01, t0.x01), atan2$1(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc0, atan2$1(t0.y01, t0.x01), atan2$1(t0.y11, t0.x11), !cw), context.arc(0, 0, r0, atan2$1(t0.cy + t0.y11, t0.cx + t0.x11), atan2$1(t1.cy + t1.y11, t1.cx + t1.x11), cw), context.arc(t1.cx, t1.cy, rc0, atan2$1(t1.y11, t1.x11), atan2$1(t1.y01, t1.x01), !cw))) : context.arc(0, 0, r0, a10, a00, cw) : context.lineTo(x10, y10);
+            if (context || (context = buffer = path()), r1 < r0 && (r = r1, r1 = r0, r0 = r), r1 > 1e-12) if (da > tau$5 - 1e-12) context.moveTo(r1 * cos$2(a0), r1 * sin$2(a0)), context.arc(0, 0, r1, a0, a1, !cw), r0 > 1e-12 && (context.moveTo(r0 * cos$2(a1), r0 * sin$2(a1)), context.arc(0, 0, r0, a1, a0, cw));
+            else {
+                var t0, t1, a01 = a0, a11 = a1, a00 = a0, a10 = a1, da0 = da, da1 = da, ap = padAngle.apply(this, arguments) / 2, rp = ap > 1e-12 && (padRadius ? +padRadius.apply(this, arguments) : sqrt$2(r0 * r0 + r1 * r1)), rc = min$2(abs$3(r1 - r0) / 2, +cornerRadius.apply(this, arguments)), rc0 = rc, rc1 = rc;
+                // Apply padding? Note that since r1 ≥ r0, da1 ≥ da0.
+                if (rp > 1e-12) {
+                    var p0 = asin$1(rp / r0 * sin$2(ap)), p1 = asin$1(rp / r1 * sin$2(ap));
+                    (da0 -= 2 * p0) > 1e-12 ? (p0 *= cw ? 1 : -1, a00 += p0, a10 -= p0) : (da0 = 0, a00 = a10 = (a0 + a1) / 2), (da1 -= 2 * p1) > 1e-12 ? (p1 *= cw ? 1 : -1, a01 += p1, a11 -= p1) : (da1 = 0, a01 = a11 = (a0 + a1) / 2);
                 }
-            } else context.moveTo(0, 0);
+                var x01 = r1 * cos$2(a01), y01 = r1 * sin$2(a01), x10 = r0 * cos$2(a10), y10 = r0 * sin$2(a10);
+                // Apply rounded corners?
+                if (rc > 1e-12) {
+                    var oc, x11 = r1 * cos$2(a11), y11 = r1 * sin$2(a11), x00 = r0 * cos$2(a00), y00 = r0 * sin$2(a00);
+                    // Restrict the corner radius according to the sector angle.
+                    if (da < pi$4 && (oc = function(x0, y0, x1, y1, x2, y2, x3, y3) {
+                        var x10 = x1 - x0, y10 = y1 - y0, x32 = x3 - x2, y32 = y3 - y2, t = y32 * x10 - x32 * y10;
+                        if (!(t * t < 1e-12)) return t = (x32 * (y0 - y2) - y32 * (x0 - x2)) / t, [
+                            x0 + t * x10,
+                            y0 + t * y10
+                        ];
+                    }(x01, y01, x00, y00, x11, y11, x10, y10))) {
+                        var x, ax = x01 - oc[0], ay = y01 - oc[1], bx = x11 - oc[0], by = y11 - oc[1], kc = 1 / sin$2(((x = (ax * bx + ay * by) / (sqrt$2(ax * ax + ay * ay) * sqrt$2(bx * bx + by * by))) > 1 ? 0 : x < -1 ? pi$4 : Math.acos(x)) / 2), lc = sqrt$2(oc[0] * oc[0] + oc[1] * oc[1]);
+                        rc0 = min$2(rc, (r0 - lc) / (kc - 1)), rc1 = min$2(rc, (r1 - lc) / (kc + 1));
+                    }
+                }
+                da1 > 1e-12 ? rc1 > 1e-12 ? (t0 = cornerTangents(x00, y00, x01, y01, r1, rc1, cw), t1 = cornerTangents(x11, y11, x10, y10, r1, rc1, cw), context.moveTo(t0.cx + t0.x01, t0.cy + t0.y01), rc1 < rc ? context.arc(t0.cx, t0.cy, rc1, atan2$1(t0.y01, t0.x01), atan2$1(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc1, atan2$1(t0.y01, t0.x01), atan2$1(t0.y11, t0.x11), !cw), context.arc(0, 0, r1, atan2$1(t0.cy + t0.y11, t0.cx + t0.x11), atan2$1(t1.cy + t1.y11, t1.cx + t1.x11), !cw), context.arc(t1.cx, t1.cy, rc1, atan2$1(t1.y11, t1.x11), atan2$1(t1.y01, t1.x01), !cw))) : (context.moveTo(x01, y01), context.arc(0, 0, r1, a01, a11, !cw)) : context.moveTo(x01, y01), r0 > 1e-12 && da0 > 1e-12 ? rc0 > 1e-12 ? (t0 = cornerTangents(x10, y10, x11, y11, r0, -rc0, cw), t1 = cornerTangents(x01, y01, x00, y00, r0, -rc0, cw), context.lineTo(t0.cx + t0.x01, t0.cy + t0.y01), rc0 < rc ? context.arc(t0.cx, t0.cy, rc0, atan2$1(t0.y01, t0.x01), atan2$1(t1.y01, t1.x01), !cw) : (context.arc(t0.cx, t0.cy, rc0, atan2$1(t0.y01, t0.x01), atan2$1(t0.y11, t0.x11), !cw), context.arc(0, 0, r0, atan2$1(t0.cy + t0.y11, t0.cx + t0.x11), atan2$1(t1.cy + t1.y11, t1.cx + t1.x11), cw), context.arc(t1.cx, t1.cy, rc0, atan2$1(t1.y11, t1.x11), atan2$1(t1.y01, t1.x01), !cw))) : context.arc(0, 0, r0, a10, a00, cw) : context.lineTo(x10, y10);
+            }
+            else context.moveTo(0, 0);
             if (context.closePath(), buffer) return context = null, buffer + "" || null;
         }
         return arc.centroid = function() {
@@ -9260,15 +9239,13 @@ function(global, factory) {
     }, exports1.area = area$3, exports1.areaRadial = areaRadial, exports1.ascending = ascending, exports1.autoType = function(object) {
         for(var key in object){
             var number, m, value = object[key].trim();
-            if (value) {
-                if ("true" === value) value = !0;
-                else if ("false" === value) value = !1;
-                else if ("NaN" === value) value = NaN;
-                else if (isNaN(number = +value)) {
-                    if (!(m = value.match(/^([-+]\d{2})?\d{4}(-\d{2}(-\d{2})?)?(T\d{2}:\d{2}(:\d{2}(\.\d{3})?)?(Z|[-+]\d{2}:\d{2})?)?$/))) continue;
-                    fixtz && m[4] && !m[7] && (value = value.replace(/-/g, "/").replace(/T/, " ")), value = new Date(value);
-                } else value = number;
-            } else value = null;
+            if (value) if ("true" === value) value = !0;
+            else if ("false" === value) value = !1;
+            else if ("NaN" === value) value = NaN;
+            else if (isNaN(number = +value)) if (!(m = value.match(/^([-+]\d{2})?\d{4}(-\d{2}(-\d{2})?)?(T\d{2}:\d{2}(:\d{2}(\.\d{3})?)?(Z|[-+]\d{2}:\d{2})?)?$/))) continue;
+            else fixtz && m[4] && !m[7] && (value = value.replace(/-/g, "/").replace(/T/, " ")), value = new Date(value);
+            else value = number;
+            else value = null;
             object[key] = value;
         }
         return object;
@@ -9604,7 +9581,7 @@ function(global, factory) {
     }, exports1.easeCubicInOut = cubicInOut, exports1.easeCubicOut = function(t) {
         return --t * t * t + 1;
     }, exports1.easeElastic = elasticOut, exports1.easeElasticIn = elasticIn, exports1.easeElasticInOut = elasticInOut, exports1.easeElasticOut = elasticOut, exports1.easeExp = expInOut, exports1.easeExpIn = function(t) {
-        return tpmt(1 - +t);
+        return tpmt(1 - t);
     }, exports1.easeExpInOut = expInOut, exports1.easeExpOut = function(t) {
         return 1 - tpmt(t);
     }, exports1.easeLinear = (t)=>+t, exports1.easePoly = polyInOut, exports1.easePolyIn = polyIn, exports1.easePolyInOut = polyInOut, exports1.easePolyOut = polyOut, exports1.easeQuad = quadInOut, exports1.easeQuadIn = function(t) {
@@ -10957,7 +10934,7 @@ function(global, factory) {
             // Finally, we add a new thread (if necessary).
             function(v, w, ancestor) {
                 if (w) {
-                    for(var vim, ancestor1, shift, vip = v, vop = v, vim1 = w, vom = vip.parent.children[0], sip = vip.m, sop = vop.m, sim = vim1.m, som = vom.m; vim1 = nextRight(vim1), vip = nextLeft(vip), vim1 && vip;)vom = nextLeft(vom), (vop = nextRight(vop)).a = v, (shift = vim1.z + sim - vip.z - sip + separation(vim1._, vip._)) > 0 && (// Shifts the current subtree rooted at w+. This is done by increasing
+                    for(var vim, ancestor1, shift, vip = v, vop = v, vim1 = w, vom = vip.parent.children[0], sip = vip.m, sop = vop.m, sim = vim1.m, som = vom.m; vim1 = nextRight(vim1), vip = nextLeft(vip), vim1 && vip;)vom = nextLeft(vom), (vop = nextRight(vop)).a = v, (shift = vim1.z + sim - vip.z - sip + separation(vim1._, vip._)) > 0 && (!// Shifts the current subtree rooted at w+. This is done by increasing
                     // prelim(w+) and mod(w+) by shift.
                     function(wm, wp, shift) {
                         var change = shift / (wp.i - wm.i);
@@ -11028,7 +11005,7 @@ function(global, factory) {
     }, exports1.treemapBinary = function(parent, x0, y0, x1, y1) {
         var i, sum, nodes = parent.children, n = nodes.length, sums = Array(n + 1);
         for(sums[0] = sum = i = 0; i < n; ++i)sums[i + 1] = sum += nodes[i].value;
-        (function partition(i, j, value, x0, y0, x1, y1) {
+        !function partition(i, j, value, x0, y0, x1, y1) {
             if (i >= j - 1) {
                 var node = nodes[i];
                 node.x0 = x0, node.y0 = y0, node.x1 = x1, node.y1 = y1;
@@ -11047,7 +11024,7 @@ function(global, factory) {
                 var yk = value ? (y0 * valueRight + y1 * valueLeft) / value : y1;
                 partition(i, k, valueLeft, x0, y0, x1, yk), partition(k, j, valueRight, x0, yk, x1, y1);
             }
-        })(0, n, parent.value, x0, y0, x1, y1);
+        }(0, n, parent.value, x0, y0, x1, y1);
     }, exports1.treemapDice = treemapDice, exports1.treemapResquarify = resquarify, exports1.treemapSlice = treemapSlice, exports1.treemapSliceDice = function(parent, x0, y0, x1, y1) {
         (1 & parent.depth ? treemapSlice : treemapDice)(parent, x0, y0, x1, y1);
     }, exports1.treemapSquarify = squarify, exports1.tsv = tsv$1, exports1.tsvFormat = tsvFormat, exports1.tsvFormatBody = tsvFormatBody, exports1.tsvFormatRow = tsvFormatRow, exports1.tsvFormatRows = tsvFormatRows, exports1.tsvFormatValue = tsvFormatValue, exports1.tsvParse = tsvParse, exports1.tsvParseRows = tsvParseRows, exports1.union = function(...others) {

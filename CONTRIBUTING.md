@@ -104,9 +104,9 @@ For running all tests, take the following steps:
 
     See [official install guide of deno](https://docs.deno.com/runtime/manual/getting_started/installation/) to install it.
 
-5. Add wasm32-wasi target
+5. Add wasm32-wasip1 target
 
-    `rustup target add wasm32-wasi`
+    `rustup target add wasm32-wasip1`
 
 6. Ensure you're using Node.JS >= 16
 
@@ -134,6 +134,35 @@ cargo test runner, e.g.
 ```bash
 cargo test -p swc_ecma_transforms --all-features
 ```
+
+### Overriding a local project's `@swc/core` package
+
+If you want to test your changes to SWC with a local project that uses `@swc/core`, you can use the `scripts/patch-project.sh` script to override the project's `@swc/core` dependency with your local version.
+
+Run the patch script from the repo root, providing the path to your project as the only argument:
+
+    ```bash
+    ./scripts/patch-project.sh /path/to/your/project
+    ```
+
+The script will:
+
+- Add necessary patches to `bindings/Cargo.toml`
+- Update Cargo dependencies
+- Build the project
+- Update your project's `package.json` to use the local `@swc/core`
+
+If `@swc/core` is not found in your project's dependencies, the script will provide instructions for adding it based on your package manager (yarn, npm, or pnpm).
+
+To revert the changes:
+
+1. Restore the original Cargo files in this repository:
+
+    ```bash
+    git restore bindings/Cargo.toml bindings/Cargo.lock
+    ```
+
+2. Update your overriden project's `package.json` to use the published version of `@swc/core`
 
 ## Pull requests
 

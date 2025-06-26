@@ -1,9 +1,5 @@
-function foo(x, y) {
-    return _foo.apply(this, arguments);
-}
-function _foo() {
-    _foo = _async_to_generator(function*(x, y, ...z) {
+function foo(x, y, ...z) {
+    return _async_to_generator(function*() {
         return 42;
-    });
-    return _foo.apply(this, arguments);
+    })();
 }

@@ -11,8 +11,8 @@ function addAlgoliaAgents(searchClient) {
 const isMultiIndexContext = (widget)=>hasMultipleIndices({
         ais: widget.props.contextValue,
         multiIndexContext: widget.props.indexContextValue
-    }), isTargetedIndexEqualIndex = (widget, indexId)=>widget.props.indexContextValue.targetedIndex === indexId, isIndexWidget = (widget)=>!!widget.props.indexId, isIndexWidgetEqualIndex = (widget, indexId)=>widget.props.indexId === indexId, sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
-    const isFirstWidgetIndex = isIndexWidget(firstWidget), isSecondWidgetIndex = isIndexWidget(secondWidget);
+    }), isTargetedIndexEqualIndex = (widget, indexId)=>widget.props.indexContextValue.targetedIndex === indexId, sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
+    const isFirstWidgetIndex = !!firstWidget.props.indexId, isSecondWidgetIndex = !!secondWidget.props.indexId;
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
 /**
@@ -81,18 +81,19 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
                 client._cacheHydrated = !0;
                 const baseMethod = client.search;
                 client.search = (requests, ...methodArgs)=>{
-                    const requestsWithSerializedParams = requests.map((request)=>({
+                    const requestsWithSerializedParams = requests.map((request)=>{
+                        var parameters;
+                        return {
                             ...request,
-                            params: // This function is copied from the algoliasearch v4 API Client. If modified,
-                            // consider updating it also in `serializeQueryParameters` from `@algolia/transporter`.
-                            function(parameters) {
-                                const isObjectOrArray = (value)=>"[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value), encode = (format, ...args)=>{
+                            params: Object.keys(parameters = request.params).map((key)=>{
+                                let value;
+                                return ((format, ...args)=>{
                                     let i = 0;
                                     return format.replace(/%s/g, ()=>encodeURIComponent(args[i++]));
-                                };
-                                return Object.keys(parameters).map((key)=>encode("%s=%s", key, isObjectOrArray(parameters[key]) ? JSON.stringify(parameters[key]) : parameters[key])).join("&");
-                            }(request.params)
-                        }));
+                                })("%s=%s", key, (value = parameters[key], "[object Object]" === Object.prototype.toString.call(value) || "[object Array]" === Object.prototype.toString.call(value)) ? JSON.stringify(parameters[key]) : parameters[key]);
+                            }).join("&")
+                        };
+                    });
                     return client.transporter.responsesCache.get({
                         method: "search",
                         args: [
@@ -103,61 +104,53 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
                 };
             }
             if (Array.isArray(results.results)) {
-                !function(client, results) {
-                    // Algoliasearch API Client >= v4
-                    // Populate the cache with the data from the server
-                    if (client.transporter) {
-                        client.transporter.responsesCache.set({
-                            method: "search",
-                            args: [
-                                results.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
-                                            indexName: request.index,
-                                            params: request.params
-                                        }))), [])
-                            ]
-                        }, {
-                            results: results.reduce((acc, result)=>acc.concat(result.rawResults), [])
-                        });
-                        return;
-                    }
-                    // Algoliasearch API Client < v4
-                    // Prior to client v4 we didn't have a proper API to hydrate the client
-                    // cache from the outside. The following code populates the cache with
-                    // a single-index result. You can find more information about the
-                    // computation of the key inside the client (see link below).
-                    // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
-                    const key = `/1/indexes/*/queries_body_${JSON.stringify({
-                        requests: results.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
+                var results1 = results.results;
+                // Algoliasearch API Client >= v4
+                // Populate the cache with the data from the server
+                if (client.transporter) return client.transporter.responsesCache.set({
+                    method: "search",
+                    args: [
+                        results1.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
                                     indexName: request.index,
                                     params: request.params
                                 }))), [])
-                    })}`;
-                    client.cache = {
-                        ...client.cache,
-                        [key]: JSON.stringify({
-                            results: results.reduce((acc, result)=>acc.concat(result.rawResults), [])
-                        })
-                    };
-                }(client, results.results);
-                return;
+                    ]
+                }, {
+                    results: results1.reduce((acc, result)=>acc.concat(result.rawResults), [])
+                });
+                // Algoliasearch API Client < v4
+                // Prior to client v4 we didn't have a proper API to hydrate the client
+                // cache from the outside. The following code populates the cache with
+                // a single-index result. You can find more information about the
+                // computation of the key inside the client (see link below).
+                // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
+                const key = `/1/indexes/*/queries_body_${JSON.stringify({
+                    requests: results1.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
+                                indexName: request.index,
+                                params: request.params
+                            }))), [])
+                })}`;
+                return client.cache = {
+                    ...client.cache,
+                    [key]: JSON.stringify({
+                        results: results1.reduce((acc, result)=>acc.concat(result.rawResults), [])
+                    })
+                };
             }
             !function(client, results) {
                 // Algoliasearch API Client >= v4
                 // Populate the cache with the data from the server
-                if (client.transporter) {
-                    client.transporter.responsesCache.set({
-                        method: "search",
-                        args: [
-                            results.rawResults.map((request)=>({
-                                    indexName: request.index,
-                                    params: request.params
-                                }))
-                        ]
-                    }, {
-                        results: results.rawResults
-                    });
-                    return;
-                }
+                if (client.transporter) return client.transporter.responsesCache.set({
+                    method: "search",
+                    args: [
+                        results.rawResults.map((request)=>({
+                                indexName: request.index,
+                                params: request.params
+                            }))
+                    ]
+                }, {
+                    results: results.rawResults
+                });
                 // Algoliasearch API Client < v4
                 // Prior to client v4 we didn't have a proper API to hydrate the client
                 // cache from the outside. The following code populates the cache with
@@ -206,13 +199,13 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
         return widgetsManager.getWidgets().filter((widget)=>!!widget.getMetadata).map((widget)=>widget.getMetadata(state));
     }
     function getSearchParameters() {
-        const sharedParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>!isMultiIndexContext(widget) && !isIndexWidget(widget)).reduce((res, widget)=>widget.getSearchParameters(res), initialSearchParameters), mainParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>{
-            const targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = isIndexWidget(widget) && isIndexWidgetEqualIndex(widget, indexName);
+        const sharedParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>!isMultiIndexContext(widget) && !widget.props.indexId).reduce((res, widget)=>widget.getSearchParameters(res), initialSearchParameters), mainParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>{
+            const targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = !!widget.props.indexId && widget.props.indexId === indexName;
             return targetedIndexEqualMainIndex || subIndexEqualMainIndex;
         })// We have to sort the `Index` widgets first so the `index` parameter
         // is correctly set in the `reduce` function for the following widgets
         .sort(sortIndexWidgetsFirst).reduce((res, widget)=>widget.getSearchParameters(res), sharedParameters), derivedIndices = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>{
-            const targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName), subIndexNotEqualMainIndex = isIndexWidget(widget) && !isIndexWidgetEqualIndex(widget, indexName);
+            const targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName), subIndexNotEqualMainIndex = !!widget.props.indexId && widget.props.indexId !== indexName;
             return targetedIndexNotEqualMainIndex || subIndexNotEqualMainIndex;
         })// We have to sort the `Index` widgets first so the `index` parameter
         // is correctly set in the `reduce` function for the following widgets

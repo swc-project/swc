@@ -9,7 +9,7 @@ use std::{
 };
 
 use anyhow::Result;
-use rayon::prelude::*;
+use par_iter::prelude::*;
 use swc_common::{comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap, GLOBALS};
 use swc_ecma_ast::Program;
 use swc_ecma_codegen::text_writer::JsWriter;

@@ -1063,6 +1063,7 @@ impl Transform {
                     key,
                     value: value @ Some(..),
                     is_static: false,
+                    span,
                     ..
                 }) => {
                     let key = match &mut *key {
@@ -1083,18 +1084,22 @@ impl Transform {
                         _ => key.clone(),
                     };
 
-                    init_list.push(assign_value_to_this_prop(key, *value.take().unwrap()));
+                    let mut init = assign_value_to_this_prop(key, *value.take().unwrap());
+                    init.set_span(*span);
+
+                    init_list.push(init);
                 }
                 ClassMember::PrivateProp(PrivateProp {
                     key,
                     value: value @ Some(..),
                     is_static: false,
+                    span,
                     ..
                 }) => {
-                    init_list.push(assign_value_to_this_private_prop(
-                        key.clone(),
-                        *value.take().unwrap(),
-                    ));
+                    let mut init =
+                        assign_value_to_this_private_prop(key.clone(), *value.take().unwrap());
+                    init.set_span(*span);
+                    init_list.push(init);
                 }
                 _ => {}
             }

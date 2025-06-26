@@ -8,12 +8,12 @@ export type Options = {
     scriptingEnabled?: boolean;
     forceSetHtml5Doctype?: boolean;
     collapseWhitespaces?:
-        | "none"
-        | "all"
-        | "smart"
-        | "conservative"
-        | "advanced-conservative"
-        | "only-metadata";
+    | "none"
+    | "all"
+    | "smart"
+    | "conservative"
+    | "advanced-conservative"
+    | "only-metadata";
     removeEmptyMetadataElements?: boolean;
     removeComments?: boolean;
     preserveComments?: string[];
@@ -26,9 +26,9 @@ export type Options = {
     // TODO improve me after typing `@swc/css`
     minifyJs?: boolean | { parser?: any; minifier?: any; codegen?: any };
     minifyCss?:
-        | boolean
-        | { lib: "lightningcss" }
-        | { lib: "swc"; parser?: any; minifier?: any; codegen?: any };
+    | boolean
+    | { lib: "lightningcss" }
+    | { lib: "swc"; parser?: any; minifier?: any; codegen?: any };
     minifyAdditionalScriptsContent?: [string, MinifierType][];
     minifyAdditionalAttributes?: [string, MinifierType][];
     sortSpaceSeparatedAttributeValues?: boolean;
@@ -65,10 +65,10 @@ export function minifySync(
     return binding.minifySync(content, toBuffer(options ?? {}));
 }
 
-export async function minifyFragmentSync(
+export function minifyFragmentSync(
     content: string | Buffer,
     options?: FragmentOptions
-): Promise<binding.TransformOutput> {
+): binding.TransformOutput {
     return binding.minifyFragmentSync(content, toBuffer(options ?? {}));
 }
 

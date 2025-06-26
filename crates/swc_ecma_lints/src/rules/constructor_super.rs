@@ -293,7 +293,7 @@ impl Visit for ConstructorSuper {
     }
 
     fn visit_for_in_stmt(&mut self, for_in_stmt: &ForInStmt) {
-        let prev_loop_span = mem::replace(&mut self.class_meta.loop_span, Some(for_in_stmt.span));
+        let prev_loop_span = self.class_meta.loop_span.replace(for_in_stmt.span);
 
         for_in_stmt.visit_children_with(self);
 
@@ -301,7 +301,7 @@ impl Visit for ConstructorSuper {
     }
 
     fn visit_for_of_stmt(&mut self, for_of_stmt: &ForOfStmt) {
-        let prev_loop_span = mem::replace(&mut self.class_meta.loop_span, Some(for_of_stmt.span));
+        let prev_loop_span = self.class_meta.loop_span.replace(for_of_stmt.span);
 
         for_of_stmt.visit_children_with(self);
 
@@ -309,7 +309,7 @@ impl Visit for ConstructorSuper {
     }
 
     fn visit_for_stmt(&mut self, for_stmt: &ForStmt) {
-        let prev_loop_span = mem::replace(&mut self.class_meta.loop_span, Some(for_stmt.span));
+        let prev_loop_span = self.class_meta.loop_span.replace(for_stmt.span);
 
         for_stmt.visit_children_with(self);
 

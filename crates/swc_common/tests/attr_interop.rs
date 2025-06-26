@@ -1,4 +1,6 @@
 //! Test that `#[span]` and `#[fold]` can be used at same time.
+#![allow(unexpected_cfgs)]
+
 use serde::{Deserialize, Serialize};
 use swc_common::{ast_node, Span, Spanned};
 

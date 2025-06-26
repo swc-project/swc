@@ -370,7 +370,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Regex {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
         let exp = u.arbitrary::<String>()?.into();
-        let flags = "".into(); // TODO
+        let flags = atom!(""); // TODO
 
         Ok(Self { span, exp, flags })
     }

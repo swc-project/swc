@@ -222,7 +222,7 @@ fn write_to_file(path: &Path, content: &str) {
 
 pub fn print_left_right(left: &dyn Debug, right: &dyn Debug) -> String {
     fn print(t: &dyn Debug) -> String {
-        let s = format!("{:#?}", t);
+        let s = format!("{t:#?}");
 
         // Replace 'Span { lo: BytePos(0), hi: BytePos(0), ctxt: #0 }' with '_'
         let s = {
@@ -271,10 +271,7 @@ pub fn print_left_right(left: &dyn Debug, right: &dyn Debug) -> String {
     write_to_file(&target_dir.join("left"), &left);
     write_to_file(&target_dir.join("right"), &right);
 
-    format!(
-        "----- {}\n    left:\n{}\n    right:\n{}",
-        test_name, left, right
-    )
+    format!("----- {test_name}\n    left:\n{left}\n    right:\n{right}")
 }
 
 #[macro_export]
@@ -291,7 +288,7 @@ macro_rules! assert_eq_ignore_span {
 pub fn diff(l: &str, r: &str) -> String {
     let cs = Changeset::new(l, r, "\n");
 
-    format!("{}", cs)
+    format!("{cs}")
 }
 
 /// Used for assertions.

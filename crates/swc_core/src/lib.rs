@@ -19,7 +19,13 @@ pub extern crate swc_ecma_quote_macros;
 
 // Plugins
 #[cfg(any(
-    docsrs,
+    all(
+        docsrs,
+        any(
+            feature = "__common_plugin_transform",
+            feature = "__plugin_transform_host"
+        )
+    ),
     feature = "__common_plugin_transform",
     feature = "__plugin_transform_host"
 ))]
@@ -148,6 +154,10 @@ pub mod ecma {
     pub mod utils {
         pub use swc_ecma_utils::*;
     }
+
+    #[cfg(feature = "swc_ecma_react_compiler")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "swc_ecma_react_compiler")))]
+    pub extern crate swc_ecma_react_compiler as react_compiler;
 }
 
 // swc features
@@ -180,9 +190,7 @@ pub mod trace_macro {
 
 #[cfg(feature = "transform_common")]
 #[cfg_attr(docsrs, doc(cfg(feature = "transform_common")))]
-pub mod transform_common {
-    pub use swc_transform_common::*;
-}
+pub extern crate swc_transform_common as transform_common;
 
 #[cfg(feature = "typescript")]
 #[cfg_attr(docsrs, doc(cfg(feature = "typescript")))]
@@ -276,11 +284,9 @@ pub mod css {
     }
 }
 
-#[cfg(feature = "__cached")]
-#[cfg_attr(docsrs, doc(cfg(feature = "__cached")))]
-pub mod cached {
-    pub use swc_cached::*;
-}
+#[cfg_attr(docsrs, doc(cfg(feature = "swc_config")))]
+#[cfg(feature = "swc_config")]
+pub extern crate swc_config as config;
 
 // This reexports generic testing utilities only.
 // For the feature-specific (i.e ecma_transform_testing), need to enable

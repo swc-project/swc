@@ -8,13 +8,13 @@ use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_transforms_typescript::strip;
 
-fn tr() -> impl Pass {
+fn tr(unresolved_mark: Mark) -> impl Pass {
     Repeat::new(dce(
         Config {
             top_level: true,
             ..Default::default()
         },
-        Mark::new(),
+        unresolved_mark,
     ))
 }
 
@@ -25,7 +25,14 @@ macro_rules! to {
                 decorators: true,
                 ..Default::default()
             }),
-            |_| (resolver(Mark::new(), Mark::new(), false), tr()),
+            |_| {
+                let unresolved_mark = Mark::new();
+
+                (
+                    resolver(unresolved_mark, Mark::new(), false),
+                    tr(unresolved_mark),
+                )
+            },
             $name,
             $src
         );
@@ -383,7 +390,7 @@ test!(
             }),
             resolver(unresolved_mark, top_level_mark, false),
             strip(unresolved_mark, top_level_mark),
-            tr(),
+            tr(unresolved_mark),
         )
     },
     issue_898_2,
@@ -415,7 +422,7 @@ test!(
             }),
             resolver(unresolved_mark, top_level_mark, false),
             strip(unresolved_mark, top_level_mark),
-            tr(),
+            tr(unresolved_mark),
         )
     },
     issue_1111,
@@ -434,7 +441,10 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        (resolver(unresolved_mark, top_level_mark, false), tr())
+        (
+            resolver(unresolved_mark, top_level_mark, false),
+            tr(unresolved_mark),
+        )
     },
     issue_1150_1,
     "
@@ -479,7 +489,7 @@ test!(
                 },
                 unresolved_mark,
             ),
-            tr(),
+            tr(unresolved_mark),
         )
     },
     issue_1156_1,
@@ -518,7 +528,7 @@ test!(
                 },
                 unresolved_mark,
             ),
-            tr(),
+            tr(unresolved_mark),
         )
     },
     issue_1156_2,
@@ -564,7 +574,7 @@ test!(
         (
             resolver(unresolved_mark, top_level_mark, false),
             strip(unresolved_mark, top_level_mark),
-            tr(),
+            tr(unresolved_mark),
         )
     },
     issue_1156_3,
@@ -600,7 +610,7 @@ test!(
                 },
                 unresolved_mark,
             ),
-            tr(),
+            tr(unresolved_mark),
         )
     },
     issue_1156_4,

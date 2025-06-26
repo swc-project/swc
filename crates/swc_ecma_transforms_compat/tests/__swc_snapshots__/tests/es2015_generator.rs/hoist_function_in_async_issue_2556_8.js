@@ -2,15 +2,9 @@ var fib = function fib() {
     return 42;
 };
 function init() {
-    return _init.apply(this, arguments);
-}
-function _init() {
-    _init = _async_to_generator(function() {
+    return _async_to_generator(function() {
         function fib(n) {
-            return _fib.apply(this, arguments);
-        }
-        function _fib() {
-            _fib = _async_to_generator(function(n) {
+            return _async_to_generator(function() {
                 var x, y;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
@@ -39,8 +33,7 @@ function _init() {
                             ];
                     }
                 });
-            });
-            return _fib.apply(this, arguments);
+            })();
         }
         return _ts_generator(this, function(_state) {
             return [
@@ -48,6 +41,5 @@ function _init() {
                 fib
             ];
         });
-    });
-    return _init.apply(this, arguments);
+    })();
 }

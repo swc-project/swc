@@ -1,20 +1,20 @@
 {
-  "47": [
-    {
-      "kind": "Line",
-      "span": {
-        "start": 27,
-        "end": 47
-      },
-      "text": " Line comment\n"
-    }
-  ],
   "27": [
     {
       "kind": "Line",
       "span": {
         "start": 6,
         "end": 27
+      },
+      "text": " Line comment\n"
+    }
+  ],
+  "47": [
+    {
+      "kind": "Line",
+      "span": {
+        "start": 27,
+        "end": 47
       },
       "text": " Line comment\n"
     }

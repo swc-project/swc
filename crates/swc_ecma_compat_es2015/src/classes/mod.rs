@@ -2,6 +2,7 @@ use std::iter;
 
 use rustc_hash::FxBuildHasher;
 use serde::Deserialize;
+use swc_atoms::atom;
 use swc_common::{util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -564,8 +565,8 @@ impl Classes {
                 &mut stmts,
                 Lit::Str(Str {
                     span: DUMMY_SP,
-                    value: "use strict".into(),
-                    raw: Some("\"use strict\"".into()),
+                    value: atom!("use strict"),
+                    raw: Some(atom!("\"use strict\"")),
                 })
                 .into_stmt(),
             );
@@ -935,7 +936,7 @@ impl Classes {
     }
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+#[tracing::instrument(level = "debug", skip_all)]
 fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
     let mut class_name_sym = name.clone();
     class_name_sym.span = DUMMY_SP;
@@ -956,7 +957,7 @@ fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
 }
 
 /// Returns true if no `super` is used before `super()` call.
-#[tracing::instrument(level = "info", skip_all)]
+#[tracing::instrument(level = "debug", skip_all)]
 fn is_always_initialized(body: &[Stmt]) -> bool {
     struct SuperFinder {
         found: bool,

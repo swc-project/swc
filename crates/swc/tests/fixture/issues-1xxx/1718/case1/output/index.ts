@@ -1,22 +1,19 @@
 var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 var _ts_generator = require("@swc/helpers/_/_ts_generator");
 function scanUser(groups) {
-    return _scanUser.apply(this, arguments);
-}
-function _scanUser() {
-    _scanUser = _async_to_generator._(function(groups) {
+    return _async_to_generator._(function() {
         return _ts_generator._(this, function(_state) {
             switch(_state.label){
                 case 0:
                     return [
                         4,
-                        Promise.all(groups.map(/*#__PURE__*/ function() {
-                            var _ref = _async_to_generator._(function(param) {
-                                var users, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, user, err;
+                        Promise.all(groups.map(function(param) {
+                            var users = param.users;
+                            return _async_to_generator._(function() {
+                                var _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, user, err;
                                 return _ts_generator._(this, function(_state) {
                                     switch(_state.label){
                                         case 0:
-                                            users = param.users;
                                             _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
                                             _state.label = 1;
                                         case 1:
@@ -82,11 +79,8 @@ function _scanUser() {
                                             ];
                                     }
                                 });
-                            });
-                            return function(_) {
-                                return _ref.apply(this, arguments);
-                            };
-                        }()))
+                            })();
+                        }))
                     ];
                 case 1:
                     _state.sent();
@@ -95,8 +89,7 @@ function _scanUser() {
                     ];
             }
         });
-    });
-    return _scanUser.apply(this, arguments);
+    })();
 }
 scanUser([
     {

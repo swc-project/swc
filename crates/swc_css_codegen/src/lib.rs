@@ -6,6 +6,7 @@ pub use std::fmt::Result;
 use std::{borrow::Cow, str, str::from_utf8};
 
 use serde::{Deserialize, Serialize};
+use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_codegen_macros::emitter;
@@ -378,7 +379,7 @@ where
                     self,
                     AtRuleName::Ident(swc_css_ast::Ident {
                         span: n.span,
-                        value: "layer".into(),
+                        value: atom!("layer"),
                         raw: None
                     })
                 )

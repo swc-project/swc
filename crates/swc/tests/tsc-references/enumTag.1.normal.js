@@ -30,12 +30,9 @@
     /** @type {number} */ var num = s;
     /** @type {(n: number) => number} */ var fun = f;
     /** @type {Target} */ var v = Target.START;
-    v = Target.UNKNOWN // error, can't find 'UNKNOWN'
-    ;
-    v = Second.MISTAKE // meh..ok, I guess?
-    ;
-    v = 'something else' // allowed, like Typescript's classic enums and unlike its string enums
-    ;
+    v = Target.UNKNOWN; // error, can't find 'UNKNOWN'
+    v = Second.MISTAKE; // meh..ok, I guess?
+    v = 'something else'; // allowed, like Typescript's classic enums and unlike its string enums
 }
 /** @param {string} s */ function ff(s) {
     // element access with arbitrary string is an error only with noImplicitAny

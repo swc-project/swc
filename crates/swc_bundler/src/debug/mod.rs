@@ -17,7 +17,7 @@ pub(crate) fn print_hygiene(event: &str, cm: &Lrc<SourceMap>, t: &Module) {
     let stdout = stderr();
     let mut w = stdout.lock();
 
-    writeln!(w, "==================== @ {} ====================", event).unwrap();
+    writeln!(w, "==================== @ {event} ====================").unwrap();
     Emitter {
         cfg: swc_ecma_codegen::Config::default(),
         cm: cm.clone(),

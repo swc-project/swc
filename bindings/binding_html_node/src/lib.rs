@@ -6,16 +6,12 @@ mod util;
 use std::{backtrace::Backtrace, borrow::Cow, env, panic::set_hook};
 
 use anyhow::{bail, Context};
-use lightningcss::{
-    printer::PrinterOptions,
-    stylesheet::{ParserFlags, StyleSheet},
-    targets::Targets,
-};
+use lightningcss::{printer::PrinterOptions, stylesheet::StyleSheet, targets::Targets};
 use napi::{bindgen_prelude::*, Task};
 use serde::{Deserialize, Serialize};
 use swc_atoms::atom;
-use swc_cached::regex::CachedRegex;
 use swc_common::{sync::Lrc, FileName, FilePathMapping, SourceMap, DUMMY_SP};
+use swc_config::regex::CachedRegex;
 use swc_html::{
     ast::{DocumentMode, Namespace},
     codegen::{
@@ -406,7 +402,7 @@ impl MinifyCss for CssMinifier {
                                         span: Default::default(),
                                         name: swc_css_ast::AtRuleName::Ident(swc_css_ast::Ident {
                                             span: Default::default(),
-                                            value: "media".into(),
+                                            value: atom!("media"),
                                             raw: None,
                                         }),
                                         prelude: Some(
@@ -427,7 +423,7 @@ impl MinifyCss for CssMinifier {
                                             value: vec![swc_css_ast::ComponentValue::Str(
                                                 Box::new(swc_css_ast::Str {
                                                     span: Default::default(),
-                                                    value: "placeholder".into(),
+                                                    value: atom!("placeholder"),
                                                     raw: None,
                                                 }),
                                             )],
@@ -512,7 +508,7 @@ fn minify_inner(
                 None => FileName::Anon,
             };
 
-            let fm = cm.new_source_file(filename.into(), code.into());
+            let fm = cm.new_source_file(filename.into(), code.to_string());
 
             let scripting_enabled = opts.scripting_enabled;
             let mut errors = vec![];

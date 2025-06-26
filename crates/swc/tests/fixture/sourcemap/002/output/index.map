@@ -1,5 +1,5 @@
 {
-  "mappings": ";;AAAA,eAAe,SAASA,WAAW,KAAQ;QAAR,AAAEC,OAAF,MAAEA;IACjC,qBAAO,oBAACC,aAAKD,KAAKE,GAAG;AACzB;AAEA,gBAAsBC;WAAAA;;SAAAA;IAAAA,kBAAf,oBAAA;;YACH;;gBAAO;oBACHC,OAAO;wBACHJ,MAAM;4BACFE,KAAK;wBACT;oBACJ;gBACJ;;;IACJ;WARsBC",
+  "mappings": ";;AAAA,eAAe,SAASA,WAAW,KAAQ;QAAR,AAAEC,OAAF,MAAEA;IACjC,qBAAO,oBAACC,aAAKD,KAAKE,GAAG;AACzB;AAEA,OAAO,SAAeC;;;YAClB;;gBAAO;oBACHC,OAAO;wBACHJ,MAAM;4BACFE,KAAK;wBACT;oBACJ;gBACJ;;;IACJ",
   "names": [
     "StaticPage",
     "data",
@@ -9,7 +9,7 @@
     "props"
   ],
   "sources": [
-    "../../input/index.js"
+    "../input/index.js"
   ],
   "sourcesContent": [
     "export default function StaticPage({ data }) {\n    return <div>{data.foo}</div>;\n}\n\nexport async function getStaticProps() {\n    return {\n        props: {\n            data: {\n                foo: \"bar\",\n            },\n        },\n    };\n}\n"

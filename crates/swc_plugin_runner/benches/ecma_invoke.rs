@@ -10,6 +10,7 @@ use std::{
 };
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use rustc_hash::FxHashMap;
 #[cfg(feature = "__rkyv")]
 use swc_common::plugin::serialized::{PluginSerializedBytes, VersionedSerializable};
 use swc_common::{
@@ -33,7 +34,7 @@ fn plugin_group(c: &mut Criterion) {
         cmd.current_dir(&plugin_dir);
         cmd.arg("build")
             .arg("--release")
-            .arg("--target=wasm32-wasi");
+            .arg("--target=wasm32-wasip1");
 
         let status = cmd.status().unwrap();
         assert!(status.success());
@@ -45,7 +46,7 @@ fn plugin_group(c: &mut Criterion) {
 fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
     let path = &plugin_dir
         .join("target")
-        .join("wasm32-wasi")
+        .join("wasm32-wasip1")
         .join("release")
         .join("swc_noop_plugin.wasm");
     let raw_module_bytes = std::fs::read(path).expect("Should able to read plugin bytes");
@@ -94,6 +95,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                             "development".to_string(),
                             None,
                         )),
+                        None,
                         Box::new(plugin_module.clone()),
                         None,
                         None,

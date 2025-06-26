@@ -7,8 +7,8 @@ var obj = {
             platform: platform
         };
     },
-    byPlatform: /*#__PURE__*/ function() {
-        var _ref = _async_to_generator._(function(platform) {
+    byPlatform: function byPlatform(platform) {
+        return _async_to_generator._(function() {
             var result;
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
@@ -29,11 +29,8 @@ var obj = {
                         ];
                 }
             });
-        });
-        return function(platform) {
-            return _ref.apply(this, arguments);
-        };
-    }()
+        }).call(this);
+    }
 };
 obj.byPlatform("foo").then(function(v) {
     return console.log(v);

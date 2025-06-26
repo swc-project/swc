@@ -1,30 +1,30 @@
 //// [uniqueSymbolsDeclarationsErrors.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
-}), function(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: !0,
-        get: all[name]
-    });
-}(exports, {
-    ClassWithPrivateNamedAccessors: function() {
+});
+var target = exports, all = {
+    get ClassWithPrivateNamedAccessors () {
         return ClassWithPrivateNamedAccessors;
     },
-    ClassWithPrivateNamedMethods: function() {
+    get ClassWithPrivateNamedMethods () {
         return ClassWithPrivateNamedMethods;
     },
-    ClassWithPrivateNamedProperties: function() {
+    get ClassWithPrivateNamedProperties () {
         return ClassWithPrivateNamedProperties;
     },
-    classExpression: function() {
+    get classExpression () {
         return classExpression;
     },
-    funcInferredReturnType: function() {
+    get funcInferredReturnType () {
         return funcInferredReturnType;
     },
-    obj: function() {
+    get obj () {
         return obj;
     }
+};
+for(var name in all)Object.defineProperty(target, name, {
+    enumerable: !0,
+    get: Object.getOwnPropertyDescriptor(all, name).get
 });
 const obj = {
     method1: (p)=>p,

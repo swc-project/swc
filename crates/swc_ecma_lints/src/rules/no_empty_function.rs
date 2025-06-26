@@ -194,7 +194,7 @@ impl NoEmptyFunction {
                 target_type
             )
         } else {
-            format!("Unexpected empty {} pattern", target_type)
+            format!("Unexpected empty {target_type} pattern")
         };
 
         HANDLER.with(|handler| match self.expected_reaction {
