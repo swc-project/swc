@@ -600,10 +600,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         );
         let start = self.cur_pos();
 
-        unsafe {
-            self.input_mut().reset_to(start);
-        }
-
         let mut not_octal = false;
         let mut read_any = false;
 
