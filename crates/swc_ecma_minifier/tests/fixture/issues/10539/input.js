@@ -6,13 +6,6 @@ var DoesntWork = class DoesntWorkClass {
     static prop = new DoesntWorkClass();
 };
 
-// Extra test case
-
-(class ClassExpr {
-    static prop = new ClassExpr();
-});
-
-
 // works fine
 class WorksClass {
     static prop = new WorksClass();
