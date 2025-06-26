@@ -548,7 +548,7 @@ pub fn parse_ts_type_ann<'a, P: Parser<'a>>(
 
     p.in_type().parse_with(|p| {
         if eat_colon {
-            p.assert_and_bump(&P::Token::COLON)?;
+            p.assert_and_bump(&P::Token::COLON);
         }
 
         trace_cur!(p, parse_ts_type_ann__after_colon);
@@ -811,7 +811,7 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
             })
         };
         if has_type_pred_asserts {
-            p.assert_and_bump(&P::Token::ASSERTS)?;
+            p.assert_and_bump(&P::Token::ASSERTS);
             if p.input_mut().cur().is_none() {
                 return Err(eof_error(p));
             }
@@ -832,7 +832,7 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
 
         let type_pred_var = parse_ident_name(p)?;
         let type_ann = if has_type_pred_is {
-            p.assert_and_bump(&P::Token::IS)?;
+            p.assert_and_bump(&P::Token::IS);
             let pos = p.input_mut().cur_pos();
             Some(parse_ts_type_ann(
                 p, // eat_colon
@@ -990,10 +990,10 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
             raw: Some(new_raw.into()),
         })
     } else if cur.is_lbracket() {
-        p.assert_and_bump(&P::Token::LBRACKET)?;
+        p.assert_and_bump(&P::Token::LBRACKET);
         let _ = p.parse_expr()?;
         p.emit_err(p.span(start), SyntaxError::TS1164);
-        p.assert_and_bump(&P::Token::RBRACKET)?;
+        p.assert_and_bump(&P::Token::RBRACKET);
         TsEnumMemberId::Ident(Ident::new_no_ctxt(atom!(""), p.span(start)))
     } else if cur.is_error() {
         let c = p.input_mut().bump();
@@ -1073,7 +1073,7 @@ fn parse_ts_tpl_lit_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTplLitType> 
 
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::BACKQUOTE)?;
+    p.assert_and_bump(&P::Token::BACKQUOTE);
 
     let (types, quasis) = parse_ts_tpl_type_elements(p)?;
 
@@ -1216,7 +1216,7 @@ fn skip_ts_parameter_start<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool> {
 fn is_ts_unambiguously_start_of_fn_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool> {
     debug_assert!(p.input().syntax().typescript());
 
-    p.assert_and_bump(&P::Token::LPAREN)?;
+    p.assert_and_bump(&P::Token::LPAREN);
 
     if p.input_mut()
         .cur()
@@ -1262,7 +1262,7 @@ fn is_ts_unambiguously_index_signature<'a, P: Parser<'a>>(p: &mut P) -> PResult<
     debug_assert!(p.input().syntax().typescript());
 
     // Note: babel's comment is wrong
-    p.assert_and_bump(&P::Token::LBRACKET)?; // Skip '['
+    p.assert_and_bump(&P::Token::LBRACKET); // Skip '['
 
     // ',' is for error recovery
     Ok(p.eat_ident_ref()
@@ -2235,7 +2235,7 @@ pub fn parse_ts_type_assertion<'a, P: Parser<'a>>(
 /// `tsParseImportType`
 fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
     let start = p.cur_pos();
-    p.assert_and_bump(&P::Token::IMPORT)?;
+    p.assert_and_bump(&P::Token::IMPORT);
 
     expect!(p, &P::Token::LPAREN);
 
@@ -2301,7 +2301,7 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
 fn parse_ts_call_options<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportCallOptions> {
     debug_assert!(p.input().syntax().typescript());
     let start = p.cur_pos();
-    p.assert_and_bump(&P::Token::LBRACE)?;
+    p.assert_and_bump(&P::Token::LBRACE);
 
     expect!(p, &P::Token::WITH);
     expect!(p, &P::Token::COLON);
@@ -2735,11 +2735,11 @@ pub fn try_parse_ts_declare<'a, P: Parser<'a>>(
         }
 
         if p.input_mut().is(&P::Token::CONST) && peek!(p).is_some_and(|peek| peek.is_enum()) {
-            p.assert_and_bump(&P::Token::CONST)?;
+            p.assert_and_bump(&P::Token::CONST);
             let Some(_) = p.input_mut().cur() else {
                 return Err(eof_error(p));
             };
-            p.assert_and_bump(&P::Token::ENUM)?;
+            p.assert_and_bump(&P::Token::ENUM);
 
             return parse_ts_enum_decl(p, start, /* is_const */ true)
                 .map(|decl| TsEnumDecl {

@@ -73,7 +73,7 @@ pub fn parse_array_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
 
     let start = p.input_mut().cur_pos();
 
-    p.assert_and_bump(&P::Token::LBRACKET)?;
+    p.assert_and_bump(&P::Token::LBRACKET);
 
     let mut elems = Vec::with_capacity(8);
 
@@ -108,7 +108,7 @@ pub fn at_possible_async<'a, P: Parser<'a>>(p: &P, expr: &Expr) -> PResult<bool>
 
 fn parse_yield_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     let start = p.input_mut().cur_pos();
-    p.assert_and_bump(&P::Token::YIELD)?;
+    p.assert_and_bump(&P::Token::YIELD);
     debug_assert!(p.ctx().contains(Context::InGenerator));
 
     // Spec says
@@ -189,7 +189,7 @@ fn parse_tpl<'a, P: Parser<'a>>(p: &mut P, is_tagged_tpl: bool) -> PResult<Tpl> 
     trace_cur!(p, parse_tpl);
     let start = p.input_mut().cur_pos();
 
-    p.assert_and_bump(&P::Token::BACKQUOTE)?;
+    p.assert_and_bump(&P::Token::BACKQUOTE);
 
     let (exprs, quasis) = parse_tpl_elements(p, is_tagged_tpl)?;
 
@@ -586,7 +586,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
     if p.input().syntax().typescript() {
         if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::BANG) {
             p.input_mut().set_expr_allowed(false);
-            p.assert_and_bump(&P::Token::BANG)?;
+            p.assert_and_bump(&P::Token::BANG);
 
             let expr = match obj {
                 Callee::Super(..) => {
@@ -1643,7 +1643,7 @@ pub fn parse_await_expr<'a, P: Parser<'a>>(
     let start = start_of_await_token.unwrap_or_else(|| p.cur_pos());
 
     if start_of_await_token.is_none() {
-        p.assert_and_bump(&P::Token::AWAIT)?;
+        p.assert_and_bump(&P::Token::AWAIT);
     }
 
     let await_token = p.span(start);
@@ -1911,7 +1911,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                 if peek!(p).is_some_and(|peek| {
                     peek.is_comma() || peek.is_equal() || peek.is_rparen() || peek.is_colon()
                 }) {
-                    p.assert_and_bump(&P::Token::QUESTION)?;
+                    p.assert_and_bump(&P::Token::QUESTION);
                     p.input_mut().cur();
                     if arg.spread.is_some() {
                         p.emit_err(p.input().prev_span(), SyntaxError::TS1047);
@@ -1939,7 +1939,6 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                         spread: None,
                         expr: CondExpr {
                             span: Span::new(start, alt.span_hi()),
-
                             test,
                             cons,
                             alt,
@@ -2531,7 +2530,7 @@ pub fn try_parse_async_start<'a, P: Parser<'a>>(
         // try parsing `async<T>() => {}`
         if let Some(res) = try_parse_ts(p, |p| {
             let start = p.cur_pos();
-            p.assert_and_bump(&P::Token::ASYNC)?;
+            p.assert_and_bump(&P::Token::ASYNC);
             try_parse_ts_generic_async_arrow_fn(p, start)
         }) {
             return Some(Ok(res.into()));

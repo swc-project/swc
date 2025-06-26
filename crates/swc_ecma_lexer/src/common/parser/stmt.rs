@@ -89,7 +89,7 @@ pub fn parse_return_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let start = p.cur_pos();
 
     let stmt = p.parse_with(|p| {
-        p.assert_and_bump(&P::Token::RETURN)?;
+        p.assert_and_bump(&P::Token::RETURN);
 
         let arg = if p.is_general_semi() {
             None
@@ -333,7 +333,7 @@ pub fn parse_using_decl<'a, P: Parser<'a>>(
         return Ok(None);
     }
 
-    p.assert_and_bump(&P::Token::USING)?;
+    p.assert_and_bump(&P::Token::USING);
 
     let mut decls = Vec::new();
     loop {
@@ -528,7 +528,7 @@ pub fn parse_for_head<'a, P: Parser<'a>>(p: &mut P) -> PResult<TempForHead> {
 fn parse_for_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::FOR)?;
+    p.assert_and_bump(&P::Token::FOR);
     let await_start = p.cur_pos();
     let await_token = if p.input_mut().eat(&P::Token::AWAIT) {
         Some(p.span(await_start))
@@ -608,7 +608,7 @@ fn adjust_if_else_clause<'a, P: Parser<'a>>(p: &mut P, cur: &mut IfStmt, alt: Bo
 fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::IF)?;
+    p.assert_and_bump(&P::Token::IF);
     let if_token = p.input().prev_span();
 
     expect!(p, &P::Token::LPAREN);
@@ -706,7 +706,7 @@ fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
 fn parse_throw_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::THROW)?;
+    p.assert_and_bump(&P::Token::THROW);
 
     if p.input_mut().had_line_break_before_cur() {
         // TODO: Suggest throw arg;
@@ -733,7 +733,7 @@ fn parse_with_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::WITH)?;
+    p.assert_and_bump(&P::Token::WITH);
 
     expect!(p, &P::Token::LPAREN);
     let obj = p.include_in_expr(true).parse_expr()?;
@@ -749,7 +749,7 @@ fn parse_with_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 fn parse_while_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::WHILE)?;
+    p.assert_and_bump(&P::Token::WHILE);
 
     expect!(p, &P::Token::LPAREN);
     let test = p.include_in_expr(true).parse_expr()?;
@@ -800,7 +800,7 @@ fn parse_catch_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Pat>> {
 fn parse_do_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::DO)?;
+    p.assert_and_bump(&P::Token::DO);
 
     let ctx = (p.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed) & !Context::TopLevel;
     let body = parse_stmt(p.with_ctx(ctx).deref_mut()).map(Box::new)?;
@@ -913,7 +913,7 @@ fn parse_catch_clause<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<CatchClaus
 
 fn parse_try_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let start = p.cur_pos();
-    p.assert_and_bump(&P::Token::TRY)?;
+    p.assert_and_bump(&P::Token::TRY);
 
     let block = parse_block(p, false)?;
 
@@ -938,7 +938,7 @@ fn parse_try_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let switch_start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::SWITCH)?;
+    p.assert_and_bump(&P::Token::SWITCH);
 
     expect!(p, &P::Token::LPAREN);
     let discriminant = p.include_in_expr(true).parse_expr()?;
@@ -1084,8 +1084,8 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
         && p.input_mut().is(&P::Token::CONST)
         && peek!(p).is_some_and(|peek| peek.is_enum())
     {
-        p.assert_and_bump(&P::Token::CONST)?;
-        p.assert_and_bump(&P::Token::ENUM)?;
+        p.assert_and_bump(&P::Token::CONST);
+        p.assert_and_bump(&P::Token::ENUM);
         return parse_ts_enum_decl(p, start, true)
             .map(Decl::from)
             .map(Stmt::from);
@@ -1107,7 +1107,7 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
 
         if peek!(p).is_some_and(|peek| peek.is_using()) {
             let eaten_await = Some(p.input_mut().cur_pos());
-            p.assert_and_bump(&P::Token::AWAIT)?;
+            p.assert_and_bump(&P::Token::AWAIT);
             let v = parse_using_decl(p, start, true)?;
             if let Some(v) = v {
                 return Ok(v.into());

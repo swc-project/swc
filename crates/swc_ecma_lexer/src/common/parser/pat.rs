@@ -416,7 +416,7 @@ pub fn parse_binding_pat_or_ident<'a, P: Parser<'a>>(
 pub fn parse_array_binding_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::LBRACKET)?;
+    p.assert_and_bump(&P::Token::LBRACKET);
 
     let mut elems = Vec::new();
 
