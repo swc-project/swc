@@ -135,13 +135,16 @@ pub mod unstable {
     //!
     //! Although it's marked as unstable, we can ensure that we will not
     //! introduce too many breaking changes. And we also encourage the
-    //! applications to migrate to the lexer and tokens in the respect to
+    //! applications to migrate to the lexer and tokens in terms of
     //! the performance.
     //!
     //! Also see the dicussion https://github.com/swc-project/swc/discussions/10683
     pub use swc_ecma_lexer::common::lexer::token::TokenFactory;
 
-    pub use crate::lexer::token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
+    pub use crate::lexer::{
+        capturing::Capturing,
+        token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue},
+    };
 }
 
 pub mod lexer;

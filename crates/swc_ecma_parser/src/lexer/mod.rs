@@ -24,6 +24,8 @@ use crate::{
     Context, Syntax,
 };
 
+#[cfg(feature = "unstable")]
+pub(crate) mod capturing;
 mod state;
 mod table;
 pub(crate) mod token;
