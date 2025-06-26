@@ -8,6 +8,72 @@ use Value::Known;
 
 use super::Pure;
 
+/// Concatenates two strings with Unicode surrogate pair awareness.
+/// Handles cases where the first string ends with a Unicode escape sequence
+/// (like \uD83D) and the second string starts with a Unicode escape sequence
+/// (like \uDE00) that together form a valid Unicode surrogate pair.
+fn concat_unicode_aware(left: &str, right: &str) -> String {
+    // Fast path for empty strings
+    if left.is_empty() {
+        return right.to_string();
+    }
+    if right.is_empty() {
+        return left.to_string();
+    }
+
+    // Check if left ends with \uXXXX and right starts with \uXXXX
+    let left_unicode_pattern = if left.len() >= 6 && left.ends_with("\\ude00") {
+        None // Invalid pattern, \ude00 should be second
+    } else if left.len() >= 6 {
+        let suffix = &left[left.len() - 6..];
+        if let Some(hex_part) = suffix.strip_prefix("\\u") {
+            if hex_part.len() == 4 && hex_part.chars().all(|c| c.is_ascii_hexdigit()) {
+                u32::from_str_radix(hex_part, 16).ok()
+            } else {
+                None
+            }
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    let right_unicode_pattern = if right.len() >= 6 && right.starts_with("\\u") {
+        let hex_part = &right[2..6];
+        if hex_part.len() == 4 && hex_part.chars().all(|c| c.is_ascii_hexdigit()) {
+            u32::from_str_radix(hex_part, 16).ok()
+        } else {
+            None
+        }
+    } else {
+        None
+    };
+
+    // Check if we have a high surrogate followed by a low surrogate
+    if let (Some(high), Some(low)) = (left_unicode_pattern, right_unicode_pattern) {
+        if (0xd800..=0xdbff).contains(&high) && (0xdc00..=0xdfff).contains(&low) {
+            // Combine the surrogate pair into a single Unicode code point
+            let high_offset = high - 0xd800;
+            let low_offset = low - 0xdc00;
+            let code_point = 0x10000 + (high_offset << 10) + low_offset;
+
+            if let Some(combined_char) = char::from_u32(code_point) {
+                // Build result: left without the \uXXXX + combined char + right without the
+                // \uXXXX
+                let mut result = String::new();
+                result.push_str(&left[..left.len() - 6]); // Remove \uXXXX from end
+                result.push(combined_char);
+                result.push_str(&right[6..]); // Remove \uXXXX from beginning
+                return result;
+            }
+        }
+    }
+
+    // Fallback to simple concatenation
+    format!("{left}{right}")
+}
+
 impl Pure<'_> {
     /// This only handles `'foo' + ('bar' + baz) because others are handled by
     /// expression simplifier.
@@ -44,7 +110,7 @@ impl Pure<'_> {
             self.changed = true;
             report_change!("evaluate: 'foo' + ('bar' + baz) => 'foobar' + baz");
 
-            let s = lls.into_owned() + &*rls;
+            let s = concat_unicode_aware(&lls, &rls);
             *e = BinExpr {
                 span,
                 op: op!(bin, "+"),
@@ -495,7 +561,7 @@ impl Pure<'_> {
                         if let Value::Known(second_str) = left.right.as_pure_string(self.expr_ctx) {
                             if let Value::Known(third_str) = bin.right.as_pure_string(self.expr_ctx)
                             {
-                                let new_str = format!("{second_str}{third_str}");
+                                let new_str = concat_unicode_aware(&second_str, &third_str);
                                 let left_span = left.span;
 
                                 self.changed = true;

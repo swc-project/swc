@@ -988,6 +988,36 @@ fn issue_9630() {
     );
 }
 
+#[test]
+fn issue_10353_1() {
+    test_from_to_custom_config(
+        r#"console.log("\\uD83D");"#,
+        r#"console.log("\\uD83D")"#,
+        Config {
+            ascii_only: false,
+            target: EsVersion::Es2020,
+            minify: true,
+            ..Default::default()
+        },
+        Syntax::default(),
+    );
+}
+
+#[test]
+fn issue_10353_2() {
+    test_from_to_custom_config(
+        r#"console.log("\\uD83D\\uDE42");"#,
+        r#"console.log("\\uD83D\\uDE42")"#,
+        Config {
+            ascii_only: false,
+            target: EsVersion::Es2020,
+            minify: true,
+            ..Default::default()
+        },
+        Syntax::default(),
+    );
+}
+
 #[testing::fixture("tests/str-lits/**/*.txt")]
 fn test_str_lit(input: PathBuf) {
     test_str_lit_inner(input)
