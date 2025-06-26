@@ -1,9 +1,6 @@
 //// [destructuringVariableDeclaration1ES5.ts]
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
-var tmp = {
-    b11: "world"
-};
 (void 0 === tmp ? {
     b11: "string"
 } : tmp).b11;
