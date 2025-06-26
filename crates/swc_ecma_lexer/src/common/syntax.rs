@@ -33,13 +33,7 @@ impl Syntax {
     }
 
     pub fn import_attributes(self) -> bool {
-        match self {
-            Syntax::Es(EsSyntax {
-                import_attributes, ..
-            }) => import_attributes,
-            #[cfg(feature = "typescript")]
-            Syntax::Typescript(_) => true,
-        }
+        true
     }
 
     /// Should we parse jsx?
@@ -211,7 +205,8 @@ pub struct EsSyntax {
     #[serde(default)]
     pub export_default_from: bool,
 
-    /// Stage 3.
+    /// Stage 4
+    /// Always true in swc
     #[serde(default, alias = "importAssertions")]
     pub import_attributes: bool,
 
