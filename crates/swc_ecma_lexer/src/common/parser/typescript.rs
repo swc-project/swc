@@ -348,7 +348,9 @@ pub fn parse_ts_modifier<'a, P: Parser<'a>>(
         return Ok(None);
     }
     let pos = {
-        let cur = cur!(p, true);
+        let Some(cur) = p.input_mut().cur() else {
+            return Err(eof_error(p));
+        };
         let modifier = if cur.is_unknown_ident() {
             cur.clone().take_unknown_ident_ref(p.input_mut()).clone()
         } else if cur.is_known_ident() {
@@ -357,6 +359,10 @@ pub fn parse_ts_modifier<'a, P: Parser<'a>>(
             atom!("in")
         } else if cur.is_const() {
             atom!("const")
+        } else if cur.is_error() {
+            let c = p.input_mut().bump();
+            let err = c.take_error(p.input_mut());
+            return Err(err);
         } else {
             return Ok(None);
         };
@@ -959,7 +965,9 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
     let start = p.cur_pos();
     // Computed property names are grammar errors in an enum, so accept just string
     // literal or identifier.
-    let cur = cur!(p, true);
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
     let id = if cur.is_str() {
         TsEnumMemberId::Str(parse_str_lit(p))
     } else if cur.is_num() {
@@ -987,6 +995,10 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
         p.emit_err(p.span(start), SyntaxError::TS1164);
         p.assert_and_bump(&P::Token::RBRACKET)?;
         TsEnumMemberId::Ident(Ident::new_no_ctxt(atom!(""), p.span(start)))
+    } else if cur.is_error() {
+        let c = p.input_mut().bump();
+        let err = c.take_error(p.input_mut());
+        return Err(err);
     } else {
         parse_ident_name(p)
             .map(Ident::from)
@@ -1334,8 +1346,15 @@ fn parse_ts_external_module_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsExter
     let start = p.cur_pos();
     expect!(p, &P::Token::REQUIRE);
     expect!(p, &P::Token::LPAREN);
-    let cur = cur!(p, true);
-    if !cur.is_str() {
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
+
+    if cur.is_error() {
+        let c = p.input_mut().bump();
+        let err = c.take_error(p.input_mut());
+        return Err(err);
+    } else if !cur.is_str() {
         unexpected!(p, "a string literal")
     }
     let expr = parse_str_lit(p);
@@ -1948,9 +1967,16 @@ fn parse_ts_property_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<(bool, Box<Ex
         let ctx = p.ctx() | Context::InPropertyName;
         p.with_ctx(ctx).parse_with(|p| {
             // We check if it's valid for it to be a private name when we push it.
-            let cur = cur!(p, true);
+            let Some(cur) = p.input_mut().cur() else {
+                return Err(eof_error(p));
+            };
+
             let key = if cur.is_num() || cur.is_str() {
                 parse_new_expr(p)
+            } else if cur.is_error() {
+                let c = p.input_mut().bump();
+                let err = c.take_error(p.input_mut());
+                return Err(err);
             } else {
                 parse_maybe_private_name(p).map(|e| match e {
                     Either::Left(e) => {
@@ -2213,9 +2239,16 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
 
     expect!(p, &P::Token::LPAREN);
 
-    let cur = cur!(p, true);
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
+
     let arg = if cur.is_str() {
         parse_str_lit(p)
+    } else if cur.is_error() {
+        let c = p.input_mut().bump();
+        let err = c.take_error(p.input_mut());
+        return Err(err);
     } else {
         let arg_span = p.input().cur_span();
         p.bump();
@@ -2389,7 +2422,7 @@ fn parse_ts_ambient_external_module_decl<'a, P: Parser<'a>>(
     let (global, id) = if p.input_mut().is(&P::Token::GLOBAL) {
         let id = parse_ident_name(p)?;
         (true, TsModuleName::Ident(id.into()))
-    } else if cur!(p, true).is_str() {
+    } else if p.input_mut().cur().is_some_and(|cur| cur.is_str()) {
         let id = TsModuleName::Str(parse_str_lit(p));
         (false, id)
     } else {
@@ -2423,7 +2456,9 @@ fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>>
 
     let start = p.cur_pos();
 
-    let cur = cur!(p, true);
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
     if cur.is_known_ident()
         || cur.is_unknown_ident()
         || cur.is_void()
@@ -2498,7 +2533,9 @@ fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>>
 
         p.bump();
 
-        let cur = cur!(p, true);
+        let Some(cur) = p.input_mut().cur() else {
+            return Err(eof_error(p));
+        };
         if !(cur.is_num() || cur.is_bigint()) {
             unexpected!(p, "numeric literal or bigint literal")
         }
@@ -2699,7 +2736,9 @@ pub fn try_parse_ts_declare<'a, P: Parser<'a>>(
 
         if p.input_mut().is(&P::Token::CONST) && peek!(p).is_some_and(|peek| peek.is_enum()) {
             p.assert_and_bump(&P::Token::CONST)?;
-            let _ = cur!(p, true);
+            let Some(_) = p.input_mut().cur() else {
+                return Err(eof_error(p));
+            };
             p.assert_and_bump(&P::Token::ENUM)?;
 
             return parse_ts_enum_decl(p, start, /* is_const */ true)
@@ -2738,8 +2777,7 @@ pub fn try_parse_ts_declare<'a, P: Parser<'a>>(
                 .map(Decl::from)
                 .map(make_decl_declare)
                 .map(Some);
-        } else if p.input_mut().cur().is_some_and(|cur| cur.is_word()) {
-            let cur = cur!(p, true);
+        } else if let Some(cur) = p.input_mut().cur().filter(|cur| cur.is_word()) {
             let value = cur.clone().take_word(p.input_mut()).unwrap();
             return parse_ts_decl(p, start, decorators, value, /* next */ true)
                 .map(|v| v.map(make_decl_declare));
@@ -2823,11 +2861,17 @@ fn parse_ts_decl<'a, P: Parser<'a>>(
                 p.bump();
             }
 
-            let cur = cur!(p, true);
+            let Some(cur) = p.input_mut().cur() else {
+                return Err(eof_error(p));
+            };
             if cur.is_str() {
                 return parse_ts_ambient_external_module_decl(p, start)
                     .map(From::from)
                     .map(Some);
+            } else if cur.is_error() {
+                let c = p.input_mut().bump();
+                let err = c.take_error(p.input_mut());
+                return Err(err);
             } else if next || p.is_ident_ref() {
                 return parse_ts_module_or_ns_decl(p, start, false)
                     .map(From::from)

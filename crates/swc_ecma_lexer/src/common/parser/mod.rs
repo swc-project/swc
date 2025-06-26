@@ -278,7 +278,7 @@ pub trait Parser<'a>: Sized + Clone {
             "assertion failed: expected {token:?}, got {:?}",
             self.input_mut().cur()
         );
-        let _ = cur!(self, true);
+        let _ = self.input_mut().cur();
         self.bump();
         Ok(())
     }
@@ -324,7 +324,9 @@ pub trait Parser<'a>: Sized + Clone {
 
     fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         let start = self.cur_pos();
-        let cur = cur!(self, true);
+        let Some(cur) = self.input_mut().cur() else {
+            return Err(eof_error(self));
+        };
         let (raw, cooked) = if cur.is_template() {
             let cur = self.bump();
             let (cooked, raw) = cur.take_template(self.input_mut());
@@ -356,7 +358,9 @@ pub trait Parser<'a>: Sized + Clone {
         let ctx = self.ctx() | Context::InPropertyName;
         self.with_ctx(ctx).parse_with(|p| {
             let start = p.input_mut().cur_pos();
-            let cur = cur!(p, true);
+            let Some(cur) = p.input_mut().cur() else {
+                return Err(eof_error(p));
+            };
             let v = if cur.is_str() {
                 PropName::Str(parse_str_lit(p))
             } else if cur.is_num() {

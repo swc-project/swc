@@ -11,6 +11,7 @@ use crate::{
         lexer::token::TokenFactory,
         parser::{
             buffer::Buffer,
+            eof_error,
             expr::{parse_assignment_expr, parse_str_lit},
             get_qualified_jsx_name,
             ident::parse_ident_ref,
@@ -64,7 +65,7 @@ pub fn parse_jsx_expr_container<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXExpr
 fn parse_jsx_ident<'a, P: Parser<'a>>(p: &mut P) -> PResult<Ident> {
     debug_assert!(p.input().syntax().jsx());
     trace_cur!(p, parse_jsx_ident);
-    if cur!(p, true).is_jsx_name() {
+    if p.input_mut().cur().is_some_and(|cur| cur.is_jsx_name()) {
         let t = p.bump();
         let name = t.take_jsx_name(p.input_mut());
         let span = p.input().prev_span();
@@ -161,7 +162,9 @@ fn parse_jsx_attr_value<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrValue> {
 
     let start = p.cur_pos();
 
-    let cur = cur!(p, true);
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
     if cur.is_lbrace() {
         let node = parse_jsx_expr_container(p)?;
         jsx_expr_container_to_jsx_attr_value(p, start, node)
@@ -315,7 +318,14 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
 ) -> PResult<Either<JSXFragment, JSXElement>> {
     debug_assert!(p.input().syntax().jsx());
 
-    let _ = cur!(p, true);
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
+    if cur.is_error() {
+        let c = p.input_mut().bump();
+        let err = c.take_error(p.input_mut());
+        return Err(err);
+    }
     let start = p.cur_pos();
     let cur = p.bump();
     let forced_jsx_context = if cur.is_less() {
@@ -344,12 +354,16 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
 
         if !self_closing {
             'contents: loop {
-                let cur = cur!(p, true);
+                let Some(cur) = p.input_mut().cur() else {
+                    return Err(eof_error(p));
+                };
                 if cur.is_jsx_tag_start() {
                     let start = p.cur_pos();
                     if peek!(p).is_some_and(|peek| peek.is_slash()) {
                         p.bump(); // JSXTagStart
-                        let _ = cur!(p, true);
+                        let Some(_) = p.input_mut().cur() else {
+                            return Err(eof_error(p));
+                        };
                         p.assert_and_bump(&P::Token::DIV)?;
                         closing_element = parse_jsx_closing_element_at(p, start).map(Some)?;
                         break 'contents;
@@ -429,10 +443,10 @@ pub(crate) fn parse_jsx_element<'a, P: Parser<'a>>(
     trace_cur!(p, parse_jsx_element);
 
     debug_assert!(p.input().syntax().jsx());
-    debug_assert!({
-        let cur = cur!(p, true);
-        cur.is_jsx_tag_start() || cur.is_less()
-    });
+    debug_assert!(p
+        .input_mut()
+        .cur()
+        .is_some_and(|cur| cur.is_jsx_tag_start() || cur.is_less()));
 
     let start_pos = p.cur_pos();
 

@@ -485,7 +485,15 @@ pub fn parse_for_head<'a, P: Parser<'a>>(p: &mut P) -> PResult<TempForHead> {
             decls: vec![decl],
         });
 
-        cur!(p, true);
+        let Some(cur) = p.input_mut().cur() else {
+            return Err(eof_error(p));
+        };
+
+        if cur.is_error() {
+            let c = p.input_mut().bump();
+            let err = c.take_error(p.input_mut());
+            return Err(err);
+        }
 
         return parse_for_each_head(p, ForHead::UsingDecl(pat));
     }
@@ -1084,7 +1092,11 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
     }
 
     let top_level = p.ctx().contains(Context::TopLevel);
-    let cur = cur!(p, true).clone();
+
+    let Some(cur) = p.input_mut().cur().cloned() else {
+        return Err(eof_error(p));
+    };
+
     if cur.is_await() && (include_decl || top_level) {
         if top_level {
             p.mark_found_module_item();
@@ -1244,6 +1256,10 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
             false,
         )
         .map(Stmt::Block);
+    } else if cur.is_error() {
+        let c = p.input_mut().bump();
+        let err = c.take_error(p.input_mut());
+        return Err(err);
     }
 
     if p.input_mut().eat(&P::Token::SEMI) {
