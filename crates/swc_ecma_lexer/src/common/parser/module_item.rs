@@ -348,7 +348,7 @@ fn parse_export<'a, P: Parser<'a>>(
     }
 
     let start = p.cur_pos();
-    p.assert_and_bump(&P::Token::EXPORT)?;
+    p.assert_and_bump(&P::Token::EXPORT);
 
     let Some(cur) = p.input_mut().cur() else {
         return Err(eof_error(p));
@@ -395,7 +395,7 @@ fn parse_export<'a, P: Parser<'a>>(
                 p.input_mut().is(&P::Token::TYPE) && peek!(p).is_some_and(|p| p.is_word());
 
             if is_type_only {
-                p.assert_and_bump(&P::Token::TYPE)?;
+                p.assert_and_bump(&P::Token::TYPE);
             }
 
             let id = parse_ident_name(p)?;
@@ -461,7 +461,7 @@ fn parse_export<'a, P: Parser<'a>>(
                 && !p.input_mut().has_linebreak_between_cur_and_peeked()
             {
                 let class_start = p.cur_pos();
-                p.assert_and_bump(&P::Token::ABSTRACT)?;
+                p.assert_and_bump(&P::Token::ABSTRACT);
                 let Some(cur) = p.input_mut().cur() else {
                     return Err(eof_error(p));
                 };
@@ -478,12 +478,12 @@ fn parse_export<'a, P: Parser<'a>>(
                 && peek!(p).is_some_and(|cur| cur.is_interface())
             {
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1242);
-                p.assert_and_bump(&P::Token::ABSTRACT)?;
+                p.assert_and_bump(&P::Token::ABSTRACT);
             }
 
             if p.input_mut().is(&P::Token::INTERFACE) {
                 let interface_start = p.cur_pos();
-                p.assert_and_bump(&P::Token::INTERFACE)?;
+                p.assert_and_bump(&P::Token::INTERFACE);
                 let decl = parse_ts_interface_decl(p, interface_start).map(DefaultDecl::from)?;
                 return Ok(ExportDefaultDecl {
                     span: p.span(start),
@@ -551,11 +551,11 @@ fn parse_export<'a, P: Parser<'a>>(
         && peek!(p).is_some_and(|cur| cur.is_enum())
     {
         let enum_start = p.cur_pos();
-        p.assert_and_bump(&P::Token::CONST)?;
+        p.assert_and_bump(&P::Token::CONST);
         let Some(_) = p.input_mut().cur() else {
             return Err(eof_error(p));
         };
-        p.assert_and_bump(&P::Token::ENUM)?;
+        p.assert_and_bump(&P::Token::ENUM);
         return parse_ts_enum_decl(p, enum_start, /* is_const */ true)
             .map(Decl::from)
             .map(|decl| {
@@ -604,7 +604,7 @@ fn parse_export<'a, P: Parser<'a>>(
             && p.input_mut().is(&P::Token::MUL)
             && !peek!(p).is_some_and(|cur| cur.is_as())
         {
-            p.assert_and_bump(&P::Token::MUL)?;
+            p.assert_and_bump(&P::Token::MUL);
 
             // improve error message for `export * from foo`
             let (src, with) = parse_from_clause_and_semi(p)?;
@@ -635,7 +635,7 @@ fn parse_export<'a, P: Parser<'a>>(
             && p.input_mut().is(&P::Token::COMMA)
             && peek!(p).is_some_and(|cur| cur.is_star())
         {
-            p.assert_and_bump(&P::Token::COMMA)?;
+            p.assert_and_bump(&P::Token::COMMA);
 
             has_ns = true;
         }
@@ -646,7 +646,7 @@ fn parse_export<'a, P: Parser<'a>>(
         }
 
         if has_ns {
-            p.assert_and_bump(&P::Token::MUL)?;
+            p.assert_and_bump(&P::Token::MUL);
             expect!(p, &P::Token::AS);
             let name = parse_module_export_name(p)?;
             specifiers.push(ExportSpecifier::Namespace(ExportNamespaceSpecifier {

@@ -272,7 +272,7 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     #[inline(always)]
-    fn assert_and_bump(&mut self, token: &Self::Token) -> PResult<()> {
+    fn assert_and_bump(&mut self, token: &Self::Token) {
         debug_assert!(
             self.input_mut().is(token),
             "assertion failed: expected {token:?}, got {:?}",
@@ -280,7 +280,6 @@ pub trait Parser<'a>: Sized + Clone {
         );
         let _ = self.input_mut().cur();
         self.bump();
-        Ok(())
     }
 
     fn check_assign_target(&mut self, expr: &Expr, deny_call: bool) {

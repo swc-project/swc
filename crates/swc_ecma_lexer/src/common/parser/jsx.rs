@@ -364,7 +364,7 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
                         let Some(_) = p.input_mut().cur() else {
                             return Err(eof_error(p));
                         };
-                        p.assert_and_bump(&P::Token::DIV)?;
+                        p.assert_and_bump(&P::Token::DIV);
                         closing_element = parse_jsx_closing_element_at(p, start).map(Some)?;
                         break 'contents;
                     }

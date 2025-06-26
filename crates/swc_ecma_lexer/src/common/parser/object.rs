@@ -34,7 +34,7 @@ fn parse_object<'a, P: Parser<'a>, Object, ObjectProp>(
 
         let start = p.cur_pos();
         let mut trailing_comma = None;
-        p.assert_and_bump(&P::Token::LBRACE)?;
+        p.assert_and_bump(&P::Token::LBRACE);
 
         let mut props = Vec::with_capacity(8);
 

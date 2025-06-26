@@ -130,7 +130,7 @@ fn parse_decorator<'a, P: Parser<'a>>(p: &mut P) -> PResult<Decorator> {
     let start = p.cur_pos();
     trace_cur!(p, parse_decorator);
 
-    p.assert_and_bump(&P::Token::AT)?;
+    p.assert_and_bump(&P::Token::AT);
 
     let expr = if p.input_mut().eat(&P::Token::LPAREN) {
         let expr = p.parse_expr()?;
@@ -374,7 +374,7 @@ fn parse_fn_inner<'a, P: Parser<'a>>(
     is_ident_required: bool,
 ) -> PResult<(Option<Ident>, Box<Function>)> {
     let start = start_of_async.unwrap_or_else(|| p.cur_pos());
-    p.assert_and_bump(&P::Token::FUNCTION)?;
+    p.assert_and_bump(&P::Token::FUNCTION);
     let is_async = start_of_async.is_some();
 
     let is_generator = p.input_mut().eat(&P::Token::MUL);
@@ -705,7 +705,7 @@ fn make_property<'a, P: Parser<'a>>(
     let ctx = p.ctx() | Context::IncludeInExpr | Context::InClassField;
     p.with_ctx(ctx).parse_with(|p| {
         let value = if p.input_mut().is(&P::Token::EQUAL) {
-            p.assert_and_bump(&P::Token::EQUAL)?;
+            p.assert_and_bump(&P::Token::EQUAL);
             Some(parse_assignment_expr(p)?)
         } else {
             None
@@ -979,9 +979,9 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
             if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
                 let start = p.cur_pos();
                 if peek!(p).is_some_and(|cur| cur.is_less()) {
-                    p.assert_and_bump(&P::Token::LESS)?;
+                    p.assert_and_bump(&P::Token::LESS);
                     let start2 = p.cur_pos();
-                    p.assert_and_bump(&P::Token::GREATER)?;
+                    p.assert_and_bump(&P::Token::GREATER);
 
                     p.emit_err(p.span(start), SyntaxError::TS1098);
                     p.emit_err(p.span(start2), SyntaxError::TS1092);

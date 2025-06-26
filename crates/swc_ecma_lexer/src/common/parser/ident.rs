@@ -56,7 +56,7 @@ pub fn parse_maybe_private_name<'a, P: Parser<'a>>(
 
 pub fn parse_private_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<PrivateName> {
     let start = p.cur_pos();
-    p.assert_and_bump(&P::Token::HASH)?;
+    p.assert_and_bump(&P::Token::HASH);
     let hash_end = p.input().prev_span().hi;
     if p.input_mut().cur_pos() - hash_end != BytePos(0) {
         syntax_error!(p, p.span(start), SyntaxError::SpaceBetweenHashAndIdent);
