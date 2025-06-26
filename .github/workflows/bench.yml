@@ -8,6 +8,7 @@ on:
     types: ["opened", "reopened", "synchronize"]
 
 concurrency:
+  # Do not block on main branch
   group: ${{ github.event_name == 'pull_request' && format('{0}-{1}', github.workflow, github.event.pull_request.number) || format('{0}-{1}-{2}', github.workflow, github.ref_name, github.run_id) }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
