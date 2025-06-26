@@ -5002,7 +5002,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "29.1.4"
+version = "29.2.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5521,7 +5521,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "17.0.4"
+version = "17.0.5"
 dependencies = [
  "arrayvec",
  "ascii",
@@ -5654,7 +5654,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "17.0.3"
+version = "17.1.0"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -6114,7 +6114,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "18.0.0"
+version = "18.0.1"
 dependencies = [
  "indexmap 2.7.1",
  "num_cpus",
