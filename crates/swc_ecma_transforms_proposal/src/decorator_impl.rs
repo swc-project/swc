@@ -46,11 +46,12 @@ impl DecoratorTransform {
                     init_vars.push(init_id.clone());
 
                     // Create element descriptor [decorator, kind, name]
+                    let kind_value = if prop.is_static { 5.0 } else { 0.0 }; // STATIC + FIELD = 5, FIELD = 0
                     let element_desc = ArrayLit {
                         span: DUMMY_SP,
                         elems: vec![
                             Some(prop.decorators[0].expr.clone().as_arg()),
-                            Some(Lit::Num(Number { span: DUMMY_SP, value: 0.0, raw: None }).as_arg()), // FIELD = 0
+                            Some(Lit::Num(Number { span: DUMMY_SP, value: kind_value, raw: None }).as_arg()),
                             Some(match &prop.key {
                                 PropName::Ident(id) => Expr::Lit(Lit::Str(Str {
                                     span: DUMMY_SP,
@@ -87,6 +88,117 @@ impl DecoratorTransform {
                     })));
 
                     new_members.push(ClassMember::ClassProp(prop));
+                }
+                ClassMember::PrivateProp(mut prop) if !prop.decorators.is_empty() => {
+                    has_decorators = true;
+                    
+                    let key_name = prop.key.name.to_string();
+                    let init_var = format!("_init_{}", key_name);
+                    let init_id = Ident::new(init_var.as_str().into(), DUMMY_SP, Default::default());
+                    init_vars.push(init_id.clone());
+
+                    // Create getter function
+                    let getter_fn = FnExpr {
+                        ident: None,
+                        function: Box::new(Function {
+                            params: vec![],
+                            decorators: vec![],
+                            span: DUMMY_SP,
+                            ctxt: Default::default(),
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                ctxt: Default::default(),
+                                stmts: vec![Stmt::Return(ReturnStmt {
+                                    span: DUMMY_SP,
+                                    arg: Some(Box::new(Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                                        prop: MemberProp::PrivateName(prop.key.clone()),
+                                    }))),
+                                })],
+                            }),
+                            is_generator: false,
+                            is_async: false,
+                            type_params: None,
+                            return_type: None,
+                        }),
+                    };
+
+                    // Create setter function
+                    let setter_fn = FnExpr {
+                        ident: None,
+                        function: Box::new(Function {
+                            params: vec![Param {
+                                span: DUMMY_SP,
+                                decorators: vec![],
+                                pat: Pat::Ident(BindingIdent {
+                                    id: Ident::new("value".into(), DUMMY_SP, Default::default()),
+                                    type_ann: None,
+                                }),
+                            }],
+                            decorators: vec![],
+                            span: DUMMY_SP,
+                            ctxt: Default::default(),
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                ctxt: Default::default(),
+                                stmts: vec![Stmt::Expr(ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: Box::new(Expr::Assign(AssignExpr {
+                                        span: DUMMY_SP,
+                                        op: AssignOp::Assign,
+                                        left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                                            prop: MemberProp::PrivateName(prop.key.clone()),
+                                        })),
+                                        right: Box::new(Expr::Ident(Ident::new("value".into(), DUMMY_SP, Default::default()))),
+                                    })),
+                                })],
+                            }),
+                            is_generator: false,
+                            is_async: false,
+                            type_params: None,
+                            return_type: None,
+                        }),
+                    };
+
+                    // Create element descriptor [decorator, kind, name, getter, setter]
+                    let kind_value = if prop.is_static { 5.0 } else { 0.0 }; // STATIC + FIELD = 5, FIELD = 0
+                    let element_desc = ArrayLit {
+                        span: DUMMY_SP,
+                        elems: vec![
+                            Some(prop.decorators[0].expr.clone().as_arg()),
+                            Some(Lit::Num(Number { span: DUMMY_SP, value: kind_value, raw: None }).as_arg()),
+                            Some(Expr::Lit(Lit::Str(Str {
+                                span: DUMMY_SP,
+                                value: prop.key.name.clone(),
+                                raw: None,
+                            })).as_arg()),
+                            Some(getter_fn.as_arg()),
+                            Some(setter_fn.as_arg()),
+                        ],
+                    };
+                    element_decs.push(element_desc.as_arg());
+
+                    // Transform field to use initializer
+                    prop.decorators.clear();
+                    let original_value = prop.value.take();
+                    
+                    let mut init_args = vec![Expr::This(ThisExpr { span: DUMMY_SP }).as_arg()];
+                    if let Some(value) = original_value {
+                        init_args.push((*value).as_arg());
+                    }
+                    
+                    prop.value = Some(Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        ctxt: Default::default(),
+                        callee: init_id.as_callee(),
+                        args: init_args,
+                        type_args: None,
+                    })));
+
+                    new_members.push(ClassMember::PrivateProp(prop));
                 }
                 ClassMember::AutoAccessor(accessor) => {
                     // Transform auto-accessor to getter/setter
