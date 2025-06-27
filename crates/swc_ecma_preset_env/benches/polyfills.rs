@@ -81,6 +81,18 @@ fn bench_cases(c: &mut Criterion) {
 
         run(b, SOURCE, Default::default())
     });
+
+    c.bench_function("es/preset-env/entry/import", |b| {
+        const SOURCE: &str = r#"
+        import {} from "aaa.js";
+        "#;
+
+        let config = Config {
+            mode: Some(swc_ecma_preset_env::Mode::Entry),
+            ..Default::default()
+        };
+        run(b, SOURCE, config)
+    });
 }
 
 criterion_group!(benches, bench_cases);
