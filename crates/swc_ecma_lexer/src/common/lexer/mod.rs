@@ -627,28 +627,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         })
     }
 
-    /// Read an integer in the given radix. Return `None` if zero digits
-    /// were read, the integer value otherwise.
-    /// When `len` is not zero, this
-    /// will return `None` unless the integer has exactly `len` digits.
-    fn read_int<const RADIX: u8>(&mut self, len: u8) -> LexResult<Option<f64>> {
-        let mut count = 0u16;
-        let v = self.read_digits::<_, Option<f64>, RADIX>(
-            |opt: Option<f64>, radix, val| {
-                count += 1;
-                let total = opt.unwrap_or_default() * radix as f64 + val as f64;
-
-                Ok((Some(total), count != len as u16))
-            },
-            true,
-        )?;
-        if len != 0 && count != len as u16 {
-            Ok(None)
-        } else {
-            Ok(v)
-        }
-    }
-
     /// Reads an integer, octal integer, or floating-point number
     fn read_number(
         &mut self,
@@ -744,7 +722,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             debug_assert!(!starts_with_dot || self.cur().is_some_and(|cur| cur.is_ascii_digit()));
 
             // Read numbers after dot
-            self.read_int::<10>(0)?;
+            self.read_digits::<_, (), 10>(|_, _, _| Ok(((), true)), true)?;
         }
 
         let has_e = self.cur().is_some_and(|c| c == 'e' || c == 'E');
