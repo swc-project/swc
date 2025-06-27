@@ -6,13 +6,11 @@ use crate::{decorators, DecoratorVersion};
 
 pub(crate) fn decorator_impl(version: DecoratorVersion) -> impl Pass {
     match version {
-        // Legacy decorator version - use existing implementation
         DecoratorVersion::V202112 => Either::Left(decorators(decorators::Config {
             legacy: false,
             emit_metadata: false,
             use_define_for_class_fields: false,
         })),
-        // Newer versions - use apply_decs based implementation
         DecoratorVersion::V202203 => Either::Right(Either::Left(fold_pass(ApplyDecsPass {
             version,
             accessor_counter: 0,
@@ -229,9 +227,9 @@ impl ApplyDecsPass {
 
     fn create_apply_decs_call(&self, element_locals: Vec<Ident>, class_locals: Vec<Ident>, element_decorations: Expr, class_decorations: Expr) -> Stmt {
         let helper_name = match self.version {
+            DecoratorVersion::V202112 => helper!(apply_decs_2203_r), // Use 2203_r as fallback for 2021-12
             DecoratorVersion::V202203 => helper!(apply_decs_2203_r),
             DecoratorVersion::V202311 => helper!(apply_decs_2311), 
-            _ => helper!(apply_decs_2203_r), // fallback
         };
 
         // Create destructuring assignment for locals
@@ -278,15 +276,24 @@ impl ApplyDecsPass {
             }.into()
         };
 
+        let args = match self.version {
+            DecoratorVersion::V202112 => vec![
+                ThisExpr { span: DUMMY_SP }.as_arg(),
+                class_decorations.as_arg(),
+                element_decorations.as_arg(),
+            ],
+            _ => vec![
+                ThisExpr { span: DUMMY_SP }.as_arg(),
+                element_decorations.as_arg(),  // element decorations first
+                class_decorations.as_arg(),    // class decorations second
+            ]
+        };
+
         let rhs = CallExpr {
             span: DUMMY_SP,
             ctxt: SyntaxContext::empty(),
             callee: helper_name,
-            args: vec![
-                ThisExpr { span: DUMMY_SP }.as_arg(),
-                element_decorations.as_arg(),  // element decorations first
-                class_decorations.as_arg(),    // class decorations second
-            ],
+            args,
             type_args: None,
         };
 
@@ -300,11 +307,11 @@ impl ApplyDecsPass {
             })),
         })
     }
-}
 
-impl ApplyDecsPass {
-    fn collect_decorator_variables(&self, class: &Class) -> Vec<Ident> {
-        let mut vars = Vec::new();
+    fn collect_decorator_variables(&self, class: &Class) -> (Vec<Ident>, Vec<Ident>, Vec<Ident>) {
+        let mut element_vars = Vec::new();
+        let mut class_vars = Vec::new();
+        let mut class_replacement_vars = Vec::new();
         
         // Collect element variables
         for member in &class.body {
@@ -314,15 +321,36 @@ impl ApplyDecsPass {
                         PropName::Ident(ident) => self.generate_unique_ident(&format!("_init_{}", ident.sym)),
                         _ => self.generate_unique_ident("_init_field"),
                     };
-                    vars.push(init_id);
+                    element_vars.push(init_id);
+                }
+                ClassMember::PrivateProp(prop) if !prop.decorators.is_empty() => {
+                    let init_id = self.generate_unique_ident(&format!("_init_{}", prop.key.name));
+                    element_vars.push(init_id);
                 }
                 ClassMember::AutoAccessor(accessor) if !accessor.decorators.is_empty() => {
-                    let init_id = match &accessor.key {
-                        Key::Public(PropName::Ident(ident)) => self.generate_unique_ident(&format!("_init_{}", ident.sym)),
-                        Key::Private(private_name) => self.generate_unique_ident(&format!("_init_{}", private_name.name)),
-                        _ => self.generate_unique_ident("_init_accessor"),
+                    let base_name = match &accessor.key {
+                        Key::Public(PropName::Ident(ident)) => ident.sym.to_string(),
+                        Key::Private(private_name) => private_name.name.to_string(),
+                        _ => "accessor".to_string(),
                     };
-                    vars.push(init_id);
+                    let init_id = self.generate_unique_ident(&format!("_init_{}", base_name));
+                    let get_id = self.generate_unique_ident(&format!("_get_{}", base_name));
+                    let set_id = self.generate_unique_ident(&format!("_set_{}", base_name));
+                    element_vars.extend([init_id, get_id, set_id]);
+                }
+                ClassMember::Method(method) if !method.function.decorators.is_empty() => {
+                    if method.kind == MethodKind::Getter || method.kind == MethodKind::Setter {
+                        let base_name = match &method.key {
+                            PropName::Ident(ident) => ident.sym.to_string(),
+                            _ => "method".to_string(),
+                        };
+                        let call_id = self.generate_unique_ident(&format!("_call_{}", base_name));
+                        element_vars.push(call_id);
+                    }
+                }
+                ClassMember::PrivateMethod(method) if !method.function.decorators.is_empty() => {
+                    let call_id = self.generate_unique_ident(&format!("_call_{}", method.key.name));
+                    element_vars.push(call_id);
                 }
                 _ => {}
             }
@@ -330,12 +358,11 @@ impl ApplyDecsPass {
         
         // Collect class variables
         if !class.decorators.is_empty() {
-            // Add class variable for class replacement (like _C)
-            vars.push(self.generate_unique_ident("_C"));
-            vars.push(self.generate_unique_ident("_initClass"));
+            class_replacement_vars.push(self.generate_unique_ident("_C"));
+            class_vars.push(self.generate_unique_ident("_initClass"));
         }
         
-        vars
+        (element_vars, class_vars, class_replacement_vars)
     }
 }
 
@@ -343,42 +370,20 @@ impl Fold for ApplyDecsPass {
     noop_fold_type!();
 
     fn fold_module(&mut self, mut module: Module) -> Module {
-        let mut element_vars = Vec::new();
-        let mut class_vars = Vec::new();
-        let mut class_replacement_vars = Vec::new();
+        let mut all_element_vars = Vec::new();
+        let mut all_class_vars = Vec::new();
+        let mut all_class_replacement_vars = Vec::new();
         
         // First pass: collect all decorator variables needed
         for item in &module.body {
             match item {
                 ModuleItem::Stmt(Stmt::Decl(Decl::Class(class_decl))) => {
                     if has_decorators(&class_decl.class) || has_auto_accessors(&class_decl.class) {
-                        // Collect element variables
-                        for member in &class_decl.class.body {
-                            match member {
-                                ClassMember::ClassProp(prop) if !prop.decorators.is_empty() => {
-                                    let init_id = match &prop.key {
-                                        PropName::Ident(ident) => self.generate_unique_ident(&format!("_init_{}", ident.sym)),
-                                        _ => self.generate_unique_ident("_init_field"),
-                                    };
-                                    element_vars.push(init_id);
-                                }
-                                ClassMember::AutoAccessor(accessor) if !accessor.decorators.is_empty() => {
-                                    let init_id = match &accessor.key {
-                                        Key::Public(PropName::Ident(ident)) => self.generate_unique_ident(&format!("_init_{}", ident.sym)),
-                                        Key::Private(private_name) => self.generate_unique_ident(&format!("_init_{}", private_name.name)),
-                                        _ => self.generate_unique_ident("_init_accessor"),
-                                    };
-                                    element_vars.push(init_id);
-                                }
-                                _ => {}
-                            }
-                        }
-                        
-                        // Collect class variables
-                        if !class_decl.class.decorators.is_empty() {
-                            class_replacement_vars.push(self.generate_unique_ident("_C"));
-                            class_vars.push(self.generate_unique_ident("_initClass"));
-                        }
+                        let (element_vars, class_vars, class_replacement_vars) = 
+                            self.collect_decorator_variables(&class_decl.class);
+                        all_element_vars.extend(element_vars);
+                        all_class_vars.extend(class_vars);
+                        all_class_replacement_vars.extend(class_replacement_vars);
                     }
                 }
                 _ => {}
@@ -386,10 +391,10 @@ impl Fold for ApplyDecsPass {
         }
         
         // Add variable declarations at the top if needed
-        if !element_vars.is_empty() || !class_vars.is_empty() {
-            // Add the main var declaration for element and class init vars (reverse order to match expected)
-            let mut main_vars = class_vars;  // class vars first
-            main_vars.extend(element_vars);  // then element vars
+        if !all_element_vars.is_empty() || !all_class_vars.is_empty() {
+            // Add the main var declaration for element and class init vars
+            let mut main_vars = all_class_vars;  // class vars first
+            main_vars.extend(all_element_vars);  // then element vars
             
             if !main_vars.is_empty() {
                 let var_decl = Stmt::Decl(Decl::Var(Box::new(VarDecl {
@@ -413,7 +418,7 @@ impl Fold for ApplyDecsPass {
         let mut transformed_module = module.fold_children_with(self);
         
         // After transformation, add let declarations for class replacement vars just before the class
-        if !class_replacement_vars.is_empty() {
+        if !all_class_replacement_vars.is_empty() {
             // Find the class declaration and insert let declaration before it
             for (i, item) in transformed_module.body.iter().enumerate() {
                 if let ModuleItem::Stmt(Stmt::Decl(Decl::Class(_))) = item {
@@ -422,7 +427,7 @@ impl Fold for ApplyDecsPass {
                         ctxt: SyntaxContext::empty(),
                         kind: VarDeclKind::Let,
                         declare: false,
-                        decls: class_replacement_vars.into_iter().map(|id| VarDeclarator {
+                        decls: all_class_replacement_vars.into_iter().map(|id| VarDeclarator {
                             span: DUMMY_SP,
                             name: id.into(),
                             init: None,
@@ -471,9 +476,14 @@ impl Fold for ApplyDecsPass {
                         };
 
                         // Generate locals for accessor decorator
-                        let init_id = self.generate_unique_ident(&format!("_init_{}", element_locals.len()));
-                        let get_id = self.generate_unique_ident(&format!("_get_{}", element_locals.len()));
-                        let set_id = self.generate_unique_ident(&format!("_set_{}", element_locals.len()));
+                        let base_name = match &accessor.key {
+                            Key::Public(PropName::Ident(ident)) => ident.sym.to_string(),
+                            Key::Private(private_name) => private_name.name.to_string(),
+                            _ => "accessor".to_string(),
+                        };
+                        let init_id = self.generate_unique_ident(&format!("_init_{}", base_name));
+                        let get_id = self.generate_unique_ident(&format!("_get_{}", base_name));
+                        let set_id = self.generate_unique_ident(&format!("_set_{}", base_name));
                         element_locals.extend([init_id.clone(), get_id, set_id]);
 
                         decorator_infos.push(DecoratorInfo {
@@ -541,6 +551,19 @@ impl Fold for ApplyDecsPass {
                             _ => quote_str!("method").into(),
                         };
 
+                        let mut locals = vec![];
+                        
+                        // For getters and setters, we need call locals
+                        if method.kind == MethodKind::Getter || method.kind == MethodKind::Setter {
+                            let base_name = match &method.key {
+                                PropName::Ident(ident) => ident.sym.to_string(),
+                                _ => "method".to_string(),
+                            };
+                            let call_id = self.generate_unique_ident(&format!("_call_{}", base_name));
+                            element_locals.push(call_id.clone());
+                            locals.push(call_id);
+                        }
+
                         decorator_infos.push(DecoratorInfo {
                             decorators_array,
                             decorators_have_this,
@@ -548,7 +571,7 @@ impl Fold for ApplyDecsPass {
                             is_static,
                             name,
                             private_methods: None,
-                            locals: vec![],
+                            locals,
                         });
                         
                         method.function.decorators = Vec::new();
@@ -563,6 +586,9 @@ impl Fold for ApplyDecsPass {
                         
                         let name = quote_str!(method.key.name.as_str()).into();
 
+                        let call_id = self.generate_unique_ident(&format!("_call_{}", method.key.name));
+                        element_locals.push(call_id.clone());
+
                         decorator_infos.push(DecoratorInfo {
                             decorators_array,
                             decorators_have_this,
@@ -570,7 +596,7 @@ impl Fold for ApplyDecsPass {
                             is_static,
                             name,
                             private_methods: None,
-                            locals: vec![],
+                            locals: vec![call_id],
                         });
                         
                         method.function.decorators = Vec::new();
@@ -585,7 +611,7 @@ impl Fold for ApplyDecsPass {
                         
                         let name = quote_str!(prop.key.name.as_str()).into();
 
-                        let init_id = self.generate_unique_ident(&format!("_init_{}", element_locals.len()));
+                        let init_id = self.generate_unique_ident(&format!("_init_{}", prop.key.name));
                         element_locals.push(init_id.clone());
 
                         decorator_infos.push(DecoratorInfo {
