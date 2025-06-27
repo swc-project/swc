@@ -270,7 +270,7 @@ impl crate::input::Tokens for Lexer<'_> {
                 format!("{}{}", token.to_string(None), v)
             };
             self.atom(v)
-        } else if token.is_known_ident() {
+        } else if token.is_known_ident() || token.is_keyword() {
             self.atom(token.to_string(None))
         } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
             value
