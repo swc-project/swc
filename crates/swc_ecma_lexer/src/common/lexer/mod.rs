@@ -1134,26 +1134,31 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         op(self, &mut buf)
     }
 
-    fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
+    fn read_unicode_escape(&mut self) -> LexResult<Char> {
         debug_assert_eq!(self.cur(), Some('u'));
-
-        let mut chars = Vec::with_capacity(4);
-        let mut is_curly = false;
 
         self.bump(); // 'u'
 
-        if self.eat(b'{') {
-            is_curly = true;
-        }
+        let is_curly = self.eat(b'{');
 
-        let state = self.input().cur_pos();
         let c = match self.read_int_u32::<16>(if is_curly { 0 } else { 4 }) {
             Ok(Some(val)) => {
-                if 0x0010_ffff >= val {
-                    char::from_u32(val)
+                if val <= 0x0010_ffff {
+                    char::from_u32(val).ok_or_else(|| {
+                        let start = self.cur_pos();
+                        crate::error::Error::new(
+                            pos_span(start),
+                            SyntaxError::BadCharacterEscapeSequence {
+                                expected: if is_curly {
+                                    "1-6 hex characters in the range 0 to 10FFFF."
+                                } else {
+                                    "4 hex characters"
+                                },
+                            },
+                        )
+                    })?
                 } else {
                     let start = self.cur_pos();
-
                     self.error(
                         start,
                         SyntaxError::BadCharacterEscapeSequence {
@@ -1168,7 +1173,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             }
             _ => {
                 let start = self.cur_pos();
-
                 self.error(
                     start,
                     SyntaxError::BadCharacterEscapeSequence {
@@ -1182,54 +1186,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             }
         };
 
-        match c {
-            Some(c) => {
-                chars.push(c.into());
-            }
-            _ => {
-                unsafe {
-                    // Safety: state is valid position because we got it from cur_pos()
-                    self.input_mut().reset_to(state);
-                }
-
-                chars.push(Char::from('\\'));
-                chars.push(Char::from('u'));
-
-                if is_curly {
-                    chars.push(Char::from('{'));
-
-                    for _ in 0..6 {
-                        if let Some(c) = self.input().cur() {
-                            if c == '}' {
-                                break;
-                            }
-
-                            self.bump();
-
-                            chars.push(Char::from(c));
-                        } else {
-                            break;
-                        }
-                    }
-
-                    chars.push(Char::from('}'));
-                } else {
-                    for _ in 0..4 {
-                        if let Some(c) = self.input().cur() {
-                            self.bump();
-
-                            chars.push(Char::from(c));
-                        }
-                    }
-                }
-            }
-        }
-
         if is_curly && !self.eat(b'}') {
-            self.error(state, SyntaxError::InvalidUnicodeEscape)?
+            let start = self.cur_pos();
+            self.error(start, SyntaxError::InvalidUnicodeEscape)?
         }
 
-        Ok(chars)
+        Ok(c.into())
     }
 
     #[cold]
@@ -1359,9 +1321,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     match self.read_escaped_char(true) {
                         Ok(Some(chars)) => {
                             if let Ok(ref mut cooked) = cooked {
-                                for c in chars {
-                                    cooked.extend(c);
-                                }
+                                cooked.extend(chars);
                             }
                         }
                         Ok(None) => {}
@@ -1380,7 +1340,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// Read an escaped character for string literal.
     ///
     /// In template literal, we should preserve raw string.
-    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<Vec<Char>>> {
+    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<Char>> {
         debug_assert_eq!(self.cur(), Some('\\'));
 
         let start = self.cur_pos();
@@ -1418,7 +1378,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.bump(); // 'x'
 
                 match self.read_int_u32::<16>(2)? {
-                    Some(val) => return Ok(Some(vec![Char::from(val)])),
+                    Some(val) => return Ok(Some(Char::from(val))),
                     None => self.error(
                         start,
                         SyntaxError::BadCharacterEscapeSequence {
@@ -1429,10 +1389,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             }
 
             // read unicode escape sequences
-            'u' => match self.read_unicode_escape() {
-                Ok(chars) => return Ok(Some(chars)),
-                Err(err) => self.error(start, err.into_kind())?,
-            },
+            'u' => {
+                let c = self.read_unicode_escape()?;
+                return Ok(Some(c));
+            }
 
             // octal escape sequences
             '0'..='7' => {
@@ -1442,7 +1402,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     match self.cur() {
                         Some(next) if next.is_digit(8) => c,
                         // \0 is not an octal literal nor decimal literal.
-                        _ => return Ok(Some(vec!['\u{0000}'.into()])),
+                        _ => return Ok(Some('\u{0000}'.into())),
                     }
                 } else {
                     c
@@ -1469,7 +1429,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                                         .and_then(|value| value.checked_add(v as u8));
                                     match new_val {
                                         Some(val) => val,
-                                        None => return Ok(Some(vec![Char::from(value as char)])),
+                                        None => return Ok(Some(Char::from(value as char))),
                                     }
                                 } else {
                                     value * 8 + v as u8
@@ -1477,7 +1437,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                                 self.bump();
                             }
-                            _ => return Ok(Some(vec![Char::from(value as u32)])),
+                            _ => return Ok(Some(Char::from(value as u32))),
                         }
                     }};
                 }
@@ -1485,7 +1445,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 one!(false);
                 one!(true);
 
-                return Ok(Some(vec![Char::from(value as char)]));
+                return Ok(Some(Char::from(value as char)));
             }
             _ => c,
         };
@@ -1495,7 +1455,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.input_mut().bump();
         }
 
-        Ok(Some(vec![c.into()]))
+        Ok(Some(c.into()))
     }
 
     /// Expects current char to be '/'
@@ -1710,23 +1670,19 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             }
                         }
 
-                        let chars = l.read_unicode_escape()?;
+                        let c = l.read_unicode_escape()?;
 
-                        if let Some(c) = chars.first() {
-                            let valid = if first {
-                                c.is_ident_start()
-                            } else {
-                                c.is_ident_part()
-                            };
+                        let valid = if first {
+                            c.is_ident_start()
+                        } else {
+                            c.is_ident_part()
+                        };
 
-                            if !valid {
-                                l.emit_error(start, SyntaxError::InvalidIdentChar);
-                            }
+                        if !valid {
+                            l.emit_error(start, SyntaxError::InvalidIdentChar);
                         }
 
-                        for c in chars {
-                            buf.extend(c);
-                        }
+                        buf.extend(c);
 
                         slice_start = l.cur_pos();
                         continue;
@@ -2085,9 +2041,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         }
 
                         if let Some(chars) = l.read_escaped_char(false)? {
-                            for c in chars {
-                                buf.extend(c);
-                            }
+                            buf.extend(chars);
                         }
 
                         slice_start = l.cur_pos();

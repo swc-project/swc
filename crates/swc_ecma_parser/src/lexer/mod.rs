@@ -405,9 +405,7 @@ impl Lexer<'_> {
                 match self.read_escaped_char(true) {
                     Ok(Some(chars)) => {
                         if let Ok(ref mut cooked) = cooked {
-                            for c in chars {
-                                cooked.extend(c);
-                            }
+                            cooked.extend(chars);
                         }
                     }
                     Ok(None) => {}
