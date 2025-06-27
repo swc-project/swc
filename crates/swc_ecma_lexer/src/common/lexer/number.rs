@@ -31,13 +31,25 @@ fn parse_integer_from_hex(s: &str) -> f64 {
     debug_assert!(s.chars().all(|c| c.is_ascii_hexdigit()));
     const MAX_FAST_INT_LEN: usize = MAX_SAFE_INT.ilog(16) as usize;
     if s.len() > MAX_FAST_INT_LEN {
+        // Hex digit character representations:
+        //   b'0'==0x30, b'1'==0x31 ... b'9'==0x39  → low nibble: 0x0-0x9
+        //   b'A'==0x41, b'B'==0x42 ... b'F'==0x46  → low nibble: 0x1-0x6
+        //   b'a'==0x61, b'b'==0x62 ... b'f'==0x66  → low nibble: 0x1-0x6
+        //
+        // Conversion requires only the low 4 bits:
+        //   digit_char & 0x0F gives base value:
+        //     - For '0'-'9': direct value (0-9)
+        //     - For 'A'-'F'/'a'-'f': offset base (1-6)
+        //   Add 9 for alphabetic chars: (low_nibble + 9) → 0xA-0xF
+        //
+        // Example: (b'A' & 0x0f) + 9 == 0x1 + 9 == 0xA
         s.as_bytes().iter().fold(0f64, |res, &cur| {
             res.mul_add(
                 16.,
-                if cur < b'a' {
-                    cur - b'0'
+                if cur < b'A' {
+                    cur & 0xf
                 } else {
-                    cur - b'a' + 10
+                    (cur & 0xf) + 9
                 } as f64,
             )
         })
