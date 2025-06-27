@@ -8,9 +8,9 @@ new class extends _identity {
     static{
         class Foo {
             static{
-                ({ c: [_Foo, _initClass]  } = _apply_decs_2203_r(this, [], [
+                [_Foo, _initClass] = _apply_decs_2203_r(this, [], [
                     dec
-                ]));
+                ]).c;
             }
             static foo = new _Foo();
         }

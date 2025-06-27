@@ -2,7 +2,7 @@ var _init_a, _init_b;
 const dec = ()=>{};
 class Foo {
     static{
-        ({ e: [_init_a, _init_b]  } = _apply_decs_2203_r(this, [
+        [_init_a, _init_b] = _apply_decs_2203_r(this, [
             [
                 dec,
                 5,
@@ -25,7 +25,7 @@ class Foo {
                     this.#b = value;
                 }
             ]
-        ], []));
+        ], []).e;
     }
     static #a = _init_a(this);
     static #b = _init_b(this, 123);
