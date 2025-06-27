@@ -134,12 +134,8 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Pa
     for plugin in &options_json.plugins {
         match plugin {
             BabelPluginEntry::NameOnly(name) => match &**name {
-                "proposal-class-properties" => {
-                    add!(swc_ecma_transforms_compat::es2022::static_blocks());
                 "proposal-class-properties" | "transform-class-properties" => {
-                    add!(swc_ecma_transforms_compat::es2022::static_blocks(
-                        static_block_mark
-                    ));
+                    add!(swc_ecma_transforms_compat::es2022::static_blocks());
                     add!(swc_ecma_transforms_compat::es2022::class_properties(
                         Default::default(),
                         unresolved_mark
@@ -155,12 +151,8 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Pa
                     continue;
                 }
 
-                "proposal-class-static-block" => {
-                    add!(swc_ecma_transforms_compat::es2022::static_blocks());
                 "proposal-class-static-block" | "transform-class-static-block" => {
-                    add!(swc_ecma_transforms_compat::es2022::static_blocks(
-                        static_block_mark
-                    ));
+                    add!(swc_ecma_transforms_compat::es2022::static_blocks());
                     continue;
                 }
                 _ => {
