@@ -10,8 +10,11 @@ use swc_common::{
 };
 use swc_ecma_ast::{AssignOp, EsVersion};
 
-pub use self::state::{TokenContext, TokenContexts, TokenFlags, TokenType};
 use self::table::{ByteHandler, BYTE_HANDLERS};
+pub use self::{
+    state::{TokenContext, TokenContexts, TokenFlags, TokenType},
+    table::{create_fn_table, TrieMap, MAX_KNOWN_IDENT_LEN},
+};
 use crate::{
     common::{
         lexer::{
