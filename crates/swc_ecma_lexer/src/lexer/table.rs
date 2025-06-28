@@ -15,6 +15,40 @@ use crate::{
     token::{BinOpToken, IdentLike, Keyword, KnownIdent, Token, Word},
 };
 
+pub const MAX_KNOWN_IDENT_LEN: usize = 16;
+pub const fn create_fn_table(list: &[&str]) -> [bool; MAX_KNOWN_IDENT_LEN] {
+    let mut table = [false; MAX_KNOWN_IDENT_LEN];
+    let mut index = 0;
+    while index < list.len() {
+        let item = list[index];
+        let len = item.len();
+        if len >= MAX_KNOWN_IDENT_LEN || len == 0 {
+            unreachable!()
+        }
+        table[len] = true;
+        index += 1;
+    }
+    table
+}
+
+#[macro_export]
+macro_rules! known_ident_convert {
+    ( $s:expr, $($name:literal => $variant:expr),* ) => {{
+        static LEN_TABLE: [bool; MAX_KNOWN_IDENT_LEN] = create_fn_table(
+            &[$($name,)*]
+        );
+        if $s.len() >= MAX_KNOWN_IDENT_LEN || !LEN_TABLE[$s.len()] {
+            None
+        } else {
+            debug_assert!($s.len() > 0);
+            match $s {
+                $($name => Some($variant),)*
+                _ => None,
+            }
+        }
+    }};
+}
+
 pub(super) type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<Token>>>;
 
 /// Lookup table mapping any incoming byte to a handler function defined below.
@@ -64,283 +98,259 @@ const ERR: ByteHandler = Some(|lexer| {
 const IDN: ByteHandler = Some(|lexer| lexer.read_ident_unknown().map(Some));
 
 const L_A: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "abstract" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Abstract,
-        )))),
-        "as" => Some(Token::Word(Word::Ident(IdentLike::Known(KnownIdent::As)))),
-        "await" => Some(Token::Word(Word::Keyword(Keyword::Await))),
-        "async" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Async,
-        )))),
-        "assert" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Assert,
-        )))),
-        "asserts" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Asserts,
-        )))),
-        "any" => Some(Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Any)))),
-        "accessor" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Accessor,
-        )))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "abstract" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Abstract))),
+            "as" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::As))),
+            "await" => Token::Word(Word::Keyword(Keyword::Await)),
+            "async" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Async))),
+            "assert" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Assert))),
+            "asserts" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Asserts))),
+            "any" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Any))),
+            "accessor" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Accessor)))
+        );
+        token
     })
 });
 
 const L_B: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "break" => Some(Token::Word(Word::Keyword(Keyword::Break))),
-        "boolean" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Boolean,
-        )))),
-        "bigint" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Bigint,
-        )))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "break" => Token::Word(Word::Keyword(Keyword::Break)),
+            "boolean" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Boolean))),
+            "bigint" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Bigint)))
+        );
+        token
     })
 });
 
 const L_C: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "case" => Some(Token::Word(Word::Keyword(Keyword::Case))),
-        "catch" => Some(Token::Word(Word::Keyword(Keyword::Catch))),
-        "class" => Some(Token::Word(Word::Keyword(Keyword::Class))),
-        "const" => Some(Token::Word(Word::Keyword(Keyword::Const))),
-        "continue" => Some(Token::Word(Word::Keyword(Keyword::Continue))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "case" => Token::Word(Word::Keyword(Keyword::Case)),
+            "catch" => Token::Word(Word::Keyword(Keyword::Catch)),
+            "class" => Token::Word(Word::Keyword(Keyword::Class)),
+            "const" => Token::Word(Word::Keyword(Keyword::Const)),
+            "continue" => Token::Word(Word::Keyword(Keyword::Continue))
+        );
+        token
     })
 });
 
 const L_D: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "debugger" => Some(Token::Word(Word::Keyword(Keyword::Debugger))),
-        "default" => Some(Token::Word(Word::Keyword(Keyword::Default_))),
-        "delete" => Some(Token::Word(Word::Keyword(Keyword::Delete))),
-        "do" => Some(Token::Word(Word::Keyword(Keyword::Do))),
-        "declare" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Declare,
-        )))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "debugger" => Token::Word(Word::Keyword(Keyword::Debugger)),
+            "default" => Token::Word(Word::Keyword(Keyword::Default_)),
+            "delete" => Token::Word(Word::Keyword(Keyword::Delete)),
+            "do" => Token::Word(Word::Keyword(Keyword::Do)),
+            "declare" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Declare)))
+        );
+        token
     })
 });
 
 const L_E: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "else" => Some(Token::Word(Word::Keyword(Keyword::Else))),
-        "enum" => Some(Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Enum)))),
-        "export" => Some(Token::Word(Word::Keyword(Keyword::Export))),
-        "extends" => Some(Token::Word(Word::Keyword(Keyword::Extends))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "else" => Token::Word(Word::Keyword(Keyword::Else)),
+            "enum" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Enum))),
+            "export" => Token::Word(Word::Keyword(Keyword::Export)),
+            "extends" => Token::Word(Word::Keyword(Keyword::Extends))
+        );
+        token
     })
 });
 
 const L_F: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "false" => Some(Token::Word(Word::False)),
-        "finally" => Some(Token::Word(Word::Keyword(Keyword::Finally))),
-        "for" => Some(Token::Word(Word::Keyword(Keyword::For))),
-        "function" => Some(Token::Word(Word::Keyword(Keyword::Function))),
-        "from" => Some(Token::Word(Word::Ident(IdentLike::Known(KnownIdent::From)))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "false" => Token::Word(Word::False),
+            "finally" => Token::Word(Word::Keyword(Keyword::Finally)),
+            "for" => Token::Word(Word::Keyword(Keyword::For)),
+            "function" => Token::Word(Word::Keyword(Keyword::Function)),
+            "from" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::From)))
+        );
+        token
     })
 });
 
 const L_G: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "global" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Global,
-        )))),
-        "get" => Some(Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Get)))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "global" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Global))),
+            "get" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Get)))
+        );
+        token
     })
 });
 
 const L_H: ByteHandler = IDN;
 
 const L_I: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "if" => Some(Token::Word(Word::Keyword(Keyword::If))),
-        "import" => Some(Token::Word(Word::Keyword(Keyword::Import))),
-        "in" => Some(Token::Word(Word::Keyword(Keyword::In))),
-        "instanceof" => Some(Token::Word(Word::Keyword(Keyword::InstanceOf))),
-        "is" => Some(Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Is)))),
-        "infer" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Infer,
-        )))),
-        "interface" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Interface,
-        )))),
-        "implements" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Implements,
-        )))),
-        "intrinsic" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Intrinsic,
-        )))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "if" => Token::Word(Word::Keyword(Keyword::If)),
+            "import" => Token::Word(Word::Keyword(Keyword::Import)),
+            "in" => Token::Word(Word::Keyword(Keyword::In)),
+            "instanceof" => Token::Word(Word::Keyword(Keyword::InstanceOf)),
+            "is" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Is))),
+            "infer" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Infer))),
+            "interface" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Interface))),
+            "implements" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Implements))),
+            "intrinsic" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Intrinsic)))
+        );
+        token
     })
 });
 
 const L_J: ByteHandler = IDN;
 
 const L_K: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "keyof" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Keyof,
-        )))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "keyof" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Keyof)))
+        );
+        token
     })
 });
 
 const L_L: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "let" => Some(Token::Word(Word::Keyword(Keyword::Let))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "let" => Token::Word(Word::Keyword(Keyword::Let))
+        );
+        token
     })
 });
 
 const L_M: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "meta" => Some(Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Meta)))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "meta" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Meta)))
+        );
+        token
     })
 });
 
 const L_N: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "new" => Some(Token::Word(Word::Keyword(Keyword::New))),
-        "null" => Some(Token::Word(Word::Null)),
-        "number" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Number,
-        )))),
-        "never" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Never,
-        )))),
-        "namespace" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Namespace,
-        )))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "new" => Token::Word(Word::Keyword(Keyword::New)),
+            "null" => Token::Word(Word::Null),
+            "number" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Number))),
+            "never" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Never))),
+            "namespace" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Namespace)))
+        );
+        token
     })
 });
 
 const L_O: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "of" => Some(Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Of)))),
-        "object" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Object,
-        )))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "of" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Of))),
+            "object" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Object)))
+        );
+        token
     })
 });
 
 const L_P: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "public" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Public,
-        )))),
-        "package" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Package,
-        )))),
-        "protected" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Protected,
-        )))),
-        "private" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Private,
-        )))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "public" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Public))),
+            "package" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Package))),
+            "protected" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Protected))),
+            "private" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Private)))
+        );
+        token
     })
 });
 
 const L_Q: ByteHandler = IDN;
 
 const L_R: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "return" => Some(Token::Word(Word::Keyword(Keyword::Return))),
-        "readonly" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Readonly,
-        )))),
-        "require" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Require,
-        )))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "return" => Token::Word(Word::Keyword(Keyword::Return)),
+            "readonly" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Readonly))),
+            "require" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Require)))
+        );
+        token
     })
 });
 
 const L_S: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "super" => Some(Token::Word(Word::Keyword(Keyword::Super))),
-        "static" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Static,
-        )))),
-        "switch" => Some(Token::Word(Word::Keyword(Keyword::Switch))),
-        "symbol" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Symbol,
-        )))),
-        "set" => Some(Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Set)))),
-        "string" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::String,
-        )))),
-        "satisfies" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Satisfies,
-        )))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "super" => Token::Word(Word::Keyword(Keyword::Super)),
+            "static" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Static))),
+            "switch" => Token::Word(Word::Keyword(Keyword::Switch)),
+            "symbol" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Symbol))),
+            "set" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Set))),
+            "string" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::String))),
+            "satisfies" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Satisfies)))
+        );
+        token
     })
 });
 
 const L_T: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "this" => Some(Token::Word(Word::Keyword(Keyword::This))),
-        "throw" => Some(Token::Word(Word::Keyword(Keyword::Throw))),
-        "true" => Some(Token::Word(Word::True)),
-        "typeof" => Some(Token::Word(Word::Keyword(Keyword::TypeOf))),
-        "try" => Some(Token::Word(Word::Keyword(Keyword::Try))),
-        "type" => Some(Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Type)))),
-        "target" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Target,
-        )))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "this" => Token::Word(Word::Keyword(Keyword::This)),
+            "throw" => Token::Word(Word::Keyword(Keyword::Throw)),
+            "true" => Token::Word(Word::True),
+            "typeof" => Token::Word(Word::Keyword(Keyword::TypeOf)),
+            "try" => Token::Word(Word::Keyword(Keyword::Try)),
+            "type" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Type))),
+            "target" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Target)))
+        );
+        token
     })
 });
 
 const L_U: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "using" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Using,
-        )))),
-        "unique" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Unique,
-        )))),
-        "undefined" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Undefined,
-        )))),
-        "unknown" => Some(Token::Word(Word::Ident(IdentLike::Known(
-            KnownIdent::Unknown,
-        )))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "using" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Using))),
+            "unique" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Unique))),
+            "undefined" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Undefined))),
+            "unknown" => Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Unknown)))
+        );
+        token
     })
 });
 
 const L_V: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "var" => Some(Token::Word(Word::Keyword(Keyword::Var))),
-        "void" => Some(Token::Word(Word::Keyword(Keyword::Void))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "var" => Token::Word(Word::Keyword(Keyword::Var)),
+            "void" => Token::Word(Word::Keyword(Keyword::Void))
+        );
+        token
     })
 });
 
 const L_W: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "while" => Some(Token::Word(Word::Keyword(Keyword::While))),
-        "with" => Some(Token::Word(Word::Keyword(Keyword::With))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "while" => Token::Word(Word::Keyword(Keyword::While)),
+            "with" => Token::Word(Word::Keyword(Keyword::With))
+        );
+        token
     })
 });
 
 const L_X: ByteHandler = IDN;
 
 const L_Y: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "yield" => Some(Token::Word(Word::Keyword(Keyword::Yield))),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        let token = known_ident_convert!(s,
+            "yield" => Token::Word(Word::Keyword(Keyword::Yield))
+        );
+        token
     })
 });
 
