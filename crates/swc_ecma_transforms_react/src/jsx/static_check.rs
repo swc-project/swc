@@ -6,22 +6,19 @@ use swc_ecma_ast::*;
 /// step while we deprecate key spread from props. Afterwards,
 /// we will stop using createElement in the transform.
 pub(super) fn should_use_create_element(attrs: &[JSXAttrOrSpread]) -> bool {
-    let mut seen_prop_spread = false;
+    let mut seen_spread = false;
     for attr in attrs {
-        if seen_prop_spread
-            && match attr {
-                JSXAttrOrSpread::JSXAttr(attr) => match &attr.name {
-                    JSXAttrName::Ident(i) => i.sym == "key",
-                    JSXAttrName::JSXNamespacedName(_) => false,
-                },
-                _ => false,
+        match attr {
+            JSXAttrOrSpread::JSXAttr(JSXAttr {
+                name: JSXAttrName::Ident(IdentName { sym, .. }),
+                ..
+            }) if seen_spread && sym == "key" => {
+                return true;
             }
-        {
-            return true;
-        }
-
-        if let JSXAttrOrSpread::SpreadElement(_) = attr {
-            seen_prop_spread = true;
+            JSXAttrOrSpread::SpreadElement(..) => {
+                seen_spread = true;
+            }
+            _ => {}
         }
     }
 

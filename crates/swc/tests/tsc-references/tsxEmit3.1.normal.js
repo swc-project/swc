@@ -18,21 +18,21 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 })(M || (M = {}));
 (function(M) {
     // Emit M.Foo
-    Foo, /*#__PURE__*/ React.createElement(Foo, null);
+    Foo, <Foo/>;
     (function(S1) {
         // Emit M.Foo
-        Foo, /*#__PURE__*/ React.createElement(Foo, null);
+        Foo, <Foo/>;
         // Emit S.Bar
-        Bar, /*#__PURE__*/ React.createElement(Bar, null);
+        Bar, <Bar/>;
     })(M.S || (M.S = {}));
 })(M || (M = {}));
 (function(M) {
     // Emit M.S.Bar
-    S.Bar, /*#__PURE__*/ React.createElement(S.Bar, null);
+    S.Bar, <S.Bar/>;
 })(M || (M = {}));
 (function(M) {
     var M1 = 100;
     // Emit M_1.Foo
-    Foo, /*#__PURE__*/ React.createElement(Foo, null);
+    Foo, <Foo/>;
 })(M || (M = {}));
 var M;

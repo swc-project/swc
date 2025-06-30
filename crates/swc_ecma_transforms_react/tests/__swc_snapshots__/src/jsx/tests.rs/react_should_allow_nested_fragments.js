@@ -1,1 +1,27 @@
-/*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement("span", null, "Hello"), /*#__PURE__*/ React.createElement("span", null, "world")), /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement("span", null, "Goodbye"), /*#__PURE__*/ React.createElement("span", null, "world"))));
+/*#__PURE__*/ import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+_jsx("div", {
+    children: /*#__PURE__*/ _jsxs(_Fragment, {
+        children: [
+            /*#__PURE__*/ _jsxs(_Fragment, {
+                children: [
+                    /*#__PURE__*/ _jsx("span", {
+                        children: "Hello"
+                    }),
+                    /*#__PURE__*/ _jsx("span", {
+                        children: "world"
+                    })
+                ]
+            }),
+            /*#__PURE__*/ _jsxs(_Fragment, {
+                children: [
+                    /*#__PURE__*/ _jsx("span", {
+                        children: "Goodbye"
+                    }),
+                    /*#__PURE__*/ _jsx("span", {
+                        children: "world"
+                    })
+                ]
+            })
+        ]
+    })
+});

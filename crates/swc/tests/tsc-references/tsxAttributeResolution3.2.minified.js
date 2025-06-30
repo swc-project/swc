@@ -1,18 +1,20 @@
 //// [file.tsx]
-import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
-import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
-_object_spread_props(_object_spread({}, {
-    x: 32,
-    y: 32
-}), {
-    x: "ok"
-}), _object_spread({
-    x: "ok"
-}, {
-    x: 32,
-    y: 32
-}), _object_spread({
-    x: 32
-}, {
+<test1 {...{
     x: 'foo'
-});
+}}/>, <test1 {...{
+    x: 32
+}}/>, <test1 {...{
+    y: 32
+}}/>, <test1 {...{
+    x: 32,
+    y: 32
+}} x="ok"/>, <test1 x="ok" {...{
+    x: 32,
+    y: 32
+}}/>, <test1 {...{
+    x: 'ok',
+    y: 32,
+    extra: 100
+}}/>, <test1 x={32} {...{
+    x: 'foo'
+}}/>;

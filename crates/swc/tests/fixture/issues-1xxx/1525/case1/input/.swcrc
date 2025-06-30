@@ -8,6 +8,9 @@
         "parser": {
             "syntax": "typescript",
             "tsx": true
+        },
+        "transform": {
+            "react": "react"
         }
     },
     "module": {

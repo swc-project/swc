@@ -169,6 +169,14 @@ impl SwcLoader {
                     let unresolved_mark = Mark::new();
                     let top_level_mark = Mark::new();
 
+                    let (mut before_resolver_jsx, mut after_resolver_jsx) = jsx(
+                        self.compiler.cm.clone(),
+                        Some(self.compiler.comments().clone()),
+                        Default::default(),
+                        unresolved_mark,
+                    );
+
+                    program.mutate(&mut before_resolver_jsx);
                     program.mutate(&mut resolver(unresolved_mark, top_level_mark, false));
                     program.mutate(&mut typescript(
                         Default::default(),
@@ -176,13 +184,7 @@ impl SwcLoader {
                         top_level_mark,
                     ));
 
-                    program.mutate(&mut jsx(
-                        self.compiler.cm.clone(),
-                        None::<NoopComments>,
-                        Default::default(),
-                        top_level_mark,
-                        unresolved_mark,
-                    ));
+                    program.mutate(&mut after_resolver_jsx);
 
                     program.mutate(&mut inline_globals(
                         unresolved_mark,
@@ -266,6 +268,14 @@ impl SwcLoader {
                         let unresolved_mark = Mark::new();
                         let top_level_mark = Mark::new();
 
+                        let (mut before_resolver_jsx, mut after_resolver_jsx) = jsx(
+                            self.compiler.cm.clone(),
+                            None::<NoopComments>,
+                            Default::default(),
+                            unresolved_mark,
+                        );
+
+                        program.mutate(&mut before_resolver_jsx);
                         program.mutate(&mut resolver(unresolved_mark, top_level_mark, false));
                         program.mutate(&mut typescript(
                             Default::default(),
@@ -273,13 +283,7 @@ impl SwcLoader {
                             top_level_mark,
                         ));
 
-                        program.mutate(&mut jsx(
-                            self.compiler.cm.clone(),
-                            None::<NoopComments>,
-                            Default::default(),
-                            top_level_mark,
-                            unresolved_mark,
-                        ));
+                        program.mutate(&mut after_resolver_jsx);
 
                         program.mutate(&mut inline_globals(
                             unresolved_mark,

@@ -1,3 +1,3 @@
 //// [file.tsx]
-var my, q, mine;
-my || (my = {}), my.div, my.other, q || (q = {}), (mine = my).div, mine.non;
+var my, q;
+my || (my = {}), <my.div n='x'/>, <my.other/>, q || (q = {}), <mine.div n='x'/>, <mine.non/>;

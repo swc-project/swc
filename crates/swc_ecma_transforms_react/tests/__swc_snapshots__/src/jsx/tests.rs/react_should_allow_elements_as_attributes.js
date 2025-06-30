@@ -1,3 +1,4 @@
-/*#__PURE__*/ React.createElement("div", {
-    attr: /*#__PURE__*/ React.createElement("div", null)
+/*#__PURE__*/ import { jsx as _jsx } from "react/jsx-runtime";
+_jsx("div", {
+    attr: /*#__PURE__*/ _jsx("div", {})
 });

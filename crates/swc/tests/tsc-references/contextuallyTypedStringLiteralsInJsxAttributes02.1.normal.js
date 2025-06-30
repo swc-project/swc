@@ -1,9 +1,8 @@
 //// [file.tsx]
 define([
     "require",
-    "exports",
-    "react"
-], function(require, exports, _react) {
+    "exports"
+], function(require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -32,40 +31,30 @@ define([
         }
         return this._buildMainButton(props);
     }
-    var b0 = /*#__PURE__*/ _react.createElement(MainButton, {
+    var b0 = <MainButton {...{
         onClick: function(k) {
             console.log(k);
-        },
-        extra: true
-    }); // k has type "left" | "right"
-    var b2 = /*#__PURE__*/ _react.createElement(MainButton, {
-        onClick: function(k) {
-            console.log(k);
-        },
-        extra: true
-    }); // k has type "left" | "right"
-    var b3 = /*#__PURE__*/ _react.createElement(MainButton, {
-        goTo: "home",
-        extra: true
-    }); // goTo has type"home" | "contact"
-    var b4 = /*#__PURE__*/ _react.createElement(MainButton, {
-        goTo: "home",
-        extra: true
-    }); // goTo has type "home" | "contact"
+        }
+    }} extra/>; // k has type "left" | "right"
+    var b2 = <MainButton onClick={function(k) {
+        console.log(k);
+    }} extra/>; // k has type "left" | "right"
+    var b3 = <MainButton {...{
+        goTo: "home"
+    }} extra/>; // goTo has type"home" | "contact"
+    var b4 = <MainButton goTo="home" extra/>; // goTo has type "home" | "contact"
     function NoOverload(buttonProps) {
         return undefined;
     }
-    var c1 = /*#__PURE__*/ _react.createElement(NoOverload, {
+    var c1 = <NoOverload {...{
         onClick: function(k) {
             console.log(k);
-        },
-        extra: true
-    }); // k has type any
+        }
+    }} extra/>; // k has type any
     function NoOverload1(linkProps) {
         return undefined;
     }
-    var d1 = /*#__PURE__*/ _react.createElement(NoOverload1, {
-        goTo: "home",
-        extra: true
-    }); // goTo has type "home" | "contact"
+    var d1 = <NoOverload1 {...{
+        goTo: "home"
+    }} extra/>; // goTo has type "home" | "contact"
 });

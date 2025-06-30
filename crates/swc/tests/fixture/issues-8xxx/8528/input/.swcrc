@@ -5,7 +5,10 @@
             "syntax": "typescript"
         },
         "transform": {
-            "decoratorVersion": "2022-03"
+            "decoratorVersion": "2022-03",
+            "react": {
+                "runtime": "classic"
+            }
         },
         "externalHelpers": true,
         "experimental": {

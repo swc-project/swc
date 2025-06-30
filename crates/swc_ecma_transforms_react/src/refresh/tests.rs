@@ -568,7 +568,15 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
+        let (before_resolver_jsx, after_resolver_jsx) = jsx(
+            t.cm.clone(),
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        );
+
         (
+            before_resolver_jsx,
             resolver(unresolved_mark, top_level_mark, false),
             refresh(
                 true,
@@ -580,13 +588,7 @@ test!(
                 Some(t.comments.clone()),
                 top_level_mark,
             ),
-            jsx(
-                t.cm.clone(),
-                Some(t.comments.clone()),
-                Default::default(),
-                top_level_mark,
-                unresolved_mark,
-            ),
+            after_resolver_jsx,
         )
     },
     include_hook_signature_in_commonjs,

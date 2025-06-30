@@ -64,7 +64,7 @@ where
 {
     debug_assert!(p.input().syntax().typescript());
     let mut buf = Vec::with_capacity(8);
-    while !is_ts_list_terminator(p, kind)? {
+    while !is_ts_list_terminator(p, kind) {
         // Skipping "parseListElement" from the TS source since that's just for error
         // handling.
         buf.push(parse_element(p)?);
@@ -111,7 +111,7 @@ where
     loop {
         trace_cur!(p, parse_ts_delimited_list_inner__element);
 
-        if is_ts_list_terminator(p, kind)? {
+        if is_ts_list_terminator(p, kind) {
             break;
         }
 
@@ -122,7 +122,7 @@ where
             continue;
         }
 
-        if is_ts_list_terminator(p, kind)? {
+        if is_ts_list_terminator(p, kind) {
             break;
         }
 
@@ -162,23 +162,23 @@ where
 }
 
 /// `tsIsListTerminator`
-pub fn is_ts_list_terminator<'a>(p: &mut impl Parser<'a>, kind: ParsingContext) -> PResult<bool> {
+fn is_ts_list_terminator<'a>(p: &mut impl Parser<'a>, kind: ParsingContext) -> bool {
     debug_assert!(p.input().syntax().typescript());
     let Some(cur) = p.input_mut().cur() else {
-        return Ok(false);
+        return false;
     };
-    Ok(match kind {
+    match kind {
         ParsingContext::EnumMembers | ParsingContext::TypeMembers => cur.is_rbrace(),
         ParsingContext::HeritageClauseElement => {
             cur.is_lbrace() || cur.is_implements() || cur.is_extends()
         }
         ParsingContext::TupleElementTypes => cur.is_rbracket(),
         ParsingContext::TypeParametersOrArguments => cur.is_greater(),
-    })
+    }
 }
 
 /// `tsNextTokenCanFollowModifier`
-pub(super) fn ts_next_token_can_follow_modifier<'a>(p: &mut impl Parser<'a>) -> PResult<bool> {
+fn ts_next_token_can_follow_modifier<'a>(p: &mut impl Parser<'a>) -> bool {
     debug_assert!(p.input().syntax().typescript());
     // Note: TypeScript's implementation is much more complicated because
     // more things are considered modifiers there.
@@ -186,7 +186,7 @@ pub(super) fn ts_next_token_can_follow_modifier<'a>(p: &mut impl Parser<'a>) -> 
     // itself. And "static". TODO: Would be nice to avoid lookahead. Want a
     // hasLineBreakUpNext() method...
     p.bump();
-    Ok(!p.input_mut().had_line_break_before_cur()
+    !p.input_mut().had_line_break_before_cur()
         && p.input_mut().cur().is_some_and(|cur| {
             cur.is_lbracket()
                 || cur.is_lbrace()
@@ -197,7 +197,7 @@ pub(super) fn ts_next_token_can_follow_modifier<'a>(p: &mut impl Parser<'a>) -> 
                 || cur.is_str()
                 || cur.is_num()
                 || cur.is_bigint()
-        }))
+        })
 }
 
 /// `tsTryParse`
@@ -378,7 +378,7 @@ pub fn parse_ts_modifier<'a, P: Parser<'a>>(
         {
             return Ok(None);
         }
-        if try_parse_ts_bool(p, |p| ts_next_token_can_follow_modifier(p).map(Some))? {
+        if try_parse_ts_bool(p, |p| Ok(Some(ts_next_token_can_follow_modifier(p))))? {
             return Ok(Some(allowed_modifiers[pos]));
         }
     }

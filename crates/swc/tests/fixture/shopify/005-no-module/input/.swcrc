@@ -7,6 +7,9 @@
         "transform": {
             "hidden": {
                 "jest": true
+            },
+            "react": {
+                "runtime": "classic"
             }
         }
     },

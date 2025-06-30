@@ -1,16 +1,8 @@
 //// [contextuallyTypedStringLiteralsInJsxAttributes01.tsx]
 var FooComponent = function(props) {
-    return /*#__PURE__*/ React.createElement("span", null, props.foo);
+    return <span>{props.foo}</span>;
 };
-/*#__PURE__*/ React.createElement(FooComponent, {
-    foo: "A"
-});
-/*#__PURE__*/ React.createElement(FooComponent, {
-    foo: "A"
-});
-/*#__PURE__*/ React.createElement(FooComponent, {
-    foo: "f"
-});
-/*#__PURE__*/ React.createElement(FooComponent, {
-    foo: "f"
-});
+<FooComponent foo={"A"}/>;
+<FooComponent foo="A"/>;
+<FooComponent foo={"f"}/>;
+<FooComponent foo="f"/>;

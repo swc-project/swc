@@ -14,6 +14,4 @@ var C = /*#__PURE__*/ function(Component1) {
 var y = new C({
     foobar: "example"
 });
-var x = /*#__PURE__*/ React.createElement(C, {
-    foobar: "example"
-});
+var x = <C foobar="example"/>;
