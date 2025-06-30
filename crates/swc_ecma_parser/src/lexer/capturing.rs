@@ -1,5 +1,7 @@
 use std::{cell::RefCell, mem, rc::Rc};
 
+use swc_ecma_lexer::common::syntax::SyntaxFlags;
+
 use crate::{input::Tokens, lexer::token::TokenAndSpan};
 
 #[derive(Debug)]
@@ -74,7 +76,7 @@ impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
         self.inner.ctx()
     }
 
-    fn syntax(&self) -> swc_ecma_lexer::Syntax {
+    fn syntax(&self) -> SyntaxFlags {
         self.inner.syntax()
     }
 
