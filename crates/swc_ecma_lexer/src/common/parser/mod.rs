@@ -15,8 +15,8 @@ use self::{
 };
 use super::{context::Context, input::Tokens, lexer::token::TokenFactory};
 use crate::{
+    common::syntax::SyntaxFlags,
     error::{Error, SyntaxError},
-    Syntax,
 };
 
 pub type PResult<T> = Result<T, crate::error::Error>;
@@ -127,7 +127,7 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     #[inline(always)]
-    fn syntax(&self) -> Syntax {
+    fn syntax(&self) -> SyntaxFlags {
         self.input().syntax()
     }
 

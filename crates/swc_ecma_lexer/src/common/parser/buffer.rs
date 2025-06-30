@@ -3,9 +3,8 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use super::token_and_span::TokenAndSpan as TokenAndSpanTrait;
-use crate::{
-    common::{context::Context, input::Tokens, lexer::token::TokenFactory},
-    Syntax,
+use crate::common::{
+    context::Context, input::Tokens, lexer::token::TokenFactory, syntax::SyntaxFlags,
 };
 
 pub trait NextTokenAndSpan {
@@ -222,7 +221,7 @@ pub trait Buffer<'a> {
     }
 
     #[inline]
-    fn syntax(&self) -> Syntax {
+    fn syntax(&self) -> SyntaxFlags {
         self.iter().syntax()
     }
 

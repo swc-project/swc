@@ -1,5 +1,5 @@
 use swc_common::{comments::SingleThreadedComments, BytePos, Span};
-use swc_ecma_lexer::error::SyntaxError;
+use swc_ecma_lexer::{error::SyntaxError, TsSyntax};
 
 use super::*;
 use crate::EsSyntax;

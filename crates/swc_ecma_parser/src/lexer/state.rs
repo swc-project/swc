@@ -3,11 +3,14 @@ use std::mem::take;
 use swc_common::BytePos;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::{
-    common::lexer::{
-        char::CharExt,
-        comments_buffer::{BufferedComment, BufferedCommentKind},
-        state::State as StateTrait,
-        LexResult,
+    common::{
+        lexer::{
+            char::CharExt,
+            comments_buffer::{BufferedComment, BufferedCommentKind},
+            state::State as StateTrait,
+            LexResult,
+        },
+        syntax::SyntaxFlags,
     },
     error::SyntaxError,
     TokenContexts,
@@ -18,7 +21,6 @@ use crate::{
     error::Error,
     input::Tokens,
     lexer::token::{Token, TokenAndSpan, TokenValue},
-    Syntax,
 };
 
 /// State of lexer.
@@ -56,7 +58,7 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
     }
 
     #[inline]
-    fn syntax(&self) -> Syntax {
+    fn syntax(&self) -> SyntaxFlags {
         self.syntax
     }
 
@@ -657,7 +659,7 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
     }
 
     #[inline(always)]
-    fn syntax(&self) -> swc_ecma_lexer::Syntax {
+    fn syntax(&self) -> SyntaxFlags {
         unreachable!("syntax is not stored in State, but in Lexer")
     }
 

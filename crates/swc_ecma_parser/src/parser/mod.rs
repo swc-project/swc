@@ -13,7 +13,7 @@ use swc_ecma_lexer::common::parser::{
 use crate::{
     lexer::{Token, TokenAndSpan},
     parser::input::Tokens,
-    Context, Syntax, TsSyntax,
+    Context, Syntax,
 };
 #[cfg(test)]
 extern crate test;
@@ -142,13 +142,7 @@ impl<'a> Parser<crate::lexer::Lexer<'a>> {
 
 impl<I: Tokens> Parser<I> {
     pub fn new_from(mut input: I) -> Self {
-        #[cfg(feature = "typescript")]
-        let in_declare = matches!(
-            input.syntax(),
-            Syntax::Typescript(TsSyntax { dts: true, .. })
-        );
-        #[cfg(not(feature = "typescript"))]
-        let in_declare = false;
+        let in_declare = input.syntax().dts();
         let mut ctx = input.ctx() | Context::TopLevel;
         ctx.set(Context::InDeclare, in_declare);
         input.set_ctx(ctx);
