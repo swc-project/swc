@@ -6,6 +6,17 @@ use swc_ecma_transforms_base::enable_helper;
 
 use crate::DecoratorVersion;
 
+// Decorator kind constants matching Babel's implementation
+const FIELD: f64 = 0.0;
+const ACCESSOR: f64 = 1.0;
+const METHOD: f64 = 2.0;
+const GETTER: f64 = 3.0;
+const SETTER: f64 = 4.0;
+
+const STATIC_OLD_VERSION: f64 = 5.0; // Before 2023-05
+const STATIC: f64 = 8.0; // 1 << 3
+const DECORATORS_HAVE_THIS: f64 = 16.0; // 1 << 4
+
 pub(crate) fn decorator_impl(version: DecoratorVersion) -> impl Pass {
     fold_pass(DecoratorTransform { version })
 }
@@ -49,7 +60,14 @@ impl DecoratorTransform {
                     init_vars.push(init_id.clone());
 
                     // Create element descriptor [decorator(s), kind, name]
-                    let kind_value = if prop.is_static { 5.0 } else { 0.0 }; // STATIC + FIELD = 5, FIELD = 0
+                    let kind_value = if prop.is_static { 
+                        match self.version {
+                            DecoratorVersion::V202311 => STATIC + FIELD,
+                            _ => STATIC_OLD_VERSION
+                        }
+                    } else { 
+                        FIELD 
+                    };
                     
                     // Handle multiple decorators
                     let decorator_expr = if prop.decorators.len() == 1 {
@@ -178,7 +196,14 @@ impl DecoratorTransform {
                     };
 
                     // Create element descriptor [decorator(s), kind, name, getter, setter]
-                    let kind_value = if prop.is_static { 5.0 } else { 0.0 }; // STATIC + FIELD = 5, FIELD = 0
+                    let kind_value = if prop.is_static { 
+                        match self.version {
+                            DecoratorVersion::V202311 => STATIC + FIELD,
+                            _ => STATIC_OLD_VERSION
+                        }
+                    } else { 
+                        FIELD 
+                    };
                     
                     // Handle multiple decorators
                     let decorator_expr = if prop.decorators.len() == 1 {
@@ -197,7 +222,7 @@ impl DecoratorTransform {
                             Some(Lit::Num(Number { span: DUMMY_SP, value: kind_value, raw: None }).as_arg()),
                             Some(Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
-                                value: prop.key.name.clone(),
+                                value: format!("#{}", prop.key.name).into(),
                                 raw: None,
                             })).as_arg()),
                             Some(getter_fn.as_arg()),
@@ -244,17 +269,17 @@ impl DecoratorTransform {
                     init_vars.push(init_id.clone());
                     init_vars.push(init_extra_id.clone());
 
-                    // Create private field name for storage
-                    let private_key = if let Key::Private(p) = &accessor.key {
-                        p.clone()
-                    } else if let Key::Public(PropName::Ident(ident)) = &accessor.key {
-                        PrivateName {
+                    // Create private field name for storage - always use a different name to avoid conflicts
+                    let private_key = match &accessor.key {
+                        Key::Private(p) => PrivateName {
+                            span: p.span,
+                            name: format!("__{}", p.name).into(),
+                        },
+                        Key::Public(PropName::Ident(ident)) => PrivateName {
                             span: ident.span,
                             name: format!("__{}", ident.sym).into(),
-                        }
-                    } else {
-                        // For computed keys, use the init variable name to ensure uniqueness
-                        PrivateName {
+                        },
+                        _ => PrivateName {
                             span: accessor.span,
                             name: format!("__{}", key_name).into(),
                         }
@@ -416,7 +441,14 @@ impl DecoratorTransform {
                     };
 
                     // Create element descriptor for 2023-11
-                    let kind_value = if accessor.is_static { 9.0 } else { 1.0 }; // STATIC + ACCESSOR = 9, ACCESSOR = 1
+                    let kind_value = if accessor.is_static { 
+                        match self.version {
+                            DecoratorVersion::V202311 => STATIC + ACCESSOR,
+                            _ => STATIC_OLD_VERSION + ACCESSOR
+                        }
+                    } else { 
+                        ACCESSOR 
+                    };
                     
                     // Handle multiple decorators
                     let decorator_expr = if accessor.decorators.len() == 1 {
@@ -441,7 +473,7 @@ impl DecoratorTransform {
                             Key::Public(PropName::Computed(computed)) => *computed.expr.clone(),
                             Key::Private(p) => Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
-                                value: p.name.clone(),
+                                value: format!("#{}", p.name).into(),
                                 raw: None,
                             })),
                             _ => Expr::Lit(Lit::Str(Str {
@@ -482,7 +514,7 @@ impl DecoratorTransform {
                         type_args: None,
                     });
 
-                    // Add private field - initialization will be handled through constructor/static block
+                    // Add private field for storage (always use different name from original accessor)
                     new_members.push(ClassMember::PrivateProp(PrivateProp {
                         span: accessor.span,
                         ctxt: Default::default(),
@@ -790,24 +822,47 @@ impl DecoratorTransform {
             }))));
         }
 
-        // Create apply_decs call - for 2023-11, args are: target, classDecorations, elementDecorations
+        // Create apply_decs call
         let mut args = vec![Expr::This(ThisExpr { span: DUMMY_SP }).as_arg()];
         
-        // Class decorators array (second parameter)
-        args.push(ArrayLit {
-            span: DUMMY_SP,
-            elems: if has_class_decs {
-                class_decs.into_iter().map(|expr| Some(expr.as_arg())).collect()
-            } else {
-                vec![]
-            },
-        }.as_arg());
+        // For 2023-11: args are (this, classDecorations, elementDecorations)
+        // For 2022-03: args are (this, elementDecorations, classDecorations) 
+        match self.version {
+            DecoratorVersion::V202311 => {
+                // Class decorators array (second parameter)
+                args.push(ArrayLit {
+                    span: DUMMY_SP,
+                    elems: if has_class_decs {
+                        class_decs.into_iter().map(|expr| Some(expr.as_arg())).collect()
+                    } else {
+                        vec![]
+                    },
+                }.as_arg());
 
-        // Element decorators array (third parameter)  
-        args.push(ArrayLit {
-            span: DUMMY_SP,
-            elems: element_decs.into_iter().map(Some).collect(),
-        }.as_arg());
+                // Element decorators array (third parameter)  
+                args.push(ArrayLit {
+                    span: DUMMY_SP,
+                    elems: element_decs.into_iter().map(Some).collect(),
+                }.as_arg());
+            }
+            _ => {
+                // Element decorators array (second parameter)  
+                args.push(ArrayLit {
+                    span: DUMMY_SP,
+                    elems: element_decs.into_iter().map(Some).collect(),
+                }.as_arg());
+                
+                // Class decorators array (third parameter)
+                args.push(ArrayLit {
+                    span: DUMMY_SP,
+                    elems: if has_class_decs {
+                        class_decs.into_iter().map(|expr| Some(expr.as_arg())).collect()
+                    } else {
+                        vec![]
+                    },
+                }.as_arg());
+            }
+        }
 
         let apply_call = CallExpr {
             span: DUMMY_SP,
