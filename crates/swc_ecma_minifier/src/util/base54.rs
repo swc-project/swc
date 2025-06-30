@@ -14,7 +14,7 @@ use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 #[derive(Clone, Copy)]
 
-pub(crate) struct CharFreq([i32; 64]);
+pub(crate) struct CharFreq([i32; 256]);
 
 #[derive(Clone, Copy)]
 pub(crate) struct Base54Chars {
@@ -23,7 +23,7 @@ pub(crate) struct Base54Chars {
 
 impl Default for CharFreq {
     fn default() -> Self {
-        CharFreq([0; 64])
+        CharFreq([0; 256])
     }
 }
 
@@ -193,37 +193,8 @@ impl CharFreq {
             return;
         }
 
-        // #[cfg(feature = "debug")]
-        // {
-        //     let considered = s
-        //         .chars()
-        //         .filter(|&c| Ident::is_valid_continue(c))
-        //         .collect::<String>();
-        //     if !considered.is_empty() {
-        //         tracing::debug!("Scanning: `{}` with delta {}", considered, delta);
-        //     }
-        // }
-
         for &c in s.as_bytes() {
-            match c {
-                b'a'..=b'z' => {
-                    self.0[c as usize - 'a' as usize] += delta;
-                }
-                b'A'..=b'Z' => {
-                    self.0[c as usize - 'A' as usize + 26] += delta;
-                }
-                b'0'..=b'9' => {
-                    self.0[c as usize - '0' as usize + 52] += delta;
-                }
-                b'$' => {
-                    self.0[62] += delta;
-                }
-                b'_' => {
-                    self.0[63] += delta;
-                }
-
-                _ => {}
-            }
+            self.0[c as usize] += delta;
         }
     }
 
@@ -280,8 +251,7 @@ impl CharFreq {
         let mut arr = BASE54_DEFAULT_CHARS
             .iter()
             .copied()
-            .enumerate()
-            .map(|(idx, c)| (self.0[idx], c))
+            .map(|c| (self.0[c as usize], c))
             .collect::<Vec<_>>();
 
         arr.sort_by_key(|&(freq, _)| Reverse(freq));
@@ -404,7 +374,7 @@ impl Visit for CharFreqAnalyzer<'_> {
 
 impl AddAssign for CharFreq {
     fn add_assign(&mut self, rhs: Self) {
-        for i in 0..64 {
+        for i in 0..256 {
             self.0[i] += rhs.0[i];
         }
     }
