@@ -655,8 +655,8 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
     }
 
     #[inline]
-    fn syntax(&self) -> Syntax {
-        self.syntax
+    fn syntax(&self) -> &Syntax {
+        &self.syntax
     }
 
     #[inline]

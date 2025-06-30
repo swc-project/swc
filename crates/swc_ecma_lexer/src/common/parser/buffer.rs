@@ -222,8 +222,8 @@ pub trait Buffer<'a> {
     }
 
     #[inline]
-    fn syntax(&self) -> Syntax {
-        self.iter().syntax()
+    fn syntax(&self) -> &Syntax {
+        unsafe { std::mem::transmute(self.iter().syntax()) }
     }
 
     #[inline]

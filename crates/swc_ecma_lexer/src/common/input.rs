@@ -9,7 +9,7 @@ use crate::{error::Error, lexer};
 pub trait Tokens<TokenAndSpan>: Clone + Iterator<Item = TokenAndSpan> {
     fn set_ctx(&mut self, ctx: Context);
     fn ctx(&self) -> Context;
-    fn syntax(&self) -> Syntax;
+    fn syntax(&self) -> &Syntax;
     fn target(&self) -> EsVersion;
 
     fn start_pos(&self) -> BytePos {

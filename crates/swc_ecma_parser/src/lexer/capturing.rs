@@ -74,7 +74,7 @@ impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
         self.inner.ctx()
     }
 
-    fn syntax(&self) -> swc_ecma_lexer::Syntax {
+    fn syntax(&self) -> &swc_ecma_lexer::Syntax {
         self.inner.syntax()
     }
 

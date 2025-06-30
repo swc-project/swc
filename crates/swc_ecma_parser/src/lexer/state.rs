@@ -56,8 +56,8 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
     }
 
     #[inline]
-    fn syntax(&self) -> Syntax {
-        self.syntax
+    fn syntax(&self) -> &Syntax {
+        &self.syntax
     }
 
     #[inline]

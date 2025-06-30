@@ -127,8 +127,8 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     #[inline(always)]
-    fn syntax(&self) -> Syntax {
-        self.input().syntax()
+    fn syntax(&self) -> &Syntax {
+        unsafe { std::mem::transmute(self.input().syntax()) }
     }
 
     /// Parse with given closure

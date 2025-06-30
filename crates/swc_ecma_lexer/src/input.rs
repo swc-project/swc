@@ -64,8 +64,8 @@ impl Tokens<TokenAndSpan> for TokensInput {
     }
 
     #[inline(always)]
-    fn syntax(&self) -> Syntax {
-        self.syntax
+    fn syntax(&self) -> &Syntax {
+        &self.syntax
     }
 
     #[inline(always)]
@@ -215,7 +215,7 @@ impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
     }
 
     #[inline(always)]
-    fn syntax(&self) -> Syntax {
+    fn syntax(&self) -> &Syntax {
         self.inner.syntax()
     }
 
