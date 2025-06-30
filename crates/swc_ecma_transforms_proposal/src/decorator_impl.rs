@@ -22,8 +22,8 @@ impl DecoratorTransform {
         let mut init_vars = Vec::new();
         let mut extra_stmts = Vec::new();
         let mut new_members = Vec::new();
-        let mut fieldInitializerExpressions: Vec<Expr> = vec![];
-        let mut staticFieldInitializerExpressions: Vec<Expr> = vec![];
+        let mut field_initializer_expressions: Vec<Expr> = vec![];
+        let mut static_field_initializer_expressions: Vec<Expr> = vec![];
         let mut accessor_counter = 0;
 
         // Process class decorators
@@ -415,7 +415,7 @@ impl DecoratorTransform {
                         }
                     };
 
-                    // Create element descriptor [decorator(s), kind, name, getter, setter]
+                    // Create element descriptor for 2023-11
                     let kind_value = if accessor.is_static { 9.0 } else { 1.0 }; // STATIC + ACCESSOR = 9, ACCESSOR = 1
                     
                     // Handle multiple decorators
@@ -428,33 +428,39 @@ impl DecoratorTransform {
                         }))
                     };
                     
+                    let mut desc_elems = vec![
+                        Some(decorator_expr.as_arg()),
+                        Some(Lit::Num(Number { span: DUMMY_SP, value: kind_value, raw: None }).as_arg()),
+                        Some(match &accessor.key {
+                            Key::Public(PropName::Ident(id)) => Expr::Lit(Lit::Str(Str {
+                                span: DUMMY_SP,
+                                value: id.sym.clone(),
+                                raw: None,
+                            })),
+                            Key::Public(PropName::Str(s)) => Expr::Lit(Lit::Str(s.clone())),
+                            Key::Public(PropName::Computed(computed)) => *computed.expr.clone(),
+                            Key::Private(p) => Expr::Lit(Lit::Str(Str {
+                                span: DUMMY_SP,
+                                value: p.name.clone(),
+                                raw: None,
+                            })),
+                            _ => Expr::Lit(Lit::Str(Str {
+                                span: DUMMY_SP,
+                                value: "accessor".into(),
+                                raw: None,
+                            }))
+                        }.as_arg()),
+                    ];
+                    
+                    // For private accessors, add getter and setter functions
+                    if let Key::Private(_) = &accessor.key {
+                        desc_elems.push(Some(getter_fn.as_arg()));
+                        desc_elems.push(Some(setter_fn.as_arg()));
+                    }
+                    
                     let element_desc = ArrayLit {
                         span: DUMMY_SP,
-                        elems: vec![
-                            Some(decorator_expr.as_arg()),
-                            Some(Lit::Num(Number { span: DUMMY_SP, value: kind_value, raw: None }).as_arg()),
-                            Some(match &accessor.key {
-                                Key::Public(PropName::Ident(id)) => Expr::Lit(Lit::Str(Str {
-                                    span: DUMMY_SP,
-                                    value: id.sym.clone(),
-                                    raw: None,
-                                })),
-                                Key::Public(PropName::Str(s)) => Expr::Lit(Lit::Str(s.clone())),
-                                Key::Public(PropName::Computed(computed)) => *computed.expr.clone(),
-                                Key::Private(p) => Expr::Lit(Lit::Str(Str {
-                                    span: DUMMY_SP,
-                                    value: p.name.clone(),
-                                    raw: None,
-                                })),
-                                _ => Expr::Lit(Lit::Str(Str {
-                                    span: DUMMY_SP,
-                                    value: "accessor".into(),
-                                    raw: None,
-                                }))
-                            }.as_arg()),
-                            Some(getter_fn.as_arg()),
-                            Some(setter_fn.as_arg()),
-                        ],
+                        elems: desc_elems,
                     };
                     element_decs.push(element_desc.as_arg());
 
@@ -678,7 +684,7 @@ impl DecoratorTransform {
 
                     // Add field initialization
                     if accessor.is_static {
-                        staticFieldInitializerExpressions.push(Expr::Assign(AssignExpr {
+                        static_field_initializer_expressions.push(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: AssignOp::Assign,
                             left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
@@ -688,7 +694,7 @@ impl DecoratorTransform {
                             })),
                             right: Box::new(init_call),
                         }));
-                        staticFieldInitializerExpressions.push(Expr::Call(CallExpr {
+                        static_field_initializer_expressions.push(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             ctxt: Default::default(),
                             callee: init_extra_id.as_callee(),
@@ -696,7 +702,7 @@ impl DecoratorTransform {
                             type_args: None,
                         }));
                     } else {
-                        fieldInitializerExpressions.push(Expr::Assign(AssignExpr {
+                            field_initializer_expressions.push(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: AssignOp::Assign,
                             left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
@@ -706,7 +712,7 @@ impl DecoratorTransform {
                             })),
                             right: Box::new(init_call),
                         }));
-                        fieldInitializerExpressions.push(Expr::Call(CallExpr {
+                        field_initializer_expressions.push(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             ctxt: Default::default(),
                             callee: init_extra_id.as_callee(),
@@ -766,6 +772,7 @@ impl DecoratorTransform {
         // Create variable declarations - only for initializer variables
         let has_class_decs = !class_decs.is_empty();
         
+        // Declare variables BEFORE adding the static block
         if !init_vars.is_empty() {
             let var_decls: Vec<VarDeclarator> = init_vars.iter().map(|var| VarDeclarator {
                 span: DUMMY_SP,
@@ -777,22 +784,16 @@ impl DecoratorTransform {
             extra_stmts.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                 span: DUMMY_SP,
                 ctxt: Default::default(),
-                kind: VarDeclKind::Var,
+                kind: VarDeclKind::Let, // Use let instead of var for 2023-11
                 declare: false,
                 decls: var_decls,
             }))));
         }
 
-        // Create apply_decs call
+        // Create apply_decs call - for 2023-11, args are: target, classDecorations, elementDecorations
         let mut args = vec![Expr::This(ThisExpr { span: DUMMY_SP }).as_arg()];
         
-        // Element decorators array (always present)
-        args.push(ArrayLit {
-            span: DUMMY_SP,
-            elems: element_decs.into_iter().map(Some).collect(),
-        }.as_arg());
-
-        // Class decorators array (always present, empty if no class decorators)
+        // Class decorators array (second parameter)
         args.push(ArrayLit {
             span: DUMMY_SP,
             elems: if has_class_decs {
@@ -800,6 +801,12 @@ impl DecoratorTransform {
             } else {
                 vec![]
             },
+        }.as_arg());
+
+        // Element decorators array (third parameter)  
+        args.push(ArrayLit {
+            span: DUMMY_SP,
+            elems: element_decs.into_iter().map(Some).collect(),
         }.as_arg());
 
         let apply_call = CallExpr {
@@ -918,11 +925,13 @@ impl DecoratorTransform {
                     })],
                 },
             });
+            // Insert the static block at the beginning of the class
             class.body.insert(0, static_block);
         }
 
         // Add initClass call if needed
         if has_class_decs {
+            // For 2023-11, class decorators return an init function that should be called
             class.body.push(ClassMember::StaticBlock(StaticBlock {
                 span: DUMMY_SP,
                 body: BlockStmt {
@@ -943,7 +952,7 @@ impl DecoratorTransform {
         }
 
         // Handle field initializer expressions
-        if !fieldInitializerExpressions.is_empty() {
+        if !field_initializer_expressions.is_empty() {
             // Find or create constructor
             let mut constructor_idx = None;
             for (idx, member) in class.body.iter().enumerate() {
@@ -956,7 +965,7 @@ impl DecoratorTransform {
             if let Some(idx) = constructor_idx {
                 // Insert into existing constructor
                 if let ClassMember::Constructor(ctor) = &mut class.body[idx] {
-                    let init_stmts: Vec<Stmt> = fieldInitializerExpressions
+                    let init_stmts: Vec<Stmt> = field_initializer_expressions
                         .into_iter()
                         .map(|expr| Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
@@ -1006,7 +1015,7 @@ impl DecoratorTransform {
                     }));
                 }
                 
-                ctor_stmts.extend(fieldInitializerExpressions.into_iter().map(|expr| {
+                ctor_stmts.extend(field_initializer_expressions.into_iter().map(|expr| {
                     Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
                         expr: Box::new(expr),
@@ -1030,13 +1039,13 @@ impl DecoratorTransform {
         }
 
         // Handle static field initializer expressions
-        if !staticFieldInitializerExpressions.is_empty() {
+        if !static_field_initializer_expressions.is_empty() {
             class.body.push(ClassMember::StaticBlock(StaticBlock {
                 span: DUMMY_SP,
                 body: BlockStmt {
                     span: DUMMY_SP,
                     ctxt: Default::default(),
-                    stmts: staticFieldInitializerExpressions.into_iter().map(|expr| {
+                    stmts: static_field_initializer_expressions.into_iter().map(|expr| {
                         Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
                             expr: Box::new(expr),
@@ -1176,6 +1185,123 @@ impl DecoratorTransform {
 impl Fold for DecoratorTransform {
     noop_fold_type!();
 
+    fn fold_block_stmt(&mut self, block: BlockStmt) -> BlockStmt {
+        let mut new_stmts = Vec::new();
+        
+        for stmt in block.stmts {
+            match stmt {
+                Stmt::Decl(Decl::Class(ClassDecl { ident, declare: false, class })) => {
+                    let has_decorators = !class.decorators.is_empty() || 
+                        class.body.iter().any(|member| match member {
+                            ClassMember::Method(method) => !method.function.decorators.is_empty(),
+                            ClassMember::PrivateMethod(method) => !method.function.decorators.is_empty(),
+                            ClassMember::ClassProp(prop) => !prop.decorators.is_empty(),
+                            ClassMember::PrivateProp(prop) => !prop.decorators.is_empty(),
+                            ClassMember::AutoAccessor(accessor) => !accessor.decorators.is_empty(),
+                            _ => false,
+                        });
+
+                    if has_decorators {
+                        // For class declarations with decorators, expand into variable declarations + class
+                        let (transformed_class, extra_stmts) = self.transform_class_with_decorators(*class);
+                        
+                        // Add variable declarations first
+                        new_stmts.extend(extra_stmts);
+                        
+                        // Then add the transformed class
+                        new_stmts.push(Stmt::Decl(Decl::Class(ClassDecl {
+                            ident,
+                            declare: false,
+                            class: Box::new(transformed_class),
+                        })));
+                    } else {
+                        new_stmts.push(Stmt::Decl(Decl::Class(ClassDecl {
+                            ident,
+                            declare: false,
+                            class: Box::new(self.fold_class(*class)),
+                        })));
+                    }
+                }
+                _ => {
+                    new_stmts.push(stmt.fold_with(self));
+                }
+            }
+        }
+        
+        BlockStmt {
+            stmts: new_stmts,
+            ..block
+        }
+    }
+
+    fn fold_expr(&mut self, expr: Expr) -> Expr {
+        match expr {
+            Expr::Class(ClassExpr { ident, class }) => {
+                let has_decorators = !class.decorators.is_empty() || 
+                    class.body.iter().any(|member| match member {
+                        ClassMember::Method(method) => !method.function.decorators.is_empty(),
+                        ClassMember::PrivateMethod(method) => !method.function.decorators.is_empty(),
+                        ClassMember::ClassProp(prop) => !prop.decorators.is_empty(),
+                        ClassMember::PrivateProp(prop) => !prop.decorators.is_empty(),
+                        ClassMember::AutoAccessor(accessor) => !accessor.decorators.is_empty(),
+                        _ => false,
+                    });
+
+                if has_decorators {
+                    let (transformed_class, extra_stmts) = self.transform_class_with_decorators(*class);
+                    
+                    // For class expressions with decorators, we need to wrap them in an IIFE
+                    // that declares the variables and then returns the class
+                    let mut iife_stmts = extra_stmts;
+                    
+                    // Add the class expression as the return value
+                    iife_stmts.push(Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(Box::new(Expr::Class(ClassExpr {
+                            ident,
+                            class: Box::new(transformed_class),
+                        }))),
+                    }));
+                    
+                    // Create IIFE
+                    Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        ctxt: Default::default(),
+                        callee: Expr::Paren(ParenExpr {
+                            span: DUMMY_SP,
+                            expr: Box::new(Expr::Fn(FnExpr {
+                                ident: None,
+                                function: Box::new(Function {
+                                    params: vec![],
+                                    decorators: vec![],
+                                    span: DUMMY_SP,
+                                    ctxt: Default::default(),
+                                    body: Some(BlockStmt {
+                                        span: DUMMY_SP,
+                                        ctxt: Default::default(),
+                                        stmts: iife_stmts,
+                                    }),
+                                    is_generator: false,
+                                    is_async: false,
+                                    type_params: None,
+                                    return_type: None,
+                                }),
+                            })),
+                        }).as_callee(),
+                        args: vec![],
+                        type_args: None,
+                    })
+                } else {
+                    Expr::Class(ClassExpr {
+                        ident,
+                        class: Box::new(self.fold_class(*class)),
+                    })
+                }
+            }
+            _ => expr.fold_children_with(self)
+        }
+    }
+
     fn fold_class(&mut self, class: Class) -> Class {
         // Check if class has decorators or decorated members
         let has_decorators = !class.decorators.is_empty() || 
@@ -1191,6 +1317,8 @@ impl Fold for DecoratorTransform {
         let has_auto_accessors = class.body.iter().any(|member| matches!(member, ClassMember::AutoAccessor(_)));
 
         if has_decorators {
+            // For classes handled here, they should have been caught by fold_expr for expressions
+            // or fold_module for declarations. This is a fallback.
             let (transformed_class, _extra_stmts) = self.transform_class_with_decorators(class);
             transformed_class
         } else if has_auto_accessors {
