@@ -1579,17 +1579,6 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
             if let Expr::Ident(ref i) = *arg {
                 p.emit_strict_mode_err(i.span, SyntaxError::TS1102)
             }
-            if p.input().syntax().typescript() {
-                match arg.unwrap_parens() {
-                    Expr::Member(..) => {}
-                    Expr::OptChain(OptChainExpr { base, .. })
-                        if matches!(&**base, OptChainBase::Member(..)) => {}
-
-                    expr => {
-                        p.emit_err(expr.span(), SyntaxError::TS2703);
-                    }
-                }
-            }
         }
 
         return Ok(UnaryExpr {

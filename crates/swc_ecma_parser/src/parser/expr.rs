@@ -132,17 +132,6 @@ impl<I: Tokens> Parser<I> {
                 if let Expr::Ident(ref i) = *arg {
                     self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
                 }
-                if self.input().syntax().typescript() {
-                    match arg.unwrap_parens() {
-                        Expr::Member(..) => {}
-                        Expr::OptChain(OptChainExpr { base, .. })
-                            if matches!(&**base, OptChainBase::Member(..)) => {}
-
-                        expr => {
-                            self.emit_err(expr.span(), SyntaxError::TS2703);
-                        }
-                    }
-                }
             }
 
             return Ok(UnaryExpr {
