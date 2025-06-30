@@ -298,33 +298,33 @@ impl EsSyntax {
 
 impl SyntaxFlags {
     #[inline(always)]
-    pub fn auto_accessors(&self) -> bool {
+    pub const fn auto_accessors(&self) -> bool {
         self.contains(Self::AUTO_ACCESSORS)
     }
 
     #[inline(always)]
-    pub fn import_attributes(&self) -> bool {
+    pub const fn import_attributes(&self) -> bool {
         true
     }
 
     /// Should we parse jsx?
     #[inline(always)]
-    pub fn jsx(&self) -> bool {
+    pub const fn jsx(&self) -> bool {
         self.contains(SyntaxFlags::JSX)
     }
 
     #[inline(always)]
-    pub fn fn_bind(&self) -> bool {
+    pub const fn fn_bind(&self) -> bool {
         self.contains(SyntaxFlags::FN_BIND)
     }
 
     #[inline(always)]
-    pub fn decorators(&self) -> bool {
+    pub const fn decorators(&self) -> bool {
         self.contains(SyntaxFlags::DECORATORS)
     }
 
     #[inline(always)]
-    pub fn decorators_before_export(&self) -> bool {
+    pub const fn decorators_before_export(&self) -> bool {
         self.contains(SyntaxFlags::DECORATORS_BEFORE_EXPORT)
     }
 
@@ -343,37 +343,37 @@ impl SyntaxFlags {
     }
 
     #[inline(always)]
-    pub fn export_default_from(&self) -> bool {
+    pub const fn export_default_from(&self) -> bool {
         self.contains(SyntaxFlags::EXPORT_DEFAULT_FROM)
     }
 
     #[inline(always)]
-    pub fn dts(&self) -> bool {
+    pub const fn dts(&self) -> bool {
         self.contains(SyntaxFlags::DTS)
     }
 
     #[inline(always)]
-    pub fn allow_super_outside_method(&self) -> bool {
+    pub const fn allow_super_outside_method(&self) -> bool {
         self.contains(SyntaxFlags::ALLOW_SUPER_OUTSIDE_METHOD)
     }
 
     #[inline(always)]
-    pub fn allow_return_outside_function(&self) -> bool {
+    pub const fn allow_return_outside_function(&self) -> bool {
         self.contains(SyntaxFlags::ALLOW_RETURN_OUTSIDE_FUNCTION)
     }
 
     #[inline(always)]
-    pub fn early_errors(&self) -> bool {
+    pub const fn early_errors(&self) -> bool {
         !self.contains(SyntaxFlags::NO_EARLY_ERRORS)
     }
 
     #[inline(always)]
-    pub fn disallow_ambiguous_jsx_like(&self) -> bool {
+    pub const fn disallow_ambiguous_jsx_like(&self) -> bool {
         self.contains(SyntaxFlags::TS.union(SyntaxFlags::DISALLOW_AMBIGUOUS_JSX_LIKE))
     }
 
     #[inline(always)]
-    pub fn explicit_resource_management(&self) -> bool {
+    pub const fn explicit_resource_management(&self) -> bool {
         self.contains(SyntaxFlags::EXPLICIT_RESOURCE_MANAGEMENT)
     }
 }
