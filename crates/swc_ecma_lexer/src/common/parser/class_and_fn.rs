@@ -1181,7 +1181,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
                 |p| {
                     let params = parse_formal_params(p)?;
 
-                    if params.iter().filter(|p| is_not_this(p)).count() != 0 {
+                    if params.iter().any(is_not_this) {
                         p.emit_err(key_span, SyntaxError::GetterParam);
                     }
 
