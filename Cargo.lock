@@ -5654,7 +5654,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "17.2.0"
+version = "17.2.1"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
