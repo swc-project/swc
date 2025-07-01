@@ -607,10 +607,17 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_cond_expr(&mut self, n: &CondExpr) {
-        n.test.visit_with(self);
+        {
+            let ctx = self.ctx.with(BitContext::IsIdRef, false);
+
+            n.test.visit_with(&mut *self.with_ctx(ctx));
+        }
 
         {
-            let ctx = self.ctx.with(BitContext::InCond, true);
+            let ctx = self
+                .ctx
+                .with(BitContext::InCond, true)
+                .with(BitContext::IsIdRef, true);
             self.with_ctx(ctx).visit_in_cond(&n.cons);
             self.with_ctx(ctx).visit_in_cond(&n.alt);
         }
