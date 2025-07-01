@@ -57,7 +57,7 @@ fn parse_normal_for_head<'a, P: Parser<'a>>(
     let test = if p.input_mut().eat(&P::Token::SEMI) {
         None
     } else {
-        let test = p.include_in_expr(true).parse_expr().map(Some)?;
+        let test = p.allow_in_expr().parse_expr().map(Some)?;
         p.input_mut().eat(&P::Token::SEMI);
         test
     };
@@ -65,7 +65,7 @@ fn parse_normal_for_head<'a, P: Parser<'a>>(
     let update = if p.input_mut().is(&P::Token::RPAREN) {
         None
     } else {
-        p.include_in_expr(true).parse_expr().map(Some)?
+        p.allow_in_expr().parse_expr().map(Some)?
     };
 
     Ok(TempForHead::For { init, test, update })
@@ -74,13 +74,13 @@ fn parse_normal_for_head<'a, P: Parser<'a>>(
 fn parse_for_each_head<'a, P: Parser<'a>>(p: &mut P, left: ForHead) -> PResult<TempForHead> {
     let is_of = p.bump().is_of();
     if is_of {
-        let right = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
+        let right = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
         Ok(TempForHead::ForOf { left, right })
     } else {
         if let ForHead::UsingDecl(d) = &left {
             p.emit_err(d.span, SyntaxError::UsingDeclNotAllowedForForInLoop)
         }
-        let right = p.include_in_expr(true).parse_expr()?;
+        let right = p.allow_in_expr().parse_expr()?;
         Ok(TempForHead::ForIn { left, right })
     }
 }
@@ -94,7 +94,7 @@ pub fn parse_return_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
         let arg = if p.is_general_semi() {
             None
         } else {
-            p.include_in_expr(true).parse_expr().map(Some)?
+            p.allow_in_expr().parse_expr().map(Some)?
         };
         p.expect_general_semi()?;
         Ok(ReturnStmt {
@@ -260,12 +260,6 @@ pub fn parse_var_stmt<'a, P: Parser<'a>>(p: &mut P, for_loop: bool) -> PResult<B
 
     let mut decls = Vec::with_capacity(4);
     loop {
-        let ctx = if should_include_in {
-            p.ctx() | Context::IncludeInExpr
-        } else {
-            p.ctx()
-        };
-
         // Handle
         //      var a,;
         //
@@ -281,11 +275,14 @@ pub fn parse_var_stmt<'a, P: Parser<'a>>(p: &mut P, for_loop: bool) -> PResult<B
             break;
         }
 
-        decls.push(parse_var_declarator(
-            p.with_ctx(ctx).deref_mut(),
-            for_loop,
-            kind,
-        )?);
+        let decl = if should_include_in {
+            p.do_inside_of_context(Context::IncludeInExpr)
+                .parse_with(|p| parse_var_declarator(p, for_loop, kind))
+        } else {
+            parse_var_declarator(p, for_loop, kind)
+        }?;
+
+        decls.push(decl);
 
         if !p.input_mut().eat(&P::Token::COMMA) {
             break;
@@ -440,7 +437,7 @@ pub fn parse_for_head<'a, P: Parser<'a>>(p: &mut P) -> PResult<TempForHead> {
     }
 
     let start = p.cur_pos();
-    let init = parse_for_head_prefix(p.include_in_expr(false).deref_mut())?;
+    let init = parse_for_head_prefix(p.disallow_in_expr().deref_mut())?;
 
     let mut is_using_decl = false;
     let mut is_await_using_decl = false;
@@ -614,8 +611,8 @@ fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
     expect!(p, &P::Token::LPAREN);
 
     let test = p
-        .with_ctx(p.ctx() & !Context::IgnoreElseClause)
-        .include_in_expr(true)
+        .do_outside_of_context(Context::IgnoreElseClause)
+        .allow_in_expr()
         .parse_expr()
         .map_err(|err| {
             Error::new(
@@ -638,7 +635,7 @@ fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
                 // TODO: report error?
             }
             parse_stmt(
-                p.with_ctx(p.ctx() & !Context::IgnoreElseClause & !Context::TopLevel)
+                p.do_outside_of_context(Context::IgnoreElseClause.union(Context::TopLevel))
                     .deref_mut(),
             )
             .map(Box::new)
@@ -653,24 +650,26 @@ fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
     } else {
         let mut cur = None;
 
-        let ctx = p.ctx() | Context::IgnoreElseClause;
-
         let last = loop {
             if !p.input_mut().eat(&P::Token::ELSE) {
                 break None;
             }
 
             if !p.input_mut().is(&P::Token::IF) {
-                let ctx = p.ctx() & !Context::IgnoreElseClause & !Context::TopLevel;
-
                 // As we eat `else` above, we need to parse statement once.
-                let last = parse_stmt(p.with_ctx(ctx).deref_mut())?;
+                let last = parse_stmt(
+                    p.do_outside_of_context(Context::IgnoreElseClause.union(Context::TopLevel))
+                        .deref_mut(),
+                )?;
                 break Some(last);
             }
 
             // We encountered `else if`
 
-            let alt = parse_if_stmt(p.with_ctx(ctx).deref_mut())?;
+            let alt = parse_if_stmt(
+                p.do_inside_of_context(Context::IgnoreElseClause)
+                    .deref_mut(),
+            )?;
 
             match &mut cur {
                 Some(cur) => {
@@ -713,7 +712,7 @@ fn parse_throw_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
         syntax_error!(p, SyntaxError::LineBreakInThrow);
     }
 
-    let arg = p.include_in_expr(true).parse_expr()?;
+    let arg = p.allow_in_expr().parse_expr()?;
     p.expect_general_semi()?;
 
     let span = p.span(start);
@@ -736,7 +735,7 @@ fn parse_with_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     p.assert_and_bump(&P::Token::WITH);
 
     expect!(p, &P::Token::LPAREN);
-    let obj = p.include_in_expr(true).parse_expr()?;
+    let obj = p.allow_in_expr().parse_expr()?;
     expect!(p, &P::Token::RPAREN);
 
     let ctx = (p.ctx() | Context::InFunction) & !Context::TopLevel;
@@ -752,7 +751,7 @@ fn parse_while_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     p.assert_and_bump(&P::Token::WHILE);
 
     expect!(p, &P::Token::LPAREN);
-    let test = p.include_in_expr(true).parse_expr()?;
+    let test = p.allow_in_expr().parse_expr()?;
     expect!(p, &P::Token::RPAREN);
 
     let ctx = (p.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed) & !Context::TopLevel;
@@ -770,9 +769,7 @@ fn parse_catch_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Pat>> {
         let type_ann_start = p.cur_pos();
 
         if p.syntax().typescript() && p.input_mut().eat(&P::Token::COLON) {
-            let ctx = p.ctx() | Context::InType;
-
-            let ty = parse_ts_type(p.with_ctx(ctx).deref_mut())?;
+            let ty = parse_ts_type(p.do_inside_of_context(Context::InType).deref_mut())?;
             // p.emit_err(ty.span(), SyntaxError::TS1196);
 
             match &mut pat {
@@ -806,7 +803,7 @@ fn parse_do_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let body = parse_stmt(p.with_ctx(ctx).deref_mut()).map(Box::new)?;
     expect!(p, &P::Token::WHILE);
     expect!(p, &P::Token::LPAREN);
-    let test = p.include_in_expr(true).parse_expr()?;
+    let test = p.allow_in_expr().parse_expr()?;
     expect!(p, &P::Token::RPAREN);
     // We *may* eat semicolon.
     let _ = p.eat_general_semi();
@@ -845,7 +842,7 @@ fn parse_labelled_stmt<'a, P: Parser<'a>>(p: &mut P, l: Ident) -> PResult<Stmt> 
 
             f.into()
         } else {
-            parse_stmt(p.with_ctx(p.ctx() & !Context::TopLevel).deref_mut())?
+            parse_stmt(p.do_outside_of_context(Context::TopLevel).deref_mut())?
         });
 
         for err in errors {
@@ -874,7 +871,7 @@ pub fn parse_block<'a, P: Parser<'a>>(p: &mut P, allow_directives: bool) -> PRes
     expect!(p, &P::Token::LBRACE);
 
     let stmts = parse_stmt_block_body(
-        p.with_ctx(p.ctx() & !Context::TopLevel).deref_mut(),
+        p.do_outside_of_context(Context::TopLevel).deref_mut(),
         allow_directives,
         Some(&P::Token::RBRACE),
     )?;
@@ -941,7 +938,7 @@ fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     p.assert_and_bump(&P::Token::SWITCH);
 
     expect!(p, &P::Token::LPAREN);
-    let discriminant = p.include_in_expr(true).parse_expr()?;
+    let discriminant = p.allow_in_expr().parse_expr()?;
     expect!(p, &P::Token::RPAREN);
 
     let mut cases = Vec::new();
@@ -949,49 +946,49 @@ fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
     expect!(p, &P::Token::LBRACE);
 
-    let ctx = p.ctx() | Context::IsBreakAllowed;
-    p.with_ctx(ctx).parse_with(|p| {
-        while p
-            .input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_case() || cur.is_default())
-        {
-            let mut cons = Vec::new();
-            let is_case = p.input_mut().is(&P::Token::CASE);
-            let case_start = p.cur_pos();
-            p.bump();
-            let test = if is_case {
-                p.include_in_expr(true).parse_expr().map(Some)?
-            } else {
-                if let Some(previous) = span_of_previous_default {
-                    syntax_error!(p, SyntaxError::MultipleDefault { previous });
-                }
-                span_of_previous_default = Some(p.span(case_start));
-
-                None
-            };
-            expect!(p, &P::Token::COLON);
-
-            while !eof!(p)
-                && !p
-                    .input_mut()
-                    .cur()
-                    .is_some_and(|cur| cur.is_case() || cur.is_default() || cur.is_rbrace())
+    p.do_inside_of_context(Context::IsBreakAllowed)
+        .parse_with(|p| {
+            while p
+                .input_mut()
+                .cur()
+                .is_some_and(|cur| cur.is_case() || cur.is_default())
             {
-                cons.push(parse_stmt_list_item(
-                    p.with_ctx(p.ctx() & !Context::TopLevel).deref_mut(),
-                )?);
+                let mut cons = Vec::new();
+                let is_case = p.input_mut().is(&P::Token::CASE);
+                let case_start = p.cur_pos();
+                p.bump();
+                let test = if is_case {
+                    p.allow_in_expr().parse_expr().map(Some)?
+                } else {
+                    if let Some(previous) = span_of_previous_default {
+                        syntax_error!(p, SyntaxError::MultipleDefault { previous });
+                    }
+                    span_of_previous_default = Some(p.span(case_start));
+
+                    None
+                };
+                expect!(p, &P::Token::COLON);
+
+                while !eof!(p)
+                    && !p
+                        .input_mut()
+                        .cur()
+                        .is_some_and(|cur| cur.is_case() || cur.is_default() || cur.is_rbrace())
+                {
+                    cons.push(parse_stmt_list_item(
+                        p.do_outside_of_context(Context::TopLevel).deref_mut(),
+                    )?);
+                }
+
+                cases.push(SwitchCase {
+                    span: Span::new(case_start, p.input().prev_span().hi),
+                    test,
+                    cons,
+                });
             }
 
-            cases.push(SwitchCase {
-                span: Span::new(case_start, p.input().prev_span().hi),
-                test,
-                cons,
-            });
-        }
-
-        Ok(())
-    })?;
+            Ok(())
+        })?;
 
     // eof or rbrace
     expect!(p, &P::Token::RBRACE);
@@ -1114,7 +1111,7 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
             }
 
             let expr = parse_await_expr(p, eaten_await)?;
-            let expr = parse_bin_op_recursively(p.include_in_expr(true).deref_mut(), expr, 0)?;
+            let expr = parse_bin_op_recursively(p.allow_in_expr().deref_mut(), expr, 0)?;
             p.eat_general_semi();
 
             let span = p.span(start);
@@ -1252,7 +1249,7 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
         return Ok(parse_ts_enum_decl(p, start, false)?.into());
     } else if cur.is_lbrace() {
         return parse_block(
-            p.with_ctx(p.ctx() | Context::AllowUsingDecl).deref_mut(),
+            p.do_inside_of_context(Context::AllowUsingDecl).deref_mut(),
             false,
         )
         .map(Stmt::Block);
@@ -1282,7 +1279,7 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
     // simply start parsing an expression, and afterwards, if the
     // next token is a colon and the expression was a simple
     // Identifier node, we switch to interpreting it as a label.
-    let expr = p.include_in_expr(true).parse_expr()?;
+    let expr = p.allow_in_expr().parse_expr()?;
 
     let expr = match *expr {
         Expr::Ident(ident) => {

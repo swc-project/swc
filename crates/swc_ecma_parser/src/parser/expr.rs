@@ -198,8 +198,9 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
                 Token::LBracket => {
-                    let ctx = self.ctx() & !Context::WillExpectColonForCond;
-                    return self.with_ctx(ctx).parse_with(parse_array_lit);
+                    return self
+                        .do_outside_of_context(Context::WillExpectColonForCond)
+                        .parse_with(parse_array_lit);
                 }
                 Token::LBrace => {
                     return parse_object_expr(self).map(Box::new);
@@ -228,10 +229,11 @@ impl<I: Tokens> Parser<I> {
                     return Ok(self.parse_no_substitution_template_literal(false)?.into())
                 }
                 Token::TemplateHead => {
-                    let ctx = self.ctx() & !Context::WillExpectColonForCond;
-
                     // parse template literal
-                    return Ok(self.with_ctx(ctx).parse_tpl(false)?.into());
+                    return Ok(self
+                        .do_outside_of_context(Context::WillExpectColonForCond)
+                        .parse_tpl(false)?
+                        .into());
                 }
                 _ => {}
             }

@@ -84,7 +84,7 @@ pub fn parse_array_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
             continue;
         }
 
-        elems.push(p.include_in_expr(true).parse_expr_or_spread().map(Some)?);
+        elems.push(p.allow_in_expr().parse_expr_or_spread().map(Some)?);
 
         if !p.input_mut().is(&P::Token::RBRACKET) {
             expect!(p, &P::Token::COMMA);
@@ -175,7 +175,7 @@ fn parse_tpl_elements<'a, P: Parser<'a>>(
 
     while !is_tail {
         expect!(p, &P::Token::DOLLAR_LBRACE);
-        exprs.push(p.include_in_expr(true).parse_expr()?);
+        exprs.push(p.allow_in_expr().parse_expr()?);
         expect!(p, &P::Token::RBRACE);
         let elem = p.parse_tpl_element(is_tagged_tpl)?;
         is_tail = elem.tail;
@@ -296,36 +296,35 @@ pub fn parse_args<'a, P: Parser<'a>>(
 ) -> PResult<Vec<ExprOrSpread>> {
     trace_cur!(p, parse_args);
 
-    let ctx = p.ctx() & !Context::WillExpectColonForCond;
+    p.do_outside_of_context(Context::WillExpectColonForCond)
+        .parse_with(|p| {
+            let start = p.cur_pos();
+            expect!(p, &P::Token::LPAREN);
 
-    p.with_ctx(ctx).parse_with(|p| {
-        let start = p.cur_pos();
-        expect!(p, &P::Token::LPAREN);
+            let mut first = true;
+            let mut expr_or_spreads = Vec::with_capacity(2);
 
-        let mut first = true;
-        let mut expr_or_spreads = Vec::with_capacity(2);
+            while !eof!(p) && !p.input_mut().is(&P::Token::RPAREN) {
+                if first {
+                    first = false;
+                } else {
+                    expect!(p, &P::Token::COMMA);
+                    // Handle trailing comma.
+                    if p.input_mut().is(&P::Token::RPAREN) {
+                        if is_dynamic_import && !p.input().syntax().import_attributes() {
+                            syntax_error!(p, p.span(start), SyntaxError::TrailingCommaInsideImport)
+                        }
 
-        while !eof!(p) && !p.input_mut().is(&P::Token::RPAREN) {
-            if first {
-                first = false;
-            } else {
-                expect!(p, &P::Token::COMMA);
-                // Handle trailing comma.
-                if p.input_mut().is(&P::Token::RPAREN) {
-                    if is_dynamic_import && !p.input().syntax().import_attributes() {
-                        syntax_error!(p, p.span(start), SyntaxError::TrailingCommaInsideImport)
+                        break;
                     }
-
-                    break;
                 }
+
+                expr_or_spreads.push(p.allow_in_expr().parse_expr_or_spread()?);
             }
 
-            expr_or_spreads.push(p.include_in_expr(true).parse_expr_or_spread()?);
-        }
-
-        expect!(p, &P::Token::RPAREN);
-        Ok(expr_or_spreads)
-    })
+            expect!(p, &P::Token::RPAREN);
+            Ok(expr_or_spreads)
+        })
 }
 
 ///`parseMaybeAssign` (overridden)
@@ -384,38 +383,43 @@ fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>
             .is_some_and(|cur| cur.is_less() || cur.is_jsx_tag_start()))
         && (peek!(p).is_some_and(|peek| peek.is_word() || peek.is_jsx_name()))
     {
-        let ctx = p.ctx() & !Context::WillExpectColonForCond;
-        let res = try_parse_ts(p.with_ctx(ctx).deref_mut(), |p| {
-            if p.input_mut()
-                .cur()
-                .is_some_and(|cur| cur.is_jsx_tag_start())
-            {
-                if let Some(TokenContext::JSXOpeningTag) = p.input_mut().token_context().current() {
-                    p.input_mut().token_context_mut().pop();
+        let res = try_parse_ts(
+            p.do_outside_of_context(Context::WillExpectColonForCond)
+                .deref_mut(),
+            |p| {
+                if p.input_mut()
+                    .cur()
+                    .is_some_and(|cur| cur.is_jsx_tag_start())
+                {
+                    if let Some(TokenContext::JSXOpeningTag) =
+                        p.input_mut().token_context().current()
+                    {
+                        p.input_mut().token_context_mut().pop();
 
-                    debug_assert_eq!(
-                        p.input_mut().token_context().current(),
-                        Some(TokenContext::JSXExpr)
-                    );
-                    p.input_mut().token_context_mut().pop();
+                        debug_assert_eq!(
+                            p.input_mut().token_context().current(),
+                            Some(TokenContext::JSXExpr)
+                        );
+                        p.input_mut().token_context_mut().pop();
+                    }
                 }
-            }
 
-            let type_parameters = parse_ts_type_params(p, false, true)?;
-            let mut arrow = parse_assignment_expr_base(p)?;
-            match *arrow {
-                Expr::Arrow(ArrowExpr {
-                    ref mut span,
-                    ref mut type_params,
-                    ..
-                }) => {
-                    *span = Span::new(type_parameters.span.lo, span.hi);
-                    *type_params = Some(type_parameters);
+                let type_parameters = parse_ts_type_params(p, false, true)?;
+                let mut arrow = parse_assignment_expr_base(p)?;
+                match *arrow {
+                    Expr::Arrow(ArrowExpr {
+                        ref mut span,
+                        ref mut type_params,
+                        ..
+                    }) => {
+                        *span = Span::new(type_parameters.span.lo, span.hi);
+                        *type_params = Some(type_parameters);
+                    }
+                    _ => unexpected!(p, "("),
                 }
-                _ => unexpected!(p, "("),
-            }
-            Ok(Some(arrow))
-        });
+                Ok(Some(arrow))
+            },
+        );
         if let Some(res) = res {
             if p.input().syntax().disallow_ambiguous_jsx_like() {
                 p.emit_err(start, SyntaxError::ReservedArrowTypeParam);
@@ -538,7 +542,7 @@ fn parse_cond_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
             | Context::InCondExpr
             | Context::WillExpectColonForCond
             | Context::IncludeInExpr;
-        let cons = parse_assignment_expr(p.with_ctx(ctx).deref_mut())?;
+        let cons = parse_assignment_expr(p.do_inside_of_context(ctx).deref_mut())?;
         expect!(p, &P::Token::COLON);
         let ctx = (p.ctx() | Context::InCondExpr) & !Context::WillExpectColonForCond;
         let alt = parse_assignment_expr(p.with_ctx(ctx).deref_mut())?;
@@ -626,102 +630,105 @@ fn parse_subscript<'a, P: Parser<'a>>(
 
             let mut_obj_opt = &mut obj_opt;
 
-            let ctx = p.ctx() | Context::ShouldNotLexLtOrGtAsType;
-            let result = try_parse_ts(p.with_ctx(ctx).deref_mut(), |p| {
-                if !no_call
-                    && at_possible_async(
-                        p,
-                        match &mut_obj_opt {
-                            Some(Callee::Expr(ref expr)) => expr,
-                            _ => unreachable!(),
-                        },
-                    )?
-                {
-                    // Almost certainly this is a generic async function `async <T>() => ...
-                    // But it might be a call with a type argument `async<T>();`
-                    let async_arrow_fn = try_parse_ts_generic_async_arrow_fn(p, start)?;
-                    if let Some(async_arrow_fn) = async_arrow_fn {
-                        return Ok(Some((async_arrow_fn.into(), true)));
+            let result = try_parse_ts(
+                p.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType)
+                    .deref_mut(),
+                |p| {
+                    if !no_call
+                        && at_possible_async(
+                            p,
+                            match &mut_obj_opt {
+                                Some(Callee::Expr(ref expr)) => expr,
+                                _ => unreachable!(),
+                            },
+                        )?
+                    {
+                        // Almost certainly this is a generic async function `async <T>() => ...
+                        // But it might be a call with a type argument `async<T>();`
+                        let async_arrow_fn = try_parse_ts_generic_async_arrow_fn(p, start)?;
+                        if let Some(async_arrow_fn) = async_arrow_fn {
+                            return Ok(Some((async_arrow_fn.into(), true)));
+                        }
                     }
-                }
 
-                let type_args = parse_ts_type_args(p)?;
+                    let type_args = parse_ts_type_args(p)?;
 
-                if !no_call && p.input_mut().is(&P::Token::LPAREN) {
-                    // possibleAsync always false here, because we would have handled it
-                    // above. (won't be any undefined arguments)
-                    let args = parse_args(p, is_dynamic_import)?;
+                    if !no_call && p.input_mut().is(&P::Token::LPAREN) {
+                        // possibleAsync always false here, because we would have handled it
+                        // above. (won't be any undefined arguments)
+                        let args = parse_args(p, is_dynamic_import)?;
 
-                    let obj = mut_obj_opt.take().unwrap();
+                        let obj = mut_obj_opt.take().unwrap();
 
-                    if let Callee::Expr(callee) = &obj {
-                        if let Expr::OptChain(..) = &**callee {
-                            return Ok(Some((
-                                OptChainExpr {
-                                    span: p.span(start),
-                                    base: Box::new(OptChainBase::Call(OptCall {
+                        if let Callee::Expr(callee) = &obj {
+                            if let Expr::OptChain(..) = &**callee {
+                                return Ok(Some((
+                                    OptChainExpr {
                                         span: p.span(start),
-                                        callee: obj.expect_expr(),
-                                        type_args: Some(type_args),
-                                        args,
-                                        ..Default::default()
-                                    })),
-                                    optional: false,
-                                }
-                                .into(),
-                                true,
-                            )));
+                                        base: Box::new(OptChainBase::Call(OptCall {
+                                            span: p.span(start),
+                                            callee: obj.expect_expr(),
+                                            type_args: Some(type_args),
+                                            args,
+                                            ..Default::default()
+                                        })),
+                                        optional: false,
+                                    }
+                                    .into(),
+                                    true,
+                                )));
+                            }
                         }
-                    }
 
-                    Ok(Some((
-                        CallExpr {
-                            span: p.span(start),
-                            callee: obj,
-                            type_args: Some(type_args),
-                            args,
-                            ..Default::default()
-                        }
-                        .into(),
-                        true,
-                    )))
-                } else if p.input_mut().cur().is_some_and(|cur| {
-                    cur.is_no_substitution_template_literal()
-                        || cur.is_template_head()
-                        || cur.is_backquote()
-                }) {
-                    p.parse_tagged_tpl(
-                        match mut_obj_opt {
-                            Some(Callee::Expr(obj)) => obj.take(),
-                            _ => unreachable!(),
-                        },
-                        Some(type_args),
-                    )
-                    .map(|expr| (expr.into(), true))
-                    .map(Some)
-                } else if p
-                    .input_mut()
-                    .cur()
-                    .is_some_and(|cur| cur.is_equal() || cur.is_as() || cur.is_satisfies())
-                {
-                    Ok(Some((
-                        TsInstantiation {
-                            span: p.span(start),
-                            expr: match mut_obj_opt {
+                        Ok(Some((
+                            CallExpr {
+                                span: p.span(start),
+                                callee: obj,
+                                type_args: Some(type_args),
+                                args,
+                                ..Default::default()
+                            }
+                            .into(),
+                            true,
+                        )))
+                    } else if p.input_mut().cur().is_some_and(|cur| {
+                        cur.is_no_substitution_template_literal()
+                            || cur.is_template_head()
+                            || cur.is_backquote()
+                    }) {
+                        p.parse_tagged_tpl(
+                            match mut_obj_opt {
                                 Some(Callee::Expr(obj)) => obj.take(),
                                 _ => unreachable!(),
                             },
-                            type_args,
-                        }
-                        .into(),
-                        false,
-                    )))
-                } else if no_call {
-                    unexpected!(p, "`")
-                } else {
-                    unexpected!(p, "( or `")
-                }
-            });
+                            Some(type_args),
+                        )
+                        .map(|expr| (expr.into(), true))
+                        .map(Some)
+                    } else if p
+                        .input_mut()
+                        .cur()
+                        .is_some_and(|cur| cur.is_equal() || cur.is_as() || cur.is_satisfies())
+                    {
+                        Ok(Some((
+                            TsInstantiation {
+                                span: p.span(start),
+                                expr: match mut_obj_opt {
+                                    Some(Callee::Expr(obj)) => obj.take(),
+                                    _ => unreachable!(),
+                                },
+                                type_args,
+                            }
+                            .into(),
+                            false,
+                        )))
+                    } else if no_call {
+                        unexpected!(p, "`")
+                    } else {
+                        unexpected!(p, "( or `")
+                    }
+                },
+            );
             if let Some(result) = result {
                 return Ok(result);
             }
@@ -764,7 +771,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
             || p.input_mut().eat(&P::Token::LBRACKET))
     {
         let bracket_lo = p.input().prev_span().lo;
-        let prop = p.include_in_expr(true).parse_expr()?;
+        let prop = p.allow_in_expr().parse_expr()?;
         expect!(p, &P::Token::RBRACKET);
         let span = Span::new(obj.span_lo(), p.input().last_pos());
         debug_assert_eq!(obj.span_lo(), span.lo());
@@ -1015,9 +1022,8 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     || cur.is_no_substitution_template_literal()
                     || cur.is_backquote()
             }) {
-                let ctx = p.ctx() & !Context::WillExpectColonForCond;
                 let tpl = p
-                    .with_ctx(ctx)
+                    .do_outside_of_context(Context::WillExpectColonForCond)
                     .parse_with(|p| p.parse_tagged_tpl(expr, None))?;
                 return Ok((tpl.into(), true));
             }
@@ -1092,9 +1098,8 @@ pub fn parse_member_expr_or_new_expr<'a>(
     p: &mut impl Parser<'a>,
     is_new_expr: bool,
 ) -> PResult<Box<Expr>> {
-    let ctx = p.ctx() | Context::ShouldNotLexLtOrGtAsType;
-
-    parse_member_expr_or_new_expr_inner(p.with_ctx(ctx).deref_mut(), is_new_expr)
+    p.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType)
+        .parse_with(|p| parse_member_expr_or_new_expr_inner(p, is_new_expr))
 }
 
 fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
@@ -1161,9 +1166,10 @@ fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
                 .is_some_and(|cur| cur.is_less() || cur.is_lshift())
         {
             try_parse_ts(p, |p| {
-                let ctx = p.ctx() & !Context::ShouldNotLexLtOrGtAsType;
-
-                let args = parse_ts_type_args(p.with_ctx(ctx).deref_mut())?;
+                let args = parse_ts_type_args(
+                    p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType)
+                        .deref_mut(),
+                )?;
                 if !p.input_mut().is(&P::Token::LPAREN) {
                     let span = p.input().cur_span();
                     let cur = p.input_mut().dump_cur();
@@ -1835,7 +1841,7 @@ pub fn parse_args_or_pats<'a, P: Parser<'a>>(
     p: &mut P,
 ) -> PResult<(Vec<AssignTargetOrSpread>, Option<Span>)> {
     parse_args_or_pats_inner(
-        p.with_ctx(p.ctx() & !Context::WillExpectColonForCond)
+        p.do_outside_of_context(Context::WillExpectColonForCond)
             .deref_mut(),
     )
 }
@@ -1891,7 +1897,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
 
                 ExprOrSpread { spread, expr }
             } else {
-                p.include_in_expr(true).parse_expr_or_spread()?
+                p.allow_in_expr().parse_expr_or_spread()?
             }
         };
 
@@ -1915,11 +1921,15 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                 } else if matches!(arg, ExprOrSpread { spread: None, .. }) {
                     expect!(p, &P::Token::QUESTION);
                     let test = arg.expr;
-                    let ctx = p.ctx()
-                        | Context::InCondExpr
-                        | Context::WillExpectColonForCond
-                        | Context::IncludeInExpr;
-                    let cons = parse_assignment_expr(p.with_ctx(ctx).deref_mut())?;
+
+                    let cons = parse_assignment_expr(
+                        p.do_inside_of_context(
+                            Context::InCondExpr
+                                .union(Context::WillExpectColonForCond)
+                                .union(Context::IncludeInExpr),
+                        )
+                        .deref_mut(),
+                    )?;
                     expect!(p, &P::Token::COLON);
                     let ctx = (p.ctx() | Context::InCondExpr) & !Context::WillExpectColonForCond;
                     let alt = parse_assignment_expr(p.with_ctx(ctx).deref_mut())?;
@@ -2101,10 +2111,11 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
     // But as all patterns of javascript is subset of
     // expressions, we can parse both as expression.
 
-    let ctx = p.ctx() & !Context::WillExpectColonForCond;
-
-    let (paren_items, trailing_comma) =
-        parse_args_or_pats(p.with_ctx(ctx).include_in_expr(true).deref_mut())?;
+    let (paren_items, trailing_comma) = parse_args_or_pats(
+        p.do_outside_of_context(Context::WillExpectColonForCond)
+            .allow_in_expr()
+            .deref_mut(),
+    )?;
 
     let has_pattern = paren_items
         .iter()
@@ -2578,8 +2589,9 @@ pub(crate) fn parse_primary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Ex
                 return res;
             }
         } else if token.is_lbracket() {
-            let ctx = p.ctx() & !Context::WillExpectColonForCond;
-            return p.with_ctx(ctx).parse_with(parse_array_lit);
+            return p
+                .do_outside_of_context(Context::WillExpectColonForCond)
+                .parse_with(parse_array_lit);
         } else if token.is_lbrace() {
             return parse_object_expr(p).map(Box::new);
         } else if token.is_function() {
@@ -2600,9 +2612,13 @@ pub(crate) fn parse_primary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Ex
         } else if token.is_lparen() {
             return parse_paren_expr_or_arrow_fn(p, can_be_arrow, None);
         } else if token.is_backquote() {
-            let ctx = p.ctx() & !Context::WillExpectColonForCond;
             // parse template literal
-            return Ok(parse_tpl(p.with_ctx(ctx).deref_mut(), false)?.into());
+            return Ok(parse_tpl(
+                p.do_outside_of_context(Context::WillExpectColonForCond)
+                    .deref_mut(),
+                false,
+            )?
+            .into());
         }
     }
 

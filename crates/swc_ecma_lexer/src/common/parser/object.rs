@@ -84,7 +84,7 @@ fn parse_binding_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<ObjectPatP
     };
 
     let value = if p.input_mut().eat(&P::Token::EQUAL) {
-        parse_assignment_expr(p.include_in_expr(true).deref_mut()).map(Some)?
+        parse_assignment_expr(p.allow_in_expr().deref_mut()).map(Some)?
     } else {
         if p.ctx().is_reserved_word(&key.sym) {
             p.emit_err(key.span, SyntaxError::ReservedWordInObjShorthandOrPat);
@@ -167,7 +167,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
         // spread element
         let dot3_token = p.span(start);
 
-        let expr = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
+        let expr = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
 
         return Ok(PropOrSpread::Spread(SpreadElement { dot3_token, expr }));
     }
@@ -230,7 +230,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
     // { 0: 1, }
     // { a: expr, }
     if p.input_mut().eat(&P::Token::COLON) {
-        let value = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
+        let value = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
         return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
             key,
             value,
@@ -277,7 +277,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
         }
 
         if p.input_mut().eat(&P::Token::EQUAL) {
-            let value = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
+            let value = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
             let span = p.span(start);
             return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
                 span,
