@@ -1488,6 +1488,9 @@ where
 fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
     match e {
         Expr::Ident(i) => op(i),
+        Expr::Paren(p) => {
+            for_each_id_ref_in_expr(&p.expr, op);
+        }
         Expr::Cond(c) => {
             for_each_id_ref_in_expr(&c.cons, op);
             for_each_id_ref_in_expr(&c.alt, op);
