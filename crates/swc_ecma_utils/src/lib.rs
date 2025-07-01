@@ -484,7 +484,10 @@ pub trait StmtExt {
                     cons,
                     alt: Some(alt),
                     ..
-                }) => cons.terminates() && alt.terminates(),
+                }) => {
+                    terminates(cons, allow_break, allow_throw)
+                        && terminates(alt, allow_break, allow_throw)
+                }
                 Stmt::Switch(s) => {
                     let mut has_default = false;
                     let mut has_non_empty_terminates = false;
