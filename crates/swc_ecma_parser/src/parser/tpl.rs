@@ -121,7 +121,7 @@ impl<I: Tokens> Parser<I> {
         let mut quasis = vec![cur_elem];
 
         while !is_tail {
-            exprs.push(self.include_in_expr(true).parse_expr()?);
+            exprs.push(self.allow_in_expr().parse_expr()?);
             let elem = self.parse_tpl_element(is_tagged_tpl)?;
             is_tail = elem.tail;
             quasis.push(elem);

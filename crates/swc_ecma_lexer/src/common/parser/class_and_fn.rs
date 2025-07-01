@@ -653,7 +653,7 @@ pub(super) fn parse_fn_block_body<'a, P: Parser<'a>>(
             {
                 return Ok(None);
             }
-            let block = parse_block(p.include_in_expr(true).deref_mut(), true);
+            let block = parse_block(p.allow_in_expr().deref_mut(), true);
             block.map(|block_stmt| {
                 if !is_simple_parameter_list {
                     if let Some(span) = has_use_strict(&block_stmt) {

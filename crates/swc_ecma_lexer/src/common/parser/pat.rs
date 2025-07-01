@@ -372,7 +372,7 @@ pub(super) fn parse_binding_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat
     let left = parse_binding_pat_or_ident(p, false)?;
 
     if p.input_mut().eat(&P::Token::EQUAL) {
-        let right = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
+        let right = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
 
         if p.ctx().contains(Context::InDeclare) {
             p.emit_err(p.span(start), SyntaxError::TS2371);
