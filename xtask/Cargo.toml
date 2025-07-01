@@ -22,4 +22,4 @@ toml           = { workspace = true }
 walkdir        = { workspace = true }
 
 precomputed-map = { workspace = true, features = [ "builder" ] }
-xxhash-rust     = { workspace = true, features = [ "xxh3" ] } 
+foldhash        = { workspace = true }

@@ -3505,8 +3505,6 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 [[package]]
 name = "precomputed-map"
 version = "0.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "75577436a9c39f017a35e5bf79cfa85b069a508c3753bf3f326e6600b6170b34"
 
 [[package]]
 name = "predicates"
@@ -5620,6 +5618,9 @@ name = "swc_ecma_preset_env"
 version = "24.0.1"
 dependencies = [
  "codspeed-criterion-compat",
+ "criterion",
+ "dashmap 5.5.3",
+ "foldhash",
  "indexmap 2.7.1",
  "once_cell",
  "precomputed-map",
@@ -5638,7 +5639,6 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "testing",
- "xxhash-rust",
 ]
 
 [[package]]
@@ -8274,14 +8274,15 @@ dependencies = [
  "anyhow",
  "chrono",
  "clap 4.5.9",
+ "foldhash",
  "precomputed-map",
+ "rustc-hash 2.1.1",
  "semver",
  "serde",
  "serde_derive",
  "serde_json",
  "toml",
  "walkdir",
- "xxhash-rust",
 ]
 
 [[package]]
