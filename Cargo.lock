@@ -5002,7 +5002,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "29.4.1"
+version = "29.4.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6114,7 +6114,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "18.0.1"
+version = "18.0.2"
 dependencies = [
  "indexmap 2.7.1",
  "num_cpus",
