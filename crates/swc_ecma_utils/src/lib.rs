@@ -555,7 +555,7 @@ pub trait StmtExt {
                         terminates_many(&t.block.stmts, in_switch, allow_break, allow_throw)?
                     }
                 }
-                _ => return Err(()),
+                _ => false,
             })
         }
 
