@@ -8,7 +8,7 @@
 set -eu
 
 function sortFile() {
-    cat $1 | awk NF | sort | uniq | awk '{$1=$1};1' | uniq | sort > tests/sorted.txt
+    cat $1 | awk NF | gsort | uniq | awk '{$1=$1};1' | uniq | gsort > tests/sorted.txt
     mv tests/sorted.txt $1
 }
 
