@@ -513,7 +513,7 @@ fn parse_export<'a, P: Parser<'a>>(
         {
             export_default = Some(Ident::new_no_ctxt(atom!("default"), p.input().prev_span()))
         } else {
-            let expr = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
+            let expr = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
             p.expect_general_semi()?;
             return Ok(ExportDefaultExpr {
                 span: p.span(start),
