@@ -6,7 +6,6 @@ use swc_ecma_ast::*;
 use super::{
     assign_target_or_spread::AssignTargetOrSpread,
     class_and_fn::{parse_access_modifier, parse_decorators},
-    is_not_this,
     pat_type::PatType,
     typescript::{
         eat_any_ts_modifier, parse_ts_modifier, parse_ts_type_ann, try_parse_ts_type_ann,
@@ -752,28 +751,6 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
     }
 
     Ok(params)
-}
-
-#[allow(dead_code)]
-pub fn parse_setter_param<'a>(p: &mut impl Parser<'a>, key_span: Span) -> PResult<Param> {
-    let params = parse_formal_params(p)?;
-    let cnt = params.iter().filter(|p| is_not_this(p)).count();
-
-    if cnt != 1 {
-        p.emit_err(key_span, SyntaxError::SetterParam);
-    }
-
-    if !params.is_empty() {
-        if let Pat::Rest(..) = params[0].pat {
-            p.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
-        }
-    }
-
-    if params.is_empty() {
-        syntax_error!(p, SyntaxError::SetterParamRequired);
-    }
-
-    Ok(params.into_iter().next().unwrap())
 }
 
 pub fn parse_unique_formal_params<'a>(p: &mut impl Parser<'a>) -> PResult<Vec<Param>> {
