@@ -180,6 +180,11 @@ impl<'a> Input<'a> for StringInput<'a> {
 
     #[inline]
     unsafe fn reset_to(&mut self, to: BytePos) {
+        if self.last_pos == to {
+            // No need to reset.
+            return;
+        }
+
         let orig = self.orig;
         let idx = (to - self.orig_start).0 as usize;
 

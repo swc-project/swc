@@ -1,4 +1,69 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/lexer)** Parse uppercase hex numbers correctly ([#10728](https://github.com/swc-project/swc/issues/10728)) ([ead6256](https://github.com/swc-project/swc/commit/ead62560b028f74feee506484233de2763ed3378))
+
+
+- **(es/lexer)** Allow keywords as jsx attribute names ([#10730](https://github.com/swc-project/swc/issues/10730)) ([04ef20a](https://github.com/swc-project/swc/commit/04ef20ad9b7e43dc70666258cb2c996a1a5e4074))
+
+
+- **(es/minifier)** Fix top level option ([#10227](https://github.com/swc-project/swc/issues/10227)) ([485fced](https://github.com/swc-project/swc/commit/485fced53b9318f707d05d64a1c7adf28d00e41a))
+
+
+- **(es/minifier)** Do not drop self-referential class expressions ([#10710](https://github.com/swc-project/swc/issues/10710)) ([39e6c2e](https://github.com/swc-project/swc/commit/39e6c2ec2d1528594867408cb9c3071319b32f00))
+
+
+- **(es/parser)** Allow non-prop operand in delete ([#10733](https://github.com/swc-project/swc/issues/10733)) ([38132e0](https://github.com/swc-project/swc/commit/38132e0e6abaead3eae15a08610ad5dda5026dd8))
+
+### Features
+
+
+
+- **(es/minifier)** Hoist more properties ([#10707](https://github.com/swc-project/swc/issues/10707)) ([0f2c8d5](https://github.com/swc-project/swc/commit/0f2c8d5963a48e582bf4517b4a52a6cfb31b399c))
+
+
+- **(es/transforms)** Expose `tsEnumIsMutable` to JS ([#10716](https://github.com/swc-project/swc/issues/10716)) ([6b3ae00](https://github.com/swc-project/swc/commit/6b3ae008d80c0bf7b215cae7d8a754e51a732bc9))
+
+### Performance
+
+
+
+- **(es/minifier)** Make `CharFreq::scan` in mangler table-based ([#10679](https://github.com/swc-project/swc/issues/10679)) ([04d39aa](https://github.com/swc-project/swc/commit/04d39aaa9e57965dacc44d96f3e562cf8311d3bf))
+
+
+- **(ts/fast-strip)** Use `swc_ecma_parser::Lexer` ([#10677](https://github.com/swc-project/swc/issues/10677)) ([ffe0292](https://github.com/swc-project/swc/commit/ffe029283139eafd533c287e52b4b7a3c7794b90))
+
+
+- Optimize `Input::reset_to` ([#10719](https://github.com/swc-project/swc/issues/10719)) ([8084066](https://github.com/swc-project/swc/commit/808406616a86f84fa4599a22a01a5a3921975e0e))
+
+### Refactor
+
+
+
+- **(es/lexer)** Useless reset ([#10714](https://github.com/swc-project/swc/issues/10714)) ([c9eee0b](https://github.com/swc-project/swc/commit/c9eee0beadb2ba927b0c4e068eb034b7712ffffd))
+
+
+- **(es/lexer)** Cleanup `read_int` ([#10727](https://github.com/swc-project/swc/issues/10727)) ([c5fb4b1](https://github.com/swc-project/swc/commit/c5fb4b13f5507dd4fb58f12860d0ec53d00c157d))
+
+
+- **(es/parser)** Remove `read_number_no_dot` ([#10703](https://github.com/swc-project/swc/issues/10703)) ([fa8607f](https://github.com/swc-project/swc/commit/fa8607f1e42a0453d24e72d0c10ab62139d12dd7))
+
+
+- **(es/parser)** Remove needless branching ([#10717](https://github.com/swc-project/swc/issues/10717)) ([b0c23b2](https://github.com/swc-project/swc/commit/b0c23b2d31a27205b061a68688dddf4bc59937d7))
+
+### Testing
+
+
+
+- **(es/preset-env)** Add entry import bench ([#10722](https://github.com/swc-project/swc/issues/10722)) ([9868b4d](https://github.com/swc-project/swc/commit/9868b4d095007bf971dfc3372e12c934d9992fee))
+
+
+- Make codspeed concurrent on main branch ([#10711](https://github.com/swc-project/swc/issues/10711)) ([4392ce3](https://github.com/swc-project/swc/commit/4392ce3414a77ca98c9923c093d60ca662615852))
+
 ## [1.12.7] - 2025-06-26
 
 ### Bug Fixes
@@ -2090,54 +2155,10 @@
 
 - **(es/typescript)** Handle ASI hazards in fast type strip ([#9707](https://github.com/swc-project/swc/issues/9707)) ([c135f71](https://github.com/swc-project/swc/commit/c135f718ed933fcd9eb6e5e5ea9accc0179cf333))
 
-### Features
-
-
-
-- **(es)** Add `es2023` and `es2024` to `EsVersion` ([#9700](https://github.com/swc-project/swc/issues/9700)) ([5a6f0e6](https://github.com/swc-project/swc/commit/5a6f0e644ebd515c9de69f8efa0e2b5c79944a1d))
-
-
-- **(es/plugin)** Introduce `manual-tokio-runtmie` to `swc` crate ([#9701](https://github.com/swc-project/swc/issues/9701)) ([97298c4](https://github.com/swc-project/swc/commit/97298c4e36318674f82343b9cde2d938265ea3d8))
-
 ### Performance
 
-
-
-- **(common)** Make character analysis lazy ([#9696](https://github.com/swc-project/swc/issues/9696)) ([1c3eaf6](https://github.com/swc-project/swc/commit/1c3eaf684a40a22b09779db39cf68986e69147f1))
 
 
 - **(es/renamer)** Modify parallel renaming threshold ([#9706](https://github.com/swc-project/swc/issues/9706)) ([91a9106](https://github.com/swc-project/swc/commit/91a9106624f999951b9eb0f424faedb131a4297a))
-
-## [1.7.42] - 2024-10-31
-
-### Bug Fixes
-
-
-
-- **(es/generator)** Fix code generation for `break` in nested while ([#9684](https://github.com/swc-project/swc/issues/9684)) ([65872af](https://github.com/swc-project/swc/commit/65872afaf151412be5f14820080325b920901bfb))
-
-
-- **(es/parser)** Parse `await using()` call ([#9693](https://github.com/swc-project/swc/issues/9693)) ([bcf05de](https://github.com/swc-project/swc/commit/bcf05de2ebe755a54ec8a6b93311b1686494c578))
-
-
-- **(es/resolver)** Skip resolving lowercase `JSXIdentifiers` ([#9686](https://github.com/swc-project/swc/issues/9686)) ([6ed1715](https://github.com/swc-project/swc/commit/6ed1715b93875cd4588352a784ed876bf183df5d))
-
-
-- **(es/types)** Add `jsc.experimental.keepImportAssertions` to types ([#9691](https://github.com/swc-project/swc/issues/9691)) ([4b4dcfa](https://github.com/swc-project/swc/commit/4b4dcfa4d8532c84762b19737b66474e97480cef))
-
-### Miscellaneous Tasks
-
-
-
-- **(deps)** Update cargo (patch) ([#9607](https://github.com/swc-project/swc/issues/9607)) ([3597b0f](https://github.com/swc-project/swc/commit/3597b0f53d060b09b7e878e9c825321f053d189e))
-
-### Performance
-
-
-
-- **(es)** Cache `current_dir()` system calls ([#9683](https://github.com/swc-project/swc/issues/9683)) ([7aab945](https://github.com/swc-project/swc/commit/7aab945a2199be06e20a35ec0d197fc817a48d9d))
-
-
-- **(es/lints)** Disable lints by default ([#9689](https://github.com/swc-project/swc/issues/9689)) ([4d887d0](https://github.com/swc-project/swc/commit/4d887d062b299b42b1a6529dfac5f22c3fd49903))
 
 <!-- generated by git-cliff -->

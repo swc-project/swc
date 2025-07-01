@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ts_fast_strip"
 repository    = { workspace = true }
-version       = "23.0.3"
+version       = "23.1.0"
 
 
 [features]
@@ -23,12 +23,12 @@ wasm-bindgen = { workspace = true, optional = true }
 
 swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 swc_atoms = { version = "6.0.0", path = "../swc_atoms" }
-swc_common = { version = "13.0.1", path = "../swc_common", features = [
+swc_common = { version = "13.0.2", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "13.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "15.0.1", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "17.1.0", path = "../swc_ecma_parser", features = [
+swc_ecma_parser = { version = "17.2.1", path = "../swc_ecma_parser", features = [
   "unstable",
 ] }
 swc_ecma_transforms_base = { version = "18.0.0", path = "../swc_ecma_transforms_base" }

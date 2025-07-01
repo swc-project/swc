@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_core"
 repository    = { workspace = true }
-version       = "29.2.0"
+version       = "29.4.0"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
@@ -349,11 +349,11 @@ par-core  = { workspace = true, optional = true }
 
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "28.0.0", path = "../binding_macros" }
-swc                              = { optional = true, version = "28.0.0", path = "../swc" }
+swc                              = { optional = true, version = "28.0.1", path = "../swc" }
 swc_allocator                    = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 swc_atoms                        = { optional = true, version = "6.0.0", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "22.0.0", path = "../swc_bundler" }
-swc_common                       = { optional = true, version = "13.0.1", path = "../swc_common" }
+swc_common                       = { optional = true, version = "13.0.2", path = "../swc_common" }
 swc_config                       = { optional = true, version = "3.1.1", path = "../swc_config" }
 swc_css_ast                      = { optional = true, version = "13.0.0", path = "../swc_css_ast" }
 swc_css_codegen                  = { optional = true, version = "13.0.0", path = "../swc_css_codegen" }
@@ -368,8 +368,8 @@ swc_ecma_ast                     = { optional = true, version = "13.0.0", path =
 swc_ecma_codegen                 = { optional = true, version = "15.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_lints                   = { optional = true, version = "19.0.0", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "13.0.0", path = "../swc_ecma_loader" }
-swc_ecma_minifier                = { optional = true, version = "23.0.3", path = "../swc_ecma_minifier" }
-swc_ecma_parser                  = { optional = true, version = "17.1.0", path = "../swc_ecma_parser" }
+swc_ecma_minifier                = { optional = true, version = "23.0.5", path = "../swc_ecma_minifier" }
+swc_ecma_parser                  = { optional = true, version = "17.2.1", path = "../swc_ecma_parser" }
 swc_ecma_preset_env              = { optional = true, version = "23.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_quote_macros            = { optional = true, version = "17.0.0", path = "../swc_ecma_quote_macros" }
 swc_ecma_react_compiler          = { optional = true, version = "6.0.1", path = "../swc_ecma_react_compiler" }
