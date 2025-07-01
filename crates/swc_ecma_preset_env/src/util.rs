@@ -690,13 +690,14 @@ impl<T> DataMapExt<T> for DataMap<T> {
 
 pub struct PooledStr(u32);
 
-pub struct SwcXxh3;
+pub struct SwcFold;
 
-impl precomputed_map::phf::HashOne for SwcXxh3 {
+impl precomputed_map::phf::HashOne for SwcFold {
     fn hash_one<T: std::hash::Hash>(k: u64, v: T) -> u64 {
         use std::hash::Hasher;
-        
-        let mut hasher = xxhash_rust::xxh3::Xxh3::with_seed(k);
+ 
+        let mut hasher = foldhash::fast::FoldHasher::with_seed(k, foldhash::SharedSeed::global_fixed());
+        // let mut hasher = rustc_hash::FxHasher::with_seed(k as usize);
         v.hash(&mut hasher);
         hasher.finish()
     }

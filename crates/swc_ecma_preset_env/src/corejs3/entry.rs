@@ -11,7 +11,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMut;
 use std::ops::Range;
-use crate::util::SwcXxh3;
+use crate::util::SwcFold;
 
 use super::{compat::DATA as CORE_JS_COMPAT_DATA, data::MODULES_BY_VERSION};
 
@@ -20,7 +20,7 @@ include!("../generated/corejs3_entries.rs");
 pub struct FeatureSet(Range<u32>);
         
 pub fn entries_get(name: &str) -> Option<FeatureSet> {{
-    let index = ENTRY_INDEX.get(name)?;
+    let index = ENTRY_INDEX.get(name.as_bytes())?;
     ENTRY_VALUES_LIST
         .get(index)
         .cloned()
@@ -33,7 +33,7 @@ impl FeatureSet {
         
         self.0
             .clone()
-            .map(|idx| ENTRY_VALUES_STRING_ID.index(idx as usize))
+            .map(|idx| EntryValuesStringId::index(idx as usize).unwrap())
             .map(|id| {
                 let offset = id & ((1 << 24) - 1);
                 let len = id >> 24;

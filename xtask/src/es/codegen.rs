@@ -39,35 +39,62 @@ fn es_preset_env_corejs3_entry(dir: &Path) -> anyhow::Result<()> {
         values_index.push(start..end);
     }
 
-    let mapout = precomputed_map::builder::MapBuilder::new(&keys)
+    let mapout = precomputed_map::builder::MapBuilder::<&str>::new()
         .set_seed(16416001479773392852)
         .set_hash(&|seed, &v| {
             use std::hash::{ Hash, Hasher };
             
-            let mut hasher = xxhash_rust::xxh3::Xxh3::with_seed(seed);
-            v.hash(&mut hasher);
+            let mut hasher = foldhash::fast::FoldHasher::with_seed(seed, foldhash::SharedSeed::global_fixed());
+            v.as_bytes().hash(&mut hasher);
             hasher.finish()
         })
         .set_next_seed(|seed, c| {
-            xxhash_rust::xxh3::xxh3_64_with_seed(&c.to_le_bytes(), seed)
+            seed + c
         })
-        .build()?;
+        .build(&keys)?;
     println!("seed: {:?}", mapout.seed());
+
+    // clean file
+    {
+        for entry in fs::read_dir(crate_dir.join("src/generated")).ok().into_iter().flatten() {
+            let entry = entry?;
+            let path = entry.path();
+
+            if entry.file_type()?.is_file()
+                && path.file_name()
+                .and_then(|name| name.to_str())
+                .filter(|name| !name.starts_with('.'))
+                .is_some()
+            {
+                fs::remove_file(entry.path())?;
+            }
+        }
+    }
+
+    let mut u8seq = precomputed_map::builder::U8SeqWriter::new(
+        "PrecomputedU8Seq".into(),
+        crate_dir.join("src/generated/corejs3_entries.u8")
+    );
+    let mut u32seq = precomputed_map::builder::U32SeqWriter::new(
+        "PrecomputedU32Seq".into(),
+        crate_dir.join("src/generated/corejs3_entries.u32")
+    );
     
     let mut builder = precomputed_map::builder::CodeBuilder::new(
-        "corejs3_entries".into(),
-        "SwcXxh3".into(),
-        crate_dir.join("src/generated")
+        "Corejs3Entries".into(),
+        "SwcFold".into(),
+        &mut u8seq,
+        &mut u32seq
     );
 
-    let _ = fs::create_dir(crate_dir.join("src/generated"));
-
-    let k = builder.create_str_seq("ENTRY_KEYS".into(), mapout.reorder(&keys))?;
-    builder.create_u32_seq("ENTRY_VALUES_STRING_ID".into(), values_strid.iter().copied())?;
+    let k = builder.create_bytes_position_seq("EntryKeys".into(), mapout.reorder(&keys))?;
+    builder.create_u32_seq("EntryValuesStringId".into(), values_strid.iter().copied())?;
     mapout.create_map("ENTRY_INDEX".into(), k, &mut builder)?;
 
     let mut codeout = fs::File::create(crate_dir.join("src/generated/corejs3_entries.rs"))?;
     builder.write_to(&mut codeout)?;
+    u8seq.write_to(&mut codeout)?;
+    u32seq.write_to(&mut codeout)?;
 
     fs::write(crate_dir.join("src/generated/corejs3_entries.strpool"), strpool.pool.as_bytes())?;
 
