@@ -17717,7 +17717,7 @@
         });
         // EXTERNAL MODULE: ./node_modules/_@babel_runtime@7.15.4@@babel/runtime/helpers/esm/inheritsLoose.js + 1 modules
         var inheritsLoose = __webpack_require__(48861), _react_17_0_2_react = __webpack_require__(59301), _prop_types_15_7_2_prop_types = __webpack_require__(68712), _prop_types_15_7_2_prop_types_default = /*#__PURE__*/ __webpack_require__.n(_prop_types_15_7_2_prop_types), esm_history = __webpack_require__(91520), commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : {}, index = _react_17_0_2_react.createContext || function(defaultValue, calculateChangedBits) {
-            var key, _Provider$childContex, _Consumer$contextType, contextProp = "__create-react-context-" + (commonjsGlobal[key = "__global_unique_id__"] = (commonjsGlobal[key] || 0) + 1) + "__", Provider = /*#__PURE__*/ function(_Component) {
+            var _Provider$childContex, _Consumer$contextType, contextProp = "__create-react-context-" + (commonjsGlobal.__global_unique_id__ = (commonjsGlobal.__global_unique_id__ || 0) + 1) + "__", Provider = /*#__PURE__*/ function(_Component) {
                 function Provider() {
                     var _this, value, handlers;
                     return _this = _Component.apply(this, arguments) || this, value = _this.props.value, handlers = [], _this.emitter = {
