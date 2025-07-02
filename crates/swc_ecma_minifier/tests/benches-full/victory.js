@@ -16990,7 +16990,7 @@
                     case "number":
                         // The standard `isNaN` is fine in this case since we already know the
                         // type is number.
-                        return !isNaN(obj) && obj !== Number.POSITIVE_INFINITY && obj !== Number.NEGATIVE_INFINITY;
+                        return !isNaN(obj) && obj !== 1 / 0 && obj !== -1 / 0;
                     case "string":
                     case "function":
                         // d3 might not *actually* be able to interpolate the string, but it

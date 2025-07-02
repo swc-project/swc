@@ -139,6 +139,62 @@ impl Optimizer<'_> {
                 .into();
             }
 
+            Expr::Member(MemberExpr {
+                obj,
+                prop: MemberProp::Ident(prop),
+                span,
+                ..
+            }) if matches!(obj.as_ref(), Expr::Ident(ident) if &*ident.sym == "Number") => {
+                match &*prop.sym {
+                    "MIN_VALUE" => {
+                        report_change!("evaluate: `Number.MIN_VALUE` -> `5e-324`");
+                        self.changed = true;
+                        *e = Lit::Num(Number {
+                            span: *span,
+                            value: 5e-324,
+                            raw: None,
+                        })
+                        .into();
+                    }
+                    "NaN" => {
+                        report_change!("evaluate: `Number.NaN` -> `NaN`");
+                        self.changed = true;
+                        *e = Ident::new(
+                            atom!("NaN"),
+                            *span,
+                            SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
+                        )
+                        .into();
+                    }
+                    "POSITIVE_INFINITY" => {
+                        report_change!("evaluate: `Number.POSITIVE_INFINITY` -> `Infinity`");
+                        self.changed = true;
+                        *e = Ident::new(
+                            atom!("Infinity"),
+                            *span,
+                            SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
+                        )
+                        .into();
+                    }
+                    "NEGATIVE_INFINITY" => {
+                        report_change!("evaluate: `Number.NEGATIVE_INFINITY` -> `-Infinity`");
+                        self.changed = true;
+                        *e = UnaryExpr {
+                            span: *span,
+                            op: op!(unary, "-"),
+                            arg: Ident::new(
+                                atom!("Infinity"),
+                                *span,
+                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
+                            )
+                            .into(),
+                        }
+                        .into();
+                    }
+                    _ => {}
+                }
+            }
+
             _ => {}
         }
     }
