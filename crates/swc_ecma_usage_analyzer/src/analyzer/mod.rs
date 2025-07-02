@@ -1182,12 +1182,13 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_prop(&mut self, n: &Prop) {
-        let ctx = self.ctx.with(BitContext::IsIdRef, true);
-        n.visit_children_with(&mut *self.with_ctx(ctx));
-
         if let Prop::Shorthand(i) = n {
-            self.report_usage(i);
+            let ctx = self.ctx.with(BitContext::IsIdRef, true);
+            self.with_ctx(ctx).report_usage(i);
             self.data.add_property_atom(i.sym.clone());
+        } else {
+            let ctx = self.ctx.with(BitContext::IsIdRef, true);
+            n.visit_children_with(&mut *self.with_ctx(ctx));
         }
     }
 
