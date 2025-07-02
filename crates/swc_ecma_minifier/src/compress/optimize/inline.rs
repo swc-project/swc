@@ -259,7 +259,14 @@ impl Optimizer<'_> {
 
                     Expr::Lit(lit) => match lit {
                         Lit::Str(s) => {
-                            if ref_count == 1 || s.value.len() <= 3 {
+                            // If the string literal is declared without initializer and assigned
+                            // once, we can inline it.
+                            if (ref_count == 1
+                                || (ref_count == 2
+                                    && usage.assign_count == 1
+                                    && !usage.flags.intersects(VarUsageInfoFlags::REASSIGNED)))
+                                || s.value.len() <= 3
+                            {
                                 true
                             } else {
                                 self.vars
