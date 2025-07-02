@@ -324,9 +324,18 @@ impl DecoratorTransform {
                         _ => format!("accessor{}", accessor_counter),
                     };
 
+                    // For auto accessors, we need init, get, and set variables
                     let init_var = format!("_init_{}", key_name);
                     let init_id = Ident::new(init_var.as_str().into(), DUMMY_SP, Default::default());
                     init_vars.push(init_id.clone());
+                    
+                    let get_var = format!("_get_{}", key_name);
+                    let get_id = Ident::new(get_var.as_str().into(), DUMMY_SP, Default::default());
+                    init_vars.push(get_id.clone());
+                    
+                    let set_var = format!("_set_{}", key_name);
+                    let set_id = Ident::new(set_var.as_str().into(), DUMMY_SP, Default::default());
+                    init_vars.push(set_id.clone());
                     
                     // Only add init_extra for 2023-11 version
                     let init_extra_id = if self.version == DecoratorVersion::V202311 {
@@ -375,45 +384,23 @@ impl DecoratorTransform {
                             return_type: None,
                         }
                     } else {
-                        // For public accessors, use regular function expressions as before
-                        match self.version {
-                            DecoratorVersion::V202311 if accessor.is_static => {
-                                // 2023-11 static accessors take no params
-                                ArrowExpr {
-                                    span: DUMMY_SP,
-                                    ctxt: Default::default(),
-                                    params: vec![],
-                                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                                        span: DUMMY_SP,
-                                        obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                                        prop: MemberProp::PrivateName(private_key.clone()),
-                                    })))),
-                                    is_async: false,
-                                    is_generator: false,
-                                    type_params: None,
-                                    return_type: None,
-                                }
-                            }
-                            _ => {
-                                // All other cases take object parameter
-                                ArrowExpr {
-                                    span: DUMMY_SP,
-                                    ctxt: Default::default(),
-                                    params: vec![Pat::Ident(BindingIdent {
-                                        id: Ident::new("o".into(), DUMMY_SP, Default::default()),
-                                        type_ann: None,
-                                    })],
-                                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
-                                        span: DUMMY_SP,
-                                        obj: Box::new(Expr::Ident(Ident::new("o".into(), DUMMY_SP, Default::default()))),
-                                        prop: MemberProp::PrivateName(private_key.clone()),
-                                    })))),
-                                    is_async: false,
-                                    is_generator: false,
-                                    type_params: None,
-                                    return_type: None,
-                                }
-                            }
+                        // For public accessors, access the private backing field
+                        ArrowExpr {
+                            span: DUMMY_SP,
+                            ctxt: Default::default(),
+                            params: vec![Pat::Ident(BindingIdent {
+                                id: Ident::new("o".into(), DUMMY_SP, Default::default()),
+                                type_ann: None,
+                            })],
+                            body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                span: DUMMY_SP,
+                                obj: Box::new(Expr::Ident(Ident::new("o".into(), DUMMY_SP, Default::default()))),
+                                prop: MemberProp::PrivateName(private_key.clone()),
+                            })))),
+                            is_async: false,
+                            is_generator: false,
+                            type_params: None,
+                            return_type: None,
                         }
                     };
 
@@ -449,65 +436,35 @@ impl DecoratorTransform {
                             return_type: None,
                         }
                     } else {
-                        // For public accessors, use regular function expressions as before
-                        match self.version {
-                            DecoratorVersion::V202311 if accessor.is_static => {
-                                // 2023-11 static accessors take only value param
-                                ArrowExpr {
+                        // For public accessors, access the private backing field
+                        ArrowExpr {
+                            span: DUMMY_SP,
+                            ctxt: Default::default(),
+                            params: vec![
+                                Pat::Ident(BindingIdent {
+                                    id: Ident::new("o".into(), DUMMY_SP, Default::default()),
+                                    type_ann: None,
+                                }),
+                                Pat::Ident(BindingIdent {
+                                    id: Ident::new("v".into(), DUMMY_SP, Default::default()),
+                                    type_ann: None,
+                                })
+                            ],
+                            body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: AssignOp::Assign,
+                                left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
                                     span: DUMMY_SP,
-                                    ctxt: Default::default(),
-                                    params: vec![Pat::Ident(BindingIdent {
-                                        id: Ident::new("v".into(), DUMMY_SP, Default::default()),
-                                        type_ann: None,
-                                    })],
-                                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
-                                        span: DUMMY_SP,
-                                        op: AssignOp::Assign,
-                                        left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
-                                            span: DUMMY_SP,
-                                            obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                                            prop: MemberProp::PrivateName(private_key.clone()),
-                                        })),
-                                        right: Box::new(Expr::Ident(Ident::new("v".into(), DUMMY_SP, Default::default()))),
-                                    })))),
-                                    is_async: false,
-                                    is_generator: false,
-                                    type_params: None,
-                                    return_type: None,
-                                }
-                            }
-                            _ => {
-                                // All other cases take object and value parameters
-                                ArrowExpr {
-                                    span: DUMMY_SP,
-                                    ctxt: Default::default(),
-                                    params: vec![
-                                        Pat::Ident(BindingIdent {
-                                            id: Ident::new("o".into(), DUMMY_SP, Default::default()),
-                                            type_ann: None,
-                                        }),
-                                        Pat::Ident(BindingIdent {
-                                            id: Ident::new("v".into(), DUMMY_SP, Default::default()),
-                                            type_ann: None,
-                                        })
-                                    ],
-                                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
-                                        span: DUMMY_SP,
-                                        op: AssignOp::Assign,
-                                        left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
-                                            span: DUMMY_SP,
-                                            obj: Box::new(Expr::Ident(Ident::new("o".into(), DUMMY_SP, Default::default()))),
-                                            prop: MemberProp::PrivateName(private_key.clone()),
-                                        })),
-                                        right: Box::new(Expr::Ident(Ident::new("v".into(), DUMMY_SP, Default::default()))),
-                                    })))),
-                                    is_async: false,
-                                    is_generator: false,
-                                    type_params: None,
-                                    return_type: None,
-                                }
-                            }
-                        }
+                                    obj: Box::new(Expr::Ident(Ident::new("o".into(), DUMMY_SP, Default::default()))),
+                                prop: MemberProp::PrivateName(private_key.clone()),
+                            })),
+                            right: Box::new(Expr::Ident(Ident::new("v".into(), DUMMY_SP, Default::default()))),
+                        })))),
+                        is_async: false,
+                        is_generator: false,
+                        type_params: None,
+                        return_type: None,
+                    }
                     };
 
                     // Create element descriptor for all versions
@@ -554,11 +511,9 @@ impl DecoratorTransform {
                         }.as_arg()),
                     ];
                     
-                    // For private accessors, add getter and setter functions
-                    if let Key::Private(_) = &accessor.key {
-                        desc_elems.push(Some(Expr::Arrow(getter_fn).as_arg()));
-                        desc_elems.push(Some(Expr::Arrow(setter_fn).as_arg()));
-                    }
+                    // For auto accessors, always add getter and setter functions
+                    desc_elems.push(Some(Expr::Arrow(getter_fn).as_arg()));
+                    desc_elems.push(Some(Expr::Arrow(setter_fn).as_arg()));
                     
                     let element_desc = ArrayLit {
                         span: DUMMY_SP,
@@ -576,10 +531,8 @@ impl DecoratorTransform {
                         init_args.push((*value).as_arg());
                     }
                     
-                    // Ensure static_init_local is set for static accessors
-                    if accessor.is_static && static_init_local.is_none() {
-                        static_init_local = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
-                    }
+                    // Static auto accessors don't need _initStatic in 2023-11
+                    // (they handle initialization through their own init/get/set functions)
                     
                     let init_call = Expr::Call(CallExpr {
                         span: DUMMY_SP,
@@ -605,18 +558,9 @@ impl DecoratorTransform {
                         definite: false,
                     }));
 
-                    // Add getter and setter methods
-                    let (get_id, set_id) = if let Key::Private(_) = &accessor.key {
-                        let get_var = format!("_get_{}", key_name);
-                        let set_var = format!("_set_{}", key_name);
-                        let get_id = Ident::new(get_var.as_str().into(), DUMMY_SP, Default::default());
-                        let set_id = Ident::new(set_var.as_str().into(), DUMMY_SP, Default::default());
-                        init_vars.push(get_id.clone());
-                        init_vars.push(set_id.clone());
-                        (Some(get_id), Some(set_id))
-                    } else {
-                        (None, None)
-                    };
+                    // Get the already created get/set identifiers
+                    let get_id_ref = &get_id;
+                    let set_id_ref = &set_id;
 
                     match accessor.key {
                         Key::Public(key) => {
@@ -634,10 +578,12 @@ impl DecoratorTransform {
                                         ctxt: Default::default(),
                                         stmts: vec![Stmt::Return(ReturnStmt {
                                             span: accessor.span,
-                                            arg: Some(Box::new(Expr::Member(MemberExpr {
+                                            arg: Some(Box::new(Expr::Call(CallExpr {
                                                 span: accessor.span,
-                                                obj: Box::new(Expr::This(ThisExpr { span: accessor.span })),
-                                                prop: MemberProp::PrivateName(private_key.clone()),
+                                                ctxt: Default::default(),
+                                                callee: get_id_ref.clone().as_callee(),
+                                                args: vec![],
+                                                type_args: None,
                                             }))),
                                         })],
                                     }),
@@ -675,15 +621,12 @@ impl DecoratorTransform {
                                         ctxt: Default::default(),
                                         stmts: vec![Stmt::Expr(ExprStmt {
                                             span: accessor.span,
-                                            expr: Box::new(Expr::Assign(AssignExpr {
+                                            expr: Box::new(Expr::Call(CallExpr {
                                                 span: accessor.span,
-                                                op: AssignOp::Assign,
-                                                left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
-                                                    span: accessor.span,
-                                                    obj: Box::new(Expr::This(ThisExpr { span: accessor.span })),
-                                                    prop: MemberProp::PrivateName(private_key.clone()),
-                                                })),
-                                                right: Box::new(Expr::Ident(Ident::new("v".into(), accessor.span, Default::default()))),
+                                                ctxt: Default::default(),
+                                                callee: set_id_ref.clone().as_callee(),
+                                                args: vec![Expr::Ident(Ident::new("v".into(), accessor.span, Default::default())).as_arg()],
+                                                type_args: None,
                                             })),
                                         })],
                                     }),
@@ -718,8 +661,8 @@ impl DecoratorTransform {
                                             arg: Some(Box::new(Expr::Call(CallExpr {
                                                 span: DUMMY_SP,
                                                 ctxt: Default::default(),
-                                                callee: get_id.unwrap().as_callee(),
-                                                args: if accessor.is_static { vec![] } else { vec![Expr::This(ThisExpr { span: DUMMY_SP }).as_arg()] },
+                                                callee: get_id_ref.clone().as_callee(),
+                                                args: vec![],
                                                 type_args: None,
                                             }))),
                                         })],
@@ -761,15 +704,8 @@ impl DecoratorTransform {
                                             expr: Box::new(Expr::Call(CallExpr {
                                                 span: DUMMY_SP,
                                                 ctxt: Default::default(),
-                                                callee: set_id.unwrap().as_callee(),
-                                                args: if accessor.is_static { 
-                                                    vec![Expr::Ident(Ident::new("v".into(), DUMMY_SP, Default::default())).as_arg()] 
-                                                } else { 
-                                                    vec![
-                                                        Expr::This(ThisExpr { span: DUMMY_SP }).as_arg(),
-                                                        Expr::Ident(Ident::new("v".into(), DUMMY_SP, Default::default())).as_arg()
-                                                    ] 
-                                                },
+                                                callee: set_id_ref.clone().as_callee(),
+                                                args: vec![Expr::Ident(Ident::new("v".into(), DUMMY_SP, Default::default())).as_arg()],
                                                 type_args: None,
                                             })),
                                         })],

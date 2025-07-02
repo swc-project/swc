@@ -1,0 +1,12 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript",
+      "decorators": true,
+      "auto_accessors": true
+    },
+    "transform": {
+      "decoratorVersion": "2023-11"
+    }
+  }
+}
