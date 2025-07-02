@@ -1129,14 +1129,20 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
         };
         let span = p.span(start);
         if is_break {
-            if label.is_some() && !p.state().labels.contains(&label.as_ref().unwrap().sym) {
+            if label
+                .as_ref()
+                .is_some_and(|label| !p.state().labels.contains(&label.sym))
+            {
                 p.emit_err(span, SyntaxError::TS1116);
             } else if !p.ctx().contains(Context::IsBreakAllowed) {
                 p.emit_err(span, SyntaxError::TS1105);
             }
         } else if !p.ctx().contains(Context::IsContinueAllowed) {
             p.emit_err(span, SyntaxError::TS1115);
-        } else if label.is_some() && !p.state().labels.contains(&label.as_ref().unwrap().sym) {
+        } else if label
+            .as_ref()
+            .is_some_and(|label| !p.state().labels.contains(&label.sym))
+        {
             p.emit_err(span, SyntaxError::TS1107);
         }
         return Ok(if is_break {
@@ -1169,39 +1175,6 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
         return parse_if_stmt(p).map(Stmt::If);
     } else if cur.is_return() {
         return parse_return_stmt(p);
-    } else if cur.is_switch() {
-        return parse_switch_stmt(p);
-    } else if cur.is_throw() {
-        return parse_throw_stmt(p);
-    } else if cur.is_catch() {
-        // Error recovery
-        let span = p.input().cur_span();
-        p.emit_err(span, SyntaxError::TS1005);
-
-        let _ = parse_catch_clause(p);
-        let _ = parse_finally_block(p);
-
-        return Ok(ExprStmt {
-            span,
-            expr: Invalid { span }.into(),
-        }
-        .into());
-    } else if cur.is_finally() {
-        // Error recovery
-        let span = p.input().cur_span();
-        p.emit_err(span, SyntaxError::TS1005);
-
-        let _ = parse_finally_block(p);
-
-        return Ok(ExprStmt {
-            span,
-            expr: Invalid { span }.into(),
-        }
-        .into());
-    } else if cur.is_try() {
-        return parse_try_stmt(p);
-    } else if cur.is_with() {
-        return parse_with_stmt(p);
     } else if cur.is_while() {
         return parse_while_stmt(p);
     } else if cur.is_var() || (cur.is_const() && include_decl) {
@@ -1253,6 +1226,39 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
             false,
         )
         .map(Stmt::Block);
+    } else if cur.is_throw() {
+        return parse_throw_stmt(p);
+    } else if cur.is_catch() {
+        // Error recovery
+        let span = p.input().cur_span();
+        p.emit_err(span, SyntaxError::TS1005);
+
+        let _ = parse_catch_clause(p);
+        let _ = parse_finally_block(p);
+
+        return Ok(ExprStmt {
+            span,
+            expr: Invalid { span }.into(),
+        }
+        .into());
+    } else if cur.is_finally() {
+        // Error recovery
+        let span = p.input().cur_span();
+        p.emit_err(span, SyntaxError::TS1005);
+
+        let _ = parse_finally_block(p);
+
+        return Ok(ExprStmt {
+            span,
+            expr: Invalid { span }.into(),
+        }
+        .into());
+    } else if cur.is_try() {
+        return parse_try_stmt(p);
+    } else if cur.is_switch() {
+        return parse_switch_stmt(p);
+    } else if cur.is_with() {
+        return parse_with_stmt(p);
     } else if cur.is_error() {
         let c = p.input_mut().bump();
         let err = c.take_error(p.input_mut());
