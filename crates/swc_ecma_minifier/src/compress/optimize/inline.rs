@@ -264,7 +264,7 @@ impl Optimizer<'_> {
                             if (ref_count == 1
                                 || (ref_count == 2
                                     && usage.assign_count == 1
-                                    && !usage.flags.intersects(VarUsageInfoFlags::REASSIGNED)))
+                                    && usage.flags.intersects(VarUsageInfoFlags::LAZY_INIT)))
                                 || s.value.len() <= 3
                             {
                                 true

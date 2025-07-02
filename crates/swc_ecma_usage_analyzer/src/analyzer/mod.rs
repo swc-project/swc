@@ -1443,23 +1443,34 @@ where
                 .with(BitContext::InPatOfVarDecl, false)
                 .with(BitContext::IsIdRef, true);
             if self.marks.is_some() {
-                if let VarDeclarator {
-                    name: Pat::Ident(id),
-                    init: Some(init),
-                    definite: false,
-                    ..
-                } = e
-                {
-                    let id = id.to_id();
-                    self.used_recursively.insert(
-                        id.clone(),
-                        RecursiveUsage::Var {
-                            can_ignore: !init.may_have_side_effects(self.expr_ctx),
-                        },
-                    );
-                    e.init.visit_with(&mut *self.with_ctx(ctx));
-                    self.used_recursively.remove(&id);
-                    return;
+                match e {
+                    VarDeclarator {
+                        name: Pat::Ident(id),
+                        init: Some(init),
+                        definite: false,
+                        ..
+                    } => {
+                        let id = id.to_id();
+                        self.used_recursively.insert(
+                            id.clone(),
+                            RecursiveUsage::Var {
+                                can_ignore: !init.may_have_side_effects(self.expr_ctx),
+                            },
+                        );
+                        e.init.visit_with(&mut *self.with_ctx(ctx));
+                        self.used_recursively.remove(&id);
+                        return;
+                    }
+
+                    VarDeclarator {
+                        name: Pat::Ident(id),
+                        init: None,
+                        ..
+                    } => {
+                        self.data.var_or_default(id.to_id()).mark_as_lazy_init();
+                        return;
+                    }
+                    _ => (),
                 }
             }
 

@@ -60,6 +60,8 @@ pub trait VarDataLike: Sized {
     /// See `declared_as_fn_param` of [crate::analyzer::VarUsageInfo].
     fn mark_declared_as_fn_param(&mut self);
 
+    fn mark_as_lazy_init(&mut self);
+
     fn mark_declared_as_fn_decl(&mut self);
 
     fn mark_declared_as_fn_expr(&mut self);
