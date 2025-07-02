@@ -1,1 +1,2 @@
 //// [file.tsx]
+<div/>, <span/>;

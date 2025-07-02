@@ -1,9 +1,11 @@
 //// [file.tsx]
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[2:1]
-//!  1 | 
-//!  2 | import React = require('react');
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  3 | 
-//!  4 | const Tag = (x: {}) => <div></div>;
-//!    `----
+var Tag = function(x) {
+    return <div></div>;
+};
+// OK
+var k1 = <Tag/>;
+var k2 = <Tag></Tag>;
+// Not OK (excess children)
+var k3 = <Tag children={<div></div>}/>;
+var k4 = <Tag key="1"><div></div></Tag>;
+var k5 = <Tag key="1"><div></div><div></div></Tag>;

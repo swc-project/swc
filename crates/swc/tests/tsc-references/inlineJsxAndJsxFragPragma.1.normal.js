@@ -31,7 +31,7 @@ export { };
 /**
  * @jsx h
  * @jsxFrag Fragment
- */ import { h, Fragment } from "./renderer";
+ */ import { h } from "./renderer";
 /*#__PURE__*/ h("div", null);
 //// [snabbdomy-no-fragment.tsx]
 /* @jsx jsx */ /* @jsxfrag null */ import { jsx } from "./renderer";

@@ -1,3 +1,4 @@
+import { jsx as _jsx } from "react/jsx-runtime";
 var _s = $RefreshSig$();
 import { useFancyState } from './hooks';
 import useFoo from './foo';
@@ -5,7 +6,9 @@ export default function App() {
     _s();
     const bar = useFancyState();
     const foo = useFoo();
-    return /*#__PURE__*/ React.createElement("h1", null, bar);
+    return /*#__PURE__*/ _jsx("h1", {
+        children: bar
+    });
 }
 _s(App, "useFancyState{bar}\nuseFoo{foo}", false, function() {
     return [

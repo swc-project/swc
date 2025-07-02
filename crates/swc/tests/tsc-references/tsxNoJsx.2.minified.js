@@ -1,1 +1,2 @@
 //// [tsxNoJsx.tsx]
+<nope/>;

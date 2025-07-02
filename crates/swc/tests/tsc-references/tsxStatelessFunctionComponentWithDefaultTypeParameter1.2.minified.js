@@ -1,10 +1,9 @@
 //// [file.tsx]
 define([
-    "require",
-    "exports",
-    "react"
-], function(require, exports, _react) {
-    Object.defineProperty(exports, "__esModule", {
-        value: !0
-    });
+    "require"
+], function(require) {
+    function MyComponent(attr) {
+        return <div>attr.values</div>;
+    }
+    <MyComponent values/>, <MyComponent values="Hello"/>;
 });

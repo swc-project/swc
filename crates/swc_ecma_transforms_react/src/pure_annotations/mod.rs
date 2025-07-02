@@ -1,6 +1,6 @@
 use rustc_hash::FxHashMap;
 use swc_atoms::{atom, Atom};
-use swc_common::{comments::Comments, Span};
+use swc_common::{comments::Comments, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
@@ -109,7 +109,7 @@ where
             _ => false,
         };
 
-        if is_react_call {
+        if is_react_call && !(call.span.is_pure() || call.callee.span().is_pure()) {
             if let Some(comments) = &self.comments {
                 if call.span.lo.is_dummy() {
                     call.span.lo = Span::dummy_with_cmt().lo;

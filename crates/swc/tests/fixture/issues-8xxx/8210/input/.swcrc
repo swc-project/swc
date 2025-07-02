@@ -11,10 +11,7 @@
             "mangle": false
         },
         "transform": {
-            "react": {
-                "development": true,
-                "runtime": "automatic"
-            }
+            "react": "react-jsxdev"
         }
     },
     "module": {

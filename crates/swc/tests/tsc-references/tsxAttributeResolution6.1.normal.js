@@ -1,19 +1,9 @@
 //// [file.tsx]
 // Error
-/*#__PURE__*/ React.createElement("test1", {
-    s: true
-});
-/*#__PURE__*/ React.createElement("test1", {
-    n: "true"
-});
-/*#__PURE__*/ React.createElement("test2", null);
+<test1 s/>;
+<test1 n='true'/>;
+<test2/>;
 // OK
-/*#__PURE__*/ React.createElement("test1", {
-    n: true
-});
-/*#__PURE__*/ React.createElement("test1", {
-    n: false
-});
-/*#__PURE__*/ React.createElement("test2", {
-    n: true
-});
+<test1 n/>;
+<test1 n={false}/>;
+<test2 n/>;

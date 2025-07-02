@@ -28,7 +28,7 @@ var App = /*#__PURE__*/ function(_React_Component) {
     }
     var _proto = App.prototype;
     _proto.render = function render() {
-        return /*#__PURE__*/ _react.createElement(_button.Button, null);
+        return <Button/>;
     };
     return App;
 }(_react.Component);
@@ -57,7 +57,7 @@ var Button = /*#__PURE__*/ function(_React_Component) {
     }
     var _proto = Button.prototype;
     _proto.render = function render() {
-        return /*#__PURE__*/ _react.createElement("button", null, "Some button");
+        return <button>Some button</button>;
     };
     return Button;
 }(_react.Component);

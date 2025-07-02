@@ -1,1 +1,4 @@
-/*#__PURE__*/ React.createElement("hasOwnProperty", null, "testing");
+/*#__PURE__*/ import { jsx as _jsx } from "react/jsx-runtime";
+_jsx("hasOwnProperty", {
+    children: "testing"
+});

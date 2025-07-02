@@ -31,9 +31,8 @@ define([
 // This import should be elided
 define([
     "require",
-    "exports",
-    "./test"
-], function(require, exports, _test) {
+    "exports"
+], function(require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
