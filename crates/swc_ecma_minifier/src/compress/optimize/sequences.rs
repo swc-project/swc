@@ -1186,19 +1186,6 @@ impl Optimizer<'_> {
             return false;
         }
 
-        // Exception: literal is always skippable.
-        if let Some(Mergable::Expr(Expr::Assign(AssignExpr {
-            left: AssignTarget::Simple(SimpleAssignTarget::Ident(..)),
-            op: op!("="),
-            right,
-            ..
-        }))) = a
-        {
-            if right.is_lit() {
-                return true;
-            }
-        }
-
         trace_op!("is_skippable_for_seq");
 
         match e {
