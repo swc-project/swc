@@ -8,7 +8,7 @@ pub use self::{
     import_attributes::import_attributes,
 };
 
-#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize, PartialEq)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub enum DecoratorVersion {
     #[default]

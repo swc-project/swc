@@ -61,8 +61,11 @@ impl DecoratorTransform {
                     let init_id = Ident::new(init_var.as_str().into(), DUMMY_SP, Default::default());
                     init_vars.push(init_id.clone());
 
-                    // Create element descriptor [decorator(s), kind, name]
+                        // Create element descriptor [decorator(s), kind, name]
                     let kind_value = if prop.is_static { 
+                        if staticInitLocal.is_none() {
+                            staticInitLocal = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
+                        }
                         match self.version {
                             DecoratorVersion::V202311 => STATIC + FIELD,
                             _ => STATIC_OLD_VERSION
@@ -108,7 +111,12 @@ impl DecoratorTransform {
                     prop.decorators.clear();
                     let original_value = prop.value.take();
                     
-                    let mut init_args = vec![Expr::This(ThisExpr { span: DUMMY_SP }).as_arg()];
+                    let mut init_args = if prop.is_static && self.version != DecoratorVersion::V202311 {
+                        // For static fields in 2022-03, don't pass 'this'
+                        vec![]
+                    } else {
+                        vec![Expr::This(ThisExpr { span: DUMMY_SP }).as_arg()]
+                    };
                     if let Some(value) = original_value {
                         init_args.push((*value).as_arg());
                     }
@@ -199,6 +207,9 @@ impl DecoratorTransform {
 
                     // Create element descriptor [decorator(s), kind, name, getter, setter]
                     let kind_value = if prop.is_static { 
+                        if staticInitLocal.is_none() {
+                            staticInitLocal = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
+                        }
                         match self.version {
                             DecoratorVersion::V202311 => STATIC + FIELD,
                             _ => STATIC_OLD_VERSION
@@ -224,11 +235,11 @@ impl DecoratorTransform {
                             Some(Lit::Num(Number { span: DUMMY_SP, value: kind_value, raw: None }).as_arg()),
                             Some(Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
-                                value: format!("#{}", prop.key.name).into(),
+                                value: prop.key.name.clone(),
                                 raw: None,
                             })).as_arg()),
-                            Some(getter_fn.as_arg()),
-                            Some(setter_fn.as_arg()),
+                            Some(Expr::Fn(getter_fn).as_arg()),
+                            Some(Expr::Fn(setter_fn).as_arg()),
                         ],
                     };
                     element_decs.push(element_desc.as_arg());
@@ -237,7 +248,12 @@ impl DecoratorTransform {
                     prop.decorators.clear();
                     let original_value = prop.value.take();
                     
-                    let mut init_args = vec![Expr::This(ThisExpr { span: DUMMY_SP }).as_arg()];
+                    let mut init_args = if prop.is_static && self.version != DecoratorVersion::V202311 {
+                        // For static private fields in 2022-03, don't pass 'this'
+                        vec![]
+                    } else {
+                        vec![Expr::This(ThisExpr { span: DUMMY_SP }).as_arg()]
+                    };
                     if let Some(value) = original_value {
                         init_args.push((*value).as_arg());
                     }
@@ -271,11 +287,11 @@ impl DecoratorTransform {
                     init_vars.push(init_id.clone());
                     init_vars.push(init_extra_id.clone());
 
-                    // Create private field name for storage - always use a different name to avoid conflicts
+                    // Create private field name for storage - for private accessors, use a capital letter version
                     let private_key = match &accessor.key {
                         Key::Private(p) => PrivateName {
                             span: p.span,
-                            name: format!("__{}", p.name).into(),
+                            name: p.name.to_uppercase().into(),
                         },
                         Key::Public(PropName::Ident(ident)) => PrivateName {
                             span: ident.span,
@@ -287,166 +303,167 @@ impl DecoratorTransform {
                         }
                     };
 
-                    // Create getter function
-                    let getter_fn = if accessor.is_static {
-                        // For static accessors in 2023-11
-                        FnExpr {
-                            ident: None,
-                            function: Box::new(Function {
-                                params: vec![],
-                                decorators: vec![],
+                    // Create getter function - for private accessors, use arrow functions
+                    let getter_fn = if let Key::Private(_) = &accessor.key {
+                        // For private accessors, create arrow function: o => o.#A
+                        ArrowExpr {
+                            span: DUMMY_SP,
+                            ctxt: Default::default(),
+                            params: vec![Pat::Ident(BindingIdent {
+                                id: Ident::new("o".into(), DUMMY_SP, Default::default()),
+                                type_ann: None,
+                            })],
+                            body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                                 span: DUMMY_SP,
-                                ctxt: Default::default(),
-                                body: Some(BlockStmt {
+                                obj: Box::new(Expr::Ident(Ident::new("o".into(), DUMMY_SP, Default::default()))),
+                                prop: MemberProp::PrivateName(private_key.clone()),
+                            })))),
+                            is_async: false,
+                            is_generator: false,
+                            type_params: None,
+                            return_type: None,
+                        }
+                    } else {
+                        // For public accessors, use regular function expressions as before
+                        match self.version {
+                            DecoratorVersion::V202311 if accessor.is_static => {
+                                // 2023-11 static accessors take no params
+                                ArrowExpr {
                                     span: DUMMY_SP,
                                     ctxt: Default::default(),
-                                    stmts: vec![Stmt::Return(ReturnStmt {
+                                    params: vec![],
+                                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
                                         span: DUMMY_SP,
-                                        arg: Some(Box::new(Expr::Member(MemberExpr {
+                                        obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
+                                        prop: MemberProp::PrivateName(private_key.clone()),
+                                    })))),
+                                    is_async: false,
+                                    is_generator: false,
+                                    type_params: None,
+                                    return_type: None,
+                                }
+                            }
+                            _ => {
+                                // All other cases take object parameter
+                                ArrowExpr {
+                                    span: DUMMY_SP,
+                                    ctxt: Default::default(),
+                                    params: vec![Pat::Ident(BindingIdent {
+                                        id: Ident::new("o".into(), DUMMY_SP, Default::default()),
+                                        type_ann: None,
+                                    })],
+                                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: Box::new(Expr::Ident(Ident::new("o".into(), DUMMY_SP, Default::default()))),
+                                        prop: MemberProp::PrivateName(private_key.clone()),
+                                    })))),
+                                    is_async: false,
+                                    is_generator: false,
+                                    type_params: None,
+                                    return_type: None,
+                                }
+                            }
+                        }
+                    };
+
+                    // Create setter function - for private accessors, use arrow functions
+                    let setter_fn = if let Key::Private(_) = &accessor.key {
+                        // For private accessors, create arrow function: (o, v) => o.#A = v
+                        ArrowExpr {
+                            span: DUMMY_SP,
+                            ctxt: Default::default(),
+                            params: vec![
+                                Pat::Ident(BindingIdent {
+                                    id: Ident::new("o".into(), DUMMY_SP, Default::default()),
+                                    type_ann: None,
+                                }),
+                                Pat::Ident(BindingIdent {
+                                    id: Ident::new("v".into(), DUMMY_SP, Default::default()),
+                                    type_ann: None,
+                                })
+                            ],
+                            body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: AssignOp::Assign,
+                                left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
+                                    span: DUMMY_SP,
+                                    obj: Box::new(Expr::Ident(Ident::new("o".into(), DUMMY_SP, Default::default()))),
+                                    prop: MemberProp::PrivateName(private_key.clone()),
+                                })),
+                                right: Box::new(Expr::Ident(Ident::new("v".into(), DUMMY_SP, Default::default()))),
+                            })))),
+                            is_async: false,
+                            is_generator: false,
+                            type_params: None,
+                            return_type: None,
+                        }
+                    } else {
+                        // For public accessors, use regular function expressions as before
+                        match self.version {
+                            DecoratorVersion::V202311 if accessor.is_static => {
+                                // 2023-11 static accessors take only value param
+                                ArrowExpr {
+                                    span: DUMMY_SP,
+                                    ctxt: Default::default(),
+                                    params: vec![Pat::Ident(BindingIdent {
+                                        id: Ident::new("v".into(), DUMMY_SP, Default::default()),
+                                        type_ann: None,
+                                    })],
+                                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
+                                        span: DUMMY_SP,
+                                        op: AssignOp::Assign,
+                                        left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
                                             span: DUMMY_SP,
                                             obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
                                             prop: MemberProp::PrivateName(private_key.clone()),
-                                        }))),
-                                    })],
-                                }),
-                                is_generator: false,
-                                is_async: false,
-                                type_params: None,
-                                return_type: None,
-                            }),
-                        }
-                    } else {
-                        // Instance accessor - arrow function with parameter
-                        FnExpr {
-                            ident: None,
-                            function: Box::new(Function {
-                                params: vec![Param {
-                                    span: DUMMY_SP,
-                                    decorators: vec![],
-                                    pat: Pat::Ident(BindingIdent {
-                                        id: Ident::new("o".into(), DUMMY_SP, Default::default()),
-                                        type_ann: None,
-                                    }),
-                                }],
-                                decorators: vec![],
-                                span: DUMMY_SP,
-                                ctxt: Default::default(),
-                                body: Some(BlockStmt {
-                                    span: DUMMY_SP,
-                                    ctxt: Default::default(),
-                                    stmts: vec![Stmt::Return(ReturnStmt {
-                                        span: DUMMY_SP,
-                                        arg: Some(Box::new(Expr::Member(MemberExpr {
-                                            span: DUMMY_SP,
-                                            obj: Box::new(Expr::Ident(Ident::new("o".into(), DUMMY_SP, Default::default()))),
-                                            prop: MemberProp::PrivateName(private_key.clone()),
-                                        }))),
-                                    })],
-                                }),
-                                is_generator: false,
-                                is_async: false,
-                                type_params: None,
-                                return_type: None,
-                            }),
-                        }
-                    };
-
-                    // Create setter function
-                    let setter_fn = if accessor.is_static {
-                        // For static accessors in 2023-11
-                        FnExpr {
-                            ident: None,
-                            function: Box::new(Function {
-                                params: vec![Param {
-                                    span: DUMMY_SP,
-                                    decorators: vec![],
-                                    pat: Pat::Ident(BindingIdent {
-                                        id: Ident::new("v".into(), DUMMY_SP, Default::default()),
-                                        type_ann: None,
-                                    }),
-                                }],
-                                decorators: vec![],
-                                span: DUMMY_SP,
-                                ctxt: Default::default(),
-                                body: Some(BlockStmt {
-                                    span: DUMMY_SP,
-                                    ctxt: Default::default(),
-                                    stmts: vec![Stmt::Expr(ExprStmt {
-                                        span: DUMMY_SP,
-                                        expr: Box::new(Expr::Assign(AssignExpr {
-                                            span: DUMMY_SP,
-                                            op: AssignOp::Assign,
-                                            left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
-                                                span: DUMMY_SP,
-                                                obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
-                                                prop: MemberProp::PrivateName(private_key.clone()),
-                                            })),
-                                            right: Box::new(Expr::Ident(Ident::new("v".into(), DUMMY_SP, Default::default()))),
                                         })),
-                                    })],
-                                }),
-                                is_generator: false,
-                                is_async: false,
-                                type_params: None,
-                                return_type: None,
-                            }),
-                        }
-                    } else {
-                        // Instance accessor - arrow function with two parameters
-                        FnExpr {
-                            ident: None,
-                            function: Box::new(Function {
-                                params: vec![
-                                    Param {
-                                        span: DUMMY_SP,
-                                        decorators: vec![],
-                                        pat: Pat::Ident(BindingIdent {
+                                        right: Box::new(Expr::Ident(Ident::new("v".into(), DUMMY_SP, Default::default()))),
+                                    })))),
+                                    is_async: false,
+                                    is_generator: false,
+                                    type_params: None,
+                                    return_type: None,
+                                }
+                            }
+                            _ => {
+                                // All other cases take object and value parameters
+                                ArrowExpr {
+                                    span: DUMMY_SP,
+                                    ctxt: Default::default(),
+                                    params: vec![
+                                        Pat::Ident(BindingIdent {
                                             id: Ident::new("o".into(), DUMMY_SP, Default::default()),
                                             type_ann: None,
                                         }),
-                                    },
-                                    Param {
-                                        span: DUMMY_SP,
-                                        decorators: vec![],
-                                        pat: Pat::Ident(BindingIdent {
+                                        Pat::Ident(BindingIdent {
                                             id: Ident::new("v".into(), DUMMY_SP, Default::default()),
                                             type_ann: None,
-                                        }),
-                                    }
-                                ],
-                                decorators: vec![],
-                                span: DUMMY_SP,
-                                ctxt: Default::default(),
-                                body: Some(BlockStmt {
-                                    span: DUMMY_SP,
-                                    ctxt: Default::default(),
-                                    stmts: vec![Stmt::Expr(ExprStmt {
+                                        })
+                                    ],
+                                    body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
-                                        expr: Box::new(Expr::Assign(AssignExpr {
+                                        op: AssignOp::Assign,
+                                        left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
                                             span: DUMMY_SP,
-                                            op: AssignOp::Assign,
-                                            left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
-                                                span: DUMMY_SP,
-                                                obj: Box::new(Expr::Ident(Ident::new("o".into(), DUMMY_SP, Default::default()))),
-                                                prop: MemberProp::PrivateName(private_key.clone()),
-                                            })),
-                                            right: Box::new(Expr::Ident(Ident::new("v".into(), DUMMY_SP, Default::default()))),
+                                            obj: Box::new(Expr::Ident(Ident::new("o".into(), DUMMY_SP, Default::default()))),
+                                            prop: MemberProp::PrivateName(private_key.clone()),
                                         })),
-                                    })],
-                                }),
-                                is_generator: false,
-                                is_async: false,
-                                type_params: None,
-                                return_type: None,
-                            }),
+                                        right: Box::new(Expr::Ident(Ident::new("v".into(), DUMMY_SP, Default::default()))),
+                                    })))),
+                                    is_async: false,
+                                    is_generator: false,
+                                    type_params: None,
+                                    return_type: None,
+                                }
+                            }
                         }
                     };
 
-                    // Create element descriptor for 2023-11
+                    // Create element descriptor for all versions
                     let kind_value = if accessor.is_static { 
                         match self.version {
                             DecoratorVersion::V202311 => STATIC + ACCESSOR,
-                            _ => STATIC_OLD_VERSION + ACCESSOR
+                            _ => STATIC_OLD_VERSION
                         }
                     } else { 
                         ACCESSOR 
@@ -475,7 +492,7 @@ impl DecoratorTransform {
                             Key::Public(PropName::Computed(computed)) => *computed.expr.clone(),
                             Key::Private(p) => Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
-                                value: format!("#{}", p.name).into(),
+                                value: p.name.clone(),
                                 raw: None,
                             })),
                             _ => Expr::Lit(Lit::Str(Str {
@@ -488,8 +505,8 @@ impl DecoratorTransform {
                     
                     // For private accessors, add getter and setter functions
                     if let Key::Private(_) = &accessor.key {
-                        desc_elems.push(Some(getter_fn.as_arg()));
-                        desc_elems.push(Some(setter_fn.as_arg()));
+                        desc_elems.push(Some(Expr::Arrow(getter_fn).as_arg()));
+                        desc_elems.push(Some(Expr::Arrow(setter_fn).as_arg()));
                     }
                     
                     let element_desc = ArrayLit {
@@ -506,6 +523,11 @@ impl DecoratorTransform {
                     };
                     if let Some(value) = accessor.value {
                         init_args.push((*value).as_arg());
+                    }
+                    
+                    // Ensure staticInitLocal is set for static accessors
+                    if accessor.is_static && staticInitLocal.is_none() {
+                        staticInitLocal = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
                     }
                     
                     let init_call = Expr::Call(CallExpr {
@@ -854,7 +876,7 @@ impl DecoratorTransform {
                             Some(Lit::Num(Number { span: DUMMY_SP, value: kind_value, raw: None }).as_arg()),
                             Some(Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
-                                value: format!("#{}", method.key.name).into(),
+                                value: method.key.name.clone(),
                                 raw: None,
                             })).as_arg()),
                         ],
