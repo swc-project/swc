@@ -1173,6 +1173,11 @@ impl Optimizer<'_> {
             return false;
         }
 
+        // Exception: literal is always skippable.
+        if let Some(Mergable::Expr(Expr::Lit(..))) = a {
+            return true;
+        }
+
         trace_op!("is_skippable_for_seq");
 
         match e {
