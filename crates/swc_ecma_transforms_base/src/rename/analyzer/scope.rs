@@ -174,7 +174,7 @@ impl Scope {
                     if cfg!(debug_assertions) {
                         debug!("Renaming `{}{:?}` to `{}`", id.0, id.1, sym);
                     }
-                    latest_n.insert(id.0, n);
+                    latest_n.insert(id.0.clone(), n);
 
                     reverse.push_entry(sym.clone(), id.clone());
                     to.insert(id, sym);
