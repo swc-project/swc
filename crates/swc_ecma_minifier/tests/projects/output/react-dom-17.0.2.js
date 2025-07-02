@@ -11132,7 +11132,7 @@
         // Learn more about this here:
         // https://github.com/facebook/react/issues/14365
         // https://bugs.chromium.org/p/v8/issues/detail?id=8538
-        this.actualDuration = Number.NaN, this.actualStartTime = Number.NaN, this.selfBaseDuration = Number.NaN, this.treeBaseDuration = Number.NaN, // This won't trigger the performance cliff mentioned above,
+        this.actualDuration = NaN, this.actualStartTime = NaN, this.selfBaseDuration = NaN, this.treeBaseDuration = NaN, // This won't trigger the performance cliff mentioned above,
         // and it simplifies other profiler code (including DevTools).
         this.actualDuration = 0, this.actualStartTime = -1, this.selfBaseDuration = 0, this.treeBaseDuration = 0, // This isn't directly used but is handy for debugging internals:
         this._debugID = debugCounter++, this._debugSource = null, this._debugOwner = null, this._debugNeedsRemount = !1, this._debugHookTypes = null, hasBadMapPolyfill || "function" != typeof Object.preventExtensions || Object.preventExtensions(this);

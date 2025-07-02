@@ -4977,7 +4977,7 @@
                     return js.resolve(this.In.slice());
                 }
                 getAllMutationBatchesAffectingDocumentKey(t, e) {
-                    const n = new Pr(e, 0), s = new Pr(e, Number.POSITIVE_INFINITY), i = [];
+                    const n = new Pr(e, 0), s = new Pr(e, 1 / 0), i = [];
                     return this.ds.forEachInRange([
                         n,
                         s
@@ -4989,7 +4989,7 @@
                 getAllMutationBatchesAffectingDocumentKeys(t, e) {
                     let n = new gn(et);
                     return e.forEach((t)=>{
-                        const e = new Pr(t, 0), s = new Pr(t, Number.POSITIVE_INFINITY);
+                        const e = new Pr(t, 0), s = new Pr(t, 1 / 0);
                         this.ds.forEachInRange([
                             e,
                             s

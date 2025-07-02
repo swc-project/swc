@@ -4044,7 +4044,7 @@
         }, 0), remainder = map(votesPerQuota, function(votes, idx) {
             return votes - seats[idx];
         }); currentSum < targetSeats;){
-            for(var max = Number.NEGATIVE_INFINITY, maxId = null, i = 0, len = remainder.length; i < len; ++i)remainder[i] > max && (max = remainder[i], maxId = i);
+            for(var max = -1 / 0, maxId = null, i = 0, len = remainder.length; i < len; ++i)remainder[i] > max && (max = remainder[i], maxId = i);
              // Add a vote to max remainder.
             ++seats[maxId], remainder[maxId] = 0, ++currentSum;
         }
@@ -21793,7 +21793,7 @@
         }, BarView.prototype._isOrderChangedWithinSameData = function(data, orderMapping, baseAxis) {
             for(var scale = baseAxis.scale, ordinalDataDim = data.mapDimension(baseAxis.dim), lastValue = Number.MAX_VALUE, tickNum = 0, len = scale.getOrdinalMeta().categories.length; tickNum < len; ++tickNum){
                 var rawIdx = data.rawIndexOf(ordinalDataDim, scale.getRawOrdinalNumber(tickNum)), value = rawIdx < 0 // If some tick have no bar, the tick will be treated as min.
-                 ? Number.MIN_VALUE // PENDING: if dataZoom on baseAxis exits, is it a performance issue?
+                 ? 5e-324 // PENDING: if dataZoom on baseAxis exits, is it a performance issue?
                  : orderMapping(data.indexOfRawIndex(rawIdx));
                 if (value > lastValue) return !0;
                 lastValue = value;

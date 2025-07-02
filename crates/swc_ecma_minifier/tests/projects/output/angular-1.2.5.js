@@ -10391,7 +10391,7 @@
         "$element",
         "$parse",
         function($scope, $exceptionHandler, $attr, $element, $parse) {
-            this.$viewValue = Number.NaN, this.$modelValue = Number.NaN, this.$parsers = [], this.$formatters = [], this.$viewChangeListeners = [], this.$pristine = !0, this.$dirty = !1, this.$valid = !0, this.$invalid = !1, this.$name = $attr.name;
+            this.$viewValue = NaN, this.$modelValue = NaN, this.$parsers = [], this.$formatters = [], this.$viewChangeListeners = [], this.$pristine = !0, this.$dirty = !1, this.$valid = !0, this.$invalid = !1, this.$name = $attr.name;
             var ngModelGet = $parse($attr.ngModel), ngModelSet = ngModelGet.assign;
             if (!ngModelSet) throw minErr("ngModel")("nonassign", "Expression '{0}' is non-assignable. Element: {1}", $attr.ngModel, startingTag($element));
             /**
