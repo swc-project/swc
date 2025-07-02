@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_quote"
 repository    = { workspace = true }
-version       = "17.0.0"
+version       = "18.0.0"
 
 [lib]
 bench = false
@@ -15,7 +15,7 @@ bench = false
 swc_atoms             = { version = "6.0.0", path = "../swc_atoms" }
 swc_common            = { version = "13.0.2", path = "../swc_common" }
 swc_ecma_ast          = { version = "13.0.0", path = "../swc_ecma_ast" }
-swc_ecma_quote_macros = { version = "17.0.0", path = "../swc_ecma_quote_macros" }
+swc_ecma_quote_macros = { version = "18.0.0", path = "../swc_ecma_quote_macros" }
 
 [dev-dependencies]
 testing = { version = "14.0.0", path = "../testing" }
