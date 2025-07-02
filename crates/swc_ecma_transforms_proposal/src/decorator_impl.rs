@@ -36,16 +36,60 @@ impl DecoratorTransform {
         let mut field_initializer_expressions: Vec<Expr> = vec![];
         let mut static_field_initializer_expressions: Vec<Expr> = vec![];
         let mut accessor_counter = 0;
-        let mut protoInitLocal: Option<Ident> = None;
-        let mut staticInitLocal: Option<Ident> = None;
+        let mut proto_init_local: Option<Ident> = None;
+        let mut static_init_local: Option<Ident> = None;
 
         // Process class decorators
         for decorator in &class.decorators {
             class_decs.push(decorator.expr.clone());
         }
 
-        // Process class members
-        for member in class.body.into_iter() {
+        // Collect and sort members first according to Babel's ordering
+        let mut members_to_process: Vec<(ClassMember, usize)> = class.body.into_iter().enumerate().map(|(idx, member)| (member, idx)).collect();
+        
+        // Sort according to Babel's decorator application order:
+        // 1. static non-fields (accessors, methods, getters, setters)
+        // 2. instance non-fields (accessors, methods, getters, setters) 
+        // 3. static fields
+        // 4. instance fields
+        members_to_process.sort_by_key(|(member, original_idx)| {
+            let is_static = match member {
+                ClassMember::Method(m) => m.is_static,
+                ClassMember::PrivateMethod(m) => m.is_static,
+                ClassMember::ClassProp(p) => p.is_static,
+                ClassMember::PrivateProp(p) => p.is_static,
+                ClassMember::AutoAccessor(a) => a.is_static,
+                _ => false,
+            };
+            
+            let is_field = matches!(member, 
+                ClassMember::ClassProp(_) | 
+                ClassMember::PrivateProp(_)
+            );
+            
+            let has_decorators = match member {
+                ClassMember::Method(m) => !m.function.decorators.is_empty(),
+                ClassMember::PrivateMethod(m) => !m.function.decorators.is_empty(),
+                ClassMember::ClassProp(p) => !p.decorators.is_empty(),
+                ClassMember::PrivateProp(p) => !p.decorators.is_empty(),
+                ClassMember::AutoAccessor(a) => !a.decorators.is_empty(),
+                _ => false,
+            };
+            
+            if !has_decorators {
+                return (4, *original_idx); // Non-decorated members keep original order
+            }
+            
+            match (is_static, is_field) {
+                (true, false) => (0, *original_idx),   // static non-fields
+                (false, false) => (1, *original_idx),  // instance non-fields
+                (true, true) => (2, *original_idx),    // static fields
+                (false, true) => (3, *original_idx),   // instance fields
+            }
+        });
+
+        // Process class members in sorted order
+        for (member, _) in members_to_process {
             match member {
                 ClassMember::ClassProp(mut prop) if !prop.decorators.is_empty() => {
                     has_decorators = true;
@@ -63,8 +107,8 @@ impl DecoratorTransform {
 
                         // Create element descriptor [decorator(s), kind, name]
                     let kind_value = if prop.is_static { 
-                        if staticInitLocal.is_none() {
-                            staticInitLocal = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
+                        if static_init_local.is_none() {
+                            static_init_local = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
                         }
                         match self.version {
                             DecoratorVersion::V202311 => STATIC + FIELD,
@@ -207,8 +251,8 @@ impl DecoratorTransform {
 
                     // Create element descriptor [decorator(s), kind, name, getter, setter]
                     let kind_value = if prop.is_static { 
-                        if staticInitLocal.is_none() {
-                            staticInitLocal = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
+                        if static_init_local.is_none() {
+                            static_init_local = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
                         }
                         match self.version {
                             DecoratorVersion::V202311 => STATIC + FIELD,
@@ -282,10 +326,17 @@ impl DecoratorTransform {
 
                     let init_var = format!("_init_{}", key_name);
                     let init_id = Ident::new(init_var.as_str().into(), DUMMY_SP, Default::default());
-                    let init_extra_var = format!("_init_extra_{}", key_name);
-                    let init_extra_id = Ident::new(init_extra_var.as_str().into(), DUMMY_SP, Default::default());
                     init_vars.push(init_id.clone());
-                    init_vars.push(init_extra_id.clone());
+                    
+                    // Only add init_extra for 2023-11 version
+                    let init_extra_id = if self.version == DecoratorVersion::V202311 {
+                        let init_extra_var = format!("_init_extra_{}", key_name);
+                        let id = Ident::new(init_extra_var.as_str().into(), DUMMY_SP, Default::default());
+                        init_vars.push(id.clone());
+                        Some(id)
+                    } else {
+                        None
+                    };
 
                     // Create private field name for storage - for private accessors, use a capital letter version
                     let private_key = match &accessor.key {
@@ -463,7 +514,7 @@ impl DecoratorTransform {
                     let kind_value = if accessor.is_static { 
                         match self.version {
                             DecoratorVersion::V202311 => STATIC + ACCESSOR,
-                            _ => STATIC_OLD_VERSION
+                            _ => STATIC_OLD_VERSION + ACCESSOR
                         }
                     } else { 
                         ACCESSOR 
@@ -525,9 +576,9 @@ impl DecoratorTransform {
                         init_args.push((*value).as_arg());
                     }
                     
-                    // Ensure staticInitLocal is set for static accessors
-                    if accessor.is_static && staticInitLocal.is_none() {
-                        staticInitLocal = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
+                    // Ensure static_init_local is set for static accessors
+                    if accessor.is_static && static_init_local.is_none() {
+                        static_init_local = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
                     }
                     
                     let init_call = Expr::Call(CallExpr {
@@ -738,7 +789,7 @@ impl DecoratorTransform {
                         }
                     }
 
-                    // Add field initialization
+                    // Add field initialization - separate init and init_extra calls
                     if accessor.is_static {
                         static_field_initializer_expressions.push(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
@@ -750,15 +801,18 @@ impl DecoratorTransform {
                             })),
                             right: Box::new(init_call),
                         }));
-                        static_field_initializer_expressions.push(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            ctxt: Default::default(),
-                            callee: init_extra_id.as_callee(),
-                            args: vec![],
-                            type_args: None,
-                        }));
+                        // For 2023-11, add init_extra call to static block
+                        if let Some(ref extra_id) = init_extra_id {
+                            static_field_initializer_expressions.push(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                ctxt: Default::default(),
+                                callee: extra_id.clone().as_callee(),
+                                args: vec![],
+                                type_args: None,
+                            }));
+                        }
                     } else {
-                            field_initializer_expressions.push(Expr::Assign(AssignExpr {
+                        field_initializer_expressions.push(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: AssignOp::Assign,
                             left: AssignTarget::Simple(SimpleAssignTarget::Member(MemberExpr {
@@ -768,29 +822,34 @@ impl DecoratorTransform {
                             })),
                             right: Box::new(init_call),
                         }));
-                        field_initializer_expressions.push(Expr::Call(CallExpr {
-                            span: DUMMY_SP,
-                            ctxt: Default::default(),
-                            callee: init_extra_id.as_callee(),
-                            args: vec![Expr::This(ThisExpr { span: DUMMY_SP }).as_arg()],
-                            type_args: None,
-                        }));
+                        // For 2023-11, add init_extra call to constructor
+                        if let Some(ref extra_id) = init_extra_id {
+                            field_initializer_expressions.push(Expr::Call(CallExpr {
+                                span: DUMMY_SP,
+                                ctxt: Default::default(),
+                                callee: extra_id.clone().as_callee(),
+                                args: vec![Expr::This(ThisExpr { span: DUMMY_SP }).as_arg()],
+                                type_args: None,
+                            }));
+                        }
                     }
                 }
                 ClassMember::Method(mut method) if !method.function.decorators.is_empty() => {
                     has_decorators = true;
                     
+                    let base_kind = match method.kind {
+                        MethodKind::Method => METHOD,
+                        MethodKind::Getter => GETTER,
+                        MethodKind::Setter => SETTER,
+                    };
+                    
                     let kind_value = if method.is_static { 
                         match self.version {
-                            DecoratorVersion::V202311 => STATIC + METHOD,
-                            _ => STATIC_OLD_VERSION + METHOD
+                            DecoratorVersion::V202311 => STATIC + base_kind,
+                            _ => STATIC_OLD_VERSION + base_kind
                         }
                     } else { 
-                        match method.kind {
-                            MethodKind::Method => METHOD,
-                            MethodKind::Getter => GETTER,
-                            MethodKind::Setter => SETTER,
-                        }
+                        base_kind
                     };
                     
                     // Handle multiple decorators
@@ -828,12 +887,12 @@ impl DecoratorTransform {
 
                     // For instance methods, add protoInit call
                     if !method.is_static {
-                        if protoInitLocal.is_none() {
-                            protoInitLocal = Some(Ident::new("_initProto".into(), DUMMY_SP, Default::default()));
+                        if proto_init_local.is_none() {
+                            proto_init_local = Some(Ident::new("_initProto".into(), DUMMY_SP, Default::default()));
                         }
                     } else {
-                        if staticInitLocal.is_none() {
-                            staticInitLocal = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
+                        if static_init_local.is_none() {
+                            static_init_local = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
                         }
                     }
 
@@ -846,17 +905,19 @@ impl DecoratorTransform {
                     has_decorators = true;
 
                     // Create element descriptor [decorator(s), kind, name]
+                    let base_kind = match method.kind {
+                        MethodKind::Method => METHOD,
+                        MethodKind::Getter => GETTER,
+                        MethodKind::Setter => SETTER,
+                    };
+                    
                     let kind_value = if method.is_static { 
                         match self.version {
-                            DecoratorVersion::V202311 => STATIC + METHOD,
-                            _ => STATIC_OLD_VERSION + METHOD
+                            DecoratorVersion::V202311 => STATIC + base_kind,
+                            _ => STATIC_OLD_VERSION + base_kind
                         }
                     } else { 
-                        match method.kind {
-                            MethodKind::Method => METHOD,
-                            MethodKind::Getter => GETTER,
-                            MethodKind::Setter => SETTER,
-                        }
+                        base_kind
                     };
                     
                     // Handle multiple decorators
@@ -885,12 +946,12 @@ impl DecoratorTransform {
 
                     // For instance methods, add protoInit call
                     if !method.is_static {
-                        if protoInitLocal.is_none() {
-                            protoInitLocal = Some(Ident::new("_initProto".into(), DUMMY_SP, Default::default()));
+                        if proto_init_local.is_none() {
+                            proto_init_local = Some(Ident::new("_initProto".into(), DUMMY_SP, Default::default()));
                         }
                     } else {
-                        if staticInitLocal.is_none() {
-                            staticInitLocal = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
+                        if static_init_local.is_none() {
+                            static_init_local = Some(Ident::new("_initStatic".into(), DUMMY_SP, Default::default()));
                         }
                     }
 
@@ -947,7 +1008,7 @@ impl DecoratorTransform {
                 definite: false,
             });
         }
-        if let Some(proto_init) = &protoInitLocal {
+        if let Some(proto_init) = &proto_init_local {
             all_var_decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: proto_init.clone().into(),
@@ -955,7 +1016,7 @@ impl DecoratorTransform {
                 definite: false,
             });
         }
-        if let Some(static_init) = &staticInitLocal {
+        if let Some(static_init) = &static_init_local {
             all_var_decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: static_init.clone().into(),
@@ -1001,47 +1062,24 @@ impl DecoratorTransform {
             }))));
         }
 
-        // Create apply_decs call
+        // Create apply_decs call - first argument is always 'this'
         let mut args = vec![Expr::This(ThisExpr { span: DUMMY_SP }).as_arg()];
         
-        // For 2023-11: args are (this, classDecorations, elementDecorations)
-        // For 2022-03: args are (this, elementDecorations, classDecorations) 
-        match self.version {
-            DecoratorVersion::V202311 => {
-                // Class decorators array (second parameter)
-                args.push(ArrayLit {
-                    span: DUMMY_SP,
-                    elems: if has_class_decs {
-                        class_decs.into_iter().map(|expr| Some(expr.as_arg())).collect()
-                    } else {
-                        vec![]
-                    },
-                }.as_arg());
-
-                // Element decorators array (third parameter)  
-                args.push(ArrayLit {
-                    span: DUMMY_SP,
-                    elems: element_decs.into_iter().map(Some).collect(),
-                }.as_arg());
-            }
-            _ => {
-                // Element decorators array (second parameter)  
-                args.push(ArrayLit {
-                    span: DUMMY_SP,
-                    elems: element_decs.into_iter().map(Some).collect(),
-                }.as_arg());
-                
-                // Class decorators array (third parameter)
-                args.push(ArrayLit {
-                    span: DUMMY_SP,
-                    elems: if has_class_decs {
-                        class_decs.into_iter().map(|expr| Some(expr.as_arg())).collect()
-                    } else {
-                        vec![]
-                    },
-                }.as_arg());
-            }
-        }
+        // Element decorators array (second parameter for both versions)
+        args.push(ArrayLit {
+            span: DUMMY_SP,
+            elems: element_decs.into_iter().map(Some).collect(),
+        }.as_arg());
+        
+        // Class decorators array (third parameter for both versions)
+        args.push(ArrayLit {
+            span: DUMMY_SP,
+            elems: if has_class_decs {
+                class_decs.into_iter().map(|expr| Some(expr.as_arg())).collect()
+            } else {
+                vec![]
+            },
+        }.as_arg());
 
         let apply_call = CallExpr {
             span: DUMMY_SP,
@@ -1054,12 +1092,12 @@ impl DecoratorTransform {
         // Create destructuring assignment
         let mut props = Vec::new();
         
-        // Build element decorators list (init_vars + protoInitLocal + staticInitLocal)
+        // Build element decorators list (init_vars + proto_init_local + static_init_local)
         let mut element_vars = init_vars.clone();
-        if let Some(proto_init) = &protoInitLocal {
+        if let Some(proto_init) = &proto_init_local {
             element_vars.push(proto_init.clone());
         }
-        if let Some(static_init) = &staticInitLocal {
+        if let Some(static_init) = &static_init_local {
             element_vars.push(static_init.clone());
         }
         
@@ -1195,7 +1233,7 @@ impl DecoratorTransform {
         }
 
         // Add protoInit call to constructor if needed
-        if let Some(proto_init) = &protoInitLocal {
+        if let Some(proto_init) = &proto_init_local {
             // Find or create constructor
             let mut constructor_idx = None;
             for (idx, member) in class.body.iter().enumerate() {
