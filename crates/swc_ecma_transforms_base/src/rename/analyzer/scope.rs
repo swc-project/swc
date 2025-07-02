@@ -9,7 +9,7 @@ use std::{
 use indexmap::IndexSet;
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
-use rustc_hash::{FxHashSet, FxHasher};
+use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, Mark, SyntaxContext};
 use swc_ecma_ast::*;
@@ -146,6 +146,7 @@ impl Scope {
     ) where
         R: Renamer,
     {
+        let mut latest_n = FxHashMap::default();
         let mut n = 0;
 
         for id in queue {
@@ -159,7 +160,7 @@ impl Scope {
             }
 
             if R::RESET_N {
-                n = 0;
+                n = latest_n.get(&id.0).copied().unwrap_or(0);
             }
 
             loop {
@@ -173,6 +174,7 @@ impl Scope {
                     if cfg!(debug_assertions) {
                         debug!("Renaming `{}{:?}` to `{}`", id.0, id.1, sym);
                     }
+                    latest_n.insert(id.0, n);
 
                     reverse.push_entry(sym.clone(), id.clone());
                     to.insert(id, sym);
