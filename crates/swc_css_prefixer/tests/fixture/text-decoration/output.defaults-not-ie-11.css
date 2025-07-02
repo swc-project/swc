@@ -12,18 +12,14 @@
   text-decoration: unset;
 }
 .skip {
-  -webkit-text-decoration-skip: spaces;
   text-decoration-skip: spaces;
 }
 .ink-auto {
-  -webkit-text-decoration-skip: ink;
   text-decoration-skip-ink: auto;
 }
 .ink-all {
-  -webkit-text-decoration-skip-ink: all;
   text-decoration-skip-ink: all;
 }
 .old-ink {
-  -webkit-text-decoration-skip: ink;
   text-decoration-skip: ink;
 }

@@ -10,7 +10,6 @@ input::placeholder,
   color: red;
 }
 input::placeholder {
-  -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
 }
 input.appearance::placeholder {

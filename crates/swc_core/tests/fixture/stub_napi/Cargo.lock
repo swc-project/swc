@@ -268,15 +268,25 @@ dependencies = [
 ]
 
 [[package]]
-name = "browserslist-rs"
-version = "0.18.2"
+name = "browserslist-data"
+version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "abf24e007a83ff1f58d2441b459fa26124aa1a7367da88948e9940f14e723d06"
+checksum = "3f42db7dd1800856ac32d4a08c2915de9a9a2a72ce1fdd86189daed368729fd4"
 dependencies = [
  "ahash",
  "chrono",
+]
+
+[[package]]
+name = "browserslist-rs"
+version = "0.19.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8dd48a6ca358df4f7000e3fb5f08738b1b91a0e5d5f862e2f77b2b14647547f5"
+dependencies = [
+ "ahash",
+ "browserslist-data",
+ "chrono",
  "either",
- "indexmap",
  "itertools 0.13.0",
  "nom 7.1.3",
  "serde",
@@ -592,6 +602,15 @@ dependencies = [
  "libc",
  "scopeguard",
  "windows-sys 0.59.0",
+]
+
+[[package]]
+name = "cow-replace"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a6cab584c4b83b5b36f81a10bd15191fd77f70432d624787ee68ec64edd6d7ed"
+dependencies = [
+ "ascii",
 ]
 
 [[package]]
@@ -1474,7 +1493,7 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hstr"
-version = "1.1.0"
+version = "1.1.1"
 dependencies = [
  "hashbrown 0.14.5",
  "new_debug_unreachable",
@@ -2507,20 +2526,11 @@ checksum = "26995317201fa17f3656c36716aed4a7c81743a9634ac4c99c0eeda495db0cec"
 
 [[package]]
 name = "par-core"
-version = "1.0.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "757892557993c69e82f9de0f9051e87144278aa342f03bf53617bbf044554484"
-dependencies = [
- "chili",
- "once_cell",
-]
-
-[[package]]
-name = "par-core"
 version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e96cbd21255b7fb29a5d51ef38a779b517a91abd59e2756c039583f43ef4c90f"
 dependencies = [
+ "chili",
  "once_cell",
 ]
 
@@ -2531,7 +2541,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3eae0176a010bb94b9a67f0eb9da0fd31410817d58850649c54f485124c9a71a"
 dependencies = [
  "either",
- "par-core 2.0.0",
+ "par-core",
 ]
 
 [[package]]
@@ -3437,6 +3447,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "seq-macro"
+version = "0.3.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1bc711410fbe7399f390ca1c3b60ad0f53f80e95c5eb935e52268a0e2cd49acc"
+
+[[package]]
 name = "serde"
 version = "1.0.219"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3746,7 +3762,7 @@ dependencies = [
  "napi",
  "napi-build",
  "napi-derive",
- "par-core 1.0.4",
+ "par-core",
  "path-clean 0.1.0",
  "serde",
  "serde_json",
@@ -3765,7 +3781,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "28.0.0"
+version = "28.0.1"
 dependencies = [
  "anyhow",
  "base64",
@@ -3778,7 +3794,7 @@ dependencies = [
  "napi",
  "napi-derive",
  "once_cell",
- "par-core 2.0.0",
+ "par-core",
  "par-iter",
  "parking_lot",
  "pathdiff",
@@ -3875,7 +3891,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "13.0.0"
+version = "13.0.2"
 dependencies = [
  "anyhow",
  "ast_node",
@@ -3962,7 +3978,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "29.0.0"
+version = "29.4.2"
 dependencies = [
  "swc",
  "swc_allocator",
@@ -4223,16 +4239,19 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "17.0.0"
+version = "17.0.7"
 dependencies = [
  "arrayvec",
+ "ascii",
  "bitflags 2.9.1",
+ "cow-replace",
  "either",
  "new_debug_unreachable",
  "num-bigint",
  "num-traits",
  "phf",
  "rustc-hash 2.1.1",
+ "seq-macro",
  "serde",
  "smallvec",
  "smartstring",
@@ -4250,7 +4269,7 @@ version = "19.0.0"
 dependencies = [
  "auto_impl",
  "dashmap 5.5.3",
- "par-core 2.0.0",
+ "par-core",
  "parking_lot",
  "regex",
  "rustc-hash 2.1.1",
@@ -4285,7 +4304,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "23.0.0"
+version = "23.0.5"
 dependencies = [
  "arrayvec",
  "bitflags 2.9.1",
@@ -4293,7 +4312,7 @@ dependencies = [
  "num-bigint",
  "num_cpus",
  "once_cell",
- "par-core 2.0.0",
+ "par-core",
  "par-iter",
  "parking_lot",
  "phf",
@@ -4321,7 +4340,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "17.0.0"
+version = "17.2.1"
 dependencies = [
  "arrayvec",
  "bitflags 2.9.1",
@@ -4370,7 +4389,7 @@ dependencies = [
 name = "swc_ecma_transforms"
 version = "22.0.0"
 dependencies = [
- "par-core 2.0.0",
+ "par-core",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -4393,7 +4412,7 @@ dependencies = [
  "bitflags 2.9.1",
  "indexmap",
  "once_cell",
- "par-core 2.0.0",
+ "par-core",
  "phf",
  "rayon",
  "rustc-hash 2.1.1",
@@ -4428,7 +4447,7 @@ dependencies = [
  "indexmap",
  "is-macro",
  "num-bigint",
- "par-core 2.0.0",
+ "par-core",
  "rayon",
  "serde",
  "smallvec",
@@ -4500,7 +4519,7 @@ dependencies = [
  "dashmap 5.5.3",
  "indexmap",
  "once_cell",
- "par-core 2.0.0",
+ "par-core",
  "petgraph 0.7.1",
  "rayon",
  "rustc-hash 2.1.1",
@@ -4580,7 +4599,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "19.0.0"
+version = "19.0.1"
 dependencies = [
  "bitflags 2.9.1",
  "indexmap",
@@ -4596,12 +4615,12 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "18.0.0"
+version = "18.0.2"
 dependencies = [
  "indexmap",
  "num_cpus",
  "once_cell",
- "par-core 2.0.0",
+ "par-core",
  "par-iter",
  "rayon",
  "rustc-hash 2.1.1",
@@ -4818,7 +4837,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "17.0.0"
+version = "17.0.1"
 dependencies = [
  "bitflags 2.9.1",
  "petgraph 0.7.1",
