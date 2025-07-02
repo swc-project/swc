@@ -514,7 +514,7 @@ pub fn parse_ts_type_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeRef> {
     let type_params =
         if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::LESS) {
             Some(parse_ts_type_args(
-                p.with_ctx(p.ctx() & !Context::ShouldNotLexLtOrGtAsType)
+                p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType)
                     .deref_mut(),
             )?)
         } else {
@@ -1963,31 +1963,31 @@ fn parse_ts_property_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<(bool, Box<Ex
         expect!(p, &P::Token::RBRACKET);
         (true, key)
     } else {
-        let ctx = p.ctx() | Context::InPropertyName;
-        p.with_ctx(ctx).parse_with(|p| {
-            // We check if it's valid for it to be a private name when we push it.
-            let Some(cur) = p.input_mut().cur() else {
-                return Err(eof_error(p));
-            };
+        p.do_inside_of_context(Context::InPropertyName)
+            .parse_with(|p| {
+                // We check if it's valid for it to be a private name when we push it.
+                let Some(cur) = p.input_mut().cur() else {
+                    return Err(eof_error(p));
+                };
 
-            let key = if cur.is_num() || cur.is_str() {
-                parse_new_expr(p)
-            } else if cur.is_error() {
-                let c = p.input_mut().bump();
-                let err = c.take_error(p.input_mut());
-                return Err(err);
-            } else {
-                parse_maybe_private_name(p).map(|e| match e {
-                    Either::Left(e) => {
-                        p.emit_err(e.span(), SyntaxError::PrivateNameInInterface);
+                let key = if cur.is_num() || cur.is_str() {
+                    parse_new_expr(p)
+                } else if cur.is_error() {
+                    let c = p.input_mut().bump();
+                    let err = c.take_error(p.input_mut());
+                    return Err(err);
+                } else {
+                    parse_maybe_private_name(p).map(|e| match e {
+                        Either::Left(e) => {
+                            p.emit_err(e.span(), SyntaxError::PrivateNameInInterface);
 
-                        e.into()
-                    }
-                    Either::Right(e) => e.into(),
-                })
-            };
-            key.map(|key| (false, key))
-        })?
+                            e.into()
+                        }
+                        Either::Right(e) => e.into(),
+                    })
+                };
+                key.map(|key| (false, key))
+            })?
     };
 
     Ok((computed, key))
@@ -2280,7 +2280,7 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
 
     let type_args = if p.input_mut().is(&P::Token::LESS) {
         parse_ts_type_args(
-            p.with_ctx(p.ctx() & !Context::ShouldNotLexLtOrGtAsType)
+            p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType)
                 .deref_mut(),
         )
         .map(Some)?
@@ -2336,7 +2336,7 @@ fn parse_ts_type_query<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeQuery> {
     let type_args =
         if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::LESS) {
             Some(parse_ts_type_args(
-                p.with_ctx(p.ctx() & !Context::ShouldNotLexLtOrGtAsType)
+                p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType)
                     .deref_mut(),
             )?)
         } else {
@@ -2360,7 +2360,7 @@ fn parse_ts_module_block<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsModuleBlock>
     expect!(p, &P::Token::LBRACE);
     // Inside of a module block is considered "top-level", meaning it can have
     // imports and exports.
-    let body = p.with_ctx(p.ctx() | Context::TopLevel).parse_with(|p| {
+    let body = p.do_inside_of_context(Context::TopLevel).parse_with(|p| {
         parse_module_item_block_body(
             p,
             /* directives */ false,
@@ -2689,8 +2689,7 @@ pub fn try_parse_ts_declare<'a, P: Parser<'a>>(
     }
 
     let declare_start = start;
-    let ctx = p.ctx() | Context::InDeclare;
-    p.with_ctx(ctx).parse_with(|p| {
+    p.do_inside_of_context(Context::InDeclare).parse_with(|p| {
         if p.input_mut().is(&P::Token::FUNCTION) {
             return parse_fn_decl(p, decorators)
                 .map(|decl| match decl {

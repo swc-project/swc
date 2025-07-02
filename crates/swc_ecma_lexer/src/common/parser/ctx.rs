@@ -11,6 +11,7 @@ pub struct WithCtx<'a, 'w, Parser: super::Parser<'a>> {
 impl<'a, 'w, Parser: super::Parser<'a>> WithCtx<'a, 'w, Parser> {
     pub(super) fn new(inner: &'w mut Parser, ctx: Context) -> Self {
         let orig_ctx = inner.ctx();
+        // TODO: add `assert!(ctx != orig_ctx)` to ensure no invalid operation.
         inner.set_ctx(ctx);
         WithCtx {
             inner,

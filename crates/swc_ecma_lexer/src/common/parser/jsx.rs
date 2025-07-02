@@ -220,7 +220,7 @@ fn parse_jsx_attr<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrOrSpread> {
     let name = parse_jsx_namespaced_name(p)?;
     let value = if p.input_mut().eat(&P::Token::EQUAL) {
         parse_jsx_attr_value(
-            p.with_ctx(p.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond)
+            p.do_outside_of_context(Context::InCondExpr.union(Context::WillExpectColonForCond))
                 .deref_mut(),
         )
         .map(Some)?
@@ -250,7 +250,7 @@ fn parse_jsx_opening_element_at<'a, P: Parser<'a>>(
     }
 
     let name = parse_jsx_element_name(
-        p.with_ctx(p.ctx() & !Context::ShouldNotLexLtOrGtAsType)
+        p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType)
             .deref_mut(),
     )?;
     parse_jsx_opening_element_after_name(p, start, name).map(Either::Right)
@@ -451,7 +451,7 @@ pub(crate) fn parse_jsx_element<'a, P: Parser<'a>>(
     let start_pos = p.cur_pos();
 
     parse_jsx_element_at(
-        p.with_ctx(p.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond)
+        p.do_outside_of_context(Context::InCondExpr.union(Context::WillExpectColonForCond))
             .deref_mut(),
         start_pos,
     )

@@ -28,30 +28,30 @@ fn parse_object<'a, P: Parser<'a>, Object, ObjectProp>(
     parse_prop: impl Fn(&mut P) -> PResult<ObjectProp>,
     make_object: impl Fn(&mut P, Span, Vec<ObjectProp>, Option<Span>) -> PResult<Object>,
 ) -> PResult<Object> {
-    let ctx = p.ctx() & !Context::WillExpectColonForCond;
-    p.with_ctx(ctx).parse_with(|p| {
-        trace_cur!(p, parse_object);
+    p.do_outside_of_context(Context::WillExpectColonForCond)
+        .parse_with(|p| {
+            trace_cur!(p, parse_object);
 
-        let start = p.cur_pos();
-        let mut trailing_comma = None;
-        p.assert_and_bump(&P::Token::LBRACE);
+            let start = p.cur_pos();
+            let mut trailing_comma = None;
+            p.assert_and_bump(&P::Token::LBRACE);
 
-        let mut props = Vec::with_capacity(8);
+            let mut props = Vec::with_capacity(8);
 
-        while !p.input_mut().eat(&P::Token::RBRACE) {
-            props.push(parse_prop(p)?);
+            while !p.input_mut().eat(&P::Token::RBRACE) {
+                props.push(parse_prop(p)?);
 
-            if !p.input_mut().is(&P::Token::RBRACE) {
-                expect!(p, &P::Token::COMMA);
-                if p.input_mut().is(&P::Token::RBRACE) {
-                    trailing_comma = Some(p.input().prev_span());
+                if !p.input_mut().is(&P::Token::RBRACE) {
+                    expect!(p, &P::Token::COMMA);
+                    if p.input_mut().is(&P::Token::RBRACE) {
+                        trailing_comma = Some(p.input().prev_span());
+                    }
                 }
             }
-        }
 
-        let span = p.span(start);
-        make_object(p, span, props, trailing_comma)
-    })
+            let span = p.span(start);
+            make_object(p, span, props, trailing_comma)
+        })
 }
 
 /// Production 'BindingProperty'

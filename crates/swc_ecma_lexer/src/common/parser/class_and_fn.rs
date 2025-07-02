@@ -388,18 +388,17 @@ fn parse_fn_inner<'a, P: Parser<'a>>(
     } else {
         // function declaration does not change context for `BindingIdentifier`.
         parse_maybe_opt_binding_ident(
-            p.with_ctx(p.ctx() & !Context::AllowDirectSuper & !Context::InClassField)
+            p.do_outside_of_context(Context::AllowDirectSuper.union(Context::InClassField))
                 .deref_mut(),
             is_ident_required,
             false,
         )?
     };
 
-    p.with_ctx(
-        p.ctx()
-            & !Context::AllowDirectSuper
-            & !Context::InClassField
-            & !Context::WillExpectColonForCond,
+    p.do_outside_of_context(
+        Context::AllowDirectSuper
+            .union(Context::InClassField)
+            .union(Context::WillExpectColonForCond),
     )
     .parse_with(|p| {
         let f = parse_fn_args_body(
@@ -702,87 +701,89 @@ fn make_property<'a, P: Parser<'a>>(
 
     let type_ann = try_parse_ts_type_ann(p)?;
 
-    let ctx = p.ctx() | Context::IncludeInExpr | Context::InClassField;
-    p.with_ctx(ctx).parse_with(|p| {
-        let value = if p.input_mut().is(&P::Token::EQUAL) {
-            p.assert_and_bump(&P::Token::EQUAL);
-            Some(parse_assignment_expr(p)?)
-        } else {
-            None
-        };
+    p.do_inside_of_context(Context::IncludeInExpr.union(Context::InClassField))
+        .parse_with(|p| {
+            let value = if p.input_mut().is(&P::Token::EQUAL) {
+                p.assert_and_bump(&P::Token::EQUAL);
+                Some(parse_assignment_expr(p)?)
+            } else {
+                None
+            };
 
-        if !p.eat_general_semi() {
-            p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
-        }
+            if !p.eat_general_semi() {
+                p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
+            }
 
-        if accessor_token.is_some() {
-            return Ok(ClassMember::AutoAccessor(AutoAccessor {
-                span: p.span(start),
-                key,
-                value,
-                type_ann,
-                is_static,
-                decorators,
-                accessibility,
-                is_abstract,
-                is_override,
-                definite,
-            }));
-        }
-
-        Ok(match key {
-            Key::Private(key) => {
-                let span = p.span(start);
-                if accessibility.is_some() {
-                    p.emit_err(span.with_hi(key.span_hi()), SyntaxError::TS18010);
-                }
-
-                PrivateProp {
+            if accessor_token.is_some() {
+                return Ok(ClassMember::AutoAccessor(AutoAccessor {
                     span: p.span(start),
                     key,
                     value,
-                    is_static,
-                    decorators,
-                    accessibility,
-                    is_optional,
-                    is_override,
-                    readonly,
                     type_ann,
-                    definite,
-                    ctxt: Default::default(),
-                }
-                .into()
-            }
-            Key::Public(key) => {
-                let span = p.span(start);
-                if is_abstract && value.is_some() {
-                    p.emit_err(span, SyntaxError::TS1267)
-                }
-                ClassProp {
-                    span,
-                    key,
-                    value,
                     is_static,
                     decorators,
                     accessibility,
                     is_abstract,
-                    is_optional,
                     is_override,
-                    readonly,
-                    declare,
                     definite,
-                    type_ann,
-                }
-                .into()
+                }));
             }
+
+            Ok(match key {
+                Key::Private(key) => {
+                    let span = p.span(start);
+                    if accessibility.is_some() {
+                        p.emit_err(span.with_hi(key.span_hi()), SyntaxError::TS18010);
+                    }
+
+                    PrivateProp {
+                        span: p.span(start),
+                        key,
+                        value,
+                        is_static,
+                        decorators,
+                        accessibility,
+                        is_optional,
+                        is_override,
+                        readonly,
+                        type_ann,
+                        definite,
+                        ctxt: Default::default(),
+                    }
+                    .into()
+                }
+                Key::Public(key) => {
+                    let span = p.span(start);
+                    if is_abstract && value.is_some() {
+                        p.emit_err(span, SyntaxError::TS1267)
+                    }
+                    ClassProp {
+                        span,
+                        key,
+                        value,
+                        is_static,
+                        decorators,
+                        accessibility,
+                        is_abstract,
+                        is_optional,
+                        is_override,
+                        readonly,
+                        declare,
+                        definite,
+                        type_ann,
+                    }
+                    .into()
+                }
+            })
         })
-    })
 }
 
 fn parse_static_block<'a, P: Parser<'a>>(p: &mut P, start: BytePos) -> PResult<ClassMember> {
     let body = parse_block(
-        p.with_ctx(
-            p.ctx() | Context::InStaticBlock | Context::InClassField | Context::AllowUsingDecl,
+        p.do_inside_of_context(
+            Context::InStaticBlock
+                .union(Context::InClassField)
+                .union(Context::AllowUsingDecl),
         )
         .deref_mut(),
         false,
@@ -1470,7 +1471,7 @@ fn parse_class_body<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<ClassMember>> {
             }));
             continue;
         }
-        let mut p = p.with_ctx(p.ctx() | Context::AllowDirectSuper);
+        let mut p = p.do_inside_of_context(Context::AllowDirectSuper);
         let elem = parse_class_member(p.deref_mut())?;
 
         if !p.ctx().contains(Context::InDeclare) {
@@ -1502,7 +1503,7 @@ where
     T: OutputType,
 {
     let (ident, mut class) = parse_class_inner(
-        p.with_ctx(p.ctx() | Context::InClass).deref_mut(),
+        p.do_inside_of_context(Context::InClass).deref_mut(),
         start,
         class_start,
         decorators,

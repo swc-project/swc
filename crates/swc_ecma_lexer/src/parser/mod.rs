@@ -197,10 +197,13 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub fn parse_program(&mut self) -> PResult<Program> {
         let start = self.cur_pos();
         let shebang = parse_shebang(self)?;
-        let ctx = self.ctx() | Context::CanBeModule | Context::TopLevel;
 
-        let body: Vec<ModuleItem> =
-            parse_module_item_block_body(self.with_ctx(ctx).deref_mut(), true, None)?;
+        let body: Vec<ModuleItem> = parse_module_item_block_body(
+            self.do_inside_of_context(Context::CanBeModule.union(Context::TopLevel))
+                .deref_mut(),
+            true,
+            None,
+        )?;
         let has_module_item = self.found_module_item
             || body
                 .iter()
