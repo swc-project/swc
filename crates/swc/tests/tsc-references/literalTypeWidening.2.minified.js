@@ -11,12 +11,11 @@ export function Set() {
 export function keys(obj) {
     return Object.keys(obj);
 }
-var E, langCodeSet = Set('fr', 'en', 'es', 'it', 'nl');
-export var langCodes = keys(langCodeSet);
+export var langCodes = keys(Set('fr', 'en', 'es', 'it', 'nl'));
 langCodes.map(function(code) {
     return {
         code: code
     };
 });
-var E1 = ((E = E1 || {})[E.A = 0] = "A", E[E.B = 1] = "B", E);
+var E, E1 = ((E = E1 || {})[E.A = 0] = "A", E[E.B = 1] = "B", E);
 f(0);
