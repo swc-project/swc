@@ -34,7 +34,7 @@
     LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
     OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
     PERFORMANCE OF THIS SOFTWARE.
-    ***************************************************************************** */ /* global Reflect, Promise */ var ua, browser, firefox, ie, edge, weChat, style, mouseHandlerNames, pointerEventNameMap, pointerHandlerNames, classAttr, subTypeDefaulters, _super, mainType, creator, _ctx, _cachedFont, requestAnimationFrame, reCreateSeriesIndices, assertSeriesInitialized, initBase, _a, _b, _c, providerMethods, mountMethods, seriesType, nodeParsers, prepare, prepareView, updateDirectly, updateMethods, doConvertPixel, updateStreamModes, doDispatchAction, flushPendingActions, triggerUpdatedEvent, bindRenderedEvent, bindMouseEvent, clearColorPalette, render, renderComponents, renderSeries, performPostUpdateFuncs, createExtensionAPI, enableConnect, setTransitionOpt, markStatusToUpdate, applyChangedStates, defaultDimValueGetters, prepareInvertedIndex, getIndicesCtor, prepareStorage, getRawIndexWithoutIndices, getRawIndexWithIndices, getId, getIdNameFromStore, makeIdFromName, normalizeDimensions, validateDimensions, cloneListForMapAndSample, getInitialExtent, setItemDataAndSeriesIndex, transferProperties, checkNonStyleTansitionRefer, checkTransformPropRefer, extendStatics = function(d, b) {
+    ***************************************************************************** */ /* global Reflect, Promise */ var ua, browser, firefox, ie, edge, weChat, style, mouseHandlerNames, pointerEventNameMap, pointerHandlerNames, classAttr, subTypeDefaulters, _super, creator, _ctx, _cachedFont, requestAnimationFrame, reCreateSeriesIndices, assertSeriesInitialized, initBase, _a, _b, _c, providerMethods, mountMethods, seriesType, nodeParsers, prepare, prepareView, updateDirectly, updateMethods, doConvertPixel, updateStreamModes, doDispatchAction, flushPendingActions, triggerUpdatedEvent, bindRenderedEvent, bindMouseEvent, clearColorPalette, render, renderComponents, renderSeries, performPostUpdateFuncs, createExtensionAPI, enableConnect, setTransitionOpt, markStatusToUpdate, applyChangedStates, defaultDimValueGetters, prepareInvertedIndex, getIndicesCtor, prepareStorage, getRawIndexWithoutIndices, getRawIndexWithIndices, getId, getIdNameFromStore, makeIdFromName, normalizeDimensions, validateDimensions, cloneListForMapAndSample, getInitialExtent, setItemDataAndSeriesIndex, transferProperties, checkNonStyleTansitionRefer, checkTransformPropRefer, extendStatics = function(d, b) {
         return (extendStatics = Object.setPrototypeOf || ({
             __proto__: []
         }) instanceof Array && function(d, b) {
@@ -41507,7 +41507,7 @@
         }; // If both `xAxisIndex` `xAxisId` not set, it means 'all'.
         return null == setting.xAxisIndex && null == setting.xAxisId && (setting.xAxisIndex = 'all'), null == setting.yAxisIndex && null == setting.yAxisId && (setting.yAxisIndex = 'all'), setting;
     }
-    mainType = 'dataZoom', creator = function(ecModel) {
+    creator = function(ecModel) {
         var toolboxModel = ecModel.getComponent('toolbox', 0);
         if (toolboxModel) {
             var dzFeatureModel = toolboxModel.getModel([
@@ -41531,7 +41531,7 @@
             };
             newOpt[axisIndexPropName] = axisIndex, dzOptions.push(newOpt);
         }
-    }, assert(null == internalOptionCreatorMap.get(mainType) && creator), internalOptionCreatorMap.set(mainType, creator);
+    }, assert(null == internalOptionCreatorMap.get('dataZoom') && creator), internalOptionCreatorMap.set('dataZoom', creator);
     var TooltipModel = /** @class */ function(_super) {
         function TooltipModel() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
@@ -41728,8 +41728,8 @@
         // this.hide();
         }, TooltipHTMLContent.prototype.show = function(tooltipModel, nearPointColor) {
             clearTimeout(this._hideTimeout), clearTimeout(this._longHideTimeout);
-            var enableTransition, onlyFade, cssText, transitionDuration, backgroundColor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, textStyleModel, padding, boxShadow, transitionCurve, transitionOption, transitionText, cssText1, fontSize, color, shadowColor1, shadowBlur1, shadowOffsetX1, shadowOffsetY1, el = this.el, style = el.style, styleCoord = this._styleCoord;
-            el.innerHTML ? style.cssText = gCssText + (enableTransition = !this._firstShow, onlyFade = this._longHide, cssText = [], transitionDuration = tooltipModel.get('transitionDuration'), backgroundColor = tooltipModel.get('backgroundColor'), shadowBlur = tooltipModel.get('shadowBlur'), shadowColor = tooltipModel.get('shadowColor'), shadowOffsetX = tooltipModel.get('shadowOffsetX'), shadowOffsetY = tooltipModel.get('shadowOffsetY'), textStyleModel = tooltipModel.getModel('textStyle'), padding = getPaddingFromTooltipModel(tooltipModel, 'html'), boxShadow = shadowOffsetX + "px " + shadowOffsetY + "px " + shadowBlur + "px " + shadowColor, cssText.push('box-shadow:' + boxShadow), enableTransition && transitionDuration && cssText.push((transitionText = "opacity" + (transitionOption = " " + transitionDuration / 2 + "s " + (transitionCurve = 'cubic-bezier(0.23,1,0.32,1)')) + ",visibility" + transitionOption, onlyFade || (transitionOption = " " + transitionDuration + "s " + transitionCurve, transitionText += env.transformSupported ? "," + TRANSFORM_VENDOR + transitionOption : ",left" + transitionOption + ",top" + transitionOption), CSS_TRANSITION_VENDOR + ':' + transitionText)), backgroundColor && (env.canvasSupported ? cssText.push('background-color:' + backgroundColor) : (// for ie
+            var enableTransition, onlyFade, cssText, transitionDuration, backgroundColor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, textStyleModel, padding, boxShadow, transitionOption, transitionText, cssText1, fontSize, color, shadowColor1, shadowBlur1, shadowOffsetX1, shadowOffsetY1, el = this.el, style = el.style, styleCoord = this._styleCoord;
+            el.innerHTML ? style.cssText = gCssText + (enableTransition = !this._firstShow, onlyFade = this._longHide, cssText = [], transitionDuration = tooltipModel.get('transitionDuration'), backgroundColor = tooltipModel.get('backgroundColor'), shadowBlur = tooltipModel.get('shadowBlur'), shadowColor = tooltipModel.get('shadowColor'), shadowOffsetX = tooltipModel.get('shadowOffsetX'), shadowOffsetY = tooltipModel.get('shadowOffsetY'), textStyleModel = tooltipModel.getModel('textStyle'), padding = getPaddingFromTooltipModel(tooltipModel, 'html'), boxShadow = shadowOffsetX + "px " + shadowOffsetY + "px " + shadowBlur + "px " + shadowColor, cssText.push('box-shadow:' + boxShadow), enableTransition && transitionDuration && cssText.push((transitionText = "opacity" + (transitionOption = " " + transitionDuration / 2 + "s cubic-bezier(0.23,1,0.32,1)") + ",visibility" + transitionOption, onlyFade || (transitionOption = " " + transitionDuration + "s cubic-bezier(0.23,1,0.32,1)", transitionText += env.transformSupported ? "," + TRANSFORM_VENDOR + transitionOption : ",left" + transitionOption + ",top" + transitionOption), CSS_TRANSITION_VENDOR + ':' + transitionText)), backgroundColor && (env.canvasSupported ? cssText.push('background-color:' + backgroundColor) : (// for ie
             cssText.push('background-color:#' + toHex(backgroundColor)), cssText.push('filter:alpha(opacity=70)'))), each([
                 'width',
                 'color',
@@ -45467,8 +45467,8 @@
         }, SliderZoomView.prototype.dispose = function() {
             this._clear(), _super.prototype.dispose.apply(this, arguments);
         }, SliderZoomView.prototype._clear = function() {
-            (fn = this[fnAttr = '_dispatchZoomAction']) && fn[ORIGIN_METHOD] && (this[fnAttr] = fn[ORIGIN_METHOD]);
-            var fnAttr, fn, zr = this.api.getZr();
+            (fn = this._dispatchZoomAction) && fn[ORIGIN_METHOD] && (this._dispatchZoomAction = fn[ORIGIN_METHOD]);
+            var fn, zr = this.api.getZr();
             zr.off('mousemove', this._onBrush), zr.off('mouseup', this._onBrushEnd);
         }, SliderZoomView.prototype._buildView = function() {
             var thisGroup = this.group;

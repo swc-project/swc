@@ -1,4 +1,1 @@
-(function() {
-    var b;
-    f(b = "long piece of string").bar = b;
-})();
+f("long piece of string").bar = "long piece of string";

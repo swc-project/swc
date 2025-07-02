@@ -29,6 +29,8 @@ pub trait ModuleItemExt:
 {
     fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt>;
 
+    fn as_module_decl_mut(&mut self) -> Result<&mut ModuleDecl, &mut Stmt>;
+
     fn from_module_item(item: ModuleItem) -> Self;
 
     fn into_module_item(self) -> ModuleItem {
@@ -46,6 +48,10 @@ impl ModuleItemExt for Stmt {
         Err(self)
     }
 
+    fn as_module_decl_mut(&mut self) -> Result<&mut ModuleDecl, &mut Stmt> {
+        Err(self)
+    }
+
     fn from_module_item(item: ModuleItem) -> Self {
         item.expect_stmt()
     }
@@ -57,6 +63,13 @@ impl ModuleItemExt for Stmt {
 
 impl ModuleItemExt for ModuleItem {
     fn as_module_decl(&self) -> Result<&ModuleDecl, &Stmt> {
+        match self {
+            ModuleItem::ModuleDecl(v) => Ok(v),
+            ModuleItem::Stmt(v) => Err(v),
+        }
+    }
+
+    fn as_module_decl_mut(&mut self) -> Result<&mut ModuleDecl, &mut Stmt> {
         match self {
             ModuleItem::ModuleDecl(v) => Ok(v),
             ModuleItem::Stmt(v) => Err(v),

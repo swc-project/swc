@@ -344,7 +344,6 @@
                  * @param {number} length
                  * @return {string}
                  */ function prefix(value, length) {
-                                var search, search1;
                                 switch((((length << 2 ^ Utility_charat(value, 0)) << 2 ^ Utility_charat(value, 1)) << 2 ^ Utility_charat(value, 2)) << 2 ^ Utility_charat(value, 3)){
                                     // color-adjust
                                     case 5103:
@@ -454,7 +453,7 @@
                                                 return replace(value, /(.+:)(.+)-([^]+)/, "$1" + WEBKIT + "$2-$3$1" + MOZ + (108 == Utility_charat(value, length + 3) ? "$3" : "$2-$3")) + value;
                                             // (s)tretch
                                             case 115:
-                                                return ~(search = "stretch", value.indexOf(search)) ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
+                                                return ~value.indexOf("stretch") ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
                                         }
                                         break;
                                     // position: sticky
@@ -463,7 +462,7 @@
                                         if (115 !== Utility_charat(value, length + 1)) break;
                                     // display: (flex|inline-flex)
                                     case 6444:
-                                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~(search1 = "!important", value.indexOf(search1)) && 10))){
+                                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~value.indexOf("!important") && 10))){
                                             // stic(k)y
                                             case 107:
                                                 return replace(value, ":", ":" + WEBKIT) + value;
