@@ -455,26 +455,9 @@ impl Optimizer<'_> {
 
     fn seq_exprs_of<'a>(
         &mut self,
-        s: &'a mut impl ModuleItemExt,
+        s: &'a mut Stmt,
         options: &CompressOptions,
     ) -> Option<Either<impl Iterator<Item = Mergable<'a>>, std::iter::Once<Mergable<'a>>>> {
-        let s = match s.as_module_decl_mut() {
-            Ok(s) => {
-                if let ModuleDecl::ExportDecl(decl) = s {
-                    if let Decl::Var(v) = &mut decl.decl {
-                        if options.reduce_vars || options.collapse_vars {
-                            return Some(Either::Left(v.decls.iter_mut().map(Mergable::Var)));
-                        } else {
-                            return None;
-                        }
-                    }
-                }
-
-                return None;
-            }
-            Err(s) => s,
-        };
-
         Some(match s {
             Stmt::Expr(e) => {
                 if self.options.sequences()
@@ -584,7 +567,11 @@ impl Optimizer<'_> {
                 _ => false,
             };
 
-            let items = self.seq_exprs_of(stmt, self.options);
+            let items = if let Some(stmt) = stmt.as_stmt_mut() {
+                self.seq_exprs_of(stmt, self.options)
+            } else {
+                None
+            };
             if let Some(items) = items {
                 buf.extend(items)
             } else {
