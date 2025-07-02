@@ -254,6 +254,7 @@ mod tests {
     use super::*;
 
     #[test]
+    #[ignore = "ie is not supported by browserslist anymore"]
     fn arrow() {
         assert!(Feature::ArrowFunctions.should_enable(
             &BrowserData {
