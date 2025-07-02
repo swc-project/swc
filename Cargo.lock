@@ -5012,7 +5012,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "30.0.0"
+version = "30.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5616,7 +5616,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "24.0.0"
+version = "24.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6108,7 +6108,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "19.0.1"
+version = "19.0.2"
 dependencies = [
  "bitflags 2.6.0",
  "indexmap 2.7.1",

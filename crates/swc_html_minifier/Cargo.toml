@@ -42,7 +42,7 @@ swc_ecma_ast = { version = "13.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "15.0.1", path = "../swc_ecma_codegen", features = [
   "serde-impl",
 ] }
-swc_ecma_minifier = { version = "24.0.0", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "24.0.1", path = "../swc_ecma_minifier", features = [
   "extra-serde",
 ] }
 swc_ecma_parser = { version = "18.0.0", path = "../swc_ecma_parser" }
