@@ -1,1 +1,2 @@
-export const k = void 0;
+var x;
+export const k = x;
