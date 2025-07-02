@@ -91,13 +91,7 @@ pub trait Parser<'a>: Sized + Clone {
     /// Original context is restored when returned guard is dropped.
     #[inline(always)]
     fn with_ctx<'w>(&'w mut self, ctx: Context) -> WithCtx<'a, 'w, Self> {
-        let orig_ctx = self.ctx();
-        self.set_ctx(ctx);
-        WithCtx {
-            orig_ctx,
-            inner: self,
-            marker: std::marker::PhantomData,
-        }
+        WithCtx::new(self, ctx)
     }
 
     #[inline(always)]
@@ -109,11 +103,7 @@ pub trait Parser<'a>: Sized + Clone {
     fn do_inside_of_context<'w>(&'w mut self, context: Context) -> WithCtx<'a, 'w, Self> {
         let mut ctx = self.ctx();
         if ctx.contains(context) {
-            WithCtx {
-                orig_ctx: ctx,
-                inner: self,
-                marker: std::marker::PhantomData,
-            }
+            WithCtx::new_without_ctx(self)
         } else {
             ctx.insert(context);
             self.with_ctx(ctx)
@@ -126,11 +116,7 @@ pub trait Parser<'a>: Sized + Clone {
             ctx.remove(context);
             self.with_ctx(ctx)
         } else {
-            WithCtx {
-                orig_ctx: ctx,
-                inner: self,
-                marker: std::marker::PhantomData,
-            }
+            WithCtx::new_without_ctx(self)
         }
     }
 
