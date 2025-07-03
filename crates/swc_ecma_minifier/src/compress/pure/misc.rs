@@ -540,7 +540,9 @@ impl Pure<'_> {
             }
 
             // Try partial optimization (grouping consecutive literals)
-            if let Some(new_expr) = self.compress_array_join_partial(arr.span, &mut arr.elems, &separator) {
+            if let Some(new_expr) =
+                self.compress_array_join_partial(arr.span, &mut arr.elems, &separator)
+            {
                 self.changed = true;
                 *e = new_expr;
                 return;
@@ -649,8 +651,9 @@ impl Pure<'_> {
         .into()
     }
 
-    /// Performs partial optimization on array.join() when there are mixed literals and expressions.
-    /// Groups consecutive literals into string concatenations.
+    /// Performs partial optimization on array.join() when there are mixed
+    /// literals and expressions. Groups consecutive literals into string
+    /// concatenations.
     fn compress_array_join_partial(
         &mut self,
         _span: Span,
@@ -662,31 +665,30 @@ impl Pure<'_> {
         }
 
         // Check if we have any non-literal elements
-        let has_non_literals = elems.iter().flatten().any(|elem| {
-            match &*elem.expr {
-                Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => false,
-                e if is_pure_undefined(self.expr_ctx, e) => false,
-                _ => true,
-            }
+        let has_non_literals = elems.iter().flatten().any(|elem| match &*elem.expr {
+            Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => false,
+            e if is_pure_undefined(self.expr_ctx, e) => false,
+            _ => true,
         });
 
         if !has_non_literals {
             return None; // Pure literal case will be handled elsewhere
         }
 
-        // For non-empty separators, only optimize if we have at least 2 consecutive literals
-        // This prevents infinite loop and ensures meaningful optimization
+        // For non-empty separators, only optimize if we have at least 2 consecutive
+        // literals This prevents infinite loop and ensures meaningful
+        // optimization
         if separator != "" {
             let mut consecutive_literals = 0;
             let mut max_consecutive = 0;
-            
+
             for elem in elems.iter().flatten() {
                 let is_literal = match &*elem.expr {
                     Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
                     e if is_pure_undefined(self.expr_ctx, e) => true,
                     _ => false,
                 };
-                
+
                 if is_literal {
                     consecutive_literals += 1;
                     max_consecutive = max_consecutive.max(consecutive_literals);
@@ -694,24 +696,25 @@ impl Pure<'_> {
                     consecutive_literals = 0;
                 }
             }
-            
+
             if max_consecutive < 2 {
                 return None;
             }
-            
+
             // Only optimize for single-character separators to avoid bloating the code
             // Long separators like "really-long-separator" should not be optimized
             if separator.len() > 1 {
                 return None;
             }
-            
+
             // For comma separator, require a higher threshold to avoid infinite loops
             if separator == "," && max_consecutive < 6 {
                 return None;
             }
         } else {
-            // For empty string joins, optimize more aggressively since we're doing string concatenation
-            // We can always optimize these as long as there are mixed expressions and literals
+            // For empty string joins, optimize more aggressively since we're
+            // doing string concatenation We can always optimize
+            // these as long as there are mixed expressions and literals
         }
 
         // Group consecutive literals and create a string concatenation expression
@@ -751,14 +754,17 @@ impl Pure<'_> {
         if is_string_concat {
             // Convert to string concatenation
             let mut result_parts = Vec::new();
-            
-            // Only add empty string prefix when the first element is a non-string expression
-            // that needs coercion to string AND there's no string literal early enough to provide coercion
+
+            // Only add empty string prefix when the first element is a non-string
+            // expression that needs coercion to string AND there's no string
+            // literal early enough to provide coercion
             let needs_empty_string_prefix = match groups.first() {
                 Some(GroupType::Expression(first_expr)) => {
                     // Check if the first expression is already a string concatenation
                     let first_needs_coercion = match &*first_expr.expr {
-                        Expr::Bin(BinExpr { op: op!(bin, "+"), .. }) => false, // Already string concat
+                        Expr::Bin(BinExpr {
+                            op: op!(bin, "+"), ..
+                        }) => false, // Already string concat
                         Expr::Lit(Lit::Str(..)) => false, // Already a string literal
                         Expr::Call(_call) => {
                             // Function calls may return any type and need string coercion
@@ -766,12 +772,13 @@ impl Pure<'_> {
                         }
                         _ => true, // Other expressions need string coercion
                     };
-                    
-                    // If the first element needs coercion, check if the second element is a string literal
-                    // that can provide the coercion
+
+                    // If the first element needs coercion, check if the second element is a string
+                    // literal that can provide the coercion
                     if first_needs_coercion {
                         match groups.get(1) {
-                            Some(GroupType::Literals(_)) => false, // String literals will provide coercion
+                            Some(GroupType::Literals(_)) => false, /* String literals will
+                                                                     * provide coercion */
                             _ => true, // No string literal to provide coercion
                         }
                     } else {
@@ -798,15 +805,17 @@ impl Pure<'_> {
                                 Expr::Lit(Lit::Str(s)) => joined.push_str(&s.value),
                                 Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
                                 Expr::Lit(Lit::Null(..)) => {
-                                    // For string concatenation, null becomes empty string
+                                    // For string concatenation, null becomes
+                                    // empty string
                                 }
                                 e if is_pure_undefined(self.expr_ctx, e) => {
-                                    // undefined becomes empty string in string context
+                                    // undefined becomes empty string in string
+                                    // context
                                 }
                                 _ => unreachable!(),
                             }
                         }
-                        
+
                         result_parts.push(Box::new(Expr::Lit(Lit::Str(Str {
                             span: DUMMY_SP,
                             raw: None,
@@ -847,7 +856,7 @@ impl Pure<'_> {
                             if idx > 0 {
                                 joined.push_str(separator);
                             }
-                            
+
                             match &*literal.expr {
                                 Expr::Lit(Lit::Str(s)) => joined.push_str(&s.value),
                                 Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
@@ -860,7 +869,7 @@ impl Pure<'_> {
                                 _ => unreachable!(),
                             }
                         }
-                        
+
                         new_elems.push(Some(ExprOrSpread {
                             spread: None,
                             expr: Box::new(Expr::Lit(Lit::Str(Str {
@@ -884,7 +893,7 @@ impl Pure<'_> {
                 span: _span,
                 elems: new_elems,
             });
-            
+
             // For comma separator, use .join() without arguments (shorter)
             let args = if separator == "," {
                 vec![]
@@ -898,7 +907,7 @@ impl Pure<'_> {
                     }))),
                 }]
             };
-            
+
             Some(Expr::Call(CallExpr {
                 span: _span,
                 ctxt: Default::default(),
