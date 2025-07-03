@@ -153,17 +153,39 @@ pub fn parse_ident<'a>(
 ) -> PResult<Ident> {
     trace_cur!(p, parse_ident);
 
-    let start = p.cur_pos();
+    p.input_mut().cur();
+    let Some(token_and_span) = p.input().get_cur() else {
+        return Err(eof_error(p));
+    };
+    let t = token_and_span.token();
+    if !t.is_word() {
+        syntax_error!(p, SyntaxError::ExpectedIdent)
+    }
+    let start = token_and_span.span().lo;
+    let t = p.bump();
 
-    let word = p.parse_with(|p| {
-        let Some(t) = p.input_mut().cur() else {
-            return Err(eof_error(p));
-        };
-        if !t.is_word() {
-            syntax_error!(p, SyntaxError::ExpectedIdent)
+    let word;
+    // Spec:
+    // It is a Syntax Error if StringValue of IdentifierName is the same String
+    // value as the StringValue of any ReservedWord except for yield or await.
+    if t.is_await() {
+        let ctx = p.ctx();
+        if ctx.contains(Context::InDeclare) {
+            word = atom!("await");
+        } else if ctx.contains(Context::InStaticBlock) {
+            syntax_error!(p, p.input().prev_span(), SyntaxError::ExpectedIdent)
+        } else if ctx.contains(Context::Module) | ctx.contains(Context::InAsync) {
+            syntax_error!(p, p.input().prev_span(), SyntaxError::InvalidIdentInAsync)
+        } else if incl_await {
+            word = atom!("await");
+        } else {
+            syntax_error!(p, p.input().prev_span(), SyntaxError::ExpectedIdent)
         }
-        let t = p.bump();
-
+    } else if t.is_this() && p.input().syntax().typescript() {
+        word = atom!("this");
+    } else if t.is_let() {
+        word = atom!("let");
+    } else if t.is_known_ident() {
         // Spec:
         // It is a Syntax Error if this phrase is contained in strict mode code and the
         // StringValue of IdentifierName is: "implements", "interface", "let",
@@ -189,45 +211,21 @@ pub fn parse_ident<'a>(
             );
         };
 
-        // Spec:
-        // It is a Syntax Error if StringValue of IdentifierName is the same String
-        // value as the StringValue of any ReservedWord except for yield or await.
-        if t.is_await() {
-            let ctx = p.ctx();
-            if ctx.contains(Context::InDeclare) {
-                Ok(atom!("await"))
-            } else if ctx.contains(Context::InStaticBlock) {
-                syntax_error!(p, p.input().prev_span(), SyntaxError::ExpectedIdent)
-            } else if ctx.contains(Context::Module) | ctx.contains(Context::InAsync) {
-                syntax_error!(p, p.input().prev_span(), SyntaxError::InvalidIdentInAsync)
-            } else if incl_await {
-                Ok(atom!("await"))
-            } else {
-                syntax_error!(p, p.input().prev_span(), SyntaxError::ExpectedIdent)
-            }
-        } else if t.is_this() && p.input().syntax().typescript() {
-            Ok(atom!("this"))
-        } else if t.is_let() {
-            Ok(atom!("let"))
-        } else if t.is_known_ident() {
-            let ident = t.take_known_ident();
-            Ok(ident)
-        } else if t.is_unknown_ident() {
-            let ident = t.take_unknown_ident(p.input_mut());
-            if p.ctx().contains(Context::InClassField) && ident == atom!("arguments") {
-                p.emit_err(p.input().prev_span(), SyntaxError::ArgumentsInClassField)
-            }
-            Ok(ident)
-        } else if t.is_yield() && incl_yield {
-            Ok(atom!("yield"))
-        } else if t.is_null() || t.is_true() || t.is_false() {
-            syntax_error!(p, p.input().prev_span(), SyntaxError::ExpectedIdent)
-        } else if t.is_keyword() {
-            syntax_error!(p, p.input().prev_span(), SyntaxError::ExpectedIdent)
-        } else {
-            unreachable!()
+        word = t.take_known_ident();
+    } else if t.is_unknown_ident() {
+        word = t.take_unknown_ident(p.input_mut());
+        if p.ctx().contains(Context::InClassField) && word == atom!("arguments") {
+            p.emit_err(p.input().prev_span(), SyntaxError::ArgumentsInClassField)
         }
-    })?;
+    } else if t.is_yield() && incl_yield {
+        word = atom!("yield");
+    } else if t.is_null() || t.is_true() || t.is_false() {
+        syntax_error!(p, p.input().prev_span(), SyntaxError::ExpectedIdent)
+    } else if t.is_keyword() {
+        syntax_error!(p, p.input().prev_span(), SyntaxError::ExpectedIdent)
+    } else {
+        unreachable!()
+    }
 
     Ok(Ident::new_no_ctxt(word, p.span(start)))
 }
