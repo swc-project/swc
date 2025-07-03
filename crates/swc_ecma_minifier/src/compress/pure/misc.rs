@@ -544,6 +544,7 @@ impl Pure<'_> {
                 self.compress_array_join_partial(arr.span, &mut arr.elems, &separator)
             {
                 self.changed = true;
+                report_change!("Compressing array.join() with partial optimization");
                 *e = new_expr;
                 return;
             }
@@ -777,8 +778,8 @@ impl Pure<'_> {
                     // literal that can provide the coercion
                     if first_needs_coercion {
                         match groups.get(1) {
-                            Some(GroupType::Literals(_)) => false, /* String literals will
-                                                                     * provide coercion */
+                            Some(GroupType::Literals(_)) => false, /* String literals will */
+                            // provide coercion
                             _ => true, // No string literal to provide coercion
                         }
                     } else {
