@@ -89,7 +89,7 @@ swc_ecma_loader = { version = "13.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "24.0.1", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "24.0.2", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "18.0.0", path = "../swc_ecma_parser" }
 swc_ecma_preset_env = { version = "24.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "23.0.0", path = "../swc_ecma_transforms", features = [
@@ -108,7 +108,7 @@ swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "15.0.0", path = "../swc_error_reporters" }
 swc_node_comments = { version = "13.0.0", path = "../swc_node_comments" }
 swc_plugin_proxy = { version = "13.0.0", path = "../swc_plugin_proxy", optional = true }
-swc_plugin_runner = { version = "15.0.0", path = "../swc_plugin_runner", optional = true, default-features = false }
+swc_plugin_runner = { version = "15.0.1", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 swc_transform_common = { version = "7.0.0", path = "../swc_transform_common" }
 swc_typescript = { version = "17.0.1", path = "../swc_typescript" }
