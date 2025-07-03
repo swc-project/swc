@@ -255,13 +255,13 @@ impl Atom {
                     .header
                     .hash
             }
-            STATIC_TAG => {
-                todo!("static hash")
-            }
             INLINE_TAG => {
                 // This is passed as input to the caller's `Hasher` implementation, so it's okay
                 // that this isn't really a hash
                 self.unsafe_data.hash()
+            }
+            STATIC_TAG => {
+                todo!("static hash")
             }
             _ => unsafe { debug_unreachable!() },
         }
@@ -274,13 +274,13 @@ impl Atom {
                 let item = crate::dynamic::deref_from(self.unsafe_data);
                 from_utf8_unchecked(transmute::<&[u8], &'static [u8]>(&item.slice))
             },
-            STATIC_TAG => {
-                todo!("static as_str")
-            }
             INLINE_TAG => {
                 let len = (self.unsafe_data.tag() & LEN_MASK) >> LEN_OFFSET;
                 let src = self.unsafe_data.data();
                 unsafe { std::str::from_utf8_unchecked(&src[..(len as usize)]) }
+            }
+            STATIC_TAG => {
+                todo!("static as_str")
             }
             _ => unsafe { debug_unreachable!() },
         }
