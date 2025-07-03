@@ -40,7 +40,6 @@ serde                 = { workspace = true, features = ["derive"] }
 smallvec              = { workspace = true }
 smartstring           = { workspace = true }
 tracing               = { workspace = true }
-typed-arena           = { workspace = true }
 
 swc_atoms      = { version = "6.0.0", path = "../swc_atoms" }
 swc_common     = { version = "13.0.2", path = "../swc_common" }
