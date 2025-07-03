@@ -25,7 +25,7 @@ concurrent = [
 ]
 
 debug = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
-default = ["es3"]
+default = ["es3", "lint"]
 es3 = []
 node = ["napi", "napi-derive", "swc_compiler_base/node"]
 plugin = [
@@ -49,6 +49,8 @@ plugin_transform_host_native = [
 ]
 # Do not inject tokio runtime while running plugin transforms
 manual-tokio-runtime = []
+
+lint = ["swc_ecma_lints"]
 
 [dependencies]
 anyhow        = { workspace = true }
@@ -83,7 +85,7 @@ swc_config = { version = "3.1.1", path = "../swc_config" }
 swc_ecma_ast = { version = "13.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "15.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "18.0.0", path = "../swc_ecma_ext_transforms" }
-swc_ecma_lints = { version = "19.0.0", path = "../swc_ecma_lints" }
+swc_ecma_lints = { version = "19.0.0", path = "../swc_ecma_lints", optional = true }
 swc_ecma_loader = { version = "13.0.0", path = "../swc_ecma_loader", features = [
   "cache",
   "node",
