@@ -13,6 +13,7 @@ bench      = false
 proc-macro = true
 
 [dependencies]
+proc-macro2       = { workspace = true }
 quote             = { workspace = true }
 swc_macros_common = { version = "1.0.1", path = "../swc_macros_common" }
   [dependencies.syn]

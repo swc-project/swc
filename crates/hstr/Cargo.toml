@@ -21,6 +21,7 @@ serde         = ["dep:serde"]
 hashbrown             = { workspace = true }
 new_debug_unreachable = { workspace = true }
 once_cell             = { workspace = true }
+phf                   = { workspace = true }
 rkyv                  = { workspace = true, optional = true }
 rustc-hash            = { workspace = true }
 serde                 = { workspace = true, optional = true }
