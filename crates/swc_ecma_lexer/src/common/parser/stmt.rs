@@ -1385,15 +1385,18 @@ pub(super) fn parse_block_body<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>
 
     let stmts = Arena::new();
     while {
-        if p.input_mut().cur().is_none() && end.is_some() {
-            let eof_text = p.input_mut().dump_cur();
-            p.emit_err(
-                p.input().cur_span(),
-                SyntaxError::Expected(format!("{:?}", end.unwrap()), eof_text),
-            );
-            false
-        } else {
-            p.input_mut().cur() != end
+        match (p.input_mut().cur(), end) {
+            (Some(cur), Some(end)) => cur != end,
+            (Some(_), None) => true,
+            (None, None) => false,
+            (None, Some(_)) => {
+                let eof_text = p.input_mut().dump_cur();
+                p.emit_err(
+                    p.input().cur_span(),
+                    SyntaxError::Expected(format!("{:?}", end.unwrap()), eof_text),
+                );
+                false
+            }
         }
     } {
         let stmt = parse_stmt_like(p, true, &handle_import_export)?;

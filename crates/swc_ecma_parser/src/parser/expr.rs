@@ -1,15 +1,19 @@
 use either::Either;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_lexer::{
-    common::parser::{
-        class_and_fn::parse_fn_expr,
-        expr::{
-            parse_array_lit, parse_await_expr, parse_lit, parse_member_expr_or_new_expr,
-            parse_paren_expr_or_arrow_fn, parse_primary_expr_rest, parse_this_expr,
-            try_parse_async_start, try_parse_regexp,
+    common::{
+        lexer::token::TokenFactory,
+        parser::{
+            class_and_fn::parse_fn_expr,
+            expr::{
+                parse_array_lit, parse_await_expr, parse_lit, parse_member_expr_or_new_expr,
+                parse_paren_expr_or_arrow_fn, parse_primary_expr_rest, parse_this_expr,
+                try_parse_async_start, try_parse_regexp,
+            },
+            object::parse_object_expr,
+            token_and_span::TokenAndSpan,
+            typescript::parse_ts_type_assertion,
         },
-        object::parse_object_expr,
-        typescript::parse_ts_type_assertion,
     },
     error::SyntaxError,
 };
@@ -34,41 +38,44 @@ impl<I: Tokens> Parser<I> {
 
     pub(super) fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_unary_expr);
-        let start = self.cur_pos();
 
-        if self.input_mut().cur().is_some_and(|cur| cur == &Token::Lt) {
-            if self.input().syntax().typescript() && !self.input().syntax().jsx() {
-                self.bump(); // consume `<`
-                return if self.input_mut().eat(&Token::Const) {
-                    self.expect(&Token::Gt)?;
-                    let expr = self.parse_unary_expr()?;
-                    Ok(TsConstAssertion {
-                        span: self.span(start),
-                        expr,
-                    }
-                    .into())
-                } else {
-                    parse_ts_type_assertion(self, start)
-                        .map(Expr::from)
-                        .map(Box::new)
-                };
-            } else if self.input().syntax().jsx()
-                && self.input_mut().peek().is_some_and(|peek| {
-                    (*peek).is_word() || peek == &Token::Gt || peek.should_rescan_into_gt_in_jsx()
-                })
-            {
-                fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
-                    match e {
-                        Either::Left(l) => l.into(),
-                        Either::Right(r) => r.into(),
-                    }
+        self.input_mut().cur();
+        let Some(token_and_span) = self.input().get_cur() else {
+            syntax_error!(self, self.input().cur_span(), SyntaxError::TS1109);
+        };
+        let start = token_and_span.span().lo;
+        let cur = *token_and_span.token();
+
+        if cur == Token::Lt && self.input().syntax().typescript() && !self.input().syntax().jsx() {
+            self.bump(); // consume `<`
+            return if self.input_mut().eat(&Token::Const) {
+                self.expect(&Token::Gt)?;
+                let expr = self.parse_unary_expr()?;
+                Ok(TsConstAssertion {
+                    span: self.span(start),
+                    expr,
                 }
-                return self.parse_jsx_element(true).map(into_expr);
+                .into())
+            } else {
+                parse_ts_type_assertion(self, start)
+                    .map(Expr::from)
+                    .map(Box::new)
+            };
+        } else if cur == Token::Lt
+            && self.input().syntax().jsx()
+            && self.input_mut().peek().is_some_and(|peek| {
+                (*peek).is_word() || peek == &Token::Gt || peek.should_rescan_into_gt_in_jsx()
+            })
+        {
+            fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
+                match e {
+                    Either::Left(l) => l.into(),
+                    Either::Right(r) => r.into(),
+                }
             }
-        }
-
-        // Parse update expression
-        if self.input_mut().is(&Token::PlusPlus) || self.input_mut().is(&Token::MinusMinus) {
+            return self.parse_jsx_element(true).map(into_expr);
+        } else if matches!(cur, Token::PlusPlus | Token::MinusMinus) {
+            // Parse update expression
             let op = if self.bump() == Token::PlusPlus {
                 op!("++")
             } else {
@@ -86,19 +93,15 @@ impl<I: Tokens> Parser<I> {
                 arg,
             }
             .into());
-        }
-
-        // Parse unary expression
-
-        if self.input_mut().cur().is_some_and(|cur| {
-            cur == &Token::Delete
-                || cur == &Token::Void
-                || cur == &Token::TypeOf
-                || cur == &Token::Plus
-                || cur == &Token::Minus
-                || cur == &Token::Tilde
-                || cur == &Token::Bang
-        }) {
+        } else if cur == Token::Delete
+            || cur == Token::Void
+            || cur == Token::TypeOf
+            || cur == Token::Plus
+            || cur == Token::Minus
+            || cur == Token::Tilde
+            || cur == Token::Bang
+        {
+            // Parse unary expression
             let cur = self.bump();
             let op = if cur == Token::Delete {
                 op!("delete")
@@ -140,9 +143,7 @@ impl<I: Tokens> Parser<I> {
                 arg,
             }
             .into());
-        }
-
-        if self.input_mut().is(&Token::Await) {
+        } else if cur == Token::Await {
             return parse_await_expr(self, None);
         }
 
