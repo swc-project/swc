@@ -27,7 +27,7 @@ concurrent = [
 debug = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
 default = ["es3", "lint"]
 es3 = []
-node = ["napi", "napi-derive", "swc_compiler_base/node"]
+node = [ "swc_compiler_base/node"]
 plugin = [
   "swc_plugin_runner/ecma",
   "swc_plugin_runner/rkyv-impl",
@@ -60,12 +60,10 @@ dashmap       = { workspace = true }
 either        = { workspace = true }
 indexmap      = { workspace = true, features = ["serde"] }
 jsonc-parser  = { workspace = true, features = ["serde"] }
-lru           = { workspace = true }
 once_cell     = { workspace = true }
 par-core      = { workspace = true }
 par-iter      = { workspace = true }
 parking_lot   = { workspace = true }
-pathdiff      = { workspace = true }
 regex         = { workspace = true }
 rustc-hash    = { workspace = true }
 serde         = { workspace = true, features = ["derive"] }
@@ -121,22 +119,9 @@ swc_visit = { version = "2.0.1", path = "../swc_visit" }
   optional  = true
   workspace = true
 
-
-  [dependencies.napi]
-  features  = ["napi3"]
-  optional  = true
-  workspace = true
-
-  [dependencies.napi-derive]
-  features  = ["type-def"]
-  optional  = true
-  workspace = true
-
 [dev-dependencies]
 ansi_term = { workspace = true }
 criterion = { workspace = true }
-flate2    = { workspace = true }
-humansize = { workspace = true }
 walkdir   = { workspace = true }
 
 

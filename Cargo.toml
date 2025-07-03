@@ -138,6 +138,9 @@ resolver = "2"
   wasmer-wasix              = { version = "0.600.0", default-features = false }
   wide                      = "0.7.32"
 
+  [workspace.metadata.cargo-shear]
+  ignored = ["par-core"]
+
 [profile.release]
 lto = true
 
