@@ -2375,13 +2375,7 @@
             var index = args_values.indexOf(":");
             index < 0 && (index = args_values.length);
             var body = this.body;
-            return parse([
-                "(function(",
-                args_values.slice(0, index),
-                '){"$ORIG"})(',
-                args_values.slice(index + 1),
-                ")"
-            ].join("")).transform(new TreeTransformer(function(node) {
+            return parse("(function(" + args_values.slice(0, index) + '){"$ORIG"})(' + args_values.slice(index + 1) + ")").transform(new TreeTransformer(function(node) {
                 if (node instanceof AST_Directive && "$ORIG" == node.value) return MAP.splice(body);
             }));
         }

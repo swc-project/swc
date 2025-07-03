@@ -19812,41 +19812,33 @@
             function fb_calculate_attributes(radius, innerConainer, trgClass) {
                 var start, end, diameter = 2 * radius, svg = innerConainer.querySelector('.' + trgClass), circle = svg.querySelector('.e-path-circle'), path = svg.querySelector('.e-path-arc'), transformOrigin = diameter / 2 + 'px';
                 circle.setAttribute('d', [
-                    'M',
+                    "M",
                     radius,
                     radius,
-                    'm',
+                    "m",
                     -radius,
-                    0,
-                    'a',
+                    "0 a",
                     radius,
                     radius,
-                    0,
-                    1,
-                    0,
+                    "0 1 0",
                     2 * radius,
-                    0,
-                    'a',
+                    "0 a",
                     radius,
                     radius,
-                    0,
-                    1,
-                    0,
+                    "0 1 0",
                     -(2 * radius),
-                    0
-                ].join(' ')), path.setAttribute('d', (start = defineArcPoints(radius, radius, radius, 45), end = defineArcPoints(radius, radius, radius, 315), [
-                    'M',
+                    "0"
+                ].join(" ")), path.setAttribute('d', (start = defineArcPoints(radius, radius, radius, 45), end = defineArcPoints(radius, radius, radius, 315), [
+                    "M",
                     start.x,
                     start.y,
-                    'A',
+                    "A",
                     radius,
                     radius,
-                    0,
-                    0,
-                    0,
+                    "0 0 0",
                     end.x,
                     end.y
-                ].join(' '))), svg.setAttribute('viewBox', '0 0 ' + diameter + ' ' + diameter), svg.style.transformOrigin = transformOrigin + ' ' + transformOrigin + ' ' + transformOrigin, svg.style.width = svg.style.height = diameter + 'px';
+                ].join(" "))), svg.setAttribute('viewBox', '0 0 ' + diameter + ' ' + diameter), svg.style.transformOrigin = transformOrigin + ' ' + transformOrigin + ' ' + transformOrigin, svg.style.width = svg.style.height = diameter + 'px';
             }
             /**
  *

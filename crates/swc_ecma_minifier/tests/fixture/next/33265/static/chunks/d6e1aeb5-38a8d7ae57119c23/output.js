@@ -9899,12 +9899,7 @@
                         '<select aria-labelledby="' + selectLabelledbyIds + '">'
                     ].concat(config.options.map(function(o) {
                         var optionId = id + "-" + o[1].replace(/\W+/g, "");
-                        return [
-                            '<option id="' + optionId + '" value="' + o[0] + '" ',
-                            'aria-labelledby="' + selectLabelledbyIds + " " + optionId + '">',
-                            _this2.localize(o[1]),
-                            "</option>"
-                        ].join("");
+                        return '<option id="' + optionId + '" value="' + o[0] + '" aria-labelledby="' + selectLabelledbyIds + " " + optionId + '">' + _this2.localize(o[1]) + "</option>";
                     })).concat("</select>").join("");
                 }, /**
                  * Create foreground color element for the component
@@ -9915,17 +9910,7 @@
                  * @private
                  */ _proto.createElFgColor_ = function() {
                     var legendId = "captions-text-legend-" + this.id_;
-                    return [
-                        '<fieldset class="vjs-fg-color vjs-track-setting">',
-                        '<legend id="' + legendId + '">',
-                        this.localize("Text"),
-                        "</legend>",
-                        this.createElSelect_("color", legendId),
-                        '<span class="vjs-text-opacity vjs-opacity">',
-                        this.createElSelect_("textOpacity", legendId),
-                        "</span>",
-                        "</fieldset>"
-                    ].join("");
+                    return '<fieldset class="vjs-fg-color vjs-track-setting"><legend id="' + legendId + '">' + this.localize("Text") + "</legend>" + this.createElSelect_("color", legendId) + '<span class="vjs-text-opacity vjs-opacity">' + this.createElSelect_("textOpacity", legendId) + "</span></fieldset>";
                 }, /**
                  * Create background color element for the component
                  *
@@ -9935,17 +9920,7 @@
                  * @private
                  */ _proto.createElBgColor_ = function() {
                     var legendId = "captions-background-" + this.id_;
-                    return [
-                        '<fieldset class="vjs-bg-color vjs-track-setting">',
-                        '<legend id="' + legendId + '">',
-                        this.localize("Background"),
-                        "</legend>",
-                        this.createElSelect_("backgroundColor", legendId),
-                        '<span class="vjs-bg-opacity vjs-opacity">',
-                        this.createElSelect_("backgroundOpacity", legendId),
-                        "</span>",
-                        "</fieldset>"
-                    ].join("");
+                    return '<fieldset class="vjs-bg-color vjs-track-setting"><legend id="' + legendId + '">' + this.localize("Background") + "</legend>" + this.createElSelect_("backgroundColor", legendId) + '<span class="vjs-bg-opacity vjs-opacity">' + this.createElSelect_("backgroundOpacity", legendId) + "</span></fieldset>";
                 }, /**
                  * Create window color element for the component
                  *
@@ -9955,17 +9930,7 @@
                  * @private
                  */ _proto.createElWinColor_ = function() {
                     var legendId = "captions-window-" + this.id_;
-                    return [
-                        '<fieldset class="vjs-window-color vjs-track-setting">',
-                        '<legend id="' + legendId + '">',
-                        this.localize("Window"),
-                        "</legend>",
-                        this.createElSelect_("windowColor", legendId),
-                        '<span class="vjs-window-opacity vjs-opacity">',
-                        this.createElSelect_("windowOpacity", legendId),
-                        "</span>",
-                        "</fieldset>"
-                    ].join("");
+                    return '<fieldset class="vjs-window-color vjs-track-setting"><legend id="' + legendId + '">' + this.localize("Window") + "</legend>" + this.createElSelect_("windowColor", legendId) + '<span class="vjs-window-opacity vjs-opacity">' + this.createElSelect_("windowOpacity", legendId) + "</span></fieldset>";
                 }, /**
                  * Create color elements for the component
                  *
@@ -9992,17 +9957,7 @@
                  */ _proto.createElFont_ = function() {
                     return createEl("div", {
                         className: "vjs-track-settings-font",
-                        innerHTML: [
-                            '<fieldset class="vjs-font-percent vjs-track-setting">',
-                            this.createElSelect_("fontPercent", "", "legend"),
-                            "</fieldset>",
-                            '<fieldset class="vjs-edge-style vjs-track-setting">',
-                            this.createElSelect_("edgeStyle", "", "legend"),
-                            "</fieldset>",
-                            '<fieldset class="vjs-font-family vjs-track-setting">',
-                            this.createElSelect_("fontFamily", "", "legend"),
-                            "</fieldset>"
-                        ].join("")
+                        innerHTML: '<fieldset class="vjs-font-percent vjs-track-setting">' + this.createElSelect_("fontPercent", "", "legend") + '</fieldset><fieldset class="vjs-edge-style vjs-track-setting">' + this.createElSelect_("edgeStyle", "", "legend") + '</fieldset><fieldset class="vjs-font-family vjs-track-setting">' + this.createElSelect_("fontFamily", "", "legend") + "</fieldset>"
                     });
                 }, /**
                  * Create controls for the component
@@ -10015,13 +9970,7 @@
                     var defaultsDescription = this.localize("restore all settings to the default values");
                     return createEl("div", {
                         className: "vjs-track-settings-controls",
-                        innerHTML: [
-                            '<button type="button" class="vjs-default-button" title="' + defaultsDescription + '">',
-                            this.localize("Reset"),
-                            '<span class="vjs-control-text"> ' + defaultsDescription + "</span>",
-                            "</button>",
-                            '<button type="button" class="vjs-done-button">' + this.localize("Done") + "</button>"
-                        ].join("")
+                        innerHTML: '<button type="button" class="vjs-default-button" title="' + defaultsDescription + '">' + this.localize("Reset") + '<span class="vjs-control-text"> ' + defaultsDescription + '</span></button><button type="button" class="vjs-done-button">' + this.localize("Done") + "</button>"
                     });
                 }, _proto.content = function() {
                     return [

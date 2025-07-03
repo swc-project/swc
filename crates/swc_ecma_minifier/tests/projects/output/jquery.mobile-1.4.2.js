@@ -3657,11 +3657,7 @@
                 }), (wrapper = document1.createElement("div")).className = "ui-slider-inneroffset", j = 0, length = domSlider.childNodes.length; j < length; j++)wrapper.appendChild(domSlider.childNodes[j]);
                 for(domSlider.appendChild(wrapper), // slider.wrapInner( "<div class='ui-slider-inneroffset'></div>" );
                 // make the handle move with a smooth transition
-                handle.addClass("ui-slider-handle-snapping"), i = 0, optionsCount = (options = control.find("option")).length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + jQuery.mobile.activeBtnClass : "", (sliderImg = document1.createElement("span")).className = [
-                    "ui-slider-label ui-slider-label-",
-                    side,
-                    activeClass
-                ].join(""), sliderImg.setAttribute("role", "img"), sliderImg.appendChild(document1.createTextNode(options[i].innerHTML)), jQuery(sliderImg).prependTo(slider);
+                handle.addClass("ui-slider-handle-snapping"), i = 0, optionsCount = (options = control.find("option")).length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + jQuery.mobile.activeBtnClass : "", (sliderImg = document1.createElement("span")).className = "ui-slider-label ui-slider-label-" + side + activeClass, sliderImg.setAttribute("role", "img"), sliderImg.appendChild(document1.createTextNode(options[i].innerHTML)), jQuery(sliderImg).prependTo(slider);
                 this._labels = jQuery(".ui-slider-label", slider);
             }
             // monitor the input for updated values
