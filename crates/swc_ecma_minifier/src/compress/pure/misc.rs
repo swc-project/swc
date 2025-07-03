@@ -679,7 +679,7 @@ impl Pure<'_> {
         // For non-empty separators, only optimize if we have at least 2 consecutive
         // literals This prevents infinite loop and ensures meaningful
         // optimization
-        if separator != "" {
+        if !separator.is_empty() {
             let mut consecutive_literals = 0;
             let mut max_consecutive = 0;
 
@@ -750,7 +750,7 @@ impl Pure<'_> {
         }
 
         // Handle different separators
-        let is_string_concat = separator == "";
+        let is_string_concat = separator.is_empty();
 
         if is_string_concat {
             // Convert to string concatenation
