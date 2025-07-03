@@ -95,6 +95,12 @@ fn collect_exprs_from_object(obj: &mut ObjectLit) -> Vec<Box<Expr>> {
     exprs
 }
 
+#[derive(Debug)]
+enum GroupType<'a> {
+    Literals(Vec<&'a ExprOrSpread>),
+    Expression(&'a ExprOrSpread),
+}
+
 impl Pure<'_> {
     /// `a = a + 1` => `a += 1`.
     pub(super) fn compress_bin_assignment_to_left(&mut self, e: &mut AssignExpr) {
@@ -501,6 +507,19 @@ impl Pure<'_> {
             return;
         }
 
+        // Handle empty array case first
+        if arr.elems.is_empty() {
+            report_change!("Compressing empty array.join()");
+            self.changed = true;
+            *e = Lit::Str(Str {
+                span: call.span,
+                raw: None,
+                value: atom!(""),
+            })
+            .into();
+            return;
+        }
+
         let cannot_join_as_str_lit = arr
             .elems
             .iter()
@@ -520,11 +539,19 @@ impl Pure<'_> {
                 return;
             }
 
-            if !self.options.unsafe_passes {
+            // Try partial optimization (grouping consecutive literals)
+            if let Some(new_expr) =
+                self.compress_array_join_partial(arr.span, &mut arr.elems, &separator)
+            {
+                self.changed = true;
+                report_change!("Compressing array.join() with partial optimization");
+                *e = new_expr;
                 return;
             }
 
-            // TODO: Partial join
+            if !self.options.unsafe_passes {
+                return;
+            }
 
             if arr
                 .elems
@@ -623,6 +650,277 @@ impl Pure<'_> {
             value: res.into(),
         })
         .into()
+    }
+
+    /// Performs partial optimization on array.join() when there are mixed
+    /// literals and expressions. Groups consecutive literals into string
+    /// concatenations.
+    fn compress_array_join_partial(
+        &mut self,
+        _span: Span,
+        elems: &mut Vec<Option<ExprOrSpread>>,
+        separator: &str,
+    ) -> Option<Expr> {
+        if !self.options.evaluate {
+            return None;
+        }
+
+        // Check if we have any non-literal elements
+        let has_non_literals = elems.iter().flatten().any(|elem| match &*elem.expr {
+            Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => false,
+            e if is_pure_undefined(self.expr_ctx, e) => false,
+            _ => true,
+        });
+
+        if !has_non_literals {
+            return None; // Pure literal case will be handled elsewhere
+        }
+
+        // For non-empty separators, only optimize if we have at least 2 consecutive
+        // literals This prevents infinite loop and ensures meaningful
+        // optimization
+        if !separator.is_empty() {
+            let mut consecutive_literals = 0;
+            let mut max_consecutive = 0;
+
+            for elem in elems.iter().flatten() {
+                let is_literal = match &*elem.expr {
+                    Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
+                    e if is_pure_undefined(self.expr_ctx, e) => true,
+                    _ => false,
+                };
+
+                if is_literal {
+                    consecutive_literals += 1;
+                    max_consecutive = max_consecutive.max(consecutive_literals);
+                } else {
+                    consecutive_literals = 0;
+                }
+            }
+
+            if max_consecutive < 2 {
+                return None;
+            }
+
+            // Only optimize for single-character separators to avoid bloating the code
+            // Long separators like "really-long-separator" should not be optimized
+            if separator.len() > 1 {
+                return None;
+            }
+
+            // For comma separator, require a higher threshold to avoid infinite loops
+            if separator == "," && max_consecutive < 6 {
+                return None;
+            }
+        } else {
+            // For empty string joins, optimize more aggressively since we're
+            // doing string concatenation We can always optimize
+            // these as long as there are mixed expressions and literals
+        }
+
+        // Group consecutive literals and create a string concatenation expression
+        let mut groups = Vec::new();
+        let mut current_group = Vec::new();
+
+        for elem in elems.iter().flatten() {
+            let is_literal = match &*elem.expr {
+                Expr::Lit(Lit::Str(..) | Lit::Num(..) | Lit::Null(..)) => true,
+                e if is_pure_undefined(self.expr_ctx, e) => true,
+                _ => false,
+            };
+
+            if is_literal {
+                current_group.push(elem);
+            } else {
+                if !current_group.is_empty() {
+                    groups.push(GroupType::Literals(current_group));
+                    current_group = Vec::new();
+                }
+                groups.push(GroupType::Expression(elem));
+            }
+        }
+
+        if !current_group.is_empty() {
+            groups.push(GroupType::Literals(current_group));
+        }
+
+        // If we don't have any grouped literals, no optimization possible
+        if groups.iter().all(|g| matches!(g, GroupType::Expression(_))) {
+            return None;
+        }
+
+        // Handle different separators
+        let is_string_concat = separator.is_empty();
+
+        if is_string_concat {
+            // Convert to string concatenation
+            let mut result_parts = Vec::new();
+
+            // Only add empty string prefix when the first element is a non-string
+            // expression that needs coercion to string AND there's no string
+            // literal early enough to provide coercion
+            let needs_empty_string_prefix = match groups.first() {
+                Some(GroupType::Expression(first_expr)) => {
+                    // Check if the first expression is already a string concatenation
+                    let first_needs_coercion = match &*first_expr.expr {
+                        Expr::Bin(BinExpr {
+                            op: op!(bin, "+"), ..
+                        }) => false, // Already string concat
+                        Expr::Lit(Lit::Str(..)) => false, // Already a string literal
+                        Expr::Call(_call) => {
+                            // Function calls may return any type and need string coercion
+                            true
+                        }
+                        _ => true, // Other expressions need string coercion
+                    };
+
+                    // If the first element needs coercion, check if the second element is a string
+                    // literal that can provide the coercion
+                    if first_needs_coercion {
+                        match groups.get(1) {
+                            Some(GroupType::Literals(_)) => false, /* String literals will */
+                            // provide coercion
+                            _ => true, // No string literal to provide coercion
+                        }
+                    } else {
+                        false
+                    }
+                }
+                _ => false,
+            };
+
+            if needs_empty_string_prefix {
+                result_parts.push(Box::new(Expr::Lit(Lit::Str(Str {
+                    span: DUMMY_SP,
+                    raw: None,
+                    value: atom!(""),
+                }))));
+            }
+
+            for group in groups {
+                match group {
+                    GroupType::Literals(literals) => {
+                        let mut joined = String::new();
+                        for literal in literals.iter() {
+                            match &*literal.expr {
+                                Expr::Lit(Lit::Str(s)) => joined.push_str(&s.value),
+                                Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
+                                Expr::Lit(Lit::Null(..)) => {
+                                    // For string concatenation, null becomes
+                                    // empty string
+                                }
+                                e if is_pure_undefined(self.expr_ctx, e) => {
+                                    // undefined becomes empty string in string
+                                    // context
+                                }
+                                _ => unreachable!(),
+                            }
+                        }
+
+                        result_parts.push(Box::new(Expr::Lit(Lit::Str(Str {
+                            span: DUMMY_SP,
+                            raw: None,
+                            value: joined.into(),
+                        }))));
+                    }
+                    GroupType::Expression(expr) => {
+                        result_parts.push(expr.expr.clone());
+                    }
+                }
+            }
+
+            // Create string concatenation expression
+            if result_parts.len() == 1 {
+                return Some(*result_parts.into_iter().next().unwrap());
+            }
+
+            let mut result = *result_parts.remove(0);
+            for part in result_parts {
+                result = Expr::Bin(BinExpr {
+                    span: DUMMY_SP,
+                    left: Box::new(result),
+                    op: op!(bin, "+"),
+                    right: part,
+                });
+            }
+
+            Some(result)
+        } else {
+            // For non-empty separator, create a more compact array
+            let mut new_elems = Vec::new();
+
+            for group in groups {
+                match group {
+                    GroupType::Literals(literals) => {
+                        let mut joined = String::new();
+                        for (idx, literal) in literals.iter().enumerate() {
+                            if idx > 0 {
+                                joined.push_str(separator);
+                            }
+
+                            match &*literal.expr {
+                                Expr::Lit(Lit::Str(s)) => joined.push_str(&s.value),
+                                Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
+                                Expr::Lit(Lit::Null(..)) => {
+                                    // null becomes empty string
+                                }
+                                e if is_pure_undefined(self.expr_ctx, e) => {
+                                    // undefined becomes empty string
+                                }
+                                _ => unreachable!(),
+                            }
+                        }
+
+                        new_elems.push(Some(ExprOrSpread {
+                            spread: None,
+                            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                                span: DUMMY_SP,
+                                raw: None,
+                                value: joined.into(),
+                            }))),
+                        }));
+                    }
+                    GroupType::Expression(expr) => {
+                        new_elems.push(Some(ExprOrSpread {
+                            spread: None,
+                            expr: expr.expr.clone(),
+                        }));
+                    }
+                }
+            }
+
+            // Create a new array.join() call with the original separator
+            let new_array = Expr::Array(ArrayLit {
+                span: _span,
+                elems: new_elems,
+            });
+
+            // For comma separator, use .join() without arguments (shorter)
+            let args = if separator == "," {
+                vec![]
+            } else {
+                vec![ExprOrSpread {
+                    spread: None,
+                    expr: Box::new(Expr::Lit(Lit::Str(Str {
+                        span: DUMMY_SP,
+                        raw: None,
+                        value: separator.into(),
+                    }))),
+                }]
+            };
+
+            Some(Expr::Call(CallExpr {
+                span: _span,
+                ctxt: Default::default(),
+                callee: Callee::Expr(Box::new(Expr::Member(MemberExpr {
+                    span: _span,
+                    obj: Box::new(new_array),
+                    prop: MemberProp::Ident(IdentName::new(atom!("join"), _span)),
+                }))),
+                args,
+                ..Default::default()
+            }))
+        }
     }
 
     pub(super) fn drop_undefined_from_return_arg(&mut self, s: &mut ReturnStmt) {

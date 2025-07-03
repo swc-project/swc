@@ -6399,23 +6399,7 @@
             }, DERNode.prototype._encodeTime = function(time, tag) {
                 let str;
                 const date = new Date(time);
-                return 'gentime' === tag ? str = [
-                    two(date.getUTCFullYear()),
-                    two(date.getUTCMonth() + 1),
-                    two(date.getUTCDate()),
-                    two(date.getUTCHours()),
-                    two(date.getUTCMinutes()),
-                    two(date.getUTCSeconds()),
-                    'Z'
-                ].join('') : 'utctime' === tag ? str = [
-                    two(date.getUTCFullYear() % 100),
-                    two(date.getUTCMonth() + 1),
-                    two(date.getUTCDate()),
-                    two(date.getUTCHours()),
-                    two(date.getUTCMinutes()),
-                    two(date.getUTCSeconds()),
-                    'Z'
-                ].join('') : this.reporter.error('Encoding ' + tag + ' time is not supported yet'), this._encodeStr(str, 'octstr');
+                return 'gentime' === tag ? str = "" + two(date.getUTCFullYear()) + two(date.getUTCMonth() + 1) + two(date.getUTCDate()) + two(date.getUTCHours()) + two(date.getUTCMinutes()) + two(date.getUTCSeconds()) + "Z" : 'utctime' === tag ? str = "" + two(date.getUTCFullYear() % 100) + two(date.getUTCMonth() + 1) + two(date.getUTCDate()) + two(date.getUTCHours()) + two(date.getUTCMinutes()) + two(date.getUTCSeconds()) + "Z" : this.reporter.error('Encoding ' + tag + ' time is not supported yet'), this._encodeStr(str, 'octstr');
             }, DERNode.prototype._encodeNull = function() {
                 return this._createEncoderBuffer('');
             }, DERNode.prototype._encodeInt = function(num, values) {

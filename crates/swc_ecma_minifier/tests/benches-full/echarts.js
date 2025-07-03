@@ -20006,13 +20006,11 @@
             } else {
                 this._width = this._getSize(0), this._height = this._getSize(1);
                 var width1, height1, domRoot, domRoot1 = this._domRoot = (width1 = this._width, height1 = this._height, (domRoot = document.createElement('div')).style.cssText = [
-                    'position:relative',
+                    "position:relative",
                     'width:' + width1 + 'px',
                     'height:' + height1 + 'px',
-                    'padding:0',
-                    'margin:0',
-                    'border-width:0'
-                ].join(';') + ';', domRoot);
+                    "padding:0;margin:0;border-width:0"
+                ].join(";") + ';', domRoot);
                 root.appendChild(domRoot1);
             }
         }
@@ -41758,14 +41756,7 @@
                         'right'
                     ], arrowPos) > -1 ? (positionStyle += 'top:50%', transformStyle += "translateY(-50%) rotate(" + ('left' === arrowPos ? -225 : -45) + "deg)") : (positionStyle += 'left:50%', transformStyle += "translateX(-50%) rotate(" + ('top' === arrowPos ? 225 : 45) + "deg)");
                     var borderStyle = borderColor + " solid 1px;";
-                    return "<div style=\"" + [
-                        'position:absolute;width:10px;height:10px;',
-                        positionStyle + ";" + transformStyle + ";",
-                        "border-bottom:" + borderStyle,
-                        "border-right:" + borderStyle,
-                        "background-color:" + backgroundColor + ";",
-                        'box-shadow:8px 8px 16px -3px #000;'
-                    ].join('') + "\"></div>";
+                    return "<div style=\"" + ("position:absolute;width:10px;height:10px;" + (positionStyle + ";") + transformStyle + ";border-bottom:" + borderStyle + "border-right:" + borderStyle + "background-color:" + backgroundColor) + ';box-shadow:8px 8px 16px -3px #000;"></div>';
                 }(tooltipModel.get('backgroundColor'), borderColor, arrowPosition)), isString(content)) el.innerHTML = content;
                 else if (content) {
                     // Clear previous

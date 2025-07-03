@@ -5663,20 +5663,11 @@ function(global, factory) {
             '\n'
         ].filter(filterEmptyLine).join('\n')), vertexShader = replaceClippingPlaneNums(vertexShader = replaceLightNums(vertexShader = resolveIncludes(vertexShader), parameters), parameters), fragmentShader = replaceClippingPlaneNums(fragmentShader = replaceLightNums(fragmentShader = resolveIncludes(fragmentShader), parameters), parameters), vertexShader = unrollLoops(vertexShader), fragmentShader = unrollLoops(fragmentShader), parameters.isWebGL2 && !0 !== parameters.isRawShaderMaterial && (// GLSL 3.0 conversion for built-in materials and ShaderMaterial
         versionString = '#version 300 es\n', prefixVertex = "#define attribute in\n#define varying out\n#define texture2D texture\n" + prefixVertex, prefixFragment = [
-            '#define varying in',
+            "#define varying in",
             parameters.glslVersion === GLSL3 ? '' : 'out highp vec4 pc_fragColor;',
             parameters.glslVersion === GLSL3 ? '' : '#define gl_FragColor pc_fragColor',
-            '#define gl_FragDepthEXT gl_FragDepth',
-            '#define texture2D texture',
-            '#define textureCube texture',
-            '#define texture2DProj textureProj',
-            '#define texture2DLodEXT textureLod',
-            '#define texture2DProjLodEXT textureProjLod',
-            '#define textureCubeLodEXT textureLod',
-            '#define texture2DGradEXT textureGrad',
-            '#define texture2DProjGradEXT textureProjGrad',
-            '#define textureCubeGradEXT textureGrad'
-        ].join('\n') + '\n' + prefixFragment);
+            "#define gl_FragDepthEXT gl_FragDepth\n#define texture2D texture\n#define textureCube texture\n#define texture2DProj textureProj\n#define texture2DLodEXT textureLod\n#define texture2DProjLodEXT textureProjLod\n#define textureCubeLodEXT textureLod\n#define texture2DGradEXT textureGrad\n#define texture2DProjGradEXT textureProjGrad\n#define textureCubeGradEXT textureGrad"
+        ].join("\n") + '\n' + prefixFragment);
         var vertexGlsl = versionString + prefixVertex + vertexShader, fragmentGlsl = versionString + prefixFragment + fragmentShader, glVertexShader = WebGLShader(gl, 35633, vertexGlsl), glFragmentShader = WebGLShader(gl, 35632, fragmentGlsl);
         if (gl.attachShader(program, glVertexShader), gl.attachShader(program, glFragmentShader), void 0 !== parameters.index0AttributeName ? gl.bindAttribLocation(program, 0, parameters.index0AttributeName) : !0 === parameters.morphTargets && // programs with morphTargets displace position out of attribute 0
         gl.bindAttribLocation(program, 0, 'position'), gl.linkProgram(program), renderer.debug.checkShaderErrors) {
