@@ -36,7 +36,6 @@ serde       = { workspace = true, features = ["derive"] }
 smallvec    = { workspace = true }
 smartstring = { workspace = true }
 tracing     = { workspace = true }
-typed-arena = { workspace = true }
 
 new_debug_unreachable = { workspace = true }
 phf                   = { workspace = true, features = ["macros"] }

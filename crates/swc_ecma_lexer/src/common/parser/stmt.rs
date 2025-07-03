@@ -2,7 +2,6 @@ use std::ops::DerefMut;
 
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
-use typed_arena::Arena;
 
 use super::{
     buffer::Buffer,
@@ -1383,7 +1382,7 @@ pub(super) fn parse_block_body<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>
 
     let old_ctx = p.ctx();
 
-    let stmts = Arena::new();
+    let mut stmts = Vec::with_capacity(8);
     while {
         match (p.input_mut().cur(), end) {
             (Some(cur), Some(end)) => cur != end,
@@ -1414,7 +1413,7 @@ pub(super) fn parse_block_body<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>
             }
         }
 
-        stmts.alloc(stmt);
+        stmts.push(stmt);
     }
 
     if p.input_mut().cur().is_some() && end.is_some() {
@@ -1423,5 +1422,5 @@ pub(super) fn parse_block_body<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>
 
     p.set_ctx(old_ctx);
 
-    Ok(stmts.into_vec())
+    Ok(stmts)
 }
