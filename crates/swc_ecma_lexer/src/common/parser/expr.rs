@@ -27,6 +27,7 @@ use crate::{
             object::parse_object_expr,
             pat::{parse_paren_items_as_params, reparse_expr_as_pat},
             pat_type::PatType,
+            token_and_span::TokenAndSpan,
             typescript::*,
             unwrap_ts_non_null,
         },
@@ -1499,12 +1500,16 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
 /// spec: 'UnaryExpression'
 pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     trace_cur!(p, parse_unary_expr);
-    let start = p.cur_pos();
 
-    if !p.input().syntax().jsx()
-        && p.input().syntax().typescript()
-        && p.input_mut().eat(&P::Token::LESS)
-    {
+    p.input_mut().cur();
+    let Some(token_and_span) = p.input().get_cur() else {
+        syntax_error!(p, p.input().cur_span(), SyntaxError::TS1109);
+    };
+    let start = token_and_span.span().lo;
+    let cur = token_and_span.token();
+
+    if !p.input().syntax().jsx() && p.input().syntax().typescript() && cur.is_less() {
+        p.bump(); // consume `<`
         if p.input_mut().eat(&P::Token::CONST) {
             expect!(p, &P::Token::GREATER);
             let expr = p.parse_unary_expr()?;
@@ -1518,10 +1523,8 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
         return parse_ts_type_assertion(p, start)
             .map(Expr::from)
             .map(Box::new);
-    }
-
-    // Parse update expression
-    if p.input_mut().is(&P::Token::PLUS_PLUS) || p.input_mut().is(&P::Token::MINUS_MINUS) {
+    } else if cur.is_plus_plus() || cur.is_minus_minus() {
+        // Parse update expression
         let op = if p.bump() == P::Token::PLUS_PLUS {
             op!("++")
         } else {
@@ -1539,19 +1542,15 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
             arg,
         }
         .into());
-    }
-
-    // Parse unary expression
-
-    if p.input_mut().cur().is_some_and(|cur| {
-        cur.is_delete()
-            || cur.is_void()
-            || cur.is_typeof()
-            || cur.is_plus()
-            || cur.is_minus()
-            || cur.is_tilde()
-            || cur.is_bang()
-    }) {
+    } else if cur.is_delete()
+        || cur.is_void()
+        || cur.is_typeof()
+        || cur.is_plus()
+        || cur.is_minus()
+        || cur.is_tilde()
+        || cur.is_bang()
+    {
+        // Parse unary expression
         let cur = p.bump();
         let op = if cur.is_delete() {
             op!("delete")
@@ -1593,9 +1592,7 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
             arg,
         }
         .into());
-    }
-
-    if p.input_mut().is(&P::Token::AWAIT) {
+    } else if cur.is_await() {
         return parse_await_expr(p, None);
     }
 
