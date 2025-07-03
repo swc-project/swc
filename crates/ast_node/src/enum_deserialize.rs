@@ -178,13 +178,13 @@ pub fn expand(
                             )
                         }
                         if tags.len() == 1 {
-                            make_pat(tags.first().unwrap().clone())
+                            make_pat(tags.into_iter().next().unwrap())
                         } else {
                             let mut str_cases = Punctuated::new();
                             let mut bytes_cases = Punctuated::new();
 
                             for tag in tags {
-                                let (str_pat, bytes_pat) = make_pat(tag.clone());
+                                let (str_pat, bytes_pat) = make_pat(tag);
                                 str_cases.push(str_pat);
                                 bytes_cases.push(bytes_pat);
                             }
