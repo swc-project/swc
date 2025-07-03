@@ -6500,7 +6500,6 @@ dependencies = [
  "tokio",
  "tracing",
  "vergen",
- "virtual-fs",
  "wasmer",
  "wasmer-cache",
  "wasmer-compiler-cranelift",
