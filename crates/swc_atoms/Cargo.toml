@@ -23,7 +23,6 @@ bytecheck     = { workspace = true, optional = true }
 once_cell     = { workspace = true }
 rancor        = { workspace = true, optional = true }
 rkyv          = { workspace = true, optional = true }
-rustc-hash    = { workspace = true }
 serde         = { workspace = true }
 shrink-to-fit = { workspace = true, optional = true }
 

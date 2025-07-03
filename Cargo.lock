@@ -207,7 +207,6 @@ dependencies = [
 name = "ast_node"
 version = "3.0.2"
 dependencies = [
- "proc-macro2",
  "quote",
  "swc_macros_common",
  "syn 2.0.101",
@@ -1627,7 +1626,6 @@ dependencies = [
 name = "from_variant"
 version = "2.0.1"
 dependencies = [
- "proc-macro2",
  "swc_macros_common",
  "syn 2.0.101",
 ]
@@ -1984,7 +1982,6 @@ dependencies = [
  "num_cpus",
  "once_cell",
  "par-iter",
- "phf",
  "rand 0.8.5",
  "rkyv",
  "rustc-hash 2.1.1",
@@ -2510,10 +2507,8 @@ dependencies = [
 name = "jsdoc"
 version = "13.0.0"
 dependencies = [
- "anyhow",
  "dashmap 5.5.3",
  "nom 7.1.3",
- "serde",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -4715,7 +4710,6 @@ dependencies = [
 name = "string_enum"
 version = "1.0.1"
 dependencies = [
- "proc-macro2",
  "quote",
  "serde",
  "swc_macros_common",
@@ -4752,18 +4746,11 @@ dependencies = [
  "criterion",
  "dashmap 5.5.3",
  "either",
- "flate2",
- "humansize",
  "indexmap 2.7.1",
  "jsonc-parser",
- "lru",
- "napi",
- "napi-derive",
  "once_cell",
- "par-core",
  "par-iter",
  "parking_lot",
- "pathdiff",
  "regex",
  "rustc-hash 2.1.1",
  "serde",
@@ -4825,13 +4812,8 @@ dependencies = [
  "codspeed-criterion-compat",
  "criterion",
  "hashbrown 0.14.5",
- "ptr_meta 0.3.0",
- "rancor",
- "rkyv",
  "rustc-hash 2.1.1",
- "serde",
  "swc_malloc",
- "triomphe",
 ]
 
 [[package]]
@@ -4844,7 +4826,6 @@ dependencies = [
  "once_cell",
  "rancor",
  "rkyv",
- "rustc-hash 2.1.1",
  "serde",
  "shrink-to-fit",
 ]
@@ -4861,8 +4842,6 @@ dependencies = [
  "is-macro",
  "ntest",
  "once_cell",
- "par-core",
- "parking_lot",
  "path-clean 1.0.1",
  "petgraph 0.7.1",
  "radix_fmt",
@@ -4890,7 +4869,6 @@ dependencies = [
  "tempfile",
  "testing",
  "tracing",
- "url",
 ]
 
 [[package]]
@@ -4906,13 +4884,10 @@ dependencies = [
  "par-iter",
  "path-absolutize",
  "relative-path",
- "serde",
  "serde_json",
  "swc_core",
- "swc_sourcemap",
  "tracing",
  "tracing-chrome",
- "tracing-futures",
  "tracing-subscriber",
  "walkdir",
 ]
@@ -7193,16 +7168,6 @@ checksum = "e672c95779cf947c5311f83787af4fa8fffd12fb27e4993211a84bdfd9610f9c"
 dependencies = [
  "once_cell",
  "valuable",
-]
-
-[[package]]
-name = "tracing-futures"
-version = "0.2.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "97d095ae15e245a057c8e8451bab9b3ee1e1f68e9ba2b4fbc18d0ac5237835f2"
-dependencies = [
- "pin-project",
- "tracing",
 ]
 
 [[package]]

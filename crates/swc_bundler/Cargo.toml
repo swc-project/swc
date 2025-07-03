@@ -30,7 +30,6 @@ dashmap       = { workspace = true, optional = true }
 indexmap      = { workspace = true }
 is-macro      = { workspace = true }
 once_cell     = { workspace = true }
-parking_lot   = { workspace = true }
 petgraph      = { workspace = true }
 radix_fmt     = { workspace = true }
 rayon         = { workspace = true, optional = true }
@@ -53,12 +52,10 @@ swc_graph_analyzer               = { version = "14.0.0", path = "../swc_graph_an
 [dev-dependencies]
 hex        = { workspace = true }
 ntest      = { workspace = true }
-par-core   = { workspace = true, features = ["chili"] }
 path-clean = "1.0.1"
 reqwest    = { workspace = true, features = ["blocking"] }
 sha1       = { workspace = true }
 tempfile   = { workspace = true }
-url        = { workspace = true }
 
 swc_ecma_loader = { version = "13.0.0", path = "../swc_ecma_loader", features = [
   "node",

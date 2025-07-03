@@ -13,17 +13,15 @@ version       = "13.0.0"
 bench = false
 
 [features]
-serde-impl = ["serde"]
+serde-impl = []
 
 [dependencies]
-nom   = { workspace = true }
-serde = { workspace = true, features = ["derive"], optional = true }
+nom = { workspace = true }
 
 swc_atoms  = { version = "6.0.0", path = "../swc_atoms" }
 swc_common = { version = "13.0.3", path = "../swc_common" }
 
 [dev-dependencies]
-anyhow  = { workspace = true }
 dashmap = { workspace = true }
 
 swc_ecma_ast    = { version = "13.0.0", path = "../swc_ecma_ast" }
