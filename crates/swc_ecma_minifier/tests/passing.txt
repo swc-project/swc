@@ -11,6 +11,8 @@ arguments/replace_index_keep_fargs/input.js
 arguments/replace_index_strict/input.js
 arguments/replace_index/input.js
 array_constructor/array_constructor/input.js
+arrays/constant_join_2/input.js
+arrays/constant_join/input.js
 arrays/holes_and_undefined/input.js
 arrays/index/input.js
 arrays/length/input.js
@@ -516,6 +518,7 @@ evaluate/issue_1964_1/input.js
 evaluate/issue_1964_2/input.js
 evaluate/issue_2207_1/input.js
 evaluate/issue_2207_2/input.js
+evaluate/issue_2207_3/input.js
 evaluate/issue_2231_1/input.js
 evaluate/issue_2231_2/input.js
 evaluate/issue_2231_3/input.js
