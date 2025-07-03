@@ -274,7 +274,7 @@ impl Classic {
         let value = a
             .value
             .map(|v| match v {
-                JSXAttrValue::Lit(Lit::Str(s)) => {
+                JSXAttrValue::Str(s) => {
                     let value = transform_jsx_attr_str(&s.value);
 
                     Lit::Str(Str {
@@ -290,7 +290,6 @@ impl Classic {
                 }) => e,
                 JSXAttrValue::JSXElement(element) => Box::new(self.jsx_elem_to_expr(*element)),
                 JSXAttrValue::JSXFragment(fragment) => Box::new(self.jsx_frag_to_expr(fragment)),
-                JSXAttrValue::Lit(lit) => Box::new(lit.into()),
                 JSXAttrValue::JSXExprContainer(JSXExprContainer {
                     span: _,
                     expr: JSXExpr::JSXEmptyExpr(_),

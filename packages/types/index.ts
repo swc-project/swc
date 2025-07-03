@@ -1799,7 +1799,7 @@ export interface JSXAttribute extends Node, HasSpan {
 export type JSXAttributeName = Identifier | JSXNamespacedName;
 
 export type JSXAttrValue =
-    | Literal
+    | StringLiteral
     | JSXExpressionContainer
     | JSXElement
     | JSXFragment;

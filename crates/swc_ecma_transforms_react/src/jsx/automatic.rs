@@ -639,7 +639,7 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
 
 fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
     Some(match v {
-        JSXAttrValue::Lit(Lit::Str(s)) => {
+        JSXAttrValue::Str(s) => {
             let value = transform_jsx_attr_str(&s.value);
 
             Lit::Str(Str {
@@ -649,7 +649,6 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
             })
             .into()
         }
-        JSXAttrValue::Lit(lit) => Box::new(lit.into()),
         JSXAttrValue::JSXExprContainer(e) => match e.expr {
             JSXExpr::JSXEmptyExpr(_) => None?,
             JSXExpr::Expr(e) => e,
