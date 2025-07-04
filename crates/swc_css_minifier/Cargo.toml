@@ -23,10 +23,7 @@ swc_css_utils = { version = "13.0.0", path = "../swc_css_utils/" }
 swc_css_visit = { version = "13.0.0", path = "../swc_css_visit" }
 
 [dev-dependencies]
-codspeed-criterion-compat = { workspace = true }
-criterion                 = { workspace = true }
 
 swc_css_codegen = { version = "13.0.0", path = "../swc_css_codegen" }
 swc_css_parser  = { version = "13.0.0", path = "../swc_css_parser" }
-swc_malloc      = { version = "1.2.3", path = "../swc_malloc" }
 testing         = { version = "14.0.0", path = "../testing" }

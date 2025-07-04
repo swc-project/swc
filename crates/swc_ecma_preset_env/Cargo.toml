@@ -17,14 +17,10 @@ default    = ["serde-impl"]
 serde-impl = ["serde"]
 
 [dependencies]
-anyhow     = { workspace = true }
-dashmap    = { workspace = true }
 indexmap   = { workspace = true }
 once_cell  = { workspace = true }
-semver     = { workspace = true, features = ["serde"] }
 serde      = { workspace = true, features = ["derive"], optional = true }
 serde_json = { workspace = true }
-st-map     = { workspace = true }
 
 preset_env_base = { version = "4.0.0", path = "../preset_env_base" }
 rustc-hash = { workspace = true }
@@ -41,7 +37,6 @@ swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
-criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 
 swc_ecma_codegen = { version = "15.0.1", path = "../swc_ecma_codegen" }

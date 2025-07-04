@@ -23,7 +23,7 @@ concurrent = [
   "swc_ecma_transforms_base/concurrent-renamer",
   "swc_ecma_transforms_optimization/concurrent",
 ]
-debug = ["backtrace", "swc_ecma_transforms_optimization/debug"]
+debug = [ "swc_ecma_transforms_optimization/debug"]
 default = ["serde-impl"]
 # Implement serialize/deserialize for more types
 extra-serde = ["swc_ecma_ast/serde-impl", "serde-impl"]
@@ -32,7 +32,6 @@ trace-ast   = []
 
 [dependencies]
 arrayvec          = { workspace = true }
-backtrace         = { workspace = true, optional = true }
 bitflags          = { workspace = true }
 indexmap          = { workspace = true }
 num-bigint        = { workspace = true }
@@ -44,15 +43,11 @@ parking_lot       = { workspace = true }
 phf               = { workspace = true }
 pretty_assertions = { workspace = true, optional = true }
 radix_fmt         = { workspace = true }
-regex             = { workspace = true }
 rustc-hash        = { workspace = true }
 ryu-js            = { workspace = true }
 serde             = { workspace = true, features = ["derive"] }
 serde_json        = { workspace = true }
 tracing           = { workspace = true }
-
-
-swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 swc_atoms = { version = "6.0.0", path = "../swc_atoms" }
 swc_common = { version = "13.0.3", path = "../swc_common" }
 swc_config = { version = "3.1.1", path = "../swc_config", features = [
@@ -76,14 +71,11 @@ swc_timer = { version = "1.0.0", path = "../swc_timer" }
 ansi_term                 = { workspace = true }
 anyhow                    = { workspace = true }
 codspeed-criterion-compat = { workspace = true }
-criterion                 = { workspace = true }
 flate2                    = { workspace = true }
 humansize                 = { workspace = true }
 par-core                  = { workspace = true, features = ["chili"] }
 pretty_assertions         = { workspace = true }
 walkdir                   = { workspace = true }
-
-swc_allocator    = { version = "4.0.0", path = "../swc_allocator" }
 swc_ecma_testing = { version = "14.0.0", path = "../swc_ecma_testing" }
 swc_malloc       = { version = "1.2.3", path = "../swc_malloc" }
 testing          = { version = "14.0.0", path = "../testing" }

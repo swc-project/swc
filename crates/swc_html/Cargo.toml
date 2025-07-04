@@ -19,11 +19,10 @@ version = "24.0.0"
 bench = false
 
 [features]
-minifier = ["swc_html_minifier"]
+minifier = []
 
 [dependencies]
 swc_html_ast      = { version = "13.0.0", path = "../swc_html_ast" }
 swc_html_codegen  = { version = "13.0.0", path = "../swc_html_codegen" }
-swc_html_minifier = { version = "24.0.0", path = "../swc_html_minifier", optional = true, default-features = false }
 swc_html_parser   = { version = "13.0.0", path = "../swc_html_parser" }
 swc_html_visit    = { version = "13.0.0", path = "../swc_html_visit" }

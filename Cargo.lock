@@ -207,7 +207,6 @@ dependencies = [
 name = "ast_node"
 version = "3.0.2"
 dependencies = [
- "proc-macro2",
  "quote",
  "swc_macros_common",
  "syn 2.0.101",
@@ -1245,7 +1244,6 @@ dependencies = [
  "serde",
  "serde_json",
  "sha1",
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -1258,7 +1256,6 @@ dependencies = [
  "tempfile",
  "tracing",
  "tracing-subscriber",
- "url",
 ]
 
 [[package]]
@@ -1627,7 +1624,6 @@ dependencies = [
 name = "from_variant"
 version = "2.0.1"
 dependencies = [
- "proc-macro2",
  "swc_macros_common",
  "syn 2.0.101",
 ]
@@ -1984,7 +1980,6 @@ dependencies = [
  "num_cpus",
  "once_cell",
  "par-iter",
- "phf",
  "rand 0.8.5",
  "rkyv",
  "rustc-hash 2.1.1",
@@ -2510,13 +2505,11 @@ dependencies = [
 name = "jsdoc"
 version = "13.0.0"
 dependencies = [
- "anyhow",
  "dashmap 5.5.3",
  "nom 7.1.3",
  "serde",
  "swc_atoms",
  "swc_common",
- "swc_ecma_ast",
  "swc_ecma_parser",
  "testing",
 ]
@@ -4715,7 +4708,6 @@ dependencies = [
 name = "string_enum"
 version = "1.0.1"
 dependencies = [
- "proc-macro2",
  "quote",
  "serde",
  "swc_macros_common",
@@ -4752,18 +4744,14 @@ dependencies = [
  "criterion",
  "dashmap 5.5.3",
  "either",
- "flate2",
- "humansize",
  "indexmap 2.7.1",
  "jsonc-parser",
- "lru",
  "napi",
  "napi-derive",
  "once_cell",
  "par-core",
  "par-iter",
  "parking_lot",
- "pathdiff",
  "regex",
  "rustc-hash 2.1.1",
  "serde",
@@ -4825,13 +4813,8 @@ dependencies = [
  "codspeed-criterion-compat",
  "criterion",
  "hashbrown 0.14.5",
- "ptr_meta 0.3.0",
- "rancor",
- "rkyv",
  "rustc-hash 2.1.1",
- "serde",
  "swc_malloc",
- "triomphe",
 ]
 
 [[package]]
@@ -4844,7 +4827,6 @@ dependencies = [
  "once_cell",
  "rancor",
  "rkyv",
- "rustc-hash 2.1.1",
  "serde",
  "shrink-to-fit",
 ]
@@ -4862,7 +4844,6 @@ dependencies = [
  "ntest",
  "once_cell",
  "par-core",
- "parking_lot",
  "path-clean 1.0.1",
  "petgraph 0.7.1",
  "radix_fmt",
@@ -4890,7 +4871,6 @@ dependencies = [
  "tempfile",
  "testing",
  "tracing",
- "url",
 ]
 
 [[package]]
@@ -4906,13 +4886,10 @@ dependencies = [
  "par-iter",
  "path-absolutize",
  "relative-path",
- "serde",
  "serde_json",
  "swc_core",
- "swc_sourcemap",
  "tracing",
  "tracing-chrome",
- "tracing-futures",
  "tracing-subscriber",
  "walkdir",
 ]
@@ -4927,9 +4904,6 @@ dependencies = [
  "better_scoped_tls",
  "bytecheck 0.8.1",
  "bytes-str",
- "cfg-if",
- "codspeed-criterion-compat",
- "criterion",
  "either",
  "from_variant",
  "new_debug_unreachable",
@@ -4944,7 +4918,6 @@ dependencies = [
  "serde_json",
  "shrink-to-fit",
  "siphasher 0.3.11",
- "swc_allocator",
  "swc_atoms",
  "swc_eq_ignore_macros",
  "swc_sourcemap",
@@ -4969,7 +4942,6 @@ dependencies = [
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "swc_allocator",
  "swc_atoms",
  "swc_common",
  "swc_config",
@@ -5017,7 +4989,6 @@ version = "30.1.1"
 dependencies = [
  "anyhow",
  "binding_macros",
- "once_cell",
  "par-core",
  "swc",
  "swc_allocator",
@@ -5089,7 +5060,6 @@ version = "13.0.0"
 dependencies = [
  "bytecheck 0.8.1",
  "is-macro",
- "rancor",
  "rkyv",
  "serde",
  "string_enum",
@@ -5119,9 +5089,7 @@ dependencies = [
 name = "swc_css_codegen_macros"
 version = "1.0.1"
 dependencies = [
- "proc-macro2",
  "quote",
- "swc_macros_common",
  "syn 2.0.101",
 ]
 
@@ -5130,9 +5098,7 @@ name = "swc_css_compat"
 version = "13.0.0"
 dependencies = [
  "bitflags 2.6.0",
- "once_cell",
  "serde",
- "serde_json",
  "swc_atoms",
  "swc_common",
  "swc_css_ast",
@@ -5168,8 +5134,6 @@ dependencies = [
 name = "swc_css_minifier"
 version = "13.0.0"
 dependencies = [
- "codspeed-criterion-compat",
- "criterion",
  "rustc-hash 2.1.1",
  "serde",
  "swc_atoms",
@@ -5179,7 +5143,6 @@ dependencies = [
  "swc_css_parser",
  "swc_css_utils",
  "swc_css_visit",
- "swc_malloc",
  "testing",
 ]
 
@@ -5190,7 +5153,6 @@ dependencies = [
  "indexmap 2.7.1",
  "rustc-hash 2.1.1",
  "serde",
- "serde_json",
  "swc_atoms",
  "swc_common",
  "swc_css_ast",
@@ -5206,7 +5168,6 @@ name = "swc_css_parser"
 version = "13.0.0"
 dependencies = [
  "codspeed-criterion-compat",
- "criterion",
  "lexical",
  "serde",
  "serde_json",
@@ -5246,7 +5207,6 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
- "swc_common",
  "swc_css_ast",
  "swc_css_visit",
 ]
@@ -5276,7 +5236,6 @@ dependencies = [
  "rancor",
  "rkyv",
  "rustc-hash 2.1.1",
- "scoped-tls",
  "serde",
  "serde_json",
  "shrink-to-fit",
@@ -5295,7 +5254,6 @@ dependencies = [
  "base64 0.22.1",
  "codspeed-criterion-compat",
  "compact_str",
- "criterion",
  "memchr",
  "num-bigint",
  "once_cell",
@@ -5322,7 +5280,6 @@ name = "swc_ecma_codegen_macros"
 version = "2.0.1"
 dependencies = [
  "proc-macro2",
- "quote",
  "swc_macros_common",
  "syn 2.0.101",
 ]
@@ -5353,7 +5310,6 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_trace_macro",
 ]
 
 [[package]]
@@ -5387,7 +5343,6 @@ dependencies = [
 name = "swc_ecma_compat_es2016"
 version = "19.0.0"
 dependencies = [
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -5405,13 +5360,9 @@ name = "swc_ecma_compat_es2017"
 version = "19.0.0"
 dependencies = [
  "serde",
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
- "swc_ecma_parser",
  "swc_ecma_transforms_base",
- "swc_ecma_transforms_macros",
- "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_trace_macro",
@@ -5423,14 +5374,11 @@ name = "swc_ecma_compat_es2018"
 version = "19.0.0"
 dependencies = [
  "serde",
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_compat_common",
- "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_macros",
- "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_trace_macro",
@@ -5441,7 +5389,6 @@ dependencies = [
 name = "swc_ecma_compat_es2019"
 version = "19.0.0"
 dependencies = [
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -5462,9 +5409,6 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_compat_es2022",
- "swc_ecma_parser",
- "swc_ecma_transforms_base",
- "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_trace_macro",
@@ -5475,7 +5419,6 @@ dependencies = [
 name = "swc_ecma_compat_es2021"
 version = "19.0.0"
 dependencies = [
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_transforms_base",
@@ -5510,7 +5453,6 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
- "swc_ecma_transforms_base",
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
@@ -5523,7 +5465,6 @@ name = "swc_ecma_ext_transforms"
 version = "18.0.0"
 dependencies = [
  "phf",
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_utils",
@@ -5539,17 +5480,13 @@ dependencies = [
  "bitflags 2.6.0",
  "codspeed-criterion-compat",
  "cow-replace",
- "criterion",
  "either",
  "new_debug_unreachable",
  "num-bigint",
- "num-traits",
  "phf",
- "pretty_assertions",
  "rustc-hash 2.1.1",
  "seq-macro",
  "serde",
- "serde_json",
  "smallvec",
  "smartstring",
  "stacker",
@@ -5560,21 +5497,17 @@ dependencies = [
  "swc_malloc",
  "testing",
  "tracing",
- "walkdir",
 ]
 
 [[package]]
 name = "swc_ecma_lints"
 version = "19.0.1"
 dependencies = [
- "anyhow",
  "auto_impl",
  "codspeed-criterion-compat",
- "criterion",
  "dashmap 5.5.3",
  "par-core",
  "parking_lot",
- "pretty_assertions",
  "regex",
  "rustc-hash 2.1.1",
  "serde",
@@ -5582,15 +5515,12 @@ dependencies = [
  "swc_common",
  "swc_config",
  "swc_ecma_ast",
- "swc_ecma_codegen",
  "swc_ecma_parser",
- "swc_ecma_testing",
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_malloc",
  "testing",
- "walkdir",
 ]
 
 [[package]]
@@ -5621,10 +5551,8 @@ dependencies = [
  "ansi_term",
  "anyhow",
  "arrayvec",
- "backtrace",
  "bitflags 2.6.0",
  "codspeed-criterion-compat",
- "criterion",
  "flate2",
  "humansize",
  "indexmap 2.7.1",
@@ -5637,12 +5565,10 @@ dependencies = [
  "phf",
  "pretty_assertions",
  "radix_fmt",
- "regex",
  "rustc-hash 2.1.1",
  "ryu-js",
  "serde",
  "serde_json",
- "swc_allocator",
  "swc_atoms",
  "swc_common",
  "swc_config",
@@ -5666,22 +5592,12 @@ dependencies = [
 name = "swc_ecma_parser"
 version = "18.0.1"
 dependencies = [
- "arrayvec",
- "bitflags 2.6.0",
  "codspeed-criterion-compat",
- "criterion",
  "either",
- "new_debug_unreachable",
  "num-bigint",
- "num-traits",
- "phf",
  "pretty_assertions",
- "rustc-hash 2.1.1",
  "serde",
  "serde_json",
- "smallvec",
- "smartstring",
- "stacker",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -5697,19 +5613,14 @@ dependencies = [
 name = "swc_ecma_preset_env"
 version = "24.0.0"
 dependencies = [
- "anyhow",
  "codspeed-criterion-compat",
- "criterion",
- "dashmap 5.5.3",
  "indexmap 2.7.1",
  "once_cell",
  "preset_env_base",
  "pretty_assertions",
  "rustc-hash 2.1.1",
- "semver",
  "serde",
  "serde_json",
- "st-map",
  "string_enum",
  "swc_atoms",
  "swc_common",
@@ -5726,11 +5637,9 @@ dependencies = [
 name = "swc_ecma_quote"
 version = "18.0.0"
 dependencies = [
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_quote_macros",
- "testing",
 ]
 
 [[package]]
@@ -5753,7 +5662,6 @@ dependencies = [
 name = "swc_ecma_react_compiler"
 version = "6.0.1"
 dependencies = [
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -5768,14 +5676,11 @@ dependencies = [
  "phf",
  "rustc-hash 2.1.1",
  "serde",
- "serde_json",
  "swc_atoms",
  "swc_common",
  "swc_ecma_regexp_ast",
  "swc_ecma_regexp_common",
  "swc_ecma_regexp_visit",
- "swc_visit",
- "testing",
  "unicode-id-start",
 ]
 
@@ -5784,9 +5689,7 @@ name = "swc_ecma_regexp_ast"
 version = "0.2.0"
 dependencies = [
  "bitflags 2.6.0",
- "bytecheck 0.8.1",
  "is-macro",
- "rancor",
  "serde",
  "swc_atoms",
  "swc_common",
@@ -5805,7 +5708,6 @@ dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_ecma_regexp_ast",
- "swc_html_ast",
  "swc_visit",
 ]
 
@@ -5825,11 +5727,8 @@ name = "swc_ecma_transforms"
 version = "23.0.0"
 dependencies = [
  "par-core",
- "pretty_assertions",
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
- "swc_ecma_codegen",
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_compat",
@@ -5840,9 +5739,6 @@ dependencies = [
  "swc_ecma_transforms_testing",
  "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
- "swc_ecma_visit",
- "swc_sourcemap",
- "tempfile",
  "testing",
 ]
 
@@ -5853,16 +5749,13 @@ dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",
  "codspeed-criterion-compat",
- "criterion",
  "indexmap 2.7.1",
  "once_cell",
  "par-core",
  "par-iter",
  "phf",
- "rayon",
  "rustc-hash 2.1.1",
  "serde",
- "smallvec",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -5880,7 +5773,6 @@ dependencies = [
 name = "swc_ecma_transforms_classes"
 version = "19.0.0"
 dependencies = [
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_transforms_base",
@@ -5892,18 +5784,12 @@ dependencies = [
 name = "swc_ecma_transforms_compat"
 version = "21.0.0"
 dependencies = [
- "arrayvec",
  "indexmap 2.7.1",
- "is-macro",
- "num-bigint",
  "par-core",
- "rayon",
  "serde",
  "serde_json",
- "smallvec",
  "swc_atoms",
  "swc_common",
- "swc_config",
  "swc_ecma_ast",
  "swc_ecma_compat_bugfixes",
  "swc_ecma_compat_common",
@@ -5918,12 +5804,9 @@ dependencies = [
  "swc_ecma_compat_es3",
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
- "swc_ecma_transforms_classes",
- "swc_ecma_transforms_macros",
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_trace_macro",
  "testing",
  "tracing",
 ]
@@ -5979,7 +5862,6 @@ dependencies = [
  "once_cell",
  "par-core",
  "petgraph 0.7.1",
- "rayon",
  "rustc-hash 2.1.1",
  "serde_json",
  "swc_atoms",
@@ -5988,10 +5870,8 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_compat",
- "swc_ecma_transforms_macros",
  "swc_ecma_transforms_module",
  "swc_ecma_transforms_proposal",
- "swc_ecma_transforms_react",
  "swc_ecma_transforms_testing",
  "swc_ecma_transforms_typescript",
  "swc_ecma_utils",
@@ -6007,18 +5887,13 @@ dependencies = [
  "either",
  "rustc-hash 2.1.1",
  "serde",
- "serde_json",
- "smallvec",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
- "swc_ecma_codegen",
- "swc_ecma_loader",
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_classes",
  "swc_ecma_transforms_compat",
- "swc_ecma_transforms_macros",
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
@@ -6031,15 +5906,12 @@ version = "21.0.0"
 dependencies = [
  "base64 0.22.1",
  "bytes-str",
- "dashmap 5.5.3",
  "indexmap 2.7.1",
  "once_cell",
- "rayon",
  "rustc-hash 2.1.1",
  "serde",
  "sha1",
  "string_enum",
- "swc_allocator",
  "swc_atoms",
  "swc_common",
  "swc_config",
@@ -6048,7 +5920,6 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_compat",
- "swc_ecma_transforms_macros",
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
@@ -6066,7 +5937,6 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
- "swc_allocator",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -6086,10 +5956,7 @@ version = "21.0.0"
 dependencies = [
  "bytes-str",
  "codspeed-criterion-compat",
- "criterion",
- "once_cell",
  "rustc-hash 2.1.1",
- "ryu-js",
  "serde",
  "swc_atoms",
  "swc_common",
@@ -6130,8 +5997,6 @@ dependencies = [
  "num_cpus",
  "once_cell",
  "par-core",
- "par-iter",
- "rayon",
  "rustc-hash 2.1.1",
  "ryu-js",
  "stacker",
@@ -6140,9 +6005,7 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_parser",
  "swc_ecma_visit",
- "testing",
  "tracing",
- "unicode-id",
 ]
 
 [[package]]
@@ -6191,10 +6054,7 @@ dependencies = [
  "anyhow",
  "miette",
  "once_cell",
- "parking_lot",
  "serde",
- "serde_derive",
- "serde_json",
  "swc_common",
 ]
 
@@ -6216,9 +6076,7 @@ dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
  "copyless",
- "criterion",
  "pretty_assertions",
- "rustc-hash 2.1.1",
  "serde",
  "serde_json",
  "swc",
@@ -6242,7 +6100,6 @@ dependencies = [
  "auto_impl",
  "petgraph 0.7.1",
  "rustc-hash 2.1.1",
- "swc_common",
  "testing",
  "tracing",
 ]
@@ -6253,7 +6110,6 @@ version = "24.0.0"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
- "swc_html_minifier",
  "swc_html_parser",
  "swc_html_visit",
 ]
@@ -6292,9 +6148,7 @@ dependencies = [
 name = "swc_html_codegen_macros"
 version = "1.0.0"
 dependencies = [
- "proc-macro2",
  "quote",
- "swc_macros_common",
  "syn 2.0.101",
 ]
 
@@ -6303,7 +6157,6 @@ name = "swc_html_minifier"
 version = "24.0.0"
 dependencies = [
  "codspeed-criterion-compat",
- "criterion",
  "once_cell",
  "rustc-hash 2.1.1",
  "serde",
@@ -6335,7 +6188,6 @@ name = "swc_html_parser"
 version = "13.0.0"
 dependencies = [
  "codspeed-criterion-compat",
- "criterion",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
@@ -6357,7 +6209,6 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
- "swc_common",
 ]
 
 [[package]]
@@ -6393,14 +6244,8 @@ name = "swc_node_bundler"
 version = "30.0.0"
 dependencies = [
  "anyhow",
- "dashmap 5.5.3",
- "is-macro",
- "once_cell",
- "pretty_assertions",
- "regex",
  "rustc-hash 2.1.1",
  "serde",
- "serde_json",
  "string_enum",
  "swc",
  "swc_atoms",
@@ -6412,7 +6257,6 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_transforms",
  "swc_ecma_utils",
- "swc_ecma_visit",
  "swc_malloc",
  "testing",
  "tracing",
@@ -6437,7 +6281,6 @@ dependencies = [
  "serde",
  "serde_json",
  "tracing",
- "tracing-subscriber",
 ]
 
 [[package]]
@@ -6477,10 +6320,8 @@ version = "15.0.1"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
- "criterion",
  "enumset",
  "futures",
- "once_cell",
  "parking_lot",
  "rustc-hash 2.1.1",
  "serde",
@@ -6490,7 +6331,6 @@ dependencies = [
  "swc_css_ast",
  "swc_css_parser",
  "swc_ecma_ast",
- "swc_ecma_loader",
  "swc_ecma_parser",
  "swc_ecma_visit",
  "swc_malloc",
@@ -6541,7 +6381,6 @@ dependencies = [
 name = "swc_trace_macro"
 version = "2.0.1"
 dependencies = [
- "proc-macro2",
  "quote",
  "syn 2.0.101",
 ]
@@ -6551,10 +6390,8 @@ name = "swc_transform_common"
 version = "7.0.0"
 dependencies = [
  "better_scoped_tls",
- "once_cell",
  "rustc-hash 2.1.1",
  "serde",
- "serde_json",
  "swc_common",
 ]
 
@@ -6565,9 +6402,7 @@ dependencies = [
  "anyhow",
  "bytes-str",
  "codspeed-criterion-compat",
- "criterion",
  "serde",
- "swc_allocator",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -6597,7 +6432,6 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "testing",
- "thiserror 1.0.69",
 ]
 
 [[package]]
@@ -6636,7 +6470,6 @@ dependencies = [
  "auto_impl",
  "bitflags 2.6.0",
  "rustc-hash 2.1.1",
- "swc_atoms",
  "swc_common",
  "swc_xml_ast",
  "swc_xml_codegen_macros",
@@ -6649,9 +6482,7 @@ dependencies = [
 name = "swc_xml_codegen_macros"
 version = "1.0.0"
 dependencies = [
- "proc-macro2",
  "quote",
- "swc_macros_common",
  "syn 2.0.101",
 ]
 
@@ -6833,7 +6664,6 @@ checksum = "3369f5ac52d5eb6ab48c6b4ffdc8efbcad6b89c765749064ba298f2c68a16a76"
 name = "testing"
 version = "14.0.0"
 dependencies = [
- "ansi_term",
  "cargo_metadata",
  "difference",
  "once_cell",
@@ -7196,16 +7026,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "tracing-futures"
-version = "0.2.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "97d095ae15e245a057c8e8451bab9b3ee1e1f68e9ba2b4fbc18d0ac5237835f2"
-dependencies = [
- "pin-project",
- "tracing",
-]
-
-[[package]]
 name = "tracing-log"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -7274,12 +7094,6 @@ checksum = "f7d2d4dafb69621809a81864c9c1b864479e1235c0dd4e199924b9742439ed89"
 dependencies = [
  "version_check",
 ]
-
-[[package]]
-name = "unicode-id"
-version = "0.3.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "10103c57044730945224467c09f71a4db0071c123a0648cc3e818913bde6b561"
 
 [[package]]
 name = "unicode-id-start"
@@ -8450,7 +8264,6 @@ name = "xtask"
 version = "0.1.0"
 dependencies = [
  "anyhow",
- "cargo_metadata",
  "chrono",
  "clap 4.5.9",
  "semver",

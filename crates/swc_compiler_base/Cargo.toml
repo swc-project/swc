@@ -21,7 +21,6 @@ pathdiff      = { workspace = true }
 rustc-hash    = { workspace = true }
 serde         = { workspace = true, features = ["derive"] }
 serde_json    = { workspace = true }
-swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 swc_sourcemap = { workspace = true }
 
 swc_atoms = { version = "6.0.0", path = "../swc_atoms" }

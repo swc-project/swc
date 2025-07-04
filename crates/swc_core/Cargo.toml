@@ -197,7 +197,7 @@ ecma_plugin_transform = [
 ]
 
 # Use `stacker` to avoid stack overflow.
-stacker = ["swc_ecma_parser/stacker", "swc_ecma_utils/stacker"]
+stacker = ["swc_ecma_utils/stacker"]
 
 
 typescript = ["swc_typescript"]
@@ -266,7 +266,6 @@ __common_plugin_transform = [
   "__common",
   "swc_atoms/rkyv-impl",
   "swc_plugin_macro",
-  "once_cell",
   "swc_plugin",
 ]
 
@@ -344,9 +343,7 @@ __utils = ["__ecma", "swc_ecma_utils"]
 __visit = ["__ecma", "swc_ecma_visit"]
 
 [dependencies]
-# 3rd party dependencies
-once_cell = { workspace = true, optional = true }
-par-core  = { workspace = true, optional = true }
+par-core = { workspace = true, optional = true }
 
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "29.0.0", path = "../binding_macros" }
