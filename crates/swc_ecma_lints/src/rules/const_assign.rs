@@ -1,7 +1,6 @@
 use rustc_hash::FxHashMap;
 use swc_common::{errors::HANDLER, Span};
 use swc_ecma_ast::*;
-use swc_ecma_utils::parallel::{cpu_count, Parallel, ParallelExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::rule::Rule;
@@ -59,14 +58,6 @@ struct ConstAssign<'a> {
     is_pat_decl: bool,
 }
 
-impl Parallel for ConstAssign<'_> {
-    fn create(&self) -> Self {
-        *self
-    }
-
-    fn merge(&mut self, _: Self) {}
-}
-
 impl ConstAssign<'_> {
     fn check(&mut self, id: &Ident) {
         if self.is_pat_decl {
@@ -107,48 +98,6 @@ impl Visit for ConstAssign<'_> {
 
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
         self.check(&Ident::from(n));
-    }
-
-    fn visit_class_members(&mut self, members: &[ClassMember]) {
-        self.maybe_par(cpu_count(), members, |v, member| {
-            member.visit_with(v);
-        });
-    }
-
-    fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
-        self.maybe_par(cpu_count(), n, |v, n| {
-            n.visit_with(v);
-        });
-    }
-
-    fn visit_exprs(&mut self, exprs: &[Box<Expr>]) {
-        self.maybe_par(cpu_count(), exprs, |v, expr| {
-            expr.visit_with(v);
-        });
-    }
-
-    fn visit_module_items(&mut self, items: &[ModuleItem]) {
-        self.maybe_par(cpu_count(), items, |v, item| {
-            item.visit_with(v);
-        });
-    }
-
-    fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
-        self.maybe_par(cpu_count(), n, |v, n| {
-            n.visit_with(v);
-        });
-    }
-
-    fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {
-        self.maybe_par(cpu_count(), n, |v, n| {
-            n.visit_with(v);
-        });
-    }
-
-    fn visit_stmts(&mut self, stmts: &[Stmt]) {
-        self.maybe_par(cpu_count(), stmts, |v, stmt| {
-            stmt.visit_with(v);
-        });
     }
 
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
