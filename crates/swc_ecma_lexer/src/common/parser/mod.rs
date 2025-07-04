@@ -50,6 +50,12 @@ pub use util::{
     unwrap_ts_non_null,
 };
 
+/// Original context is restored when returned guard is dropped.
+#[inline(always)]
+fn with_ctx<'a, P: Parser<'a>, T>(p: &mut P, ctx: Context, f: impl FnOnce(&mut P) -> T) -> T {
+    WithCtx::parse_with(p, ctx, f)
+}
+
 pub trait Parser<'a>: Sized + Clone {
     type Token: std::fmt::Debug
         + Clone
@@ -86,12 +92,6 @@ pub trait Parser<'a>: Sized + Clone {
         self.input().get_ctx()
     }
 
-    /// Original context is restored when returned guard is dropped.
-    #[inline(always)]
-    fn with_ctx<T>(&mut self, ctx: Context, f: impl FnOnce(&mut Self) -> T) -> T {
-        WithCtx::parse_with(self, ctx, f)
-    }
-
     #[inline(always)]
     fn set_ctx(&mut self, ctx: Context) {
         self.input_mut().set_ctx(ctx);
@@ -104,7 +104,7 @@ pub trait Parser<'a>: Sized + Clone {
             f(self)
         } else {
             ctx.insert(context);
-            self.with_ctx(ctx, f)
+            with_ctx(self, ctx, f)
         }
     }
 
@@ -112,7 +112,7 @@ pub trait Parser<'a>: Sized + Clone {
         let mut ctx = self.ctx();
         if ctx.intersects(context) {
             ctx.remove(context);
-            self.with_ctx(ctx, f)
+            with_ctx(self, ctx, f)
         } else {
             f(self)
         }
