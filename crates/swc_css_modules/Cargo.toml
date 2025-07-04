@@ -27,7 +27,6 @@ swc_css_visit   = { version = "13.0.0", path = "../swc_css_visit" }
 
 [dev-dependencies]
 indexmap   = { workspace = true, features = ["serde"] }
-serde_json = { workspace = true }
 
 swc_css_compat = { version = "13.0.0", path = "../swc_css_compat" }
 testing        = { version = "14.0.0", path = "../testing" }

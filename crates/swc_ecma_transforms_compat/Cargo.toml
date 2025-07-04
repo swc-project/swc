@@ -14,7 +14,6 @@ bench = false
 
 [features]
 concurrent = [
-  "rayon",
   "swc_ecma_transforms_base/concurrent",
   "swc_ecma_utils/concurrent",
 ]
@@ -45,7 +44,6 @@ swc_ecma_transforms_classes = { version = "19.0.0", path = "../swc_ecma_transfor
 swc_ecma_transforms_macros  = { version = "1.0.1", path = "../swc_ecma_transforms_macros" }
 swc_ecma_utils              = { version = "18.0.2", path = "../swc_ecma_utils" }
 swc_ecma_visit              = { version = "13.0.0", path = "../swc_ecma_visit" }
-swc_trace_macro             = { version = "2.0.1", path = "../swc_trace_macro" }
 
 [dev-dependencies]
 par-core   = { workspace = true, features = ["chili"] }

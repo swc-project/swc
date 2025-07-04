@@ -28,7 +28,6 @@ swc_html_utils = { version = "13.0.0", path = "../swc_html_utils" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
-criterion                 = { workspace = true }
 serde                     = { workspace = true }
 serde_json                = { workspace = true }
 

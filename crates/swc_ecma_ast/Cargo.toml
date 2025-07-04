@@ -46,7 +46,6 @@ phf              = { workspace = true, features = ["macros"] }
 rancor           = { workspace = true, optional = true }
 rkyv             = { workspace = true, optional = true }
 rustc-hash       = { workspace = true }
-scoped-tls       = { workspace = true }
 serde            = { workspace = true, features = ["derive"], optional = true }
 shrink-to-fit    = { workspace = true, optional = true }
 unicode-id-start = { workspace = true }

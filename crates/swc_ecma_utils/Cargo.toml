@@ -17,19 +17,16 @@ bench = false
 
 [features]
 # Process in parallel.
-concurrent = ["swc_common/concurrent", "par-core/parallel", "rayon"]
+concurrent = ["swc_common/concurrent", "par-core/parallel"]
 
 [dependencies]
 indexmap   = { workspace = true }
 num_cpus   = { workspace = true }
 once_cell  = { workspace = true }
 par-core   = { workspace = true }
-par-iter   = { workspace = true }
-rayon      = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
 ryu-js     = { workspace = true }
 tracing    = { workspace = true }
-unicode-id = { workspace = true }
 
 swc_atoms      = { version = "6.0.0", path = "../swc_atoms" }
 swc_common     = { version = "13.0.3", path = "../swc_common" }
@@ -42,4 +39,3 @@ stacker = { version = "0.1.15", optional = true }
 [dev-dependencies]
 par-core        = { workspace = true, features = ["chili"] }
 swc_ecma_parser = { version = "18.0.1", path = "../swc_ecma_parser" }
-testing         = { version = "14.0.0", path = "../testing" }
