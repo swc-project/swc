@@ -54,6 +54,7 @@ vergen = { workspace = true, features = ["build", "cargo"] }
 anyhow       = { workspace = true }
 enumset      = { workspace = true }
 futures      = { workspace = true }
+once_cell    = { workspace = true }
 parking_lot  = { workspace = true }
 rustc-hash   = { workspace = true }
 serde        = { workspace = true, features = ["derive"] }
@@ -78,6 +79,7 @@ wasmer-compiler-cranelift = { version = "6.0.0", default-features = false }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
+criterion                 = { workspace = true }
 
 swc_css_ast = { version = "13.0.0", path = "../swc_css_ast", features = [
   "rkyv-impl",
@@ -86,6 +88,7 @@ swc_css_parser = { version = "13.0.0", path = "../swc_css_parser" }
 swc_ecma_ast = { version = "13.0.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
+swc_ecma_loader = { version = "13.0.0", path = "../swc_ecma_loader" }
 swc_ecma_parser = { version = "18.0.1", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.2.3", path = "../swc_malloc" }

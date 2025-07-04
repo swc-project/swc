@@ -33,12 +33,17 @@ swc_ecma_utils = { version = "18.0.2", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
+anyhow                    = { workspace = true }
 codspeed-criterion-compat = { workspace = true }
+criterion                 = { workspace = true }
+pretty_assertions         = { workspace = true }
+swc_ecma_codegen          = { version = "15.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_parser           = { version = "18.0.1", path = "../swc_ecma_parser" }
 swc_ecma_testing          = { version = "14.0.0", path = "../swc_ecma_testing" }
 swc_ecma_transforms_base  = { version = "19.0.1", path = "../swc_ecma_transforms_base" }
 swc_malloc                = { version = "1.2.3", path = "../swc_malloc" }
 testing                   = { version = "14.0.0", path = "../testing" }
+walkdir                   = { workspace = true }
 
 [features]
 non_critical_lints = []

@@ -26,6 +26,7 @@ par-iter          = { workspace = true, optional = true }
 phf               = { workspace = true, features = ["macros"] }
 rustc-hash        = { workspace = true }
 serde             = { workspace = true, features = ["derive"] }
+smallvec          = { workspace = true }
 tracing           = { workspace = true }
 
 swc_atoms       = { version = "6.0.0", path = "../swc_atoms" }
@@ -37,6 +38,7 @@ swc_ecma_visit  = { version = "13.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
+criterion                 = { workspace = true }
 par-core                  = { workspace = true, features = ["chili"] }
 rayon                     = { workspace = true }
 

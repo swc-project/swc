@@ -19,7 +19,9 @@ serde-impl = ["serde"]
 
 [dependencies]
 bitflags  = { workspace = true }
+bytecheck = { workspace = true, optional = true }
 is-macro  = { workspace = true }
+rancor    = { workspace = true, optional = true }
 serde     = { workspace = true, features = ["derive"], optional = true }
 
 swc_atoms              = { version = "6.0.0", path = "../swc_atoms" }

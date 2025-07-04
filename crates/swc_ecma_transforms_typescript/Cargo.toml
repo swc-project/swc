@@ -17,7 +17,9 @@ concurrent = ["swc_common/concurrent"]
 
 [dependencies]
 bytes-str  = { workspace = true }
+once_cell  = { workspace = true }
 rustc-hash = { workspace = true }
+ryu-js     = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 
 swc_atoms                 = { version = "6.0.0", path = "../swc_atoms" }
@@ -30,6 +32,7 @@ swc_ecma_visit            = { version = "13.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
+criterion                 = { workspace = true }
 
 swc_ecma_codegen             = { version = "15.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_parser              = { version = "18.0.1", path = "../swc_ecma_parser" }

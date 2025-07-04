@@ -14,12 +14,13 @@ bench = false
 
 [features]
 default      = []
-multi-module = []
+multi-module = ["swc_ecma_loader"]
 
 [dependencies]
 either     = { workspace = true }
 rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
+smallvec   = { workspace = true }
 
 swc_atoms                   = { version = "6.0.0", path = "../swc_atoms" }
 swc_common                  = { version = "13.0.3", path = "../swc_common" }
@@ -27,10 +28,14 @@ swc_ecma_ast                = { version = "13.0.0", path = "../swc_ecma_ast" }
 swc_ecma_loader             = { version = "13.0.0", path = "../swc_ecma_loader", optional = true }
 swc_ecma_transforms_base    = { version = "19.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_classes = { version = "19.0.0", path = "../swc_ecma_transforms_classes" }
+swc_ecma_transforms_macros  = { version = "1.0.1", path = "../swc_ecma_transforms_macros" }
 swc_ecma_utils              = { version = "18.0.2", path = "../swc_ecma_utils" }
 swc_ecma_visit              = { version = "13.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
+serde_json = { workspace = true }
+
+swc_ecma_codegen            = { version = "15.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_parser             = { version = "18.0.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_compat  = { version = "21.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_testing = { version = "22.0.0", path = "../swc_ecma_transforms_testing" }

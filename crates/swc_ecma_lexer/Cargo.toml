@@ -32,6 +32,7 @@ cow-replace           = { workspace = true }
 either                = { workspace = true }
 new_debug_unreachable = { workspace = true }
 num-bigint            = { workspace = true }
+num-traits            = { workspace = true }
 phf                   = { workspace = true, features = ["macros"] }
 rustc-hash            = { workspace = true }
 seq-macro             = { workspace = true }
@@ -49,6 +50,10 @@ swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit", optional = tr
 stacker = { version = "0.1.15", optional = true }
 
 [dev-dependencies]
+criterion         = { workspace = true }
+pretty_assertions = { workspace = true }
+serde_json        = { workspace = true }
+walkdir           = { workspace = true }
 
 codspeed-criterion-compat = { workspace = true }
 swc_ecma_ast = { version = "13.0.0", path = "../swc_ecma_ast", features = [

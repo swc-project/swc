@@ -20,12 +20,14 @@ rkyv-impl = [
   "swc_atoms/rkyv-impl",
   "swc_common/rkyv-impl",
   "bytecheck",
+  "rancor",
 ]
 serde-impl = ["serde"]
 
 [dependencies]
 bytecheck   = { workspace = true, optional = true }
 is-macro    = { workspace = true }
+rancor      = { workspace = true, optional = true }
 serde       = { workspace = true, features = ["derive"], optional = true }
 string_enum = { version = "1.0.1", path = "../string_enum/" }
 

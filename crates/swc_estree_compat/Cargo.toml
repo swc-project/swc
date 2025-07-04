@@ -20,6 +20,7 @@ bench = false
 [dependencies]
 anyhow     = { workspace = true }
 copyless   = { workspace = true }
+rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
@@ -37,6 +38,7 @@ swc_node_comments = { version = "13.0.0", path = "../swc_node_comments/" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
+criterion                 = { workspace = true }
 pretty_assertions         = { workspace = true }
 
 swc                 = { version = "29.1.0", path = "../swc" }
