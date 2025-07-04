@@ -61,6 +61,10 @@ impl Tokens<TokenAndSpan> for TokensInput {
         self.ctx = ctx;
     }
 
+    fn ctx_mut(&mut self) -> &mut Context {
+        &mut self.ctx
+    }
+
     #[inline(always)]
     fn ctx(&self) -> Context {
         self.ctx
@@ -210,6 +214,10 @@ impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
     #[inline(always)]
     fn set_ctx(&mut self, ctx: Context) {
         self.inner.set_ctx(ctx)
+    }
+
+    fn ctx_mut(&mut self) -> &mut Context {
+        self.inner.ctx_mut()
     }
 
     #[inline(always)]
