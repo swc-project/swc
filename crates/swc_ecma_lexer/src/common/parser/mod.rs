@@ -1,5 +1,3 @@
-use std::ops::DerefMut;
-
 use either::Either;
 use expr::{parse_assignment_expr, parse_str_lit};
 use expr_ext::ExprExt;
@@ -90,8 +88,8 @@ pub trait Parser<'a>: Sized + Clone {
 
     /// Original context is restored when returned guard is dropped.
     #[inline(always)]
-    fn with_ctx<'w>(&'w mut self, ctx: Context) -> WithCtx<'a, 'w, Self> {
-        WithCtx::new(self, ctx)
+    fn with_ctx<T>(&mut self, ctx: Context, f: impl FnOnce(&mut Self) -> T) -> T {
+        WithCtx::parse_with(self, ctx, f)
     }
 
     #[inline(always)]
@@ -100,59 +98,50 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     #[inline]
-    fn do_inside_of_context<'w>(&'w mut self, context: Context) -> WithCtx<'a, 'w, Self> {
+    fn do_inside_of_context<T>(&mut self, context: Context, f: impl FnOnce(&mut Self) -> T) -> T {
         let mut ctx = self.ctx();
         if ctx.contains(context) {
-            WithCtx::new_without_ctx(self)
+            f(self)
         } else {
             ctx.insert(context);
-            self.with_ctx(ctx)
+            self.with_ctx(ctx, f)
         }
     }
 
-    fn do_outside_of_context<'w>(&'w mut self, context: Context) -> WithCtx<'a, 'w, Self> {
+    fn do_outside_of_context<T>(&mut self, context: Context, f: impl FnOnce(&mut Self) -> T) -> T {
         let mut ctx = self.ctx();
         if ctx.intersects(context) {
             ctx.remove(context);
-            self.with_ctx(ctx)
+            self.with_ctx(ctx, f)
         } else {
-            WithCtx::new_without_ctx(self)
+            f(self)
         }
     }
 
     #[inline(always)]
-    fn strict_mode<'w>(&'w mut self) -> WithCtx<'a, 'w, Self> {
-        self.do_inside_of_context(Context::Strict)
+    fn strict_mode<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
+        self.do_inside_of_context(Context::Strict, f)
     }
 
     /// Original context is restored when returned guard is dropped.
     #[inline(always)]
-    fn in_type<'w>(&'w mut self) -> WithCtx<'a, 'w, Self> {
-        self.do_inside_of_context(Context::InType)
+    fn in_type<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
+        self.do_inside_of_context(Context::InType, f)
     }
 
     #[inline(always)]
-    fn allow_in_expr<'w>(&'w mut self) -> WithCtx<'a, 'w, Self> {
-        self.do_inside_of_context(Context::IncludeInExpr)
+    fn allow_in_expr<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
+        self.do_inside_of_context(Context::IncludeInExpr, f)
     }
 
     #[inline(always)]
-    fn disallow_in_expr<'w>(&'w mut self) -> WithCtx<'a, 'w, Self> {
-        self.do_outside_of_context(Context::IncludeInExpr)
+    fn disallow_in_expr<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
+        self.do_outside_of_context(Context::IncludeInExpr, f)
     }
 
     #[inline(always)]
     fn syntax(&self) -> SyntaxFlags {
         self.input().syntax()
-    }
-
-    /// Parse with given closure
-    #[inline(always)]
-    fn parse_with<F, Ret>(&mut self, f: F) -> PResult<Ret>
-    where
-        F: FnOnce(&mut Self) -> PResult<Ret>,
-    {
-        f(self)
     }
 
     #[cold]
@@ -369,66 +358,65 @@ pub trait Parser<'a>: Sized + Clone {
     /// spec: 'PropertyName'
     fn parse_prop_name(&mut self) -> PResult<PropName> {
         trace_cur!(self, parse_prop_name);
-        self.do_inside_of_context(Context::InPropertyName)
-            .parse_with(|p| {
-                let start = p.input_mut().cur_pos();
-                let Some(cur) = p.input_mut().cur() else {
-                    return Err(eof_error(p));
-                };
-                let v = if cur.is_str() {
-                    PropName::Str(parse_str_lit(p))
-                } else if cur.is_num() {
-                    let t = p.bump();
-                    let (value, raw) = t.take_num(p.input_mut());
-                    PropName::Num(Number {
-                        span: p.span(start),
-                        value,
-                        raw: Some(raw),
-                    })
-                } else if cur.is_bigint() {
-                    let t = p.bump();
-                    let (value, raw) = t.take_bigint(p.input_mut());
-                    PropName::BigInt(BigInt {
-                        span: p.span(start),
-                        value,
-                        raw: Some(raw),
-                    })
-                } else if cur.is_word() {
-                    let t = p.bump();
-                    let w = t.take_word(p.input_mut()).unwrap();
-                    PropName::Ident(IdentName::new(w, p.span(start)))
-                } else if cur.is_lbracket() {
-                    p.bump();
-                    let inner_start = p.input_mut().cur_pos();
-                    let mut expr = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
-                    if p.syntax().typescript() && p.input_mut().is(&Self::Token::COMMA) {
-                        let mut exprs = vec![expr];
-                        while p.input_mut().eat(&Self::Token::COMMA) {
-                            //
-                            exprs.push(parse_assignment_expr(p.allow_in_expr().deref_mut())?);
-                        }
-                        p.emit_err(p.span(inner_start), SyntaxError::TS1171);
-                        expr = Box::new(
-                            SeqExpr {
-                                span: p.span(inner_start),
-                                exprs,
-                            }
-                            .into(),
-                        );
+        self.do_inside_of_context(Context::InPropertyName, |p| {
+            let start = p.input_mut().cur_pos();
+            let Some(cur) = p.input_mut().cur() else {
+                return Err(eof_error(p));
+            };
+            let v = if cur.is_str() {
+                PropName::Str(parse_str_lit(p))
+            } else if cur.is_num() {
+                let t = p.bump();
+                let (value, raw) = t.take_num(p.input_mut());
+                PropName::Num(Number {
+                    span: p.span(start),
+                    value,
+                    raw: Some(raw),
+                })
+            } else if cur.is_bigint() {
+                let t = p.bump();
+                let (value, raw) = t.take_bigint(p.input_mut());
+                PropName::BigInt(BigInt {
+                    span: p.span(start),
+                    value,
+                    raw: Some(raw),
+                })
+            } else if cur.is_word() {
+                let t = p.bump();
+                let w = t.take_word(p.input_mut()).unwrap();
+                PropName::Ident(IdentName::new(w, p.span(start)))
+            } else if cur.is_lbracket() {
+                p.bump();
+                let inner_start = p.input_mut().cur_pos();
+                let mut expr = p.allow_in_expr(parse_assignment_expr)?;
+                if p.syntax().typescript() && p.input_mut().is(&Self::Token::COMMA) {
+                    let mut exprs = vec![expr];
+                    while p.input_mut().eat(&Self::Token::COMMA) {
+                        //
+                        exprs.push(p.allow_in_expr(parse_assignment_expr)?);
                     }
-                    expect!(p, &Self::Token::RBRACKET);
-                    PropName::Computed(ComputedPropName {
-                        span: p.span(start),
-                        expr,
-                    })
-                } else {
-                    unexpected!(
-                        p,
-                        "identifier, string literal, numeric literal or [ for the computed key"
-                    )
-                };
-                Ok(v)
-            })
+                    p.emit_err(p.span(inner_start), SyntaxError::TS1171);
+                    expr = Box::new(
+                        SeqExpr {
+                            span: p.span(inner_start),
+                            exprs,
+                        }
+                        .into(),
+                    );
+                }
+                expect!(p, &Self::Token::RBRACKET);
+                PropName::Computed(ComputedPropName {
+                    span: p.span(start),
+                    expr,
+                })
+            } else {
+                unexpected!(
+                    p,
+                    "identifier, string literal, numeric literal or [ for the computed key"
+                )
+            };
+            Ok(v)
+        })
     }
 
     /// AssignmentExpression[+In, ?Yield, ?Await]
@@ -439,7 +427,7 @@ pub trait Parser<'a>: Sized + Clone {
         if self.input_mut().eat(&Self::Token::DOTDOTDOT) {
             let spread_span = self.span(start);
             let spread = Some(spread_span);
-            parse_assignment_expr(self.allow_in_expr().deref_mut())
+            self.allow_in_expr(parse_assignment_expr)
                 .map_err(|err| {
                     Error::new(
                         err.span(),

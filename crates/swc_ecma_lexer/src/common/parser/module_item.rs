@@ -1,5 +1,3 @@
-use std::ops::DerefMut;
-
 use swc_atoms::atom;
 use swc_common::Span;
 use swc_ecma_ast::*;
@@ -194,7 +192,7 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
 
 fn parse_imported_binding<'a>(p: &mut impl Parser<'a>) -> PResult<Ident> {
     let ctx = p.ctx() & !Context::InAsync & !Context::InGenerator;
-    Ok(parse_binding_ident(p.with_ctx(ctx).deref_mut(), false)?.into())
+    Ok(p.with_ctx(ctx, |p| parse_binding_ident(p, false))?.into())
 }
 
 fn parse_imported_default_binding<'a>(p: &mut impl Parser<'a>) -> PResult<Ident> {
@@ -513,7 +511,7 @@ fn parse_export<'a, P: Parser<'a>>(
         {
             export_default = Some(Ident::new_no_ctxt(atom!("default"), p.input().prev_span()))
         } else {
-            let expr = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
+            let expr = p.allow_in_expr(parse_assignment_expr)?;
             p.expect_general_semi()?;
             return Ok(ExportDefaultExpr {
                 span: p.span(start),
@@ -937,9 +935,7 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
 }
 
 pub fn parse_module_item<'a>(p: &mut impl Parser<'a>) -> PResult<ModuleItem> {
-    parse_stmt_like(
-        p.with_ctx(p.ctx() | Context::TopLevel).deref_mut(),
-        true,
-        handle_import_export,
-    )
+    p.with_ctx(p.ctx() | Context::TopLevel, |p| {
+        parse_stmt_like(p, true, handle_import_export)
+    })
 }

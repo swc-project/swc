@@ -241,9 +241,9 @@ where
     ctx.set(Context::InAsync, is_async);
     ctx.set(Context::InGenerator, is_generator);
 
-    p.with_ctx(ctx).parse_with(|p| {
+    p.with_ctx(ctx, |p| {
         let type_params = if p.syntax().typescript() {
-            p.in_type().parse_with(|p| {
+            p.in_type(|p| {
                 trace_cur!(p, parse_fn_args_body__type_params);
 
                 Ok(if p.input_mut().is(&P::Token::LESS) {
@@ -274,7 +274,7 @@ where
         let mut arg_ctx = (p.ctx() | Context::InParameters) & !Context::InFunction;
         arg_ctx.set(Context::InAsync, is_async);
         arg_ctx.set(Context::InGenerator, is_generator);
-        let params = p.with_ctx(arg_ctx).parse_with(|p| parse_args(p))?;
+        let params = p.with_ctx(arg_ctx, parse_args)?;
 
         expect!(p, &P::Token::RPAREN);
 
@@ -384,14 +384,14 @@ fn parse_fn_inner<'a, P: Parser<'a>>(
         ctx.set(Context::InAsync, is_async);
         ctx.set(Context::InGenerator, is_generator);
 
-        parse_maybe_opt_binding_ident(p.with_ctx(ctx).deref_mut(), is_ident_required, false)?
+        p.with_ctx(ctx, |p| {
+            parse_maybe_opt_binding_ident(p, is_ident_required, false)
+        })?
     } else {
         // function declaration does not change context for `BindingIdentifier`.
-        parse_maybe_opt_binding_ident(
-            p.with_ctx(p.ctx() & !Context::AllowDirectSuper & !Context::InClassField)
-                .deref_mut(),
-            is_ident_required,
-            false,
+        p.with_ctx(
+            p.ctx() & !Context::AllowDirectSuper & !Context::InClassField,
+            |p| parse_maybe_opt_binding_ident(p, is_ident_required, false),
         )?
     };
 
@@ -400,23 +400,23 @@ fn parse_fn_inner<'a, P: Parser<'a>>(
             & !Context::AllowDirectSuper
             & !Context::InClassField
             & !Context::WillExpectColonForCond,
+        |p| {
+            let f = parse_fn_args_body(
+                p,
+                decorators,
+                start,
+                parse_formal_params,
+                is_async,
+                is_generator,
+            )?;
+
+            if is_fn_expr && f.body.is_none() {
+                unexpected!(p, "{");
+            }
+
+            Ok((ident, f))
+        },
     )
-    .parse_with(|p| {
-        let f = parse_fn_args_body(
-            p,
-            decorators,
-            start,
-            parse_formal_params,
-            is_async,
-            is_generator,
-        )?;
-
-        if is_fn_expr && f.body.is_none() {
-            unexpected!(p, "{");
-        }
-
-        Ok((ident, f))
-    })
 }
 
 fn parse_fn<'a, P: Parser<'a>, T>(
@@ -495,11 +495,10 @@ where
     trace_cur!(p, make_method);
 
     let is_static = static_token.is_some();
-    let function = p
-        .with_ctx((p.ctx() | Context::AllowDirectSuper) & !Context::InClassField)
-        .parse_with(|p| {
-            parse_fn_args_body(p, decorators, start, parse_args, is_async, is_generator)
-        })?;
+    let function = p.with_ctx(
+        (p.ctx() | Context::AllowDirectSuper) & !Context::InClassField,
+        |p| parse_fn_args_body(p, decorators, start, parse_args, is_async, is_generator),
+    )?;
 
     match kind {
         MethodKind::Getter | MethodKind::Setter
@@ -624,12 +623,10 @@ fn parse_fn_body<'a, P: Parser<'a>, T>(
         },
     );
 
-    f(
-        p.with_ctx(ctx)
-            .with_state(crate::common::parser::state::State::default())
-            .deref_mut(),
-        is_simple_parameter_list,
-    )
+    p.with_ctx(ctx, |p| {
+        let mut p = p.with_state(crate::common::parser::state::State::default());
+        f(p.deref_mut(), is_simple_parameter_list)
+    })
 }
 
 pub(super) fn parse_fn_block_body<'a, P: Parser<'a>>(
@@ -653,8 +650,7 @@ pub(super) fn parse_fn_block_body<'a, P: Parser<'a>>(
             {
                 return Ok(None);
             }
-            let block = parse_block(p.allow_in_expr().deref_mut(), true);
-            block.map(|block_stmt| {
+            p.allow_in_expr(|p| parse_block(p, true)).map(|block_stmt| {
                 if !is_simple_parameter_list {
                     if let Some(span) = has_use_strict(&block_stmt) {
                         p.emit_err(span, SyntaxError::IllegalLanguageModeDirective);
@@ -703,7 +699,7 @@ fn make_property<'a, P: Parser<'a>>(
     let type_ann = try_parse_ts_type_ann(p)?;
 
     let ctx = p.ctx() | Context::IncludeInExpr | Context::InClassField;
-    p.with_ctx(ctx).parse_with(|p| {
+    p.with_ctx(ctx, |p| {
         let value = if p.input_mut().is(&P::Token::EQUAL) {
             p.assert_and_bump(&P::Token::EQUAL);
             Some(parse_assignment_expr(p)?)
@@ -780,12 +776,9 @@ fn make_property<'a, P: Parser<'a>>(
 }
 
 fn parse_static_block<'a, P: Parser<'a>>(p: &mut P, start: BytePos) -> PResult<ClassMember> {
-    let body = parse_block(
-        p.with_ctx(
-            p.ctx() | Context::InStaticBlock | Context::InClassField | Context::AllowUsingDecl,
-        )
-        .deref_mut(),
-        false,
+    let body = p.with_ctx(
+        p.ctx() | Context::InStaticBlock | Context::InClassField | Context::AllowUsingDecl,
+        |p| parse_block(p, false),
     )?;
 
     let span = p.span(start);
@@ -1470,8 +1463,7 @@ fn parse_class_body<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<ClassMember>> {
             }));
             continue;
         }
-        let mut p = p.with_ctx(p.ctx() | Context::AllowDirectSuper);
-        let elem = parse_class_member(p.deref_mut())?;
+        let elem = p.with_ctx(p.ctx() | Context::AllowDirectSuper, parse_class_member)?;
 
         if !p.ctx().contains(Context::InDeclare) {
             if let ClassMember::Constructor(Constructor {
@@ -1501,13 +1493,9 @@ pub fn parse_class<'a, T>(
 where
     T: OutputType,
 {
-    let (ident, mut class) = parse_class_inner(
-        p.with_ctx(p.ctx() | Context::InClass).deref_mut(),
-        start,
-        class_start,
-        decorators,
-        T::IS_IDENT_REQUIRED,
-    )?;
+    let (ident, mut class) = p.with_ctx(p.ctx() | Context::InClass, |p| {
+        parse_class_inner(p, start, class_start, decorators, T::IS_IDENT_REQUIRED)
+    })?;
 
     if is_abstract {
         class.is_abstract = true
@@ -1543,7 +1531,7 @@ fn parse_class_inner<'a, P: Parser<'a>>(
     decorators: Vec<Decorator>,
     is_ident_required: bool,
 ) -> PResult<(Option<Ident>, Box<Class>)> {
-    p.strict_mode().parse_with(|p| {
+    p.strict_mode(|p| {
         expect!(p, &P::Token::CLASS);
 
         let ident = parse_maybe_opt_binding_ident(p, is_ident_required, true)?;
@@ -1615,7 +1603,7 @@ fn parse_class_inner<'a, P: Parser<'a>>(
         expect!(p, &P::Token::LBRACE);
         let mut ctx = p.ctx();
         ctx.set(Context::HasSuperClass, super_class.is_some());
-        let body = parse_class_body(p.with_ctx(ctx).deref_mut())?;
+        let body = p.with_ctx(ctx, parse_class_body)?;
 
         if p.input_mut().cur().is_none() {
             let eof_text = p.input_mut().dump_cur();

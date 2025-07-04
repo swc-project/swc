@@ -1,5 +1,3 @@
-use std::ops::DerefMut;
-
 use swc_common::{Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -29,7 +27,7 @@ fn parse_object<'a, P: Parser<'a>, Object, ObjectProp>(
     make_object: impl Fn(&mut P, Span, Vec<ObjectProp>, Option<Span>) -> PResult<Object>,
 ) -> PResult<Object> {
     let ctx = p.ctx() & !Context::WillExpectColonForCond;
-    p.with_ctx(ctx).parse_with(|p| {
+    p.with_ctx(ctx, |p| {
         trace_cur!(p, parse_object);
 
         let start = p.cur_pos();
@@ -84,7 +82,7 @@ fn parse_binding_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<ObjectPatP
     };
 
     let value = if p.input_mut().eat(&P::Token::EQUAL) {
-        parse_assignment_expr(p.allow_in_expr().deref_mut()).map(Some)?
+        p.allow_in_expr(parse_assignment_expr).map(Some)?
     } else {
         if p.ctx().is_reserved_word(&key.sym) {
             p.emit_err(key.span, SyntaxError::ReservedWordInObjShorthandOrPat);
@@ -167,29 +165,34 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
         // spread element
         let dot3_token = p.span(start);
 
-        let expr = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
+        let expr = p.allow_in_expr(parse_assignment_expr)?;
 
         return Ok(PropOrSpread::Spread(SpreadElement { dot3_token, expr }));
     }
 
     if p.input_mut().eat(&P::Token::MUL) {
         let name = p.parse_prop_name()?;
-        return parse_fn_args_body(
-            p.with_ctx((p.ctx() | Context::AllowDirectSuper) & !Context::InClassField)
-                .deref_mut(),
-            // no decorator in an object literal
-            Vec::new(),
-            start,
-            parse_unique_formal_params,
-            false,
-            true,
-        )
-        .map(|function| {
-            PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
-                key: name,
-                function,
-            })))
-        });
+        return p
+            .with_ctx(
+                (p.ctx() | Context::AllowDirectSuper) & !Context::InClassField,
+                |p| {
+                    parse_fn_args_body(
+                        p,
+                        // no decorator in an object literal
+                        Vec::new(),
+                        start,
+                        parse_unique_formal_params,
+                        false,
+                        true,
+                    )
+                },
+            )
+            .map(|function| {
+                PropOrSpread::Prop(Box::new(Prop::Method(MethodProp {
+                    key: name,
+                    function,
+                })))
+            });
     }
 
     let has_modifiers = eat_any_ts_modifier(p)?;
@@ -230,7 +233,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
     // { 0: 1, }
     // { a: expr, }
     if p.input_mut().eat(&P::Token::COLON) {
-        let value = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
+        let value = p.allow_in_expr(parse_assignment_expr)?;
         return Ok(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
             key,
             value,
@@ -241,18 +244,23 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
     if (p.input().syntax().typescript() && p.input_mut().is(&P::Token::LESS))
         || p.input_mut().is(&P::Token::LPAREN)
     {
-        return parse_fn_args_body(
-            p.with_ctx((p.ctx() | Context::AllowDirectSuper) & !Context::InClassField)
-                .deref_mut(),
-            // no decorator in an object literal
-            Vec::new(),
-            start,
-            parse_unique_formal_params,
-            false,
-            false,
-        )
-        .map(|function| Box::new(Prop::Method(MethodProp { key, function })))
-        .map(PropOrSpread::Prop);
+        return p
+            .with_ctx(
+                (p.ctx() | Context::AllowDirectSuper) & !Context::InClassField,
+                |p| {
+                    parse_fn_args_body(
+                        p,
+                        // no decorator in an object literal
+                        Vec::new(),
+                        start,
+                        parse_unique_formal_params,
+                        false,
+                        false,
+                    )
+                },
+            )
+            .map(|function| Box::new(Prop::Method(MethodProp { key, function })))
+            .map(PropOrSpread::Prop);
     }
 
     let ident = match key {
@@ -277,7 +285,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
         }
 
         if p.input_mut().eat(&P::Token::EQUAL) {
-            let value = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
+            let value = p.allow_in_expr(parse_assignment_expr)?;
             let span = p.span(start);
             return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
                 span,
@@ -305,7 +313,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
             let key = p.parse_prop_name()?;
             let key_span = key.span();
             let ctx = (p.ctx() | Context::AllowDirectSuper) & !Context::InClassField;
-            p.with_ctx(ctx).parse_with(|parser| {
+            p.with_ctx(ctx, |parser| {
                 match &*ident.sym {
                     "get" => parse_fn_args_body(
                         parser,

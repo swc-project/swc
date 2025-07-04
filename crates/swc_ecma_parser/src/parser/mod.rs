@@ -1,8 +1,6 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
-use std::ops::DerefMut;
-
 use swc_common::{comments::Comments, input::StringInput};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::common::parser::{
@@ -227,12 +225,10 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         let shebang = parse_shebang(self)?;
 
-        let body: Vec<ModuleItem> = parse_module_item_block_body(
-            self.do_inside_of_context(Context::CanBeModule.union(Context::TopLevel))
-                .deref_mut(),
-            true,
-            None,
-        )?;
+        let body: Vec<ModuleItem> = self
+            .do_inside_of_context(Context::CanBeModule.union(Context::TopLevel), |p| {
+                parse_module_item_block_body(p, true, None)
+            })?;
         let has_module_item = self.found_module_item
             || body
                 .iter()
