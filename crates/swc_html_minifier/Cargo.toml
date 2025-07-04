@@ -17,13 +17,13 @@ bench = false
 
 [features]
 custom-css-minifier = []
-default = ["default-css-minifier"]
 default-css-minifier = [
   "swc_css_ast",
   "swc_css_codegen",
   "swc_css_minifier",
   "swc_css_parser",
 ]
+ide_default = ["default-css-minifier"]
 
 [dependencies]
 once_cell  = { workspace = true }

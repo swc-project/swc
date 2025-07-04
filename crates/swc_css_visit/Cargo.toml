@@ -16,9 +16,9 @@ version       = "13.0.0"
 bench = false
 
 [features]
-default    = ["serde"]
-path       = []
-serde-impl = ["serde"]
+ide_default = ["serde"]
+path        = []
+serde-impl  = ["serde"]
 
 [dependencies]
 serde = { workspace = true, optional = true, features = ["derive"] }

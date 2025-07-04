@@ -24,7 +24,7 @@ concurrent = [
   "swc_ecma_transforms_optimization/concurrent",
 ]
 debug = ["backtrace", "swc_ecma_transforms_optimization/debug"]
-default = ["serde-impl"]
+ide_default = ["serde-impl"]
 # Implement serialize/deserialize for more types
 extra-serde = ["swc_ecma_ast/serde-impl", "serde-impl"]
 serde-impl  = []

@@ -25,5 +25,8 @@
     "eslint.enable": false,
     "rust-analyzer.check.command": "clippy",
     // SWC project is too complex to use rust-analyzer
-    "rust-analyzer.diagnostics.enable": false
+    "rust-analyzer.diagnostics.enable": false,
+    "rust-analyzer.cargo.features": [
+        "ide_default" // ide_default is only used for RA LSP
+    ]
 }
