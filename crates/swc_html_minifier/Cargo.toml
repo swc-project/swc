@@ -32,7 +32,7 @@ serde      = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
 swc_atoms = { version = "6.0.0", path = "../swc_atoms" }
-swc_common = { version = "13.0.2", path = "../swc_common" }
+swc_common = { version = "13.0.3", path = "../swc_common" }
 swc_config = { version = "3.1.1", path = "../swc_config", features = ["regex"] }
 swc_css_ast = { version = "13.0.0", path = "../swc_css_ast", optional = true }
 swc_css_codegen = { version = "13.0.0", path = "../swc_css_codegen", optional = true }
@@ -46,7 +46,7 @@ swc_ecma_minifier = { version = "24.0.2", path = "../swc_ecma_minifier", feature
   "extra-serde",
 ] }
 swc_ecma_parser = { version = "18.0.1", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "19.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "19.0.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
 swc_html_ast = { version = "13.0.0", path = "../swc_html_ast" }
 swc_html_codegen = { version = "13.0.0", path = "../swc_html_codegen" }

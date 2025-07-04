@@ -1233,7 +1233,7 @@ checksum = "2a2330da5de22e8a3cb63252ce2abb30116bf5265e89c0e01bc17015ce30a476"
 
 [[package]]
 name = "dbg-swc"
-version = "25.0.0"
+version = "25.0.1"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -1974,7 +1974,7 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hstr"
-version = "1.1.2"
+version = "1.1.3"
 dependencies = [
  "compact_str",
  "criterion",
@@ -4895,7 +4895,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "30.0.0"
+version = "30.0.1"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -4919,7 +4919,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "13.0.2"
+version = "13.0.3"
 dependencies = [
  "anyhow",
  "arbitrary",
@@ -5013,7 +5013,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "30.1.0"
+version = "30.1.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5145,7 +5145,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_lints"
-version = "14.0.0"
+version = "14.0.1"
 dependencies = [
  "anyhow",
  "auto_impl",
@@ -5848,7 +5848,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "19.0.0"
+version = "19.0.1"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.6.0",
