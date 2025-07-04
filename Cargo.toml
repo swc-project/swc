@@ -149,6 +149,7 @@ resolver = "2"
     "indexmap",
     "tracing",
     "swc_ecma_utils",
+    "swc_allocator",
   ]
 
 
