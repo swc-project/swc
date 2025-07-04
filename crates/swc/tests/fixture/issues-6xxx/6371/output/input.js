@@ -1,6 +1,7 @@
 function add(a, b) {
-    const d = ()=>{
-        return arguments.length;
+    var _arguments = arguments;
+    var d = function() {
+        return _arguments.length;
     };
     return d();
 }

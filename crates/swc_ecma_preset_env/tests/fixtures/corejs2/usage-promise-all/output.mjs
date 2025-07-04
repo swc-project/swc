@@ -6,6 +6,6 @@ import "core-js/modules/web.dom.iterable.js";
 var p = Promise.resolve(0);
 Promise.all([
     p
-]).then((outcome)=>{
+]).then(function(outcome) {
     alert("OK");
 });
