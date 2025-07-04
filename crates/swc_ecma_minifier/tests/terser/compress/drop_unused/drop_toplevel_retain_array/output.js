@@ -1,8 +1,6 @@
 var a;
 function f(d) {
-    return function () {
-        2;
-    };
+    return function() {};
 }
 a = 2;
 console.log(3);
