@@ -20,6 +20,3 @@ swc_macros_common = { version = "1.0.1", path = "../swc_macros_common" }
   [dependencies.syn]
   features  = ["fold"]
   workspace = true
-
-  [dependencies.quote]
-  workspace = true

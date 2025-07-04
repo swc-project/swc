@@ -14,21 +14,15 @@ bench = false
 
 [features]
 concurrent = [
-  "rayon",
   "swc_ecma_transforms_base/concurrent",
   "swc_ecma_utils/concurrent",
 ]
 
 [dependencies]
-arrayvec   = { workspace = true }
-indexmap   = { workspace = true }
-is-macro   = { workspace = true }
-num-bigint = { workspace = true }
-par-core   = { workspace = true }
-rayon      = { workspace = true, optional = true }
-serde      = { workspace = true, features = ["derive"] }
-smallvec   = { workspace = true }
-tracing    = { workspace = true }
+indexmap = { workspace = true }
+par-core = { workspace = true }
+serde    = { workspace = true, features = ["derive"] }
+tracing  = { workspace = true }
 
 swc_atoms                   = { version = "6.0.0", path = "../swc_atoms" }
 swc_common                  = { version = "13.0.3", path = "../swc_common" }
@@ -50,7 +44,6 @@ swc_ecma_transforms_classes = { version = "19.0.0", path = "../swc_ecma_transfor
 swc_ecma_transforms_macros  = { version = "1.0.1", path = "../swc_ecma_transforms_macros" }
 swc_ecma_utils              = { version = "18.0.2", path = "../swc_ecma_utils" }
 swc_ecma_visit              = { version = "13.0.0", path = "../swc_ecma_visit" }
-swc_trace_macro             = { version = "2.0.1", path = "../swc_trace_macro" }
 
 [dev-dependencies]
 par-core   = { workspace = true, features = ["chili"] }

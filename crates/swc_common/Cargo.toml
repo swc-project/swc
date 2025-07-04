@@ -51,7 +51,6 @@ anyhow                = { workspace = true }
 arbitrary             = { workspace = true, features = ["derive"], optional = true }
 bytecheck             = { workspace = true, optional = true }
 bytes-str             = { workspace = true, features = ["serde"] }
-cfg-if                = { workspace = true }
 either                = { workspace = true }
 new_debug_unreachable = { workspace = true }
 num-bigint            = { workspace = true }
@@ -72,7 +71,6 @@ url                   = { workspace = true }
 ast_node             = { version = "3.0.2", path = "../ast_node" }
 better_scoped_tls    = { version = "1.0.1", path = "../better_scoped_tls" }
 from_variant         = { version = "2.0.1", path = "../from_variant" }
-swc_allocator        = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 swc_atoms            = { version = "6.0.0", path = "../swc_atoms" }
 swc_eq_ignore_macros = { version = "1.0.1", path = "../swc_eq_ignore_macros" }
 swc_visit            = { version = "2.0.1", path = "../swc_visit" }
