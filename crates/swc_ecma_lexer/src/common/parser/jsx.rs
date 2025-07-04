@@ -1,5 +1,3 @@
-use std::ops::DerefMut;
-
 use either::Either;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
@@ -219,9 +217,9 @@ fn parse_jsx_attr<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrOrSpread> {
 
     let name = parse_jsx_namespaced_name(p)?;
     let value = if p.input_mut().eat(&P::Token::EQUAL) {
-        parse_jsx_attr_value(
-            p.with_ctx(p.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond)
-                .deref_mut(),
+        p.with_ctx(
+            p.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond,
+            parse_jsx_attr_value,
         )
         .map(Some)?
     } else {
@@ -249,9 +247,9 @@ fn parse_jsx_opening_element_at<'a, P: Parser<'a>>(
         }));
     }
 
-    let name = parse_jsx_element_name(
-        p.with_ctx(p.ctx() & !Context::ShouldNotLexLtOrGtAsType)
-            .deref_mut(),
+    let name = p.with_ctx(
+        p.ctx() & !Context::ShouldNotLexLtOrGtAsType,
+        parse_jsx_element_name,
     )?;
     parse_jsx_opening_element_after_name(p, start, name).map(Either::Right)
 }
@@ -337,7 +335,7 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
 
     let mut ctx = p.ctx() & !Context::ShouldNotLexLtOrGtAsType;
     ctx.set(Context::InForcedJsxContext, forced_jsx_context);
-    p.with_ctx(ctx).parse_with(|p| {
+    p.with_ctx(ctx, |p| {
         debug_tracing!(p, "parse_jsx_element");
 
         let opening_element = parse_jsx_opening_element_at(p, start_pos)?;
@@ -450,9 +448,8 @@ pub(crate) fn parse_jsx_element<'a, P: Parser<'a>>(
 
     let start_pos = p.cur_pos();
 
-    parse_jsx_element_at(
-        p.with_ctx(p.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond)
-            .deref_mut(),
-        start_pos,
+    p.with_ctx(
+        p.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond,
+        |p| parse_jsx_element_at(p, start_pos),
     )
 }

@@ -1,5 +1,3 @@
-use std::ops::DerefMut;
-
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
@@ -56,7 +54,7 @@ fn parse_normal_for_head<'a, P: Parser<'a>>(
     let test = if p.input_mut().eat(&P::Token::SEMI) {
         None
     } else {
-        let test = p.allow_in_expr().parse_expr().map(Some)?;
+        let test = p.allow_in_expr(|p| p.parse_expr()).map(Some)?;
         p.input_mut().eat(&P::Token::SEMI);
         test
     };
@@ -64,7 +62,7 @@ fn parse_normal_for_head<'a, P: Parser<'a>>(
     let update = if p.input_mut().is(&P::Token::RPAREN) {
         None
     } else {
-        p.allow_in_expr().parse_expr().map(Some)?
+        p.allow_in_expr(|p| p.parse_expr()).map(Some)?
     };
 
     Ok(TempForHead::For { init, test, update })
@@ -73,13 +71,13 @@ fn parse_normal_for_head<'a, P: Parser<'a>>(
 fn parse_for_each_head<'a, P: Parser<'a>>(p: &mut P, left: ForHead) -> PResult<TempForHead> {
     let is_of = p.bump().is_of();
     if is_of {
-        let right = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
+        let right = p.allow_in_expr(parse_assignment_expr)?;
         Ok(TempForHead::ForOf { left, right })
     } else {
         if let ForHead::UsingDecl(d) = &left {
             p.emit_err(d.span, SyntaxError::UsingDeclNotAllowedForForInLoop)
         }
-        let right = p.allow_in_expr().parse_expr()?;
+        let right = p.allow_in_expr(|p| p.parse_expr())?;
         Ok(TempForHead::ForIn { left, right })
     }
 }
@@ -87,21 +85,19 @@ fn parse_for_each_head<'a, P: Parser<'a>>(p: &mut P, left: ForHead) -> PResult<T
 pub fn parse_return_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let start = p.cur_pos();
 
-    let stmt = p.parse_with(|p| {
-        p.assert_and_bump(&P::Token::RETURN);
+    p.assert_and_bump(&P::Token::RETURN);
 
-        let arg = if p.is_general_semi() {
-            None
-        } else {
-            p.allow_in_expr().parse_expr().map(Some)?
-        };
-        p.expect_general_semi()?;
-        Ok(ReturnStmt {
-            span: p.span(start),
-            arg,
-        }
-        .into())
-    });
+    let arg = if p.is_general_semi() {
+        None
+    } else {
+        p.allow_in_expr(|p| p.parse_expr()).map(Some)?
+    };
+    p.expect_general_semi()?;
+    let stmt = Ok(ReturnStmt {
+        span: p.span(start),
+        arg,
+    }
+    .into());
 
     if !p.ctx().contains(Context::InFunction) && !p.input().syntax().allow_return_outside_function()
     {
@@ -275,8 +271,9 @@ pub fn parse_var_stmt<'a, P: Parser<'a>>(p: &mut P, for_loop: bool) -> PResult<B
         }
 
         let decl = if should_include_in {
-            p.do_inside_of_context(Context::IncludeInExpr)
-                .parse_with(|p| parse_var_declarator(p, for_loop, kind))
+            p.do_inside_of_context(Context::IncludeInExpr, |p| {
+                parse_var_declarator(p, for_loop, kind)
+            })
         } else {
             parse_var_declarator(p, for_loop, kind)
         }?;
@@ -436,7 +433,7 @@ pub fn parse_for_head<'a, P: Parser<'a>>(p: &mut P) -> PResult<TempForHead> {
     }
 
     let start = p.cur_pos();
-    let init = parse_for_head_prefix(p.disallow_in_expr().deref_mut())?;
+    let init = p.disallow_in_expr(parse_for_head_prefix)?;
 
     let mut is_using_decl = false;
     let mut is_await_using_decl = false;
@@ -536,10 +533,10 @@ fn parse_for_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let mut ctx = p.ctx() | Context::ForLoopInit;
     ctx.set(Context::ForAwaitLoopInit, await_token.is_some());
 
-    let head = parse_for_head(p.with_ctx(ctx).deref_mut())?;
+    let head = p.with_ctx(ctx, parse_for_head)?;
     expect!(p, &P::Token::RPAREN);
     let ctx = (p.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed) & !Context::TopLevel;
-    let body = parse_stmt(p.with_ctx(ctx).deref_mut()).map(Box::new)?;
+    let body = p.with_ctx(ctx, parse_stmt).map(Box::new)?;
 
     let span = p.span(start);
     Ok(match head {
@@ -610,9 +607,9 @@ fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
     expect!(p, &P::Token::LPAREN);
 
     let test = p
-        .do_outside_of_context(Context::IgnoreElseClause)
-        .allow_in_expr()
-        .parse_expr()
+        .do_outside_of_context(Context::IgnoreElseClause, |p| {
+            p.allow_in_expr(|p| p.parse_expr())
+        })
         .map_err(|err| {
             Error::new(
                 err.span(),
@@ -633,9 +630,9 @@ fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
             if !p.ctx().contains(Context::Strict) && p.input_mut().is(&P::Token::FUNCTION) {
                 // TODO: report error?
             }
-            parse_stmt(
-                p.do_outside_of_context(Context::IgnoreElseClause.union(Context::TopLevel))
-                    .deref_mut(),
+            p.do_outside_of_context(
+                Context::IgnoreElseClause.union(Context::TopLevel),
+                parse_stmt,
             )
             .map(Box::new)
         })?
@@ -656,19 +653,16 @@ fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
 
             if !p.input_mut().is(&P::Token::IF) {
                 // As we eat `else` above, we need to parse statement once.
-                let last = parse_stmt(
-                    p.do_outside_of_context(Context::IgnoreElseClause.union(Context::TopLevel))
-                        .deref_mut(),
+                let last = p.do_outside_of_context(
+                    Context::IgnoreElseClause.union(Context::TopLevel),
+                    parse_stmt,
                 )?;
                 break Some(last);
             }
 
             // We encountered `else if`
 
-            let alt = parse_if_stmt(
-                p.do_inside_of_context(Context::IgnoreElseClause)
-                    .deref_mut(),
-            )?;
+            let alt = p.do_inside_of_context(Context::IgnoreElseClause, parse_if_stmt)?;
 
             match &mut cur {
                 Some(cur) => {
@@ -711,7 +705,7 @@ fn parse_throw_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
         syntax_error!(p, SyntaxError::LineBreakInThrow);
     }
 
-    let arg = p.allow_in_expr().parse_expr()?;
+    let arg = p.allow_in_expr(|p| p.parse_expr())?;
     p.expect_general_semi()?;
 
     let span = p.span(start);
@@ -734,11 +728,11 @@ fn parse_with_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     p.assert_and_bump(&P::Token::WITH);
 
     expect!(p, &P::Token::LPAREN);
-    let obj = p.allow_in_expr().parse_expr()?;
+    let obj = p.allow_in_expr(|p| p.parse_expr())?;
     expect!(p, &P::Token::RPAREN);
 
     let ctx = (p.ctx() | Context::InFunction) & !Context::TopLevel;
-    let body = parse_stmt(p.with_ctx(ctx).deref_mut()).map(Box::new)?;
+    let body = p.with_ctx(ctx, parse_stmt).map(Box::new)?;
 
     let span = p.span(start);
     Ok(WithStmt { span, obj, body }.into())
@@ -750,11 +744,11 @@ fn parse_while_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     p.assert_and_bump(&P::Token::WHILE);
 
     expect!(p, &P::Token::LPAREN);
-    let test = p.allow_in_expr().parse_expr()?;
+    let test = p.allow_in_expr(|p| p.parse_expr())?;
     expect!(p, &P::Token::RPAREN);
 
     let ctx = (p.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed) & !Context::TopLevel;
-    let body = parse_stmt(p.with_ctx(ctx).deref_mut()).map(Box::new)?;
+    let body = p.with_ctx(ctx, parse_stmt).map(Box::new)?;
 
     let span = p.span(start);
     Ok(WhileStmt { span, test, body }.into())
@@ -768,7 +762,7 @@ fn parse_catch_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Pat>> {
         let type_ann_start = p.cur_pos();
 
         if p.syntax().typescript() && p.input_mut().eat(&P::Token::COLON) {
-            let ty = parse_ts_type(p.do_inside_of_context(Context::InType).deref_mut())?;
+            let ty = p.do_inside_of_context(Context::InType, parse_ts_type)?;
             // p.emit_err(ty.span(), SyntaxError::TS1196);
 
             match &mut pat {
@@ -799,10 +793,10 @@ fn parse_do_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     p.assert_and_bump(&P::Token::DO);
 
     let ctx = (p.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed) & !Context::TopLevel;
-    let body = parse_stmt(p.with_ctx(ctx).deref_mut()).map(Box::new)?;
+    let body = p.with_ctx(ctx, parse_stmt).map(Box::new)?;
     expect!(p, &P::Token::WHILE);
     expect!(p, &P::Token::LPAREN);
-    let test = p.allow_in_expr().parse_expr()?;
+    let test = p.allow_in_expr(|p| p.parse_expr())?;
     expect!(p, &P::Token::RPAREN);
     // We *may* eat semicolon.
     let _ = p.eat_general_semi();
@@ -814,7 +808,7 @@ fn parse_do_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
 fn parse_labelled_stmt<'a, P: Parser<'a>>(p: &mut P, l: Ident) -> PResult<Stmt> {
     let ctx = (p.ctx() | Context::IsBreakAllowed) & !Context::AllowUsingDecl;
-    p.with_ctx(ctx).parse_with(|p| {
+    p.with_ctx(ctx, |p| {
         let start = l.span.lo();
 
         let mut errors = Vec::new();
@@ -841,7 +835,7 @@ fn parse_labelled_stmt<'a, P: Parser<'a>>(p: &mut P, l: Ident) -> PResult<Stmt> 
 
             f.into()
         } else {
-            parse_stmt(p.do_outside_of_context(Context::TopLevel).deref_mut())?
+            p.do_outside_of_context(Context::TopLevel, parse_stmt)?
         });
 
         for err in errors {
@@ -869,11 +863,9 @@ pub fn parse_block<'a, P: Parser<'a>>(p: &mut P, allow_directives: bool) -> PRes
 
     expect!(p, &P::Token::LBRACE);
 
-    let stmts = parse_stmt_block_body(
-        p.do_outside_of_context(Context::TopLevel).deref_mut(),
-        allow_directives,
-        Some(&P::Token::RBRACE),
-    )?;
+    let stmts = p.do_outside_of_context(Context::TopLevel, |p| {
+        parse_stmt_block_body(p, allow_directives, Some(&P::Token::RBRACE))
+    })?;
 
     let span = p.span(start);
     Ok(BlockStmt {
@@ -937,7 +929,7 @@ fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     p.assert_and_bump(&P::Token::SWITCH);
 
     expect!(p, &P::Token::LPAREN);
-    let discriminant = p.allow_in_expr().parse_expr()?;
+    let discriminant = p.allow_in_expr(|p| p.parse_expr())?;
     expect!(p, &P::Token::RPAREN);
 
     let mut cases = Vec::new();
@@ -945,49 +937,46 @@ fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
     expect!(p, &P::Token::LBRACE);
 
-    p.do_inside_of_context(Context::IsBreakAllowed)
-        .parse_with(|p| {
-            while p
-                .input_mut()
-                .cur()
-                .is_some_and(|cur| cur.is_case() || cur.is_default())
-            {
-                let mut cons = Vec::new();
-                let is_case = p.input_mut().is(&P::Token::CASE);
-                let case_start = p.cur_pos();
-                p.bump();
-                let test = if is_case {
-                    p.allow_in_expr().parse_expr().map(Some)?
-                } else {
-                    if let Some(previous) = span_of_previous_default {
-                        syntax_error!(p, SyntaxError::MultipleDefault { previous });
-                    }
-                    span_of_previous_default = Some(p.span(case_start));
-
-                    None
-                };
-                expect!(p, &P::Token::COLON);
-
-                while !eof!(p)
-                    && !p
-                        .input_mut()
-                        .cur()
-                        .is_some_and(|cur| cur.is_case() || cur.is_default() || cur.is_rbrace())
-                {
-                    cons.push(parse_stmt_list_item(
-                        p.do_outside_of_context(Context::TopLevel).deref_mut(),
-                    )?);
+    p.do_inside_of_context(Context::IsBreakAllowed, |p| {
+        while p
+            .input_mut()
+            .cur()
+            .is_some_and(|cur| cur.is_case() || cur.is_default())
+        {
+            let mut cons = Vec::new();
+            let is_case = p.input_mut().is(&P::Token::CASE);
+            let case_start = p.cur_pos();
+            p.bump();
+            let test = if is_case {
+                p.allow_in_expr(|p| p.parse_expr()).map(Some)?
+            } else {
+                if let Some(previous) = span_of_previous_default {
+                    syntax_error!(p, SyntaxError::MultipleDefault { previous });
                 }
+                span_of_previous_default = Some(p.span(case_start));
 
-                cases.push(SwitchCase {
-                    span: Span::new(case_start, p.input().prev_span().hi),
-                    test,
-                    cons,
-                });
+                None
+            };
+            expect!(p, &P::Token::COLON);
+
+            while !eof!(p)
+                && !p
+                    .input_mut()
+                    .cur()
+                    .is_some_and(|cur| cur.is_case() || cur.is_default() || cur.is_rbrace())
+            {
+                cons.push(p.do_outside_of_context(Context::TopLevel, parse_stmt_list_item)?);
             }
 
-            Ok(())
-        })?;
+            cases.push(SwitchCase {
+                span: Span::new(case_start, p.input().prev_span().hi),
+                test,
+                cons,
+            });
+        }
+
+        Ok(())
+    })?;
 
     // eof or rbrace
     expect!(p, &P::Token::RBRACE);
@@ -1026,12 +1015,9 @@ pub fn parse_stmt_like<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>>(
         return handle_import_export(p, decorators);
     }
 
-    parse_stmt_internal(
-        p.with_ctx((p.ctx() & !Context::WillExpectColonForCond) | Context::AllowUsingDecl)
-            .deref_mut(),
-        start,
-        include_decl,
-        decorators,
+    p.with_ctx(
+        (p.ctx() & !Context::WillExpectColonForCond) | Context::AllowUsingDecl,
+        |p| parse_stmt_internal(p, start, include_decl, decorators),
     )
     .map(From::from)
 }
@@ -1110,7 +1096,7 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
             }
 
             let expr = parse_await_expr(p, eaten_await)?;
-            let expr = parse_bin_op_recursively(p.allow_in_expr().deref_mut(), expr, 0)?;
+            let expr = p.allow_in_expr(|p| parse_bin_op_recursively(p, expr, 0))?;
             p.eat_general_semi();
 
             let span = p.span(start);
@@ -1247,11 +1233,9 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
         p.bump();
         return Ok(parse_ts_enum_decl(p, start, false)?.into());
     } else if cur.is_lbrace() {
-        return parse_block(
-            p.do_inside_of_context(Context::AllowUsingDecl).deref_mut(),
-            false,
-        )
-        .map(Stmt::Block);
+        return p
+            .do_inside_of_context(Context::AllowUsingDecl, |p| parse_block(p, false))
+            .map(Stmt::Block);
     } else if cur.is_error() {
         let c = p.input_mut().bump();
         let err = c.take_error(p.input_mut());
@@ -1278,7 +1262,7 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
     // simply start parsing an expression, and afterwards, if the
     // next token is a colon and the expression was a simple
     // Identifier node, we switch to interpreting it as a label.
-    let expr = p.allow_in_expr().parse_expr()?;
+    let expr = p.allow_in_expr(|p| p.parse_expr())?;
 
     let expr = match *expr {
         Expr::Ident(ident) => {

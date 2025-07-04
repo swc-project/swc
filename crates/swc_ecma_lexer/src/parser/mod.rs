@@ -1,8 +1,6 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
-use std::ops::DerefMut;
-
 use swc_ecma_ast::*;
 
 use crate::{
@@ -200,7 +198,7 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
         let ctx = self.ctx() | Context::CanBeModule | Context::TopLevel;
 
         let body: Vec<ModuleItem> =
-            parse_module_item_block_body(self.with_ctx(ctx).deref_mut(), true, None)?;
+            self.with_ctx(ctx, |p| parse_module_item_block_body(p, true, None))?;
         let has_module_item = self.found_module_item
             || body
                 .iter()

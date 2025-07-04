@@ -1,4 +1,4 @@
-use std::{fmt::Write, ops::DerefMut};
+use std::fmt::Write;
 
 use either::Either;
 use swc_atoms::{atom, Atom};
@@ -473,7 +473,7 @@ pub fn parse_ts_type_args<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTypePar
     debug_assert!(p.input().syntax().typescript());
 
     let start = p.input_mut().cur_pos();
-    let params = p.in_type().parse_with(|p| {
+    let params = p.in_type(|p| {
         // Temporarily remove a JSX parsing context, which makes us scan different
         // tokens.
         p.ts_in_no_context(|p| {
@@ -513,9 +513,9 @@ pub fn parse_ts_type_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeRef> {
     trace_cur!(p, parse_ts_type_ref__type_args);
     let type_params =
         if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::LESS) {
-            Some(parse_ts_type_args(
-                p.with_ctx(p.ctx() & !Context::ShouldNotLexLtOrGtAsType)
-                    .deref_mut(),
+            Some(p.with_ctx(
+                p.ctx() & !Context::ShouldNotLexLtOrGtAsType,
+                parse_ts_type_args,
             )?)
         } else {
             None
@@ -545,7 +545,7 @@ pub fn parse_ts_type_ann<'a, P: Parser<'a>>(
 
     debug_assert!(p.input().syntax().typescript());
 
-    p.in_type().parse_with(|p| {
+    p.in_type(|p| {
         if eat_colon {
             p.assert_and_bump(&P::Token::COLON);
         }
@@ -598,7 +598,7 @@ fn eat_then_parse_ts_type<'a, P: Parser<'a>>(
         return Ok(Default::default());
     }
 
-    p.in_type().parse_with(|p| {
+    p.in_type(|p| {
         if !p.input_mut().eat(token_to_eat) {
             return Ok(None);
         }
@@ -615,7 +615,7 @@ fn expect_then_parse_ts_type<'a, P: Parser<'a>>(
 ) -> PResult<Box<TsType>> {
     debug_assert!(p.input().syntax().typescript());
 
-    p.in_type().parse_with(|p| {
+    p.in_type(|p| {
         if !p.input_mut().eat(token) {
             let got = format!("{:?}", p.input_mut().cur());
             syntax_error!(
@@ -712,7 +712,7 @@ fn parse_ts_type_param<'a, P: Parser<'a>>(
         };
     }
 
-    let name = p.in_type().parse_with(parse_ident_name)?.into();
+    let name = p.in_type(parse_ident_name)?.into();
     let constraint = eat_then_parse_ts_type(p, &P::Token::EXTENDS)?;
     let default = eat_then_parse_ts_type(p, &P::Token::EQUAL)?;
 
@@ -733,7 +733,7 @@ pub fn parse_ts_type_params<'a, P: Parser<'a>>(
     permit_in_out: bool,
     permit_const: bool,
 ) -> PResult<Box<TsTypeParamDecl>> {
-    p.in_type().parse_with(|p| {
+    p.in_type(|p| {
         p.ts_in_no_context(|p| {
             let start = p.input_mut().cur_pos();
 
@@ -786,7 +786,7 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
 ) -> PResult<Box<TsTypeAnn>> {
     debug_assert!(p.input().syntax().typescript());
 
-    p.in_type().parse_with(|p| {
+    p.in_type(|p| {
         let return_token_start = p.input_mut().cur_pos();
         if !p.input_mut().eat(return_token) {
             let cur = format!("{:?}", p.input_mut().cur());
@@ -941,7 +941,7 @@ pub fn try_parse_ts_type_ann<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box
 pub(super) fn next_then_parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>> {
     debug_assert!(p.input().syntax().typescript());
 
-    let result = p.in_type().parse_with(|p| {
+    let result = p.in_type(|p| {
         p.bump();
         parse_ts_type(p)
     });
@@ -1922,7 +1922,7 @@ pub fn parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>> {
     let start = p.cur_pos();
 
     let ctx = p.ctx() & !Context::DisallowConditionalTypes;
-    p.with_ctx(ctx).parse_with(|p| {
+    p.with_ctx(ctx, |p| {
         let ty = parse_ts_non_conditional_type(p)?;
         if p.input_mut().had_line_break_before_cur() || !p.input_mut().eat(&P::Token::EXTENDS) {
             return Ok(ty);
@@ -1930,9 +1930,9 @@ pub fn parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>> {
 
         let check_type = ty;
         let extends_type = {
-            parse_ts_non_conditional_type(
-                p.with_ctx(p.ctx() | Context::DisallowConditionalTypes)
-                    .deref_mut(),
+            p.with_ctx(
+                p.ctx() | Context::DisallowConditionalTypes,
+                parse_ts_non_conditional_type,
             )?
         };
 
@@ -1964,7 +1964,7 @@ fn parse_ts_property_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<(bool, Box<Ex
         (true, key)
     } else {
         let ctx = p.ctx() | Context::InPropertyName;
-        p.with_ctx(ctx).parse_with(|p| {
+        p.with_ctx(ctx, |p| {
             // We check if it's valid for it to be a private name when we push it.
             let Some(cur) = p.input_mut().cur() else {
                 return Err(eof_error(p));
@@ -2192,7 +2192,7 @@ pub fn parse_ts_interface_decl<'a, P: Parser<'a>>(
     }
 
     let body_start = p.cur_pos();
-    let body = parse_ts_object_type_members(p.in_type().deref_mut())?;
+    let body = p.in_type(parse_ts_object_type_members)?;
     let body = TsInterfaceBody {
         span: p.span(body_start),
         body,
@@ -2221,7 +2221,7 @@ pub fn parse_ts_type_assertion<'a, P: Parser<'a>>(
     // Not actually necessary to set state.inType because we never reach here if JSX
     // plugin is enabled, but need `tsInType` to satisfy the assertion in
     // `tsParseType`.
-    let type_ann = p.in_type().parse_with(parse_ts_type)?;
+    let type_ann = p.in_type(parse_ts_type)?;
     expect!(p, &P::Token::GREATER);
     let expr = p.parse_unary_expr()?;
     Ok(TsTypeAssertion {
@@ -2279,9 +2279,9 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
     };
 
     let type_args = if p.input_mut().is(&P::Token::LESS) {
-        parse_ts_type_args(
-            p.with_ctx(p.ctx() & !Context::ShouldNotLexLtOrGtAsType)
-                .deref_mut(),
+        p.with_ctx(
+            p.ctx() & !Context::ShouldNotLexLtOrGtAsType,
+            parse_ts_type_args,
         )
         .map(Some)?
     } else {
@@ -2335,9 +2335,9 @@ fn parse_ts_type_query<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeQuery> {
 
     let type_args =
         if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::LESS) {
-            Some(parse_ts_type_args(
-                p.with_ctx(p.ctx() & !Context::ShouldNotLexLtOrGtAsType)
-                    .deref_mut(),
+            Some(p.with_ctx(
+                p.ctx() & !Context::ShouldNotLexLtOrGtAsType,
+                parse_ts_type_args,
             )?)
         } else {
             None
@@ -2360,7 +2360,7 @@ fn parse_ts_module_block<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsModuleBlock>
     expect!(p, &P::Token::LBRACE);
     // Inside of a module block is considered "top-level", meaning it can have
     // imports and exports.
-    let body = p.with_ctx(p.ctx() | Context::TopLevel).parse_with(|p| {
+    let body = p.with_ctx(p.ctx() | Context::TopLevel, |p| {
         parse_module_item_block_body(
             p,
             /* directives */ false,
@@ -2690,7 +2690,7 @@ pub fn try_parse_ts_declare<'a, P: Parser<'a>>(
 
     let declare_start = start;
     let ctx = p.ctx() | Context::InDeclare;
-    p.with_ctx(ctx).parse_with(|p| {
+    p.with_ctx(ctx, |p| {
         if p.input_mut().is(&P::Token::FUNCTION) {
             return parse_fn_decl(p, decorators)
                 .map(|decl| match decl {
@@ -2937,7 +2937,7 @@ pub fn try_parse_ts_generic_async_arrow_fn<'a, P: Parser<'a>>(
     };
 
     let ctx = (p.ctx() | Context::InAsync) & !Context::InGenerator;
-    p.with_ctx(ctx).parse_with(|p| {
+    p.with_ctx(ctx, |p| {
         let is_generator = false;
         let is_async = true;
         let body =

@@ -1,5 +1,3 @@
-use std::ops::DerefMut;
-
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
@@ -371,7 +369,7 @@ pub(super) fn parse_binding_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat
     let left = parse_binding_pat_or_ident(p, false)?;
 
     if p.input_mut().eat(&P::Token::EQUAL) {
-        let right = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
+        let right = p.allow_in_expr(parse_assignment_expr)?;
 
         if p.ctx().contains(Context::InDeclare) {
             p.emit_err(p.span(start), SyntaxError::TS2371);

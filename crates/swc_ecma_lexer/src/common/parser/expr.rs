@@ -1,5 +1,3 @@
-use std::ops::DerefMut;
-
 use either::Either;
 use rustc_hash::FxHashMap;
 use swc_atoms::atom;
@@ -85,7 +83,7 @@ pub fn parse_array_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
             continue;
         }
 
-        elems.push(p.allow_in_expr().parse_expr_or_spread().map(Some)?);
+        elems.push(p.allow_in_expr(|p| p.parse_expr_or_spread()).map(Some)?);
 
         if !p.input_mut().is(&P::Token::RBRACKET) {
             expect!(p, &P::Token::COMMA);
@@ -176,7 +174,7 @@ fn parse_tpl_elements<'a, P: Parser<'a>>(
 
     while !is_tail {
         expect!(p, &P::Token::DOLLAR_LBRACE);
-        exprs.push(p.allow_in_expr().parse_expr()?);
+        exprs.push(p.allow_in_expr(|p| p.parse_expr())?);
         expect!(p, &P::Token::RBRACE);
         let elem = p.parse_tpl_element(is_tagged_tpl)?;
         is_tail = elem.tail;
@@ -297,35 +295,34 @@ pub fn parse_args<'a, P: Parser<'a>>(
 ) -> PResult<Vec<ExprOrSpread>> {
     trace_cur!(p, parse_args);
 
-    p.do_outside_of_context(Context::WillExpectColonForCond)
-        .parse_with(|p| {
-            let start = p.cur_pos();
-            expect!(p, &P::Token::LPAREN);
+    p.do_outside_of_context(Context::WillExpectColonForCond, |p| {
+        let start = p.cur_pos();
+        expect!(p, &P::Token::LPAREN);
 
-            let mut first = true;
-            let mut expr_or_spreads = Vec::with_capacity(2);
+        let mut first = true;
+        let mut expr_or_spreads = Vec::with_capacity(2);
 
-            while !eof!(p) && !p.input_mut().is(&P::Token::RPAREN) {
-                if first {
-                    first = false;
-                } else {
-                    expect!(p, &P::Token::COMMA);
-                    // Handle trailing comma.
-                    if p.input_mut().is(&P::Token::RPAREN) {
-                        if is_dynamic_import && !p.input().syntax().import_attributes() {
-                            syntax_error!(p, p.span(start), SyntaxError::TrailingCommaInsideImport)
-                        }
-
-                        break;
+        while !eof!(p) && !p.input_mut().is(&P::Token::RPAREN) {
+            if first {
+                first = false;
+            } else {
+                expect!(p, &P::Token::COMMA);
+                // Handle trailing comma.
+                if p.input_mut().is(&P::Token::RPAREN) {
+                    if is_dynamic_import && !p.input().syntax().import_attributes() {
+                        syntax_error!(p, p.span(start), SyntaxError::TrailingCommaInsideImport)
                     }
-                }
 
-                expr_or_spreads.push(p.allow_in_expr().parse_expr_or_spread()?);
+                    break;
+                }
             }
 
-            expect!(p, &P::Token::RPAREN);
-            Ok(expr_or_spreads)
-        })
+            expr_or_spreads.push(p.allow_in_expr(|p| p.parse_expr_or_spread())?);
+        }
+
+        expect!(p, &P::Token::RPAREN);
+        Ok(expr_or_spreads)
+    })
 }
 
 ///`parseMaybeAssign` (overridden)
@@ -384,10 +381,8 @@ fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>
             .is_some_and(|cur| cur.is_less() || cur.is_jsx_tag_start()))
         && (peek!(p).is_some_and(|peek| peek.is_word() || peek.is_jsx_name()))
     {
-        let res = try_parse_ts(
-            p.do_outside_of_context(Context::WillExpectColonForCond)
-                .deref_mut(),
-            |p| {
+        let res = p.do_outside_of_context(Context::WillExpectColonForCond, |p| {
+            try_parse_ts(p, |p| {
                 if p.input_mut()
                     .cur()
                     .is_some_and(|cur| cur.is_jsx_tag_start())
@@ -419,8 +414,8 @@ fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>
                     _ => unexpected!(p, "("),
                 }
                 Ok(Some(arrow))
-            },
-        );
+            })
+        });
         if let Some(res) = res {
             if p.input().syntax().disallow_ambiguous_jsx_like() {
                 p.emit_err(start, SyntaxError::ReservedArrowTypeParam);
@@ -543,10 +538,10 @@ fn parse_cond_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
             | Context::InCondExpr
             | Context::WillExpectColonForCond
             | Context::IncludeInExpr;
-        let cons = parse_assignment_expr(p.do_inside_of_context(ctx).deref_mut())?;
+        let cons = p.do_inside_of_context(ctx, parse_assignment_expr)?;
         expect!(p, &P::Token::COLON);
         let ctx = (p.ctx() | Context::InCondExpr) & !Context::WillExpectColonForCond;
-        let alt = parse_assignment_expr(p.with_ctx(ctx).deref_mut())?;
+        let alt = p.with_ctx(ctx, parse_assignment_expr)?;
         let span = Span::new(start, alt.span_hi());
         Ok(CondExpr {
             span,
@@ -631,10 +626,8 @@ fn parse_subscript<'a, P: Parser<'a>>(
 
             let mut_obj_opt = &mut obj_opt;
 
-            let result = try_parse_ts(
-                p.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType)
-                    .deref_mut(),
-                |p| {
+            let result = p.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
+                try_parse_ts(p, |p| {
                     if !no_call
                         && at_possible_async(
                             p,
@@ -728,8 +721,8 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     } else {
                         unexpected!(p, "( or `")
                     }
-                },
-            );
+                })
+            });
             if let Some(result) = result {
                 return Ok(result);
             }
@@ -772,7 +765,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
             || p.input_mut().eat(&P::Token::LBRACKET))
     {
         let bracket_lo = p.input().prev_span().lo;
-        let prop = p.allow_in_expr().parse_expr()?;
+        let prop = p.allow_in_expr(|p| p.parse_expr())?;
         expect!(p, &P::Token::RBRACKET);
         let span = Span::new(obj.span_lo(), p.input().last_pos());
         debug_assert_eq!(obj.span_lo(), span.lo());
@@ -1023,9 +1016,9 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     || cur.is_no_substitution_template_literal()
                     || cur.is_backquote()
             }) {
-                let tpl = p
-                    .do_outside_of_context(Context::WillExpectColonForCond)
-                    .parse_with(|p| p.parse_tagged_tpl(expr, None))?;
+                let tpl = p.do_outside_of_context(Context::WillExpectColonForCond, |p| {
+                    p.parse_tagged_tpl(expr, None)
+                })?;
                 return Ok((tpl.into(), true));
             }
 
@@ -1099,8 +1092,9 @@ pub fn parse_member_expr_or_new_expr<'a>(
     p: &mut impl Parser<'a>,
     is_new_expr: bool,
 ) -> PResult<Box<Expr>> {
-    p.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType)
-        .parse_with(|p| parse_member_expr_or_new_expr_inner(p, is_new_expr))
+    p.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
+        parse_member_expr_or_new_expr_inner(p, is_new_expr)
+    })
 }
 
 fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
@@ -1167,10 +1161,8 @@ fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
                 .is_some_and(|cur| cur.is_less() || cur.is_lshift())
         {
             try_parse_ts(p, |p| {
-                let args = parse_ts_type_args(
-                    p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType)
-                        .deref_mut(),
-                )?;
+                let args =
+                    p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, parse_ts_type_args)?;
                 if !p.input_mut().is(&P::Token::LPAREN) {
                     let span = p.input().cur_span();
                     let cur = p.input_mut().dump_cur();
@@ -1837,10 +1829,7 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
 pub fn parse_args_or_pats<'a, P: Parser<'a>>(
     p: &mut P,
 ) -> PResult<(Vec<AssignTargetOrSpread>, Option<Span>)> {
-    parse_args_or_pats_inner(
-        p.do_outside_of_context(Context::WillExpectColonForCond)
-            .deref_mut(),
-    )
+    p.do_outside_of_context(Context::WillExpectColonForCond, parse_args_or_pats_inner)
 }
 
 fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
@@ -1894,7 +1883,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
 
                 ExprOrSpread { spread, expr }
             } else {
-                p.allow_in_expr().parse_expr_or_spread()?
+                p.allow_in_expr(|p| p.parse_expr_or_spread())?
             }
         };
 
@@ -1919,17 +1908,15 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                     expect!(p, &P::Token::QUESTION);
                     let test = arg.expr;
 
-                    let cons = parse_assignment_expr(
-                        p.do_inside_of_context(
-                            Context::InCondExpr
-                                .union(Context::WillExpectColonForCond)
-                                .union(Context::IncludeInExpr),
-                        )
-                        .deref_mut(),
+                    let cons = p.do_inside_of_context(
+                        Context::InCondExpr
+                            .union(Context::WillExpectColonForCond)
+                            .union(Context::IncludeInExpr),
+                        parse_assignment_expr,
                     )?;
                     expect!(p, &P::Token::COLON);
                     let ctx = (p.ctx() | Context::InCondExpr) & !Context::WillExpectColonForCond;
-                    let alt = parse_assignment_expr(p.with_ctx(ctx).deref_mut())?;
+                    let alt = p.with_ctx(ctx, parse_assignment_expr)?;
 
                     arg = ExprOrSpread {
                         spread: None,
@@ -2108,11 +2095,10 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
     // But as all patterns of javascript is subset of
     // expressions, we can parse both as expression.
 
-    let (paren_items, trailing_comma) = parse_args_or_pats(
-        p.do_outside_of_context(Context::WillExpectColonForCond)
-            .allow_in_expr()
-            .deref_mut(),
-    )?;
+    let (paren_items, trailing_comma) = p
+        .do_outside_of_context(Context::WillExpectColonForCond, |p| {
+            p.allow_in_expr(parse_args_or_pats)
+        })?;
 
     let has_pattern = paren_items
         .iter()
@@ -2392,7 +2378,7 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
                 && !p.input_mut().is(&P::Token::ARROW)
             {
                 // async as type
-                let type_ann = p.in_type().parse_with(parse_ts_type)?;
+                let type_ann = p.in_type(parse_ts_type)?;
                 return Ok(TsAsExpr {
                     span: p.span(start),
                     expr: Box::new(id.into()),
@@ -2586,9 +2572,7 @@ pub(crate) fn parse_primary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Ex
                 return res;
             }
         } else if token.is_lbracket() {
-            return p
-                .do_outside_of_context(Context::WillExpectColonForCond)
-                .parse_with(parse_array_lit);
+            return p.do_outside_of_context(Context::WillExpectColonForCond, parse_array_lit);
         } else if token.is_lbrace() {
             return parse_object_expr(p).map(Box::new);
         } else if token.is_function() {
@@ -2610,12 +2594,12 @@ pub(crate) fn parse_primary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Ex
             return parse_paren_expr_or_arrow_fn(p, can_be_arrow, None);
         } else if token.is_backquote() {
             // parse template literal
-            return Ok(parse_tpl(
-                p.do_outside_of_context(Context::WillExpectColonForCond)
-                    .deref_mut(),
-                false,
-            )?
-            .into());
+            return Ok(
+                (p.do_outside_of_context(Context::WillExpectColonForCond, |p| {
+                    parse_tpl(p, false)
+                }))?
+                .into(),
+            );
         }
     }
 
