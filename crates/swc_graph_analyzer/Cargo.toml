@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = { workspace = true }
 name        = "swc_graph_analyzer"
 repository  = { workspace = true }
-version     = "14.0.0"
+version     = "14.0.1"
 
 [lib]
 bench = false
@@ -18,4 +18,4 @@ rustc-hash = { workspace = true }
 tracing    = { workspace = true }
 
 [dev-dependencies]
-testing = { version = "14.0.0", path = "../testing" }
+testing = { version = "14.0.1", path = "../testing" }

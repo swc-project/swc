@@ -5,7 +5,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_react_compiler"
 repository    = { workspace = true }
-version       = "6.0.1"
+version       = "6.0.2"
 
 
     [package.metadata.docs.rs]
@@ -13,10 +13,10 @@ version       = "6.0.1"
     rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
-swc_common     = { version = "13.0.3", path = "../swc_common" }
-swc_ecma_ast   = { version = "13.0.0", path = "../swc_ecma_ast" }
+swc_common     = { version = "13.0.4", path = "../swc_common" }
+swc_ecma_ast   = { version = "13.0.1", path = "../swc_ecma_ast" }
 swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_ecma_parser = { version = "18.0.1", path = "../swc_ecma_parser" }
-testing         = { version = "14.0.0", path = "../testing" }
+swc_ecma_parser = { version = "18.0.2", path = "../swc_ecma_parser" }
+testing         = { version = "14.0.1", path = "../testing" }

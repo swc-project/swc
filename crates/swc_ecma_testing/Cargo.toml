@@ -17,4 +17,4 @@ hex     = { workspace = true }
 sha2    = { workspace = true }
 tracing = { workspace = true }
 
-testing = { version = "14.0.0", path = "../testing" }
+testing = { version = "14.0.1", path = "../testing" }
