@@ -139,8 +139,18 @@ resolver = "2"
   wide                      = "0.7.32"
 
   [workspace.metadata.cargo-shear]
-  # Some crates add `par-core` just to enable features like `chili`
-  ignored = ["par-core"]
+  # `serde` is used when #[ast_node] is expanded
+  # the rests are used for enabling features
+  ignored = [
+    "par-core",
+    "serde",
+    "napi",
+    "napi-derive",
+    "indexmap",
+    "tracing",
+    "swc_ecma_utils",
+  ]
+
 
 [profile.release]
 lto = true

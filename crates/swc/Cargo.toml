@@ -11,10 +11,6 @@ name          = "swc"
 repository    = { workspace = true }
 version       = "29.1.0"
 
-  [package.metadata.cargo-shear]
-  # we may enable features of napi
-  ignored = ["napi", "napi-derive"]
-
 [lib]
 bench = false
 name  = "swc"

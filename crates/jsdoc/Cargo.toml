@@ -9,10 +9,6 @@ name          = "jsdoc"
 repository    = { workspace = true }
 version       = "13.0.0"
 
-    [package.metadata.cargo-shear]
-    # #[ast_node] may expand with #[serde]
-    ignored = ["serde"]
-
 [lib]
 bench = false
 
