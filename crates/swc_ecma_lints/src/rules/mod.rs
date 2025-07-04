@@ -65,12 +65,7 @@ pub struct LintParams<'a> {
 }
 
 pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
-    let mut rules = vec![
-        const_assign::const_assign(),
-        duplicate_bindings::duplicate_bindings(),
-        duplicate_exports::duplicate_exports(),
-        no_dupe_args::no_dupe_args(),
-    ];
+    let mut rules = vec![critical_rules::critical_rules()];
 
     #[cfg(feature = "non_critical_lints")]
     {
