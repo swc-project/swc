@@ -640,22 +640,6 @@ fn parse_fn_body<'a, P: Parser<'a>, T>(
         p.emit_err(p.input().cur_span(), SyntaxError::TS1183);
     }
 
-    let mut ctx = (p.ctx() | Context::InFunction)
-        & !Context::InStaticBlock
-        & !Context::IsBreakAllowed
-        & !Context::IsContinueAllowed
-        & !Context::TopLevel;
-    ctx.set(Context::InAsync, is_async);
-    ctx.set(Context::InGenerator, is_generator);
-    ctx.set(
-        Context::InsideNonArrowFunctionScope,
-        if is_arrow_function {
-            p.ctx().contains(Context::InsideNonArrowFunctionScope)
-        } else {
-            true
-        },
-    );
-
     let f_with_generator_context = |p: &mut P| {
         let f_with_inside_non_arrow_fn_scope = |p: &mut P| {
             let f_with_new_state = |p: &mut P| {
