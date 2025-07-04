@@ -139,6 +139,7 @@ resolver = "2"
   wide                      = "0.7.32"
 
   [workspace.metadata.cargo-shear]
+  # Some crates add `par-core` just to enable features like `chili`
   ignored = ["par-core"]
 
 [profile.release]

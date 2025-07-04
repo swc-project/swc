@@ -21,7 +21,8 @@ nightly = [
   "bumpalo/allocator_api",
   "hashbrown/nightly",
 ]
-rkyv = []
+# This two features are actually useless
+rkyv  = []
 serde = []
 # This feature is used to suppress warnings about slowness caused by stable rustc.
 # It's recommended to use nightly rustc until the allocator APIs are stabilized.

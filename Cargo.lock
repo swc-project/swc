@@ -2509,6 +2509,7 @@ version = "13.0.0"
 dependencies = [
  "dashmap 5.5.3",
  "nom 7.1.3",
+ "serde",
  "swc_atoms",
  "swc_common",
  "swc_ecma_parser",
@@ -4747,6 +4748,8 @@ dependencies = [
  "either",
  "indexmap 2.7.1",
  "jsonc-parser",
+ "napi",
+ "napi-derive",
  "once_cell",
  "par-core",
  "par-iter",

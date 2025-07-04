@@ -11,6 +11,10 @@ name          = "swc"
 repository    = { workspace = true }
 version       = "29.1.0"
 
+  [package.metadata.cargo-shear]
+  # we may enable features of napi
+  ignored = ["napi", "napi-derive"]
+
 [lib]
 bench = false
 name  = "swc"
@@ -27,7 +31,7 @@ concurrent = [
 debug = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
 default = ["es3", "lint"]
 es3 = []
-node = [ "swc_compiler_base/node"]
+node = ["napi", "napi-derive", "swc_compiler_base/node"]
 plugin = [
   "swc_plugin_runner/ecma",
   "swc_plugin_runner/rkyv-impl",
@@ -116,6 +120,16 @@ swc_visit = { version = "2.0.1", path = "../swc_visit" }
 
   [dependencies.tokio]
   features  = ["rt", "rt-multi-thread"]
+  optional  = true
+  workspace = true
+
+  [dependencies.napi]
+  features  = ["napi3"]
+  optional  = true
+  workspace = true
+
+  [dependencies.napi-derive]
+  features  = ["type-def"]
   optional  = true
   workspace = true
 
