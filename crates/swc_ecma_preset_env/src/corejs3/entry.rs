@@ -15,7 +15,7 @@ use crate::util::SwcFold;
 
 use super::{compat::DATA as CORE_JS_COMPAT_DATA, data::MODULES_BY_VERSION};
 
-include!("../generated/corejs3_entries.rs");
+include!(concat!(env!("OUT_DIR"), "/corejs3_entries/lib.rs"));
 
 pub struct FeatureSet(Range<u32>);
         
