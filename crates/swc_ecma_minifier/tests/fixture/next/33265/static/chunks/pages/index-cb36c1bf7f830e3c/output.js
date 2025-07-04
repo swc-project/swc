@@ -3659,13 +3659,6 @@
                 if (!list.length) return [];
                 for(var result = [], i = 0; i < list.length; i++)result.push(list[i]);
                 return result;
-            }, errors = {
-                INVALID_NUMBER_OF_PERIOD: "INVALID_NUMBER_OF_PERIOD",
-                DASH_EMPTY_MANIFEST: "DASH_EMPTY_MANIFEST",
-                DASH_INVALID_XML: "DASH_INVALID_XML",
-                NO_BASE_URL: "NO_BASE_URL",
-                SEGMENT_TIME_UNSPECIFIED: "SEGMENT_TIME_UNSPECIFIED",
-                UNSUPPORTED_UTC_TIMING_SCHEME: "UNSUPPORTED_UTC_TIMING_SCHEME"
             }, urlTypeToSegment = function(_ref) {
                 var _ref$baseUrl = _ref.baseUrl, _ref$source = _ref.source, source = void 0 === _ref$source ? "" : _ref$source, _ref$range = _ref.range, range = void 0 === _ref$range ? "" : _ref$range, _ref$indexRange = _ref.indexRange, indexRange = void 0 === _ref$indexRange ? "" : _ref$indexRange, segment = {
                     uri: source,
@@ -3739,7 +3732,7 @@
                 return segments;
             }, segmentsFromBase = function(attributes) {
                 var baseUrl = attributes.baseUrl, _attributes$initializ = attributes.initialization, initialization = void 0 === _attributes$initializ ? {} : _attributes$initializ, sourceDuration = attributes.sourceDuration, _attributes$indexRang = attributes.indexRange, duration = attributes.duration; // base url is required for SegmentBase to work, per spec (Section 5.3.9.2.1)
-                if (!baseUrl) throw Error(errors.NO_BASE_URL);
+                if (!baseUrl) throw Error("NO_BASE_URL");
                 var initSegment = urlTypeToSegment({
                     baseUrl: baseUrl,
                     source: initialization.sourceURL,
@@ -4028,7 +4021,7 @@
             }, segmentsFromList = function(attributes, segmentTimeline) {
                 var segmentTimeInfo, duration = attributes.duration, _attributes$segmentUr = attributes.segmentUrls, periodStart = attributes.periodStart; // Per spec (5.3.9.2.1) no way to determine segment duration OR
                 // if both SegmentTimeline and @duration are defined, it is outside of spec.
-                if (!duration && !segmentTimeline || duration && segmentTimeline) throw Error(errors.SEGMENT_TIME_UNSPECIFIED);
+                if (!duration && !segmentTimeline || duration && segmentTimeline) throw Error("SEGMENT_TIME_UNSPECIFIED");
                 var segmentUrlMap = (void 0 === _attributes$segmentUr ? [] : _attributes$segmentUr).map(function(segmentUrlObject) {
                     return SegmentURLToSegmentObject(attributes, segmentUrlObject);
                 });
@@ -4336,7 +4329,7 @@
             }, inheritAttributes = function(mpd, options) {
                 void 0 === options && (options = {});
                 var _options = options, _options$manifestUri = _options.manifestUri, _options$NOW = _options.NOW, NOW = void 0 === _options$NOW ? Date.now() : _options$NOW, _options$clientOffset = _options.clientOffset, periodNodes = findChildren(mpd, "Period");
-                if (!periodNodes.length) throw Error(errors.INVALID_NUMBER_OF_PERIOD);
+                if (!periodNodes.length) throw Error("INVALID_NUMBER_OF_PERIOD");
                 var locations = findChildren(mpd, "Location"), mpdAttributes = parseAttributes(mpd), mpdBaseUrls = buildBaseUrls([
                     void 0 === _options$manifestUri ? "" : _options$manifestUri
                 ], findChildren(mpd, "BaseURL"));
@@ -4445,14 +4438,14 @@
                     }))
                 });
             }, stringToMpdXml = function(manifestString) {
-                if ("" === manifestString) throw Error(errors.DASH_EMPTY_MANIFEST);
+                if ("" === manifestString) throw Error("DASH_EMPTY_MANIFEST");
                 var xml, mpd, parser = new _xmldom_xmldom__WEBPACK_IMPORTED_MODULE_3__.DOMParser();
                 try {
                     mpd = (xml = parser.parseFromString(manifestString, "application/xml")) && "MPD" === xml.documentElement.tagName ? xml.documentElement : null;
                 } catch (e) {
                 // ie 11 throwsw on invalid xml
                 }
-                if (!mpd || mpd && mpd.getElementsByTagName("parsererror").length > 0) throw Error(errors.DASH_INVALID_XML);
+                if (!mpd || mpd && mpd.getElementsByTagName("parsererror").length > 0) throw Error("DASH_INVALID_XML");
                 return mpd;
             }, parseUTCTimingScheme = function(mpd) {
                 var UTCTimingNode = findChildren(mpd, "UTCTiming")[0];
@@ -4474,7 +4467,7 @@
                         attributes.method = "DIRECT", attributes.value = Date.parse(attributes.value);
                         break;
                     default:
-                        throw Error(errors.UNSUPPORTED_UTC_TIMING_SCHEME);
+                        throw Error("UNSUPPORTED_UTC_TIMING_SCHEME");
                 }
                 return attributes;
             }, parse = function(manifestString, options) {

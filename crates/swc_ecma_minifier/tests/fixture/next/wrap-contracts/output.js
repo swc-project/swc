@@ -6399,23 +6399,7 @@
             }, DERNode.prototype._encodeTime = function(time, tag) {
                 let str;
                 const date = new Date(time);
-                return 'gentime' === tag ? str = [
-                    two(date.getUTCFullYear()),
-                    two(date.getUTCMonth() + 1),
-                    two(date.getUTCDate()),
-                    two(date.getUTCHours()),
-                    two(date.getUTCMinutes()),
-                    two(date.getUTCSeconds()),
-                    'Z'
-                ].join('') : 'utctime' === tag ? str = [
-                    two(date.getUTCFullYear() % 100),
-                    two(date.getUTCMonth() + 1),
-                    two(date.getUTCDate()),
-                    two(date.getUTCHours()),
-                    two(date.getUTCMinutes()),
-                    two(date.getUTCSeconds()),
-                    'Z'
-                ].join('') : this.reporter.error('Encoding ' + tag + ' time is not supported yet'), this._encodeStr(str, 'octstr');
+                return 'gentime' === tag ? str = "" + two(date.getUTCFullYear()) + two(date.getUTCMonth() + 1) + two(date.getUTCDate()) + two(date.getUTCHours()) + two(date.getUTCMinutes()) + two(date.getUTCSeconds()) + "Z" : 'utctime' === tag ? str = "" + two(date.getUTCFullYear() % 100) + two(date.getUTCMonth() + 1) + two(date.getUTCDate()) + two(date.getUTCHours()) + two(date.getUTCMinutes()) + two(date.getUTCSeconds()) + "Z" : this.reporter.error('Encoding ' + tag + ' time is not supported yet'), this._encodeStr(str, 'octstr');
             }, DERNode.prototype._encodeNull = function() {
                 return this._createEncoderBuffer('');
             }, DERNode.prototype._encodeInt = function(num, values) {
@@ -23428,9 +23412,7 @@ class Zip {
             async function readAsBlobOrTypedArray(reader, offset, length, type) {
                 return reader.sliceAsBlob ? await reader.sliceAsBlob(offset, length, type) : await reader.read(offset, length);
             }
-            const crc$1 = {
-                unsigned: ()=>0
-            };
+            const crc$1_unsigned = ()=>0;
             function getUint16LE(uint8View, offset) {
                 return uint8View[offset] + 0x100 * uint8View[offset + 1];
             }
@@ -23584,7 +23566,7 @@ class Zip {
                     // see https://github.com/thejoshwolfe/yauzl/issues/33
                     const nameField = rawEntry.extraFields.find((e)=>0x7075 === e.id && e.data.length >= 6 && // too short to be meaningful
                         1 === e.data[0] && // Version       1 byte      version of this extra field, currently 1
-                        getUint32LE(e.data, 1), crc$1.unsigned(rawEntry.nameBytes)); // NameCRC32     4 bytes     File Name Field CRC32 Checksum
+                        getUint32LE(e.data, 1), crc$1_unsigned(rawEntry.nameBytes)); // NameCRC32     4 bytes     File Name Field CRC32 Checksum
                     // validate file size
                     if (nameField && // UnicodeName Variable UTF-8 version of the entry File Name
                     (rawEntry.fileName = decodeBuffer(nameField.data.slice(5))), 0 === rawEntry.compressionMethod) {
@@ -25991,8 +25973,7 @@ class Zip {
                                 throw Error(`Support for ${contractDefinition.srcWasmLang} not implemented yet.`);
                         }
                         return this.logger.info(`WASM ${contractDefinition.srcWasmLang} handler created in ${benchmark.elapsed()}`), new WasmHandlerApi_1.WasmHandlerApi(swGlobal, contractDefinition, jsExports || wasmInstance.exports);
-                    }
-                    {
+                    } else {
                         this.logger.info('Creating handler for js contract', contractDefinition.txId);
                         const normalizedSource = (0, normalize_source_1.normalizeContractSource)(contractDefinition.src, evaluationOptions.useVM2);
                         if (!evaluationOptions.allowUnsafeClient && normalizedSource.includes('SmartWeave.unsafeClient')) throw Error('Using unsafeClient is not allowed by default. Use EvaluationOptions.allowUnsafeClient flag.');

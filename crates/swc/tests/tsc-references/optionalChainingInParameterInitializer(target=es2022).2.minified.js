@@ -1,1 +1,0 @@
-//// [optionalChainingInParameterInitializer.ts]

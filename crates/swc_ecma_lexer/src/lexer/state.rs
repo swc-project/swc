@@ -16,6 +16,7 @@ use crate::{
                 State as StateTrait, TokenKind as TokenKindTrait, TokenType as TokenTypeTrait,
             },
         },
+        syntax::SyntaxFlags,
     },
     error::{Error, SyntaxError},
     token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
@@ -47,7 +48,7 @@ pub struct State {
     pub tpl_start: BytePos,
 
     context: TokenContexts,
-    syntax: Syntax,
+    syntax: SyntaxFlags,
 
     token_type: Option<TokenType>,
 }
@@ -345,7 +346,7 @@ impl common::lexer::state::State for State {
     }
 
     #[inline(always)]
-    fn syntax(&self) -> crate::Syntax {
+    fn syntax(&self) -> SyntaxFlags {
         self.syntax
     }
 
@@ -655,7 +656,7 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
     }
 
     #[inline]
-    fn syntax(&self) -> Syntax {
+    fn syntax(&self) -> SyntaxFlags {
         self.syntax
     }
 
@@ -880,7 +881,7 @@ impl Iterator for Lexer<'_> {
 }
 
 impl State {
-    pub fn new(syntax: Syntax, start_pos: BytePos) -> Self {
+    pub fn new(syntax: SyntaxFlags, start_pos: BytePos) -> Self {
         let context = TokenContexts(smallvec![TokenContext::BraceStmt]);
 
         State {

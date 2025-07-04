@@ -607,10 +607,17 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_cond_expr(&mut self, n: &CondExpr) {
-        n.test.visit_with(self);
+        {
+            let ctx = self.ctx.with(BitContext::IsIdRef, false);
+
+            n.test.visit_with(&mut *self.with_ctx(ctx));
+        }
 
         {
-            let ctx = self.ctx.with(BitContext::InCond, true);
+            let ctx = self
+                .ctx
+                .with(BitContext::InCond, true)
+                .with(BitContext::IsIdRef, true);
             self.with_ctx(ctx).visit_in_cond(&n.cons);
             self.with_ctx(ctx).visit_in_cond(&n.alt);
         }
@@ -1175,12 +1182,13 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_prop(&mut self, n: &Prop) {
-        let ctx = self.ctx.with(BitContext::IsIdRef, true);
-        n.visit_children_with(&mut *self.with_ctx(ctx));
-
         if let Prop::Shorthand(i) = n {
-            self.report_usage(i);
+            let ctx = self.ctx.with(BitContext::IsIdRef, true);
+            self.with_ctx(ctx).report_usage(i);
             self.data.add_property_atom(i.sym.clone());
+        } else {
+            let ctx = self.ctx.with(BitContext::IsIdRef, true);
+            n.visit_children_with(&mut *self.with_ctx(ctx));
         }
     }
 
@@ -1435,23 +1443,34 @@ where
                 .with(BitContext::InPatOfVarDecl, false)
                 .with(BitContext::IsIdRef, true);
             if self.marks.is_some() {
-                if let VarDeclarator {
-                    name: Pat::Ident(id),
-                    init: Some(init),
-                    definite: false,
-                    ..
-                } = e
-                {
-                    let id = id.to_id();
-                    self.used_recursively.insert(
-                        id.clone(),
-                        RecursiveUsage::Var {
-                            can_ignore: !init.may_have_side_effects(self.expr_ctx),
-                        },
-                    );
-                    e.init.visit_with(&mut *self.with_ctx(ctx));
-                    self.used_recursively.remove(&id);
-                    return;
+                match e {
+                    VarDeclarator {
+                        name: Pat::Ident(id),
+                        init: Some(init),
+                        definite: false,
+                        ..
+                    } => {
+                        let id = id.to_id();
+                        self.used_recursively.insert(
+                            id.clone(),
+                            RecursiveUsage::Var {
+                                can_ignore: !init.may_have_side_effects(self.expr_ctx),
+                            },
+                        );
+                        e.init.visit_with(&mut *self.with_ctx(ctx));
+                        self.used_recursively.remove(&id);
+                        return;
+                    }
+
+                    VarDeclarator {
+                        name: Pat::Ident(id),
+                        init: None,
+                        ..
+                    } => {
+                        self.data.var_or_default(id.to_id()).mark_as_lazy_init();
+                        return;
+                    }
+                    _ => (),
                 }
             }
 
@@ -1488,6 +1507,9 @@ where
 fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
     match e {
         Expr::Ident(i) => op(i),
+        Expr::Paren(p) => {
+            for_each_id_ref_in_expr(&p.expr, op);
+        }
         Expr::Cond(c) => {
             for_each_id_ref_in_expr(&c.cons, op);
             for_each_id_ref_in_expr(&c.alt, op);

@@ -15,7 +15,7 @@ use swc_common::{
     SourceMap, Span, GLOBALS,
 };
 use swc_error_reporters::{convert_span, to_pretty_source_code};
-use swc_fast_ts_strip::{Options, TransformOutput};
+use swc_ts_fast_strip::{Options, TransformOutput};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{future_to_promise, js_sys::Promise};
 
@@ -70,7 +70,7 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Vec<JsonD
     let cm = Lrc::new(SourceMap::default());
 
     try_with_json_handler(cm.clone(), |handler| {
-        swc_fast_ts_strip::operate(&cm, handler, input, options).map_err(anyhow::Error::new)
+        swc_ts_fast_strip::operate(&cm, handler, input, options).map_err(anyhow::Error::new)
     })
 }
 

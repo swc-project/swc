@@ -467,24 +467,64 @@ pub trait StmtExt {
 
     /// stmts contain top level return/break/continue/throw
     fn terminates(&self) -> bool {
-        fn terminates_many(stmts: &[Stmt], allow_break: bool, allow_throw: bool) -> bool {
+        fn terminates_many(
+            stmts: &[Stmt],
+            in_switch: bool,
+            allow_break: bool,
+            allow_throw: bool,
+        ) -> Result<bool, ()> {
             stmts
                 .iter()
                 .rev()
-                .any(|s| terminates(s, allow_break, allow_throw))
+                .map(|s| terminates(s, in_switch, allow_break, allow_throw))
+                .try_fold(false, |acc, x| x.map(|v| acc || v))
         }
 
-        fn terminates(stmt: &Stmt, allow_break: bool, allow_throw: bool) -> bool {
-            match stmt {
-                Stmt::Break(_) => allow_break,
+        fn terminates(
+            stmt: &Stmt,
+            in_switch: bool,
+            allow_break: bool,
+            allow_throw: bool,
+        ) -> Result<bool, ()> {
+            Ok(match stmt {
+                Stmt::Break(_) => {
+                    if in_switch {
+                        // In case of `break` in switch, we should stop the analysis because the
+                        // statements after `if (foo) break;` may not execute.
+                        //
+                        // So the `return 1` in
+                        //
+                        // ```js
+                        // switch (foo) {
+                        //   case 1:
+                        //     if (bar) break;
+                        //     return 1;
+                        //   default:
+                        //     return 0;
+                        // }
+                        // ```
+                        //
+                        // may not execute and we should return `false`.
+                        return Err(());
+                    } else {
+                        allow_break
+                    }
+                }
                 Stmt::Throw(_) => allow_throw,
                 Stmt::Continue(_) | Stmt::Return(_) => true,
-                Stmt::Block(block) => terminates_many(&block.stmts, allow_break, allow_throw),
-                Stmt::If(IfStmt {
-                    cons,
-                    alt: Some(alt),
-                    ..
-                }) => cons.terminates() && alt.terminates(),
+                Stmt::Block(block) => {
+                    terminates_many(&block.stmts, in_switch, allow_break, allow_throw)?
+                }
+                Stmt::If(IfStmt { cons, alt, .. }) => {
+                    if let Some(alt) = alt {
+                        terminates(cons, in_switch, allow_break, allow_throw)?
+                            && terminates(alt, in_switch, allow_break, allow_throw)?
+                    } else {
+                        terminates(cons, in_switch, allow_break, allow_throw)?;
+
+                        false
+                    }
+                }
                 Stmt::Switch(s) => {
                     let mut has_default = false;
                     let mut has_non_empty_terminates = false;
@@ -495,12 +535,12 @@ pub trait StmtExt {
                         }
 
                         if !case.cons.is_empty() {
-                            let t = terminates_many(&case.cons, false, allow_throw);
+                            let t = terminates_many(&case.cons, true, false, allow_throw)?;
 
                             if t {
                                 has_non_empty_terminates = true
                             } else {
-                                return false;
+                                return Ok(false);
                             }
                         }
                     }
@@ -509,17 +549,17 @@ pub trait StmtExt {
                 }
                 Stmt::Try(t) => {
                     if let Some(h) = &t.handler {
-                        terminates_many(&t.block.stmts, allow_break, false)
-                            && terminates_many(&h.body.stmts, allow_break, allow_throw)
+                        terminates_many(&t.block.stmts, in_switch, allow_break, false)?
+                            && terminates_many(&h.body.stmts, in_switch, allow_break, allow_throw)?
                     } else {
-                        terminates_many(&t.block.stmts, allow_break, allow_throw)
+                        terminates_many(&t.block.stmts, in_switch, allow_break, allow_throw)?
                     }
                 }
                 _ => false,
-            }
+            })
         }
 
-        terminates(self.as_stmt(), true, true)
+        terminates(self.as_stmt(), false, true, true) == Ok(true)
     }
 
     fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {
@@ -3304,6 +3344,34 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
             prop: MemberProp::Ident(prop),
             ..
         }) => {
+            // Some methods of string are pure
+            fn is_pure_str_method(method: &str) -> bool {
+                matches!(
+                    method,
+                    "charAt"
+                        | "charCodeAt"
+                        | "concat"
+                        | "endsWith"
+                        | "includes"
+                        | "indexOf"
+                        | "lastIndexOf"
+                        | "localeCompare"
+                        | "slice"
+                        | "split"
+                        | "startsWith"
+                        | "substr"
+                        | "substring"
+                        | "toLocaleLowerCase"
+                        | "toLocaleUpperCase"
+                        | "toLowerCase"
+                        | "toString"
+                        | "toUpperCase"
+                        | "trim"
+                        | "trimEnd"
+                        | "trimStart"
+                )
+            }
+
             obj.is_global_ref_to(ctx, "Math")
                 || match &**obj {
                     // Allow dummy span
@@ -3311,15 +3379,10 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
                         ctxt, sym: math, ..
                     }) => &**math == "Math" && *ctxt == SyntaxContext::empty(),
 
-                    // Some methods of string are pure
-                    Expr::Lit(Lit::Str(..)) => match &*prop.sym {
-                        "charAt" | "charCodeAt" | "concat" | "endsWith" | "includes"
-                        | "indexOf" | "lastIndexOf" | "localeCompare" | "slice" | "split"
-                        | "startsWith" | "substr" | "substring" | "toLocaleLowerCase"
-                        | "toLocaleUpperCase" | "toLowerCase" | "toString" | "toUpperCase"
-                        | "trim" | "trimEnd" | "trimStart" => true,
-                        _ => false,
-                    },
+                    Expr::Lit(Lit::Str(..)) => is_pure_str_method(&prop.sym),
+                    Expr::Tpl(Tpl { exprs, .. }) if exprs.is_empty() => {
+                        is_pure_str_method(&prop.sym)
+                    }
 
                     _ => false,
                 }

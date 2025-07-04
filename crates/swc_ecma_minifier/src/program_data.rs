@@ -105,6 +105,8 @@ bitflags::bitflags! {
         /// `a` in `foo(<a />)`
         const USED_AS_JSX_CALLEE       = 1 << 24;
 
+        /// The variable is declared without initializer.
+        const LAZY_INIT                 = 1 << 25;
     }
 
     #[derive(Debug, Default, Clone, Copy)]
@@ -625,6 +627,10 @@ impl ScopeDataLike for ScopeData {
 impl VarDataLike for VarUsageInfo {
     fn mark_declared_as_fn_param(&mut self) {
         self.flags.insert(VarUsageInfoFlags::DECLARED_AS_FN_PARAM);
+    }
+
+    fn mark_as_lazy_init(&mut self) {
+        self.flags.insert(VarUsageInfoFlags::LAZY_INIT);
     }
 
     fn mark_declared_as_fn_decl(&mut self) {

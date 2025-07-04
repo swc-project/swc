@@ -1,15 +1,15 @@
 use swc_common::BytePos;
 use swc_ecma_ast::EsVersion;
 
-use super::{context::Context, syntax::Syntax};
-use crate::{error::Error, lexer};
+use super::context::Context;
+use crate::{common::syntax::SyntaxFlags, error::Error, lexer};
 
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.
 pub trait Tokens<TokenAndSpan>: Clone + Iterator<Item = TokenAndSpan> {
     fn set_ctx(&mut self, ctx: Context);
     fn ctx(&self) -> Context;
-    fn syntax(&self) -> Syntax;
+    fn syntax(&self) -> SyntaxFlags;
     fn target(&self) -> EsVersion;
 
     fn start_pos(&self) -> BytePos {

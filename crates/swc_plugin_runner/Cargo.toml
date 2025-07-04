@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_plugin_runner"
 repository    = { workspace = true }
-version       = "15.0.0"
+version       = "15.0.1"
 
 [lib]
 bench   = false
@@ -20,7 +20,8 @@ plugin_transform_host_js = [
   "wasmer-compiler-cranelift/wasm",
 ]
 plugin_transform_host_native = [
-  "wasmer/default",
+  "wasmer/cranelift",
+  "wasmer/sys",
   "wasmer-wasix/sys",
   "wasmer-wasix/logging",
   "wasmer-wasix/host-fs",
@@ -60,12 +61,11 @@ serde        = { workspace = true, features = ["derive"] }
 serde_json   = { workspace = true }
 tokio        = { workspace = true, optional = true }
 tracing      = { workspace = true }
-virtual-fs   = { workspace = true }
 wasmer       = { workspace = true }
 wasmer-wasix = { workspace = true }
 
 swc_atoms = { version = "6.0.0", path = '../swc_atoms' }
-swc_common = { version = "13.0.1", path = "../swc_common", features = [
+swc_common = { version = "13.0.2", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_css_ast = { version = "13.0.0", path = "../swc_css_ast", optional = true }
@@ -89,7 +89,7 @@ swc_ecma_ast = { version = "13.0.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
 swc_ecma_loader = { version = "13.0.0", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "17.0.1", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "18.0.1", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
 testing = { version = "14.0.0", path = "../testing" }

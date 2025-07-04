@@ -21,6 +21,7 @@ use crate::{
             class_and_fn::{
                 parse_async_fn_decl, parse_class_decl, parse_decorators, parse_default_class,
             },
+            eof_error,
             expr::parse_str_lit,
             ident::parse_binding_ident,
             object::parse_object_expr,
@@ -65,7 +66,9 @@ fn parse_from_clause_and_semi<'a, P: Parser<'a>>(
 ) -> PResult<(Box<Str>, Option<Box<ObjectLit>>)> {
     expect!(p, &P::Token::FROM);
 
-    let cur = cur!(p, true);
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
     let src = if cur.is_str() {
         Box::new(parse_str_lit(p))
     } else {
@@ -345,8 +348,17 @@ fn parse_export<'a, P: Parser<'a>>(
     }
 
     let start = p.cur_pos();
-    p.assert_and_bump(&P::Token::EXPORT)?;
-    let _ = cur!(p, true);
+    p.assert_and_bump(&P::Token::EXPORT);
+
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
+    if cur.is_error() {
+        let c = p.input_mut().bump();
+        let err = c.take_error(p.input_mut());
+        return Err(err);
+    }
+
     let after_export_start = p.cur_pos();
 
     // "export declare" is equivalent to just "export".
@@ -363,16 +375,17 @@ fn parse_export<'a, P: Parser<'a>>(
         }
     }
 
-    if p.input().syntax().typescript() && p.input_mut().cur().is_some_and(|cur| cur.is_word()) {
-        let cur = cur!(p, true);
-        let sym = cur.clone().take_word(p.input()).unwrap();
-        // TODO: remove clone
-        if let Some(decl) = try_parse_ts_export_decl(p, decorators.clone(), sym) {
-            return Ok(ExportDecl {
-                span: p.span(start),
-                decl,
+    if p.input().syntax().typescript() {
+        if let Some(cur) = p.input_mut().cur().filter(|cur| cur.is_word()) {
+            let sym = cur.clone().take_word(p.input()).unwrap();
+            // TODO: remove clone
+            if let Some(decl) = try_parse_ts_export_decl(p, decorators.clone(), sym) {
+                return Ok(ExportDecl {
+                    span: p.span(start),
+                    decl,
+                }
+                .into());
             }
-            .into());
         }
     }
 
@@ -382,7 +395,7 @@ fn parse_export<'a, P: Parser<'a>>(
                 p.input_mut().is(&P::Token::TYPE) && peek!(p).is_some_and(|p| p.is_word());
 
             if is_type_only {
-                p.assert_and_bump(&P::Token::TYPE)?;
+                p.assert_and_bump(&P::Token::TYPE);
             }
 
             let id = parse_ident_name(p)?;
@@ -448,8 +461,15 @@ fn parse_export<'a, P: Parser<'a>>(
                 && !p.input_mut().has_linebreak_between_cur_and_peeked()
             {
                 let class_start = p.cur_pos();
-                p.assert_and_bump(&P::Token::ABSTRACT)?;
-                let _ = cur!(p, true);
+                p.assert_and_bump(&P::Token::ABSTRACT);
+                let Some(cur) = p.input_mut().cur() else {
+                    return Err(eof_error(p));
+                };
+                if cur.is_error() {
+                    let c = p.input_mut().bump();
+                    let err = c.take_error(p.input_mut());
+                    return Err(err);
+                }
 
                 return parse_default_class(p, start, class_start, decorators, true)
                     .map(ModuleDecl::ExportDefaultDecl);
@@ -458,12 +478,12 @@ fn parse_export<'a, P: Parser<'a>>(
                 && peek!(p).is_some_and(|cur| cur.is_interface())
             {
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1242);
-                p.assert_and_bump(&P::Token::ABSTRACT)?;
+                p.assert_and_bump(&P::Token::ABSTRACT);
             }
 
             if p.input_mut().is(&P::Token::INTERFACE) {
                 let interface_start = p.cur_pos();
-                p.assert_and_bump(&P::Token::INTERFACE)?;
+                p.assert_and_bump(&P::Token::INTERFACE);
                 let decl = parse_ts_interface_decl(p, interface_start).map(DefaultDecl::from)?;
                 return Ok(ExportDefaultDecl {
                     span: p.span(start),
@@ -493,7 +513,7 @@ fn parse_export<'a, P: Parser<'a>>(
         {
             export_default = Some(Ident::new_no_ctxt(atom!("default"), p.input().prev_span()))
         } else {
-            let expr = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
+            let expr = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
             p.expect_general_semi()?;
             return Ok(ExportDefaultExpr {
                 span: p.span(start),
@@ -531,9 +551,11 @@ fn parse_export<'a, P: Parser<'a>>(
         && peek!(p).is_some_and(|cur| cur.is_enum())
     {
         let enum_start = p.cur_pos();
-        p.assert_and_bump(&P::Token::CONST)?;
-        let _ = cur!(p, true);
-        p.assert_and_bump(&P::Token::ENUM)?;
+        p.assert_and_bump(&P::Token::CONST);
+        let Some(_) = p.input_mut().cur() else {
+            return Err(eof_error(p));
+        };
+        p.assert_and_bump(&P::Token::ENUM);
         return parse_ts_enum_decl(p, enum_start, /* is_const */ true)
             .map(Decl::from)
             .map(|decl| {
@@ -582,7 +604,7 @@ fn parse_export<'a, P: Parser<'a>>(
             && p.input_mut().is(&P::Token::MUL)
             && !peek!(p).is_some_and(|cur| cur.is_as())
         {
-            p.assert_and_bump(&P::Token::MUL)?;
+            p.assert_and_bump(&P::Token::MUL);
 
             // improve error message for `export * from foo`
             let (src, with) = parse_from_clause_and_semi(p)?;
@@ -613,7 +635,7 @@ fn parse_export<'a, P: Parser<'a>>(
             && p.input_mut().is(&P::Token::COMMA)
             && peek!(p).is_some_and(|cur| cur.is_star())
         {
-            p.assert_and_bump(&P::Token::COMMA)?;
+            p.assert_and_bump(&P::Token::COMMA);
 
             has_ns = true;
         }
@@ -624,7 +646,7 @@ fn parse_export<'a, P: Parser<'a>>(
         }
 
         if has_ns {
-            p.assert_and_bump(&P::Token::MUL)?;
+            p.assert_and_bump(&P::Token::MUL);
             expect!(p, &P::Token::AS);
             let name = parse_module_export_name(p)?;
             specifiers.push(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
@@ -881,7 +903,7 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
 
     let src = {
         expect!(p, &P::Token::FROM);
-        if cur!(p, true).is_str() {
+        if p.input_mut().cur().is_some_and(|cur| cur.is_str()) {
             Box::new(parse_str_lit(p))
         } else {
             unexpected!(p, "a string literal")

@@ -16,7 +16,7 @@
     }) : // Browser globals
     factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var undefined1, unfocusableItemSelector, goToAdjacentItem, undefined2, undefined3, undefined4, undefined5, ieHack, uiTemplate, undefined6, undefined7, defaultFilterCallback, undefined8, rDividerListItem, origDefaultFilterCallback, undefined9, nsNormalizeDict, oldFind, rbrace, jqmDataRE, window1, compensateToolbars, undefined10, uuid, slice, _cleanData, rcapitals, replaceFunction, loaderClass, $html, bool, docElem, refNode, // fakeBody required for <FF4 when executed in <head>
+    var undefined1, goToAdjacentItem, undefined2, undefined3, undefined4, undefined5, ieHack, uiTemplate, undefined6, undefined7, defaultFilterCallback, undefined8, rDividerListItem, origDefaultFilterCallback, undefined9, nsNormalizeDict, oldFind, rbrace, jqmDataRE, window1, compensateToolbars, undefined10, uuid, slice, _cleanData, rcapitals, replaceFunction, $html, bool, docElem, refNode, // fakeBody required for <FF4 when executed in <head>
     fakeBody, div, support, self, $win, dummyFnToInitNavigate, undefined11, path, $base, dialogHashKey, undefined12, path1, initialHref, loc, undefined13, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, baseElement, // base element management, defined depending on dynamic base tag support
     // TODO move to external widget
     base, undefined14, originalWidget, // Record the original, non-mobileinit-modified version of $.mobile.keepNative
@@ -658,7 +658,7 @@
             return options;
         }
     }), //TODO: Remove in 1.5 for backcompat only
-    jQuery.mobile.widget = jQuery.Widget, loaderClass = "ui-loader", $html = jQuery("html"), jQuery.widget("mobile.loader", {
+    jQuery.mobile.widget = jQuery.Widget, $html = jQuery("html"), jQuery.widget("mobile.loader", {
         // NOTE if the global config settings are defined they will override these
         //      options
         options: {
@@ -671,7 +671,7 @@
             // the text to be displayed when the popup is shown
             text: "loading"
         },
-        defaultHtml: "<div class='" + loaderClass + "'><span class='ui-icon-loading'></span><h1></h1></div>",
+        defaultHtml: "<div class='ui-loader'><span class='ui-icon-loading'></span><h1></h1></div>",
         // For non-fixed supportin browsers. Position at y center (if scrollTop supported), above the activeBtn (if defined), or just 100px from top
         fakeFixLoader: function() {
             var activeBtn = jQuery("." + jQuery.mobile.activeBtnClass).first();
@@ -703,7 +703,7 @@
             $html.addClass("ui-loading"), textVisible = loadSettings.textVisible, // add the proper css given the options (theme, text, etc)
             // Force text visibility if the second argument was supplied, or
             // if the text was explicitly set in the object args
-            this.element.attr("class", loaderClass + " ui-corner-all ui-body-" + theme + " ui-loader-" + (textVisible || msgText || theme.text ? "verbose" : "default") + (loadSettings.textonly || textonly ? " ui-loader-textonly" : "")), loadSettings.html ? this.element.html(loadSettings.html) : this.element.find("h1").text(message), // attach the loader to the DOM
+            this.element.attr("class", "ui-loader ui-corner-all ui-body-" + theme + " ui-loader-" + (textVisible || msgText || theme.text ? "verbose" : "default") + (loadSettings.textonly || textonly ? " ui-loader-textonly" : "")), loadSettings.html ? this.element.html(loadSettings.html) : this.element.find("h1").text(message), // attach the loader to the DOM
             this.element.appendTo(jQuery.mobile.pageContainer), // check that the loader is visible
             this.checkLoaderPosition(), // on scroll check the loader position
             this.window.bind("scroll", jQuery.proxy(this.checkLoaderPosition, this));
@@ -3657,11 +3657,7 @@
                 }), (wrapper = document1.createElement("div")).className = "ui-slider-inneroffset", j = 0, length = domSlider.childNodes.length; j < length; j++)wrapper.appendChild(domSlider.childNodes[j]);
                 for(domSlider.appendChild(wrapper), // slider.wrapInner( "<div class='ui-slider-inneroffset'></div>" );
                 // make the handle move with a smooth transition
-                handle.addClass("ui-slider-handle-snapping"), i = 0, optionsCount = (options = control.find("option")).length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + jQuery.mobile.activeBtnClass : "", (sliderImg = document1.createElement("span")).className = [
-                    "ui-slider-label ui-slider-label-",
-                    side,
-                    activeClass
-                ].join(""), sliderImg.setAttribute("role", "img"), sliderImg.appendChild(document1.createTextNode(options[i].innerHTML)), jQuery(sliderImg).prependTo(slider);
+                handle.addClass("ui-slider-handle-snapping"), i = 0, optionsCount = (options = control.find("option")).length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + jQuery.mobile.activeBtnClass : "", (sliderImg = document1.createElement("span")).className = "ui-slider-label ui-slider-label-" + side + activeClass, sliderImg.setAttribute("role", "img"), sliderImg.appendChild(document1.createTextNode(options[i].innerHTML)), jQuery(sliderImg).prependTo(slider);
                 this._labels = jQuery(".ui-slider-label", slider);
             }
             // monitor the input for updated values
@@ -4690,8 +4686,8 @@
     }, // TODO move inside _create
     jQuery.mobile.document.on("pagebeforechange", function(theEvent, data) {
         "popup" === data.options.role && (jQuery.mobile.popup.handleLink(data.options.link), theEvent.preventDefault());
-    }), unfocusableItemSelector = ".ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')", goToAdjacentItem = function(item, target, direction) {
-        var adjacent = item[direction + "All"]().not(unfocusableItemSelector).first();
+    }), goToAdjacentItem = function(item, target, direction) {
+        var adjacent = item[direction + "All"]().not(".ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')").first();
         // if there's a previous option, focus it
         adjacent.length && (target.blur().attr("tabindex", "-1"), adjacent.find("a").first().focus());
     }, jQuery.widget("mobile.selectmenu", jQuery.mobile.selectmenu, {
@@ -4843,7 +4839,7 @@
         },
         _focusMenuItem: function() {
             var selector = this.list.find("a." + jQuery.mobile.activeBtnClass);
-            0 === selector.length && (selector = this.list.find("li:not(" + unfocusableItemSelector + ") a.ui-btn")), selector.first().focus();
+            0 === selector.length && (selector = this.list.find("li:not(.ui-disabled,.ui-state-disabled,.ui-li-divider,.ui-screen-hidden,:jqmData(role='placeholder')) a.ui-btn")), selector.first().focus();
         },
         _decideFormat: function() {
             var $window = this.window, menuHeight = this.list.parent().outerHeight(), scrollTop = $window.scrollTop(), btnOffset = this.button.offset().top, screenHeight = $window.height();

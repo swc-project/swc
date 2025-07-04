@@ -15,7 +15,7 @@ bench = false
 auto_impl  = { workspace = true }
 petgraph   = { workspace = true }
 rustc-hash = { workspace = true }
-swc_common = { version = "13.0.1", path = "../swc_common/" }
+swc_common = { version = "13.0.2", path = "../swc_common/" }
 tracing    = { workspace = true }
 
 [dev-dependencies]

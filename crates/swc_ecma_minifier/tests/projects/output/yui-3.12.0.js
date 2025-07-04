@@ -3625,7 +3625,7 @@ Contains the core of YUI's feature test architecture.
         "yui-base"
     ]
 }), YUI.add("loader-base", function(Y, NAME) {
-    VERSION = Y.version, BUILD = "/build/", COMBO_BASE = (CDN_BASE = Y.Env.base) + "combo?", groups = (META = {
+    VERSION = Y.version, COMBO_BASE = (CDN_BASE = Y.Env.base) + "combo?", groups = (META = {
         version: VERSION,
         root: VERSION + "/",
         base: Y.Env.base,
@@ -3646,10 +3646,10 @@ Contains the core of YUI's feature test architecture.
         groups: {},
         patterns: {}
     }).groups, yui2Update = function(tnt, yui2, config) {
-        var root = "2in3." + (tnt || "4") + "/" + (yui2 || "2.9.0") + BUILD, base = config && config.base ? config.base : CDN_BASE, combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
+        var root = "2in3." + (tnt || "4") + "/" + (yui2 || "2.9.0") + "/build/", base = config && config.base ? config.base : CDN_BASE, combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
         groups.yui2.base = base + root, groups.yui2.root = root, groups.yui2.comboBase = combo;
     }, galleryUpdate = function(tag, config) {
-        var root = (tag || "gallery-2013.08.22-21-03") + BUILD, base = config && config.base ? config.base : CDN_BASE, combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
+        var root = (tag || "gallery-2013.08.22-21-03") + "/build/", base = config && config.base ? config.base : CDN_BASE, combo = config && config.comboBase ? config.comboBase : COMBO_BASE;
         groups.gallery.base = base + root, groups.gallery.root = root, groups.gallery.comboBase = combo;
     }, groups[VERSION] = {}, groups.gallery = {
         ext: !1,
@@ -3693,7 +3693,7 @@ Contains the core of YUI's feature test architecture.
      * @module loader
      * @main loader
      * @submodule loader-base
-     */ var VERSION, BUILD, CDN_BASE, COMBO_BASE, META, groups, yui2Update, galleryUpdate, NOT_FOUND = {}, NO_REQUIREMENTS = [], GLOBAL_ENV = YUI.Env, GLOBAL_LOADED = GLOBAL_ENV._loaded, INTL = "intl", VERSION1 = Y.version, YObject = Y.Object, oeach = YObject.each, yArray = Y.Array, _queue = GLOBAL_ENV._loaderQueue, META1 = GLOBAL_ENV[VERSION1], L = Y.Lang, ON_PAGE = GLOBAL_ENV.mods, _path = function(dir, file, type, nomin) {
+     */ var VERSION, CDN_BASE, COMBO_BASE, META, groups, yui2Update, galleryUpdate, NOT_FOUND = {}, NO_REQUIREMENTS = [], GLOBAL_ENV = YUI.Env, GLOBAL_LOADED = GLOBAL_ENV._loaded, INTL = "intl", VERSION1 = Y.version, YObject = Y.Object, oeach = YObject.each, yArray = Y.Array, _queue = GLOBAL_ENV._loaderQueue, META1 = GLOBAL_ENV[VERSION1], L = Y.Lang, ON_PAGE = GLOBAL_ENV.mods, _path = function(dir, file, type, nomin) {
         var path = dir + "/" + file;
         return nomin || (path += "-min"), path += "." + (type || "css");
     };

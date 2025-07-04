@@ -10,9 +10,12 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::{
-    common::lexer::{
-        char::CharExt, comments_buffer::CommentsBuffer, fixed_len_span, pos_span, LexResult,
-        Lexer as LexerTrait,
+    common::{
+        lexer::{
+            char::CharExt, comments_buffer::CommentsBuffer, fixed_len_span, pos_span, LexResult,
+            Lexer as LexerTrait,
+        },
+        syntax::SyntaxFlags,
     },
     lexer::TokenFlags,
 };
@@ -24,9 +27,11 @@ use crate::{
     Context, Syntax,
 };
 
+#[cfg(feature = "unstable")]
+pub(crate) mod capturing;
 mod state;
 mod table;
-mod token;
+pub(crate) mod token;
 
 pub(crate) use token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
 
@@ -42,7 +47,7 @@ pub struct Lexer<'a> {
 
     state: self::state::State,
     token_flags: TokenFlags,
-    pub(crate) syntax: Syntax,
+    pub(crate) syntax: SyntaxFlags,
     pub(crate) target: EsVersion,
 
     errors: Rc<RefCell<Vec<Error>>>,
@@ -140,7 +145,7 @@ impl<'a> Lexer<'a> {
             input,
             start_pos,
             state: self::state::State::new(start_pos),
-            syntax,
+            syntax: syntax.into_flags(),
             target,
             errors: Default::default(),
             module_errors: Default::default(),

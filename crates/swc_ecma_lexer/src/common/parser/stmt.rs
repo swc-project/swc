@@ -2,7 +2,6 @@ use std::ops::DerefMut;
 
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
-use typed_arena::Arena;
 
 use super::{
     buffer::Buffer,
@@ -57,7 +56,7 @@ fn parse_normal_for_head<'a, P: Parser<'a>>(
     let test = if p.input_mut().eat(&P::Token::SEMI) {
         None
     } else {
-        let test = p.include_in_expr(true).parse_expr().map(Some)?;
+        let test = p.allow_in_expr().parse_expr().map(Some)?;
         p.input_mut().eat(&P::Token::SEMI);
         test
     };
@@ -65,7 +64,7 @@ fn parse_normal_for_head<'a, P: Parser<'a>>(
     let update = if p.input_mut().is(&P::Token::RPAREN) {
         None
     } else {
-        p.include_in_expr(true).parse_expr().map(Some)?
+        p.allow_in_expr().parse_expr().map(Some)?
     };
 
     Ok(TempForHead::For { init, test, update })
@@ -74,13 +73,13 @@ fn parse_normal_for_head<'a, P: Parser<'a>>(
 fn parse_for_each_head<'a, P: Parser<'a>>(p: &mut P, left: ForHead) -> PResult<TempForHead> {
     let is_of = p.bump().is_of();
     if is_of {
-        let right = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
+        let right = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
         Ok(TempForHead::ForOf { left, right })
     } else {
         if let ForHead::UsingDecl(d) = &left {
             p.emit_err(d.span, SyntaxError::UsingDeclNotAllowedForForInLoop)
         }
-        let right = p.include_in_expr(true).parse_expr()?;
+        let right = p.allow_in_expr().parse_expr()?;
         Ok(TempForHead::ForIn { left, right })
     }
 }
@@ -89,12 +88,12 @@ pub fn parse_return_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let start = p.cur_pos();
 
     let stmt = p.parse_with(|p| {
-        p.assert_and_bump(&P::Token::RETURN)?;
+        p.assert_and_bump(&P::Token::RETURN);
 
         let arg = if p.is_general_semi() {
             None
         } else {
-            p.include_in_expr(true).parse_expr().map(Some)?
+            p.allow_in_expr().parse_expr().map(Some)?
         };
         p.expect_general_semi()?;
         Ok(ReturnStmt {
@@ -260,12 +259,6 @@ pub fn parse_var_stmt<'a, P: Parser<'a>>(p: &mut P, for_loop: bool) -> PResult<B
 
     let mut decls = Vec::with_capacity(4);
     loop {
-        let ctx = if should_include_in {
-            p.ctx() | Context::IncludeInExpr
-        } else {
-            p.ctx()
-        };
-
         // Handle
         //      var a,;
         //
@@ -281,11 +274,14 @@ pub fn parse_var_stmt<'a, P: Parser<'a>>(p: &mut P, for_loop: bool) -> PResult<B
             break;
         }
 
-        decls.push(parse_var_declarator(
-            p.with_ctx(ctx).deref_mut(),
-            for_loop,
-            kind,
-        )?);
+        let decl = if should_include_in {
+            p.do_inside_of_context(Context::IncludeInExpr)
+                .parse_with(|p| parse_var_declarator(p, for_loop, kind))
+        } else {
+            parse_var_declarator(p, for_loop, kind)
+        }?;
+
+        decls.push(decl);
 
         if !p.input_mut().eat(&P::Token::COMMA) {
             break;
@@ -333,7 +329,7 @@ pub fn parse_using_decl<'a, P: Parser<'a>>(
         return Ok(None);
     }
 
-    p.assert_and_bump(&P::Token::USING)?;
+    p.assert_and_bump(&P::Token::USING);
 
     let mut decls = Vec::new();
     loop {
@@ -440,7 +436,7 @@ pub fn parse_for_head<'a, P: Parser<'a>>(p: &mut P) -> PResult<TempForHead> {
     }
 
     let start = p.cur_pos();
-    let init = parse_for_head_prefix(p.include_in_expr(false).deref_mut())?;
+    let init = parse_for_head_prefix(p.disallow_in_expr().deref_mut())?;
 
     let mut is_using_decl = false;
     let mut is_await_using_decl = false;
@@ -485,7 +481,15 @@ pub fn parse_for_head<'a, P: Parser<'a>>(p: &mut P) -> PResult<TempForHead> {
             decls: vec![decl],
         });
 
-        cur!(p, true);
+        let Some(cur) = p.input_mut().cur() else {
+            return Err(eof_error(p));
+        };
+
+        if cur.is_error() {
+            let c = p.input_mut().bump();
+            let err = c.take_error(p.input_mut());
+            return Err(err);
+        }
 
         return parse_for_each_head(p, ForHead::UsingDecl(pat));
     }
@@ -520,7 +524,7 @@ pub fn parse_for_head<'a, P: Parser<'a>>(p: &mut P) -> PResult<TempForHead> {
 fn parse_for_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::FOR)?;
+    p.assert_and_bump(&P::Token::FOR);
     let await_start = p.cur_pos();
     let await_token = if p.input_mut().eat(&P::Token::AWAIT) {
         Some(p.span(await_start))
@@ -600,14 +604,14 @@ fn adjust_if_else_clause<'a, P: Parser<'a>>(p: &mut P, cur: &mut IfStmt, alt: Bo
 fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::IF)?;
+    p.assert_and_bump(&P::Token::IF);
     let if_token = p.input().prev_span();
 
     expect!(p, &P::Token::LPAREN);
 
     let test = p
-        .with_ctx(p.ctx() & !Context::IgnoreElseClause)
-        .include_in_expr(true)
+        .do_outside_of_context(Context::IgnoreElseClause)
+        .allow_in_expr()
         .parse_expr()
         .map_err(|err| {
             Error::new(
@@ -630,7 +634,7 @@ fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
                 // TODO: report error?
             }
             parse_stmt(
-                p.with_ctx(p.ctx() & !Context::IgnoreElseClause & !Context::TopLevel)
+                p.do_outside_of_context(Context::IgnoreElseClause.union(Context::TopLevel))
                     .deref_mut(),
             )
             .map(Box::new)
@@ -645,24 +649,26 @@ fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
     } else {
         let mut cur = None;
 
-        let ctx = p.ctx() | Context::IgnoreElseClause;
-
         let last = loop {
             if !p.input_mut().eat(&P::Token::ELSE) {
                 break None;
             }
 
             if !p.input_mut().is(&P::Token::IF) {
-                let ctx = p.ctx() & !Context::IgnoreElseClause & !Context::TopLevel;
-
                 // As we eat `else` above, we need to parse statement once.
-                let last = parse_stmt(p.with_ctx(ctx).deref_mut())?;
+                let last = parse_stmt(
+                    p.do_outside_of_context(Context::IgnoreElseClause.union(Context::TopLevel))
+                        .deref_mut(),
+                )?;
                 break Some(last);
             }
 
             // We encountered `else if`
 
-            let alt = parse_if_stmt(p.with_ctx(ctx).deref_mut())?;
+            let alt = parse_if_stmt(
+                p.do_inside_of_context(Context::IgnoreElseClause)
+                    .deref_mut(),
+            )?;
 
             match &mut cur {
                 Some(cur) => {
@@ -698,14 +704,14 @@ fn parse_if_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<IfStmt> {
 fn parse_throw_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::THROW)?;
+    p.assert_and_bump(&P::Token::THROW);
 
     if p.input_mut().had_line_break_before_cur() {
         // TODO: Suggest throw arg;
         syntax_error!(p, SyntaxError::LineBreakInThrow);
     }
 
-    let arg = p.include_in_expr(true).parse_expr()?;
+    let arg = p.allow_in_expr().parse_expr()?;
     p.expect_general_semi()?;
 
     let span = p.span(start);
@@ -725,10 +731,10 @@ fn parse_with_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::WITH)?;
+    p.assert_and_bump(&P::Token::WITH);
 
     expect!(p, &P::Token::LPAREN);
-    let obj = p.include_in_expr(true).parse_expr()?;
+    let obj = p.allow_in_expr().parse_expr()?;
     expect!(p, &P::Token::RPAREN);
 
     let ctx = (p.ctx() | Context::InFunction) & !Context::TopLevel;
@@ -741,10 +747,10 @@ fn parse_with_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 fn parse_while_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::WHILE)?;
+    p.assert_and_bump(&P::Token::WHILE);
 
     expect!(p, &P::Token::LPAREN);
-    let test = p.include_in_expr(true).parse_expr()?;
+    let test = p.allow_in_expr().parse_expr()?;
     expect!(p, &P::Token::RPAREN);
 
     let ctx = (p.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed) & !Context::TopLevel;
@@ -762,9 +768,7 @@ fn parse_catch_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Pat>> {
         let type_ann_start = p.cur_pos();
 
         if p.syntax().typescript() && p.input_mut().eat(&P::Token::COLON) {
-            let ctx = p.ctx() | Context::InType;
-
-            let ty = parse_ts_type(p.with_ctx(ctx).deref_mut())?;
+            let ty = parse_ts_type(p.do_inside_of_context(Context::InType).deref_mut())?;
             // p.emit_err(ty.span(), SyntaxError::TS1196);
 
             match &mut pat {
@@ -792,13 +796,13 @@ fn parse_catch_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Pat>> {
 fn parse_do_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::DO)?;
+    p.assert_and_bump(&P::Token::DO);
 
     let ctx = (p.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed) & !Context::TopLevel;
     let body = parse_stmt(p.with_ctx(ctx).deref_mut()).map(Box::new)?;
     expect!(p, &P::Token::WHILE);
     expect!(p, &P::Token::LPAREN);
-    let test = p.include_in_expr(true).parse_expr()?;
+    let test = p.allow_in_expr().parse_expr()?;
     expect!(p, &P::Token::RPAREN);
     // We *may* eat semicolon.
     let _ = p.eat_general_semi();
@@ -837,7 +841,7 @@ fn parse_labelled_stmt<'a, P: Parser<'a>>(p: &mut P, l: Ident) -> PResult<Stmt> 
 
             f.into()
         } else {
-            parse_stmt(p.with_ctx(p.ctx() & !Context::TopLevel).deref_mut())?
+            parse_stmt(p.do_outside_of_context(Context::TopLevel).deref_mut())?
         });
 
         for err in errors {
@@ -866,7 +870,7 @@ pub fn parse_block<'a, P: Parser<'a>>(p: &mut P, allow_directives: bool) -> PRes
     expect!(p, &P::Token::LBRACE);
 
     let stmts = parse_stmt_block_body(
-        p.with_ctx(p.ctx() & !Context::TopLevel).deref_mut(),
+        p.do_outside_of_context(Context::TopLevel).deref_mut(),
         allow_directives,
         Some(&P::Token::RBRACE),
     )?;
@@ -905,7 +909,7 @@ fn parse_catch_clause<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<CatchClaus
 
 fn parse_try_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let start = p.cur_pos();
-    p.assert_and_bump(&P::Token::TRY)?;
+    p.assert_and_bump(&P::Token::TRY);
 
     let block = parse_block(p, false)?;
 
@@ -930,10 +934,10 @@ fn parse_try_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let switch_start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::SWITCH)?;
+    p.assert_and_bump(&P::Token::SWITCH);
 
     expect!(p, &P::Token::LPAREN);
-    let discriminant = p.include_in_expr(true).parse_expr()?;
+    let discriminant = p.allow_in_expr().parse_expr()?;
     expect!(p, &P::Token::RPAREN);
 
     let mut cases = Vec::new();
@@ -941,49 +945,49 @@ fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
     expect!(p, &P::Token::LBRACE);
 
-    let ctx = p.ctx() | Context::IsBreakAllowed;
-    p.with_ctx(ctx).parse_with(|p| {
-        while p
-            .input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_case() || cur.is_default())
-        {
-            let mut cons = Vec::new();
-            let is_case = p.input_mut().is(&P::Token::CASE);
-            let case_start = p.cur_pos();
-            p.bump();
-            let test = if is_case {
-                p.include_in_expr(true).parse_expr().map(Some)?
-            } else {
-                if let Some(previous) = span_of_previous_default {
-                    syntax_error!(p, SyntaxError::MultipleDefault { previous });
-                }
-                span_of_previous_default = Some(p.span(case_start));
-
-                None
-            };
-            expect!(p, &P::Token::COLON);
-
-            while !eof!(p)
-                && !p
-                    .input_mut()
-                    .cur()
-                    .is_some_and(|cur| cur.is_case() || cur.is_default() || cur.is_rbrace())
+    p.do_inside_of_context(Context::IsBreakAllowed)
+        .parse_with(|p| {
+            while p
+                .input_mut()
+                .cur()
+                .is_some_and(|cur| cur.is_case() || cur.is_default())
             {
-                cons.push(parse_stmt_list_item(
-                    p.with_ctx(p.ctx() & !Context::TopLevel).deref_mut(),
-                )?);
+                let mut cons = Vec::new();
+                let is_case = p.input_mut().is(&P::Token::CASE);
+                let case_start = p.cur_pos();
+                p.bump();
+                let test = if is_case {
+                    p.allow_in_expr().parse_expr().map(Some)?
+                } else {
+                    if let Some(previous) = span_of_previous_default {
+                        syntax_error!(p, SyntaxError::MultipleDefault { previous });
+                    }
+                    span_of_previous_default = Some(p.span(case_start));
+
+                    None
+                };
+                expect!(p, &P::Token::COLON);
+
+                while !eof!(p)
+                    && !p
+                        .input_mut()
+                        .cur()
+                        .is_some_and(|cur| cur.is_case() || cur.is_default() || cur.is_rbrace())
+                {
+                    cons.push(parse_stmt_list_item(
+                        p.do_outside_of_context(Context::TopLevel).deref_mut(),
+                    )?);
+                }
+
+                cases.push(SwitchCase {
+                    span: Span::new(case_start, p.input().prev_span().hi),
+                    test,
+                    cons,
+                });
             }
 
-            cases.push(SwitchCase {
-                span: Span::new(case_start, p.input().prev_span().hi),
-                test,
-                cons,
-            });
-        }
-
-        Ok(())
-    })?;
+            Ok(())
+        })?;
 
     // eof or rbrace
     expect!(p, &P::Token::RBRACE);
@@ -1076,15 +1080,19 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
         && p.input_mut().is(&P::Token::CONST)
         && peek!(p).is_some_and(|peek| peek.is_enum())
     {
-        p.assert_and_bump(&P::Token::CONST)?;
-        p.assert_and_bump(&P::Token::ENUM)?;
+        p.assert_and_bump(&P::Token::CONST);
+        p.assert_and_bump(&P::Token::ENUM);
         return parse_ts_enum_decl(p, start, true)
             .map(Decl::from)
             .map(Stmt::from);
     }
 
     let top_level = p.ctx().contains(Context::TopLevel);
-    let cur = cur!(p, true).clone();
+
+    let Some(cur) = p.input_mut().cur().cloned() else {
+        return Err(eof_error(p));
+    };
+
     if cur.is_await() && (include_decl || top_level) {
         if top_level {
             p.mark_found_module_item();
@@ -1095,14 +1103,14 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
 
         if peek!(p).is_some_and(|peek| peek.is_using()) {
             let eaten_await = Some(p.input_mut().cur_pos());
-            p.assert_and_bump(&P::Token::AWAIT)?;
+            p.assert_and_bump(&P::Token::AWAIT);
             let v = parse_using_decl(p, start, true)?;
             if let Some(v) = v {
                 return Ok(v.into());
             }
 
             let expr = parse_await_expr(p, eaten_await)?;
-            let expr = parse_bin_op_recursively(p.include_in_expr(true).deref_mut(), expr, 0)?;
+            let expr = parse_bin_op_recursively(p.allow_in_expr().deref_mut(), expr, 0)?;
             p.eat_general_semi();
 
             let span = p.span(start);
@@ -1240,10 +1248,14 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
         return Ok(parse_ts_enum_decl(p, start, false)?.into());
     } else if cur.is_lbrace() {
         return parse_block(
-            p.with_ctx(p.ctx() | Context::AllowUsingDecl).deref_mut(),
+            p.do_inside_of_context(Context::AllowUsingDecl).deref_mut(),
             false,
         )
         .map(Stmt::Block);
+    } else if cur.is_error() {
+        let c = p.input_mut().bump();
+        let err = c.take_error(p.input_mut());
+        return Err(err);
     }
 
     if p.input_mut().eat(&P::Token::SEMI) {
@@ -1266,7 +1278,7 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
     // simply start parsing an expression, and afterwards, if the
     // next token is a colon and the expression was a simple
     // Identifier node, we switch to interpreting it as a label.
-    let expr = p.include_in_expr(true).parse_expr()?;
+    let expr = p.allow_in_expr().parse_expr()?;
 
     let expr = match *expr {
         Expr::Ident(ident) => {
@@ -1370,17 +1382,20 @@ pub(super) fn parse_block_body<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>
 
     let old_ctx = p.ctx();
 
-    let stmts = Arena::new();
+    let mut stmts = Vec::with_capacity(8);
     while {
-        if p.input_mut().cur().is_none() && end.is_some() {
-            let eof_text = p.input_mut().dump_cur();
-            p.emit_err(
-                p.input().cur_span(),
-                SyntaxError::Expected(format!("{:?}", end.unwrap()), eof_text),
-            );
-            false
-        } else {
-            p.input_mut().cur() != end
+        match (p.input_mut().cur(), end) {
+            (Some(cur), Some(end)) => cur != end,
+            (Some(_), None) => true,
+            (None, None) => false,
+            (None, Some(_)) => {
+                let eof_text = p.input_mut().dump_cur();
+                p.emit_err(
+                    p.input().cur_span(),
+                    SyntaxError::Expected(format!("{:?}", end.unwrap()), eof_text),
+                );
+                false
+            }
         }
     } {
         let stmt = parse_stmt_like(p, true, &handle_import_export)?;
@@ -1398,7 +1413,7 @@ pub(super) fn parse_block_body<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>
             }
         }
 
-        stmts.alloc(stmt);
+        stmts.push(stmt);
     }
 
     if p.input_mut().cur().is_some() && end.is_some() {
@@ -1407,5 +1422,5 @@ pub(super) fn parse_block_body<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>
 
     p.set_ctx(old_ctx);
 
-    Ok(stmts.into_vec())
+    Ok(stmts)
 }

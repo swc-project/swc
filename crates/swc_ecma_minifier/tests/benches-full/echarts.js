@@ -34,7 +34,7 @@
     LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
     OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
     PERFORMANCE OF THIS SOFTWARE.
-    ***************************************************************************** */ /* global Reflect, Promise */ var ua, browser, firefox, ie, edge, weChat, style, mouseHandlerNames, pointerEventNameMap, pointerHandlerNames, classAttr, subTypeDefaulters, _super, mainType, creator, _ctx, _cachedFont, requestAnimationFrame, reCreateSeriesIndices, assertSeriesInitialized, initBase, _a, _b, _c, providerMethods, mountMethods, seriesType, nodeParsers, prepare, prepareView, updateDirectly, updateMethods, doConvertPixel, updateStreamModes, doDispatchAction, flushPendingActions, triggerUpdatedEvent, bindRenderedEvent, bindMouseEvent, clearColorPalette, render, renderComponents, renderSeries, performPostUpdateFuncs, createExtensionAPI, enableConnect, setTransitionOpt, markStatusToUpdate, applyChangedStates, defaultDimValueGetters, prepareInvertedIndex, getIndicesCtor, prepareStorage, getRawIndexWithoutIndices, getRawIndexWithIndices, getId, getIdNameFromStore, makeIdFromName, normalizeDimensions, validateDimensions, cloneListForMapAndSample, getInitialExtent, setItemDataAndSeriesIndex, transferProperties, checkNonStyleTansitionRefer, checkTransformPropRefer, extendStatics = function(d, b) {
+    ***************************************************************************** */ /* global Reflect, Promise */ var ua, browser, firefox, ie, edge, weChat, style, mouseHandlerNames, pointerEventNameMap, pointerHandlerNames, classAttr, subTypeDefaulters, _super, creator, _ctx, _cachedFont, requestAnimationFrame, reCreateSeriesIndices, assertSeriesInitialized, initBase, _a, _b, _c, providerMethods, mountMethods, seriesType, nodeParsers, prepare, prepareView, updateDirectly, updateMethods, doConvertPixel, updateStreamModes, doDispatchAction, flushPendingActions, triggerUpdatedEvent, bindRenderedEvent, bindMouseEvent, clearColorPalette, render, renderComponents, renderSeries, performPostUpdateFuncs, createExtensionAPI, enableConnect, setTransitionOpt, markStatusToUpdate, applyChangedStates, defaultDimValueGetters, prepareInvertedIndex, getIndicesCtor, prepareStorage, getRawIndexWithoutIndices, getRawIndexWithIndices, getId, getIdNameFromStore, makeIdFromName, normalizeDimensions, validateDimensions, cloneListForMapAndSample, getInitialExtent, setItemDataAndSeriesIndex, transferProperties, checkNonStyleTansitionRefer, checkTransformPropRefer, extendStatics = function(d, b) {
         return (extendStatics = Object.setPrototypeOf || ({
             __proto__: []
         }) instanceof Array && function(d, b) {
@@ -2759,16 +2759,12 @@
             var maxX = mathMax(lt.x, rb.x, lb.x, rt.x), maxY = mathMax(lt.y, rb.y, lb.y, rt.y);
             target.width = maxX - target.x, target.height = maxY - target.y;
         }, BoundingRect;
-    }(), textWidthCache = {}, DEFAULT_FONT = '12px sans-serif', methods$1 = {
-        measureText: function(text, font) {
-            return _ctx || (_ctx = createCanvas().getContext('2d')), _cachedFont !== font && (_cachedFont = _ctx.font = font || DEFAULT_FONT), _ctx.measureText(text);
-        }
-    };
+    }(), textWidthCache = {}, DEFAULT_FONT = '12px sans-serif';
     function getWidth(text, font) {
-        var cacheOfFont = textWidthCache[font = font || DEFAULT_FONT];
+        var font1, cacheOfFont = textWidthCache[font = font || DEFAULT_FONT];
         cacheOfFont || (cacheOfFont = textWidthCache[font] = new LRU(500));
         var width = cacheOfFont.get(text);
-        return null == width && (width = methods$1.measureText(text, font).width, cacheOfFont.put(text, width)), width;
+        return null == width && (width = (font1 = font, _ctx || (_ctx = createCanvas().getContext('2d')), _cachedFont !== font1 && (_cachedFont = _ctx.font = font1 || DEFAULT_FONT), _ctx.measureText(text)).width, cacheOfFont.put(text, width)), width;
     }
     function innerGetBoundingRect(text, font, textAlign, textBaseline) {
         var width = getWidth(text, font), height = getLineHeight(font);
@@ -3600,16 +3596,13 @@
             'touchmove'
         ],
         pointer: pointerHandlerNames
-    }), globalNativeListenerNames = {
-        mouse: [
-            'mousemove',
-            'mouseup'
-        ],
-        pointer: [
-            'pointermove',
-            'pointerup'
-        ]
-    }, wheelEventSupported = !1;
+    }), globalNativeListenerNames_mouse = [
+        'mousemove',
+        'mouseup'
+    ], globalNativeListenerNames_pointer = [
+        'pointermove',
+        'pointerup'
+    ], wheelEventSupported = !1;
     function isPointerFromTouch(event) {
         var pointerType = event.pointerType;
         return 'pen' === pointerType || 'touch' === pointerType;
@@ -3731,7 +3724,7 @@
                 this.__pointerCapturing = isPointerCapturing;
                 var globalHandlerScope = this._globalHandlerScope;
                 isPointerCapturing ? function(instance, scope) {
-                    env.pointerEventsSupported ? each(globalNativeListenerNames.pointer, mount) : env.touchEventsSupported || each(globalNativeListenerNames.mouse, mount);
+                    env.pointerEventsSupported ? each(globalNativeListenerNames_pointer, mount) : env.touchEventsSupported || each(globalNativeListenerNames_mouse, mount);
                     function mount(nativeEventName) {
                         mountSingleDOMEventListener(scope, nativeEventName, function(event) {
                             if (!isLocalEl(instance, (event = getNativeEvent(event)).target)) {
@@ -4051,7 +4044,7 @@
         }, 0), remainder = map(votesPerQuota, function(votes, idx) {
             return votes - seats[idx];
         }); currentSum < targetSeats;){
-            for(var max = Number.NEGATIVE_INFINITY, maxId = null, i = 0, len = remainder.length; i < len; ++i)remainder[i] > max && (max = remainder[i], maxId = i);
+            for(var max = -1 / 0, maxId = null, i = 0, len = remainder.length; i < len; ++i)remainder[i] > max && (max = remainder[i], maxId = i);
              // Add a vote to max remainder.
             ++seats[maxId], remainder[maxId] = 0, ++currentSum;
         }
@@ -9254,11 +9247,7 @@
         'itemName',
         'itemId',
         'seriesName'
-    ]), SOURCE_FORMAT_ORIGINAL = 'original', SOURCE_FORMAT_ARRAY_ROWS = 'arrayRows', SOURCE_FORMAT_OBJECT_ROWS = 'objectRows', SOURCE_FORMAT_KEYED_COLUMNS = 'keyedColumns', SOURCE_FORMAT_TYPED_ARRAY = 'typedArray', SOURCE_FORMAT_UNKNOWN = 'unknown', SERIES_LAYOUT_BY_COLUMN = 'column', BE_ORDINAL = {
-        Must: 1,
-        Might: 2,
-        Not: 3 // Other cases
-    }, innerGlobalModel = makeInner();
+    ]), SOURCE_FORMAT_ORIGINAL = 'original', SOURCE_FORMAT_ARRAY_ROWS = 'arrayRows', SOURCE_FORMAT_OBJECT_ROWS = 'objectRows', SOURCE_FORMAT_KEYED_COLUMNS = 'keyedColumns', SOURCE_FORMAT_TYPED_ARRAY = 'typedArray', SOURCE_FORMAT_UNKNOWN = 'unknown', SERIES_LAYOUT_BY_COLUMN = 'column', innerGlobalModel = makeInner();
     /**
      * [The strategy of the arrengment of data dimensions for dataset]:
      * "value way": all axes are non-category axes. So series one by one take
@@ -9327,10 +9316,11 @@
             for(var idxRes0 = {}, idxRes1 = {}, guessRecords = [], i = 0, len = Math.min(5, dimCount); i < len; i++){
                 var guessResult = doGuessOrdinal(source.data, sourceFormat, source.seriesLayoutBy, dimensionsDefine, source.startIndex, i);
                 guessRecords.push(guessResult);
-                var isPureNumber = guessResult === BE_ORDINAL.Not; // [Strategy of idxRes0]: find the first BE_ORDINAL.Not as the value dim,
-                if (isPureNumber && null == idxRes0.v && i !== potentialNameDimIndex && (idxRes0.v = i), null != idxRes0.n && idxRes0.n !== idxRes0.v && (isPureNumber || guessRecords[idxRes0.n] !== BE_ORDINAL.Not) || (idxRes0.n = i), fulfilled(idxRes0) && guessRecords[idxRes0.n] !== BE_ORDINAL.Not) return idxRes0;
+                var isPureNumber = 3 // Other cases
+                 === guessResult; // [Strategy of idxRes0]: find the first BE_ORDINAL.Not as the value dim,
+                if (isPureNumber && null == idxRes0.v && i !== potentialNameDimIndex && (idxRes0.v = i), null != idxRes0.n && idxRes0.n !== idxRes0.v && (isPureNumber || 3 !== guessRecords[idxRes0.n]) || (idxRes0.n = i), fulfilled(idxRes0) && 3 !== guessRecords[idxRes0.n]) return idxRes0;
                  // [Strategy of idxRes1]: if idxRes0 not satisfied (that is, no BE_ORDINAL.Not),
-                isPureNumber || (guessResult === BE_ORDINAL.Might && null == idxRes1.v && i !== potentialNameDimIndex && (idxRes1.v = i), (null == idxRes1.n || idxRes1.n === idxRes1.v) && (idxRes1.n = i));
+                isPureNumber || (2 === guessResult && null == idxRes1.v && i !== potentialNameDimIndex && (idxRes1.v = i), (null == idxRes1.n || idxRes1.n === idxRes1.v) && (idxRes1.n = i));
             }
             function fulfilled(idxResult) {
                 return null != idxResult.v && null != idxResult.n;
@@ -9362,13 +9352,13 @@
     // return {BE_ORDINAL}
     function doGuessOrdinal(data, sourceFormat, seriesLayoutBy, dimensionsDefine, startIndex, dimIndex) {
         var result, dimName, dimType;
-        if (isTypedArray(data)) return BE_ORDINAL.Not;
+        if (isTypedArray(data)) return 3;
          // When sourceType is 'objectRows' or 'keyedColumns', dimensionsDefine
         if (dimensionsDefine) {
             var dimDefItem = dimensionsDefine[dimIndex];
             isObject(dimDefItem) ? (dimName = dimDefItem.name, dimType = dimDefItem.type) : isString(dimDefItem) && (dimName = dimDefItem);
         }
-        if (null != dimType) return 'ordinal' === dimType ? BE_ORDINAL.Must : BE_ORDINAL.Not;
+        if (null != dimType) return 'ordinal' === dimType ? 1 : 3;
         if (sourceFormat === SOURCE_FORMAT_ARRAY_ROWS) if ('row' === seriesLayoutBy) {
             for(var sample = data[dimIndex], i = 0; i < (sample || []).length && i < 5; i++)if (null != (result = detectValue(sample[startIndex + i]))) return result;
         } else for(var i = 0; i < data.length && i < 5; i++){
@@ -9376,27 +9366,27 @@
             if (row && null != (result = detectValue(row[dimIndex]))) return result;
         }
         else if (sourceFormat === SOURCE_FORMAT_OBJECT_ROWS) {
-            if (!dimName) return BE_ORDINAL.Not;
+            if (!dimName) return 3;
             for(var i = 0; i < data.length && i < 5; i++){
                 var item = data[i];
                 if (item && null != (result = detectValue(item[dimName]))) return result;
             }
         } else if (sourceFormat === SOURCE_FORMAT_KEYED_COLUMNS) {
-            if (!dimName) return BE_ORDINAL.Not;
+            if (!dimName) return 3;
             var sample = data[dimName];
-            if (!sample || isTypedArray(sample)) return BE_ORDINAL.Not;
+            if (!sample || isTypedArray(sample)) return 3;
             for(var i = 0; i < sample.length && i < 5; i++)if (null != (result = detectValue(sample[i]))) return result;
         } else if (sourceFormat === SOURCE_FORMAT_ORIGINAL) for(var i = 0; i < data.length && i < 5; i++){
             var item = data[i], val = getDataItemValue(item);
-            if (!isArray(val)) return BE_ORDINAL.Not;
+            if (!isArray(val)) return 3;
             if (null != (result = detectValue(val[dimIndex]))) return result;
         }
         function detectValue(val) {
             var beStr = isString(val); // Consider usage convenience, '1', '2' will be treated as "number".
             return(// `isFinit('')` get `true`.
-            null != val && isFinite(val) && '' !== val ? beStr ? BE_ORDINAL.Might : BE_ORDINAL.Not : beStr && '-' !== val ? BE_ORDINAL.Must : void 0);
+            null != val && isFinite(val) && '' !== val ? beStr ? 2 : 3 : beStr && '-' !== val ? 1 : void 0);
         }
-        return BE_ORDINAL.Not;
+        return 3;
     }
     var internalOptionCreatorMap = createHashMap(), innerColor = makeInner(), innerDecal = makeInner(), PaletteMixin = /** @class */ function() {
         function PaletteMixin() {}
@@ -14971,66 +14961,29 @@
                 specialAreas: this._specialAreas
             };
         }, GeoJSONResource);
-    }(), storage = createHashMap(), geoSourceManager = {
-        /**
-         * Compatible with previous `echarts.registerMap`.
-         *
-         * @usage
-         * ```js
-         *
-         * echarts.registerMap('USA', geoJson, specialAreas);
-         *
-         * echarts.registerMap('USA', {
-         *     geoJson: geoJson,
-         *     specialAreas: {...}
-         * });
-         * echarts.registerMap('USA', {
-         *     geoJSON: geoJson,
-         *     specialAreas: {...}
-         * });
-         *
-         * echarts.registerMap('airport', {
-         *     svg: svg
-         * }
-         * ```
-         *
-         * Note:
-         * Do not support that register multiple geoJSON or SVG
-         * one map name. Because different geoJSON and SVG have
-         * different unit. It's not easy to make sure how those
-         * units are mapping/normalize.
-         * If intending to use multiple geoJSON or SVG, we can
-         * use multiple geo coordinate system.
-         */ registerMap: function(mapName, rawDef, rawSpecialAreas) {
-            if (rawDef.svg) {
-                var resource = new GeoSVGResource(mapName, rawDef.svg);
-                storage.set(mapName, resource);
-            } else {
-                // Recommend:
-                //     echarts.registerMap('eu', { geoJSON: xxx, specialAreas: xxx });
-                // Backward compatibility:
-                //     echarts.registerMap('eu', geoJSON, specialAreas);
-                //     echarts.registerMap('eu', { geoJson: xxx, specialAreas: xxx });
-                var geoJSON = rawDef.geoJson || rawDef.geoJSON;
-                geoJSON && !rawDef.features ? rawSpecialAreas = rawDef.specialAreas : geoJSON = rawDef;
-                var resource = new GeoJSONResource(mapName, geoJSON, rawSpecialAreas);
-                storage.set(mapName, resource);
-            }
-        },
-        getGeoResource: function(mapName) {
-            return storage.get(mapName);
-        },
-        /**
-         * Only for exporting to users.
-         * **MUST NOT** used internally.
-         */ getMapForUser: function(mapName) {
-            var resource = storage.get(mapName); // Do not support return SVG until some real requirement come.
-            return resource && 'geoJSON' === resource.type && resource.getMapForUser();
-        },
-        load: function(mapName, nameMap, nameProperty) {
-            var resource = storage.get(mapName);
-            return resource ? resource.load(nameMap, nameProperty) : void console.error('Map ' + mapName + ' not exists. The GeoJSON of the map must be provided.');
+    }(), storage = createHashMap(), geoSourceManager_registerMap = function(mapName, rawDef, rawSpecialAreas) {
+        if (rawDef.svg) {
+            var resource = new GeoSVGResource(mapName, rawDef.svg);
+            storage.set(mapName, resource);
+        } else {
+            // Recommend:
+            //     echarts.registerMap('eu', { geoJSON: xxx, specialAreas: xxx });
+            // Backward compatibility:
+            //     echarts.registerMap('eu', geoJSON, specialAreas);
+            //     echarts.registerMap('eu', { geoJson: xxx, specialAreas: xxx });
+            var geoJSON = rawDef.geoJson || rawDef.geoJSON;
+            geoJSON && !rawDef.features ? rawSpecialAreas = rawDef.specialAreas : geoJSON = rawDef;
+            var resource = new GeoJSONResource(mapName, geoJSON, rawSpecialAreas);
+            storage.set(mapName, resource);
         }
+    }, geoSourceManager_getGeoResource = function(mapName) {
+        return storage.get(mapName);
+    }, geoSourceManager_getMapForUser = function(mapName) {
+        var resource = storage.get(mapName); // Do not support return SVG until some real requirement come.
+        return resource && 'geoJSON' === resource.type && resource.getMapForUser();
+    }, geoSourceManager_load = function(mapName, nameMap, nameProperty) {
+        var resource = storage.get(mapName);
+        return resource ? resource.load(nameMap, nameProperty) : void console.error('Map ' + mapName + ' not exists. The GeoJSON of the map must be provided.');
     }, isObject$2 = isObject, hasWindow = 'undefined' != typeof window, PRIORITY = {
         PROCESSOR: {
             FILTER: 1000,
@@ -16019,7 +15972,7 @@
      * The parameters and usage: see `geoSourceManager.registerMap`.
      * Compatible with previous `echarts.registerMap`.
      */ function registerMap(mapName, geoJson, specialAreas) {
-        geoSourceManager.registerMap(mapName, geoJson, specialAreas);
+        geoSourceManager_registerMap(mapName, geoJson, specialAreas);
     }
     var registerTransform = function(externalTransform) {
         var type = (externalTransform = clone(externalTransform)).type;
@@ -17493,8 +17446,8 @@
             generateCoordCount = generateCoord ? generateCoordCount || 1 : 0;
             for(var extra = generateCoord || 'value', resultDimIdx = 0; resultDimIdx < dimCount; resultDimIdx++){
                 var source1, sysDims1, optDimCount, dimCount1, source2, dimIndex, resultItem = result[resultDimIdx] = result[resultDimIdx] || new DataDimensionInfo();
-                null == resultItem.coordDim && (resultItem.coordDim = genName(extra, coordDimNameMap, fromZero), resultItem.coordDimIndex = 0, (!generateCoord || generateCoordCount <= 0) && (resultItem.isExtraCoord = !0), generateCoordCount--), null == resultItem.name && (resultItem.name = genName(resultItem.coordDim, dataDimNameMap, !1)), null == resultItem.type && (source2 = source, dimIndex = resultDimIdx, doGuessOrdinal(source2.data, source2.sourceFormat, source2.seriesLayoutBy, source2.dimensionsDefine, source2.startIndex, dimIndex) === BE_ORDINAL.Must // Consider the case:
-                 || resultItem.isExtraCoord && (null != resultItem.otherDims.itemName || null != resultItem.otherDims.seriesName)) && (resultItem.type = 'ordinal');
+                null == resultItem.coordDim && (resultItem.coordDim = genName(extra, coordDimNameMap, fromZero), resultItem.coordDimIndex = 0, (!generateCoord || generateCoordCount <= 0) && (resultItem.isExtraCoord = !0), generateCoordCount--), null == resultItem.name && (resultItem.name = genName(resultItem.coordDim, dataDimNameMap, !1)), null == resultItem.type && (source2 = source, dimIndex = resultDimIdx, 1 === doGuessOrdinal(source2.data, source2.sourceFormat, source2.seriesLayoutBy, source2.dimensionsDefine, source2.startIndex, dimIndex) || resultItem.isExtraCoord && (null != resultItem.otherDims.itemName || null != resultItem.otherDims.seriesName) // Consider the case:
+                ) && (resultItem.type = 'ordinal');
             }
             return result;
         } // ??? TODO
@@ -20053,13 +20006,11 @@
             } else {
                 this._width = this._getSize(0), this._height = this._getSize(1);
                 var width1, height1, domRoot, domRoot1 = this._domRoot = (width1 = this._width, height1 = this._height, (domRoot = document.createElement('div')).style.cssText = [
-                    'position:relative',
+                    "position:relative",
                     'width:' + width1 + 'px',
                     'height:' + height1 + 'px',
-                    'padding:0',
-                    'margin:0',
-                    'border-width:0'
-                ].join(';') + ';', domRoot);
+                    "padding:0;margin:0;border-width:0"
+                ].join(";") + ';', domRoot);
                 root.appendChild(domRoot1);
             }
         }
@@ -21840,7 +21791,7 @@
         }, BarView.prototype._isOrderChangedWithinSameData = function(data, orderMapping, baseAxis) {
             for(var scale = baseAxis.scale, ordinalDataDim = data.mapDimension(baseAxis.dim), lastValue = Number.MAX_VALUE, tickNum = 0, len = scale.getOrdinalMeta().categories.length; tickNum < len; ++tickNum){
                 var rawIdx = data.rawIndexOf(ordinalDataDim, scale.getRawOrdinalNumber(tickNum)), value = rawIdx < 0 // If some tick have no bar, the tick will be treated as min.
-                 ? Number.MIN_VALUE // PENDING: if dataZoom on baseAxis exits, is it a performance issue?
+                 ? 5e-324 // PENDING: if dataZoom on baseAxis exits, is it a performance issue?
                  : orderMapping(data.indexOfRawIndex(rawIdx));
                 if (value > lastValue) return !0;
                 lastValue = value;
@@ -25060,7 +25011,7 @@
         }, MapDraw.prototype._svgResourceChanged = function(mapName) {
             return this._svgMapName !== mapName;
         }, MapDraw.prototype._useSVG = function(mapName) {
-            var resource = geoSourceManager.getGeoResource(mapName);
+            var resource = geoSourceManager_getGeoResource(mapName);
             if (resource && 'geoSVG' === resource.type) {
                 var svgGraphic = resource.useGraphic(this.uid);
                 this._svgGroup.add(svgGraphic.root), this._svgGraphicRecord = svgGraphic, this._svgMapName = mapName;
@@ -25068,7 +25019,7 @@
         }, MapDraw.prototype._freeSVG = function() {
             var mapName = this._svgMapName;
             if (null != mapName) {
-                var resource = geoSourceManager.getGeoResource(mapName);
+                var resource = geoSourceManager_getGeoResource(mapName);
                 resource && 'geoSVG' === resource.type && resource.freeGraphic(this.uid), this._svgGraphicRecord = null, this._svgDispatcherMap = null, this._svgGroup.removeAll(), this._svgMapName = null;
             }
         }, MapDraw.prototype._updateController = function(mapOrGeoModel, ecModel, api) {
@@ -25322,7 +25273,7 @@
                 var name_2 = data.getName(i);
                 dataNameMap.set(name_2, !0);
             }
-            return each(geoSourceManager.load(this.getMapType(), this.option.nameMap, this.option.nameProperty).regions, function(region) {
+            return each(geoSourceManager_load(this.getMapType(), this.option.nameMap, this.option.nameProperty).regions, function(region) {
                 var name = region.name;
                 dataNameMap.get(name) || toAppendNames.push(name);
             }), // map and render) can not be performed without a "full data". For example,
@@ -25635,7 +25586,7 @@
                 'lng',
                 'lat'
             ], _this.type = 'geo', _this._nameCoordMap = createHashMap(), _this.map = map;
-            var source = geoSourceManager.load(map, opt.nameMap, opt.nameProperty), resource = geoSourceManager.getGeoResource(map);
+            var source = geoSourceManager_load(map, opt.nameMap, opt.nameProperty), resource = geoSourceManager_getGeoResource(map);
             _this.resourceType = resource ? resource.type : null;
             var defaultParmas = GEO_DEFAULT_PARAMS[resource.type];
             _this._regionsMap = source.regionsMap, _this._invertLongitute = defaultParmas.invertLongitute, _this.regions = source.regions, _this.aspectScale = retrieve2(opt.aspectScale, defaultParmas.aspectScale);
@@ -25766,7 +25717,7 @@
              * Fill given regions array
              */ GeoCreator.prototype.getFilledRegions = function(originRegionArr, mapName, nameMap, nameProperty) {
             for(var regionsArr = (originRegionArr || []).slice(), dataNameMap = createHashMap(), i = 0; i < regionsArr.length; i++)dataNameMap.set(regionsArr[i].name, regionsArr[i]);
-            return each(geoSourceManager.load(mapName, nameMap, nameProperty).regions, function(region) {
+            return each(geoSourceManager_load(mapName, nameMap, nameProperty).regions, function(region) {
                 var name = region.name;
                 dataNameMap.get(name) || regionsArr.push({
                     name: name
@@ -25779,7 +25730,7 @@
             return _this.type = GeoModel.type, _this;
         }
         return __extends(GeoModel, _super), GeoModel.prototype.init = function(option, parentModel, ecModel) {
-            var source = geoSourceManager.getGeoResource(option.map);
+            var source = geoSourceManager_getGeoResource(option.map);
             if (source && 'geoJSON' === source.type) {
                 var itemStyle = option.itemStyle = option.itemStyle || {};
                 'color' in itemStyle || (itemStyle.color = '#eee');
@@ -41554,7 +41505,7 @@
         }; // If both `xAxisIndex` `xAxisId` not set, it means 'all'.
         return null == setting.xAxisIndex && null == setting.xAxisId && (setting.xAxisIndex = 'all'), null == setting.yAxisIndex && null == setting.yAxisId && (setting.yAxisIndex = 'all'), setting;
     }
-    mainType = 'dataZoom', creator = function(ecModel) {
+    creator = function(ecModel) {
         var toolboxModel = ecModel.getComponent('toolbox', 0);
         if (toolboxModel) {
             var dzFeatureModel = toolboxModel.getModel([
@@ -41578,7 +41529,7 @@
             };
             newOpt[axisIndexPropName] = axisIndex, dzOptions.push(newOpt);
         }
-    }, assert(null == internalOptionCreatorMap.get(mainType) && creator), internalOptionCreatorMap.set(mainType, creator);
+    }, assert(null == internalOptionCreatorMap.get('dataZoom') && creator), internalOptionCreatorMap.set('dataZoom', creator);
     var TooltipModel = /** @class */ function(_super) {
         function TooltipModel() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
@@ -41775,8 +41726,8 @@
         // this.hide();
         }, TooltipHTMLContent.prototype.show = function(tooltipModel, nearPointColor) {
             clearTimeout(this._hideTimeout), clearTimeout(this._longHideTimeout);
-            var enableTransition, onlyFade, cssText, transitionDuration, backgroundColor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, textStyleModel, padding, boxShadow, transitionCurve, transitionOption, transitionText, cssText1, fontSize, color, shadowColor1, shadowBlur1, shadowOffsetX1, shadowOffsetY1, el = this.el, style = el.style, styleCoord = this._styleCoord;
-            el.innerHTML ? style.cssText = gCssText + (enableTransition = !this._firstShow, onlyFade = this._longHide, cssText = [], transitionDuration = tooltipModel.get('transitionDuration'), backgroundColor = tooltipModel.get('backgroundColor'), shadowBlur = tooltipModel.get('shadowBlur'), shadowColor = tooltipModel.get('shadowColor'), shadowOffsetX = tooltipModel.get('shadowOffsetX'), shadowOffsetY = tooltipModel.get('shadowOffsetY'), textStyleModel = tooltipModel.getModel('textStyle'), padding = getPaddingFromTooltipModel(tooltipModel, 'html'), boxShadow = shadowOffsetX + "px " + shadowOffsetY + "px " + shadowBlur + "px " + shadowColor, cssText.push('box-shadow:' + boxShadow), enableTransition && transitionDuration && cssText.push((transitionText = "opacity" + (transitionOption = " " + transitionDuration / 2 + "s " + (transitionCurve = 'cubic-bezier(0.23,1,0.32,1)')) + ",visibility" + transitionOption, onlyFade || (transitionOption = " " + transitionDuration + "s " + transitionCurve, transitionText += env.transformSupported ? "," + TRANSFORM_VENDOR + transitionOption : ",left" + transitionOption + ",top" + transitionOption), CSS_TRANSITION_VENDOR + ':' + transitionText)), backgroundColor && (env.canvasSupported ? cssText.push('background-color:' + backgroundColor) : (// for ie
+            var enableTransition, onlyFade, cssText, transitionDuration, backgroundColor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, textStyleModel, padding, boxShadow, transitionOption, transitionText, cssText1, fontSize, color, shadowColor1, shadowBlur1, shadowOffsetX1, shadowOffsetY1, el = this.el, style = el.style, styleCoord = this._styleCoord;
+            el.innerHTML ? style.cssText = gCssText + (enableTransition = !this._firstShow, onlyFade = this._longHide, cssText = [], transitionDuration = tooltipModel.get('transitionDuration'), backgroundColor = tooltipModel.get('backgroundColor'), shadowBlur = tooltipModel.get('shadowBlur'), shadowColor = tooltipModel.get('shadowColor'), shadowOffsetX = tooltipModel.get('shadowOffsetX'), shadowOffsetY = tooltipModel.get('shadowOffsetY'), textStyleModel = tooltipModel.getModel('textStyle'), padding = getPaddingFromTooltipModel(tooltipModel, 'html'), boxShadow = shadowOffsetX + "px " + shadowOffsetY + "px " + shadowBlur + "px " + shadowColor, cssText.push('box-shadow:' + boxShadow), enableTransition && transitionDuration && cssText.push((transitionText = "opacity" + (transitionOption = " " + transitionDuration / 2 + "s cubic-bezier(0.23,1,0.32,1)") + ",visibility" + transitionOption, onlyFade || (transitionOption = " " + transitionDuration + "s cubic-bezier(0.23,1,0.32,1)", transitionText += env.transformSupported ? "," + TRANSFORM_VENDOR + transitionOption : ",left" + transitionOption + ",top" + transitionOption), CSS_TRANSITION_VENDOR + ':' + transitionText)), backgroundColor && (env.canvasSupported ? cssText.push('background-color:' + backgroundColor) : (// for ie
             cssText.push('background-color:#' + toHex(backgroundColor)), cssText.push('filter:alpha(opacity=70)'))), each([
                 'width',
                 'color',
@@ -41805,14 +41756,7 @@
                         'right'
                     ], arrowPos) > -1 ? (positionStyle += 'top:50%', transformStyle += "translateY(-50%) rotate(" + ('left' === arrowPos ? -225 : -45) + "deg)") : (positionStyle += 'left:50%', transformStyle += "translateX(-50%) rotate(" + ('top' === arrowPos ? 225 : 45) + "deg)");
                     var borderStyle = borderColor + " solid 1px;";
-                    return "<div style=\"" + [
-                        'position:absolute;width:10px;height:10px;',
-                        positionStyle + ";" + transformStyle + ";",
-                        "border-bottom:" + borderStyle,
-                        "border-right:" + borderStyle,
-                        "background-color:" + backgroundColor + ";",
-                        'box-shadow:8px 8px 16px -3px #000;'
-                    ].join('') + "\"></div>";
+                    return "<div style=\"" + ("position:absolute;width:10px;height:10px;" + (positionStyle + ";") + transformStyle + ";border-bottom:" + borderStyle + "border-right:" + borderStyle + "background-color:" + backgroundColor) + ';box-shadow:8px 8px 16px -3px #000;"></div>';
                 }(tooltipModel.get('backgroundColor'), borderColor, arrowPosition)), isString(content)) el.innerHTML = content;
                 else if (content) {
                     // Clear previous
@@ -45514,8 +45458,8 @@
         }, SliderZoomView.prototype.dispose = function() {
             this._clear(), _super.prototype.dispose.apply(this, arguments);
         }, SliderZoomView.prototype._clear = function() {
-            (fn = this[fnAttr = '_dispatchZoomAction']) && fn[ORIGIN_METHOD] && (this[fnAttr] = fn[ORIGIN_METHOD]);
-            var fnAttr, fn, zr = this.api.getZr();
+            (fn = this._dispatchZoomAction) && fn[ORIGIN_METHOD] && (this._dispatchZoomAction = fn[ORIGIN_METHOD]);
+            var fn, zr = this.api.getZr();
             zr.off('mousemove', this._onBrush), zr.off('mouseup', this._onBrushEnd);
         }, SliderZoomView.prototype._buildView = function() {
             var thisGroup = this.group;
@@ -46044,13 +45988,9 @@
     function install$L(registers) {
         registers.registerComponentModel(SliderZoomModel), registers.registerComponentView(SliderZoomView), installCommon(registers);
     }
-    var visualDefault = {
-        /**
-         * @public
-         */ get: function(visualType, key, isCategory) {
-            var value = clone((defaultOption$1[visualType] || {})[key]);
-            return isCategory && isArray(value) ? value[value.length - 1] : value;
-        }
+    var visualDefault_get = function(visualType, key, isCategory) {
+        var value = clone((defaultOption$1[visualType] || {})[key]);
+        return isCategory && isArray(value) ? value[value.length - 1] : value;
     }, defaultOption$1 = {
         color: {
             active: [
@@ -46269,7 +46209,7 @@
                 var optExist = base[stateExist], optAbsent = base[stateAbsent];
                 optExist && !optAbsent && (optAbsent = base[stateAbsent] = {}, each(optExist, function(visualData, visualType) {
                     if (VisualMapping.isValidType(visualType)) {
-                        var defa = visualDefault.get(visualType, 'inactive', isCategory);
+                        var defa = visualDefault_get(visualType, 'inactive', isCategory);
                         null != defa && (optAbsent[visualType] = defa, 'color' !== visualType || optAbsent.hasOwnProperty('opacity') || optAbsent.hasOwnProperty('colorAlpha') || (optAbsent.opacity = [
                             0,
                             0
@@ -47260,7 +47200,7 @@
                 each(this.stateList, function(state) {
                     exists = exists || has(option, state, visualType) || has(option.target, state, visualType);
                 }, this), exists || each(this.stateList, function(state) {
-                    (option[state] || (option[state] = {}))[visualType] = visualDefault.get(visualType, 'inRange' === state ? 'active' : 'inactive', isCategory);
+                    (option[state] || (option[state] = {}))[visualType] = visualDefault_get(visualType, 'inRange' === state ? 'active' : 'inactive', isCategory);
                 });
             }, this), _super.prototype.completeVisualOption.apply(this, arguments);
         }, PiecewiseModel.prototype._resetSelected = function(newOption, isInit) {
@@ -48495,7 +48435,7 @@
     }, exports1.getInstanceByDom = getInstanceByDom, exports1.getInstanceById = function(key) {
         return instances$1[key];
     }, exports1.getMap = function(mapName) {
-        return geoSourceManager.getMapForUser(mapName);
+        return geoSourceManager_getMapForUser(mapName);
     }, exports1.graphic = graphic$1, exports1.helper = helper, exports1.init = /**
      * @param opts.devicePixelRatio Use window.devicePixelRatio by default
      * @param opts.renderer Can choose 'canvas' or 'svg' to render the chart.

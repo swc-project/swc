@@ -5,7 +5,10 @@ use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use crate::{
-    common::{input::Tokens, syntax::Syntax},
+    common::{
+        input::Tokens,
+        syntax::{Syntax, SyntaxFlags},
+    },
     error::Error,
     lexer::{self},
     token::*,
@@ -16,7 +19,7 @@ use crate::{
 pub struct TokensInput {
     iter: <Vec<TokenAndSpan> as IntoIterator>::IntoIter,
     ctx: Context,
-    syntax: Syntax,
+    syntax: SyntaxFlags,
     start_pos: BytePos,
     target: EsVersion,
     token_ctx: TokenContexts,
@@ -31,7 +34,7 @@ impl TokensInput {
         TokensInput {
             iter: tokens.into_iter(),
             ctx,
-            syntax,
+            syntax: syntax.into_flags(),
             start_pos,
             target,
             token_ctx: Default::default(),
@@ -64,7 +67,7 @@ impl Tokens<TokenAndSpan> for TokensInput {
     }
 
     #[inline(always)]
-    fn syntax(&self) -> Syntax {
+    fn syntax(&self) -> SyntaxFlags {
         self.syntax
     }
 
@@ -215,7 +218,7 @@ impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
     }
 
     #[inline(always)]
-    fn syntax(&self) -> Syntax {
+    fn syntax(&self) -> SyntaxFlags {
         self.inner.syntax()
     }
 

@@ -19,7 +19,7 @@ use swc_common::plugin::metadata::TransformPluginMetadataContext;
 use swc_common::{
     comments::{Comments, SingleThreadedComments},
     errors::Handler,
-    FileName, Mark, SourceMap, SyntaxContext,
+    FileName, Mark, SourceMap,
 };
 pub use swc_compiler_base::SourceMapsConfig;
 pub use swc_config::is_module::IsModule;
@@ -30,6 +30,7 @@ use swc_config::{
 };
 use swc_ecma_ast::{noop_pass, EsVersion, Expr, Pass, Program};
 use swc_ecma_ext_transforms::jest;
+#[cfg(feature = "lint")]
 use swc_ecma_lints::{
     config::LintConfig,
     rules::{lint_pass, LintParams},
@@ -263,6 +264,7 @@ impl Options {
             paths,
             minify: mut js_minify,
             experimental,
+            #[cfg(feature = "lint")]
             lints,
             preserve_all_comments,
             ..
@@ -504,9 +506,6 @@ impl Options {
                 .map(|opts| opts.build(cm, handler, unresolved_mark))
         };
 
-        let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
-        let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
-
         let pass = (
             const_modules,
             optimization,
@@ -526,6 +525,7 @@ impl Options {
         };
 
         let verbatim_module_syntax = transform.verbatim_module_syntax.into_bool();
+        let ts_enum_is_mutable = transform.ts_enum_is_mutable.into_bool();
 
         let charset = cfg.jsc.output.charset.or_else(|| {
             if js_minify.as_ref()?.format.ascii_only {
@@ -652,7 +652,6 @@ impl Options {
         );
 
         let keep_import_attributes = experimental.keep_import_attributes.into_bool();
-        let disable_all_lints = experimental.disable_all_lints.into_bool();
 
         #[cfg(feature = "plugin")]
         let plugin_transforms: Box<dyn Pass> = {
@@ -736,7 +735,24 @@ impl Options {
                     ),
                     DecoratorVersion::V202311 => todo!("2023-11 decorator"),
                 };
-
+            #[cfg(feature = "lint")]
+            let lint = {
+                use swc_common::SyntaxContext;
+                let disable_all_lints = experimental.disable_all_lints.into_bool();
+                let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
+                let top_level_ctxt = SyntaxContext::empty().apply_mark(top_level_mark);
+                Optional::new(
+                    lint_pass(swc_ecma_lints::rules::all(LintParams {
+                        program: &program,
+                        lint_config: &lints,
+                        top_level_ctxt,
+                        unresolved_ctxt,
+                        es_version,
+                        source_map: cm.clone(),
+                    })),
+                    !disable_all_lints,
+                )
+            };
             Box::new((
                 (
                     if experimental.run_plugin_first.into_bool() {
@@ -744,17 +760,8 @@ impl Options {
                     } else {
                         None
                     },
-                    Optional::new(
-                        lint_pass(swc_ecma_lints::rules::all(LintParams {
-                            program: &program,
-                            lint_config: &lints,
-                            top_level_ctxt,
-                            unresolved_ctxt,
-                            es_version,
-                            source_map: cm.clone(),
-                        })),
-                        !disable_all_lints,
-                    ),
+                    #[cfg(feature = "lint")]
+                    lint,
                     // Decorators may use type information
                     Optional::new(decorator_pass, syntax.decorators()),
                     Optional::new(
@@ -777,6 +784,7 @@ impl Options {
                             import_export_assign_config,
                             verbatim_module_syntax,
                             native_class_properties,
+                            ts_enum_is_mutable,
                             ..Default::default()
                         };
 
@@ -1263,6 +1271,7 @@ pub struct JscConfig {
     pub experimental: JscExperimental,
 
     #[serde(default)]
+    #[cfg(feature = "lint")]
     pub lints: LintConfig,
 
     #[serde(default)]
@@ -1557,6 +1566,9 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub decorator_version: Option<DecoratorVersion>,
+
+    #[serde(default)]
+    pub ts_enum_is_mutable: BoolConfig<false>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]

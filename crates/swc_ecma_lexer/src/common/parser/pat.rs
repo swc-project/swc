@@ -6,7 +6,6 @@ use swc_ecma_ast::*;
 use super::{
     assign_target_or_spread::AssignTargetOrSpread,
     class_and_fn::{parse_access_modifier, parse_decorators},
-    is_not_this,
     pat_type::PatType,
     typescript::{
         eat_any_ts_modifier, parse_ts_modifier, parse_ts_type_ann, try_parse_ts_type_ann,
@@ -18,7 +17,7 @@ use crate::{
         context::Context,
         lexer::token::TokenFactory,
         parser::{
-            buffer::Buffer, expr::parse_assignment_expr, expr_ext::ExprExt,
+            buffer::Buffer, eof_error, expr::parse_assignment_expr, expr_ext::ExprExt,
             ident::parse_binding_ident, object::parse_object_pat,
         },
     },
@@ -372,7 +371,7 @@ pub(super) fn parse_binding_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat
     let left = parse_binding_pat_or_ident(p, false)?;
 
     if p.input_mut().eat(&P::Token::EQUAL) {
-        let right = parse_assignment_expr(p.include_in_expr(true).deref_mut())?;
+        let right = parse_assignment_expr(p.allow_in_expr().deref_mut())?;
 
         if p.ctx().contains(Context::InDeclare) {
             p.emit_err(p.span(start), SyntaxError::TS2371);
@@ -395,13 +394,19 @@ pub fn parse_binding_pat_or_ident<'a, P: Parser<'a>>(
 ) -> PResult<Pat> {
     trace_cur!(p, parse_binding_pat_or_ident);
 
-    let cur = cur!(p, true);
+    let Some(cur) = p.input_mut().cur() else {
+        return Err(eof_error(p));
+    };
     if cur.is_yield() || cur.is_word() {
         parse_binding_ident(p, disallow_let).map(Pat::from)
     } else if cur.is_lbracket() {
         parse_array_binding_pat(p)
     } else if cur.is_lbrace() {
         parse_object_pat(p)
+    } else if cur.is_error() {
+        let c = p.input_mut().bump();
+        let err = c.take_error(p.input_mut());
+        Err(err)
     } else {
         unexpected!(p, "yield, an identifier, [ or {")
     }
@@ -410,7 +415,7 @@ pub fn parse_binding_pat_or_ident<'a, P: Parser<'a>>(
 pub fn parse_array_binding_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
     let start = p.cur_pos();
 
-    p.assert_and_bump(&P::Token::LBRACKET)?;
+    p.assert_and_bump(&P::Token::LBRACKET);
 
     let mut elems = Vec::new();
 
@@ -746,28 +751,6 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
     }
 
     Ok(params)
-}
-
-#[allow(dead_code)]
-pub fn parse_setter_param<'a>(p: &mut impl Parser<'a>, key_span: Span) -> PResult<Param> {
-    let params = parse_formal_params(p)?;
-    let cnt = params.iter().filter(|p| is_not_this(p)).count();
-
-    if cnt != 1 {
-        p.emit_err(key_span, SyntaxError::SetterParam);
-    }
-
-    if !params.is_empty() {
-        if let Pat::Rest(..) = params[0].pat {
-            p.emit_err(params[0].pat.span(), SyntaxError::RestPatInSetter);
-        }
-    }
-
-    if params.is_empty() {
-        syntax_error!(p, SyntaxError::SetterParamRequired);
-    }
-
-    Ok(params.into_iter().next().unwrap())
 }
 
 pub fn parse_unique_formal_params<'a>(p: &mut impl Parser<'a>) -> PResult<Vec<Param>> {

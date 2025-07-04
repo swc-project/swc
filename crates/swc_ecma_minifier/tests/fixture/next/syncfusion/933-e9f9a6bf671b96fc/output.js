@@ -7112,10 +7112,10 @@
                     function Engine() {}
                     return(// eslint-disable-next-line
                     Engine.prototype.compile = function(templateString, helper, ignorePrefix) {
-                        var helper1, argName, str, nameSpace, helper2, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
-                        return void 0 === helper && (helper = {}), str = templateString, nameSpace = argName = 'data', helper2 = helper1 = helper, ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = str.match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
+                        var helper1, str, nameSpace, helper2, ignorePrefix1, varCOunt, localKeys, isClass, singleSpace;
+                        return void 0 === helper && (helper = {}), str = templateString, nameSpace = 'data', helper2 = helper1 = helper, ignorePrefix1 = void 0, varCOunt = 0, localKeys = [], isClass = str.match(/class="([^"]+|)\s{2}/g), singleSpace = '', isClass && isClass.forEach(function(value) {
                             singleSpace = value.replace(/\s\s+/g, ' '), str = str.replace(value, singleSpace);
-                        }), Function(argName, "var str=\"" + str.replace(LINES, '').replace(DBL_QUOTED_STR, '\'$1\'').replace(exp, // eslint-disable-next-line
+                        }), Function('data', "var str=\"" + str.replace(LINES, '').replace(DBL_QUOTED_STR, '\'$1\'').replace(exp, // eslint-disable-next-line
                         function(match, cnt, offset, matchStr) {
                             var matches = cnt.match(CALL_FUNCTION);
                             // matches to detect any function calls
@@ -7347,12 +7347,7 @@
                 return c > 3 && r && Object.defineProperty(target, key, r), r;
             };
             new _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Observer */ .Qj();
-            var cssClassName = {
-                RTL: 'e-rtl',
-                BUTTON: 'e-btn',
-                PRIMARY: 'e-primary',
-                ICONBTN: 'e-icon-btn'
-            }, Button = /** @class */ function(_super) {
+            var cssClassName_RTL = 'e-rtl', cssClassName_PRIMARY = 'e-primary', cssClassName_ICONBTN = 'e-icon-btn', Button = /** @class */ function(_super) {
                 /**
      * Constructor for creating the widget
      *
@@ -7370,19 +7365,19 @@
      * @private
      */ Button.prototype.render = function() {
                     this.initialize(), this.removeRippleEffect = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .rippleEffect */ .qx)(this.element, {
-                        selector: '.' + cssClassName.BUTTON
+                        selector: ".e-btn"
                     }), this.renderComplete();
                 }, Button.prototype.initialize = function() {
                     if (this.cssClass && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         this.element
-                    ], this.cssClass.split(' ')), this.isPrimary && this.element.classList.add(cssClassName.PRIMARY), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isBlazor */ .xr)() || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isBlazor */ .xr)() && 'progress-btn' !== this.getModuleName()) {
+                    ], this.cssClass.split(' ')), this.isPrimary && this.element.classList.add(cssClassName_PRIMARY), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isBlazor */ .xr)() || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isBlazor */ .xr)() && 'progress-btn' !== this.getModuleName()) {
                         if (this.content) {
                             var tempContent = this.enableHtmlSanitizer ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .SanitizeHtmlHelper.sanitize */ .pJ.sanitize(this.content) : this.content;
                             this.element.innerHTML = tempContent;
                         }
                         this.setIconCss();
                     }
-                    this.enableRtl && this.element.classList.add(cssClassName.RTL), this.disabled ? this.controlStatus(this.disabled) : this.wireEvents();
+                    this.enableRtl && this.element.classList.add(cssClassName_RTL), this.disabled ? this.controlStatus(this.disabled) : this.wireEvents();
                 }, Button.prototype.controlStatus = function(disabled) {
                     this.element.disabled = disabled;
                 }, Button.prototype.setIconCss = function() {
@@ -7390,7 +7385,7 @@
                         var span = this.createElement('span', {
                             className: 'e-btn-icon ' + this.iconCss
                         });
-                        this.element.textContent.trim() ? (span.classList.add('e-icon-' + this.iconPosition.toLowerCase()), ('Top' === this.iconPosition || 'Bottom' === this.iconPosition) && this.element.classList.add('e-' + this.iconPosition.toLowerCase() + '-icon-btn')) : this.element.classList.add(cssClassName.ICONBTN);
+                        this.element.textContent.trim() ? (span.classList.add('e-icon-' + this.iconPosition.toLowerCase()), ('Top' === this.iconPosition || 'Bottom' === this.iconPosition) && this.element.classList.add('e-' + this.iconPosition.toLowerCase() + '-icon-btn')) : this.element.classList.add(cssClassName_ICONBTN);
                         var node = this.element.childNodes[0];
                         node && ('Left' === this.iconPosition || 'Top' === this.iconPosition) ? this.element.insertBefore(span, node) : this.element.appendChild(span);
                     }
@@ -7406,9 +7401,9 @@
      * @returns {void}
      */ Button.prototype.destroy = function() {
                     var classList = [
-                        cssClassName.PRIMARY,
-                        cssClassName.RTL,
-                        cssClassName.ICONBTN,
+                        cssClassName_PRIMARY,
+                        cssClassName_RTL,
+                        cssClassName_ICONBTN,
                         'e-success',
                         'e-info',
                         'e-danger',
@@ -7458,7 +7453,7 @@
      */ Button.prototype.onPropertyChanged = function(newProp, oldProp) {
                     for(var span = this.element.querySelector('span.e-btn-icon'), _i = 0, _a = Object.keys(newProp); _i < _a.length; _i++)switch(_a[_i]){
                         case 'isPrimary':
-                            newProp.isPrimary ? this.element.classList.add(cssClassName.PRIMARY) : this.element.classList.remove(cssClassName.PRIMARY);
+                            newProp.isPrimary ? this.element.classList.add(cssClassName_PRIMARY) : this.element.classList.remove(cssClassName_PRIMARY);
                             break;
                         case 'disabled':
                             this.controlStatus(newProp.disabled);
@@ -7482,10 +7477,10 @@
                             ], newProp.cssClass.split(' '));
                             break;
                         case 'enableRtl':
-                            newProp.enableRtl ? this.element.classList.add(cssClassName.RTL) : this.element.classList.remove(cssClassName.RTL);
+                            newProp.enableRtl ? this.element.classList.add(cssClassName_RTL) : this.element.classList.remove(cssClassName_RTL);
                             break;
                         case 'content':
-                            (0, _common_common__WEBPACK_IMPORTED_MODULE_1__ /* .getTextNode */ .UC)(this.element) || this.element.classList.remove(cssClassName.ICONBTN), (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isBlazor */ .xr)() || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isBlazor */ .xr)() && !this.isServerRendered && 'progress-btn' !== this.getModuleName()) && (this.enableHtmlSanitizer && (newProp.content = _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .SanitizeHtmlHelper.sanitize */ .pJ.sanitize(newProp.content)), this.element.innerHTML = newProp.content, this.setIconCss());
+                            (0, _common_common__WEBPACK_IMPORTED_MODULE_1__ /* .getTextNode */ .UC)(this.element) || this.element.classList.remove(cssClassName_ICONBTN), (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isBlazor */ .xr)() || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isBlazor */ .xr)() && !this.isServerRendered && 'progress-btn' !== this.getModuleName()) && (this.enableHtmlSanitizer && (newProp.content = _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .SanitizeHtmlHelper.sanitize */ .pJ.sanitize(newProp.content)), this.element.innerHTML = newProp.content, this.setIconCss());
                             break;
                         case 'isToggle':
                             newProp.isToggle ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.add */ .bi.add(this.element, 'click', this.btnClickHandler, this) : (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .EventHandler.remove */ .bi.remove(this.element, 'click', this.btnClickHandler), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
@@ -7633,24 +7628,7 @@
                     return /* binding */ Input;
                 }
             });
-            /* harmony import */ var Input, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1807), CLASSNAMES = {
-                RTL: 'e-rtl',
-                DISABLE: 'e-disabled',
-                INPUT: 'e-input',
-                TEXTAREA: 'e-multi-line-input',
-                INPUTGROUP: 'e-input-group',
-                FLOATINPUT: 'e-float-input',
-                FLOATLINE: 'e-float-line',
-                FLOATTEXT: 'e-float-text',
-                FLOATTEXTCONTENT: 'e-float-text-content',
-                CLEARICON: 'e-clear-icon',
-                CLEARICONHIDE: 'e-clear-icon-hide',
-                LABELTOP: 'e-label-top',
-                LABELBOTTOM: 'e-label-bottom',
-                NOFLOATLABEL: 'e-no-float-label',
-                INPUTCUSTOMTAG: 'e-input-custom-tag',
-                FLOATCUSTOMTAG: 'e-float-custom-tag'
-            };
+            /* harmony import */ var Input, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1807), CLASSNAMES_RTL = 'e-rtl', CLASSNAMES_DISABLE = 'e-disabled', CLASSNAMES_INPUT = 'e-input', CLASSNAMES_INPUTGROUP = 'e-input-group', CLASSNAMES_FLOATINPUT = 'e-float-input', CLASSNAMES_FLOATLINE = 'e-float-line', CLASSNAMES_FLOATTEXT = 'e-float-text', CLASSNAMES_CLEARICON = 'e-clear-icon', CLASSNAMES_CLEARICONHIDE = 'e-clear-icon-hide', CLASSNAMES_LABELTOP = 'e-label-top', CLASSNAMES_LABELBOTTOM = 'e-label-bottom', CLASSNAMES_NOFLOATLABEL = 'e-no-float-label', CLASSNAMES_FLOATCUSTOMTAG = 'e-float-custom-tag';
             !function(Input) {
                 var floatType, isBindClearAction = !0;
                 function bindInitialEvent(args) {
@@ -7672,19 +7650,19 @@
                     var label = getParentNode(this).getElementsByClassName('e-float-text')[0];
                     !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(label) && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         label
-                    ], CLASSNAMES.LABELTOP), label.classList.contains(CLASSNAMES.LABELBOTTOM) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    ], CLASSNAMES_LABELTOP), label.classList.contains(CLASSNAMES_LABELBOTTOM) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         label
-                    ], CLASSNAMES.LABELBOTTOM));
+                    ], CLASSNAMES_LABELBOTTOM));
                 }
                 function _blurFn() {
                     var parent = getParentNode(this);
                     if (parent.getElementsByTagName('textarea')[0] ? '' === parent.getElementsByTagName('textarea')[0].value : '' === parent.getElementsByTagName('input')[0].value) {
                         var label = parent.getElementsByClassName('e-float-text')[0];
-                        (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(label) || (label.classList.contains(CLASSNAMES.LABELTOP) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                        (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(label) || (label.classList.contains(CLASSNAMES_LABELTOP) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                             label
-                        ], CLASSNAMES.LABELTOP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                        ], CLASSNAMES_LABELTOP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                             label
-                        ], CLASSNAMES.LABELBOTTOM));
+                        ], CLASSNAMES_LABELBOTTOM));
                     }
                 }
                 function wireFloatingEvents(element) {
@@ -7692,23 +7670,23 @@
                 }
                 function createFloatingInput(args, inputObject, internalCreateElement) {
                     var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement;
-                    'Auto' === args.floatLabelType && wireFloatingEvents(args.element), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(inputObject.container) ? (inputObject.container = createInputContainer(args, CLASSNAMES.FLOATINPUT, CLASSNAMES.FLOATCUSTOMTAG, 'div', makeElement), args.element.parentNode && args.element.parentNode.insertBefore(inputObject.container, args.element)) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.customTag) || inputObject.container.classList.add(CLASSNAMES.FLOATCUSTOMTAG), inputObject.container.classList.add(CLASSNAMES.FLOATINPUT));
+                    'Auto' === args.floatLabelType && wireFloatingEvents(args.element), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(inputObject.container) ? (inputObject.container = createInputContainer(args, CLASSNAMES_FLOATINPUT, CLASSNAMES_FLOATCUSTOMTAG, 'div', makeElement), args.element.parentNode && args.element.parentNode.insertBefore(inputObject.container, args.element)) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.customTag) || inputObject.container.classList.add(CLASSNAMES_FLOATCUSTOMTAG), inputObject.container.classList.add(CLASSNAMES_FLOATINPUT));
                     var floatLinelement = makeElement('span', {
-                        className: CLASSNAMES.FLOATLINE
+                        className: CLASSNAMES_FLOATLINE
                     }), floatLabelElement = makeElement('label', {
-                        className: CLASSNAMES.FLOATTEXT
+                        className: CLASSNAMES_FLOATTEXT
                     });
                     if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.id) || '' === args.element.id || (floatLabelElement.id = 'label_' + args.element.id.replace(/ /g, '_'), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(args.element, {
                         'aria-labelledby': floatLabelElement.id
-                    })), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.placeholder) || '' === args.element.placeholder || (floatLabelElement.innerText = encodePlaceHolder(args.element.placeholder), args.element.removeAttribute('placeholder')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties) || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties.placeholder) || '' === args.properties.placeholder || (floatLabelElement.innerText = encodePlaceHolder(args.properties.placeholder)), floatLabelElement.innerText || inputObject.container.classList.add(CLASSNAMES.NOFLOATLABEL), inputObject.container.classList.contains('e-float-icon-left')) {
+                    })), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element.placeholder) || '' === args.element.placeholder || (floatLabelElement.innerText = encodePlaceHolder(args.element.placeholder), args.element.removeAttribute('placeholder')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties) || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties.placeholder) || '' === args.properties.placeholder || (floatLabelElement.innerText = encodePlaceHolder(args.properties.placeholder)), floatLabelElement.innerText || inputObject.container.classList.add(CLASSNAMES_NOFLOATLABEL), inputObject.container.classList.contains('e-float-icon-left')) {
                         var inputWrap = inputObject.container.querySelector('.e-input-in-wrap');
                         inputWrap.appendChild(args.element), inputWrap.appendChild(floatLinelement), inputWrap.appendChild(floatLabelElement);
                     } else inputObject.container.appendChild(args.element), inputObject.container.appendChild(floatLinelement), inputObject.container.appendChild(floatLabelElement);
-                    updateLabelState(args.element.value, floatLabelElement), 'Always' === args.floatLabelType && (floatLabelElement.classList.contains(CLASSNAMES.LABELBOTTOM) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    updateLabelState(args.element.value, floatLabelElement), 'Always' === args.floatLabelType && (floatLabelElement.classList.contains(CLASSNAMES_LABELBOTTOM) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         floatLabelElement
-                    ], CLASSNAMES.LABELBOTTOM), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    ], CLASSNAMES_LABELBOTTOM), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         floatLabelElement
-                    ], CLASSNAMES.LABELTOP)), 'Auto' === args.floatLabelType && (// eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    ], CLASSNAMES_LABELTOP)), 'Auto' === args.floatLabelType && (// eslint-disable-next-line @typescript-eslint/no-unused-vars
                     args.element.addEventListener('input', function(event) {
                         updateLabelState(args.element.value, floatLabelElement, args.element);
                     }), // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -7722,20 +7700,20 @@
                 function updateIconState(value, button, readonly) {
                     value && !readonly ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         button
-                    ], CLASSNAMES.CLEARICONHIDE) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    ], CLASSNAMES_CLEARICONHIDE) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         button
-                    ], CLASSNAMES.CLEARICONHIDE);
+                    ], CLASSNAMES_CLEARICONHIDE);
                 }
                 function updateLabelState(value, label, element) {
                     void 0 === element && (element = null), value ? ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         label
-                    ], CLASSNAMES.LABELTOP), label.classList.contains(CLASSNAMES.LABELBOTTOM) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    ], CLASSNAMES_LABELTOP), label.classList.contains(CLASSNAMES_LABELBOTTOM) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         label
-                    ], CLASSNAMES.LABELBOTTOM)) : (null == element || element !== document.activeElement) && (label.classList.contains(CLASSNAMES.LABELTOP) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    ], CLASSNAMES_LABELBOTTOM)) : (null == element || element !== document.activeElement) && (label.classList.contains(CLASSNAMES_LABELTOP) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         label
-                    ], CLASSNAMES.LABELTOP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    ], CLASSNAMES_LABELTOP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         label
-                    ], CLASSNAMES.LABELBOTTOM));
+                    ], CLASSNAMES_LABELBOTTOM));
                 }
                 function getParentNode(element) {
                     var parentNode = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(element.parentNode) ? element : element.parentNode;
@@ -7744,9 +7722,9 @@
                 // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 function wireClearBtnEvents(element, button, container) {
                     (void 0 == isBindClearAction || isBindClearAction) && button.addEventListener('click', function(event) {
-                        element.classList.contains(CLASSNAMES.DISABLE) || element.readOnly || (event.preventDefault(), element !== document.activeElement && element.focus(), element.value = '', (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                        element.classList.contains(CLASSNAMES_DISABLE) || element.readOnly || (event.preventDefault(), element !== document.activeElement && element.focus(), element.value = '', (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                             button
-                        ], CLASSNAMES.CLEARICONHIDE));
+                        ], CLASSNAMES_CLEARICONHIDE));
                     }), // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     element.addEventListener('input', function(event) {
                         updateIconState(element.value, button);
@@ -7758,12 +7736,12 @@
                         setTimeout(function() {
                             (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                                 button
-                            ], CLASSNAMES.CLEARICONHIDE);
+                            ], CLASSNAMES_CLEARICONHIDE);
                         }, 200);
                     });
                 }
                 function validateLabel(element, floatLabelType) {
-                    if (getParentNode(element).classList.contains(CLASSNAMES.FLOATINPUT) && 'Auto' === floatLabelType) {
+                    if (getParentNode(element).classList.contains(CLASSNAMES_FLOATINPUT) && 'Auto' === floatLabelType) {
                         var label = getParentNode(element).getElementsByClassName('e-float-text')[0];
                         updateLabelState(element.value, label, element);
                     }
@@ -7821,7 +7799,7 @@
      */ function setPlaceholder(placeholder, element) {
                     placeholder = encodePlaceHolder(placeholder);
                     var parentElement = getParentNode(element);
-                    parentElement.classList.contains(CLASSNAMES.FLOATINPUT) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(placeholder) || '' === placeholder ? (parentElement.classList.add(CLASSNAMES.NOFLOATLABEL), parentElement.getElementsByClassName('e-float-text-content')[0] ? parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].children[0].textContent = '' : parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].textContent = '') : (parentElement.getElementsByClassName('e-float-text-content')[0] ? parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].children[0].textContent = placeholder : parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].textContent = placeholder, parentElement.classList.remove(CLASSNAMES.NOFLOATLABEL), element.removeAttribute('placeholder')) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(placeholder) || '' === placeholder ? (element.removeAttribute('placeholder'), element.removeAttribute('aria-placeholder')) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(element, {
+                    parentElement.classList.contains(CLASSNAMES_FLOATINPUT) ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(placeholder) || '' === placeholder ? (parentElement.classList.add(CLASSNAMES_NOFLOATLABEL), parentElement.getElementsByClassName('e-float-text-content')[0] ? parentElement.getElementsByClassName(CLASSNAMES_FLOATTEXT)[0].children[0].textContent = '' : parentElement.getElementsByClassName(CLASSNAMES_FLOATTEXT)[0].textContent = '') : (parentElement.getElementsByClassName('e-float-text-content')[0] ? parentElement.getElementsByClassName(CLASSNAMES_FLOATTEXT)[0].children[0].textContent = placeholder : parentElement.getElementsByClassName(CLASSNAMES_FLOATTEXT)[0].textContent = placeholder, parentElement.classList.remove(CLASSNAMES_NOFLOATLABEL), element.removeAttribute('placeholder')) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(placeholder) || '' === placeholder ? (element.removeAttribute('placeholder'), element.removeAttribute('aria-placeholder')) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(element, {
                         placeholder: placeholder,
                         'aria-placeholder': placeholder
                     });
@@ -7852,7 +7830,7 @@
      * @param {Element[] | NodeList} elements
      * - The elements that are needed to enable/disable RTL.
      */ function setEnableRtl(isRtl, elements) {
-                    isRtl ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)(elements, CLASSNAMES.RTL) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)(elements, CLASSNAMES.RTL);
+                    isRtl ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)(elements, CLASSNAMES_RTL) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)(elements, CLASSNAMES_RTL);
                 }
                 /**
      * Enables or disables the given input element.
@@ -7869,21 +7847,21 @@
                         disabled: 'disabled',
                         'aria-disabled': 'true'
                     }, considerWrapper = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(inputContainer);
-                    isEnable ? (element.classList.remove(CLASSNAMES.DISABLE), removeAttributes(disabledAttrs, element), considerWrapper && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    isEnable ? (element.classList.remove(CLASSNAMES_DISABLE), removeAttributes(disabledAttrs, element), considerWrapper && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         inputContainer
-                    ], CLASSNAMES.DISABLE)) : (element.classList.add(CLASSNAMES.DISABLE), addAttributes(disabledAttrs, element), considerWrapper && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    ], CLASSNAMES_DISABLE)) : (element.classList.add(CLASSNAMES_DISABLE), addAttributes(disabledAttrs, element), considerWrapper && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         inputContainer
-                    ], CLASSNAMES.DISABLE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || validateLabel(element, floatLabelType);
+                    ], CLASSNAMES_DISABLE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || validateLabel(element, floatLabelType);
                 }
                 function setClearButton(isClear, element, inputObject, initial, internalCreateElement) {
                     var button, container, makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement;
                     isClear ? (button = ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(makeElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : makeElement)('span', {
-                        className: CLASSNAMES.CLEARICON
-                    }), container = inputObject.container, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(initial) ? (inputObject.container.classList.contains(CLASSNAMES.FLOATINPUT) ? inputObject.container.querySelector('.' + CLASSNAMES.FLOATTEXT) : element).insertAdjacentElement('afterend', button) : container.appendChild(button), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container) && container.classList.contains(CLASSNAMES.FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                        className: CLASSNAMES_CLEARICON
+                    }), container = inputObject.container, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(initial) ? (inputObject.container.classList.contains(CLASSNAMES_FLOATINPUT) ? inputObject.container.querySelector('.' + CLASSNAMES_FLOATTEXT) : element).insertAdjacentElement('afterend', button) : container.appendChild(button), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container) && container.classList.contains(CLASSNAMES_FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         container
-                    ], CLASSNAMES.INPUTGROUP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    ], CLASSNAMES_INPUTGROUP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         button
-                    ], CLASSNAMES.CLEARICONHIDE), wireClearBtnEvents(element, button, container), button.setAttribute('aria-label', 'close'), inputObject.clearButton = button) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .remove */ .Od)(inputObject.clearButton), inputObject.clearButton = null);
+                    ], CLASSNAMES_CLEARICONHIDE), wireClearBtnEvents(element, button, container), button.setAttribute('aria-label', 'close'), inputObject.clearButton = button) : ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .remove */ .Od)(inputObject.clearButton), inputObject.clearButton = null);
                 }
                 /**
      * Removing the multiple attributes from the given element such as "disabled","id" , etc.
@@ -7898,7 +7876,7 @@
      */ function removeAttributes(attrs, element) {
                     for(var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++){
                         var key = _a[_i], parentElement = getParentNode(element);
-                        'disabled' === key && element.classList.remove(CLASSNAMES.DISABLE), 'disabled' === key && parentElement.classList.contains(CLASSNAMES.INPUTGROUP) && parentElement.classList.remove(CLASSNAMES.DISABLE), 'placeholder' === key && parentElement.classList.contains(CLASSNAMES.FLOATINPUT) ? parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].textContent = '' : element.removeAttribute(key);
+                        'disabled' === key && element.classList.remove(CLASSNAMES_DISABLE), 'disabled' === key && parentElement.classList.contains(CLASSNAMES_INPUTGROUP) && parentElement.classList.remove(CLASSNAMES_DISABLE), 'placeholder' === key && parentElement.classList.contains(CLASSNAMES_FLOATINPUT) ? parentElement.getElementsByClassName(CLASSNAMES_FLOATTEXT)[0].textContent = '' : element.removeAttribute(key);
                     }
                 }
                 /**
@@ -7914,7 +7892,7 @@
      */ function addAttributes(attrs, element) {
                     for(var _i = 0, _a = Object.keys(attrs); _i < _a.length; _i++){
                         var key = _a[_i], parentElement = getParentNode(element);
-                        'disabled' === key && element.classList.add(CLASSNAMES.DISABLE), 'disabled' === key && parentElement.classList.contains(CLASSNAMES.INPUTGROUP) && parentElement.classList.add(CLASSNAMES.DISABLE), 'placeholder' === key && parentElement.classList.contains(CLASSNAMES.FLOATINPUT) ? parentElement.getElementsByClassName(CLASSNAMES.FLOATTEXT)[0].textContent = attrs[key] : element.setAttribute(key, attrs[key]);
+                        'disabled' === key && element.classList.add(CLASSNAMES_DISABLE), 'disabled' === key && parentElement.classList.contains(CLASSNAMES_INPUTGROUP) && parentElement.classList.add(CLASSNAMES_DISABLE), 'placeholder' === key && parentElement.classList.contains(CLASSNAMES_FLOATINPUT) ? parentElement.getElementsByClassName(CLASSNAMES_FLOATTEXT)[0].textContent = attrs[key] : element.setAttribute(key, attrs[key]);
                     }
                 }
                 /**
@@ -7930,7 +7908,7 @@
     */ function createSpanElement(inputObject, makeElement) {
                     if (inputObject.container.classList.contains('e-outline') && inputObject.container.getElementsByClassName('e-float-text')[0]) {
                         var labelSpanElement = makeElement('span', {
-                            className: CLASSNAMES.FLOATTEXTCONTENT
+                            className: 'e-float-text-content'
                         });
                         labelSpanElement.innerHTML = inputObject.container.getElementsByClassName('e-float-text')[0].innerHTML, inputObject.container.getElementsByClassName('e-float-text')[0].innerHTML = '', inputObject.container.getElementsByClassName('e-float-text')[0].appendChild(labelSpanElement);
                     }
@@ -7981,7 +7959,7 @@
                         innerWrapper.appendChild(inputElement);
                         for(var i = 0; i < result.length; i++)innerWrapper.appendChild(result[i]);
                     }
-                    return innerWrapper.parentNode.insertBefore(button, innerWrapper), container.classList.contains(CLASSNAMES.INPUTGROUP) || container.classList.add(CLASSNAMES.INPUTGROUP), _internalRipple(!0, container, button), button;
+                    return innerWrapper.parentNode.insertBefore(button, innerWrapper), container.classList.contains(CLASSNAMES_INPUTGROUP) || container.classList.add(CLASSNAMES_INPUTGROUP), _internalRipple(!0, container, button), button;
                 }
                 /**
      * Creates a new span element with the given icons added and append it in container element.
@@ -7994,7 +7972,7 @@
      * @param {HTMLElement} container - The container on which created span element is going to append.
      */ function appendSpan(iconClass, container, internalCreateElement) {
                     var button = createIconEle(iconClass, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement);
-                    return container.classList.contains(CLASSNAMES.INPUTGROUP) || container.classList.add(CLASSNAMES.INPUTGROUP), (container.classList.contains('e-float-icon-left') ? container.querySelector('.e-input-in-wrap') : container).appendChild(button), _internalRipple(!0, container, button), button;
+                    return container.classList.contains(CLASSNAMES_INPUTGROUP) || container.classList.add(CLASSNAMES_INPUTGROUP), (container.classList.contains('e-float-icon-left') ? container.querySelector('.e-input-in-wrap') : container).appendChild(button), _internalRipple(!0, container, button), button;
                 }
                 function validateInputType(containerElement, input) {
                     'hidden' === input.type ? containerElement.classList.add('e-hidden') : containerElement.classList.contains('e-hidden') && containerElement.classList.remove('e-hidden');
@@ -8011,14 +7989,14 @@
                         buttons: [],
                         clearButton: null
                     };
-                    if (floatType = args.floatLabelType, isBindClearAction = args.bindClearAction, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.floatLabelType) || 'Never' === args.floatLabelType ? (inputObject.container = createInputContainer(args, CLASSNAMES.INPUTGROUP, CLASSNAMES.INPUTCUSTOMTAG, 'span', makeElement), args.element.parentNode.insertBefore(inputObject.container, args.element), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    if (floatType = args.floatLabelType, isBindClearAction = args.bindClearAction, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.floatLabelType) || 'Never' === args.floatLabelType ? (inputObject.container = createInputContainer(args, CLASSNAMES_INPUTGROUP, 'e-input-custom-tag', 'span', makeElement), args.element.parentNode.insertBefore(inputObject.container, args.element), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         args.element
-                    ], CLASSNAMES.INPUT), inputObject.container.appendChild(args.element)) : createFloatingInput(args, inputObject, makeElement), bindInitialEvent(args), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties) && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties.showClearButton) && args.properties.showClearButton && 'TEXTAREA' !== args.element.tagName && (setClearButton(args.properties.showClearButton, args.element, inputObject, !0, makeElement), inputObject.clearButton.setAttribute('role', 'button'), inputObject.container.classList.contains(CLASSNAMES.FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    ], CLASSNAMES_INPUT), inputObject.container.appendChild(args.element)) : createFloatingInput(args, inputObject, makeElement), bindInitialEvent(args), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties) && !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties.showClearButton) && args.properties.showClearButton && 'TEXTAREA' !== args.element.tagName && (setClearButton(args.properties.showClearButton, args.element, inputObject, !0, makeElement), inputObject.clearButton.setAttribute('role', 'button'), inputObject.container.classList.contains(CLASSNAMES_FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         inputObject.container
-                    ], CLASSNAMES.INPUTGROUP)), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.buttons) && 'TEXTAREA' !== args.element.tagName) for(var i = 0; i < args.buttons.length; i++)inputObject.buttons.push(appendSpan(args.buttons[i], inputObject.container, makeElement));
+                    ], CLASSNAMES_INPUTGROUP)), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.buttons) && 'TEXTAREA' !== args.element.tagName) for(var i = 0; i < args.buttons.length; i++)inputObject.buttons.push(appendSpan(args.buttons[i], inputObject.container, makeElement));
                     return (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.element) || 'TEXTAREA' !== args.element.tagName || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         inputObject.container
-                    ], CLASSNAMES.TEXTAREA), validateInputType(inputObject.container, args.element), createSpanElement(inputObject = function(args, inputObject) {
+                    ], 'e-multi-line-input'), validateInputType(inputObject.container, args.element), createSpanElement(inputObject = function(args, inputObject) {
                         if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(args.properties)) for(var _i = 0, _a = Object.keys(args.properties); _i < _a.length; _i++)switch(_a[_i]){
                             case 'cssClass':
                                 setCssClass(args.properties.cssClass, [
@@ -8055,12 +8033,12 @@
                     if (element.value = value, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(element.getAttribute('value')) && calculateWidth(element, element.parentElement), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || 'Auto' !== floatLabelType || validateLabel(element, floatLabelType), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(clearButton) && clearButton) {
                         var parentElement = getParentNode(element);
                         if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(parentElement)) {
-                            var button = parentElement.getElementsByClassName(CLASSNAMES.CLEARICON)[0];
+                            var button = parentElement.getElementsByClassName(CLASSNAMES_CLEARICON)[0];
                             (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(button) || (element.value && parentElement.classList.contains('e-input-focus') ? (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                                 button
-                            ], CLASSNAMES.CLEARICONHIDE) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                            ], CLASSNAMES_CLEARICONHIDE) : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                                 button
-                            ], CLASSNAMES.CLEARICONHIDE));
+                            ], CLASSNAMES_CLEARICONHIDE));
                         }
                     }
                     checkInputValue(floatLabelType, element);
@@ -8076,18 +8054,18 @@
                     'number' == typeof width ? container.style.width = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(width) : 'string' == typeof width && (container.style.width = width.match(/px|%|em/) ? width : (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(width)), calculateWidth(container.firstChild, container);
                 }, Input.setPlaceholder = setPlaceholder, Input.setReadonly = setReadonly, Input.setEnableRtl = setEnableRtl, Input.setEnabled = setEnabled, Input.setClearButton = setClearButton, Input.removeAttributes = removeAttributes, Input.addAttributes = addAttributes, Input.removeFloating = function(input) {
                     var container = input.container;
-                    if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container) && container.classList.contains(CLASSNAMES.FLOATINPUT)) {
-                        var inputEle = container.querySelector('textarea') ? container.querySelector('textarea') : container.querySelector('input'), placeholder = container.querySelector('.' + CLASSNAMES.FLOATTEXT).textContent, clearButton = null !== container.querySelector('.e-clear-icon');
-                        (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(container.querySelector('.' + CLASSNAMES.FLOATLINE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(container.querySelector('.' + CLASSNAMES.FLOATTEXT)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .classList */ .s1)(container, [
-                            CLASSNAMES.INPUTGROUP
+                    if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container) && container.classList.contains(CLASSNAMES_FLOATINPUT)) {
+                        var inputEle = container.querySelector('textarea') ? container.querySelector('textarea') : container.querySelector('input'), placeholder = container.querySelector('.' + CLASSNAMES_FLOATTEXT).textContent, clearButton = null !== container.querySelector('.e-clear-icon');
+                        (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(container.querySelector('.' + CLASSNAMES_FLOATLINE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .detach */ .og)(container.querySelector('.' + CLASSNAMES_FLOATTEXT)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .classList */ .s1)(container, [
+                            CLASSNAMES_INPUTGROUP
                         ], [
-                            CLASSNAMES.FLOATINPUT
+                            CLASSNAMES_FLOATINPUT
                         ]), inputEle.removeEventListener('focus', _focusFn), inputEle.removeEventListener('blur', _blurFn), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .attributes */ .Y4)(inputEle, {
                             placeholder: placeholder
-                        }), inputEle.classList.add(CLASSNAMES.INPUT), clearButton || 'INPUT' !== inputEle.tagName || inputEle.removeAttribute('required');
+                        }), inputEle.classList.add(CLASSNAMES_INPUT), clearButton || 'INPUT' !== inputEle.tagName || inputEle.removeAttribute('required');
                     }
                 }, Input.addFloating = function(input, type, placeholder, internalCreateElement) {
-                    var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement, container = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(input, '.' + CLASSNAMES.INPUTGROUP);
+                    var makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement, container = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .closest */ .oq)(input, '.' + CLASSNAMES_INPUTGROUP);
                     if (floatType = type, 'Never' !== type) {
                         var customTag = container.tagName, args = {
                             element: input,
@@ -8099,11 +8077,11 @@
                         }, iconEle = container.querySelector('.e-clear-icon'), inputObj = {
                             container: container
                         };
-                        input.classList.remove(CLASSNAMES.INPUT), createFloatingInput(args, inputObj, makeElement), createSpanElement(inputObj, makeElement), calculateWidth(args.element, inputObj.container);
+                        input.classList.remove(CLASSNAMES_INPUT), createFloatingInput(args, inputObj, makeElement), createSpanElement(inputObj, makeElement), calculateWidth(args.element, inputObj.container);
                         var isPrependIcon = container.classList.contains('e-float-icon-left');
-                        if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iconEle) && (iconEle = isPrependIcon ? container.querySelector('.e-input-in-wrap').querySelector('.e-input-group-icon') : container.querySelector('.e-input-group-icon')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iconEle)) isPrependIcon && (iconEle = container.querySelector('.e-input-group-icon')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iconEle) && container.classList.remove(CLASSNAMES.INPUTGROUP);
+                        if ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iconEle) && (iconEle = isPrependIcon ? container.querySelector('.e-input-in-wrap').querySelector('.e-input-group-icon') : container.querySelector('.e-input-group-icon')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iconEle)) isPrependIcon && (iconEle = container.querySelector('.e-input-group-icon')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(iconEle) && container.classList.remove(CLASSNAMES_INPUTGROUP);
                         else {
-                            var floatLine = container.querySelector('.' + CLASSNAMES.FLOATLINE), floatText = container.querySelector('.' + CLASSNAMES.FLOATTEXT), wrapper = isPrependIcon ? container.querySelector('.e-input-in-wrap') : container;
+                            var floatLine = container.querySelector('.' + CLASSNAMES_FLOATLINE), floatText = container.querySelector('.' + CLASSNAMES_FLOATTEXT), wrapper = isPrependIcon ? container.querySelector('.e-input-in-wrap') : container;
                             wrapper.insertBefore(input, iconEle), wrapper.insertBefore(floatLine, iconEle), wrapper.insertBefore(floatText, iconEle);
                         }
                     }
@@ -9355,12 +9333,7 @@
                 ], PositionData.prototype, "X", void 0), __decorate([
                     (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Property */ .Z9)('top')
                 ], PositionData.prototype, "Y", void 0), PositionData;
-            }(_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .ChildProperty */ .rt), CLASSNAMES = {
-                ROOT: 'e-popup',
-                RTL: 'e-rtl',
-                OPEN: 'e-popup-open',
-                CLOSE: 'e-popup-close'
-            }, Popup = /** @class */ function(_super) {
+            }(_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .ChildProperty */ .rt), CLASSNAMES_ROOT = 'e-popup', CLASSNAMES_RTL = 'e-rtl', CLASSNAMES_OPEN = 'e-popup-open', CLASSNAMES_CLOSE = 'e-popup-close', Popup = /** @class */ function(_super) {
                 function Popup(element, options) {
                     return _super.call(this, options, element) || this;
                 }
@@ -9435,14 +9408,14 @@
      *
      * @returns {void}
      */ Popup.prototype.destroy = function() {
-                    this.element.classList.remove(CLASSNAMES.ROOT, CLASSNAMES.RTL, CLASSNAMES.OPEN, CLASSNAMES.CLOSE), this.element.classList.contains('e-popup-open') && this.unwireEvents(), _super.prototype.destroy.call(this);
+                    this.element.classList.remove(CLASSNAMES_ROOT, CLASSNAMES_RTL, CLASSNAMES_OPEN, CLASSNAMES_CLOSE), this.element.classList.contains('e-popup-open') && this.unwireEvents(), _super.prototype.destroy.call(this);
                 }, /**
      * To Initialize the control rendering
      *
      * @returns {void}
      * @private
      */ Popup.prototype.render = function() {
-                    this.element.classList.add(CLASSNAMES.ROOT);
+                    this.element.classList.add(CLASSNAMES_ROOT);
                     var styles = {};
                     1000 !== this.zIndex && (styles.zIndex = this.zIndex), 'auto' !== this.width && (styles.width = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(this.width)), 'auto' !== this.height && (styles.height = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .formatUnit */ .Ac)(this.height)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .setStyleAttribute */ .V7)(this.element, styles), this.fixedParent = !1, this.setEnableRtl(), this.setContent();
                 }, Popup.prototype.wireEvents = function() {
@@ -9515,7 +9488,7 @@
                 //There is no event handler
                 }, Popup.prototype.setEnableRtl = function() {
                     this.reposition(), // eslint-disable-next-line
-                    this.enableRtl ? this.element.classList.add(CLASSNAMES.RTL) : this.element.classList.remove(CLASSNAMES.RTL);
+                    this.enableRtl ? this.element.classList.add(CLASSNAMES_RTL) : this.element.classList.remove(CLASSNAMES_RTL);
                 }, Popup.prototype.setContent = function() {
                     if (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(this.content)) if (this.element.innerHTML = '', 'string' == typeof this.content) this.element.textContent = this.content;
                     else {
@@ -9640,22 +9613,22 @@
                     }
                     animationOptions = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(animationOptions) || 'object' != typeof animationOptions ? this.showAnimation : animationOptions, ('none' !== this.collision.X || 'none' !== this.collision.Y) && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         this.element
-                    ], CLASSNAMES.CLOSE), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    ], CLASSNAMES_CLOSE), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         this.element
-                    ], CLASSNAMES.OPEN), this.checkCollision(), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    ], CLASSNAMES_OPEN), this.checkCollision(), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         this.element
-                    ], CLASSNAMES.OPEN), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    ], CLASSNAMES_OPEN), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         this.element
-                    ], CLASSNAMES.CLOSE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(animationOptions) ? ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
+                    ], CLASSNAMES_CLOSE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(animationOptions) ? ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         this.element
-                    ], CLASSNAMES.CLOSE), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    ], CLASSNAMES_CLOSE), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         this.element
-                    ], CLASSNAMES.OPEN), this.trigger('open')) : (animationOptions.begin = function() {
+                    ], CLASSNAMES_OPEN), this.trigger('open')) : (animationOptions.begin = function() {
                         _this.isDestroyed || ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                             _this.element
-                        ], CLASSNAMES.CLOSE), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                        ], CLASSNAMES_CLOSE), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                             _this.element
-                        ], CLASSNAMES.OPEN));
+                        ], CLASSNAMES_OPEN));
                     }, animationOptions.end = function() {
                         _this.isDestroyed || _this.trigger('open');
                     }, new _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Animation */ .fw(animationOptions).animate(this.element));
@@ -9668,14 +9641,14 @@
                     var _this = this;
                     animationOptions = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(animationOptions) || 'object' != typeof animationOptions ? this.hideAnimation : animationOptions, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(animationOptions) ? ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                         this.element
-                    ], CLASSNAMES.OPEN), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    ], CLASSNAMES_OPEN), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         this.element
-                    ], CLASSNAMES.CLOSE), this.trigger('close')) : (animationOptions.end = function() {
+                    ], CLASSNAMES_CLOSE), this.trigger('close')) : (animationOptions.end = function() {
                         _this.isDestroyed || ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .removeClass */ .IV)([
                             _this.element
-                        ], CLASSNAMES.OPEN), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                        ], CLASSNAMES_OPEN), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                             _this.element
-                        ], CLASSNAMES.CLOSE), _this.trigger('close'));
+                        ], CLASSNAMES_CLOSE), _this.trigger('close'));
                     }, new _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .Animation */ .fw(animationOptions).animate(this.element)), this.unwireEvents();
                 }, /**
      * Gets scrollable parent elements for the given element.
@@ -14914,10 +14887,7 @@
                 'wbr',
                 'iframe',
                 'td'
-            ], selection = __webpack_require__(8867), config = __webpack_require__(103), common_util = __webpack_require__(1386), markerClassName = {
-                startSelection: 'e-editor-select-start',
-                endSelection: 'e-editor-select-end'
-            }, DOMNode = /** @class */ function() {
+            ], selection = __webpack_require__(8867), config = __webpack_require__(103), common_util = __webpack_require__(1386), markerClassName_startSelection = 'e-editor-select-start', markerClassName_endSelection = 'e-editor-select-end', DOMNode = /** @class */ function() {
                 /**
      * Constructor for creating the DOMNode plugin
      *
@@ -15149,7 +15119,7 @@
      * @hidden
 
      */ DOMNode.prototype.getSelectedNode = function(element, index) {
-                    return element.nodeType === Node.ELEMENT_NODE && element.childNodes.length > 0 && element.childNodes[index - 1] && element.childNodes[index - 1].nodeType === Node.ELEMENT_NODE && (element.childNodes[index - 1].classList.contains(markerClassName.startSelection) || element.childNodes[index - 1].classList.contains(markerClassName.endSelection)) ? element = element.childNodes[index - 1] : element.nodeType === Node.ELEMENT_NODE && element.childNodes.length > 0 && element.childNodes[index] && (element = element.childNodes[index]), element.nodeType === Node.TEXT_NODE && (element = element.parentNode), element;
+                    return element.nodeType === Node.ELEMENT_NODE && element.childNodes.length > 0 && element.childNodes[index - 1] && element.childNodes[index - 1].nodeType === Node.ELEMENT_NODE && (element.childNodes[index - 1].classList.contains(markerClassName_startSelection) || element.childNodes[index - 1].classList.contains(markerClassName_endSelection)) ? element = element.childNodes[index - 1] : element.nodeType === Node.ELEMENT_NODE && element.childNodes.length > 0 && element.childNodes[index] && (element = element.childNodes[index]), element.nodeType === Node.TEXT_NODE && (element = element.parentNode), element;
                 }, /**
      * nodeFinds method
      *
@@ -15219,14 +15189,14 @@
      * @hidden
 
      */ DOMNode.prototype.saveMarker = function(save, action) {
-                    var startTextNode, endTextNode, start = this.parent.querySelector('.' + markerClassName.startSelection), end = this.parent.querySelector('.' + markerClassName.endSelection);
-                    if ('' === start.textContent && (0, ej2_base /* isNullOrUndefined */ .le)(end) && 'tab' !== action && (1 === start.childNodes.length && 'BR' === start.childNodes[0].nodeName ? start.innerHTML = '&#65279;&#65279;<br>' : start.innerHTML = '&#65279;&#65279;'), this.hasClass(start, markerClassName.startSelection) && start.classList.length > 1) {
+                    var startTextNode, endTextNode, start = this.parent.querySelector('.' + markerClassName_startSelection), end = this.parent.querySelector('.' + markerClassName_endSelection);
+                    if ('' === start.textContent && (0, ej2_base /* isNullOrUndefined */ .le)(end) && 'tab' !== action && (1 === start.childNodes.length && 'BR' === start.childNodes[0].nodeName ? start.innerHTML = '&#65279;&#65279;<br>' : start.innerHTML = '&#65279;&#65279;'), this.hasClass(start, markerClassName_startSelection) && start.classList.length > 1) {
                         var replace = this.createTagString('p', start, this.encode(start.textContent));
-                        this.replaceWith(start, replace), (start = this.parent.querySelector('.' + markerClassName.startSelection)).classList.remove(markerClassName.startSelection), startTextNode = start.childNodes[0];
+                        this.replaceWith(start, replace), (start = this.parent.querySelector('.' + markerClassName_startSelection)).classList.remove(markerClassName_startSelection), startTextNode = start.childNodes[0];
                     } else startTextNode = this.unWrap(start)[0];
-                    if (this.hasClass(end, markerClassName.endSelection) && end.classList.length > 1) {
+                    if (this.hasClass(end, markerClassName_endSelection) && end.classList.length > 1) {
                         var replace = this.createTagString('p', end, this.encode(end.textContent));
-                        this.replaceWith(end, replace), (end = this.parent.querySelector('.' + markerClassName.endSelection)).classList.remove(markerClassName.endSelection), endTextNode = end.childNodes[0];
+                        this.replaceWith(end, replace), (end = this.parent.querySelector('.' + markerClassName_endSelection)).classList.remove(markerClassName_endSelection), endTextNode = end.childNodes[0];
                     } else endTextNode = end ? this.unWrap(end)[0] : startTextNode;
                     return save.startContainer = save.getNodeArray(startTextNode, !0), save.endContainer = save.getNodeArray(endTextNode, !1), save;
                 }, DOMNode.prototype.marker = function(className, textContent) {
@@ -15248,15 +15218,15 @@
                         }
                     }
                     if (start !== end) {
-                        if (start.nodeType !== Node.TEXT_NODE && ('BR' === start.tagName && IGNORE_BLOCK_TAGS.indexOf(start.parentNode.tagName.toLocaleLowerCase()) >= 0 || 'IMG' === start.tagName)) this.replaceWith(start, this.marker(markerClassName.startSelection, this.encode(start.textContent))), range.startContainer.querySelector('.' + markerClassName.startSelection).appendChild(start);
+                        if (start.nodeType !== Node.TEXT_NODE && ('BR' === start.tagName && IGNORE_BLOCK_TAGS.indexOf(start.parentNode.tagName.toLocaleLowerCase()) >= 0 || 'IMG' === start.tagName)) this.replaceWith(start, this.marker(markerClassName_startSelection, this.encode(start.textContent))), range.startContainer.querySelector('.' + markerClassName_startSelection).appendChild(start);
                         else if (3 != start.nodeType && '#text' != start.nodeName) {
-                            var marker = this.marker(markerClassName.startSelection, '');
+                            var marker = this.marker(markerClassName_startSelection, '');
                             (0, ej2_base /* append */ .R3)([
                                 this.parseHTMLFragment(marker)
                             ], start);
-                        } else this.replaceWith(start, this.marker(markerClassName.startSelection, this.encode(start.textContent)));
-                        end.nodeType !== Node.TEXT_NODE && 'BR' === end.tagName && IGNORE_BLOCK_TAGS.indexOf(end.parentNode.tagName.toLocaleLowerCase()) >= 0 ? (this.replaceWith(end, this.marker(markerClassName.endSelection, this.encode(end.textContent))), range.endContainer.querySelector('.' + markerClassName.endSelection).appendChild(end)) : this.ensureSelfClosingTag(end, markerClassName.endSelection, range);
-                    } else this.ensureSelfClosingTag(start, markerClassName.startSelection, range);
+                        } else this.replaceWith(start, this.marker(markerClassName_startSelection, this.encode(start.textContent)));
+                        end.nodeType !== Node.TEXT_NODE && 'BR' === end.tagName && IGNORE_BLOCK_TAGS.indexOf(end.parentNode.tagName.toLocaleLowerCase()) >= 0 ? (this.replaceWith(end, this.marker(markerClassName_endSelection, this.encode(end.textContent))), range.endContainer.querySelector('.' + markerClassName_endSelection).appendChild(end)) : this.ensureSelfClosingTag(end, markerClassName_endSelection, range);
+                    } else this.ensureSelfClosingTag(start, markerClassName_startSelection, range);
                 }, /**
      * ensureSelfClosingTag method
      *
@@ -15284,7 +15254,7 @@
                         }
                         for(var i = 0; i < config /* selfClosingTags.length */ .i7.length; i++)start = start.tagName !== config /* selfClosingTags */ .i7[i] || isTable ? start : start.parentNode;
                         if (3 === start.nodeType && '#text' === start.nodeName) this.replaceWith(start, this.marker(className, this.encode(start.textContent)));
-                        else if ('BR' === start.nodeName) this.replaceWith(start, this.marker(markerClassName.endSelection, this.encode(start.textContent))), range.endContainer.querySelector('.' + markerClassName.endSelection).appendChild(start);
+                        else if ('BR' === start.nodeName) this.replaceWith(start, this.marker(markerClassName_endSelection, this.encode(start.textContent))), range.endContainer.querySelector('.' + markerClassName_endSelection).appendChild(start);
                         else {
                             var marker = this.marker(className, '');
                             (0, ej2_base /* append */ .R3)([
@@ -15304,9 +15274,9 @@
                     if ('BR' === element.tagName) {
                         var wrapper = "<p></p>", node = element.parentNode;
                         IGNORE_BLOCK_TAGS.indexOf(node.tagName.toLocaleLowerCase()) >= 0 && (element = this.wrap(element, this.parseHTMLFragment(wrapper)));
-                    } else if (element.nodeType !== Node.TEXT_NODE && (element.classList.contains(markerClassName.startSelection) || element.classList.contains(markerClassName.endSelection)) || textContent.replace(/\n/g, '').replace(/(^ *)|( *$)/g, '').length > 0 || textContent.length && 0 > textContent.indexOf('\n')) {
+                    } else if (element.nodeType !== Node.TEXT_NODE && (element.classList.contains(markerClassName_startSelection) || element.classList.contains(markerClassName_endSelection)) || textContent.replace(/\n/g, '').replace(/(^ *)|( *$)/g, '').length > 0 || textContent.length && 0 > textContent.indexOf('\n')) {
                         var wrapper = "<p></p>", target = element;
-                        element = this.wrap(element, this.parseHTMLFragment(wrapper)), !(target.nodeType === Node.ELEMENT_NODE && target.firstChild && 'BR' === target.firstChild.nodeName && (target.classList.contains(markerClassName.startSelection) || target.classList.contains(markerClassName.endSelection))) && element.nextElementSibling && 'BR' === element.nextElementSibling.tagName && element.appendChild(element.nextElementSibling);
+                        element = this.wrap(element, this.parseHTMLFragment(wrapper)), !(target.nodeType === Node.ELEMENT_NODE && target.firstChild && 'BR' === target.firstChild.nodeName && (target.classList.contains(markerClassName_startSelection) || target.classList.contains(markerClassName_endSelection))) && element.nextElementSibling && 'BR' === element.nextElementSibling.tagName && element.appendChild(element.nextElementSibling);
                     }
                     return element;
                 }, /**
@@ -15328,11 +15298,11 @@
                     var collectionNodes = [], selection = this.getSelection();
                     if (this.isEditorArea() && selection.rangeCount) for(var ranges = this.getRangePoint(), j = 0; j < ranges.length; j++){
                         var parentNode = void 0, range = ranges[j], startNode = this.getSelectedNode(range.startContainer, range.startOffset), endNode = this.getSelectedNode(range.endContainer, range.endOffset);
-                        if (this.isBlockNode(startNode) && 0 > collectionNodes.indexOf(startNode) && collectionNodes.push(startNode), (parentNode = this.blockParentNode(startNode)) && 0 > collectionNodes.indexOf(parentNode)) if (IGNORE_BLOCK_TAGS.indexOf(parentNode.tagName.toLocaleLowerCase()) >= 0 && ('BR' === startNode.tagName || startNode.nodeType === Node.TEXT_NODE || startNode.classList.contains(markerClassName.startSelection) || startNode.classList.contains(markerClassName.endSelection))) {
+                        if (this.isBlockNode(startNode) && 0 > collectionNodes.indexOf(startNode) && collectionNodes.push(startNode), (parentNode = this.blockParentNode(startNode)) && 0 > collectionNodes.indexOf(parentNode)) if (IGNORE_BLOCK_TAGS.indexOf(parentNode.tagName.toLocaleLowerCase()) >= 0 && ('BR' === startNode.tagName || startNode.nodeType === Node.TEXT_NODE || startNode.classList.contains(markerClassName_startSelection) || startNode.classList.contains(markerClassName_endSelection))) {
                             var tempNode = startNode.previousSibling && startNode.previousSibling.nodeType === Node.TEXT_NODE ? startNode.previousSibling : startNode;
                             startNode.nextSibling || startNode.previousSibling || 'BR' !== startNode.tagName ? collectionNodes.push(this.createTempNode(tempNode)) : collectionNodes.push(tempNode);
                         } else collectionNodes.push(parentNode);
-                        for(var nodes = [], node = startNode; node !== endNode && node !== this.parent;)0 > nodes.indexOf(node) && node.childNodes && node.childNodes.length ? (nodes.push(node), node = node.childNodes[0]) : node && 8 !== node.nodeType && ('BR' === node.tagName || node.nodeType === Node.TEXT_NODE && '' !== node.textContent.trim() || node.nodeType !== Node.TEXT_NODE && (node.classList.contains(markerClassName.startSelection) || node.classList.contains(markerClassName.endSelection))) && IGNORE_BLOCK_TAGS.indexOf(node.parentNode.tagName.toLocaleLowerCase()) >= 0 ? node = this.createTempNode(node) : node.nextSibling && 8 !== node.nextSibling.nodeType && ('BR' === node.nextSibling.tagName || node.nextSibling.nodeType === Node.TEXT_NODE || node.nextSibling.classList.contains(markerClassName.startSelection) || node.nextSibling.classList.contains(markerClassName.endSelection)) && IGNORE_BLOCK_TAGS.indexOf(node.nextSibling.parentNode.tagName.toLocaleLowerCase()) >= 0 ? node = this.createTempNode(node.nextSibling) : node.nextSibling ? node = node.nextSibling : node.parentNode && (node = node.parentNode, nodes.push(node)), 0 > collectionNodes.indexOf(node) && node.nodeType === Node.ELEMENT_NODE && IGNORE_BLOCK_TAGS.indexOf(node.parentNode.tagName.toLocaleLowerCase()) >= 0 && (node.classList.contains(markerClassName.startSelection) || node.classList.contains(markerClassName.endSelection)) && collectionNodes.push(this.createTempNode(node)), this.isBlockNode(node) && this.ignoreTableTag(node) && 0 > nodes.indexOf(node) && 0 > collectionNodes.indexOf(node) && (node !== endNode || range.endOffset > 0) && collectionNodes.push(node), 'IMG' === node.nodeName && 'true' === node.parentElement.contentEditable && collectionNodes.push(node);
+                        for(var nodes = [], node = startNode; node !== endNode && node !== this.parent;)0 > nodes.indexOf(node) && node.childNodes && node.childNodes.length ? (nodes.push(node), node = node.childNodes[0]) : node && 8 !== node.nodeType && ('BR' === node.tagName || node.nodeType === Node.TEXT_NODE && '' !== node.textContent.trim() || node.nodeType !== Node.TEXT_NODE && (node.classList.contains(markerClassName_startSelection) || node.classList.contains(markerClassName_endSelection))) && IGNORE_BLOCK_TAGS.indexOf(node.parentNode.tagName.toLocaleLowerCase()) >= 0 ? node = this.createTempNode(node) : node.nextSibling && 8 !== node.nextSibling.nodeType && ('BR' === node.nextSibling.tagName || node.nextSibling.nodeType === Node.TEXT_NODE || node.nextSibling.classList.contains(markerClassName_startSelection) || node.nextSibling.classList.contains(markerClassName_endSelection)) && IGNORE_BLOCK_TAGS.indexOf(node.nextSibling.parentNode.tagName.toLocaleLowerCase()) >= 0 ? node = this.createTempNode(node.nextSibling) : node.nextSibling ? node = node.nextSibling : node.parentNode && (node = node.parentNode, nodes.push(node)), 0 > collectionNodes.indexOf(node) && node.nodeType === Node.ELEMENT_NODE && IGNORE_BLOCK_TAGS.indexOf(node.parentNode.tagName.toLocaleLowerCase()) >= 0 && (node.classList.contains(markerClassName_startSelection) || node.classList.contains(markerClassName_endSelection)) && collectionNodes.push(this.createTempNode(node)), this.isBlockNode(node) && this.ignoreTableTag(node) && 0 > nodes.indexOf(node) && 0 > collectionNodes.indexOf(node) && (node !== endNode || range.endOffset > 0) && collectionNodes.push(node), 'IMG' === node.nodeName && 'true' === node.parentElement.contentEditable && collectionNodes.push(node);
                         (parentNode = this.blockParentNode(endNode)) && this.ignoreTableTag(parentNode) && 0 > collectionNodes.indexOf(parentNode) && !(0, ej2_base /* isNullOrUndefined */ .le)(parentNode.previousElementSibling) && 'IMG' !== parentNode.previousElementSibling.tagName && collectionNodes.push(parentNode);
                     }
                     for(var i = collectionNodes.length - 1; i > 0; i--){
@@ -15622,7 +15592,7 @@
                         elements: this.parent.domNode.blockNodes()
                     });
                 }, Lists.prototype.setSelectionBRConfig = function() {
-                    var startElem = this.parent.editableElement.querySelector('.' + markerClassName.startSelection), endElem = this.parent.editableElement.querySelector('.' + markerClassName.endSelection);
+                    var startElem = this.parent.editableElement.querySelector('.' + markerClassName_startSelection), endElem = this.parent.editableElement.querySelector('.' + markerClassName_endSelection);
                     (0, ej2_base /* isNullOrUndefined */ .le)(endElem) ? this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, startElem, 0) : this.parent.nodeSelection.setSelectionText(this.parent.currentDocument, startElem, endElem, 0, 0);
                 }, Lists.prototype.applyLists = function(elements, type, selector, item, e) {
                     if (this.isRevert(elements, type, item) && (0, ej2_base /* isNullOrUndefined */ .le)(item)) this.revertList(elements, e), this.removeEmptyListElements();
@@ -15727,7 +15697,7 @@
                             } else if (3 === this.domNode.contents(element)[0].nodeType) {
                                 var replace = this.domNode.createTagString('p', parentNode, this.parent.domNode.encode(this.domNode.contents(element)[0].textContent));
                                 this.domNode.replaceWith(this.domNode.contents(element)[0], replace);
-                            } else if (this.domNode.contents(element)[0].classList.contains(markerClassName.startSelection) || this.domNode.contents(element)[0].classList.contains(markerClassName.endSelection)) {
+                            } else if (this.domNode.contents(element)[0].classList.contains(markerClassName_startSelection) || this.domNode.contents(element)[0].classList.contains(markerClassName_endSelection)) {
                                 var replace = this.domNode.createTagString('p', parentNode, this.domNode.contents(element)[0].outerHTML);
                                 this.domNode.replaceWith(this.domNode.contents(element)[0], replace);
                             } else {
@@ -16019,7 +15989,7 @@
                         }
                     }
                     this.preFormatMerge();
-                    var startNode = this.parent.editableElement.querySelector('.' + markerClassName.startSelection), endNode = this.parent.editableElement.querySelector('.' + markerClassName.endSelection);
+                    var startNode = this.parent.editableElement.querySelector('.' + markerClassName_startSelection), endNode = this.parent.editableElement.querySelector('.' + markerClassName_endSelection);
                     (0, ej2_base /* isNullOrUndefined */ .le)(startNode) || (0, ej2_base /* isNullOrUndefined */ .le)(endNode) || (startNode = startNode.lastChild, endNode = endNode.lastChild), save = this.parent.domNode.saveMarker(save, null), (0, common_util /* isIDevice */ .FA)() && (0, common_util /* setEditFrameFocus */ .ze)(this.parent.editableElement, e.selector), isSelectAll ? this.parent.nodeSelection.setSelectionText(this.parent.currentDocument, startNode, endNode, 0, endNode.textContent.length) : save.restore(), e.callBack && e.callBack({
                         requestType: e.subCommand,
                         editorMode: 'HTML',
@@ -16028,7 +15998,7 @@
                         elements: this.parent.domNode.blockNodes()
                     });
                 }, Formats.prototype.setSelectionBRConfig = function() {
-                    var startElem = this.parent.editableElement.querySelector('.' + markerClassName.startSelection), endElem = this.parent.editableElement.querySelector('.' + markerClassName.endSelection);
+                    var startElem = this.parent.editableElement.querySelector('.' + markerClassName_startSelection), endElem = this.parent.editableElement.querySelector('.' + markerClassName_endSelection);
                     (0, ej2_base /* isNullOrUndefined */ .le)(endElem) ? this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, startElem, 0) : this.parent.nodeSelection.setSelectionText(this.parent.currentDocument, startElem, endElem, 0, 0);
                 }, Formats.prototype.preFormatMerge = function() {
                     var preNodes = this.parent.editableElement.querySelectorAll('PRE');
@@ -19842,41 +19812,33 @@
             function fb_calculate_attributes(radius, innerConainer, trgClass) {
                 var start, end, diameter = 2 * radius, svg = innerConainer.querySelector('.' + trgClass), circle = svg.querySelector('.e-path-circle'), path = svg.querySelector('.e-path-arc'), transformOrigin = diameter / 2 + 'px';
                 circle.setAttribute('d', [
-                    'M',
+                    "M",
                     radius,
                     radius,
-                    'm',
+                    "m",
                     -radius,
-                    0,
-                    'a',
+                    "0 a",
                     radius,
                     radius,
-                    0,
-                    1,
-                    0,
+                    "0 1 0",
                     2 * radius,
-                    0,
-                    'a',
+                    "0 a",
                     radius,
                     radius,
-                    0,
-                    1,
-                    0,
+                    "0 1 0",
                     -(2 * radius),
-                    0
-                ].join(' ')), path.setAttribute('d', (start = defineArcPoints(radius, radius, radius, 45), end = defineArcPoints(radius, radius, radius, 315), [
-                    'M',
+                    "0"
+                ].join(" ")), path.setAttribute('d', (start = defineArcPoints(radius, radius, radius, 45), end = defineArcPoints(radius, radius, radius, 315), [
+                    "M",
                     start.x,
                     start.y,
-                    'A',
+                    "A",
                     radius,
                     radius,
-                    0,
-                    0,
-                    0,
+                    "0 0 0",
                     end.x,
                     end.y
-                ].join(' '))), svg.setAttribute('viewBox', '0 0 ' + diameter + ' ' + diameter), svg.style.transformOrigin = transformOrigin + ' ' + transformOrigin + ' ' + transformOrigin, svg.style.width = svg.style.height = diameter + 'px';
+                ].join(" "))), svg.setAttribute('viewBox', '0 0 ' + diameter + ' ' + diameter), svg.style.transformOrigin = transformOrigin + ' ' + transformOrigin + ' ' + transformOrigin, svg.style.width = svg.style.height = diameter + 'px';
             }
             /**
  *
@@ -23900,13 +23862,7 @@
                 if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) r = Reflect.decorate(decorators, target, key, desc);
                 else for(var i = decorators.length - 1; i >= 0; i--)(d = decorators[i]) && (r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r);
                 return c > 3 && r && Object.defineProperty(target, key, r), r;
-            }, classNames = {
-                ICON: 'e-menu-icon',
-                ITEM: 'e-item',
-                POPUP: 'e-dropdown-popup',
-                SEPARATOR: 'e-separator',
-                VERTICAL: 'e-vertical'
-            }, DropDownButton = /** @class */ function(_super) {
+            }, classNames_ITEM = 'e-item', classNames_VERTICAL = 'e-vertical', DropDownButton = /** @class */ function(_super) {
                 /**
      * Constructor for creating the widget
      *
@@ -23966,7 +23922,7 @@
                     refresh && this.getULElement() && this.createItems();
                 }, DropDownButton.prototype.createPopup = function() {
                     var _a, div = this.createElement('div', {
-                        className: classNames.POPUP,
+                        className: 'e-dropdown-popup',
                         id: this.element.id + '-popup'
                     });
                     document.body.appendChild(div), this.dropDown = new popup_popup /* Popup */ .GI(div, {
@@ -23999,7 +23955,7 @@
                         var tempItem = (item = items[i]).text;
                         li = this.createElement('li', {
                             innerHTML: item.url ? '' : tempItem,
-                            className: item.separator ? classNames.ITEM + ' ' + classNames.SEPARATOR : classNames.ITEM,
+                            className: item.separator ? classNames_ITEM + " e-separator" : classNames_ITEM,
                             attrs: {
                                 role: 'menuItem',
                                 tabindex: '-1',
@@ -24007,7 +23963,7 @@
                             },
                             id: item.id ? item.id : (0, ej2_base /* getUniqueID */ .QI)('e-' + this.getModuleName() + '-item')
                         }), this.enableHtmlSanitizer ? li.textContent = item.url ? '' : tempItem : li.innerHTML = item.url ? '' : tempItem, item.url && (li.appendChild(this.createAnchor(item)), li.classList.add('e-url')), item.iconCss ? (span = this.createElement('span', {
-                            className: classNames.ICON + ' ' + item.iconCss
+                            className: "e-menu-icon " + item.iconCss
                         }), item.url ? li.childNodes[0].appendChild(span) : li.insertBefore(span, li.childNodes[0])) : showIcon && !item.separator && li.classList.add('e-blank-icon'), item.disabled && li.classList.add('e-disabled'), eventArgs = {
                             item: item,
                             element: li
@@ -24067,7 +24023,7 @@
                     return !!(prevElem && prevElem.classList && prevElem.classList.contains('e-split-colorpicker'));
                 }, DropDownButton.prototype.appendArrowSpan = function() {
                     this.element.appendChild(this.createElement('span', {
-                        className: "e-btn-icon e-icons e-icon-" + (this.cssClass.indexOf(classNames.VERTICAL) > -1 ? 'bottom' : 'right') + ' e-caret'
+                        className: "e-btn-icon e-icons e-icon-" + (this.cssClass.indexOf(classNames_VERTICAL) > -1 ? 'bottom' : 'right') + ' e-caret'
                     }));
                 }, DropDownButton.prototype.setActiveElem = function(elem) {
                     this.activeElem = elem;
@@ -24130,7 +24086,7 @@
                 }, DropDownButton.prototype.popupWireEvents = function() {
                     var popupElement = this.getPopUpElement();
                     this.createPopupOnClick && ej2_base /* EventHandler.add */ .bi.add(document, 'mousedown touchstart', this.delegateMousedownHandler, this), popupElement && (ej2_base /* EventHandler.add */ .bi.add(popupElement, 'click', this.clickHandler, this), ej2_base /* EventHandler.add */ .bi.add(popupElement, 'keydown', this.keyBoardHandler, this), this.closeActionEvents && ej2_base /* EventHandler.add */ .bi.add(popupElement, this.closeActionEvents, this.focusoutHandler, this)), this.rippleFn = (0, ej2_base /* rippleEffect */ .qx)(popupElement, {
-                        selector: '.' + classNames.ITEM
+                        selector: '.' + classNames_ITEM
                     });
                 }, DropDownButton.prototype.popupUnWireEvents = function() {
                     var popupElement = this.getPopUpElement();
@@ -24284,7 +24240,7 @@
                             newProp.disabled ? (this.unWireEvents(), this.isPopupCreated && !this.canOpen() && this.closePopup()) : this.wireEvents();
                             break;
                         case 'cssClass':
-                            if (newProp.cssClass.indexOf(classNames.VERTICAL) > -1) {
+                            if (newProp.cssClass.indexOf(classNames_VERTICAL) > -1) {
                                 var arrowSpan = this.element.querySelector('span.e-caret');
                                 (0, ej2_base /* classList */ .s1)(arrowSpan, [
                                     'e-icon-bottom'
@@ -25378,64 +25334,7 @@
                 ], TooltipData.prototype, "isVisible", void 0), slider_decorate([
                     (0, ej2_base /* Property */ .Z9)(null)
                 ], TooltipData.prototype, "format", void 0), TooltipData;
-            }(ej2_base /* ChildProperty */ .rt), slider_classNames = {
-                root: 'e-slider',
-                rtl: 'e-rtl',
-                sliderHiddenInput: 'e-slider-input',
-                controlWrapper: 'e-control-wrapper',
-                sliderHandle: 'e-handle',
-                rangeBar: 'e-range',
-                sliderButton: 'e-slider-button',
-                firstButton: 'e-first-button',
-                secondButton: 'e-second-button',
-                scale: 'e-scale',
-                tick: 'e-tick',
-                large: 'e-large',
-                tickValue: 'e-tick-value',
-                sliderTooltip: 'e-slider-tooltip',
-                sliderHover: 'e-slider-hover',
-                sliderFirstHandle: 'e-handle-first',
-                sliderSecondHandle: 'e-handle-second',
-                sliderDisabled: 'e-disabled',
-                sliderContainer: 'e-slider-container',
-                horizontalTooltipBefore: 'e-slider-horizontal-before',
-                horizontalTooltipAfter: 'e-slider-horizontal-after',
-                verticalTooltipBefore: 'e-slider-vertical-before',
-                verticalTooltipAfter: 'e-slider-vertical-after',
-                materialTooltipOpen: 'e-material-tooltip-open',
-                materialTooltipActive: 'e-tooltip-active',
-                materialSlider: 'e-material-slider',
-                sliderTrack: 'e-slider-track',
-                sliderHorizantalColor: 'e-slider-horizantal-color',
-                sliderVerticalColor: 'e-slider-vertical-color',
-                sliderHandleFocused: 'e-handle-focused',
-                verticalSlider: 'e-vertical',
-                horizontalSlider: 'e-horizontal',
-                sliderHandleStart: 'e-handle-start',
-                sliderTooltipStart: 'e-material-tooltip-start',
-                sliderTabHandle: 'e-tab-handle',
-                sliderButtonIcon: 'e-button-icon',
-                sliderSmallSize: 'e-small-size',
-                sliderTickPosition: 'e-tick-pos',
-                sliderFirstTick: 'e-first-tick',
-                sliderLastTick: 'e-last-tick',
-                sliderButtonClass: 'e-slider-btn',
-                sliderTabTrack: 'e-tab-track',
-                sliderTabRange: 'e-tab-range',
-                sliderActiveHandle: 'e-handle-active',
-                sliderMaterialHandle: 'e-material-handle',
-                sliderMaterialRange: 'e-material-range',
-                sliderMaterialDefault: 'e-material-default',
-                materialTooltipShow: 'e-material-tooltip-show',
-                materialTooltipHide: 'e-material-tooltip-hide',
-                readonly: 'e-read-only',
-                limits: 'e-limits',
-                limitBarDefault: 'e-limit-bar',
-                limitBarFirst: 'e-limit-first',
-                limitBarSecond: 'e-limit-second',
-                dragHorizontal: 'e-drag-horizontal',
-                dragVertical: 'e-drag-vertical'
-            }, Slider = /** @class */ function(_super) {
+            }(ej2_base /* ChildProperty */ .rt), slider_classNames_rtl = 'e-rtl', slider_classNames_sliderHandle = 'e-handle', slider_classNames_rangeBar = 'e-range', slider_classNames_sliderButton = 'e-slider-button', slider_classNames_firstButton = 'e-first-button', slider_classNames_secondButton = 'e-second-button', slider_classNames_scale = 'e-scale', slider_classNames_tick = 'e-tick', slider_classNames_large = 'e-large', slider_classNames_tickValue = 'e-tick-value', slider_classNames_sliderTooltip = 'e-slider-tooltip', slider_classNames_sliderHover = 'e-slider-hover', slider_classNames_sliderDisabled = 'e-disabled', slider_classNames_horizontalTooltipBefore = 'e-slider-horizontal-before', slider_classNames_verticalTooltipBefore = 'e-slider-vertical-before', slider_classNames_materialTooltipOpen = 'e-material-tooltip-open', slider_classNames_materialTooltipActive = 'e-tooltip-active', slider_classNames_materialSlider = 'e-material-slider', slider_classNames_sliderTrack = 'e-slider-track', slider_classNames_sliderHandleFocused = 'e-handle-focused', slider_classNames_verticalSlider = 'e-vertical', slider_classNames_horizontalSlider = 'e-horizontal', slider_classNames_sliderHandleStart = 'e-handle-start', slider_classNames_sliderTabHandle = 'e-tab-handle', slider_classNames_sliderButtonIcon = 'e-button-icon', slider_classNames_sliderSmallSize = 'e-small-size', slider_classNames_sliderLastTick = 'e-last-tick', slider_classNames_sliderButtonClass = 'e-slider-btn', slider_classNames_sliderTabTrack = 'e-tab-track', slider_classNames_sliderTabRange = 'e-tab-range', slider_classNames_sliderActiveHandle = 'e-handle-active', slider_classNames_sliderMaterialRange = 'e-material-range', slider_classNames_sliderMaterialDefault = 'e-material-default', slider_classNames_materialTooltipShow = 'e-material-tooltip-show', slider_classNames_materialTooltipHide = 'e-material-tooltip-hide', slider_classNames_readonly = 'e-read-only', slider_classNames_limits = 'e-limits', Slider = /** @class */ function(_super) {
                 function Slider(options, element) {
                     var _this = _super.call(this, options, element) || this;
                     return _this.horDir = 'left', _this.verDir = 'bottom', _this.transition = {
@@ -25501,7 +25400,7 @@
                 }, Slider.prototype.initialize = function() {
                     (0, ej2_base /* addClass */ .cn)([
                         this.element
-                    ], slider_classNames.root), this.setCSSClass();
+                    ], 'e-slider'), this.setCSSClass();
                 }, Slider.prototype.setElementWidth = function(width) {
                     (0, ej2_base /* isNullOrUndefined */ .le)(width) || ('number' == typeof width ? this.sliderContainer.style.width = (0, ej2_base /* formatUnit */ .Ac)(width) : 'string' == typeof width && (this.sliderContainer.style.width = width.match(/px|%|em/) ? width : (0, ej2_base /* formatUnit */ .Ac)(width)));
                 }, Slider.prototype.setCSSClass = function(oldCSSClass) {
@@ -25514,12 +25413,12 @@
                     this.enabled ? ((0, ej2_base /* removeClass */ .IV)([
                         this.sliderContainer
                     ], [
-                        slider_classNames.sliderDisabled
-                    ]), this.tooltip.isVisible && this.tooltipElement && 'Always' === this.tooltip.showOn && this.tooltipElement.classList.remove(slider_classNames.sliderDisabled), this.wireEvents()) : ((0, ej2_base /* addClass */ .cn)([
+                        slider_classNames_sliderDisabled
+                    ]), this.tooltip.isVisible && this.tooltipElement && 'Always' === this.tooltip.showOn && this.tooltipElement.classList.remove(slider_classNames_sliderDisabled), this.wireEvents()) : ((0, ej2_base /* addClass */ .cn)([
                         this.sliderContainer
                     ], [
-                        slider_classNames.sliderDisabled
-                    ]), this.tooltip.isVisible && this.tooltipElement && 'Always' === this.tooltip.showOn && this.tooltipElement.classList.add(slider_classNames.sliderDisabled), this.unwireEvents());
+                        slider_classNames_sliderDisabled
+                    ]), this.tooltip.isVisible && this.tooltipElement && 'Always' === this.tooltip.showOn && this.tooltipElement.classList.add(slider_classNames_sliderDisabled), this.unwireEvents());
                 }, Slider.prototype.getTheme = function(container) {
                     return window.getComputedStyle(container, ':after').getPropertyValue('content').replace(/['"]+/g, '');
                 }, /**
@@ -25527,15 +25426,15 @@
      * @private
      */ Slider.prototype.initRender = function() {
                     this.sliderContainer = this.createElement('div', {
-                        className: slider_classNames.sliderContainer + ' ' + slider_classNames.controlWrapper
+                        className: "e-slider-container e-control-wrapper"
                     }), this.element.parentNode.insertBefore(this.sliderContainer, this.element), this.sliderContainer.appendChild(this.element), this.sliderTrack = this.createElement('div', {
-                        className: slider_classNames.sliderTrack
+                        className: slider_classNames_sliderTrack
                     }), this.element.appendChild(this.sliderTrack), this.setElementWidth(this.width), this.element.tabIndex = -1, this.getThemeInitialization(), this.setHandler(), this.createRangeBar(), this.limits.enabled && this.createLimitBar(), this.setOrientClass(), this.hiddenInput = this.createElement('input', {
                         attrs: {
                             type: 'hidden',
                             value: (0, ej2_base /* isNullOrUndefined */ .le)(this.value) ? this.min.toString() : this.value.toString(),
                             name: this.element.getAttribute('name') || this.element.getAttribute('id') || '_' + (1000 * Math.random()).toFixed(0) + 'slider',
-                            class: slider_classNames.sliderHiddenInput
+                            class: 'e-slider-input'
                         }
                     }), this.hiddenInput.tabIndex = -1, this.sliderContainer.appendChild(this.hiddenInput), this.showButtons && this.setButtons(), this.setEnableRTL(), 'Range' === this.type ? this.rangeValueUpdate() : this.value = (0, ej2_base /* isNullOrUndefined */ .le)(this.value) ? parseFloat((0, ej2_base /* formatUnit */ .Ac)(this.min.toString())) : this.value, this.previousVal = 'Range' !== this.type ? this.checkHandleValue(parseFloat((0, ej2_base /* formatUnit */ .Ac)(this.value.toString()))) : [
                         this.checkHandleValue(parseFloat((0, ej2_base /* formatUnit */ .Ac)(this.value[0].toString()))),
@@ -25543,41 +25442,41 @@
                     ], this.previousChanged = this.previousVal, (0, ej2_base /* isNullOrUndefined */ .le)(this.element.hasAttribute('name')) || this.element.removeAttribute('name'), this.setValue(), this.limits.enabled && this.setLimitBar(), 'None' !== this.ticks.placement && this.renderScale(), this.tooltip.isVisible && this.renderTooltip(), this.enabled ? (0, ej2_base /* removeClass */ .IV)([
                         this.sliderContainer
                     ], [
-                        slider_classNames.sliderDisabled
+                        slider_classNames_sliderDisabled
                     ]) : (0, ej2_base /* addClass */ .cn)([
                         this.sliderContainer
                     ], [
-                        slider_classNames.sliderDisabled
+                        slider_classNames_sliderDisabled
                     ]), this.readonly ? (0, ej2_base /* addClass */ .cn)([
                         this.sliderContainer
                     ], [
-                        slider_classNames.readonly
+                        slider_classNames_readonly
                     ]) : (0, ej2_base /* removeClass */ .IV)([
                         this.sliderContainer
                     ], [
-                        slider_classNames.readonly
+                        slider_classNames_readonly
                     ]);
                 }, Slider.prototype.getThemeInitialization = function() {
                     this.isMaterial = 'material' === this.getTheme(this.sliderContainer) || 'material-dark' === this.getTheme(this.sliderContainer), this.isBootstrap = 'bootstrap' === this.getTheme(this.sliderContainer) || 'bootstrap-dark' === this.getTheme(this.sliderContainer), this.isBootstrap4 = 'bootstrap4' === this.getTheme(this.sliderContainer), this.isTailwind = 'tailwind' === this.getTheme(this.sliderContainer) || 'tailwind-dark' === this.getTheme(this.sliderContainer), this.isBootstrap5 = 'bootstrap5' === this.getTheme(this.sliderContainer), this.isFluent = 'FluentUI' === this.getTheme(this.sliderContainer), this.isMaterialTooltip = this.isMaterial && 'Range' !== this.type && this.tooltip.isVisible;
                 }, Slider.prototype.createRangeBar = function() {
                     'Default' !== this.type && (this.rangeBar = this.createElement('div', {
                         attrs: {
-                            class: slider_classNames.rangeBar
+                            class: slider_classNames_rangeBar
                         }
-                    }), this.element.appendChild(this.rangeBar), this.drag && 'Range' === this.type && ('Horizontal' === this.orientation ? this.rangeBar.classList.add(slider_classNames.dragHorizontal) : this.rangeBar.classList.add(slider_classNames.dragVertical)));
+                    }), this.element.appendChild(this.rangeBar), this.drag && 'Range' === this.type && ('Horizontal' === this.orientation ? this.rangeBar.classList.add('e-drag-horizontal') : this.rangeBar.classList.add('e-drag-vertical')));
                 }, Slider.prototype.createLimitBar = function() {
-                    var firstElementClassName = 'Range' !== this.type ? slider_classNames.limitBarDefault : slider_classNames.limitBarFirst;
-                    firstElementClassName += ' ' + slider_classNames.limits, this.limitBarFirst = this.createElement('div', {
+                    var firstElementClassName = 'Range' !== this.type ? 'e-limit-bar' : 'e-limit-first';
+                    firstElementClassName += ' ' + slider_classNames_limits, this.limitBarFirst = this.createElement('div', {
                         attrs: {
                             class: firstElementClassName
                         }
                     }), this.element.appendChild(this.limitBarFirst), 'Range' === this.type && (this.limitBarSecond = this.createElement('div', {
                         attrs: {
-                            class: slider_classNames.limitBarSecond + ' ' + slider_classNames.limits
+                            class: "e-limit-second " + slider_classNames_limits
                         }
                     }), this.element.appendChild(this.limitBarSecond));
                 }, Slider.prototype.setOrientClass = function() {
-                    'Vertical' !== this.orientation ? (this.sliderContainer.classList.remove(slider_classNames.verticalSlider), this.sliderContainer.classList.add(slider_classNames.horizontalSlider), this.firstHandle.setAttribute('aria-orientation', 'horizontal'), 'Range' === this.type && this.secondHandle.setAttribute('aria-orientation', 'horizontal')) : (this.sliderContainer.classList.remove(slider_classNames.horizontalSlider), this.sliderContainer.classList.add(slider_classNames.verticalSlider), this.firstHandle.setAttribute('aria-orientation', 'vertical'), 'Range' === this.type && this.secondHandle.setAttribute('aria-orientation', 'vertical'));
+                    'Vertical' !== this.orientation ? (this.sliderContainer.classList.remove(slider_classNames_verticalSlider), this.sliderContainer.classList.add(slider_classNames_horizontalSlider), this.firstHandle.setAttribute('aria-orientation', 'horizontal'), 'Range' === this.type && this.secondHandle.setAttribute('aria-orientation', 'horizontal')) : (this.sliderContainer.classList.remove(slider_classNames_horizontalSlider), this.sliderContainer.classList.add(slider_classNames_verticalSlider), this.firstHandle.setAttribute('aria-orientation', 'vertical'), 'Range' === this.type && this.secondHandle.setAttribute('aria-orientation', 'vertical'));
                 }, Slider.prototype.setAriaAttributes = function(element) {
                     var _this = this, min = this.min, max = this.max;
                     !(0, ej2_base /* isNullOrUndefined */ .le)(this.customValues) && this.customValues.length > 0 && (min = this.customValues[0], max = this.customValues[this.customValues.length - 1]), 'Range' !== this.type ? (0, ej2_base /* attributes */ .Y4)(element, {
@@ -25611,21 +25510,21 @@
                 }, Slider.prototype.createSecondHandle = function() {
                     this.secondHandle = this.createElement('div', {
                         attrs: {
-                            class: slider_classNames.sliderHandle,
+                            class: slider_classNames_sliderHandle,
                             role: 'slider',
                             tabIndex: '0'
                         }
-                    }), this.secondHandle.classList.add(slider_classNames.sliderSecondHandle), this.element.appendChild(this.secondHandle);
+                    }), this.secondHandle.classList.add('e-handle-second'), this.element.appendChild(this.secondHandle);
                 }, Slider.prototype.createFirstHandle = function() {
                     this.firstHandle = this.createElement('div', {
                         attrs: {
-                            class: slider_classNames.sliderHandle,
+                            class: slider_classNames_sliderHandle,
                             role: 'slider',
                             tabIndex: '0'
                         }
-                    }), this.firstHandle.classList.add(slider_classNames.sliderFirstHandle), this.element.appendChild(this.firstHandle), this.isMaterialTooltip && (this.materialHandle = this.createElement('div', {
+                    }), this.firstHandle.classList.add('e-handle-first'), this.element.appendChild(this.firstHandle), this.isMaterialTooltip && (this.materialHandle = this.createElement('div', {
                         attrs: {
-                            class: slider_classNames.sliderHandle + ' ' + slider_classNames.sliderMaterialHandle
+                            class: slider_classNames_sliderHandle + " e-material-handle"
                         }
                     }), this.element.appendChild(this.materialHandle));
                 }, Slider.prototype.wireFirstHandleEvt = function(destroy) {
@@ -25633,25 +25532,25 @@
                 }, Slider.prototype.wireSecondHandleEvt = function(destroy) {
                     destroy ? (ej2_base /* EventHandler.remove */ .bi.remove(this.secondHandle, 'mousedown touchstart', this.handleFocus), ej2_base /* EventHandler.remove */ .bi.remove(this.secondHandle, 'transitionend', this.transitionEnd), ej2_base /* EventHandler.remove */ .bi.remove(this.secondHandle, 'mouseenter touchenter', this.handleOver), ej2_base /* EventHandler.remove */ .bi.remove(this.secondHandle, 'mouseleave touchend', this.handleLeave)) : (ej2_base /* EventHandler.add */ .bi.add(this.secondHandle, 'mousedown touchstart', this.handleFocus, this), ej2_base /* EventHandler.add */ .bi.add(this.secondHandle, 'transitionend', this.transitionEnd, this), ej2_base /* EventHandler.add */ .bi.add(this.secondHandle, 'mouseenter touchenter', this.handleOver, this), ej2_base /* EventHandler.add */ .bi.add(this.secondHandle, 'mouseleave touchend', this.handleLeave, this));
                 }, Slider.prototype.handleStart = function() {
-                    'Range' !== this.type && (this.firstHandle.classList[0 === this.handlePos1 ? 'add' : 'remove'](slider_classNames.sliderHandleStart), this.isMaterialTooltip && (this.materialHandle.classList[0 === this.handlePos1 ? 'add' : 'remove'](slider_classNames.sliderHandleStart), this.tooltipElement && this.tooltipElement.classList[0 === this.handlePos1 ? 'add' : 'remove'](slider_classNames.sliderTooltipStart)));
+                    'Range' !== this.type && (this.firstHandle.classList[0 === this.handlePos1 ? 'add' : 'remove'](slider_classNames_sliderHandleStart), this.isMaterialTooltip && (this.materialHandle.classList[0 === this.handlePos1 ? 'add' : 'remove'](slider_classNames_sliderHandleStart), this.tooltipElement && this.tooltipElement.classList[0 === this.handlePos1 ? 'add' : 'remove']('e-material-tooltip-start')));
                 }, Slider.prototype.transitionEnd = function(e) {
                     'transform' !== e.propertyName && (this.handleStart(), this.enableAnimation || (this.getHandle().style.transition = 'none'), 'Default' !== this.type && (this.rangeBar.style.transition = 'none'), this.isMaterial && this.tooltip.isVisible && 'Default' === this.type && (this.tooltipElement.style.transition = this.transition.handle), this.tooltipToggle(this.getHandle()), this.closeTooltip());
                 }, Slider.prototype.handleFocusOut = function() {
-                    this.firstHandle.classList.contains(slider_classNames.sliderHandleFocused) && this.firstHandle.classList.remove(slider_classNames.sliderHandleFocused), 'Range' === this.type && this.secondHandle.classList.contains(slider_classNames.sliderHandleFocused) && this.secondHandle.classList.remove(slider_classNames.sliderHandleFocused);
+                    this.firstHandle.classList.contains(slider_classNames_sliderHandleFocused) && this.firstHandle.classList.remove(slider_classNames_sliderHandleFocused), 'Range' === this.type && this.secondHandle.classList.contains(slider_classNames_sliderHandleFocused) && this.secondHandle.classList.remove(slider_classNames_sliderHandleFocused);
                 }, Slider.prototype.handleFocus = function(e) {
-                    this.focusSliderElement(), this.sliderBarClick(e), e.currentTarget === this.firstHandle ? (this.firstHandle.classList.add(slider_classNames.sliderHandleFocused), this.firstHandle.classList.add(slider_classNames.sliderTabHandle)) : (this.secondHandle.classList.add(slider_classNames.sliderHandleFocused), this.secondHandle.classList.add(slider_classNames.sliderTabHandle)), ej2_base /* EventHandler.add */ .bi.add(document, 'mousemove touchmove', this.sliderBarMove, this), ej2_base /* EventHandler.add */ .bi.add(document, 'mouseup touchend', this.sliderBarUp, this);
+                    this.focusSliderElement(), this.sliderBarClick(e), e.currentTarget === this.firstHandle ? (this.firstHandle.classList.add(slider_classNames_sliderHandleFocused), this.firstHandle.classList.add(slider_classNames_sliderTabHandle)) : (this.secondHandle.classList.add(slider_classNames_sliderHandleFocused), this.secondHandle.classList.add(slider_classNames_sliderTabHandle)), ej2_base /* EventHandler.add */ .bi.add(document, 'mousemove touchmove', this.sliderBarMove, this), ej2_base /* EventHandler.add */ .bi.add(document, 'mouseup touchend', this.sliderBarUp, this);
                 }, Slider.prototype.handleOver = function(e) {
                     this.tooltip.isVisible && 'Hover' === this.tooltip.showOn && this.tooltipToggle(e.currentTarget), 'Default' === this.type && this.tooltipToggle(this.getHandle());
                 }, Slider.prototype.handleLeave = function(e) {
-                    !this.tooltip.isVisible || 'Hover' !== this.tooltip.showOn || e.currentTarget.classList.contains(slider_classNames.sliderHandleFocused) || e.currentTarget.classList.contains(slider_classNames.sliderTabHandle) || this.closeTooltip();
+                    !this.tooltip.isVisible || 'Hover' !== this.tooltip.showOn || e.currentTarget.classList.contains(slider_classNames_sliderHandleFocused) || e.currentTarget.classList.contains(slider_classNames_sliderTabHandle) || this.closeTooltip();
                 }, Slider.prototype.setHandler = function() {
                     this.min > this.max && (this.min = this.max), this.createFirstHandle(), 'Range' === this.type && this.createSecondHandle();
                 }, Slider.prototype.setEnableRTL = function() {
                     this.enableRtl && 'Vertical' !== this.orientation ? (0, ej2_base /* addClass */ .cn)([
                         this.sliderContainer
-                    ], slider_classNames.rtl) : (0, ej2_base /* removeClass */ .IV)([
+                    ], slider_classNames_rtl) : (0, ej2_base /* removeClass */ .IV)([
                         this.sliderContainer
-                    ], slider_classNames.rtl);
+                    ], slider_classNames_rtl);
                     var preDir = 'Vertical' !== this.orientation ? this.horDir : this.verDir;
                     this.enableRtl ? this.horDir = 'right' : this.horDir = 'left', this.verDir = 'bottom', preDir !== ('Vertical' !== this.orientation ? this.horDir : this.verDir) && 'Horizontal' === this.orientation && ((0, ej2_base /* setStyleAttribute */ .V7)(this.firstHandle, {
                         right: '',
@@ -25679,16 +25578,16 @@
                         var count = content.toString().length;
                         if (this.tooltipElement) {
                             var cssClass = count > 4 ? {
-                                oldCss: slider_classNames.sliderMaterialDefault,
-                                newCss: slider_classNames.sliderMaterialRange
+                                oldCss: slider_classNames_sliderMaterialDefault,
+                                newCss: slider_classNames_sliderMaterialRange
                             } : {
-                                oldCss: slider_classNames.sliderMaterialRange,
-                                newCss: slider_classNames.sliderMaterialDefault
+                                oldCss: slider_classNames_sliderMaterialRange,
+                                newCss: slider_classNames_sliderMaterialDefault
                             };
                             this.tooltipElement.classList.remove(cssClass.oldCss), this.tooltipElement.classList.contains(cssClass.newCss) || (this.tooltipElement.classList.add(cssClass.newCss), this.tooltipElement.style.transform = count > 4 ? 'scale(1)' : this.getTooltipTransformProperties(this.previousTooltipClass).rotate);
                         } else {
-                            var cssClass = count > 4 ? slider_classNames.sliderMaterialRange : slider_classNames.sliderMaterialDefault;
-                            this.tooltipObj.cssClass = slider_classNames.sliderTooltip + ' ' + cssClass;
+                            var cssClass = count > 4 ? slider_classNames_sliderMaterialRange : slider_classNames_sliderMaterialDefault;
+                            this.tooltipObj.cssClass = slider_classNames_sliderTooltip + ' ' + cssClass;
                         }
                     }
                 }, Slider.prototype.tooltipPlacement = function() {
@@ -25698,7 +25597,7 @@
                         this.tooltipElement
                     ], this.tooltip.cssClass.split(' ').filter(function(css) {
                         return css;
-                    })), args.target.removeAttribute('aria-describedby'), this.isMaterialTooltip && (this.tooltipElement.firstElementChild.classList.add(slider_classNames.materialTooltipHide), this.handleStart(), this.setTooltipTransform());
+                    })), args.target.removeAttribute('aria-describedby'), this.isMaterialTooltip && (this.tooltipElement.firstElementChild.classList.add(slider_classNames_materialTooltipHide), this.handleStart(), this.setTooltipTransform());
                 }, Slider.prototype.tooltipCollision = function(position) {
                     if (this.isBootstrap || this.isBootstrap4 || this.isMaterial && !this.isMaterialTooltip) {
                         var tooltipOffsetValue = this.isBootstrap4 ? 3 : 6;
@@ -25732,29 +25631,29 @@
                     var cssClass;
                     switch(position){
                         case 'TopCenter':
-                            cssClass = slider_classNames.horizontalTooltipBefore;
+                            cssClass = slider_classNames_horizontalTooltipBefore;
                             break;
                         case 'BottomCenter':
-                            cssClass = slider_classNames.horizontalTooltipAfter;
+                            cssClass = 'e-slider-horizontal-after';
                             break;
                         case 'LeftCenter':
-                            cssClass = slider_classNames.verticalTooltipBefore;
+                            cssClass = slider_classNames_verticalTooltipBefore;
                             break;
                         case 'RightCenter':
-                            cssClass = slider_classNames.verticalTooltipAfter;
+                            cssClass = 'e-slider-vertical-after';
                     }
                     return cssClass;
                 }, Slider.prototype.getTooltipTransformProperties = function(className) {
                     var transformProperties;
                     if (this.tooltipElement) {
                         var position = 'Horizontal' === this.orientation ? this.tooltipElement.clientHeight + 14 - this.tooltipElement.clientHeight / 2 : this.tooltipElement.clientWidth + 14 - this.tooltipElement.clientWidth / 2;
-                        transformProperties = 'Horizontal' === this.orientation ? className === slider_classNames.horizontalTooltipBefore ? {
+                        transformProperties = 'Horizontal' === this.orientation ? className === slider_classNames_horizontalTooltipBefore ? {
                             rotate: 'rotate(45deg)',
                             translate: "translateY(" + position + "px)"
                         } : {
                             rotate: 'rotate(225deg)',
                             translate: "translateY(" + -position + "px)"
-                        } : className === slider_classNames.verticalTooltipBefore ? {
+                        } : className === slider_classNames_verticalTooltipBefore ? {
                             rotate: 'rotate(-45deg)',
                             translate: "translateX(" + position + "px)"
                         } : {
@@ -25768,7 +25667,7 @@
                     if (this.isMaterialTooltip) {
                         this.refreshTooltip(this.firstHandle);
                         var tooltipContentElement = this.tooltipElement.firstElementChild;
-                        tooltipContentElement.classList.remove(slider_classNames.materialTooltipHide), tooltipContentElement.classList.add(slider_classNames.materialTooltipShow), this.firstHandle.style.cursor = 'default', this.tooltipElement.style.transition = this.scaleTransform, this.tooltipElement.classList.add(slider_classNames.materialTooltipOpen), this.materialHandle.style.transform = 'scale(0)', tooltipContentElement.innerText.length > 4 ? this.tooltipElement.style.transform = 'scale(1)' : this.tooltipElement.style.transform = this.getTooltipTransformProperties(this.previousTooltipClass).rotate, 'Default' === this.type ? setTimeout(function() {
+                        tooltipContentElement.classList.remove(slider_classNames_materialTooltipHide), tooltipContentElement.classList.add(slider_classNames_materialTooltipShow), this.firstHandle.style.cursor = 'default', this.tooltipElement.style.transition = this.scaleTransform, this.tooltipElement.classList.add(slider_classNames_materialTooltipOpen), this.materialHandle.style.transform = 'scale(0)', tooltipContentElement.innerText.length > 4 ? this.tooltipElement.style.transform = 'scale(1)' : this.tooltipElement.style.transform = this.getTooltipTransformProperties(this.previousTooltipClass).rotate, 'Default' === this.type ? setTimeout(function() {
                             _this.tooltipElement.style.transition = _this.transition.handle;
                         }, 2500) : setTimeout(function() {
                             _this.tooltipElement.style.transition = 'none';
@@ -25778,20 +25677,20 @@
                     var _this = this;
                     if (this.isMaterialTooltip) {
                         var tooltipContentElement = this.tooltipElement.firstElementChild;
-                        this.tooltipElement.style.transition = this.scaleTransform, tooltipContentElement.classList.remove(slider_classNames.materialTooltipShow), tooltipContentElement.classList.add(slider_classNames.materialTooltipHide), this.firstHandle.style.cursor = '-webkit-grab', this.firstHandle.style.cursor = 'grab', this.materialHandle && (this.materialHandle.style.transform = 'scale(1)'), this.tooltipElement.classList.remove(slider_classNames.materialTooltipOpen), this.setTooltipTransform(), this.tooltipTarget = void 0, setTimeout(function() {
+                        this.tooltipElement.style.transition = this.scaleTransform, tooltipContentElement.classList.remove(slider_classNames_materialTooltipShow), tooltipContentElement.classList.add(slider_classNames_materialTooltipHide), this.firstHandle.style.cursor = '-webkit-grab', this.firstHandle.style.cursor = 'grab', this.materialHandle && (this.materialHandle.style.transform = 'scale(1)'), this.tooltipElement.classList.remove(slider_classNames_materialTooltipOpen), this.setTooltipTransform(), this.tooltipTarget = void 0, setTimeout(function() {
                             _this.tooltipElement.style.transition = 'none';
                         }, 2500);
                     }
                 }, Slider.prototype.checkTooltipPosition = function(args) {
                     var tooltipClass = this.tooltipPositionCalculation(args.collidedPosition);
-                    void 0 !== this.tooltipCollidedPosition && this.tooltipCollidedPosition === args.collidedPosition && args.element.classList.contains(tooltipClass) || (this.isMaterialTooltip && (void 0 !== tooltipClass && (args.element.classList.remove(this.previousTooltipClass), args.element.classList.add(tooltipClass), this.previousTooltipClass = tooltipClass), args.element.style.transform && args.element.classList.contains(slider_classNames.materialTooltipOpen) && args.element.firstElementChild.innerText.length <= 4 && (args.element.style.transform = this.getTooltipTransformProperties(this.previousTooltipClass).rotate)), this.tooltipCollidedPosition = args.collidedPosition), this.isMaterialTooltip && this.tooltipElement && -1 !== this.tooltipElement.style.transform.indexOf('translate') && this.setTooltipTransform();
+                    void 0 !== this.tooltipCollidedPosition && this.tooltipCollidedPosition === args.collidedPosition && args.element.classList.contains(tooltipClass) || (this.isMaterialTooltip && (void 0 !== tooltipClass && (args.element.classList.remove(this.previousTooltipClass), args.element.classList.add(tooltipClass), this.previousTooltipClass = tooltipClass), args.element.style.transform && args.element.classList.contains(slider_classNames_materialTooltipOpen) && args.element.firstElementChild.innerText.length <= 4 && (args.element.style.transform = this.getTooltipTransformProperties(this.previousTooltipClass).rotate)), this.tooltipCollidedPosition = args.collidedPosition), this.isMaterialTooltip && this.tooltipElement && -1 !== this.tooltipElement.style.transform.indexOf('translate') && this.setTooltipTransform();
                 }, Slider.prototype.setTooltipTransform = function() {
                     var transformProperties = this.getTooltipTransformProperties(this.previousTooltipClass);
                     this.tooltipElement.firstElementChild.innerText.length > 4 ? this.tooltipElement.style.transform = transformProperties.translate + " scale(0.01)" : this.tooltipElement.style.transform = transformProperties.translate + " " + transformProperties.rotate + " scale(0.01)";
                 }, Slider.prototype.renderTooltip = function() {
                     this.tooltipObj = new Tooltip({
                         showTipPointer: this.isBootstrap || this.isMaterial || this.isBootstrap4 || this.isTailwind || this.isBootstrap5 || this.isFluent,
-                        cssClass: slider_classNames.sliderTooltip,
+                        cssClass: slider_classNames_sliderTooltip,
                         height: this.isMaterial ? 30 : 'auto',
                         animation: {
                             open: {
@@ -25820,19 +25719,19 @@
                         this.secondHandle
                     ].forEach(function(handle) {
                         (0, ej2_base /* isNullOrUndefined */ .le)(handle) || (handle.style.transition = 'none');
-                    }), this.isMaterialTooltip && (this.sliderContainer.classList.add(slider_classNames.materialSlider), this.tooltipValue(), this.tooltipObj.animation.close.effect = 'None', this.tooltipObj.open(this.firstHandle));
+                    }), this.isMaterialTooltip && (this.sliderContainer.classList.add(slider_classNames_materialSlider), this.tooltipValue(), this.tooltipObj.animation.close.effect = 'None', this.tooltipObj.open(this.firstHandle));
                 }, Slider.prototype.tooltipBeforeClose = function() {
                     this.tooltipElement = void 0, this.tooltipCollidedPosition = void 0;
                 }, Slider.prototype.setButtons = function() {
                     this.firstBtn = this.createElement('div', {
-                        className: slider_classNames.sliderButton + ' ' + slider_classNames.firstButton
+                        className: slider_classNames_sliderButton + ' ' + slider_classNames_firstButton
                     }), this.firstBtn.appendChild(this.createElement('span', {
-                        className: slider_classNames.sliderButtonIcon
+                        className: slider_classNames_sliderButtonIcon
                     })), this.isTailwind && this.firstBtn.querySelector('span').classList.add('e-icons'), this.firstBtn.tabIndex = -1, this.secondBtn = this.createElement('div', {
-                        className: slider_classNames.sliderButton + ' ' + slider_classNames.secondButton
+                        className: slider_classNames_sliderButton + ' ' + slider_classNames_secondButton
                     }), this.secondBtn.appendChild(this.createElement('span', {
-                        className: slider_classNames.sliderButtonIcon
-                    })), this.isTailwind && this.secondBtn.querySelector('span').classList.add('e-icons'), this.secondBtn.tabIndex = -1, this.sliderContainer.classList.add(slider_classNames.sliderButtonClass), this.sliderContainer.appendChild(this.firstBtn), this.sliderContainer.appendChild(this.secondBtn), this.sliderContainer.appendChild(this.element), this.buttonTitle();
+                        className: slider_classNames_sliderButtonIcon
+                    })), this.isTailwind && this.secondBtn.querySelector('span').classList.add('e-icons'), this.secondBtn.tabIndex = -1, this.sliderContainer.classList.add(slider_classNames_sliderButtonClass), this.sliderContainer.appendChild(this.firstBtn), this.sliderContainer.appendChild(this.secondBtn), this.sliderContainer.appendChild(this.element), this.buttonTitle();
                 }, Slider.prototype.buttonTitle = function() {
                     var enabledRTL = this.enableRtl && 'Vertical' !== this.orientation;
                     this.l10n.setLocale(this.locale);
@@ -25848,13 +25747,13 @@
                     this.isMaterial && this.getHandle().classList.remove('e-large-thumb-size');
                 }, Slider.prototype.repeatButton = function(args) {
                     var value, hVal = this.handleValueUpdate(), enabledRTL = this.enableRtl && 'Vertical' !== this.orientation;
-                    args.target.parentElement.classList.contains(slider_classNames.firstButton) || args.target.classList.contains(slider_classNames.firstButton) ? value = enabledRTL ? this.add(hVal, parseFloat(this.step.toString()), !0) : this.add(hVal, parseFloat(this.step.toString()), !1) : (args.target.parentElement.classList.contains(slider_classNames.secondButton) || args.target.classList.contains(slider_classNames.secondButton)) && (value = enabledRTL ? this.add(hVal, parseFloat(this.step.toString()), !1) : this.add(hVal, parseFloat(this.step.toString()), !0)), this.limits.enabled && (value = this.getLimitCorrectedValues(value)), value >= this.min && value <= this.max && (this.changeHandleValue(value), this.tooltipToggle(this.getHandle()));
+                    args.target.parentElement.classList.contains(slider_classNames_firstButton) || args.target.classList.contains(slider_classNames_firstButton) ? value = enabledRTL ? this.add(hVal, parseFloat(this.step.toString()), !0) : this.add(hVal, parseFloat(this.step.toString()), !1) : (args.target.parentElement.classList.contains(slider_classNames_secondButton) || args.target.classList.contains(slider_classNames_secondButton)) && (value = enabledRTL ? this.add(hVal, parseFloat(this.step.toString()), !1) : this.add(hVal, parseFloat(this.step.toString()), !0)), this.limits.enabled && (value = this.getLimitCorrectedValues(value)), value >= this.min && value <= this.max && (this.changeHandleValue(value), this.tooltipToggle(this.getHandle()));
                 }, Slider.prototype.repeatHandlerMouse = function(args) {
                     args.preventDefault(), ('mousedown' === args.type || 'touchstart' === args.type) && (this.buttonClick(args), this.repeatInterval = setInterval(this.repeatButton.bind(this), 180, args));
                 }, Slider.prototype.materialChange = function() {
                     this.getHandle().classList.contains('e-large-thumb-size') || this.getHandle().classList.add('e-large-thumb-size');
                 }, Slider.prototype.focusHandle = function() {
-                    this.getHandle().classList.contains(slider_classNames.sliderTabHandle) || this.getHandle().classList.add(slider_classNames.sliderTabHandle);
+                    this.getHandle().classList.contains(slider_classNames_sliderTabHandle) || this.getHandle().classList.add(slider_classNames_sliderTabHandle);
                 }, Slider.prototype.repeatHandlerUp = function(e) {
                     this.changeEvent('changed', e), this.closeTooltip(), clearInterval(this.repeatInterval), this.getHandle().focus();
                 }, Slider.prototype.customTickCounter = function(bigNum) {
@@ -25864,13 +25763,13 @@
                 Slider.prototype.renderScale = function() {
                     var li, islargeTick, orien = 'Vertical' === this.orientation ? 'v' : 'h';
                     this.noOfDecimals = this.numberOfDecimals(this.step), this.ul = this.createElement('ul', {
-                        className: slider_classNames.scale + " e-" + orien + '-scale ' + slider_classNames.tick + '-' + this.ticks.placement.toLowerCase(),
+                        className: slider_classNames_scale + " e-" + orien + '-scale ' + slider_classNames_tick + '-' + this.ticks.placement.toLowerCase(),
                         attrs: {
                             role: 'presentation',
                             tabIndex: '-1',
                             'aria-hidden': 'true'
                         }
-                    }), this.ul.style.zIndex = '-1', ej2_base /* Browser.isAndroid */ .AR.isAndroid && 'h' === orien && this.ul.classList.add(slider_classNames.sliderTickPosition);
+                    }), this.ul.style.zIndex = '-1', ej2_base /* Browser.isAndroid */ .AR.isAndroid && 'h' === orien && this.ul.classList.add('e-tick-pos');
                     var smallStep = this.ticks.smallStep;
                     this.ticks.showSmallTicks ? smallStep <= 0 && (smallStep = parseFloat((0, ej2_base /* formatUnit */ .Ac)(this.step))) : smallStep = this.ticks.largeStep > 0 ? this.ticks.largeStep : parseFloat((0, ej2_base /* formatUnit */ .Ac)(this.max)) - parseFloat((0, ej2_base /* formatUnit */ .Ac)(this.min));
                     var min = this.fractionalToInteger(this.min), max = this.fractionalToInteger(this.max), steps = this.fractionalToInteger(smallStep), bigNum = !(0, ej2_base /* isNullOrUndefined */ .le)(this.customValues) && this.customValues.length > 0 && this.customValues.length - 1, customStep = this.customTickCounter(bigNum), count = !(0, ej2_base /* isNullOrUndefined */ .le)(this.customValues) && this.customValues.length > 0 ? bigNum * customStep + bigNum : Math.abs((max - min) / steps);
@@ -25882,7 +25781,7 @@
                     for(var i = 0, y = !(0, ej2_base /* isNullOrUndefined */ .le)(this.customValues) && this.customValues.length > 0 ? this.customValues.length - 1 : 0, k = 0; i <= count; i++){
                         if (li = this.createElement('li', {
                             attrs: {
-                                class: slider_classNames.tick,
+                                class: slider_classNames_tick,
                                 role: 'presentation',
                                 tabIndex: '-1',
                                 'aria-hidden': 'true'
@@ -25893,7 +25792,7 @@
                             var largestep = this.fractionalToInteger(this.ticks.largeStep), startValue = this.fractionalToInteger(start);
                             islargeTick = 'h' === orien ? (startValue - min) % largestep == 0 : Math.abs(startValue - parseFloat(max.toString())) % largestep == 0;
                         }
-                        islargeTick && li.classList.add(slider_classNames.large), 'h' === orien ? li.style.width = tickWidth + '%' : li.style.height = tickWidth + '%';
+                        islargeTick && li.classList.add(slider_classNames_large), 'h' === orien ? li.style.width = tickWidth + '%' : li.style.height = tickWidth + '%';
                         var repeat = islargeTick ? 'Both' === this.ticks.placement ? 2 : 1 : 0;
                         if (islargeTick) for(var j = 0; j < repeat; j++)this.createTick(li, start, tickWidth);
                         else (0, ej2_base /* isNullOrUndefined */ .le)(this.customValues) && this.formatTicksValue(li, start);
@@ -25903,7 +25802,7 @@
                     }
                     this.ticksAlignment(orien, tickWidth);
                 }, Slider.prototype.ticksAlignment = function(orien, tickWidth, triggerEvent) {
-                    void 0 === triggerEvent && (triggerEvent = !0), this.firstChild = this.ul.firstElementChild, this.lastChild = this.ul.lastElementChild, this.firstChild.classList.add(slider_classNames.sliderFirstTick), this.lastChild.classList.add(slider_classNames.sliderLastTick), this.sliderContainer.classList.add(slider_classNames.scale + '-' + this.ticks.placement.toLowerCase()), 'h' === orien ? (this.firstChild.style.width = tickWidth / 2 + '%', this.lastChild.style.width = tickWidth / 2 + '%') : (this.firstChild.style.height = tickWidth / 2 + '%', this.lastChild.style.height = tickWidth / 2 + '%');
+                    void 0 === triggerEvent && (triggerEvent = !0), this.firstChild = this.ul.firstElementChild, this.lastChild = this.ul.lastElementChild, this.firstChild.classList.add('e-first-tick'), this.lastChild.classList.add(slider_classNames_sliderLastTick), this.sliderContainer.classList.add(slider_classNames_scale + '-' + this.ticks.placement.toLowerCase()), 'h' === orien ? (this.firstChild.style.width = tickWidth / 2 + '%', this.lastChild.style.width = tickWidth / 2 + '%') : (this.firstChild.style.height = tickWidth / 2 + '%', this.lastChild.style.height = tickWidth / 2 + '%');
                     var eventArgs = {
                         ticksWrapper: this.ul,
                         tickElements: this.tickElementCollection
@@ -25911,7 +25810,7 @@
                     triggerEvent && this.trigger('renderedTicks', eventArgs), this.scaleAlignment();
                 }, Slider.prototype.createTick = function(li, start, tickWidth) {
                     var span = this.createElement('span', {
-                        className: slider_classNames.tickValue + ' ' + slider_classNames.tick + '-' + this.ticks.placement.toLowerCase(),
+                        className: slider_classNames_tickValue + ' ' + slider_classNames_tick + '-' + this.ticks.placement.toLowerCase(),
                         attrs: {
                             role: 'presentation',
                             tabIndex: '-1',
@@ -25929,13 +25828,13 @@
                         li.setAttribute('title', observedArgs.text.toString()), spanElement && (_this.enableHtmlSanitizer ? spanElement.innerHTML = ej2_base /* SanitizeHtmlHelper.sanitize */ .pJ.sanitize(observedArgs.text.toString()) : spanElement.innerHTML = observedArgs.text.toString());
                     });
                 }, Slider.prototype.scaleAlignment = function() {
-                    this.tickValuePosition(), this.orientation, 'Vertical' === this.orientation ? this.element.getBoundingClientRect().width <= 15 ? this.sliderContainer.classList.add(slider_classNames.sliderSmallSize) : this.sliderContainer.classList.remove(slider_classNames.sliderSmallSize) : this.element.getBoundingClientRect().height <= 15 ? this.sliderContainer.classList.add(slider_classNames.sliderSmallSize) : this.sliderContainer.classList.remove(slider_classNames.sliderSmallSize);
+                    this.tickValuePosition(), this.orientation, 'Vertical' === this.orientation ? this.element.getBoundingClientRect().width <= 15 ? this.sliderContainer.classList.add(slider_classNames_sliderSmallSize) : this.sliderContainer.classList.remove(slider_classNames_sliderSmallSize) : this.element.getBoundingClientRect().height <= 15 ? this.sliderContainer.classList.add(slider_classNames_sliderSmallSize) : this.sliderContainer.classList.remove(slider_classNames_sliderSmallSize);
                 }, Slider.prototype.tickValuePosition = function() {
                     this.firstChild = this.element.querySelector('ul').children[0];
                     var firstChild, otherChild, other, first = this.firstChild.getBoundingClientRect(), smallStep = this.ticks.smallStep, count = Math.abs(parseFloat((0, ej2_base /* formatUnit */ .Ac)(this.max)) - parseFloat((0, ej2_base /* formatUnit */ .Ac)(this.min))) / smallStep;
                     this.firstChild.children.length > 0 && (firstChild = this.firstChild.children[0].getBoundingClientRect());
                     var tickElements = [
-                        this.sliderContainer.querySelectorAll('.' + slider_classNames.tick + '.' + slider_classNames.large + ' .' + slider_classNames.tickValue)
+                        this.sliderContainer.querySelectorAll('.' + slider_classNames_tick + '.' + slider_classNames_large + ' .' + slider_classNames_tickValue)
                     ];
                     other = 'Both' === this.ticks.placement ? [].slice.call(tickElements[0], 2) : [].slice.call(tickElements[0], 1);
                     for(var tickWidth = 'Vertical' === this.orientation ? 2 * first.height : 2 * first.width, i = 0; i < this.firstChild.children.length; i++)'Vertical' === this.orientation ? this.firstChild.children[i].style.top = -(firstChild.height / 2) + 'px' : this.enableRtl ? this.firstChild.children[i].style.left = (tickWidth - this.firstChild.children[i].getBoundingClientRect().width) / 2 + 'px' : this.firstChild.children[i].style.left = -(firstChild.width / 2) + 'px';
@@ -25944,7 +25843,7 @@
                     }) : (0, ej2_base /* setStyleAttribute */ .V7)(other[i], {
                         left: (tickWidth - otherChild.width) / 2 + 'px'
                     });
-                    this.enableRtl && this.lastChild.children.length && 0 !== count && (this.lastChild.children[0].style.left = -(this.lastChild.getBoundingClientRect().width / 2) + 'px', 'Both' === this.ticks.placement && (this.lastChild.children[1].style.left = -(this.lastChild.getBoundingClientRect().width / 2) + 'px')), 0 === count && ('Horizontal' === this.orientation && (this.enableRtl ? (this.firstChild.classList.remove(slider_classNames.sliderLastTick), this.firstChild.style.right = this.firstHandle.style.right, this.firstChild.children[0].style.left = this.firstChild.getBoundingClientRect().width / 2 + 2 + 'px', 'Both' === this.ticks.placement && (this.firstChild.children[1].style.left = this.firstChild.getBoundingClientRect().width / 2 + 2 + 'px')) : (this.firstChild.classList.remove(slider_classNames.sliderLastTick), this.firstChild.style.left = this.firstHandle.style.left)), 'Vertical' === this.orientation && this.firstChild.classList.remove(slider_classNames.sliderLastTick));
+                    this.enableRtl && this.lastChild.children.length && 0 !== count && (this.lastChild.children[0].style.left = -(this.lastChild.getBoundingClientRect().width / 2) + 'px', 'Both' === this.ticks.placement && (this.lastChild.children[1].style.left = -(this.lastChild.getBoundingClientRect().width / 2) + 'px')), 0 === count && ('Horizontal' === this.orientation && (this.enableRtl ? (this.firstChild.classList.remove(slider_classNames_sliderLastTick), this.firstChild.style.right = this.firstHandle.style.right, this.firstChild.children[0].style.left = this.firstChild.getBoundingClientRect().width / 2 + 2 + 'px', 'Both' === this.ticks.placement && (this.firstChild.children[1].style.left = this.firstChild.getBoundingClientRect().width / 2 + 2 + 'px')) : (this.firstChild.classList.remove(slider_classNames_sliderLastTick), this.firstChild.style.left = this.firstHandle.style.left)), 'Vertical' === this.orientation && this.firstChild.classList.remove(slider_classNames_sliderLastTick));
                 }, Slider.prototype.setAriaAttrValue = function(element) {
                     var ariaValueText, isTickFormatted = !((0, ej2_base /* isNullOrUndefined */ .le)(this.ticks) || (0, ej2_base /* isNullOrUndefined */ .le)(this.ticks.format)), text = isTickFormatted ? this.formatContent(this.tooltipFormatInfo, !1) : this.formatContent(this.ticksFormatInfo, !1), valuenow = isTickFormatted ? this.formatContent(this.ticksFormatInfo, !0) : this.formatContent(this.tooltipFormatInfo, !0);
                     ariaValueText = 2 === (text = this.customAriaText ? this.customAriaText : text).split(' - ').length ? text.split(' - ') : [
@@ -25975,17 +25874,17 @@
                 }, Slider.prototype.buttonClick = function(args) {
                     this.focusSliderElement();
                     var value, enabledRTL = this.enableRtl && 'Vertical' !== this.orientation, hVal = this.handleValueUpdate();
-                    40 === args.keyCode || 37 === args.keyCode || args.currentTarget.classList.contains(slider_classNames.firstButton) ? value = // eslint-disable-next-line
-                    enabledRTL ? this.add(hVal, parseFloat(this.step.toString()), !0) : this.add(hVal, parseFloat(this.step.toString()), !1) : 38 === args.keyCode || 39 === args.keyCode || args.currentTarget.classList.contains(slider_classNames.secondButton) ? value = // eslint-disable-next-line
-                    enabledRTL ? this.add(hVal, parseFloat(this.step.toString()), !1) : this.add(hVal, parseFloat(this.step.toString()), !0) : 33 === args.keyCode || args.currentTarget.classList.contains(slider_classNames.firstButton) ? value = // eslint-disable-next-line
-                    enabledRTL ? this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !1) : this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !0) : 34 === args.keyCode || args.currentTarget.classList.contains(slider_classNames.secondButton) ? value = // eslint-disable-next-line
-                    enabledRTL ? this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !0) : this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !1) : 36 === args.keyCode ? value = parseFloat(this.min.toString()) : 35 === args.keyCode && (value = parseFloat(this.max.toString())), this.limits.enabled && (value = this.getLimitCorrectedValues(value)), this.changeHandleValue(value), !this.isMaterial || this.tooltip.isVisible || this.getHandle().classList.contains(slider_classNames.sliderTabHandle) || this.materialChange(), this.tooltipToggle(this.getHandle()), this.getHandle().focus(), this.focusHandle(), args.currentTarget.classList.contains(slider_classNames.firstButton) && ej2_base /* EventHandler.add */ .bi.add(this.firstBtn, 'mouseup touchend', this.buttonUp, this), args.currentTarget.classList.contains(slider_classNames.secondButton) && ej2_base /* EventHandler.add */ .bi.add(this.secondBtn, 'mouseup touchend', this.buttonUp, this);
+                    40 === args.keyCode || 37 === args.keyCode || args.currentTarget.classList.contains(slider_classNames_firstButton) ? value = // eslint-disable-next-line
+                    enabledRTL ? this.add(hVal, parseFloat(this.step.toString()), !0) : this.add(hVal, parseFloat(this.step.toString()), !1) : 38 === args.keyCode || 39 === args.keyCode || args.currentTarget.classList.contains(slider_classNames_secondButton) ? value = // eslint-disable-next-line
+                    enabledRTL ? this.add(hVal, parseFloat(this.step.toString()), !1) : this.add(hVal, parseFloat(this.step.toString()), !0) : 33 === args.keyCode || args.currentTarget.classList.contains(slider_classNames_firstButton) ? value = // eslint-disable-next-line
+                    enabledRTL ? this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !1) : this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !0) : 34 === args.keyCode || args.currentTarget.classList.contains(slider_classNames_secondButton) ? value = // eslint-disable-next-line
+                    enabledRTL ? this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !0) : this.add(hVal, parseFloat(this.ticks.largeStep.toString()), !1) : 36 === args.keyCode ? value = parseFloat(this.min.toString()) : 35 === args.keyCode && (value = parseFloat(this.max.toString())), this.limits.enabled && (value = this.getLimitCorrectedValues(value)), this.changeHandleValue(value), !this.isMaterial || this.tooltip.isVisible || this.getHandle().classList.contains(slider_classNames_sliderTabHandle) || this.materialChange(), this.tooltipToggle(this.getHandle()), this.getHandle().focus(), this.focusHandle(), args.currentTarget.classList.contains(slider_classNames_firstButton) && ej2_base /* EventHandler.add */ .bi.add(this.firstBtn, 'mouseup touchend', this.buttonUp, this), args.currentTarget.classList.contains(slider_classNames_secondButton) && ej2_base /* EventHandler.add */ .bi.add(this.secondBtn, 'mouseup touchend', this.buttonUp, this);
                 }, Slider.prototype.tooltipToggle = function(target) {
                     this.isMaterialTooltip ? // eslint-disable-next-line
-                    this.tooltipElement.classList.contains(slider_classNames.materialTooltipOpen) ? this.refreshTooltip(this.firstHandle) : this.openMaterialTooltip() : // eslint-disable-next-line
+                    this.tooltipElement.classList.contains(slider_classNames_materialTooltipOpen) ? this.refreshTooltip(this.firstHandle) : this.openMaterialTooltip() : // eslint-disable-next-line
                     this.tooltipElement ? this.refreshTooltip(target) : this.openTooltip(target);
                 }, Slider.prototype.buttonUp = function(args) {
-                    args.currentTarget.classList.contains(slider_classNames.firstButton) && ej2_base /* EventHandler.remove */ .bi.remove(this.firstBtn, 'mouseup touchend', this.buttonUp), args.currentTarget.classList.contains(slider_classNames.secondButton) && ej2_base /* EventHandler.remove */ .bi.remove(this.secondBtn, 'mouseup touchend', this.buttonUp);
+                    args.currentTarget.classList.contains(slider_classNames_firstButton) && ej2_base /* EventHandler.remove */ .bi.remove(this.firstBtn, 'mouseup touchend', this.buttonUp), args.currentTarget.classList.contains(slider_classNames_secondButton) && ej2_base /* EventHandler.remove */ .bi.remove(this.secondBtn, 'mouseup touchend', this.buttonUp);
                 }, Slider.prototype.setRangeBar = function() {
                     'Horizontal' === this.orientation ? 'MinRange' === this.type ? (// eslint-disable-next-line
                     this.enableRtl ? this.rangeBar.style.right = '0px' : this.rangeBar.style.left = '0px', (0, ej2_base /* setStyleAttribute */ .V7)(this.rangeBar, {
@@ -26179,7 +26078,7 @@
                                 var value = this.getLimitValueAndPosition(handleVal, this.limits.maxStart, this.limits.maxEnd);
                                 handleVal = value[0], handlepos = value[1];
                             }
-                            this.secondHandle.classList.add(slider_classNames.sliderActiveHandle), this.handlePos2 = this.preHandlePos2 = handlepos, this.handleVal2 = handleVal;
+                            this.secondHandle.classList.add(slider_classNames_sliderActiveHandle), this.handlePos2 = this.preHandlePos2 = handlepos, this.handleVal2 = handleVal;
                         }
                         this.modifyZindex(), this.secondHandle.focus();
                     } else {
@@ -26188,16 +26087,16 @@
                                 var value = this.getLimitValueAndPosition(handleVal, this.limits.minStart, this.limits.minEnd);
                                 handleVal = value[0], handlepos = value[1];
                             }
-                            this.firstHandle.classList.add(slider_classNames.sliderActiveHandle), this.handlePos1 = this.preHandlePos1 = handlepos, this.handleVal1 = handleVal;
+                            this.firstHandle.classList.add(slider_classNames_sliderActiveHandle), this.handlePos1 = this.preHandlePos1 = handlepos, this.handleVal1 = handleVal;
                         }
                         this.modifyZindex(), this.firstHandle.focus();
                     }
-                    this.isMaterialTooltip && this.tooltipElement.classList.add(slider_classNames.materialTooltipActive);
-                    var focusedElement = this.element.querySelector('.' + slider_classNames.sliderTabHandle);
-                    focusedElement && this.getHandle() !== focusedElement && focusedElement.classList.remove(slider_classNames.sliderTabHandle);
+                    this.isMaterialTooltip && this.tooltipElement.classList.add(slider_classNames_materialTooltipActive);
+                    var focusedElement = this.element.querySelector('.' + slider_classNames_sliderTabHandle);
+                    focusedElement && this.getHandle() !== focusedElement && focusedElement.classList.remove(slider_classNames_sliderTabHandle);
                     var handle = 1 === this.activeHandle ? this.firstHandle : this.secondHandle;
                     if (evt.target === handle) {
-                        !this.isMaterial || this.tooltip.isVisible || this.getHandle().classList.contains(slider_classNames.sliderTabHandle) || this.materialChange(), this.sliderBarUp(evt), this.tooltipToggle(this.getHandle());
+                        !this.isMaterial || this.tooltip.isVisible || this.getHandle().classList.contains(slider_classNames_sliderTabHandle) || this.materialChange(), this.sliderBarUp(evt), this.tooltipToggle(this.getHandle());
                         return;
                     }
                     if (this.checkRepeatedValue(handleVal)) {
@@ -26234,7 +26133,7 @@
                     }
                     this.activeHandle = 1, this.setHandlePosition(event), this.activeHandle = 2, this.setHandlePosition(event), this.tooltipToggle(this.rangeBar), this.setRangeBar();
                 }, Slider.prototype.sliderBarUp = function(event) {
-                    this.changeEvent('changed', event), this.handleFocusOut(), this.firstHandle.classList.remove(slider_classNames.sliderActiveHandle), 'Range' === this.type && (this.initialTooltip = !1, this.secondHandle.classList.remove(slider_classNames.sliderActiveHandle)), this.closeTooltip(), this.isMaterial && (this.getHandle().classList.remove('e-large-thumb-size'), this.isMaterialTooltip && this.tooltipElement.classList.remove(slider_classNames.materialTooltipActive)), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mousemove touchmove', this.sliderBarMove), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mouseup touchend', this.sliderBarUp);
+                    this.changeEvent('changed', event), this.handleFocusOut(), this.firstHandle.classList.remove(slider_classNames_sliderActiveHandle), 'Range' === this.type && (this.initialTooltip = !1, this.secondHandle.classList.remove(slider_classNames_sliderActiveHandle)), this.closeTooltip(), this.isMaterial && (this.getHandle().classList.remove('e-large-thumb-size'), this.isMaterialTooltip && this.tooltipElement.classList.remove(slider_classNames_materialTooltipActive)), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mousemove touchmove', this.sliderBarMove), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mouseup touchend', this.sliderBarUp);
                 }, Slider.prototype.sliderBarMove = function(evt) {
                     'touchmove' !== evt.type && evt.preventDefault();
                     var pos = 'mousemove' === evt.type ? {
@@ -26252,18 +26151,18 @@
                             }
                             this.handlePos1 = handlepos, this.handleVal1 = handleVal;
                         }
-                        this.firstHandle.classList.add(slider_classNames.sliderActiveHandle);
+                        this.firstHandle.classList.add(slider_classNames_sliderActiveHandle);
                     }
                     if ('Range' === this.type) {
                         if (1 === this.activeHandle) {
-                            if (this.firstHandle.classList.add(slider_classNames.sliderActiveHandle), !(this.limits.enabled && this.limits.startHandleFixed) && (handlepos > this.handlePos2 && (handlepos = this.handlePos2, handleVal = this.handleVal2), handlepos !== this.preHandlePos1)) {
+                            if (this.firstHandle.classList.add(slider_classNames_sliderActiveHandle), !(this.limits.enabled && this.limits.startHandleFixed) && (handlepos > this.handlePos2 && (handlepos = this.handlePos2, handleVal = this.handleVal2), handlepos !== this.preHandlePos1)) {
                                 if (this.limits.enabled) {
                                     var value = this.getLimitValueAndPosition(handleVal, this.limits.minStart, this.limits.minEnd);
                                     handleVal = value[0], handlepos = value[1];
                                 }
                                 this.handlePos1 = this.preHandlePos1 = handlepos, this.handleVal1 = handleVal, this.activeHandle = 1;
                             }
-                        } else if (2 === this.activeHandle && (this.secondHandle.classList.add(slider_classNames.sliderActiveHandle), !(this.limits.enabled && this.limits.endHandleFixed)) && (handlepos < this.handlePos1 && (handlepos = this.handlePos1, handleVal = this.handleVal1), handlepos !== this.preHandlePos2)) {
+                        } else if (2 === this.activeHandle && (this.secondHandle.classList.add(slider_classNames_sliderActiveHandle), !(this.limits.enabled && this.limits.endHandleFixed)) && (handlepos < this.handlePos1 && (handlepos = this.handlePos1, handleVal = this.handleVal1), handlepos !== this.preHandlePos2)) {
                             if (this.limits.enabled) {
                                 var value = this.getLimitValueAndPosition(handleVal, this.limits.maxStart, this.limits.maxEnd);
                                 handleVal = value[0], handlepos = value[1];
@@ -26271,7 +26170,7 @@
                             this.handlePos2 = this.preHandlePos2 = handlepos, this.handleVal2 = handleVal, this.activeHandle = 2;
                         }
                     }
-                    this.checkRepeatedValue(handleVal) && (this.getHandle().style.transition = this.scaleTransform, 'Default' !== this.type && (this.rangeBar.style.transition = 'none'), this.setHandlePosition(evt), !this.isMaterial || this.tooltip.isVisible || this.getHandle().classList.contains(slider_classNames.sliderTabHandle) || this.materialChange(), this.tooltipToggle(this.getHandle()), 'Default' !== this.type && this.setRangeBar());
+                    this.checkRepeatedValue(handleVal) && (this.getHandle().style.transition = this.scaleTransform, 'Default' !== this.type && (this.rangeBar.style.transition = 'none'), this.setHandlePosition(evt), !this.isMaterial || this.tooltip.isVisible || this.getHandle().classList.contains(slider_classNames_sliderTabHandle) || this.materialChange(), this.tooltipToggle(this.getHandle()), 'Default' !== this.type && this.setRangeBar());
                 }, Slider.prototype.dragRangeBarUp = function(event) {
                     this.rangeBarDragged ? this.isDragComplete = !0 : (this.focusSliderElement(), this.sliderBarClick(event)), this.changeEvent('changed', event), this.closeTooltip(), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mousemove touchmove', this.dragRangeBarMove), ej2_base /* EventHandler.remove */ .bi.remove(document, 'mouseup touchend', this.dragRangeBarUp), this.rangeBarDragged = !1;
                 }, Slider.prototype.checkRepeatedValue = function(currentValue) {
@@ -26310,8 +26209,8 @@
                             event.changedTouches[0].clientX,
                             event.changedTouches[0].clientY
                         ])[0], yPostion = _b[1]), 'Horizontal' === this.orientation ? (this.firstPartRemain = xPostion - this.rangeBar.getBoundingClientRect().left, this.secondPartRemain = this.rangeBar.getBoundingClientRect().right - xPostion) : (this.firstPartRemain = yPostion - this.rangeBar.getBoundingClientRect().top, this.secondPartRemain = this.rangeBar.getBoundingClientRect().bottom - yPostion), this.minDiff = this.handleVal2 - this.handleVal1, this.tooltipToggle(this.rangeBar);
-                        var focusedElement = this.element.querySelector('.' + slider_classNames.sliderTabHandle);
-                        focusedElement && focusedElement.classList.remove(slider_classNames.sliderTabHandle), ej2_base /* EventHandler.add */ .bi.add(document, 'mousemove touchmove', this.dragRangeBarMove, this), ej2_base /* EventHandler.add */ .bi.add(document, 'mouseup touchend', this.dragRangeBarUp, this);
+                        var focusedElement = this.element.querySelector('.' + slider_classNames_sliderTabHandle);
+                        focusedElement && focusedElement.classList.remove(slider_classNames_sliderTabHandle), ej2_base /* EventHandler.add */ .bi.add(document, 'mousemove touchmove', this.dragRangeBarMove, this), ej2_base /* EventHandler.add */ .bi.add(document, 'mouseup touchend', this.dragRangeBarUp, this);
                     }
                 }, Slider.prototype.elementClick = function(event) {
                     if (this.isDragComplete) {
@@ -26328,25 +26227,25 @@
                         value: this.formResetValue
                     }, !0), this.setValue();
                 }, Slider.prototype.keyUp = function(event) {
-                    if (9 === event.keyCode && event.target.classList.contains(slider_classNames.sliderHandle) && (this.focusSliderElement(), !event.target.classList.contains(slider_classNames.sliderTabHandle))) {
-                        this.element.querySelector('.' + slider_classNames.sliderTabHandle) && this.element.querySelector('.' + slider_classNames.sliderTabHandle).classList.remove(slider_classNames.sliderTabHandle), event.target.classList.add(slider_classNames.sliderTabHandle);
+                    if (9 === event.keyCode && event.target.classList.contains(slider_classNames_sliderHandle) && (this.focusSliderElement(), !event.target.classList.contains(slider_classNames_sliderTabHandle))) {
+                        this.element.querySelector('.' + slider_classNames_sliderTabHandle) && this.element.querySelector('.' + slider_classNames_sliderTabHandle).classList.remove(slider_classNames_sliderTabHandle), event.target.classList.add(slider_classNames_sliderTabHandle);
                         var parentElement = event.target.parentElement;
-                        parentElement === this.element && (parentElement.querySelector('.' + slider_classNames.sliderTrack).classList.add(slider_classNames.sliderTabTrack), ('Range' === this.type || 'MinRange' === this.type) && parentElement.querySelector('.' + slider_classNames.rangeBar).classList.add(slider_classNames.sliderTabRange)), 'Range' === this.type && (event.target.previousSibling.classList.contains(slider_classNames.sliderHandle) ? this.activeHandle = 2 : this.activeHandle = 1), this.getHandle().focus(), this.tooltipToggle(this.getHandle());
+                        parentElement === this.element && (parentElement.querySelector('.' + slider_classNames_sliderTrack).classList.add(slider_classNames_sliderTabTrack), ('Range' === this.type || 'MinRange' === this.type) && parentElement.querySelector('.' + slider_classNames_rangeBar).classList.add(slider_classNames_sliderTabRange)), 'Range' === this.type && (event.target.previousSibling.classList.contains(slider_classNames_sliderHandle) ? this.activeHandle = 2 : this.activeHandle = 1), this.getHandle().focus(), this.tooltipToggle(this.getHandle());
                     }
                     this.closeTooltip(), this.changeEvent('changed', event);
                 }, Slider.prototype.hover = function(event) {
-                    if (!(0, ej2_base /* isNullOrUndefined */ .le)(event)) if ('mouseover' === event.type || 'touchmove' === event.type || 'mousemove' === event.type || 'pointermove' === event.type || 'touchstart' === event.type) this.sliderContainer.classList.add(slider_classNames.sliderHover);
+                    if (!(0, ej2_base /* isNullOrUndefined */ .le)(event)) if ('mouseover' === event.type || 'touchmove' === event.type || 'mousemove' === event.type || 'pointermove' === event.type || 'touchstart' === event.type) this.sliderContainer.classList.add(slider_classNames_sliderHover);
                     else {
-                        this.sliderContainer.classList.remove(slider_classNames.sliderHover);
+                        this.sliderContainer.classList.remove(slider_classNames_sliderHover);
                         var curTarget = event.currentTarget;
-                        this.tooltip.isVisible && 'Always' !== this.tooltip.showOn && this.tooltipObj && this.isMaterialTooltip && !curTarget.classList.contains(slider_classNames.sliderHandleFocused) && !curTarget.classList.contains(slider_classNames.sliderTabHandle) && this.closeMaterialTooltip();
+                        this.tooltip.isVisible && 'Always' !== this.tooltip.showOn && this.tooltipObj && this.isMaterialTooltip && !curTarget.classList.contains(slider_classNames_sliderHandleFocused) && !curTarget.classList.contains(slider_classNames_sliderTabHandle) && this.closeMaterialTooltip();
                     }
                 }, Slider.prototype.sliderFocusOut = function(event) {
-                    event.relatedTarget !== this.secondHandle && event.relatedTarget !== this.firstHandle && event.relatedTarget !== this.element && event.relatedTarget !== this.firstBtn && event.relatedTarget !== this.secondBtn && (this.closeMaterialTooltip(), this.closeTooltip(), this.element.querySelector('.' + slider_classNames.sliderTabHandle) && this.element.querySelector('.' + slider_classNames.sliderTabHandle).classList.remove(slider_classNames.sliderTabHandle), this.element.querySelector('.' + slider_classNames.sliderTabTrack) && (this.element.querySelector('.' + slider_classNames.sliderTabTrack).classList.remove(slider_classNames.sliderTabTrack), ('Range' === this.type || 'MinRange' === this.type) && this.element.querySelector('.' + slider_classNames.sliderTabRange) && this.element.querySelector('.' + slider_classNames.sliderTabRange).classList.remove(slider_classNames.sliderTabRange)), this.hiddenInput.focus(), this.hiddenInput.blur(), this.isElementFocused = !1);
+                    event.relatedTarget !== this.secondHandle && event.relatedTarget !== this.firstHandle && event.relatedTarget !== this.element && event.relatedTarget !== this.firstBtn && event.relatedTarget !== this.secondBtn && (this.closeMaterialTooltip(), this.closeTooltip(), this.element.querySelector('.' + slider_classNames_sliderTabHandle) && this.element.querySelector('.' + slider_classNames_sliderTabHandle).classList.remove(slider_classNames_sliderTabHandle), this.element.querySelector('.' + slider_classNames_sliderTabTrack) && (this.element.querySelector('.' + slider_classNames_sliderTabTrack).classList.remove(slider_classNames_sliderTabTrack), ('Range' === this.type || 'MinRange' === this.type) && this.element.querySelector('.' + slider_classNames_sliderTabRange) && this.element.querySelector('.' + slider_classNames_sliderTabRange).classList.remove(slider_classNames_sliderTabRange)), this.hiddenInput.focus(), this.hiddenInput.blur(), this.isElementFocused = !1);
                 }, Slider.prototype.removeElement = function(element) {
                     element.parentNode && element.parentNode.removeChild(element);
                 }, Slider.prototype.changeSliderType = function(type, args) {
-                    this.isMaterialTooltip && this.materialHandle && (this.sliderContainer.classList.remove(slider_classNames.materialSlider), this.removeElement(this.materialHandle), this.materialHandle = void 0), this.removeElement(this.firstHandle), this.firstHandle = void 0, 'Default' !== type && ('Range' === type && (this.removeElement(this.secondHandle), this.secondHandle = void 0), this.removeElement(this.rangeBar), this.rangeBar = void 0), this.tooltip.isVisible && !(0, ej2_base /* isNullOrUndefined */ .le)(this.tooltipObj) && (this.tooltipObj.destroy(), this.tooltipElement = void 0, this.tooltipCollidedPosition = void 0), this.limits.enabled && ('MinRange' === type || 'Default' === type ? (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarFirst) || (this.removeElement(this.limitBarFirst), this.limitBarFirst = void 0) : (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarSecond) || (this.removeElement(this.limitBarSecond), this.limitBarSecond = void 0)), this.activeHandle = 1, this.getThemeInitialization(), 'Range' === this.type && this.rangeValueUpdate(), this.createRangeBar(), this.limits.enabled && this.createLimitBar(), this.setHandler(), this.setOrientClass(), this.wireFirstHandleEvt(!1), 'Range' === this.type && this.wireSecondHandleEvt(!1), this.setValue(), this.tooltip.isVisible && (this.renderTooltip(), this.wireMaterialTooltipEvent(!1)), this.setBarColor(), 'tooltip' !== args && this.updateConfig();
+                    this.isMaterialTooltip && this.materialHandle && (this.sliderContainer.classList.remove(slider_classNames_materialSlider), this.removeElement(this.materialHandle), this.materialHandle = void 0), this.removeElement(this.firstHandle), this.firstHandle = void 0, 'Default' !== type && ('Range' === type && (this.removeElement(this.secondHandle), this.secondHandle = void 0), this.removeElement(this.rangeBar), this.rangeBar = void 0), this.tooltip.isVisible && !(0, ej2_base /* isNullOrUndefined */ .le)(this.tooltipObj) && (this.tooltipObj.destroy(), this.tooltipElement = void 0, this.tooltipCollidedPosition = void 0), this.limits.enabled && ('MinRange' === type || 'Default' === type ? (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarFirst) || (this.removeElement(this.limitBarFirst), this.limitBarFirst = void 0) : (0, ej2_base /* isNullOrUndefined */ .le)(this.limitBarSecond) || (this.removeElement(this.limitBarSecond), this.limitBarSecond = void 0)), this.activeHandle = 1, this.getThemeInitialization(), 'Range' === this.type && this.rangeValueUpdate(), this.createRangeBar(), this.limits.enabled && this.createLimitBar(), this.setHandler(), this.setOrientClass(), this.wireFirstHandleEvt(!1), 'Range' === this.type && this.wireSecondHandleEvt(!1), this.setValue(), this.tooltip.isVisible && (this.renderTooltip(), this.wireMaterialTooltipEvent(!1)), this.setBarColor(), 'tooltip' !== args && this.updateConfig();
                 }, Slider.prototype.changeRtl = function() {
                     if (this.enableRtl || 'Range' !== this.type || (this.value = [
                         this.handleVal2,
@@ -26383,7 +26282,7 @@
                     _super.prototype.destroy.call(this), this.unwireEvents(), window.removeEventListener('resize', this.onresize), (0, ej2_base /* removeClass */ .IV)([
                         this.sliderContainer
                     ], [
-                        slider_classNames.sliderDisabled
+                        slider_classNames_sliderDisabled
                     ]), this.firstHandle.removeAttribute('aria-orientation'), 'Range' === this.type && this.secondHandle.removeAttribute('aria-orientation'), this.sliderContainer.parentNode.insertBefore(this.element, this.sliderContainer), (0, ej2_base /* detach */ .og)(this.sliderContainer), this.tooltip.isVisible && this.tooltipObj.destroy(), this.element.innerHTML = '';
                 }, /**
      * Calls internally if any of the property value is changed.
@@ -26428,7 +26327,7 @@
                                 this.changeOrientation();
                                 break;
                             case 'ticks':
-                                (0, ej2_base /* isNullOrUndefined */ .le)(this.sliderContainer.querySelector('.' + slider_classNames.scale)) || ((0, ej2_base /* detach */ .og)(this.ul), Array.prototype.forEach.call(this.sliderContainer.classList, function(className) {
+                                (0, ej2_base /* isNullOrUndefined */ .le)(this.sliderContainer.querySelector('.' + slider_classNames_scale)) || ((0, ej2_base /* detach */ .og)(this.ul), Array.prototype.forEach.call(this.sliderContainer.classList, function(className) {
                                     className.match(/e-scale-/) && _this.sliderContainer.classList.remove(className);
                                 })), 'None' !== this.ticks.placement && (this.renderScale(), this.setZindex());
                                 break;
@@ -26436,7 +26335,7 @@
                                 this.showButtons && this.buttonTitle();
                                 break;
                             case 'showButtons':
-                                newProp.showButtons ? (this.setButtons(), this.reposition(), this.enabled && !this.readonly && this.wireButtonEvt(!1)) : this.firstBtn && this.secondBtn && (this.sliderContainer.removeChild(this.firstBtn), this.sliderContainer.removeChild(this.secondBtn), this.sliderContainer.classList.remove(slider_classNames.sliderButtonClass), this.firstBtn = void 0, this.secondBtn = void 0, this.reposition());
+                                newProp.showButtons ? (this.setButtons(), this.reposition(), this.enabled && !this.readonly && this.wireButtonEvt(!1)) : this.firstBtn && this.secondBtn && (this.sliderContainer.removeChild(this.firstBtn), this.sliderContainer.removeChild(this.secondBtn), this.sliderContainer.classList.remove(slider_classNames_sliderButtonClass), this.firstBtn = void 0, this.secondBtn = void 0, this.reposition());
                                 break;
                             case 'enabled':
                                 this.setEnabled();
@@ -26455,10 +26354,10 @@
                         }
                     }
                 }, Slider.prototype.setReadOnly = function() {
-                    this.readonly ? (this.unwireEvents(), this.sliderContainer.classList.add(slider_classNames.readonly)) : (this.wireEvents(), this.sliderContainer.classList.remove(slider_classNames.readonly));
+                    this.readonly ? (this.unwireEvents(), this.sliderContainer.classList.add(slider_classNames_readonly)) : (this.wireEvents(), this.sliderContainer.classList.remove(slider_classNames_readonly));
                 }, Slider.prototype.setMinMaxValue = function() {
                     var _this = this;
-                    this.setValue(), this.refreshTooltip(this.tooltipTarget), !(0, ej2_base /* isNullOrUndefined */ .le)(this.sliderContainer.querySelector('.' + slider_classNames.scale)) && this.ul && ((0, ej2_base /* detach */ .og)(this.ul), Array.prototype.forEach.call(this.sliderContainer.classList, function(className) {
+                    this.setValue(), this.refreshTooltip(this.tooltipTarget), !(0, ej2_base /* isNullOrUndefined */ .le)(this.sliderContainer.querySelector('.' + slider_classNames_scale)) && this.ul && ((0, ej2_base /* detach */ .og)(this.ul), Array.prototype.forEach.call(this.sliderContainer.classList, function(className) {
                         className.match(/e-scale-/) && _this.sliderContainer.classList.remove(className);
                     })), 'None' !== this.ticks.placement && (this.renderScale(), this.setZindex());
                 }, Slider.prototype.setZindex = function() {
@@ -26470,7 +26369,7 @@
                     for(var i = 0; i < this.colorRange.length; i++)if (!(0, ej2_base /* isNullOrUndefined */ .le)(this.colorRange[i].start) && !(0, ej2_base /* isNullOrUndefined */ .le)(this.colorRange[i].end) && this.colorRange[i].end > this.colorRange[i].start) {
                         this.colorRange[i].start < this.min && (this.colorRange[i].start = this.min), this.colorRange[i].end > this.max && (this.colorRange[i].end = this.max);
                         var startingPosition = this.checkHandlePosition(this.colorRange[i].start), endPosition = this.checkHandlePosition(this.colorRange[i].end), trackContainer = this.createElement('div');
-                        trackContainer.style.backgroundColor = this.colorRange[i].color, trackContainer.style.border = '1px solid ' + this.colorRange[i].color, 'Horizontal' === this.orientation ? (trackClassName = slider_classNames.sliderHorizantalColor, trackPosition = this.enableRtl ? (0, ej2_base /* isNullOrUndefined */ .le)(this.customValues) ? this.checkHandlePosition(this.max) - this.checkHandlePosition(this.colorRange[i].end) : this.checkHandlePosition(this.customValues.length - this.colorRange[i].end - 1) : this.checkHandlePosition(this.colorRange[i].start), trackContainer.style.width = endPosition - startingPosition + 'px', trackContainer.style.left = trackPosition + 'px') : (trackClassName = slider_classNames.sliderVerticalColor, trackPosition = this.checkHandlePosition(this.colorRange[i].start), trackContainer.style.height = endPosition - startingPosition + 'px', trackContainer.style.bottom = trackPosition + 'px'), trackContainer.classList.add(trackClassName), this.sliderTrack.appendChild(trackContainer);
+                        trackContainer.style.backgroundColor = this.colorRange[i].color, trackContainer.style.border = '1px solid ' + this.colorRange[i].color, 'Horizontal' === this.orientation ? (trackClassName = 'e-slider-horizantal-color', trackPosition = this.enableRtl ? (0, ej2_base /* isNullOrUndefined */ .le)(this.customValues) ? this.checkHandlePosition(this.max) - this.checkHandlePosition(this.colorRange[i].end) : this.checkHandlePosition(this.customValues.length - this.colorRange[i].end - 1) : this.checkHandlePosition(this.colorRange[i].start), trackContainer.style.width = endPosition - startingPosition + 'px', trackContainer.style.left = trackPosition + 'px') : (trackClassName = 'e-slider-vertical-color', trackPosition = this.checkHandlePosition(this.colorRange[i].start), trackContainer.style.height = endPosition - startingPosition + 'px', trackContainer.style.bottom = trackPosition + 'px'), trackContainer.classList.add(trackClassName), this.sliderTrack.appendChild(trackContainer);
                     }
                 }, /**
      * Gets the component name
@@ -26548,110 +26447,108 @@
                 if ("object" == typeof Reflect && "function" == typeof Reflect.decorate) r = Reflect.decorate(decorators, target, key, desc);
                 else for(var i = decorators.length - 1; i >= 0; i--)(d = decorators[i]) && (r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r);
                 return c > 3 && r && Object.defineProperty(target, key, r), r;
-            }, APPLY = 'e-apply', CANCEL = 'e-cancel', CURRENT = 'e-current', CTRLBTN = 'e-ctrl-btn', CTRLSWITCH = 'e-switch-ctrl-btn', DISABLED = 'e-disabled', FORMATSWITCH = 'e-value-switch-btn', HANDLER = 'e-handler', HEX = 'e-hex', HIDEHEX = 'e-hide-hex-value', HIDEOPACITY = 'e-hide-opacity', HIDERGBA = 'e-hide-switchable-value', HIDEVALUE = 'e-hide-value', HIDEVALUESWITCH = 'e-hide-valueswitcher', HSVAREA = 'e-hsv-color', HSVCONTAINER = 'e-hsv-container', INPUTWRAPPER = 'e-selected-value', MODESWITCH = 'e-mode-switch-btn', NOCOLOR = 'e-nocolor-item', OPACITY = 'e-opacity-value', PALETTES = 'e-palette', PALETTECONTENT = 'e-color-palette', PICKERCONTENT = 'e-color-picker', PREVIEW = 'e-preview-container', PREVIOUS = 'e-previous', SHOWVALUE = 'e-show-value', SELECT = 'e-selected', SPLITPREVIEW = 'e-split-preview', TILE = 'e-tile', presets = {
-                default: [
-                    '#000000',
-                    '#f44336',
-                    '#e91e63',
-                    '#9c27b0',
-                    '#673ab7',
-                    '#2196f3',
-                    '#03a9f4',
-                    '#00bcd4',
-                    '#009688',
-                    '#ffeb3b',
-                    '#ffffff',
-                    '#ffebee',
-                    '#fce4ec',
-                    '#f3e5f5',
-                    '#ede7f6',
-                    '#e3f2fd',
-                    '#e1f5fe',
-                    '#e0f7fa',
-                    '#e0f2f1',
-                    '#fffde7',
-                    '#f2f2f2',
-                    '#ffcdd2',
-                    '#f8bbd0',
-                    '#e1bee7',
-                    '#d1c4e9',
-                    '#bbdefb',
-                    '#b3e5fc',
-                    '#b2ebf2',
-                    '#b2dfdb',
-                    '#fff9c4',
-                    '#e6e6e6',
-                    '#ef9a9a',
-                    '#f48fb1',
-                    '#ce93d8',
-                    '#b39ddb',
-                    '#90caf9',
-                    '#81d4fa',
-                    '#80deea',
-                    '#80cbc4',
-                    '#fff59d',
-                    '#cccccc',
-                    '#e57373',
-                    '#f06292',
-                    '#ba68c8',
-                    '#9575cd',
-                    '#64b5f6',
-                    '#4fc3f7',
-                    '#4dd0e1',
-                    '#4db6ac',
-                    '#fff176',
-                    '#b3b3b3',
-                    '#ef5350',
-                    '#ec407a',
-                    '#ab47bc',
-                    '#7e57c2',
-                    '#42a5f5',
-                    '#29b6f6',
-                    '#26c6da',
-                    '#26a69a',
-                    '#ffee58',
-                    '#999999',
-                    '#e53935',
-                    '#d81b60',
-                    '#8e24aa',
-                    '#5e35b1',
-                    '#1e88e5',
-                    '#039be5',
-                    '#00acc1',
-                    '#00897b',
-                    '#fdd835',
-                    '#808080',
-                    '#d32f2f',
-                    '#c2185b',
-                    '#7b1fa2',
-                    '#512da8',
-                    '#1976d2',
-                    '#0288d1',
-                    '#0097a7',
-                    '#00796b',
-                    '#fbc02d',
-                    '#666666',
-                    '#c62828',
-                    '#ad1457',
-                    '#6a1b9a',
-                    '#4527a0',
-                    '#1565c0',
-                    '#0277bd',
-                    '#00838f',
-                    '#00695c',
-                    '#f9a825',
-                    '#4d4d4d',
-                    '#b71c1c',
-                    '#880e4f',
-                    '#4a148c',
-                    '#311b92',
-                    '#0d47a1',
-                    '#01579b',
-                    '#006064',
-                    '#004d40',
-                    '#f57f17'
-                ]
-            }, ColorPicker = /** @class */ function(_super) {
+            }, APPLY = 'e-apply', CANCEL = 'e-cancel', CURRENT = 'e-current', CTRLBTN = 'e-ctrl-btn', CTRLSWITCH = 'e-switch-ctrl-btn', DISABLED = 'e-disabled', FORMATSWITCH = 'e-value-switch-btn', HANDLER = 'e-handler', HEX = 'e-hex', HIDEHEX = 'e-hide-hex-value', HIDEOPACITY = 'e-hide-opacity', HIDERGBA = 'e-hide-switchable-value', HIDEVALUE = 'e-hide-value', HIDEVALUESWITCH = 'e-hide-valueswitcher', HSVAREA = 'e-hsv-color', HSVCONTAINER = 'e-hsv-container', INPUTWRAPPER = 'e-selected-value', MODESWITCH = 'e-mode-switch-btn', NOCOLOR = 'e-nocolor-item', OPACITY = 'e-opacity-value', PALETTES = 'e-palette', PALETTECONTENT = 'e-color-palette', PICKERCONTENT = 'e-color-picker', PREVIEW = 'e-preview-container', PREVIOUS = 'e-previous', SHOWVALUE = 'e-show-value', SELECT = 'e-selected', SPLITPREVIEW = 'e-split-preview', TILE = 'e-tile', presets_default = [
+                '#000000',
+                '#f44336',
+                '#e91e63',
+                '#9c27b0',
+                '#673ab7',
+                '#2196f3',
+                '#03a9f4',
+                '#00bcd4',
+                '#009688',
+                '#ffeb3b',
+                '#ffffff',
+                '#ffebee',
+                '#fce4ec',
+                '#f3e5f5',
+                '#ede7f6',
+                '#e3f2fd',
+                '#e1f5fe',
+                '#e0f7fa',
+                '#e0f2f1',
+                '#fffde7',
+                '#f2f2f2',
+                '#ffcdd2',
+                '#f8bbd0',
+                '#e1bee7',
+                '#d1c4e9',
+                '#bbdefb',
+                '#b3e5fc',
+                '#b2ebf2',
+                '#b2dfdb',
+                '#fff9c4',
+                '#e6e6e6',
+                '#ef9a9a',
+                '#f48fb1',
+                '#ce93d8',
+                '#b39ddb',
+                '#90caf9',
+                '#81d4fa',
+                '#80deea',
+                '#80cbc4',
+                '#fff59d',
+                '#cccccc',
+                '#e57373',
+                '#f06292',
+                '#ba68c8',
+                '#9575cd',
+                '#64b5f6',
+                '#4fc3f7',
+                '#4dd0e1',
+                '#4db6ac',
+                '#fff176',
+                '#b3b3b3',
+                '#ef5350',
+                '#ec407a',
+                '#ab47bc',
+                '#7e57c2',
+                '#42a5f5',
+                '#29b6f6',
+                '#26c6da',
+                '#26a69a',
+                '#ffee58',
+                '#999999',
+                '#e53935',
+                '#d81b60',
+                '#8e24aa',
+                '#5e35b1',
+                '#1e88e5',
+                '#039be5',
+                '#00acc1',
+                '#00897b',
+                '#fdd835',
+                '#808080',
+                '#d32f2f',
+                '#c2185b',
+                '#7b1fa2',
+                '#512da8',
+                '#1976d2',
+                '#0288d1',
+                '#0097a7',
+                '#00796b',
+                '#fbc02d',
+                '#666666',
+                '#c62828',
+                '#ad1457',
+                '#6a1b9a',
+                '#4527a0',
+                '#1565c0',
+                '#0277bd',
+                '#00838f',
+                '#00695c',
+                '#f9a825',
+                '#4d4d4d',
+                '#b71c1c',
+                '#880e4f',
+                '#4a148c',
+                '#311b92',
+                '#0d47a1',
+                '#01579b',
+                '#006064',
+                '#004d40',
+                '#f57f17'
+            ], ColorPicker = /** @class */ function(_super) {
                 function ColorPicker(options, element) {
                     return _super.call(this, options, element) || this;
                 }
@@ -26801,7 +26698,7 @@
                         (0, ej2_base /* selectAll */ .td)('.e-row', paletteGroup).length > 10 && (0, ej2_base /* addClass */ .cn)([
                             paletteGroup
                         ], 'e-palette-group');
-                    } else this.appendPalette(presets.default, 'default');
+                    } else this.appendPalette(presets_default, 'default');
                     'Palette' === this.mode && !this.modeSwitcher && this.noColor && this.setNoColor();
                     var width = parseInt(getComputedStyle(this.container).borderBottomWidth, 10);
                     this.container.style.width = (0, ej2_base /* formatUnit */ .Ac)(this.container.children[0].offsetWidth + width + width), this.rgb = this.hexToRgb(this.roundValue(this.value)), this.hsv = this.rgbToHsv.apply(this, this.rgb);

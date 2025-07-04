@@ -982,7 +982,12 @@ impl Optimizer<'_> {
             if let "toString" = &**sym {
                 return true;
             }
-            !usage.accessed_props.contains_key(sym) && !properties_used_via_this.contains(sym)
+
+            if sym.parse::<f64>().is_ok() || sym.parse::<i32>().is_ok() {
+                return true;
+            }
+
+            usage.accessed_props.contains_key(sym) || properties_used_via_this.contains(sym)
         };
         let should_preserve = |key: &PropName| match key {
             PropName::Ident(k) => should_preserve_property(&k.sym),
@@ -998,14 +1003,14 @@ impl Optimizer<'_> {
                 unreachable!()
             }
             PropOrSpread::Prop(p) => match &**p {
-                Prop::Shorthand(p) => !should_preserve_property(&p.sym),
-                Prop::KeyValue(p) => !should_preserve(&p.key),
+                Prop::Shorthand(p) => should_preserve_property(&p.sym),
+                Prop::KeyValue(p) => should_preserve(&p.key),
                 Prop::Assign(..) => {
                     unreachable!()
                 }
-                Prop::Getter(p) => !should_preserve(&p.key),
-                Prop::Setter(p) => !should_preserve(&p.key),
-                Prop::Method(p) => !should_preserve(&p.key),
+                Prop::Getter(p) => should_preserve(&p.key),
+                Prop::Setter(p) => should_preserve(&p.key),
+                Prop::Method(p) => should_preserve(&p.key),
             },
         });
 

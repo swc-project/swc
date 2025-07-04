@@ -1,7 +1,7 @@
 use napi::bindgen_prelude::*;
 use swc_core::{
     common::{sync::Lrc, FileName, SourceMap},
-    ecma::ast::EsVersion,
+    ecma::{ast::EsVersion, parser::Syntax},
 };
 
 struct IsReactCompilerRequiredTask {
@@ -28,7 +28,11 @@ fn is_react_compiler_required_inner(code: &str) -> bool {
 
     let program = swc_core::ecma::parser::parse_file_as_program(
         &fm,
-        Default::default(),
+        Syntax::Typescript(swc_core::ecma::parser::TsSyntax {
+            decorators: true,
+            tsx: true,
+            ..Default::default()
+        }),
         EsVersion::latest(),
         None,
         &mut vec![],

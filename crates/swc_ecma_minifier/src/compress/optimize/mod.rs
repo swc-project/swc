@@ -11,7 +11,8 @@ use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
 use swc_ecma_utils::{
-    prepend_stmts, ExprCtx, ExprExt, ExprFactory, IsEmpty, ModuleItemLike, StmtLike, Type, Value,
+    prepend_stmts, ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, IsEmpty, ModuleItemLike,
+    StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
@@ -634,6 +635,13 @@ impl Optimizer<'_> {
             }
 
             Expr::Class(cls) => {
+                // Do not remove class if it's self-referencing
+                if let Some(id) = &cls.ident {
+                    if IdentUsageFinder::find(&id.to_id(), &cls.class.body) {
+                        return Some(cls.take().into());
+                    }
+                }
+
                 if cls
                     .class
                     .body
@@ -643,6 +651,12 @@ impl Optimizer<'_> {
                     // there's nothing we can do about it
                     return Some(cls.take().into());
                 }
+
+                report_change!(
+                    "ignore_return_value: Dropping unused class expr as it does not have any side \
+                     effect"
+                );
+                self.changed = true;
 
                 let exprs: Vec<Box<Expr>> =
                     extract_class_side_effect(self.ctx.expr_ctx, *cls.class.take())

@@ -815,7 +815,7 @@ export interface EsParserConfig {
      */
     importAssertions?: boolean;
     /**
-     * Defaults to `false`
+     * @deprecated Always true in swc
      */
     importAttributes?: boolean;
     /**
@@ -879,6 +879,7 @@ export interface TransformConfig {
      */
     verbatimModuleSyntax?: boolean;
 
+    tsEnumIsMutable?: boolean;
 }
 
 export interface ReactConfig {

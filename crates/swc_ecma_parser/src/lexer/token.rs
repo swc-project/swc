@@ -257,6 +257,8 @@ pub enum Token {
     Number,
     Object,
     Of,
+    Out,
+    Override,
     Package,
     Private,
     Protected,
@@ -1156,6 +1158,8 @@ impl Token {
             Token::Number => "number",
             Token::Object => "object",
             Token::Of => "of",
+            Token::Out => "out",
+            Token::Override => "override",
             Token::Package => "package",
             Token::Private => "private",
             Token::Protected => "protected",
@@ -1256,6 +1260,8 @@ impl Token {
             Token::Number => atom!("number"),
             Token::Object => atom!("object"),
             Token::Of => atom!("of"),
+            Token::Out => atom!("out"),
+            Token::Override => atom!("override"),
             Token::Package => atom!("package"),
             Token::Private => atom!("private"),
             Token::Protected => atom!("protected"),
@@ -1468,6 +1474,17 @@ impl Token {
             _ if self.is_known_ident() => true,
             _ => false,
         }
+    }
+
+    pub(crate) fn should_rescan_into_gt_in_jsx(self) -> bool {
+        matches!(
+            self,
+            Token::GtEq
+                | Token::RShift
+                | Token::RShiftEq
+                | Token::ZeroFillRShift
+                | Token::ZeroFillRShiftEq
+        )
     }
 }
 

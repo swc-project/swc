@@ -6,6 +6,6 @@ import "core-js/modules/web.dom-collections.iterator.js";
 var p = Promise.resolve(0);
 Promise.race([
     p
-]).then(function(outcome) {
+]).then((outcome)=>{
     alert("OK");
 });

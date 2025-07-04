@@ -3,7 +3,9 @@ use swc_ecma_ast::*;
 use swc_ecma_lexer::{
     common::{
         lexer::token::TokenFactory,
-        parser::{buffer::Buffer, typescript::parse_ts_type, PResult, Parser as ParserTrait},
+        parser::{
+            buffer::Buffer, eof_error, typescript::parse_ts_type, PResult, Parser as ParserTrait,
+        },
     },
     error::SyntaxError,
 };
@@ -119,7 +121,7 @@ impl<I: Tokens> Parser<I> {
         let mut quasis = vec![cur_elem];
 
         while !is_tail {
-            exprs.push(self.include_in_expr(true).parse_expr()?);
+            exprs.push(self.allow_in_expr().parse_expr()?);
             let elem = self.parse_tpl_element(is_tagged_tpl)?;
             is_tail = elem.tail;
             quasis.push(elem);
@@ -132,50 +134,56 @@ impl<I: Tokens> Parser<I> {
             self.input_mut().rescan_template_token(false);
         }
         let start = self.cur_pos();
-        let (raw, cooked, tail, span) = match *cur!(self, true) {
-            Token::TemplateMiddle => match self.bump() {
-                t @ Token::TemplateMiddle => {
-                    let (cooked, raw) = t.take_template(self.input_mut());
-                    let pos = self.input.prev_span().hi;
-                    debug_assert!(start.0 <= pos.0 - 2);
-                    // case: ___${
-                    // `pos.0 - 2` means skip '${'
-                    let span = Span::new(start, BytePos::from_u32(pos.0 - 2));
-                    match cooked {
-                        Ok(cooked) => (raw, Some(cooked), false, span),
-                        Err(err) => {
-                            if is_tagged_tpl {
-                                (raw, None, false, span)
-                            } else {
-                                return Err(err);
-                            }
+        let Some(cur) = self.input_mut().cur() else {
+            return Err(eof_error(self));
+        };
+        let (raw, cooked, tail, span) = match *cur {
+            Token::TemplateMiddle => {
+                let t = self.bump();
+                let (cooked, raw) = t.take_template(self.input_mut());
+                let pos = self.input.prev_span().hi;
+                debug_assert!(start.0 <= pos.0 - 2);
+                // case: ___${
+                // `pos.0 - 2` means skip '${'
+                let span = Span::new(start, BytePos::from_u32(pos.0 - 2));
+                match cooked {
+                    Ok(cooked) => (raw, Some(cooked), false, span),
+                    Err(err) => {
+                        if is_tagged_tpl {
+                            (raw, None, false, span)
+                        } else {
+                            return Err(err);
                         }
                     }
                 }
-                _ => unreachable!(),
-            },
-            Token::TemplateTail => match self.bump() {
-                t @ Token::TemplateTail => {
-                    let (cooked, raw) = t.take_template(self.input_mut());
-                    let pos = self.input.prev_span().hi;
-                    debug_assert!(start.0 < pos.0);
-                    // case: ____`
-                    // `pos.0 - 1` means skip '`'
-                    let span = Span::new(start, BytePos::from_u32(pos.0 - 1));
-                    match cooked {
-                        Ok(cooked) => (raw, Some(cooked), true, span),
-                        Err(err) => {
-                            if is_tagged_tpl {
-                                (raw, None, true, span)
-                            } else {
-                                return Err(err);
-                            }
+            }
+            Token::TemplateTail => {
+                let t = self.bump();
+                let (cooked, raw) = t.take_template(self.input_mut());
+                let pos = self.input.prev_span().hi;
+                debug_assert!(start.0 < pos.0);
+                // case: ____`
+                // `pos.0 - 1` means skip '`'
+                let span = Span::new(start, BytePos::from_u32(pos.0 - 1));
+                match cooked {
+                    Ok(cooked) => (raw, Some(cooked), true, span),
+                    Err(err) => {
+                        if is_tagged_tpl {
+                            (raw, None, true, span)
+                        } else {
+                            return Err(err);
                         }
                     }
                 }
-                _ => unreachable!(),
-            },
-            _ => unexpected!(self, "TemplateMiddle or TemplateTail"),
+            }
+            Token::Error => {
+                let t = self.input_mut().bump();
+                let err = t.take_error(self.input_mut());
+                return Err(err);
+            }
+            _ => {
+                unexpected!(self, "`}`")
+            }
         };
 
         Ok(TplElement {
