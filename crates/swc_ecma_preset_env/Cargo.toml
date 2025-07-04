@@ -39,6 +39,12 @@ swc_ecma_transforms = { version = "23.0.1", path = "../swc_ecma_transforms", fea
 swc_ecma_utils = { version = "18.0.3", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
 
+[build-dependencies]
+anyhow     = { workspace = true }
+serde_json = { workspace = true }
+precomputed-map = { workspace = true, features = ["builder"] }
+foldhash        = { workspace = true }
+
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 pretty_assertions         = { workspace = true }

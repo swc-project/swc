@@ -126,7 +126,7 @@ resolver = "2"
   wasmer                    = { version = "6.0.0", default-features = false }
   wasmer-wasix              = { version = "0.600.0", default-features = false }
 
-  precomputed-map           = { path = "../../precomputed-map" }
+  precomputed-map           = { git = "https://github.com/quininer/precomputed-map" }
   foldhash                  = "0.1"
 
   [workspace.metadata.cargo-shear]

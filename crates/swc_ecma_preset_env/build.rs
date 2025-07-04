@@ -1,28 +1,28 @@
 use std::fs;
-use std::io::Write;
+use std::io::{ self, Write };
 use std::path::Path;
-use std::collections::HashMap;
-use clap::Args;
+use std::collections::{ HashMap, BTreeMap };
 use anyhow::Context;
 
-#[derive(Debug, Args)]
-pub(super) struct CodegenCmd {}
-
-impl CodegenCmd {
-    pub fn run(self) -> anyhow::Result<()> {
-        let dir = Path::new(env!("CARGO_MANIFEST_DIR"));
-        let dir = dir.parent().unwrap();
-        
-        es_preset_env_corejs3_entry(dir)
-    }
+fn main() -> anyhow::Result<()> {
+    es_preset_env_corejs3_entry()
 }
 
-fn es_preset_env_corejs3_entry(dir: &Path) -> anyhow::Result<()> {
-    use std::collections::BTreeMap;
+fn es_preset_env_corejs3_entry() -> anyhow::Result<()> {
+    const SEED: u64 = 16416001479773392852;
     
-    let crate_dir = dir.join("crates/swc_ecma_preset_env/");
+    let crate_dir = std::env::var("CARGO_MANIFEST_DIR")?;
+    let crate_dir = Path::new(&crate_dir);
+
+    let out_dir = std::env::var("OUT_DIR").unwrap();
+    let out_dir = Path::new(&out_dir);
+    let out_dir = out_dir.join("corejs3_entries");
+
+
+    let entry_path = crate_dir.join("data/core-js-compat/entries.json");
+    println!("cargo::rerun-if-changed={}", entry_path.display());
     
-    let entry_data = fs::read_to_string(crate_dir.join("data/core-js-compat/entries.json"))?;
+    let entry_data = fs::read_to_string(entry_path)?;
     let entry_data: BTreeMap<&str, Vec<&str>> = serde_json::from_str(&entry_data)
         .context("failed to parse entries.json from core js 3")?;
     let (keys, values): (Vec<_>, Vec<_>) = entry_data.into_iter().unzip();
@@ -32,6 +32,7 @@ fn es_preset_env_corejs3_entry(dir: &Path) -> anyhow::Result<()> {
     let mut values_index = Vec::new();
     for list in values {
         let start: u32 = values_strid.len().try_into().unwrap();
+
         for s in list {
             values_strid.push(strpool.insert(s));
         }
@@ -40,7 +41,7 @@ fn es_preset_env_corejs3_entry(dir: &Path) -> anyhow::Result<()> {
     }
 
     let mapout = precomputed_map::builder::MapBuilder::<&str>::new()
-        .set_seed(16416001479773392852)
+        .set_seed(SEED)
         .set_hash(&|seed, &v| {
             use std::hash::{ Hash, Hasher };
             
@@ -52,32 +53,30 @@ fn es_preset_env_corejs3_entry(dir: &Path) -> anyhow::Result<()> {
             seed + c
         })
         .build(&keys)?;
-    println!("seed: {:?}", mapout.seed());
+
+    if let Some(seed) = mapout.seed() {
+        if seed != SEED {
+            println!("cargo::warning=The seed has changed, please update the seed to {} for faster builds", seed);
+        }
+    }
 
     // clean file
     {
-        for entry in fs::read_dir(crate_dir.join("src/generated")).ok().into_iter().flatten() {
-            let entry = entry?;
-            let path = entry.path();
-
-            if entry.file_type()?.is_file()
-                && path.file_name()
-                .and_then(|name| name.to_str())
-                .filter(|name| !name.starts_with('.'))
-                .is_some()
-            {
-                fs::remove_file(entry.path())?;
-            }
-        }
+        fs::remove_dir_all(&out_dir)
+            .or_else(|err| match err.kind() {
+                io::ErrorKind::NotFound => Ok(()),
+                _ => Err(err)
+            })?;
+        fs::create_dir(&out_dir)?;
     }
 
     let mut u8seq = precomputed_map::builder::U8SeqWriter::new(
         "PrecomputedU8Seq".into(),
-        crate_dir.join("src/generated/corejs3_entries.u8")
+        out_dir.join("u8.bin")
     );
     let mut u32seq = precomputed_map::builder::U32SeqWriter::new(
         "PrecomputedU32Seq".into(),
-        crate_dir.join("src/generated/corejs3_entries.u32")
+        out_dir.join("u32.bin")
     );
     
     let mut builder = precomputed_map::builder::CodeBuilder::new(
@@ -91,15 +90,15 @@ fn es_preset_env_corejs3_entry(dir: &Path) -> anyhow::Result<()> {
     builder.create_u32_seq("EntryValuesStringId".into(), values_strid.iter().copied())?;
     mapout.create_map("ENTRY_INDEX".into(), k, &mut builder)?;
 
-    let mut codeout = fs::File::create(crate_dir.join("src/generated/corejs3_entries.rs"))?;
-    builder.write_to(&mut codeout)?;
-    u8seq.write_to(&mut codeout)?;
-    u32seq.write_to(&mut codeout)?;
+    let mut codeout = fs::File::create(out_dir.join("lib.rs"))?;
+    builder.codegen(&mut codeout)?;
+    u8seq.codegen(&mut codeout)?;
+    u32seq.codegen(&mut codeout)?;
 
-    fs::write(crate_dir.join("src/generated/corejs3_entries.strpool"), strpool.pool.as_bytes())?;
+    fs::write(out_dir.join("str.bin"), strpool.pool.as_bytes())?;
 
     writeln!(codeout,
-        "static ENTRY_VALUES_STRING_STORE: &str = include_str!(\"corejs3_entries.strpool\");
+        "static ENTRY_VALUES_STRING_STORE: &str = include_str!(\"str.bin\");
         static ENTRY_VALUES_LIST: &[Range<u32>] = &["
     )?;
     for range in mapout.reorder(&values_index) {

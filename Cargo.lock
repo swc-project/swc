@@ -3504,7 +3504,8 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 
 [[package]]
 name = "precomputed-map"
-version = "0.1.1"
+version = "0.2.0"
+source = "git+https://github.com/quininer/precomputed-map#95d28decf25ffa924999366e7fd374eaa7c0c1b2"
 
 [[package]]
 name = "predicates"
@@ -5617,9 +5618,8 @@ dependencies = [
 name = "swc_ecma_preset_env"
 version = "24.0.1"
 dependencies = [
+ "anyhow",
  "codspeed-criterion-compat",
- "criterion",
- "dashmap 5.5.3",
  "foldhash",
  "indexmap 2.7.1",
  "once_cell",
@@ -8276,7 +8276,6 @@ dependencies = [
  "clap 4.5.9",
  "foldhash",
  "precomputed-map",
- "rustc-hash 2.1.1",
  "semver",
  "serde",
  "serde_derive",
