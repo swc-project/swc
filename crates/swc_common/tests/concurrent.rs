@@ -2,7 +2,7 @@
 
 use std::{env, path::PathBuf, sync::Arc};
 
-use rayon::prelude::*;
+use par_iter::prelude::*;
 use swc_common::{sync::Lrc, FilePathMapping, SourceFile, SourceMap};
 
 #[test]

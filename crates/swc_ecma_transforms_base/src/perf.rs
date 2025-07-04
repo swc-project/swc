@@ -130,7 +130,7 @@ where
         N: Send + Sync + FoldWith<Self>,
     {
         if nodes.len() >= threshold {
-            use rayon::prelude::*;
+            use par_iter::prelude::*;
 
             let (visitor, nodes) = GLOBALS.with(|globals| {
                 HELPERS.with(|helpers| {

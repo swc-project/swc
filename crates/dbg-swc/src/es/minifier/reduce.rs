@@ -8,7 +8,7 @@ use std::{
 
 use anyhow::{Context, Result};
 use clap::{ArgEnum, Args};
-use rayon::prelude::*;
+use par_iter::prelude::*;
 use sha1::{Digest, Sha1};
 use swc_common::{SourceMap, GLOBALS};
 use tempfile::TempDir;

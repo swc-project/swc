@@ -5,7 +5,7 @@ use std::{
 
 use anyhow::{Context, Result};
 use clap::Args;
-use rayon::prelude::*;
+use par_iter::prelude::*;
 use swc_common::{
     errors::{ColorConfig, Handler, HANDLER},
     SourceFile, SourceMap, GLOBALS,

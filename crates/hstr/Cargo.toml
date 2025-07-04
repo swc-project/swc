@@ -33,8 +33,8 @@ compact_str  = { workspace = true }
 criterion    = { workspace = true }
 kstring      = { workspace = true }
 num_cpus     = { workspace = true }
+par-iter     = { workspace = true }
 rand         = { workspace = true }
-rayon        = { workspace = true }
 smartstring  = { workspace = true }
 smol_str     = { workspace = true }
 string_cache = { workspace = true }

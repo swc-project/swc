@@ -1,6 +1,6 @@
 #![cfg(feature = "concurrent")]
 
-use rayon::{prelude::*, ThreadPoolBuilder};
+use par_iter::prelude::*;
 use swc_common::{sync::Lrc, FileName, FilePathMapping, SourceMap};
 
 #[test]
