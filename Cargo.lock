@@ -1973,7 +1973,7 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hstr"
-version = "1.1.1"
+version = "1.1.2"
 dependencies = [
  "compact_str",
  "criterion",
@@ -4741,7 +4741,7 @@ checksum = "13c2bddecc57b384dee18652358fb23172facb8a2c51ccc10d74c157bdea3292"
 
 [[package]]
 name = "swc"
-version = "29.0.0"
+version = "29.1.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5012,7 +5012,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "30.0.2"
+version = "30.1.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5531,7 +5531,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "18.0.0"
+version = "18.0.1"
 dependencies = [
  "arrayvec",
  "ascii",
@@ -5564,7 +5564,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "19.0.0"
+version = "19.0.1"
 dependencies = [
  "anyhow",
  "auto_impl",
@@ -5663,7 +5663,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "18.0.0"
+version = "18.0.1"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
