@@ -76,6 +76,10 @@ impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
         self.inner.ctx()
     }
 
+    fn ctx_mut(&mut self) -> &mut swc_ecma_lexer::common::context::Context {
+        self.inner.ctx_mut()
+    }
+
     fn syntax(&self) -> SyntaxFlags {
         self.inner.syntax()
     }

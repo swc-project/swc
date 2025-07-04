@@ -9,6 +9,7 @@ use crate::{common::syntax::SyntaxFlags, error::Error, lexer};
 pub trait Tokens<TokenAndSpan>: Clone + Iterator<Item = TokenAndSpan> {
     fn set_ctx(&mut self, ctx: Context);
     fn ctx(&self) -> Context;
+    fn ctx_mut(&mut self) -> &mut Context;
     fn syntax(&self) -> SyntaxFlags;
     fn target(&self) -> EsVersion;
 

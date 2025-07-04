@@ -191,8 +191,12 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
 }
 
 fn parse_imported_binding<'a>(p: &mut impl Parser<'a>) -> PResult<Ident> {
-    let ctx = p.ctx() & !Context::InAsync & !Context::InGenerator;
-    Ok(p.with_ctx(ctx, |p| parse_binding_ident(p, false))?.into())
+    Ok(
+        p.do_outside_of_context(Context::InAsync.union(Context::InGenerator), |p| {
+            parse_binding_ident(p, false)
+        })?
+        .into(),
+    )
 }
 
 fn parse_imported_default_binding<'a>(p: &mut impl Parser<'a>) -> PResult<Ident> {
@@ -935,7 +939,7 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
 }
 
 pub fn parse_module_item<'a>(p: &mut impl Parser<'a>) -> PResult<ModuleItem> {
-    p.with_ctx(p.ctx() | Context::TopLevel, |p| {
+    p.do_inside_of_context(Context::TopLevel, |p| {
         parse_stmt_like(p, true, handle_import_export)
     })
 }

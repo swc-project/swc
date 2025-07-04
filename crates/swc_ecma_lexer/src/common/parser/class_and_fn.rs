@@ -1,5 +1,3 @@
-use std::ops::DerefMut;
-
 use swc_atoms::atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
@@ -236,12 +234,7 @@ where
     F: FnOnce(&mut P) -> PResult<Vec<Param>>,
 {
     trace_cur!(p, parse_fn_args_body);
-    // let prev_in_generator = p.ctx().in_generator;
-    let mut ctx = p.ctx();
-    ctx.set(Context::InAsync, is_async);
-    ctx.set(Context::InGenerator, is_generator);
-
-    p.with_ctx(ctx, |p| {
+    let f = |p: &mut P| {
         let type_params = if p.syntax().typescript() {
             p.in_type(|p| {
                 trace_cur!(p, parse_fn_args_body__type_params);
@@ -271,10 +264,23 @@ where
 
         expect!(p, &P::Token::LPAREN);
 
-        let mut arg_ctx = (p.ctx() | Context::InParameters) & !Context::InFunction;
-        arg_ctx.set(Context::InAsync, is_async);
-        arg_ctx.set(Context::InGenerator, is_generator);
-        let params = p.with_ctx(arg_ctx, parse_args)?;
+        let parse_args_with_generator_ctx = |p: &mut P| {
+            if is_generator {
+                p.do_inside_of_context(Context::InGenerator, parse_args)
+            } else {
+                p.do_outside_of_context(Context::InGenerator, parse_args)
+            }
+        };
+
+        let params = p.do_inside_of_context(Context::InParameters, |p| {
+            p.do_outside_of_context(Context::InFunction, |p| {
+                if is_async {
+                    p.do_inside_of_context(Context::InAsync, parse_args_with_generator_ctx)
+                } else {
+                    p.do_outside_of_context(Context::InAsync, parse_args_with_generator_ctx)
+                }
+            })
+        })?;
 
         expect!(p, &P::Token::RPAREN);
 
@@ -320,7 +326,21 @@ where
             return_type,
             ctxt: Default::default(),
         }))
-    })
+    };
+
+    let f_with_generator_ctx = |p: &mut P| {
+        if is_generator {
+            p.do_inside_of_context(Context::InGenerator, f)
+        } else {
+            p.do_outside_of_context(Context::InGenerator, f)
+        }
+    };
+
+    if is_async {
+        p.do_inside_of_context(Context::InAsync, f_with_generator_ctx)
+    } else {
+        p.do_outside_of_context(Context::InAsync, f_with_generator_ctx)
+    }
 }
 
 pub fn parse_async_fn_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
@@ -380,26 +400,40 @@ fn parse_fn_inner<'a, P: Parser<'a>>(
     let is_generator = p.input_mut().eat(&P::Token::MUL);
 
     let ident = if is_fn_expr {
-        let mut ctx = p.ctx() & !Context::AllowDirectSuper & !Context::InClassField;
-        ctx.set(Context::InAsync, is_async);
-        ctx.set(Context::InGenerator, is_generator);
+        let f_with_generator_context = |p: &mut P| {
+            if is_generator {
+                p.do_inside_of_context(Context::InGenerator, |p| {
+                    parse_maybe_opt_binding_ident(p, is_ident_required, false)
+                })
+            } else {
+                p.do_outside_of_context(Context::InGenerator, |p| {
+                    parse_maybe_opt_binding_ident(p, is_ident_required, false)
+                })
+            }
+        };
 
-        p.with_ctx(ctx, |p| {
-            parse_maybe_opt_binding_ident(p, is_ident_required, false)
-        })?
+        p.do_outside_of_context(
+            Context::AllowDirectSuper.union(Context::InClassField),
+            |p| {
+                if is_async {
+                    p.do_inside_of_context(Context::InAsync, f_with_generator_context)
+                } else {
+                    p.do_outside_of_context(Context::InAsync, f_with_generator_context)
+                }
+            },
+        )?
     } else {
         // function declaration does not change context for `BindingIdentifier`.
-        p.with_ctx(
-            p.ctx() & !Context::AllowDirectSuper & !Context::InClassField,
+        p.do_outside_of_context(
+            Context::AllowDirectSuper.union(Context::InClassField),
             |p| parse_maybe_opt_binding_ident(p, is_ident_required, false),
         )?
     };
 
-    p.with_ctx(
-        p.ctx()
-            & !Context::AllowDirectSuper
-            & !Context::InClassField
-            & !Context::WillExpectColonForCond,
+    p.do_outside_of_context(
+        Context::AllowDirectSuper
+            .union(Context::InClassField)
+            .union(Context::WillExpectColonForCond),
         |p| {
             let f = parse_fn_args_body(
                 p,
@@ -409,11 +443,9 @@ fn parse_fn_inner<'a, P: Parser<'a>>(
                 is_async,
                 is_generator,
             )?;
-
             if is_fn_expr && f.body.is_none() {
                 unexpected!(p, "{");
             }
-
             Ok((ident, f))
         },
     )
@@ -495,10 +527,11 @@ where
     trace_cur!(p, make_method);
 
     let is_static = static_token.is_some();
-    let function = p.with_ctx(
-        (p.ctx() | Context::AllowDirectSuper) & !Context::InClassField,
-        |p| parse_fn_args_body(p, decorators, start, parse_args, is_async, is_generator),
-    )?;
+    let function = p.do_inside_of_context(Context::AllowDirectSuper, |p| {
+        p.do_outside_of_context(Context::InClassField, |p| {
+            parse_fn_args_body(p, decorators, start, parse_args, is_async, is_generator)
+        })
+    })?;
 
     match kind {
         MethodKind::Getter | MethodKind::Setter
@@ -623,9 +656,41 @@ fn parse_fn_body<'a, P: Parser<'a>, T>(
         },
     );
 
-    p.with_ctx(ctx, |p| {
-        let mut p = p.with_state(crate::common::parser::state::State::default());
-        f(p.deref_mut(), is_simple_parameter_list)
+    let f_with_generator_context = |p: &mut P| {
+        let f_with_inside_non_arrow_fn_scope = |p: &mut P| {
+            let f_with_new_state = |p: &mut P| {
+                let mut p = p.with_state(crate::common::parser::state::State::default());
+                f(&mut p, is_simple_parameter_list)
+            };
+
+            if is_arrow_function && !p.ctx().contains(Context::InsideNonArrowFunctionScope) {
+                p.do_outside_of_context(Context::InsideNonArrowFunctionScope, f_with_new_state)
+            } else {
+                p.do_inside_of_context(Context::InsideNonArrowFunctionScope, f_with_new_state)
+            }
+        };
+
+        if is_generator {
+            p.do_inside_of_context(Context::InGenerator, f_with_inside_non_arrow_fn_scope)
+        } else {
+            p.do_outside_of_context(Context::InGenerator, f_with_inside_non_arrow_fn_scope)
+        }
+    };
+
+    p.do_inside_of_context(Context::InFunction, |p| {
+        p.do_outside_of_context(
+            Context::InStaticBlock
+                .union(Context::IsBreakAllowed)
+                .union(Context::IsContinueAllowed)
+                .union(Context::TopLevel),
+            |p| {
+                if is_async {
+                    p.do_inside_of_context(Context::InAsync, f_with_generator_context)
+                } else {
+                    p.do_outside_of_context(Context::InAsync, f_with_generator_context)
+                }
+            },
+        )
     })
 }
 
@@ -698,8 +763,7 @@ fn make_property<'a, P: Parser<'a>>(
 
     let type_ann = try_parse_ts_type_ann(p)?;
 
-    let ctx = p.ctx() | Context::IncludeInExpr | Context::InClassField;
-    p.with_ctx(ctx, |p| {
+    p.do_inside_of_context(Context::IncludeInExpr.union(Context::InClassField), |p| {
         let value = if p.input_mut().is(&P::Token::EQUAL) {
             p.assert_and_bump(&P::Token::EQUAL);
             Some(parse_assignment_expr(p)?)
@@ -776,8 +840,10 @@ fn make_property<'a, P: Parser<'a>>(
 }
 
 fn parse_static_block<'a, P: Parser<'a>>(p: &mut P, start: BytePos) -> PResult<ClassMember> {
-    let body = p.with_ctx(
-        p.ctx() | Context::InStaticBlock | Context::InClassField | Context::AllowUsingDecl,
+    let body = p.do_inside_of_context(
+        Context::InStaticBlock
+            .union(Context::InClassField)
+            .union(Context::AllowUsingDecl),
         |p| parse_block(p, false),
     )?;
 
@@ -1463,7 +1529,7 @@ fn parse_class_body<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<ClassMember>> {
             }));
             continue;
         }
-        let elem = p.with_ctx(p.ctx() | Context::AllowDirectSuper, parse_class_member)?;
+        let elem = p.do_inside_of_context(Context::AllowDirectSuper, parse_class_member)?;
 
         if !p.ctx().contains(Context::InDeclare) {
             if let ClassMember::Constructor(Constructor {
@@ -1493,7 +1559,7 @@ pub fn parse_class<'a, T>(
 where
     T: OutputType,
 {
-    let (ident, mut class) = p.with_ctx(p.ctx() | Context::InClass, |p| {
+    let (ident, mut class) = p.do_inside_of_context(Context::InClass, |p| {
         parse_class_inner(p, start, class_start, decorators, T::IS_IDENT_REQUIRED)
     })?;
 
@@ -1601,9 +1667,12 @@ fn parse_class_inner<'a, P: Parser<'a>>(
         }
 
         expect!(p, &P::Token::LBRACE);
-        let mut ctx = p.ctx();
-        ctx.set(Context::HasSuperClass, super_class.is_some());
-        let body = p.with_ctx(ctx, parse_class_body)?;
+
+        let body = if super_class.is_some() {
+            p.do_inside_of_context(Context::HasSuperClass, parse_class_body)?
+        } else {
+            p.do_outside_of_context(Context::HasSuperClass, parse_class_body)?
+        };
 
         if p.input_mut().cur().is_none() {
             let eof_text = p.input_mut().dump_cur();
