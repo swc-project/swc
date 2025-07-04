@@ -77,7 +77,5 @@ swc_visit            = { version = "2.0.1", path = "../swc_visit" }
 
 
 [dev-dependencies]
-codspeed-criterion-compat = { workspace = true }
-criterion                 = { workspace = true }
 par-iter                  = { workspace = true }
 serde_json                = { workspace = true }

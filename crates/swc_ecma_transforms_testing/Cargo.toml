@@ -21,8 +21,6 @@ serde_json    = { workspace = true }
 sha2          = { workspace = true }
 swc_sourcemap = { workspace = true }
 tempfile      = { workspace = true }
-
-swc_allocator = { version = "4.0.0", path = "../swc_allocator", default-features = false }
 swc_common = { version = "13.0.3", path = "../swc_common", features = [
   "sourcemap",
 ] }

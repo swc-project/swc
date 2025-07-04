@@ -1244,7 +1244,6 @@ dependencies = [
  "serde",
  "serde_json",
  "sha1",
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -1257,7 +1256,6 @@ dependencies = [
  "tempfile",
  "tracing",
  "tracing-subscriber",
- "url",
 ]
 
 [[package]]
@@ -4906,8 +4904,6 @@ dependencies = [
  "better_scoped_tls",
  "bytecheck 0.8.1",
  "bytes-str",
- "codspeed-criterion-compat",
- "criterion",
  "either",
  "from_variant",
  "new_debug_unreachable",
@@ -5211,7 +5207,6 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
- "swc_common",
  "swc_css_ast",
  "swc_css_visit",
 ]
@@ -5348,7 +5343,6 @@ dependencies = [
 name = "swc_ecma_compat_es2016"
 version = "19.0.0"
 dependencies = [
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -5366,11 +5360,9 @@ name = "swc_ecma_compat_es2017"
 version = "19.0.0"
 dependencies = [
  "serde",
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_transforms_base",
- "swc_ecma_transforms_macros",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_trace_macro",
@@ -5382,7 +5374,6 @@ name = "swc_ecma_compat_es2018"
 version = "19.0.0"
 dependencies = [
  "serde",
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_compat_common",
@@ -5398,7 +5389,6 @@ dependencies = [
 name = "swc_ecma_compat_es2019"
 version = "19.0.0"
 dependencies = [
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -5419,7 +5409,6 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_compat_es2022",
- "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_trace_macro",
@@ -5430,7 +5419,6 @@ dependencies = [
 name = "swc_ecma_compat_es2021"
 version = "19.0.0"
 dependencies = [
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_transforms_base",
@@ -5465,7 +5453,6 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
- "swc_ecma_transforms_base",
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
@@ -5478,7 +5465,6 @@ name = "swc_ecma_ext_transforms"
 version = "18.0.0"
 dependencies = [
  "phf",
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_utils",
@@ -5530,7 +5516,6 @@ dependencies = [
  "swc_config",
  "swc_ecma_ast",
  "swc_ecma_parser",
- "swc_ecma_testing",
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
@@ -5652,7 +5637,6 @@ dependencies = [
 name = "swc_ecma_quote"
 version = "18.0.0"
 dependencies = [
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_quote_macros",
@@ -5678,7 +5662,6 @@ dependencies = [
 name = "swc_ecma_react_compiler"
 version = "6.0.1"
 dependencies = [
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -5744,7 +5727,6 @@ name = "swc_ecma_transforms"
 version = "23.0.0"
 dependencies = [
  "par-core",
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_parser",
@@ -5772,7 +5754,6 @@ dependencies = [
  "par-core",
  "par-iter",
  "phf",
- "rayon",
  "rustc-hash 2.1.1",
  "serde",
  "swc_atoms",
@@ -5792,7 +5773,6 @@ dependencies = [
 name = "swc_ecma_transforms_classes"
 version = "19.0.0"
 dependencies = [
- "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_transforms_base",
@@ -5810,7 +5790,6 @@ dependencies = [
  "serde_json",
  "swc_atoms",
  "swc_common",
- "swc_config",
  "swc_ecma_ast",
  "swc_ecma_compat_bugfixes",
  "swc_ecma_compat_common",
@@ -5825,8 +5804,6 @@ dependencies = [
  "swc_ecma_compat_es3",
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
- "swc_ecma_transforms_classes",
- "swc_ecma_transforms_macros",
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
@@ -5893,7 +5870,6 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_compat",
- "swc_ecma_transforms_macros",
  "swc_ecma_transforms_module",
  "swc_ecma_transforms_proposal",
  "swc_ecma_transforms_testing",
@@ -5914,7 +5890,6 @@ dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
- "swc_ecma_loader",
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_classes",
@@ -5945,7 +5920,6 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_compat",
- "swc_ecma_transforms_macros",
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
@@ -6126,7 +6100,6 @@ dependencies = [
  "auto_impl",
  "petgraph 0.7.1",
  "rustc-hash 2.1.1",
- "swc_common",
  "testing",
  "tracing",
 ]
@@ -6236,7 +6209,6 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
- "swc_common",
 ]
 
 [[package]]
@@ -6498,7 +6470,6 @@ dependencies = [
  "auto_impl",
  "bitflags 2.6.0",
  "rustc-hash 2.1.1",
- "swc_atoms",
  "swc_common",
  "swc_xml_ast",
  "swc_xml_codegen_macros",

@@ -38,7 +38,6 @@ swc_ecma_visit  = { version = "13.0.0", path = "../swc_ecma_visit" }
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
 par-core                  = { workspace = true, features = ["chili"] }
-rayon                     = { workspace = true }
 
 swc_ecma_codegen           = { version = "15.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_transforms_macros = { version = "1.0.1", path = "../swc_ecma_transforms_macros" }

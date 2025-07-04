@@ -34,8 +34,6 @@ typescript = ["swc_ecma_transforms_typescript"]
 
 [dependencies]
 par-core = { workspace = true }
-
-swc_atoms                        = { version = "6.0.0", path = "../swc_atoms" }
 swc_common                       = { version = "13.0.3", path = "../swc_common" }
 swc_ecma_ast                     = { version = "13.0.0", path = "../swc_ecma_ast" }
 swc_ecma_transforms_base         = { version = "19.0.1", path = "../swc_ecma_transforms_base" }
