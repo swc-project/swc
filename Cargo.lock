@@ -5259,7 +5259,6 @@ dependencies = [
  "base64 0.22.1",
  "codspeed-criterion-compat",
  "compact_str",
- "criterion",
  "memchr",
  "num-bigint",
  "once_cell",
