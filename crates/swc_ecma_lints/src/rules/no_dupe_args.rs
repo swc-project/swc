@@ -3,10 +3,7 @@ use std::collections::hash_map::Entry;
 use rustc_hash::FxHashMap;
 use swc_common::errors::HANDLER;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    for_each_binding_ident,
-    parallel::{cpu_count, Parallel, ParallelExt},
-};
+use swc_ecma_utils::for_each_binding_ident;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::rule::{visitor_rule, Rule};
@@ -17,14 +14,6 @@ pub fn no_dupe_args() -> Box<dyn Rule> {
 
 #[derive(Debug, Default)]
 struct NoDupeArgs;
-
-impl Parallel for NoDupeArgs {
-    fn create(&self) -> Self {
-        Self
-    }
-
-    fn merge(&mut self, _: Self) {}
-}
 
 #[cold]
 fn error(first: &BindingIdent, second: &BindingIdent) {
@@ -112,57 +101,15 @@ impl Visit for NoDupeArgs {
         f.visit_children_with(self);
     }
 
-    fn visit_class_members(&mut self, members: &[ClassMember]) {
-        self.maybe_par(cpu_count(), members, |v, member| {
-            member.visit_with(v);
-        });
-    }
-
     fn visit_constructor(&mut self, f: &Constructor) {
         check!(&f.params);
 
         f.visit_children_with(self);
     }
 
-    fn visit_expr_or_spreads(&mut self, n: &[ExprOrSpread]) {
-        self.maybe_par(cpu_count(), n, |v, n| {
-            n.visit_with(v);
-        });
-    }
-
-    fn visit_exprs(&mut self, exprs: &[Box<Expr>]) {
-        self.maybe_par(cpu_count(), exprs, |v, expr| {
-            expr.visit_with(v);
-        });
-    }
-
     fn visit_function(&mut self, f: &Function) {
         check!(&f.params);
 
         f.visit_children_with(self);
-    }
-
-    fn visit_module_items(&mut self, items: &[ModuleItem]) {
-        self.maybe_par(cpu_count(), items, |v, item| {
-            item.visit_with(v);
-        });
-    }
-
-    fn visit_opt_vec_expr_or_spreads(&mut self, n: &[Option<ExprOrSpread>]) {
-        self.maybe_par(cpu_count(), n, |v, n| {
-            n.visit_with(v);
-        });
-    }
-
-    fn visit_prop_or_spreads(&mut self, n: &[PropOrSpread]) {
-        self.maybe_par(cpu_count(), n, |v, n| {
-            n.visit_with(v);
-        });
-    }
-
-    fn visit_stmts(&mut self, stmts: &[Stmt]) {
-        self.maybe_par(cpu_count(), stmts, |v, stmt| {
-            stmt.visit_with(v);
-        });
     }
 }
