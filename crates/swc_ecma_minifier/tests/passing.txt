@@ -435,6 +435,8 @@ drop_unused/drop_fargs/input.js
 drop_unused/drop_fnames/input.js
 drop_unused/drop_toplevel_all_retain/input.js
 drop_unused/drop_toplevel_all/input.js
+drop_unused/drop_toplevel_retain_array/input.js
+drop_unused/drop_toplevel_retain/input.js
 drop_unused/drop_value/input.js
 drop_unused/function_argument_modified_by_function_statement/input.js
 drop_unused/global_var/input.js
@@ -466,7 +468,9 @@ drop_unused/issue_3192/input.js
 drop_unused/issue_805_1/input.js
 drop_unused/issue_805_2/input.js
 drop_unused/issue_t161_top_retain_1/input.js
+drop_unused/issue_t161_top_retain_10/input.js
 drop_unused/issue_t161_top_retain_11/input.js
+drop_unused/issue_t161_top_retain_12/input.js
 drop_unused/issue_t161_top_retain_13/input.js
 drop_unused/issue_t161_top_retain_14/input.js
 drop_unused/issue_t161_top_retain_2/input.js

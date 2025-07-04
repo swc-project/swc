@@ -87,9 +87,7 @@ drop_unused/double_assign_2/input.js
 drop_unused/drop_toplevel_funcs_retain/input.js
 drop_unused/drop_toplevel_funcs/input.js
 drop_unused/drop_toplevel_keep_assign/input.js
-drop_unused/drop_toplevel_retain_array/input.js
 drop_unused/drop_toplevel_retain_regex/input.js
-drop_unused/drop_toplevel_retain/input.js
 drop_unused/drop_toplevel_vars_fargs/input.js
 drop_unused/drop_toplevel_vars_retain/input.js
 drop_unused/drop_toplevel_vars/input.js
@@ -111,8 +109,6 @@ drop_unused/issue_2516_2/input.js
 drop_unused/issue_2660_2/input.js
 drop_unused/issue_2665/input.js
 drop_unused/issue_2846/input.js
-drop_unused/issue_t161_top_retain_10/input.js
-drop_unused/issue_t161_top_retain_12/input.js
 drop_unused/issue_t161_top_retain_15/input.js
 drop_unused/issue_t183/input.js
 drop_unused/keep_assign/input.js
