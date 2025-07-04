@@ -14561,12 +14561,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pkg-80b19f@workspace:bindings/binding_core_wasm/pkg":
-  version: 0.0.0-use.local
-  resolution: "pkg-80b19f@workspace:bindings/binding_core_wasm/pkg"
-  languageName: unknown
-  linkType: soft
-
 "pkg-dir@npm:^3.0.0":
   version: 3.0.0
   resolution: "pkg-dir@npm:3.0.0"
