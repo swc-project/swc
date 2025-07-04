@@ -25,8 +25,9 @@ concurrent = [
 ]
 
 debug = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
-default = ["es3", "lint"]
-es3 = []
+es3   = []
+# only used for RA setting
+ide_default = ["es3", "lint"]
 node = ["napi", "napi-derive", "swc_compiler_base/node"]
 plugin = [
   "swc_plugin_runner/ecma",
