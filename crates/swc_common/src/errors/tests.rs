@@ -1,12 +1,14 @@
-use super::*;
-use crate::{FileLoader, FilePathMapping, SourceMap};
 use std::{
     io,
     path::{Path, PathBuf},
 };
+
 use sync::Lrc;
 use BytePos;
 use Span;
+
+use super::*;
+use crate::{FileLoader, FilePathMapping, SourceMap};
 
 struct MyFileLoader;
 impl FileLoader for MyFileLoader {
@@ -35,7 +37,7 @@ function foo() {
 
 #[test]
 fn test() {
-    let cm = SourceMap::with_file_loader(box MyFileLoader, FilePathMapping::empty());
+    let cm = SourceMap::with_file_loader(Box::new(MyFileLoader), FilePathMapping::empty());
     let file_map = cm
         .load_file(Path::new("tmp.js").into())
         .expect("failed to load tmp.js");
