@@ -397,7 +397,7 @@ where
         #[cfg(feature = "concurrent")]
         if nodes.len() >= 8 * cpu_count() {
             ::swc_common::GLOBALS.with(|globals| {
-                use rayon::prelude::*;
+                use par_iter::prelude::*;
 
                 let (visitor, new_nodes) = take(nodes)
                     .into_par_iter()
@@ -540,7 +540,7 @@ where
         #[cfg(feature = "concurrent")]
         if nodes.len() >= 100 * cpu_count() {
             ::swc_common::GLOBALS.with(|globals| {
-                use rayon::prelude::*;
+                use par_iter::prelude::*;
 
                 let (visitor, new_nodes) = take(nodes)
                     .into_par_iter()

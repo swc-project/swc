@@ -17,6 +17,7 @@ clap               = { version = "3", features = ["derive"] }
 dialoguer          = { workspace = true }
 flate2             = { workspace = true }
 par-core           = { workspace = true, features = ["chili"] }
+par-iter           = { workspace = true }
 rayon              = { workspace = true }
 serde              = { workspace = true }
 serde_json         = { workspace = true }

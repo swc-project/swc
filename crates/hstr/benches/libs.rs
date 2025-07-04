@@ -8,8 +8,8 @@ use std::{hash::Hash, mem::forget};
 
 use compact_str::CompactString;
 use criterion::{black_box, BatchSize, BenchmarkId, Criterion};
+use par_iter::prelude::*;
 use rand::distributions::{Alphanumeric, DistString};
-use rayon::prelude::*;
 use rustc_hash::FxHashSet;
 use smartstring::{LazyCompact, SmartString};
 

@@ -28,8 +28,8 @@ anyhow             = { workspace = true }
 clap               = { version = "3.2.25", features = ["derive", "wrap_help"] }
 glob               = { workspace = true }
 par-core           = { workspace = true, features = ["chili"] }
+par-iter           = { workspace = true }
 path-absolutize    = { workspace = true, features = ["once_cell_cache"] }
-rayon              = { workspace = true }
 relative-path      = { workspace = true }
 serde              = { workspace = true, features = ["derive"] }
 serde_json         = { workspace = true, features = ["unbounded_depth"] }

@@ -15,8 +15,8 @@ bench = false
 [dependencies]
 anyhow      = { workspace = true }
 auto_impl   = { workspace = true }
+par-iter    = { workspace = true }
 parking_lot = { workspace = true }
-rayon       = { workspace = true }
 rustc-hash  = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
 thiserror   = { workspace = true }

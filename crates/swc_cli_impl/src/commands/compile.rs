@@ -8,8 +8,8 @@ use std::{
 use anyhow::Context;
 use clap::Parser;
 use glob::glob;
+use par_iter::prelude::*;
 use path_absolutize::Absolutize;
-use rayon::prelude::*;
 use relative_path::RelativePath;
 use swc_core::{
     base::{
