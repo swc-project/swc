@@ -1,6 +1,9 @@
-const a = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/u;
-const b = /./s;
-const c = /./imsuy;
+import "core-js/modules/es.regexp.constructor.js";
+import "core-js/modules/es.regexp.exec.js";
+import "core-js/modules/es.regexp.to-string.js";
+var a = RegExp("(?<year>\\d{4})-(?<month>\\d{2})-(?<day>\\d{2})", "u");
+var b = RegExp(".", "s");
+var c = RegExp(".", "imsuy");
 console.log(a.unicode);
 console.log(b.dotAll);
 console.log(c.sticky);
