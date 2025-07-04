@@ -276,8 +276,7 @@ fn parse_expr_object_prop<'a, P: Parser<'a>>(p: &mut P) -> PResult<PropOrSpread>
         .cur()
         .is_some_and(|cur| cur.is_equal() || cur.is_comma() || cur.is_rbrace())
     {
-        let is_reserved_word = { p.ctx().is_reserved_word(&ident.sym) };
-        if is_reserved_word {
+        if p.ctx().is_reserved_word(&ident.sym) {
             p.emit_err(ident.span, SyntaxError::ReservedWordInObjShorthandOrPat);
         }
 
