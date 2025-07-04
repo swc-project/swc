@@ -6,6 +6,7 @@ use swc_ecma_ast::*;
 use crate::{config::LintConfig, rule::Rule};
 
 mod const_assign;
+mod critical_rules;
 mod duplicate_bindings;
 mod duplicate_exports;
 mod no_dupe_args;
