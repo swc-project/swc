@@ -195,10 +195,11 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
     pub fn parse_program(&mut self) -> PResult<Program> {
         let start = self.cur_pos();
         let shebang = parse_shebang(self)?;
-        let ctx = self.ctx() | Context::CanBeModule | Context::TopLevel;
 
-        let body: Vec<ModuleItem> =
-            self.with_ctx(ctx, |p| parse_module_item_block_body(p, true, None))?;
+        let body: Vec<ModuleItem> = self
+            .do_inside_of_context(Context::CanBeModule.union(Context::TopLevel), |p| {
+                parse_module_item_block_body(p, true, None)
+            })?;
         let has_module_item = self.found_module_item
             || body
                 .iter()

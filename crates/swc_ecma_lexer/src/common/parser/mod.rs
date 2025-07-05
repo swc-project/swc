@@ -7,7 +7,6 @@ use swc_ecma_ast::*;
 
 use self::{
     buffer::{Buffer, NextTokenAndSpan},
-    ctx::WithCtx,
     state::{State, WithState},
     token_and_span::TokenAndSpan,
 };
@@ -20,7 +19,6 @@ use crate::{
 pub type PResult<T> = Result<T, crate::error::Error>;
 
 pub mod buffer;
-pub mod ctx;
 pub mod expr_ext;
 pub mod is_directive;
 pub mod is_invalid_class_name;
@@ -86,12 +84,6 @@ pub trait Parser<'a>: Sized + Clone {
         self.input().get_ctx()
     }
 
-    /// Original context is restored when returned guard is dropped.
-    #[inline(always)]
-    fn with_ctx<T>(&mut self, ctx: Context, f: impl FnOnce(&mut Self) -> T) -> T {
-        WithCtx::parse_with(self, ctx, f)
-    }
-
     #[inline(always)]
     fn set_ctx(&mut self, ctx: Context) {
         self.input_mut().set_ctx(ctx);
@@ -99,20 +91,26 @@ pub trait Parser<'a>: Sized + Clone {
 
     #[inline]
     fn do_inside_of_context<T>(&mut self, context: Context, f: impl FnOnce(&mut Self) -> T) -> T {
-        let mut ctx = self.ctx();
-        if ctx.contains(context) {
+        let ctx = self.ctx();
+        let inserted = ctx.complement().intersection(context);
+        if inserted.is_empty() {
             f(self)
         } else {
-            ctx.insert(context);
-            self.with_ctx(ctx, f)
+            self.input_mut().update_ctx(|ctx| ctx.insert(inserted));
+            let result = f(self);
+            self.input_mut().update_ctx(|ctx| ctx.remove(inserted));
+            result
         }
     }
 
     fn do_outside_of_context<T>(&mut self, context: Context, f: impl FnOnce(&mut Self) -> T) -> T {
-        let mut ctx = self.ctx();
-        if ctx.intersects(context) {
-            ctx.remove(context);
-            self.with_ctx(ctx, f)
+        let ctx = self.ctx();
+        let removed = ctx.intersection(context);
+        if !removed.is_empty() {
+            self.input_mut().update_ctx(|ctx| ctx.remove(removed));
+            let result = f(self);
+            self.input_mut().update_ctx(|ctx| ctx.insert(removed));
+            result
         } else {
             f(self)
         }

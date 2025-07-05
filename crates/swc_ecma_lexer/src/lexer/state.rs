@@ -656,6 +656,11 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
     }
 
     #[inline]
+    fn ctx_mut(&mut self) -> &mut Context {
+        &mut self.ctx
+    }
+
+    #[inline]
     fn syntax(&self) -> SyntaxFlags {
         self.syntax
     }

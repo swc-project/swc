@@ -534,14 +534,19 @@ fn parse_cond_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     return_if_arrow!(p, test);
 
     if p.input_mut().eat(&P::Token::QUESTION) {
-        let ctx = p.ctx()
-            | Context::InCondExpr
-            | Context::WillExpectColonForCond
-            | Context::IncludeInExpr;
-        let cons = p.do_inside_of_context(ctx, parse_assignment_expr)?;
+        let cons = p.do_inside_of_context(
+            Context::InCondExpr
+                .union(Context::WillExpectColonForCond)
+                .union(Context::IncludeInExpr),
+            parse_assignment_expr,
+        )?;
+
         expect!(p, &P::Token::COLON);
-        let ctx = (p.ctx() | Context::InCondExpr) & !Context::WillExpectColonForCond;
-        let alt = p.with_ctx(ctx, parse_assignment_expr)?;
+
+        let alt = p.do_inside_of_context(Context::InCondExpr, |p| {
+            p.do_outside_of_context(Context::WillExpectColonForCond, parse_assignment_expr)
+        })?;
+
         let span = Span::new(start, alt.span_hi());
         Ok(CondExpr {
             span,
@@ -1915,8 +1920,13 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                         parse_assignment_expr,
                     )?;
                     expect!(p, &P::Token::COLON);
-                    let ctx = (p.ctx() | Context::InCondExpr) & !Context::WillExpectColonForCond;
-                    let alt = p.with_ctx(ctx, parse_assignment_expr)?;
+
+                    let alt = p.do_inside_of_context(Context::InCondExpr, |p| {
+                        p.do_outside_of_context(
+                            Context::WillExpectColonForCond,
+                            parse_assignment_expr,
+                        )
+                    })?;
 
                     arg = ExprOrSpread {
                         spread: None,

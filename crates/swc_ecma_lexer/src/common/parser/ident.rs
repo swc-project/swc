@@ -88,12 +88,7 @@ pub fn parse_ident_ref<'a>(p: &mut impl Parser<'a>) -> PResult<Ident> {
 /// LabelIdentifier
 #[inline]
 pub fn parse_label_ident<'a>(p: &mut impl Parser<'a>) -> PResult<Ident> {
-    let ctx = p.ctx();
-    parse_ident(
-        p,
-        !ctx.contains(Context::InGenerator),
-        !ctx.contains(Context::InAsync),
-    )
+    parse_ident_ref(p)
 }
 
 /// babel: `parseBindingIdentifier`

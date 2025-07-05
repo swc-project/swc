@@ -368,20 +368,6 @@ where
     )
 }
 
-#[deprecated(note = "use transform_from_env instead")]
-pub fn preset_env<C>(
-    unresolved_mark: Mark,
-    comments: Option<C>,
-    c: Config,
-    assumptions: Assumptions,
-    _feature_set: &mut swc_ecma_transforms::feature::FeatureFlag,
-) -> impl Pass
-where
-    C: Comments + Clone,
-{
-    transform_from_env(unresolved_mark, comments, c.into(), assumptions)
-}
-
 pub fn transform_from_es_version<C>(
     unresolved_mark: Mark,
     comments: Option<C>,

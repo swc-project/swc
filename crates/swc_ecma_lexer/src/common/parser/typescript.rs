@@ -161,7 +161,7 @@ where
 }
 
 /// `tsIsListTerminator`
-pub fn is_ts_list_terminator<'a>(p: &mut impl Parser<'a>, kind: ParsingContext) -> PResult<bool> {
+fn is_ts_list_terminator<'a>(p: &mut impl Parser<'a>, kind: ParsingContext) -> PResult<bool> {
     debug_assert!(p.input().syntax().typescript());
     let Some(cur) = p.input_mut().cur() else {
         return Ok(false);
@@ -513,10 +513,7 @@ pub fn parse_ts_type_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeRef> {
     trace_cur!(p, parse_ts_type_ref__type_args);
     let type_params =
         if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::LESS) {
-            Some(p.with_ctx(
-                p.ctx() & !Context::ShouldNotLexLtOrGtAsType,
-                parse_ts_type_args,
-            )?)
+            Some(p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, parse_ts_type_args)?)
         } else {
             None
         };
@@ -1921,20 +1918,17 @@ pub fn parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>> {
 
     let start = p.cur_pos();
 
-    let ctx = p.ctx() & !Context::DisallowConditionalTypes;
-    p.with_ctx(ctx, |p| {
+    p.do_outside_of_context(Context::DisallowConditionalTypes, |p| {
         let ty = parse_ts_non_conditional_type(p)?;
         if p.input_mut().had_line_break_before_cur() || !p.input_mut().eat(&P::Token::EXTENDS) {
             return Ok(ty);
         }
 
         let check_type = ty;
-        let extends_type = {
-            p.with_ctx(
-                p.ctx() | Context::DisallowConditionalTypes,
-                parse_ts_non_conditional_type,
-            )?
-        };
+        let extends_type = p.do_inside_of_context(
+            Context::DisallowConditionalTypes,
+            parse_ts_non_conditional_type,
+        )?;
 
         expect!(p, &P::Token::QUESTION);
 
@@ -1963,8 +1957,7 @@ fn parse_ts_property_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<(bool, Box<Ex
         expect!(p, &P::Token::RBRACKET);
         (true, key)
     } else {
-        let ctx = p.ctx() | Context::InPropertyName;
-        p.with_ctx(ctx, |p| {
+        p.do_inside_of_context(Context::InPropertyName, |p| {
             // We check if it's valid for it to be a private name when we push it.
             let Some(cur) = p.input_mut().cur() else {
                 return Err(eof_error(p));
@@ -2279,11 +2272,8 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
     };
 
     let type_args = if p.input_mut().is(&P::Token::LESS) {
-        p.with_ctx(
-            p.ctx() & !Context::ShouldNotLexLtOrGtAsType,
-            parse_ts_type_args,
-        )
-        .map(Some)?
+        p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, parse_ts_type_args)
+            .map(Some)?
     } else {
         None
     };
@@ -2335,10 +2325,7 @@ fn parse_ts_type_query<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeQuery> {
 
     let type_args =
         if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::LESS) {
-            Some(p.with_ctx(
-                p.ctx() & !Context::ShouldNotLexLtOrGtAsType,
-                parse_ts_type_args,
-            )?)
+            Some(p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, parse_ts_type_args)?)
         } else {
             None
         };
@@ -2360,12 +2347,8 @@ fn parse_ts_module_block<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsModuleBlock>
     expect!(p, &P::Token::LBRACE);
     // Inside of a module block is considered "top-level", meaning it can have
     // imports and exports.
-    let body = p.with_ctx(p.ctx() | Context::TopLevel, |p| {
-        parse_module_item_block_body(
-            p,
-            /* directives */ false,
-            /* end */ Some(&P::Token::RBRACE),
-        )
+    let body = p.do_inside_of_context(Context::TopLevel, |p| {
+        parse_module_item_block_body(p, false, Some(&P::Token::RBRACE))
     })?;
 
     Ok(TsModuleBlock {
@@ -2689,8 +2672,7 @@ pub fn try_parse_ts_declare<'a, P: Parser<'a>>(
     }
 
     let declare_start = start;
-    let ctx = p.ctx() | Context::InDeclare;
-    p.with_ctx(ctx, |p| {
+    p.do_inside_of_context(Context::InDeclare, |p| {
         if p.input_mut().is(&P::Token::FUNCTION) {
             return parse_fn_decl(p, decorators)
                 .map(|decl| match decl {
@@ -2936,21 +2918,27 @@ pub fn try_parse_ts_generic_async_arrow_fn<'a, P: Parser<'a>>(
         None => return Ok(None),
     };
 
-    let ctx = (p.ctx() | Context::InAsync) & !Context::InGenerator;
-    p.with_ctx(ctx, |p| {
-        let is_generator = false;
-        let is_async = true;
-        let body =
-            parse_fn_block_or_expr_body(p, true, false, true, params.is_simple_parameter_list())?;
-        Ok(Some(ArrowExpr {
-            span: p.span(start),
-            body,
-            is_async,
-            is_generator,
-            type_params: Some(type_params),
-            params,
-            return_type,
-            ..Default::default()
-        }))
+    p.do_inside_of_context(Context::InAsync, |p| {
+        p.do_outside_of_context(Context::InGenerator, |p| {
+            let is_generator = false;
+            let is_async = true;
+            let body = parse_fn_block_or_expr_body(
+                p,
+                true,
+                false,
+                true,
+                params.is_simple_parameter_list(),
+            )?;
+            Ok(Some(ArrowExpr {
+                span: p.span(start),
+                body,
+                is_async,
+                is_generator,
+                type_params: Some(type_params),
+                params,
+                return_type,
+                ..Default::default()
+            }))
+        })
     })
 }

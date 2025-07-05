@@ -217,8 +217,8 @@ fn parse_jsx_attr<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrOrSpread> {
 
     let name = parse_jsx_namespaced_name(p)?;
     let value = if p.input_mut().eat(&P::Token::EQUAL) {
-        p.with_ctx(
-            p.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond,
+        p.do_outside_of_context(
+            Context::InCondExpr.union(Context::WillExpectColonForCond),
             parse_jsx_attr_value,
         )
         .map(Some)?
@@ -247,10 +247,8 @@ fn parse_jsx_opening_element_at<'a, P: Parser<'a>>(
         }));
     }
 
-    let name = p.with_ctx(
-        p.ctx() & !Context::ShouldNotLexLtOrGtAsType,
-        parse_jsx_element_name,
-    )?;
+    let name =
+        p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, parse_jsx_element_name)?;
     parse_jsx_opening_element_after_name(p, start, name).map(Either::Right)
 }
 
@@ -333,85 +331,62 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
         false
     };
 
-    let mut ctx = p.ctx() & !Context::ShouldNotLexLtOrGtAsType;
-    ctx.set(Context::InForcedJsxContext, forced_jsx_context);
-    p.with_ctx(ctx, |p| {
-        debug_tracing!(p, "parse_jsx_element");
+    p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
+        let f = |p: &mut P| {
+            debug_tracing!(p, "parse_jsx_element");
 
-        let opening_element = parse_jsx_opening_element_at(p, start_pos)?;
+            let opening_element = parse_jsx_opening_element_at(p, start_pos)?;
 
-        trace_cur!(p, parse_jsx_element__after_opening_element);
+            trace_cur!(p, parse_jsx_element__after_opening_element);
 
-        let mut children = Vec::new();
-        let mut closing_element = None;
+            let mut children = Vec::new();
+            let mut closing_element = None;
 
-        let self_closing = match opening_element {
-            Either::Right(ref el) => el.self_closing,
-            _ => false,
-        };
+            let self_closing = match opening_element {
+                Either::Right(ref el) => el.self_closing,
+                _ => false,
+            };
 
-        if !self_closing {
-            'contents: loop {
-                let Some(cur) = p.input_mut().cur() else {
-                    return Err(eof_error(p));
-                };
-                if cur.is_jsx_tag_start() {
-                    let start = p.cur_pos();
-                    if peek!(p).is_some_and(|peek| peek.is_slash()) {
-                        p.bump(); // JSXTagStart
-                        let Some(_) = p.input_mut().cur() else {
-                            return Err(eof_error(p));
-                        };
-                        p.assert_and_bump(&P::Token::DIV);
-                        closing_element = parse_jsx_closing_element_at(p, start).map(Some)?;
-                        break 'contents;
-                    }
-                    children.push(parse_jsx_element_at(p, start).map(|e| match e {
-                        Either::Left(e) => JSXElementChild::from(e),
-                        Either::Right(e) => JSXElementChild::from(Box::new(e)),
-                    })?);
-                } else if cur.is_jsx_text() {
-                    children.push(JSXElementChild::from(parse_jsx_text(p)))
-                } else if cur.is_lbrace() {
-                    if peek!(p).is_some_and(|peek| peek.is_dotdotdot()) {
-                        children.push(parse_jsx_spread_child(p).map(JSXElementChild::from)?);
+            if !self_closing {
+                'contents: loop {
+                    let Some(cur) = p.input_mut().cur() else {
+                        return Err(eof_error(p));
+                    };
+                    if cur.is_jsx_tag_start() {
+                        let start = p.cur_pos();
+                        if peek!(p).is_some_and(|peek| peek.is_slash()) {
+                            p.bump(); // JSXTagStart
+                            let Some(_) = p.input_mut().cur() else {
+                                return Err(eof_error(p));
+                            };
+                            p.assert_and_bump(&P::Token::DIV);
+                            closing_element = parse_jsx_closing_element_at(p, start).map(Some)?;
+                            break 'contents;
+                        }
+                        children.push(parse_jsx_element_at(p, start).map(|e| match e {
+                            Either::Left(e) => JSXElementChild::from(e),
+                            Either::Right(e) => JSXElementChild::from(Box::new(e)),
+                        })?);
+                    } else if cur.is_jsx_text() {
+                        children.push(JSXElementChild::from(parse_jsx_text(p)))
+                    } else if cur.is_lbrace() {
+                        if peek!(p).is_some_and(|peek| peek.is_dotdotdot()) {
+                            children.push(parse_jsx_spread_child(p).map(JSXElementChild::from)?);
+                        } else {
+                            children.push(parse_jsx_expr_container(p).map(JSXElementChild::from)?);
+                        }
                     } else {
-                        children.push(parse_jsx_expr_container(p).map(JSXElementChild::from)?);
+                        unexpected!(p, "< (jsx tag start), jsx text or {")
                     }
-                } else {
-                    unexpected!(p, "< (jsx tag start), jsx text or {")
                 }
             }
-        }
-        let span = p.span(start);
+            let span = p.span(start);
 
-        Ok(match (opening_element, closing_element) {
-            (Either::Left(..), Some(Either::Right(closing))) => {
-                syntax_error!(p, closing.span(), SyntaxError::JSXExpectedClosingTagForLtGt);
-            }
-            (Either::Right(opening), Some(Either::Left(closing))) => {
-                syntax_error!(
-                    p,
-                    closing.span(),
-                    SyntaxError::JSXExpectedClosingTag {
-                        tag: get_qualified_jsx_name(&opening.name)
-                    }
-                );
-            }
-            (Either::Left(opening), Some(Either::Left(closing))) => Either::Left(JSXFragment {
-                span,
-                opening,
-                children,
-                closing,
-            }),
-            (Either::Right(opening), None) => Either::Right(JSXElement {
-                span,
-                opening,
-                children,
-                closing: None,
-            }),
-            (Either::Right(opening), Some(Either::Right(closing))) => {
-                if get_qualified_jsx_name(&closing.name) != get_qualified_jsx_name(&opening.name) {
+            Ok(match (opening_element, closing_element) {
+                (Either::Left(..), Some(Either::Right(closing))) => {
+                    syntax_error!(p, closing.span(), SyntaxError::JSXExpectedClosingTagForLtGt);
+                }
+                (Either::Right(opening), Some(Either::Left(closing))) => {
                     syntax_error!(
                         p,
                         closing.span(),
@@ -420,15 +395,45 @@ fn parse_jsx_element_at<'a, P: Parser<'a>>(
                         }
                     );
                 }
-                Either::Right(JSXElement {
+                (Either::Left(opening), Some(Either::Left(closing))) => Either::Left(JSXFragment {
                     span,
                     opening,
                     children,
-                    closing: Some(closing),
-                })
-            }
-            _ => unreachable!(),
-        })
+                    closing,
+                }),
+                (Either::Right(opening), None) => Either::Right(JSXElement {
+                    span,
+                    opening,
+                    children,
+                    closing: None,
+                }),
+                (Either::Right(opening), Some(Either::Right(closing))) => {
+                    if get_qualified_jsx_name(&closing.name)
+                        != get_qualified_jsx_name(&opening.name)
+                    {
+                        syntax_error!(
+                            p,
+                            closing.span(),
+                            SyntaxError::JSXExpectedClosingTag {
+                                tag: get_qualified_jsx_name(&opening.name)
+                            }
+                        );
+                    }
+                    Either::Right(JSXElement {
+                        span,
+                        opening,
+                        children,
+                        closing: Some(closing),
+                    })
+                }
+                _ => unreachable!(),
+            })
+        };
+        if forced_jsx_context {
+            p.do_inside_of_context(Context::InForcedJsxContext, f)
+        } else {
+            p.do_outside_of_context(Context::InForcedJsxContext, f)
+        }
     })
 }
 
@@ -448,8 +453,8 @@ pub(crate) fn parse_jsx_element<'a, P: Parser<'a>>(
 
     let start_pos = p.cur_pos();
 
-    p.with_ctx(
-        p.ctx() & !Context::InCondExpr & !Context::WillExpectColonForCond,
+    p.do_outside_of_context(
+        Context::InCondExpr.union(Context::WillExpectColonForCond),
         |p| parse_jsx_element_at(p, start_pos),
     )
 }
