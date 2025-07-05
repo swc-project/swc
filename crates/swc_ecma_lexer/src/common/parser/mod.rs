@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 
 use self::{
     buffer::{Buffer, NextTokenAndSpan},
-    state::{State, WithState},
+    state::State,
     token_and_span::TokenAndSpan,
 };
 use super::{context::Context, input::Tokens, lexer::token::TokenFactory};
@@ -68,16 +68,6 @@ pub trait Parser<'a>: Sized + Clone {
     fn input_mut(&mut self) -> &mut Self::Buffer;
     fn state(&self) -> &State;
     fn state_mut(&mut self) -> &mut State;
-
-    #[inline(always)]
-    fn with_state<'w>(&'w mut self, state: State) -> WithState<'a, 'w, Self> {
-        let orig_state = std::mem::replace(self.state_mut(), state);
-        WithState {
-            orig_state,
-            inner: self,
-            marker: std::marker::PhantomData,
-        }
-    }
 
     #[inline(always)]
     fn ctx(&self) -> Context {

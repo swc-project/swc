@@ -642,10 +642,7 @@ fn parse_fn_body<'a, P: Parser<'a>, T>(
 
     let f_with_generator_context = |p: &mut P| {
         let f_with_inside_non_arrow_fn_scope = |p: &mut P| {
-            let f_with_new_state = |p: &mut P| {
-                let mut p = p.with_state(crate::common::parser::state::State::default());
-                f(&mut p, is_simple_parameter_list)
-            };
+            let f_with_new_state = |p: &mut P| f(p, is_simple_parameter_list);
 
             if is_arrow_function && !p.ctx().contains(Context::InsideNonArrowFunctionScope) {
                 p.do_outside_of_context(Context::InsideNonArrowFunctionScope, f_with_new_state)

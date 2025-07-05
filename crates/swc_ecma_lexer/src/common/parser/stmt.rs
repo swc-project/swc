@@ -835,15 +835,6 @@ fn parse_labelled_stmt<'a, P: Parser<'a>>(p: &mut P, l: Ident) -> PResult<Stmt> 
         p.do_outside_of_context(Context::AllowUsingDecl, |p| {
             let start = l.span.lo();
 
-            let mut errors = Vec::new();
-            for lb in &p.state().labels {
-                if l.sym == *lb {
-                    errors.push(Error::new(
-                        l.span,
-                        SyntaxError::DuplicateLabel(l.sym.clone()),
-                    ));
-                }
-            }
             p.state_mut().labels.push(l.sym.clone());
 
             let body = Box::new(if p.input_mut().is(&P::Token::FUNCTION) {
@@ -861,10 +852,6 @@ fn parse_labelled_stmt<'a, P: Parser<'a>>(p: &mut P, l: Ident) -> PResult<Stmt> 
             } else {
                 p.do_outside_of_context(Context::TopLevel, parse_stmt)?
             });
-
-            for err in errors {
-                p.emit_error(err);
-            }
 
             {
                 let pos = p.state().labels.iter().position(|v| v == &l.sym);
