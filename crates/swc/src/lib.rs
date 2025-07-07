@@ -990,40 +990,37 @@ impl Compiler {
             } else {
                 Default::default()
             };
+            let emit_dts = config.syntax.typescript() && config.emit_isolated_dts;
             #[cfg(feature = "swc_typescript")]
-            {
-                let emit_dts = config.syntax.typescript() && config.emit_isolated_dts;
-                let dts_code = if emit_dts {
-                    let (leading, trailing) = comments.borrow_all();
+            let dts_code = if emit_dts {
+                let (leading, trailing) = comments.borrow_all();
 
-                    let leading = std::rc::Rc::new(RefCell::new(leading.clone()));
-                    let trailing = std::rc::Rc::new(RefCell::new(trailing.clone()));
+                let leading = std::rc::Rc::new(RefCell::new(leading.clone()));
+                let trailing = std::rc::Rc::new(RefCell::new(trailing.clone()));
 
-                    let comments =
-                        SingleThreadedComments::from_leading_and_trailing(leading, trailing);
+                let comments = SingleThreadedComments::from_leading_and_trailing(leading, trailing);
 
-                    let mut checker =
-                        FastDts::new(fm.name.clone(), config.unresolved_mark, Default::default());
-                    let mut program = program.clone();
+                let mut checker =
+                    FastDts::new(fm.name.clone(), config.unresolved_mark, Default::default());
+                let mut program = program.clone();
 
-                    if let Some((base, resolver)) = config.resolver {
-                        program.mutate(import_rewriter(base, resolver));
-                    }
+                if let Some((base, resolver)) = config.resolver {
+                    program.mutate(import_rewriter(base, resolver));
+                }
 
-                    let issues = checker.transform(&mut program);
+                let issues = checker.transform(&mut program);
 
-                    for issue in issues {
-                        handler
-                            .struct_span_err(issue.range.span, &issue.message)
-                            .emit();
-                    }
+                for issue in issues {
+                    handler
+                        .struct_span_err(issue.range.span, &issue.message)
+                        .emit();
+                }
 
-                    let dts_code = to_code_with_comments(Some(&comments), &program);
-                    Some(dts_code)
-                } else {
-                    None
-                };
-            }
+                let dts_code = to_code_with_comments(Some(&comments), &program);
+                Some(dts_code)
+            } else {
+                None
+            };
 
             let pass = config.pass;
             let (program, output) = swc_transform_common::output::capture(|| {
