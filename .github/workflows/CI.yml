@@ -78,6 +78,25 @@ jobs:
         run: |
           cargo deny check
 
+  cargo-shear:
+    name: Cargo shear
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: Install cargo-shear
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-shear@1.3.3
+
+      - name: cargo-shear
+        run: cargo shear --fix
+
   cargo-check:
     name: Check
     runs-on: ${{ matrix.os }}
@@ -492,6 +511,7 @@ jobs:
       - cargo-fmt
       - cargo-clippy
       - cargo-deny
+      - cargo-shear
       - cargo-check
       - test-wasm
       - cargo-test
