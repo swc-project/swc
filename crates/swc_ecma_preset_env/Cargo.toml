@@ -1,13 +1,19 @@
 [package]
-authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
-description   = "preset-env for the swc"
+authors = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "preset-env for the swc"
 documentation = "https://rustdoc.swc.rs/swc_ecma_preset_env/"
-edition       = { workspace = true }
-include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
-license       = { workspace = true }
-name          = "swc_ecma_preset_env"
-repository    = { workspace = true }
-version       = "25.0.0"
+edition = { workspace = true }
+include = [
+  "Cargo.toml",
+  "build.rs",
+  "src/**/*.rs",
+  "src/**/*.json",
+  "data/**/*.json",
+]
+license = { workspace = true }
+name = "swc_ecma_preset_env"
+repository = { workspace = true }
+version = "25.0.1"
 
 [lib]
 bench = false
@@ -24,8 +30,8 @@ serde_json = { workspace = true }
 
 preset_env_base = { version = "4.0.1", path = "../preset_env_base" }
 
-precomputed-map = { workspace = true }
 foldhash        = { workspace = true }
+precomputed-map = { workspace = true }
 
 rustc-hash = { workspace = true }
 string_enum = { version = "1.0.2", path = "../string_enum" }
@@ -40,10 +46,10 @@ swc_ecma_utils = { version = "18.0.3", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
 
 [build-dependencies]
-anyhow     = { workspace = true }
-serde_json = { workspace = true }
-precomputed-map = { workspace = true, features = ["builder"] }
+anyhow          = { workspace = true }
 foldhash        = { workspace = true }
+precomputed-map = { workspace = true, features = ["builder"] }
+serde_json      = { workspace = true }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
