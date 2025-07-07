@@ -111,7 +111,7 @@ swc_plugin_proxy = { version = "13.0.0", path = "../swc_plugin_proxy", optional 
 swc_plugin_runner = { version = "15.0.2", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
 swc_transform_common = { version = "7.0.1", path = "../swc_transform_common" }
-swc_typescript = { version = "17.0.2", path = "../swc_typescript" }
+swc_typescript = { version = "17.0.2", path = "../swc_typescript", optional = true }
 swc_visit = { version = "2.0.1", path = "../swc_visit" }
 
   [dependencies.tokio]

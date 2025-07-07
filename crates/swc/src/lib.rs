@@ -156,6 +156,7 @@ pub use swc_node_comments::SwcComments;
 pub use swc_sourcemap as sourcemap;
 use swc_timer::timer;
 use swc_transform_common::output::experimental_emit;
+#[cfg(feature = "swc_typescript")]
 use swc_typescript::fast_dts::FastDts;
 use tracing::warn;
 use url::Url;
@@ -978,7 +979,6 @@ impl Compiler {
                 );
             }
 
-            let emit_dts = config.syntax.typescript() && config.emit_isolated_dts;
             let source_map_names = if config.source_maps.enabled() {
                 let mut v = swc_compiler_base::IdentCollector {
                     names: Default::default(),
@@ -990,40 +990,48 @@ impl Compiler {
             } else {
                 Default::default()
             };
+            #[cfg(feature = "swc_typescript")]
+            {
+                let emit_dts = config.syntax.typescript() && config.emit_isolated_dts;
+                let dts_code = if emit_dts {
+                    let (leading, trailing) = comments.borrow_all();
 
-            let dts_code = if emit_dts {
-                let (leading, trailing) = comments.borrow_all();
+                    let leading = std::rc::Rc::new(RefCell::new(leading.clone()));
+                    let trailing = std::rc::Rc::new(RefCell::new(trailing.clone()));
 
-                let leading = std::rc::Rc::new(RefCell::new(leading.clone()));
-                let trailing = std::rc::Rc::new(RefCell::new(trailing.clone()));
+                    let comments =
+                        SingleThreadedComments::from_leading_and_trailing(leading, trailing);
 
-                let comments = SingleThreadedComments::from_leading_and_trailing(leading, trailing);
-                let mut checker =
-                    FastDts::new(fm.name.clone(), config.unresolved_mark, Default::default());
-                let mut program = program.clone();
+                    let mut checker =
+                        FastDts::new(fm.name.clone(), config.unresolved_mark, Default::default());
+                    let mut program = program.clone();
 
-                if let Some((base, resolver)) = config.resolver {
-                    program.mutate(import_rewriter(base, resolver));
-                }
+                    if let Some((base, resolver)) = config.resolver {
+                        program.mutate(import_rewriter(base, resolver));
+                    }
 
-                let issues = checker.transform(&mut program);
+                    let issues = checker.transform(&mut program);
 
-                for issue in issues {
-                    handler
-                        .struct_span_err(issue.range.span, &issue.message)
-                        .emit();
-                }
+                    for issue in issues {
+                        handler
+                            .struct_span_err(issue.range.span, &issue.message)
+                            .emit();
+                    }
 
-                let dts_code = to_code_with_comments(Some(&comments), &program);
-                Some(dts_code)
-            } else {
-                None
-            };
+                    let dts_code = to_code_with_comments(Some(&comments), &program);
+                    Some(dts_code)
+                } else {
+                    None
+                };
+            }
 
             let pass = config.pass;
             let (program, output) = swc_transform_common::output::capture(|| {
-                if let Some(dts_code) = dts_code {
-                    experimental_emit("__swc_isolated_declarations__".into(), dts_code);
+                #[cfg(feature = "swc_typescript")]
+                {
+                    if let Some(dts_code) = dts_code {
+                        experimental_emit("__swc_isolated_declarations__".into(), dts_code);
+                    }
                 }
 
                 helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
