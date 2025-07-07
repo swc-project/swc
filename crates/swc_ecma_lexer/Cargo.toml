@@ -26,9 +26,7 @@ verify        = ["swc_ecma_visit"]
 
 [dependencies]
 arrayvec              = { workspace = true }
-ascii                 = { workspace = true }
 bitflags              = { workspace = true }
-cow-replace           = { workspace = true }
 either                = { workspace = true }
 new_debug_unreachable = { workspace = true }
 num-bigint            = { workspace = true }
