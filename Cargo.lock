@@ -3496,7 +3496,8 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 [[package]]
 name = "precomputed-map"
 version = "0.2.0"
-source = "git+https://github.com/quininer/precomputed-map#95d28decf25ffa924999366e7fd374eaa7c0c1b2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "84350ffee5cedfabf9bee3e8825721f651da8ff79d50fe7a37cf0ca015c428ee"
 
 [[package]]
 name = "predicates"
