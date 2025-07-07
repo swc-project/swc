@@ -117,7 +117,7 @@ pub(crate) fn global_atom(text: &str) -> Atom {
 
 /// This can create any kind of [Atom], although this lives in the `dynamic`
 /// module.
-pub(crate) fn atom_in<S>(storage: S, text: &str, is_global: bool) -> Atom
+fn atom_in<S>(storage: S, text: &str, is_global: bool) -> Atom
 where
     S: Storage,
 {
@@ -171,7 +171,7 @@ pub(crate) const fn inline_atom(text: &str) -> Option<Atom> {
     None
 }
 
-pub(crate) trait Storage {
+trait Storage {
     fn insert_entry(self, text: &str, hash: u64, is_global: bool) -> Item;
 }
 
@@ -189,9 +189,7 @@ impl Storage for &'_ mut AtomStore {
         let (entry, _) = self
             .data
             .raw_entry_mut()
-            .from_hash(hash, |key| {
-                key.header.header.header.hash == hash && key.slice == *text.as_bytes()
-            })
+            .from_hash(hash, |key| key.header.header.header.hash == hash)
             .or_insert_with(move || {
                 (
                     Item(ThinArc::from_header_and_slice(
