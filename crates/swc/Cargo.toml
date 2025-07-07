@@ -25,8 +25,9 @@ concurrent = [
 ]
 
 debug = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
-default = ["es3", "lint", "swc_typescript"]
+default = ["es3", "lint", "isolated-dts"]
 es3 = []
+isolated-dts = ["swc_typescript"]
 node = ["napi", "napi-derive", "swc_compiler_base/node"]
 plugin = [
   "swc_plugin_runner/ecma",
