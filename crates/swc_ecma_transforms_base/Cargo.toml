@@ -18,7 +18,6 @@ concurrent-renamer = ["par-iter"]
 
 [dependencies]
 better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls" }
-bitflags          = { workspace = true }
 indexmap          = { workspace = true }
 once_cell         = { workspace = true }
 par-core          = { workspace = true }
