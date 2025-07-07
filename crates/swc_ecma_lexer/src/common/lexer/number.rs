@@ -1,4 +1,3 @@
-use cow_replace::ReplaceString;
 use swc_common::BytePos;
 
 pub struct LazyInteger {
@@ -6,6 +5,7 @@ pub struct LazyInteger {
     pub(super) end: BytePos,
     /// `true` if there was `8` or `9``
     pub(super) not_octal: bool,
+    pub(super) has_underscore: bool,
 }
 
 const MAX_SAFE_INT: u64 = 9007199254740991;
@@ -13,15 +13,16 @@ const MAX_SAFE_INT: u64 = 9007199254740991;
 pub(super) fn parse_integer<const RADIX: u8>(s: &str) -> f64 {
     debug_assert!(matches!(RADIX, 2 | 8 | 10 | 16));
     debug_assert!(!s.is_empty());
-    let s = s.remove_all_ascii(ascii::AsciiChar::UnderScore);
+    debug_assert!(!s.contains('_'));
+
     if RADIX == 10 {
-        parse_integer_from_dec(&s)
+        parse_integer_from_dec(s)
     } else if RADIX == 16 {
-        parse_integer_from_hex(&s)
+        parse_integer_from_hex(s)
     } else if RADIX == 2 {
-        parse_integer_from_bin(&s)
+        parse_integer_from_bin(s)
     } else if RADIX == 8 {
-        parse_integer_from_oct(&s)
+        parse_integer_from_oct(s)
     } else {
         unreachable!()
     }
