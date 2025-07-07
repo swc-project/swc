@@ -347,7 +347,7 @@ par-core = { workspace = true, optional = true }
 
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "29.0.0", path = "../binding_macros" }
-swc                              = { optional = true, version = "29.1.1", path = "../swc" }
+swc                              = { optional = true, version = "29.1.1", path = "../swc", default-features = false }
 swc_allocator                    = { version = "4.0.1", path = "../swc_allocator", default-features = false }
 swc_atoms                        = { optional = true, version = "6.0.1", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "23.0.1", path = "../swc_bundler" }
