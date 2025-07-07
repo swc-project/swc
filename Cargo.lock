@@ -8274,8 +8274,6 @@ dependencies = [
  "anyhow",
  "chrono",
  "clap 4.5.9",
- "foldhash",
- "precomputed-map",
  "semver",
  "serde",
  "serde_derive",

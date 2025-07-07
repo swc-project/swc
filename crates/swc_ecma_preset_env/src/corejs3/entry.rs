@@ -1,4 +1,4 @@
-use std::sync::Arc;
+use std::{ops::Range, sync::Arc};
 
 use indexmap::IndexSet;
 use preset_env_base::{
@@ -10,27 +10,25 @@ use swc_atoms::atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMut;
-use std::ops::Range;
-use crate::util::SwcFold;
 
 use super::{compat::DATA as CORE_JS_COMPAT_DATA, data::MODULES_BY_VERSION};
+use crate::util::SwcFold;
 
 include!(concat!(env!("OUT_DIR"), "/corejs3_entries/lib.rs"));
 
 pub struct FeatureSet(Range<u32>);
-        
-pub fn entries_get(name: &str) -> Option<FeatureSet> {{
-    let index = ENTRY_INDEX.get(name.as_bytes())?;
-    ENTRY_VALUES_LIST
-        .get(index)
-        .cloned()
-        .map(FeatureSet)
-}}
+
+pub fn entries_get(name: &str) -> Option<FeatureSet> {
+    {
+        let index = ENTRY_INDEX.get(name.as_bytes())?;
+        ENTRY_VALUES_LIST.get(index).cloned().map(FeatureSet)
+    }
+}
 
 impl FeatureSet {
     pub fn iter(&self) -> impl ExactSizeIterator<Item = &'static str> {
         use precomputed_map::store::AccessSeq;
-        
+
         self.0
             .clone()
             .map(|idx| EntryValuesStringId::index(idx as usize).unwrap())
