@@ -1,6 +1,6 @@
 {
   "name": "@swc/react-compiler-linux-arm64-musl",
-  "version": "1.12.9",
+  "version": "1.12.11-nightly-20250708.1",
   "os": [
     "linux"
   ],
