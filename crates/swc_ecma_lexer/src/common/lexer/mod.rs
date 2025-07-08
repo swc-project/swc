@@ -93,7 +93,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn input_uncons_while(&mut self, f: impl FnMut(char) -> bool) -> &'a str;
     fn atom<'b>(&self, s: impl Into<Cow<'b, str>>) -> swc_atoms::Atom;
     fn push_error(&self, error: crate::error::Error);
-    fn buf(&self) -> std::rc::Rc<std::cell::RefCell<String>>;
+    fn buf(&self) -> &str;
+    fn buf_mut(&mut self) -> &mut String;
 
     #[inline(always)]
     #[allow(clippy::misnamed_getters)]
@@ -1128,12 +1129,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// Utility method to reuse buffer.
     fn with_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
     where
-        F: FnOnce(&mut Self, &mut String) -> LexResult<Ret>,
+        F: FnOnce(&mut Self) -> LexResult<Ret>,
     {
-        let b = self.buf();
-        let mut buf = b.borrow_mut();
-        buf.clear();
-        op(self, &mut buf)
+        self.buf_mut().clear();
+        op(self)
     }
 
     fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
@@ -1515,7 +1514,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let (mut escaped, mut in_class) = (false, false);
 
-        let content = self.with_buf(|l, buf| {
+        let content = self.with_buf(|l| {
             while let Some(c) = l.cur() {
                 // This is ported from babel.
                 // Seems like regexp literal cannot contain linebreak.
@@ -1543,10 +1542,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 }
 
                 l.bump();
-                buf.push(c);
+                l.buf_mut().push(c);
             }
 
-            Ok(l.atom(&**buf))
+            Ok(l.atom(l.buf()))
         })?;
 
         // input is terminated without following `/`
@@ -1569,9 +1568,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         // let flags_start = self.cur_pos();
         let flags = {
             match self.cur() {
-                Some(c) if c.is_ident_start() => {
-                    self.read_word_as_str_with(|l, s, _, _| l.atom(s)).map(Some)
-                }
+                Some(c) if c.is_ident_start() => self
+                    .read_word_as_str_with(|l, s, _, _| {
+                        let s = s.unwrap_or(l.buf());
+                        l.atom(s)
+                    })
+                    .map(Some),
                 _ => Ok(None),
             }
         }?
@@ -1586,7 +1588,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// `convert(text, has_escape, can_be_keyword)`
     fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
     where
-        F: FnOnce(&mut Self, &str, bool, bool) -> Ret,
+        F: FnOnce(&mut Self, Option<&str>, bool, bool) -> Ret,
     {
         debug_assert!(self.cur().is_some());
         let mut can_be_keyword = true;
@@ -1617,7 +1619,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             self.input_slice(slice_start, end)
                         };
 
-                        return Ok((convert(self, s, false, can_be_keyword), false));
+                        return Ok((convert(self, Some(s), false, can_be_keyword), false));
                     },
                 };
 
@@ -1647,7 +1649,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.input_slice(slice_start, end)
                     };
 
-                    return Ok((convert(self, s, has_escape, can_be_keyword), has_escape));
+                    return Ok((
+                        convert(self, Some(s), has_escape, can_be_keyword),
+                        has_escape,
+                    ));
                 }
             }
         }
@@ -1666,11 +1671,11 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         mut can_be_keyword: bool,
     ) -> LexResult<(Ret, bool)>
     where
-        F: FnOnce(&mut Self, &str, bool, bool) -> Ret,
+        F: FnOnce(&mut Self, Option<&str>, bool, bool) -> Ret,
     {
         let mut first = true;
 
-        self.with_buf(|l, buf| {
+        self.with_buf(|l| {
             loop {
                 if let Some(c) = l.input().cur_as_ascii() {
                     // Performance optimization
@@ -1705,7 +1710,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                                 // `self.input`
                                 l.input_slice(slice_start, start)
                             };
-                            buf.push_str(s);
+                            l.buf_mut().push_str(s);
                             unsafe {
                                 // Safety: We got end from `self.input`
                                 l.input_mut().reset_to(end);
@@ -1727,7 +1732,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         }
 
                         for c in chars {
-                            buf.extend(c);
+                            l.buf_mut().extend(c);
                         }
 
                         slice_start = l.cur_pos();
@@ -1758,10 +1763,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             };
             let value = if !has_escape {
                 // Fast path: raw slice is enough if there's no escape.
-                convert(l, s, has_escape, can_be_keyword)
+                convert(l, Some(s), has_escape, can_be_keyword)
             } else {
-                buf.push_str(s);
-                convert(l, buf, has_escape, can_be_keyword)
+                l.buf_mut().push_str(s);
+                convert(l, None, has_escape, can_be_keyword)
             };
 
             Ok((value, has_escape))
@@ -1991,6 +1996,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         debug_assert!(self.cur().is_some());
 
         let (word, has_escape) = self.read_word_as_str_with(|l, s, _, _| {
+            let s = s.unwrap_or(l.buf());
             let atom = l.atom(s);
             Self::Token::unknown_ident(atom, l)
         })?;
@@ -2013,7 +2019,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let mut has_escape = false;
         let mut slice_start = self.input().cur_pos();
 
-        self.with_buf(|l, buf| {
+        self.with_buf(|l| {
             loop {
                 let table = if quote == b'"' {
                     &DOUBLE_QUOTE_STRING_END_TABLE
@@ -2031,13 +2037,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                                 // got them from `self.input`
                             l.input_slice(slice_start, value_end)
                         };
-                        buf.push_str(s);
+                        l.buf_mut().push_str(s);
 
                         l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
                         let end = l.cur_pos();
                         let raw = unsafe { l.input_slice(start, end) };
-                        return Ok(Self::Token::str(l.atom(&**buf), l.atom(raw), l));
+                        return Ok(Self::Token::str(l.atom(l.buf()), l.atom(raw), l));
                     },
                 };
 
@@ -2054,9 +2060,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                                 // got them from `self.input`
                                 l.input_slice(slice_start, value_end)
                             };
-                            buf.push_str(s);
+                            l.buf_mut().push_str(s);
 
-                            l.atom(&**buf)
+                            l.atom(l.buf())
                         };
 
                         unsafe {
@@ -2083,12 +2089,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                                 // `self.input`
                                 l.input_slice(slice_start, end)
                             };
-                            buf.push_str(s);
+                            l.buf_mut().push_str(s);
                         }
 
                         if let Some(chars) = l.read_escaped_char(false)? {
                             for c in chars {
-                                buf.extend(c);
+                                l.buf_mut().extend(c);
                             }
                         }
 
@@ -2102,7 +2108,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             // `self.input`
                             l.input_slice(slice_start, end)
                         };
-                        buf.push_str(s);
+                        l.buf_mut().push_str(s);
 
                         l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
@@ -2113,7 +2119,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             // `self.input`
                             l.input_slice(start, end)
                         };
-                        return Ok(Self::Token::str(l.atom(&**buf), l.atom(raw), l));
+                        return Ok(Self::Token::str(l.atom(l.buf()), l.atom(raw), l));
                     }
                     _ => l.bump(),
                 }
@@ -2131,6 +2137,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let start = self.cur_pos();
         let (word, has_escape) = self.read_word_as_str_with(|l, s, _, can_be_known| {
+            let s = s.unwrap_or(l.buf());
             if can_be_known {
                 if let Some(word) = convert(s) {
                     return word;
