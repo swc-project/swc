@@ -2345,10 +2345,10 @@ fn parse_ts_module_block<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsModuleBlock>
 
     let start = p.cur_pos();
     expect!(p, &P::Token::LBRACE);
-    // Inside of a module block is considered "top-level", meaning it can have
-    // imports and exports.
-    let body = p.do_inside_of_context(Context::TopLevel, |p| {
-        parse_module_item_block_body(p, false, Some(&P::Token::RBRACE))
+    let body = p.do_inside_of_context(Context::TsModuleBlock, |p| {
+        p.do_outside_of_context(Context::TopLevel, |p| {
+            parse_module_item_block_body(p, false, Some(&P::Token::RBRACE))
+        })
     })?;
 
     Ok(TsModuleBlock {
