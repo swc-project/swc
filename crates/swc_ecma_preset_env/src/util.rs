@@ -27,15 +27,6 @@ pub(crate) struct CoreJSPolyfillDescriptor {
     pub exclude: &'static [&'static str],
 }
 
-macro_rules! val {
-    (& $v:expr) => {
-        &$v
-    };
-    ($v:expr) => {
-        &$v
-    };
-}
-
 macro_rules! expand_array_like {
     ($name:ident) => {{
         $name
@@ -458,213 +449,6 @@ macro_rules! map {
     }};
 }
 
-macro_rules! data_map {
-    (
-        Map {
-            $($rest:tt)+
-        }
-    ) => {
-        data_map!(@Ident, Map {}, Rest {$($rest)*})
-    };
-
-    (
-        @Ident,
-        Map {
-            $($i:ident : $e:expr,)*
-        },
-        Rest {
-            $ni:ident : $($rest:tt)+
-        }
-    ) => {
-        data_map!(@Value, Map {
-            $(
-                $i : $e,
-            )*
-        },
-        Rest {
-            $($rest)*
-        },
-        Wip {
-            $ni
-        })
-    };
-
-    (
-        @Value,
-        Map {
-            $($i:ident : $e:expr,)*
-        },
-        Rest {
-            [$($v:tt)*], $($rest:tt)*
-        },
-        Wip {
-            $ni:ident
-        }
-    ) => {
-        data_map!(@Ident, Map {
-            $(
-                $i : $e,
-            )*
-            $ni : val!(&[$($v)*]),
-        }, Rest {$($rest)*})
-    };
-
-    (
-        @Value,
-        Map {
-            $($i:ident : $e:expr,)*
-        },
-        Rest {
-            &[$($v:tt)*], $($rest:tt)*
-        },
-        Wip {
-            $ni:ident
-        }
-    ) => {
-        data_map!(@Ident, Map {
-            $(
-                $i : $e,
-            )*
-            $ni : val!(&[$($v)*]),
-        },
-        Rest {
-            $($rest)*
-        })
-    };
-
-    (
-        @Value,
-        Map {
-            $($i:ident : $e:expr,)*
-        },
-        Rest {
-            $v:literal, $($rest:tt)*
-        },
-        Wip {
-            $ni:ident
-        }
-    ) => {
-        data_map!(@Ident, Map {
-            $(
-                $i : $e,
-            )*
-            $ni : &[$v],
-        },
-        Rest {
-            $($rest)*
-        })
-    };
-
-    (
-        @Value,
-        Map {
-            $($i:ident : $e:expr,)*
-        },
-        Rest {
-            $v:literal $($rest:tt)*
-        },
-        Wip {
-            $ni:ident
-        }
-    ) => {
-        data_map!(@Ident, Map {
-            $(
-                $i : $e,
-            )*
-            $ni : &[$v],
-        },
-        Rest {
-            $($rest)*
-        })
-    };
-
-    (
-        @Value,
-        Map {
-            $($i:ident : $e:expr,)*
-        },
-        Rest {
-            &$v:ident, $($rest:tt)*
-        },
-        Wip {
-            $ni:ident
-        }
-    ) => {
-        data_map!(@Ident, Map {
-            $(
-                $i : $e,
-            )*
-            $ni : $v,
-        },
-        Rest {
-            $($rest)*
-        })
-    };
-
-
-    (
-        @Value,
-        Map {
-            $($i:ident : $e:expr,)*
-        },
-        Rest {
-            Map { $($m:tt)* }, $($rest:tt)*
-        },
-        Wip {
-            $ni:ident
-        }
-    ) => {
-        data_map!(@Ident, Map {
-            $(
-                $i : $e,
-            )*
-            $ni : data_map!(Map { $($m)* }),
-        },
-        Rest {
-            $($rest)*
-        })
-    };
-
-
-    (
-        @Value,
-        Map {
-            $($i:ident : $e:expr,)*
-        },
-        Rest {
-            $v:ident, $($rest:tt)*
-        },
-        Wip {
-            $ni:ident
-        }
-    ) => {
-        data_map!(@Ident, Map {
-            $(
-                $i : $e,
-            )*
-            $ni : $v,
-        },
-        Rest {
-            $($rest)*
-        })
-    };
-
-    // Done
-    (
-        @Ident,
-        Map {
-            $($i:ident : $e:expr,)*
-        },
-        Rest {}
-    ) => {
-        &[
-            $(
-                (stringify!($i), $e)
-            ),*
-        ]
-    };
-}
-
 pub(crate) type DataMap<T> = &'static [(&'static str, T)];
 pub(crate) type FeatureMap = DataMap<&'static [&'static str]>;
 
@@ -699,4 +483,10 @@ impl precomputed_map::phf::HashOne for SwcFold {
         v.hash(&mut hasher);
         hasher.finish()
     }
+}
+
+pub(crate) fn pooled_unpack(pool: &str, id: u32) -> &str {
+    let offset = id & ((1 << 24) - 1);
+    let len = id >> 24;
+    &pool[offset as usize..][..len as usize]
 }

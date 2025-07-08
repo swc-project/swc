@@ -19,25 +19,19 @@ include!(concat!(env!("OUT_DIR"), "/corejs3_entries/lib.rs"));
 pub struct FeatureSet(Range<u32>);
 
 pub fn entries_get(name: &str) -> Option<FeatureSet> {
-    {
-        let index = ENTRY_INDEX.get(name.as_bytes())?;
-        ENTRY_VALUES_LIST.get(index).cloned().map(FeatureSet)
-    }
+    let index = ENTRY_INDEX.get(name.as_bytes())?;
+    ENTRY_VALUES_LIST.get(index).cloned().map(FeatureSet)
 }
 
 impl FeatureSet {
     pub fn iter(&self) -> impl ExactSizeIterator<Item = &'static str> {
         use precomputed_map::store::AccessSeq;
+        use crate::util::pooled_unpack;
 
         self.0
             .clone()
             .map(|idx| EntryValuesStringId::index(idx as usize).unwrap())
-            .map(|id| {
-                let offset = id & ((1 << 24) - 1);
-                let len = id >> 24;
-
-                &ENTRY_VALUES_STRING_STORE[(offset as usize)..][..(len as usize)]
-            })
+            .map(|id| pooled_unpack(ENTRY_VALUES_STRING_STORE, id))
     }
 }
 
