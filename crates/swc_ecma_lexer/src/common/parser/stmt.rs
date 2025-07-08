@@ -1384,53 +1384,61 @@ pub fn parse_stmt_block_body<'a, P: Parser<'a>>(
 
 pub(super) fn parse_block_body<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>>(
     p: &mut P,
-    mut allow_directives: bool,
+    allow_directives: bool,
     end: Option<&P::Token>,
     handle_import_export: impl Fn(&mut P, Vec<Decorator>) -> PResult<Type>,
 ) -> PResult<Vec<Type>> {
     trace_cur!(p, parse_block_body);
 
-    let old_ctx = p.ctx();
-
     let mut stmts = Vec::with_capacity(8);
-    while {
-        match (p.input_mut().cur(), end) {
-            (Some(cur), Some(end)) => cur != end,
-            (Some(_), None) => true,
-            (None, None) => false,
-            (None, Some(_)) => {
-                let eof_text = p.input_mut().dump_cur();
-                p.emit_err(
-                    p.input().cur_span(),
-                    SyntaxError::Expected(format!("{:?}", end.unwrap()), eof_text),
-                );
-                false
-            }
-        }
-    } {
-        let stmt = parse_stmt_like(p, true, &handle_import_export)?;
-        if allow_directives {
-            allow_directives = false;
-            if stmt.is_use_strict() {
-                p.set_ctx(old_ctx | Context::Strict);
-                if p.input().knows_cur() && !p.is_general_semi() {
-                    unreachable!(
-                        "'use strict'; directive requires parser.input.cur to be empty or '}}', \
-                         but current token was: {:?}",
-                        p.input_mut().cur()
-                    )
-                }
-            }
-        }
 
+    let is_stmt_start = |p: &mut P| match (p.input_mut().cur(), end) {
+        (Some(cur), Some(end)) => cur != end,
+        (Some(_), None) => true,
+        (None, None) => false,
+        (None, Some(_)) => {
+            let eof_text = p.input_mut().dump_cur();
+            p.emit_err(
+                p.input().cur_span(),
+                SyntaxError::Expected(format!("{:?}", end.unwrap()), eof_text),
+            );
+            false
+        }
+    };
+
+    let mut has_strict_directive = false;
+    if is_stmt_start(p) {
+        let stmt = parse_stmt_like(p, true, &handle_import_export)?;
+        if allow_directives && stmt.is_use_strict() {
+            has_strict_directive = true;
+            if p.input().knows_cur() && !p.is_general_semi() {
+                unreachable!(
+                    "'use strict'; directive requires parser.input.cur to be empty or '}}', but \
+                     current token was: {:?}",
+                    p.input_mut().cur()
+                )
+            }
+        }
         stmts.push(stmt);
     }
+
+    let parse_rest_stmts = |p: &mut P, stmts: &mut Vec<Type>| -> PResult<()> {
+        while is_stmt_start(p) {
+            let stmt = parse_stmt_like(p, true, &handle_import_export)?;
+            stmts.push(stmt);
+        }
+        Ok(())
+    };
+
+    if has_strict_directive {
+        p.do_inside_of_context(Context::Strict, |p| parse_rest_stmts(p, &mut stmts))?;
+    } else {
+        parse_rest_stmts(p, &mut stmts)?;
+    };
 
     if p.input_mut().cur().is_some() && end.is_some() {
         p.bump();
     }
-
-    p.set_ctx(old_ctx);
 
     Ok(stmts)
 }

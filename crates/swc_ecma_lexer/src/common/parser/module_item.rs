@@ -33,7 +33,10 @@ fn handle_import_export<'a, P: Parser<'a>>(
     p: &mut P,
     decorators: Vec<Decorator>,
 ) -> PResult<ModuleItem> {
-    if !p.ctx().contains(Context::TopLevel) {
+    if !p
+        .ctx()
+        .intersects(Context::TopLevel.union(Context::TsModuleBlock))
+    {
         syntax_error!(p, SyntaxError::NonTopLevelImportExport);
     }
 
@@ -343,7 +346,7 @@ fn parse_export<'a, P: Parser<'a>>(
     p: &mut P,
     mut decorators: Vec<Decorator>,
 ) -> PResult<ModuleDecl> {
-    if !p.ctx().contains(Context::Module) {
+    if !p.ctx().contains(Context::Module) && p.ctx().contains(Context::TopLevel) {
         // Switch to module mode
         let ctx = p.ctx() | Context::Module | Context::Strict;
         p.set_ctx(ctx);
