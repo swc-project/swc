@@ -29,7 +29,7 @@ use crate::{
 mod jsx;
 mod number;
 mod state;
-mod table;
+pub mod table;
 #[cfg(test)]
 mod tests;
 

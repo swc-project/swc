@@ -6,7 +6,7 @@
 
 use either::Either;
 use swc_common::input::Input;
-use swc_ecma_lexer::common::lexer::char::CharExt;
+use swc_ecma_lexer::{common::lexer::char::CharExt, lexer::table::kw};
 
 use super::{pos_span, LexResult, Lexer, LexerTrait};
 use crate::{
@@ -63,219 +63,282 @@ const ERR: ByteHandler = Some(|lexer| {
 const IDN: ByteHandler = Some(|lexer| lexer.read_ident_unknown().map(Some));
 
 const L_A: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "abstract" => Some(Token::Abstract),
-        "as" => Some(Token::As),
-        "await" => Some(Token::Await),
-        "async" => Some(Token::Async),
-        "assert" => Some(Token::Assert),
-        "asserts" => Some(Token::Asserts),
-        "any" => Some(Token::Any),
-        "accessor" => Some(Token::Accessor),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("a"));
+        match &s[1..] {
+            kw::AWAIT => Some(Token::Await),
+            kw::ASYNC => Some(Token::Async),
+            kw::ANY => Some(Token::Any),
+            kw::ABSTRACT => Some(Token::Abstract),
+            kw::AS => Some(Token::As),
+            kw::ASSERT => Some(Token::Assert),
+            kw::ASSERTS => Some(Token::Asserts),
+            kw::ACCESSOR => Some(Token::Accessor),
+            _ => None,
+        }
     })
 });
 
 const L_B: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "break" => Some(Token::Break),
-        "boolean" => Some(Token::Boolean),
-        "bigint" => Some(Token::Bigint),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("b"));
+        match &s[1..] {
+            kw::BREAK => Some(Token::Break),
+            kw::BOOLEAN => Some(Token::Boolean),
+            kw::BIGINT => Some(Token::Bigint),
+            _ => None,
+        }
     })
 });
 
 const L_C: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "case" => Some(Token::Case),
-        "catch" => Some(Token::Catch),
-        "class" => Some(Token::Class),
-        "const" => Some(Token::Const),
-        "continue" => Some(Token::Continue),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("c"));
+        match &s[1..] {
+            kw::CLASS => Some(Token::Class),
+            kw::CONST => Some(Token::Const),
+            kw::CONTINUE => Some(Token::Continue),
+            kw::CASE => Some(Token::Case),
+            kw::CATCH => Some(Token::Catch),
+            _ => None,
+        }
     })
 });
 
 const L_D: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "debugger" => Some(Token::Debugger),
-        "default" => Some(Token::Default),
-        "delete" => Some(Token::Delete),
-        "do" => Some(Token::Do),
-        "declare" => Some(Token::Declare),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("d"));
+        match &s[1..] {
+            kw::DEFAULT => Some(Token::Default),
+            kw::DECLARE => Some(Token::Declare),
+            kw::DEBUGGER => Some(Token::Debugger),
+            kw::DO => Some(Token::Do),
+            kw::DELETE => Some(Token::Delete),
+            _ => None,
+        }
     })
 });
 
 const L_E: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "else" => Some(Token::Else),
-        "enum" => Some(Token::Enum),
-        "export" => Some(Token::Export),
-        "extends" => Some(Token::Extends),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("e"));
+        match &s[1..] {
+            kw::ELSE => Some(Token::Else),
+            kw::EXPORT => Some(Token::Export),
+            kw::ENUM => Some(Token::Enum),
+            kw::EXTENDS => Some(Token::Extends),
+            _ => None,
+        }
     })
 });
 
 const L_F: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "false" => Some(Token::False),
-        "finally" => Some(Token::Finally),
-        "for" => Some(Token::For),
-        "function" => Some(Token::Function),
-        "from" => Some(Token::From),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("f"));
+        match &s[1..] {
+            kw::FALSE => Some(Token::False),
+            kw::FOR => Some(Token::For),
+            kw::FUNCTION => Some(Token::Function),
+            kw::FROM => Some(Token::From),
+            kw::FINALLY => Some(Token::Finally),
+            _ => None,
+        }
     })
 });
 
 const L_G: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "global" => Some(Token::Global),
-        "get" => Some(Token::Get),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("g"));
+        match &s[1..] {
+            kw::GLOBAL => Some(Token::Global),
+            kw::GET => Some(Token::Get),
+            _ => None,
+        }
     })
 });
 
 const L_H: ByteHandler = IDN;
 
 const L_I: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "if" => Some(Token::If),
-        "import" => Some(Token::Import),
-        "in" => Some(Token::In),
-        "instanceof" => Some(Token::InstanceOf),
-        "is" => Some(Token::Is),
-        "infer" => Some(Token::Infer),
-        "interface" => Some(Token::Interface),
-        "implements" => Some(Token::Implements),
-        "intrinsic" => Some(Token::Intrinsic),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("i"));
+        match &s[1..] {
+            kw::IF => Some(Token::If),
+            kw::IMPORT => Some(Token::Import),
+            kw::IN => Some(Token::In),
+            kw::INSTANCEOF => Some(Token::InstanceOf),
+            kw::IS => Some(Token::Is),
+            kw::INFER => Some(Token::Infer),
+            kw::INTERFACE => Some(Token::Interface),
+            kw::IMPLEMENTS => Some(Token::Implements),
+            kw::INTRINSIC => Some(Token::Intrinsic),
+            _ => None,
+        }
     })
 });
 
 const L_J: ByteHandler = IDN;
 
 const L_K: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "keyof" => Some(Token::Keyof),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("k"));
+        match &s[1..] {
+            kw::KEYOF => Some(Token::Keyof),
+            _ => None,
+        }
     })
 });
 
 const L_L: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "let" => Some(Token::Let),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("l"));
+        match &s[1..] {
+            kw::LET => Some(Token::Let),
+            _ => None,
+        }
     })
 });
 
 const L_M: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "meta" => Some(Token::Meta),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("m"));
+        match &s[1..] {
+            kw::META => Some(Token::Meta),
+            _ => None,
+        }
     })
 });
 
 const L_N: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "new" => Some(Token::New),
-        "null" => Some(Token::Null),
-        "number" => Some(Token::Number),
-        "never" => Some(Token::Never),
-        "namespace" => Some(Token::Namespace),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("n"));
+        match &s[1..] {
+            kw::NEW => Some(Token::New),
+            kw::NULL => Some(Token::Null),
+            kw::NUMBER => Some(Token::Number),
+            kw::NEVER => Some(Token::Never),
+            kw::NAMESPACE => Some(Token::Namespace),
+            _ => None,
+        }
     })
 });
 
 const L_O: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "of" => Some(Token::Of),
-        "object" => Some(Token::Object),
-        "out" => Some(Token::Out),
-        "override" => Some(Token::Override),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("o"));
+        match &s[1..] {
+            kw::OF => Some(Token::Of),
+            kw::OBJECT => Some(Token::Object),
+            kw::OUT => Some(Token::Out),
+            kw::OVERRIDE => Some(Token::Override),
+            _ => None,
+        }
     })
 });
 
 const L_P: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "public" => Some(Token::Public),
-        "package" => Some(Token::Package),
-        "protected" => Some(Token::Protected),
-        "private" => Some(Token::Private),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("p"));
+        match &s[1..] {
+            kw::PUBLIC => Some(Token::Public),
+            kw::PRIVATE => Some(Token::Private),
+            kw::PROTECTED => Some(Token::Protected),
+            kw::PACKAGE => Some(Token::Package),
+            _ => None,
+        }
     })
 });
 
 const L_Q: ByteHandler = IDN;
 
 const L_R: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "return" => Some(Token::Return),
-        "readonly" => Some(Token::Readonly),
-        "require" => Some(Token::Require),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("r"));
+        match &s[1..] {
+            kw::RETURN => Some(Token::Return),
+            kw::REQUIRE => Some(Token::Require),
+            kw::READONLY => Some(Token::Readonly),
+            _ => None,
+        }
     })
 });
 
 const L_S: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "super" => Some(Token::Super),
-        "static" => Some(Token::Static),
-        "switch" => Some(Token::Switch),
-        "symbol" => Some(Token::Symbol),
-        "set" => Some(Token::Set),
-        "string" => Some(Token::String),
-        "satisfies" => Some(Token::Satisfies),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("s"));
+        match &s[1..] {
+            kw::SUPER => Some(Token::Super),
+            kw::STATIC => Some(Token::Static),
+            kw::SWITCH => Some(Token::Switch),
+            kw::SYMBOL => Some(Token::Symbol),
+            kw::SET => Some(Token::Set),
+            kw::STRING => Some(Token::String),
+            kw::SATISFIES => Some(Token::Satisfies),
+            _ => None,
+        }
     })
 });
 
 const L_T: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "this" => Some(Token::This),
-        "throw" => Some(Token::Throw),
-        "true" => Some(Token::True),
-        "typeof" => Some(Token::TypeOf),
-        "try" => Some(Token::Try),
-        "type" => Some(Token::Type),
-        "target" => Some(Token::Target),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("t"));
+        match &s[1..] {
+            kw::THIS => Some(Token::This),
+            kw::TRUE => Some(Token::True),
+            kw::TYPE => Some(Token::Type),
+            kw::TYPEOF => Some(Token::TypeOf),
+            kw::THROW => Some(Token::Throw),
+            kw::TRY => Some(Token::Try),
+            kw::TARGET => Some(Token::Target),
+            _ => None,
+        }
     })
 });
 
 const L_U: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "using" => Some(Token::Using),
-        "unique" => Some(Token::Unique),
-        "undefined" => Some(Token::Undefined),
-        "unknown" => Some(Token::Unknown),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("u"));
+        match &s[1..] {
+            kw::UNDEFINED => Some(Token::Undefined),
+            kw::USING => Some(Token::Using),
+            kw::UNIQUE => Some(Token::Unique),
+            kw::UNKNOWN => Some(Token::Unknown),
+            _ => None,
+        }
     })
 });
 
 const L_V: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "var" => Some(Token::Var),
-        "void" => Some(Token::Void),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("v"));
+        match &s[1..] {
+            kw::VAR => Some(Token::Var),
+            kw::VOID => Some(Token::Void),
+            _ => None,
+        }
     })
 });
 
 const L_W: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "while" => Some(Token::While),
-        "with" => Some(Token::With),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("w"));
+        match &s[1..] {
+            kw::WHILE => Some(Token::While),
+            kw::WITH => Some(Token::With),
+            _ => None,
+        }
     })
 });
 
 const L_X: ByteHandler = IDN;
 
 const L_Y: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(&|s| match s {
-        "yield" => Some(Token::Yield),
-        _ => None,
+    lexer.read_word_with(&|s| {
+        debug_assert!(s.starts_with("y"));
+        match &s[1..] {
+            kw::YIELD => Some(Token::Yield),
+            _ => None,
+        }
     })
 });
 
