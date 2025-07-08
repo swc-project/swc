@@ -2666,7 +2666,9 @@ pub fn try_parse_ts_declare<'a, P: Parser<'a>>(
         return Ok(None);
     }
 
-    if p.ctx().contains(Context::InDeclare) && p.syntax().dts() {
+    if p.ctx()
+        .contains(Context::InDeclare | Context::TsModuleBlock)
+    {
         let span_of_declare = p.span(start);
         p.emit_err(span_of_declare, SyntaxError::TS1038);
     }
