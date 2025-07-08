@@ -1,10 +1,12 @@
 var a;
 function g() {}
 function h() {
-    (function (b) {
+    (function(b) {
         if (a) console.log(a === b.c);
         a = b.c;
-    })({ c: g });
+    })({
+        c: g
+    });
 }
 h();
 h();

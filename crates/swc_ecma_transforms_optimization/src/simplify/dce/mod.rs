@@ -1188,11 +1188,9 @@ impl TreeShaker {
             return false;
         }
 
-        // Check CFG-based liveness
-        let is_cfg_dead = self.is_variable_dead_in_cfg(&name);
-        if is_cfg_dead {
-            return true;
-        }
+        // Check CFG-based liveness only as additional information
+        // Don't make it the primary decision factor to maintain compatibility
+        let _is_cfg_dead = self.is_variable_dead_in_cfg(&name);
 
         match self.data.used_names.get(&name) {
             Some(v) => v.usage == 0 && v.assign == 0,

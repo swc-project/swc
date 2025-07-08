@@ -4,5 +4,10 @@ function extract(obj) {
     ({ a: a, b: b } = obj);
     console.log(b);
 }
-extract({ a: 1, b: 2 });
-extract({ b: 4 });
+extract({
+    a: 1,
+    b: 2
+});
+extract({
+    b: 4
+});
