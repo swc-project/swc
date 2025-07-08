@@ -4,7 +4,6 @@
 use core::str;
 use std::{
     fmt::{Debug, Display},
-    hash::Hash,
     mem::{self, forget, transmute},
     num::NonZeroU8,
     ops::Deref,
@@ -248,13 +247,7 @@ impl Atom {
     #[inline(never)]
     fn get_hash(&self) -> u64 {
         match self.tag() {
-            DYNAMIC_TAG => {
-                unsafe { crate::dynamic::deref_from(self.unsafe_data) }
-                    .header
-                    .header
-                    .header
-                    .hash
-            }
+            DYNAMIC_TAG => unsafe { crate::dynamic::deref_from(self.unsafe_data) }.hash_value(),
             INLINE_TAG => {
                 // This is passed as input to the caller's `Hasher` implementation, so it's okay
                 // that this isn't really a hash
@@ -272,7 +265,7 @@ impl Atom {
         match self.tag() {
             DYNAMIC_TAG => unsafe {
                 let item = crate::dynamic::deref_from(self.unsafe_data);
-                from_utf8_unchecked(transmute::<&[u8], &'static [u8]>(&item.slice))
+                from_utf8_unchecked(transmute::<&[u8], &'static [u8]>(item.slice()))
             },
             INLINE_TAG => {
                 let len = (self.unsafe_data.tag() & LEN_MASK) >> LEN_OFFSET;
@@ -293,8 +286,7 @@ impl Atom {
         match self.tag() {
             DYNAMIC_TAG => {
                 let ptr = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
-
-                triomphe::ThinArc::strong_count(&ptr.0)
+                triomphe::Arc::strong_count(&ptr.0)
             }
             _ => 1,
         }
@@ -318,11 +310,11 @@ impl PartialEq for Atom {
             let te = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
             let oe = unsafe { crate::dynamic::deref_from(other.unsafe_data) };
 
-            if te.header.header.header.hash != oe.header.header.header.hash {
+            if te.hash_value() != oe.hash_value() {
                 return false;
             }
 
-            return te.slice == oe.slice;
+            return te.slice() == oe.slice();
         }
 
         if self.get_hash() != other.get_hash() {
@@ -337,7 +329,7 @@ impl PartialEq for Atom {
 
 impl Eq for Atom {}
 
-impl Hash for Atom {
+impl std::hash::Hash for Atom {
     #[inline(always)]
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
         state.write_u64(self.get_hash());
