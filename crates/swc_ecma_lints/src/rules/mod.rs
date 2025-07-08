@@ -60,11 +60,13 @@ pub struct LintParams<'a> {
     pub source_map: Arc<SourceMap>,
 }
 
-pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
-    let mut rules = vec![critical_rules::critical_rules()];
+pub fn all(#[allow(unused)] lint_params: LintParams) -> Vec<Box<dyn Rule>> {
+    let rules = vec![critical_rules::critical_rules()];
 
     #[cfg(feature = "non_critical_lints")]
-    {
+    let rules = {
+        let mut rules = rules;
+
         let LintParams {
             program,
             lint_config,
@@ -203,7 +205,9 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             unresolved_ctxt,
             es_version,
         ));
-    }
+
+        rules
+    };
 
     rules
 }
