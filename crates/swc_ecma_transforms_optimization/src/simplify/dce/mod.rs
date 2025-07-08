@@ -110,6 +110,9 @@ struct Data {
     entries: FxHashSet<u32>,
 
     graph_ix: IndexSet<Id, FxBuildHasher>,
+    
+    /// Control Flow Graph for improved analysis
+    cfg: ControlFlowGraph,
 }
 
 impl Data {
@@ -233,6 +236,77 @@ impl Data {
             }
         }
     }
+
+    /// Improved dead code detection using CFG analysis
+    fn detect_dead_code_with_cfg(&mut self) -> FxHashSet<Id> {
+        let mut dead_vars = FxHashSet::default();
+        
+        // Mark entry blocks as reachable
+        let entry_blocks = self.cfg.entry_blocks.clone();
+        for &entry_id in &entry_blocks {
+            self.cfg.mark_reachable(entry_id);
+        }
+        
+        // Find unreachable blocks
+        let unreachable_blocks = self.cfg.find_unreachable_blocks();
+        
+        // Variables defined only in unreachable blocks are dead
+        for &block_id in &unreachable_blocks {
+            if let Some(&block_idx) = self.cfg.block_map.get(&block_id) {
+                let block = &self.cfg.blocks[block_idx];
+                for var in &block.defs {
+                    // Check if variable is defined elsewhere in reachable code
+                    let is_live_elsewhere = self.cfg.blocks.iter()
+                        .any(|other_block| {
+                            other_block.reachable && 
+                            other_block.id != block_id &&
+                            other_block.defs.contains(var)
+                        });
+                    
+                    if !is_live_elsewhere {
+                        dead_vars.insert(var.clone());
+                    }
+                }
+            }
+        }
+        
+        // Perform live variable analysis
+        let live_vars = self.cfg.compute_live_variables();
+        
+        // Find variables that are defined but never live
+        for block in &self.cfg.blocks {
+            if !block.reachable {
+                continue;
+            }
+            
+            let block_live = live_vars.get(&block.id).cloned().unwrap_or_default();
+            
+            for def_var in &block.defs {
+                // If a variable is defined but not live at any point, it's dead
+                if !block_live.contains(def_var) && 
+                   !self.is_variable_live_in_any_successor(def_var, &block.successors, &live_vars) {
+                    dead_vars.insert(def_var.clone());
+                }
+            }
+        }
+        
+        dead_vars
+    }
+    
+    /// Check if variable is live in any successor block
+    fn is_variable_live_in_any_successor(
+        &self, 
+        var: &Id, 
+        successors: &[u32], 
+        live_vars: &FxHashMap<u32, FxHashSet<Id>>
+    ) -> bool {
+        successors.iter().any(|&succ_id| {
+            live_vars.get(&succ_id)
+                .map(|live_set| live_set.contains(var))
+                .unwrap_or(false)
+        })
+    }
+
 }
 
 /// Graph modification
@@ -305,6 +379,185 @@ struct VarInfo {
     pub assign: u32,
 }
 
+/// Control Flow Graph for better dead code analysis
+#[derive(Default)]
+struct ControlFlowGraph {
+    /// Basic blocks in the control flow
+    blocks: Vec<CfgBlock>,
+    /// Mapping from block ID to block index
+    block_map: FxHashMap<u32, usize>,
+    /// Current block ID counter
+    next_block_id: u32,
+    /// Entry blocks for the current scope
+    entry_blocks: Vec<u32>,
+    /// Exit blocks for the current scope
+    #[allow(dead_code)]
+    exit_blocks: Vec<u32>,
+}
+
+#[derive(Debug, Clone)]
+struct CfgBlock {
+    id: u32,
+    /// Variables defined in this block
+    defs: FxHashSet<Id>,
+    /// Variables used in this block
+    uses: FxHashSet<Id>,
+    /// Successor blocks (for control flow)
+    successors: Vec<u32>,
+    /// Predecessor blocks (for control flow)
+    predecessors: Vec<u32>,
+    /// Whether this block is reachable
+    reachable: bool,
+    /// Block type for different analysis
+    #[allow(dead_code)]
+    block_type: CfgBlockType,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+#[allow(dead_code)]
+enum CfgBlockType {
+    /// Normal sequential block
+    Normal,
+    /// Conditional branch (if, switch, etc.)
+    Conditional,
+    /// Loop header
+    LoopHeader,
+    /// Loop body
+    LoopBody,
+    /// Function entry
+    FunctionEntry,
+    /// Function exit
+    FunctionExit,
+    /// Exception handler
+    ExceptionHandler,
+}
+
+impl ControlFlowGraph {
+    fn new() -> Self {
+        Default::default()
+    }
+
+    fn create_block(&mut self, block_type: CfgBlockType) -> u32 {
+        let id = self.next_block_id;
+        self.next_block_id += 1;
+        
+        let block = CfgBlock {
+            id,
+            defs: Default::default(),
+            uses: Default::default(),
+            successors: Vec::new(),
+            predecessors: Vec::new(),
+            reachable: false,
+            block_type,
+        };
+        
+        let index = self.blocks.len();
+        self.blocks.push(block);
+        self.block_map.insert(id, index);
+        
+        id
+    }
+
+    fn add_edge(&mut self, from: u32, to: u32) {
+        if let (Some(&from_idx), Some(&to_idx)) = (
+            self.block_map.get(&from),
+            self.block_map.get(&to),
+        ) {
+            self.blocks[from_idx].successors.push(to);
+            self.blocks[to_idx].predecessors.push(from);
+        }
+    }
+
+    fn add_def(&mut self, block_id: u32, var: Id) {
+        if let Some(&idx) = self.block_map.get(&block_id) {
+            self.blocks[idx].defs.insert(var);
+        }
+    }
+
+    fn add_use(&mut self, block_id: u32, var: Id) {
+        if let Some(&idx) = self.block_map.get(&block_id) {
+            self.blocks[idx].uses.insert(var);
+        }
+    }
+
+    fn mark_reachable(&mut self, block_id: u32) {
+        if let Some(&idx) = self.block_map.get(&block_id) {
+            if !self.blocks[idx].reachable {
+                self.blocks[idx].reachable = true;
+                
+                // Mark all successors reachable
+                let successors = self.blocks[idx].successors.clone();
+                for succ in successors {
+                    self.mark_reachable(succ);
+                }
+            }
+        }
+    }
+
+    /// Perform data flow analysis to find live variables
+    fn compute_live_variables(&mut self) -> FxHashMap<u32, FxHashSet<Id>> {
+        let mut live_out: FxHashMap<u32, FxHashSet<Id>> = FxHashMap::default();
+        let mut changed = true;
+
+        // Initialize
+        for block in &self.blocks {
+            live_out.insert(block.id, FxHashSet::default());
+        }
+
+        // Fixed-point iteration
+        while changed {
+            changed = false;
+            
+            // Process blocks in reverse order
+            for block in self.blocks.iter().rev() {
+                if !block.reachable {
+                    continue;
+                }
+
+                let mut new_live_out = FxHashSet::default();
+                
+                // live_out[B] = Union of live_in[S] for all successors S
+                for &succ_id in &block.successors {
+                    if let Some(&succ_idx) = self.block_map.get(&succ_id) {
+                        let succ_block = &self.blocks[succ_idx];
+                        
+                        // live_in[S] = use[S] ∪ (live_out[S] - def[S])
+                        let mut live_in = succ_block.uses.clone();
+                        if let Some(succ_live_out) = live_out.get(&succ_id) {
+                            for var in succ_live_out {
+                                if !succ_block.defs.contains(var) {
+                                    live_in.insert(var.clone());
+                                }
+                            }
+                        }
+                        
+                        new_live_out.extend(live_in);
+                    }
+                }
+                
+                if let Some(old_live_out) = live_out.get(&block.id) {
+                    if *old_live_out != new_live_out {
+                        changed = true;
+                    }
+                }
+                
+                live_out.insert(block.id, new_live_out);
+            }
+        }
+
+        live_out
+    }
+
+    /// Find unreachable blocks
+    fn find_unreachable_blocks(&self) -> Vec<u32> {
+        self.blocks
+            .iter()
+            .filter(|block| !block.reachable)
+            .map(|block| block.id)
+            .collect()
+    }
+}
+
 struct Analyzer<'a> {
     #[allow(dead_code)]
     config: &'a Config,
@@ -313,6 +566,34 @@ struct Analyzer<'a> {
     data: &'a mut Data,
     cur_class_id: Option<Id>,
     cur_fn_id: Option<Id>,
+    
+    /// Current basic block in CFG analysis
+    current_block: Option<u32>,
+    /// Block stack for nested control structures
+    block_stack: Vec<CfgContext>,
+}
+
+#[derive(Debug, Clone)]
+struct CfgContext {
+    /// Current block being processed
+    current_block: u32,
+    /// Break target for loops/switches
+    break_target: Option<u32>,
+    /// Continue target for loops
+    continue_target: Option<u32>,
+    /// Context type
+    #[allow(dead_code)]
+    context_type: CfgContextType,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+#[allow(dead_code)]
+enum CfgContextType {
+    Function,
+    Loop,
+    Switch,
+    Block,
+    Conditional,
 }
 
 #[derive(Debug, Default)]
@@ -358,6 +639,74 @@ impl Analyzer<'_> {
         self.scope.ast_path.truncate(prev_len);
     }
 
+    /// Create a new basic block and make it current
+    fn create_block(&mut self, block_type: CfgBlockType) -> u32 {
+        let block_id = self.data.cfg.create_block(block_type);
+        self.current_block = Some(block_id);
+        block_id
+    }
+
+    /// Switch to an existing block
+    fn switch_to_block(&mut self, block_id: u32) {
+        self.current_block = Some(block_id);
+    }
+
+    /// Add edge from current block to target block
+    fn add_edge_to(&mut self, target_block: u32) {
+        if let Some(current) = self.current_block {
+            self.data.cfg.add_edge(current, target_block);
+        }
+    }
+
+    /// Record variable definition in current block
+    fn record_def(&mut self, id: &Id) {
+        if let Some(block_id) = self.current_block {
+            self.data.cfg.add_def(block_id, id.clone());
+        }
+    }
+
+    /// Record variable use in current block
+    fn record_use(&mut self, id: &Id) {
+        if let Some(block_id) = self.current_block {
+            self.data.cfg.add_use(block_id, id.clone());
+        }
+    }
+
+    /// Enter a new CFG context (loop, function, etc.)
+    fn enter_cfg_context(&mut self, context_type: CfgContextType) -> CfgContext {
+        let current_block = self.current_block.unwrap_or_else(|| {
+            self.create_block(match context_type {
+                CfgContextType::Function => CfgBlockType::FunctionEntry,
+                CfgContextType::Loop => CfgBlockType::LoopHeader,
+                _ => CfgBlockType::Normal,
+            })
+        });
+
+        let context = CfgContext {
+            current_block,
+            break_target: None,
+            continue_target: None,
+            context_type,
+        };
+
+        self.block_stack.push(context.clone());
+        context
+    }
+
+    /// Exit current CFG context
+    fn exit_cfg_context(&mut self) {
+        self.block_stack.pop();
+        if let Some(parent_context) = self.block_stack.last() {
+            self.current_block = Some(parent_context.current_block);
+        }
+    }
+
+    /// Find the nearest context of given type
+    #[allow(dead_code)]
+    fn find_context(&self, context_type: CfgContextType) -> Option<&CfgContext> {
+        self.block_stack.iter().rev().find(|ctx| ctx.context_type == context_type)
+    }
+
     fn with_scope<F>(&mut self, kind: ScopeKind, op: F)
     where
         F: for<'aa> FnOnce(&mut Analyzer<'aa>),
@@ -369,11 +718,14 @@ impl Analyzer<'_> {
             };
 
             let mut v = Analyzer {
+                config: self.config,
+                in_var_decl: self.in_var_decl,
                 scope: child,
                 data: self.data,
                 cur_fn_id: self.cur_fn_id.clone(),
                 cur_class_id: self.cur_class_id.clone(),
-                ..*self
+                current_block: self.current_block,
+                block_stack: self.block_stack.clone(),
             };
 
             op(&mut v);
@@ -421,6 +773,13 @@ impl Analyzer<'_> {
             if id == *f {
                 return;
             }
+        }
+
+        // Record in CFG
+        if assign {
+            self.record_def(&id);
+        } else {
+            self.record_use(&id);
         }
 
         if self.scope.is_ast_path_empty() {
@@ -570,16 +929,22 @@ impl Visit for Analyzer<'_> {
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         self.with_scope(ScopeKind::ArrowFn, |v| {
+            let _context = v.enter_cfg_context(CfgContextType::Function);
+            
             n.visit_children_with(v);
 
             if v.scope.found_direct_eval {
                 v.scope.bindings_affected_by_eval = collect_decls(n);
             }
+            
+            v.exit_cfg_context();
         })
     }
 
     fn visit_function(&mut self, n: &Function) {
         self.with_scope(ScopeKind::Fn, |v| {
+            let _context = v.enter_cfg_context(CfgContextType::Function);
+            
             n.visit_children_with(v);
 
             if v.scope.found_direct_eval {
@@ -589,6 +954,8 @@ impl Visit for Analyzer<'_> {
             if v.scope.found_arguemnts {
                 v.scope.bindings_affected_by_arguements = find_pat_ids(&n.params);
             }
+            
+            v.exit_cfg_context();
         })
     }
 
@@ -644,6 +1011,129 @@ impl Visit for Analyzer<'_> {
 
         self.in_var_decl = old;
     }
+
+    /// Handle if statements with proper CFG construction
+    fn visit_if_stmt(&mut self, n: &IfStmt) {
+        // Visit condition
+        n.test.visit_with(self);
+
+        // Create blocks for then and else branches
+        let then_block = self.create_block(CfgBlockType::Normal);
+        let else_block = if n.alt.is_some() {
+            Some(self.create_block(CfgBlockType::Normal))
+        } else {
+            None
+        };
+        let merge_block = self.create_block(CfgBlockType::Normal);
+
+        // Add edges from condition to branches
+        self.add_edge_to(then_block);
+        if let Some(else_id) = else_block {
+            self.add_edge_to(else_id);
+        } else {
+            self.add_edge_to(merge_block);
+        }
+
+        // Process then branch
+        self.switch_to_block(then_block);
+        let _context = self.enter_cfg_context(CfgContextType::Conditional);
+        n.cons.visit_with(self);
+        self.add_edge_to(merge_block);
+        self.exit_cfg_context();
+
+        // Process else branch if exists
+        if let Some(alt) = &n.alt {
+            if let Some(else_id) = else_block {
+                self.switch_to_block(else_id);
+                let _context = self.enter_cfg_context(CfgContextType::Conditional);
+                alt.visit_with(self);
+                self.add_edge_to(merge_block);
+                self.exit_cfg_context();
+            }
+        }
+
+        // Continue with merge block
+        self.switch_to_block(merge_block);
+    }
+
+    /// Handle while loops
+    fn visit_while_stmt(&mut self, n: &WhileStmt) {
+        let loop_header = self.create_block(CfgBlockType::LoopHeader);
+        let loop_body = self.create_block(CfgBlockType::LoopBody);
+        let exit_block = self.create_block(CfgBlockType::Normal);
+
+        // Jump to loop header
+        self.add_edge_to(loop_header);
+        self.switch_to_block(loop_header);
+
+        // Visit condition
+        n.test.visit_with(self);
+
+        // Add edges for loop condition
+        self.add_edge_to(loop_body);  // true branch
+        self.add_edge_to(exit_block); // false branch
+
+        // Process loop body
+        self.switch_to_block(loop_body);
+        let mut context = self.enter_cfg_context(CfgContextType::Loop);
+        context.break_target = Some(exit_block);
+        context.continue_target = Some(loop_header);
+
+        n.body.visit_with(self);
+
+        // Loop back to header
+        self.add_edge_to(loop_header);
+        self.exit_cfg_context();
+
+        // Continue with exit block
+        self.switch_to_block(exit_block);
+    }
+
+    /// Handle for loops
+    fn visit_for_stmt(&mut self, n: &ForStmt) {
+        // Visit init
+        if let Some(init) = &n.init {
+            init.visit_with(self);
+        }
+
+        let loop_header = self.create_block(CfgBlockType::LoopHeader);
+        let loop_body = self.create_block(CfgBlockType::LoopBody);
+        let update_block = self.create_block(CfgBlockType::Normal);
+        let exit_block = self.create_block(CfgBlockType::Normal);
+
+        // Jump to loop header
+        self.add_edge_to(loop_header);
+        self.switch_to_block(loop_header);
+
+        // Visit condition
+        if let Some(test) = &n.test {
+            test.visit_with(self);
+        }
+
+        // Add edges for loop condition
+        self.add_edge_to(loop_body);  // true branch
+        self.add_edge_to(exit_block); // false branch
+
+        // Process loop body
+        self.switch_to_block(loop_body);
+        let mut context = self.enter_cfg_context(CfgContextType::Loop);
+        context.break_target = Some(exit_block);
+        context.continue_target = Some(update_block);
+
+        n.body.visit_with(self);
+        self.add_edge_to(update_block);
+        self.exit_cfg_context();
+
+        // Process update
+        self.switch_to_block(update_block);
+        if let Some(update) = &n.update {
+            update.visit_with(self);
+        }
+        self.add_edge_to(loop_header);
+
+        // Continue with exit block
+        self.switch_to_block(exit_block);
+    }
 }
 
 impl Repeated for TreeShaker {
@@ -698,10 +1188,44 @@ impl TreeShaker {
             return false;
         }
 
+        // Check CFG-based liveness
+        let is_cfg_dead = self.is_variable_dead_in_cfg(&name);
+        if is_cfg_dead {
+            return true;
+        }
+
         match self.data.used_names.get(&name) {
             Some(v) => v.usage == 0 && v.assign == 0,
             None => true,
         }
+    }
+    
+    /// Check if variable is dead according to CFG analysis
+    fn is_variable_dead_in_cfg(&self, name: &Id) -> bool {
+        // Check if variable is defined only in unreachable blocks
+        let mut defined_in_reachable = false;
+        let mut defined_in_unreachable = false;
+        
+        for block in &self.data.cfg.blocks {
+            if block.defs.contains(name) {
+                if block.reachable {
+                    defined_in_reachable = true;
+                } else {
+                    defined_in_unreachable = true;
+                }
+            }
+        }
+        
+        // If only defined in unreachable blocks, it's dead
+        if defined_in_unreachable && !defined_in_reachable {
+            return true;
+        }
+        
+        // Check if variable is never used in any reachable block
+        let used_in_reachable = self.data.cfg.blocks.iter()
+            .any(|block| block.reachable && block.uses.contains(name));
+            
+        !used_in_reachable && defined_in_reachable
     }
 
     fn can_drop_assignment_to(&self, name: Id, is_var: bool) -> bool {
@@ -1004,6 +1528,7 @@ impl VisitMut for TreeShaker {
         if !self.data.initialized {
             let mut data = Data {
                 initialized: true,
+                cfg: ControlFlowGraph::new(),
                 ..Default::default()
             };
 
@@ -1015,9 +1540,20 @@ impl VisitMut for TreeShaker {
                     data: &mut data,
                     cur_class_id: Default::default(),
                     cur_fn_id: Default::default(),
+                    current_block: None,
+                    block_stack: Vec::new(),
                 };
+                
+                // Create entry block for module
+                let entry_block = analyzer.create_block(CfgBlockType::Normal);
+                analyzer.data.cfg.entry_blocks.push(entry_block);
+                
                 m.visit_with(&mut analyzer);
             }
+            
+            // Perform CFG-based dead code analysis
+            let _dead_vars = data.detect_dead_code_with_cfg();
+            
             data.subtract_cycles();
             self.data = data;
         } else {
@@ -1068,6 +1604,7 @@ impl VisitMut for TreeShaker {
         if !self.data.initialized {
             let mut data = Data {
                 initialized: true,
+                cfg: ControlFlowGraph::new(),
                 ..Default::default()
             };
 
@@ -1079,9 +1616,20 @@ impl VisitMut for TreeShaker {
                     data: &mut data,
                     cur_class_id: Default::default(),
                     cur_fn_id: Default::default(),
+                    current_block: None,
+                    block_stack: Vec::new(),
                 };
+                
+                // Create entry block for script
+                let entry_block = analyzer.create_block(CfgBlockType::Normal);
+                analyzer.data.cfg.entry_blocks.push(entry_block);
+                
                 m.visit_with(&mut analyzer);
             }
+            
+            // Perform CFG-based dead code analysis
+            let _dead_vars = data.detect_dead_code_with_cfg();
+            
             data.subtract_cycles();
             self.data = data;
         } else {
