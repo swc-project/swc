@@ -11,7 +11,7 @@ use super::{
     builtin::{
         BUILT_INS, COMMON_ITERATORS, INSTANCE_PROPERTIES, PROMISE_DEPENDENCIES, STATIC_PROPERTIES,
     },
-    data::{MODULES_BY_VERSION, POSSIBLE_GLOBAL_OBJECTS},
+    data,
 };
 use crate::{
     corejs3::compat::DATA as CORE_JS_COMPAT_DATA, util::CoreJSPolyfillDescriptor, Versions,
@@ -88,8 +88,8 @@ impl UsageVisitor {
                 }
             }
 
-            if let Some(version) = MODULES_BY_VERSION.get(**f) {
-                return version <= corejs_version;
+            if let Some(version) = data::modules_by_version(**f) {
+                return version <= *corejs_version;
             }
 
             true
@@ -116,7 +116,7 @@ impl UsageVisitor {
 
     fn add_property_deps_inner(&mut self, obj: Option<&Atom>, prop: &Atom) {
         if let Some(obj) = obj {
-            if POSSIBLE_GLOBAL_OBJECTS.contains(&&**obj) {
+            if data::POSSIBLE_GLOBAL_OBJECTS.contains(&&**obj) {
                 self.add_builtin(prop);
             }
 

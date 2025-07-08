@@ -11,7 +11,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMut;
 
-use super::{compat::DATA as CORE_JS_COMPAT_DATA, data::MODULES_BY_VERSION};
+use super::{compat::DATA as CORE_JS_COMPAT_DATA, data};
 use crate::util::SwcFold;
 
 include!(concat!(env!("OUT_DIR"), "/corejs3_entries/lib.rs"));
@@ -19,19 +19,19 @@ include!(concat!(env!("OUT_DIR"), "/corejs3_entries/lib.rs"));
 pub struct FeatureSet(Range<u32>);
 
 pub fn entries_get(name: &str) -> Option<FeatureSet> {
-    let index = ENTRY_INDEX.get(name.as_bytes())?;
+    let index = ENTRY_INDEX.get(name)?;
     ENTRY_VALUES_LIST.get(index).cloned().map(FeatureSet)
 }
 
 impl FeatureSet {
     pub fn iter(&self) -> impl ExactSizeIterator<Item = &'static str> {
         use precomputed_map::store::AccessSeq;
-        use crate::util::pooled_unpack;
+        use crate::util::PooledStr;
 
         self.0
             .clone()
             .map(|idx| EntryValuesStringId::index(idx as usize).unwrap())
-            .map(|id| pooled_unpack(ENTRY_VALUES_STRING_STORE, id))
+            .map(|id| PooledStr(id).as_str())
     }
 }
 
@@ -84,8 +84,8 @@ impl Entry {
                     }
                 }
 
-                if let Some(version) = MODULES_BY_VERSION.get(f) {
-                    return version <= corejs_version;
+                if let Some(version) = data::modules_by_version(f) {
+                    return version <= *corejs_version;
                 }
 
                 true

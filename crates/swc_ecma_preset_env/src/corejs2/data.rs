@@ -1,6 +1,6 @@
-use crate::util::{pooled_unpack, SwcFold};
+use crate::util::{PooledStr, SwcFold};
 
-include!(concat!(env!("OUT_DIR"), "/corejs2_data/data.rs"));
+include!(concat!(env!("OUT_DIR"), "/corejs2_data/lib.rs"));
 
 pub struct StaticProperty(&'static [(PooledStr, u32, u32)]);
 
@@ -35,13 +35,5 @@ impl StaticProperty {
             .iter()
             .map(|s| s.as_str());
         Some(iter)
-    }
-}
-
-struct PooledStr(u32);
-
-impl PooledStr {
-    fn as_str(&self) -> &'static str {
-        pooled_unpack(STRING_STORE, self.0)
     }
 }
