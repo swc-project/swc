@@ -955,9 +955,9 @@ test!(
 
 #[test]
 fn jsx_text() {
-    assert_eq!(jsx_text_to_str(" ".into()), *" ");
-    assert_eq!(jsx_text_to_str("Hello world".into()), *"Hello world");
-    //    assert_eq!(jsx_text_to_str(" \n".into()), *" ");
+    assert_eq!(jsx_text_to_str(" "), *" ");
+    assert_eq!(jsx_text_to_str("Hello world"), *"Hello world");
+    //    assert_eq!(jsx_text_to_str(" \n"), *" ");
 }
 
 // https://github.com/swc-project/swc/issues/542

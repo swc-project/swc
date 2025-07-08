@@ -935,7 +935,7 @@ where
         Some(match c {
             JSXElementChild::JSXText(text) => {
                 // TODO(kdy1): Optimize
-                let value = jsx_text_to_str(text.value);
+                let value = jsx_text_to_str(&text.value);
                 let s = Str {
                     span: text.span,
                     raw: None,
@@ -1377,24 +1377,23 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 }
 
 #[inline]
-fn jsx_text_to_str(t: Atom) -> Atom {
+fn jsx_text_to_str(t: &str) -> Atom {
     let mut buf = String::new();
-    let replaced = t.replace('\t', " ");
 
-    for (is_last, (i, line)) in replaced.lines().enumerate().identify_last() {
+    for (is_last, (i, line)) in t.lines().enumerate().identify_last() {
         if line.is_empty() {
             continue;
         }
         let line = Cow::from(line);
         let line = if i != 0 {
-            Cow::Borrowed(line.trim_start_matches(' '))
+            Cow::Borrowed(line.trim_start_matches([' ', '\t']))
         } else {
             line
         };
         let line = if is_last {
             line
         } else {
-            Cow::Borrowed(line.trim_end_matches(' '))
+            Cow::Borrowed(line.trim_end_matches([' ', '\t']))
         };
         if line.is_empty() {
             continue;
@@ -1434,7 +1433,7 @@ fn count_children(children: &[JSXElementChild]) -> usize {
         .iter()
         .filter(|v| match v {
             JSXElementChild::JSXText(text) => {
-                let text = jsx_text_to_str(text.value.clone());
+                let text = jsx_text_to_str(&text.value);
                 !text.is_empty()
             }
             JSXElementChild::JSXExprContainer(e) => match e.expr {
