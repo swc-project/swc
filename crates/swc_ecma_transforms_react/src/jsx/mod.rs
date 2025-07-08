@@ -1385,16 +1385,17 @@ fn jsx_text_to_str(t: &str) -> Atom {
             continue;
         }
         let line = Cow::from(line);
-        let line = if i != 0 {
-            Cow::Borrowed(line.trim_start_matches([' ', '\t']))
-        } else {
-            line
+
+        let trim_start = i != 0;
+        let trim_end = !is_last;
+
+        let line = match (trim_start, trim_end) {
+            (true, true) => Cow::Borrowed(line.trim_matches([' ', '\t'])),
+            (true, false) => Cow::Borrowed(line.trim_start_matches([' ', '\t'])),
+            (false, true) => Cow::Borrowed(line.trim_end_matches([' ', '\t'])),
+            _ => line,
         };
-        let line = if is_last {
-            line
-        } else {
-            Cow::Borrowed(line.trim_end_matches([' ', '\t']))
-        };
+
         if line.is_empty() {
             continue;
         }
