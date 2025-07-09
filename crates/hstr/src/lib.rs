@@ -252,7 +252,6 @@ impl Atom {
                 unsafe { crate::dynamic::deref_from(self.unsafe_data) }
                     .header
                     .header
-                    .header
                     .hash
             }
             INLINE_TAG => {
@@ -318,7 +317,7 @@ impl PartialEq for Atom {
             let te = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
             let oe = unsafe { crate::dynamic::deref_from(other.unsafe_data) };
 
-            if te.header.header.header.hash != oe.header.header.header.hash {
+            if te.header.header.hash != oe.header.header.hash {
                 return false;
             }
 

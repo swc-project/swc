@@ -10,7 +10,7 @@ use std::{
 };
 
 use rustc_hash::FxHasher;
-use triomphe::{HeaderWithLength, ThinArc};
+use triomphe::ThinArc;
 
 use crate::{
     tagged_value::{TaggedValue, MAX_INLINE_LEN},
@@ -24,11 +24,11 @@ pub(crate) struct Metadata {
 }
 
 #[derive(Clone, PartialEq, Eq)]
-pub(crate) struct Item(pub ThinArc<HeaderWithLength<Metadata>, u8>);
+pub(crate) struct Item(pub ThinArc<Metadata, u8>);
 
 impl Item {
     /// https://users.rust-lang.org/t/what-is-the-ideal-way-to-destruct-a-guard-type/25974/8
-    fn into_inner(self) -> ThinArc<HeaderWithLength<Metadata>, u8> {
+    fn into_inner(self) -> ThinArc<Metadata, u8> {
         unsafe {
             let inner = ptr::read(&self.0);
             forget(self);
@@ -38,7 +38,7 @@ impl Item {
 }
 
 impl Deref for Item {
-    type Target = <ThinArc<HeaderWithLength<Metadata>, u8> as Deref>::Target;
+    type Target = <ThinArc<Metadata, u8> as Deref>::Target;
 
     fn deref(&self) -> &Self::Target {
         &self.0
@@ -47,7 +47,7 @@ impl Deref for Item {
 
 impl Hash for Item {
     fn hash<H: Hasher>(&self, state: &mut H) {
-        state.write_u64(self.0.header.header.header.hash);
+        state.write_u64(self.0.header.header.hash);
     }
 }
 
@@ -90,7 +90,7 @@ impl Drop for Item {
     fn drop(&mut self) {
         // If we are going to drop the last reference, we need to remove the
         // entry from the global store if it is a global atom
-        if self.0.header.header.header.is_global && ThinArc::strong_count(&self.0) == 2 {
+        if self.0.header.header.is_global && ThinArc::strong_count(&self.0) == 2 {
             let v = GLOBAL_DATA.try_with(|global| {
                 let mut store = global.borrow_mut();
                 store.data.remove_entry(self)
@@ -181,7 +181,7 @@ impl Storage for &'_ mut AtomStore {
         // If the text is too long, interning is not worth it.
         if text.len() > 512 {
             return Item(ThinArc::from_header_and_slice(
-                HeaderWithLength::new(Metadata { hash, is_global }, text.len()),
+                Metadata { hash, is_global },
                 text.as_bytes(),
             ));
         }
@@ -189,11 +189,11 @@ impl Storage for &'_ mut AtomStore {
         let (entry, _) = self
             .data
             .raw_entry_mut()
-            .from_hash(hash, |key| key.header.header.header.hash == hash)
+            .from_hash(hash, |key| key.header.header.hash == hash)
             .or_insert_with(move || {
                 (
                     Item(ThinArc::from_header_and_slice(
-                        HeaderWithLength::new(Metadata { hash, is_global }, text.len()),
+                        Metadata { hash, is_global },
                         text.as_bytes(),
                     )),
                     (),
