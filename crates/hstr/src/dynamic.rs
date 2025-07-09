@@ -74,7 +74,7 @@ pub struct AtomStore {
 impl Default for AtomStore {
     fn default() -> Self {
         Self {
-            data: hashbrown::HashMap::with_capacity_and_hasher(64, Default::default()),
+            data: hashbrown::HashMap::with_capacity_and_hasher(64, BuildEntryHasher::default()),
         }
     }
 }
@@ -84,27 +84,25 @@ impl AtomStore {
     pub fn atom<'a>(&mut self, text: impl Into<Cow<'a, str>>) -> Atom {
         atom_in(self, &text.into(), false)
     }
-}
 
-impl Drop for Item {
-    fn drop(&mut self) {
-        // If we are going to drop the last reference, we need to remove the
-        // entry from the global store if it is a global atom
-        if self.0.header.header.is_global && ThinArc::strong_count(&self.0) == 2 {
-            let v = GLOBAL_DATA.try_with(|global| {
-                let mut store = global.borrow_mut();
-                store.data.remove_entry(self)
-            });
-
-            if let Ok(Some((v, _))) = v {
-                v.into_inner();
-            }
-        }
+    fn gc(&mut self) {
+        self.data.retain(|item, _| {
+            let count = ThinArc::strong_count(&item.0);
+            debug_assert!(count > 0);
+            count > 1
+        });
     }
 }
 
 thread_local! {
     static GLOBAL_DATA: RefCell<AtomStore> = Default::default();
+}
+
+pub fn global_atom_store_gc() {
+    GLOBAL_DATA.with(|global| {
+        let mut store = global.borrow_mut();
+        store.gc();
+    });
 }
 
 pub(crate) fn global_atom(text: &str) -> Atom {
@@ -189,7 +187,9 @@ impl Storage for &'_ mut AtomStore {
         let (entry, _) = self
             .data
             .raw_entry_mut()
-            .from_hash(hash, |key| key.header.header.hash == hash)
+            .from_hash(hash, |key| {
+                key.header.header.hash == hash && key.slice.eq(text.as_bytes())
+            })
             .or_insert_with(move || {
                 (
                     Item(ThinArc::from_header_and_slice(
@@ -253,15 +253,29 @@ impl Hasher for EntryHasher {
 
 #[cfg(test)]
 mod tests {
-    use crate::{dynamic::GLOBAL_DATA, Atom};
+    use crate::{dynamic::GLOBAL_DATA, global_atom_store_gc, Atom};
+
+    fn expect_size(expected: usize) {
+        // This is a helper function to count the number of bytes in the global store.
+        GLOBAL_DATA.with(|global| {
+            let store = global.borrow();
+            assert_eq!(store.data.len(), expected);
+        })
+    }
 
     #[test]
-    fn global_ref_count_dynamic() {
+    fn global_ref_count_dynamic_0() {
+        expect_size(0);
+
         // The strings should be long enough so that they are not inline even under
         // feature `atom_size_128`
         let atom1 = Atom::new("Hello, beautiful world!");
 
+        expect_size(1);
+
         let atom2 = Atom::new("Hello, beautiful world!");
+
+        expect_size(1);
 
         // 2 for the two atoms, 1 for the global store
         assert_eq!(atom1.ref_count(), 3);
@@ -269,14 +283,48 @@ mod tests {
 
         drop(atom1);
 
+        expect_size(1);
+
         // 1 for the atom2, 1 for the global store
         assert_eq!(atom2.ref_count(), 2);
 
         drop(atom2);
 
-        GLOBAL_DATA.with(|global| {
-            let store = global.borrow();
-            assert_eq!(store.data.len(), 0);
-        });
+        expect_size(1);
+        global_atom_store_gc();
+        expect_size(0);
+    }
+
+    #[test]
+    fn global_ref_count_dynamic_1() {
+        expect_size(0);
+
+        {
+            expect_size(0);
+            let atom = Atom::new("Hello, beautiful world!");
+            assert_eq!(atom.ref_count(), 2);
+            expect_size(1);
+        }
+
+        expect_size(1);
+        global_atom_store_gc();
+        expect_size(0);
+
+        {
+            let atom = Atom::new("Hello, beautiful world!");
+            assert_eq!(atom.ref_count(), 2);
+            expect_size(1);
+        }
+        let atom = Atom::new("Hello, beautiful world!");
+        assert_eq!(atom.ref_count(), 2);
+
+        expect_size(1);
+        global_atom_store_gc();
+        expect_size(1);
+
+        drop(atom);
+        expect_size(1);
+        global_atom_store_gc();
+        expect_size(0);
     }
 }
