@@ -318,11 +318,7 @@ impl PartialEq for Atom {
             let te = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
             let oe = unsafe { crate::dynamic::deref_from(other.unsafe_data) };
 
-            if te.header.header.header.hash != oe.header.header.header.hash {
-                return false;
-            }
-
-            return te.slice == oe.slice;
+            return te.header.header.header.hash == oe.header.header.header.hash;
         }
 
         if self.get_hash() != other.get_hash() {

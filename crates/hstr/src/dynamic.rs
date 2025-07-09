@@ -17,13 +17,13 @@ use crate::{
     Atom, INLINE_TAG, INLINE_TAG_INIT, LEN_OFFSET, TAG_MASK,
 };
 
-#[derive(PartialEq, Eq)]
+#[derive(Debug, PartialEq, Eq)]
 pub(crate) struct Metadata {
     pub hash: u64,
     pub is_global: bool,
 }
 
-#[derive(Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub(crate) struct Item(pub ThinArc<HeaderWithLength<Metadata>, u8>);
 
 impl Item {
