@@ -1,9 +1,8 @@
 use std::{cell::RefCell, mem::replace};
 
-use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use swc_atoms::{atom, Atom};
-use swc_common::{FileName, FilePathMapping, Mark, SourceMap, SyntaxContext, DUMMY_SP};
+use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -20,10 +19,10 @@ macro_rules! enable_helper {
 
 #[cfg(feature = "inline-helpers")]
 fn parse(code: &str) -> Vec<Stmt> {
-    let cm = SourceMap::new(FilePathMapping::empty());
+    let cm = swc_common::SourceMap::default();
 
     let fm = cm.new_source_file(
-        FileName::Custom(stringify!($name).into()).into(),
+        swc_common::FileName::Custom(stringify!($name).into()).into(),
         code.to_string(),
     );
     swc_ecma_parser::parse_file_as_script(
@@ -46,7 +45,7 @@ fn parse(code: &str) -> Vec<Stmt> {
 #[cfg(feature = "inline-helpers")]
 macro_rules! add_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
-        static STMTS: Lazy<Vec<Stmt>> = Lazy::new(|| {
+        static STMTS: once_cell::sync::Lazy<Vec<Stmt>> = once_cell::sync::Lazy::new(|| {
             let code = include_str!(concat!("./_", stringify!($name), ".js"));
             parse(&code)
         });
