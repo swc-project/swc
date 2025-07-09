@@ -1,7 +1,6 @@
-use std::{cell::RefCell, mem::replace};
+use std::cell::RefCell;
 
-use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
+use swc_atoms::atom;
 use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
@@ -204,6 +203,7 @@ macro_rules! define_helpers {
                 })
             }
 
+            #[cfg(feature = "inline-helpers")]
             fn build_helpers(&self) -> Vec<Stmt> {
                 let mut buf = Vec::new();
 
@@ -435,35 +435,41 @@ struct InjectHelpers {
 }
 
 impl InjectHelpers {
+    #[allow(unused_variables)]
     fn make_helpers_for_module(&mut self) -> Vec<ModuleItem> {
         let (helper_mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
-        if external {
-            if self.is_helper_used() {
-                self.helper_ctxt = Some(SyntaxContext::empty().apply_mark(helper_mark));
-                self.build_imports()
-            } else {
-                Vec::new()
-            }
-        } else {
-            self.build_helpers()
+
+        #[cfg(feature = "inline-helpers")]
+        if !external {
+            return self
+                .build_helpers()
                 .into_iter()
                 .map(ModuleItem::Stmt)
-                .collect()
+                .collect();
+        }
+
+        if self.is_helper_used() {
+            self.helper_ctxt = Some(SyntaxContext::empty().apply_mark(helper_mark));
+            self.build_imports()
+        } else {
+            Vec::new()
         }
     }
 
+    #[allow(unused_variables)]
     fn make_helpers_for_script(&mut self) -> Vec<Stmt> {
         let (helper_mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
 
-        if external {
-            if self.is_helper_used() {
-                self.helper_ctxt = Some(SyntaxContext::empty().apply_mark(helper_mark));
-                self.build_requires()
-            } else {
-                Default::default()
-            }
+        #[cfg(feature = "inline-helpers")]
+        if !external {
+            return self.build_helpers();
+        }
+
+        if self.is_helper_used() {
+            self.helper_ctxt = Some(SyntaxContext::empty().apply_mark(helper_mark));
+            self.build_requires()
         } else {
-            self.build_helpers()
+            Default::default()
         }
     }
 
@@ -548,18 +554,20 @@ impl VisitMut for InjectHelpers {
     }
 }
 
+#[cfg(feature = "inline-helpers")]
 struct Marker {
     base: SyntaxContext,
-    decls: FxHashMap<Atom, SyntaxContext>,
+    decls: rustc_hash::FxHashMap<swc_atoms::Atom, SyntaxContext>,
 
     decl_ctxt: SyntaxContext,
 }
 
+#[cfg(feature = "inline-helpers")]
 impl VisitMut for Marker {
     noop_visit_mut_type!();
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
-        let old_decl_ctxt = replace(
+        let old_decl_ctxt = std::mem::replace(
             &mut self.decl_ctxt,
             SyntaxContext::empty().apply_mark(Mark::new()),
         );
@@ -572,7 +580,7 @@ impl VisitMut for Marker {
     }
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        let old_decl_ctxt = replace(
+        let old_decl_ctxt = std::mem::replace(
             &mut self.decl_ctxt,
             SyntaxContext::empty().apply_mark(Mark::new()),
         );
