@@ -208,7 +208,6 @@ macro_rules! define_helpers {
                 let mut buf = Vec::new();
 
                 HELPERS.with(|helpers|{
-                    debug_assert!(!helpers.external);
                     let inner = helpers.inner.borrow();
                     $(
                             add_to!(buf, $name, inner.$name, helpers.mark.0);
@@ -223,7 +222,6 @@ macro_rules! define_helpers {
 
                 HELPERS.with(|helpers|{
                     let inner = helpers.inner.borrow();
-                    debug_assert!(helpers.external);
                     $(
                             add_import_to!(buf, $name, inner.$name, helpers.mark.0);
                     )*
@@ -235,7 +233,6 @@ macro_rules! define_helpers {
             fn build_requires(&self) -> Vec<Stmt>{
                 let mut buf = Vec::new();
                 HELPERS.with(|helpers|{
-                    debug_assert!(helpers.external);
                     let inner = helpers.inner.borrow();
                     $(
                         let enable = inner.$name;
