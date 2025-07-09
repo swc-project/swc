@@ -1,7 +1,6 @@
 #![allow(clippy::redundant_allocation)]
 
 use std::{
-    borrow::Cow,
     iter::{self, once},
     sync::RwLock,
 };
@@ -15,7 +14,6 @@ use swc_atoms::{atom, Atom};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     errors::HANDLER,
-    iter::IdentifyLast,
     sync::Lrc,
     util::take::Take,
     FileName, Mark, SourceMap, Span, Spanned, SyntaxContext, DUMMY_SP,
@@ -23,7 +21,10 @@ use swc_common::{
 use swc_config::merge::Merge;
 use swc_ecma_ast::*;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
-use swc_ecma_utils::{drop_span, prepend_stmt, private_ident, quote_ident, ExprFactory, StmtLike};
+use swc_ecma_utils::{
+    drop_span, prepend_stmt, private_ident, quote_ident, str::is_line_terminator, ExprFactory,
+    StmtLike,
+};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 
 use self::static_check::should_use_create_element;
@@ -1376,35 +1377,105 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
     }
 }
 
+/// https://github.com/microsoft/TypeScript/blob/9e20e032effad965567d4a1e1c30d5433b0a3332/src/compiler/transformers/jsx.ts#L572-L608
+///
+/// JSX trims whitespace at the end and beginning of lines, except that the
+/// start/end of a tag is considered a start/end of a line only if that line is
+/// on the same line as the closing tag. See examples in
+/// tests/cases/conformance/jsx/tsxReactEmitWhitespace.tsx
+/// See also https://www.w3.org/TR/html4/struct/text.html#h-9.1 and https://www.w3.org/TR/CSS2/text.html#white-space-model
+///
+/// An equivalent algorithm would be:
+/// - If there is only one line, return it.
+/// - If there is only whitespace (but multiple lines), return `undefined`.
+/// - Split the text into lines.
+/// - 'trimRight' the first line, 'trimLeft' the last line, 'trim' middle lines.
+/// - Decode entities on each line (individually).
+/// - Remove empty lines and join the rest with " ".
 #[inline]
 fn jsx_text_to_str(t: &str) -> Atom {
-    let mut buf = String::new();
+    let mut acc: Option<String> = None;
+    let mut only_line: Option<&str> = None;
+    let mut first_non_whitespace: Option<usize> = Some(0);
+    let mut last_non_whitespace: Option<usize> = None;
 
-    for (is_last, (i, line)) in t.lines().enumerate().identify_last() {
-        if line.is_empty() {
-            continue;
+    for (index, c) in t.char_indices() {
+        if is_line_terminator(c) {
+            if let (Some(first), Some(last)) = (first_non_whitespace, last_non_whitespace) {
+                let line_text = &t[first..last];
+                add_line_of_jsx_text(line_text, &mut acc, &mut only_line);
+            }
+            first_non_whitespace = None;
+        } else if !is_white_space_single_line(c) {
+            last_non_whitespace = Some(index + c.len_utf8());
+            if first_non_whitespace.is_none() {
+                first_non_whitespace.replace(index);
+            }
         }
-        let line = Cow::from(line);
-
-        let trim_start = i != 0;
-        let trim_end = !is_last;
-
-        let line = match (trim_start, trim_end) {
-            (true, true) => Cow::Borrowed(line.trim_matches([' ', '\t'])),
-            (true, false) => Cow::Borrowed(line.trim_start_matches([' ', '\t'])),
-            (false, true) => Cow::Borrowed(line.trim_end_matches([' ', '\t'])),
-            _ => line,
-        };
-
-        if line.is_empty() {
-            continue;
-        }
-        if i != 0 && !buf.is_empty() {
-            buf.push(' ')
-        }
-        buf.push_str(&line);
     }
-    buf.into()
+
+    if let Some(first) = first_non_whitespace {
+        let line_text = &t[first..];
+        add_line_of_jsx_text(line_text, &mut acc, &mut only_line);
+    }
+
+    if let Some(acc) = acc {
+        acc.into()
+    } else if let Some(only_line) = only_line {
+        only_line.into()
+    } else {
+        "".into()
+    }
+}
+
+/// [TODO]: Re-validate this whitespace handling logic.
+///
+/// We cannot use [swc_ecma_utils::str::is_white_space_single_line] because
+/// HTML entities (like `&nbsp;` → `\u{00a0}`) are pre-processed by the parser,
+/// making it impossible to distinguish them from literal Unicode characters. We
+/// should never trim HTML entities.
+///
+/// As a reference, Babel only trims regular spaces and tabs, so this is a
+/// simplified implementation already in use.
+/// https://github.com/babel/babel/blob/e5c8dc7330cb2f66c37637677609df90b31ff0de/packages/babel-types/src/utils/react/cleanJSXElementLiteralChild.ts#L28-L39
+fn is_white_space_single_line(c: char) -> bool {
+    matches!(c, ' ' | '\t')
+}
+
+// less allocations trick from OXC
+// https://github.com/oxc-project/oxc/blob/4c35f4abb6874bd741b84b34df7889637425e9ea/crates/oxc_transformer/src/jsx/jsx_impl.rs#L1061-L1091
+fn add_line_of_jsx_text<'a>(
+    trimmed_line: &'a str,
+    acc: &mut Option<String>,
+    only_line: &mut Option<&'a str>,
+) {
+    if let Some(buffer) = acc.as_mut() {
+        // Already some text in accumulator. Push a space before this line is added to
+        // `acc`.
+        buffer.push(' ');
+    } else if let Some(only_line_content) = only_line.take() {
+        // This is the 2nd line containing text. Previous line did not contain any HTML
+        // entities. Generate an accumulator containing previous line and a
+        // trailing space. Current line will be added to the accumulator after
+        // it.
+        let mut buffer = String::with_capacity(trimmed_line.len() * 2); // rough estimate
+        buffer.push_str(only_line_content);
+        buffer.push(' ');
+        *acc = Some(buffer);
+    }
+
+    // [TODO]: Decode any HTML entities in this line
+
+    // For now, just use the trimmed line directly
+    if let Some(buffer) = acc.as_mut() {
+        buffer.push_str(trimmed_line);
+    } else {
+        // This is the first line containing text, and there are no HTML entities in
+        // this line. Record this line in `only_line`.
+        // If this turns out to be the only line, we won't need to construct a String,
+        // so avoid all copying.
+        *only_line = Some(trimmed_line);
+    }
 }
 
 fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
