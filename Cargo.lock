@@ -6253,6 +6253,7 @@ dependencies = [
  "swc_ecma_loader",
  "swc_ecma_parser",
  "swc_ecma_transforms",
+ "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_malloc",
  "testing",
