@@ -6,7 +6,6 @@ use std::{
     fmt::{Debug, Display},
     hash::Hash,
     mem::{self, forget, transmute},
-    num::NonZeroU8,
     ops::Deref,
     str::from_utf8_unchecked,
 };
@@ -105,23 +104,22 @@ pub const fn inline_atom(s: &str) -> Option<Atom> {
 #[macro_export]
 macro_rules! atom {
     ($s:expr) => {{
-        const INLINE: ::core::option::Option<$crate::Atom> = $crate::inline_atom($s);
-        // This condition can be evaluated at compile time to enable inlining as a
-        // simple constant
-        if INLINE.is_some() {
-            INLINE.unwrap()
-        } else {
-            // Otherwise we use a
-            #[inline(never)]
-            fn get_atom() -> $crate::Atom {
-                static CACHE: $crate::CachedAtom =
-                    $crate::CachedAtom::new(|| $crate::Atom::from($s));
+        // const INLINE: ::core::option::Option<$crate::Atom> = $crate::inline_atom($s);
+        // // This condition can be evaluated at compile time to enable inlining as a
+        // // simple constant
+        // if INLINE.is_some() {
+        //     INLINE.unwrap()
+        // } else {
+        // Otherwise we use a
+        #[inline(never)]
+        fn get_atom() -> $crate::Atom {
+            static CACHE: $crate::CachedAtom = $crate::CachedAtom::new(|| $crate::Atom::from($s));
 
-                (*CACHE).clone()
-            }
-
-            get_atom()
+            (*CACHE).clone()
         }
+
+        get_atom()
+        // }
     }};
 }
 
@@ -173,7 +171,8 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
 }
 const DYNAMIC_TAG: u8 = 0b_00;
 const INLINE_TAG: u8 = 0b_01; // len in upper nybble
-const INLINE_TAG_INIT: NonZeroU8 = unsafe { NonZeroU8::new_unchecked(INLINE_TAG) };
+                              // const INLINE_TAG_INIT: NonZeroU8 = unsafe {
+                              // NonZeroU8::new_unchecked(INLINE_TAG) };
 const STATIC_TAG: u8 = 0b_10;
 const TAG_MASK: u8 = 0b_11;
 const LEN_OFFSET: usize = 4;

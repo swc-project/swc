@@ -14,7 +14,7 @@ use triomphe::{HeaderWithLength, ThinArc};
 
 use crate::{
     tagged_value::{TaggedValue, MAX_INLINE_LEN},
-    Atom, INLINE_TAG, INLINE_TAG_INIT, LEN_OFFSET, TAG_MASK,
+    Atom, INLINE_TAG, LEN_OFFSET, TAG_MASK,
 };
 
 #[derive(PartialEq, Eq)]
@@ -121,17 +121,17 @@ fn atom_in<S>(storage: S, text: &str, is_global: bool) -> Atom
 where
     S: Storage,
 {
-    let len = text.len();
+    // let len = text.len();
 
-    if len < MAX_INLINE_LEN {
-        // INLINE_TAG ensures this is never zero
-        let tag = INLINE_TAG_INIT | ((len as u8) << LEN_OFFSET);
-        let mut unsafe_data = TaggedValue::new_tag(tag);
-        unsafe {
-            unsafe_data.data_mut()[..len].copy_from_slice(text.as_bytes());
-        }
-        return Atom { unsafe_data };
-    }
+    // if len < MAX_INLINE_LEN {
+    //     // INLINE_TAG ensures this is never zero
+    //     let tag = INLINE_TAG_INIT | ((len as u8) << LEN_OFFSET);
+    //     let mut unsafe_data = TaggedValue::new_tag(tag);
+    //     unsafe {
+    //         unsafe_data.data_mut()[..len].copy_from_slice(text.as_bytes());
+    //     }
+    //     return Atom { unsafe_data };
+    // }
 
     let hash = calc_hash(text);
     let entry = storage.insert_entry(text, hash, is_global);
