@@ -18,6 +18,7 @@ macro_rules! enable_helper {
     }};
 }
 
+#[cfg(feature = "inline-helpers")]
 fn parse(code: &str) -> Vec<Stmt> {
     let cm = SourceMap::new(FilePathMapping::empty());
 
@@ -42,6 +43,7 @@ fn parse(code: &str) -> Vec<Stmt> {
     .unwrap()
 }
 
+#[cfg(feature = "inline-helpers")]
 macro_rules! add_to {
     ($buf:expr, $name:ident, $b:expr, $mark:expr) => {{
         static STMTS: Lazy<Vec<Stmt>> = Lazy::new(|| {
