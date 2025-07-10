@@ -4,7 +4,7 @@ use std::{
     ffi::c_void,
     hash::{BuildHasherDefault, Hash, Hasher},
     mem::{forget, ManuallyDrop},
-    num::NonZeroU8,
+    // num::NonZeroU8,
     ops::Deref,
     ptr::{self, NonNull},
 };
@@ -12,10 +12,7 @@ use std::{
 use rustc_hash::FxHasher;
 use triomphe::ThinArc;
 
-use crate::{
-    tagged_value::{TaggedValue, MAX_INLINE_LEN},
-    Atom, INLINE_TAG, INLINE_TAG_INIT, LEN_OFFSET, TAG_MASK,
-};
+use crate::{tagged_value::TaggedValue, Atom, TAG_MASK};
 
 #[derive(PartialEq, Eq)]
 pub(crate) struct Metadata {
@@ -119,17 +116,17 @@ fn atom_in<S>(storage: S, text: &str) -> Atom
 where
     S: Storage,
 {
-    let len = text.len();
+    // let len = text.len();
 
-    if len <= MAX_INLINE_LEN {
-        // INLINE_TAG ensures this is never zero
-        let tag = INLINE_TAG_INIT | ((len as u8) << LEN_OFFSET);
-        let mut unsafe_data = TaggedValue::new_tag(tag);
-        unsafe {
-            unsafe_data.data_mut()[..len].copy_from_slice(text.as_bytes());
-        }
-        return Atom { unsafe_data };
-    }
+    // if len <= MAX_INLINE_LEN {
+    //     // INLINE_TAG ensures this is never zero
+    //     let tag = INLINE_TAG_INIT | ((len as u8) << LEN_OFFSET);
+    //     let mut unsafe_data = TaggedValue::new_tag(tag);
+    //     unsafe {
+    //         unsafe_data.data_mut()[..len].copy_from_slice(text.as_bytes());
+    //     }
+    //     return Atom { unsafe_data };
+    // }
 
     let hash = calc_hash(text);
     let entry = storage.insert_entry(text, hash);
@@ -147,25 +144,25 @@ where
 
 /// Attempts to construct an Atom but only if it can be constructed inline.
 /// This is primarily useful in constant contexts.
-pub(crate) const fn inline_atom(text: &str) -> Option<Atom> {
-    let len = text.len();
-    if len <= MAX_INLINE_LEN {
-        // INLINE_TAG ensures this is never zero
-        let tag = INLINE_TAG | ((len as u8) << LEN_OFFSET);
-        let mut unsafe_data = TaggedValue::new_tag(NonZeroU8::new(tag).unwrap());
-        // This odd pattern is needed because we cannot create slices from ranges or
-        // ranges at all in constant context.  So we write our own copying loop.
-        unsafe {
-            let data = unsafe_data.data_mut();
-            let bytes = text.as_bytes();
-            let mut i = 0;
-            while i < len {
-                data[i] = bytes[i];
-                i += 1;
-            }
-        }
-        return Some(Atom { unsafe_data });
-    }
+pub(crate) const fn inline_atom(_text: &str) -> Option<Atom> {
+    // let len = text.len();
+    // if len <= MAX_INLINE_LEN {
+    //     // INLINE_TAG ensures this is never zero
+    //     let tag = INLINE_TAG | ((len as u8) << LEN_OFFSET);
+    //     let mut unsafe_data = TaggedValue::new_tag(NonZeroU8::new(tag).unwrap());
+    //     // This odd pattern is needed because we cannot create slices from ranges
+    // or     // ranges at all in constant context.  So we write our own copying
+    // loop.     unsafe {
+    //         let data = unsafe_data.data_mut();
+    //         let bytes = text.as_bytes();
+    //         let mut i = 0;
+    //         while i < len {
+    //             data[i] = bytes[i];
+    //             i += 1;
+    //         }
+    //     }
+    //     return Some(Atom { unsafe_data });
+    // }
     None
 }
 

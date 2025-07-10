@@ -1,6 +1,6 @@
 #![allow(clippy::missing_transmute_annotations)]
 
-use std::{num::NonZeroU8, os::raw::c_void, ptr::NonNull, slice};
+use std::{os::raw::c_void, ptr::NonNull};
 
 #[cfg(feature = "atom_size_128")]
 type RawTaggedValue = u128;
@@ -34,7 +34,8 @@ type RawTaggedNonZeroValue = std::num::NonZeroU64;
 )))]
 type RawTaggedNonZeroValue = std::ptr::NonNull<()>;
 
-pub(crate) const MAX_INLINE_LEN: usize = std::mem::size_of::<TaggedValue>() - 1;
+// pub(crate) const MAX_INLINE_LEN: usize = std::mem::size_of::<TaggedValue>() -
+// 1;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 #[repr(transparent)]
@@ -71,18 +72,18 @@ impl TaggedValue {
         }
     }
 
-    #[inline(always)]
-    pub const fn new_tag(value: NonZeroU8) -> Self {
-        let value = value.get() as RawTaggedValue;
-        Self {
-            value: unsafe { std::mem::transmute(value) },
-        }
-    }
+    // #[inline(always)]
+    // pub const fn new_tag(value: NonZeroU8) -> Self {
+    //     let value = value.get() as RawTaggedValue;
+    //     Self {
+    //         value: unsafe { std::mem::transmute(value) },
+    //     }
+    // }
 
-    #[inline(always)]
-    pub fn hash(&self) -> u64 {
-        self.get_value() as _
-    }
+    // #[inline(always)]
+    // pub fn hash(&self) -> u64 {
+    //     self.get_value() as _
+    // }
 
     #[inline(always)]
     pub fn get_ptr(&self) -> *const c_void {
@@ -116,33 +117,33 @@ impl TaggedValue {
         (self.get_value() & 0xff) as u8
     }
 
-    pub fn data(&self) -> &[u8] {
-        let x: *const _ = &self.value;
-        let mut data = x as *const u8;
-        // All except the lowest byte, which is first in little-endian, last in
-        // big-endian.
-        if cfg!(target_endian = "little") {
-            unsafe {
-                data = data.offset(1);
-            }
-        }
-        let len = std::mem::size_of::<TaggedValue>() - 1;
-        unsafe { slice::from_raw_parts(data, len) }
-    }
+    // pub fn data(&self) -> &[u8] {
+    //     let x: *const _ = &self.value;
+    //     let mut data = x as *const u8;
+    //     // All except the lowest byte, which is first in little-endian, last in
+    //     // big-endian.
+    //     if cfg!(target_endian = "little") {
+    //         unsafe {
+    //             data = data.offset(1);
+    //         }
+    //     }
+    //     let len = std::mem::size_of::<TaggedValue>() - 1;
+    //     unsafe { slice::from_raw_parts(data, len) }
+    // }
 
-    /// The `TaggedValue` is a non-zero number or pointer, so caution must be
-    /// used when setting the untagged slice part of this value. If tag is
-    /// zero and the slice is zeroed out, using this `TaggedValue` will be
-    /// UB!
-    pub const unsafe fn data_mut(&mut self) -> &mut [u8] {
-        let x: *mut _ = &mut self.value;
-        let mut data = x as *mut u8;
-        // All except the lowest byte, which is first in little-endian, last in
-        // big-endian.
-        if cfg!(target_endian = "little") {
-            data = data.offset(1);
-        }
-        let len = std::mem::size_of::<TaggedValue>() - 1;
-        slice::from_raw_parts_mut(data, len)
-    }
+    // /// The `TaggedValue` is a non-zero number or pointer, so caution must be
+    // /// used when setting the untagged slice part of this value. If tag is
+    // /// zero and the slice is zeroed out, using this `TaggedValue` will be
+    // /// UB!
+    // pub const unsafe fn data_mut(&mut self) -> &mut [u8] {
+    //     let x: *mut _ = &mut self.value;
+    //     let mut data = x as *mut u8;
+    //     // All except the lowest byte, which is first in little-endian, last in
+    //     // big-endian.
+    //     if cfg!(target_endian = "little") {
+    //         data = data.offset(1);
+    //     }
+    //     let len = std::mem::size_of::<TaggedValue>() - 1;
+    //     slice::from_raw_parts_mut(data, len)
+    // }
 }
