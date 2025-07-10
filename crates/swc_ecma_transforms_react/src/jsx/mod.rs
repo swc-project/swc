@@ -1497,25 +1497,6 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
     })
 }
 
-fn count_children(children: &[JSXElementChild]) -> usize {
-    children
-        .iter()
-        .filter(|v| match v {
-            JSXElementChild::JSXText(text) => {
-                let text = jsx_text_to_str(&text.value);
-                !text.is_empty()
-            }
-            JSXElementChild::JSXExprContainer(e) => match e.expr {
-                JSXExpr::JSXEmptyExpr(_) => false,
-                JSXExpr::Expr(_) => true,
-            },
-            JSXElementChild::JSXSpreadChild(_) => true,
-            JSXElementChild::JSXElement(_) => true,
-            JSXElementChild::JSXFragment(_) => true,
-        })
-        .count()
-}
-
 fn transform_jsx_attr_str(v: &str) -> String {
     let single_quote = false;
     let mut buf = String::with_capacity(v.len());
