@@ -12,7 +12,7 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMut;
 
 use super::{compat::DATA as CORE_JS_COMPAT_DATA, data};
-use crate::util::SwcFold;
+use crate::util::{SwcFold, PooledStr};
 
 include!(concat!(env!("OUT_DIR"), "/corejs3_entries/lib.rs"));
 
