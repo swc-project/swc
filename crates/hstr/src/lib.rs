@@ -83,11 +83,19 @@ mod tests;
 /// Small strings are stored in the [Atom] itself without any allocation.
 ///
 ///
-/// # Creating atoms
+/// ## Creating atoms
 ///
 /// If you are working on a module which creates lots of [Atom]s, you are
 /// recommended to use [AtomStore] API because it's faster. But if you are not,
 /// you can use global APIs for convenience.
+///
+/// ## Dealloc
+///
+/// - Atoms stored in the local `AtomStore` have the same lifetime as the store
+///   itself, and will be deallocated when the store is dropped.
+/// - Atoms created via the `atom!` macro or `String::into` are stored in the
+///   global atom store. By default, these atoms are never deallocated. To clean
+///   up unused atoms, call [global_atom_store_gc].
 pub struct Atom {
     // If this Atom is a dynamic one, this is *const Entry
     unsafe_data: TaggedValue,

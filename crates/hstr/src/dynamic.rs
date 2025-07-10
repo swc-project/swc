@@ -98,6 +98,7 @@ thread_local! {
     static GLOBAL_DATA: RefCell<AtomStore> = Default::default();
 }
 
+/// Cleans up atoms in the global store that are no longer referenced.
 pub fn global_atom_store_gc() {
     GLOBAL_DATA.with(|global| {
         let mut store = global.borrow_mut();
