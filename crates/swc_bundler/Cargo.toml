@@ -65,6 +65,9 @@ swc_ecma_loader = { version = "13.0.0", path = "../swc_ecma_loader", features = 
 swc_ecma_minifier = { version = "25.0.0", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
+swc_ecma_transforms_base = { version = "20.0.0", path = "../swc_ecma_transforms_base", features = [
+  "inline-helpers",
+] }
 swc_ecma_transforms_proposal = { version = "20.0.0", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_react = { version = "22.1.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_typescript = { version = "22.0.0", path = "../swc_ecma_transforms_typescript" }

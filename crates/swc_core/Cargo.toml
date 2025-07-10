@@ -156,6 +156,8 @@ ecma_preset_env = ["__ecma", "swc_ecma_preset_env"]
 # Enable swc_ecma_usage_analyzer
 ecma_usage_analyzer = ["__ecma", "swc_ecma_usage_analyzer"]
 
+ecma_helpers_inline = ["__ecma", "swc_ecma_transforms_base/inline-helpers"]
+
 # Enable swc_css
 css_ast        = ["__css", "swc_css_ast"]
 css_ast_serde  = ["css_ast", "swc_css_ast/serde-impl"]

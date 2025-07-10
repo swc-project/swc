@@ -43,4 +43,7 @@ swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
 
 [dev-dependencies]
 
+swc_ecma_transforms_base = { version = "20.0.0", path = "../swc_ecma_transforms_base", features = [
+  "inline-helpers",
+] }
 testing = { version = "14.0.1", path = "../testing" }
