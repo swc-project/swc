@@ -686,6 +686,7 @@ _throw();",
     }
 
     #[test]
+    #[cfg(feature = "inline-helpers")]
     fn use_strict_before_helper() {
         crate::tests::test_transform(
             Default::default(),
@@ -705,6 +706,7 @@ function _throw(e) {
     }
 
     #[test]
+    #[cfg(feature = "inline-helpers")]
     fn name_conflict() {
         crate::tests::test_transform(
             Default::default(),
@@ -740,6 +742,7 @@ let x = 4;",
     }
 
     #[test]
+    #[cfg(feature = "inline-helpers")]
     fn issue_8871() {
         crate::tests::test_transform(
             Default::default(),
