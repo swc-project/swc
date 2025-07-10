@@ -19,6 +19,7 @@ fn main() -> anyhow::Result<()> {
     
     corejs3_entry(&mut strpool, crate_dir, out_dir)?;
     corejs3_data(&mut strpool, crate_dir, out_dir)?;
+    corejs3_compat(&mut strpool, crate_dir, out_dir)?;
     corejs2_data(&mut strpool, crate_dir, out_dir)?;
     corejs2_builtin(&mut strpool, crate_dir, out_dir)?;
 
@@ -31,20 +32,14 @@ fn corejs3_entry(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> any
     const SEED: u64 = 16416001479773392852;
 
     let out_dir = out_dir.join("corejs3_entries");
-    fs::remove_dir_all(&out_dir)
-        .or_else(|err| (err.kind() == io::ErrorKind::NotFound)
-            .then_some(())
-            .ok_or(err)
-        )?;
-    fs::create_dir(&out_dir)?;
-
-    let entry_path = crate_dir.join("data/core-js-compat/entries.json");
-    println!("cargo::rerun-if-changed={}", entry_path.display());
-
-    let entry_data = fs::read_to_string(entry_path)?;
-    let entry_data: BTreeMap<&str, Vec<&str>> =
-        serde_json::from_str(&entry_data).context("failed to parse entries.json from core js 3")?;
-    let (keys, values): (Vec<_>, Vec<_>) = entry_data.into_iter().unzip();
+    let mut data = String::new();
+    let data: BTreeMap<&str, Vec<&str>> = prepare(
+        &out_dir,
+        &crate_dir.join("data/core-js-compat/entries.json"),
+        &mut data
+    )?;
+    
+    let (keys, values): (Vec<_>, Vec<_>) = data.into_iter().unzip();
 
     let mut values_strid = Vec::new();
     let mut values_index = Vec::new();
@@ -126,26 +121,19 @@ impl precomputed_map::store::AccessSeq for EntryKeysStringId {{
 
 fn corejs3_data(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyhow::Result<()> {
     const SEED: u64 = 16416001479773392852;
-    
+
     let out_dir = out_dir.join("corejs3_data");
-    fs::remove_dir_all(&out_dir)
-        .or_else(|err| (err.kind() == io::ErrorKind::NotFound)
-            .then_some(())
-            .ok_or(err)
-        )?;
-    fs::create_dir(&out_dir)?;
-
-    let entry_path = crate_dir.join("data/core-js-compat/modules-by-versions.json");
-    println!("cargo::rerun-if-changed={}", entry_path.display());
-
-    let entry_data = fs::read_to_string(entry_path)?;
-    let entry_data: BTreeMap<&str, Vec<&str>> =
-        serde_json::from_str(&entry_data).context("failed to parse entries.json from core js 3")?;
+    let mut data = String::new();
+    let data: BTreeMap<&str, Vec<&str>> = prepare(
+        &out_dir,
+        &crate_dir.join("data/core-js-compat/modules-by-versions.json"),
+        &mut data
+    )?;
 
     let mut keys = Vec::new();
     let mut versions = Vec::new();
     let mut values = Vec::new();
-    for (k, list) in &entry_data {
+    for (k, list) in &data {
         let k = version(k);
         let id: u32 = versions.len().try_into().unwrap();
         versions.push(k);
@@ -231,10 +219,15 @@ const VERSIONS: &[Version] = &[
     Ok(())    
 }
 
+fn corejs3_compat(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyhow::Result<()> {
+    feature2browser(strpool, &crate_dir.join("data/core-js-compat/data.json"), &out_dir.join("corejs3_compat"))
+}
+
 fn corejs2_data(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyhow::Result<()> {
     use serde::Deserialize;
 
     #[derive(Deserialize)]
+    #[serde(deny_unknown_fields)]
     struct Data<'a> {
         #[serde(borrow)]
         builtin_types: BTreeMap<&'a str, Vec<&'a str>>,
@@ -244,20 +237,13 @@ fn corejs2_data(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyh
 
     const SEED: u64 = 16416001479773392852;
 
-    let data_path = crate_dir.join("data/corejs2/data.json");
-    println!("cargo::rerun-if-changed={}", data_path.display());
-
-    let data = fs::read_to_string(data_path)?;
-    let data: Data<'_> =
-        serde_json::from_str(&data).context("failed to parse corejs2/data.json")?;
-    
     let out_dir = out_dir.join("corejs2_data");
-    fs::remove_dir_all(&out_dir)
-        .or_else(|err| (err.kind() == io::ErrorKind::NotFound)
-            .then_some(())
-            .ok_or(err)
-        )?;
-    fs::create_dir(&out_dir)?;
+    let mut data = String::new();
+    let data: Data<'_> = prepare(
+        &out_dir,
+        &crate_dir.join("data/corejs2/data.json"),
+        &mut data
+    )?;
 
     let mut list_store = Vec::new();
 
@@ -412,29 +398,26 @@ impl precomputed_map::store::AccessSeq for InstancePropertiesKeys {{
 }
 
 fn corejs2_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyhow::Result<()> {
-    let out_dir = out_dir.join("corejs2_builtin");
-    fs::remove_dir_all(&out_dir)
-        .or_else(|err| (err.kind() == io::ErrorKind::NotFound)
-            .then_some(())
-            .ok_or(err)
-        )?;
-    fs::create_dir(&out_dir)?;
+    feature2browser(strpool, &crate_dir.join("data/corejs2/builtin.json"), &out_dir.join("corejs2_builtin"))
+}
 
-    let entry_path = crate_dir.join("data/corejs2/builtin.json");
-    println!("cargo::rerun-if-changed={}", entry_path.display());
-
-    let entry_data = fs::read_to_string(entry_path)?;
-    let entry_data: BTreeMap<&str, BTreeMap<&str, &str>> =
-        serde_json::from_str(&entry_data).context("failed to parse builtin.json from core js 2")?;
+fn feature2browser(
+    strpool: &mut StrPool,
+    json: &Path,
+    out_dir: &Path
+) -> anyhow::Result<()> {
+    let mut data = String::new();
+    let data: BTreeMap<&str, BTreeMap<&str, &str>> = prepare(out_dir, json, &mut data)?;
 
     let mut features = Vec::new();
     let mut version_store = Vec::new();
-    for (feature, browsers) in entry_data {
+    for (feature, browsers) in data {
         let feature = strpool.insert(feature);
         let start: u32 = version_store.len().try_into().unwrap();
         version_store.extend(browsers.iter()
             .map(|(b, v)| (
-                strpool.insert(b),
+                // To make `BrowserData::insert` work
+                strpool.insert(&b.replace('-', "_")),
                 strpool.insert(v),
             )));
         let end: u32 = version_store.len().try_into().unwrap();
@@ -502,6 +485,27 @@ fn foldhash_once<V: Hash>(seed: u64, v: &V) -> u64 {
     v.hash(&mut hasher);
     hasher.finish()    
 }
+
+fn prepare<'buf, T: serde::Deserialize<'buf>>(dir: &Path, json: &Path, buf: &'buf mut String)
+    -> anyhow::Result<T>
+{
+    fs::remove_dir_all(&dir)
+        .or_else(|err| (err.kind() == io::ErrorKind::NotFound)
+            .then_some(())
+            .ok_or(err)
+        )?;
+    fs::create_dir(&dir)?;
+
+    println!("cargo::rerun-if-changed={}", json.display());
+
+    *buf = fs::read_to_string(json)?;
+    let data: T =
+        serde_json::from_str(buf)
+            .with_context(|| format!("failed to parse {}", json.display()))?;
+
+    Ok(data)
+}
+
 
 fn version(s: &str) -> (u32, u32, u32) {
     // A non-universal version parser that only works with specified data

@@ -1,7 +1,7 @@
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use crate::util::PooledStr;
-use crate::{BrowserData, Versions};
+use crate::Versions;
 
 include!(concat!(env!("OUT_DIR"), "/corejs2_builtin/lib.rs"));
 
@@ -14,7 +14,7 @@ pub(crate) static BUILTINS: Lazy<FxHashMap<&str, Versions>> = Lazy::new(|| {
         .map(|&(feature, start, end)| {
             let start = start as usize;
             let end = end as usize;
-            let mut versions = BrowserData::default();
+            let mut versions = Versions::default();
             for (browser, version) in &VERSION_STORE[start..end] {
                 let version = version.as_str().parse().unwrap();
                 versions.insert(browser.as_str(), Some(version));
