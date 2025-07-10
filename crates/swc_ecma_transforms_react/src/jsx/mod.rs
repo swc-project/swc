@@ -535,10 +535,6 @@ where
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
         let mut span = el.span();
 
-        let count = count_children(&el.children);
-        let use_jsxs = count > 1
-            || (count == 1 && matches!(&el.children[0], JSXElementChild::JSXSpreadChild(..)));
-
         if let Some(comments) = &self.comments {
             if span.lo.is_dummy() {
                 span.lo = Span::dummy_with_cmt().lo;
@@ -549,17 +545,6 @@ where
 
         match self.runtime {
             Runtime::Automatic => {
-                let jsx = if use_jsxs && !self.development {
-                    self.import_jsxs
-                        .get_or_insert_with(|| private_ident!("_jsxs"))
-                        .clone()
-                } else {
-                    let jsx = if self.development { "_jsxDEV" } else { "_jsx" };
-                    self.import_jsx
-                        .get_or_insert_with(|| private_ident!(jsx))
-                        .clone()
-                };
-
                 let fragment = self
                     .import_fragment
                     .get_or_insert_with(|| private_ident!("_Fragment"))
@@ -577,15 +562,17 @@ where
                     .map(Some)
                     .collect::<Vec<_>>();
 
-                match (children.len(), use_jsxs) {
-                    (0, _) => {}
-                    (1, false) => {
+                let use_jsxs = match children.len() {
+                    0 => false,
+                    1 if matches!(children.first(), Some(Some(child)) if child.spread.is_none()) => {
                         props_obj
                             .props
                             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
                                 key: PropName::Ident(quote_ident!("children")),
                                 value: children.into_iter().next().flatten().unwrap().expr,
                             }))));
+
+                        false
                     }
                     _ => {
                         props_obj
@@ -598,8 +585,20 @@ where
                                 }
                                 .into(),
                             }))));
+                        true
                     }
-                }
+                };
+
+                let jsx = if use_jsxs && !self.development {
+                    self.import_jsxs
+                        .get_or_insert_with(|| private_ident!("_jsxs"))
+                        .clone()
+                } else {
+                    let jsx = if self.development { "_jsxDEV" } else { "_jsx" };
+                    self.import_jsx
+                        .get_or_insert_with(|| private_ident!(jsx))
+                        .clone()
+                };
 
                 let args = once(fragment.as_arg()).chain(once(props_obj.as_arg()));
 
@@ -666,26 +665,6 @@ where
         match self.runtime {
             Runtime::Automatic => {
                 // function jsx(tagName: string, props: { children: Node[], ... }, key: string)
-
-                let count = count_children(&el.children);
-                let use_jsxs = count > 1
-                    || (count == 1
-                        && matches!(&el.children[0], JSXElementChild::JSXSpreadChild(..)));
-
-                let jsx = if use_create_element {
-                    self.import_create_element
-                        .get_or_insert_with(|| private_ident!("_createElement"))
-                        .clone()
-                } else if use_jsxs && !self.development {
-                    self.import_jsxs
-                        .get_or_insert_with(|| private_ident!("_jsxs"))
-                        .clone()
-                } else {
-                    let jsx = if self.development { "_jsxDEV" } else { "_jsx" };
-                    self.import_jsx
-                        .get_or_insert_with(|| private_ident!(jsx))
-                        .clone()
-                };
 
                 let mut props_obj = ObjectLit {
                     span: DUMMY_SP,
@@ -836,9 +815,9 @@ where
                     .map(Some)
                     .collect::<Vec<_>>();
 
-                match children.len() {
-                    0 => {}
-                    1 if children[0].as_ref().unwrap().spread.is_none() => {
+                let use_jsxs = match children.len() {
+                    0 => false,
+                    1 if matches!(children.first(), Some(Some(child)) if child.spread.is_none()) => {
                         if !use_create_element {
                             props_obj
                                 .props
@@ -853,6 +832,8 @@ where
                                         .expr,
                                 }))));
                         }
+
+                        false
                     }
                     _ => {
                         props_obj
@@ -865,8 +846,24 @@ where
                                 }
                                 .into(),
                             }))));
+                        true
                     }
-                }
+                };
+
+                let jsx = if use_create_element {
+                    self.import_create_element
+                        .get_or_insert_with(|| private_ident!("_createElement"))
+                        .clone()
+                } else if use_jsxs && !self.development {
+                    self.import_jsxs
+                        .get_or_insert_with(|| private_ident!("_jsxs"))
+                        .clone()
+                } else {
+                    let jsx = if self.development { "_jsxDEV" } else { "_jsx" };
+                    self.import_jsx
+                        .get_or_insert_with(|| private_ident!(jsx))
+                        .clone()
+                };
 
                 self.top_level_node = top_level_node;
 
