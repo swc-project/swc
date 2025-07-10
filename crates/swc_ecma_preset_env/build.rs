@@ -20,6 +20,7 @@ fn main() -> anyhow::Result<()> {
     corejs3_entry(&mut strpool, crate_dir, out_dir)?;
     corejs3_data(&mut strpool, crate_dir, out_dir)?;
     corejs2_data(&mut strpool, crate_dir, out_dir)?;
+    corejs2_builtin(&mut strpool, crate_dir, out_dir)?;
 
     fs::write(out_dir.join("str.bin"), strpool.pool.as_bytes())?;
 
@@ -408,6 +409,60 @@ impl precomputed_map::store::AccessSeq for InstancePropertiesKeys {{
     u32seq.codegen(&mut codeout)?;
 
     Ok(())
+}
+
+fn corejs2_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyhow::Result<()> {
+    let out_dir = out_dir.join("corejs2_builtin");
+    fs::remove_dir_all(&out_dir)
+        .or_else(|err| (err.kind() == io::ErrorKind::NotFound)
+            .then_some(())
+            .ok_or(err)
+        )?;
+    fs::create_dir(&out_dir)?;
+
+    let entry_path = crate_dir.join("data/corejs2/builtin.json");
+    println!("cargo::rerun-if-changed={}", entry_path.display());
+
+    let entry_data = fs::read_to_string(entry_path)?;
+    let entry_data: BTreeMap<&str, BTreeMap<&str, &str>> =
+        serde_json::from_str(&entry_data).context("failed to parse builtin.json from core js 2")?;
+
+    let mut features = Vec::new();
+    let mut version_store = Vec::new();
+    for (feature, browsers) in entry_data {
+        let feature = strpool.insert(feature);
+        let start: u32 = version_store.len().try_into().unwrap();
+        version_store.extend(browsers.iter()
+            .map(|(b, v)| (
+                strpool.insert(b),
+                strpool.insert(v),
+            )));
+        let end: u32 = version_store.len().try_into().unwrap();
+        features.push((feature, start, end));
+    }
+
+    let mut codeout = fs::File::create(out_dir.join("lib.rs"))?;
+
+    writeln!(
+        codeout,
+r#"const FEATURES: &[(PooledStr, u32, u32)] = &["#
+    )?;
+    for (feature, start, end) in &features {
+        writeln!(codeout, "(PooledStr({}), {}, {}),", feature, start, end)?;
+    }
+
+    writeln!(
+        codeout,
+r#"];
+
+const VERSION_STORE: &[(PooledStr, PooledStr)] = &["#
+    )?;
+    for (browser, version) in &version_store {
+        writeln!(codeout, "(PooledStr({}), PooledStr({})),", browser, version)?;
+    }
+    writeln!(codeout, "];")?;
+
+    Ok(())    
 }
 
 #[derive(Default)]
