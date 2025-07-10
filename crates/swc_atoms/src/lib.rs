@@ -270,6 +270,12 @@ impl AtomStoreCell {
         // only to this block.
         unsafe { (*self.0.get()).atom(s) }
     }
+
+    pub fn with_capacity(capacity: usize) -> Self {
+        Self(UnsafeCell::new(AtomStore(hstr::AtomStore::with_capacity(
+            capacity,
+        ))))
+    }
 }
 
 /// noop

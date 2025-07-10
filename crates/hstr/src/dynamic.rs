@@ -66,22 +66,24 @@ pub(crate) unsafe fn restore_arc(v: TaggedValue) -> Item {
 ///
 ///
 /// # Merging [AtomStore]
+#[derive(Default)]
 pub struct AtomStore {
     pub(crate) data: hashbrown::HashMap<Item, (), BuildEntryHasher>,
-}
-
-impl Default for AtomStore {
-    fn default() -> Self {
-        Self {
-            data: hashbrown::HashMap::with_capacity_and_hasher(64, BuildEntryHasher::default()),
-        }
-    }
 }
 
 impl AtomStore {
     #[inline(always)]
     pub fn atom<'a>(&mut self, text: impl Into<Cow<'a, str>>) -> Atom {
         atom_in(self, &text.into())
+    }
+
+    pub fn with_capacity(capacity: usize) -> Self {
+        Self {
+            data: hashbrown::HashMap::with_capacity_and_hasher(
+                capacity,
+                BuildEntryHasher::default(),
+            ),
+        }
     }
 
     fn gc(&mut self) {
@@ -94,7 +96,7 @@ impl AtomStore {
 }
 
 thread_local! {
-    static GLOBAL_DATA: RefCell<AtomStore> = Default::default();
+    static GLOBAL_DATA: RefCell<AtomStore> = RefCell::new(AtomStore::with_capacity(2048));
 }
 
 /// Cleans up atoms in the global store that are no longer referenced.

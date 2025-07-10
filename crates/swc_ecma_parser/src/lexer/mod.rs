@@ -150,7 +150,7 @@ impl<'a> Lexer<'a> {
             errors: Default::default(),
             module_errors: Default::default(),
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
-            atoms: Default::default(),
+            atoms: Rc::new(AtomStoreCell::with_capacity(512)),
             token_flags: TokenFlags::empty(),
         }
     }
