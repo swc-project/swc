@@ -20,7 +20,6 @@ use crate::{
 #[derive(PartialEq, Eq)]
 pub(crate) struct Metadata {
     pub hash: u64,
-    pub is_global: bool,
 }
 
 #[derive(Clone, PartialEq, Eq)]
@@ -82,7 +81,7 @@ impl Default for AtomStore {
 impl AtomStore {
     #[inline(always)]
     pub fn atom<'a>(&mut self, text: impl Into<Cow<'a, str>>) -> Atom {
-        atom_in(self, &text.into(), false)
+        atom_in(self, &text.into())
     }
 
     fn gc(&mut self) {
@@ -110,13 +109,13 @@ pub(crate) fn global_atom(text: &str) -> Atom {
     GLOBAL_DATA.with(|global| {
         let mut store = global.borrow_mut();
 
-        atom_in(&mut *store, text, true)
+        atom_in(&mut *store, text)
     })
 }
 
 /// This can create any kind of [Atom], although this lives in the `dynamic`
 /// module.
-fn atom_in<S>(storage: S, text: &str, is_global: bool) -> Atom
+fn atom_in<S>(storage: S, text: &str) -> Atom
 where
     S: Storage,
 {
@@ -133,7 +132,7 @@ where
     }
 
     let hash = calc_hash(text);
-    let entry = storage.insert_entry(text, hash, is_global);
+    let entry = storage.insert_entry(text, hash);
     let entry = ThinArc::into_raw(entry.into_inner()) as *mut c_void;
 
     let ptr: NonNull<c_void> = unsafe {
@@ -171,16 +170,16 @@ pub(crate) const fn inline_atom(text: &str) -> Option<Atom> {
 }
 
 trait Storage {
-    fn insert_entry(self, text: &str, hash: u64, is_global: bool) -> Item;
+    fn insert_entry(self, text: &str, hash: u64) -> Item;
 }
 
 impl Storage for &'_ mut AtomStore {
     #[inline(never)]
-    fn insert_entry(self, text: &str, hash: u64, is_global: bool) -> Item {
+    fn insert_entry(self, text: &str, hash: u64) -> Item {
         // If the text is too long, interning is not worth it.
         if text.len() > 512 {
             return Item(ThinArc::from_header_and_slice(
-                Metadata { hash, is_global },
+                Metadata { hash },
                 text.as_bytes(),
             ));
         }
@@ -194,7 +193,7 @@ impl Storage for &'_ mut AtomStore {
             .or_insert_with(move || {
                 (
                     Item(ThinArc::from_header_and_slice(
-                        Metadata { hash, is_global },
+                        Metadata { hash },
                         text.as_bytes(),
                     )),
                     (),
