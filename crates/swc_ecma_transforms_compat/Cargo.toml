@@ -39,13 +39,13 @@ swc_ecma_compat_es2021      = { version = "20.0.0", path = "../swc_ecma_compat_e
 swc_ecma_compat_es2022      = { version = "21.0.0", path = "../swc_ecma_compat_es2022" }
 swc_ecma_compat_es3         = { version = "19.0.1", path = "../swc_ecma_compat_es3" }
 swc_ecma_transforms_base    = { version = "20.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils              = { version = "18.0.3", path = "../swc_ecma_utils" }
+swc_ecma_utils              = { version = "18.1.0", path = "../swc_ecma_utils" }
 swc_ecma_visit              = { version = "13.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 par-core   = { workspace = true, features = ["chili"] }
 serde_json = { workspace = true }
 
-swc_ecma_parser             = { version = "19.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser             = { version = "19.0.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_testing = { version = "23.0.0", path = "../swc_ecma_transforms_testing" }
 testing                     = { version = "14.0.1", path = "../testing" }

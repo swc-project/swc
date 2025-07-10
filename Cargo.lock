@@ -1961,7 +1961,7 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hstr"
-version = "1.1.5"
+version = "1.1.6"
 dependencies = [
  "compact_str",
  "criterion",
@@ -4982,7 +4982,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "31.0.1"
+version = "31.1.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5470,7 +5470,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "19.0.0"
+version = "19.0.1"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5496,7 +5496,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "19.0.2"
+version = "19.0.3"
 dependencies = [
  "auto_impl",
  "codspeed-criterion-compat",
@@ -5585,7 +5585,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "19.0.0"
+version = "19.0.1"
 dependencies = [
  "codspeed-criterion-compat",
  "either",
@@ -5899,7 +5899,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "22.0.0"
+version = "22.1.0"
 dependencies = [
  "base64 0.22.1",
  "bytes-str",
@@ -5988,7 +5988,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "18.0.3"
+version = "18.1.0"
 dependencies = [
  "indexmap 2.7.1",
  "num_cpus",
