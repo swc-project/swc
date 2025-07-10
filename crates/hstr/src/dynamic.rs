@@ -123,7 +123,7 @@ where
 {
     let len = text.len();
 
-    if len < MAX_INLINE_LEN {
+    if len <= MAX_INLINE_LEN {
         // INLINE_TAG ensures this is never zero
         let tag = INLINE_TAG_INIT | ((len as u8) << LEN_OFFSET);
         let mut unsafe_data = TaggedValue::new_tag(tag);
@@ -151,7 +151,7 @@ where
 /// This is primarily useful in constant contexts.
 pub(crate) const fn inline_atom(text: &str) -> Option<Atom> {
     let len = text.len();
-    if len < MAX_INLINE_LEN {
+    if len <= MAX_INLINE_LEN {
         // INLINE_TAG ensures this is never zero
         let tag = INLINE_TAG | ((len as u8) << LEN_OFFSET);
         let mut unsafe_data = TaggedValue::new_tag(NonZeroU8::new(tag).unwrap());
