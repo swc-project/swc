@@ -3,7 +3,9 @@ use swc_atoms::atom;
 use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
-use swc_ecma_utils::{class_has_side_effect, collect_decls, find_pat_ids, ExprExt, Remapper};
+use swc_ecma_utils::{
+    class_has_side_effect, collect_decls, contains_this_expr, find_pat_ids, ExprExt, Remapper,
+};
 use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
@@ -49,6 +51,9 @@ impl Optimizer<'_> {
 
         if let Expr::Arrow(ArrowExpr { body, .. }) = init {
             if contains_super(body) {
+                return;
+            }
+            if contains_this_expr(body) {
                 return;
             }
         }

@@ -34,10 +34,14 @@ class LoadScript extends React.PureComponent {
         }, this.cleanupCallback));
     }
     componentWillUnmount() {
-        isBrowser && (this.cleanup(), window.setTimeout(()=>{
-            this.check.current || (// @ts-ignore
-            delete window.google, cleaningUp = !1);
-        }, 1), this.props.onUnmount && this.props.onUnmount());
+        if (isBrowser) {
+            this.cleanup();
+            const timeoutCallback = ()=>{
+                this.check.current || (// @ts-ignore
+                delete window.google, cleaningUp = !1);
+            };
+            window.setTimeout(timeoutCallback, 1), this.props.onUnmount && this.props.onUnmount();
+        }
     }
     render() {
         return /*#__PURE__*/ _jsxs(_Fragment, {
