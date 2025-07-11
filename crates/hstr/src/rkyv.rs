@@ -1,20 +1,32 @@
 use rkyv::{
     de::Pooling,
+    munge::munge,
+    primitive::FixedUsize,
     rancor::{Fallible, Source},
-    rc::{ArcFlavor, ArchivedRc},
-    ser::{Sharing, Writer},
+    ser::{Sharing, SharingExt, Writer, WriterExt},
     string::ArchivedString,
-    Deserialize,
+    Deserialize, Portable, RelPtr,
 };
 
 use crate::Atom;
 
+#[derive(Debug, Portable)]
+#[repr(transparent)]
+struct ArchivedAtom {
+    ptr: RelPtr<ArchivedString>,
+}
+
+struct AtomResolver {
+    pos: FixedUsize,
+}
+
 impl rkyv::Archive for Atom {
-    type Archived = ArchivedRc<ArchivedString, ArcFlavor>;
-    type Resolver = rkyv::string::StringResolver;
+    type Archived = ArchivedAtom;
+    type Resolver = AtomResolver;
 
     fn resolve(&self, resolver: Self::Resolver, out: rkyv::Place<Self::Archived>) {
-        ArchivedRc::resolve_from_ref(self, resolver, out)
+        munge!(let ArchivedAtom { ptr } = out);
+        RelPtr::emplace(resolver.pos as usize, ptr);
     }
 }
 
@@ -24,42 +36,25 @@ where
     S::Error: Source,
 {
     fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        ArchivedRc::<ArchivedString, ArcFlavor>::serialize_from_ref(self.as_ref(), serializer)
+        let pos = serializer.serialize_shared(self.as_ref())?;
+
+        // The positions of serialized `Rc` values must be unique. If we didn't
+        // write any data by serializing `value`, pad the serializer by a byte
+        // to ensure that our position will be unique.
+        if serializer.pos() == pos {
+            serializer.pad(1)?;
+        }
+
+        Ok(AtomResolver {
+            pos: pos as FixedUsize,
+        })
     }
 }
 
-unsafe impl<T: LayoutRaw + Pointee + ?Sized> SharedPointer<T> for Atom {
-    fn alloc(metadata: T::Metadata) -> Result<*mut T, LayoutError> {
-        let layout = T::layout_raw(metadata)?;
-        let data_address = if layout.size() > 0 {
-            unsafe { alloc(layout) }
-        } else {
-            crate::polyfill::dangling(&layout).as_ptr()
-        };
-        let ptr = from_raw_parts_mut(data_address.cast(), metadata);
-        Ok(ptr)
-    }
-
-    unsafe fn from_value(ptr: *mut T) -> *mut T {
-        let arc = sync::Arc::<T>::from(unsafe { Box::from_raw(ptr) });
-        sync::Arc::into_raw(arc).cast_mut()
-    }
-
-    unsafe fn drop(ptr: *mut T) {
-        drop(unsafe { sync::Arc::from_raw(ptr) });
-    }
-}
-
-impl<D> Deserialize<Atom, D> for ArchivedRc<ArchivedString, ArcFlavor>
+impl<D> Deserialize<Atom, D> for ArchivedAtom
 where
     D: Fallible + Pooling + ?Sized,
     D::Error: Source,
 {
-    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, D::Error> {
-        let raw_shared_ptr = deserializer.deserialize_shared::<_, Atom>(self.get())?;
-        unsafe {
-            sync::Arc::<T>::increment_strong_count(raw_shared_ptr);
-        }
-        unsafe { Ok(sync::Arc::<T>::from_raw(raw_shared_ptr)) }
-    }
+    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, D::Error> {}
 }
