@@ -126,22 +126,14 @@ impl PluginSerializedBytes {
     where
         W: rkyv::Archive,
         W::Archived: rkyv::Deserialize<W, rancor::Strategy<rkyv::de::Pool, rancor::Error>>,
-        for<'a> W::Archived: bytecheck::CheckBytes<
-            rancor::Strategy<
-                rkyv::validation::Validator<
-                    rkyv::validation::archive::ArchiveValidator<'a>,
-                    rkyv::validation::shared::SharedValidator,
-                >,
-                rancor::Error,
-            >,
-        >,
     {
         use anyhow::Context;
 
-        let archived =
-            rkyv::access::<W::Archived, rancor::Error>(&self.field[..]).map_err(|err| {
-                anyhow::format_err!("wasm plugin bytecheck failed {:?}", err.to_string())
-            })?;
+        let archived = unsafe {
+            // Safety: We intentionally skip bytecheck because it makes Wasm plugins not
+            // backward compatible.
+            rkyv::access_unchecked::<W::Archived>(&self.field[..])
+        };
 
         let deserialized = rkyv::deserialize(archived)
             .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))?;
