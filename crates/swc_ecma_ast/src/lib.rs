@@ -509,4 +509,8 @@ mod rkyv_layout_assert {
     }
 
     assert_size!(ArchivedProgram, 32);
+    assert_size!(ArchivedModule, 28);
+    assert_size!(ArchivedScript, 28);
+
+    assert_size!(ArchivedModuleItem, 52);
 }
