@@ -228,7 +228,11 @@ pub(crate) fn parse_tagged_tpl<'a, P: Parser<'a>>(
 }
 
 pub fn parse_str_lit<'a>(p: &mut impl Parser<'a>) -> swc_ecma_ast::Str {
-    let start = p.cur_pos();
+    debug_assert!(p.input_mut().cur().is_some_and(|cur| cur.is_str()));
+    let Some(token_and_span) = p.input().get_cur() else {
+        unreachable!();
+    };
+    let start = token_and_span.span().lo;
     let t = p.bump();
     debug_assert!(t.is_str());
     let (value, raw) = t.take_str(p.input_mut());
@@ -240,10 +244,12 @@ pub fn parse_str_lit<'a>(p: &mut impl Parser<'a>) -> swc_ecma_ast::Str {
 }
 
 pub fn parse_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Lit> {
-    let start = p.cur_pos();
-    let Some(cur) = p.input_mut().cur() else {
+    p.input_mut().cur();
+    let Some(token_and_span) = p.input().get_cur() else {
         return Err(eof_error(p));
     };
+    let start = token_and_span.span().lo;
+    let cur = token_and_span.token();
     let v = if cur.is_null() {
         p.bump();
         let span = p.span(start);
@@ -254,13 +260,7 @@ pub fn parse_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Lit> {
         let span = p.span(start);
         Lit::Bool(swc_ecma_ast::Bool { span, value })
     } else if cur.is_str() {
-        let t = p.bump();
-        let (value, raw) = t.take_str(p.input_mut());
-        Lit::Str(swc_ecma_ast::Str {
-            span: p.span(start),
-            value,
-            raw: Some(raw),
-        })
+        Lit::Str(parse_str_lit(p))
     } else if cur.is_num() {
         let t = p.bump();
         let (value, raw) = t.take_num(p.input_mut());
