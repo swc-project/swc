@@ -514,8 +514,8 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedModuleItem, 52);
 
     // Class types
-    assert_size!(ArchivedAutoAccessor, 32);
-    assert_size!(ArchivedClass, 64);
+    assert_size!(ArchivedAutoAccessor, 96);
+    assert_size!(ArchivedClass, 104);
     assert_size!(ArchivedClassMember, 48);
     assert_size!(ArchivedClassMethod, 56);
     assert_size!(ArchivedClassProp, 48);
