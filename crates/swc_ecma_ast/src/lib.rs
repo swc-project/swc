@@ -497,4 +497,16 @@ pub use self::{
 };
 
 #[cfg(feature = "rkyv-impl")]
-mod rkyv_layout_assert {}
+mod rkyv_layout_assert {
+    use crate::*;
+
+    macro_rules! assert_size {
+        ($T:ty, $size:expr) => {
+            const _: fn() = || {
+                let _ = std::mem::transmute::<$T, [u8; $size]>;
+            };
+        };
+    }
+
+    assert_size!(ArchivedProgram, 32);
+}
