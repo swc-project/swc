@@ -30,7 +30,15 @@ mod fast;
 ///
 /// See [tendril] for more details.
 #[derive(Clone, Default, PartialEq, Eq, Hash)]
-#[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
+#[cfg_attr(
+    feature = "rkyv-impl",
+    derive(
+        rkyv::Archive,
+        rkyv::Serialize,
+        rkyv::Deserialize,
+        bytecheck::CheckBytes
+    )
+)]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct Atom(hstr::Atom);
 
@@ -198,42 +206,6 @@ macro_rules! lazy_atom {
 impl PartialEq<Atom> for str {
     fn eq(&self, other: &Atom) -> bool {
         *self == **other
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::Archive for Atom {
-    type Archived = rkyv::string::ArchivedString;
-    type Resolver = rkyv::string::StringResolver;
-
-    #[allow(clippy::unit_arg)]
-    fn resolve(&self, resolver: Self::Resolver, out: rkyv::Place<Self::Archived>) {
-        rkyv::string::ArchivedString::resolve_from_str(self, resolver, out)
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl<S: rancor::Fallible + rkyv::ser::Writer + ?Sized> rkyv::Serialize<S> for Atom
-where
-    <S as rancor::Fallible>::Error: rancor::Source,
-{
-    fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        String::serialize(&self.to_string(), serializer)
-    }
-}
-
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::Deserialize<Atom, D> for rkyv::string::ArchivedString
-where
-    D: ?Sized + rancor::Fallible,
-{
-    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, <D as rancor::Fallible>::Error> {
-        let s: String = self.deserialize(deserializer)?;
-
-        Ok(Atom::new(s))
     }
 }
 

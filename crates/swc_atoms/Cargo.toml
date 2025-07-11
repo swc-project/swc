@@ -13,7 +13,7 @@ bench = false
 
 [features]
 __rkyv        = []
-rkyv-impl     = ["__rkyv", "rkyv", "bytecheck", "rancor"]
+rkyv-impl     = ["__rkyv", "rkyv", "bytecheck", "rancor", "hstr/rkyv"]
 shrink-to-fit = ["dep:shrink-to-fit"]
 
 [dependencies]
