@@ -1,5 +1,7 @@
+use std::{os::raw::c_void, ptr::NonNull};
+
 use rkyv::{
-    de::Pooling,
+    de::{Pooling, PoolingExt, SharedPointer},
     munge::munge,
     primitive::FixedUsize,
     rancor::{Fallible, Source},
@@ -8,12 +10,12 @@ use rkyv::{
     Deserialize, Portable, RelPtr,
 };
 
-use crate::Atom;
+use crate::{tagged_value::TaggedValue, Atom};
 
 #[derive(Debug, Portable)]
 #[repr(transparent)]
 struct ArchivedAtom {
-    ptr: RelPtr<ArchivedString>,
+    ptr: RelPtr<()>,
 }
 
 struct AtomResolver {
@@ -56,5 +58,35 @@ where
     D: Fallible + Pooling + ?Sized,
     D::Error: Source,
 {
-    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, D::Error> {}
+    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, D::Error> {
+        let raw_shared_ptr = deserializer.deserialize_shared::<_, Atom>(unsafe {
+            // SAFETY: We assume that the pointer is valid because it's only used for Wasm
+            // plugins
+            &*self.ptr.as_ptr()
+        })?;
+
+        let tagged_value = unsafe {
+            // SAFETY: We assume that the pointer is valid because it's only used for Wasm
+            // plugins
+            TaggedValue::new_ptr(NonNull::new_unchecked(raw_shared_ptr))
+        };
+        Ok(Atom::from_alias(tagged_value))
+    }
+}
+
+impl SharedPointer<()> for Atom {
+    fn alloc(
+        metadata: <() as rkyv::ptr_meta::Pointee>::Metadata,
+    ) -> Result<*mut (), std::alloc::LayoutError> {
+    }
+
+    unsafe fn from_value(ptr: *mut ()) -> *mut () {}
+
+    unsafe fn drop(ptr: *mut ()) {
+        drop(unsafe {
+            // SAFETY: We assume that the pointer is valid because it's only used for Wasm
+            // plugins
+            Atom::from_alias(TaggedValue::new_ptr(NonNull::new_unchecked(ptr)))
+        });
+    }
 }
