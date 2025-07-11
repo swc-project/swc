@@ -11,9 +11,7 @@ use super::{
     builtin::{self, CoreJSPolyfillDescriptor},
     data,
 };
-use crate::{
-    corejs3::compat::DATA as CORE_JS_COMPAT_DATA, Versions,
-};
+use crate::{corejs3::compat::DATA as CORE_JS_COMPAT_DATA, Versions};
 
 pub(crate) struct UsageVisitor {
     shipped_proposals: bool,
@@ -118,15 +116,15 @@ impl UsageVisitor {
                 self.add_builtin(prop);
             }
 
-            if let Some(map) = builtin::static_properties_get(&obj) {
-                if let Some(features) = map.get(&prop) {
+            if let Some(map) = builtin::static_properties_get(obj) {
+                if let Some(features) = map.get(prop) {
                     self.add(&features);
                     return;
                 }
             }
         }
 
-        if let Some(features) = builtin::instance_properties_get(&prop) {
+        if let Some(features) = builtin::instance_properties_get(prop) {
             self.add(&features);
         }
     }

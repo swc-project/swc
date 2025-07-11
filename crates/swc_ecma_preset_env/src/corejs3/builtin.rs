@@ -1,4 +1,5 @@
 use std::fmt;
+
 use crate::util::{PooledStr, SwcFold};
 
 #[derive(Clone, Copy)]
@@ -16,28 +17,46 @@ pub struct StaticProperty(&'static [(PooledStr, (u32, u32, u32, u32))]);
 pub fn builtin_types_get(query: &str) -> Option<CoreJSPolyfillDescriptor> {
     let idx = BUILTIN_INDEX.get(query)?;
     let (name, pure, global, exclude) = BUILTINS_VALUES[idx];
-    Some(CoreJSPolyfillDescriptor { pure, global, name, exclude })
+    Some(CoreJSPolyfillDescriptor {
+        pure,
+        global,
+        name,
+        exclude,
+    })
 }
 
 pub fn instance_properties_get(query: &str) -> Option<CoreJSPolyfillDescriptor> {
     let idx = INSTRANCE_PROPS_INDEX.get(query)?;
     let (name, pure, global, exclude) = INSTRANCE_PROPS_VALUES[idx];
-    Some(CoreJSPolyfillDescriptor { pure, global, name, exclude })
+    Some(CoreJSPolyfillDescriptor {
+        pure,
+        global,
+        name,
+        exclude,
+    })
 }
 
 pub fn static_properties_get(query: &str) -> Option<StaticProperty> {
     let idx = STATIC_PROPS_INDEX.get(query)?;
     let (start, end) = STATIC_PROPS_LIST[idx];
-    Some(StaticProperty(&STATIC_PROPS_STORE[start as usize..end as usize]))
+    Some(StaticProperty(
+        &STATIC_PROPS_STORE[start as usize..end as usize],
+    ))
 }
 
 impl StaticProperty {
     pub fn get(&self, query: &str) -> Option<CoreJSPolyfillDescriptor> {
-        let idx = self.0
+        let idx = self
+            .0
             .binary_search_by_key(&query, |(k, ..)| k.as_str())
             .ok()?;
         let (_, (name, pure, global, exclude)) = self.0[idx];
-        Some(CoreJSPolyfillDescriptor { pure, global, name, exclude })
+        Some(CoreJSPolyfillDescriptor {
+            pure,
+            global,
+            name,
+            exclude,
+        })
     }
 }
 
@@ -52,7 +71,7 @@ impl CoreJSPolyfillDescriptor {
 
     pub fn global(&self) -> impl ExactSizeIterator<Item = &'static str> {
         use precomputed_map::store::AccessSeq;
-        
+
         let (offset, len) = unpack_store(self.global);
         (offset..offset + len)
             .map(|idx| GlobalStore::index(idx).unwrap())
@@ -61,12 +80,12 @@ impl CoreJSPolyfillDescriptor {
 
     pub fn exclude(&self) -> impl ExactSizeIterator<Item = &'static str> {
         use precomputed_map::store::AccessSeq;
-        
+
         let (offset, len) = unpack_store(self.exclude);
         (offset..offset + len)
             .map(|idx| ExcludeStore::index(idx).unwrap())
             .map(|idx| PooledStr(idx).as_str())
-    }    
+    }
 }
 
 pub fn common_iterators() -> impl ExactSizeIterator<Item = &'static str> {
@@ -79,7 +98,7 @@ pub fn promise_dependencies() -> impl ExactSizeIterator<Item = &'static str> {
 
 fn unpack_store(id: u32) -> (usize, usize) {
     let offset = id & ((1 << 24) - 1);
-    let len = id >> 24;    
+    let len = id >> 24;
     (offset as usize, len as usize)
 }
 

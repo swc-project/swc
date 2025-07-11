@@ -12,7 +12,7 @@ use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMut;
 
 use super::{compat::DATA as CORE_JS_COMPAT_DATA, data};
-use crate::util::{SwcFold, PooledStr};
+use crate::util::{PooledStr, SwcFold};
 
 include!(concat!(env!("OUT_DIR"), "/corejs3_entries/lib.rs"));
 
@@ -26,6 +26,7 @@ pub fn entries_get(name: &str) -> Option<FeatureSet> {
 impl FeatureSet {
     pub fn iter(&self) -> impl ExactSizeIterator<Item = &'static str> {
         use precomputed_map::store::AccessSeq;
+
         use crate::util::PooledStr;
 
         self.0

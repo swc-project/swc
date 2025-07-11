@@ -1,4 +1,5 @@
 use preset_env_base::version::Version;
+
 use crate::util::SwcFold;
 
 pub static POSSIBLE_GLOBAL_OBJECTS: &[&str] = &["global", "globalThis", "self", "window"];

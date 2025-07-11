@@ -1,7 +1,7 @@
 use std::{
-    hash::Hash,
     collections::{BTreeMap, HashMap},
     fs,
+    hash::Hash,
     io::{self, Write},
     path::Path,
 };
@@ -16,7 +16,7 @@ fn main() -> anyhow::Result<()> {
     let out_dir = Path::new(&out_dir);
 
     let mut strpool = StrPool::default();
-    
+
     corejs3_entry(&mut strpool, crate_dir, out_dir)?;
     corejs3_data(&mut strpool, crate_dir, out_dir)?;
     corejs3_compat(&mut strpool, crate_dir, out_dir)?;
@@ -37,9 +37,9 @@ fn corejs3_entry(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> any
     let data: BTreeMap<&str, Vec<&str>> = prepare(
         &out_dir,
         &crate_dir.join("data/core-js-compat/entries.json"),
-        &mut data
+        &mut data,
     )?;
-    
+
     let (keys, values): (Vec<_>, Vec<_>) = data.into_iter().unzip();
 
     let mut values_strid = Vec::new();
@@ -83,12 +83,13 @@ fn corejs3_entry(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> any
     builder.codegen(&mut codeout)?;
     u8seq.codegen(&mut codeout)?;
     u32seq.codegen(&mut codeout)?;
-    create_pooledstr_keys(&mut codeout, "EntryKeysStringId", mapout.reorder(&keys).copied())?;
-
-    writeln!(
-        codeout,
-        "const ENTRY_VALUES_LIST: &[Range<u32>] = &["
+    create_pooledstr_keys(
+        &mut codeout,
+        "EntryKeysStringId",
+        mapout.reorder(&keys).copied(),
     )?;
+
+    writeln!(codeout, "const ENTRY_VALUES_LIST: &[Range<u32>] = &[")?;
     for range in mapout.reorder(&values_index) {
         writeln!(codeout, "{}..{},", range.start, range.end)?;
     }
@@ -105,7 +106,7 @@ fn corejs3_data(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyh
     let data: BTreeMap<&str, Vec<&str>> = prepare(
         &out_dir,
         &crate_dir.join("data/core-js-compat/modules-by-versions.json"),
-        &mut data
+        &mut data,
     )?;
 
     let mut keys = Vec::new();
@@ -115,14 +116,14 @@ fn corejs3_data(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyh
         let k = version(k);
         let id: u32 = versions.len().try_into().unwrap();
         versions.push(k);
-        
+
         for v in list {
             let v = strpool.insert(v);
             keys.push(v);
             values.push(id);
         }
     }
-    
+
     let mapout = precomputed_map::builder::MapBuilder::<u32>::new()
         .set_seed(SEED)
         .set_hash(&|seed, &v| foldhash_once(seed, &strpool.get(v)))
@@ -180,19 +181,21 @@ const VERSIONS: &[Version] = &[
         writeln!(
             codeout,
             "Version {{ major: {}, minor: {}, patch: {} }},",
-            version.0,
-            version.1,
-            version.2,
+            version.0, version.1, version.2,
         )?;
     }
 
     write!(codeout, "];")?;
 
-    Ok(())    
+    Ok(())
 }
 
 fn corejs3_compat(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyhow::Result<()> {
-    feature2browser(strpool, &crate_dir.join("data/core-js-compat/data.json"), &out_dir.join("corejs3_compat"))
+    feature2browser(
+        strpool,
+        &crate_dir.join("data/core-js-compat/data.json"),
+        &out_dir.join("corejs3_compat"),
+    )
 }
 
 fn corejs3_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyhow::Result<()> {
@@ -213,7 +216,7 @@ fn corejs3_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> a
         #[serde(borrow)]
         built_ins: BTreeMap<&'a str, Descriptor<'a>>,
         instance_properties: BTreeMap<&'a str, Descriptor<'a>>,
-        static_properties: BTreeMap<&'a str, BTreeMap<&'a str, Descriptor<'a>>>
+        static_properties: BTreeMap<&'a str, BTreeMap<&'a str, Descriptor<'a>>>,
     }
 
     const SEED_BUILTINS: u64 = 16416001479773392852;
@@ -225,7 +228,7 @@ fn corejs3_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> a
     let data: Data<'_> = prepare(
         &out_dir,
         &crate_dir.join("data/corejs3/builtin.json"),
-        &mut data
+        &mut data,
     )?;
 
     let mut global_store = StrList::default();
@@ -268,7 +271,7 @@ fn corejs3_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> a
             let pure_id = desc.pure.map(|s| strpool.insert(s)).unwrap_or_default();
             let global_id = global_store.push(desc.global.iter().map(|s| strpool.insert(s)));
             let exclude_id = exclude_store.push(desc.exclude.iter().map(|s| strpool.insert(s)));
-            
+
             static_props_store.push((p, (name_id, pure_id, global_id, exclude_id)));
         }
         let end: u32 = static_props_store.len().try_into().unwrap();
@@ -302,9 +305,16 @@ fn corejs3_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> a
         check_seed("corejs3_builtin_0", mapout.seed(), SEED_BUILTINS);
 
         create_pooledstr_keys(&mut codeout, "BuiltinsKeys", mapout.reorder(&keys).copied())?;
-        writeln!(codeout, "const BUILTINS_VALUES: &[(u32, u32, u32, u32)] = &[")?;
+        writeln!(
+            codeout,
+            "const BUILTINS_VALUES: &[(u32, u32, u32, u32)] = &["
+        )?;
         for value in mapout.reorder(&values) {
-            writeln!(codeout, "({}, {}, {}, {}),", value.0, value.1, value.2, value.3)?;
+            writeln!(
+                codeout,
+                "({}, {}, {}, {}),",
+                value.0, value.1, value.2, value.3
+            )?;
         }
         writeln!(codeout, "];")?;
 
@@ -312,7 +322,7 @@ fn corejs3_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> a
         mapout.create_map("BUILTIN_INDEX".into(), keys, &mut builder)?;
     }
 
-    // instance_properties 
+    // instance_properties
     {
         let (keys, values): (Vec<_>, Vec<_>) = instance_properties.into_iter().unzip();
         let mapout = precomputed_map::builder::MapBuilder::<u32>::new()
@@ -322,10 +332,21 @@ fn corejs3_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> a
             .build(&keys)?;
         check_seed("corejs3_builtin_1", mapout.seed(), SEED_INSTRANCE);
 
-        create_pooledstr_keys(&mut codeout, "InstancePropsKeys", mapout.reorder(&keys).copied())?;
-        writeln!(codeout, "const INSTRANCE_PROPS_VALUES: &[(u32, u32, u32, u32)] = &[")?;
+        create_pooledstr_keys(
+            &mut codeout,
+            "InstancePropsKeys",
+            mapout.reorder(&keys).copied(),
+        )?;
+        writeln!(
+            codeout,
+            "const INSTRANCE_PROPS_VALUES: &[(u32, u32, u32, u32)] = &["
+        )?;
         for value in mapout.reorder(&values) {
-            writeln!(codeout, "({}, {}, {}, {}),", value.0, value.1, value.2, value.3)?;
+            writeln!(
+                codeout,
+                "({}, {}, {}, {}),",
+                value.0, value.1, value.2, value.3
+            )?;
         }
         writeln!(codeout, "];")?;
 
@@ -333,7 +354,7 @@ fn corejs3_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> a
         mapout.create_map("INSTRANCE_PROPS_INDEX".into(), keys, &mut builder)?;
     }
 
-    // static_properties 
+    // static_properties
     {
         let (keys, values): (Vec<_>, Vec<_>) = static_properties.into_iter().unzip();
         let mapout = precomputed_map::builder::MapBuilder::<u32>::new()
@@ -343,20 +364,26 @@ fn corejs3_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> a
             .build(&keys)?;
         check_seed("corejs3_builtin_2", mapout.seed(), SEED_STATIC);
 
-        create_pooledstr_keys(&mut codeout, "StaticPropsKeys", mapout.reorder(&keys).copied())?;
+        create_pooledstr_keys(
+            &mut codeout,
+            "StaticPropsKeys",
+            mapout.reorder(&keys).copied(),
+        )?;
         writeln!(codeout, "const STATIC_PROPS_LIST: &[(u32, u32)] = &[")?;
         for value in mapout.reorder(&values) {
             writeln!(codeout, "({}, {}),", value.0, value.1)?;
         }
         writeln!(codeout, "];")?;
 
-        writeln!(codeout, "const STATIC_PROPS_STORE: &[(PooledStr, (u32, u32, u32, u32))] = &[")?;
+        writeln!(
+            codeout,
+            "const STATIC_PROPS_STORE: &[(PooledStr, (u32, u32, u32, u32))] = &["
+        )?;
         for (p, value) in &static_props_store {
             writeln!(
                 codeout,
                 "(PooledStr({}), ({}, {}, {}, {})),",
-                p,
-                value.0, value.1, value.2, value.3
+                p, value.0, value.1, value.2, value.3
             )?;
         }
         writeln!(codeout, "];")?;
@@ -367,8 +394,11 @@ fn corejs3_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> a
 
     // common, promise, ..
     {
-        static COMMON_ITERATORS: &[&str] =
-            &["es.array.iterator", "web.dom-collections.iterator", "es.string.iterator"];
+        static COMMON_ITERATORS: &[&str] = &[
+            "es.array.iterator",
+            "web.dom-collections.iterator",
+            "es.string.iterator",
+        ];
         static PROMISE_DEPENDENCIES: &[&str] = &["es.promise", "es.object.to-string"];
 
         write!(codeout, "const COMMON_ITERATORS: &[PooledStr] = &[")?;
@@ -381,7 +411,7 @@ fn corejs3_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> a
         for s in PROMISE_DEPENDENCIES {
             write!(codeout, "PooledStr({}),", strpool.insert(s))?;
         }
-        writeln!(codeout, "];")?;        
+        writeln!(codeout, "];")?;
     }
 
     builder.create_u32_seq("GlobalStore".into(), global_store.0.iter().copied())?;
@@ -403,7 +433,7 @@ fn corejs2_data(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyh
         #[serde(borrow)]
         builtin_types: BTreeMap<&'a str, Vec<&'a str>>,
         instance_properties: BTreeMap<&'a str, Vec<&'a str>>,
-        static_properties: BTreeMap<&'a str, BTreeMap<&'a str, Vec<&'a str>>>
+        static_properties: BTreeMap<&'a str, BTreeMap<&'a str, Vec<&'a str>>>,
     }
 
     const SEED: u64 = 16416001479773392852;
@@ -413,7 +443,7 @@ fn corejs2_data(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyh
     let data: Data<'_> = prepare(
         &out_dir,
         &crate_dir.join("data/corejs2/data.json"),
-        &mut data
+        &mut data,
     )?;
 
     let mut list_store = Vec::new();
@@ -453,7 +483,8 @@ fn corejs2_data(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyh
         static_properties.push((k, start, end));
     }
 
-    let (instance_keys, instance_values): (Vec<_>, Vec<_>) = instance_properties.into_iter().unzip();
+    let (instance_keys, instance_values): (Vec<_>, Vec<_>) =
+        instance_properties.into_iter().unzip();
     let mapout = precomputed_map::builder::MapBuilder::<u32>::new()
         .set_seed(SEED)
         .set_hash(&|seed, &v| foldhash_once(seed, &strpool.get(v)))
@@ -463,20 +494,18 @@ fn corejs2_data(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyh
 
     let mut codeout = fs::File::create(out_dir.join("lib.rs"))?;
 
-    writeln!(
-        codeout,
-r#"const LIST_STORE: &[PooledStr] = &["#,
-    )?;
+    writeln!(codeout, r#"const LIST_STORE: &[PooledStr] = &["#,)?;
     for u in &list_store {
-        writeln!(codeout, "PooledStr({}),", u)?;
+        writeln!(codeout, "PooledStr({u}),")?;
     }
-    
+
     writeln!(
         codeout,
         r#"];
 
 const BUILTIN_TYPES: &[(PooledStr, u32, u32)] = &[
-"#)?;
+"#
+    )?;
     for (k, start, end) in &builtin_types {
         writeln!(codeout, "(PooledStr({k}), {start}, {end}),")?;
     }
@@ -486,7 +515,8 @@ const BUILTIN_TYPES: &[(PooledStr, u32, u32)] = &[
         r#"];
 
 const STATIC_PROPERTIES_STORE: &[(PooledStr, u32, u32)] = &[
-    "#)?;
+    "#
+    )?;
     for (k, start, end) in &static_props_store {
         writeln!(codeout, "(PooledStr({k}), {start}, {end}),")?;
     }
@@ -496,7 +526,8 @@ const STATIC_PROPERTIES_STORE: &[(PooledStr, u32, u32)] = &[
         r#"];
 
 const STATIC_PROPERTIES: &[(PooledStr, u32, u32)] = &[
-    "#)?;
+    "#
+    )?;
     for (k, start, end) in &static_properties {
         writeln!(codeout, "(PooledStr({k}), {start}, {end}),")?;
     }
@@ -505,9 +536,10 @@ const STATIC_PROPERTIES: &[(PooledStr, u32, u32)] = &[
         codeout,
         r#"];
 
-const INSTANCE_PROPERTIES_VALUES: &[(u32, u32)] = &["#)?;
+const INSTANCE_PROPERTIES_VALUES: &[(u32, u32)] = &["#
+    )?;
     for (start, end) in mapout.reorder(&instance_values) {
-        write!(codeout, "({}, {}),", start, end)?;
+        write!(codeout, "({start}, {end}),")?;
     }
     writeln!(codeout, "];")?;
 
@@ -527,7 +559,11 @@ const INSTANCE_PROPERTIES_VALUES: &[(u32, u32)] = &["#)?;
     );
     let keys = builder.create_custom("InstancePropertiesKeys".into());
     let _k = mapout.create_map("INSTANCE_KEYS".into(), keys, &mut builder)?;
-    create_pooledstr_keys(&mut codeout, "InstancePropertiesKeys", mapout.reorder(&instance_keys).copied())?;
+    create_pooledstr_keys(
+        &mut codeout,
+        "InstancePropertiesKeys",
+        mapout.reorder(&instance_keys).copied(),
+    )?;
 
     builder.codegen(&mut codeout)?;
     u8seq.codegen(&mut codeout)?;
@@ -537,14 +573,14 @@ const INSTANCE_PROPERTIES_VALUES: &[(u32, u32)] = &["#)?;
 }
 
 fn corejs2_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyhow::Result<()> {
-    feature2browser(strpool, &crate_dir.join("data/corejs2/builtin.json"), &out_dir.join("corejs2_builtin"))
+    feature2browser(
+        strpool,
+        &crate_dir.join("data/corejs2/builtin.json"),
+        &out_dir.join("corejs2_builtin"),
+    )
 }
 
-fn feature2browser(
-    strpool: &mut StrPool,
-    json: &Path,
-    out_dir: &Path
-) -> anyhow::Result<()> {
+fn feature2browser(strpool: &mut StrPool, json: &Path, out_dir: &Path) -> anyhow::Result<()> {
     let mut data = String::new();
     let data: BTreeMap<&str, BTreeMap<&str, &str>> = prepare(out_dir, json, &mut data)?;
 
@@ -553,38 +589,36 @@ fn feature2browser(
     for (feature, browsers) in data {
         let feature = strpool.insert(feature);
         let start: u32 = version_store.len().try_into().unwrap();
-        version_store.extend(browsers.iter()
-            .map(|(b, v)| (
+        version_store.extend(browsers.iter().map(|(b, v)| {
+            (
                 // To make `BrowserData::insert` work
                 strpool.insert(&b.replace('-', "_")),
                 strpool.insert(v),
-            )));
+            )
+        }));
         let end: u32 = version_store.len().try_into().unwrap();
         features.push((feature, start, end));
     }
 
     let mut codeout = fs::File::create(out_dir.join("lib.rs"))?;
 
-    writeln!(
-        codeout,
-r#"const FEATURES: &[(PooledStr, u32, u32)] = &["#
-    )?;
+    writeln!(codeout, r#"const FEATURES: &[(PooledStr, u32, u32)] = &["#)?;
     for (feature, start, end) in &features {
-        writeln!(codeout, "(PooledStr({}), {}, {}),", feature, start, end)?;
+        writeln!(codeout, "(PooledStr({feature}), {start}, {end}),")?;
     }
 
     writeln!(
         codeout,
-r#"];
+        r#"];
 
 const VERSION_STORE: &[(PooledStr, PooledStr)] = &["#
     )?;
     for (browser, version) in &version_store {
-        writeln!(codeout, "(PooledStr({}), PooledStr({})),", browser, version)?;
+        writeln!(codeout, "(PooledStr({browser}), PooledStr({version})),")?;
     }
     writeln!(codeout, "];")?;
 
-    Ok(())    
+    Ok(())
 }
 
 #[derive(Default)]
@@ -596,7 +630,7 @@ struct StrPool {
 impl StrPool {
     pub fn insert(&mut self, s: &str) -> u32 {
         assert!(!s.is_empty());
-        
+
         *self.map.entry(s.into()).or_insert_with(|| {
             let offset = self.pool.len();
             self.pool.push_str(s);
@@ -646,50 +680,51 @@ fn foldhash_once<V: Hash>(seed: u64, v: &V) -> u64 {
     let mut hasher =
         foldhash::fast::FoldHasher::with_seed(seed, foldhash::SharedSeed::global_fixed());
     v.hash(&mut hasher);
-    hasher.finish()    
+    hasher.finish()
 }
 
-fn prepare<'buf, T: serde::Deserialize<'buf>>(dir: &Path, json: &Path, buf: &'buf mut String)
-    -> anyhow::Result<T>
-{
-    fs::remove_dir_all(&dir)
-        .or_else(|err| (err.kind() == io::ErrorKind::NotFound)
+fn prepare<'buf, T: serde::Deserialize<'buf>>(
+    dir: &Path,
+    json: &Path,
+    buf: &'buf mut String,
+) -> anyhow::Result<T> {
+    fs::remove_dir_all(dir).or_else(|err| {
+        (err.kind() == io::ErrorKind::NotFound)
             .then_some(())
             .ok_or(err)
-        )?;
-    fs::create_dir(&dir)?;
+    })?;
+    fs::create_dir(dir)?;
 
     println!("cargo::rerun-if-changed={}", json.display());
 
     *buf = fs::read_to_string(json)?;
     let data: T =
-        serde_json::from_str(buf)
-            .with_context(|| format!("failed to parse {}", json.display()))?;
+        serde_json::from_str(buf).with_context(|| format!("failed to parse {}", json.display()))?;
 
     Ok(data)
 }
 
-
 fn version(s: &str) -> (u32, u32, u32) {
     // A non-universal version parser that only works with specified data
-    
+
     let mut iter = s.split('.');
     let major = iter.next().unwrap().parse::<u32>().unwrap();
     let minor = iter.next().unwrap().parse::<u32>().unwrap();
-    let patch = iter.next()
+    let patch = iter
+        .next()
         .map(|s| s.parse::<u32>().unwrap())
         .unwrap_or_default();
 
     assert!(iter.next().is_none());
-    
+
     (major, minor, patch)
 }
 
 fn check_seed(name: &str, new_seed: Option<u64>, prev_seed: u64) {
     if let Some(seed) = new_seed.filter(|&seed| seed != prev_seed) {
         println!(
-            "cargo::warning=The `{name}` seed has changed, please update the seed to {seed} for faster \
-             builds"
+            "cargo::warning=The `{name}` seed has changed, please update the seed to {seed} for \
+             faster builds"
         );
     }
 }
@@ -701,7 +736,7 @@ fn create_pooledstr_keys(
 ) -> anyhow::Result<()> {
     writeln!(
         codeout,
-r#"struct {name};
+        r#"struct {name};
 
 impl precomputed_map::store::AccessSeq for {name} {{
     type Item = &'static str;
@@ -713,15 +748,18 @@ impl precomputed_map::store::AccessSeq for {name} {{
     )?;
 
     for id in index_list {
-        writeln!(codeout, "PooledStr({}),", id)?;
+        writeln!(codeout, "PooledStr({id}),")?;
     }
 
-    writeln!(codeout, r#"
+    writeln!(
+        codeout,
+        r#"
         ];
         
         LIST.get(index).map(|s| s.as_str())
     }}
-}}"#)?;
+}}"#
+    )?;
 
-    Ok(())    
+    Ok(())
 }

@@ -7,8 +7,8 @@ use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-pub(crate) use self::entry::Entry;
 use self::builtin::BUILTINS;
+pub(crate) use self::entry::Entry;
 
 mod builtin;
 mod data;
@@ -232,7 +232,7 @@ impl Visit for UsageVisitor {
             }
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                 if let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr {
-                    if let Some(imports) = data::instance_properties_get(&value) {
+                    if let Some(imports) = data::instance_properties_get(value) {
                         self.add(imports);
                     }
                 }
@@ -244,7 +244,7 @@ impl Visit for UsageVisitor {
                 match &node.prop {
                     MemberProp::Computed(ComputedPropName { expr, .. }) => {
                         if let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr {
-                            if let Some(imports) = data::instance_properties_get(&value) {
+                            if let Some(imports) = data::instance_properties_get(value) {
                                 self.add(imports);
                             }
                         }
@@ -291,7 +291,9 @@ impl Visit for UsageVisitor {
         e.visit_children_with(self);
 
         match e.op {
-            op!("in") if is_symbol_iterator(&e.left) => self.add(["web.dom.iterable"].iter().copied()),
+            op!("in") if is_symbol_iterator(&e.left) => {
+                self.add(["web.dom.iterable"].iter().copied())
+            }
             _ => {}
         }
     }
