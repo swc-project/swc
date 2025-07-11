@@ -511,6 +511,256 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedProgram, 32);
     assert_size!(ArchivedModule, 28);
     assert_size!(ArchivedScript, 28);
-
     assert_size!(ArchivedModuleItem, 52);
+
+    // Class types
+    assert_size!(ArchivedAutoAccessor, 32);
+    assert_size!(ArchivedClass, 64);
+    assert_size!(ArchivedClassMember, 48);
+    assert_size!(ArchivedClassMethod, 56);
+    assert_size!(ArchivedClassProp, 48);
+    assert_size!(ArchivedConstructor, 48);
+    assert_size!(ArchivedDecorator, 24);
+    assert_size!(ArchivedKey, 32);
+    assert_size!(ArchivedMethodKind, 1);
+    assert_size!(ArchivedPrivateMethod, 56);
+    assert_size!(ArchivedPrivateProp, 48);
+    assert_size!(ArchivedStaticBlock, 24);
+
+    // Declaration types
+    assert_size!(ArchivedClassDecl, 32);
+    assert_size!(ArchivedDecl, 48);
+    assert_size!(ArchivedFnDecl, 40);
+    assert_size!(ArchivedUsingDecl, 32);
+    assert_size!(ArchivedVarDecl, 32);
+    assert_size!(ArchivedVarDeclKind, 1);
+    assert_size!(ArchivedVarDeclarator, 32);
+
+    // Expression types
+    assert_size!(ArchivedArrayLit, 32);
+    assert_size!(ArchivedArrowExpr, 56);
+    assert_size!(ArchivedAssignExpr, 40);
+    assert_size!(ArchivedAssignTarget, 32);
+    assert_size!(ArchivedAwaitExpr, 24);
+    assert_size!(ArchivedBinExpr, 40);
+    assert_size!(ArchivedBlockStmtOrExpr, 32);
+    assert_size!(ArchivedCallExpr, 56);
+    assert_size!(ArchivedCallee, 32);
+    assert_size!(ArchivedClassExpr, 40);
+    assert_size!(ArchivedCondExpr, 48);
+    assert_size!(ArchivedExpr, 48);
+    assert_size!(ArchivedExprOrSpread, 32);
+    assert_size!(ArchivedFnExpr, 40);
+    assert_size!(ArchivedImport, 16);
+    assert_size!(ArchivedMemberExpr, 40);
+    assert_size!(ArchivedMemberProp, 32);
+    assert_size!(ArchivedMetaPropExpr, 24);
+    assert_size!(ArchivedMetaPropKind, 1);
+    assert_size!(ArchivedNewExpr, 48);
+    assert_size!(ArchivedObjectLit, 32);
+    assert_size!(ArchivedOptCall, 32);
+    assert_size!(ArchivedOptChainBase, 32);
+    assert_size!(ArchivedOptChainExpr, 40);
+    assert_size!(ArchivedParenExpr, 24);
+    assert_size!(ArchivedPropOrSpread, 32);
+    assert_size!(ArchivedSeqExpr, 32);
+    assert_size!(ArchivedSpreadElement, 24);
+    assert_size!(ArchivedSuper, 16);
+    assert_size!(ArchivedSuperProp, 32);
+    assert_size!(ArchivedSuperPropExpr, 32);
+    assert_size!(ArchivedTaggedTpl, 32);
+    assert_size!(ArchivedThisExpr, 16);
+    assert_size!(ArchivedTpl, 32);
+    assert_size!(ArchivedTplElement, 40);
+    assert_size!(ArchivedUnaryExpr, 32);
+    assert_size!(ArchivedUpdateExpr, 32);
+    assert_size!(ArchivedYieldExpr, 32);
+
+    // Function types
+    assert_size!(ArchivedFunction, 64);
+    assert_size!(ArchivedParam, 32);
+    assert_size!(ArchivedParamOrTsParamProp, 32);
+
+    // Identifier types
+    assert_size!(ArchivedBindingIdent, 24);
+    assert_size!(ArchivedIdent, 24);
+    assert_size!(ArchivedIdentName, 24);
+    assert_size!(ArchivedPrivateName, 24);
+
+    // JSX types
+    assert_size!(ArchivedJSXAttr, 32);
+    assert_size!(ArchivedJSXAttrName, 24);
+    assert_size!(ArchivedJSXAttrOrSpread, 32);
+    assert_size!(ArchivedJSXAttrValue, 32);
+    assert_size!(ArchivedJSXClosingElement, 24);
+    assert_size!(ArchivedJSXClosingFragment, 16);
+    assert_size!(ArchivedJSXElement, 56);
+    assert_size!(ArchivedJSXElementChild, 32);
+    assert_size!(ArchivedJSXElementName, 24);
+    assert_size!(ArchivedJSXEmptyExpr, 16);
+    assert_size!(ArchivedJSXExpr, 24);
+    assert_size!(ArchivedJSXExprContainer, 24);
+    assert_size!(ArchivedJSXFragment, 40);
+    assert_size!(ArchivedJSXMemberExpr, 32);
+    assert_size!(ArchivedJSXNamespacedName, 32);
+    assert_size!(ArchivedJSXObject, 24);
+    assert_size!(ArchivedJSXOpeningElement, 48);
+    assert_size!(ArchivedJSXOpeningFragment, 16);
+    assert_size!(ArchivedJSXSpreadChild, 24);
+    assert_size!(ArchivedJSXText, 32);
+
+    // Literal types
+    assert_size!(ArchivedBigInt, 24);
+    assert_size!(ArchivedBool, 17);
+    assert_size!(ArchivedLit, 32);
+    assert_size!(ArchivedNull, 16);
+    assert_size!(ArchivedNumber, 24);
+    assert_size!(ArchivedRegex, 40);
+    assert_size!(ArchivedStr, 24);
+
+    // Module declaration types
+    assert_size!(ArchivedDefaultDecl, 32);
+    assert_size!(ArchivedExportAll, 40);
+    assert_size!(ArchivedExportDecl, 32);
+    assert_size!(ArchivedExportDefaultDecl, 32);
+    assert_size!(ArchivedExportDefaultExpr, 24);
+    assert_size!(ArchivedExportDefaultSpecifier, 24);
+    assert_size!(ArchivedExportNamedSpecifier, 40);
+    assert_size!(ArchivedExportNamespaceSpecifier, 32);
+    assert_size!(ArchivedExportSpecifier, 40);
+    assert_size!(ArchivedImportDecl, 48);
+    assert_size!(ArchivedImportDefaultSpecifier, 24);
+    assert_size!(ArchivedImportNamedSpecifier, 40);
+    assert_size!(ArchivedImportSpecifier, 40);
+    assert_size!(ArchivedImportStarAsSpecifier, 24);
+    assert_size!(ArchivedModuleDecl, 48);
+    assert_size!(ArchivedModuleExportName, 24);
+    assert_size!(ArchivedNamedExport, 48);
+
+    // Operator types
+    assert_size!(ArchivedAssignOp, 1);
+    assert_size!(ArchivedBinaryOp, 1);
+    assert_size!(ArchivedUnaryOp, 1);
+    assert_size!(ArchivedUpdateOp, 1);
+
+    // Pattern types
+    assert_size!(ArchivedArrayPat, 40);
+    assert_size!(ArchivedAssignPat, 32);
+    assert_size!(ArchivedAssignPatProp, 40);
+    assert_size!(ArchivedKeyValuePatProp, 32);
+    assert_size!(ArchivedObjectPat, 40);
+    assert_size!(ArchivedObjectPatProp, 40);
+    assert_size!(ArchivedPat, 40);
+    assert_size!(ArchivedRestPat, 32);
+
+    // Property types
+    assert_size!(ArchivedAssignProp, 32);
+    assert_size!(ArchivedComputedPropName, 24);
+    assert_size!(ArchivedGetterProp, 48);
+    assert_size!(ArchivedKeyValueProp, 32);
+    assert_size!(ArchivedMethodProp, 48);
+    assert_size!(ArchivedProp, 48);
+    assert_size!(ArchivedPropName, 32);
+    assert_size!(ArchivedSetterProp, 48);
+
+    // Statement types
+    assert_size!(ArchivedBlockStmt, 32);
+    assert_size!(ArchivedBreakStmt, 24);
+    assert_size!(ArchivedCatchClause, 40);
+    assert_size!(ArchivedContinueStmt, 24);
+    assert_size!(ArchivedDebuggerStmt, 16);
+    assert_size!(ArchivedDoWhileStmt, 40);
+    assert_size!(ArchivedEmptyStmt, 16);
+    assert_size!(ArchivedExprStmt, 24);
+    assert_size!(ArchivedForHead, 32);
+    assert_size!(ArchivedForInStmt, 48);
+    assert_size!(ArchivedForOfStmt, 48);
+    assert_size!(ArchivedForStmt, 56);
+    assert_size!(ArchivedIfStmt, 48);
+    assert_size!(ArchivedLabeledStmt, 32);
+    assert_size!(ArchivedReturnStmt, 24);
+    assert_size!(ArchivedStmt, 48);
+    assert_size!(ArchivedSwitchCase, 40);
+    assert_size!(ArchivedSwitchStmt, 40);
+    assert_size!(ArchivedThrowStmt, 24);
+    assert_size!(ArchivedTryStmt, 56);
+    assert_size!(ArchivedVarDeclOrExpr, 32);
+    assert_size!(ArchivedWhileStmt, 40);
+    assert_size!(ArchivedWithStmt, 40);
+
+    // TypeScript types
+    assert_size!(ArchivedAccessibility, 1);
+    assert_size!(ArchivedTruePlusMinus, 1);
+    assert_size!(ArchivedTsArrayType, 24);
+    assert_size!(ArchivedTsAsExpr, 32);
+    assert_size!(ArchivedTsCallSignatureDecl, 48);
+    assert_size!(ArchivedTsConditionalType, 56);
+    assert_size!(ArchivedTsConstAssertion, 24);
+    assert_size!(ArchivedTsConstructSignatureDecl, 48);
+    assert_size!(ArchivedTsConstructorType, 48);
+    assert_size!(ArchivedTsEntityName, 24);
+    assert_size!(ArchivedTsEnumDecl, 56);
+    assert_size!(ArchivedTsEnumMember, 40);
+    assert_size!(ArchivedTsEnumMemberId, 24);
+    assert_size!(ArchivedTsExportAssignment, 24);
+    assert_size!(ArchivedTsExprWithTypeArgs, 40);
+    assert_size!(ArchivedTsExternalModuleRef, 24);
+    assert_size!(ArchivedTsFnOrConstructorType, 48);
+    assert_size!(ArchivedTsFnParam, 32);
+    assert_size!(ArchivedTsFnType, 48);
+    assert_size!(ArchivedTsGetterSignature, 48);
+    assert_size!(ArchivedTsImportEqualsDecl, 40);
+    assert_size!(ArchivedTsImportType, 56);
+    assert_size!(ArchivedTsIndexSignature, 48);
+    assert_size!(ArchivedTsIndexedAccessType, 32);
+    assert_size!(ArchivedTsInferType, 32);
+    assert_size!(ArchivedTsInstantiation, 32);
+    assert_size!(ArchivedTsInterfaceBody, 32);
+    assert_size!(ArchivedTsInterfaceDecl, 56);
+    assert_size!(ArchivedTsIntersectionType, 32);
+    assert_size!(ArchivedTsKeywordType, 17);
+    assert_size!(ArchivedTsKeywordTypeKind, 1);
+    assert_size!(ArchivedTsLit, 24);
+    assert_size!(ArchivedTsLitType, 24);
+    assert_size!(ArchivedTsMappedType, 64);
+    assert_size!(ArchivedTsMethodSignature, 56);
+    assert_size!(ArchivedTsModuleBlock, 32);
+    assert_size!(ArchivedTsModuleDecl, 48);
+    assert_size!(ArchivedTsModuleName, 24);
+    assert_size!(ArchivedTsModuleRef, 24);
+    assert_size!(ArchivedTsNamespaceBody, 32);
+    assert_size!(ArchivedTsNamespaceDecl, 48);
+    assert_size!(ArchivedTsNamespaceExportDecl, 24);
+    assert_size!(ArchivedTsNonNullExpr, 24);
+    assert_size!(ArchivedTsOptionalType, 24);
+    assert_size!(ArchivedTsParamProp, 40);
+    assert_size!(ArchivedTsParamPropParam, 32);
+    assert_size!(ArchivedTsParenthesizedType, 24);
+    assert_size!(ArchivedTsPropertySignature, 56);
+    assert_size!(ArchivedTsQualifiedName, 32);
+    assert_size!(ArchivedTsRestType, 24);
+    assert_size!(ArchivedTsSatisfiesExpr, 32);
+    assert_size!(ArchivedTsSetterSignature, 48);
+    assert_size!(ArchivedTsThisType, 16);
+    assert_size!(ArchivedTsThisTypeOrIdent, 24);
+    assert_size!(ArchivedTsTplLitType, 32);
+    assert_size!(ArchivedTsTupleElement, 32);
+    assert_size!(ArchivedTsTupleType, 32);
+    assert_size!(ArchivedTsType, 32);
+    assert_size!(ArchivedTsTypeAliasDecl, 48);
+    assert_size!(ArchivedTsTypeAnn, 24);
+    assert_size!(ArchivedTsTypeAssertion, 32);
+    assert_size!(ArchivedTsTypeElement, 56);
+    assert_size!(ArchivedTsTypeLit, 32);
+    assert_size!(ArchivedTsTypeOperator, 25);
+    assert_size!(ArchivedTsTypeOperatorOp, 1);
+    assert_size!(ArchivedTsTypeParam, 56);
+    assert_size!(ArchivedTsTypeParamDecl, 32);
+    assert_size!(ArchivedTsTypeParamInstantiation, 32);
+    assert_size!(ArchivedTsTypePredicate, 40);
+    assert_size!(ArchivedTsTypeQuery, 32);
+    assert_size!(ArchivedTsTypeQueryExpr, 24);
+    assert_size!(ArchivedTsTypeRef, 40);
+    assert_size!(ArchivedTsUnionOrIntersectionType, 32);
+    assert_size!(ArchivedTsUnionType, 32);
 }
