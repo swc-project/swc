@@ -1,9 +1,7 @@
 use std::borrow::Cow;
 
-use ascii::AsciiChar;
 use char::{Char, CharExt};
 use comments_buffer::{BufferedComment, BufferedCommentKind};
-use cow_replace::ReplaceString;
 use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
 use smartstring::{LazyCompact, SmartString};
@@ -66,6 +64,16 @@ static TEMPLATE_LITERAL_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| matches!(b, b'$' | b'`' | b'\\' | b'\r'));
 
 pub type LexResult<T> = Result<T, crate::error::Error>;
+
+fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
+    if has_underscore {
+        debug_assert!(s.contains('_'));
+        s.chars().filter(|&c| c != '_').collect::<String>().into()
+    } else {
+        debug_assert!(!s.contains('_'));
+        Cow::Borrowed(s)
+    }
+}
 
 pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     type State: self::state::State;
@@ -510,6 +518,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         &mut self,
         mut op: F,
         allow_num_separator: bool,
+        has_underscore: &mut bool,
     ) -> LexResult<Ret>
     where
         F: FnMut(Ret, u8, u32) -> LexResult<(Ret, bool)>,
@@ -529,41 +538,44 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let mut prev = None;
 
         while let Some(c) = self.cur() {
-            if allow_num_separator && c == '_' {
-                let is_allowed = |c: Option<char>| {
-                    let Some(c) = c else {
-                        return false;
+            if c == '_' {
+                *has_underscore = true;
+                if allow_num_separator {
+                    let is_allowed = |c: Option<char>| {
+                        let Some(c) = c else {
+                            return false;
+                        };
+                        c.is_digit(RADIX as _)
                     };
-                    c.is_digit(RADIX as _)
-                };
-                let is_forbidden = |c: Option<char>| {
-                    let Some(c) = c else {
-                        return false;
+                    let is_forbidden = |c: Option<char>| {
+                        let Some(c) = c else {
+                            return false;
+                        };
+
+                        if RADIX == 16 {
+                            matches!(c, '.' | 'X' | '_' | 'x')
+                        } else {
+                            matches!(c, '.' | 'B' | 'E' | 'O' | '_' | 'b' | 'e' | 'o')
+                        }
                     };
 
-                    if RADIX == 16 {
-                        matches!(c, '.' | 'X' | '_' | 'x')
-                    } else {
-                        matches!(c, '.' | 'B' | 'E' | 'O' | '_' | 'b' | 'e' | 'o')
+                    let next = self.input().peek();
+
+                    if !is_allowed(next) || is_forbidden(prev) || is_forbidden(next) {
+                        self.emit_error(
+                            start,
+                            SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
+                        );
                     }
-                };
 
-                let next = self.input().peek();
+                    // Ignore this _ character
+                    unsafe {
+                        // Safety: cur() returns Some(c) where c is a valid char
+                        self.input_mut().bump();
+                    }
 
-                if !is_allowed(next) || is_forbidden(prev) || is_forbidden(next) {
-                    self.emit_error(
-                        start,
-                        SyntaxError::NumericSeparatorIsAllowedOnlyBetweenTwoDigits,
-                    );
+                    continue;
                 }
-
-                // Ignore this _ character
-                unsafe {
-                    // Safety: cur() returns Some(c) where c is a valid char
-                    self.input_mut().bump();
-                }
-
-                continue;
             }
 
             // e.g. (val for a) = 10  where radix = 16
@@ -602,6 +614,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let mut not_octal = false;
         let mut read_any = false;
+        let mut has_underscore = false;
 
         self.read_digits::<_, (), RADIX>(
             |_, _, v| {
@@ -614,6 +627,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 Ok(((), true))
             },
             true,
+            &mut has_underscore,
         )?;
 
         if !read_any {
@@ -624,6 +638,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             start,
             end: self.cur_pos(),
             not_octal,
+            has_underscore,
         })
     }
 
@@ -635,6 +650,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
+        let mut has_underscore = false;
 
         let lazy_integer = if starts_with_dot {
             // first char is '.'
@@ -646,6 +662,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 start,
                 end: start,
                 not_octal: true,
+                has_underscore: false,
             }
         } else {
             let starts_with_zero = self.cur().unwrap() == '0';
@@ -693,7 +710,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     self.emit_strict_mode_error(start, SyntaxError::LegacyDecimal);
                 } else {
                     // It's Legacy octal, and we should reinterpret value.
-                    let val = parse_integer::<8>(s);
+                    let s = remove_underscore(s, lazy_integer.has_underscore);
+                    let val = parse_integer::<8>(&s);
                     let end = self.cur_pos();
                     let raw = unsafe {
                         // Safety: We got both start and end position from `self.input`
@@ -709,6 +727,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             lazy_integer
         };
 
+        has_underscore |= lazy_integer.has_underscore;
         // At this point, number cannot be an octal literal.
 
         let has_dot = self.cur() == Some('.');
@@ -722,7 +741,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             debug_assert!(!starts_with_dot || self.cur().is_some_and(|cur| cur.is_ascii_digit()));
 
             // Read numbers after dot
-            self.read_digits::<_, (), 10>(|_, _, _| Ok(((), true)), true)?;
+            self.read_digits::<_, (), 10>(|_, _, _| Ok(((), true)), true, &mut has_underscore)?;
         }
 
         let has_e = self.cur().is_some_and(|c| c == 'e' || c == 'E');
@@ -747,7 +766,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.bump(); // remove '+', '-'
             }
 
-            self.read_number_no_dot_as_str::<10>()?;
+            let lazy_integer = self.read_number_no_dot_as_str::<10>()?;
+            has_underscore |= lazy_integer.has_underscore;
         }
 
         let val = if has_dot || has_e {
@@ -757,12 +777,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.input_slice(start, end)
             };
 
-            raw.remove_all_ascii(AsciiChar::UnderScore)
-                .parse()
-                .expect("failed to parse float literal")
+            let raw = remove_underscore(raw, has_underscore);
+            raw.parse().expect("failed to parse float literal")
         } else {
             let s = unsafe { self.input_slice(lazy_integer.start, lazy_integer.end) };
-            parse_integer::<10>(s)
+            let s = remove_underscore(s, has_underscore);
+            parse_integer::<10>(&s)
         };
 
         self.ensure_not_ident()?;
@@ -795,6 +815,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 Ok((Some(total), count != len))
             },
             true,
+            &mut false,
         )?;
         if len != 0 && count != len {
             Ok(None)
@@ -822,6 +843,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         self.bump();
 
         let lazy_integer = self.read_number_no_dot_as_str::<RADIX>()?;
+        let has_underscore = lazy_integer.has_underscore;
+
         let s = unsafe {
             // Safety: We got both start and end position from `self.input`
             self.input_slice(lazy_integer.start, lazy_integer.end)
@@ -836,7 +859,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             let bigint_value = num_bigint::BigInt::parse_bytes(s.as_bytes(), RADIX as _).unwrap();
             return Ok(Either::Right((Box::new(bigint_value), self.atom(raw))));
         }
-        let val = parse_integer::<RADIX>(s);
+        let s = remove_underscore(s, has_underscore);
+        let val = parse_integer::<RADIX>(&s);
 
         self.ensure_not_ident()?;
 

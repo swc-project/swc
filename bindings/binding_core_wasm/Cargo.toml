@@ -6,7 +6,7 @@ license     = { workspace = true }
 name        = "binding_core_wasm"
 publish     = false
 repository  = { workspace = true }
-version     = "1.12.10"
+version     = "1.12.11"
 
 [lib]
 bench      = false
@@ -41,9 +41,10 @@ swc_core = { workspace = true, features = [
   "binding_macro_wasm",
   "ecma_transforms",
   "ecma_visit",
+  "ecma_helpers_inline",
 ] }
 tracing = { workspace = true, features = ["max_level_off"] }
 wasm-bindgen = { workspace = true, features = ["enable-interning"] }
 
-[package.metadata.wasm-pack.profile.release]
-wasm-opt = false
+  [package.metadata.wasm-pack.profile.release]
+  wasm-opt = false

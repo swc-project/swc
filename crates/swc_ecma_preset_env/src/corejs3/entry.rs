@@ -1,35 +1,45 @@
-use std::sync::Arc;
+use std::{ops::Range, sync::Arc};
 
 use indexmap::IndexSet;
-use once_cell::sync::Lazy;
 use preset_env_base::{
     version::{should_enable, Version},
     Versions,
 };
-use rustc_hash::{FxBuildHasher, FxHashMap};
+use rustc_hash::FxBuildHasher;
 use swc_atoms::atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_visit::VisitMut;
 
 use super::{compat::DATA as CORE_JS_COMPAT_DATA, data::MODULES_BY_VERSION};
+use crate::util::SwcFold;
 
-static ENTRIES: Lazy<FxHashMap<String, Vec<&'static str>>> = Lazy::new(|| {
-    serde_json::from_str::<FxHashMap<String, Vec<String>>>(include_str!(
-        "../../data/core-js-compat/entries.json"
-    ))
-    .expect("failed to parse entries.json from core js 3")
-    .into_iter()
-    .map(|(k, v)| {
-        (
-            k,
-            v.into_iter()
-                .map(|s: String| &*Box::leak(s.into_boxed_str()))
-                .collect::<Vec<_>>(),
-        )
-    })
-    .collect()
-});
+include!(concat!(env!("OUT_DIR"), "/corejs3_entries/lib.rs"));
+
+pub struct FeatureSet(Range<u32>);
+
+pub fn entries_get(name: &str) -> Option<FeatureSet> {
+    {
+        let index = ENTRY_INDEX.get(name.as_bytes())?;
+        ENTRY_VALUES_LIST.get(index).cloned().map(FeatureSet)
+    }
+}
+
+impl FeatureSet {
+    pub fn iter(&self) -> impl ExactSizeIterator<Item = &'static str> {
+        use precomputed_map::store::AccessSeq;
+
+        self.0
+            .clone()
+            .map(|idx| EntryValuesStringId::index(idx as usize).unwrap())
+            .map(|id| {
+                let offset = id & ((1 << 24) - 1);
+                let len = id >> 24;
+
+                &ENTRY_VALUES_STRING_STORE[(offset as usize)..][..(len as usize)]
+            })
+    }
+}
 
 #[derive(Debug)]
 pub struct Entry {
@@ -68,9 +78,9 @@ impl Entry {
             return true;
         }
 
-        if let Some(features) = ENTRIES.get(src) {
+        if let Some(features) = entries_get(src) {
             self.imports.extend(features.iter().filter(|f| {
-                let feature = CORE_JS_COMPAT_DATA.get(&***f);
+                let feature = CORE_JS_COMPAT_DATA.get(*f);
 
                 if !*is_any_target {
                     if let Some(feature) = feature {
@@ -80,7 +90,7 @@ impl Entry {
                     }
                 }
 
-                if let Some(version) = MODULES_BY_VERSION.get(**f) {
+                if let Some(version) = MODULES_BY_VERSION.get(f) {
                     return version <= corejs_version;
                 }
 

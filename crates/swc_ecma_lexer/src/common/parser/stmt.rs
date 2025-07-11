@@ -530,13 +530,22 @@ fn parse_for_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     };
     expect!(p, &P::Token::LPAREN);
 
-    let mut ctx = p.ctx() | Context::ForLoopInit;
-    ctx.set(Context::ForAwaitLoopInit, await_token.is_some());
+    let head = p.do_inside_of_context(Context::ForLoopInit, |p| {
+        if await_token.is_some() {
+            p.do_inside_of_context(Context::ForAwaitLoopInit, parse_for_head)
+        } else {
+            p.do_outside_of_context(Context::ForAwaitLoopInit, parse_for_head)
+        }
+    })?;
 
-    let head = p.with_ctx(ctx, parse_for_head)?;
     expect!(p, &P::Token::RPAREN);
-    let ctx = (p.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed) & !Context::TopLevel;
-    let body = p.with_ctx(ctx, parse_stmt).map(Box::new)?;
+
+    let body = p
+        .do_inside_of_context(
+            Context::IsBreakAllowed.union(Context::IsContinueAllowed),
+            |p| p.do_outside_of_context(Context::TopLevel, parse_stmt),
+        )
+        .map(Box::new)?;
 
     let span = p.span(start);
     Ok(match head {
@@ -731,8 +740,11 @@ fn parse_with_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let obj = p.allow_in_expr(|p| p.parse_expr())?;
     expect!(p, &P::Token::RPAREN);
 
-    let ctx = (p.ctx() | Context::InFunction) & !Context::TopLevel;
-    let body = p.with_ctx(ctx, parse_stmt).map(Box::new)?;
+    let body = p
+        .do_inside_of_context(Context::InFunction, |p| {
+            p.do_outside_of_context(Context::TopLevel, parse_stmt)
+        })
+        .map(Box::new)?;
 
     let span = p.span(start);
     Ok(WithStmt { span, obj, body }.into())
@@ -747,8 +759,12 @@ fn parse_while_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let test = p.allow_in_expr(|p| p.parse_expr())?;
     expect!(p, &P::Token::RPAREN);
 
-    let ctx = (p.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed) & !Context::TopLevel;
-    let body = p.with_ctx(ctx, parse_stmt).map(Box::new)?;
+    let body = p
+        .do_inside_of_context(
+            Context::IsBreakAllowed.union(Context::IsContinueAllowed),
+            |p| p.do_outside_of_context(Context::TopLevel, parse_stmt),
+        )
+        .map(Box::new)?;
 
     let span = p.span(start);
     Ok(WhileStmt { span, test, body }.into())
@@ -792,12 +808,20 @@ fn parse_do_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 
     p.assert_and_bump(&P::Token::DO);
 
-    let ctx = (p.ctx() | Context::IsBreakAllowed | Context::IsContinueAllowed) & !Context::TopLevel;
-    let body = p.with_ctx(ctx, parse_stmt).map(Box::new)?;
+    let body = p
+        .do_inside_of_context(
+            Context::IsBreakAllowed.union(Context::IsContinueAllowed),
+            |p| p.do_outside_of_context(Context::TopLevel, parse_stmt),
+        )
+        .map(Box::new)?;
+
     expect!(p, &P::Token::WHILE);
     expect!(p, &P::Token::LPAREN);
+
     let test = p.allow_in_expr(|p| p.parse_expr())?;
+
     expect!(p, &P::Token::RPAREN);
+
     // We *may* eat semicolon.
     let _ = p.eat_general_semi();
 
@@ -807,54 +831,55 @@ fn parse_do_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
 }
 
 fn parse_labelled_stmt<'a, P: Parser<'a>>(p: &mut P, l: Ident) -> PResult<Stmt> {
-    let ctx = (p.ctx() | Context::IsBreakAllowed) & !Context::AllowUsingDecl;
-    p.with_ctx(ctx, |p| {
-        let start = l.span.lo();
+    p.do_inside_of_context(Context::IsBreakAllowed, |p| {
+        p.do_outside_of_context(Context::AllowUsingDecl, |p| {
+            let start = l.span.lo();
 
-        let mut errors = Vec::new();
-        for lb in &p.state().labels {
-            if l.sym == *lb {
-                errors.push(Error::new(
-                    l.span,
-                    SyntaxError::DuplicateLabel(l.sym.clone()),
-                ));
-            }
-        }
-        p.state_mut().labels.push(l.sym.clone());
-
-        let body = Box::new(if p.input_mut().is(&P::Token::FUNCTION) {
-            let f = parse_fn_decl(p, Vec::new())?;
-            if let Decl::Fn(FnDecl { function, .. }) = &f {
-                if p.ctx().contains(Context::Strict) {
-                    p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
-                }
-                if function.is_generator || function.is_async {
-                    p.emit_err(function.span, SyntaxError::LabelledGeneratorOrAsync)
+            let mut errors = Vec::new();
+            for lb in &p.state().labels {
+                if l.sym == *lb {
+                    errors.push(Error::new(
+                        l.span,
+                        SyntaxError::DuplicateLabel(l.sym.clone()),
+                    ));
                 }
             }
+            p.state_mut().labels.push(l.sym.clone());
 
-            f.into()
-        } else {
-            p.do_outside_of_context(Context::TopLevel, parse_stmt)?
-        });
+            let body = Box::new(if p.input_mut().is(&P::Token::FUNCTION) {
+                let f = parse_fn_decl(p, Vec::new())?;
+                if let Decl::Fn(FnDecl { function, .. }) = &f {
+                    if p.ctx().contains(Context::Strict) {
+                        p.emit_err(function.span, SyntaxError::LabelledFunctionInStrict)
+                    }
+                    if function.is_generator || function.is_async {
+                        p.emit_err(function.span, SyntaxError::LabelledGeneratorOrAsync)
+                    }
+                }
 
-        for err in errors {
-            p.emit_error(err);
-        }
+                f.into()
+            } else {
+                p.do_outside_of_context(Context::TopLevel, parse_stmt)?
+            });
 
-        {
-            let pos = p.state().labels.iter().position(|v| v == &l.sym);
-            if let Some(pos) = pos {
-                p.state_mut().labels.remove(pos);
+            for err in errors {
+                p.emit_error(err);
             }
-        }
 
-        Ok(LabeledStmt {
-            span: p.span(start),
-            label: l,
-            body,
-        }
-        .into())
+            {
+                let pos = p.state().labels.iter().position(|v| v == &l.sym);
+                if let Some(pos) = pos {
+                    p.state_mut().labels.remove(pos);
+                }
+            }
+
+            Ok(LabeledStmt {
+                span: p.span(start),
+                label: l,
+                body,
+            }
+            .into())
+        })
     })
 }
 
@@ -1015,10 +1040,11 @@ pub fn parse_stmt_like<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>>(
         return handle_import_export(p, decorators);
     }
 
-    p.with_ctx(
-        (p.ctx() & !Context::WillExpectColonForCond) | Context::AllowUsingDecl,
-        |p| parse_stmt_internal(p, start, include_decl, decorators),
-    )
+    p.do_outside_of_context(Context::WillExpectColonForCond, |p| {
+        p.do_inside_of_context(Context::AllowUsingDecl, |p| {
+            parse_stmt_internal(p, start, include_decl, decorators)
+        })
+    })
     .map(From::from)
 }
 
@@ -1358,53 +1384,61 @@ pub fn parse_stmt_block_body<'a, P: Parser<'a>>(
 
 pub(super) fn parse_block_body<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>>(
     p: &mut P,
-    mut allow_directives: bool,
+    allow_directives: bool,
     end: Option<&P::Token>,
     handle_import_export: impl Fn(&mut P, Vec<Decorator>) -> PResult<Type>,
 ) -> PResult<Vec<Type>> {
     trace_cur!(p, parse_block_body);
 
-    let old_ctx = p.ctx();
-
     let mut stmts = Vec::with_capacity(8);
-    while {
-        match (p.input_mut().cur(), end) {
-            (Some(cur), Some(end)) => cur != end,
-            (Some(_), None) => true,
-            (None, None) => false,
-            (None, Some(_)) => {
-                let eof_text = p.input_mut().dump_cur();
-                p.emit_err(
-                    p.input().cur_span(),
-                    SyntaxError::Expected(format!("{:?}", end.unwrap()), eof_text),
-                );
-                false
-            }
-        }
-    } {
-        let stmt = parse_stmt_like(p, true, &handle_import_export)?;
-        if allow_directives {
-            allow_directives = false;
-            if stmt.is_use_strict() {
-                p.set_ctx(old_ctx | Context::Strict);
-                if p.input().knows_cur() && !p.is_general_semi() {
-                    unreachable!(
-                        "'use strict'; directive requires parser.input.cur to be empty or '}}', \
-                         but current token was: {:?}",
-                        p.input_mut().cur()
-                    )
-                }
-            }
-        }
 
+    let is_stmt_start = |p: &mut P| match (p.input_mut().cur(), end) {
+        (Some(cur), Some(end)) => cur != end,
+        (Some(_), None) => true,
+        (None, None) => false,
+        (None, Some(_)) => {
+            let eof_text = p.input_mut().dump_cur();
+            p.emit_err(
+                p.input().cur_span(),
+                SyntaxError::Expected(format!("{:?}", end.unwrap()), eof_text),
+            );
+            false
+        }
+    };
+
+    let mut has_strict_directive = false;
+    if is_stmt_start(p) {
+        let stmt = parse_stmt_like(p, true, &handle_import_export)?;
+        if allow_directives && stmt.is_use_strict() {
+            has_strict_directive = true;
+            if p.input().knows_cur() && !p.is_general_semi() {
+                unreachable!(
+                    "'use strict'; directive requires parser.input.cur to be empty or '}}', but \
+                     current token was: {:?}",
+                    p.input_mut().cur()
+                )
+            }
+        }
         stmts.push(stmt);
     }
+
+    let parse_rest_stmts = |p: &mut P, stmts: &mut Vec<Type>| -> PResult<()> {
+        while is_stmt_start(p) {
+            let stmt = parse_stmt_like(p, true, &handle_import_export)?;
+            stmts.push(stmt);
+        }
+        Ok(())
+    };
+
+    if has_strict_directive {
+        p.do_inside_of_context(Context::Strict, |p| parse_rest_stmts(p, &mut stmts))?;
+    } else {
+        parse_rest_stmts(p, &mut stmts)?;
+    };
 
     if p.input_mut().cur().is_some() && end.is_some() {
         p.bump();
     }
-
-    p.set_ctx(old_ctx);
 
     Ok(stmts)
 }

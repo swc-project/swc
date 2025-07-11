@@ -37,7 +37,6 @@ resolver = "2"
   compact_str               = "0.7.1"
   console_error_panic_hook  = "0.1.7"
   copyless                  = "0.1.5"
-  cow-replace               = "0.1.1"
   crc                       = "2.1.0"
   criterion                 = "0.5.1"
   dashmap                   = "5.5.3"
@@ -126,6 +125,9 @@ resolver = "2"
   wasmer                    = { version = "6.0.0", default-features = false }
   wasmer-wasix              = { version = "0.600.0", default-features = false }
 
+  foldhash        = "0.1"
+  precomputed-map = "0.2"
+
   [workspace.metadata.cargo-shear]
   # `serde` is used when #[ast_node] is expanded
   # the rests are used for enabling features
@@ -138,8 +140,8 @@ resolver = "2"
     "tracing",
     "num-bigint",
     "swc_ecma_utils",
+    "swc_ecma_transforms_base",
   ]
-
 
 [profile.release]
 lto = true

@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license       = { workspace = true }
 name          = "swc_bundler"
 repository    = { workspace = true }
-version       = "23.0.1"
+version       = "24.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -42,10 +42,10 @@ swc_common                       = { version = "13.0.4", path = "../swc_common" 
 swc_ecma_ast                     = { version = "13.0.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen                 = { version = "15.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_loader                  = { version = "13.0.0", path = "../swc_ecma_loader" }
-swc_ecma_parser                  = { version = "18.0.2", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base         = { version = "19.0.2", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "20.0.1", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils                   = { version = "18.0.3", path = "../swc_ecma_utils" }
+swc_ecma_parser                  = { version = "19.0.1", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base         = { version = "20.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "21.0.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_utils                   = { version = "18.1.0", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { version = "13.0.0", path = "../swc_ecma_visit" }
 swc_graph_analyzer               = { version = "14.0.1", path = "../swc_graph_analyzer/" }
 
@@ -62,11 +62,14 @@ swc_ecma_loader = { version = "13.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "24.0.3", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "25.0.0", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_transforms_proposal = { version = "19.0.1", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_react = { version = "21.0.1", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "21.0.1", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_base = { version = "20.0.0", path = "../swc_ecma_transforms_base", features = [
+  "inline-helpers",
+] }
+swc_ecma_transforms_proposal = { version = "20.0.0", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_react = { version = "22.1.0", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_typescript = { version = "22.0.0", path = "../swc_ecma_transforms_typescript" }
 swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
 testing = { version = "14.0.1", path = "../testing" }

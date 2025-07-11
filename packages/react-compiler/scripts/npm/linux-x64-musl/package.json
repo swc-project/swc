@@ -1,6 +1,6 @@
 {
   "name": "@swc/react-compiler-linux-x64-musl",
-  "version": "1.12.9",
+  "version": "1.12.11",
   "os": [
     "linux"
   ],

@@ -28,7 +28,7 @@ impl<I: Tokens> Parser<I> {
 mod tests {
     use swc_atoms::atom;
     use swc_common::{comments::SingleThreadedComments, DUMMY_SP as span};
-    use swc_ecma_lexer::common::parser::stmt::TempForHead;
+    use swc_ecma_lexer::{common::parser::stmt::TempForHead, TsSyntax};
     use swc_ecma_visit::assert_eq_ignore_span;
 
     use super::*;
@@ -1180,5 +1180,31 @@ const foo;"#;
         let src = "let x = 0 < { } / 0 ;";
 
         test_parser(src, Default::default(), |p| p.parse_script());
+    }
+
+    #[test]
+    fn issue_10797_0() {
+        let src = "
+var b = delete ANY1;
+
+module A {
+    export const a = 1
+}";
+        test_parser(src, Syntax::Typescript(TsSyntax::default()), |p| {
+            p.parse_script()
+        });
+    }
+
+    #[test]
+    fn issue_10797_1() {
+        let src = "
+module A {
+    export const a = 1
+}
+
+var b = delete ANY1;";
+        test_parser(src, Syntax::Typescript(TsSyntax::default()), |p| {
+            p.parse_script()
+        });
     }
 }

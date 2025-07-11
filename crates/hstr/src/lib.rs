@@ -14,7 +14,7 @@ use std::{
 use debug_unreachable::debug_unreachable;
 use once_cell::sync::Lazy;
 
-pub use crate::dynamic::AtomStore;
+pub use crate::dynamic::{global_atom_store_gc, AtomStore};
 use crate::tagged_value::TaggedValue;
 
 mod dynamic;
@@ -83,11 +83,19 @@ mod tests;
 /// Small strings are stored in the [Atom] itself without any allocation.
 ///
 ///
-/// # Creating atoms
+/// ## Creating atoms
 ///
 /// If you are working on a module which creates lots of [Atom]s, you are
 /// recommended to use [AtomStore] API because it's faster. But if you are not,
 /// you can use global APIs for convenience.
+///
+/// ## Dealloc
+///
+/// - Atoms stored in the local `AtomStore` have the same lifetime as the store
+///   itself, and will be deallocated when the store is dropped.
+/// - Atoms created via the `atom!` macro or `String::into` are stored in the
+///   global atom store. By default, these atoms are never deallocated. To clean
+///   up unused atoms, call [global_atom_store_gc].
 pub struct Atom {
     // If this Atom is a dynamic one, this is *const Entry
     unsafe_data: TaggedValue,
@@ -252,7 +260,6 @@ impl Atom {
                 unsafe { crate::dynamic::deref_from(self.unsafe_data) }
                     .header
                     .header
-                    .header
                     .hash
             }
             INLINE_TAG => {
@@ -318,7 +325,7 @@ impl PartialEq for Atom {
             let te = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
             let oe = unsafe { crate::dynamic::deref_from(other.unsafe_data) };
 
-            if te.header.header.header.hash != oe.header.header.header.hash {
+            if te.header.header.hash != oe.header.header.hash {
                 return false;
             }
 

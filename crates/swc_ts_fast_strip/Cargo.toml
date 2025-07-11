@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ts_fast_strip"
 repository    = { workspace = true }
-version       = "24.0.1"
+version       = "25.0.0"
 
 
 [features]
@@ -25,12 +25,12 @@ swc_common = { version = "13.0.4", path = "../swc_common", features = [
 ] }
 swc_ecma_ast = { version = "13.0.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "15.0.2", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "18.0.2", path = "../swc_ecma_parser", features = [
+swc_ecma_parser = { version = "19.0.1", path = "../swc_ecma_parser", features = [
   "unstable",
 ] }
-swc_ecma_transforms_base = { version = "19.0.2", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_react = { version = "21.0.1", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "21.0.1", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_base = { version = "20.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_react = { version = "22.1.0", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_typescript = { version = "22.0.0", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_visit = { version = "13.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
