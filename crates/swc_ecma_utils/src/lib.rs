@@ -705,7 +705,7 @@ pub struct ExprCtx {
     /// function should not operate and return the safe value.
     ///
     /// Default value is `4`
-    pub remaining_depth: u32,
+    pub remaining_depth: u8,
 }
 
 /// Extension methods for [Expr].
