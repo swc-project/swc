@@ -93,7 +93,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn input_uncons_while(&mut self, f: impl FnMut(char) -> bool) -> &'a str;
     fn atom<'b>(&self, s: impl Into<Cow<'b, str>>) -> swc_atoms::Atom;
     fn push_error(&self, error: crate::error::Error);
-    fn buf(&self) -> std::rc::Rc<std::cell::RefCell<String>>;
 
     #[inline(always)]
     #[allow(clippy::misnamed_getters)]
@@ -1125,17 +1124,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         Ok(Self::Token::str(value, raw, self))
     }
 
-    /// Utility method to reuse buffer.
-    fn with_buf<F, Ret>(&mut self, op: F) -> LexResult<Ret>
-    where
-        F: FnOnce(&mut Self, &mut String) -> LexResult<Ret>,
-    {
-        let b = self.buf();
-        let mut buf = b.borrow_mut();
-        buf.clear();
-        op(self, &mut buf)
-    }
-
     fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
         debug_assert_eq!(self.cur(), Some('u'));
 
@@ -1511,43 +1499,46 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let start = self.cur_pos();
 
-        self.bump();
+        self.bump(); // bump '/'
+
+        let slice_start = self.cur_pos();
 
         let (mut escaped, mut in_class) = (false, false);
 
-        let content = self.with_buf(|l, buf| {
-            while let Some(c) = l.cur() {
-                // This is ported from babel.
-                // Seems like regexp literal cannot contain linebreak.
-                if c.is_line_terminator() {
-                    let span = l.span(start);
+        while let Some(c) = self.cur() {
+            // This is ported from babel.
+            // Seems like regexp literal cannot contain linebreak.
+            if c.is_line_terminator() {
+                let span = self.span(start);
 
-                    return Err(crate::error::Error::new(
-                        span,
-                        SyntaxError::UnterminatedRegExp,
-                    ));
-                }
-
-                if escaped {
-                    escaped = false;
-                } else {
-                    match c {
-                        '[' => in_class = true,
-                        ']' if in_class => in_class = false,
-                        // Terminates content part of regex literal
-                        '/' if !in_class => break,
-                        _ => {}
-                    }
-
-                    escaped = c == '\\';
-                }
-
-                l.bump();
-                buf.push(c);
+                return Err(crate::error::Error::new(
+                    span,
+                    SyntaxError::UnterminatedRegExp,
+                ));
             }
 
-            Ok(l.atom(&**buf))
-        })?;
+            if escaped {
+                escaped = false;
+            } else {
+                match c {
+                    '[' => in_class = true,
+                    ']' if in_class => in_class = false,
+                    // Terminates content part of regex literal
+                    '/' if !in_class => break,
+                    _ => {}
+                }
+
+                escaped = c == '\\';
+            }
+
+            self.bump();
+        }
+
+        let content = {
+            let end = self.cur_pos();
+            let s = unsafe { self.input_slice(slice_start, end) };
+            self.atom(s)
+        };
 
         // input is terminated without following `/`
         if !self.is(b'/') {
@@ -1670,102 +1661,101 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     {
         let mut first = true;
 
-        self.with_buf(|l, buf| {
-            loop {
-                if let Some(c) = l.input().cur_as_ascii() {
-                    // Performance optimization
-                    if can_be_keyword && (c.is_ascii_uppercase() || c.is_ascii_digit()) {
-                        can_be_keyword = false;
-                    }
-
-                    if Ident::is_valid_ascii_continue(c) {
-                        l.bump();
-                        continue;
-                    } else if first && Ident::is_valid_ascii_start(c) {
-                        l.bump();
-                        first = false;
-                        continue;
-                    }
-
-                    // unicode escape
-                    if c == b'\\' {
-                        first = false;
-                        has_escape = true;
-                        let start = l.cur_pos();
-                        l.bump();
-
-                        if !l.is(b'u') {
-                            l.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
-                        }
-
-                        {
-                            let end = l.input().cur_pos();
-                            let s = unsafe {
-                                // Safety: start and end are valid position because we got them from
-                                // `self.input`
-                                l.input_slice(slice_start, start)
-                            };
-                            buf.push_str(s);
-                            unsafe {
-                                // Safety: We got end from `self.input`
-                                l.input_mut().reset_to(end);
-                            }
-                        }
-
-                        let chars = l.read_unicode_escape()?;
-
-                        if let Some(c) = chars.first() {
-                            let valid = if first {
-                                c.is_ident_start()
-                            } else {
-                                c.is_ident_part()
-                            };
-
-                            if !valid {
-                                l.emit_error(start, SyntaxError::InvalidIdentChar);
-                            }
-                        }
-
-                        for c in chars {
-                            buf.extend(c);
-                        }
-
-                        slice_start = l.cur_pos();
-                        continue;
-                    }
-
-                    // ASCII but not a valid identifier
-                    break;
-                } else if let Some(c) = l.input().cur() {
-                    if Ident::is_valid_non_ascii_continue(c) {
-                        l.bump();
-                        continue;
-                    } else if first && Ident::is_valid_non_ascii_start(c) {
-                        l.bump();
-                        first = false;
-                        continue;
-                    }
+        let mut buf = String::with_capacity(16);
+        loop {
+            if let Some(c) = self.input().cur_as_ascii() {
+                // Performance optimization
+                if can_be_keyword && (c.is_ascii_uppercase() || c.is_ascii_digit()) {
+                    can_be_keyword = false;
                 }
 
+                if Ident::is_valid_ascii_continue(c) {
+                    self.bump();
+                    continue;
+                } else if first && Ident::is_valid_ascii_start(c) {
+                    self.bump();
+                    first = false;
+                    continue;
+                }
+
+                // unicode escape
+                if c == b'\\' {
+                    first = false;
+                    has_escape = true;
+                    let start = self.cur_pos();
+                    self.bump();
+
+                    if !self.is(b'u') {
+                        self.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
+                    }
+
+                    {
+                        let end = self.input().cur_pos();
+                        let s = unsafe {
+                            // Safety: start and end are valid position because we got them from
+                            // `self.input`
+                            self.input_slice(slice_start, start)
+                        };
+                        buf.push_str(s);
+                        unsafe {
+                            // Safety: We got end from `self.input`
+                            self.input_mut().reset_to(end);
+                        }
+                    }
+
+                    let chars = self.read_unicode_escape()?;
+
+                    if let Some(c) = chars.first() {
+                        let valid = if first {
+                            c.is_ident_start()
+                        } else {
+                            c.is_ident_part()
+                        };
+
+                        if !valid {
+                            self.emit_error(start, SyntaxError::InvalidIdentChar);
+                        }
+                    }
+
+                    for c in chars {
+                        buf.extend(c);
+                    }
+
+                    slice_start = self.cur_pos();
+                    continue;
+                }
+
+                // ASCII but not a valid identifier
                 break;
+            } else if let Some(c) = self.input().cur() {
+                if Ident::is_valid_non_ascii_continue(c) {
+                    self.bump();
+                    continue;
+                } else if first && Ident::is_valid_non_ascii_start(c) {
+                    self.bump();
+                    first = false;
+                    continue;
+                }
             }
 
-            let end = l.cur_pos();
-            let s = unsafe {
-                // Safety: slice_start and end are valid position because we got them from
-                // `self.input`
-                l.input_slice(slice_start, end)
-            };
-            let value = if !has_escape {
-                // Fast path: raw slice is enough if there's no escape.
-                convert(l, s, has_escape, can_be_keyword)
-            } else {
-                buf.push_str(s);
-                convert(l, buf, has_escape, can_be_keyword)
-            };
+            break;
+        }
 
-            Ok((value, has_escape))
-        })
+        let end = self.cur_pos();
+        let s = unsafe {
+            // Safety: slice_start and end are valid position because we got them from
+            // `self.input`
+            self.input_slice(slice_start, end)
+        };
+        let value = if !has_escape {
+            // Fast path: raw slice is enough if there's no escape.
+            convert(self, s, has_escape, can_be_keyword)
+        } else {
+            buf.push_str(s);
+            convert(self, &buf, has_escape, can_be_keyword)
+        };
+
+        Ok((value, has_escape))
     }
 
     /// `#`
@@ -2008,117 +1998,116 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let start = self.cur_pos();
         let quote = self.cur().unwrap() as u8;
 
-        self.bump(); // '"'
+        self.bump(); // '"' or '\''
 
-        let mut has_escape = false;
         let mut slice_start = self.input().cur_pos();
 
-        self.with_buf(|l, buf| {
-            loop {
-                let table = if quote == b'"' {
-                    &DOUBLE_QUOTE_STRING_END_TABLE
-                } else {
-                    &SINGLE_QUOTE_STRING_END_TABLE
-                };
+        let mut buf: Option<String> = None;
 
-                let fast_path_result = byte_search! {
-                    lexer: l,
-                    table: table,
-                    handle_eof: {
-                        let value_end = l.cur_pos();
+        loop {
+            let table = if quote == b'"' {
+                &DOUBLE_QUOTE_STRING_END_TABLE
+            } else {
+                &SINGLE_QUOTE_STRING_END_TABLE
+            };
+
+            let fast_path_result = byte_search! {
+                lexer: self,
+                table: table,
+                handle_eof: {
+                    let value_end = self.cur_pos();
+                    let s = unsafe {
+                            // Safety: slice_start and value_end are valid position because we
+                            // got them from `self.input`
+                        self.input_slice(slice_start, value_end)
+                    };
+
+                    self.emit_error(start, SyntaxError::UnterminatedStrLit);
+
+                    let end = self.cur_pos();
+                    let raw = unsafe { self.input_slice(start, end) };
+                    return Ok(Self::Token::str(self.atom(s), self.atom(raw), self));
+                },
+            };
+
+            match fast_path_result {
+                b'"' | b'\'' if fast_path_result == quote => {
+                    let value_end = self.cur_pos();
+
+                    let value = if let Some(buf) = buf.as_mut() {
+                        // `buf` only exist when there has escape.
+                        debug_assert!(unsafe { self.input_slice(start, value_end).contains('\\') });
                         let s = unsafe {
-                                // Safety: slice_start and value_end are valid position because we
-                                // got them from `self.input`
-                            l.input_slice(slice_start, value_end)
+                            // Safety: slice_start and value_end are valid position because we
+                            // got them from `self.input`
+                            self.input_slice(slice_start, value_end)
                         };
                         buf.push_str(s);
+                        self.atom(&*buf)
+                    } else {
+                        let s = unsafe { self.input_slice(slice_start, value_end) };
+                        self.atom(s)
+                    };
 
-                        l.emit_error(start, SyntaxError::UnterminatedStrLit);
-
-                        let end = l.cur_pos();
-                        let raw = unsafe { l.input_slice(start, end) };
-                        return Ok(Self::Token::str(l.atom(&**buf), l.atom(raw), l));
-                    },
-                };
-
-                match fast_path_result {
-                    b'"' | b'\'' if fast_path_result == quote => {
-                        let value_end = l.cur_pos();
-
-                        let value = if !has_escape {
-                            let s = unsafe { l.input_slice(slice_start, value_end) };
-                            l.atom(s)
-                        } else {
-                            let s = unsafe {
-                                // Safety: slice_start and value_end are valid position because we
-                                // got them from `self.input`
-                                l.input_slice(slice_start, value_end)
-                            };
-                            buf.push_str(s);
-
-                            l.atom(&**buf)
-                        };
-
-                        unsafe {
-                            // Safety: cur is quote
-                            l.input_mut().bump();
-                        }
-
-                        let end = l.cur_pos();
-                        let raw = unsafe {
-                            // Safety: start and end are valid position because we got them from
-                            // `self.input`
-                            l.input_slice(start, end)
-                        };
-                        let raw = l.atom(raw);
-                        return Ok(Self::Token::str(value, raw, l));
+                    unsafe {
+                        // Safety: cur is quote
+                        self.input_mut().bump();
                     }
-                    b'\\' => {
-                        has_escape = true;
 
-                        {
-                            let end = l.cur_pos();
-                            let s = unsafe {
-                                // Safety: start and end are valid position because we got them from
-                                // `self.input`
-                                l.input_slice(slice_start, end)
-                            };
-                            buf.push_str(s);
-                        }
-
-                        if let Some(chars) = l.read_escaped_char(false)? {
-                            for c in chars {
-                                buf.extend(c);
-                            }
-                        }
-
-                        slice_start = l.cur_pos();
-                        continue;
-                    }
-                    b'\n' | b'\r' => {
-                        let end = l.cur_pos();
-                        let s = unsafe {
-                            // Safety: start and end are valid position because we got them from
-                            // `self.input`
-                            l.input_slice(slice_start, end)
-                        };
-                        buf.push_str(s);
-
-                        l.emit_error(start, SyntaxError::UnterminatedStrLit);
-
-                        let end = l.cur_pos();
-
-                        let raw = unsafe {
-                            // Safety: start and end are valid position because we got them from
-                            // `self.input`
-                            l.input_slice(start, end)
-                        };
-                        return Ok(Self::Token::str(l.atom(&**buf), l.atom(raw), l));
-                    }
-                    _ => l.bump(),
+                    let end = self.cur_pos();
+                    let raw = unsafe {
+                        // Safety: start and end are valid position because we got them from
+                        // `self.input`
+                        self.input_slice(start, end)
+                    };
+                    let raw = self.atom(raw);
+                    return Ok(Self::Token::str(value, raw, self));
                 }
+                b'\\' => {
+                    let end = self.cur_pos();
+                    let s = unsafe {
+                        // Safety: start and end are valid position because we got them from
+                        // `self.input`
+                        self.input_slice(slice_start, end)
+                    };
+
+                    if buf.is_none() {
+                        buf = Some(s.to_string());
+                    } else {
+                        buf.as_mut().unwrap().push_str(s);
+                    }
+
+                    if let Some(chars) = self.read_escaped_char(false)? {
+                        for c in chars {
+                            buf.as_mut().unwrap().extend(c);
+                        }
+                    }
+
+                    slice_start = self.cur_pos();
+                    continue;
+                }
+                b'\n' | b'\r' => {
+                    let end = self.cur_pos();
+                    let s = unsafe {
+                        // Safety: start and end are valid position because we got them from
+                        // `self.input`
+                        self.input_slice(slice_start, end)
+                    };
+
+                    self.emit_error(start, SyntaxError::UnterminatedStrLit);
+
+                    let end = self.cur_pos();
+
+                    let raw = unsafe {
+                        // Safety: start and end are valid position because we got them from
+                        // `self.input`
+                        self.input_slice(start, end)
+                    };
+                    return Ok(Self::Token::str(self.atom(s), self.atom(raw), self));
+                }
+                _ => self.bump(),
             }
-        })
+        }
     }
 
     /// This can be used if there's no keyword starting with the first
