@@ -50,8 +50,6 @@ pub struct Lexer<'a> {
     errors: Rc<RefCell<Vec<Error>>>,
     module_errors: Rc<RefCell<Vec<Error>>>,
 
-    buf: Rc<RefCell<String>>,
-
     atoms: Rc<AtomStoreCell>,
 }
 
@@ -117,11 +115,6 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     fn atom<'b>(&self, s: impl Into<std::borrow::Cow<'b, str>>) -> swc_atoms::Atom {
         self.atoms.atom(s)
     }
-
-    #[inline(always)]
-    fn buf(&self) -> std::rc::Rc<std::cell::RefCell<String>> {
-        self.buf.clone()
-    }
 }
 
 impl<'a> Lexer<'a> {
@@ -145,7 +138,6 @@ impl<'a> Lexer<'a> {
             target,
             errors: Default::default(),
             module_errors: Default::default(),
-            buf: Rc::new(RefCell::new(String::with_capacity(256))),
             atoms: Default::default(),
         }
     }
