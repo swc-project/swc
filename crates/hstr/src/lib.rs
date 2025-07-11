@@ -412,36 +412,33 @@ impl PartialEq<Atom> for str {
     }
 }
 
-/// NOT A PUBLIC API
 #[cfg(feature = "rkyv")]
-impl rkyv::Archive for Atom {
-    type Archived = rkyv::string::ArchivedString;
-    type Resolver = rkyv::string::StringResolver;
+mod rkyv {
+    impl rkyv::Archive for Atom {
+        type Archived = rkyv::string::ArchivedString;
+        type Resolver = rkyv::string::StringResolver;
 
-    #[allow(clippy::unit_arg)]
-    unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
-        rkyv::string::ArchivedString::resolve_from_str(self, pos, resolver, out)
+        #[allow(clippy::unit_arg)]
+        unsafe fn resolve(&self, pos: usize, resolver: Self::Resolver, out: *mut Self::Archived) {
+            rkyv::string::ArchivedString::resolve_from_str(self, pos, resolver, out)
+        }
     }
-}
 
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv")]
-impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
-    fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        String::serialize(&self.to_string(), serializer)
+    impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
+        fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+            String::serialize(&self.to_string(), serializer)
+        }
     }
-}
 
-/// NOT A PUBLIC API
-#[cfg(feature = "rkyv")]
-impl<D> rkyv::Deserialize<Atom, D> for rkyv::string::ArchivedString
-where
-    D: ?Sized + rkyv::Fallible,
-{
-    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, <D as rkyv::Fallible>::Error> {
-        let s: String = self.deserialize(deserializer)?;
+    impl<D> rkyv::Deserialize<Atom, D> for rkyv::string::ArchivedString
+    where
+        D: ?Sized + rkyv::Fallible,
+    {
+        fn deserialize(&self, deserializer: &mut D) -> Result<Atom, <D as rkyv::Fallible>::Error> {
+            let s: String = self.deserialize(deserializer)?;
 
-        Ok(Atom::new(s))
+            Ok(Atom::new(s))
+        }
     }
 }
 
