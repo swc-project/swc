@@ -495,3 +495,6 @@ pub use self::{
         ArchivedTsUnionOrIntersectionType, ArchivedTsUnionType,
     },
 };
+
+#[cfg(feature = "rkyv-impl")]
+mod rkyv_layout_assert {}
