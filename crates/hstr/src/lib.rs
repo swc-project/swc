@@ -182,7 +182,6 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
 const DYNAMIC_TAG: u8 = 0b_00;
 const INLINE_TAG: u8 = 0b_01; // len in upper nybble
 const INLINE_TAG_INIT: NonZeroU8 = unsafe { NonZeroU8::new_unchecked(INLINE_TAG) };
-const STATIC_TAG: u8 = 0b_10;
 const TAG_MASK: u8 = 0b_11;
 const LEN_OFFSET: usize = 4;
 const LEN_MASK: u8 = 0xf0;
@@ -267,9 +266,6 @@ impl Atom {
                 // that this isn't really a hash
                 self.unsafe_data.hash()
             }
-            STATIC_TAG => {
-                todo!("static hash")
-            }
             _ => unsafe { debug_unreachable!() },
         }
     }
@@ -285,9 +281,6 @@ impl Atom {
                 let len = (self.unsafe_data.tag() & LEN_MASK) >> LEN_OFFSET;
                 let src = self.unsafe_data.data();
                 unsafe { std::str::from_utf8_unchecked(&src[..(len as usize)]) }
-            }
-            STATIC_TAG => {
-                todo!("static as_str")
             }
             _ => unsafe { debug_unreachable!() },
         }
