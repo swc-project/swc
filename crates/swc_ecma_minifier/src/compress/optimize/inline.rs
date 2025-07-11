@@ -538,7 +538,7 @@ impl Optimizer<'_> {
                             // Similar to `_loop` generation of the
                             // block_scoping pass.
                             // If the function captures the environment, we
-                            // can't inline it.
+                            // can't inline it, as it would break scoping.
                             let params: Vec<Id> = find_pat_ids(&f.function.params);
 
                             if !params.is_empty() {
@@ -548,6 +548,14 @@ impl Optimizer<'_> {
                                     if captured.contains(&param) {
                                         return;
                                     }
+                                }
+                            } else {
+                                // Even if the function has no parameters, it might still capture
+                                // variables from the outer scope. If it does, we should not inline it
+                                // when it's executed multiple times.
+                                let captured = idents_captured_by(&f.function.body);
+                                if !captured.is_empty() {
+                                    return;
                                 }
                             }
                         }
