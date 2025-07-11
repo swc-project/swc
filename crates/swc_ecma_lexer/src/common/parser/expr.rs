@@ -2542,13 +2542,12 @@ pub fn try_parse_async_start<'a, P: Parser<'a>>(
     None
 }
 
-pub fn parse_this_expr<'a>(p: &mut impl Parser<'a>, start: BytePos) -> PResult<Box<Expr>> {
+pub fn parse_this_expr<'a>(p: &mut impl Parser<'a>, start: BytePos) -> PResult<ThisExpr> {
     debug_assert!(p.input_mut().cur().is_some_and(|t| t.is_this()));
     p.input_mut().bump();
     Ok(ThisExpr {
         span: p.span(start),
-    }
-    .into())
+    })
 }
 
 /// Parse a primary expression or arrow function
@@ -2570,7 +2569,7 @@ pub(crate) fn parse_primary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Ex
 
     if let Some(token) = p.input_mut().cur() {
         if token.is_this() {
-            return parse_this_expr(p, start);
+            return parse_this_expr(p, start).map(|expr| Box::new(Expr::This(expr)));
         } else if token.is_async() {
             if let Some(res) = try_parse_async_start(p, can_be_arrow) {
                 return res;

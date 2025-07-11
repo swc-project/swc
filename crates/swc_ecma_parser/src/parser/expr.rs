@@ -192,7 +192,9 @@ impl<I: Tokens> Parser<I> {
             .unwrap_or(false);
         if let Some(tok) = self.input.cur() {
             match *tok {
-                Token::This => return parse_this_expr(self, start),
+                Token::This => {
+                    return parse_this_expr(self, start).map(|expr| Box::new(Expr::This(expr)))
+                }
                 Token::Async => {
                     if let Some(res) = try_parse_async_start(self, can_be_arrow) {
                         return res;
