@@ -53,10 +53,7 @@ impl FastDts {
         }
     }
 
-    pub(crate) fn infer_function_return_type(
-        &mut self,
-        function: &Function,
-    ) -> Option<Box<TsTypeAnn>> {
+    pub(crate) fn infer_function_return_type(&mut self, function: &Function) -> Option<TsTypeAnn> {
         if function.return_type.is_some() {
             return function.return_type.clone();
         }
@@ -72,7 +69,7 @@ impl FastDts {
             .map(type_ann)
     }
 
-    pub(crate) fn infer_arrow_return_type(&mut self, arrow: &ArrowExpr) -> Option<Box<TsTypeAnn>> {
+    pub(crate) fn infer_arrow_return_type(&mut self, arrow: &ArrowExpr) -> Option<TsTypeAnn> {
         if arrow.return_type.is_some() {
             return arrow.return_type.clone();
         }

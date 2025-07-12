@@ -168,7 +168,7 @@ impl VisitMut for Metadata<'_> {
                         .map(|v| match v {
                             ParamOrTsParamProp::TsParamProp(p) => {
                                 let ann = match &p.param {
-                                    TsParamPropParam::Ident(i) => i.type_ann.as_deref(),
+                                    TsParamPropParam::Ident(i) => i.type_ann.as_ref(),
                                     TsParamPropParam::Assign(a) => get_type_ann_of_pat(&a.left),
                                 };
                                 Some(serialize_type(self.class_name, ann).as_arg())
@@ -195,7 +195,7 @@ impl VisitMut for Metadata<'_> {
             let type_arg = match m.kind {
                 MethodKind::Method => quote_ident!("Function").as_arg(),
                 MethodKind::Getter => {
-                    let return_type = m.function.return_type.as_deref();
+                    let return_type = m.function.return_type.as_ref();
 
                     if let Some(kind) = self.enums.get_kind_as_str(return_type) {
                         quote_ident!(kind).as_arg()
@@ -244,7 +244,7 @@ impl VisitMut for Metadata<'_> {
                 if m.function.is_async {
                     quote_ident!("Promise").as_arg()
                 } else {
-                    let return_type = m.function.return_type.as_deref();
+                    let return_type = m.function.return_type.as_ref();
 
                     if let Some(kind) = self.enums.get_kind_as_str(return_type) {
                         quote_ident!(kind).as_arg()
@@ -263,7 +263,7 @@ impl VisitMut for Metadata<'_> {
         }
 
         let dec = self.create_metadata_design_decorator("design:type", {
-            let prop_type = p.type_ann.as_deref();
+            let prop_type = p.type_ann.as_ref();
 
             if let Some(kind) = self.enums.get_kind_as_str(prop_type) {
                 quote_ident!(kind).as_arg()
@@ -580,10 +580,10 @@ fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
 
 fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
     match p {
-        Pat::Ident(p) => p.type_ann.as_deref(),
-        Pat::Array(p) => p.type_ann.as_deref(),
-        Pat::Rest(p) => p.type_ann.as_deref(),
-        Pat::Object(p) => p.type_ann.as_deref(),
+        Pat::Ident(p) => p.type_ann.as_ref(),
+        Pat::Array(p) => p.type_ann.as_ref(),
+        Pat::Rest(p) => p.type_ann.as_ref(),
+        Pat::Object(p) => p.type_ann.as_ref(),
         Pat::Assign(p) => get_type_ann_of_pat(&p.left),
         Pat::Invalid(_) => None,
         Pat::Expr(_) => None,

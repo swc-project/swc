@@ -1,15 +1,15 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsType, TsTypeAnn};
 
-pub fn any_type_ann() -> Box<TsTypeAnn> {
+pub fn any_type_ann() -> TsTypeAnn {
     type_ann(ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword))
 }
 
-pub fn type_ann(ts_type: Box<TsType>) -> Box<TsTypeAnn> {
-    Box::new(TsTypeAnn {
+pub fn type_ann(ts_type: Box<TsType>) -> TsTypeAnn {
+    TsTypeAnn {
         span: DUMMY_SP,
         type_ann: ts_type,
-    })
+    }
 }
 
 pub fn ts_keyword_type(kind: TsKeywordTypeKind) -> Box<TsType> {

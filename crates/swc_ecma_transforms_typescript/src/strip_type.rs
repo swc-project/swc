@@ -25,7 +25,7 @@ impl VisitMut for StripType {
 
     type_to_none!(visit_mut_opt_ts_type, Box<TsType>);
 
-    type_to_none!(visit_mut_opt_ts_type_ann, Box<TsTypeAnn>);
+    type_to_none!(visit_mut_opt_ts_type_ann, TsTypeAnn);
 
     type_to_none!(visit_mut_opt_ts_type_param_decl, Box<TsTypeParamDecl>);
 

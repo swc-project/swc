@@ -466,7 +466,7 @@ impl FastDts {
     pub(crate) fn collect_getter_or_setter_annotations(
         &mut self,
         class: &Class,
-    ) -> FxHashMap<StaticProp, Box<TsTypeAnn>> {
+    ) -> FxHashMap<StaticProp, TsTypeAnn> {
         let mut annotations = FxHashMap::default();
         for member in &class.body {
             let ClassMember::Method(method) = member else {

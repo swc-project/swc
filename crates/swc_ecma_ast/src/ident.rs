@@ -47,7 +47,7 @@ pub struct BindingIdent {
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
 }
 
 impl Spanned for BindingIdent {

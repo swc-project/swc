@@ -70,7 +70,7 @@ pub struct GetterProp {
     pub span: Span,
     pub key: PropName,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub body: Option<BlockStmt>,
 }
