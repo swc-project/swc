@@ -168,7 +168,7 @@ pub struct TsCallSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
@@ -181,7 +181,7 @@ pub struct TsConstructSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
@@ -197,7 +197,7 @@ pub struct TsPropertySignature {
     pub computed: bool,
     pub optional: bool,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
 }
 
 #[ast_node("TsGetterSignature")]
@@ -209,7 +209,7 @@ pub struct TsGetterSignature {
     pub key: Box<Expr>,
     pub computed: bool,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
 }
 
 #[ast_node("TsSetterSignature")]
@@ -234,7 +234,7 @@ pub struct TsMethodSignature {
     pub optional: bool,
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
@@ -246,7 +246,7 @@ pub struct TsMethodSignature {
 pub struct TsIndexSignature {
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
 
     pub readonly: bool,
     #[cfg_attr(feature = "serde-impl", serde(rename = "static"))]
@@ -488,7 +488,7 @@ pub struct TsFnType {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
-    pub type_ann: Box<TsTypeAnn>,
+    pub type_ann: TsTypeAnn,
 }
 
 #[ast_node("TsConstructorType")]
@@ -501,7 +501,7 @@ pub struct TsConstructorType {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
-    pub type_ann: Box<TsTypeAnn>,
+    pub type_ann: TsTypeAnn,
     pub is_abstract: bool,
 }
 
@@ -525,7 +525,7 @@ pub struct TsTypePredicate {
     pub asserts: bool,
     pub param_name: TsThisTypeOrIdent,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
 }
 
 #[ast_node]

@@ -98,7 +98,7 @@ pub struct ArrayPat {
     pub optional: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
 }
 
 #[ast_node("ObjectPattern")]
@@ -116,7 +116,7 @@ pub struct ObjectPat {
     pub optional: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
 }
 
 #[ast_node("AssignmentPattern")]
@@ -146,7 +146,7 @@ pub struct RestPat {
     pub arg: Box<Pat>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
 }
 
 #[ast_node]

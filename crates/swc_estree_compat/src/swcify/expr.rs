@@ -304,7 +304,7 @@ impl Swcify for FunctionExpression {
                 is_generator: self.generator.unwrap_or(false),
                 is_async: self.is_async.unwrap_or(false),
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
-                return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+                return_type: self.return_type.swcify(ctx).flatten(),
                 ..Default::default()
             }),
         }
@@ -322,7 +322,7 @@ impl Swcify for Identifier {
                 optional: self.optional.unwrap_or(false),
                 ctxt: Default::default(),
             },
-            type_ann: self.type_annotation.swcify(ctx).flatten().map(Box::new),
+            type_ann: self.type_annotation.swcify(ctx).flatten(),
         }
     }
 }
@@ -468,7 +468,7 @@ impl Swcify for ObjectMethod {
                 is_generator: self.generator.unwrap_or(false),
                 is_async: self.is_async.unwrap_or(false),
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
-                return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+                return_type: self.return_type.swcify(ctx).flatten(),
                 ..Default::default()
             }),
         }
@@ -632,7 +632,7 @@ impl Swcify for ArrowFunctionExpression {
             is_async: self.is_async,
             is_generator: self.generator,
             type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
-            return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+            return_type: self.return_type.swcify(ctx).flatten(),
             ..Default::default()
         }
     }

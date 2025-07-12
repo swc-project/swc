@@ -1063,7 +1063,7 @@ pub struct ArrowExpr {
     pub type_params: Option<Box<TsTypeParamDecl>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub return_type: Option<Box<TsTypeAnn>>,
+    pub return_type: Option<TsTypeAnn>,
 }
 
 impl Take for ArrowExpr {

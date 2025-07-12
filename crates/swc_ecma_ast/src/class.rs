@@ -105,7 +105,7 @@ pub struct ClassProp {
     pub value: Option<Box<Expr>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_static: bool,
@@ -154,7 +154,7 @@ pub struct PrivateProp {
     pub value: Option<Box<Expr>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_static: bool,
@@ -348,7 +348,7 @@ pub struct AutoAccessor {
     pub value: Option<Box<Expr>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    pub type_ann: Option<Box<TsTypeAnn>>,
+    pub type_ann: Option<TsTypeAnn>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_static: bool,

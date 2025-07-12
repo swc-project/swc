@@ -51,7 +51,7 @@ impl Swcify for swc_estree_ast::ClassMethod {
                         is_generator: self.generator.unwrap_or_default(),
                         is_async: self.is_async.unwrap_or_default(),
                         type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
-                        return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+                        return_type: self.return_type.swcify(ctx).flatten(),
                         ..Default::default()
                     }
                     .into(),
@@ -108,7 +108,7 @@ impl Swcify for swc_estree_ast::ClassPrivateMethod {
                 is_generator: self.generator.unwrap_or_default(),
                 is_async: self.is_async.unwrap_or_default(),
                 type_params: self.type_parameters.swcify(ctx).flatten().map(Box::new),
-                return_type: self.return_type.swcify(ctx).flatten().map(Box::new),
+                return_type: self.return_type.swcify(ctx).flatten(),
                 ..Default::default()
             }
             .into(),
@@ -139,7 +139,7 @@ impl Swcify for swc_estree_ast::ClassProperty {
             span: ctx.span(&self.base),
             key,
             value: self.value.swcify(ctx),
-            type_ann: self.type_annotation.swcify(ctx).flatten().map(Box::new),
+            type_ann: self.type_annotation.swcify(ctx).flatten(),
             is_static: self.is_static.unwrap_or(false),
             decorators: self.decorators.swcify(ctx).unwrap_or_default(),
             accessibility: self.accessibility.swcify(ctx),
@@ -161,7 +161,7 @@ impl Swcify for swc_estree_ast::ClassPrivateProperty {
             span: ctx.span(&self.base),
             key: self.key.swcify(ctx),
             value: self.value.swcify(ctx),
-            type_ann: self.type_annotation.swcify(ctx).flatten().map(Box::new),
+            type_ann: self.type_annotation.swcify(ctx).flatten(),
             is_static: false,
             decorators: Default::default(),
             accessibility: Default::default(),

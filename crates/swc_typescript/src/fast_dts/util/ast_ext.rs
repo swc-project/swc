@@ -64,13 +64,13 @@ impl ExprExit for Expr {
 }
 
 pub trait PatExt {
-    fn get_type_ann(&self) -> &Option<Box<TsTypeAnn>>;
-    fn set_type_ann(&mut self, type_anno: Option<Box<TsTypeAnn>>);
+    fn get_type_ann(&self) -> &Option<TsTypeAnn>;
+    fn set_type_ann(&mut self, type_anno: Option<TsTypeAnn>);
     fn bound_names<F: FnMut(&BindingIdent)>(&self, f: &mut F);
 }
 
 impl PatExt for Pat {
-    fn get_type_ann(&self) -> &Option<Box<TsTypeAnn>> {
+    fn get_type_ann(&self) -> &Option<TsTypeAnn> {
         let pat = match self {
             Pat::Assign(assign_pat) => &assign_pat.left,
             _ => self,
@@ -85,7 +85,7 @@ impl PatExt for Pat {
         }
     }
 
-    fn set_type_ann(&mut self, type_anno: Option<Box<TsTypeAnn>>) {
+    fn set_type_ann(&mut self, type_anno: Option<TsTypeAnn>) {
         let pat = match self {
             Pat::Assign(assign_pat) => &mut assign_pat.left,
             _ => self,

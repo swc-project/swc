@@ -533,11 +533,11 @@ pub fn parse_ts_type_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeRef> {
     feature = "tracing-spans",
     tracing::instrument(level = "debug", skip_all)
 )]
-pub fn parse_ts_type_ann<'a, P: Parser<'a>>(
+pub(super) fn parse_ts_type_ann<'a, P: Parser<'a>>(
     p: &mut P,
     eat_colon: bool,
     start: BytePos,
-) -> PResult<Box<TsTypeAnn>> {
+) -> PResult<TsTypeAnn> {
     trace_cur!(p, parse_ts_type_ann);
 
     debug_assert!(p.input().syntax().typescript());
@@ -551,10 +551,10 @@ pub fn parse_ts_type_ann<'a, P: Parser<'a>>(
 
         let type_ann = parse_ts_type(p)?;
 
-        Ok(Box::new(TsTypeAnn {
+        Ok(TsTypeAnn {
             span: p.span(start),
             type_ann,
-        }))
+        })
     })
 }
 
@@ -780,7 +780,7 @@ pub fn try_parse_ts_type_params<'a, P: Parser<'a>>(
 pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
     p: &mut P,
     return_token: &P::Token,
-) -> PResult<Box<TsTypeAnn>> {
+) -> PResult<TsTypeAnn> {
     debug_assert!(p.input().syntax().typescript());
 
     p.in_type(|p| {
@@ -845,10 +845,10 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
             type_ann,
         }));
 
-        Ok(Box::new(TsTypeAnn {
+        Ok(TsTypeAnn {
             span: p.span(return_token_start),
             type_ann: node,
-        }))
+        })
     })
 }
 
@@ -921,17 +921,17 @@ fn try_parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box<TsType>
     feature = "tracing-spans",
     tracing::instrument(level = "debug", skip_all)
 )]
-pub fn try_parse_ts_type_ann<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box<TsTypeAnn>>> {
+pub(super) fn try_parse_ts_type_ann<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<TsTypeAnn>> {
     if !cfg!(feature = "typescript") {
         return Ok(None);
     }
 
     if p.input_mut().is(&P::Token::COLON) {
         let pos = p.cur_pos();
-        return parse_ts_type_ann(p, /* eat_colon */ true, pos).map(Some);
+        parse_ts_type_ann(p, /* eat_colon */ true, pos).map(Some)
+    } else {
+        Ok(None)
     }
-
-    Ok(None)
 }
 
 /// `tsNextThenParseType`
@@ -1051,7 +1051,7 @@ pub fn parse_ts_enum_decl<'a, P: Parser<'a>>(
 /// Used for parsing return types.
 pub fn try_parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
     p: &mut P,
-) -> PResult<Option<Box<TsTypeAnn>>> {
+) -> PResult<Option<TsTypeAnn>> {
     if !cfg!(feature = "typescript") {
         return Ok(None);
     }
@@ -1304,8 +1304,7 @@ pub fn try_parse_ts_index_signature<'a, P: Parser<'a>>(
 
     let params = vec![TsFnParam::Ident(id)];
 
-    let ty = try_parse_ts_type_ann(p)?;
-    let type_ann = ty;
+    let type_ann = try_parse_ts_type_ann(p)?;
 
     parse_ts_type_member_semicolon(p)?;
 

@@ -786,10 +786,10 @@ fn parse_catch_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Pat>> {
                 | Pat::Array(ArrayPat { type_ann, .. })
                 | Pat::Rest(RestPat { type_ann, .. })
                 | Pat::Object(ObjectPat { type_ann, .. }) => {
-                    *type_ann = Some(Box::new(TsTypeAnn {
+                    *type_ann = Some(TsTypeAnn {
                         span: p.span(type_ann_start),
                         type_ann: ty,
-                    }));
+                    });
                 }
                 Pat::Assign(..) => {}
                 Pat::Invalid(_) => {}

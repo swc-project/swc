@@ -461,7 +461,7 @@ impl FastDts {
     pub(crate) fn collect_object_getter_or_setter_annotations(
         &mut self,
         object: &ObjectLit,
-    ) -> (FxHashMap<StaticProp, Box<TsTypeAnn>>, FxHashSet<StaticProp>) {
+    ) -> (FxHashMap<StaticProp, TsTypeAnn>, FxHashSet<StaticProp>) {
         let mut annotations = FxHashMap::default();
         let mut seen_setter = FxHashSet::default();
 
