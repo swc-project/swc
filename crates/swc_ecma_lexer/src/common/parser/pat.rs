@@ -643,7 +643,7 @@ pub fn parse_constructor_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Par
             let type_ann = if p.input().syntax().typescript() && p.input_mut().is(&P::Token::COLON)
             {
                 let cur_pos = p.cur_pos();
-                Some(parse_ts_type_ann(p, /* eat_colon */ true, cur_pos)?)
+                Some(parse_ts_type_ann(p, /* eat_colon */ true, cur_pos).map(Box::new)?)
             } else {
                 None
             };
@@ -708,7 +708,7 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
             let type_ann = if p.input().syntax().typescript() && p.input_mut().is(&P::Token::COLON)
             {
                 let cur_pos = p.cur_pos();
-                let ty = parse_ts_type_ann(p, /* eat_colon */ true, cur_pos)?;
+                let ty = parse_ts_type_ann(p, /* eat_colon */ true, cur_pos).map(Box::new)?;
                 Some(ty)
             } else {
                 None

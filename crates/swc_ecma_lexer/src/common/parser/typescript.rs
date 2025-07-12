@@ -539,11 +539,11 @@ pub fn parse_ts_type_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeRef> {
     feature = "tracing-spans",
     tracing::instrument(level = "debug", skip_all)
 )]
-pub fn parse_ts_type_ann<'a, P: Parser<'a>>(
+pub(super) fn parse_ts_type_ann<'a, P: Parser<'a>>(
     p: &mut P,
     eat_colon: bool,
     start: BytePos,
-) -> PResult<Box<TsTypeAnn>> {
+) -> PResult<TsTypeAnn> {
     trace_cur!(p, parse_ts_type_ann);
 
     debug_assert!(p.input().syntax().typescript());
@@ -557,10 +557,10 @@ pub fn parse_ts_type_ann<'a, P: Parser<'a>>(
 
         let type_ann = parse_ts_type(p)?;
 
-        Ok(Box::new(TsTypeAnn {
+        Ok(TsTypeAnn {
             span: p.span(start),
             type_ann,
-        }))
+        })
     })
 }
 
@@ -576,10 +576,10 @@ pub fn parse_ts_this_type_predicate<'a, P: Parser<'a>>(
     let param_name = TsThisTypeOrIdent::TsThisType(lhs);
     let type_ann = if p.input_mut().eat(&P::Token::IS) {
         let cur_pos = p.input_mut().cur_pos();
-        Some(parse_ts_type_ann(
+        Some(Box::new(parse_ts_type_ann(
             p, // eat_colon
             false, cur_pos,
-        )?)
+        )?))
     } else {
         None
     };
@@ -828,17 +828,21 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
                 // eat_colon
                 false,
                 return_token_start,
-            );
+            )
+            .map(Box::new);
         }
 
         let type_pred_var = parse_ident_name(p)?;
         let type_ann = if has_type_pred_is {
             p.assert_and_bump(&P::Token::IS);
             let pos = p.input_mut().cur_pos();
-            Some(parse_ts_type_ann(
-                p, // eat_colon
-                false, pos,
-            )?)
+            Some(
+                parse_ts_type_ann(
+                    p, // eat_colon
+                    false, pos,
+                )
+                .map(Box::new)?,
+            )
         } else {
             None
         };
@@ -926,17 +930,19 @@ fn try_parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box<TsType>
     feature = "tracing-spans",
     tracing::instrument(level = "debug", skip_all)
 )]
-pub fn try_parse_ts_type_ann<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box<TsTypeAnn>>> {
+pub(super) fn try_parse_ts_type_ann<'a, P: Parser<'a>>(
+    p: &mut P,
+) -> PResult<Option<Box<TsTypeAnn>>> {
     if !cfg!(feature = "typescript") {
         return Ok(None);
     }
 
     if p.input_mut().is(&P::Token::COLON) {
         let pos = p.cur_pos();
-        return parse_ts_type_ann(p, /* eat_colon */ true, pos).map(Some);
+        parse_ts_type_ann(p, /* eat_colon */ true, pos).map(|t| Some(Box::new(t)))
+    } else {
+        Ok(None)
     }
-
-    Ok(None)
 }
 
 /// `tsNextThenParseType`
@@ -1303,7 +1309,7 @@ pub fn try_parse_ts_index_signature<'a, P: Parser<'a>>(
 
     let type_ann = parse_ts_type_ann(p, /* eat_colon */ false, type_ann_start)?;
     id.span = p.span(ident_start);
-    id.type_ann = Some(type_ann);
+    id.type_ann = Some(Box::new(type_ann));
 
     expect!(p, &P::Token::RBRACKET);
 
