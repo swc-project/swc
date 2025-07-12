@@ -91,6 +91,7 @@ impl Pure<'_> {
         };
 
         let mut var_ids = Vec::new();
+        let mut fn_decls = Vec::new();
         let mut cases = Vec::new();
         let mut exact = None;
         let mut may_match_other_than_exact = false;
@@ -109,7 +110,8 @@ impl Pure<'_> {
                         exact = Some(idx);
                         break;
                     } else {
-                        var_ids.extend(extract_var_ids(&case.cons))
+                        var_ids.extend(extract_var_ids_only(&case.cons));
+                        fn_decls.extend(extract_fn_decls(&case.cons));
                     }
                 } else {
                     if !may_match_other_than_exact
@@ -131,7 +133,8 @@ impl Pure<'_> {
             let mut terminate = exact_case.cons.iter().rev().any(|s| s.terminates());
             for case in stmt.cases[(exact + 1)..].iter_mut() {
                 if terminate {
-                    var_ids.extend(extract_var_ids(&case.cons))
+                    var_ids.extend(extract_var_ids_only(&case.cons));
+                    fn_decls.extend(extract_fn_decls(&case.cons));
                 } else {
                     terminate |= case.cons.iter().rev().any(|s| s.terminates());
                     exact_case.cons.extend(case.cons.take())
@@ -144,7 +147,8 @@ impl Pure<'_> {
                     if case.test.is_some() {
                         true
                     } else {
-                        var_ids.extend(extract_var_ids(&case.cons));
+                        var_ids.extend(extract_var_ids_only(&case.cons));
+                        fn_decls.extend(extract_fn_decls(&case.cons));
                         false
                     }
                 });
@@ -188,6 +192,11 @@ impl Pure<'_> {
             report_change!("switches: Removing a constant switch");
 
             let mut stmts = Vec::new();
+
+            // Add function declarations first to preserve proper hoisting
+            for fn_decl in fn_decls {
+                stmts.push(fn_decl.into());
+            }
 
             if !var_ids.is_empty() {
                 stmts.push(
@@ -246,9 +255,16 @@ impl Pure<'_> {
         report_change!("switches: Removing unreachable cases from a constant switch");
         stmt.cases = cases;
 
-        if !var_ids.is_empty() {
-            *s = BlockStmt {
-                stmts: vec![
+        if !var_ids.is_empty() || !fn_decls.is_empty() {
+            let mut stmts = Vec::new();
+            
+            // Add function declarations first to preserve proper hoisting
+            for fn_decl in fn_decls {
+                stmts.push(fn_decl.into());
+            }
+            
+            if !var_ids.is_empty() {
+                stmts.push(
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
@@ -257,8 +273,13 @@ impl Pure<'_> {
                         ..Default::default()
                     }
                     .into(),
-                    s.take(),
-                ],
+                );
+            }
+            
+            stmts.push(s.take());
+            
+            *s = BlockStmt {
+                stmts,
                 ..Default::default()
             }
             .into()
@@ -806,4 +827,80 @@ impl Visit for BreakFinder {
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
     fn visit_class(&mut self, _: &Class) {}
+}
+
+/// Custom visitor to extract function declarations only
+#[derive(Default)]
+struct FunctionDeclExtractor {
+    fns: Vec<FnDecl>,
+}
+
+impl Visit for FunctionDeclExtractor {
+    noop_visit_type!();
+
+    fn visit_fn_decl(&mut self, f: &FnDecl) {
+        self.fns.push(f.clone());
+    }
+
+    fn visit_function(&mut self, _: &Function) {}
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+    fn visit_class(&mut self, _: &Class) {}
+}
+
+/// Custom visitor to extract variable declarations only (excluding function declarations)
+#[derive(Default)]
+struct VarOnlyExtractor {
+    vars: Vec<Ident>,
+}
+
+impl Visit for VarOnlyExtractor {
+    noop_visit_type!();
+
+    fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
+
+    fn visit_assign_expr(&mut self, node: &AssignExpr) {
+        node.right.visit_children_with(self);
+    }
+
+    fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
+        node.value.visit_with(self);
+        self.vars.push(node.key.clone().into());
+    }
+
+    fn visit_constructor(&mut self, _: &Constructor) {}
+
+    // Explicitly do NOT visit function declarations - we want to exclude them
+    fn visit_fn_decl(&mut self, _: &FnDecl) {}
+
+    fn visit_function(&mut self, _: &Function) {}
+
+    fn visit_getter_prop(&mut self, _: &GetterProp) {}
+
+    fn visit_pat(&mut self, p: &Pat) {
+        p.visit_children_with(self);
+        match p {
+            Pat::Ident(i) => self.vars.push(i.id.clone()),
+            _ => {}
+        }
+    }
+
+    fn visit_setter_prop(&mut self, _: &SetterProp) {}
+
+    fn visit_var_decl(&mut self, d: &VarDecl) {
+        d.visit_children_with(self);
+    }
+}
+
+/// Extract function declarations from statements
+fn extract_fn_decls<T: VisitWith<FunctionDeclExtractor>>(node: &T) -> Vec<FnDecl> {
+    let mut v = FunctionDeclExtractor::default();
+    node.visit_with(&mut v);
+    v.fns
+}
+
+/// Extract variable identifiers only (excluding function declarations)
+fn extract_var_ids_only<T: VisitWith<VarOnlyExtractor>>(node: &T) -> Vec<Ident> {
+    let mut v = VarOnlyExtractor::default();
+    node.visit_with(&mut v);
+    v.vars
 }
