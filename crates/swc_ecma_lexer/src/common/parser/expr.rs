@@ -1063,10 +1063,8 @@ pub fn parse_dynamic_import_or_import_meta<'a, P: Parser<'a>>(
                 };
                 parse_subscripts(p, Callee::Expr(expr.into()), no_call, false)
             }
+            "defer" => parse_dynamic_import_call(p, start, no_call, ImportPhase::Defer),
             "source" => parse_dynamic_import_call(p, start, no_call, ImportPhase::Source),
-            // TODO: The proposal doesn't mention import.defer yet because it was
-            // pending on a decision for import.source. Wait to enable it until it's
-            // included in the proposal.
             _ => unexpected!(p, "meta"),
         }
     } else {
