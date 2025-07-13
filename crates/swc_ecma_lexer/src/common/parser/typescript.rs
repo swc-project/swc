@@ -806,11 +806,10 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
                 }
             })
         };
+
         if has_type_pred_asserts {
             p.assert_and_bump(&P::Token::ASSERTS);
-            if p.input_mut().cur().is_none() {
-                return Err(eof_error(p));
-            }
+            debug_assert!(p.input_mut().cur().is_some());
         }
 
         let has_type_pred_is = p.is_ident_ref()

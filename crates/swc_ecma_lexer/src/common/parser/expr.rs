@@ -2327,10 +2327,14 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
     start: BytePos,
     can_be_arrow: bool,
 ) -> PResult<Box<Expr>> {
-    let decorators = parse_decorators(p, false)?;
+    let decorators = if p.input_mut().is(&P::Token::AT) {
+        Some(parse_decorators(p, false)?)
+    } else {
+        None
+    };
 
     if p.input_mut().is(&P::Token::CLASS) {
-        return parse_class_expr(p, start, decorators);
+        return parse_class_expr(p, start, decorators.unwrap_or_default());
     }
 
     if p.input_mut().is(&P::Token::LET)
