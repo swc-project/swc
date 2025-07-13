@@ -25,6 +25,7 @@ use crate::{
                 parse_ts_enum_decl, parse_ts_expr_stmt, parse_ts_interface_decl, parse_ts_type,
                 parse_ts_type_alias_decl,
             },
+            TokenAndSpan,
         },
     },
     error::{Error, SyntaxError},
@@ -1031,7 +1032,15 @@ pub fn parse_stmt_like<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>>(
     debug_tracing!(p, "parse_stmt_like");
 
     let start = p.cur_pos();
-    let decorators = parse_decorators(p, true)?;
+    let decorators = if p
+        .input()
+        .get_cur()
+        .is_some_and(|cur| cur.token() == &P::Token::AT)
+    {
+        parse_decorators(p, true)?
+    } else {
+        vec![]
+    };
 
     if p.input_mut()
         .cur()
