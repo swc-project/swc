@@ -2348,14 +2348,6 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
             !ctx.contains(Context::InGenerator),
             !ctx.contains(Context::InAsync),
         )?;
-        if id.is_reserved_in_strict_mode(
-            p.ctx().contains(Context::Module) && !p.ctx().contains(Context::InDeclare),
-        ) {
-            p.emit_strict_mode_err(
-                p.input().prev_span(),
-                SyntaxError::InvalidIdentInStrict(id.sym.clone()),
-            );
-        }
 
         if can_be_arrow
             && id.sym == "async"
