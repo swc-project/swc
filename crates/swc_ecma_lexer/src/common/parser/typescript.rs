@@ -351,7 +351,7 @@ pub fn parse_ts_modifier<'a, P: Parser<'a>>(
             return Err(eof_error(p));
         };
         let modifier = if cur.is_unknown_ident() {
-            cur.clone().take_unknown_ident_ref(p.input_mut()).clone()
+            cur.clone().take_unknown_ident_ref(p.input()).clone()
         } else if cur.is_known_ident() {
             cur.take_known_ident()
         } else if cur.is_in() {
