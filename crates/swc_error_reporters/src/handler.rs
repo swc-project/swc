@@ -87,10 +87,18 @@ impl ThreadSafetyDiagnostics {
         skip_filename: bool,
         color: ColorConfig,
     ) -> Vec<String> {
-        let handler = to_pretty_handler(color);
-        self.0
+        let diagnostics = self
+            .0
             .lock()
-            .expect("Failed to access the diagnostics lock")
+            .expect("Failed to access the diagnostics lock");
+
+        // If there are no diagnostics, return empty vector without initializing handler
+        if diagnostics.is_empty() {
+            return Vec::new();
+        }
+
+        let handler = to_pretty_handler(color);
+        diagnostics
             .iter()
             .map(|d| d.to_pretty_string(cm, skip_filename, &handler))
             .collect::<Vec<String>>()
