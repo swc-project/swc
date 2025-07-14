@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Refactor
+
+
+
+- **(es/parser)** Remove duplicate check ([#10847](https://github.com/swc-project/swc/issues/10847)) ([2b04efd](https://github.com/swc-project/swc/commit/2b04efd5403adec38251bf9059a5dec600049288))
+
 ## [swc_core@v32.0.0] - 2025-07-13
 
 ### Bug Fixes
