@@ -216,9 +216,7 @@ pub fn parse_ident<'a>(
         word = ident
     } else if t.is_yield() && incl_yield {
         word = atom!("yield")
-    } else if t.is_null() || t.is_true() || t.is_false() {
-        syntax_error!(p, p.input().prev_span(), SyntaxError::ExpectedIdent)
-    } else if t.is_keyword() {
+    } else if t.is_null() || t.is_true() || t.is_false() || t.is_keyword() {
         syntax_error!(p, p.input().prev_span(), SyntaxError::ExpectedIdent)
     } else {
         unreachable!()
