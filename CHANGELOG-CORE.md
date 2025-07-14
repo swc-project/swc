@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [swc_core@v32.0.1] - 2025-07-14
 
 ### Refactor
 
