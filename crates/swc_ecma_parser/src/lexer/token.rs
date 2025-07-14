@@ -787,7 +787,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
-    fn take_unknown_ident_ref<'b>(&'b self, buffer: &'b mut Self::Buffer) -> &'b Atom {
+    fn take_unknown_ident_ref<'b>(&'b self, buffer: &'b Self::Buffer) -> &'b Atom {
         buffer.expect_word_token_value_ref()
     }
 
