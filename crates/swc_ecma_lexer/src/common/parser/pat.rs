@@ -530,7 +530,7 @@ fn parse_formal_param_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
             }) => {
                 let new_type_ann = try_parse_ts_type_ann(p)?;
                 if new_type_ann.is_some() {
-                    *span = Span::new(pat_start, p.input().prev_span().hi);
+                    *span = Span::new_with_checked(pat_start, p.input().prev_span().hi);
                 }
                 *type_ann = new_type_ann;
             }
@@ -544,7 +544,7 @@ fn parse_formal_param_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
 
             Pat::Assign(AssignPat { ref mut span, .. }) => {
                 if (try_parse_ts_type_ann(p)?).is_some() {
-                    *span = Span::new(pat_start, p.input().prev_span().hi);
+                    *span = Span::new_with_checked(pat_start, p.input().prev_span().hi);
                     p.emit_err(*span, SyntaxError::TSTypeAnnotationAfterAssign);
                 }
             }
