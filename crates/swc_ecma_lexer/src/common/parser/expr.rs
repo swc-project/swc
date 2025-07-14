@@ -1334,51 +1334,45 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
 ) -> PResult<(Box<Expr>, Option<u8>)> {
     const PREC_OF_IN: u8 = 7;
 
-    if p.input().syntax().typescript()
-        && PREC_OF_IN > min_prec
-        && !p.input_mut().had_line_break_before_cur()
-        && p.input_mut().is(&P::Token::AS)
-    {
-        let start = left.span_lo();
-        let expr = left;
-        let node = if peek!(p).is_some_and(|cur| cur.is_const()) {
-            p.bump(); // as
-            p.input_mut().cur();
-            p.bump(); // const
-            TsConstAssertion {
-                span: p.span(start),
-                expr,
-            }
-            .into()
-        } else {
-            let type_ann = next_then_parse_ts_type(p)?;
-            TsAsExpr {
-                span: p.span(start),
-                expr,
-                type_ann,
-            }
-            .into()
-        };
+    if p.input().syntax().typescript() && !p.input_mut().had_line_break_before_cur() {
+        if PREC_OF_IN > min_prec && p.input_mut().is(&P::Token::AS) {
+            let start = left.span_lo();
+            let expr = left;
+            let node = if peek!(p).is_some_and(|cur| cur.is_const()) {
+                p.bump(); // as
+                p.input_mut().cur();
+                p.bump(); // const
+                TsConstAssertion {
+                    span: p.span(start),
+                    expr,
+                }
+                .into()
+            } else {
+                let type_ann = next_then_parse_ts_type(p)?;
+                TsAsExpr {
+                    span: p.span(start),
+                    expr,
+                    type_ann,
+                }
+                .into()
+            };
 
-        return parse_bin_op_recursively_inner(p, node, min_prec);
-    }
-    if p.input().syntax().typescript()
-        && !p.input_mut().had_line_break_before_cur()
-        && p.input_mut().is(&P::Token::SATISFIES)
-    {
-        let start = left.span_lo();
-        let expr = left;
-        let node = {
-            let type_ann = next_then_parse_ts_type(p)?;
-            TsSatisfiesExpr {
-                span: p.span(start),
-                expr,
-                type_ann,
-            }
-            .into()
-        };
+            return parse_bin_op_recursively_inner(p, node, min_prec);
+        } else if p.input_mut().is(&P::Token::SATISFIES) {
+            let start = left.span_lo();
+            let expr = left;
+            let node = {
+                let type_ann = next_then_parse_ts_type(p)?;
+                TsSatisfiesExpr {
+                    span: p.span(start),
+                    expr,
+                    type_ann,
+                }
+                .into()
+            };
 
-        return parse_bin_op_recursively_inner(p, node, min_prec);
+            return parse_bin_op_recursively_inner(p, node, min_prec);
+        }
     }
 
     let ctx = p.ctx();
@@ -2333,125 +2327,142 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
         None
     };
 
-    if p.input_mut().is(&P::Token::CLASS) {
+    p.input_mut().cur();
+    let Some(token_and_span) = p.input().get_cur() else {
+        return Err(eof_error(p));
+    };
+    let cur = token_and_span.token();
+
+    if cur.is_class() {
         return parse_class_expr(p, start, decorators.unwrap_or_default());
     }
 
-    if p.input_mut().is(&P::Token::LET)
-        || (p.input().syntax().typescript()
-            && (p.input_mut().cur().is_some_and(|cur| cur.is_await()) || p.is_ident_ref()))
-        || p.is_ident_ref()
-    {
+    let try_parse_arrow_expr = |p: &mut P, id: Ident| -> PResult<Box<Expr>> {
+        if can_be_arrow && !p.input_mut().had_line_break_before_cur() {
+            if id.sym == "async" && p.is_ident_ref() {
+                // see https://github.com/tc39/ecma262/issues/2034
+                // ```js
+                // for(async of
+                // for(async of x);
+                // for(async of =>{};;);
+                // ```
+                let ctx = p.ctx();
+                if ctx.contains(Context::ForLoopInit)
+                    && p.input_mut().is(&P::Token::OF)
+                    && !peek!(p).is_some_and(|peek| peek.is_arrow())
+                {
+                    // ```spec https://tc39.es/ecma262/#prod-ForInOfStatement
+                    // for ( [lookahead ∉ { let, async of }] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
+                    // [+Await] for await ( [lookahead ≠ let] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
+                    // ```
+
+                    if !ctx.contains(Context::ForAwaitLoopInit) {
+                        p.emit_err(p.input().prev_span(), SyntaxError::TS1106);
+                    }
+
+                    return Ok(id.into());
+                }
+
+                let ident = parse_binding_ident(p, false)?;
+                if p.input().syntax().typescript()
+                    && ident.sym == "as"
+                    && !p.input_mut().is(&P::Token::ARROW)
+                {
+                    // async as type
+                    let type_ann = p.in_type(parse_ts_type)?;
+                    return Ok(TsAsExpr {
+                        span: p.span(start),
+                        expr: Box::new(id.into()),
+                        type_ann,
+                    }
+                    .into());
+                }
+
+                // async a => body
+                let arg = ident.into();
+                let params = vec![arg];
+                expect!(p, &P::Token::ARROW);
+                let body = parse_fn_block_or_expr_body(
+                    p,
+                    true,
+                    false,
+                    true,
+                    params.is_simple_parameter_list(),
+                )?;
+
+                return Ok(ArrowExpr {
+                    span: p.span(start),
+                    body,
+                    params,
+                    is_async: true,
+                    is_generator: false,
+                    ..Default::default()
+                }
+                .into());
+            } else if p.input_mut().eat(&P::Token::ARROW) {
+                if p.ctx().contains(Context::Strict) && id.is_reserved_in_strict_bind() {
+                    p.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
+                }
+                let params = vec![id.into()];
+                let body = parse_fn_block_or_expr_body(
+                    p,
+                    false,
+                    false,
+                    true,
+                    params.is_simple_parameter_list(),
+                )?;
+
+                return Ok(ArrowExpr {
+                    span: p.span(start),
+                    body,
+                    params,
+                    is_async: false,
+                    is_generator: false,
+                    ..Default::default()
+                }
+                .into());
+            }
+        }
+
+        Ok(id.into())
+    };
+
+    let token_start = token_and_span.span().lo;
+    if cur.is_let() || (p.input().syntax().typescript() && cur.is_await()) {
         let ctx = p.ctx();
         let id = parse_ident(
             p,
             !ctx.contains(Context::InGenerator),
             !ctx.contains(Context::InAsync),
         )?;
-
-        if can_be_arrow
-            && id.sym == "async"
-            && !p.input_mut().had_line_break_before_cur()
-            && p.is_ident_ref()
-        {
-            // see https://github.com/tc39/ecma262/issues/2034
-            // ```js
-            // for(async of
-            // for(async of x);
-            // for(async of =>{};;);
-            // ```
-            if ctx.contains(Context::ForLoopInit)
-                && p.input_mut().is(&P::Token::OF)
-                && !peek!(p).is_some_and(|peek| peek.is_arrow())
-            {
-                // ```spec https://tc39.es/ecma262/#prod-ForInOfStatement
-                // for ( [lookahead ∉ { let, async of }] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
-                // [+Await] for await ( [lookahead ≠ let] LeftHandSideExpression[?Yield, ?Await] of AssignmentExpression[+In, ?Yield, ?Await] ) Statement[?Yield, ?Await, ?Return]
-                // ```
-
-                if !ctx.contains(Context::ForAwaitLoopInit) {
-                    p.emit_err(p.input().prev_span(), SyntaxError::TS1106);
-                }
-
-                return Ok(id.into());
-            }
-
-            let ident = parse_binding_ident(p, false)?;
-            if p.input().syntax().typescript()
-                && ident.sym == "as"
-                && !p.input_mut().is(&P::Token::ARROW)
-            {
-                // async as type
-                let type_ann = p.in_type(parse_ts_type)?;
-                return Ok(TsAsExpr {
-                    span: p.span(start),
-                    expr: Box::new(id.into()),
-                    type_ann,
-                }
-                .into());
-            }
-
-            // async a => body
-            let arg = ident.into();
-            let params = vec![arg];
-            expect!(p, &P::Token::ARROW);
-            let body = parse_fn_block_or_expr_body(
-                p,
-                true,
-                false,
-                true,
-                params.is_simple_parameter_list(),
-            )?;
-
-            return Ok(ArrowExpr {
-                span: p.span(start),
-                body,
-                params,
-                is_async: true,
-                is_generator: false,
-                ..Default::default()
-            }
-            .into());
-        } else if can_be_arrow
-            && !p.input_mut().had_line_break_before_cur()
-            && p.input_mut().eat(&P::Token::ARROW)
-        {
-            if p.ctx().contains(Context::Strict) && id.is_reserved_in_strict_bind() {
-                p.emit_strict_mode_err(id.span, SyntaxError::EvalAndArgumentsInStrict)
-            }
-            let params = vec![id.into()];
-            let body = parse_fn_block_or_expr_body(
-                p,
-                false,
-                false,
-                true,
-                params.is_simple_parameter_list(),
-            )?;
-
-            return Ok(ArrowExpr {
-                span: p.span(start),
-                body,
-                params,
-                is_async: false,
-                is_generator: false,
-                ..Default::default()
-            }
-            .into());
-        } else {
-            return Ok(id.into());
-        }
-    }
-
-    if p.input_mut().eat(&P::Token::HASH) {
+        try_parse_arrow_expr(p, id)
+    } else if cur.is_hash() {
+        p.bump(); // consume `#`
         let id = parse_ident_name(p)?;
-        return Ok(PrivateName {
+        Ok(PrivateName {
             span: p.span(start),
             name: id.sym,
         }
-        .into());
+        .into())
+    } else if p.is_ident_ref() {
+        let cur = p.bump();
+        if cur.is_static() {
+            p.emit_strict_mode_err(
+                p.input().prev_span(),
+                SyntaxError::InvalidIdentInStrict(cur.clone().take_word(p.input()).unwrap()),
+            );
+        }
+        let Some(word) = cur.take_word(p.input_mut()) else {
+            unreachable!()
+        };
+        if p.ctx().contains(Context::InClassField) && word == atom!("arguments") {
+            p.emit_err(p.input().prev_span(), SyntaxError::ArgumentsInClassField)
+        };
+        let id = Ident::new_no_ctxt(word, p.span(token_start));
+        try_parse_arrow_expr(p, id)
+    } else {
+        syntax_error!(p, p.input().cur_span(), SyntaxError::TS1109)
     }
-
-    syntax_error!(p, p.input().cur_span(), SyntaxError::TS1109)
 }
 
 pub fn try_parse_regexp<'a, P: Parser<'a>>(p: &mut P, start: BytePos) -> Option<Box<Expr>> {

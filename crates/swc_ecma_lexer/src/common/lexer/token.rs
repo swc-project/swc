@@ -185,7 +185,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn unknown_ident(value: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_unknown_ident(&self) -> bool;
     fn take_unknown_ident(self, buffer: &mut Self::Buffer) -> Atom;
-    fn take_unknown_ident_ref<'b>(&'b self, buffer: &'b mut Self::Buffer) -> &'b Atom;
+    fn take_unknown_ident_ref<'b>(&'b self, buffer: &'b Self::Buffer) -> &'b Atom;
 
     fn is_known_ident(&self) -> bool;
     fn take_known_ident(&self) -> Atom;
