@@ -286,8 +286,9 @@ const ZER: ByteHandler = Some(|lexer| lexer.read_token_zero().map(Some));
 
 /// Numbers
 const DIG: ByteHandler = Some(|lexer| {
+    debug_assert!(lexer.cur().is_some_and(|cur| cur != '0'));
     lexer
-        .read_number(false)
+        .read_number::<false, false>()
         .map(|v| match v {
             Either::Left((value, raw)) => {
                 lexer.state.set_token_value(TokenValue::Num { value, raw });
