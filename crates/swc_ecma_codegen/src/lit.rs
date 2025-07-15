@@ -461,7 +461,9 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
                                             iter.next();
                                         }
                                     } else if (0xd800..=0xdfff).contains(&v) {
-                                        buf.push('\\');
+                                        // For surrogate pairs (like \uD83D), preserve the literal backslash
+                                        // instead of treating it as a unicode escape sequence
+                                        buf.push_str("\\\\");
                                     } else {
                                         buf.push_str("\\\\");
                                     }
