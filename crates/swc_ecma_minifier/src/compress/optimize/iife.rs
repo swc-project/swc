@@ -1433,14 +1433,33 @@ impl Optimizer<'_> {
         let mut changed = false;
 
         for i in 0..seq.exprs.len() {
-            if let Expr::Call(call) = &mut *seq.exprs[i] {
-                // Check if this is an arrow function IIFE that can be optimized
-                if let Callee::Expr(callee) = &mut call.callee {
-                    if let Expr::Arrow(arrow) = &mut **callee {
+            // First, check if this expression can be optimized without borrowing conflicts
+            let can_optimize = if let Expr::Call(call) = &*seq.exprs[i] {
+                if let Callee::Expr(callee) = &call.callee {
+                    if let Expr::Arrow(arrow) = &**callee {
                         // For expression-style arrow functions in sequences,
                         // we can be more aggressive with optimization
-                        if let BlockStmtOrExpr::Expr(body) = &mut *arrow.body {
-                            if self.can_optimize_arrow_iife_in_seq(arrow, call) {
+                        if let BlockStmtOrExpr::Expr(_body) = &*arrow.body {
+                            self.can_optimize_arrow_iife_in_seq(arrow, call)
+                        } else {
+                            false
+                        }
+                    } else {
+                        false
+                    }
+                } else {
+                    false
+                }
+            } else {
+                false
+            };
+
+            // If we can optimize, perform the mutation
+            if can_optimize {
+                if let Expr::Call(call) = &mut *seq.exprs[i] {
+                    if let Callee::Expr(callee) = &mut call.callee {
+                        if let Expr::Arrow(arrow) = &mut **callee {
+                            if let BlockStmtOrExpr::Expr(_body) = &mut *arrow.body {
                                 self.optimize_single_arrow_iife_in_seq(&mut seq.exprs[i], arrow, call, &mut changed);
                             }
                         }
