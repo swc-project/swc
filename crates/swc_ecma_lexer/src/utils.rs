@@ -6,7 +6,9 @@ use crate::token::*;
 impl Context {
     pub fn is_reserved(self, word: &Word) -> bool {
         match *word {
-            Word::Keyword(Keyword::Let) => self.contains(Context::Strict),
+            Word::Keyword(Keyword::Let) | Word::Ident(IdentLike::Known(known_ident!("static"))) => {
+                self.contains(Context::Strict)
+            }
             Word::Keyword(Keyword::Await) => {
                 self.contains(Context::InAsync)
                     || self.contains(Context::InStaticBlock)
