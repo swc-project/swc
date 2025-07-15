@@ -21,4 +21,4 @@ class _StringIterator {
         return this;
     }
 }
-!function(...s) {}(...new SymbolIterator, ...new _StringIterator);
+new SymbolIterator, new _StringIterator;

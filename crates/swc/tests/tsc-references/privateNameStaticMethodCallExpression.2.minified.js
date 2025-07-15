@@ -16,5 +16,5 @@ class AA {
 function method() {
     this.x = 10;
 }
-function method2(a, ...b) {}
+function method2(a) {}
 AA.x = 1;
