@@ -2337,9 +2337,9 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
         return parse_class_expr(p, start, decorators.unwrap_or_default());
     }
 
-    let try_parse_arrow_expr = |p: &mut P, id: Ident| -> PResult<Box<Expr>> {
+    let try_parse_arrow_expr = |p: &mut P, id: Ident, id_is_async| -> PResult<Box<Expr>> {
         if can_be_arrow && !p.input_mut().had_line_break_before_cur() {
-            if id.sym == "async" && p.is_ident_ref() {
+            if id_is_async && p.is_ident_ref() {
                 // see https://github.com/tc39/ecma262/issues/2034
                 // ```js
                 // for(async of
@@ -2435,7 +2435,7 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
             !ctx.contains(Context::InGenerator),
             !ctx.contains(Context::InAsync),
         )?;
-        try_parse_arrow_expr(p, id)
+        try_parse_arrow_expr(p, id, false)
     } else if cur.is_hash() {
         p.bump(); // consume `#`
         let id = parse_ident_name(p)?;
@@ -2446,6 +2446,7 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
         .into())
     } else if p.is_ident_ref() {
         let cur = p.bump();
+        let id_is_async = cur.is_async();
         let Some(word) = cur.take_word(p.input_mut()) else {
             unreachable!()
         };
@@ -2453,7 +2454,7 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
             p.emit_err(p.input().prev_span(), SyntaxError::ArgumentsInClassField)
         };
         let id = Ident::new_no_ctxt(word, p.span(token_start));
-        try_parse_arrow_expr(p, id)
+        try_parse_arrow_expr(p, id, id_is_async)
     } else {
         syntax_error!(p, p.input().cur_span(), SyntaxError::TS1109)
     }
