@@ -267,7 +267,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     let s = unsafe { self.input_slice(slice_start, end) };
                     let cmt = swc_common::comments::Comment {
                         kind: swc_common::comments::CommentKind::Line,
-                        span: Span::new(start, end),
+                        span: Span::new_with_checked(start, end),
                         text: self.atom(s),
                     };
 
@@ -298,7 +298,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             };
             let cmt = swc_common::comments::Comment {
                 kind: swc_common::comments::CommentKind::Line,
-                span: Span::new(start, end),
+                span: Span::new_with_checked(start, end),
                 text: self.atom(s),
             };
 
@@ -371,7 +371,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.state_mut().mark_had_line_break();
                     }
                     let end_pos = self.input().end_pos();
-                    let span = Span::new(end_pos, end_pos);
+                    let span = Span::new_with_checked(end_pos, end_pos);
                     self.emit_error_span(span, SyntaxError::UnterminatedBlockComment);
                     return;
                 }
@@ -407,7 +407,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             let s = &src[..src.len() - 2];
                             let cmt = Comment {
                                 kind: CommentKind::Block,
-                                span: Span::new(start, end),
+                                span: Span::new_with_checked(start, end),
                                 text: self.atom(s),
                             };
 
@@ -807,7 +807,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     .checked_mul(radix as u32)
                     .and_then(|v| v.checked_add(val))
                     .ok_or_else(|| {
-                        let span = Span::new(start, start);
+                        let span = Span::new_with_checked(start, start);
                         crate::error::Error::new(span, SyntaxError::InvalidUnicodeEscape)
                     })?;
 
@@ -2144,9 +2144,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 }
 
 pub fn pos_span(p: BytePos) -> Span {
-    Span::new(p, p)
+    Span::new_with_checked(p, p)
 }
 
 pub fn fixed_len_span(p: BytePos, len: u32) -> Span {
-    Span::new(p, p + BytePos(len))
+    Span::new_with_checked(p, p + BytePos(len))
 }

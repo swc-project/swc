@@ -83,7 +83,7 @@ impl<I: Tokens> Parser<I> {
             };
 
             let arg = self.parse_unary_expr()?;
-            let span = Span::new(start, arg.span_hi());
+            let span = Span::new_with_checked(start, arg.span_hi());
             self.check_assign_target(&arg, false);
 
             return Ok(UpdateExpr {
@@ -125,7 +125,7 @@ impl<I: Tokens> Parser<I> {
                 Err(err) => {
                     self.emit_error(err);
                     Invalid {
-                        span: Span::new(arg_start, arg_start),
+                        span: Span::new_with_checked(arg_start, arg_start),
                     }
                     .into()
                 }
@@ -138,7 +138,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             return Ok(UnaryExpr {
-                span: Span::new(start, arg.span_hi()),
+                span: Span::new_with_checked(start, arg.span_hi()),
                 op,
                 arg,
             }

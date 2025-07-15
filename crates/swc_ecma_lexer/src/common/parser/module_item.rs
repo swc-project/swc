@@ -138,8 +138,9 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
                                 p.emit_err(orig_ident.span, SyntaxError::TS2207);
                             }
 
+                            debug_assert!(start <= orig_ident.span.hi());
                             return Ok(ExportNamedSpecifier {
-                                span: Span::new(start, orig_ident.span.hi()),
+                                span: Span::new_with_checked(start, orig_ident.span.hi()),
                                 orig: ModuleExportName::Ident(possibly_orig),
                                 exported: Some(ModuleExportName::Ident(exported)),
                                 is_type_only: true,
@@ -147,7 +148,7 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
                         } else {
                             // `export { type as as }`
                             return Ok(ExportNamedSpecifier {
-                                span: Span::new(start, orig_ident.span.hi()),
+                                span: Span::new_with_checked(start, orig_ident.span.hi()),
                                 orig: ModuleExportName::Ident(orig_ident),
                                 exported: Some(ModuleExportName::Ident(maybe_as)),
                                 is_type_only: false,
@@ -156,7 +157,7 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
                     } else {
                         // `export { type as xxx }`
                         return Ok(ExportNamedSpecifier {
-                            span: Span::new(start, orig_ident.span.hi()),
+                            span: Span::new_with_checked(start, orig_ident.span.hi()),
                             orig: ModuleExportName::Ident(orig_ident),
                             exported: Some(ModuleExportName::Ident(maybe_as)),
                             is_type_only: false,
@@ -261,7 +262,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
                             }
 
                             return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                                span: Span::new(start, orig_name.span.hi()),
+                                span: Span::new_with_checked(start, orig_name.span.hi()),
                                 local,
                                 imported: Some(ModuleExportName::Ident(possibly_orig_name)),
                                 is_type_only: true,
@@ -269,7 +270,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
                         } else {
                             // `import { type as as } from 'mod'`
                             return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                                span: Span::new(start, maybe_as.span.hi()),
+                                span: Span::new_with_checked(start, maybe_as.span.hi()),
                                 local: maybe_as,
                                 imported: Some(ModuleExportName::Ident(orig_name)),
                                 is_type_only: false,
@@ -278,7 +279,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
                     } else {
                         // `import { type as xxx } from 'mod'`
                         return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                            span: Span::new(start, orig_name.span.hi()),
+                            span: Span::new_with_checked(start, orig_name.span.hi()),
                             local: maybe_as,
                             imported: Some(ModuleExportName::Ident(orig_name)),
                             is_type_only: false,
@@ -299,7 +300,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
             if p.input_mut().eat(&P::Token::AS) {
                 let local: Ident = parse_binding_ident(p, false)?.into();
                 return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                    span: Span::new(start, local.span.hi()),
+                    span: Span::new_with_checked(start, local.span.hi()),
                     local,
                     imported: Some(ModuleExportName::Ident(orig_name)),
                     is_type_only,
@@ -326,7 +327,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
             if p.input_mut().eat(&P::Token::AS) {
                 let local: Ident = parse_binding_ident(p, false)?.into();
                 Ok(ImportSpecifier::Named(ImportNamedSpecifier {
-                    span: Span::new(start, local.span.hi()),
+                    span: Span::new_with_checked(start, local.span.hi()),
                     local,
                     imported: Some(ModuleExportName::Str(orig_str)),
                     is_type_only: false,
