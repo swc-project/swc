@@ -18,7 +18,7 @@ impl Optimizer<'_> {
     ///     console.log(a);
     /// }
     /// ```
-    pub(super) fn optimize_rest_params(&mut self, f: &mut Function) {
+    pub(super) fn drop_unused_rest_params(&mut self, f: &mut Function) {
         if !self.options.arguments {
             return;
         }
