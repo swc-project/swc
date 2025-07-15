@@ -1456,11 +1456,14 @@ impl Optimizer<'_> {
 
             // If we can optimize, perform the mutation
             if can_optimize {
-                if let Expr::Call(call) = &mut *seq.exprs[i] {
+                // Extract a fresh mutable reference to avoid borrowing conflicts
+                // This block ensures all previous borrows are dropped before we create new ones
+                let expr = &mut seq.exprs[i];
+                if let Expr::Call(call) = &mut **expr {
                     if let Callee::Expr(callee) = &mut call.callee {
                         if let Expr::Arrow(arrow) = &mut **callee {
                             if let BlockStmtOrExpr::Expr(_body) = &mut *arrow.body {
-                                self.optimize_single_arrow_iife_in_seq(&mut seq.exprs[i], arrow, call, &mut changed);
+                                self.optimize_single_arrow_iife_in_seq(expr, arrow, call, &mut changed);
                             }
                         }
                     }
