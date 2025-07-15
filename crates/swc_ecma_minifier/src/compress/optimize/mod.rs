@@ -47,6 +47,7 @@ mod inline;
 mod loops;
 mod ops;
 mod props;
+mod rest_params;
 mod sequences;
 mod strings;
 mod unused;
@@ -2135,6 +2136,11 @@ impl VisitMut for Optimizer<'_> {
         {
             self.with_ctx(self.ctx.clone())
                 .optimize_usage_of_arguments(n);
+        }
+
+        {
+            self.with_ctx(self.ctx.clone())
+                .optimize_rest_params(n);
         }
 
         self.ctx.bit_ctx.set(BitCtx::InAsm, old_in_asm);
