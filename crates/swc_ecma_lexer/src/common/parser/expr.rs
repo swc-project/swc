@@ -2038,9 +2038,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                 _ => false,
             }
         } {
-            let params: Vec<Pat> = parse_paren_items_as_params(p, items.clone(), None)?
-                .into_iter()
-                .collect();
+            let params: Vec<Pat> = parse_paren_items_as_params(p, items.clone(), None)?;
 
             let body: Box<BlockStmtOrExpr> = parse_fn_block_or_expr_body(
                 p,
@@ -2120,9 +2118,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
             expect!(p, &P::Token::ARROW);
 
             let params: Vec<Pat> =
-                parse_paren_items_as_params(p, items_ref.clone(), trailing_comma)?
-                    .into_iter()
-                    .collect();
+                parse_paren_items_as_params(p, items_ref.clone(), trailing_comma)?;
 
             let body: Box<BlockStmtOrExpr> = parse_fn_block_or_expr_body(
                 p,
@@ -2182,9 +2178,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
         }
         expect!(p, &P::Token::ARROW);
 
-        let params: Vec<Pat> = parse_paren_items_as_params(p, paren_items, trailing_comma)?
-            .into_iter()
-            .collect();
+        let params: Vec<Pat> = parse_paren_items_as_params(p, paren_items, trailing_comma)?;
 
         let body: Box<BlockStmtOrExpr> = parse_fn_block_or_expr_body(
             p,
