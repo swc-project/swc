@@ -76,8 +76,23 @@ impl MacroNode for Str {
                     _ => true,
                 };
 
-                // Check if the string contains surrogate pairs that need special handling
-                let contains_surrogate_pairs = false;
+                // Check if the raw string contains surrogate pair escape sequences
+                let contains_surrogate_pairs = raw.contains("\\uD8") || raw.contains("\\uD9") || 
+                                             raw.contains("\\uDA") || raw.contains("\\uDB") || 
+                                             raw.contains("\\uDC") || raw.contains("\\uDD") || 
+                                             raw.contains("\\uDE") || raw.contains("\\uDF") ||
+                                             raw.contains("\\ud8") || raw.contains("\\ud9") || 
+                                             raw.contains("\\uda") || raw.contains("\\udb") || 
+                                             raw.contains("\\udc") || raw.contains("\\udd") || 
+                                             raw.contains("\\ude") || raw.contains("\\udf") ||
+                                             raw.contains("\\u{D8") || raw.contains("\\u{D9") || 
+                                             raw.contains("\\u{DA") || raw.contains("\\u{DB") || 
+                                             raw.contains("\\u{DC") || raw.contains("\\u{DD") || 
+                                             raw.contains("\\u{DE") || raw.contains("\\u{DF") ||
+                                             raw.contains("\\u{d8") || raw.contains("\\u{d9") || 
+                                             raw.contains("\\u{da") || raw.contains("\\u{db") || 
+                                             raw.contains("\\u{dc") || raw.contains("\\u{dd") || 
+                                             raw.contains("\\u{de") || raw.contains("\\u{df");
 
                 if es5_safe
                     && (!emitter.cfg.ascii_only || raw.is_ascii())
