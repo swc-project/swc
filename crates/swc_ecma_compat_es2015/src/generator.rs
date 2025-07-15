@@ -2642,7 +2642,7 @@ impl Generator {
                         .push(expr);
                 }
                 return Invalid {
-                    span: Span::new(BytePos(label.0 as _), BytePos(label.0 as _)),
+                    span: Span::new_with_checked(BytePos(label.0 as _), BytePos(label.0 as _)),
                 }
                 .into();
             }

@@ -66,7 +66,7 @@ impl<I: Tokens> Parser<I> {
             self.input_mut().scan_jsx_identifier();
             let name: IdentName = self.parse_jsx_ident()?.into();
             JSXAttrName::JSXNamespacedName(JSXNamespacedName {
-                span: Span::new(start, name.span.hi),
+                span: Span::new_with_checked(start, name.span.hi),
                 ns,
                 name,
             })
@@ -132,9 +132,9 @@ impl<I: Tokens> Parser<I> {
         }
 
         let span = if in_expr_context {
-            Span::new(start, self.last_pos())
+            Span::new_with_checked(start, self.last_pos())
         } else {
-            Span::new(start, self.cur_pos())
+            Span::new_with_checked(start, self.cur_pos())
         };
         Ok(JSXClosingElement {
             span,
@@ -157,7 +157,7 @@ impl<I: Tokens> Parser<I> {
         } else {
             self.input_mut().scan_jsx_token(true);
         }
-        let span = Span::new(start, self.cur_pos());
+        let span = Span::new_with_checked(start, self.cur_pos());
         Ok(JSXClosingFragment { span })
     }
 
@@ -222,7 +222,7 @@ impl<I: Tokens> Parser<I> {
             self.input_mut().scan_jsx_identifier();
             let name = self.parse_jsx_ident()?;
             Ok(JSXAttrName::JSXNamespacedName(JSXNamespacedName {
-                span: Span::new(start, name.span.hi),
+                span: Span::new_with_checked(start, name.span.hi),
                 ns: attr_name.into(),
                 name: name.into(),
             }))
@@ -332,7 +332,7 @@ impl<I: Tokens> Parser<I> {
                 // <>xxxxxx</>
                 p.input_mut().scan_jsx_token(true);
                 let opening = JSXOpeningFragment {
-                    span: Span::new(
+                    span: Span::new_with_checked(
                         start,
                         p.input.get_cur().map(|cur| cur.span.lo).unwrap_or(start),
                     ),
@@ -340,9 +340,9 @@ impl<I: Tokens> Parser<I> {
                 let children = p.parse_jsx_children();
                 let closing = p.parse_jsx_closing_fragment(in_expr_context)?;
                 let span = if in_expr_context {
-                    Span::new(start, p.last_pos())
+                    Span::new_with_checked(start, p.last_pos())
                 } else {
-                    Span::new(start, p.cur_pos())
+                    Span::new_with_checked(start, p.cur_pos())
                 };
                 Ok(either::Either::Left(JSXFragment {
                     span,
@@ -363,7 +363,7 @@ impl<I: Tokens> Parser<I> {
                 if p.input_mut().cur().is_some_and(|cur| cur == &Token::Gt) {
                     // <xxxxx>xxxxx</xxxxx>
                     p.input_mut().scan_jsx_token(true);
-                    let span = Span::new(
+                    let span = Span::new_with_checked(
                         start,
                         p.input.get_cur().map(|cur| cur.span.lo).unwrap_or(start),
                     );
@@ -377,9 +377,9 @@ impl<I: Tokens> Parser<I> {
                     let children = p.parse_jsx_children();
                     let closing = p.parse_jsx_closing_element(in_expr_context, &opening.name)?;
                     let span = if in_expr_context {
-                        Span::new(start, p.last_pos())
+                        Span::new_with_checked(start, p.last_pos())
                     } else {
-                        Span::new(start, p.cur_pos())
+                        Span::new_with_checked(start, p.cur_pos())
                     };
                     Ok(either::Either::Right(JSXElement {
                         span,
@@ -403,9 +403,9 @@ impl<I: Tokens> Parser<I> {
                         p.input_mut().scan_jsx_token(true);
                     }
                     let span = if in_expr_context {
-                        Span::new(start, p.last_pos())
+                        p.span(start)
                     } else {
-                        Span::new(start, p.cur_pos())
+                        Span::new_with_checked(start, p.cur_pos())
                     };
                     Ok(either::Either::Right(JSXElement {
                         span,
