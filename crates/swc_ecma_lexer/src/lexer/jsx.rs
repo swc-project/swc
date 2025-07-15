@@ -22,7 +22,7 @@ impl Lexer<'_> {
 
             match cur {
                 '<' if self.had_line_break_before_last() && self.is_str("<<<<<< ") => {
-                    let span = Span::new(cur_pos, cur_pos + BytePos(7));
+                    let span = Span::new_with_checked(cur_pos, cur_pos + BytePos(7));
 
                     self.emit_error_span(span, SyntaxError::TS1185);
                     self.skip_line_comment(6);

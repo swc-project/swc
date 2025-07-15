@@ -408,7 +408,7 @@ fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>
                         ref mut type_params,
                         ..
                     }) => {
-                        *span = Span::new(type_parameters.span.lo, span.hi);
+                        *span = Span::new_with_checked(type_parameters.span.lo, span.hi);
                         *type_params = Some(type_parameters);
                     }
                     _ => unexpected!(p, "("),
@@ -547,7 +547,7 @@ fn parse_cond_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
             p.do_outside_of_context(Context::WillExpectColonForCond, parse_assignment_expr)
         })?;
 
-        let span = Span::new(start, alt.span_hi());
+        let span = Span::new_with_checked(start, alt.span_hi());
         Ok(CondExpr {
             span,
             test,
@@ -772,10 +772,10 @@ fn parse_subscript<'a, P: Parser<'a>>(
         let bracket_lo = p.input().prev_span().lo;
         let prop = p.allow_in_expr(|p| p.parse_expr())?;
         expect!(p, &P::Token::RBRACKET);
-        let span = Span::new(obj.span_lo(), p.input().last_pos());
+        let span = Span::new_with_checked(obj.span_lo(), p.input().last_pos());
         debug_assert_eq!(obj.span_lo(), span.lo());
         let prop = ComputedPropName {
-            span: Span::new(bracket_lo, p.input().last_pos()),
+            span: Span::new_with_checked(bracket_lo, p.input().last_pos()),
             expr: prop,
         };
 
@@ -1474,7 +1474,7 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
     }
 
     let node = BinExpr {
-        span: Span::new(left.span_lo(), right.span_hi()),
+        span: Span::new_with_checked(left.span_lo(), right.span_hi()),
         op,
         left,
         right,
@@ -1521,7 +1521,7 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
         };
 
         let arg = p.parse_unary_expr()?;
-        let span = Span::new(start, arg.span_hi());
+        let span = Span::new_with_checked(start, arg.span_hi());
         p.check_assign_target(&arg, false);
 
         return Ok(UpdateExpr {
@@ -1563,7 +1563,7 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
             Err(err) => {
                 p.emit_error(err);
                 Invalid {
-                    span: Span::new(arg_start, arg_start),
+                    span: Span::new_with_checked(arg_start, arg_start),
                 }
                 .into()
             }
@@ -1576,7 +1576,7 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
         }
 
         return Ok(UnaryExpr {
-            span: Span::new(start, arg.span_hi()),
+            span: Span::new_with_checked(start, arg.span_hi()),
             op,
             arg,
         }
@@ -1923,7 +1923,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                     arg = ExprOrSpread {
                         spread: None,
                         expr: CondExpr {
-                            span: Span::new(start, alt.span_hi()),
+                            span: Span::new_with_checked(start, alt.span_hi()),
                             test,
                             cons,
                             alt,
@@ -1988,7 +1988,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                 }) => {
                     let new_type_ann = try_parse_ts_type_ann(p)?;
                     if new_type_ann.is_some() {
-                        *span = Span::new(pat_start, p.input().prev_span().hi);
+                        *span = Span::new_with_checked(pat_start, p.input().prev_span().hi);
                     }
                     *type_ann = new_type_ann;
                 }
@@ -2263,7 +2263,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
     if expr_or_spreads.is_empty() {
         syntax_error!(
             p,
-            Span::new(expr_start, p.last_pos()),
+            Span::new_with_checked(expr_start, p.last_pos()),
             SyntaxError::EmptyParenExpr
         );
     }
@@ -2301,7 +2301,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
 
         // span of sequence expression should not include '(', ')'
         let seq_expr = SeqExpr {
-            span: Span::new(
+            span: Span::new_with_checked(
                 exprs.first().unwrap().span_lo(),
                 exprs.last().unwrap().span_hi(),
             ),
