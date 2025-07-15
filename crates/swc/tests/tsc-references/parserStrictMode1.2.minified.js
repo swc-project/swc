@@ -1,5 +1,5 @@
 //// [parserStrictMode1.ts]
-//!   x `static` cannot be used as an identifier in strict mode
+//!   x Expression expected
 //!    ,-[4:1]
 //!  1 | foo1();
 //!  2 | foo1();

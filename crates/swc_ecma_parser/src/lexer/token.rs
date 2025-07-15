@@ -904,7 +904,7 @@ impl std::fmt::Debug for Token {
 impl Token {
     pub(crate) fn is_reserved(&self, ctx: Context) -> bool {
         match self {
-            Token::Let => ctx.contains(Context::Strict),
+            Token::Let | Token::Static => ctx.contains(Context::Strict),
             Token::Await => {
                 ctx.contains(Context::InAsync)
                     || ctx.contains(Context::InStaticBlock)
