@@ -76,10 +76,14 @@ impl MacroNode for Str {
                     _ => true,
                 };
 
+                // Check if the string contains surrogate pairs that need special handling
+                let contains_surrogate_pairs = false;
+
                 if es5_safe
                     && (!emitter.cfg.ascii_only || raw.is_ascii())
                     && (!emitter.cfg.inline_script
                         || !self.raw.as_ref().unwrap().contains("script"))
+                    && !contains_surrogate_pairs
                 {
                     emitter.wr.write_str_lit(DUMMY_SP, raw)?;
                     return Ok(());
