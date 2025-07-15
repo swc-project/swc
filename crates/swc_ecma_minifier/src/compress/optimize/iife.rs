@@ -1068,7 +1068,11 @@ impl Optimizer<'_> {
                         }
                     }
 
-                    self.prepend_stmts.push(stmt);
+                    // Only add to prepend_stmts if it's a var declaration (which can be declared without initializers)
+                    // For const/let declarations, we don't add them if all initializers have been extracted
+                    if var.kind == VarDeclKind::Var {
+                        self.prepend_stmts.push(stmt);
+                    }
                 }
 
                 Stmt::Expr(stmt) => {
