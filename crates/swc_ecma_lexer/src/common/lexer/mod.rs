@@ -642,20 +642,20 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     /// Reads an integer, octal integer, or floating-point number
-    fn read_number(
+    fn read_number<const START_WITH_DOT: bool, const START_WITH_ZERO: bool>(
         &mut self,
-        starts_with_dot: bool,
     ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
+        debug_assert!(!(START_WITH_DOT && START_WITH_ZERO));
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
         let mut has_underscore = false;
 
-        let lazy_integer = if starts_with_dot {
+        let lazy_integer = if START_WITH_DOT {
             // first char is '.'
             debug_assert!(
                 self.cur().is_some_and(|c| c == '.'),
-                "read_number(starts_with_dot = true) expects current char to be '.'"
+                "read_number<START_WITH_DOT = true> expects current char to be '.'"
             );
             LazyInteger {
                 start,
@@ -664,7 +664,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 has_underscore: false,
             }
         } else {
-            let starts_with_zero = self.cur().unwrap() == '0';
+            debug_assert!(!START_WITH_DOT);
+            debug_assert!(!START_WITH_ZERO || self.cur().unwrap() == '0');
 
             // Use read_number_no_dot to support long numbers.
             let lazy_integer = self.read_number_no_dot_as_str::<10>()?;
@@ -683,7 +684,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 return Ok(Either::Right((Box::new(bigint_value), self.atom(raw))));
             }
 
-            if starts_with_zero {
+            if START_WITH_ZERO {
                 // TODO: I guess it would be okay if I don't use -ffast-math
                 // (or something like that), but needs review.
                 if s.as_bytes().iter().all(|&c| c == b'0') {
@@ -736,8 +737,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         if has_dot {
             self.bump();
 
-            // equal: if starts_with_dot { debug_assert!(xxxx) }
-            debug_assert!(!starts_with_dot || self.cur().is_some_and(|cur| cur.is_ascii_digit()));
+            // equal: if START_WITH_DOT { debug_assert!(xxxx) }
+            debug_assert!(!START_WITH_DOT || self.cur().is_some_and(|cur| cur.is_ascii_digit()));
 
             // Read numbers after dot
             self.read_digits::<_, (), 10>(|_, _, _| Ok(((), true)), true, &mut has_underscore)?;
@@ -1788,9 +1789,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             }
         };
         if next.is_ascii_digit() {
-            return self.read_number(true).map(|v| match v {
+            return self.read_number::<true, false>().map(|v| match v {
                 Left((value, raw)) => Self::Token::num(value, raw, self),
-                Right((value, raw)) => Self::Token::bigint(value, raw, self),
+                Right(_) => unreachable!("read_number should not return bigint for leading dot"),
             });
         }
 
@@ -1847,7 +1848,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             Some('o') | Some('O') => self.read_radix_number::<8>(),
             Some('b') | Some('B') => self.read_radix_number::<2>(),
             _ => {
-                return self.read_number(false).map(|v| match v {
+                return self.read_number::<false, true>().map(|v| match v {
                     Left((value, raw)) => Self::Token::num(value, raw, self),
                     Right((value, raw)) => Self::Token::bigint(value, raw, self),
                 });
