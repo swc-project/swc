@@ -1410,9 +1410,9 @@ impl Visit for DeclVisitor {
 
 /// Enhanced IIFE invocation for sequence expressions
 impl Optimizer<'_> {
-    /// Specifically handles IIFE invocation for arrow functions within sequence expressions.
-    /// This addresses the issue where arrow function IIFEs in sequences aren't optimized
-    /// as aggressively as standalone IIFEs.
+    /// Specifically handles IIFE invocation for arrow functions within sequence
+    /// expressions. This addresses the issue where arrow function IIFEs in
+    /// sequences aren't optimized as aggressively as standalone IIFEs.
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
     pub(super) fn invoke_iife_in_seq_expr(&mut self, seq: &mut SeqExpr) {
         trace_op!("iife: invoke_iife_in_seq_expr");
@@ -1428,7 +1428,8 @@ impl Optimizer<'_> {
         self.optimize_arrow_iife_patterns_in_seq(seq);
     }
 
-    /// Optimizes specific patterns of arrow function IIFEs in sequence expressions
+    /// Optimizes specific patterns of arrow function IIFEs in sequence
+    /// expressions
     fn optimize_arrow_iife_patterns_in_seq(&mut self, seq: &mut SeqExpr) {
         let mut changed = false;
 
@@ -1460,10 +1461,15 @@ impl Optimizer<'_> {
                 // This block ensures all previous borrows are dropped before we create new ones
                 let expr = &mut seq.exprs[i];
                 if let Expr::Call(call) = &mut **expr {
-                    if let Callee::Expr(callee) = &mut call.callee {
-                        if let Expr::Arrow(arrow) = &mut **callee {
-                            if let BlockStmtOrExpr::Expr(_body) = &mut *arrow.body {
-                                self.optimize_single_arrow_iife_in_seq(expr, arrow, call, &mut changed);
+                    if let Callee::Expr(callee) = &call.callee {
+                        if let Expr::Arrow(arrow) = &**callee {
+                            if let BlockStmtOrExpr::Expr(_body) = &*arrow.body {
+                                let new_expr = self.optimize_single_arrow_iife_in_seq(arrow, call);
+
+                                if let Some(new_expr) = new_expr {
+                                    **expr = new_expr;
+                                    changed = true;
+                                }
                             }
                         }
                     }
@@ -1473,7 +1479,9 @@ impl Optimizer<'_> {
 
         if changed {
             self.changed = true;
-            report_change!("iife: Enhanced optimization of arrow functions in sequence expressions");
+            report_change!(
+                "iife: Enhanced optimization of arrow functions in sequence expressions"
+            );
         }
     }
 
@@ -1521,18 +1529,14 @@ impl Optimizer<'_> {
     /// Optimizes a single arrow IIFE in a sequence expression
     fn optimize_single_arrow_iife_in_seq(
         &mut self,
-        target_expr: &mut Box<Expr>,
-        arrow: &mut ArrowExpr,
-        call: &mut CallExpr,
-        changed: &mut bool,
-    ) {
-        if let BlockStmtOrExpr::Expr(body) = &mut *arrow.body {
+        arrow: &ArrowExpr,
+        call: &CallExpr,
+    ) -> Option<Expr> {
+        if let BlockStmtOrExpr::Expr(body) = &*arrow.body {
             // For simple arrow functions with no parameters in sequences,
             // we can directly replace the IIFE with its body
             if arrow.params.is_empty() && call.args.is_empty() {
-                **target_expr = (**body).clone();
-                *changed = true;
-                return;
+                return Some((**body).clone());
             }
 
             // For arrow functions with simple parameters, inline them
@@ -1557,10 +1561,11 @@ impl Optimizer<'_> {
                         new_body.visit_mut_with(&mut replacer);
                     }
 
-                    **target_expr = new_body;
-                    *changed = true;
+                    return Some(new_body);
                 }
             }
         }
+
+        None
     }
 }
