@@ -1,0 +1,6 @@
+{
+  "unused": true,
+  "negate_iife": true,
+  "collapse_vars": true,
+  "evaluate": true
+}
