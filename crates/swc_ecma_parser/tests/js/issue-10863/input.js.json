@@ -1,0 +1,92 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 28
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 4
+      },
+      "expression": {
+        "type": "BigIntLiteral",
+        "span": {
+          "start": 1,
+          "end": 3
+        },
+        "value": [
+          0,
+          []
+        ],
+        "raw": "0n"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 5,
+        "end": 12
+      },
+      "expression": {
+        "type": "BigIntLiteral",
+        "span": {
+          "start": 5,
+          "end": 11
+        },
+        "value": [
+          1,
+          [
+            291
+          ]
+        ],
+        "raw": "0x123n"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 13,
+        "end": 20
+      },
+      "expression": {
+        "type": "BigIntLiteral",
+        "span": {
+          "start": 13,
+          "end": 19
+        },
+        "value": [
+          1,
+          [
+            83
+          ]
+        ],
+        "raw": "0o123n"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 21,
+        "end": 28
+      },
+      "expression": {
+        "type": "BigIntLiteral",
+        "span": {
+          "start": 21,
+          "end": 27
+        },
+        "value": [
+          1,
+          [
+            5
+          ]
+        ],
+        "raw": "0b101n"
+      }
+    }
+  ],
+  "interpreter": null
+}
