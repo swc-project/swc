@@ -19,7 +19,7 @@ impl Optimizer<'_> {
     /// }
     /// ```
     pub(super) fn drop_unused_rest_params(&mut self, f: &mut Function) {
-        if !self.options.arguments {
+        if !self.options.arguments && !self.options.unused {
             return;
         }
 
