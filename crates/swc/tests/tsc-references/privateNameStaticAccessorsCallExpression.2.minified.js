@@ -23,7 +23,7 @@ var _fieldFunc = {
     set: void 0
 }, _fieldFunc2 = {
     get: function() {
-        return function(a, ...b) {};
+        return function(a) {};
     },
     set: void 0
 }, _x = {

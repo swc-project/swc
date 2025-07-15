@@ -32,7 +32,7 @@ Object.defineProperty(F.prototype, "x", {
 export class G {
 }
 Object.defineProperty(G.prototype, "x", {
-    set (...args) {}
+    set () {}
 });
 export class H {
 }
