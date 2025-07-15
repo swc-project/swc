@@ -1407,3 +1407,138 @@ impl Visit for DeclVisitor {
         }
     }
 }
+
+/// Enhanced IIFE invocation for sequence expressions
+impl Optimizer<'_> {
+    /// Specifically handles IIFE invocation for arrow functions within sequence expressions.
+    /// This addresses the issue where arrow function IIFEs in sequences aren't optimized
+    /// as aggressively as standalone IIFEs.
+    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    pub(super) fn invoke_iife_in_seq_expr(&mut self, seq: &mut SeqExpr) {
+        trace_op!("iife: invoke_iife_in_seq_expr");
+
+        // Process each expression in the sequence to look for IIFE opportunities
+        for expr in &mut seq.exprs {
+            // Apply IIFE optimization to each expression in the sequence
+            self.invoke_iife(expr);
+        }
+
+        // Additional optimization: look for specific patterns in sequences
+        // where arrow function IIFEs can be further optimized
+        self.optimize_arrow_iife_patterns_in_seq(seq);
+    }
+
+    /// Optimizes specific patterns of arrow function IIFEs in sequence expressions
+    fn optimize_arrow_iife_patterns_in_seq(&mut self, seq: &mut SeqExpr) {
+        let mut changed = false;
+
+        for i in 0..seq.exprs.len() {
+            if let Expr::Call(call) = &mut *seq.exprs[i] {
+                // Check if this is an arrow function IIFE that can be optimized
+                if let Callee::Expr(callee) = &mut call.callee {
+                    if let Expr::Arrow(arrow) = &mut **callee {
+                        // For expression-style arrow functions in sequences,
+                        // we can be more aggressive with optimization
+                        if let BlockStmtOrExpr::Expr(body) = &mut *arrow.body {
+                            if self.can_optimize_arrow_iife_in_seq(arrow, call) {
+                                self.optimize_single_arrow_iife_in_seq(&mut seq.exprs[i], arrow, call, &mut changed);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        if changed {
+            self.changed = true;
+            report_change!("iife: Enhanced optimization of arrow functions in sequence expressions");
+        }
+    }
+
+    /// Checks if an arrow function IIFE in a sequence can be optimized
+    fn can_optimize_arrow_iife_in_seq(&self, arrow: &ArrowExpr, call: &CallExpr) -> bool {
+        // Only optimize simple arrow functions with expression bodies
+        if arrow.is_async || arrow.is_generator {
+            return false;
+        }
+
+        // Check if parameters are simple identifiers
+        if !arrow.params.iter().all(|p| p.is_ident()) {
+            return false;
+        }
+
+        // Ensure no spread arguments
+        if call.args.iter().any(|arg| arg.spread.is_some()) {
+            return false;
+        }
+
+        // Check if the arrow function body is simple enough for sequence optimization
+        if let BlockStmtOrExpr::Expr(body) = &*arrow.body {
+            self.is_simple_expr_for_seq_optimization(body)
+        } else {
+            false
+        }
+    }
+
+    /// Checks if an expression is simple enough to be optimized in a sequence
+    fn is_simple_expr_for_seq_optimization(&self, expr: &Expr) -> bool {
+        match expr {
+            Expr::Lit(..) | Expr::Ident(..) => true,
+            Expr::Bin(bin) if !bin.op.may_short_circuit() => {
+                self.is_simple_expr_for_seq_optimization(&bin.left)
+                    && self.is_simple_expr_for_seq_optimization(&bin.right)
+            }
+            Expr::Unary(unary) => self.is_simple_expr_for_seq_optimization(&unary.arg),
+            Expr::Member(member) if !member.prop.is_computed() => {
+                self.is_simple_expr_for_seq_optimization(&member.obj)
+            }
+            _ => false,
+        }
+    }
+
+    /// Optimizes a single arrow IIFE in a sequence expression
+    fn optimize_single_arrow_iife_in_seq(
+        &mut self,
+        target_expr: &mut Box<Expr>,
+        arrow: &mut ArrowExpr,
+        call: &mut CallExpr,
+        changed: &mut bool,
+    ) {
+        if let BlockStmtOrExpr::Expr(body) = &mut *arrow.body {
+            // For simple arrow functions with no parameters in sequences,
+            // we can directly replace the IIFE with its body
+            if arrow.params.is_empty() && call.args.is_empty() {
+                **target_expr = (**body).clone();
+                *changed = true;
+                return;
+            }
+
+            // For arrow functions with simple parameters, inline them
+            if arrow.params.len() == call.args.len() {
+                let can_inline = arrow.params.iter().zip(&call.args).all(|(param, arg)| {
+                    param.is_ident() && self.is_simple_expr_for_seq_optimization(&arg.expr)
+                });
+
+                if can_inline {
+                    // Create a simple substitution for the parameters
+                    let mut substitutions = FxHashMap::default();
+                    for (param, arg) in arrow.params.iter().zip(&call.args) {
+                        if let Pat::Ident(ident) = param {
+                            substitutions.insert(ident.to_id(), arg.expr.clone());
+                        }
+                    }
+
+                    // Apply substitutions to the body
+                    let mut new_body = (**body).clone();
+                    if !substitutions.is_empty() {
+                        let mut replacer = NormalMultiReplacer::new(&mut substitutions);
+                        new_body.visit_mut_with(&mut replacer);
+                    }
+
+                    **target_expr = new_body;
+                    *changed = true;
+                }
+            }
+        }
+    }
+}
