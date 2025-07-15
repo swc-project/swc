@@ -2446,12 +2446,6 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
         .into())
     } else if p.is_ident_ref() {
         let cur = p.bump();
-        if cur.is_static() {
-            p.emit_strict_mode_err(
-                p.input().prev_span(),
-                SyntaxError::InvalidIdentInStrict(cur.clone().take_word(p.input()).unwrap()),
-            );
-        }
         let Some(word) = cur.take_word(p.input_mut()) else {
             unreachable!()
         };
