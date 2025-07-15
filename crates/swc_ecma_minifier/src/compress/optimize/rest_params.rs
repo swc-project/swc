@@ -40,7 +40,7 @@ impl Optimizer<'_> {
         };
 
         // Get the identifier of the rest parameter
-        let rest_id = match &rest_pat.arg {
+        let rest_id = match &*rest_pat.arg {
             Pat::Ident(BindingIdent { id, .. }) => id.to_id(),
             _ => return,
         };
