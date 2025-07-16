@@ -1334,15 +1334,6 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
         }
     }
 
-    if let Expr::Ident(Ident { ref sym, span, .. }) = *expr {
-        match &**sym {
-            "enum" | "interface" => {
-                p.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(sym.clone()));
-            }
-            _ => {}
-        }
-    }
-
     if p.syntax().typescript() {
         if let Expr::Ident(ref i) = *expr {
             match &*i.sym {
