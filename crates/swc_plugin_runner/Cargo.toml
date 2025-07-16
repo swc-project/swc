@@ -13,7 +13,7 @@ bench   = false
 doctest = false
 
 [features]
-default = ["filesystem_cache", "plugin_transform_host_native"]
+default = ["filesystem_cache", "plugin_transform_host_native", "rkyv-impl"]
 plugin_transform_host_js = [
   "wasmer/js-default",
   "wasmer-wasix/js-default",

@@ -6,6 +6,7 @@ use swc_common::{plugin::metadata::TransformPluginMetadataContext, SourceMap};
 use transform_executor::TransformExecutor;
 
 pub mod cache;
+pub mod runtime;
 mod host_environment;
 #[cfg(feature = "__rkyv")]
 mod imported_fn;
