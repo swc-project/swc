@@ -1686,7 +1686,7 @@ pub(super) fn parse_for_head_prefix<'a>(p: &mut impl Parser<'a>) -> PResult<Box<
 pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PResult<Box<Expr>> {
     trace_cur!(p, parse_lhs_expr);
 
-    let start = p.cur_pos();
+    p.input_mut().cur();
 
     // parse jsx
     if PARSE_JSX && p.input().syntax().jsx() {
@@ -1696,10 +1696,10 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
                 Either::Right(r) => r.into(),
             }
         }
-        let Some(cur) = p.input_mut().cur() else {
+        let Some(token_and_span) = p.input().get_cur() else {
             return Err(eof_error(p));
         };
-
+        let cur = token_and_span.token();
         if cur.is_jsx_text() {
             return Ok(Box::new(Expr::Lit(Lit::JSXText(parse_jsx_text(p)))));
         } else if cur.is_jsx_tag_start() {
@@ -1721,13 +1721,21 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
         }
     }
 
+    let Some(token_and_span) = p.input().get_cur() else {
+        return Err(eof_error(p));
+    };
+    let start = token_and_span.span().lo;
+    let cur = token_and_span.token();
+
     // `super()` can't be handled from parse_new_expr()
-    if p.input_mut().eat(&P::Token::SUPER) {
+    if cur.is_super() {
+        p.bump(); // eat `super`
         let obj = Callee::Super(Super {
             span: p.span(start),
         });
         return parse_subscripts(p, obj, false, false);
-    } else if p.input_mut().eat(&P::Token::IMPORT) {
+    } else if cur.is_import() {
+        p.bump(); // eat `import`
         return parse_dynamic_import_or_import_meta(p, start, false);
     }
 
