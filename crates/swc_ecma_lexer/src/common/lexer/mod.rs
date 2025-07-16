@@ -1561,13 +1561,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         // let flags_start = self.cur_pos();
         let flags = {
             match self.cur() {
-                Some(c) if c.is_ident_start() => {
-                    self.read_word_as_str_with(|l, s, _| l.atom(s)).map(Some)
-                }
+                Some(c) if c.is_ident_start() => self
+                    .read_word_as_str_with()
+                    .map(|(s, _)| Some(self.atom(s))),
                 _ => Ok(None),
             }
         }?
-        .map(|(value, _)| value)
         .unwrap_or_default();
 
         Ok(Self::Token::regexp(content, flags, self))
@@ -1576,23 +1575,14 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This method is optimized for texts without escape sequences.
     ///
     /// `convert(text, has_escape, can_be_keyword)`
-    fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
-    where
-        F: FnOnce(&mut Self, &str, bool) -> Ret,
-    {
+    fn read_word_as_str_with(&mut self) -> LexResult<(Cow<'a, str>, bool)> {
         debug_assert!(self.cur().is_some());
-        let mut can_be_keyword = true;
         let slice_start = self.cur_pos();
         let has_escape = false;
 
         // Fast path: try to scan ASCII identifier using byte_search
         if let Some(c) = self.input().cur_as_ascii() {
             if Ident::is_valid_ascii_start(c) {
-                // Performance optimization: check if first char disqualifies as keyword
-                if can_be_keyword && (c.is_ascii_uppercase() || c.is_ascii_digit()) {
-                    can_be_keyword = false;
-                }
-
                 // Advance past first byte
                 self.bump();
 
@@ -1609,27 +1599,17 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             self.input_slice(slice_start, end)
                         };
 
-                        return Ok((convert(self, s, can_be_keyword), false));
+                        return Ok((Cow::Borrowed(s), false));
                     },
                 };
 
                 // Check if we hit end of identifier or need to fall back to slow path
                 if !next_byte.is_ascii() {
                     // Hit Unicode character, fall back to slow path from current position
-                    return self.read_word_as_str_with_slow_path(
-                        convert,
-                        slice_start,
-                        has_escape,
-                        can_be_keyword,
-                    );
+                    return self.read_word_as_str_with_slow_path(slice_start, has_escape);
                 } else if next_byte == b'\\' {
                     // Hit escape sequence, fall back to slow path from current position
-                    return self.read_word_as_str_with_slow_path(
-                        convert,
-                        slice_start,
-                        has_escape,
-                        can_be_keyword,
-                    );
+                    return self.read_word_as_str_with_slow_path(slice_start, has_escape);
                 } else {
                     // Hit end of identifier (non-continue ASCII char)
                     let end = self.cur_pos();
@@ -1639,37 +1619,27 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.input_slice(slice_start, end)
                     };
 
-                    return Ok((convert(self, s, can_be_keyword), has_escape));
+                    return Ok((Cow::Borrowed(s), has_escape));
                 }
             }
         }
 
         // Fall back to slow path for non-ASCII start or complex cases
-        self.read_word_as_str_with_slow_path(convert, slice_start, has_escape, can_be_keyword)
+        self.read_word_as_str_with_slow_path(slice_start, has_escape)
     }
 
     /// Slow path for identifier parsing that handles Unicode and escapes
     #[cold]
-    fn read_word_as_str_with_slow_path<F, Ret>(
+    fn read_word_as_str_with_slow_path(
         &mut self,
-        convert: F,
         mut slice_start: BytePos,
         mut has_escape: bool,
-        mut can_be_keyword: bool,
-    ) -> LexResult<(Ret, bool)>
-    where
-        F: FnOnce(&mut Self, &str, bool) -> Ret,
-    {
+    ) -> LexResult<(Cow<'a, str>, bool)> {
         let mut first = true;
 
         let mut buf = String::with_capacity(16);
         loop {
             if let Some(c) = self.input().cur_as_ascii() {
-                // Performance optimization
-                if can_be_keyword && (c.is_ascii_uppercase() || c.is_ascii_digit()) {
-                    can_be_keyword = false;
-                }
-
                 if Ident::is_valid_ascii_continue(c) {
                     self.bump();
                     continue;
@@ -1750,10 +1720,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         };
         let value = if !has_escape {
             // Fast path: raw slice is enough if there's no escape.
-            convert(self, s, can_be_keyword)
+            Cow::Borrowed(s)
         } else {
             buf.push_str(s);
-            convert(self, &buf, can_be_keyword)
+            Cow::Owned(buf)
         };
 
         Ok((value, has_escape))
@@ -1981,10 +1951,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_ident_unknown(&mut self) -> LexResult<Self::Token> {
         debug_assert!(self.cur().is_some());
 
-        let (word, has_escape) = self.read_word_as_str_with(|l, s, _| {
-            let atom = l.atom(s);
-            Self::Token::unknown_ident(atom, l)
-        })?;
+        let (s, has_escape) = self.read_word_as_str_with()?;
+        let atom = self.atom(s);
+        let word = Self::Token::unknown_ident(atom, self);
+
         if has_escape {
             self.update_token_flags(|flags| *flags |= TokenFlags::UNICODE);
         }
@@ -2118,13 +2088,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
-        let (word, has_escape) = self.read_keyword_as_str_with(|l, s, _| {
-            if let Some(word) = convert(s) {
-                return word;
-            }
-            let atom = l.atom(s);
-            Self::Token::unknown_ident(atom, l)
-        })?;
+        let (s, has_escape) = self.read_keyword_as_str_with()?;
+        let word = if let Some(word) = convert(s.as_ref()) {
+            word
+        } else {
+            let atom = self.atom(s);
+            Self::Token::unknown_ident(atom, self)
+        };
 
         // Note: ctx is store in lexer because of this error.
         // 'await' and 'yield' may have semantic of reserved word, which means lexer
@@ -2141,10 +2111,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// This is a performant version of [Lexer::read_word_as_str_with] for
     /// reading keywords. We should make sure the first byte is a valid
     /// ASCII.
-    fn read_keyword_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
-    where
-        F: FnOnce(&mut Self, &str, bool) -> Ret,
-    {
+    fn read_keyword_as_str_with(&mut self) -> LexResult<(Cow<'a, str>, bool)> {
         let slice_start = self.cur_pos();
         let has_escape = false;
 
@@ -2166,17 +2133,15 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     self.input_slice(slice_start, end)
                 };
 
-                return Ok((convert(self, s, true), false));
+                return Ok((Cow::Borrowed(s), false));
             },
         };
 
         // Check if we hit end of identifier or need to fall back to slow path
-        if !next_byte.is_ascii() {
-            // Hit Unicode character, fall back to slow path from current position
-            self.read_word_as_str_with_slow_path(convert, slice_start, has_escape, true)
-        } else if next_byte == b'\\' {
-            // Hit escape sequence, fall back to slow path from current position
-            self.read_word_as_str_with_slow_path(convert, slice_start, has_escape, true)
+        if !next_byte.is_ascii() || next_byte == b'\\' {
+            // Hit Unicode character or escape sequence, fall back to slow path from current
+            // position
+            self.read_word_as_str_with_slow_path(slice_start, has_escape)
         } else {
             // Hit end of identifier (non-continue ASCII char)
             let end = self.cur_pos();
@@ -2186,7 +2151,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.input_slice(slice_start, end)
             };
 
-            return Ok((convert(self, s, true), has_escape));
+            Ok((Cow::Borrowed(s), has_escape))
         }
     }
 }
