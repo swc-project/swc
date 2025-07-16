@@ -2078,9 +2078,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         }
     }
 
-    fn read_keyword_with(
+    fn read_keyword_with<F: Fn(&str) -> Option<Self::Token>>(
         &mut self,
-        convert: &dyn Fn(&str) -> Option<Self::Token>,
+        convert: F,
     ) -> LexResult<Option<Self::Token>> {
         debug_assert!(self.cur().is_some());
 
