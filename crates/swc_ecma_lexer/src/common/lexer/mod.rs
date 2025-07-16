@@ -2111,20 +2111,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         }
     }
 
-    /// This can be used if there's no keyword starting with the first
-    /// character.
-    fn read_word_with(
+    fn read_keyword_with(
         &mut self,
         convert: &dyn Fn(&str) -> Option<Self::Token>,
     ) -> LexResult<Option<Self::Token>> {
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
-        let (word, has_escape) = self.read_word_as_str_with(|l, s, _, can_be_known| {
-            if can_be_known {
-                if let Some(word) = convert(s) {
-                    return word;
-                }
+        let (word, has_escape) = self.read_keyword_as_str_with(|l, s, _, _| {
+            if let Some(word) = convert(s) {
+                return word;
             }
             let atom = l.atom(s);
             Self::Token::unknown_ident(atom, l)
@@ -2134,12 +2130,63 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         // 'await' and 'yield' may have semantic of reserved word, which means lexer
         // should know context or parser should handle this error. Our approach to this
         // problem is former one.
-
         if has_escape && word.is_reserved(self.ctx()) {
             let word = word.into_atom(self).unwrap();
             self.error(start, SyntaxError::EscapeInReservedWord { word })?
         } else {
             Ok(Some(word))
+        }
+    }
+
+    /// This is a performant version of [Lexer::read_word_as_str_with] for
+    /// reading keywords. We should make sure the first byte is a valid
+    /// ASCII.
+    fn read_keyword_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
+    where
+        F: FnOnce(&mut Self, &str, bool, bool) -> Ret,
+    {
+        let slice_start = self.cur_pos();
+        let has_escape = false;
+
+        // Fast path: try to scan ASCII identifier using byte_search
+        // Performance optimization: check if first char disqualifies as keyword
+        // Advance past first byte
+        self.bump();
+
+        // Use byte_search to quickly scan to end of ASCII identifier
+        let next_byte = byte_search! {
+            lexer: self,
+            table: NOT_ASCII_ID_CONTINUE_TABLE,
+            handle_eof: {
+                // Reached EOF, entire remainder is identifier
+                let end = self.cur_pos();
+                let s = unsafe {
+                    // Safety: slice_start and end are valid position because we got them from
+                    // `self.input`
+                    self.input_slice(slice_start, end)
+                };
+
+                return Ok((convert(self, s, false, true), false));
+            },
+        };
+
+        // Check if we hit end of identifier or need to fall back to slow path
+        if !next_byte.is_ascii() {
+            // Hit Unicode character, fall back to slow path from current position
+            self.read_word_as_str_with_slow_path(convert, slice_start, has_escape, true)
+        } else if next_byte == b'\\' {
+            // Hit escape sequence, fall back to slow path from current position
+            self.read_word_as_str_with_slow_path(convert, slice_start, has_escape, true)
+        } else {
+            // Hit end of identifier (non-continue ASCII char)
+            let end = self.cur_pos();
+            let s = unsafe {
+                // Safety: slice_start and end are valid position because we got them from
+                // `self.input`
+                self.input_slice(slice_start, end)
+            };
+
+            return Ok((convert(self, s, has_escape, true), has_escape));
         }
     }
 }
