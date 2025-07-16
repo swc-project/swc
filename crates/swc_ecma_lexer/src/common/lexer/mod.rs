@@ -2092,8 +2092,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             // should know context or parser should handle this error. Our approach to this
             // problem is former one.
             if has_escape && word.is_reserved(self.ctx()) {
-                let word = word.into_atom(self).unwrap();
-                self.error(start, SyntaxError::EscapeInReservedWord { word })?
+                self.error(
+                    start,
+                    SyntaxError::EscapeInReservedWord { word: Atom::new(s) },
+                )
             } else {
                 Ok(Some(word))
             }
