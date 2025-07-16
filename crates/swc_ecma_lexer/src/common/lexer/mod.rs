@@ -1562,7 +1562,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let flags = {
             match self.cur() {
                 Some(c) if c.is_ident_start() => {
-                    self.read_word_as_str_with(|l, s, _, _| l.atom(s)).map(Some)
+                    self.read_word_as_str_with(|l, s, _| l.atom(s)).map(Some)
                 }
                 _ => Ok(None),
             }
@@ -1578,7 +1578,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// `convert(text, has_escape, can_be_keyword)`
     fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
     where
-        F: FnOnce(&mut Self, &str, bool, bool) -> Ret,
+        F: FnOnce(&mut Self, &str, bool) -> Ret,
     {
         debug_assert!(self.cur().is_some());
         let mut can_be_keyword = true;
@@ -1609,7 +1609,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             self.input_slice(slice_start, end)
                         };
 
-                        return Ok((convert(self, s, false, can_be_keyword), false));
+                        return Ok((convert(self, s, can_be_keyword), false));
                     },
                 };
 
@@ -1639,7 +1639,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.input_slice(slice_start, end)
                     };
 
-                    return Ok((convert(self, s, has_escape, can_be_keyword), has_escape));
+                    return Ok((convert(self, s, can_be_keyword), has_escape));
                 }
             }
         }
@@ -1658,7 +1658,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         mut can_be_keyword: bool,
     ) -> LexResult<(Ret, bool)>
     where
-        F: FnOnce(&mut Self, &str, bool, bool) -> Ret,
+        F: FnOnce(&mut Self, &str, bool) -> Ret,
     {
         let mut first = true;
 
@@ -1750,10 +1750,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         };
         let value = if !has_escape {
             // Fast path: raw slice is enough if there's no escape.
-            convert(self, s, has_escape, can_be_keyword)
+            convert(self, s, can_be_keyword)
         } else {
             buf.push_str(s);
-            convert(self, &buf, has_escape, can_be_keyword)
+            convert(self, &buf, can_be_keyword)
         };
 
         Ok((value, has_escape))
@@ -1981,7 +1981,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_ident_unknown(&mut self) -> LexResult<Self::Token> {
         debug_assert!(self.cur().is_some());
 
-        let (word, has_escape) = self.read_word_as_str_with(|l, s, _, _| {
+        let (word, has_escape) = self.read_word_as_str_with(|l, s, _| {
             let atom = l.atom(s);
             Self::Token::unknown_ident(atom, l)
         })?;
@@ -2118,7 +2118,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
-        let (word, has_escape) = self.read_keyword_as_str_with(|l, s, _, _| {
+        let (word, has_escape) = self.read_keyword_as_str_with(|l, s, _| {
             if let Some(word) = convert(s) {
                 return word;
             }
@@ -2143,7 +2143,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// ASCII.
     fn read_keyword_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
     where
-        F: FnOnce(&mut Self, &str, bool, bool) -> Ret,
+        F: FnOnce(&mut Self, &str, bool) -> Ret,
     {
         let slice_start = self.cur_pos();
         let has_escape = false;
@@ -2166,7 +2166,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     self.input_slice(slice_start, end)
                 };
 
-                return Ok((convert(self, s, false, true), false));
+                return Ok((convert(self, s, true), false));
             },
         };
 
@@ -2186,7 +2186,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.input_slice(slice_start, end)
             };
 
-            return Ok((convert(self, s, has_escape, true), has_escape));
+            return Ok((convert(self, s, true), has_escape));
         }
     }
 }
