@@ -2329,6 +2329,9 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
         n.visit_mut_children_with(self);
 
+        // Enhanced IIFE invocation for arrow functions in sequence expressions
+        self.invoke_iife_in_seq_expr(n);
+
         self.merge_sequences_in_seq_expr(n);
     }
 
