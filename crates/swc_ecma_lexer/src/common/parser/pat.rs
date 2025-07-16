@@ -395,7 +395,7 @@ pub fn parse_binding_pat_or_ident<'a, P: Parser<'a>>(
     let Some(cur) = p.input_mut().cur() else {
         return Err(eof_error(p));
     };
-    if cur.is_yield() || cur.is_word() {
+    if cur.is_word() {
         parse_binding_ident(p, disallow_let).map(Pat::from)
     } else if cur.is_lbracket() {
         parse_array_binding_pat(p)
