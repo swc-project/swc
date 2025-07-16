@@ -2086,22 +2086,20 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let start = self.cur_pos();
         let (s, has_escape) = self.read_keyword_as_str_with()?;
-        let word = if let Some(word) = convert(s.as_ref()) {
-            word
+        if let Some(word) = convert(s.as_ref()) {
+            // Note: ctx is store in lexer because of this error.
+            // 'await' and 'yield' may have semantic of reserved word, which means lexer
+            // should know context or parser should handle this error. Our approach to this
+            // problem is former one.
+            if has_escape && word.is_reserved(self.ctx()) {
+                let word = word.into_atom(self).unwrap();
+                self.error(start, SyntaxError::EscapeInReservedWord { word })?
+            } else {
+                Ok(Some(word))
+            }
         } else {
             let atom = self.atom(s);
-            Self::Token::unknown_ident(atom, self)
-        };
-
-        // Note: ctx is store in lexer because of this error.
-        // 'await' and 'yield' may have semantic of reserved word, which means lexer
-        // should know context or parser should handle this error. Our approach to this
-        // problem is former one.
-        if has_escape && word.is_reserved(self.ctx()) {
-            let word = word.into_atom(self).unwrap();
-            self.error(start, SyntaxError::EscapeInReservedWord { word })?
-        } else {
-            Ok(Some(word))
+            Ok(Some(Self::Token::unknown_ident(atom, self)))
         }
     }
 
