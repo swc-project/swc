@@ -127,11 +127,17 @@ pub fn parse_opt_binding_ident<'a>(
 ) -> PResult<Option<BindingIdent>> {
     trace_cur!(p, parse_opt_binding_ident);
     let ctx = p.ctx();
-    let Some(cur) = p.input_mut().cur() else {
+    p.input_mut().cur();
+    let Some(token_and_span) = p.input().get_cur() else {
         return Ok(None);
     };
-    let is_binding_ident = cur.is_word() && !cur.is_reserved(ctx);
-    if is_binding_ident || (cur.is_this() && p.input().syntax().typescript()) {
+    let cur = token_and_span.token();
+    if cur.is_this() && p.input().syntax().typescript() {
+        let start = token_and_span.span().lo;
+        Ok(Some(
+            Ident::new_no_ctxt(atom!("this"), p.span(start)).into(),
+        ))
+    } else if cur.is_word() && !cur.is_reserved(ctx) {
         parse_binding_ident(p, disallow_let).map(Some)
     } else {
         Ok(None)
