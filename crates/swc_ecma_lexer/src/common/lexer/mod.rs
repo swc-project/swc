@@ -1573,12 +1573,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     /// This method is optimized for texts without escape sequences.
-    ///
-    /// `convert(text, has_escape, can_be_keyword)`
     fn read_word_as_str_with(&mut self) -> LexResult<(Cow<'a, str>, bool)> {
         debug_assert!(self.cur().is_some());
         let slice_start = self.cur_pos();
-        let has_escape = false;
 
         // Fast path: try to scan ASCII identifier using byte_search
         if let Some(c) = self.input().cur_as_ascii() {
@@ -1606,10 +1603,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 // Check if we hit end of identifier or need to fall back to slow path
                 if !next_byte.is_ascii() {
                     // Hit Unicode character, fall back to slow path from current position
-                    return self.read_word_as_str_with_slow_path(slice_start, has_escape);
+                    return self.read_word_as_str_with_slow_path(slice_start);
                 } else if next_byte == b'\\' {
                     // Hit escape sequence, fall back to slow path from current position
-                    return self.read_word_as_str_with_slow_path(slice_start, has_escape);
+                    return self.read_word_as_str_with_slow_path(slice_start);
                 } else {
                     // Hit end of identifier (non-continue ASCII char)
                     let end = self.cur_pos();
@@ -1619,13 +1616,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.input_slice(slice_start, end)
                     };
 
-                    return Ok((Cow::Borrowed(s), has_escape));
+                    return Ok((Cow::Borrowed(s), false));
                 }
             }
         }
 
         // Fall back to slow path for non-ASCII start or complex cases
-        self.read_word_as_str_with_slow_path(slice_start, has_escape)
+        self.read_word_as_str_with_slow_path(slice_start)
     }
 
     /// Slow path for identifier parsing that handles Unicode and escapes
@@ -1633,9 +1630,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_word_as_str_with_slow_path(
         &mut self,
         mut slice_start: BytePos,
-        mut has_escape: bool,
     ) -> LexResult<(Cow<'a, str>, bool)> {
         let mut first = true;
+        let mut has_escape = false;
 
         let mut buf = String::with_capacity(16);
         loop {
@@ -2113,7 +2110,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// ASCII.
     fn read_keyword_as_str_with(&mut self) -> LexResult<(Cow<'a, str>, bool)> {
         let slice_start = self.cur_pos();
-        let has_escape = false;
 
         // Fast path: try to scan ASCII identifier using byte_search
         // Performance optimization: check if first char disqualifies as keyword
@@ -2141,7 +2137,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         if !next_byte.is_ascii() || next_byte == b'\\' {
             // Hit Unicode character or escape sequence, fall back to slow path from current
             // position
-            self.read_word_as_str_with_slow_path(slice_start, has_escape)
+            self.read_word_as_str_with_slow_path(slice_start)
         } else {
             // Hit end of identifier (non-continue ASCII char)
             let end = self.cur_pos();
@@ -2151,7 +2147,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.input_slice(slice_start, end)
             };
 
-            Ok((Cow::Borrowed(s), has_escape))
+            Ok((Cow::Borrowed(s), false))
         }
     }
 }
