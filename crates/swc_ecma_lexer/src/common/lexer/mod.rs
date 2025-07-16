@@ -674,7 +674,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.input_slice(lazy_integer.start, lazy_integer.end)
             };
 
-            if self.eat(b'n') {
+            // legacy octal number is not allowed in bigint.
+            if (!START_WITH_ZERO || lazy_integer.end - lazy_integer.start == BytePos(1))
+                && self.eat(b'n')
+            {
                 let end = self.cur_pos();
                 let raw = unsafe {
                     // Safety: We got both start and end position from `self.input`
