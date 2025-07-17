@@ -15,7 +15,7 @@ use crate::{
 };
 
 /// Check if a function body contains declarations
-fn body_contains_decls(body: &BlockStmt) -> bool {
+fn block_contains_decls(body: &BlockStmt) -> bool {
     body.stmts.iter().any(|stmt| stmt.is_decl())
 }
 
@@ -562,40 +562,16 @@ impl Optimizer<'_> {
             return;
         }
 
-        // Check if we're in an expression-only context and the function contains
-        // declarations
-        if self.ctx.bit_ctx.contains(BitCtx::InClass)
-            && !self
-                .ctx
-                .bit_ctx
-                .intersects(BitCtx::InFnLike | BitCtx::InBlock)
-        {
-            let contains_decls = match &call.callee {
-                Callee::Expr(expr) => match &**expr {
-                    Expr::Fn(FnExpr { function, .. }) => {
-                        body_contains_decls(function.body.as_ref().unwrap())
-                    }
-                    Expr::Arrow(ArrowExpr { body, .. }) => match &**body {
-                        BlockStmtOrExpr::BlockStmt(block) => body_contains_decls(block),
-                        _ => false,
-                    },
-                    _ => false,
-                },
-                _ => false,
-            };
-
-            if contains_decls {
-                trace_op!(
-                    "iife: Skipping inlining function with declarations in expression-only context"
-                );
-                return;
-            }
-        }
-
         let callee = match &mut call.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
         };
+
+        let at_class_field = self.ctx.bit_ctx.contains(BitCtx::InClass)
+            && !self
+                .ctx
+                .bit_ctx
+                .intersects(BitCtx::InFnLike | BitCtx::InBlock);
 
         match callee {
             Expr::Arrow(f) => {
@@ -607,6 +583,13 @@ impl Optimizer<'_> {
 
                 match &mut *f.body {
                     BlockStmtOrExpr::BlockStmt(body) => {
+                        if at_class_field && block_contains_decls(body) {
+                            trace_op!(
+                                "iife: Skipping inlining function with declarations in class field"
+                            );
+                            return;
+                        }
+
                         let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                         if let Some(new) = new {
                             self.changed = true;
@@ -673,6 +656,11 @@ impl Optimizer<'_> {
                     return;
                 }
 
+                if at_class_field && block_contains_decls(body) {
+                    trace_op!("iife: Skipping inlining function with declarations in class field");
+                    return;
+                }
+
                 let param_ids = f
                     .function
                     .params
@@ -713,36 +701,6 @@ impl Optimizer<'_> {
 
         if !self.may_invoke_iife(call) {
             return None;
-        }
-
-        // Check if we're in an expression-only context and the function contains
-        // declarations
-        if self.ctx.bit_ctx.contains(BitCtx::InClass)
-            && !self
-                .ctx
-                .bit_ctx
-                .intersects(BitCtx::InFnLike | BitCtx::InBlock)
-        {
-            let contains_decls = match &call.callee {
-                Callee::Expr(expr) => match &**expr {
-                    Expr::Fn(FnExpr { function, .. }) => {
-                        body_contains_decls(function.body.as_ref().unwrap())
-                    }
-                    Expr::Arrow(ArrowExpr { body, .. }) => match &**body {
-                        BlockStmtOrExpr::BlockStmt(block) => body_contains_decls(block),
-                        _ => false,
-                    },
-                    _ => false,
-                },
-                _ => false,
-            };
-
-            if contains_decls {
-                trace_op!(
-                    "iife: Skipping inlining function with declarations in expression-only context"
-                );
-                return None;
-            }
         }
 
         let callee = match &mut call.callee {
