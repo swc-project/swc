@@ -797,7 +797,7 @@ impl Optimizer<'_> {
             return false;
         }
 
-        if !self.may_add_ident() {
+        if !self.may_add_ident() || self.at_class_field() {
             let has_decl = if for_stmt {
                 // we check it later
                 false
