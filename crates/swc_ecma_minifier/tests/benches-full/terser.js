@@ -2097,19 +2097,19 @@
             return `${special("[AST_Token")} ${value} at ${this.line}:${this.col}${special("]")}`;
         }
         get nlb() {
-            return !!(0b0001 & this.flags);
+            return ((tok, flag)=>!!(tok.flags & flag))(this, 0b0001);
         }
         set nlb(new_nlb) {
             set_tok_flag(this, 0b0001, new_nlb);
         }
         get quote() {
-            return 0b0100 & this.flags ? 0b0010 & this.flags ? "'" : '"' : "";
+            return ((tok, flag)=>!!(tok.flags & flag))(this, 0b0100) ? ((tok, flag)=>!!(tok.flags & flag))(this, 0b0010) ? "'" : '"' : "";
         }
         set quote(quote_type) {
             set_tok_flag(this, 0b0010, "'" === quote_type), set_tok_flag(this, 0b0100, !!quote_type);
         }
         get template_end() {
-            return !!(0b1000 & this.flags);
+            return ((tok, flag)=>!!(tok.flags & flag))(this, 0b1000);
         }
         set template_end(new_template_end) {
             set_tok_flag(this, 0b1000, new_template_end);

@@ -376,7 +376,14 @@
                     return this.forceRefresh = !1, this.auth ? this.auth.getToken(e).then((e)=>// Cancel the request since the token changed while the request was
                         // outstanding so the response is potentially for a previous user (which
                         // user, we can't be sure).
-                        this.i !== t ? ($("FirebaseCredentialsProvider", "getToken aborted due to token change."), this.getToken()) : e ? ("string" == typeof e.accessToken || L(), new W(e.accessToken, this.currentUser)) : null) : Promise.resolve(null);
+                        this.i !== t ? ($("FirebaseCredentialsProvider", "getToken aborted due to token change."), this.getToken()) : e ? (/**
+                 * Fails if the given assertion condition is false, throwing an Error with the
+                 * given message if it did.
+                 *
+                 * Messages are stripped in production builds.
+                 */ function(t, e) {
+                            t || L();
+                        }("string" == typeof e.accessToken), new W(e.accessToken, this.currentUser)) : null) : Promise.resolve(null);
                 }
                 invalidateToken() {
                     this.forceRefresh = !0;
@@ -390,7 +397,9 @@
                 // to guarantee to get the actual user.
                 u() {
                     const t = this.auth && this.auth.getUid();
-                    return null === t || "string" == typeof t || L(), new D(t);
+                    return function(t, e) {
+                        t || L();
+                    }(null === t || "string" == typeof t), new D(t);
                 }
             }
             /*
@@ -946,7 +955,11 @@
                     return btoa(this.binaryString);
                 }
                 toUint8Array() {
-                    var t = /**
+                    return function(t) {
+                        const e = new Uint8Array(t.length);
+                        for(let n = 0; n < t.length; n++)e[n] = t.charCodeAt(n);
+                        return e;
+                    }(/**
                              * @license
                              * Copyright 2020 Google LLC
                              *
@@ -962,10 +975,7 @@
                              * See the License for the specific language governing permissions and
                              * limitations under the License.
                              */ // A RegExp matching ISO 8601 UTC timestamps with optional fraction.
-                    this.binaryString;
-                    const e = new Uint8Array(t.length);
-                    for(let n = 0; n < t.length; n++)e[n] = t.charCodeAt(n);
-                    return e;
+                    this.binaryString);
                 }
                 approximateByteSize() {
                     return 2 * this.binaryString.length;
@@ -2953,7 +2963,9 @@
                  * A helper class to accumulate watch changes into a RemoteEvent.
                  */ class $n {
                 constructor(t){
-                    this.tt = t, /** The internal state of all tracked targets. */ this.et = new Map(), /** Keeps track of the documents to update since the last raised snapshot. */ this.nt = pn, /** A mapping of document keys to their set of target IDs. */ this.st = On(), /**
+                    this.tt = t, /** The internal state of all tracked targets. */ this.et = new Map(), /** Keeps track of the documents to update since the last raised snapshot. */ this.nt = function() {
+                        return pn;
+                    }(), /** A mapping of document keys to their set of target IDs. */ this.st = On(), /**
                              * A list of targets with existence filter mismatches. These targets are
                              * known to be inconsistent and their listens needs to be re-established by
                              * RemoteStore.
@@ -3027,7 +3039,9 @@
                             // queries.
                             const n = new Pt(t.path);
                             this.ct(e, n, Kt.newNoDocument(n, rt.min()));
-                        } else 1 === n || L();
+                        } else !function(t, e) {
+                            t || L();
+                        }(1 === n);
                         else this.wt(e) !== n && // Existence filter mismatch: We reset the mapping and raise a new
                         // snapshot with `isFromCache:true`.
                         (this.lt(e), this.it = this.it.add(e));
@@ -3069,7 +3083,9 @@
                         }), s && (n = n.add(t));
                     });
                     const s = new Sn(t, e, this.it, this.nt, n);
-                    return this.nt = pn, this.st = On(), this.it = new gn(et), s;
+                    return this.nt = function() {
+                        return pn;
+                    }(), this.st = On(), this.it = new gn(et), s;
                 }
                 /**
                      * Adds the provided document to the internal list of document updates and
@@ -3860,26 +3876,38 @@
                      */ applyToRemoteDocument(t, e) {
                     const n = e.mutationResults;
                     for(let e = 0; e < this.mutations.length; e++){
-                        var n1;
                         const s = this.mutations[e];
-                        s.key.isEqual(t.key) && (n1 = n[e], s instanceof en ? function(t, e, n) {
-                            // Unlike setMutationApplyToLocalView, if we're applying a mutation to a
-                            // remote document the server has accepted the mutation so the precondition
-                            // must have held.
-                            const s = t.value.clone(), i = rn(t.fieldTransforms, e, n.transformResults);
-                            s.setAll(i), e.convertToFoundDocument(n.version, s).setHasCommittedMutations();
-                        }(s, t, n1) : s instanceof nn ? function(t, e, n) {
-                            if (!ze(t.precondition, e)) // Since the mutation was not rejected, we know that the precondition
-                            // matched on the backend. We therefore must not have the expected version
-                            // of the document in our cache and convert to an UnknownDocument with a
-                            // known updateTime.
-                            return e.convertToUnknownDocument(n.version);
-                            const s = rn(t.fieldTransforms, e, n.transformResults), i = e.data;
-                            i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(n.version, i).setHasCommittedMutations();
-                        }(s, t, n1) : // Unlike applyToLocalView, if we're applying a mutation to a remote
-                        // document the server has accepted the mutation so the precondition must
-                        // have held.
-                        t.convertToNoDocument(n1.version).setHasCommittedMutations());
+                        s.key.isEqual(t.key) && /**
+                 * Applies this mutation to the given document for the purposes of computing a
+                 * new remote document. If the input document doesn't match the expected state
+                 * (e.g. it is invalid or outdated), the document type may transition to
+                 * unknown.
+                 *
+                 * @param mutation - The mutation to apply.
+                 * @param document - The document to mutate. The input document can be an
+                 *     invalid document if the client has no knowledge of the pre-mutation state
+                 *     of the document.
+                 * @param mutationResult - The result of applying the mutation from the backend.
+                 */ function(t, e, n) {
+                            t instanceof en ? function(t, e, n) {
+                                // Unlike setMutationApplyToLocalView, if we're applying a mutation to a
+                                // remote document the server has accepted the mutation so the precondition
+                                // must have held.
+                                const s = t.value.clone(), i = rn(t.fieldTransforms, e, n.transformResults);
+                                s.setAll(i), e.convertToFoundDocument(n.version, s).setHasCommittedMutations();
+                            }(t, e, n) : t instanceof nn ? function(t, e, n) {
+                                if (!ze(t.precondition, e)) // Since the mutation was not rejected, we know that the precondition
+                                // matched on the backend. We therefore must not have the expected version
+                                // of the document in our cache and convert to an UnknownDocument with a
+                                // known updateTime.
+                                return e.convertToUnknownDocument(n.version);
+                                const s = rn(t.fieldTransforms, e, n.transformResults), i = e.data;
+                                i.setAll(sn(t)), i.setAll(s), e.convertToFoundDocument(n.version, i).setHasCommittedMutations();
+                            }(t, e, n) : // Unlike applyToLocalView, if we're applying a mutation to a remote
+                            // document the server has accepted the mutation so the precondition must
+                            // have held.
+                            e.convertToNoDocument(n.version).setHasCommittedMutations();
+                        }(s, t, n[e]);
                     }
                 }
                 /**
@@ -4209,9 +4237,10 @@
                     });
                 }
                 isEmpty() {
-                    var t = this.inner;
-                    for(const e in t)if (Object.prototype.hasOwnProperty.call(t, e)) return !1;
-                    return !0;
+                    return function(t) {
+                        for(const e in t)if (Object.prototype.hasOwnProperty.call(t, e)) return !1;
+                        return !0;
+                    }(this.inner);
                 }
             }
             /**
@@ -4379,23 +4408,39 @@
                     /**
                          * Returns whether the query matches a single document by path (rather than a
                          * collection).
-                         */ return Pt.isDocumentKey(e.path) && null === e.collectionGroup && 0 === e.filters.length ? this.Vn(t, e.path) : null !== e.collectionGroup ? this.Sn(t, e, n) : this.Dn(t, e, n);
+                         */ return !function(t) {
+                        return Pt.isDocumentKey(t.path) && null === t.collectionGroup && 0 === t.filters.length;
+                    }(e) ? !/**
+                 * Checks if any of the provided Operators are included in the query and
+                 * returns the first one that is, or null if none are.
+                 */ /**
+                 * Returns whether the query matches a collection group rather than a specific
+                 * collection.
+                 */ function(t) {
+                        return null !== t.collectionGroup;
+                    }(e) ? this.Dn(t, e, n) : this.Sn(t, e, n) : this.Vn(t, e.path);
                 }
                 Vn(t, e) {
                     // Just do a simple document lookup.
                     return this.An(t, new Pt(e)).next((t)=>{
-                        let e = En;
+                        let e = function() {
+                            return En;
+                        }();
                         return t.isFoundDocument() && (e = e.insert(t.key, t)), e;
                     });
                 }
                 Sn(t, e, n) {
                     const s = e.collectionGroup;
-                    let i = En;
+                    let i = function() {
+                        return En;
+                    }();
                     return this.Ht.getCollectionParents(t, s).next((r)=>js.forEach(r, (r)=>{
-                            const o = new fe(r.child(s), /*collectionGroup=*/ null, /**
+                            const o = function(t, e) {
+                                return new fe(e, /*collectionGroup=*/ null, t.explicitOrderBy.slice(), t.filters.slice(), t.limit, t.limitType, t.startAt, t.endAt);
+                            }(/**
                                          * Returns true if this query does not specify any query constraints that
                                          * could remove results.
-                                         */ e.explicitOrderBy.slice(), e.filters.slice(), e.limit, e.limitType, e.startAt, e.endAt);
+                                         */ e, r.child(s));
                             return this.Dn(t, o, n).next((t)=>{
                                 t.forEach((t, e)=>{
                                     i = i.insert(t, e);
@@ -4503,7 +4548,9 @@
                     // Queries that match all documents don't benefit from using
                     // key-based lookups. It is more efficient to scan all documents in a
                     // collection, rather than to perform individual lookups.
-                    return 0 === e.filters.length && null === e.limit && null == e.startAt && null == e.endAt && (0 === e.explicitOrderBy.length || 1 === e.explicitOrderBy.length && e.explicitOrderBy[0].field.isKeyField()) || n.isEqual(rt.min()) ? this.Fn(t, e) : this.On.Pn(t, s).next((i)=>{
+                    return function(t) {
+                        return 0 === t.filters.length && null === t.limit && null == t.startAt && null == t.endAt && (0 === t.explicitOrderBy.length || 1 === t.explicitOrderBy.length && t.explicitOrderBy[0].field.isKeyField());
+                    }(e) || n.isEqual(rt.min()) ? this.Fn(t, e) : this.On.Pn(t, s).next((i)=>{
                         const r = this.Mn(e, i);
                         return (_e(e) || me(e)) && this.Ln(e.limitType, r, s, n) ? this.Fn(t, e) : (x() <= _firebase_logger__WEBPACK_IMPORTED_MODULE_2__ /* .LogLevel.DEBUG */ .in.DEBUG && $("QueryEngine", "Re-using previous result from %s to execute query: %s", n.toString(), be(e)), this.On.getDocumentsMatchingQuery(t, e, n).next((t)=>// We merge `previousResults` into `updateResults`, since
                             // `updateResults` is already a DocumentMap. If a document is
@@ -4715,9 +4762,10 @@
                     return js.resolve(this.Xn.get(e));
                 }
                 saveNamedQuery(t, e) {
-                    return this.Xn.set(e.name, {
-                        name: e.name,
-                        query: /**
+                    return this.Xn.set(e.name, function(t) {
+                        return {
+                            name: t.name,
+                            query: /**
                  * A helper function for figuring out what kind of query has been stored.
                  */ /**
                  * Encodes a `BundledQuery` from bundle proto to a Query object.
@@ -4725,109 +4773,112 @@
                  * This reconstructs the original query used to build the bundle being loaded,
                  * including features exists only in SDKs (for example: limit-to-last).
                  */ function(t) {
-                            var e;
-                            const e1 = function(t) {
-                                var t1;
-                                let e, e1 = function(t) {
-                                    const e = Wn(t);
-                                    // In v1beta1 queries for collections at the root did not have a trailing
-                                    // "/documents". In v1 all resource paths contain "/documents". Preserve the
-                                    // ability to read the v1beta1 form for compatibility with queries persisted
-                                    // in the local target cache.
-                                    return 4 === e.length ? ht.emptyPath() : Xn(e);
-                                }(t.parent);
-                                const n = t.structuredQuery, s = n.from ? n.from.length : 0;
-                                let i = null;
-                                if (s > 0) {
-                                    1 === s || L();
-                                    const t = n.from[0];
-                                    t.allDescendants ? i = t.collectionId : e1 = e1.child(t.collectionId);
-                                }
-                                let r = [];
-                                n.where && (r = function hs(t) {
-                                    return t ? void 0 !== t.unaryFilter ? [
+                                var e;
+                                const e1 = function(t) {
+                                    var t1;
+                                    let e, e1 = function(t) {
+                                        const e = Wn(t);
+                                        // In v1beta1 queries for collections at the root did not have a trailing
+                                        // "/documents". In v1 all resource paths contain "/documents". Preserve the
+                                        // ability to read the v1beta1 form for compatibility with queries persisted
+                                        // in the local target cache.
+                                        return 4 === e.length ? ht.emptyPath() : Xn(e);
+                                    }(t.parent);
+                                    const n = t.structuredQuery, s = n.from ? n.from.length : 0;
+                                    let i = null;
+                                    if (s > 0) {
+                                        1 === s || L();
+                                        const t = n.from[0];
+                                        t.allDescendants ? i = t.collectionId : e1 = e1.child(t.collectionId);
+                                    }
+                                    let r = [];
+                                    n.where && (r = function hs(t) {
+                                        return t ? void 0 !== t.unaryFilter ? [
+                                            function(t) {
+                                                switch(t.unaryFilter.op){
+                                                    case "IS_NAN":
+                                                        const e = ms(t.unaryFilter.field);
+                                                        return Jt.create(e, "==" /* EQUAL */ , {
+                                                            doubleValue: NaN
+                                                        });
+                                                    case "IS_NULL":
+                                                        const n = ms(t.unaryFilter.field);
+                                                        return Jt.create(n, "==" /* EQUAL */ , {
+                                                            nullValue: "NULL_VALUE"
+                                                        });
+                                                    case "IS_NOT_NAN":
+                                                        const s = ms(t.unaryFilter.field);
+                                                        return Jt.create(s, "!=" /* NOT_EQUAL */ , {
+                                                            doubleValue: NaN
+                                                        });
+                                                    case "IS_NOT_NULL":
+                                                        const i = ms(t.unaryFilter.field);
+                                                        return Jt.create(i, "!=" /* NOT_EQUAL */ , {
+                                                            nullValue: "NULL_VALUE"
+                                                        });
+                                                    default:
+                                                        return L();
+                                                }
+                                            }(t)
+                                        ] : void 0 !== t.fieldFilter ? [
+                                            function(t) {
+                                                return Jt.create(ms(t.fieldFilter.field), function(t) {
+                                                    switch(t){
+                                                        case "EQUAL":
+                                                            return "==" /* EQUAL */ ;
+                                                        case "NOT_EQUAL":
+                                                            return "!=" /* NOT_EQUAL */ ;
+                                                        case "GREATER_THAN":
+                                                            return ">" /* GREATER_THAN */ ;
+                                                        case "GREATER_THAN_OR_EQUAL":
+                                                            return ">=" /* GREATER_THAN_OR_EQUAL */ ;
+                                                        case "LESS_THAN":
+                                                            return "<" /* LESS_THAN */ ;
+                                                        case "LESS_THAN_OR_EQUAL":
+                                                            return "<=" /* LESS_THAN_OR_EQUAL */ ;
+                                                        case "ARRAY_CONTAINS":
+                                                            return "array-contains" /* ARRAY_CONTAINS */ ;
+                                                        case "IN":
+                                                            return "in" /* IN */ ;
+                                                        case "NOT_IN":
+                                                            return "not-in" /* NOT_IN */ ;
+                                                        case "ARRAY_CONTAINS_ANY":
+                                                            return "array-contains-any" /* ARRAY_CONTAINS_ANY */ ;
+                                                        default:
+                                                            return L();
+                                                    }
+                                                }(t.fieldFilter.op), t.fieldFilter.value);
+                                            }(t)
+                                        ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
+                                    }(n.where));
+                                    let o = [];
+                                    n.orderBy && (o = n.orderBy.map((t)=>new ae(ms(t.field), // visible for testing
                                         function(t) {
-                                            switch(t.unaryFilter.op){
-                                                case "IS_NAN":
-                                                    const e = ms(t.unaryFilter.field);
-                                                    return Jt.create(e, "==" /* EQUAL */ , {
-                                                        doubleValue: NaN
-                                                    });
-                                                case "IS_NULL":
-                                                    const n = ms(t.unaryFilter.field);
-                                                    return Jt.create(n, "==" /* EQUAL */ , {
-                                                        nullValue: "NULL_VALUE"
-                                                    });
-                                                case "IS_NOT_NAN":
-                                                    const s = ms(t.unaryFilter.field);
-                                                    return Jt.create(s, "!=" /* NOT_EQUAL */ , {
-                                                        doubleValue: NaN
-                                                    });
-                                                case "IS_NOT_NULL":
-                                                    const i = ms(t.unaryFilter.field);
-                                                    return Jt.create(i, "!=" /* NOT_EQUAL */ , {
-                                                        nullValue: "NULL_VALUE"
-                                                    });
-                                                default:
-                                                    return L();
-                                            }
-                                        }(t)
-                                    ] : void 0 !== t.fieldFilter ? [
-                                        Jt.create(ms(t.fieldFilter.field), function(t) {
                                             switch(t){
-                                                case "EQUAL":
-                                                    return "==" /* EQUAL */ ;
-                                                case "NOT_EQUAL":
-                                                    return "!=" /* NOT_EQUAL */ ;
-                                                case "GREATER_THAN":
-                                                    return ">" /* GREATER_THAN */ ;
-                                                case "GREATER_THAN_OR_EQUAL":
-                                                    return ">=" /* GREATER_THAN_OR_EQUAL */ ;
-                                                case "LESS_THAN":
-                                                    return "<" /* LESS_THAN */ ;
-                                                case "LESS_THAN_OR_EQUAL":
-                                                    return "<=" /* LESS_THAN_OR_EQUAL */ ;
-                                                case "ARRAY_CONTAINS":
-                                                    return "array-contains" /* ARRAY_CONTAINS */ ;
-                                                case "IN":
-                                                    return "in" /* IN */ ;
-                                                case "NOT_IN":
-                                                    return "not-in" /* NOT_IN */ ;
-                                                case "ARRAY_CONTAINS_ANY":
-                                                    return "array-contains-any" /* ARRAY_CONTAINS_ANY */ ;
+                                                case "ASCENDING":
+                                                    return "asc" /* ASCENDING */ ;
+                                                case "DESCENDING":
+                                                    return "desc" /* DESCENDING */ ;
                                                 default:
-                                                    return L();
+                                                    return;
                                             }
-                                        }(t.fieldFilter.op), t.fieldFilter.value)
-                                    ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
-                                }(n.where));
-                                let o = [];
-                                n.orderBy && (o = n.orderBy.map((t)=>new ae(ms(t.field), // visible for testing
-                                    function(t) {
-                                        switch(t){
-                                            case "ASCENDING":
-                                                return "asc" /* ASCENDING */ ;
-                                            case "DESCENDING":
-                                                return "desc" /* DESCENDING */ ;
-                                            default:
-                                                return;
-                                        }
-                                    }(// visible for testing
-                                    t.direction))));
-                                let c = null;
-                                n.limit && (c = At(e = "object" == typeof (t1 = n.limit) ? t1.value : t1) ? null : e);
-                                let a = null;
-                                n.startAt && (a = fs(n.startAt));
-                                let u = null;
-                                return n.endAt && (u = fs(n.endAt)), new fe(e1, i, o, r, c, "F" /* First */ , a, u);
-                            }({
-                                parent: t.parent,
-                                structuredQuery: t.structuredQuery
-                            });
-                            return "LAST" === t.limitType ? (e = e1.limit, new fe(e1.path, e1.collectionGroup, e1.explicitOrderBy.slice(), e1.filters.slice(), e, "L" /* Last */ , e1.startAt, e1.endAt)) : e1;
-                        }(e.bundledQuery),
-                        readTime: jn(e.readTime)
-                    }), js.resolve();
+                                        }(// visible for testing
+                                        t.direction))));
+                                    let c = null;
+                                    n.limit && (c = At(e = "object" == typeof (t1 = n.limit) ? t1.value : t1) ? null : e);
+                                    let a = null;
+                                    n.startAt && (a = fs(n.startAt));
+                                    let u = null;
+                                    return n.endAt && (u = fs(n.endAt)), new fe(e1, i, o, r, c, "F" /* First */ , a, u);
+                                }({
+                                    parent: t.parent,
+                                    structuredQuery: t.structuredQuery
+                                });
+                                return "LAST" === t.limitType ? (e = e1.limit, new fe(e1.path, e1.collectionGroup, e1.explicitOrderBy.slice(), e1.filters.slice(), e, "L" /* Last */ , e1.startAt, e1.endAt)) : e1;
+                            }(t.bundledQuery),
+                            readTime: jn(t.readTime)
+                        };
+                    }(e)), js.resolve();
                 }
             }
             /**
@@ -5032,7 +5083,9 @@
                     }), e;
                 }
                 removeMutationBatch(t, e) {
-                    0 === this.ys(e.batchId, "removed") || L(), this.In.shift();
+                    (function(t, e) {
+                        t || L();
+                    })(0 === this.ys(e.batchId, "removed")), this.In.shift();
                     let n = this.ds;
                     return js.forEach(e.mutations, (s)=>{
                         const i = new Pr(s.key, e.batchId);
@@ -5133,14 +5186,18 @@
                     return js.resolve(n ? n.document.clone() : Kt.newInvalidDocument(e));
                 }
                 getEntries(t, e) {
-                    let n = pn;
+                    let n = function() {
+                        return pn;
+                    }();
                     return e.forEach((t)=>{
                         const e = this.docs.get(t);
                         n = n.insert(t, e ? e.document.clone() : Kt.newInvalidDocument(t));
                     }), js.resolve(n);
                 }
                 getDocumentsMatchingQuery(t, e, n) {
-                    let s = pn;
+                    let s = function() {
+                        return pn;
+                    }();
                     // Documents are ordered by key, so we can use a prefix scan to narrow down
                     // the documents we need to match the query against.
                     const i = new Pt(e.path.child("")), r = this.docs.getIteratorFrom(i);
@@ -5302,7 +5359,9 @@
                      * each other without having nullable fields that would then need to be
                      * checked or asserted on every access.
                      */ constructor(t, e){
-                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new Dr(this), this.Ht = new pi(), this.He = new Vr(this.Ht, (t)=>this.referenceDelegate.Ps(t)), this.N = new ri(e), this.Je = new Rr(this.N);
+                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new Dr(this), this.Ht = new pi(), this.He = function(t, e) {
+                        return new Vr(t, e);
+                    }(this.Ht, (t)=>this.referenceDelegate.Ps(t)), this.N = new ri(e), this.Je = new Rr(this.N);
                 }
                 start() {
                     return Promise.resolve();
@@ -5422,7 +5481,9 @@
                  */ // Visible for testing.
             class Ur {
                 constructor(){
-                    this.activeTargetIds = vn;
+                    this.activeTargetIds = function() {
+                        return vn;
+                    }();
                 }
                 Fs(t) {
                     this.activeTargetIds = this.activeTargetIds.add(t);
@@ -5805,7 +5866,9 @@
                         var e;
                         if (!u) {
                             const n = t.data[0];
-                            n || L();
+                            !function(t, e) {
+                                t || L();
+                            }(!!n);
                             // TODO(b/35143891): There is a bug in One Platform that caused errors
                             // (and only errors) to be wrapped in an extra array. To be forward
                             // compatible with the bug we need to check either condition. The latter
@@ -6209,15 +6272,16 @@
                      */ br(t) {
                     const e = {};
                     e.database = Yn(this.N), e.addTarget = function(t, e) {
-                        var e1, e2;
                         let n;
                         const s = e.target;
                         return (n = Ht(s) ? {
-                            documents: {
-                                documents: [
-                                    Hn(t, s.path)
-                                ]
-                            }
+                            documents: function(t, e) {
+                                return {
+                                    documents: [
+                                        Hn(t, e.path)
+                                    ]
+                                };
+                            }(t, s)
                         } : {
                             query: function(t, e) {
                                 var e1;
@@ -6269,7 +6333,9 @@
                                             return {
                                                 fieldFilter: {
                                                     field: _s(t.field),
-                                                    op: Ln[t.op],
+                                                    op: function(t) {
+                                                        return Ln[t];
+                                                    }(t.op),
                                                     value: t.value
                                                 }
                                             };
@@ -6285,7 +6351,10 @@
                                 const r = function(t) {
                                     if (0 !== t.length) return t.map((t)=>({
                                             field: _s(t.field),
-                                            direction: Mn[t.dir]
+                                            direction: // visible for testing
+                                            function(t) {
+                                                return Mn[t];
+                                            }(t.dir)
                                         }));
                                 }(e.orderBy);
                                 r && (n.structuredQuery.orderBy = r);
@@ -6296,13 +6365,23 @@
                                 });
                                 return null !== o && (n.structuredQuery.limit = o), e.startAt && (n.structuredQuery.startAt = ls(e.startAt)), e.endAt && (n.structuredQuery.endAt = ls(e.endAt)), n;
                             }(t, s)
-                        }).targetId = e.targetId, e.resumeToken.approximateByteSize() > 0 ? (e1 = e.resumeToken, n.resumeToken = t.D ? e1.toBase64() : e1.toUint8Array()) : e.snapshotVersion.compareTo(rt.min()) > 0 && (e2 = e.snapshotVersion.toTimestamp(), // TODO(wuandy): Consider removing above check because it is most likely true.
+                        }).targetId = e.targetId, e.resumeToken.approximateByteSize() > 0 ? n.resumeToken = /**
+                 * Returns a value for bytes that's appropriate to put in a proto.
+                 *
+                 * Visible for testing.
+                 */ function(t, e) {
+                            return t.D ? e.toBase64() : e.toUint8Array();
+                        }(t, e.resumeToken) : e.snapshotVersion.compareTo(rt.min()) > 0 && // TODO(wuandy): Consider removing above check because it is most likely true.
                         // Right now, many tests depend on this behaviour though (leaving min() out
                         // of serialization).
-                        n.readTime = t.D ? `${new Date(1e3 * e2.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e2.nanoseconds).slice(-9)}Z` : {
-                            seconds: "" + e2.seconds,
-                            nanos: e2.nanoseconds
-                        }), n;
+                        (n.readTime = /**
+                 * Returns a value for a Date that's appropriate to put into a proto.
+                 */ function(t, e) {
+                            return t.D ? `${new Date(1e3 * e.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e.nanoseconds).slice(-9)}Z` : {
+                                seconds: "" + e.seconds,
+                                nanos: e.nanoseconds
+                            };
+                        }(t, e.snapshotVersion.toTimestamp())), n;
                     }(this.N, t);
                     const n = function(t, e) {
                         const n = function(t, e) {
@@ -6500,7 +6579,14 @@
                             // network becomes unreachable as we don't have any other way to tear
                             // down our streams.
                             wo(this) && ($("RemoteStore", "Restarting streams for network reachability change."), await async function(t) {
-                                t.Wr.add(4 /* ConnectivityChange */ ), await oo(t), t.Hr.set("Unknown" /* Unknown */ ), t.Wr.delete(4 /* ConnectivityChange */ ), await ro(t);
+                                const e = /**
+                 * Casts `obj` to `T`. In non-production builds, verifies that `obj` is an
+                 * instance of `T` before casting.
+                 */ function(t, // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                e) {
+                                    return t;
+                                }(t);
+                                e.Wr.add(4 /* ConnectivityChange */ ), await oo(e), e.Hr.set("Unknown" /* Unknown */ ), e.Wr.delete(4 /* ConnectivityChange */ ), await ro(e);
                             }(this));
                         });
                     }), this.Hr = new so(n, s);
@@ -6797,7 +6883,9 @@
                 /** The default ordering is by key if the comparator is omitted */ constructor(t){
                     // We are adding document key comparator to the end as it's the only
                     // guaranteed unique property of a document.
-                    this.comparator = t ? (e, n)=>t(e, n) || Pt.comparator(e.key, n.key) : (t, e)=>Pt.comparator(t.key, e.key), this.keyedMap = En, this.sortedSet = new wn(this.comparator);
+                    this.comparator = t ? (e, n)=>t(e, n) || Pt.comparator(e.key, n.key) : (t, e)=>Pt.comparator(t.key, e.key), this.keyedMap = function() {
+                        return En;
+                    }(), this.sortedSet = new wn(this.comparator);
                 }
                 /**
                      * Returns an empty copy of the existing DocumentSet, using the same
@@ -7688,13 +7776,32 @@
                     this.synchronizeTabs = !1;
                 }
                 async initialize(t) {
-                    this.N = new Bn(t.databaseInfo.databaseId, /* useProto3Json= */ !0), this.sharedClientState = this.Ho(t), this.persistence = this.Jo(t), await this.persistence.start(), this.gcScheduler = this.Yo(t), this.localStore = this.Xo(t);
+                    this.N = /**
+                 * @license
+                 * Copyright 2020 Google LLC
+                 *
+                 * Licensed under the Apache License, Version 2.0 (the "License");
+                 * you may not use this file except in compliance with the License.
+                 * You may obtain a copy of the License at
+                 *
+                 *   http://www.apache.org/licenses/LICENSE-2.0
+                 *
+                 * Unless required by applicable law or agreed to in writing, software
+                 * distributed under the License is distributed on an "AS IS" BASIS,
+                 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+                 * See the License for the specific language governing permissions and
+                 * limitations under the License.
+                 */ function(t) {
+                        return new Bn(t, /* useProto3Json= */ !0);
+                    }(t.databaseInfo.databaseId), this.sharedClientState = this.Ho(t), this.persistence = this.Jo(t), await this.persistence.start(), this.gcScheduler = this.Yo(t), this.localStore = this.Xo(t);
                 }
                 Yo(t) {
                     return null;
                 }
                 Xo(t) {
-                    return new ar(this.persistence, new cr(), t.initialUser, this.N);
+                    return function(/** Manages our in-memory or durable persistence. */ t, e, n, s) {
+                        return new ar(t, e, n, s);
+                    }(this.persistence, new cr(), t.initialUser, this.N);
                 }
                 Jo(t) {
                     return new Cr(xr.Ns, this.N);
@@ -7717,8 +7824,12 @@
                     return new Lo();
                 }
                 createDatastore(t) {
-                    const e = new Bn(t.databaseInfo.databaseId, !0), n = new zr(t.databaseInfo);
-                    /** Return the Platform-specific connectivity monitor. */ return new no(t.credentials, n, e);
+                    const e = function(t) {
+                        return new Bn(t, !0);
+                    }(t.databaseInfo.databaseId), n = new zr(t.databaseInfo);
+                    /** Return the Platform-specific connectivity monitor. */ return function(t, e, n) {
+                        return new no(t, e, n);
+                    }(t.credentials, n, e);
                 }
                 createRemoteStore(t) {
                     return new io(this.localStore, this.datastore, t.asyncQueue, (t)=>cc(this.syncEngine, t, 0 /* RemoteStore */ ), Qr.bt() ? new Qr() : new jr());
@@ -7732,9 +7843,12 @@
                 }
                 terminate() {
                     return async function(t) {
-                        $("RemoteStore", "RemoteStore shutting down."), t.Wr.add(5 /* Shutdown */ ), await oo(t), t.zr.shutdown(), // Set the OnlineState to Unknown (rather than Offline) to avoid potentially
+                        const e = function(t, e) {
+                            return t;
+                        }(t);
+                        $("RemoteStore", "RemoteStore shutting down."), e.Wr.add(5 /* Shutdown */ ), await oo(e), e.zr.shutdown(), // Set the OnlineState to Unknown (rather than Offline) to avoid potentially
                         // triggering spurious listener events with cached data, etc.
-                        t.Hr.set("Unknown" /* Unknown */ );
+                        e.Hr.set("Unknown" /* Unknown */ );
                     }(this.remoteStore);
                 }
             }
@@ -8101,7 +8215,9 @@
                             case "gapi":
                                 const e = t.client;
                                 // Make sure this really is a Gapi client.
-                                return "object" == typeof e && null !== e && e.auth && e.auth.getAuthHeaderValueForFirstParty || L(), new Y(e, t.sessionIndex || "0", t.iamToken || null);
+                                return function(t, e) {
+                                    t || L();
+                                }(!("object" != typeof e || null === e || !e.auth || !e.auth.getAuthHeaderValueForFirstParty)), new Y(e, t.sessionIndex || "0", t.iamToken || null);
                             case "provider":
                                 return t.client;
                             default:
@@ -8208,7 +8324,9 @@
                  * document references, and querying for documents (using {@link query}).
                  */ class Ra extends Aa {
                 /** @hideconstructor */ constructor(t, e, n){
-                    super(t, e, new fe(n)), this._path = n, /** The type of this Firestore reference. */ this.type = "collection";
+                    super(t, e, /** Creates a new Query for a query that matches all documents at `path` */ function(t) {
+                        return new fe(t);
+                    }(n)), this._path = n, /** The type of this Firestore reference. */ this.type = "collection";
                 }
                 /** The collection's identifier. */ get id() {
                     return this._query.path.lastSegment();
@@ -8361,11 +8479,17 @@
                 }
                 Pc(t) {
                     const e = this._c.then(()=>(this.Ec = !0, t().catch((t)=>{
-                            let e;
                             // Re-throw the error so that this.tail becomes a rejected Promise and
                             // all further attempts to chain (via .then) will just short-circuit
                             // and return the rejected Promise.
-                            throw this.Tc = t, this.Ec = !1, O("INTERNAL UNHANDLED ERROR: ", (e = /**
+                            throw this.Tc = t, this.Ec = !1, O("INTERNAL UNHANDLED ERROR: ", /**
+                                             * Chrome includes Error.message in Error.stack. Other browsers do not.
+                                             * This returns expected output of message + stack when available.
+                                             * @param error - Error or FirestoreError
+                                             */ function(t) {
+                                let e = t.message || "";
+                                return t.stack && (e = t.stack.includes(t.message) ? t.stack : t.message + "\n" + t.stack), e;
+                            }(/**
                                                  * @license
                                                  * Copyright 2017 Google LLC
                                                  *
@@ -8380,7 +8504,7 @@
                                                  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
                                                  * See the License for the specific language governing permissions and
                                                  * limitations under the License.
-                                                 */ t.message || "", t.stack && (e = t.stack.includes(t.message) ? t.stack : t.message + "\n" + t.stack), e)), t;
+                                                 */ t)), t;
                         }).then((t)=>(this.Ec = !1, t))));
                     return this._c = e, e;
                 }
@@ -9071,7 +9195,9 @@
                 }
                 convertDocumentKey(t, e) {
                     const n = ht.fromString(t);
-                    Ts(n) || L();
+                    !function(t, e) {
+                        t || L();
+                    }(Ts(n));
                     const s = new ha(n.get(1), n.get(3)), i = new Pt(n.popFirst(5));
                     return s.isEqual(e) || // TODO(b/64130202): Somehow support foreign references.
                     O(`Document ${i} contains a document reference within a different database (${s.projectId}/${s.database}) which is not supported. It will be treated as a reference in the current database (${e.projectId}/${e.database}) instead.`), i;

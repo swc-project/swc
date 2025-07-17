@@ -368,12 +368,15 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
                     }))));
                 }
                 key(key = "") {
-                    var ref, limiter;
-                    return null != (ref = this.instances[key]) ? ref : (limiter = this.instances[key] = new this.Bottleneck(Object.assign(this.limiterOptions, {
-                        id: `${this.id}-${key}`,
-                        timeout: this.timeout,
-                        connection: this.connection
-                    })), this.Events.trigger("created", limiter, key), limiter);
+                    var ref;
+                    return null != (ref = this.instances[key]) ? ref : (()=>{
+                        var limiter;
+                        return limiter = this.instances[key] = new this.Bottleneck(Object.assign(this.limiterOptions, {
+                            id: `${this.id}-${key}`,
+                            timeout: this.timeout,
+                            connection: this.connection
+                        })), this.Events.trigger("created", limiter, key), limiter;
+                    })();
                 }
                 async deleteKey(key = "") {
                     var deleted, instance;

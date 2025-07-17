@@ -21356,7 +21356,9 @@
                         n || (n = Error);
                         class i extends n {
                             constructor(e, t, n){
-                                super("string" == typeof r ? r : r(e, t, n));
+                                super(function(e, t, n) {
+                                    return "string" == typeof r ? r : r(e, t, n);
+                                }(e, t, n));
                             }
                         }
                         i.prototype.name = n.name, i.prototype.code = e, t[e] = i;
