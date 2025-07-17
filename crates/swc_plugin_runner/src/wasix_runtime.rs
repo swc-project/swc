@@ -72,14 +72,12 @@ pub fn build_wasi_runtime(
     let rt = PluggableRuntime {
         rt: Arc::new(TokioTaskManager::default()),
         networking: Arc::new(virtual_net::UnsupportedVirtualNetworking::default()),
-        engine: Some(ENGINE.lock().clone()),
+        engine: ENGINE.lock().clone(),
         tty: None,
         source: Arc::new(MultiSource::new()),
         module_cache: Arc::new(cache),
         http_client: None,
         package_loader: Arc::new(dummy_loader),
-        read_only_journals: vec![],
-        writable_journals: vec![],
     };
 
     Some(Arc::new(rt))
