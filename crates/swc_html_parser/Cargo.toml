@@ -22,7 +22,7 @@ debug = []
 rustc-hash = { workspace = true }
 
 swc_atoms      = { version = "7.0.0", path = "../swc_atoms" }
-swc_common     = { version = "14.0.0", path = "../swc_common" }
+swc_common     = { version = "14.0.1", path = "../swc_common" }
 swc_html_ast   = { version = "14.0.0", path = "../swc_html_ast" }
 swc_html_utils = { version = "14.0.0", path = "../swc_html_utils" }
 

@@ -407,11 +407,17 @@ impl Span {
     }
 
     #[inline]
+    pub fn new_with_checked(lo: BytePos, hi: BytePos) -> Self {
+        debug_assert!(lo <= hi, "lo: {lo:#?}, hi: {hi:#?}");
+        Span { lo, hi }
+    }
+
+    #[inline]
     pub fn with_lo(&self, lo: BytePos) -> Span {
         Span::new(lo, self.hi)
     }
 
-    #[inline]
+    #[inline(always)]
     pub fn hi(self) -> BytePos {
         self.hi
     }

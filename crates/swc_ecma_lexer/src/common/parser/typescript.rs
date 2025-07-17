@@ -351,7 +351,7 @@ pub fn parse_ts_modifier<'a, P: Parser<'a>>(
             return Err(eof_error(p));
         };
         let modifier = if cur.is_unknown_ident() {
-            cur.clone().take_unknown_ident_ref(p.input_mut()).clone()
+            cur.clone().take_unknown_ident_ref(p.input()).clone()
         } else if cur.is_known_ident() {
             cur.take_known_ident()
         } else if cur.is_in() {
@@ -438,11 +438,17 @@ pub fn parse_ts_entity_name<'a, P: Parser<'a>>(
     while p.input_mut().eat(&P::Token::DOT) {
         let dot_start = p.input_mut().cur_pos();
         let Some(cur) = p.input_mut().cur() else {
-            p.emit_err(Span::new(dot_start, dot_start), SyntaxError::TS1003);
+            p.emit_err(
+                Span::new_with_checked(dot_start, dot_start),
+                SyntaxError::TS1003,
+            );
             return Ok(entity);
         };
         if !cur.is_hash() && !cur.is_word() {
-            p.emit_err(Span::new(dot_start, dot_start), SyntaxError::TS1003);
+            p.emit_err(
+                Span::new_with_checked(dot_start, dot_start),
+                SyntaxError::TS1003,
+            );
             return Ok(entity);
         }
         let left = entity;
@@ -1012,7 +1018,7 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
         let start = p.cur_pos();
         p.bump();
         p.input_mut().store(P::Token::COMMA);
-        p.emit_err(Span::new(start, start), SyntaxError::TS1005);
+        p.emit_err(Span::new_with_checked(start, start), SyntaxError::TS1005);
         None
     };
 

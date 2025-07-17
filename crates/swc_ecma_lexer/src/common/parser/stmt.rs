@@ -238,7 +238,7 @@ pub fn parse_var_stmt<'a, P: Parser<'a>>(p: &mut P, for_loop: bool) -> PResult<B
         match res {
             Ok(true) => {
                 let pos = var_span.hi();
-                let span = Span::new(pos, pos);
+                let span = Span::new_with_checked(pos, pos);
                 p.emit_err(span, SyntaxError::TS1123);
 
                 return Ok(Box::new(VarDecl {
@@ -263,7 +263,7 @@ pub fn parse_var_stmt<'a, P: Parser<'a>>(p: &mut P, for_loop: bool) -> PResult<B
         if p.input_mut().is(&P::Token::SEMI) || eof!(p) {
             let prev_span = p.input().prev_span();
             let span = if prev_span == var_span {
-                Span::new(prev_span.hi, prev_span.hi)
+                Span::new_with_checked(prev_span.hi, prev_span.hi)
             } else {
                 prev_span
             };
@@ -936,7 +936,10 @@ fn parse_try_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     let finalizer = parse_finally_block(p)?;
 
     if handler.is_none() && finalizer.is_none() {
-        p.emit_err(Span::new(catch_start, catch_start), SyntaxError::TS1005);
+        p.emit_err(
+            Span::new_with_checked(catch_start, catch_start),
+            SyntaxError::TS1005,
+        );
     }
 
     let span = p.span(start);
@@ -995,7 +998,7 @@ fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
             }
 
             cases.push(SwitchCase {
-                span: Span::new(case_start, p.input().prev_span().hi),
+                span: Span::new_with_checked(case_start, p.input().prev_span().hi),
                 test,
                 cons,
             });
@@ -1328,15 +1331,6 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
             if let Some(decl) = parse_ts_expr_stmt(p, decorators, ident.clone())? {
                 return Ok(decl.into());
             }
-        }
-    }
-
-    if let Expr::Ident(Ident { ref sym, span, .. }) = *expr {
-        match &**sym {
-            "enum" | "interface" => {
-                p.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(sym.clone()));
-            }
-            _ => {}
         }
     }
 

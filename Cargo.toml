@@ -122,8 +122,8 @@ resolver = "2"
   walkdir                   = "2.4.0"
   wasm-bindgen              = "0.2.91"
   wasm-bindgen-futures      = "0.4.41"
-  wasmer                    = { version = "6.0.0", default-features = false }
-  wasmer-wasix              = { version = "0.600.0", default-features = false }
+  wasmer                    = { version = "6.1.0-rc.2", default-features = false }
+  wasmer-wasix              = { version = "0.601.0-rc.2", default-features = false }
 
   foldhash        = "0.1"
   precomputed-map = "0.2"

@@ -201,7 +201,7 @@ pub trait Buffer<'a> {
             .get_cur()
             .map(|item| item.span())
             .unwrap_or(self.prev_span());
-        Span::new(data.lo, data.hi)
+        Span::new_with_checked(data.lo, data.hi)
     }
 
     /// Returns last byte position of previous token.

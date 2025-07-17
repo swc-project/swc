@@ -321,7 +321,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
         Buffer {
             iter: lexer,
             cur: None,
-            prev_span: Span::new(start_pos, start_pos),
+            prev_span: Span::new_with_checked(start_pos, start_pos),
             next: None,
         }
     }

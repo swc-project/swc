@@ -270,7 +270,7 @@ pub trait Parser<'a>: Sized + Clone {
             start <= end,
             "assertion failed: (span.start <= span.end). start = {start:?}, end = {end:?}",
         );
-        Span::new(start, end)
+        Span::new_with_checked(start, end)
     }
 
     #[inline(always)]
@@ -525,6 +525,6 @@ pub fn eof_error<'a, P: Parser<'a>>(p: &mut P) -> crate::error::Error {
         "Parser should not call throw_eof_error() without knowing current token"
     );
     let pos = p.input().end_pos();
-    let last = Span::new(pos, pos);
+    let last = Span { lo: pos, hi: pos };
     crate::error::Error::new(last, crate::error::SyntaxError::Eof)
 }

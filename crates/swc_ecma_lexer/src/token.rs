@@ -780,7 +780,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn take_unknown_ident_ref<'b>(&'b self, _: &'b mut Self::Buffer) -> &'b Atom {
+    fn take_unknown_ident_ref<'b>(&'b self, _: &'b Self::Buffer) -> &'b Atom {
         match self {
             Self::Word(Word::Ident(IdentLike::Other(ref ident))) => ident,
             _ => unreachable!(),

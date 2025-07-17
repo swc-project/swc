@@ -267,7 +267,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     let s = unsafe { self.input_slice(slice_start, end) };
                     let cmt = swc_common::comments::Comment {
                         kind: swc_common::comments::CommentKind::Line,
-                        span: Span::new(start, end),
+                        span: Span::new_with_checked(start, end),
                         text: self.atom(s),
                     };
 
@@ -298,7 +298,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             };
             let cmt = swc_common::comments::Comment {
                 kind: swc_common::comments::CommentKind::Line,
-                span: Span::new(start, end),
+                span: Span::new_with_checked(start, end),
                 text: self.atom(s),
             };
 
@@ -371,7 +371,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.state_mut().mark_had_line_break();
                     }
                     let end_pos = self.input().end_pos();
-                    let span = Span::new(end_pos, end_pos);
+                    let span = Span::new_with_checked(end_pos, end_pos);
                     self.emit_error_span(span, SyntaxError::UnterminatedBlockComment);
                     return;
                 }
@@ -407,7 +407,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             let s = &src[..src.len() - 2];
                             let cmt = Comment {
                                 kind: CommentKind::Block,
-                                span: Span::new(start, end),
+                                span: Span::new_with_checked(start, end),
                                 text: self.atom(s),
                             };
 
@@ -642,20 +642,20 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     /// Reads an integer, octal integer, or floating-point number
-    fn read_number(
+    fn read_number<const START_WITH_DOT: bool, const START_WITH_ZERO: bool>(
         &mut self,
-        starts_with_dot: bool,
     ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
+        debug_assert!(!(START_WITH_DOT && START_WITH_ZERO));
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
         let mut has_underscore = false;
 
-        let lazy_integer = if starts_with_dot {
+        let lazy_integer = if START_WITH_DOT {
             // first char is '.'
             debug_assert!(
                 self.cur().is_some_and(|c| c == '.'),
-                "read_number(starts_with_dot = true) expects current char to be '.'"
+                "read_number<START_WITH_DOT = true> expects current char to be '.'"
             );
             LazyInteger {
                 start,
@@ -664,7 +664,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 has_underscore: false,
             }
         } else {
-            let starts_with_zero = self.cur().unwrap() == '0';
+            debug_assert!(!START_WITH_DOT);
+            debug_assert!(!START_WITH_ZERO || self.cur().unwrap() == '0');
 
             // Use read_number_no_dot to support long numbers.
             let lazy_integer = self.read_number_no_dot_as_str::<10>()?;
@@ -673,7 +674,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.input_slice(lazy_integer.start, lazy_integer.end)
             };
 
-            if self.eat(b'n') {
+            // legacy octal number is not allowed in bigint.
+            if (!START_WITH_ZERO || lazy_integer.end - lazy_integer.start == BytePos(1))
+                && self.eat(b'n')
+            {
                 let end = self.cur_pos();
                 let raw = unsafe {
                     // Safety: We got both start and end position from `self.input`
@@ -683,7 +687,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 return Ok(Either::Right((Box::new(bigint_value), self.atom(raw))));
             }
 
-            if starts_with_zero {
+            if START_WITH_ZERO {
                 // TODO: I guess it would be okay if I don't use -ffast-math
                 // (or something like that), but needs review.
                 if s.as_bytes().iter().all(|&c| c == b'0') {
@@ -736,8 +740,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         if has_dot {
             self.bump();
 
-            // equal: if starts_with_dot { debug_assert!(xxxx) }
-            debug_assert!(!starts_with_dot || self.cur().is_some_and(|cur| cur.is_ascii_digit()));
+            // equal: if START_WITH_DOT { debug_assert!(xxxx) }
+            debug_assert!(!START_WITH_DOT || self.cur().is_some_and(|cur| cur.is_ascii_digit()));
 
             // Read numbers after dot
             self.read_digits::<_, (), 10>(|_, _, _| Ok(((), true)), true, &mut has_underscore)?;
@@ -807,7 +811,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     .checked_mul(radix as u32)
                     .and_then(|v| v.checked_add(val))
                     .ok_or_else(|| {
-                        let span = Span::new(start, start);
+                        let span = Span::new_with_checked(start, start);
                         crate::error::Error::new(span, SyntaxError::InvalidUnicodeEscape)
                     })?;
 
@@ -1560,38 +1564,25 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         // let flags_start = self.cur_pos();
         let flags = {
             match self.cur() {
-                Some(c) if c.is_ident_start() => {
-                    self.read_word_as_str_with(|l, s, _, _| l.atom(s)).map(Some)
-                }
+                Some(c) if c.is_ident_start() => self
+                    .read_word_as_str_with()
+                    .map(|(s, _)| Some(self.atom(s))),
                 _ => Ok(None),
             }
         }?
-        .map(|(value, _)| value)
         .unwrap_or_default();
 
         Ok(Self::Token::regexp(content, flags, self))
     }
 
     /// This method is optimized for texts without escape sequences.
-    ///
-    /// `convert(text, has_escape, can_be_keyword)`
-    fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
-    where
-        F: FnOnce(&mut Self, &str, bool, bool) -> Ret,
-    {
+    fn read_word_as_str_with(&mut self) -> LexResult<(Cow<'a, str>, bool)> {
         debug_assert!(self.cur().is_some());
-        let mut can_be_keyword = true;
         let slice_start = self.cur_pos();
-        let has_escape = false;
 
         // Fast path: try to scan ASCII identifier using byte_search
         if let Some(c) = self.input().cur_as_ascii() {
             if Ident::is_valid_ascii_start(c) {
-                // Performance optimization: check if first char disqualifies as keyword
-                if can_be_keyword && (c.is_ascii_uppercase() || c.is_ascii_digit()) {
-                    can_be_keyword = false;
-                }
-
                 // Advance past first byte
                 self.bump();
 
@@ -1608,27 +1599,17 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             self.input_slice(slice_start, end)
                         };
 
-                        return Ok((convert(self, s, false, can_be_keyword), false));
+                        return Ok((Cow::Borrowed(s), false));
                     },
                 };
 
                 // Check if we hit end of identifier or need to fall back to slow path
                 if !next_byte.is_ascii() {
                     // Hit Unicode character, fall back to slow path from current position
-                    return self.read_word_as_str_with_slow_path(
-                        convert,
-                        slice_start,
-                        has_escape,
-                        can_be_keyword,
-                    );
+                    return self.read_word_as_str_with_slow_path(slice_start);
                 } else if next_byte == b'\\' {
                     // Hit escape sequence, fall back to slow path from current position
-                    return self.read_word_as_str_with_slow_path(
-                        convert,
-                        slice_start,
-                        has_escape,
-                        can_be_keyword,
-                    );
+                    return self.read_word_as_str_with_slow_path(slice_start);
                 } else {
                     // Hit end of identifier (non-continue ASCII char)
                     let end = self.cur_pos();
@@ -1638,37 +1619,27 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.input_slice(slice_start, end)
                     };
 
-                    return Ok((convert(self, s, has_escape, can_be_keyword), has_escape));
+                    return Ok((Cow::Borrowed(s), false));
                 }
             }
         }
 
         // Fall back to slow path for non-ASCII start or complex cases
-        self.read_word_as_str_with_slow_path(convert, slice_start, has_escape, can_be_keyword)
+        self.read_word_as_str_with_slow_path(slice_start)
     }
 
     /// Slow path for identifier parsing that handles Unicode and escapes
     #[cold]
-    fn read_word_as_str_with_slow_path<F, Ret>(
+    fn read_word_as_str_with_slow_path(
         &mut self,
-        convert: F,
         mut slice_start: BytePos,
-        mut has_escape: bool,
-        mut can_be_keyword: bool,
-    ) -> LexResult<(Ret, bool)>
-    where
-        F: FnOnce(&mut Self, &str, bool, bool) -> Ret,
-    {
+    ) -> LexResult<(Cow<'a, str>, bool)> {
         let mut first = true;
+        let mut has_escape = false;
 
         let mut buf = String::with_capacity(16);
         loop {
             if let Some(c) = self.input().cur_as_ascii() {
-                // Performance optimization
-                if can_be_keyword && (c.is_ascii_uppercase() || c.is_ascii_digit()) {
-                    can_be_keyword = false;
-                }
-
                 if Ident::is_valid_ascii_continue(c) {
                     self.bump();
                     continue;
@@ -1749,10 +1720,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         };
         let value = if !has_escape {
             // Fast path: raw slice is enough if there's no escape.
-            convert(self, s, has_escape, can_be_keyword)
+            Cow::Borrowed(s)
         } else {
             buf.push_str(s);
-            convert(self, &buf, has_escape, can_be_keyword)
+            Cow::Owned(buf)
         };
 
         Ok((value, has_escape))
@@ -1788,9 +1759,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             }
         };
         if next.is_ascii_digit() {
-            return self.read_number(true).map(|v| match v {
+            return self.read_number::<true, false>().map(|v| match v {
                 Left((value, raw)) => Self::Token::num(value, raw, self),
-                Right((value, raw)) => Self::Token::bigint(value, raw, self),
+                Right(_) => unreachable!("read_number should not return bigint for leading dot"),
             });
         }
 
@@ -1847,7 +1818,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             Some('o') | Some('O') => self.read_radix_number::<8>(),
             Some('b') | Some('B') => self.read_radix_number::<2>(),
             _ => {
-                return self.read_number(false).map(|v| match v {
+                return self.read_number::<false, true>().map(|v| match v {
                     Left((value, raw)) => Self::Token::num(value, raw, self),
                     Right((value, raw)) => Self::Token::bigint(value, raw, self),
                 });
@@ -1980,10 +1951,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_ident_unknown(&mut self) -> LexResult<Self::Token> {
         debug_assert!(self.cur().is_some());
 
-        let (word, has_escape) = self.read_word_as_str_with(|l, s, _, _| {
-            let atom = l.atom(s);
-            Self::Token::unknown_ident(atom, l)
-        })?;
+        let (s, has_escape) = self.read_word_as_str_with()?;
+        let atom = self.atom(s);
+        let word = Self::Token::unknown_ident(atom, self);
+
         if has_escape {
             self.update_token_flags(|flags| *flags |= TokenFlags::UNICODE);
         }
@@ -2110,43 +2081,84 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         }
     }
 
-    /// This can be used if there's no keyword starting with the first
-    /// character.
-    fn read_word_with(
+    fn read_keyword_with(
         &mut self,
         convert: &dyn Fn(&str) -> Option<Self::Token>,
     ) -> LexResult<Option<Self::Token>> {
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
-        let (word, has_escape) = self.read_word_as_str_with(|l, s, _, can_be_known| {
-            if can_be_known {
-                if let Some(word) = convert(s) {
-                    return word;
-                }
+        let (s, has_escape) = self.read_keyword_as_str_with()?;
+        if let Some(word) = convert(s.as_ref()) {
+            // Note: ctx is store in lexer because of this error.
+            // 'await' and 'yield' may have semantic of reserved word, which means lexer
+            // should know context or parser should handle this error. Our approach to this
+            // problem is former one.
+            if has_escape && word.is_reserved(self.ctx()) {
+                self.error(
+                    start,
+                    SyntaxError::EscapeInReservedWord { word: Atom::new(s) },
+                )
+            } else {
+                Ok(Some(word))
             }
-            let atom = l.atom(s);
-            Self::Token::unknown_ident(atom, l)
-        })?;
-
-        // Note: ctx is store in lexer because of this error.
-        // 'await' and 'yield' may have semantic of reserved word, which means lexer
-        // should know context or parser should handle this error. Our approach to this
-        // problem is former one.
-
-        if has_escape && word.is_reserved(self.ctx()) {
-            let word = word.into_atom(self).unwrap();
-            self.error(start, SyntaxError::EscapeInReservedWord { word })?
         } else {
-            Ok(Some(word))
+            let atom = self.atom(s);
+            Ok(Some(Self::Token::unknown_ident(atom, self)))
+        }
+    }
+
+    /// This is a performant version of [Lexer::read_word_as_str_with] for
+    /// reading keywords. We should make sure the first byte is a valid
+    /// ASCII.
+    fn read_keyword_as_str_with(&mut self) -> LexResult<(Cow<'a, str>, bool)> {
+        let slice_start = self.cur_pos();
+
+        // Fast path: try to scan ASCII identifier using byte_search
+        // Performance optimization: check if first char disqualifies as keyword
+        // Advance past first byte
+        self.bump();
+
+        // Use byte_search to quickly scan to end of ASCII identifier
+        let next_byte = byte_search! {
+            lexer: self,
+            table: NOT_ASCII_ID_CONTINUE_TABLE,
+            handle_eof: {
+                // Reached EOF, entire remainder is identifier
+                let end = self.cur_pos();
+                let s = unsafe {
+                    // Safety: slice_start and end are valid position because we got them from
+                    // `self.input`
+                    self.input_slice(slice_start, end)
+                };
+
+                return Ok((Cow::Borrowed(s), false));
+            },
+        };
+
+        // Check if we hit end of identifier or need to fall back to slow path
+        if !next_byte.is_ascii() || next_byte == b'\\' {
+            // Hit Unicode character or escape sequence, fall back to slow path from current
+            // position
+            self.read_word_as_str_with_slow_path(slice_start)
+        } else {
+            // Hit end of identifier (non-continue ASCII char)
+            let end = self.cur_pos();
+            let s = unsafe {
+                // Safety: slice_start and end are valid position because we got them from
+                // `self.input`
+                self.input_slice(slice_start, end)
+            };
+
+            Ok((Cow::Borrowed(s), false))
         }
     }
 }
 
 pub fn pos_span(p: BytePos) -> Span {
-    Span::new(p, p)
+    Span::new_with_checked(p, p)
 }
 
 pub fn fixed_len_span(p: BytePos, len: u32) -> Span {
-    Span::new(p, p + BytePos(len))
+    Span::new_with_checked(p, p + BytePos(len))
 }

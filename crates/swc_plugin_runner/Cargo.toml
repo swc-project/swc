@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_plugin_runner"
 repository    = { workspace = true }
-version       = "16.0.0"
+version       = "17.0.0"
 
 [lib]
 bench   = false
@@ -22,12 +22,8 @@ plugin_transform_host_js = [
 plugin_transform_host_native = [
   "wasmer/cranelift",
   "wasmer/sys",
-  "wasmer-wasix/sys",
-  "wasmer-wasix/logging",
+  "wasmer-wasix/sys-minimal",
   "wasmer-wasix/host-fs",
-  "wasmer-wasix/sys-poll",
-  "wasmer-wasix/sys-thread",
-  "wasmer-wasix/host-threads",
   "wasmer-compiler-cranelift/default",
 ]
 plugin_transform_host_native_shared_runtime = ["tokio"]
@@ -64,7 +60,7 @@ wasmer       = { workspace = true }
 wasmer-wasix = { workspace = true }
 
 swc_atoms = { version = "7.0.0", path = '../swc_atoms' }
-swc_common = { version = "14.0.0", path = "../swc_common", features = [
+swc_common = { version = "14.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_css_ast = { version = "14.0.0", path = "../swc_css_ast", optional = true }
@@ -73,8 +69,8 @@ swc_plugin_proxy = { version = "14.0.0", path = "../swc_plugin_proxy" }
 swc_transform_common = { version = "8.0.0", path = "../swc_transform_common" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-wasmer-cache              = { version = "6.0.0", optional = true }
-wasmer-compiler-cranelift = { version = "6.0.0", default-features = false }
+wasmer-cache              = { version = "6.1.0-rc.2", optional = true }
+wasmer-compiler-cranelift = { version = "6.1.0-rc.2", default-features = false }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
@@ -86,7 +82,7 @@ swc_css_parser = { version = "14.0.0", path = "../swc_css_parser" }
 swc_ecma_ast = { version = "14.0.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
-swc_ecma_parser = { version = "20.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "21.0.0", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "14.0.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
 testing = { version = "15.0.0", path = "../testing" }

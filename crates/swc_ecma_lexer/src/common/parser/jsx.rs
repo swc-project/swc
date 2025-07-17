@@ -86,7 +86,7 @@ fn parse_jsx_namespaced_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrNam
     }
     let name = parse_jsx_ident(p).map(IdentName::from)?;
     Ok(JSXAttrName::JSXNamespacedName(JSXNamespacedName {
-        span: Span::new(start, name.span.hi),
+        span: Span::new_with_checked(start, name.span.hi),
         ns,
         name,
     }))
@@ -125,7 +125,7 @@ fn parse_jsx_empty_expr<'a>(p: &mut impl Parser<'a>) -> JSXEmptyExpr {
     debug_assert!(p.input().syntax().jsx());
     let start = p.input_mut().cur_pos();
     JSXEmptyExpr {
-        span: Span::new(start, start),
+        span: Span::new_with_checked(start, start),
     }
 }
 

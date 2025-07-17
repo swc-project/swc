@@ -1508,9 +1508,8 @@ fn parse_class_body<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<ClassMember>> {
     while !eof!(p) && !p.input_mut().is(&P::Token::RBRACE) {
         if p.input_mut().eat(&P::Token::SEMI) {
             let span = p.input().prev_span();
-            elems.push(ClassMember::Empty(EmptyStmt {
-                span: Span::new(span.lo, span.hi),
-            }));
+            debug_assert!(span.lo <= span.hi);
+            elems.push(ClassMember::Empty(EmptyStmt { span }));
             continue;
         }
         let elem = p.do_inside_of_context(Context::AllowDirectSuper, parse_class_member)?;
@@ -1667,12 +1666,12 @@ fn parse_class_inner<'a, P: Parser<'a>>(
         } else {
             expect!(p, &P::Token::RBRACE);
         }
-        let end = p.last_pos();
 
+        let span = p.span(class_start);
         Ok((
             ident,
             Box::new(Class {
-                span: Span::new(class_start, end),
+                span,
                 decorators,
                 is_abstract: false,
                 type_params,

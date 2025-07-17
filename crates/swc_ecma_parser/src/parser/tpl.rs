@@ -37,7 +37,7 @@ impl<I: Tokens> Parser<I> {
         };
         let pos = self.input.prev_span().hi;
         debug_assert!(start <= pos);
-        let span = Span::new(start, pos);
+        let span = Span::new_with_checked(start, pos);
         Ok(Tpl {
             span,
             exprs: vec![],
@@ -47,7 +47,10 @@ impl<I: Tokens> Parser<I> {
                     // `____`
                     // `start.0 + 1` means skip the first backtick
                     // `pos.0 - 1` means skip the last backtick
-                    Span::new(BytePos::from_u32(start.0 + 1), BytePos::from_u32(pos.0 - 1))
+                    Span::new_with_checked(
+                        BytePos::from_u32(start.0 + 1),
+                        BytePos::from_u32(pos.0 - 1),
+                    )
                 },
                 tail: true,
                 raw,
@@ -83,7 +86,8 @@ impl<I: Tokens> Parser<I> {
         // `start.0 + 1` means skip the first backtick
         // `pos.0 - 2` means skip "${"
         debug_assert!(start.0 <= pos.0 - 3);
-        let span = Span::new(BytePos::from_u32(start.0 + 1), BytePos::from_u32(pos.0 - 2));
+        let span =
+            Span::new_with_checked(BytePos::from_u32(start.0 + 1), BytePos::from_u32(pos.0 - 2));
         Ok(TplElement {
             span,
             raw,
@@ -145,7 +149,7 @@ impl<I: Tokens> Parser<I> {
                 debug_assert!(start.0 <= pos.0 - 2);
                 // case: ___${
                 // `pos.0 - 2` means skip '${'
-                let span = Span::new(start, BytePos::from_u32(pos.0 - 2));
+                let span = Span::new_with_checked(start, BytePos::from_u32(pos.0 - 2));
                 match cooked {
                     Ok(cooked) => (raw, Some(cooked), false, span),
                     Err(err) => {
@@ -164,7 +168,7 @@ impl<I: Tokens> Parser<I> {
                 debug_assert!(start.0 < pos.0);
                 // case: ____`
                 // `pos.0 - 1` means skip '`'
-                let span = Span::new(start, BytePos::from_u32(pos.0 - 1));
+                let span = Span::new_with_checked(start, BytePos::from_u32(pos.0 - 1));
                 match cooked {
                     Ok(cooked) => (raw, Some(cooked), true, span),
                     Err(err) => {
@@ -257,7 +261,7 @@ impl<I: Tokens> Parser<I> {
         };
         let pos = self.input.prev_span().hi;
         debug_assert!(start.0 <= pos.0);
-        let span = Span::new(start, pos);
+        let span = Span::new_with_checked(start, pos);
         Ok(TsTplLitType {
             span,
             types: vec![],
@@ -267,7 +271,10 @@ impl<I: Tokens> Parser<I> {
                     // `____`
                     // `start.0 + 1` means skip the first backtick
                     // `pos.0 - 1` means skip the last backtick
-                    Span::new(BytePos::from_u32(start.0 + 1), BytePos::from_u32(pos.0 - 1))
+                    Span::new_with_checked(
+                        BytePos::from_u32(start.0 + 1),
+                        BytePos::from_u32(pos.0 - 1),
+                    )
                 },
                 tail: true,
                 raw,
