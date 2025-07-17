@@ -179,6 +179,9 @@ bitflags! {
         const InWithStmt = 1 << 24;
 
         const InParam = 1 << 25;
+
+        /// `true` while we are inside a class body.
+        const InClass = 1 << 26;
     }
 }
 
@@ -1651,6 +1654,42 @@ impl VisitMut for Optimizer<'_> {
                 ..self.ctx.clone()
             };
             n.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
+    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
+        let ctx = self
+            .ctx
+            .clone()
+            .with(BitCtx::InFnLike, false)
+            .with(BitCtx::InClass, true);
+
+        match n {
+            ClassMember::ClassProp(class_prop) => {
+                class_prop.key.visit_mut_with(self);
+                class_prop.value.visit_mut_with(&mut *self.with_ctx(ctx));
+            }
+            ClassMember::Method(class_method) => {
+                class_method.key.visit_mut_with(self);
+                class_method
+                    .function
+                    .visit_mut_with(&mut *self.with_ctx(ctx));
+            }
+            ClassMember::AutoAccessor(auto_accessor) => {
+                auto_accessor.key.visit_mut_with(self);
+                auto_accessor.value.visit_mut_with(&mut *self.with_ctx(ctx));
+            }
+            ClassMember::PrivateProp(private_prop) => {
+                private_prop.visit_mut_with(&mut *self.with_ctx(ctx));
+            }
+            ClassMember::PrivateMethod(private_method) => {
+                private_method.visit_mut_with(&mut *self.with_ctx(ctx));
+            }
+
+            _ => {
+                n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+            }
         }
     }
 
