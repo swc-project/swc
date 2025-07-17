@@ -557,6 +557,14 @@ impl Optimizer<'_> {
             return;
         }
 
+        // Check if we're in a class context and only allow inlining in static contexts
+        if self.ctx.bit_ctx.contains(BitCtx::InClass)
+            && !self.ctx.bit_ctx.contains(BitCtx::InStaticContext)
+        {
+            trace_op!("iife: Skipping inlining in class non-static context");
+            return;
+        }
+
         let callee = match &mut call.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
@@ -677,6 +685,14 @@ impl Optimizer<'_> {
         };
 
         if !self.may_invoke_iife(call) {
+            return None;
+        }
+
+        // Check if we're in a class context and only allow inlining in static contexts
+        if self.ctx.bit_ctx.contains(BitCtx::InClass)
+            && !self.ctx.bit_ctx.contains(BitCtx::InStaticContext)
+        {
+            trace_op!("iife: Skipping inlining in class non-static context");
             return None;
         }
 
