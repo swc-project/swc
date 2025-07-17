@@ -125,6 +125,7 @@ macro_rules! impl_for_for_stmt {
                 },
             }));
 
+            for_stmt.right.visit_mut_with(self);
             for_stmt.body.visit_mut_with(self);
         }
     };
