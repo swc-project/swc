@@ -372,6 +372,15 @@ impl Optimizer<'_> {
             return false;
         }
 
+        if self.ctx.bit_ctx.contains(BitCtx::InClass)
+            && !self
+                .ctx
+                .bit_ctx
+                .intersects(BitCtx::InFnLike | BitCtx::InBlock)
+        {
+            return false;
+        }
+
         if !self.ctx.in_top_level() {
             return true;
         }
