@@ -15,3 +15,5 @@ const a2 = new A(2);
 a1.c();
 console.assert(a1.b === 2);
 console.assert(a2.b === 2);
+
+export {};
