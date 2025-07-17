@@ -379,6 +379,14 @@ impl Optimizer<'_> {
         self.options.top_level()
     }
 
+    fn at_class_field(&self) -> bool {
+        self.ctx.bit_ctx.contains(BitCtx::InClass)
+            && !self
+                .ctx
+                .bit_ctx
+                .intersects(BitCtx::InFnLike | BitCtx::InBlock)
+    }
+
     fn ident_reserved(&self, sym: &Atom) -> bool {
         if let Some(MangleOptions { reserved, .. }) = self.mangle_options {
             reserved.contains(sym)

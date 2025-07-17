@@ -14,11 +14,6 @@ use crate::{
     util::{idents_captured_by, make_number},
 };
 
-/// Check if a function body contains declarations
-fn block_contains_decls(body: &BlockStmt) -> bool {
-    body.stmts.iter().any(|stmt| stmt.is_decl())
-}
-
 /// Methods related to the option `negate_iife`.
 impl Optimizer<'_> {
     /// Negates iife, while ignore return value.
@@ -567,12 +562,6 @@ impl Optimizer<'_> {
             Callee::Expr(e) => &mut **e,
         };
 
-        let at_class_field = self.ctx.bit_ctx.contains(BitCtx::InClass)
-            && !self
-                .ctx
-                .bit_ctx
-                .intersects(BitCtx::InFnLike | BitCtx::InBlock);
-
         match callee {
             Expr::Arrow(f) => {
                 let param_ids = f
@@ -583,13 +572,6 @@ impl Optimizer<'_> {
 
                 match &mut *f.body {
                     BlockStmtOrExpr::BlockStmt(body) => {
-                        if at_class_field && block_contains_decls(body) {
-                            trace_op!(
-                                "iife: Skipping inlining function with declarations in class field"
-                            );
-                            return;
-                        }
-
                         let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                         if let Some(new) = new {
                             self.changed = true;
@@ -653,11 +635,6 @@ impl Optimizer<'_> {
                     self.changed = true;
                     report_change!("iife: Inlining an empty function call as `undefined`");
                     *e = *Expr::undefined(f.function.span);
-                    return;
-                }
-
-                if at_class_field && block_contains_decls(body) {
-                    trace_op!("iife: Skipping inlining function with declarations in class field");
                     return;
                 }
 
@@ -820,7 +797,7 @@ impl Optimizer<'_> {
             return false;
         }
 
-        if !self.may_add_ident() {
+        if !self.may_add_ident() || self.at_class_field() {
             let has_decl = if for_stmt {
                 // we check it later
                 false
