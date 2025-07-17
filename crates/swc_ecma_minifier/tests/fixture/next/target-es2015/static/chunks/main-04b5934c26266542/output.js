@@ -664,10 +664,9 @@
                 getDataHref(params) {
                     const { asPath, href, locale } = params, { pathname: hrefPathname, query, search } = _parseRelativeUrl.parseRelativeUrl(href), { pathname: asPathname } = _parseRelativeUrl.parseRelativeUrl(asPath), route = _removeTrailingSlash.removeTrailingSlash(hrefPathname);
                     if ("/" !== route[0]) throw Error('Route name should start with a "/", got "'.concat(route, '"'));
-                    return ((path)=>{
-                        const dataRoute = _getAssetPathFromRoute.default(_removeTrailingSlash.removeTrailingSlash(_addLocale.addLocale(path, locale)), ".json");
-                        return _addBasePath.addBasePath("/_next/data/".concat(this.buildId).concat(dataRoute).concat(search), !0);
-                    })(params.skipInterpolation ? asPathname : _isDynamic.isDynamicRoute(route) ? _router.interpolateAs(hrefPathname, asPathname, query).result : route);
+                    var path = params.skipInterpolation ? asPathname : _isDynamic.isDynamicRoute(route) ? _router.interpolateAs(hrefPathname, asPathname, query).result : route;
+                    const dataRoute = _getAssetPathFromRoute.default(_removeTrailingSlash.removeTrailingSlash(_addLocale.addLocale(path, locale)), ".json");
+                    return _addBasePath.addBasePath("/_next/data/".concat(this.buildId).concat(dataRoute).concat(search), !0);
                 }
                 /**
    * @param {string} route - the route (file-system path)
@@ -2167,7 +2166,7 @@ You should only use "next/router" on the client side of your app.
      * for shallow routing purposes.
      */ let route = requestedRoute;
                         try {
-                            var ref, ref4, ref5;
+                            var ref, ref4, ref5, options;
                             const handleCancelled = getCancelledHandler({
                                 route,
                                 router: _this
@@ -2194,53 +2193,72 @@ You should only use "next/router" on the client side of your app.
                                 isPrefetch: !1,
                                 unstable_skipClientCache,
                                 isBackground: isQueryUpdating
-                            }, data = yield function(options) {
-                                return matchesMiddleware(options).then((matches)=>matches && options.fetchData ? options.fetchData().then((data)=>(function(source, response, options) {
-                                            const nextConfig = {
-                                                basePath: options.router.basePath,
-                                                i18n: {
-                                                    locales: options.router.locales
-                                                },
-                                                trailingSlash: !1
-                                            }, rewriteHeader = response.headers.get("x-nextjs-rewrite");
-                                            let rewriteTarget = rewriteHeader || response.headers.get("x-nextjs-matched-path");
-                                            const matchedPath = response.headers.get("x-matched-path");
-                                            if (!matchedPath || rewriteTarget || matchedPath.includes("__next_data_catchall") || matchedPath.includes("/_error") || matchedPath.includes("/404") || // leverage x-matched-path to detect next.config.js rewrites
-                                            (rewriteTarget = matchedPath), rewriteTarget) {
-                                                if (rewriteTarget.startsWith("/")) {
-                                                    const parsedRewriteTarget = _parseRelativeUrl.parseRelativeUrl(rewriteTarget), pathnameInfo = _getNextPathnameInfo.getNextPathnameInfo(parsedRewriteTarget.pathname, {
-                                                        nextConfig,
-                                                        parseData: !0
-                                                    });
-                                                    let fsPathname = _removeTrailingSlash.removeTrailingSlash(pathnameInfo.pathname);
-                                                    return Promise.all([
-                                                        options.router.pageLoader.getPageList(),
-                                                        _routeLoader.getClientBuildManifest()
-                                                    ]).then((param)=>{
-                                                        let [pages, { __rewrites: rewrites }] = param, as = _addLocale.addLocale(pathnameInfo.pathname, pathnameInfo.locale);
-                                                        if (_isDynamic.isDynamicRoute(as) || !rewriteHeader && pages.includes(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(as), options.router.locales).pathname)) {
-                                                            const parsedSource = _getNextPathnameInfo.getNextPathnameInfo(_parseRelativeUrl.parseRelativeUrl(source).pathname, {
-                                                                parseData: !0
-                                                            });
-                                                            parsedRewriteTarget.pathname = as = _addBasePath.addBasePath(parsedSource.pathname);
-                                                        }
-                                                        if (!pages.includes(fsPathname)) {
-                                                            const resolvedPathname = resolveDynamicRoute(fsPathname, pages);
-                                                            resolvedPathname !== fsPathname && (fsPathname = resolvedPathname);
-                                                        }
-                                                        const resolvedHref = pages.includes(fsPathname) ? fsPathname : resolveDynamicRoute(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(parsedRewriteTarget.pathname), options.router.locales).pathname, pages);
-                                                        if (_isDynamic.isDynamicRoute(resolvedHref)) {
-                                                            const matches = _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(resolvedHref))(as);
-                                                            Object.assign(parsedRewriteTarget.query, matches || {});
-                                                        }
-                                                        return {
-                                                            type: "rewrite",
-                                                            parsedAs: parsedRewriteTarget,
-                                                            resolvedHref
-                                                        };
-                                                    });
-                                                }
-                                                const src = _parsePath.parsePath(source), pathname = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src.pathname, {
+                            }, data = yield (options = {
+                                fetchData: ()=>fetchNextData(fetchNextDataParams),
+                                asPath: resolvedAs,
+                                locale: locale,
+                                router: _this
+                            }, matchesMiddleware(options).then((matches)=>matches && options.fetchData ? options.fetchData().then((data)=>(function(source, response, options) {
+                                        const nextConfig = {
+                                            basePath: options.router.basePath,
+                                            i18n: {
+                                                locales: options.router.locales
+                                            },
+                                            trailingSlash: !1
+                                        }, rewriteHeader = response.headers.get("x-nextjs-rewrite");
+                                        let rewriteTarget = rewriteHeader || response.headers.get("x-nextjs-matched-path");
+                                        const matchedPath = response.headers.get("x-matched-path");
+                                        if (!matchedPath || rewriteTarget || matchedPath.includes("__next_data_catchall") || matchedPath.includes("/_error") || matchedPath.includes("/404") || // leverage x-matched-path to detect next.config.js rewrites
+                                        (rewriteTarget = matchedPath), rewriteTarget) {
+                                            if (rewriteTarget.startsWith("/")) {
+                                                const parsedRewriteTarget = _parseRelativeUrl.parseRelativeUrl(rewriteTarget), pathnameInfo = _getNextPathnameInfo.getNextPathnameInfo(parsedRewriteTarget.pathname, {
+                                                    nextConfig,
+                                                    parseData: !0
+                                                });
+                                                let fsPathname = _removeTrailingSlash.removeTrailingSlash(pathnameInfo.pathname);
+                                                return Promise.all([
+                                                    options.router.pageLoader.getPageList(),
+                                                    _routeLoader.getClientBuildManifest()
+                                                ]).then((param)=>{
+                                                    let [pages, { __rewrites: rewrites }] = param, as = _addLocale.addLocale(pathnameInfo.pathname, pathnameInfo.locale);
+                                                    if (_isDynamic.isDynamicRoute(as) || !rewriteHeader && pages.includes(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(as), options.router.locales).pathname)) {
+                                                        const parsedSource = _getNextPathnameInfo.getNextPathnameInfo(_parseRelativeUrl.parseRelativeUrl(source).pathname, {
+                                                            parseData: !0
+                                                        });
+                                                        parsedRewriteTarget.pathname = as = _addBasePath.addBasePath(parsedSource.pathname);
+                                                    }
+                                                    if (!pages.includes(fsPathname)) {
+                                                        const resolvedPathname = resolveDynamicRoute(fsPathname, pages);
+                                                        resolvedPathname !== fsPathname && (fsPathname = resolvedPathname);
+                                                    }
+                                                    const resolvedHref = pages.includes(fsPathname) ? fsPathname : resolveDynamicRoute(_normalizeLocalePath.normalizeLocalePath(_removeBasePath.removeBasePath(parsedRewriteTarget.pathname), options.router.locales).pathname, pages);
+                                                    if (_isDynamic.isDynamicRoute(resolvedHref)) {
+                                                        const matches = _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(resolvedHref))(as);
+                                                        Object.assign(parsedRewriteTarget.query, matches || {});
+                                                    }
+                                                    return {
+                                                        type: "rewrite",
+                                                        parsedAs: parsedRewriteTarget,
+                                                        resolvedHref
+                                                    };
+                                                });
+                                            }
+                                            const src = _parsePath.parsePath(source), pathname = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src.pathname, {
+                                                nextConfig,
+                                                parseData: !0
+                                            }), {
+                                                defaultLocale: options.router.defaultLocale,
+                                                buildId: ""
+                                            }));
+                                            return Promise.resolve({
+                                                type: "redirect-external",
+                                                destination: "".concat(pathname).concat(src.query).concat(src.hash)
+                                            });
+                                        }
+                                        const redirectTarget = response.headers.get("x-nextjs-redirect");
+                                        if (redirectTarget) {
+                                            if (redirectTarget.startsWith("/")) {
+                                                const src1 = _parsePath.parsePath(redirectTarget), pathname1 = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src1.pathname, {
                                                     nextConfig,
                                                     parseData: !0
                                                 }), {
@@ -2248,48 +2266,27 @@ You should only use "next/router" on the client side of your app.
                                                     buildId: ""
                                                 }));
                                                 return Promise.resolve({
-                                                    type: "redirect-external",
-                                                    destination: "".concat(pathname).concat(src.query).concat(src.hash)
-                                                });
-                                            }
-                                            const redirectTarget = response.headers.get("x-nextjs-redirect");
-                                            if (redirectTarget) {
-                                                if (redirectTarget.startsWith("/")) {
-                                                    const src1 = _parsePath.parsePath(redirectTarget), pathname1 = _formatNextPathnameInfo.formatNextPathnameInfo(_extends({}, _getNextPathnameInfo.getNextPathnameInfo(src1.pathname, {
-                                                        nextConfig,
-                                                        parseData: !0
-                                                    }), {
-                                                        defaultLocale: options.router.defaultLocale,
-                                                        buildId: ""
-                                                    }));
-                                                    return Promise.resolve({
-                                                        type: "redirect-internal",
-                                                        newAs: "".concat(pathname1).concat(src1.query).concat(src1.hash),
-                                                        newUrl: "".concat(pathname1).concat(src1.query).concat(src1.hash)
-                                                    });
-                                                }
-                                                return Promise.resolve({
-                                                    type: "redirect-external",
-                                                    destination: redirectTarget
+                                                    type: "redirect-internal",
+                                                    newAs: "".concat(pathname1).concat(src1.query).concat(src1.hash),
+                                                    newUrl: "".concat(pathname1).concat(src1.query).concat(src1.hash)
                                                 });
                                             }
                                             return Promise.resolve({
-                                                type: "next"
+                                                type: "redirect-external",
+                                                destination: redirectTarget
                                             });
-                                        })(data.dataHref, data.response, options).then((effect)=>({
-                                                dataHref: data.dataHref,
-                                                cacheKey: data.cacheKey,
-                                                json: data.json,
-                                                response: data.response,
-                                                text: data.text,
-                                                effect
-                                            }))).catch((_err)=>null) : null);
-                            }({
-                                fetchData: ()=>fetchNextData(fetchNextDataParams),
-                                asPath: resolvedAs,
-                                locale: locale,
-                                router: _this
-                            });
+                                        }
+                                        return Promise.resolve({
+                                            type: "next"
+                                        });
+                                    })(data.dataHref, data.response, options).then((effect)=>({
+                                            dataHref: data.dataHref,
+                                            cacheKey: data.cacheKey,
+                                            json: data.json,
+                                            response: data.response,
+                                            text: data.text,
+                                            effect
+                                        }))).catch((_err)=>null) : null));
                             if (isQueryUpdating && data && (data.json = self.__NEXT_DATA__.props), handleCancelled(), (null == data || null == (ref = data.effect) ? void 0 : ref.type) === "redirect-internal" || (null == data || null == (ref4 = data.effect) ? void 0 : ref4.type) === "redirect-external") return data.effect;
                             if ((null == data || null == (ref5 = data.effect) ? void 0 : ref5.type) === "rewrite" && (route = _removeTrailingSlash.removeTrailingSlash(data.effect.resolvedHref), pathname = data.effect.resolvedHref, query = _extends({}, query, data.effect.parsedAs.query), resolvedAs = _removeBasePath.removeBasePath(_normalizeLocalePath.normalizeLocalePath(data.effect.parsedAs.pathname, _this.locales).pathname), // Check again the cache with the new destination.
                             existingInfo = _this.components[route], routeProps.shallow && existingInfo && _this.route === route && !hasMiddleware)) // If we have a match with the current route due to rewrite,

@@ -14,6 +14,11 @@ use crate::{
     util::{idents_captured_by, make_number},
 };
 
+/// Check if a function body contains declarations
+fn body_contains_decls(body: &BlockStmt) -> bool {
+    body.stmts.iter().any(|stmt| stmt.is_decl())
+}
+
 /// Methods related to the option `negate_iife`.
 impl Optimizer<'_> {
     /// Negates iife, while ignore return value.
@@ -557,12 +562,34 @@ impl Optimizer<'_> {
             return;
         }
 
-        // Check if we're in a class context and only allow inlining in static contexts
+        // Check if we're in an expression-only context and the function contains
+        // declarations
         if self.ctx.bit_ctx.contains(BitCtx::InClass)
-            && !self.ctx.bit_ctx.contains(BitCtx::InStaticContext)
+            && !self
+                .ctx
+                .bit_ctx
+                .intersects(BitCtx::InFnLike | BitCtx::InBlock)
         {
-            trace_op!("iife: Skipping inlining in class non-static context");
-            return;
+            let contains_decls = match &call.callee {
+                Callee::Expr(expr) => match &**expr {
+                    Expr::Fn(FnExpr { function, .. }) => {
+                        body_contains_decls(function.body.as_ref().unwrap())
+                    }
+                    Expr::Arrow(ArrowExpr { body, .. }) => match &**body {
+                        BlockStmtOrExpr::BlockStmt(block) => body_contains_decls(block),
+                        _ => false,
+                    },
+                    _ => false,
+                },
+                _ => false,
+            };
+
+            if contains_decls {
+                trace_op!(
+                    "iife: Skipping inlining function with declarations in expression-only context"
+                );
+                return;
+            }
         }
 
         let callee = match &mut call.callee {
@@ -688,12 +715,34 @@ impl Optimizer<'_> {
             return None;
         }
 
-        // Check if we're in a class context and only allow inlining in static contexts
+        // Check if we're in an expression-only context and the function contains
+        // declarations
         if self.ctx.bit_ctx.contains(BitCtx::InClass)
-            && !self.ctx.bit_ctx.contains(BitCtx::InStaticContext)
+            && !self
+                .ctx
+                .bit_ctx
+                .intersects(BitCtx::InFnLike | BitCtx::InBlock)
         {
-            trace_op!("iife: Skipping inlining in class non-static context");
-            return None;
+            let contains_decls = match &call.callee {
+                Callee::Expr(expr) => match &**expr {
+                    Expr::Fn(FnExpr { function, .. }) => {
+                        body_contains_decls(function.body.as_ref().unwrap())
+                    }
+                    Expr::Arrow(ArrowExpr { body, .. }) => match &**body {
+                        BlockStmtOrExpr::BlockStmt(block) => body_contains_decls(block),
+                        _ => false,
+                    },
+                    _ => false,
+                },
+                _ => false,
+            };
+
+            if contains_decls {
+                trace_op!(
+                    "iife: Skipping inlining function with declarations in expression-only context"
+                );
+                return None;
+            }
         }
 
         let callee = match &mut call.callee {

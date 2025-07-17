@@ -182,9 +182,6 @@ bitflags! {
 
         /// `true` while we are inside a class body.
         const InClass = 1 << 26;
-
-        /// `true` while we are in a static context (static method, static property, or static block).
-        const InStaticContext = 1 << 27;
     }
 }
 
@@ -1653,6 +1650,7 @@ impl VisitMut for Optimizer<'_> {
                     .ctx
                     .bit_ctx
                     .with(BitCtx::IsUpdateArg, false)
+                    .with(BitCtx::InFnLike, false)
                     .with(BitCtx::InClass, true),
                 expr_ctx: ExprCtx {
                     in_strict: true,
@@ -1673,28 +1671,6 @@ impl VisitMut for Optimizer<'_> {
         }
 
         e.visit_mut_children_with(self);
-    }
-
-    #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
-    fn visit_mut_class_member(&mut self, member: &mut ClassMember) {
-        let is_static = match member {
-            ClassMember::Method(m) => m.is_static,
-            ClassMember::PrivateMethod(m) => m.is_static,
-            ClassMember::ClassProp(p) => p.is_static,
-            ClassMember::PrivateProp(p) => p.is_static,
-            ClassMember::AutoAccessor(a) => a.is_static,
-            ClassMember::StaticBlock(_) => true,
-            ClassMember::Constructor(_)
-            | ClassMember::TsIndexSignature(_)
-            | ClassMember::Empty(_) => false,
-        };
-
-        if is_static {
-            let ctx = self.ctx.clone().with(BitCtx::InStaticContext, true);
-            member.visit_mut_children_with(&mut *self.with_ctx(ctx));
-        } else {
-            member.visit_mut_children_with(self);
-        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]

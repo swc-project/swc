@@ -103,11 +103,9 @@ class t extends Text {
         }
     }
     decompose(e, i, s, h) {
-        let l = e <= 0 && i >= this.length ? this : new t(function(t, e, i) {
-            return n(t, [
-                ""
-            ], e, i);
-        }(this.text, e, i), Math.min(i, this.length) - Math.max(0, e));
+        let l = e <= 0 && i >= this.length ? this : new t(n(this.text, [
+            ""
+        ], e, i), Math.min(i, this.length) - Math.max(0, e));
         if (1 /* Open.From */  & h) {
             let e = s.pop(), i = n(l.text, e.text.slice(), 0, l.length);
             if (i.length <= 32 /* Tree.Branch */ ) s.push(new t(i, e.length + l.length));
@@ -119,11 +117,9 @@ class t extends Text {
     }
     replace(i, s, h) {
         if (!(h instanceof t)) return super.replace(i, s, h);
-        let l = n(this.text, n(h.text, function(t, e, i) {
-            return n(t, [
-                ""
-            ], 0, i);
-        }(this.text, 0, i)), s), r = this.length + h.length - (s - i);
+        let l = n(this.text, n(h.text, n(this.text, [
+            ""
+        ], 0, i)), s), r = this.length + h.length - (s - i);
         return l.length <= 32 /* Tree.Branch */  ? new t(l, r) : e.from(t.split(l, []), r);
     }
     sliceString(t, e = this.length, n = "\n") {
@@ -228,14 +224,14 @@ class e extends Text {
             for (let t of n)t.flatten(e);
             return new t(e, i);
         }
-        let h = Math.max(32 /* Tree.Branch */ , s >> 5 /* Tree.BranchShift */ ), l = h << 1, r = h >> 1, o = [], f = 0, u = -1, c = [];
+        let h = Math.max(32 /* Tree.Branch */ , s >> 5 /* Tree.BranchShift */ ), l = h << 1, r = h >> 1, o = [], f = 0, c = -1, u = [];
         function a() {
-            0 != f && (o.push(1 == c.length ? c[0] : e.from(c, u)), u = -1, f = c.length = 0);
+            0 != f && (o.push(1 == u.length ? u[0] : e.from(u, c)), c = -1, f = u.length = 0);
         }
         for (let i of n)!function n(i) {
             let s;
             if (i.lines > l && i instanceof e) for (let t of i.children)n(t);
-            else i.lines > r && (f > r || !f) ? (a(), o.push(i)) : i instanceof t && f && (s = c[c.length - 1]) instanceof t && i.lines + s.lines <= 32 /* Tree.Branch */  ? (f += i.lines, u += i.length + 1, c[c.length - 1] = new t(s.text.concat(i.text), s.length + 1 + i.length)) : (f + i.lines > h && a(), f += i.lines, u += i.length + 1, c.push(i));
+            else i.lines > r && (f > r || !f) ? (a(), o.push(i)) : i instanceof t && f && (s = u[u.length - 1]) instanceof t && i.lines + s.lines <= 32 /* Tree.Branch */  ? (f += i.lines, c += i.length + 1, u[u.length - 1] = new t(s.text.concat(i.text), s.length + 1 + i.length)) : (f + i.lines > h && a(), f += i.lines, c += i.length + 1, u.push(i));
         }(i);
         return a(), 1 == o.length ? o[0] : new e(o, i);
     }

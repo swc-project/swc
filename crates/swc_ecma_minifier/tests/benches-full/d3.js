@@ -3882,12 +3882,11 @@ function(global, factory) {
                     points[2 * f + 1]
                 ], r = 1e-8 * Math.hypot(bounds[3] - bounds[1], bounds[2] - bounds[0]);
                 for(let i = 0, n = points.length / 2; i < n; ++i){
-                    const p = function(x, y, r) {
-                        return [
-                            x + Math.sin(x + y) * r,
-                            y + Math.cos(x - y) * r
-                        ];
-                    }(points[2 * i], points[2 * i + 1], r);
+                    var x, y;
+                    const p = [
+                        (x = points[2 * i]) + Math.sin(x + (y = points[2 * i + 1])) * r,
+                        y + Math.cos(x - y) * r
+                    ];
                     points[2 * i] = p[0], points[2 * i + 1] = p[1];
                 }
                 this._delaunator = new Delaunator(points);

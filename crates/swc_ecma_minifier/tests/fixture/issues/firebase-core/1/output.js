@@ -98,12 +98,10 @@
                     this.service = service, this.serviceName = serviceName, this.errors = errors;
                 }
                 create(code, ...data) {
-                    const customData = data[0] || {}, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? function(template, data) {
-                        return template.replace(PATTERN, (_, key)=>{
-                            const value = data[key];
-                            return null != value ? String(value) : `<${key}?>`;
-                        });
-                    }(template, customData) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`;
+                    const customData = data[0] || {}, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? template.replace(PATTERN, (_, key)=>{
+                        const value = customData[key];
+                        return null != value ? String(value) : `<${key}?>`;
+                    }) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`;
                     return new FirebaseError(fullCode, fullMessage, customData);
                 }
             }
