@@ -149,6 +149,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     const CASE: Self;
     const DEFAULT: Self;
     const DEBUGGER: Self;
+    const EOF: Self;
 
     fn jsx_name(name: &'a str, lexer: &mut Self::Lexer) -> Self;
     fn is_jsx_name(&self) -> bool;
@@ -156,6 +157,7 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
 
     fn str(value: Atom, raw: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_str(&self) -> bool;
+    fn is_str_raw_content(&self, content: &str, buffer: &Self::Buffer) -> bool;
     fn take_str(self, buffer: &mut Self::Buffer) -> (Atom, Atom);
 
     fn template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut Self::Lexer) -> Self;
@@ -585,6 +587,10 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     #[inline(always)]
     fn is_exp(&self) -> bool {
         Self::EXP.eq(self)
+    }
+    #[inline(always)]
+    fn is_eof(&self) -> bool {
+        Self::EOF.eq(self)
     }
     fn is_no_substitution_template_literal(&self) -> bool;
     fn is_template_head(&self) -> bool;
