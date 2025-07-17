@@ -19,12 +19,12 @@ bench = false
 auto_impl  = { workspace = true }
 bitflags   = { workspace = true }
 rustc-hash = { workspace = true }
-swc_common             = { version = "14.0.0", path = "../swc_common" }
+swc_common             = { version = "14.0.1", path = "../swc_common" }
 swc_xml_ast            = { version = "14.0.0", path = "../swc_xml_ast" }
 swc_xml_codegen_macros = { version = "1.0.1", path = "../swc_xml_codegen_macros" }
 
 [dev-dependencies]
-swc_common = { version = "14.0.0", path = "../swc_common", features = [
+swc_common = { version = "14.0.1", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_xml_parser = { version = "14.0.0", path = "../swc_xml_parser" }

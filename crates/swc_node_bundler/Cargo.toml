@@ -7,7 +7,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_node_bundler"
 repository    = { workspace = true }
-version       = "32.0.0"
+version       = "33.0.0"
 
 [lib]
 bench = false
@@ -25,25 +25,25 @@ serde      = { workspace = true, features = ["derive"], optional = true }
 tracing    = { workspace = true }
 
 string_enum = { version = "1.0.2", path = "../string_enum" }
-swc = { version = "31.0.0", path = "../swc" }
+swc = { version = "32.0.0", path = "../swc" }
 swc_atoms = { version = "7.0.0", path = "../swc_atoms" }
-swc_bundler = { version = "25.0.0", path = "../swc_bundler", features = [
+swc_bundler = { version = "26.0.0", path = "../swc_bundler", features = [
   "concurrent",
 ] }
-swc_common = { version = "14.0.0", path = "../swc_common", features = [
+swc_common = { version = "14.0.1", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_ecma_ast = { version = "14.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "16.0.0", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "14.0.0", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "20.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "25.0.0", path = "../swc_ecma_transforms" }
+swc_ecma_parser = { version = "21.0.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms = { version = "26.0.0", path = "../swc_ecma_transforms" }
 swc_ecma_utils = { version = "19.0.0", path = "../swc_ecma_utils" }
 swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
 
 [dev-dependencies]
 
-swc_ecma_transforms_base = { version = "21.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_transforms_base = { version = "22.0.0", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
 testing = { version = "15.0.0", path = "../testing" }
