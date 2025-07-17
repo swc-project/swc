@@ -23,6 +23,7 @@ plugin_transform_host_native = [
   "wasmer/cranelift",
   "wasmer/sys",
   "wasmer-wasix/sys-minimal",
+  "wasmer-wasix/host-fs",
   "wasmer-compiler-cranelift/default",
 ]
 plugin_transform_host_native_shared_runtime = ["tokio"]
