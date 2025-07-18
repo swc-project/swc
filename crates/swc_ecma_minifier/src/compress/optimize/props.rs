@@ -60,6 +60,15 @@ impl Optimizer<'_> {
                 return None;
             }
 
+            let accessed_props_count: u32 = usage.accessed_props.values().sum();
+            if accessed_props_count < usage.ref_count {
+                log_abort!(
+                    "hoist_props: Variable `{}` is directly used without accessing its properties",
+                    name.id
+                );
+                return None;
+            }
+
             // We should abort if unknown property is used.
             let mut unknown_used_props = self
                 .data
