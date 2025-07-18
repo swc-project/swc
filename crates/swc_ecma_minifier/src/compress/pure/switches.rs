@@ -799,7 +799,15 @@ impl Visit for BreakFinder {
     /// We don't care about breaks in a loop
     fn visit_while_stmt(&mut self, _: &WhileStmt) {}
 
-    fn visit_switch_stmt(&mut self, _: &SwitchStmt) {}
+    fn visit_switch_stmt(&mut self, s: &SwitchStmt) {
+        if self.top_level {
+            self.top_level = false;
+            s.visit_children_with(self);
+            self.top_level = true;
+        } else {
+            s.visit_children_with(self);
+        }
+    }
 
     fn visit_function(&mut self, _: &Function) {}
 
