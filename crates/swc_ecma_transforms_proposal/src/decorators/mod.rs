@@ -434,7 +434,7 @@ impl Decorators {
                 //
                 match member {
                     ClassMember::Constructor(_) => unreachable!("multiple constructor?"),
-                    ClassMember::TsIndexSignature(_) => None,
+                    ClassMember::Empty(_) | ClassMember::TsIndexSignature(_) => None,
                     ClassMember::Method(method) => {
                         let fn_name = match method.key {
                             PropName::Ident(ref i) => Some(i.clone()),
