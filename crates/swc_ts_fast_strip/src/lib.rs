@@ -1118,6 +1118,11 @@ impl Visit for TsStrip {
         debug_assert!(!n.is_override);
         debug_assert!(!n.is_abstract);
 
+        if n.function.body.is_none() {
+            self.add_replacement(n.span);
+            return;
+        }
+
         // Is `private #foo()` valid?
         if n.accessibility.is_some() {
             let start_pos = n
