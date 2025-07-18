@@ -4639,7 +4639,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "33.0.1"
+version = "33.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5025,7 +5025,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2018"
-version = "22.0.0"
+version = "22.0.1"
 dependencies = [
  "serde",
  "swc_common",
@@ -6052,7 +6052,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ts_fast_strip"
-version = "27.0.0"
+version = "27.0.1"
 dependencies = [
  "anyhow",
  "bytes-str",

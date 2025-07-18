@@ -1,4 +1,15 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Properly handle rest assignment in for-in/of RHS ([#10883](https://github.com/swc-project/swc/issues/10883)) ([5d11851](https://github.com/swc-project/swc/commit/5d118515b5f704f25c6240dfda593317db001ff4))
+
+
+- **(ts/fast-strip)** Strip private method overloads ([#10886](https://github.com/swc-project/swc/issues/10886)) ([cdb6e87](https://github.com/swc-project/swc/commit/cdb6e87291250103b1f54e90a863ca476d7624b0))
+
 ## [swc_core@v33.0.1] - 2025-07-17
 
 ### Refactor
@@ -2685,12 +2696,6 @@
 - **(es/parser)** Fix context of dynamic import type ([#9852](https://github.com/swc-project/swc/issues/9852)) ([caa7f37](https://github.com/swc-project/swc/commit/caa7f370ff2003983a3448a2b7e6f0f6d6224b86))
 
 ## [swc_core@v10.0.1] - 2025-01-07
-
-### Miscellaneous Tasks
-
-
-
-- **(deps)** Update rust crate phf to v0.11.3 ([#9848](https://github.com/swc-project/swc/issues/9848)) ([66bf0e5](https://github.com/swc-project/swc/commit/66bf0e5917718b89343a0bc011629fa216ef001a))
 
 ### Performance
 
