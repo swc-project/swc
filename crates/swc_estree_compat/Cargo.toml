@@ -29,7 +29,7 @@ swc_common = { version = "14.0.1", path = "../swc_common", features = [
   "tty-emitter",
 ] }
 swc_ecma_ast = { version = "14.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "21.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "21.0.1", path = "../swc_ecma_parser" }
 swc_ecma_utils = { version = "19.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "14.0.0", path = "../swc_ecma_visit" }
 swc_estree_ast = { version = "14.0.0", path = "../swc_estree_ast" }
@@ -41,7 +41,7 @@ pretty_assertions         = { workspace = true }
 
 swc                 = { version = "32.0.0", path = "../swc", default-features = false }
 swc_ecma_ast        = { version = "14.0.0", path = "../swc_ecma_ast" }
-swc_ecma_parser     = { version = "21.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser     = { version = "21.0.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "26.0.0", path = "../swc_ecma_transforms/" }
 testing             = { version = "15.0.0", path = "../testing" }
 walkdir             = { workspace = true }

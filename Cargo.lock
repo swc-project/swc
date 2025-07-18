@@ -4639,7 +4639,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "33.0.2"
+version = "33.0.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5198,7 +5198,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "27.0.1"
+version = "27.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5242,7 +5242,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "21.0.0"
+version = "21.0.1"
 dependencies = [
  "codspeed-criterion-compat",
  "either",
@@ -5536,7 +5536,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "22.0.0"
+version = "22.0.1"
 dependencies = [
  "either",
  "rustc-hash 2.1.1",

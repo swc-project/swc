@@ -46,7 +46,7 @@ swc_ecma_visit           = { version = "14.0.0", path = "../swc_ecma_visit" }
 par-core   = { workspace = true, features = ["chili"] }
 serde_json = { workspace = true }
 
-swc_ecma_parser = { version = "21.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "21.0.1", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "22.0.0", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
