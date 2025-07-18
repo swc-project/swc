@@ -8,7 +8,6 @@ use swc_ecma_lexer::{
             buffer::Buffer,
             expr::{parse_assignment_expr, parse_str_lit},
             get_qualified_jsx_name,
-            ident::parse_ident_name,
             jsx::{
                 jsx_expr_container_to_jsx_attr_value, parse_jsx_expr_container,
                 parse_jsx_spread_child,
@@ -84,8 +83,8 @@ impl<I: Tokens> Parser<I> {
             JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
         };
         while self.input_mut().eat(&Token::Dot) {
-            let _ = self.input_mut().cur();
-            let prop: IdentName = parse_ident_name(self)?;
+            self.input_mut().scan_jsx_identifier();
+            let prop: IdentName = self.parse_jsx_ident()?.into();
             let new_node = JSXElementName::JSXMemberExpr(JSXMemberExpr {
                 span: self.span(start),
                 obj: match node {
