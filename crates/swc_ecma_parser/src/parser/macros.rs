@@ -10,9 +10,9 @@ macro_rules! syntax_error {
     ($p:expr, $span:expr, $err:expr) => {{
         let err = $crate::error::Error::new($span, $err);
         {
-            if $p.input_mut().cur().is_some_and(|t| t == &Token::Error) {
-                let c = $p.input_mut().bump();
-                let err = c.take_error($p.input_mut());
+            let cur = $p.input().cur();
+            if cur == &Token::Error {
+                let err = $p.input_mut().expect_error_token_and_bump();
                 $p.emit_error(err);
             }
         }
@@ -22,7 +22,7 @@ macro_rules! syntax_error {
                 file!(),
                 line!(),
                 column!(),
-                $p.input_mut().cur()
+                $p.input().cur()
             );
         }
         return Err(err.into());

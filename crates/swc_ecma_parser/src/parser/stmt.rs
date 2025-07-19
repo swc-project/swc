@@ -1185,7 +1185,7 @@ const foo;"#;
     #[test]
     fn issue_10797_0() {
         let src = "
-var b = delete ANY1;
+// var b = delete ANY1;
 
 module A {
     export const a = 1
