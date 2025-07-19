@@ -41,7 +41,7 @@ pub fn parse_ident_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<IdentName> {
 pub fn parse_maybe_private_name<'a, P: Parser<'a>>(
     p: &mut P,
 ) -> PResult<Either<PrivateName, IdentName>> {
-    let is_private = p.input_mut().is(&P::Token::HASH);
+    let is_private = p.input().is(&P::Token::HASH);
     if is_private {
         parse_private_name(p).map(Either::Left)
     } else {
@@ -53,7 +53,7 @@ pub fn parse_private_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<PrivateName> 
     let start = p.cur_pos();
     p.assert_and_bump(&P::Token::HASH);
     let hash_end = p.input().prev_span().hi;
-    if p.input_mut().cur_pos() - hash_end != BytePos(0) {
+    if p.input().cur_pos() - hash_end != BytePos(0) {
         syntax_error!(p, p.span(start), SyntaxError::SpaceBetweenHashAndIdent);
     }
     let id = parse_ident_name(p)?;

@@ -260,7 +260,7 @@ where
     F: FnMut(&mut P) -> PResult<T>,
 {
     parse_ts_delimited_list_inner(p, kind, |p| {
-        let start = p.input_mut().cur_pos();
+        let start = p.input().cur_pos();
         Ok((start, parse_element(p)?))
     })
 }
@@ -279,14 +279,14 @@ where
 
     debug_assert!(p.input().syntax().typescript());
 
-    let start = p.input_mut().cur_pos(); // include the leading operator in the start
+    let start = p.input().cur_pos(); // include the leading operator in the start
     p.input_mut().eat(operator);
     trace_cur!(p, parse_ts_union_or_intersection_type__first_type);
 
     let ty = parse_constituent_type(p)?;
     trace_cur!(p, parse_ts_union_or_intersection_type__after_first);
 
-    if p.input_mut().is(operator) {
+    if p.input().is(operator) {
         let mut types = vec![ty];
 
         while p.input_mut().eat(operator) {
@@ -365,7 +365,7 @@ pub fn parse_ts_modifier<'a, P: Parser<'a>>(
     };
     if let Some(pos) = pos {
         if stop_on_start_of_class_static_blocks
-            && p.input_mut().is(&P::Token::STATIC)
+            && p.input().is(&P::Token::STATIC)
             && peek!(p).is_some_and(|peek| peek.is_lbrace())
         {
             return Ok(None);
@@ -420,16 +420,16 @@ pub fn parse_ts_entity_name<'a, P: Parser<'a>>(
 ) -> PResult<TsEntityName> {
     debug_assert!(p.input().syntax().typescript());
     trace_cur!(p, parse_ts_entity_name);
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
     let init = parse_ident_name(p)?;
     if &*init.sym == "void" {
-        let dot_start = p.input_mut().cur_pos();
+        let dot_start = p.input().cur_pos();
         let dot_span = p.span(dot_start);
         p.emit_err(dot_span, SyntaxError::TS1005)
     }
     let mut entity = TsEntityName::Ident(init.into());
     while p.input_mut().eat(&P::Token::DOT) {
-        let dot_start = p.input_mut().cur_pos();
+        let dot_start = p.input().cur_pos();
         let cur = p.input().cur();
         if cur.is_eof() || (!cur.is_hash() && !cur.is_word()) {
             p.emit_err(
@@ -465,12 +465,12 @@ pub fn parse_ts_type_args<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTypePar
     trace_cur!(p, parse_ts_type_args);
     debug_assert!(p.input().syntax().typescript());
 
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
     let params = p.in_type(|p| {
         // Temporarily remove a JSX parsing context, which makes us scan different
         // tokens.
         p.ts_in_no_context(|p| {
-            if p.input_mut().is(&P::Token::LSHIFT) {
+            if p.input().is(&P::Token::LSHIFT) {
                 p.input_mut().cut_lshift();
             } else {
                 expect!(p, &P::Token::LESS);
@@ -487,7 +487,7 @@ pub fn parse_ts_type_args<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTypePar
     // `<C<number> />`, so set exprAllowed = false
     p.input_mut().set_expr_allowed(false);
     p.expect_without_advance(&P::Token::GREATER)?;
-    let span = Span::new_with_checked(start, p.input_mut().cur_span().hi);
+    let span = Span::new_with_checked(start, p.input().cur_span().hi);
     Ok(Box::new(TsTypeParamInstantiation { span, params }))
 }
 
@@ -496,15 +496,13 @@ pub fn parse_ts_type_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeRef> {
     trace_cur!(p, parse_ts_type_ref);
     debug_assert!(p.input().syntax().typescript());
 
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
 
     let has_modifier = eat_any_ts_modifier(p)?;
 
     let type_name = parse_ts_entity_name(p, /* allow_reserved_words */ true)?;
     trace_cur!(p, parse_ts_type_ref__type_args);
-    let type_params = if !p.input_mut().had_line_break_before_cur()
-        && p.input_mut().is(&P::Token::LESS)
-    {
+    let type_params = if !p.input().had_line_break_before_cur() && p.input().is(&P::Token::LESS) {
         let ret = p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, parse_ts_type_args)?;
         p.assert_and_bump(&P::Token::GREATER);
         Some(ret)
@@ -563,7 +561,7 @@ pub fn parse_ts_this_type_predicate<'a, P: Parser<'a>>(
 
     let param_name = TsThisTypeOrIdent::TsThisType(lhs);
     let type_ann = if p.input_mut().eat(&P::Token::IS) {
-        let cur_pos = p.input_mut().cur_pos();
+        let cur_pos = p.input().cur_pos();
         Some(parse_ts_type_ann(
             p, // eat_colon
             false, cur_pos,
@@ -627,7 +625,7 @@ fn expect_then_parse_ts_type<'a, P: Parser<'a>>(
 fn parse_ts_mapped_type_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeParam> {
     debug_assert!(p.input().syntax().typescript());
 
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
     let name = parse_ident_name(p)?;
     let constraint = Some(expect_then_parse_ts_type(p, &P::Token::IN, "in")?);
 
@@ -654,7 +652,7 @@ fn parse_ts_type_param<'a, P: Parser<'a>>(
     let mut is_out = false;
     let mut is_const = false;
 
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
 
     while let Some(modifer) = parse_ts_modifier(
         p,
@@ -775,10 +773,10 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
     debug_assert!(p.input().syntax().typescript());
 
     p.in_type(|p| {
-        let return_token_start = p.input_mut().cur_pos();
+        let return_token_start = p.input().cur_pos();
         if !p.input_mut().eat(return_token) {
             let cur = format!("{:?}", p.input().cur());
-            let span = p.input_mut().cur_span();
+            let span = p.input().cur_span();
             syntax_error!(
                 p,
                 span,
@@ -786,7 +784,7 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
             )
         }
 
-        let type_pred_start = p.input_mut().cur_pos();
+        let type_pred_start = p.input().cur_pos();
         let has_type_pred_asserts = p.input().cur().is_asserts() && {
             let ctx = p.ctx();
             peek!(p).is_some_and(|peek| {
@@ -818,7 +816,7 @@ pub fn parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
         let type_pred_var = parse_ident_name(p)?;
         let type_ann = if has_type_pred_is {
             p.assert_and_bump(&P::Token::IS);
-            let pos = p.input_mut().cur_pos();
+            let pos = p.input().cur_pos();
             Some(parse_ts_type_ann(
                 p, // eat_colon
                 false, pos,
@@ -873,7 +871,7 @@ pub(super) fn try_parse_ts_type_args<'a, P: Parser<'a>>(
     try_parse_ts(p, |p| {
         let type_args = parse_ts_type_args(p)?;
         p.assert_and_bump(&P::Token::GREATER);
-        let cur = p.input_mut().cur();
+        let cur = p.input().cur();
         if cur.is_less() // invalid syntax
             || cur.is_greater() || cur.is_equal() || cur.is_rshift() || cur.is_greater_eq() || cur.is_plus() || cur.is_minus() // becomes relational expression
             || cur.is_lparen() || cur.is_no_substitution_template_literal() || cur.is_template_head() || cur.is_backquote()
@@ -884,7 +882,7 @@ pub(super) fn try_parse_ts_type_args<'a, P: Parser<'a>>(
         // expression
         {
             Ok(None)
-        } else if p.input_mut().had_line_break_before_cur()
+        } else if p.input().had_line_break_before_cur()
             || p.input().cur().is_bin_op()
             || !is_start_of_expr(p)
         {
@@ -914,7 +912,7 @@ pub fn try_parse_ts_type_ann<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Box
         return Ok(None);
     }
 
-    if p.input_mut().is(&P::Token::COLON) {
+    if p.input().is(&P::Token::COLON) {
         let pos = p.cur_pos();
         return parse_ts_type_ann(p, /* eat_colon */ true, pos).map(Some);
     }
@@ -1037,7 +1035,7 @@ pub fn try_parse_ts_type_or_type_predicate_ann<'a, P: Parser<'a>>(
         return Ok(None);
     }
 
-    if p.input_mut().is(&P::Token::COLON) {
+    if p.input().is(&P::Token::COLON) {
         parse_ts_type_or_type_predicate_ann(p, &P::Token::COLON).map(Some)
     } else {
         Ok(None)
@@ -1096,7 +1094,7 @@ fn parse_ts_lit_type_node<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsLitType> {
 
     let start = p.cur_pos();
 
-    let lit = if p.input_mut().is(&P::Token::BACKQUOTE) {
+    let lit = if p.input().is(&P::Token::BACKQUOTE) {
         let tpl = parse_ts_tpl_lit_type(p)?;
         TsLit::Tpl(tpl)
     } else {
@@ -1149,7 +1147,7 @@ fn parse_ts_heritage_clause_element<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsE
             type_args: Some(v.type_args),
         }),
         _ => {
-            let type_args = if p.input_mut().is(&P::Token::LESS) {
+            let type_args = if p.input().is(&P::Token::LESS) {
                 let ret = parse_ts_type_args(p)?;
                 p.assert_and_bump(&P::Token::GREATER);
                 Some(ret)
@@ -1289,7 +1287,7 @@ pub fn try_parse_ts_index_signature<'a, P: Parser<'a>>(
 /// `tsIsExternalModuleReference`
 fn is_ts_external_module_ref<'a, P: Parser<'a>>(p: &mut P) -> bool {
     debug_assert!(p.input().syntax().typescript());
-    p.input_mut().is(&P::Token::REQUIRE) && peek!(p).is_some_and(|t| t.is_lparen())
+    p.input().is(&P::Token::REQUIRE) && peek!(p).is_some_and(|t| t.is_lparen())
 }
 
 /// `tsParseModuleReference`
@@ -1385,12 +1383,12 @@ pub fn is_ts_start_of_mapped_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool>
 
     p.bump();
     if p.input_mut().eat(&P::Token::PLUS) || p.input_mut().eat(&P::Token::MINUS) {
-        return Ok(p.input_mut().is(&P::Token::READONLY));
+        return Ok(p.input().is(&P::Token::READONLY));
     }
 
     p.input_mut().eat(&P::Token::READONLY);
 
-    if !p.input_mut().is(&P::Token::LBRACKET) {
+    if !p.input().is(&P::Token::LBRACKET) {
         return Ok(false);
     }
     p.bump();
@@ -1399,7 +1397,7 @@ pub fn is_ts_start_of_mapped_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool>
     }
     p.bump();
 
-    Ok(p.input_mut().is(&P::Token::IN))
+    Ok(p.input().is(&P::Token::IN))
 }
 
 /// `tsParseSignatureMember`
@@ -1419,7 +1417,7 @@ fn parse_ts_signature_member<'a, P: Parser<'a>>(
     let type_params = try_parse_ts_type_params(p, false, true)?;
     expect!(p, &P::Token::LPAREN);
     let params = parse_ts_binding_list_for_signature(p)?;
-    let type_ann = if p.input_mut().is(&P::Token::COLON) {
+    let type_ann = if p.input().is(&P::Token::COLON) {
         Some(parse_ts_type_or_type_predicate_ann(p, &P::Token::COLON)?)
     } else {
         None
@@ -1729,11 +1727,11 @@ fn parse_ts_type_operator_or_higher<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box
     trace_cur!(p, parse_ts_type_operator_or_higher);
     debug_assert!(p.input().syntax().typescript());
 
-    let operator = if p.input_mut().is(&P::Token::KEYOF) {
+    let operator = if p.input().is(&P::Token::KEYOF) {
         Some(TsTypeOperatorOp::KeyOf)
-    } else if p.input_mut().is(&P::Token::UNIQUE) {
+    } else if p.input().is(&P::Token::UNIQUE) {
         Some(TsTypeOperatorOp::Unique)
-    } else if p.input_mut().is(&P::Token::READONLY) {
+    } else if p.input().is(&P::Token::READONLY) {
         Some(TsTypeOperatorOp::ReadOnly)
     } else {
         None
@@ -1746,7 +1744,7 @@ fn parse_ts_type_operator_or_higher<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box
         None => {
             trace_cur!(p, parse_ts_type_operator_or_higher__not_operator);
 
-            if p.input_mut().is(&P::Token::INFER) {
+            if p.input().is(&P::Token::INFER) {
                 parse_ts_infer_type(p).map(TsType::from).map(Box::new)
             } else {
                 let readonly = parse_ts_modifier(p, &["readonly"], false)?.is_some();
@@ -1788,8 +1786,7 @@ fn parse_ts_infer_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsInferType> {
     let constraint = try_parse_ts(p, |p| {
         expect!(p, &P::Token::EXTENDS);
         let constraint = parse_ts_non_conditional_type(p);
-        if p.ctx().contains(Context::DisallowConditionalTypes)
-            || !p.input_mut().is(&P::Token::QUESTION)
+        if p.ctx().contains(Context::DisallowConditionalTypes) || !p.input().is(&P::Token::QUESTION)
         {
             constraint.map(Some)
         } else {
@@ -1822,8 +1819,8 @@ fn parse_ts_non_conditional_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Ts
             .map(TsType::from)
             .map(Box::new);
     }
-    if (p.input_mut().is(&P::Token::ABSTRACT) && peek!(p).is_some_and(|cur| cur.is_new()))
-        || p.input_mut().is(&P::Token::NEW)
+    if (p.input().is(&P::Token::ABSTRACT) && peek!(p).is_some_and(|cur| cur.is_new()))
+        || p.input().is(&P::Token::NEW)
     {
         // As in `new () => Date`
         return parse_ts_fn_or_constructor_type(p, false)
@@ -1844,7 +1841,7 @@ fn parse_ts_array_type_or_higher<'a, P: Parser<'a>>(
 
     let mut ty = parse_ts_non_array_type(p)?;
 
-    while !p.input_mut().had_line_break_before_cur() && p.input_mut().eat(&P::Token::LBRACKET) {
+    while !p.input().had_line_break_before_cur() && p.input_mut().eat(&P::Token::LBRACKET) {
         if p.input_mut().eat(&P::Token::RBRACKET) {
             ty = Box::new(TsType::TsArrayType(TsArrayType {
                 span: p.span(ty.span_lo()),
@@ -1880,7 +1877,7 @@ pub fn parse_ts_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>> {
 
     p.do_outside_of_context(Context::DisallowConditionalTypes, |p| {
         let ty = parse_ts_non_conditional_type(p)?;
-        if p.input_mut().had_line_break_before_cur() || !p.input_mut().eat(&P::Token::EXTENDS) {
+        if p.input().had_line_break_before_cur() || !p.input_mut().eat(&P::Token::EXTENDS) {
             return Ok(ty);
         }
 
@@ -1966,7 +1963,7 @@ fn parse_ts_property_or_method_signature<'a, P: Parser<'a>>(
         let type_params = try_parse_ts_type_params(p, false, true)?;
         expect!(p, &P::Token::LPAREN);
         let params = parse_ts_binding_list_for_signature(p)?;
-        let type_ann = if p.input_mut().is(&P::Token::COLON) {
+        let type_ann = if p.input().is(&P::Token::COLON) {
             parse_ts_type_or_type_predicate_ann(p, &P::Token::COLON).map(Some)?
         } else {
             None
@@ -2013,7 +2010,7 @@ fn parse_ts_type_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeElement> 
         return parse_ts_signature_member(p, SignatureParsingMode::TSCallSignatureDeclaration)
             .map(into_type_elem);
     }
-    if p.input_mut().is(&P::Token::NEW) && ts_look_ahead(p, is_ts_start_of_construct_signature)? {
+    if p.input().is(&P::Token::NEW) && ts_look_ahead(p, is_ts_start_of_construct_signature)? {
         return parse_ts_signature_member(p, SignatureParsingMode::TSConstructSignatureDeclaration)
             .map(into_type_elem);
     }
@@ -2027,7 +2024,7 @@ fn parse_ts_type_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeElement> 
     }
 
     if let Some(v) = try_parse_ts(p, |p| {
-        let start = p.input_mut().cur_pos();
+        let start = p.input().cur_pos();
 
         if readonly {
             syntax_error!(p, SyntaxError::GetterSetterCannotBeReadonly)
@@ -2131,10 +2128,10 @@ pub fn parse_ts_interface_decl<'a, P: Parser<'a>>(
     // Recover from
     //
     //     interface I extends A extends B {}
-    if p.input_mut().is(&P::Token::EXTENDS) {
+    if p.input().is(&P::Token::EXTENDS) {
         p.emit_err(p.input().cur_span(), SyntaxError::TS1172);
 
-        while !eof!(p) && !p.input_mut().is(&P::Token::LBRACE) {
+        while !eof!(p) && !p.input().is(&P::Token::LBRACE) {
             p.bump();
         }
     }
@@ -2208,7 +2205,7 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
     // don't support it
     let attributes = if p.input_mut().eat(&P::Token::COMMA)
         && p.input().syntax().import_attributes()
-        && p.input_mut().is(&P::Token::LBRACE)
+        && p.input().is(&P::Token::LBRACE)
     {
         Some(parse_ts_call_options(p)?)
     } else {
@@ -2223,7 +2220,7 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
         None
     };
 
-    let type_args = if p.input_mut().is(&P::Token::LESS) {
+    let type_args = if p.input().is(&P::Token::LESS) {
         let ret = p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, parse_ts_type_args)?;
         p.assert_and_bump(&P::Token::GREATER);
         Some(ret)
@@ -2266,7 +2263,7 @@ fn parse_ts_type_query<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeQuery> {
 
     let start = p.cur_pos();
     expect!(p, &P::Token::TYPEOF);
-    let expr_name = if p.input_mut().is(&P::Token::IMPORT) {
+    let expr_name = if p.input().is(&P::Token::IMPORT) {
         parse_ts_import_type(p).map(From::from)?
     } else {
         parse_ts_entity_name(
@@ -2276,9 +2273,7 @@ fn parse_ts_type_query<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeQuery> {
         .map(From::from)?
     };
 
-    let type_args = if !p.input_mut().had_line_break_before_cur()
-        && p.input_mut().is(&P::Token::LESS)
-    {
+    let type_args = if !p.input().had_line_break_before_cur() && p.input().is(&P::Token::LESS) {
         let ret = p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, parse_ts_type_args)?;
         p.assert_and_bump(&P::Token::GREATER);
         Some(ret)
@@ -2357,7 +2352,7 @@ fn parse_ts_ambient_external_module_decl<'a, P: Parser<'a>>(
 ) -> PResult<Box<TsModuleDecl>> {
     debug_assert!(p.input().syntax().typescript());
 
-    let (global, id) = if p.input_mut().is(&P::Token::GLOBAL) {
+    let (global, id) = if p.input().is(&P::Token::GLOBAL) {
         let id = parse_ident_name(p)?;
         (true, TsModuleName::Ident(id.into()))
     } else if p.input().cur().is_str() {
@@ -2367,7 +2362,7 @@ fn parse_ts_ambient_external_module_decl<'a, P: Parser<'a>>(
         unexpected!(p, "global or a string literal");
     };
 
-    let body = if p.input_mut().is(&P::Token::LBRACE) {
+    let body = if p.input().is(&P::Token::LBRACE) {
         Some(parse_ts_module_block(p).map(TsNamespaceBody::from)?)
     } else {
         p.expect_general_semi()?;
@@ -2403,38 +2398,38 @@ fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>>
         || cur.is_await()
         || cur.is_break()
     {
-        if p.input_mut().is(&P::Token::ASSERTS) && peek!(p).is_some_and(|peek| peek.is_this()) {
+        if p.input().is(&P::Token::ASSERTS) && peek!(p).is_some_and(|peek| peek.is_this()) {
             p.bump();
             let this_keyword = parse_ts_this_type_node(p)?;
             return parse_ts_this_type_predicate(p, start, true, this_keyword)
                 .map(TsType::from)
                 .map(Box::new);
         }
-        let kind = if p.input_mut().is(&P::Token::VOID) {
+        let kind = if p.input().is(&P::Token::VOID) {
             Some(TsKeywordTypeKind::TsVoidKeyword)
-        } else if p.input_mut().is(&P::Token::NULL) {
+        } else if p.input().is(&P::Token::NULL) {
             Some(TsKeywordTypeKind::TsNullKeyword)
-        } else if p.input_mut().is(&P::Token::ANY) {
+        } else if p.input().is(&P::Token::ANY) {
             Some(TsKeywordTypeKind::TsAnyKeyword)
-        } else if p.input_mut().is(&P::Token::BOOLEAN) {
+        } else if p.input().is(&P::Token::BOOLEAN) {
             Some(TsKeywordTypeKind::TsBooleanKeyword)
-        } else if p.input_mut().is(&P::Token::BIGINT) {
+        } else if p.input().is(&P::Token::BIGINT) {
             Some(TsKeywordTypeKind::TsBigIntKeyword)
-        } else if p.input_mut().is(&P::Token::NEVER) {
+        } else if p.input().is(&P::Token::NEVER) {
             Some(TsKeywordTypeKind::TsNeverKeyword)
-        } else if p.input_mut().is(&P::Token::NUMBER) {
+        } else if p.input().is(&P::Token::NUMBER) {
             Some(TsKeywordTypeKind::TsNumberKeyword)
-        } else if p.input_mut().is(&P::Token::OBJECT) {
+        } else if p.input().is(&P::Token::OBJECT) {
             Some(TsKeywordTypeKind::TsObjectKeyword)
-        } else if p.input_mut().is(&P::Token::STRING) {
+        } else if p.input().is(&P::Token::STRING) {
             Some(TsKeywordTypeKind::TsStringKeyword)
-        } else if p.input_mut().is(&P::Token::SYMBOL) {
+        } else if p.input().is(&P::Token::SYMBOL) {
             Some(TsKeywordTypeKind::TsSymbolKeyword)
-        } else if p.input_mut().is(&P::Token::UNKNOWN) {
+        } else if p.input().is(&P::Token::UNKNOWN) {
             Some(TsKeywordTypeKind::TsUnknownKeyword)
-        } else if p.input_mut().is(&P::Token::UNDEFINED) {
+        } else if p.input().is(&P::Token::UNDEFINED) {
             Some(TsKeywordTypeKind::TsUndefinedKeyword)
-        } else if p.input_mut().is(&P::Token::INTRINSIC) {
+        } else if p.input().is(&P::Token::INTRINSIC) {
             Some(TsKeywordTypeKind::TsIntrinsicKeyword)
         } else {
             None
@@ -2524,7 +2519,7 @@ fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>>
     } else if cur.is_this() {
         let start = p.cur_pos();
         let this_keyword = parse_ts_this_type_node(p)?;
-        return if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::IS) {
+        return if !p.input().had_line_break_before_cur() && p.input().is(&P::Token::IS) {
             parse_ts_this_type_predicate(p, start, false, this_keyword)
                 .map(TsType::from)
                 .map(Box::new)
@@ -2583,7 +2578,7 @@ pub fn parse_ts_expr_stmt<'a, P: Parser<'a>>(
             // declaration.
             // Would like to use tsParseAmbientExternalModuleDeclaration here, but already
             // ran past "global".
-            if p.input_mut().is(&P::Token::LBRACE) {
+            if p.input().is(&P::Token::LBRACE) {
                 let global = true;
                 let id = TsModuleName::Ident(expr);
                 let body = parse_ts_module_block(p)
@@ -2627,7 +2622,7 @@ pub fn try_parse_ts_declare<'a, P: Parser<'a>>(
 
     let declare_start = start;
     p.do_inside_of_context(Context::InDeclare, |p| {
-        if p.input_mut().is(&P::Token::FUNCTION) {
+        if p.input().is(&P::Token::FUNCTION) {
             return parse_fn_decl(p, decorators)
                 .map(|decl| match decl {
                     Decl::Fn(f) => FnDecl {
@@ -2647,7 +2642,7 @@ pub fn try_parse_ts_declare<'a, P: Parser<'a>>(
                 .map(Some);
         }
 
-        if p.input_mut().is(&P::Token::CLASS) {
+        if p.input().is(&P::Token::CLASS) {
             return parse_class_decl(p, start, start, decorators, false)
                 .map(|decl| match decl {
                     Decl::Class(c) => ClassDecl {
@@ -2667,7 +2662,7 @@ pub fn try_parse_ts_declare<'a, P: Parser<'a>>(
                 .map(Some);
         }
 
-        if p.input_mut().is(&P::Token::CONST) && peek!(p).is_some_and(|peek| peek.is_enum()) {
+        if p.input().is(&P::Token::CONST) && peek!(p).is_some_and(|peek| peek.is_enum()) {
             p.assert_and_bump(&P::Token::CONST);
             p.assert_and_bump(&P::Token::ENUM);
 
@@ -2701,7 +2696,7 @@ pub fn try_parse_ts_declare<'a, P: Parser<'a>>(
                 .map(Some);
         }
 
-        if p.input_mut().is(&P::Token::GLOBAL) {
+        if p.input().is(&P::Token::GLOBAL) {
             return parse_ts_ambient_external_module_decl(p, start)
                 .map(Decl::from)
                 .map(make_decl_declare)
@@ -2758,10 +2753,7 @@ fn parse_ts_decl<'a, P: Parser<'a>>(
 
     match &*value {
         "abstract" => {
-            if next
-                || (p.input_mut().is(&P::Token::CLASS)
-                    && !p.input_mut().had_line_break_before_cur())
-            {
+            if next || (p.input().is(&P::Token::CLASS) && !p.input().had_line_break_before_cur()) {
                 if next {
                     p.bump();
                 }
@@ -2790,7 +2782,7 @@ fn parse_ts_decl<'a, P: Parser<'a>>(
             }
         }
 
-        "module" if !p.input_mut().had_line_break_before_cur() => {
+        "module" if !p.input().had_line_break_before_cur() => {
             if next {
                 p.bump();
             }
@@ -2824,7 +2816,7 @@ fn parse_ts_decl<'a, P: Parser<'a>>(
         }
 
         "type" => {
-            if next || (!p.input_mut().had_line_break_before_cur() && p.is_ident_ref()) {
+            if next || (!p.input().had_line_break_before_cur() && p.is_ident_ref()) {
                 if next {
                     p.bump();
                 }
