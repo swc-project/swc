@@ -283,6 +283,7 @@ pub enum Token {
     // Special tokens
     Shebang,
     Error,
+    Eof,
 }
 
 impl swc_ecma_lexer::common::lexer::state::TokenKind for Token {
@@ -542,6 +543,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     const DOTDOTDOT: Self = Self::DotDotDot;
     const ELSE: Self = Self::Else;
     const ENUM: Self = Token::Enum;
+    const EOF: Self = Token::Eof;
     const EQUAL: Self = Token::Eq;
     const EXP: Self = Token::Exp;
     const EXPORT: Self = Token::Export;
@@ -719,6 +721,16 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     #[inline(always)]
     fn is_str(&self) -> bool {
         Self::Str.eq(self)
+    }
+
+    #[inline(always)]
+    fn is_str_raw_content(&self, content: &str, buffer: &Self::Buffer) -> bool {
+        Self::Str.eq(self)
+            && if let Some(TokenValue::Str { raw, .. }) = buffer.get_token_value() {
+                raw == content
+            } else {
+                unreachable!()
+            }
     }
 
     #[inline(always)]
@@ -1182,6 +1194,7 @@ impl Token {
             Token::Target => "target",
             Token::Shebang => "#!",
             Token::LessSlash => "</",
+            Token::Eof => "<eof>",
         }
         .to_string()
     }

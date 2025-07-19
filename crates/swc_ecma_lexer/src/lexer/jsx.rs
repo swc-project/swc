@@ -3,7 +3,7 @@ use either::Either;
 use super::*;
 
 impl Lexer<'_> {
-    pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
+    pub(super) fn read_jsx_token(&mut self) -> LexResult<Token> {
         debug_assert!(self.syntax.jsx());
 
         let start = self.input.cur_pos();
@@ -37,7 +37,7 @@ impl Lexer<'_> {
                                 // Safety: cur() was Some('<')
                                 self.input.bump();
                             }
-                            return Ok(Some(Token::JSXTagStart));
+                            return Ok(Token::JSXTagStart);
                         }
                         return self.read_token();
                     }
@@ -62,7 +62,7 @@ impl Lexer<'_> {
                         self.atoms.atom(s)
                     };
 
-                    return Ok(Some(Token::JSXText { raw, value }));
+                    return Ok(Token::JSXText { raw, value });
                 }
                 '>' => {
                     self.emit_error(

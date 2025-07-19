@@ -67,15 +67,12 @@ fn parse_from_clause_and_semi<'a, P: Parser<'a>>(
 ) -> PResult<(Box<Str>, Option<Box<ObjectLit>>)> {
     expect!(p, &P::Token::FROM);
 
-    let Some(cur) = p.input_mut().cur() else {
-        return Err(eof_error(p));
-    };
+    let cur = p.input().cur();
     let src = if cur.is_str() {
         Box::new(parse_str_lit(p))
     } else {
         unexpected!(p, "a string literal")
     };
-    p.input_mut().cur();
     let with = if p.input().syntax().import_attributes()
         && !p.input_mut().had_line_break_before_cur()
         && (p.input_mut().eat(&P::Token::ASSERT) || p.input_mut().eat(&P::Token::WITH))
@@ -107,14 +104,11 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
             // `export { type as }`
             // `export { type as as }`
             // `export { type as as as }`
-            if p.syntax().typescript()
-                && orig_ident.sym == "type"
-                && p.input_mut().cur().is_some_and(|cur| cur.is_word())
-            {
+            if p.syntax().typescript() && orig_ident.sym == "type" && p.input().cur().is_word() {
                 let possibly_orig = parse_ident_name(p).map(Ident::from)?;
                 if possibly_orig.sym == "as" {
                     // `export { type as }`
-                    if !p.input_mut().cur().is_some_and(|cur| cur.is_word()) {
+                    if !p.input().cur().is_word() {
                         if type_only {
                             p.emit_err(orig_ident.span, SyntaxError::TS2207);
                         }
@@ -129,7 +123,7 @@ fn parse_named_export_specifier<'a, P: Parser<'a>>(
 
                     let maybe_as = parse_ident_name(p).map(Ident::from)?;
                     if maybe_as.sym == "as" {
-                        if p.input_mut().cur().is_some_and(|cur| cur.is_word()) {
+                        if p.input().cur().is_word() {
                             // `export { type as as as }`
                             // `export { type as as foo }`
                             let exported = parse_ident_name(p).map(Ident::from)?;
@@ -222,14 +216,11 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
             // `import { type as } from 'mod'`
             // `import { type as as } from 'mod'`
             // `import { type as as as } from 'mod'`
-            if p.syntax().typescript()
-                && orig_name.sym == "type"
-                && p.input_mut().cur().is_some_and(|cur| cur.is_word())
-            {
+            if p.syntax().typescript() && orig_name.sym == "type" && p.input().cur().is_word() {
                 let possibly_orig_name = parse_ident_name(p).map(Ident::from)?;
                 if possibly_orig_name.sym == "as" {
                     // `import { type as } from 'mod'`
-                    if !p.input_mut().cur().is_some_and(|cur| cur.is_word()) {
+                    if !p.input().cur().is_word() {
                         if p.ctx().is_reserved_word(&possibly_orig_name.sym) {
                             syntax_error!(
                                 p,
@@ -252,7 +243,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
 
                     let maybe_as: Ident = parse_binding_ident(p, false)?.into();
                     if maybe_as.sym == "as" {
-                        if p.input_mut().cur().is_some_and(|cur| cur.is_word()) {
+                        if p.input().cur().is_word() {
                             // `import { type as as as } from 'mod'`
                             // `import { type as as foo } from 'mod'`
                             let local: Ident = parse_binding_ident(p, false)?.into();
@@ -356,13 +347,12 @@ fn parse_export<'a, P: Parser<'a>>(
     let start = p.cur_pos();
     p.assert_and_bump(&P::Token::EXPORT);
 
-    let Some(cur) = p.input_mut().cur() else {
-        return Err(eof_error(p));
-    };
+    let cur = p.input().cur();
     if cur.is_error() {
-        let c = p.input_mut().bump();
-        let err = c.take_error(p.input_mut());
+        let err = p.input_mut().expect_error_token_and_bump();
         return Err(err);
+    } else if cur.is_eof() {
+        return Err(eof_error(p));
     }
 
     let after_export_start = p.cur_pos();
@@ -382,7 +372,8 @@ fn parse_export<'a, P: Parser<'a>>(
     }
 
     if p.input().syntax().typescript() {
-        if let Some(cur) = p.input_mut().cur().filter(|cur| cur.is_word()) {
+        let cur = p.input().cur();
+        if cur.is_word() {
             let sym = cur.clone().take_word(p.input()).unwrap();
             // TODO: remove clone
             if let Some(decl) = try_parse_ts_export_decl(p, decorators.clone(), sym) {
@@ -393,9 +384,7 @@ fn parse_export<'a, P: Parser<'a>>(
                 .into());
             }
         }
-    }
 
-    if p.input().syntax().typescript() {
         if p.input_mut().eat(&P::Token::IMPORT) {
             let is_type_only =
                 p.input_mut().is(&P::Token::TYPE) && peek!(p).is_some_and(|p| p.is_word());
@@ -468,13 +457,12 @@ fn parse_export<'a, P: Parser<'a>>(
             {
                 let class_start = p.cur_pos();
                 p.assert_and_bump(&P::Token::ABSTRACT);
-                let Some(cur) = p.input_mut().cur() else {
-                    return Err(eof_error(p));
-                };
+                let cur = p.input().cur();
                 if cur.is_error() {
-                    let c = p.input_mut().bump();
-                    let err = c.take_error(p.input_mut());
+                    let err = p.input_mut().expect_error_token_and_bump();
                     return Err(err);
+                } else if cur.is_eof() {
+                    return Err(eof_error(p));
                 }
 
                 return parse_default_class(p, start, class_start, decorators, true)
@@ -558,9 +546,6 @@ fn parse_export<'a, P: Parser<'a>>(
     {
         let enum_start = p.cur_pos();
         p.assert_and_bump(&P::Token::CONST);
-        let Some(_) = p.input_mut().cur() else {
-            return Err(eof_error(p));
-        };
         p.assert_and_bump(&P::Token::ENUM);
         return parse_ts_enum_decl(p, enum_start, /* is_const */ true)
             .map(Decl::from)
@@ -596,9 +581,7 @@ fn parse_export<'a, P: Parser<'a>>(
         let default = match export_default {
             Some(default) => Some(default),
             None => {
-                if p.input().syntax().export_default_from()
-                    && p.input_mut().cur().is_some_and(|cur| cur.is_word())
-                {
+                if p.input().syntax().export_default_from() && p.input().cur().is_word() {
                     Some(parse_ident(p, false, false)?)
                 } else {
                     None
@@ -787,10 +770,8 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
     expect!(p, &P::Token::IMPORT);
 
     // Handle import 'mod.js'
-    if p.input_mut().cur().is_some_and(|cur| cur.is_str()) {
+    if p.input().cur().is_str() {
         let src = Box::new(parse_str_lit(p));
-        debug_assert!(p.input_mut().get_cur().is_none());
-        p.input_mut().cur();
         let with = if p.input().syntax().import_attributes()
             && !p.input_mut().had_line_break_before_cur()
             && (p.input_mut().eat(&P::Token::ASSERT) || p.input_mut().eat(&P::Token::WITH))
@@ -823,10 +804,8 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
             let mut local = parse_imported_default_binding(p)?;
 
             if p.input().syntax().typescript() && local.sym == "type" {
-                if p.input_mut()
-                    .cur()
-                    .is_some_and(|cur| cur.is_lbrace() || cur.is_star())
-                {
+                let cur = p.input().cur();
+                if cur.is_lbrace() || cur.is_star() {
                     type_only = true;
                     break 'import_maybe_ident;
                 }
@@ -857,10 +836,8 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
                     _ => unreachable!(),
                 };
 
-                if p.input_mut()
-                    .cur()
-                    .is_some_and(|cur| cur.is_lbrace() || cur.is_star())
-                {
+                let cur = p.input().cur();
+                if cur.is_lbrace() || cur.is_star() {
                     phase = new_phase;
                     break 'import_maybe_ident;
                 }
@@ -916,14 +893,13 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
 
     let src = {
         expect!(p, &P::Token::FROM);
-        if p.input_mut().cur().is_some_and(|cur| cur.is_str()) {
+        if p.input().cur().is_str() {
             Box::new(parse_str_lit(p))
         } else {
             unexpected!(p, "a string literal")
         }
     };
 
-    p.input_mut().cur();
     let with = if p.input().syntax().import_attributes()
         && !p.input_mut().had_line_break_before_cur()
         && (p.input_mut().eat(&P::Token::ASSERT) || p.input_mut().eat(&P::Token::WITH))

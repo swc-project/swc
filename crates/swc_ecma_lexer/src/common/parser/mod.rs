@@ -155,9 +155,9 @@ pub trait Parser<'a>: Sized + Clone {
         if self.ctx().contains(Context::IgnoreError) || !self.syntax().early_errors() {
             return;
         }
-        if self.input_mut().cur().is_some_and(|cur| cur.is_error()) {
-            let err = self.input_mut().bump();
-            let err = err.take_error(self.input_mut());
+        let cur = self.input().cur();
+        if cur.is_error() {
+            let err = self.input_mut().expect_error_token_and_bump();
             self.input().iter().add_error(err);
         }
         self.input().iter().add_error(error);
@@ -190,8 +190,8 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     #[inline(always)]
-    fn cur_pos(&mut self) -> BytePos {
-        self.input_mut().cur_pos()
+    fn cur_pos(&self) -> BytePos {
+        self.input().cur_pos()
     }
 
     #[inline(always)]
@@ -201,24 +201,20 @@ pub trait Parser<'a>: Sized + Clone {
 
     #[inline]
     fn is_general_semi(&mut self) -> bool {
-        let Some(cur) = self.input_mut().cur() else {
-            return true;
-        };
-        cur.is_semi() || cur.is_rbrace() || self.input_mut().had_line_break_before_cur()
+        let cur = self.input().cur();
+        cur.is_semi() || cur.is_rbrace() || cur.is_eof() || self.input().had_line_break_before_cur()
     }
 
     fn eat_general_semi(&mut self) -> bool {
         if cfg!(feature = "debug") {
-            tracing::trace!("eat(';'): cur={:?}", self.input_mut().cur());
+            tracing::trace!("eat(';'): cur={:?}", self.input().cur());
         }
-        let Some(cur) = self.input_mut().cur() else {
-            return true;
-        };
+        let cur = self.input().cur();
         if cur.is_semi() {
             self.bump();
             true
         } else {
-            cur.is_rbrace() || self.input_mut().had_line_break_before_cur()
+            cur.is_rbrace() || self.input().had_line_break_before_cur() || cur.is_eof()
         }
     }
 
@@ -255,7 +251,7 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     #[inline(always)]
-    fn bump(&mut self) -> Self::Token {
+    fn bump(&mut self) {
         debug_assert!(
             self.input().knows_cur(),
             "parser should not call bump() without knowing current token"
@@ -276,11 +272,10 @@ pub trait Parser<'a>: Sized + Clone {
     #[inline(always)]
     fn assert_and_bump(&mut self, token: &Self::Token) {
         debug_assert!(
-            self.input_mut().is(token),
+            self.input().is(token),
             "assertion failed: expected {token:?}, got {:?}",
-            self.input_mut().cur()
+            self.input().cur()
         );
-        let _ = self.input_mut().cur();
         self.bump();
     }
 
@@ -325,12 +320,9 @@ pub trait Parser<'a>: Sized + Clone {
 
     fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         let start = self.cur_pos();
-        let Some(cur) = self.input_mut().cur() else {
-            return Err(eof_error(self));
-        };
+        let cur = self.input().cur();
         let (raw, cooked) = if cur.is_template() {
-            let cur = self.bump();
-            let (cooked, raw) = cur.take_template(self.input_mut());
+            let (cooked, raw) = self.input_mut().expect_template_token_and_bump();
             match cooked {
                 Ok(cooked) => (raw, Some(cooked)),
                 Err(err) => {
@@ -358,30 +350,25 @@ pub trait Parser<'a>: Sized + Clone {
         trace_cur!(self, parse_prop_name);
         self.do_inside_of_context(Context::InPropertyName, |p| {
             let start = p.input_mut().cur_pos();
-            let Some(cur) = p.input_mut().cur() else {
-                return Err(eof_error(p));
-            };
+            let cur = p.input().cur();
             let v = if cur.is_str() {
                 PropName::Str(parse_str_lit(p))
             } else if cur.is_num() {
-                let t = p.bump();
-                let (value, raw) = t.take_num(p.input_mut());
+                let (value, raw) = p.input_mut().expect_number_token_and_bump();
                 PropName::Num(Number {
                     span: p.span(start),
                     value,
                     raw: Some(raw),
                 })
             } else if cur.is_bigint() {
-                let t = p.bump();
-                let (value, raw) = t.take_bigint(p.input_mut());
+                let (value, raw) = p.input_mut().expect_bigint_token_and_bump();
                 PropName::BigInt(BigInt {
                     span: p.span(start),
                     value,
                     raw: Some(raw),
                 })
             } else if cur.is_word() {
-                let t = p.bump();
-                let w = t.take_word(p.input_mut()).unwrap();
+                let w = p.input_mut().expect_word_token_and_bump();
                 PropName::Ident(IdentName::new(w, p.span(start)))
             } else if cur.is_lbracket() {
                 p.bump();
@@ -469,10 +456,8 @@ pub trait Parser<'a>: Sized + Clone {
 
     #[inline]
     fn is_ident_ref(&mut self) -> bool {
-        let ctx = self.ctx();
-        self.input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_word() && !cur.is_reserved(ctx))
+        let cur = self.input().cur();
+        cur.is_word() && !cur.is_reserved(self.ctx())
     }
 
     #[inline]
@@ -509,9 +494,10 @@ pub trait Parser<'a>: Sized + Clone {
 }
 
 pub fn parse_shebang<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Atom>> {
-    Ok(if p.input_mut().cur().is_some_and(|t| t.is_shebang()) {
-        let t = p.bump();
-        Some(t.take_shebang(p.input_mut()))
+    let cur = p.input().cur();
+    Ok(if cur.is_shebang() {
+        let ret = p.input_mut().expect_shebang_token_and_bump();
+        Some(ret)
     } else {
         None
     })
@@ -521,7 +507,7 @@ pub fn parse_shebang<'a>(p: &mut impl Parser<'a>) -> PResult<Option<Atom>> {
 #[inline(never)]
 pub fn eof_error<'a, P: Parser<'a>>(p: &mut P) -> crate::error::Error {
     debug_assert!(
-        p.input_mut().cur().is_none(),
+        p.input().cur().is_eof(),
         "Parser should not call throw_eof_error() without knowing current token"
     );
     let pos = p.input().end_pos();

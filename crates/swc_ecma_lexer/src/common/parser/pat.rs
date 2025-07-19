@@ -15,7 +15,7 @@ use crate::{
         context::Context,
         lexer::token::TokenFactory,
         parser::{
-            buffer::Buffer, eof_error, expr::parse_assignment_expr, expr_ext::ExprExt,
+            buffer::Buffer, expr::parse_assignment_expr, expr_ext::ExprExt,
             ident::parse_binding_ident, object::parse_object_pat,
         },
     },
@@ -392,9 +392,7 @@ pub fn parse_binding_pat_or_ident<'a, P: Parser<'a>>(
 ) -> PResult<Pat> {
     trace_cur!(p, parse_binding_pat_or_ident);
 
-    let Some(cur) = p.input_mut().cur() else {
-        return Err(eof_error(p));
-    };
+    let cur = p.input().cur();
     if cur.is_word() {
         parse_binding_ident(p, disallow_let).map(Pat::from)
     } else if cur.is_lbracket() {
@@ -402,8 +400,7 @@ pub fn parse_binding_pat_or_ident<'a, P: Parser<'a>>(
     } else if cur.is_lbrace() {
         parse_object_pat(p)
     } else if cur.is_error() {
-        let c = p.input_mut().bump();
-        let err = c.take_error(p.input_mut());
+        let err = p.input_mut().expect_error_token_and_bump();
         Err(err)
     } else {
         unexpected!(p, "yield, an identifier, [ or {")
