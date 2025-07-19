@@ -492,6 +492,7 @@ pub enum Token {
 
     Shebang(Atom),
     Error(Error),
+    Eof,
 }
 
 impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, TokenAndSpan, I>
@@ -538,6 +539,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const DOTDOTDOT: Self = Self::DotDotDot;
     const ELSE: Self = Token::Word(Word::Keyword(Keyword::Else));
     const ENUM: Self = Token::Word(Word::Ident(IdentLike::Known(KnownIdent::Enum)));
+    const EOF: Self = Token::Eof;
     const EQUAL: Self = Token::AssignOp(AssignOp::Assign);
     const EXP: Self = Token::BinOp(BinOpToken::Exp);
     const EXPORT: Self = Token::Word(Word::Keyword(Keyword::Export));
@@ -722,6 +724,15 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     #[inline(always)]
     fn is_str(&self) -> bool {
         matches!(self, Self::Str { .. })
+    }
+
+    #[inline(always)]
+    fn is_str_raw_content(&self, content: &str, _: &Self::Buffer) -> bool {
+        if let Self::Str { raw, .. } = self {
+            raw == content
+        } else {
+            false
+        }
     }
 
     #[inline(always)]
@@ -956,6 +967,7 @@ impl Token {
             Self::JSXTagEnd => TokenKind::JSXTagEnd,
             Self::Shebang(..) => TokenKind::Shebang,
             Self::Error(..) => TokenKind::Error,
+            Self::Eof => TokenKind::Error,
             Self::Word(w) => TokenKind::Word(w.kind()),
         }
     }
@@ -1613,7 +1625,7 @@ impl Debug for Token {
     #[inline(never)]
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         match self {
-            Token::Word(w) => write!(f, "{w:?}")?,
+            Word(w) => write!(f, "{w:?}")?,
             Arrow => write!(f, "=>")?,
             Hash => write!(f, "#")?,
             At => write!(f, "@")?,
@@ -1647,7 +1659,8 @@ impl Debug for Token {
             JSXTagStart => write!(f, "< (jsx tag start)")?,
             JSXTagEnd => write!(f, "> (jsx tag end)")?,
             Shebang(_) => write!(f, "#!")?,
-            Token::Error(e) => write!(f, "<lexing error: {e:?}>")?,
+            Error(e) => write!(f, "<lexing error: {e:?}>")?,
+            Eof => write!(f, "<eof>")?,
         }
 
         Ok(())
