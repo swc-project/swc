@@ -19461,7 +19461,7 @@
                         t.inflateReset = d, t.inflateReset2 = h, t.inflateResetKeep = p, t.inflateInit = function(e) {
                             return y(e, 15);
                         }, t.inflateInit2 = y, t.inflate = function(e, t) {
-                            var r, f, p, d, h, y, b, m, D, w, E, _, x, S, A, k, T, O, C, P, F, R, I, j, B, M = 0, N = new o.Buf8(4), L = [
+                            var r, f, p, d, h, y, b, m, D, w, E, _, x, S, A, k, T, O, C, P, F, R, I, j, B = 0, M = new o.Buf8(4), N = [
                                 16,
                                 17,
                                 18,
@@ -19483,384 +19483,387 @@
                                 15
                             ];
                             if (!e || !e.state || !e.output || !e.input && 0 !== e.avail_in) return -2;
-                            12 === (f = e.state).mode && (f.mode = 13), y = e.next_out, d = e.output, m = e.avail_out, h = e.next_in, p = e.input, b = e.avail_in, D = f.hold, w = f.bits, E = b, _ = m, I = 0;
-                            t: for(;;)switch(f.mode){
+                            12 === (r = e.state).mode && (r.mode = 13), h = e.next_out, p = e.output, b = e.avail_out, d = e.next_in, f = e.input, y = e.avail_in, m = r.hold, D = r.bits, w = y, E = b, R = 0;
+                            t: for(;;)switch(r.mode){
                                 case 1:
-                                    if (0 === f.wrap) {
-                                        f.mode = 13;
+                                    if (0 === r.wrap) {
+                                        r.mode = 13;
                                         break;
                                     }
-                                    for(; w < 16;){
-                                        if (0 === b) break t;
-                                        b--, D += p[h++] << w, w += 8;
+                                    for(; D < 16;){
+                                        if (0 === y) break t;
+                                        y--, m += f[d++] << D, D += 8;
                                     }
-                                    if (2 & f.wrap && 35615 === D) {
-                                        f.check = 0, N[0] = 255 & D, N[1] = D >>> 8 & 255, f.check = u(f.check, N, 2, 0), D = 0, w = 0, f.mode = 2;
+                                    if (2 & r.wrap && 35615 === m) {
+                                        r.check = 0, M[0] = 255 & m, M[1] = m >>> 8 & 255, r.check = u(r.check, M, 2, 0), m = 0, D = 0, r.mode = 2;
                                         break;
                                     }
-                                    if (f.flags = 0, f.head && (f.head.done = !1), !(1 & f.wrap) || (((255 & D) << 8) + (D >> 8)) % 31) {
-                                        e.msg = "incorrect header check", f.mode = 30;
+                                    if (r.flags = 0, r.head && (r.head.done = !1), !(1 & r.wrap) || (((255 & m) << 8) + (m >> 8)) % 31) {
+                                        e.msg = "incorrect header check", r.mode = 30;
                                         break;
                                     }
-                                    if ((15 & D) != 8) {
-                                        e.msg = "unknown compression method", f.mode = 30;
+                                    if ((15 & m) != 8) {
+                                        e.msg = "unknown compression method", r.mode = 30;
                                         break;
                                     }
-                                    if (D >>>= 4, w -= 4, R = (15 & D) + 8, 0 === f.wbits) f.wbits = R;
-                                    else if (R > f.wbits) {
-                                        e.msg = "invalid window size", f.mode = 30;
+                                    if (m >>>= 4, D -= 4, F = (15 & m) + 8, 0 === r.wbits) r.wbits = F;
+                                    else if (F > r.wbits) {
+                                        e.msg = "invalid window size", r.mode = 30;
                                         break;
                                     }
-                                    f.dmax = 1 << R, e.adler = f.check = 1, f.mode = 512 & D ? 10 : 12, D = 0, w = 0;
+                                    r.dmax = 1 << F, e.adler = r.check = 1, r.mode = 512 & m ? 10 : 12, m = 0, D = 0;
                                     break;
                                 case 2:
-                                    for(; w < 16;){
-                                        if (0 === b) break t;
-                                        b--, D += p[h++] << w, w += 8;
+                                    for(; D < 16;){
+                                        if (0 === y) break t;
+                                        y--, m += f[d++] << D, D += 8;
                                     }
-                                    if (f.flags = D, (255 & f.flags) != 8) {
-                                        e.msg = "unknown compression method", f.mode = 30;
+                                    if (r.flags = m, (255 & r.flags) != 8) {
+                                        e.msg = "unknown compression method", r.mode = 30;
                                         break;
                                     }
-                                    if (57344 & f.flags) {
-                                        e.msg = "unknown header flags set", f.mode = 30;
+                                    if (57344 & r.flags) {
+                                        e.msg = "unknown header flags set", r.mode = 30;
                                         break;
                                     }
-                                    f.head && (f.head.text = D >> 8 & 1), 512 & f.flags && (N[0] = 255 & D, N[1] = D >>> 8 & 255, f.check = u(f.check, N, 2, 0)), D = 0, w = 0, f.mode = 3;
+                                    r.head && (r.head.text = m >> 8 & 1), 512 & r.flags && (M[0] = 255 & m, M[1] = m >>> 8 & 255, r.check = u(r.check, M, 2, 0)), m = 0, D = 0, r.mode = 3;
                                 case 3:
-                                    for(; w < 32;){
-                                        if (0 === b) break t;
-                                        b--, D += p[h++] << w, w += 8;
+                                    for(; D < 32;){
+                                        if (0 === y) break t;
+                                        y--, m += f[d++] << D, D += 8;
                                     }
-                                    f.head && (f.head.time = D), 512 & f.flags && (N[0] = 255 & D, N[1] = D >>> 8 & 255, N[2] = D >>> 16 & 255, N[3] = D >>> 24 & 255, f.check = u(f.check, N, 4, 0)), D = 0, w = 0, f.mode = 4;
+                                    r.head && (r.head.time = m), 512 & r.flags && (M[0] = 255 & m, M[1] = m >>> 8 & 255, M[2] = m >>> 16 & 255, M[3] = m >>> 24 & 255, r.check = u(r.check, M, 4, 0)), m = 0, D = 0, r.mode = 4;
                                 case 4:
-                                    for(; w < 16;){
-                                        if (0 === b) break t;
-                                        b--, D += p[h++] << w, w += 8;
+                                    for(; D < 16;){
+                                        if (0 === y) break t;
+                                        y--, m += f[d++] << D, D += 8;
                                     }
-                                    f.head && (f.head.xflags = 255 & D, f.head.os = D >> 8), 512 & f.flags && (N[0] = 255 & D, N[1] = D >>> 8 & 255, f.check = u(f.check, N, 2, 0)), D = 0, w = 0, f.mode = 5;
+                                    r.head && (r.head.xflags = 255 & m, r.head.os = m >> 8), 512 & r.flags && (M[0] = 255 & m, M[1] = m >>> 8 & 255, r.check = u(r.check, M, 2, 0)), m = 0, D = 0, r.mode = 5;
                                 case 5:
-                                    if (1024 & f.flags) {
-                                        for(; w < 16;){
-                                            if (0 === b) break t;
-                                            b--, D += p[h++] << w, w += 8;
+                                    if (1024 & r.flags) {
+                                        for(; D < 16;){
+                                            if (0 === y) break t;
+                                            y--, m += f[d++] << D, D += 8;
                                         }
-                                        f.length = D, f.head && (f.head.extra_len = D), 512 & f.flags && (N[0] = 255 & D, N[1] = D >>> 8 & 255, f.check = u(f.check, N, 2, 0)), D = 0, w = 0;
-                                    } else f.head && (f.head.extra = null);
-                                    f.mode = 6;
+                                        r.length = m, r.head && (r.head.extra_len = m), 512 & r.flags && (M[0] = 255 & m, M[1] = m >>> 8 & 255, r.check = u(r.check, M, 2, 0)), m = 0, D = 0;
+                                    } else r.head && (r.head.extra = null);
+                                    r.mode = 6;
                                 case 6:
-                                    if (1024 & f.flags && ((x = f.length) > b && (x = b), x && (f.head && (R = f.head.extra_len - f.length, f.head.extra || (f.head.extra = Array(f.head.extra_len)), o.arraySet(f.head.extra, p, h, x, R)), 512 & f.flags && (f.check = u(f.check, p, x, h)), b -= x, h += x, f.length -= x), f.length)) break t;
-                                    f.length = 0, f.mode = 7;
+                                    if (1024 & r.flags && ((_ = r.length) > y && (_ = y), _ && (r.head && (F = r.head.extra_len - r.length, r.head.extra || (r.head.extra = Array(r.head.extra_len)), o.arraySet(r.head.extra, f, d, _, F)), 512 & r.flags && (r.check = u(r.check, f, _, d)), y -= _, d += _, r.length -= _), r.length)) break t;
+                                    r.length = 0, r.mode = 7;
                                 case 7:
-                                    if (2048 & f.flags) {
-                                        if (0 === b) break t;
-                                        x = 0;
-                                        do R = p[h + x++], f.head && R && f.length < 65536 && (f.head.name += String.fromCharCode(R));
-                                        while (R && x < b)
-                                        if (512 & f.flags && (f.check = u(f.check, p, x, h)), b -= x, h += x, R) break t;
-                                    } else f.head && (f.head.name = null);
-                                    f.length = 0, f.mode = 8;
+                                    if (2048 & r.flags) {
+                                        if (0 === y) break t;
+                                        _ = 0;
+                                        do F = f[d + _++], r.head && F && r.length < 65536 && (r.head.name += String.fromCharCode(F));
+                                        while (F && _ < y)
+                                        if (512 & r.flags && (r.check = u(r.check, f, _, d)), y -= _, d += _, F) break t;
+                                    } else r.head && (r.head.name = null);
+                                    r.length = 0, r.mode = 8;
                                 case 8:
-                                    if (4096 & f.flags) {
-                                        if (0 === b) break t;
-                                        x = 0;
-                                        do R = p[h + x++], f.head && R && f.length < 65536 && (f.head.comment += String.fromCharCode(R));
-                                        while (R && x < b)
-                                        if (512 & f.flags && (f.check = u(f.check, p, x, h)), b -= x, h += x, R) break t;
-                                    } else f.head && (f.head.comment = null);
-                                    f.mode = 9;
+                                    if (4096 & r.flags) {
+                                        if (0 === y) break t;
+                                        _ = 0;
+                                        do F = f[d + _++], r.head && F && r.length < 65536 && (r.head.comment += String.fromCharCode(F));
+                                        while (F && _ < y)
+                                        if (512 & r.flags && (r.check = u(r.check, f, _, d)), y -= _, d += _, F) break t;
+                                    } else r.head && (r.head.comment = null);
+                                    r.mode = 9;
                                 case 9:
-                                    if (512 & f.flags) {
-                                        for(; w < 16;){
-                                            if (0 === b) break t;
-                                            b--, D += p[h++] << w, w += 8;
+                                    if (512 & r.flags) {
+                                        for(; D < 16;){
+                                            if (0 === y) break t;
+                                            y--, m += f[d++] << D, D += 8;
                                         }
-                                        if (D !== (65535 & f.check)) {
-                                            e.msg = "header crc mismatch", f.mode = 30;
+                                        if (m !== (65535 & r.check)) {
+                                            e.msg = "header crc mismatch", r.mode = 30;
                                             break;
                                         }
-                                        D = 0, w = 0;
+                                        m = 0, D = 0;
                                     }
-                                    f.head && (f.head.hcrc = f.flags >> 9 & 1, f.head.done = !0), e.adler = f.check = 0, f.mode = 12;
+                                    r.head && (r.head.hcrc = r.flags >> 9 & 1, r.head.done = !0), e.adler = r.check = 0, r.mode = 12;
                                     break;
                                 case 10:
-                                    for(; w < 32;){
-                                        if (0 === b) break t;
-                                        b--, D += p[h++] << w, w += 8;
+                                    for(; D < 32;){
+                                        if (0 === y) break t;
+                                        y--, m += f[d++] << D, D += 8;
                                     }
-                                    e.adler = f.check = c(D), D = 0, w = 0, f.mode = 11;
+                                    e.adler = r.check = c(m), m = 0, D = 0, r.mode = 11;
                                 case 11:
-                                    if (0 === f.havedict) return e.next_out = y, e.avail_out = m, e.next_in = h, e.avail_in = b, f.hold = D, f.bits = w, 2;
-                                    e.adler = f.check = 1, f.mode = 12;
+                                    if (0 === r.havedict) return e.next_out = h, e.avail_out = b, e.next_in = d, e.avail_in = y, r.hold = m, r.bits = D, 2;
+                                    e.adler = r.check = 1, r.mode = 12;
                                 case 12:
                                     if (5 === t || 6 === t) break t;
                                 case 13:
-                                    if (f.last) {
-                                        D >>>= 7 & w, w -= 7 & w, f.mode = 27;
+                                    if (r.last) {
+                                        m >>>= 7 & D, D -= 7 & D, r.mode = 27;
                                         break;
                                     }
-                                    for(; w < 3;){
-                                        if (0 === b) break t;
-                                        b--, D += p[h++] << w, w += 8;
+                                    for(; D < 3;){
+                                        if (0 === y) break t;
+                                        y--, m += f[d++] << D, D += 8;
                                     }
-                                    switch(f.last = 1 & D, w -= 1, 3 & (D >>>= 1)){
+                                    switch(r.last = 1 & m, D -= 1, 3 & (m >>>= 1)){
                                         case 0:
-                                            f.mode = 14;
+                                            r.mode = 14;
                                             break;
                                         case 1:
-                                            if (g) {
-                                                for(n = new o.Buf32(512), i = new o.Buf32(32), r = 0; r < 144;)f.lens[r++] = 8;
-                                                for(; r < 256;)f.lens[r++] = 9;
-                                                for(; r < 280;)f.lens[r++] = 7;
-                                                for(; r < 288;)f.lens[r++] = 8;
-                                                for(s(1, f.lens, 0, 288, n, 0, f.work, {
-                                                    bits: 9
-                                                }), r = 0; r < 32;)f.lens[r++] = 5;
-                                                s(2, f.lens, 0, 32, i, 0, f.work, {
-                                                    bits: 5
-                                                }), g = !1;
-                                            }
-                                            if (f.lencode = n, f.lenbits = 9, f.distcode = i, f.distbits = 5, f.mode = 20, 6 === t) {
-                                                D >>>= 2, w -= 2;
+                                            if (!function(e) {
+                                                if (g) {
+                                                    var t;
+                                                    for(n = new o.Buf32(512), i = new o.Buf32(32), t = 0; t < 144;)e.lens[t++] = 8;
+                                                    for(; t < 256;)e.lens[t++] = 9;
+                                                    for(; t < 280;)e.lens[t++] = 7;
+                                                    for(; t < 288;)e.lens[t++] = 8;
+                                                    for(s(1, e.lens, 0, 288, n, 0, e.work, {
+                                                        bits: 9
+                                                    }), t = 0; t < 32;)e.lens[t++] = 5;
+                                                    s(2, e.lens, 0, 32, i, 0, e.work, {
+                                                        bits: 5
+                                                    }), g = !1;
+                                                }
+                                                e.lencode = n, e.lenbits = 9, e.distcode = i, e.distbits = 5;
+                                            }(r), r.mode = 20, 6 === t) {
+                                                m >>>= 2, D -= 2;
                                                 break t;
                                             }
                                             break;
                                         case 2:
-                                            f.mode = 17;
+                                            r.mode = 17;
                                             break;
                                         case 3:
-                                            e.msg = "invalid block type", f.mode = 30;
+                                            e.msg = "invalid block type", r.mode = 30;
                                     }
-                                    D >>>= 2, w -= 2;
+                                    m >>>= 2, D -= 2;
                                     break;
                                 case 14:
-                                    for(D >>>= 7 & w, w -= 7 & w; w < 32;){
-                                        if (0 === b) break t;
-                                        b--, D += p[h++] << w, w += 8;
+                                    for(m >>>= 7 & D, D -= 7 & D; D < 32;){
+                                        if (0 === y) break t;
+                                        y--, m += f[d++] << D, D += 8;
                                     }
-                                    if ((65535 & D) != (D >>> 16 ^ 65535)) {
-                                        e.msg = "invalid stored block lengths", f.mode = 30;
+                                    if ((65535 & m) != (m >>> 16 ^ 65535)) {
+                                        e.msg = "invalid stored block lengths", r.mode = 30;
                                         break;
                                     }
-                                    if (f.length = 65535 & D, D = 0, w = 0, f.mode = 15, 6 === t) break t;
+                                    if (r.length = 65535 & m, m = 0, D = 0, r.mode = 15, 6 === t) break t;
                                 case 15:
-                                    f.mode = 16;
+                                    r.mode = 16;
                                 case 16:
-                                    if (x = f.length) {
-                                        if (x > b && (x = b), x > m && (x = m), 0 === x) break t;
-                                        o.arraySet(d, p, h, x, y), b -= x, h += x, m -= x, y += x, f.length -= x;
+                                    if (_ = r.length) {
+                                        if (_ > y && (_ = y), _ > b && (_ = b), 0 === _) break t;
+                                        o.arraySet(p, f, d, _, h), y -= _, d += _, b -= _, h += _, r.length -= _;
                                         break;
                                     }
-                                    f.mode = 12;
+                                    r.mode = 12;
                                     break;
                                 case 17:
-                                    for(; w < 14;){
-                                        if (0 === b) break t;
-                                        b--, D += p[h++] << w, w += 8;
+                                    for(; D < 14;){
+                                        if (0 === y) break t;
+                                        y--, m += f[d++] << D, D += 8;
                                     }
-                                    if (f.nlen = (31 & D) + 257, w -= 5, f.ndist = (31 & (D >>>= 5)) + 1, w -= 5, f.ncode = (15 & (D >>>= 5)) + 4, D >>>= 4, w -= 4, f.nlen > 286 || f.ndist > 30) {
-                                        e.msg = "too many length or distance symbols", f.mode = 30;
+                                    if (r.nlen = (31 & m) + 257, D -= 5, r.ndist = (31 & (m >>>= 5)) + 1, D -= 5, r.ncode = (15 & (m >>>= 5)) + 4, m >>>= 4, D -= 4, r.nlen > 286 || r.ndist > 30) {
+                                        e.msg = "too many length or distance symbols", r.mode = 30;
                                         break;
                                     }
-                                    f.have = 0, f.mode = 18;
+                                    r.have = 0, r.mode = 18;
                                 case 18:
-                                    for(; f.have < f.ncode;){
-                                        for(; w < 3;){
-                                            if (0 === b) break t;
-                                            b--, D += p[h++] << w, w += 8;
+                                    for(; r.have < r.ncode;){
+                                        for(; D < 3;){
+                                            if (0 === y) break t;
+                                            y--, m += f[d++] << D, D += 8;
                                         }
-                                        f.lens[L[f.have++]] = 7 & D, D >>>= 3, w -= 3;
+                                        r.lens[N[r.have++]] = 7 & m, m >>>= 3, D -= 3;
                                     }
-                                    for(; f.have < 19;)f.lens[L[f.have++]] = 0;
-                                    if (f.lencode = f.lendyn, f.lenbits = 7, j = {
-                                        bits: f.lenbits
-                                    }, I = s(0, f.lens, 0, 19, f.lencode, 0, f.work, j), f.lenbits = j.bits, I) {
-                                        e.msg = "invalid code lengths set", f.mode = 30;
+                                    for(; r.have < 19;)r.lens[N[r.have++]] = 0;
+                                    if (r.lencode = r.lendyn, r.lenbits = 7, I = {
+                                        bits: r.lenbits
+                                    }, R = s(0, r.lens, 0, 19, r.lencode, 0, r.work, I), r.lenbits = I.bits, R) {
+                                        e.msg = "invalid code lengths set", r.mode = 30;
                                         break;
                                     }
-                                    f.have = 0, f.mode = 19;
+                                    r.have = 0, r.mode = 19;
                                 case 19:
-                                    for(; f.have < f.nlen + f.ndist;){
-                                        for(; k = (M = f.lencode[D & (1 << f.lenbits) - 1]) >>> 24, T = M >>> 16 & 255, O = 65535 & M, !(k <= w);){
-                                            if (0 === b) break t;
-                                            b--, D += p[h++] << w, w += 8;
+                                    for(; r.have < r.nlen + r.ndist;){
+                                        for(; A = (B = r.lencode[m & (1 << r.lenbits) - 1]) >>> 24, k = B >>> 16 & 255, T = 65535 & B, !(A <= D);){
+                                            if (0 === y) break t;
+                                            y--, m += f[d++] << D, D += 8;
                                         }
-                                        if (O < 16) D >>>= k, w -= k, f.lens[f.have++] = O;
+                                        if (T < 16) m >>>= A, D -= A, r.lens[r.have++] = T;
                                         else {
-                                            if (16 === O) {
-                                                for(B = k + 2; w < B;){
-                                                    if (0 === b) break t;
-                                                    b--, D += p[h++] << w, w += 8;
+                                            if (16 === T) {
+                                                for(j = A + 2; D < j;){
+                                                    if (0 === y) break t;
+                                                    y--, m += f[d++] << D, D += 8;
                                                 }
-                                                if (D >>>= k, w -= k, 0 === f.have) {
-                                                    e.msg = "invalid bit length repeat", f.mode = 30;
+                                                if (m >>>= A, D -= A, 0 === r.have) {
+                                                    e.msg = "invalid bit length repeat", r.mode = 30;
                                                     break;
                                                 }
-                                                R = f.lens[f.have - 1], x = 3 + (3 & D), D >>>= 2, w -= 2;
-                                            } else if (17 === O) {
-                                                for(B = k + 3; w < B;){
-                                                    if (0 === b) break t;
-                                                    b--, D += p[h++] << w, w += 8;
+                                                F = r.lens[r.have - 1], _ = 3 + (3 & m), m >>>= 2, D -= 2;
+                                            } else if (17 === T) {
+                                                for(j = A + 3; D < j;){
+                                                    if (0 === y) break t;
+                                                    y--, m += f[d++] << D, D += 8;
                                                 }
-                                                D >>>= k, w -= k, R = 0, x = 3 + (7 & D), D >>>= 3, w -= 3;
+                                                m >>>= A, D -= A, F = 0, _ = 3 + (7 & m), m >>>= 3, D -= 3;
                                             } else {
-                                                for(B = k + 7; w < B;){
-                                                    if (0 === b) break t;
-                                                    b--, D += p[h++] << w, w += 8;
+                                                for(j = A + 7; D < j;){
+                                                    if (0 === y) break t;
+                                                    y--, m += f[d++] << D, D += 8;
                                                 }
-                                                D >>>= k, w -= k, R = 0, x = 11 + (127 & D), D >>>= 7, w -= 7;
+                                                m >>>= A, D -= A, F = 0, _ = 11 + (127 & m), m >>>= 7, D -= 7;
                                             }
-                                            if (f.have + x > f.nlen + f.ndist) {
-                                                e.msg = "invalid bit length repeat", f.mode = 30;
+                                            if (r.have + _ > r.nlen + r.ndist) {
+                                                e.msg = "invalid bit length repeat", r.mode = 30;
                                                 break;
                                             }
-                                            for(; x--;)f.lens[f.have++] = R;
+                                            for(; _--;)r.lens[r.have++] = F;
                                         }
                                     }
-                                    if (30 === f.mode) break;
-                                    if (0 === f.lens[256]) {
-                                        e.msg = "invalid code -- missing end-of-block", f.mode = 30;
+                                    if (30 === r.mode) break;
+                                    if (0 === r.lens[256]) {
+                                        e.msg = "invalid code -- missing end-of-block", r.mode = 30;
                                         break;
                                     }
-                                    if (f.lenbits = 9, j = {
-                                        bits: f.lenbits
-                                    }, I = s(1, f.lens, 0, f.nlen, f.lencode, 0, f.work, j), f.lenbits = j.bits, I) {
-                                        e.msg = "invalid literal/lengths set", f.mode = 30;
+                                    if (r.lenbits = 9, I = {
+                                        bits: r.lenbits
+                                    }, R = s(1, r.lens, 0, r.nlen, r.lencode, 0, r.work, I), r.lenbits = I.bits, R) {
+                                        e.msg = "invalid literal/lengths set", r.mode = 30;
                                         break;
                                     }
-                                    if (f.distbits = 6, f.distcode = f.distdyn, j = {
-                                        bits: f.distbits
-                                    }, I = s(2, f.lens, f.nlen, f.ndist, f.distcode, 0, f.work, j), f.distbits = j.bits, I) {
-                                        e.msg = "invalid distances set", f.mode = 30;
+                                    if (r.distbits = 6, r.distcode = r.distdyn, I = {
+                                        bits: r.distbits
+                                    }, R = s(2, r.lens, r.nlen, r.ndist, r.distcode, 0, r.work, I), r.distbits = I.bits, R) {
+                                        e.msg = "invalid distances set", r.mode = 30;
                                         break;
                                     }
-                                    if (f.mode = 20, 6 === t) break t;
+                                    if (r.mode = 20, 6 === t) break t;
                                 case 20:
-                                    f.mode = 21;
+                                    r.mode = 21;
                                 case 21:
-                                    if (b >= 6 && m >= 258) {
-                                        e.next_out = y, e.avail_out = m, e.next_in = h, e.avail_in = b, f.hold = D, f.bits = w, l(e, _), y = e.next_out, d = e.output, m = e.avail_out, h = e.next_in, p = e.input, b = e.avail_in, D = f.hold, w = f.bits, 12 === f.mode && (f.back = -1);
+                                    if (y >= 6 && b >= 258) {
+                                        e.next_out = h, e.avail_out = b, e.next_in = d, e.avail_in = y, r.hold = m, r.bits = D, l(e, E), h = e.next_out, p = e.output, b = e.avail_out, d = e.next_in, f = e.input, y = e.avail_in, m = r.hold, D = r.bits, 12 === r.mode && (r.back = -1);
                                         break;
                                     }
-                                    for(f.back = 0; k = (M = f.lencode[D & (1 << f.lenbits) - 1]) >>> 24, T = M >>> 16 & 255, O = 65535 & M, !(k <= w);){
-                                        if (0 === b) break t;
-                                        b--, D += p[h++] << w, w += 8;
+                                    for(r.back = 0; A = (B = r.lencode[m & (1 << r.lenbits) - 1]) >>> 24, k = B >>> 16 & 255, T = 65535 & B, !(A <= D);){
+                                        if (0 === y) break t;
+                                        y--, m += f[d++] << D, D += 8;
                                     }
-                                    if (T && (240 & T) == 0) {
-                                        for(C = k, P = T, F = O; k = (M = f.lencode[F + ((D & (1 << C + P) - 1) >> C)]) >>> 24, T = M >>> 16 & 255, O = 65535 & M, !(C + k <= w);){
-                                            if (0 === b) break t;
-                                            b--, D += p[h++] << w, w += 8;
+                                    if (k && (240 & k) == 0) {
+                                        for(O = A, C = k, P = T; A = (B = r.lencode[P + ((m & (1 << O + C) - 1) >> O)]) >>> 24, k = B >>> 16 & 255, T = 65535 & B, !(O + A <= D);){
+                                            if (0 === y) break t;
+                                            y--, m += f[d++] << D, D += 8;
                                         }
-                                        D >>>= C, w -= C, f.back += C;
+                                        m >>>= O, D -= O, r.back += O;
                                     }
-                                    if (D >>>= k, w -= k, f.back += k, f.length = O, 0 === T) {
-                                        f.mode = 26;
+                                    if (m >>>= A, D -= A, r.back += A, r.length = T, 0 === k) {
+                                        r.mode = 26;
                                         break;
                                     }
-                                    if (32 & T) {
-                                        f.back = -1, f.mode = 12;
+                                    if (32 & k) {
+                                        r.back = -1, r.mode = 12;
                                         break;
                                     }
-                                    if (64 & T) {
-                                        e.msg = "invalid literal/length code", f.mode = 30;
+                                    if (64 & k) {
+                                        e.msg = "invalid literal/length code", r.mode = 30;
                                         break;
                                     }
-                                    f.extra = 15 & T, f.mode = 22;
+                                    r.extra = 15 & k, r.mode = 22;
                                 case 22:
-                                    if (f.extra) {
-                                        for(B = f.extra; w < B;){
-                                            if (0 === b) break t;
-                                            b--, D += p[h++] << w, w += 8;
+                                    if (r.extra) {
+                                        for(j = r.extra; D < j;){
+                                            if (0 === y) break t;
+                                            y--, m += f[d++] << D, D += 8;
                                         }
-                                        f.length += D & (1 << f.extra) - 1, D >>>= f.extra, w -= f.extra, f.back += f.extra;
+                                        r.length += m & (1 << r.extra) - 1, m >>>= r.extra, D -= r.extra, r.back += r.extra;
                                     }
-                                    f.was = f.length, f.mode = 23;
+                                    r.was = r.length, r.mode = 23;
                                 case 23:
-                                    for(; k = (M = f.distcode[D & (1 << f.distbits) - 1]) >>> 24, T = M >>> 16 & 255, O = 65535 & M, !(k <= w);){
-                                        if (0 === b) break t;
-                                        b--, D += p[h++] << w, w += 8;
+                                    for(; A = (B = r.distcode[m & (1 << r.distbits) - 1]) >>> 24, k = B >>> 16 & 255, T = 65535 & B, !(A <= D);){
+                                        if (0 === y) break t;
+                                        y--, m += f[d++] << D, D += 8;
                                     }
-                                    if ((240 & T) == 0) {
-                                        for(C = k, P = T, F = O; k = (M = f.distcode[F + ((D & (1 << C + P) - 1) >> C)]) >>> 24, T = M >>> 16 & 255, O = 65535 & M, !(C + k <= w);){
-                                            if (0 === b) break t;
-                                            b--, D += p[h++] << w, w += 8;
+                                    if ((240 & k) == 0) {
+                                        for(O = A, C = k, P = T; A = (B = r.distcode[P + ((m & (1 << O + C) - 1) >> O)]) >>> 24, k = B >>> 16 & 255, T = 65535 & B, !(O + A <= D);){
+                                            if (0 === y) break t;
+                                            y--, m += f[d++] << D, D += 8;
                                         }
-                                        D >>>= C, w -= C, f.back += C;
+                                        m >>>= O, D -= O, r.back += O;
                                     }
-                                    if (D >>>= k, w -= k, f.back += k, 64 & T) {
-                                        e.msg = "invalid distance code", f.mode = 30;
+                                    if (m >>>= A, D -= A, r.back += A, 64 & k) {
+                                        e.msg = "invalid distance code", r.mode = 30;
                                         break;
                                     }
-                                    f.offset = O, f.extra = 15 & T, f.mode = 24;
+                                    r.offset = T, r.extra = 15 & k, r.mode = 24;
                                 case 24:
-                                    if (f.extra) {
-                                        for(B = f.extra; w < B;){
-                                            if (0 === b) break t;
-                                            b--, D += p[h++] << w, w += 8;
+                                    if (r.extra) {
+                                        for(j = r.extra; D < j;){
+                                            if (0 === y) break t;
+                                            y--, m += f[d++] << D, D += 8;
                                         }
-                                        f.offset += D & (1 << f.extra) - 1, D >>>= f.extra, w -= f.extra, f.back += f.extra;
+                                        r.offset += m & (1 << r.extra) - 1, m >>>= r.extra, D -= r.extra, r.back += r.extra;
                                     }
-                                    if (f.offset > f.dmax) {
-                                        e.msg = "invalid distance too far back", f.mode = 30;
+                                    if (r.offset > r.dmax) {
+                                        e.msg = "invalid distance too far back", r.mode = 30;
                                         break;
                                     }
-                                    f.mode = 25;
+                                    r.mode = 25;
                                 case 25:
-                                    if (0 === m) break t;
-                                    if (x = _ - m, f.offset > x) {
-                                        if ((x = f.offset - x) > f.whave && f.sane) {
-                                            e.msg = "invalid distance too far back", f.mode = 30;
+                                    if (0 === b) break t;
+                                    if (_ = E - b, r.offset > _) {
+                                        if ((_ = r.offset - _) > r.whave && r.sane) {
+                                            e.msg = "invalid distance too far back", r.mode = 30;
                                             break;
                                         }
-                                        x > f.wnext ? (x -= f.wnext, S = f.wsize - x) : S = f.wnext - x, x > f.length && (x = f.length), A = f.window;
-                                    } else A = d, S = y - f.offset, x = f.length;
-                                    x > m && (x = m), m -= x, f.length -= x;
-                                    do d[y++] = A[S++];
-                                    while (--x)
-                                    0 === f.length && (f.mode = 21);
+                                        _ > r.wnext ? (_ -= r.wnext, x = r.wsize - _) : x = r.wnext - _, _ > r.length && (_ = r.length), S = r.window;
+                                    } else S = p, x = h - r.offset, _ = r.length;
+                                    _ > b && (_ = b), b -= _, r.length -= _;
+                                    do p[h++] = S[x++];
+                                    while (--_)
+                                    0 === r.length && (r.mode = 21);
                                     break;
                                 case 26:
-                                    if (0 === m) break t;
-                                    d[y++] = f.length, m--, f.mode = 21;
+                                    if (0 === b) break t;
+                                    p[h++] = r.length, b--, r.mode = 21;
                                     break;
                                 case 27:
-                                    if (f.wrap) {
-                                        for(; w < 32;){
-                                            if (0 === b) break t;
-                                            b--, D |= p[h++] << w, w += 8;
+                                    if (r.wrap) {
+                                        for(; D < 32;){
+                                            if (0 === y) break t;
+                                            y--, m |= f[d++] << D, D += 8;
                                         }
-                                        if (_ -= m, e.total_out += _, f.total += _, _ && (e.adler = f.check = f.flags ? u(f.check, d, _, y - _) : a(f.check, d, _, y - _)), _ = m, (f.flags ? D : c(D)) !== f.check) {
-                                            e.msg = "incorrect data check", f.mode = 30;
+                                        if (E -= b, e.total_out += E, r.total += E, E && (e.adler = r.check = r.flags ? u(r.check, p, E, h - E) : a(r.check, p, E, h - E)), E = b, (r.flags ? m : c(m)) !== r.check) {
+                                            e.msg = "incorrect data check", r.mode = 30;
                                             break;
                                         }
-                                        D = 0, w = 0;
+                                        m = 0, D = 0;
                                     }
-                                    f.mode = 28;
+                                    r.mode = 28;
                                 case 28:
-                                    if (f.wrap && f.flags) {
-                                        for(; w < 32;){
-                                            if (0 === b) break t;
-                                            b--, D += p[h++] << w, w += 8;
+                                    if (r.wrap && r.flags) {
+                                        for(; D < 32;){
+                                            if (0 === y) break t;
+                                            y--, m += f[d++] << D, D += 8;
                                         }
-                                        if (D !== (0 | f.total)) {
-                                            e.msg = "incorrect length check", f.mode = 30;
+                                        if (m !== (0 | r.total)) {
+                                            e.msg = "incorrect length check", r.mode = 30;
                                             break;
                                         }
-                                        D = 0, w = 0;
+                                        m = 0, D = 0;
                                     }
-                                    f.mode = 29;
+                                    r.mode = 29;
                                 case 29:
-                                    I = 1;
+                                    R = 1;
                                     break t;
                                 case 30:
-                                    I = -3;
+                                    R = -3;
                                     break t;
                                 case 31:
                                     return -4;
                                 default:
                                     return -2;
                             }
-                            return (e.next_out = y, e.avail_out = m, e.next_in = h, e.avail_in = b, f.hold = D, f.bits = w, (f.wsize || _ !== e.avail_out && f.mode < 30 && (f.mode < 27 || 4 !== t)) && v(e, e.output, e.next_out, _ - e.avail_out)) ? (f.mode = 31, -4) : (E -= e.avail_in, _ -= e.avail_out, e.total_in += E, e.total_out += _, f.total += _, f.wrap && _ && (e.adler = f.check = f.flags ? u(f.check, d, _, e.next_out - _) : a(f.check, d, _, e.next_out - _)), e.data_type = f.bits + 64 * !!f.last + 128 * (12 === f.mode) + 256 * (20 === f.mode || 15 === f.mode), (0 === E && 0 === _ || 4 === t) && 0 === I && (I = -5), I);
+                            return (e.next_out = h, e.avail_out = b, e.next_in = d, e.avail_in = y, r.hold = m, r.bits = D, (r.wsize || E !== e.avail_out && r.mode < 30 && (r.mode < 27 || 4 !== t)) && v(e, e.output, e.next_out, E - e.avail_out)) ? (r.mode = 31, -4) : (w -= e.avail_in, E -= e.avail_out, e.total_in += w, e.total_out += E, r.total += E, r.wrap && E && (e.adler = r.check = r.flags ? u(r.check, p, E, e.next_out - E) : a(r.check, p, E, e.next_out - E)), e.data_type = r.bits + 64 * !!r.last + 128 * (12 === r.mode) + 256 * (20 === r.mode || 15 === r.mode), (0 === w && 0 === E || 4 === t) && 0 === R && (R = -5), R);
                         }, t.inflateEnd = function(e) {
                             if (!e || !e.state) return -2;
                             var t = e.state;
