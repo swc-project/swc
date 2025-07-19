@@ -416,7 +416,7 @@ pub fn parse_array_binding_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
 
     let mut rest_span = Span::default();
 
-    while !eof!(p) && !p.input_mut().is(&P::Token::RBRACKET) {
+    while !eof!(p) && !p.input().is(&P::Token::RBRACKET) {
         if p.input_mut().eat(&P::Token::COMMA) {
             elems.push(None);
             continue;
@@ -447,9 +447,9 @@ pub fn parse_array_binding_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
             elems.push(parse_binding_element(p).map(Some)?);
         }
 
-        if !p.input_mut().is(&P::Token::RBRACKET) {
+        if !p.input().is(&P::Token::RBRACKET) {
             expect!(p, &P::Token::COMMA);
-            if is_rest && p.input_mut().is(&P::Token::RBRACKET) {
+            if is_rest && p.input().is(&P::Token::RBRACKET) {
                 p.emit_err(p.input().prev_span(), SyntaxError::CommaAfterRestElement);
             }
         }
@@ -622,7 +622,7 @@ pub fn parse_constructor_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Par
     let mut params = Vec::new();
     let mut rest_span = Span::default();
 
-    while !eof!(p) && !p.input_mut().is(&P::Token::RPAREN) {
+    while !eof!(p) && !p.input().is(&P::Token::RPAREN) {
         if !rest_span.is_dummy() {
             p.emit_err(rest_span, SyntaxError::TS1014);
         }
@@ -637,8 +637,7 @@ pub fn parse_constructor_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Par
             let dot3_token = p.span(pat_start);
 
             let pat = parse_binding_pat_or_ident(p, false)?;
-            let type_ann = if p.input().syntax().typescript() && p.input_mut().is(&P::Token::COLON)
-            {
+            let type_ann = if p.input().syntax().typescript() && p.input().is(&P::Token::COLON) {
                 let cur_pos = p.cur_pos();
                 Some(parse_ts_type_ann(p, /* eat_colon */ true, cur_pos)?)
             } else {
@@ -662,9 +661,9 @@ pub fn parse_constructor_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Par
             params.push(parse_constructor_param(p, param_start, decorators)?);
         }
 
-        if !p.input_mut().is(&P::Token::RPAREN) {
+        if !p.input().is(&P::Token::RPAREN) {
             expect!(p, &P::Token::COMMA);
-            if p.input_mut().is(&P::Token::RPAREN) && is_rest {
+            if p.input().is(&P::Token::RPAREN) && is_rest {
                 p.emit_err(p.input().prev_span(), SyntaxError::CommaAfterRestElement);
             }
         }
@@ -677,7 +676,7 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
     let mut params = Vec::new();
     let mut rest_span = Span::default();
 
-    while !eof!(p) && !p.input_mut().is(&P::Token::RPAREN) {
+    while !eof!(p) && !p.input().is(&P::Token::RPAREN) {
         if !rest_span.is_dummy() {
             p.emit_err(rest_span, SyntaxError::TS1014);
         }
@@ -702,8 +701,7 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
                 .into();
             }
 
-            let type_ann = if p.input().syntax().typescript() && p.input_mut().is(&P::Token::COLON)
-            {
+            let type_ann = if p.input().syntax().typescript() && p.input().is(&P::Token::COLON) {
                 let cur_pos = p.cur_pos();
                 let ty = parse_ts_type_ann(p, /* eat_colon */ true, cur_pos)?;
                 Some(ty)
@@ -737,9 +735,9 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
             pat,
         });
 
-        if !p.input_mut().is(&P::Token::RPAREN) {
+        if !p.input().is(&P::Token::RPAREN) {
             expect!(p, &P::Token::COMMA);
-            if is_rest && p.input_mut().is(&P::Token::RPAREN) {
+            if is_rest && p.input().is(&P::Token::RPAREN) {
                 p.emit_err(p.input().prev_span(), SyntaxError::CommaAfterRestElement);
             }
         }

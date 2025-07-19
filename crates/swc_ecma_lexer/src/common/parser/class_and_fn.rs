@@ -63,7 +63,7 @@ pub fn parse_maybe_opt_binding_ident<'a>(
 }
 
 fn parse_maybe_decorator_args<'a, P: Parser<'a>>(p: &mut P, expr: Box<Expr>) -> PResult<Box<Expr>> {
-    let type_args = if p.input().syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+    let type_args = if p.input().syntax().typescript() && p.input().is(&P::Token::LESS) {
         let ret = parse_ts_type_args(p)?;
         p.assert_and_bump(&P::Token::GREATER);
         Some(ret)
@@ -71,7 +71,7 @@ fn parse_maybe_decorator_args<'a, P: Parser<'a>>(p: &mut P, expr: Box<Expr>) -> 
         None
     };
 
-    if type_args.is_none() && !p.input_mut().is(&P::Token::LPAREN) {
+    if type_args.is_none() && !p.input().is(&P::Token::LPAREN) {
         return Ok(expr);
     }
 
@@ -97,14 +97,14 @@ pub fn parse_decorators<'a, P: Parser<'a>>(
     let mut decorators = Vec::new();
     let start = p.cur_pos();
 
-    while p.input_mut().is(&P::Token::AT) {
+    while p.input().is(&P::Token::AT) {
         decorators.push(parse_decorator(p)?);
     }
     if decorators.is_empty() {
         return Ok(decorators);
     }
 
-    if p.input_mut().is(&P::Token::EXPORT) {
+    if p.input().is(&P::Token::EXPORT) {
         if !p.ctx().contains(Context::InClass)
             && !p.ctx().contains(Context::InFunction)
             && !allow_export
@@ -118,7 +118,7 @@ pub fn parse_decorators<'a, P: Parser<'a>>(
         {
             syntax_error!(p, p.span(start), SyntaxError::DecoratorOnExport);
         }
-    } else if !p.input_mut().is(&P::Token::CLASS) {
+    } else if !p.input().is(&P::Token::CLASS) {
         // syntax_error!(p, p.span(start),
         // SyntaxError::InvalidLeadingDecorator)
     }
@@ -179,7 +179,7 @@ pub fn parse_super_class<'a, P: Parser<'a>>(
             // because in some cases "super class" returned by `parse_lhs_expr`
             // may not include `TsExprWithTypeArgs`
             // but it's a super class with type params, for example, in JSX.
-            if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+            if p.syntax().typescript() && p.input().is(&P::Token::LESS) {
                 let ret = parse_ts_type_args(p)?;
                 p.assert_and_bump(&P::Token::GREATER);
                 Ok((super_class, Some(ret)))
@@ -208,7 +208,7 @@ pub fn is_class_property<'a, P: Parser<'a>>(p: &mut P, asi: bool) -> bool {
 }
 
 pub fn parse_class_prop_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<Key> {
-    if p.input_mut().is(&P::Token::HASH) {
+    if p.input().is(&P::Token::HASH) {
         let name = parse_private_name(p)?;
         if name.name == "constructor" {
             p.emit_err(name.span, SyntaxError::PrivateConstructor);
@@ -237,9 +237,9 @@ where
             p.in_type(|p| {
                 trace_cur!(p, parse_fn_args_body__type_params);
 
-                Ok(if p.input_mut().is(&P::Token::LESS) {
+                Ok(if p.input().is(&P::Token::LESS) {
                     Some(parse_ts_type_params(p, false, true)?)
-                } else if p.input_mut().is(&P::Token::JSX_TAG_START) {
+                } else if p.input().is(&P::Token::JSX_TAG_START) {
                     debug_assert_eq!(
                         p.input().token_context().current(),
                         Some(TokenContext::JSXOpeningTag)
@@ -283,7 +283,7 @@ where
         expect!(p, &P::Token::RPAREN);
 
         // typescript extension
-        let return_type = if p.syntax().typescript() && p.input_mut().is(&P::Token::COLON) {
+        let return_type = if p.syntax().typescript() && p.input().is(&P::Token::COLON) {
             parse_ts_type_or_type_predicate_ann(p, &P::Token::COLON).map(Some)?
         } else {
             None
@@ -599,7 +599,7 @@ pub fn parse_fn_block_or_expr_body<'a, P: Parser<'a>>(
         is_arrow_function,
         is_simple_parameter_list,
         |p, is_simple_parameter_list| {
-            if p.input_mut().is(&P::Token::LBRACE) {
+            if p.input().is(&P::Token::LBRACE) {
                 parse_block(p, false)
                     .map(|block_stmt| {
                         if !is_simple_parameter_list {
@@ -629,7 +629,7 @@ fn parse_fn_body<'a, P: Parser<'a>, T>(
 ) -> PResult<T> {
     if p.ctx().contains(Context::InDeclare)
         && p.syntax().typescript()
-        && p.input_mut().is(&P::Token::LBRACE)
+        && p.input().is(&P::Token::LBRACE)
     {
         //            p.emit_err(
         //                p.ctx().span_of_fn_name.expect("we are not in function"),
@@ -692,7 +692,7 @@ pub(super) fn parse_fn_block_body<'a, P: Parser<'a>>(
         |p, is_simple_parameter_list| {
             // allow omitting body and allow placing `{` on next line
             if p.input().syntax().typescript()
-                && !p.input_mut().is(&P::Token::LBRACE)
+                && !p.input().is(&P::Token::LBRACE)
                 && p.eat_general_semi()
             {
                 return Ok(None);
@@ -746,7 +746,7 @@ fn make_property<'a, P: Parser<'a>>(
     let type_ann = try_parse_ts_type_ann(p)?;
 
     p.do_inside_of_context(Context::IncludeInExpr.union(Context::InClassField), |p| {
-        let value = if p.input_mut().is(&P::Token::EQUAL) {
+        let value = if p.input().is(&P::Token::EQUAL) {
             p.assert_and_bump(&P::Token::EQUAL);
             Some(parse_assignment_expr(p)?)
         } else {
@@ -926,7 +926,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
         }
     });
 
-    if is_static && p.input_mut().is(&P::Token::LBRACE) {
+    if is_static && p.input().is(&P::Token::LBRACE) {
         if let Some(span) = declare_token {
             p.emit_err(span, SyntaxError::TS1184);
         }
@@ -935,7 +935,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
         }
         return parse_static_block(p, start);
     }
-    if p.input_mut().is(&P::Token::STATIC) && peek!(p).is_some_and(|cur| cur.is_lbrace()) {
+    if p.input().is(&P::Token::STATIC) && peek!(p).is_some_and(|cur| cur.is_lbrace()) {
         // For "readonly", "abstract" and "override"
         if let Some(span) = modifier_span {
             p.emit_err(span, SyntaxError::TS1184);
@@ -1013,7 +1013,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
                 p.emit_err(p.span(start), SyntaxError::TS1089(atom!("override")));
             }
 
-            if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+            if p.syntax().typescript() && p.input().is(&P::Token::LESS) {
                 let start = p.cur_pos();
                 if peek!(p).is_some_and(|cur| cur.is_less()) {
                     p.assert_and_bump(&P::Token::LESS);
@@ -1037,7 +1037,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
             let params = parse_constructor_params(p)?;
             expect!(p, &P::Token::RPAREN);
 
-            if p.syntax().typescript() && p.input_mut().is(&P::Token::COLON) {
+            if p.syntax().typescript() && p.input().is(&P::Token::COLON) {
                 let start = p.cur_pos();
                 let type_ann = parse_ts_type_ann(p, true, start)?;
 
@@ -1122,7 +1122,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
     }
 
     let is_next_line_generator =
-        p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::MUL);
+        p.input_mut().had_line_break_before_cur() && p.input().is(&P::Token::MUL);
     let getter_or_setter_ident = match key {
         // `get\n*` is an uninitialized property named 'get' followed by a generator.
         Key::Public(PropName::Ident(ref i))
@@ -1317,7 +1317,7 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
                 },
             );
         } else if is_class_property(p, /* asi */ true)
-            || (p.syntax().typescript() && p.input_mut().is(&P::Token::QUESTION))
+            || (p.syntax().typescript() && p.input().is(&P::Token::QUESTION))
         {
             // Property named `declare`
 
@@ -1395,7 +1395,7 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
                 },
             );
         } else if is_class_property(p, /* asi */ true)
-            || (p.syntax().typescript() && p.input_mut().is(&P::Token::QUESTION))
+            || (p.syntax().typescript() && p.input().is(&P::Token::QUESTION))
         {
             // Property named `accessor`
 
@@ -1450,14 +1450,14 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
                 },
             );
         } else if is_class_property(p, /* asi */ false)
-            || (p.syntax().typescript() && p.input_mut().is(&P::Token::QUESTION))
+            || (p.syntax().typescript() && p.input().is(&P::Token::QUESTION))
         {
             // Property named `static`
 
             // Avoid to parse
             //   static
             //   {}
-            let is_parsing_static_blocks = p.input_mut().is(&P::Token::LBRACE);
+            let is_parsing_static_blocks = p.input().is(&P::Token::LBRACE);
             if !is_parsing_static_blocks {
                 let key = Key::Public(PropName::Ident(IdentName::new(
                     atom!("static"),
@@ -1499,7 +1499,7 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
 fn parse_class_body<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<ClassMember>> {
     let mut elems = Vec::with_capacity(32);
     let mut has_constructor_with_body = false;
-    while !eof!(p) && !p.input_mut().is(&P::Token::RBRACE) {
+    while !eof!(p) && !p.input().is(&P::Token::RBRACE) {
         if p.input_mut().eat(&P::Token::SEMI) {
             let span = p.input().prev_span();
             debug_assert!(span.lo <= span.hi);
