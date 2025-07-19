@@ -349,7 +349,7 @@ pub trait Parser<'a>: Sized + Clone {
     fn parse_prop_name(&mut self) -> PResult<PropName> {
         trace_cur!(self, parse_prop_name);
         self.do_inside_of_context(Context::InPropertyName, |p| {
-            let start = p.input_mut().cur_pos();
+            let start = p.input().cur_pos();
             let cur = p.input().cur();
             let v = if cur.is_str() {
                 PropName::Str(parse_str_lit(p))
@@ -372,9 +372,9 @@ pub trait Parser<'a>: Sized + Clone {
                 PropName::Ident(IdentName::new(w, p.span(start)))
             } else if cur.is_lbracket() {
                 p.bump();
-                let inner_start = p.input_mut().cur_pos();
+                let inner_start = p.input().cur_pos();
                 let mut expr = p.allow_in_expr(parse_assignment_expr)?;
-                if p.syntax().typescript() && p.input_mut().is(&Self::Token::COMMA) {
+                if p.syntax().typescript() && p.input().is(&Self::Token::COMMA) {
                     let mut exprs = vec![expr];
                     while p.input_mut().eat(&Self::Token::COMMA) {
                         //
@@ -408,7 +408,7 @@ pub trait Parser<'a>: Sized + Clone {
     /// ...AssignmentExpression[+In, ?Yield, ?Await]
     fn parse_expr_or_spread(&mut self) -> PResult<ExprOrSpread> {
         trace_cur!(self, parse_expr_or_spread);
-        let start = self.input_mut().cur_pos();
+        let start = self.input().cur_pos();
         if self.input_mut().eat(&Self::Token::DOTDOTDOT) {
             let spread_span = self.span(start);
             let spread = Some(spread_span);
