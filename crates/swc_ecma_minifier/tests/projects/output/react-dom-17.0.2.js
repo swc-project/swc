@@ -10638,19 +10638,19 @@
                         "function" == typeof onRender && onRender(finishedWork.memoizedProps.id, null === current ? "mount" : "update", finishedWork.actualDuration, finishedWork.treeBaseDuration, finishedWork.actualStartTime, commitTime1, finishedRoot.memoizedInteractions);
                         return;
                     case 13:
-                        var finishedWork1 = finishedWork;
-                        if (null === finishedWork1.memoizedState) {
-                            var current1 = finishedWork1.alternate;
-                            if (null !== current1) {
-                                var prevState1 = current1.memoizedState;
-                                if (null !== prevState1) {
-                                    var suspenseInstance = prevState1.dehydrated;
-                                    null !== suspenseInstance && // Retry if any event replaying was blocked on this.
-                                    retryIfBlockedOn(suspenseInstance);
+                        return function(finishedRoot, finishedWork) {
+                            if (null === finishedWork.memoizedState) {
+                                var current = finishedWork.alternate;
+                                if (null !== current) {
+                                    var prevState = current.memoizedState;
+                                    if (null !== prevState) {
+                                        var suspenseInstance = prevState.dehydrated;
+                                        null !== suspenseInstance && // Retry if any event replaying was blocked on this.
+                                        retryIfBlockedOn(suspenseInstance);
+                                    }
                                 }
                             }
-                        }
-                        return;
+                        }(0, finishedWork);
                 }
                 throw Error("This unit of work tag should not have side-effects. This error is likely caused by a bug in React. Please file an issue.");
             }(root, nextEffect.alternate, nextEffect), 128 & flags && function(finishedWork) {

@@ -771,6 +771,80 @@ impl Optimizer<'_> {
         true
     }
 
+    fn can_inline_fn_stmt(&self, stmt: &Stmt, for_stmt: bool) -> bool {
+        match stmt {
+            Stmt::Decl(Decl::Var(var)) => {
+                for decl in &var.decls {
+                    for id in find_pat_ids::<_, Id>(&decl.name) {
+                        if self.ident_reserved(&id.0) {
+                            log_abort!("iife: [x] Cannot inline because reservation of `{}`", id.0);
+                            return false;
+                        }
+                    }
+                }
+
+                if matches!(
+                    &**var,
+                    VarDecl {
+                        kind: VarDeclKind::Var | VarDeclKind::Let,
+                        ..
+                    }
+                ) {
+                    for decl in &var.decls {
+                        match &decl.name {
+                            Pat::Ident(id) if id.sym == "arguments" => return false,
+                            Pat::Ident(id) => {
+                                if self.vars.has_pending_inline_for(&id.to_id()) {
+                                    log_abort!(
+                                        "iife: [x] Cannot inline because pending inline of `{}`",
+                                        id.id
+                                    );
+                                    return false;
+                                }
+                            }
+
+                            _ => return false,
+                        }
+                    }
+
+                    if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
+                        return false;
+                    }
+
+                    true
+                } else {
+                    for_stmt
+                }
+            }
+
+            Stmt::Expr(_) => true,
+
+            Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
+                Some(Expr::Lit(Lit::Num(..))) => {
+                    for_stmt || !self.ctx.bit_ctx.contains(BitCtx::InObjOfNonComputedMember)
+                }
+                _ => true,
+            },
+            Stmt::Block(b) => b
+                .stmts
+                .iter()
+                .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt)),
+            Stmt::If(i) if for_stmt => {
+                self.can_inline_fn_stmt(&i.cons, for_stmt)
+                    && i.alt
+                        .as_ref()
+                        .map(|a| self.can_inline_fn_stmt(a, for_stmt))
+                        .unwrap_or(true)
+            }
+            Stmt::Switch(s) if for_stmt => s
+                .cases
+                .iter()
+                .flat_map(|case| case.cons.iter())
+                .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt)),
+            _ => for_stmt,
+        }
+    }
+
     fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt, for_stmt: bool) -> bool {
         trace_op!("can_inline_fn_like");
 
@@ -826,69 +900,17 @@ impl Optimizer<'_> {
             }
         }
 
-        if !body.stmts.iter().all(|stmt| {
-            if let Stmt::Decl(Decl::Var(var)) = stmt {
-                for decl in &var.decls {
-                    for id in find_pat_ids::<_, Id>(&decl.name) {
-                        if self.ident_reserved(&id.0) {
-                            log_abort!("iife: [x] Cannot inline because reservation of `{}`", id.0);
-                            return false;
-                        }
-                    }
-                }
+        if let Some(stmt) = body.stmts.first() {
+            if stmt.is_use_strict() {
+                return false;
             }
+        }
 
-            match stmt {
-                Stmt::Decl(Decl::Var(var))
-                    if matches!(
-                        &**var,
-                        VarDecl {
-                            kind: VarDeclKind::Var | VarDeclKind::Let,
-                            ..
-                        }
-                    ) =>
-                {
-                    for decl in &var.decls {
-                        match &decl.name {
-                            Pat::Ident(id) if id.sym == "arguments" => return false,
-                            Pat::Ident(id) => {
-                                if self.vars.has_pending_inline_for(&id.to_id()) {
-                                    log_abort!(
-                                        "iife: [x] Cannot inline because pending inline of `{}`",
-                                        id.id
-                                    );
-                                    return false;
-                                }
-                            }
-
-                            _ => return false,
-                        }
-                    }
-
-                    if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
-                        return false;
-                    }
-
-                    true
-                }
-
-                Stmt::Expr(e) => match &*e.expr {
-                    Expr::Await(..) => false,
-
-                    _ => !stmt.is_use_strict(),
-                },
-
-                Stmt::Return(ReturnStmt { arg, .. }) => match arg.as_deref() {
-                    Some(Expr::Await(..)) => false,
-
-                    Some(Expr::Lit(Lit::Num(..))) => {
-                        for_stmt || !self.ctx.bit_ctx.contains(BitCtx::InObjOfNonComputedMember)
-                    }
-                    _ => true,
-                },
-                _ => for_stmt,
-            }
-        }) {
+        if !body
+            .stmts
+            .iter()
+            .all(|stmt| self.can_inline_fn_stmt(stmt, for_stmt))
+        {
             return false;
         }
 
