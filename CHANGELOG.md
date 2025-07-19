@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.13.1] - 2025-07-19
 
 ### Bug Fixes
 
@@ -2180,12 +2180,6 @@
 
 
 - **(ts/fast-strip)** Distinguish invalid vs unsupported ([#9846](https://github.com/swc-project/swc/issues/9846)) ([5709bc2](https://github.com/swc-project/swc/commit/5709bc2205e17540d55d459cd2208a3110e073c9))
-
-### Testing
-
-
-
-- **(parallel)** Add test to debug segfault on windows x64 ([#9857](https://github.com/swc-project/swc/issues/9857)) ([ae53a35](https://github.com/swc-project/swc/commit/ae53a359c331ae9bcf93f94e7067381e2e6f1629))
 
 ### Build
 
