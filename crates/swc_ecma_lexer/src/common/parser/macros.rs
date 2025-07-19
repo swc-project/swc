@@ -29,10 +29,10 @@ macro_rules! syntax_error {
     ($p:expr, $span:expr, $err:expr) => {{
         let err = $crate::error::Error::new($span, $err);
         {
-            if $p.input_mut().cur().is_some_and(|t| t.is_error()) {
-                let c = $p.input_mut().bump();
-                let err = c.take_error($p.input_mut());
-                $p.emit_error(err);
+            let cur = $p.input().cur();
+            if cur.is_error() {
+                let error = $p.input_mut().expect_error_token_and_bump();
+                $p.emit_error(error);
             }
         }
         if cfg!(feature = "debug") {
@@ -41,7 +41,7 @@ macro_rules! syntax_error {
                 file!(),
                 line!(),
                 column!(),
-                $p.input_mut().cur()
+                $p.input().cur()
             );
         }
         return Err(err.into());
@@ -54,7 +54,7 @@ macro_rules! peek {
             $p.input().knows_cur(),
             "parser should not call peek() without knowing current token.
 Current token is {:?}",
-            $p.input_mut().cur(),
+            $p.input().cur(),
         );
         $p.input_mut().peek()
     }};
@@ -63,7 +63,7 @@ Current token is {:?}",
 macro_rules! trace_cur {
     ($p:expr, $name:ident) => {{
         if cfg!(feature = "debug") {
-            tracing::debug!("{}: {:?}", stringify!($name), $p.input_mut().cur());
+            tracing::debug!("{}: {:?}", stringify!($name), $p.input().cur());
         }
     }};
 }
@@ -85,7 +85,7 @@ macro_rules! debug_tracing {
 /// Returns true on eof.
 macro_rules! eof {
     ($p:expr) => {
-        $p.input_mut().cur().is_none()
+        $p.input().cur().is_eof()
     };
 }
 

@@ -64,7 +64,9 @@ pub fn parse_maybe_opt_binding_ident<'a>(
 
 fn parse_maybe_decorator_args<'a, P: Parser<'a>>(p: &mut P, expr: Box<Expr>) -> PResult<Box<Expr>> {
     let type_args = if p.input().syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
-        Some(parse_ts_type_args(p)?)
+        let ret = parse_ts_type_args(p)?;
+        p.assert_and_bump(&P::Token::GREATER);
+        Some(ret)
     } else {
         None
     };
@@ -178,7 +180,9 @@ pub fn parse_super_class<'a, P: Parser<'a>>(
             // may not include `TsExprWithTypeArgs`
             // but it's a super class with type params, for example, in JSX.
             if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
-                Ok((super_class, parse_ts_type_args(p).map(Some)?))
+                let ret = parse_ts_type_args(p)?;
+                p.assert_and_bump(&P::Token::GREATER);
+                Ok((super_class, Some(ret)))
             } else {
                 Ok((super_class, None))
             }
@@ -187,25 +191,19 @@ pub fn parse_super_class<'a, P: Parser<'a>>(
 }
 
 pub fn is_class_method<'a, P: Parser<'a>>(p: &mut P) -> bool {
-    p.input_mut().is(&P::Token::LPAREN)
-        || (p.input().syntax().typescript()
-            && p.input_mut()
-                .cur()
-                .is_some_and(|cur| cur.is_less() || cur.is_jsx_tag_start()))
+    let cur = p.input().cur();
+    cur == &P::Token::LPAREN
+        || (p.input().syntax().typescript() && (cur.is_less() || cur.is_jsx_tag_start()))
 }
 
 pub fn is_class_property<'a, P: Parser<'a>>(p: &mut P, asi: bool) -> bool {
-    (p.input().syntax().typescript()
-        && p.input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_bang() || cur.is_colon()))
-        || p.input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_equal() || cur.is_rbrace())
+    let cur = p.input().cur();
+    (p.input().syntax().typescript() && (cur.is_bang() || cur.is_colon()))
+        || (cur.is_equal() || cur.is_rbrace())
         || if asi {
             p.is_general_semi()
         } else {
-            p.input_mut().is(&P::Token::SEMI)
+            p.input().is(&P::Token::SEMI)
         }
 }
 
@@ -986,11 +984,7 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
     }
 
     trace_cur!(p, parse_class_member_with_is_static__normal_class_member);
-    let key = if readonly.is_some()
-        && p.input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_bang() || cur.is_colon())
-    {
+    let key = if readonly.is_some() && (p.input().cur().is_bang() || p.input().cur().is_colon()) {
         Key::Public(PropName::Ident(IdentName::new(
             atom!("readonly"),
             readonly.unwrap(),
@@ -1657,7 +1651,7 @@ fn parse_class_inner<'a, P: Parser<'a>>(
             p.do_outside_of_context(Context::HasSuperClass, parse_class_body)?
         };
 
-        if p.input_mut().cur().is_none() {
+        if p.input().cur().is_eof() {
             let eof_text = p.input_mut().dump_cur();
             p.emit_err(
                 p.input().cur_span(),
