@@ -5,6 +5,17 @@
 
 
 
+- **(es/minifier)** Recursively check stmt for variable when inlining function ([#10896](https://github.com/swc-project/swc/issues/10896)) ([e37a93d](https://github.com/swc-project/swc/commit/e37a93dca660aba8871b1838b289c3440184547d))
+
+
+- **(es/minifier)** Termination check when stmts containing switch ([#10898](https://github.com/swc-project/swc/issues/10898)) ([4429b20](https://github.com/swc-project/swc/commit/4429b20065d44548ad40f4298ee60a19df6f4eaa))
+
+## [swc_core@v33.0.3] - 2025-07-18
+
+### Bug Fixes
+
+
+
 - **(es/decorators)** Handle empty class members ([#10892](https://github.com/swc-project/swc/issues/10892)) ([fe44972](https://github.com/swc-project/swc/commit/fe44972aaab79f2269ee2e401fa4467638b8c84e))
 
 
