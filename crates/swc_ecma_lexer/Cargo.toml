@@ -25,18 +25,17 @@ typescript    = []
 verify        = ["swc_ecma_visit"]
 
 [dependencies]
-arrayvec              = { workspace = true }
-bitflags              = { workspace = true }
-either                = { workspace = true }
-new_debug_unreachable = { workspace = true }
-num-bigint            = { workspace = true }
-phf                   = { workspace = true, features = ["macros"] }
-rustc-hash            = { workspace = true }
-seq-macro             = { workspace = true }
-serde                 = { workspace = true, features = ["derive"] }
-smallvec              = { workspace = true }
-smartstring           = { workspace = true }
-tracing               = { workspace = true }
+arrayvec    = { workspace = true }
+bitflags    = { workspace = true }
+either      = { workspace = true }
+num-bigint  = { workspace = true }
+phf         = { workspace = true, features = ["macros"] }
+rustc-hash  = { workspace = true }
+seq-macro   = { workspace = true }
+serde       = { workspace = true, features = ["derive"] }
+smallvec    = { workspace = true }
+smartstring = { workspace = true }
+tracing     = { workspace = true }
 
 swc_atoms      = { version = "7.0.0", path = "../swc_atoms" }
 swc_common     = { version = "14.0.1", path = "../swc_common" }

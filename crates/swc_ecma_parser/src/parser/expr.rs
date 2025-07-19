@@ -1,19 +1,16 @@
 use either::Either;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_lexer::{
-    common::{
-        lexer::token::TokenFactory,
-        parser::{
-            class_and_fn::parse_fn_expr,
-            expr::{
-                parse_array_lit, parse_await_expr, parse_lit, parse_member_expr_or_new_expr,
-                parse_paren_expr_or_arrow_fn, parse_primary_expr_rest, parse_this_expr,
-                try_parse_async_start, try_parse_regexp,
-            },
-            object::parse_object_expr,
-            token_and_span::TokenAndSpan,
-            typescript::parse_ts_type_assertion,
+    common::parser::{
+        class_and_fn::parse_fn_expr,
+        expr::{
+            parse_array_lit, parse_await_expr, parse_lit, parse_member_expr_or_new_expr,
+            parse_paren_expr_or_arrow_fn, parse_primary_expr_rest, parse_this_expr,
+            try_parse_async_start, try_parse_regexp,
         },
+        object::parse_object_expr,
+        token_and_span::TokenAndSpan,
+        typescript::parse_ts_type_assertion,
     },
     error::SyntaxError,
 };
@@ -39,10 +36,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_unary_expr);
 
-        self.input_mut().cur();
-        let Some(token_and_span) = self.input().get_cur() else {
-            syntax_error!(self, self.input().cur_span(), SyntaxError::TS1109);
-        };
+        let token_and_span = self.input().get_cur();
         let start = token_and_span.span().lo;
         let cur = *token_and_span.token();
 
@@ -76,11 +70,12 @@ impl<I: Tokens> Parser<I> {
             return self.parse_jsx_element(true).map(into_expr);
         } else if matches!(cur, Token::PlusPlus | Token::MinusMinus) {
             // Parse update expression
-            let op = if self.bump() == Token::PlusPlus {
+            let op = if cur == Token::PlusPlus {
                 op!("++")
             } else {
                 op!("--")
             };
+            self.bump();
 
             let arg = self.parse_unary_expr()?;
             let span = Span::new_with_checked(start, arg.span_hi());
@@ -102,7 +97,6 @@ impl<I: Tokens> Parser<I> {
             || cur == Token::Bang
         {
             // Parse unary expression
-            let cur = self.bump();
             let op = if cur == Token::Delete {
                 op!("delete")
             } else if cur == Token::Void {
@@ -119,6 +113,7 @@ impl<I: Tokens> Parser<I> {
                 debug_assert!(cur == Token::Bang);
                 op!("!")
             };
+            self.bump();
             let arg_start = self.cur_pos() - BytePos(1);
             let arg = match self.parse_unary_expr() {
                 Ok(expr) => expr,
@@ -145,6 +140,8 @@ impl<I: Tokens> Parser<I> {
             .into());
         } else if cur == Token::Await {
             return parse_await_expr(self, None);
+        } else if cur == Token::Eof {
+            syntax_error!(self, self.input().cur_span(), SyntaxError::TS1109);
         }
 
         // UpdateExpression
@@ -158,18 +155,16 @@ impl<I: Tokens> Parser<I> {
             return Ok(expr);
         }
 
-        if self
-            .input_mut()
-            .cur()
-            .is_some_and(|cur| cur == &Token::PlusPlus || cur == &Token::MinusMinus)
-        {
-            self.check_assign_target(&expr, false);
-
-            let op = if self.bump() == Token::PlusPlus {
+        let cur = self.input().cur();
+        if cur == &Token::PlusPlus || cur == &Token::MinusMinus {
+            let op = if cur == &Token::PlusPlus {
                 op!("++")
             } else {
                 op!("--")
             };
+
+            self.check_assign_target(&expr, false);
+            self.bump();
 
             return Ok(UpdateExpr {
                 span: self.span(expr.span_lo()),
@@ -190,54 +185,45 @@ impl<I: Tokens> Parser<I> {
             .potential_arrow_start
             .map(|s| s == start)
             .unwrap_or(false);
-        if let Some(tok) = self.input.cur() {
-            match *tok {
-                Token::This => return parse_this_expr(self, start),
-                Token::Async => {
-                    if let Some(res) = try_parse_async_start(self, can_be_arrow) {
-                        return res;
-                    }
+        let tok = self.input.cur();
+        match *tok {
+            Token::This => return parse_this_expr(self, start),
+            Token::Async => {
+                if let Some(res) = try_parse_async_start(self, can_be_arrow) {
+                    return res;
                 }
-                Token::LBracket => {
-                    return self
-                        .do_outside_of_context(Context::WillExpectColonForCond, parse_array_lit)
-                }
-                Token::LBrace => {
-                    return parse_object_expr(self).map(Box::new);
-                }
-                // Handle FunctionExpression and GeneratorExpression
-                Token::Function => {
-                    return parse_fn_expr(self);
-                }
-                // Literals
-                Token::Null
-                | Token::True
-                | Token::False
-                | Token::Num
-                | Token::BigInt
-                | Token::Str => {
-                    return parse_lit(self).map(|lit| lit.into());
-                }
-                // Regexp
-                Token::Slash | Token::DivEq => {
-                    if let Some(res) = try_parse_regexp(self, start) {
-                        return Ok(res);
-                    }
-                }
-                Token::LParen => return parse_paren_expr_or_arrow_fn(self, can_be_arrow, None),
-                Token::NoSubstitutionTemplateLiteral => {
-                    return Ok(self.parse_no_substitution_template_literal(false)?.into())
-                }
-                Token::TemplateHead => {
-                    // parse template literal
-                    return Ok(self
-                        .do_outside_of_context(Context::WillExpectColonForCond, |p| {
-                            p.parse_tpl(false)
-                        })?
-                        .into());
-                }
-                _ => {}
             }
+            Token::LBracket => {
+                return self.do_outside_of_context(Context::WillExpectColonForCond, parse_array_lit)
+            }
+            Token::LBrace => {
+                return parse_object_expr(self).map(Box::new);
+            }
+            // Handle FunctionExpression and GeneratorExpression
+            Token::Function => {
+                return parse_fn_expr(self);
+            }
+            // Literals
+            Token::Null | Token::True | Token::False | Token::Num | Token::BigInt | Token::Str => {
+                return parse_lit(self).map(|lit| lit.into());
+            }
+            // Regexp
+            Token::Slash | Token::DivEq => {
+                if let Some(res) = try_parse_regexp(self, start) {
+                    return Ok(res);
+                }
+            }
+            Token::LParen => return parse_paren_expr_or_arrow_fn(self, can_be_arrow, None),
+            Token::NoSubstitutionTemplateLiteral => {
+                return Ok(self.parse_no_substitution_template_literal(false)?.into())
+            }
+            Token::TemplateHead => {
+                // parse template literal
+                return Ok(self
+                    .do_outside_of_context(Context::WillExpectColonForCond, |p| p.parse_tpl(false))?
+                    .into());
+            }
+            _ => {}
         }
 
         parse_primary_expr_rest(self, start, can_be_arrow)

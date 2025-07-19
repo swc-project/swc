@@ -70,7 +70,8 @@ fn parse_normal_for_head<'a, P: Parser<'a>>(
 }
 
 fn parse_for_each_head<'a, P: Parser<'a>>(p: &mut P, left: ForHead) -> PResult<TempForHead> {
-    let is_of = p.bump().is_of();
+    let is_of = p.input().cur().is_of();
+    p.bump();
     if is_of {
         let right = p.allow_in_expr(parse_assignment_expr)?;
         Ok(TempForHead::ForOf { left, right })
@@ -151,12 +152,8 @@ fn parse_var_declarator<'a, P: Parser<'a>>(
     }
 
     //FIXME: This is wrong. Should check in/of only on first loop.
-    let init = if !for_loop
-        || !p
-            .input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_in() || cur.is_of())
-    {
+    let cur = p.input().cur();
+    let init = if !for_loop || !(cur.is_in() || cur.is_of()) {
         if p.input_mut().eat(&P::Token::EQUAL) {
             let expr = parse_assignment_expr(p)?;
             let expr = p.verify_expr(expr)?;
@@ -201,7 +198,7 @@ fn parse_var_declarator<'a, P: Parser<'a>>(
 
 pub fn parse_var_stmt<'a, P: Parser<'a>>(p: &mut P, for_loop: bool) -> PResult<Box<VarDecl>> {
     let start = p.cur_pos();
-    let t = p.bump();
+    let t = p.input().cur();
     let kind = if t.is_const() {
         VarDeclKind::Const
     } else if t.is_let() {
@@ -211,15 +208,13 @@ pub fn parse_var_stmt<'a, P: Parser<'a>>(p: &mut P, for_loop: bool) -> PResult<B
     } else {
         unreachable!()
     };
+    p.bump();
     let var_span = p.span(start);
     let should_include_in = kind != VarDeclKind::Var || !for_loop;
 
     if p.syntax().typescript() && for_loop {
-        let res = if p
-            .input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_in() || cur.is_of())
-        {
+        let cur = p.input().cur();
+        let res = if cur.is_in() || cur.is_of() {
             ts_look_ahead(p, |p| {
                 //
                 if !p.input_mut().eat(&P::Token::OF) && !p.input_mut().eat(&P::Token::IN) {
@@ -294,7 +289,7 @@ pub fn parse_var_stmt<'a, P: Parser<'a>>(p: &mut P, for_loop: bool) -> PResult<B
         while !p.eat_general_semi() {
             p.bump();
 
-            if p.input_mut().cur().is_some_and(|cur| cur.is_error()) {
+            if p.input().cur().is_error() {
                 break;
             }
         }
@@ -318,7 +313,6 @@ pub fn parse_using_decl<'a, P: Parser<'a>>(
     // reader = init()
 
     // is two statements
-    p.input_mut().cur();
     if p.input_mut().has_linebreak_between_cur_and_peeked() {
         return Ok(None);
     }
@@ -380,17 +374,15 @@ pub fn parse_using_decl<'a, P: Parser<'a>>(
 pub fn parse_for_head<'a, P: Parser<'a>>(p: &mut P) -> PResult<TempForHead> {
     // let strict = p.ctx().contains(Context::Strict);
 
-    if p.input_mut()
-        .cur()
-        .is_some_and(|cur| cur.is_const() || cur.is_var())
+    let cur = p.input().cur();
+    if cur.is_const()
+        || cur.is_var()
         || (p.input_mut().is(&P::Token::LET) && peek!(p).map_or(false, |v| v.follows_keyword_let()))
     {
         let decl = parse_var_stmt(p, true)?;
 
-        if p.input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_of() || cur.is_in())
-        {
+        let cur = p.input().cur();
+        if cur.is_of() || cur.is_in() {
             if decl.decls.len() != 1 {
                 for d in decl.decls.iter().skip(1) {
                     p.emit_err(d.name.span(), SyntaxError::TooManyVarInForInHead);
@@ -479,24 +471,20 @@ pub fn parse_for_head<'a, P: Parser<'a>>(p: &mut P) -> PResult<TempForHead> {
             decls: vec![decl],
         });
 
-        let Some(cur) = p.input_mut().cur() else {
-            return Err(eof_error(p));
-        };
-
+        let cur = p.input().cur();
         if cur.is_error() {
-            let c = p.input_mut().bump();
-            let err = c.take_error(p.input_mut());
+            let err = p.input_mut().expect_error_token_and_bump();
             return Err(err);
+        } else if cur.is_eof() {
+            return Err(eof_error(p));
         }
 
         return parse_for_each_head(p, ForHead::UsingDecl(pat));
     }
 
     // for (a of b)
-    if p.input_mut()
-        .cur()
-        .is_some_and(|cur| cur.is_of() || cur.is_in())
-    {
+    let cur = p.input().cur();
+    if cur.is_of() || cur.is_in() {
         let is_in = p.input_mut().is(&P::Token::IN);
 
         let pat = reparse_expr_as_pat(p, PatType::AssignPat, init)?;
@@ -967,11 +955,10 @@ fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
     expect!(p, &P::Token::LBRACE);
 
     p.do_inside_of_context(Context::IsBreakAllowed, |p| {
-        while p
-            .input_mut()
-            .cur()
-            .is_some_and(|cur| cur.is_case() || cur.is_default())
-        {
+        while {
+            let cur = p.input().cur();
+            cur.is_case() || cur.is_default()
+        } {
             let mut cons = Vec::new();
             let is_case = p.input_mut().is(&P::Token::CASE);
             let case_start = p.cur_pos();
@@ -988,12 +975,10 @@ fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
             };
             expect!(p, &P::Token::COLON);
 
-            while !eof!(p)
-                && !p
-                    .input_mut()
-                    .cur()
-                    .is_some_and(|cur| cur.is_case() || cur.is_default() || cur.is_rbrace())
-            {
+            while !eof!(p) && {
+                let cur = p.input().cur();
+                !(cur.is_case() || cur.is_default() || cur.is_rbrace())
+            } {
                 cons.push(p.do_outside_of_context(Context::TopLevel, parse_stmt_list_item)?);
             }
 
@@ -1035,20 +1020,14 @@ pub fn parse_stmt_like<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>>(
     debug_tracing!(p, "parse_stmt_like");
 
     let start = p.cur_pos();
-    let decorators = if p
-        .input()
-        .get_cur()
-        .is_some_and(|cur| cur.token() == &P::Token::AT)
-    {
+    let decorators = if p.input().get_cur().token() == &P::Token::AT {
         parse_decorators(p, true)?
     } else {
         vec![]
     };
 
-    if p.input_mut()
-        .cur()
-        .is_some_and(|cur| cur.is_import() || cur.is_export())
-    {
+    let cur = p.input().cur();
+    if cur.is_import() || cur.is_export() {
         return handle_import_export(p, decorators);
     }
 
@@ -1113,9 +1092,7 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
 
     let top_level = p.ctx().contains(Context::TopLevel);
 
-    let Some(cur) = p.input_mut().cur().cloned() else {
-        return Err(eof_error(p));
-    };
+    let cur = p.input().cur().clone();
 
     if cur.is_await() && (include_decl || top_level) {
         if top_level {
@@ -1274,17 +1251,17 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
         return p
             .do_inside_of_context(Context::AllowUsingDecl, |p| parse_block(p, false))
             .map(Stmt::Block);
-    } else if cur.is_error() {
-        let c = p.input_mut().bump();
-        let err = c.take_error(p.input_mut());
-        return Err(err);
-    }
-
-    if p.input_mut().eat(&P::Token::SEMI) {
+    } else if cur.is_semi() {
+        p.bump();
         return Ok(EmptyStmt {
             span: p.span(start),
         }
         .into());
+    } else if cur.is_error() {
+        let err = p.input_mut().expect_error_token_and_bump();
+        return Err(err);
+    } else if cur.is_eof() {
+        return Err(eof_error(p));
     }
 
     // Handle async function foo() {}
@@ -1357,9 +1334,7 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
         }
         .into())
     } else {
-        let Some(cur) = p.input_mut().cur() else {
-            return Err(eof_error(p));
-        };
+        let cur = p.input().cur();
         if cur.is_bin_op() {
             p.emit_err(p.input().cur_span(), SyntaxError::TS1005);
             let expr = parse_bin_op_recursively(p, expr, 0)?;
@@ -1395,37 +1370,34 @@ pub(super) fn parse_block_body<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>
 
     let mut stmts = Vec::with_capacity(8);
 
-    let is_stmt_start = |p: &mut P| match (p.input_mut().cur(), end) {
-        (Some(cur), Some(end)) => cur != end,
-        (Some(_), None) => true,
-        (None, None) => false,
-        (None, Some(_)) => {
-            let eof_text = p.input_mut().dump_cur();
-            p.emit_err(
-                p.input().cur_span(),
-                SyntaxError::Expected(format!("{:?}", end.unwrap()), eof_text),
-            );
-            false
-        }
-    };
+    let has_strict_directive = allow_directives
+        && (p
+            .input()
+            .cur()
+            .is_str_raw_content("\"use strict\"", p.input())
+            || p.input()
+                .cur()
+                .is_str_raw_content("'use strict'", p.input()));
 
-    let mut has_strict_directive = false;
-    if is_stmt_start(p) {
-        let stmt = parse_stmt_like(p, true, &handle_import_export)?;
-        if allow_directives && stmt.is_use_strict() {
-            has_strict_directive = true;
-            if p.input().knows_cur() && !p.is_general_semi() {
-                unreachable!(
-                    "'use strict'; directive requires parser.input.cur to be empty or '}}', but \
-                     current token was: {:?}",
-                    p.input_mut().cur()
-                )
+    let parse_stmts = |p: &mut P, stmts: &mut Vec<Type>| -> PResult<()> {
+        let is_stmt_start = |p: &mut P| {
+            let cur = p.input().cur();
+            match end {
+                Some(end) => {
+                    if cur.is_eof() {
+                        let eof_text = p.input_mut().dump_cur();
+                        p.emit_err(
+                            p.input().cur_span(),
+                            SyntaxError::Expected(format!("{end:?}"), eof_text),
+                        );
+                        false
+                    } else {
+                        cur != end
+                    }
+                }
+                None => !cur.is_eof(),
             }
-        }
-        stmts.push(stmt);
-    }
-
-    let parse_rest_stmts = |p: &mut P, stmts: &mut Vec<Type>| -> PResult<()> {
+        };
         while is_stmt_start(p) {
             let stmt = parse_stmt_like(p, true, &handle_import_export)?;
             stmts.push(stmt);
@@ -1434,12 +1406,12 @@ pub(super) fn parse_block_body<'a, P: Parser<'a>, Type: IsDirective + From<Stmt>
     };
 
     if has_strict_directive {
-        p.do_inside_of_context(Context::Strict, |p| parse_rest_stmts(p, &mut stmts))?;
+        p.do_inside_of_context(Context::Strict, |p| parse_stmts(p, &mut stmts))?;
     } else {
-        parse_rest_stmts(p, &mut stmts)?;
+        parse_stmts(p, &mut stmts)?;
     };
 
-    if p.input_mut().cur().is_some() && end.is_some() {
+    if !p.input().cur().is_eof() && end.is_some() {
         p.bump();
     }
 

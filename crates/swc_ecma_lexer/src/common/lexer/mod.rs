@@ -1730,7 +1730,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     /// `#`
-    fn read_token_number_sign(&mut self) -> LexResult<Option<Self::Token>> {
+    fn read_token_number_sign(&mut self) -> LexResult<Self::Token> {
         debug_assert!(self.cur().is_some_and(|c| c == '#'));
 
         self.bump(); // '#'
@@ -1741,7 +1741,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             !self.input().is_at_start() || self.cur() != Some('!'),
             "#! should have already been handled by read_shebang()"
         );
-        Ok(Some(Self::Token::HASH))
+        Ok(Self::Token::HASH)
     }
 
     /// Read a token given `.`.
@@ -1936,14 +1936,14 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     }
 
     #[inline(never)]
-    fn read_slash(&mut self) -> LexResult<Option<Self::Token>> {
+    fn read_slash(&mut self) -> LexResult<Self::Token> {
         debug_assert_eq!(self.cur(), Some('/'));
         self.bump(); // '/'
-        Ok(Some(if self.eat(b'=') {
+        Ok(if self.eat(b'=') {
             Self::Token::DIV_EQ
         } else {
             Self::Token::DIV
-        }))
+        })
     }
 
     /// This can be used if there's no keyword starting with the first
@@ -2084,7 +2084,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_keyword_with(
         &mut self,
         convert: &dyn Fn(&str) -> Option<Self::Token>,
-    ) -> LexResult<Option<Self::Token>> {
+    ) -> LexResult<Self::Token> {
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
@@ -2100,11 +2100,11 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     SyntaxError::EscapeInReservedWord { word: Atom::new(s) },
                 )
             } else {
-                Ok(Some(word))
+                Ok(word)
             }
         } else {
             let atom = self.atom(s);
-            Ok(Some(Self::Token::unknown_ident(atom, self)))
+            Ok(Self::Token::unknown_ident(atom, self))
         }
     }
 

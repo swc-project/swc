@@ -407,6 +407,7 @@ impl Span {
     }
 
     #[inline]
+    #[track_caller]
     pub fn new_with_checked(lo: BytePos, hi: BytePos) -> Self {
         debug_assert!(lo <= hi, "lo: {lo:#?}, hi: {hi:#?}");
         Span { lo, hi }

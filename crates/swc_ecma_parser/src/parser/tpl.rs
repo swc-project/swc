@@ -3,9 +3,7 @@ use swc_ecma_ast::*;
 use swc_ecma_lexer::{
     common::{
         lexer::token::TokenFactory,
-        parser::{
-            buffer::Buffer, eof_error, typescript::parse_ts_type, PResult, Parser as ParserTrait,
-        },
+        parser::{buffer::Buffer, typescript::parse_ts_type, PResult, Parser as ParserTrait},
     },
     error::SyntaxError,
 };
@@ -19,22 +17,21 @@ impl<I: Tokens> Parser<I> {
         is_tagged_tpl: bool,
     ) -> PResult<Tpl> {
         let start = self.input.cur_pos();
-        let (raw, cooked) = match self.bump() {
-            t @ Token::NoSubstitutionTemplateLiteral => {
-                let (cooked, raw) = t.take_template(self.input_mut());
-                match cooked {
-                    Ok(cooked) => (raw, Some(cooked)),
-                    Err(err) => {
-                        if is_tagged_tpl {
-                            (raw, None)
-                        } else {
-                            return Err(err);
-                        }
-                    }
+        let cur = self.input.cur();
+        debug_assert!(matches!(cur, &Token::NoSubstitutionTemplateLiteral));
+
+        let (cooked, raw) = (*cur).take_template(self.input_mut());
+        let (raw, cooked) = match cooked {
+            Ok(cooked) => (raw, Some(cooked)),
+            Err(err) => {
+                if is_tagged_tpl {
+                    (raw, None)
+                } else {
+                    return Err(err);
                 }
             }
-            _ => unreachable!(),
         };
+        self.bump();
         let pos = self.input.prev_span().hi;
         debug_assert!(start <= pos);
         let span = Span::new_with_checked(start, pos);
@@ -61,25 +58,22 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_template_head(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         let start = self.cur_pos();
-        debug_assert!(matches!(self.input.cur(), Some(&Token::TemplateHead)));
-        let (raw, cooked) = match self.input_mut().bump() {
-            t @ Token::TemplateHead => {
-                let (cooked, raw) = t.take_template(self.input_mut());
-                match cooked {
-                    Ok(cooked) => (raw, Some(cooked)),
-                    Err(err) => {
-                        if is_tagged_tpl {
-                            (raw, None)
-                        } else {
-                            return Err(err);
-                        }
-                    }
+        let cur = self.input().cur();
+        debug_assert!(matches!(cur, &Token::TemplateHead));
+
+        let (cooked, raw) = (*cur).take_template(self.input_mut());
+        let (raw, cooked) = match cooked {
+            Ok(cooked) => (raw, Some(cooked)),
+            Err(err) => {
+                if is_tagged_tpl {
+                    (raw, None)
+                } else {
+                    return Err(err);
                 }
             }
-            _ => todo!(),
         };
 
-        let _ = self.input.cur();
+        self.bump();
 
         let pos = self.input.prev_span().hi;
         // `__${
@@ -98,13 +92,11 @@ impl<I: Tokens> Parser<I> {
 
     pub(super) fn parse_tpl(&mut self, is_tagged_tpl: bool) -> PResult<Tpl> {
         trace_cur!(self, parse_tpl);
-        debug_assert!(matches!(self.input.cur(), Some(&Token::TemplateHead)));
+        debug_assert!(matches!(self.input.cur(), &Token::TemplateHead));
 
         let start = self.cur_pos();
 
         let (exprs, quasis) = self.parse_tpl_elements(is_tagged_tpl)?;
-
-        let _ = self.input.cur();
 
         Ok(Tpl {
             span: self.span(start),
@@ -138,13 +130,11 @@ impl<I: Tokens> Parser<I> {
             self.input_mut().rescan_template_token(false);
         }
         let start = self.cur_pos();
-        let Some(cur) = self.input_mut().cur() else {
-            return Err(eof_error(self));
-        };
+        let cur = self.input_mut().cur();
         let (raw, cooked, tail, span) = match *cur {
             Token::TemplateMiddle => {
-                let t = self.bump();
-                let (cooked, raw) = t.take_template(self.input_mut());
+                let (cooked, raw) = (*cur).take_template(self.input_mut());
+                self.bump();
                 let pos = self.input.prev_span().hi;
                 debug_assert!(start.0 <= pos.0 - 2);
                 // case: ___${
@@ -162,8 +152,8 @@ impl<I: Tokens> Parser<I> {
                 }
             }
             Token::TemplateTail => {
-                let t = self.bump();
-                let (cooked, raw) = t.take_template(self.input_mut());
+                let (cooked, raw) = (*cur).take_template(self.input_mut());
+                self.bump();
                 let pos = self.input.prev_span().hi;
                 debug_assert!(start.0 < pos.0);
                 // case: ____`
@@ -181,8 +171,8 @@ impl<I: Tokens> Parser<I> {
                 }
             }
             Token::Error => {
-                let t = self.input_mut().bump();
-                let err = t.take_error(self.input_mut());
+                let err = (*cur).take_error(self.input_mut());
+                self.input_mut().bump();
                 return Err(err);
             }
             _ => {
@@ -249,16 +239,15 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_no_substitution_template_ty(&mut self) -> PResult<TsTplLitType> {
         let start = self.input.cur_pos();
-        let (raw, cooked) = match self.bump() {
-            t @ Token::NoSubstitutionTemplateLiteral => {
-                let (cooked, raw) = t.take_template(self.input_mut());
-                match cooked {
-                    Ok(cooked) => (raw, Some(cooked)),
-                    Err(_) => (raw, None),
-                }
-            }
-            _ => unreachable!(),
+        let cur = self.input.cur();
+        debug_assert!(matches!(cur, &Token::NoSubstitutionTemplateLiteral));
+
+        let (cooked, raw) = (*cur).take_template(self.input_mut());
+        let (raw, cooked) = match cooked {
+            Ok(cooked) => (raw, Some(cooked)),
+            Err(_) => (raw, None),
         };
+        self.bump();
         let pos = self.input.prev_span().hi;
         debug_assert!(start.0 <= pos.0);
         let span = Span::new_with_checked(start, pos);
@@ -285,7 +274,7 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_tpl_ty(&mut self) -> PResult<TsTplLitType> {
         trace_cur!(self, parse_tpl_ty);
-        debug_assert!(matches!(self.input.cur(), Some(&Token::TemplateHead)));
+        debug_assert!(matches!(self.input.cur(), &Token::TemplateHead));
 
         let start = self.cur_pos();
 

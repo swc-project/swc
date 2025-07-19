@@ -7,6 +7,8 @@ use swc_ecma_ast::EsVersion;
 use crate::{
     common::{
         input::Tokens,
+        lexer::token::TokenFactory,
+        parser::token_and_span::TokenAndSpan as TokenAndSpanTrait,
         syntax::{Syntax, SyntaxFlags},
     },
     error::Error,
@@ -304,9 +306,24 @@ pub struct Buffer<I: Tokens<TokenAndSpan>> {
     pub iter: I,
     /// Span of the previous token.
     pub prev_span: Span,
-    pub cur: Option<TokenAndSpan>,
+    pub cur: TokenAndSpan,
     /// Peeked token
     pub next: Option<TokenAndSpan>,
+}
+
+impl<I: Tokens<TokenAndSpan>> Buffer<I> {
+    fn bump(&mut self) -> Token {
+        let next = if let Some(next) = self.next.take() {
+            next
+        } else if let Some(next) = self.iter.next() {
+            next
+        } else {
+            TokenAndSpan::new(Token::Eof, self.prev_span, true)
+        };
+        let prev = mem::replace(&mut self.cur, next);
+        self.prev_span = prev.span();
+        prev.token
+    }
 }
 
 impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for Buffer<I> {
@@ -318,31 +335,23 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
 
     fn new(lexer: I) -> Self {
         let start_pos = lexer.start_pos();
+        let prev_span = Span::new_with_checked(start_pos, start_pos);
         Buffer {
             iter: lexer,
-            cur: None,
-            prev_span: Span::new_with_checked(start_pos, start_pos),
+            cur: TokenAndSpan::new(Token::Eof, prev_span, false),
+            prev_span,
             next: None,
         }
     }
 
     #[inline(always)]
     fn set_cur(&mut self, token: TokenAndSpan) {
-        self.cur = Some(token);
+        self.cur = token;
     }
 
     #[inline(always)]
     fn next(&self) -> Option<&TokenAndSpan> {
         self.next.as_ref()
-    }
-
-    #[cold]
-    #[inline(never)]
-    fn dump_cur(&mut self) -> String {
-        match self.cur() {
-            Some(v) => format!("{v:?}"),
-            None => "<eof>".to_string(),
-        }
     }
 
     #[inline(always)]
@@ -356,16 +365,8 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
     }
 
     #[inline]
-    fn cur(&mut self) -> Option<&Token> {
-        if self.cur.is_none() {
-            // If we have peeked a token, take it instead of calling lexer.next()
-            self.cur = self.next.take().or_else(|| self.iter.next());
-        }
-
-        match &self.cur {
-            Some(v) => Some(&v.token),
-            None => None,
-        }
+    fn cur(&self) -> &Token {
+        &self.cur.token
     }
 
     fn peek<'b>(&'b mut self) -> Option<&'b Token>
@@ -373,7 +374,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
         TokenAndSpan: 'b,
     {
         debug_assert!(
-            self.cur().is_some(),
+            self.cur() != &Token::Eof,
             "parser should not call peek() without knowing current token"
         );
 
@@ -386,12 +387,12 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
     }
 
     #[inline(always)]
-    fn get_cur(&self) -> Option<&TokenAndSpan> {
-        self.cur.as_ref()
+    fn get_cur(&self) -> &TokenAndSpan {
+        &self.cur
     }
 
     #[inline(always)]
-    fn get_cur_mut(&mut self) -> &mut Option<TokenAndSpan> {
+    fn get_cur_mut(&mut self) -> &mut TokenAndSpan {
         &mut self.cur
     }
 
@@ -413,5 +414,71 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
     #[inline(always)]
     fn iter_mut(&mut self) -> &mut I {
         &mut self.iter
+    }
+
+    fn bump(&mut self) {
+        self.bump();
+    }
+
+    fn expect_word_token_and_bump(&mut self) -> swc_atoms::Atom {
+        let t = self.bump();
+        t.take_word(self).unwrap()
+    }
+
+    fn expect_jsx_name_token_and_bump(&mut self) -> swc_atoms::Atom {
+        let t = self.bump();
+        t.take_jsx_name(self)
+    }
+
+    fn expect_jsx_text_token_and_bump(&mut self) -> (swc_atoms::Atom, swc_atoms::Atom) {
+        let t = self.bump();
+        t.take_jsx_text(self)
+    }
+
+    fn expect_number_token_and_bump(&mut self) -> (f64, swc_atoms::Atom) {
+        let t = self.bump();
+        t.take_num(self)
+    }
+
+    fn expect_string_token_and_bump(&mut self) -> (swc_atoms::Atom, swc_atoms::Atom) {
+        let t = self.bump();
+        t.take_str(self)
+    }
+
+    fn expect_bigint_token_and_bump(&mut self) -> (Box<num_bigint::BigInt>, swc_atoms::Atom) {
+        let t = self.bump();
+        t.take_bigint(self)
+    }
+
+    fn expect_regex_token_and_bump(&mut self) -> (swc_atoms::Atom, swc_atoms::Atom) {
+        let t = self.bump();
+        t.take_regexp(self)
+    }
+
+    fn expect_template_token_and_bump(
+        &mut self,
+    ) -> (
+        crate::common::lexer::LexResult<swc_atoms::Atom>,
+        swc_atoms::Atom,
+    ) {
+        let t = self.bump();
+        t.take_template(self)
+    }
+
+    fn expect_error_token_and_bump(&mut self) -> crate::error::Error {
+        let t = self.bump();
+        t.take_error(self)
+    }
+
+    fn expect_shebang_token_and_bump(&mut self) -> swc_atoms::Atom {
+        let t = self.bump();
+        t.take_shebang(self)
+    }
+
+    #[cold]
+    #[inline(never)]
+    fn dump_cur(&self) -> String {
+        let cur = self.cur();
+        format!("{cur:?}")
     }
 }

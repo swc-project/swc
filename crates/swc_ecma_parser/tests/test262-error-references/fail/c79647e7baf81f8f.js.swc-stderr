@@ -3,3 +3,8 @@
  1 | "\x0";
    :  ^^^
    `----
+  x Unterminated string constant
+   ,-[$DIR/tests/test262-parser/fail/c79647e7baf81f8f.js:1:1]
+ 1 | "\x0";
+   :     ^^
+   `----

@@ -155,25 +155,21 @@ impl crate::input::Tokens for Lexer<'_> {
         self.state.token_value.take()
     }
 
-    fn rescan_jsx_token(
-        &mut self,
-        allow_multiline_jsx_text: bool,
-        reset: BytePos,
-    ) -> Option<TokenAndSpan> {
+    fn rescan_jsx_token(&mut self, allow_multiline_jsx_text: bool, reset: BytePos) -> TokenAndSpan {
         unsafe {
             self.input.reset_to(reset);
         }
         Tokens::scan_jsx_token(self, allow_multiline_jsx_text)
     }
 
-    fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> Option<TokenAndSpan> {
+    fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> TokenAndSpan {
         unsafe {
             self.input.reset_to(reset);
         }
         Tokens::scan_jsx_open_el_terminal_token(self)
     }
 
-    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Option<TokenAndSpan> {
+    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> TokenAndSpan {
         let start = self.cur_pos();
         let res = match self.scan_jsx_token(allow_multiline_jsx_text) {
             Ok(res) => Ok(res),
@@ -182,12 +178,12 @@ impl crate::input::Tokens for Lexer<'_> {
                 Err(Token::Error)
             }
         };
-        let token = match res.map_err(Some) {
+        let token = match res {
             Ok(t) => t,
             Err(e) => e,
         };
         let span = self.span(start);
-        if let Some(token) = token {
+        if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
                 for comment in comments.take_pending_leading() {
                     comments.push(BufferedComment {
@@ -202,17 +198,15 @@ impl crate::input::Tokens for Lexer<'_> {
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
-        token.map(|token| {
-            // Attach span to token.
-            TokenAndSpan {
-                token,
-                had_line_break: self.had_line_break_before_last(),
-                span,
-            }
-        })
+        // Attach span to token.
+        TokenAndSpan {
+            token,
+            had_line_break: self.had_line_break_before_last(),
+            span,
+        }
     }
 
-    fn scan_jsx_open_el_terminal_token(&mut self) -> Option<TokenAndSpan> {
+    fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan {
         self.skip_space::<true>();
         let start = self.input.cur_pos();
         let res = match self.scan_jsx_attrs_terminal_token() {
@@ -222,12 +216,12 @@ impl crate::input::Tokens for Lexer<'_> {
                 Err(Token::Error)
             }
         };
-        let token = match res.map_err(Some) {
+        let token = match res {
             Ok(t) => t,
             Err(e) => e,
         };
         let span = self.span(start);
-        if let Some(token) = token {
+        if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
                 for comment in comments.take_pending_leading() {
                     comments.push(BufferedComment {
@@ -242,14 +236,12 @@ impl crate::input::Tokens for Lexer<'_> {
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
-        token.map(|token| {
-            // Attach span to token.
-            TokenAndSpan {
-                token,
-                had_line_break: self.had_line_break_before_last(),
-                span,
-            }
-        })
+        // Attach span to token.
+        TokenAndSpan {
+            token,
+            had_line_break: self.had_line_break_before_last(),
+            span,
+        }
     }
 
     fn scan_jsx_identifier(&mut self, start: BytePos) -> TokenAndSpan {
@@ -282,7 +274,10 @@ impl crate::input::Tokens for Lexer<'_> {
         } else if let Some(TokenValue::Word(value)) = self.state.token_value.take() {
             value
         } else {
-            self.atom(token.to_string(None))
+            unreachable!(
+                "`token_value` should be a word, but got: {:?}",
+                self.state.token_value
+            )
         };
         self.state.set_token_value(TokenValue::Word(v));
         TokenAndSpan {
@@ -292,26 +287,46 @@ impl crate::input::Tokens for Lexer<'_> {
         }
     }
 
-    fn scan_jsx_attribute_value(&mut self) -> Option<TokenAndSpan> {
+    fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan {
         let Some(cur) = self.cur() else {
-            return self.next();
+            let start = self.cur_pos();
+            return TokenAndSpan {
+                token: Token::Eof,
+                had_line_break: self.had_line_break_before_last(),
+                span: self.span(start),
+            };
         };
         let start = self.cur_pos();
 
         match cur {
             '\'' | '"' => {
-                let token = self.read_jsx_str(cur).ok()?;
+                let token = self.read_jsx_str(cur);
+                let token = match token {
+                    Ok(token) => token,
+                    Err(e) => {
+                        self.state.set_token_value(TokenValue::Error(e));
+                        return TokenAndSpan {
+                            token: Token::Error,
+                            had_line_break: self.had_line_break_before_last(),
+                            span: self.span(start),
+                        };
+                    }
+                };
                 debug_assert!(self
                     .get_token_value()
                     .is_some_and(|t| matches!(t, TokenValue::Str { .. })));
                 debug_assert!(token == Token::Str);
-                Some(TokenAndSpan {
+                TokenAndSpan {
                     token,
                     had_line_break: self.had_line_break_before_last(),
                     span: self.span(start),
-                })
+                }
             }
-            _ => self.next(),
+            _ => self.next().unwrap_or_else(|| TokenAndSpan {
+                token: Token::Eof,
+                had_line_break: self.had_line_break_before_last(),
+                span: self.span(start),
+            }),
         }
     }
 
@@ -319,18 +334,13 @@ impl crate::input::Tokens for Lexer<'_> {
         &mut self,
         start: BytePos,
         start_with_back_tick: bool,
-    ) -> Option<TokenAndSpan> {
+    ) -> TokenAndSpan {
         unsafe { self.input.reset_to(start) };
-        let res = self
-            .scan_template_token(start, start_with_back_tick)
-            .map(Some);
-        let token = match res
-            .map_err(|e| {
-                self.state.set_token_value(TokenValue::Error(e));
-                Token::Error
-            })
-            .map_err(Some)
-        {
+        let res = self.scan_template_token(start, start_with_back_tick);
+        let token = match res.map_err(|e| {
+            self.state.set_token_value(TokenValue::Error(e));
+            Token::Error
+        }) {
             Ok(t) => t,
             Err(e) => e,
         };
@@ -340,7 +350,8 @@ impl crate::input::Tokens for Lexer<'_> {
             // `+ BytePos(1)` is used to skip `{`
             self.span(start + BytePos(1))
         };
-        if let Some(token) = token {
+
+        if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
                 for comment in comments.take_pending_leading() {
                     comments.push(BufferedComment {
@@ -355,27 +366,25 @@ impl crate::input::Tokens for Lexer<'_> {
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
-        token.map(|token| {
-            // Attach span to token.
-            TokenAndSpan {
-                token,
-                had_line_break: self.had_line_break_before_last(),
-                span,
-            }
-        })
+        // Attach span to token.
+        TokenAndSpan {
+            token,
+            had_line_break: self.had_line_break_before_last(),
+            span,
+        }
     }
 }
 
 impl Lexer<'_> {
-    fn next_token(&mut self, start: &mut BytePos) -> Result<Option<Token>, Error> {
+    fn next_token(&mut self, start: &mut BytePos) -> Result<Token, Error> {
         if let Some(start) = self.state.next_regexp {
-            return Ok(Some(self.read_regexp(start)?));
+            return self.read_regexp(start);
         }
 
         if self.state.is_first {
             if let Some(shebang) = self.read_shebang()? {
                 self.state.set_token_value(TokenValue::Word(shebang));
-                return Ok(Some(Token::Shebang));
+                return Ok(Token::Shebang);
             }
         }
 
@@ -388,7 +397,7 @@ impl Lexer<'_> {
         if self.input.last_pos() == self.input.end_pos() {
             // End of input.
             self.consume_pending_comments();
-            return Ok(None);
+            return Ok(Token::Eof);
         }
 
         // println!(
@@ -402,21 +411,21 @@ impl Lexer<'_> {
         self.read_token()
     }
 
-    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Result<Option<Token>, Error> {
+    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Result<Token, Error> {
         debug_assert!(self.syntax.jsx());
 
         if self.input_mut().as_str().is_empty() {
-            return Ok(None);
+            return Ok(Token::Eof);
         };
 
         if self.input.eat_byte(b'<') {
-            return Ok(Some(if self.input.eat_byte(b'/') {
+            return Ok(if self.input.eat_byte(b'/') {
                 Token::LessSlash
             } else {
                 Token::Lt
-            }));
+            });
         } else if self.input.eat_byte(b'{') {
-            return Ok(Some(Token::LBrace));
+            return Ok(Token::LBrace);
         }
 
         let start = self.input.cur_pos();
@@ -500,16 +509,16 @@ impl Lexer<'_> {
 
         self.state.start = start;
 
-        Ok(Some(Token::JSXText))
+        Ok(Token::JSXText)
     }
 
-    fn scan_jsx_attrs_terminal_token(&mut self) -> LexResult<Option<Token>> {
+    fn scan_jsx_attrs_terminal_token(&mut self) -> LexResult<Token> {
         if self.input_mut().as_str().is_empty() {
-            Ok(None)
+            Ok(Token::Eof)
         } else if self.input.eat_byte(b'>') {
-            Ok(Some(Token::Gt))
+            Ok(Token::Gt)
         } else if self.input.eat_byte(b'/') {
-            Ok(Some(Token::Slash))
+            Ok(Token::Slash)
         } else {
             self.read_token()
         }
@@ -550,20 +559,16 @@ impl Iterator for Lexer<'_> {
     fn next(&mut self) -> Option<Self::Item> {
         let mut start = self.cur_pos();
 
-        let res = match self.next_token(&mut start) {
-            Ok(res) => Ok(res),
+        let token = match self.next_token(&mut start) {
+            Ok(res) => res,
             Err(error) => {
                 self.state.set_token_value(TokenValue::Error(error));
-                Err(Token::Error)
+                Token::Error
             }
-        };
-        let token = match res.map_err(Some) {
-            Ok(t) => t,
-            Err(e) => e,
         };
 
         let span = self.span(start);
-        if let Some(token) = token {
+        if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
                 for comment in comments.take_pending_leading() {
                     comments.push(BufferedComment {
@@ -577,16 +582,15 @@ impl Iterator for Lexer<'_> {
             self.state.set_token_type(token);
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
-        }
-
-        token.map(|token| {
             // Attach span to token.
-            TokenAndSpan {
+            Some(TokenAndSpan {
                 token,
                 had_line_break: self.had_line_break_before_last(),
                 span,
-            }
-        })
+            })
+        } else {
+            None
+        }
     }
 }
 

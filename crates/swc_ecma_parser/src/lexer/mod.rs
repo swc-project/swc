@@ -148,11 +148,11 @@ impl<'a> Lexer<'a> {
     }
 
     /// babel: `getTokenFromCode`
-    fn read_token(&mut self) -> LexResult<Option<Token>> {
+    fn read_token(&mut self) -> LexResult<Token> {
         self.token_flags = TokenFlags::empty();
         let byte = match self.input.as_str().as_bytes().first() {
             Some(&v) => v,
-            None => return Ok(None),
+            None => return Ok(Token::Eof),
         };
 
         let handler = unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
@@ -170,7 +170,7 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    fn read_token_plus_minus<const C: u8>(&mut self) -> LexResult<Option<Token>> {
+    fn read_token_plus_minus<const C: u8>(&mut self) -> LexResult<Token> {
         let start = self.cur_pos();
 
         unsafe {
@@ -179,7 +179,7 @@ impl<'a> Lexer<'a> {
         }
 
         // '++', '--'
-        Ok(Some(if self.input.cur() == Some(C as char) {
+        Ok(if self.input.cur() == Some(C as char) {
             unsafe {
                 // Safety: cur() is Some(c)
                 self.input.bump();
@@ -208,10 +208,10 @@ impl<'a> Lexer<'a> {
             Token::Plus
         } else {
             Token::Minus
-        }))
+        })
     }
 
-    fn read_token_bang_or_eq<const C: u8>(&mut self) -> LexResult<Option<Token>> {
+    fn read_token_bang_or_eq<const C: u8>(&mut self) -> LexResult<Token> {
         let start = self.cur_pos();
         let had_line_break_before_last = self.had_line_break_before_last();
 
@@ -220,7 +220,7 @@ impl<'a> Lexer<'a> {
             self.input.bump();
         }
 
-        Ok(Some(if self.input.eat_byte(b'=') {
+        Ok(if self.input.eat_byte(b'=') {
             // "=="
 
             if self.input.eat_byte(b'=') {
@@ -251,13 +251,13 @@ impl<'a> Lexer<'a> {
             Token::Bang
         } else {
             Token::Eq
-        }))
+        })
     }
 }
 
 impl Lexer<'_> {
     #[inline(never)]
-    fn read_token_lt_gt<const C: u8>(&mut self) -> LexResult<Option<Token>> {
+    fn read_token_lt_gt<const C: u8>(&mut self) -> LexResult<Token> {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
         self.bump();
@@ -267,9 +267,9 @@ impl Lexer<'_> {
             && !self.ctx.contains(Context::ShouldNotLexLtOrGtAsType)
         {
             if C == b'<' {
-                return Ok(Some(Token::Lt));
+                return Ok(Token::Lt);
             } else if C == b'>' {
-                return Ok(Some(Token::Gt));
+                return Ok(Token::Gt);
             }
         }
 
@@ -333,12 +333,12 @@ impl Lexer<'_> {
             return self.read_token();
         }
 
-        Ok(Some(token))
+        Ok(token)
     }
 
-    fn read_token_back_quote(&mut self) -> LexResult<Option<Token>> {
+    fn read_token_back_quote(&mut self) -> LexResult<Token> {
         let start = self.cur_pos();
-        self.scan_template_token(start, true).map(Some)
+        self.scan_template_token(start, true)
     }
 
     fn scan_template_token(

@@ -1,10 +1,13 @@
-use debug_unreachable::debug_unreachable;
+use swc_atoms::Atom;
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::EsVersion;
 
 use super::token_and_span::TokenAndSpan as TokenAndSpanTrait;
 use crate::common::{
-    context::Context, input::Tokens, lexer::token::TokenFactory, syntax::SyntaxFlags,
+    context::Context,
+    input::Tokens,
+    lexer::{token::TokenFactory, LexResult},
+    syntax::SyntaxFlags,
 };
 
 pub trait NextTokenAndSpan {
@@ -30,9 +33,9 @@ pub trait Buffer<'a> {
     fn set_next(&mut self, token: Option<Self::Next>);
     fn next_mut(&mut self) -> &mut Option<Self::Next>;
 
-    fn cur(&mut self) -> Option<&Self::Token>;
-    fn get_cur(&self) -> Option<&Self::TokenAndSpan>;
-    fn get_cur_mut(&mut self) -> &mut Option<Self::TokenAndSpan>;
+    fn cur(&self) -> &Self::Token;
+    fn get_cur(&self) -> &Self::TokenAndSpan;
+    fn get_cur_mut(&mut self) -> &mut Self::TokenAndSpan;
 
     fn prev_span(&self) -> Span;
     fn set_prev_span(&mut self, span: Span);
@@ -43,47 +46,34 @@ pub trait Buffer<'a> {
 
     fn store(&mut self, token: Self::Token) {
         debug_assert!(self.next().is_none());
-        debug_assert!(self.get_cur().is_none());
+        debug_assert!(!self.cur().is_eof());
         let span = self.prev_span();
         let token = Self::TokenAndSpan::new(token, span, false);
         self.set_cur(token);
     }
 
-    #[allow(dead_code)]
-    fn cur_debug<'b>(&'b self) -> Option<&'b Self::Token>
-    where
-        Self::TokenAndSpan: 'b,
-    {
-        self.get_cur().map(|it| it.token())
-    }
+    fn dump_cur(&self) -> String;
 
-    fn dump_cur(&mut self) -> String;
-
-    /// Returns current token.
-    fn bump(&mut self) -> Self::Token {
-        let prev = match self.get_cur_mut().take() {
-            Some(t) => t,
-            None => unsafe {
-                debug_unreachable!(
-                    "Current token is `None`. Parser should not call bump() without knowing \
-                     current token"
-                )
-            },
-        };
-        self.set_prev_span(prev.span());
-        prev.take_token()
-    }
+    /// find next token.
+    fn bump(&mut self);
+    fn expect_word_token_and_bump(&mut self) -> Atom;
+    fn expect_number_token_and_bump(&mut self) -> (f64, Atom);
+    fn expect_string_token_and_bump(&mut self) -> (Atom, Atom);
+    fn expect_bigint_token_and_bump(&mut self) -> (Box<num_bigint::BigInt>, Atom);
+    fn expect_regex_token_and_bump(&mut self) -> (Atom, Atom);
+    fn expect_template_token_and_bump(&mut self) -> (LexResult<Atom>, Atom);
+    fn expect_error_token_and_bump(&mut self) -> crate::error::Error;
+    fn expect_jsx_name_token_and_bump(&mut self) -> Atom;
+    fn expect_jsx_text_token_and_bump(&mut self) -> (Atom, Atom);
+    fn expect_shebang_token_and_bump(&mut self) -> Atom;
 
     #[inline]
     fn knows_cur(&self) -> bool {
-        self.get_cur().is_some()
+        !self.cur().is_eof()
     }
 
-    fn had_line_break_before_cur(&mut self) -> bool {
-        self.cur();
-        self.get_cur()
-            .map(|it| it.had_line_break())
-            .unwrap_or_else(|| true)
+    fn had_line_break_before_cur(&self) -> bool {
+        self.get_cur().had_line_break()
     }
 
     /// This returns true on eof.
@@ -118,8 +108,8 @@ pub trait Buffer<'a> {
         if span.hi != next.span().lo {
             return;
         }
-        let cur = self.get_cur_mut().take().unwrap();
         let next = self.next_mut().take().unwrap();
+        let cur = self.get_cur();
         let cur_token = cur.token();
         let token = if cur_token.is_greater() {
             let next_token = next.token();
@@ -139,7 +129,6 @@ pub trait Buffer<'a> {
                 // >>>=
                 Self::Token::ZERO_FILL_RSHIFT_EQ
             } else {
-                self.set_cur(cur);
                 self.set_next(Some(next));
                 return;
             }
@@ -155,12 +144,10 @@ pub trait Buffer<'a> {
                 // <<=
                 Self::Token::LSHIFT_EQ
             } else {
-                self.set_cur(cur);
                 self.set_next(Some(next));
                 return;
             }
         } else {
-            self.set_cur(cur);
             self.set_next(Some(next));
             return;
         };
@@ -170,8 +157,8 @@ pub trait Buffer<'a> {
     }
 
     #[inline(always)]
-    fn is(&mut self, expected: &Self::Token) -> bool {
-        self.cur().is_some_and(|cur| cur == expected)
+    fn is(&self, expected: &Self::Token) -> bool {
+        self.cur() == expected
     }
 
     #[inline(always)]
@@ -185,23 +172,13 @@ pub trait Buffer<'a> {
 
     /// Returns start of current token.
     #[inline]
-    fn cur_pos(&mut self) -> BytePos {
-        let _ = self.cur();
-        self.get_cur()
-            .map(|item| item.span().lo)
-            .unwrap_or_else(|| {
-                // eof
-                self.last_pos()
-            })
+    fn cur_pos(&self) -> BytePos {
+        self.get_cur().span().lo
     }
 
     #[inline]
     fn cur_span(&self) -> Span {
-        let data = self
-            .get_cur()
-            .map(|item| item.span())
-            .unwrap_or(self.prev_span());
-        Span::new_with_checked(data.lo, data.hi)
+        self.get_cur().span()
     }
 
     /// Returns last byte position of previous token.
