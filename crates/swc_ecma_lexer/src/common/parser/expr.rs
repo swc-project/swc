@@ -67,14 +67,14 @@ pub(super) fn is_start_of_left_hand_side_expr<'a>(p: &mut impl Parser<'a>) -> bo
 pub fn parse_array_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     trace_cur!(p, parse_array_lit);
 
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
 
     p.assert_and_bump(&P::Token::LBRACKET);
 
     let mut elems = Vec::with_capacity(8);
 
-    while !eof!(p) && !p.input_mut().is(&P::Token::RBRACKET) {
-        if p.input_mut().is(&P::Token::COMMA) {
+    while !eof!(p) && !p.input().is(&P::Token::RBRACKET) {
+        if p.input().is(&P::Token::COMMA) {
             expect!(p, &P::Token::COMMA);
             elems.push(None);
             continue;
@@ -82,9 +82,9 @@ pub fn parse_array_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
 
         elems.push(p.allow_in_expr(|p| p.parse_expr_or_spread()).map(Some)?);
 
-        if !p.input_mut().is(&P::Token::RBRACKET) {
+        if !p.input().is(&P::Token::RBRACKET) {
             expect!(p, &P::Token::COMMA);
-            if p.input_mut().is(&P::Token::RBRACKET) {
+            if p.input().is(&P::Token::RBRACKET) {
                 let prev_span = p.input().prev_span();
                 p.state_mut().trailing_commas.insert(start, prev_span);
             }
@@ -103,7 +103,7 @@ pub fn at_possible_async<'a, P: Parser<'a>>(p: &P, expr: &Expr) -> PResult<bool>
 }
 
 fn parse_yield_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
     p.assert_and_bump(&P::Token::YIELD);
     debug_assert!(p.ctx().contains(Context::InGenerator));
 
@@ -184,7 +184,7 @@ fn parse_tpl_elements<'a, P: Parser<'a>>(
 
 fn parse_tpl<'a, P: Parser<'a>>(p: &mut P, is_tagged_tpl: bool) -> PResult<Tpl> {
     trace_cur!(p, parse_tpl);
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
 
     p.assert_and_bump(&P::Token::BACKQUOTE);
 
@@ -292,13 +292,13 @@ pub fn parse_args<'a, P: Parser<'a>>(
         let mut first = true;
         let mut expr_or_spreads = Vec::with_capacity(2);
 
-        while !eof!(p) && !p.input_mut().is(&P::Token::RPAREN) {
+        while !eof!(p) && !p.input().is(&P::Token::RPAREN) {
             if first {
                 first = false;
             } else {
                 expect!(p, &P::Token::COMMA);
                 // Handle trailing comma.
-                if p.input_mut().is(&P::Token::RPAREN) {
+                if p.input().is(&P::Token::RPAREN) {
                     if is_dynamic_import && !p.input().syntax().import_attributes() {
                         syntax_error!(p, p.span(start), SyntaxError::TrailingCommaInsideImport)
                     }
@@ -323,7 +323,7 @@ pub fn parse_args<'a, P: Parser<'a>>(
 pub fn parse_assignment_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     trace_cur!(p, parse_assignment_expr);
 
-    if p.input().syntax().typescript() && p.input_mut().is(&P::Token::JSX_TAG_START) {
+    if p.input().syntax().typescript() && p.input().is(&P::Token::JSX_TAG_START) {
         // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid
         // syntax.
 
@@ -408,7 +408,7 @@ fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>
         }
     }
 
-    if p.ctx().contains(Context::InGenerator) && p.input_mut().is(&P::Token::YIELD) {
+    if p.ctx().contains(Context::InGenerator) && p.input().is(&P::Token::YIELD) {
         return parse_yield_expr(p);
     }
 
@@ -571,7 +571,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
     trace_cur!(p, parse_subscript);
 
     if p.input().syntax().typescript() {
-        if !p.input_mut().had_line_break_before_cur() && p.input_mut().is(&P::Token::BANG) {
+        if !p.input().had_line_break_before_cur() && p.input().is(&P::Token::BANG) {
             p.input_mut().set_expr_allowed(false);
             p.assert_and_bump(&P::Token::BANG);
 
@@ -602,7 +602,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
             ));
         }
 
-        if matches!(obj, Callee::Expr(..)) && p.input_mut().is(&P::Token::LESS) {
+        if matches!(obj, Callee::Expr(..)) && p.input().is(&P::Token::LESS) {
             let is_dynamic_import = obj.is_import();
 
             let mut obj_opt = Some(obj);
@@ -715,7 +715,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
         }
     }
 
-    let type_args = if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+    let type_args = if p.syntax().typescript() && p.input().is(&P::Token::LESS) {
         try_parse_ts_type_args(p)
     } else {
         None
@@ -728,7 +728,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
     }
 
     let question_dot_token =
-        if p.input_mut().is(&P::Token::QUESTION) && peek!(p).is_some_and(|peek| peek.is_dot()) {
+        if p.input().is(&P::Token::QUESTION) && peek!(p).is_some_and(|peek| peek.is_dot()) {
             let start = p.cur_pos();
             expect!(p, &P::Token::QUESTION);
             Some(p.span(start))
@@ -739,7 +739,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
     // $obj[name()]
     if !no_computed_member
         && ((question_dot_token.is_some()
-            && p.input_mut().is(&P::Token::DOT)
+            && p.input().is(&P::Token::DOT)
             && peek!(p).is_some_and(|peek| peek.is_lbracket())
             && p.input_mut().eat(&P::Token::DOT)
             && p.input_mut().eat(&P::Token::LBRACKET))
@@ -755,7 +755,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
             expr: prop,
         };
 
-        let type_args = if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+        let type_args = if p.syntax().typescript() && p.input().is(&P::Token::LESS) {
             try_parse_ts_type_args(p)
         } else {
             None
@@ -819,13 +819,13 @@ fn parse_subscript<'a, P: Parser<'a>>(
     }
 
     if (question_dot_token.is_some()
-        && p.input_mut().is(&P::Token::DOT)
+        && p.input().is(&P::Token::DOT)
         && (peek!(p).is_some_and(|peek| peek.is_lparen())
             || (p.syntax().typescript() && peek!(p).is_some_and(|peek| peek.is_less())))
         && p.input_mut().eat(&P::Token::DOT))
-        || (!no_call && p.input_mut().is(&P::Token::LPAREN))
+        || (!no_call && p.input().is(&P::Token::LPAREN))
     {
-        let type_args = if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+        let type_args = if p.syntax().typescript() && p.input().is(&P::Token::LESS) {
             let ret = parse_ts_type_args(p)?;
             p.assert_and_bump(&P::Token::GREATER);
             Some(ret)
@@ -884,7 +884,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
         debug_assert_eq!(obj.span_lo(), span.lo());
         debug_assert_eq!(prop.span_hi(), span.hi());
 
-        let type_args = if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+        let type_args = if p.syntax().typescript() && p.input().is(&P::Token::LESS) {
             try_parse_ts_type_args(p)
         } else {
             None
@@ -1146,7 +1146,7 @@ fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
                 let args =
                     p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, parse_ts_type_args)?;
                 p.assert_and_bump(&P::Token::GREATER);
-                if !p.input_mut().is(&P::Token::LPAREN) {
+                if !p.input().is(&P::Token::LPAREN) {
                     let span = p.input().cur_span();
                     let cur = p.input_mut().dump_cur();
                     syntax_error!(p, span, SyntaxError::Expected('('.to_string(), cur))
@@ -1157,7 +1157,7 @@ fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
             None
         };
 
-        if !is_new_expr || p.input_mut().is(&P::Token::LPAREN) {
+        if !is_new_expr || p.input().is(&P::Token::LPAREN) {
             // Parsed with 'MemberExpression' production.
             let args = parse_args(p, false).map(Some)?;
 
@@ -1200,7 +1200,7 @@ fn parse_member_expr_or_new_expr_inner<'a, P: Parser<'a>>(
     let obj = p.parse_primary_expr()?;
     return_if_arrow!(p, obj);
 
-    let type_args = if p.syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+    let type_args = if p.syntax().typescript() && p.input().is(&P::Token::LESS) {
         try_parse_ts_type_args(p)
     } else {
         None
@@ -1313,8 +1313,8 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
 ) -> PResult<(Box<Expr>, Option<u8>)> {
     const PREC_OF_IN: u8 = 7;
 
-    if p.input().syntax().typescript() && !p.input_mut().had_line_break_before_cur() {
-        if PREC_OF_IN > min_prec && p.input_mut().is(&P::Token::AS) {
+    if p.input().syntax().typescript() && !p.input().had_line_break_before_cur() {
+        if PREC_OF_IN > min_prec && p.input().is(&P::Token::AS) {
             let start = left.span_lo();
             let expr = left;
             let node = if peek!(p).is_some_and(|cur| cur.is_const()) {
@@ -1336,7 +1336,7 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
             };
 
             return parse_bin_op_recursively_inner(p, node, min_prec);
-        } else if p.input_mut().is(&P::Token::SATISFIES) {
+        } else if p.input().is(&P::Token::SATISFIES) {
             let start = left.span_lo();
             let expr = left;
             let node = {
@@ -1565,7 +1565,7 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
     return_if_arrow!(p, expr);
 
     // Line terminator isn't allowed here.
-    if p.input_mut().had_line_break_before_cur() {
+    if p.input().had_line_break_before_cur() {
         return Ok(expr);
     }
 
@@ -1602,7 +1602,7 @@ pub fn parse_await_expr<'a, P: Parser<'a>>(
 
     let await_token = p.span(start);
 
-    if p.input_mut().is(&P::Token::MUL) {
+    if p.input().is(&P::Token::MUL) {
         syntax_error!(p, SyntaxError::AwaitStar);
     }
 
@@ -1680,7 +1680,7 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
             return Err(eof_error(p));
         }
 
-        if p.input_mut().is(&P::Token::LESS) && !peek!(p).is_some_and(|peek| peek.is_bang()) {
+        if p.input().is(&P::Token::LESS) && !peek!(p).is_some_and(|peek| peek.is_bang()) {
             // In case we encounter an lt token here it will always be the start of
             // jsx as the lt sign is not allowed in places that expect an expression
 
@@ -1719,7 +1719,7 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
         try_parse_ts(p, |p| {
             let type_args = parse_ts_type_args(p)?;
             p.assert_and_bump(&P::Token::GREATER);
-            if p.input_mut().is(&P::Token::LPAREN) {
+            if p.input().is(&P::Token::LPAREN) {
                 Ok(Some(type_args))
             } else {
                 Ok(None)
@@ -1745,7 +1745,7 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
     // 'CallExpr' rule contains 'MemberExpr (...)',
     // and 'MemberExpr' rule contains 'new MemberExpr (...)'
 
-    if p.input_mut().is(&P::Token::LPAREN) {
+    if p.input().is(&P::Token::LPAREN) {
         // This is parsed using production MemberExpression,
         // which is left-recursive.
         let (callee, is_import) = match callee {
@@ -1819,9 +1819,9 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
 
     // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
     // as a pattern instead of reparsing)
-    while !eof!(p) && !p.input_mut().is(&P::Token::RPAREN) {
+    while !eof!(p) && !p.input().is(&P::Token::RPAREN) {
         // https://github.com/swc-project/swc/issues/410
-        let is_async = p.input_mut().is(&P::Token::ASYNC)
+        let is_async = p.input().is(&P::Token::ASYNC)
             && peek!(p).is_some_and(|t| t.is_lparen() || t.is_word() || t.is_function());
 
         let start = p.cur_pos();
@@ -1834,7 +1834,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
         let mut arg = {
             if p.input().syntax().typescript()
                 && (p.is_ident_ref()
-                    || (p.input_mut().is(&P::Token::DOTDOTDOT) && p.peek_is_ident_ref()))
+                    || (p.input().is(&P::Token::DOTDOTDOT) && p.peek_is_ident_ref()))
             {
                 let spread = if p.input_mut().eat(&P::Token::DOTDOTDOT) {
                     Some(p.input().prev_span())
@@ -1863,7 +1863,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
         };
 
         let optional = if p.input().syntax().typescript() {
-            if p.input_mut().is(&P::Token::QUESTION) {
+            if p.input().is(&P::Token::QUESTION) {
                 if peek!(p).is_some_and(|peek| {
                     peek.is_comma() || peek.is_equal() || peek.is_rparen() || peek.is_colon()
                 }) {
@@ -1919,7 +1919,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
             false
         };
 
-        if optional || (p.input().syntax().typescript() && p.input_mut().is(&P::Token::COLON)) {
+        if optional || (p.input().syntax().typescript() && p.input().is(&P::Token::COLON)) {
             // TODO: `async(...args?: any[]) : any => {}`
             //
             // if p.input().syntax().typescript() && optional && arg.spread.is_some() {
@@ -2042,9 +2042,9 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
             }));
         }
 
-        if !p.input_mut().is(&P::Token::RPAREN) {
+        if !p.input().is(&P::Token::RPAREN) {
             expect!(p, &P::Token::COMMA);
-            if p.input_mut().is(&P::Token::RPAREN) {
+            if p.input().is(&P::Token::RPAREN) {
                 trailing_comma = Some(p.input().prev_span());
             }
         }
@@ -2085,7 +2085,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
     // This is slow path. We handle arrow in conditional expression.
     if p.syntax().typescript()
         && p.ctx().contains(Context::InCondExpr)
-        && p.input_mut().is(&P::Token::COLON)
+        && p.input().is(&P::Token::COLON)
     {
         // TODO: Remove clone
         let items_ref = &paren_items;
@@ -2105,7 +2105,7 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
                 params.is_simple_parameter_list(),
             )?;
 
-            if will_expect_colon_for_cond && !p.input_mut().is(&P::Token::COLON) {
+            if will_expect_colon_for_cond && !p.input().is(&P::Token::COLON) {
                 trace_cur!(p, parse_arrow_in_cond__fail);
                 unexpected!(p, "fail")
             }
@@ -2129,12 +2129,12 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
 
     let return_type = if !p.ctx().contains(Context::WillExpectColonForCond)
         && p.input().syntax().typescript()
-        && p.input_mut().is(&P::Token::COLON)
+        && p.input().is(&P::Token::COLON)
     {
         try_parse_ts(p, |p| {
             let return_type = parse_ts_type_or_type_predicate_ann(p, &P::Token::COLON)?;
 
-            if !p.input_mut().is(&P::Token::ARROW) {
+            if !p.input().is(&P::Token::ARROW) {
                 unexpected!(p, "fail")
             }
 
@@ -2145,8 +2145,8 @@ pub fn parse_paren_expr_or_arrow_fn<'a, P: Parser<'a>>(
     };
 
     // we parse arrow function at here, to handle it efficiently.
-    if has_pattern || return_type.is_some() || p.input_mut().is(&P::Token::ARROW) {
-        if p.input_mut().had_line_break_before_cur() {
+    if has_pattern || return_type.is_some() || p.input().is(&P::Token::ARROW) {
+        if p.input().had_line_break_before_cur() {
             syntax_error!(p, p.span(expr_start), SyntaxError::LineBreakBeforeArrow);
         }
 
@@ -2292,7 +2292,7 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
     start: BytePos,
     can_be_arrow: bool,
 ) -> PResult<Box<Expr>> {
-    let decorators = if p.input_mut().is(&P::Token::AT) {
+    let decorators = if p.input().is(&P::Token::AT) {
         Some(parse_decorators(p, false)?)
     } else {
         None
@@ -2308,7 +2308,7 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
     }
 
     let try_parse_arrow_expr = |p: &mut P, id: Ident, id_is_async| -> PResult<Box<Expr>> {
-        if can_be_arrow && !p.input_mut().had_line_break_before_cur() {
+        if can_be_arrow && !p.input().had_line_break_before_cur() {
             if id_is_async && p.is_ident_ref() {
                 // see https://github.com/tc39/ecma262/issues/2034
                 // ```js
@@ -2318,7 +2318,7 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
                 // ```
                 let ctx = p.ctx();
                 if ctx.contains(Context::ForLoopInit)
-                    && p.input_mut().is(&P::Token::OF)
+                    && p.input().is(&P::Token::OF)
                     && !peek!(p).is_some_and(|peek| peek.is_arrow())
                 {
                     // ```spec https://tc39.es/ecma262/#prod-ForInOfStatement
@@ -2336,7 +2336,7 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
                 let ident = parse_binding_ident(p, false)?;
                 if p.input().syntax().typescript()
                     && ident.sym == "as"
-                    && !p.input_mut().is(&P::Token::ARROW)
+                    && !p.input().is(&P::Token::ARROW)
                 {
                     // async as type
                     let type_ann = p.in_type(parse_ts_type)?;

@@ -58,7 +58,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_jsx_tag_name(&mut self) -> PResult<JSXAttrName> {
         debug_assert!(self.input().syntax().jsx());
         trace_cur!(self, parse_jsx_tag_name);
-        let start = self.input_mut().cur_pos();
+        let start = self.input().cur_pos();
         self.input_mut().scan_jsx_identifier();
 
         let ns = self.parse_jsx_ident()?.into();
@@ -78,7 +78,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_jsx_element_name(&mut self) -> PResult<JSXElementName> {
         debug_assert!(self.input().syntax().jsx());
         trace_cur!(self, parse_jsx_element_name);
-        let start = self.input_mut().cur_pos();
+        let start = self.input().cur_pos();
         let mut node = match self.parse_jsx_tag_name()? {
             JSXAttrName::Ident(i) => JSXElementName::Ident(i.into()),
             JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
@@ -226,7 +226,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_jsx_attr_name(&mut self) -> PResult<JSXAttrName> {
         debug_assert!(self.input().syntax().jsx());
         trace_cur!(self, parse_jsx_attr_name);
-        let start = self.input_mut().cur_pos();
+        let start = self.input().cur_pos();
         self.input_mut().scan_jsx_identifier();
 
         let attr_name = self.parse_jsx_ident()?;
@@ -248,7 +248,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_jsx_attr_value);
         if self.input().is(&Token::Eq) {
             self.input_mut().scan_jsx_attribute_value();
-            let cur = self.input_mut().get_cur();
+            let cur = self.input().get_cur();
             match cur.token {
                 Token::Str => {
                     let value = parse_str_lit(self);
@@ -277,7 +277,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input().syntax().jsx());
         trace_cur!(self, parse_jsx_attr);
         if self.input_mut().eat(&Token::LBrace) {
-            let dot3_start = self.input_mut().cur_pos();
+            let dot3_start = self.input().cur_pos();
             self.expect(&Token::DotDotDot)?;
             let dot3_token = self.span(dot3_start);
             let expr = parse_assignment_expr(self)?;
@@ -287,7 +287,7 @@ impl<I: Tokens> Parser<I> {
                 expr,
             }))
         } else {
-            let start = self.input_mut().cur_pos();
+            let start = self.input().cur_pos();
             let name = self.parse_jsx_attr_name()?;
             let value = self.do_outside_of_context(
                 Context::InCondExpr.union(Context::WillExpectColonForCond),
@@ -307,7 +307,7 @@ impl<I: Tokens> Parser<I> {
         loop {
             trace_cur!(self, parse_jsx_opening__attrs_loop);
             self.input_mut().rescan_jsx_open_el_terminal_token();
-            let cur = self.input_mut().get_cur();
+            let cur = self.input().get_cur();
             if matches!(cur.token, Token::Gt | Token::Slash) {
                 break;
             }
@@ -354,7 +354,7 @@ impl<I: Tokens> Parser<I> {
                 let name = p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
                     p.parse_jsx_element_name()
                 })?;
-                let type_args = if p.input().syntax().typescript() && p.input_mut().is(&Token::Lt) {
+                let type_args = if p.input().syntax().typescript() && p.input().is(&Token::Lt) {
                     try_parse_ts(p, |this| {
                         let ret = parse_ts_type_args(this)?;
                         this.assert_and_bump(&Token::Gt);
