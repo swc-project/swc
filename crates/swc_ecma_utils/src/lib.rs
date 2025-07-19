@@ -536,7 +536,8 @@ pub trait StmtExt {
                         }
 
                         if !case.cons.is_empty() {
-                            let t = terminates_many(&case.cons, true, false, allow_throw)?;
+                            let t = terminates_many(&case.cons, true, false, allow_throw)
+                                .unwrap_or(false);
 
                             if t {
                                 has_non_empty_terminates = true

@@ -25973,7 +25973,8 @@ class Zip {
                                 throw Error(`Support for ${contractDefinition.srcWasmLang} not implemented yet.`);
                         }
                         return this.logger.info(`WASM ${contractDefinition.srcWasmLang} handler created in ${benchmark.elapsed()}`), new WasmHandlerApi_1.WasmHandlerApi(swGlobal, contractDefinition, jsExports || wasmInstance.exports);
-                    } else {
+                    }
+                    {
                         this.logger.info('Creating handler for js contract', contractDefinition.txId);
                         const normalizedSource = (0, normalize_source_1.normalizeContractSource)(contractDefinition.src, evaluationOptions.useVM2);
                         if (!evaluationOptions.allowUnsafeClient && normalizedSource.includes('SmartWeave.unsafeClient')) throw Error('Using unsafeClient is not allowed by default. Use EvaluationOptions.allowUnsafeClient flag.');
