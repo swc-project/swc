@@ -43,11 +43,11 @@ fn parse_jsx_closing_element_at<'a, P: Parser<'a>>(
 /// Parses JSX expression enclosed into curly brackets.
 pub fn parse_jsx_expr_container<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXExprContainer> {
     debug_assert!(p.input().syntax().jsx());
-    debug_assert!(p.input_mut().is(&P::Token::LBRACE));
+    debug_assert!(p.input().is(&P::Token::LBRACE));
 
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
     p.bump(); // bump "{"
-    let expr = if p.input_mut().is(&P::Token::RBRACE) {
+    let expr = if p.input().is(&P::Token::RBRACE) {
         JSXExpr::JSXEmptyExpr(parse_jsx_empty_expr(p))
     } else {
         p.parse_expr().map(JSXExpr::Expr)?
@@ -79,7 +79,7 @@ fn parse_jsx_ident<'a, P: Parser<'a>>(p: &mut P) -> PResult<Ident> {
 fn parse_jsx_namespaced_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrName> {
     debug_assert!(p.input().syntax().jsx());
     trace_cur!(p, parse_jsx_namespaced_name);
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
     let ns = parse_jsx_ident(p)?.into();
     if !p.input_mut().eat(&P::Token::COLON) {
         return Ok(JSXAttrName::Ident(ns));
@@ -97,7 +97,7 @@ fn parse_jsx_namespaced_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrNam
 fn parse_jsx_element_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXElementName> {
     debug_assert!(p.input().syntax().jsx());
     trace_cur!(p, parse_jsx_element_name);
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
     let mut node = match parse_jsx_namespaced_name(p)? {
         JSXAttrName::Ident(i) => JSXElementName::Ident(i.into()),
         JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
@@ -123,7 +123,7 @@ fn parse_jsx_element_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXElementNam
 /// brace) and finish at the beginning of the next one (right brace).
 pub fn parse_jsx_empty_expr<'a>(p: &mut impl Parser<'a>) -> JSXEmptyExpr {
     debug_assert!(p.input().syntax().jsx());
-    let start = p.input_mut().cur_pos();
+    let start = p.input().cur_pos();
     JSXEmptyExpr {
         span: Span::new_with_checked(start, start),
     }
@@ -277,7 +277,7 @@ fn parse_jsx_opening_element_after_name<'a, P: Parser<'a>>(
 ) -> PResult<JSXOpeningElement> {
     debug_assert!(p.input().syntax().jsx());
 
-    let type_args = if p.input().syntax().typescript() && p.input_mut().is(&P::Token::LESS) {
+    let type_args = if p.input().syntax().typescript() && p.input().is(&P::Token::LESS) {
         try_parse_ts(p, |p| {
             let ret = parse_ts_type_args(p)?;
             p.assert_and_bump(&P::Token::GREATER);
