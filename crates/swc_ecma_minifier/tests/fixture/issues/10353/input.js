@@ -1,0 +1,1 @@
+console.log("\"\\uD83D\\uDE42\"");
