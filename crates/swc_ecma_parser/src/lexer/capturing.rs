@@ -154,18 +154,15 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.set_token_value(token_value);
     }
 
-    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> Option<TokenAndSpan> {
+    fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> TokenAndSpan {
         self.inner.scan_jsx_token(allow_multiline_jsx_text)
     }
 
-    fn scan_jsx_open_el_terminal_token(&mut self) -> Option<TokenAndSpan> {
+    fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan {
         self.inner.scan_jsx_open_el_terminal_token()
     }
 
-    fn rescan_jsx_open_el_terminal_token(
-        &mut self,
-        reset: swc_common::BytePos,
-    ) -> Option<TokenAndSpan> {
+    fn rescan_jsx_open_el_terminal_token(&mut self, reset: swc_common::BytePos) -> TokenAndSpan {
         self.inner.rescan_jsx_open_el_terminal_token(reset)
     }
 
@@ -173,7 +170,7 @@ impl<I: Tokens> Tokens for Capturing<I> {
         &mut self,
         allow_multiline_jsx_text: bool,
         reset: swc_common::BytePos,
-    ) -> Option<TokenAndSpan> {
+    ) -> TokenAndSpan {
         self.inner.rescan_jsx_token(allow_multiline_jsx_text, reset)
     }
 
@@ -181,7 +178,7 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.scan_jsx_identifier(start)
     }
 
-    fn scan_jsx_attribute_value(&mut self) -> Option<TokenAndSpan> {
+    fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan {
         self.inner.scan_jsx_attribute_value()
     }
 
@@ -189,7 +186,7 @@ impl<I: Tokens> Tokens for Capturing<I> {
         &mut self,
         start: swc_common::BytePos,
         start_with_back_tick: bool,
-    ) -> Option<TokenAndSpan> {
+    ) -> TokenAndSpan {
         self.inner
             .rescan_template_token(start, start_with_back_tick)
     }
