@@ -63,7 +63,7 @@ where
 {
     debug_assert!(p.input().syntax().typescript());
     let mut buf = Vec::with_capacity(8);
-    while !is_ts_list_terminator(p, kind)? {
+    while !is_ts_list_terminator(p, kind) {
         // Skipping "parseListElement" from the TS source since that's just for error
         // handling.
         buf.push(parse_element(p)?);
@@ -110,7 +110,7 @@ where
     loop {
         trace_cur!(p, parse_ts_delimited_list_inner__element);
 
-        if is_ts_list_terminator(p, kind)? {
+        if is_ts_list_terminator(p, kind) {
             break;
         }
 
@@ -121,7 +121,7 @@ where
             continue;
         }
 
-        if is_ts_list_terminator(p, kind)? {
+        if is_ts_list_terminator(p, kind) {
             break;
         }
 
@@ -159,21 +159,21 @@ where
 }
 
 /// `tsIsListTerminator`
-fn is_ts_list_terminator<'a>(p: &mut impl Parser<'a>, kind: ParsingContext) -> PResult<bool> {
+fn is_ts_list_terminator<'a>(p: &mut impl Parser<'a>, kind: ParsingContext) -> bool {
     debug_assert!(p.input().syntax().typescript());
     let cur = p.input().cur();
-    Ok(match kind {
+    match kind {
         ParsingContext::EnumMembers | ParsingContext::TypeMembers => cur.is_rbrace(),
         ParsingContext::HeritageClauseElement => {
             cur.is_lbrace() || cur.is_implements() || cur.is_extends()
         }
         ParsingContext::TupleElementTypes => cur.is_rbracket(),
         ParsingContext::TypeParametersOrArguments => cur.is_greater(),
-    })
+    }
 }
 
 /// `tsNextTokenCanFollowModifier`
-pub(super) fn ts_next_token_can_follow_modifier<'a>(p: &mut impl Parser<'a>) -> PResult<bool> {
+pub(super) fn ts_next_token_can_follow_modifier<'a>(p: &mut impl Parser<'a>) -> bool {
     debug_assert!(p.input().syntax().typescript());
     // Note: TypeScript's implementation is much more complicated because
     // more things are considered modifiers there.
@@ -183,7 +183,7 @@ pub(super) fn ts_next_token_can_follow_modifier<'a>(p: &mut impl Parser<'a>) -> 
     p.bump();
 
     let cur = p.input().cur();
-    Ok(!p.input().had_line_break_before_cur() && cur.is_lbracket()
+    !p.input().had_line_break_before_cur() && cur.is_lbracket()
         || cur.is_lbrace()
         || cur.is_star()
         || cur.is_dotdotdot()
@@ -191,7 +191,7 @@ pub(super) fn ts_next_token_can_follow_modifier<'a>(p: &mut impl Parser<'a>) -> 
         || cur.is_word()
         || cur.is_str()
         || cur.is_num()
-        || cur.is_bigint())
+        || cur.is_bigint()
 }
 
 /// `tsTryParse`
@@ -242,12 +242,12 @@ fn parse_ts_type_member_semicolon<'a, P: Parser<'a>>(p: &mut P) -> PResult<()> {
 }
 
 /// `tsIsStartOfConstructSignature`
-fn is_ts_start_of_construct_signature<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool> {
+fn is_ts_start_of_construct_signature<'a, P: Parser<'a>>(p: &mut P) -> bool {
     debug_assert!(p.input().syntax().typescript());
 
     p.bump();
     let cur = p.input().cur();
-    Ok(cur.is_lparen() || cur.is_less())
+    cur.is_lparen() || cur.is_less()
 }
 
 /// `tsParseDelimitedList`
@@ -370,7 +370,7 @@ pub fn parse_ts_modifier<'a, P: Parser<'a>>(
         {
             return Ok(None);
         }
-        if try_parse_ts_bool(p, |p| ts_next_token_can_follow_modifier(p).map(Some))? {
+        if try_parse_ts_bool(p, |p| Ok(Some(ts_next_token_can_follow_modifier(p))))? {
             return Ok(Some(allowed_modifiers[pos]));
         }
     }
@@ -450,9 +450,9 @@ pub fn parse_ts_entity_name<'a, P: Parser<'a>>(
     Ok(entity)
 }
 
-pub fn ts_look_ahead<'a, P: Parser<'a>, T, F>(p: &mut P, op: F) -> PResult<T>
+pub fn ts_look_ahead<'a, P: Parser<'a>, T, F>(p: &mut P, op: F) -> T
 where
-    F: FnOnce(&mut P) -> PResult<T>,
+    F: FnOnce(&mut P) -> T,
 {
     debug_assert!(p.input().syntax().typescript());
     let mut cloned = p.clone();
@@ -1211,28 +1211,29 @@ fn is_ts_unambiguously_start_of_fn_type<'a, P: Parser<'a>>(p: &mut P) -> PResult
     Ok(false)
 }
 
-fn is_ts_start_of_fn_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool> {
+fn is_ts_start_of_fn_type<'a, P: Parser<'a>>(p: &mut P) -> bool {
     debug_assert!(p.input().syntax().typescript());
 
     if p.input().cur().is_less() {
-        return Ok(true);
+        return true;
     }
 
-    Ok(p.input().cur().is_lparen() && ts_look_ahead(p, is_ts_unambiguously_start_of_fn_type)?)
+    p.input().cur().is_lparen()
+        && ts_look_ahead(p, is_ts_unambiguously_start_of_fn_type).unwrap_or_default()
 }
 
 /// `tsIsUnambiguouslyIndexSignature`
-fn is_ts_unambiguously_index_signature<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool> {
+fn is_ts_unambiguously_index_signature<'a, P: Parser<'a>>(p: &mut P) -> bool {
     debug_assert!(p.input().syntax().typescript());
 
     // Note: babel's comment is wrong
     p.assert_and_bump(&P::Token::LBRACKET); // Skip '['
 
     // ',' is for error recovery
-    Ok(p.eat_ident_ref() && {
+    p.eat_ident_ref() && {
         let cur = p.input().cur();
         cur.is_comma() || cur.is_colon()
-    })
+    }
 }
 
 /// `tsTryParseIndexSignature`
@@ -1246,7 +1247,7 @@ pub fn try_parse_ts_index_signature<'a, P: Parser<'a>>(
         return Ok(Default::default());
     }
 
-    if !(p.input().cur().is_lbracket() && ts_look_ahead(p, is_ts_unambiguously_index_signature)?) {
+    if !(p.input().cur().is_lbracket() && ts_look_ahead(p, is_ts_unambiguously_index_signature)) {
         return Ok(None);
     }
 
@@ -1378,26 +1379,26 @@ fn parse_ts_binding_list_for_signature<'a, P: Parser<'a>>(p: &mut P) -> PResult<
 }
 
 /// `tsIsStartOfMappedType`
-pub fn is_ts_start_of_mapped_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool> {
+pub fn is_ts_start_of_mapped_type<'a, P: Parser<'a>>(p: &mut P) -> bool {
     debug_assert!(p.input().syntax().typescript());
 
     p.bump();
     if p.input_mut().eat(&P::Token::PLUS) || p.input_mut().eat(&P::Token::MINUS) {
-        return Ok(p.input().is(&P::Token::READONLY));
+        return p.input().is(&P::Token::READONLY);
     }
 
     p.input_mut().eat(&P::Token::READONLY);
 
     if !p.input().is(&P::Token::LBRACKET) {
-        return Ok(false);
+        return false;
     }
     p.bump();
     if !p.is_ident_ref() {
-        return Ok(false);
+        return false;
     }
     p.bump();
 
-    Ok(p.input().is(&P::Token::IN))
+    p.input().is(&P::Token::IN)
 }
 
 /// `tsParseSignatureMember`
@@ -1814,7 +1815,7 @@ fn parse_ts_non_conditional_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Ts
 
     debug_assert!(p.input().syntax().typescript());
 
-    if is_ts_start_of_fn_type(p)? {
+    if is_ts_start_of_fn_type(p) {
         return parse_ts_fn_or_constructor_type(p, true)
             .map(TsType::from)
             .map(Box::new);
@@ -2010,7 +2011,7 @@ fn parse_ts_type_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeElement> 
         return parse_ts_signature_member(p, SignatureParsingMode::TSCallSignatureDeclaration)
             .map(into_type_elem);
     }
-    if p.input().is(&P::Token::NEW) && ts_look_ahead(p, is_ts_start_of_construct_signature)? {
+    if p.input().is(&P::Token::NEW) && ts_look_ahead(p, is_ts_start_of_construct_signature) {
         return parse_ts_signature_member(p, SignatureParsingMode::TSConstructSignatureDeclaration)
             .map(into_type_elem);
     }
@@ -2529,7 +2530,7 @@ fn parse_ts_non_array_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsType>>
     } else if cur.is_typeof() {
         return parse_ts_type_query(p).map(TsType::from).map(Box::new);
     } else if cur.is_lbrace() {
-        return if ts_look_ahead(p, is_ts_start_of_mapped_type)? {
+        return if ts_look_ahead(p, is_ts_start_of_mapped_type) {
             parse_ts_mapped_type(p).map(TsType::from).map(Box::new)
         } else {
             parse_ts_type_lit(p).map(TsType::from).map(Box::new)
