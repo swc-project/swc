@@ -214,7 +214,7 @@ pub fn parse_var_stmt<'a, P: Parser<'a>>(p: &mut P, for_loop: bool) -> PResult<B
 
     if p.syntax().typescript() && for_loop {
         let cur = p.input().cur();
-        let res = if cur.is_in() || cur.is_of() {
+        let res: PResult<bool> = if cur.is_in() || cur.is_of() {
             ts_look_ahead(p, |p| {
                 //
                 if !p.input_mut().eat(&P::Token::OF) && !p.input_mut().eat(&P::Token::IN) {

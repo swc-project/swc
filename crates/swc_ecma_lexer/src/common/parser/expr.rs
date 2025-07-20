@@ -97,9 +97,9 @@ pub fn parse_array_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     Ok(ArrayLit { span, elems }.into())
 }
 
-pub fn at_possible_async<'a, P: Parser<'a>>(p: &P, expr: &Expr) -> PResult<bool> {
+pub fn at_possible_async<'a, P: Parser<'a>>(p: &P, expr: &Expr) -> bool {
     // TODO(kdy1): !this.state.containsEsc &&
-    Ok(p.state().potential_arrow_start == Some(expr.span_lo()) && expr.is_ident_ref_to("async"))
+    p.state().potential_arrow_start == Some(expr.span_lo()) && expr.is_ident_ref_to("async")
 }
 
 fn parse_yield_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
@@ -622,7 +622,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                                 Some(Callee::Expr(ref expr)) => expr,
                                 _ => unreachable!(),
                             },
-                        )?
+                        )
                     {
                         // Almost certainly this is a generic async function `async <T>() => ...
                         // But it might be a call with a type argument `async<T>();`
