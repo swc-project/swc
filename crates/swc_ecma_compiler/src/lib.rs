@@ -98,26 +98,26 @@ impl<'a> CompilerImpl<'a> {
     /// ES2022: Analyze class private fields for 'private in object' transformation
     fn es2022_analyze_private_fields_for_in_operator(&mut self, class: &Class) {
         class.visit_children_with(&mut ClassAnalyzer {
-            brand_check_names: &mut self.cls.names_used_for_brand_checks,
+            brand_check_names: &mut self.es2022_current_class_data.names_used_for_brand_checks,
             ignore_class: true,
         });
 
         for m in &class.body {
             match m {
                 ClassMember::PrivateMethod(m) => {
-                    self.cls.privates.insert(m.key.name.clone());
-                    self.cls.methods.push(m.key.name.clone());
+                    self.es2022_current_class_data.privates.insert(m.key.name.clone());
+                    self.es2022_current_class_data.methods.push(m.key.name.clone());
 
                     if m.is_static {
-                        self.cls.statics.push(m.key.name.clone());
+                        self.es2022_current_class_data.statics.push(m.key.name.clone());
                     }
                 }
 
                 ClassMember::PrivateProp(m) => {
-                    self.cls.privates.insert(m.key.name.clone());
+                    self.es2022_current_class_data.privates.insert(m.key.name.clone());
 
                     if m.is_static {
-                        self.cls.statics.push(m.key.name.clone());
+                        self.es2022_current_class_data.statics.push(m.key.name.clone());
                     }
                 }
 
@@ -128,7 +128,7 @@ impl<'a> CompilerImpl<'a> {
 
     /// ES2022: Inject WeakSet initialization into constructor for private field brand checks
     fn es2022_inject_weakset_init_for_private_fields(&mut self, class: &mut Class) {
-        if self.cls.constructor_exprs.is_empty() {
+        if self.es2022_current_class_data.constructor_exprs.is_empty() {
             return;
         }
 
@@ -151,7 +151,7 @@ impl<'a> CompilerImpl<'a> {
                 body: Some(body), ..
             }) = m
             {
-                for expr in take(&mut self.cls.constructor_exprs) {
+                for expr in take(&mut self.es2022_current_class_data.constructor_exprs) {
                     body.stmts.push(
                         ExprStmt {
                             span: DUMMY_SP,
@@ -176,10 +176,10 @@ impl<'a> CompilerImpl<'a> {
             if left.is_private_name() {
                 let left = left.take().expect_private_name();
 
-                let is_static = self.cls.statics.contains(&left.name);
-                let is_method = self.cls.methods.contains(&left.name);
+                let is_static = self.es2022_current_class_data.statics.contains(&left.name);
+                let is_method = self.es2022_current_class_data.methods.contains(&left.name);
 
-                if let Some(cls_ident) = self.cls.ident.clone() {
+                if let Some(cls_ident) = self.es2022_current_class_data.ident.clone() {
                     if is_static && is_method {
                         *e = BinExpr {
                             span: *span,
@@ -192,12 +192,12 @@ impl<'a> CompilerImpl<'a> {
                     }
                 }
 
-                let var_name = self.var_name_for_brand_check(&left, &self.cls);
+                let var_name = self.var_name_for_brand_check(&left, &self.es2022_current_class_data);
 
-                if self.cls.privates.contains(&left.name)
-                    && self.injected_vars.insert(var_name.to_id())
+                if self.es2022_current_class_data.privates.contains(&left.name)
+                    && self.es2022_injected_weakset_vars.insert(var_name.to_id())
                 {
-                    self.cls.vars.push_var(
+                    self.es2022_current_class_data.vars.push_var(
                         var_name.clone(),
                         Some(
                             NewExpr {
@@ -211,7 +211,7 @@ impl<'a> CompilerImpl<'a> {
                     );
 
                     if is_method {
-                        self.cls.constructor_exprs.push(
+                        self.es2022_current_class_data.constructor_exprs.push(
                             CallExpr {
                                 span: DUMMY_SP,
                                 callee: var_name
@@ -249,7 +249,7 @@ impl<'a> CompilerImpl<'a> {
 
     /// ES2022: Prepend private field helper variables to statements
     fn es2022_prepend_private_field_vars(&mut self, stmts: &mut Vec<Stmt>) {
-        if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT) || self.vars.is_empty() {
+        if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT) || self.es2022_private_field_helper_vars.is_empty() {
             return;
         }
 
@@ -259,7 +259,7 @@ impl<'a> CompilerImpl<'a> {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: Default::default(),
-                decls: take(&mut self.vars),
+                decls: take(&mut self.es2022_private_field_helper_vars),
                 ..Default::default()
             }
             .into(),
@@ -268,7 +268,7 @@ impl<'a> CompilerImpl<'a> {
 
     /// ES2022: Prepend private field helper variables to module items
     fn es2022_prepend_private_field_vars_module(&mut self, items: &mut Vec<ModuleItem>) {
-        if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT) || self.vars.is_empty() {
+        if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT) || self.es2022_private_field_helper_vars.is_empty() {
             return;
         }
 
@@ -278,7 +278,7 @@ impl<'a> CompilerImpl<'a> {
                 span: DUMMY_SP,
                 kind: VarDeclKind::Var,
                 declare: Default::default(),
-                decls: take(&mut self.vars),
+                decls: take(&mut self.es2022_private_field_helper_vars),
                 ..Default::default()
             }
             .into(),
@@ -287,11 +287,11 @@ impl<'a> CompilerImpl<'a> {
 
     /// ES2022: Add WeakSet.add() calls to private properties for brand checking
     fn es2022_add_weakset_to_private_props(&mut self, n: &mut PrivateProp) {
-        if !self.cls.names_used_for_brand_checks.contains(&n.key.name) {
+        if !self.es2022_current_class_data.names_used_for_brand_checks.contains(&n.key.name) {
             return;
         }
 
-        let var_name = self.var_name_for_brand_check(&n.key, &self.cls);
+        let var_name = self.var_name_for_brand_check(&n.key, &self.es2022_current_class_data);
 
         match &mut n.value {
             Some(init) => {
@@ -299,7 +299,7 @@ impl<'a> CompilerImpl<'a> {
 
                 let tmp = private_ident!("_tmp");
 
-                self.cls.vars.push_var(tmp.clone(), None);
+                self.es2022_current_class_data.vars.push_var(tmp.clone(), None);
 
                 let assign = AssignExpr {
                     span: DUMMY_SP,
@@ -374,26 +374,26 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            let old_cls = take(&mut self.cls);
+            let old_cls = take(&mut self.es2022_current_class_data);
 
-            self.cls.mark = Mark::fresh(Mark::root());
-            self.cls.ident = Some(n.ident.clone());
-            self.cls.vars = Mode::ClassDecl {
+            self.es2022_current_class_data.mark = Mark::fresh(Mark::root());
+            self.es2022_current_class_data.ident = Some(n.ident.clone());
+            self.es2022_current_class_data.vars = Mode::ClassDecl {
                 vars: Default::default(),
             };
 
             n.visit_mut_children_with(self);
 
-            match &mut self.cls.vars {
+            match &mut self.es2022_current_class_data.vars {
                 Mode::ClassDecl { vars } => {
-                    self.vars.extend(take(vars));
+                    self.es2022_private_field_helper_vars.extend(take(vars));
                 }
                 _ => {
                     unreachable!()
                 }
             }
 
-            self.cls = old_cls;
+            self.es2022_current_class_data = old_cls;
         } else {
             n.visit_mut_children_with(self);
         }
@@ -401,28 +401,28 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            let old_cls = take(&mut self.cls);
+            let old_cls = take(&mut self.es2022_current_class_data);
 
-            self.cls.mark = Mark::fresh(Mark::root());
-            self.cls.ident.clone_from(&n.ident);
-            self.cls.vars = Mode::ClassExpr {
+            self.es2022_current_class_data.mark = Mark::fresh(Mark::root());
+            self.es2022_current_class_data.ident.clone_from(&n.ident);
+            self.es2022_current_class_data.vars = Mode::ClassExpr {
                 vars: Default::default(),
                 init_exprs: Default::default(),
             };
 
             n.visit_mut_children_with(self);
 
-            match &mut self.cls.vars {
+            match &mut self.es2022_current_class_data.vars {
                 Mode::ClassExpr { vars, init_exprs } => {
-                    self.vars.extend(take(vars));
-                    self.prepend_exprs.extend(take(init_exprs));
+                    self.es2022_private_field_helper_vars.extend(take(vars));
+                    self.es2022_private_field_init_exprs.extend(take(init_exprs));
                 }
                 _ => {
                     unreachable!()
                 }
             }
 
-            self.cls = old_cls;
+            self.es2022_current_class_data = old_cls;
         } else {
             n.visit_mut_children_with(self);
         }
@@ -481,11 +481,11 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            let prev_prepend_exprs = take(&mut self.prepend_exprs);
+            let prev_prepend_exprs = take(&mut self.es2022_private_field_init_exprs);
 
             e.visit_mut_children_with(self);
 
-            let mut prepend_exprs = std::mem::replace(&mut self.prepend_exprs, prev_prepend_exprs);
+            let mut prepend_exprs = std::mem::replace(&mut self.es2022_private_field_init_exprs, prev_prepend_exprs);
 
             if !prepend_exprs.is_empty() {
                 match e {
