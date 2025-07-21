@@ -11,3 +11,9 @@ bitflags! {
         const EXPORT_NAMESPACE_FROM = 1 << 5;
     }
 }
+
+impl Default for Features {
+    fn default() -> Self {
+        Self::empty()
+    }
+}
