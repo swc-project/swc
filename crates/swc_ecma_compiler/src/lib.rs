@@ -72,8 +72,6 @@ impl<'a> CompilerImpl<'a> {
             return;
         }
 
-        class.visit_mut_children_with(self);
-
         let mut private_names = FxHashSet::default();
         for member in &class.body {
             if let ClassMember::PrivateProp(private_property) = member {
@@ -390,10 +388,12 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         // ES2022: Private in object transformation
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             self.es2022_analyze_private_fields_for_in_operator(class);
-            class.visit_mut_children_with(self);
+        }
+
+        class.visit_mut_children_with(self);
+
+        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             self.es2022_inject_weakset_init_for_private_fields(class);
-        } else if !self.config.includes.contains(Features::STATIC_BLOCKS) {
-            class.visit_mut_children_with(self);
         }
     }
 
