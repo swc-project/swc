@@ -5,6 +5,7 @@ use std::mem::take;
 use rustc_hash::FxHashSet;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::assumptions::Assumptions;
 use swc_ecma_utils::{
     default_constructor_with_span, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
@@ -32,8 +33,9 @@ impl Compiler {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct Config {
+    pub assumptions: Assumptions,
     /// Always compile these syntaxes.
     pub includes: Features,
     /// Always preserve these syntaxes.
