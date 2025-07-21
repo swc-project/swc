@@ -18,6 +18,7 @@ use crate::es2022::{
 };
 pub use crate::features::Features;
 
+mod es2020;
 mod es2021;
 mod es2022;
 mod features;
@@ -59,6 +60,9 @@ struct CompilerImpl<'a> {
 
     // Logical assignments transformation state
     logical_assignment_vars: Vec<VarDeclarator>,
+    
+    // ES2020: Nullish coalescing transformation state
+    nullish_coalescing_vars: Vec<VarDeclarator>,
 }
 
 #[swc_trace]
@@ -71,6 +75,7 @@ impl<'a> CompilerImpl<'a> {
             es2022_injected_weakset_vars: FxHashSet::default(),
             es2022_current_class_data: ClassData::default(),
             logical_assignment_vars: Vec::new(),
+            nullish_coalescing_vars: Vec::new(),
         }
     }
 
@@ -463,6 +468,67 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         }
     }
 
+    /// Prevents #1123 for nullish coalescing
+    fn visit_mut_block_stmt(&mut self, s: &mut BlockStmt) {
+        if self.config.includes.contains(Features::NULLISH_COALESCING) {
+            let old_vars = self.nullish_coalescing_vars.take();
+            s.visit_mut_children_with(self);
+            self.nullish_coalescing_vars = old_vars;
+        } else {
+            s.visit_mut_children_with(self);
+        }
+    }
+
+    /// Prevents #1123 and #6328 for nullish coalescing
+    fn visit_mut_switch_case(&mut self, s: &mut SwitchCase) {
+        if self.config.includes.contains(Features::NULLISH_COALESCING) {
+            // Prevents #6328
+            s.test.visit_mut_with(self);
+            let old_vars = self.nullish_coalescing_vars.take();
+            s.cons.visit_mut_with(self);
+            self.nullish_coalescing_vars = old_vars;
+        } else {
+            s.visit_mut_children_with(self);
+        }
+    }
+
+    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+        if self.config.includes.contains(Features::NULLISH_COALESCING) {
+            let vars = self.nullish_coalescing_vars.take();
+            n.visit_mut_children_with(self);
+
+            if !self.nullish_coalescing_vars.is_empty() {
+                if let BlockStmtOrExpr::Expr(expr) = n {
+                    // expr
+                    // { var decl = init; return expr; }
+                    let stmts = vec![
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: self.nullish_coalescing_vars.take(),
+                            declare: false,
+                            ..Default::default()
+                        }
+                        .into(),
+                        Stmt::Return(ReturnStmt {
+                            span: DUMMY_SP,
+                            arg: Some(expr.take()),
+                        }),
+                    ];
+                    *n = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts,
+                        ..Default::default()
+                    });
+                }
+            }
+
+            self.nullish_coalescing_vars = vars;
+        } else {
+            n.visit_mut_children_with(self);
+        }
+    }
+
     fn visit_mut_assign_pat(&mut self, p: &mut AssignPat) {
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             p.left.visit_mut_with(self);
@@ -515,6 +581,17 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        // For nullish coalescing, we need to visit children first to ensure correct variable ordering
+        let is_nullish = self.config.includes.contains(Features::NULLISH_COALESCING);
+        
+        if is_nullish {
+            e.visit_mut_children_with(self);
+            // Try to transform nullish coalescing after visiting children
+            if self.transform_nullish_coalescing(e) {
+                return;
+            }
+        }
+        
         // Check if we need to transform logical assignments
         if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) {
             // Try to transform logical assignment first
@@ -525,7 +602,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
             }
         }
 
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
+        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) && !is_nullish {
             let prev_prepend_exprs = take(&mut self.es2022_private_field_init_exprs);
 
             e.visit_mut_children_with(self);
@@ -553,24 +630,42 @@ impl<'a> VisitMut for CompilerImpl<'a> {
             }
 
             self.es2022_transform_private_in_to_weakset_has(e);
-        } else {
+        } else if !is_nullish {
             e.visit_mut_children_with(self);
         }
     }
 
     fn visit_mut_module_items(&mut self, ns: &mut Vec<ModuleItem>) {
-        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) {
-            let vars = self.logical_assignment_vars.take();
-            ns.visit_mut_children_with(self);
+        // ES2020: Export namespace from transformation
+        if self.config.includes.contains(Features::EXPORT_NAMESPACE_FROM) {
+            self.transform_export_namespace_from(ns);
+        }
+        
+        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) || 
+           self.config.includes.contains(Features::NULLISH_COALESCING) {
+            let logical_vars = self.logical_assignment_vars.take();
+            let nullish_vars = self.nullish_coalescing_vars.take();
+            
+            if self.config.includes.contains(Features::NULLISH_COALESCING) {
+                self.visit_mut_stmt_like_for_nullish(ns);
+            } else {
+                ns.visit_mut_children_with(self);
+            }
 
-            let vars = std::mem::replace(&mut self.logical_assignment_vars, vars);
-            if !vars.is_empty() {
+            let logical_vars = std::mem::replace(&mut self.logical_assignment_vars, logical_vars);
+            let nullish_vars = std::mem::replace(&mut self.nullish_coalescing_vars, nullish_vars);
+            
+            let mut all_vars = Vec::new();
+            all_vars.extend(logical_vars);
+            all_vars.extend(nullish_vars);
+            
+            if !all_vars.is_empty() {
                 prepend_stmt(
                     ns,
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        decls: vars,
+                        decls: all_vars,
                         ..Default::default()
                     }
                     .into(),
@@ -598,18 +693,31 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
-        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) {
-            let vars = self.logical_assignment_vars.take();
-            s.visit_mut_children_with(self);
+        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) || 
+           self.config.includes.contains(Features::NULLISH_COALESCING) {
+            let logical_vars = self.logical_assignment_vars.take();
+            let nullish_vars = self.nullish_coalescing_vars.take();
+            
+            if self.config.includes.contains(Features::NULLISH_COALESCING) {
+                self.visit_mut_stmt_like_for_nullish(s);
+            } else {
+                s.visit_mut_children_with(self);
+            }
 
-            let vars = std::mem::replace(&mut self.logical_assignment_vars, vars);
-            if !vars.is_empty() {
+            let logical_vars = std::mem::replace(&mut self.logical_assignment_vars, logical_vars);
+            let nullish_vars = std::mem::replace(&mut self.nullish_coalescing_vars, nullish_vars);
+            
+            let mut all_vars = Vec::new();
+            all_vars.extend(logical_vars);
+            all_vars.extend(nullish_vars);
+            
+            if !all_vars.is_empty() {
                 prepend_stmt(
                     s,
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        decls: vars,
+                        decls: all_vars,
                         ..Default::default()
                     }
                     .into(),
