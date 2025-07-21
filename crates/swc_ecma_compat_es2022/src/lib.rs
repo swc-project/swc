@@ -3,6 +3,7 @@
 use swc_common::Mark;
 use swc_ecma_ast::Pass;
 use swc_ecma_compat_common::regexp::{self, regexp};
+use swc_ecma_compiler::{Compiler, Features};
 
 pub use self::{
     class_properties::class_properties, private_in_object::private_in_object,
@@ -26,9 +27,11 @@ pub fn es2022(config: Config, unresolved_mark: Mark) -> impl Pass {
             unicode_regex: false,
             unicode_sets_regex: false,
         }),
-        static_blocks(),
+        Compiler::new(swc_ecma_compiler::Config {
+            includes: Features::STATIC_BLOCKS | Features::PRIVATE_IN_OBJECT,
+            excludes: Features::empty(),
+        }),
         class_properties(config.class_properties, unresolved_mark),
-        private_in_object(),
     )
 }
 
