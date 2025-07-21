@@ -1,3 +1,4 @@
+use swc_atoms::Atom;
 use swc_common::Mark;
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
@@ -20,11 +21,6 @@ pub struct Config {
 
     /// Mangle even if vars are visible to `eval` or `with`.
     pub ignore_eval: bool,
-
-    /// Create correct (unique) syntax contexts. Use this if you need the syntax
-    /// contexts produces by this pass (unlike the default `hygiene` pass which
-    /// removes them anyway.)
-    pub correct_contexts: bool,
 }
 
 /// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default
@@ -69,6 +65,8 @@ pub fn hygiene_with_config(config: Config) -> impl 'static + Pass + VisitMut {
 struct HygieneRenamer;
 
 impl Renamer for HygieneRenamer {
+    type Target = Atom;
+
     const MANGLE: bool = false;
     const RESET_N: bool = true;
 
