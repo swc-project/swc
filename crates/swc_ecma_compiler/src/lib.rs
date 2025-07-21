@@ -46,21 +46,21 @@ impl Pass for Compiler {
 struct CompilerImpl<'a> {
     config: &'a Config,
 
-    // State for private_in_object
-    vars: Vec<VarDeclarator>,
-    prepend_exprs: Vec<Box<Expr>>,
-    injected_vars: FxHashSet<Id>,
-    cls: ClassData,
+    // ES2022: Private in object transformation state
+    es2022_private_field_helper_vars: Vec<VarDeclarator>,
+    es2022_private_field_init_exprs: Vec<Box<Expr>>,
+    es2022_injected_weakset_vars: FxHashSet<Id>,
+    es2022_current_class_data: ClassData,
 }
 
 impl<'a> CompilerImpl<'a> {
     fn new(config: &'a Config) -> Self {
         Self {
             config,
-            vars: Vec::new(),
-            prepend_exprs: Vec::new(),
-            injected_vars: FxHashSet::default(),
-            cls: ClassData::default(),
+            es2022_private_field_helper_vars: Vec::new(),
+            es2022_private_field_init_exprs: Vec::new(),
+            es2022_injected_weakset_vars: FxHashSet::default(),
+            es2022_current_class_data: ClassData::default(),
         }
     }
 
