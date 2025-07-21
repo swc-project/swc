@@ -17,7 +17,8 @@ use crate::es2022::{
 };
 pub use crate::features::Features;
 
-pub mod es2022;
+mod es2021;
+mod es2022;
 mod features;
 
 #[derive(Debug)]
@@ -53,6 +54,9 @@ struct CompilerImpl<'a> {
     es2022_private_field_init_exprs: Vec<Box<Expr>>,
     es2022_injected_weakset_vars: FxHashSet<Id>,
     es2022_current_class_data: ClassData,
+
+    // Logical assignments transformation state
+    logical_assignment_vars: Vec<VarDeclarator>,
 }
 
 #[swc_trace]
@@ -64,6 +68,7 @@ impl<'a> CompilerImpl<'a> {
             es2022_private_field_init_exprs: Vec::new(),
             es2022_injected_weakset_vars: FxHashSet::default(),
             es2022_current_class_data: ClassData::default(),
+            logical_assignment_vars: Vec::new(),
         }
     }
 
@@ -508,6 +513,16 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        // Check if we need to transform logical assignments
+        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) {
+            // Try to transform logical assignment first
+            if self.transform_logical_assignment(e) {
+                // If transformed, continue visiting children
+                e.visit_mut_children_with(self);
+                return;
+            }
+        }
+
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             let prev_prepend_exprs = take(&mut self.es2022_private_field_init_exprs);
 
@@ -542,7 +557,26 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_module_items(&mut self, ns: &mut Vec<ModuleItem>) {
-        ns.visit_mut_children_with(self);
+        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) {
+            let vars = self.logical_assignment_vars.take();
+            ns.visit_mut_children_with(self);
+
+            let vars = std::mem::replace(&mut self.logical_assignment_vars, vars);
+            if !vars.is_empty() {
+                prepend_stmt(
+                    ns,
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vars,
+                        ..Default::default()
+                    }
+                    .into(),
+                );
+            }
+        } else {
+            ns.visit_mut_children_with(self);
+        }
         self.es2022_prepend_private_field_vars_module(ns);
     }
 
@@ -562,7 +596,26 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
-        s.visit_mut_children_with(self);
+        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) {
+            let vars = self.logical_assignment_vars.take();
+            s.visit_mut_children_with(self);
+
+            let vars = std::mem::replace(&mut self.logical_assignment_vars, vars);
+            if !vars.is_empty() {
+                prepend_stmt(
+                    s,
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: vars,
+                        ..Default::default()
+                    }
+                    .into(),
+                );
+            }
+        } else {
+            s.visit_mut_children_with(self);
+        }
         self.es2022_prepend_private_field_vars(s);
     }
 }
