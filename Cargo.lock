@@ -5120,8 +5120,13 @@ name = "swc_ecma_compiler"
 version = "0.1.0"
 dependencies = [
  "bitflags 2.6.0",
+ "rustc-hash 2.1.1",
+ "swc_atoms",
+ "swc_common",
  "swc_ecma_ast",
+ "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_trace_macro",
 ]
 
 [[package]]
