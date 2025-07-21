@@ -868,9 +868,10 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
                 if p.is_ident_ref() && !p.input_mut().is(&P::Token::FROM)
                     || peek!(p).is_some_and(|cur| cur.is_from())
                 {
-                    // For defer phase, only namespace imports are allowed, not default imports
+                    // For defer phase, we expect only namespace imports, so break here
+                    // and let the subsequent code handle validation
                     if new_phase == ImportPhase::Defer {
-                        expect!(p, &P::Token::FROM);
+                        break 'import_maybe_ident;
                     }
                     phase = new_phase;
                     local = parse_imported_default_binding(p)?;
