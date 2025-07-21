@@ -64,8 +64,8 @@ impl<'a> CompilerImpl<'a> {
         }
     }
 
-    /// Transform static blocks in a class
-    fn transform_static_blocks(&mut self, class: &mut Class) {
+    /// ES2022: Transform static blocks to static private fields
+    fn es2022_static_blocks_to_private_fields(&mut self, class: &mut Class) {
         if !self.config.includes.contains(Features::STATIC_BLOCKS) {
             return;
         }
@@ -95,8 +95,8 @@ impl<'a> CompilerImpl<'a> {
         }
     }
 
-    /// Analyze class for private field usage
-    fn analyze_private_in_object(&mut self, class: &Class) {
+    /// ES2022: Analyze class private fields for 'private in object' transformation
+    fn es2022_analyze_private_fields_for_in_operator(&mut self, class: &Class) {
         class.visit_children_with(&mut ClassAnalyzer {
             brand_check_names: &mut self.cls.names_used_for_brand_checks,
             ignore_class: true,
@@ -126,8 +126,8 @@ impl<'a> CompilerImpl<'a> {
         }
     }
 
-    /// Inject constructor expressions for private fields
-    fn inject_constructor_exprs(&mut self, class: &mut Class) {
+    /// ES2022: Inject WeakSet initialization into constructor for private field brand checks
+    fn es2022_inject_weakset_init_for_private_fields(&mut self, class: &mut Class) {
         if self.cls.constructor_exprs.is_empty() {
             return;
         }
@@ -164,8 +164,8 @@ impl<'a> CompilerImpl<'a> {
         }
     }
 
-    /// Transform private field in object expressions
-    fn transform_private_in_object_expr(&mut self, e: &mut Expr) -> bool {
+    /// ES2022: Transform 'private in object' expressions to WeakSet.has() calls
+    fn es2022_transform_private_in_to_weakset_has(&mut self, e: &mut Expr) -> bool {
         if let Expr::Bin(BinExpr {
             span,
             op: op!("in"),
@@ -247,8 +247,8 @@ impl<'a> CompilerImpl<'a> {
         false
     }
 
-    /// Prepend variable declarations
-    fn prepend_vars(&mut self, stmts: &mut Vec<Stmt>) {
+    /// ES2022: Prepend private field helper variables to statements
+    fn es2022_prepend_private_field_vars(&mut self, stmts: &mut Vec<Stmt>) {
         if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT) || self.vars.is_empty() {
             return;
         }
@@ -266,8 +266,8 @@ impl<'a> CompilerImpl<'a> {
         );
     }
 
-    /// Prepend variable declarations to module items
-    fn prepend_vars_module(&mut self, items: &mut Vec<ModuleItem>) {
+    /// ES2022: Prepend private field helper variables to module items
+    fn es2022_prepend_private_field_vars_module(&mut self, items: &mut Vec<ModuleItem>) {
         if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT) || self.vars.is_empty() {
             return;
         }
@@ -285,8 +285,8 @@ impl<'a> CompilerImpl<'a> {
         );
     }
 
-    /// Transform private property for brand checking
-    fn transform_private_prop_brand_check(&mut self, n: &mut PrivateProp) {
+    /// ES2022: Add WeakSet.add() calls to private properties for brand checking
+    fn es2022_add_weakset_to_private_props(&mut self, n: &mut PrivateProp) {
         if !self.cls.names_used_for_brand_checks.contains(&n.key.name) {
             return;
         }
@@ -359,14 +359,14 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_class(&mut self, class: &mut Class) {
-        // Static blocks transformation
-        self.transform_static_blocks(class);
+        // ES2022: Static blocks transformation
+        self.es2022_static_blocks_to_private_fields(class);
 
-        // Private in object transformation
+        // ES2022: Private in object transformation
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            self.analyze_private_in_object(class);
+            self.es2022_analyze_private_fields_for_in_operator(class);
             class.visit_mut_children_with(self);
-            self.inject_constructor_exprs(class);
+            self.es2022_inject_weakset_init_for_private_fields(class);
         } else if !self.config.includes.contains(Features::STATIC_BLOCKS) {
             class.visit_mut_children_with(self);
         }
@@ -504,7 +504,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                 return;
             }
 
-            self.transform_private_in_object_expr(e);
+            self.es2022_transform_private_in_to_weakset_has(e);
         } else {
             e.visit_mut_children_with(self);
         }
@@ -512,13 +512,13 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_module_items(&mut self, ns: &mut Vec<ModuleItem>) {
         ns.visit_mut_children_with(self);
-        self.prepend_vars_module(ns);
+        self.es2022_prepend_private_field_vars_module(ns);
     }
 
     fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             n.visit_mut_children_with(self);
-            self.transform_private_prop_brand_check(n);
+            self.es2022_add_weakset_to_private_props(n);
         } else {
             n.visit_mut_children_with(self);
         }
@@ -532,6 +532,6 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
         s.visit_mut_children_with(self);
-        self.prepend_vars(s);
+        self.es2022_prepend_private_field_vars(s);
     }
 }
