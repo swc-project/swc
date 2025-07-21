@@ -1,4 +1,5 @@
 use swc_ecma_ast::Pass;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 pub use crate::features::Features;
 
@@ -6,7 +7,6 @@ mod features;
 
 #[derive(Debug)]
 pub struct Compiler {
-    #[allow(unused)]
     config: Config,
 }
 
@@ -25,5 +25,22 @@ pub struct Config {
 }
 
 impl Pass for Compiler {
-    fn process(&mut self, _program: &mut swc_ecma_ast::Program) {}
+    fn process(&mut self, program: &mut swc_ecma_ast::Program) {
+        program.visit_mut_with(&mut CompilerImpl::new(&self.config));
+    }
+}
+
+struct CompilerImpl<'a> {
+    #[allow(unused)]
+    config: &'a Config,
+}
+
+impl<'a> CompilerImpl<'a> {
+    fn new(config: &'a Config) -> Self {
+        Self { config }
+    }
+}
+
+impl<'a> VisitMut for CompilerImpl<'a> {
+    noop_visit_mut_type!(fail);
 }
