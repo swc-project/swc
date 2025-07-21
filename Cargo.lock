@@ -4388,7 +4388,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc"
-version = "32.0.0"
+version = "32.0.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4487,7 +4487,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "26.0.0"
+version = "26.0.1"
 dependencies = [
  "anyhow",
  "crc",
@@ -4584,7 +4584,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "29.0.0"
+version = "29.0.1"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -4639,7 +4639,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "33.0.6"
+version = "33.0.7"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5212,7 +5212,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "27.0.3"
+version = "27.0.4"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5313,7 +5313,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "21.0.0"
+version = "21.0.1"
 dependencies = [
  "anyhow",
  "proc-macro2",
@@ -5413,7 +5413,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "22.0.0"
+version = "22.0.1"
 dependencies = [
  "better_scoped_tls",
  "codspeed-criterion-compat",
@@ -5491,7 +5491,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "24.0.0"
+version = "24.0.1"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -5522,7 +5522,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "23.0.0"
+version = "23.0.1"
 dependencies = [
  "bytes-str",
  "dashmap 5.5.3",
@@ -5570,7 +5570,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "24.0.0"
+version = "24.0.1"
 dependencies = [
  "base64 0.22.1",
  "bytes-str",
@@ -5739,7 +5739,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "22.0.0"
+version = "22.0.1"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -5822,7 +5822,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "27.0.0"
+version = "27.0.1"
 dependencies = [
  "codspeed-criterion-compat",
  "once_cell",
@@ -5909,7 +5909,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "33.0.0"
+version = "33.0.1"
 dependencies = [
  "anyhow",
  "rustc-hash 2.1.1",
@@ -6066,7 +6066,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ts_fast_strip"
-version = "27.0.1"
+version = "27.0.2"
 dependencies = [
  "anyhow",
  "bytes-str",

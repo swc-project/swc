@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecma_quote_macros"
 repository    = { workspace = true }
-version       = "21.0.0"
+version       = "21.0.1"
 
 [lib]
 bench      = false
