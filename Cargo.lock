@@ -5120,6 +5120,7 @@ name = "swc_ecma_compiler"
 version = "0.1.0"
 dependencies = [
  "swc_ecma_ast",
+ "swc_ecma_visit",
 ]
 
 [[package]]
