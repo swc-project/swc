@@ -2,9 +2,9 @@ use std::collections::HashMap;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::{atom, Atom};
-use swc_common::SyntaxContext;
+use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::hygiene::rename;
+use swc_ecma_transforms_base::rename::remap;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -68,8 +68,9 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
                     id_value
                 };
                 let id = (self.fn_expr_name.clone(), id_ctxt);
-                rename_map.insert(id, new_id);
-                n.function.visit_mut_children_with(&mut rename(&rename_map));
+                rename_map.insert(id, (new_id, SyntaxContext::empty().apply_mark(Mark::new())));
+                n.function
+                    .visit_mut_children_with(&mut remap(&rename_map, Default::default()));
             }
 
             self.fn_expr_name = old_fn_expr_name;

@@ -1,16 +1,17 @@
 use rustc_hash::FxHashMap;
 use swc_common::{
     util::{move_map::MoveMap, take::Take},
-    Spanned, SyntaxContext, DUMMY_SP,
+    Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ident::IdentLike, stack_size::maybe_grow_default};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use super::RenameMap;
+use super::RenameAtomMap;
 use crate::{
     hygiene::Config,
     perf::{cpu_count, ParExplode, Parallel, ParallelExt},
+    rename::RenameIdMap,
 };
 
 pub(super) struct Operator<'a, I>
@@ -33,13 +34,13 @@ where
         }
 
         let mut orig_name = ident.clone();
-        orig_name.ctxt = SyntaxContext::empty();
+        orig_name.ctxt = SyntaxContext::empty().apply_mark(Mark::new());
 
         {
             // Remove span hygiene of the class.
-            let mut rename = RenameMap::default();
+            let mut rename = RenameIdMap::default();
 
-            rename.insert(ident.to_id(), orig_name.sym.clone());
+            rename.insert(ident.to_id(), orig_name.to_id());
 
             let mut operator = Operator {
                 rename: &rename,

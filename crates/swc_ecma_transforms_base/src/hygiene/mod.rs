@@ -20,6 +20,11 @@ pub struct Config {
 
     /// Mangle even if vars are visible to `eval` or `with`.
     pub ignore_eval: bool,
+
+    /// Create correct (unique) syntax contexts. Use this if you need the syntax
+    /// contexts produces by this pass (unlike the default `hygiene` pass which
+    /// removes them anyway.)
+    pub correct_contexts: bool,
 }
 
 /// See [hygiene_with_config] for doc. Creates a `hygiene` pass with default

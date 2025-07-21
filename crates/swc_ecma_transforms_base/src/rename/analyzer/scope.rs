@@ -16,7 +16,7 @@ use swc_ecma_ast::*;
 use tracing::debug;
 
 use super::reverse_map::ReverseMap;
-use crate::rename::{RenameMap, Renamer};
+use crate::rename::{RenameAtomMap, RenameIdMap, Renamer};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum ScopeKind {
@@ -100,8 +100,8 @@ impl Scope {
     pub(crate) fn rename_in_normal_mode<R>(
         &mut self,
         renamer: &R,
-        to: &mut RenameMap,
-        previous: &RenameMap,
+        to: &mut RenameIdMap,
+        previous: &RenameIdMap,
         reverse: &mut ReverseMap,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<Atom>,
@@ -137,8 +137,8 @@ impl Scope {
     fn rename_one_scope_in_normal_mode<R>(
         &self,
         renamer: &R,
-        to: &mut RenameMap,
-        previous: &RenameMap,
+        to: &mut RenameIdMap,
+        previous: &RenameIdMap,
         reverse: &mut ReverseMap,
         queue: FxIndexSet<Id>,
         preserved: &FxHashSet<Id>,
@@ -171,14 +171,14 @@ impl Scope {
                 }
 
                 if self.can_rename(&id, &sym, reverse) {
+                    let ctxt = SyntaxContext::empty().apply_mark(Mark::new());
                     if cfg!(debug_assertions) {
-                        debug!("Renaming `{}{:?}` to `{}`", id.0, id.1, sym);
+                        debug!("Renaming `{}{:?}` to `{}{:?}`", id.0, id.1, sym, ctxt);
                     }
                     latest_n.insert(id.0.clone(), n);
 
                     reverse.push_entry(sym.clone(), id.clone());
-                    to.insert(id, sym);
-
+                    to.insert(id.clone(), (sym, ctxt));
                     break;
                 }
             }
@@ -209,8 +209,8 @@ impl Scope {
     pub(crate) fn rename_in_mangle_mode<R>(
         &mut self,
         renamer: &R,
-        to: &mut RenameMap,
-        previous: &RenameMap,
+        to: &mut RenameIdMap,
+        previous: &RenameIdMap,
         reverse: &ReverseMap,
         preserved: &FxHashSet<Id>,
         preserved_symbols: &FxHashSet<Atom>,
@@ -279,8 +279,8 @@ impl Scope {
     fn rename_one_scope_in_mangle_mode<R>(
         &self,
         renamer: &R,
-        to: &mut RenameMap,
-        previous: &RenameMap,
+        to: &mut RenameIdMap,
+        previous: &RenameIdMap,
         reverse: &mut ReverseMap,
         queue: FxIndexSet<Id>,
         preserved: &FxHashSet<Id>,
@@ -315,7 +315,10 @@ impl Scope {
                     }
 
                     reverse.push_entry(sym.clone(), id.clone());
-                    to.insert(id.clone(), sym);
+                    to.insert(
+                        id.clone(),
+                        (sym, SyntaxContext::empty().apply_mark(Mark::new())),
+                    );
                     // self.data.decls.remove(&id);
                     // self.data.usages.remove(&id);
 

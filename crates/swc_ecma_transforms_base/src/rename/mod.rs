@@ -31,11 +31,11 @@ pub trait Renamer: Send + Sync {
     /// It should be true if you expect lots of collisions
     const MANGLE: bool;
 
-    fn get_cached(&self) -> Option<Cow<RenameMap>> {
+    fn get_cached(&self) -> Option<Cow<RenameIdMap>> {
         None
     }
 
-    fn store_cache(&mut self, _update: &RenameMap) {}
+    fn store_cache(&mut self, _update: &RenameIdMap) {}
 
     /// Should increment `n`.
     fn new_name_for(&self, orig: &Id, n: &mut usize) -> Atom;
@@ -51,13 +51,14 @@ pub trait Renamer: Send + Sync {
     }
 }
 
-pub type RenameMap = FxHashMap<Id, Atom>;
+pub type RenameAtomMap = FxHashMap<Id, Atom>;
+pub type RenameIdMap = FxHashMap<Id, Id>;
 
-pub fn rename(map: &RenameMap) -> impl '_ + Pass + VisitMut {
+pub fn rename(map: &RenameAtomMap) -> impl '_ + Pass + VisitMut {
     rename_with_config(map, Default::default())
 }
 
-pub fn rename_with_config(map: &RenameMap, config: Config) -> impl '_ + Pass + VisitMut {
+pub fn rename_with_config(map: &RenameAtomMap, config: Config) -> impl '_ + Pass + VisitMut {
     visit_mut_pass(Operator {
         rename: map,
         config,
@@ -65,7 +66,7 @@ pub fn rename_with_config(map: &RenameMap, config: Config) -> impl '_ + Pass + V
     })
 }
 
-pub fn remap(map: &FxHashMap<Id, Id>, config: Config) -> impl '_ + Pass + VisitMut {
+pub fn remap(map: &RenameIdMap, config: Config) -> impl '_ + Pass + VisitMut {
     visit_mut_pass(Operator {
         rename: map,
         config,
@@ -98,19 +99,25 @@ where
     preserved: FxHashSet<Id>,
     unresolved: FxHashSet<Atom>,
 
-    previous_cache: RenameMap,
+    previous_cache: RenameIdMap,
 
     /// Used to store cache.
     ///
     /// [Some] if the [`Renamer::get_cached`] returns [Some].
-    total_map: Option<RenameMap>,
+    total_map: Option<RenameIdMap>,
 }
 
 impl<R> RenamePass<R>
 where
     R: Renamer,
 {
-    fn get_map<N>(&mut self, node: &N, skip_one: bool, top_level: bool, has_eval: bool) -> RenameMap
+    fn get_map<N>(
+        &mut self,
+        node: &N,
+        skip_one: bool,
+        top_level: bool,
+        has_eval: bool,
+    ) -> RenameIdMap
     where
         N: VisitWith<AnalyzerAndCollector>,
     {
@@ -146,7 +153,7 @@ where
             }
         }
 
-        let mut map = RenameMap::default();
+        let mut map = RenameIdMap::default();
 
         if R::MANGLE {
             let cost = scope.rename_cost();
@@ -179,8 +186,8 @@ where
                         unreachable!(
                             "{} is already renamed to {}, but it's renamed as {}",
                             k.0,
-                            old.get(),
-                            v
+                            old.get().0,
+                            v.0
                         );
                     }
                     Entry::Vacant(e) => {
@@ -214,7 +221,7 @@ macro_rules! unit {
                 let map = self.get_map(n, false, false, false);
 
                 if !map.is_empty() {
-                    n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+                    n.visit_mut_with(&mut remap(&map, self.config.clone()));
                 }
             }
         }
@@ -256,7 +263,7 @@ where
             }
 
             if !map.is_empty() {
-                n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+                n.visit_mut_with(&mut remap(&map, self.config.clone()));
             }
         }
     }
@@ -274,7 +281,7 @@ where
             }
 
             if !map.is_empty() {
-                n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+                n.visit_mut_with(&mut remap(&map, self.config.clone()));
             }
         }
     }
@@ -330,7 +337,7 @@ where
         }
 
         if !map.is_empty() {
-            m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+            m.visit_mut_with(&mut remap(&map, self.config.clone()));
         }
 
         if let Some(total_map) = &self.total_map {
@@ -350,7 +357,7 @@ where
         }
 
         if !map.is_empty() {
-            m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+            m.visit_mut_with(&mut remap(&map, self.config.clone()));
         }
 
         if let Some(total_map) = &self.total_map {
