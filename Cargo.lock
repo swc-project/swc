@@ -5117,6 +5117,11 @@ dependencies = [
 [[package]]
 name = "swc_ecma_compiler"
 version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+]
 
 [[package]]
 name = "swc_ecma_ext_transforms"
