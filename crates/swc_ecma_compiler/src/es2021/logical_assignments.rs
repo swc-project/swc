@@ -2,10 +2,9 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::alias_ident_for;
 
-use super::CompilerImpl;
+use crate::CompilerImpl;
 
 impl<'a> CompilerImpl<'a> {
-
     /// Memorize computed property name for logical assignments
     pub(super) fn memorize_prop_for_logical_assignment(
         &mut self,
@@ -37,8 +36,9 @@ impl<'a> CompilerImpl<'a> {
         )
     }
 
-    /// Transform logical assignment operators (&&=, ||=, ??=) to binary expressions
-    pub(super) fn transform_logical_assignment(&mut self, e: &mut Expr) -> bool {
+    /// Transform logical assignment operators (&&=, ||=, ??=) to binary
+    /// expressions
+    pub(crate) fn transform_logical_assignment(&mut self, e: &mut Expr) -> bool {
         if let Expr::Assign(AssignExpr {
             span,
             op: op @ (op!("&&=") | op!("||=") | op!("??=")),
@@ -150,7 +150,7 @@ impl<'a> CompilerImpl<'a> {
                 right,
             }
             .into();
-            
+
             return true;
         }
         false

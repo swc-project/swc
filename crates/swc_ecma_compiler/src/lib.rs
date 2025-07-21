@@ -17,9 +17,9 @@ use crate::es2022::{
 };
 pub use crate::features::Features;
 
-pub mod es2022;
+mod es2021;
+mod es2022;
 mod features;
-mod logical_assignments;
 
 #[derive(Debug)]
 pub struct Compiler {
@@ -54,7 +54,7 @@ struct CompilerImpl<'a> {
     es2022_private_field_init_exprs: Vec<Box<Expr>>,
     es2022_injected_weakset_vars: FxHashSet<Id>,
     es2022_current_class_data: ClassData,
-    
+
     // Logical assignments transformation state
     logical_assignment_vars: Vec<VarDeclarator>,
 }
@@ -522,7 +522,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                 return;
             }
         }
-        
+
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             let prev_prepend_exprs = take(&mut self.es2022_private_field_init_exprs);
 
@@ -560,7 +560,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) {
             let vars = self.logical_assignment_vars.take();
             ns.visit_mut_children_with(self);
-            
+
             let vars = std::mem::replace(&mut self.logical_assignment_vars, vars);
             if !vars.is_empty() {
                 prepend_stmt(
@@ -599,7 +599,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) {
             let vars = self.logical_assignment_vars.take();
             s.visit_mut_children_with(self);
-            
+
             let vars = std::mem::replace(&mut self.logical_assignment_vars, vars);
             if !vars.is_empty() {
                 prepend_stmt(
