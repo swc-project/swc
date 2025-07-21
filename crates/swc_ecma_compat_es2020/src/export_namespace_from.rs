@@ -1,11 +1,15 @@
 use swc_atoms::Atom;
 use swc_ecma_ast::*;
+use swc_ecma_compiler::{Compiler, Features};
 use swc_ecma_utils::private_ident;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut};
 use swc_trace_macro::swc_trace;
 
 pub fn export_namespace_from() -> impl Pass {
-    visit_mut_pass(ExportNamespaceFrom)
+    Compiler::new(swc_ecma_compiler::Config {
+        includes: Features::EXPORT_NAMESPACE_FROM,
+        ..Default::default()
+    })
 }
 
 struct ExportNamespaceFrom;

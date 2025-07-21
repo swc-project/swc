@@ -3,13 +3,19 @@ use std::mem::take;
 use serde::Deserialize;
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_compiler::{Compiler, Features};
+use swc_ecma_transforms_base::assumptions::Assumptions;
 use swc_ecma_utils::{alias_ident_for_simple_assign_tatget, alias_if_required, StmtLike};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn nullish_coalescing(c: Config) -> impl Pass + 'static {
-    visit_mut_pass(NullishCoalescing {
-        c,
+    let mut assumptions = Assumptions::default();
+    assumptions.no_document_all = c.no_document_all;
+
+    Compiler::new(swc_ecma_compiler::Config {
+        includes: Features::NULLISH_COALESCING,
+        assumptions,
         ..Default::default()
     })
 }
