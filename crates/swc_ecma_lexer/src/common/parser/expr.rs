@@ -2301,8 +2301,6 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
 
     if cur.is_class() {
         return parse_class_expr(p, start, decorators.unwrap_or_default());
-    } else if cur.is_eof() {
-        return Err(eof_error(p));
     }
 
     let try_parse_arrow_expr = |p: &mut P, id: Ident, id_is_async| -> PResult<Box<Expr>> {
