@@ -5127,6 +5127,7 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_trace_macro",
+ "tracing",
 ]
 
 [[package]]
