@@ -5,6 +5,6 @@ use swc_ecma_compiler::{Compiler, Features};
 pub fn private_in_object() -> impl Pass {
     Compiler::new(swc_ecma_compiler::Config {
         includes: Features::PRIVATE_IN_OBJECT,
-        excludes: Features::empty(),
+        ..Default::default()
     })
 }
