@@ -7,6 +7,7 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{pass::CompilerPass, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_compiler::{Compiler, Features};
 use swc_ecma_utils::{
     default_constructor_with_span, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
@@ -16,7 +17,10 @@ use swc_ecma_visit::{
 
 /// https://github.com/tc39/proposal-private-fields-in-in
 pub fn private_in_object() -> impl Pass {
-    visit_mut_pass(PrivateInObject::default())
+    Compiler::new(swc_ecma_compiler::Config {
+        includes: Features::PRIVATE_IN_OBJECT,
+        excludes: Features::empty(),
+    })
 }
 
 #[derive(Debug)]

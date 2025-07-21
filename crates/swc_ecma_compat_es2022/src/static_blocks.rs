@@ -2,6 +2,7 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{source_map::PLACEHOLDER_SP, util::take::Take};
 use swc_ecma_ast::*;
+use swc_ecma_compiler::{Compiler, Features};
 use swc_ecma_utils::ExprFactory;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -9,7 +10,10 @@ use swc_trace_macro::swc_trace;
 struct ClassStaticBlock;
 
 pub fn static_blocks() -> impl Pass {
-    visit_mut_pass(ClassStaticBlock)
+    Compiler::new(swc_ecma_compiler::Config {
+        includes: Features::STATIC_BLOCKS,
+        excludes: Features::empty(),
+    })
 }
 
 #[swc_trace]
