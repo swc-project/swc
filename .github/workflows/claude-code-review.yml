@@ -10,6 +10,9 @@ on:
     #   - "src/**/*.js"
     #   - "src/**/*.jsx"
 
+env:
+  CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+
 jobs:
   claude-review:
     # Optional: Filter by PR author
@@ -18,7 +21,7 @@ jobs:
     #   github.event.pull_request.user.login == 'new-developer' ||
     #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
 
-    if: ${{ secrets && secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+    if: ${{ env.CLAUDE_CODE_OAUTH_TOKEN }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
