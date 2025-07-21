@@ -171,9 +171,9 @@ pub trait Parser<'a>: Sized + Clone {
         let error = crate::error::Error::new(span, error);
         if self.ctx().contains(Context::Strict) {
             self.input().iter().add_error(error);
-            return;
+        } else {
+            self.input().iter().add_module_mode_error(error);
         }
-        self.input().iter().add_module_mode_error(error);
     }
 
     fn verify_expr(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
