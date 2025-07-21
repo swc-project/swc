@@ -63,6 +63,296 @@ impl<'a> CompilerImpl<'a> {
             cls: ClassData::default(),
         }
     }
+
+    /// Transform static blocks in a class
+    fn transform_static_blocks(&mut self, class: &mut Class) {
+        if !self.config.includes.contains(Features::STATIC_BLOCKS) {
+            return;
+        }
+
+        class.visit_mut_children_with(self);
+
+        let mut private_names = FxHashSet::default();
+        for member in &class.body {
+            if let ClassMember::PrivateProp(private_property) = member {
+                private_names.insert(private_property.key.name.clone());
+            }
+        }
+
+        let mut count = 0;
+        for member in class.body.iter_mut() {
+            if let ClassMember::StaticBlock(static_block) = member {
+                if static_block.body.stmts.is_empty() {
+                    *member = ClassMember::dummy();
+                    continue;
+                }
+
+                let static_block_private_id = generate_uid(&private_names, &mut count);
+                *member = self
+                    .transform_static_block(static_block.take(), static_block_private_id)
+                    .into();
+            };
+        }
+    }
+
+    /// Analyze class for private field usage
+    fn analyze_private_in_object(&mut self, class: &Class) {
+        class.visit_children_with(&mut ClassAnalyzer {
+            brand_check_names: &mut self.cls.names_used_for_brand_checks,
+            ignore_class: true,
+        });
+
+        for m in &class.body {
+            match m {
+                ClassMember::PrivateMethod(m) => {
+                    self.cls.privates.insert(m.key.name.clone());
+                    self.cls.methods.push(m.key.name.clone());
+
+                    if m.is_static {
+                        self.cls.statics.push(m.key.name.clone());
+                    }
+                }
+
+                ClassMember::PrivateProp(m) => {
+                    self.cls.privates.insert(m.key.name.clone());
+
+                    if m.is_static {
+                        self.cls.statics.push(m.key.name.clone());
+                    }
+                }
+
+                _ => {}
+            }
+        }
+    }
+
+    /// Inject constructor expressions for private fields
+    fn inject_constructor_exprs(&mut self, class: &mut Class) {
+        if self.cls.constructor_exprs.is_empty() {
+            return;
+        }
+
+        let has_constructor = class
+            .body
+            .iter()
+            .any(|m| matches!(m, ClassMember::Constructor(_)));
+
+        if !has_constructor {
+            let has_super = class.super_class.is_some();
+            class
+                .body
+                .push(ClassMember::Constructor(default_constructor_with_span(
+                    has_super, class.span,
+                )));
+        }
+
+        for m in &mut class.body {
+            if let ClassMember::Constructor(Constructor {
+                body: Some(body), ..
+            }) = m
+            {
+                for expr in take(&mut self.cls.constructor_exprs) {
+                    body.stmts.push(
+                        ExprStmt {
+                            span: DUMMY_SP,
+                            expr,
+                        }
+                        .into(),
+                    );
+                }
+            }
+        }
+    }
+
+    /// Transform private field in object expressions
+    fn transform_private_in_object_expr(&mut self, e: &mut Expr) -> bool {
+        if let Expr::Bin(BinExpr {
+            span,
+            op: op!("in"),
+            left,
+            right,
+        }) = e
+        {
+            if left.is_private_name() {
+                let left = left.take().expect_private_name();
+
+                let is_static = self.cls.statics.contains(&left.name);
+                let is_method = self.cls.methods.contains(&left.name);
+
+                if let Some(cls_ident) = self.cls.ident.clone() {
+                    if is_static && is_method {
+                        *e = BinExpr {
+                            span: *span,
+                            op: op!("==="),
+                            left: cls_ident.into(),
+                            right: right.take(),
+                        }
+                        .into();
+                        return true;
+                    }
+                }
+
+                let var_name = self.var_name_for_brand_check(&left, &self.cls);
+
+                if self.cls.privates.contains(&left.name)
+                    && self.injected_vars.insert(var_name.to_id())
+                {
+                    self.cls.vars.push_var(
+                        var_name.clone(),
+                        Some(
+                            NewExpr {
+                                span: DUMMY_SP,
+                                callee: Box::new(quote_ident!("WeakSet").into()),
+                                args: Some(Default::default()),
+                                ..Default::default()
+                            }
+                            .into(),
+                        ),
+                    );
+
+                    if is_method {
+                        self.cls.constructor_exprs.push(
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: var_name
+                                    .clone()
+                                    .make_member(IdentName::new("add".into(), DUMMY_SP))
+                                    .as_callee(),
+                                args: vec![ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                                }],
+                                ..Default::default()
+                            }
+                            .into(),
+                        );
+                    }
+                }
+
+                *e = CallExpr {
+                    span: *span,
+                    callee: var_name
+                        .make_member(IdentName::new("has".into(), DUMMY_SP))
+                        .as_callee(),
+                    args: vec![ExprOrSpread {
+                        spread: None,
+                        expr: right.take(),
+                    }],
+                    ..Default::default()
+                }
+                .into();
+                return true;
+            }
+        }
+        false
+    }
+
+    /// Prepend variable declarations
+    fn prepend_vars(&mut self, stmts: &mut Vec<Stmt>) {
+        if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT) || self.vars.is_empty() {
+            return;
+        }
+
+        prepend_stmt(
+            stmts,
+            VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: Default::default(),
+                decls: take(&mut self.vars),
+                ..Default::default()
+            }
+            .into(),
+        );
+    }
+
+    /// Prepend variable declarations to module items
+    fn prepend_vars_module(&mut self, items: &mut Vec<ModuleItem>) {
+        if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT) || self.vars.is_empty() {
+            return;
+        }
+
+        prepend_stmt(
+            items,
+            VarDecl {
+                span: DUMMY_SP,
+                kind: VarDeclKind::Var,
+                declare: Default::default(),
+                decls: take(&mut self.vars),
+                ..Default::default()
+            }
+            .into(),
+        );
+    }
+
+    /// Transform private property for brand checking
+    fn transform_private_prop_brand_check(&mut self, n: &mut PrivateProp) {
+        if !self.cls.names_used_for_brand_checks.contains(&n.key.name) {
+            return;
+        }
+
+        let var_name = self.var_name_for_brand_check(&n.key, &self.cls);
+
+        match &mut n.value {
+            Some(init) => {
+                let init_span = init.span();
+
+                let tmp = private_ident!("_tmp");
+
+                self.cls.vars.push_var(tmp.clone(), None);
+
+                let assign = AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: tmp.clone().into(),
+                    right: init.take(),
+                }
+                .into();
+
+                let add_to_checker = CallExpr {
+                    span: DUMMY_SP,
+                    callee: var_name
+                        .make_member(IdentName::new("add".into(), DUMMY_SP))
+                        .as_callee(),
+                    args: vec![ExprOrSpread {
+                        spread: None,
+                        expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                    }],
+                    ..Default::default()
+                }
+                .into();
+
+                *init = SeqExpr {
+                    span: init_span,
+                    exprs: vec![assign, add_to_checker, Box::new(tmp.into())],
+                }
+                .into();
+            }
+            None => {
+                n.value = Some(
+                    UnaryExpr {
+                        span: DUMMY_SP,
+                        op: op!("void"),
+                        arg: Box::new(
+                            CallExpr {
+                                span: DUMMY_SP,
+                                callee: var_name
+                                    .make_member(IdentName::new("add".into(), DUMMY_SP))
+                                    .as_callee(),
+                                args: vec![ExprOrSpread {
+                                    spread: None,
+                                    expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                                }],
+                                ..Default::default()
+                            }
+                            .into(),
+                        ),
+                    }
+                    .into(),
+                )
+            }
+        }
+    }
 }
 
 impl<'a> VisitMut for CompilerImpl<'a> {
@@ -70,100 +360,14 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_class(&mut self, class: &mut Class) {
         // Static blocks transformation
-        if self.config.includes.contains(Features::STATIC_BLOCKS) {
-            class.visit_mut_children_with(self);
-
-            let mut private_names = FxHashSet::default();
-            for member in &class.body {
-                if let ClassMember::PrivateProp(private_property) = member {
-                    private_names.insert(private_property.key.name.clone());
-                }
-            }
-
-            let mut count = 0;
-            for member in class.body.iter_mut() {
-                if let ClassMember::StaticBlock(static_block) = member {
-                    if static_block.body.stmts.is_empty() {
-                        *member = ClassMember::dummy();
-                        continue;
-                    }
-
-                    let static_block_private_id = generate_uid(&private_names, &mut count);
-                    *member = self
-                        .transform_static_block(static_block.take(), static_block_private_id)
-                        .into();
-                };
-            }
-        }
+        self.transform_static_blocks(class);
 
         // Private in object transformation
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            {
-                class.visit_children_with(&mut ClassAnalyzer {
-                    brand_check_names: &mut self.cls.names_used_for_brand_checks,
-                    ignore_class: true,
-                })
-            }
-
-            for m in &class.body {
-                match m {
-                    ClassMember::PrivateMethod(m) => {
-                        self.cls.privates.insert(m.key.name.clone());
-
-                        self.cls.methods.push(m.key.name.clone());
-
-                        if m.is_static {
-                            self.cls.statics.push(m.key.name.clone());
-                        }
-                    }
-
-                    ClassMember::PrivateProp(m) => {
-                        self.cls.privates.insert(m.key.name.clone());
-
-                        if m.is_static {
-                            self.cls.statics.push(m.key.name.clone());
-                        }
-                    }
-
-                    _ => {}
-                }
-            }
-
+            self.analyze_private_in_object(class);
             class.visit_mut_children_with(self);
-
-            if !self.cls.constructor_exprs.is_empty() {
-                let has_constructor = class
-                    .body
-                    .iter()
-                    .any(|m| matches!(m, ClassMember::Constructor(_)));
-
-                if !has_constructor {
-                    let has_super = class.super_class.is_some();
-                    class
-                        .body
-                        .push(ClassMember::Constructor(default_constructor_with_span(
-                            has_super, class.span,
-                        )));
-                }
-
-                for m in &mut class.body {
-                    if let ClassMember::Constructor(Constructor {
-                        body: Some(body), ..
-                    }) = m
-                    {
-                        for expr in take(&mut self.cls.constructor_exprs) {
-                            body.stmts.push(
-                                ExprStmt {
-                                    span: DUMMY_SP,
-                                    expr,
-                                }
-                                .into(),
-                            );
-                        }
-                    }
-                }
-            }
-        } else {
+            self.inject_constructor_exprs(class);
+        } else if !self.config.includes.contains(Features::STATIC_BLOCKS) {
             class.visit_mut_children_with(self);
         }
     }
@@ -300,84 +504,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                 return;
             }
 
-            match e {
-                Expr::Bin(BinExpr {
-                    span,
-                    op: op!("in"),
-                    left,
-                    right,
-                }) if left.is_private_name() => {
-                    let left = left.take().expect_private_name();
-
-                    let is_static = self.cls.statics.contains(&left.name);
-                    let is_method = self.cls.methods.contains(&left.name);
-
-                    if let Some(cls_ident) = self.cls.ident.clone() {
-                        if is_static && is_method {
-                            *e = BinExpr {
-                                span: *span,
-                                op: op!("==="),
-                                left: cls_ident.into(),
-                                right: right.take(),
-                            }
-                            .into();
-                            return;
-                        }
-                    }
-
-                    let var_name = self.var_name_for_brand_check(&left, &self.cls);
-
-                    if self.cls.privates.contains(&left.name)
-                        && self.injected_vars.insert(var_name.to_id())
-                    {
-                        self.cls.vars.push_var(
-                            var_name.clone(),
-                            Some(
-                                NewExpr {
-                                    span: DUMMY_SP,
-                                    callee: Box::new(quote_ident!("WeakSet").into()),
-                                    args: Some(Default::default()),
-                                    ..Default::default()
-                                }
-                                .into(),
-                            ),
-                        );
-
-                        if is_method {
-                            self.cls.constructor_exprs.push(
-                                CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: var_name
-                                        .clone()
-                                        .make_member(IdentName::new("add".into(), DUMMY_SP))
-                                        .as_callee(),
-                                    args: vec![ExprOrSpread {
-                                        spread: None,
-                                        expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                                    }],
-                                    ..Default::default()
-                                }
-                                .into(),
-                            );
-                        }
-                    }
-
-                    *e = CallExpr {
-                        span: *span,
-                        callee: var_name
-                            .make_member(IdentName::new("has".into(), DUMMY_SP))
-                            .as_callee(),
-                        args: vec![ExprOrSpread {
-                            spread: None,
-                            expr: right.take(),
-                        }],
-                        ..Default::default()
-                    }
-                    .into();
-                }
-
-                _ => {}
-            }
+            self.transform_private_in_object_expr(e);
         } else {
             e.visit_mut_children_with(self);
         }
@@ -385,89 +512,13 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_module_items(&mut self, ns: &mut Vec<ModuleItem>) {
         ns.visit_mut_children_with(self);
-
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) && !self.vars.is_empty() {
-            prepend_stmt(
-                ns,
-                VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: take(&mut self.vars),
-                    ..Default::default()
-                }
-                .into(),
-            );
-        }
+        self.prepend_vars_module(ns);
     }
 
     fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             n.visit_mut_children_with(self);
-
-            if self.cls.names_used_for_brand_checks.contains(&n.key.name) {
-                let var_name = self.var_name_for_brand_check(&n.key, &self.cls);
-
-                match &mut n.value {
-                    Some(init) => {
-                        let init_span = init.span();
-
-                        let tmp = private_ident!("_tmp");
-
-                        self.cls.vars.push_var(tmp.clone(), None);
-
-                        let assign = AssignExpr {
-                            span: DUMMY_SP,
-                            op: op!("="),
-                            left: tmp.clone().into(),
-                            right: init.take(),
-                        }
-                        .into();
-
-                        let add_to_checker = CallExpr {
-                            span: DUMMY_SP,
-                            callee: var_name
-                                .make_member(IdentName::new("add".into(), DUMMY_SP))
-                                .as_callee(),
-                            args: vec![ExprOrSpread {
-                                spread: None,
-                                expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                            }],
-                            ..Default::default()
-                        }
-                        .into();
-
-                        *init = SeqExpr {
-                            span: init_span,
-                            exprs: vec![assign, add_to_checker, Box::new(tmp.into())],
-                        }
-                        .into();
-                    }
-                    None => {
-                        n.value = Some(
-                            UnaryExpr {
-                                span: DUMMY_SP,
-                                op: op!("void"),
-                                arg: Box::new(
-                                    CallExpr {
-                                        span: DUMMY_SP,
-                                        callee: var_name
-                                            .make_member(IdentName::new("add".into(), DUMMY_SP))
-                                            .as_callee(),
-                                        args: vec![ExprOrSpread {
-                                            spread: None,
-                                            expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                                        }],
-                                        ..Default::default()
-                                    }
-                                    .into(),
-                                ),
-                            }
-                            .into(),
-                        )
-                    }
-                }
-            }
+            self.transform_private_prop_brand_check(n);
         } else {
             n.visit_mut_children_with(self);
         }
@@ -481,19 +532,6 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
         s.visit_mut_children_with(self);
-
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) && !self.vars.is_empty() {
-            prepend_stmt(
-                s,
-                VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    declare: Default::default(),
-                    decls: take(&mut self.vars),
-                    ..Default::default()
-                }
-                .into(),
-            );
-        }
+        self.prepend_vars(s);
     }
 }
