@@ -10,9 +10,6 @@ on:
     #   - "src/**/*.js"
     #   - "src/**/*.jsx"
 
-env:
-  CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
-
 jobs:
   claude-review:
     # Optional: Filter by PR author
@@ -21,7 +18,6 @@ jobs:
     #   github.event.pull_request.user.login == 'new-developer' ||
     #   github.event.pull_request.author_association == 'FIRST_TIME_CONTRIBUTOR'
 
-    if: ${{ env.CLAUDE_CODE_OAUTH_TOKEN }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -37,7 +33,11 @@ jobs:
 
       - name: Run Claude Code Review
         id: claude-review
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+        if: ${{ env.CLAUDE_CODE_OAUTH_TOKEN }}
         uses: anthropics/claude-code-action@beta
+
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
 
