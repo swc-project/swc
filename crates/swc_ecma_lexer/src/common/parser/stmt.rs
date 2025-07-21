@@ -1260,8 +1260,6 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
     } else if cur.is_error() {
         let err = p.input_mut().expect_error_token_and_bump();
         return Err(err);
-    } else if cur.is_eof() {
-        return Err(eof_error(p));
     }
 
     // Handle async function foo() {}
