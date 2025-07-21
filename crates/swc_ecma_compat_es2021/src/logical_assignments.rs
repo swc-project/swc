@@ -2,13 +2,17 @@ use std::mem;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_compiler::{Compiler, Features};
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::{alias_ident_for, prepend_stmt};
-use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 pub fn logical_assignments() -> impl Pass {
-    visit_mut_pass(Operators::default())
+    Compiler::new(swc_ecma_compiler::Config {
+        includes: Features::LOGICAL_ASSIGNMENTS,
+        excludes: Features::empty(),
+    })
 }
 
 #[derive(Debug, Default)]
