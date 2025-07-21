@@ -156,18 +156,7 @@ impl<'a> Lexer<'a> {
         };
 
         let handler = unsafe { *(&BYTE_HANDLERS as *const ByteHandler).offset(byte as isize) };
-
-        match handler {
-            Some(handler) => handler(self),
-            None => {
-                let start = self.cur_pos();
-                self.input.bump_bytes(1);
-                self.error_span(
-                    pos_span(start),
-                    SyntaxError::UnexpectedChar { c: byte as _ },
-                )
-            }
-        }
+        handler(self)
     }
 
     fn read_token_plus_minus<const C: u8>(&mut self) -> LexResult<Token> {
