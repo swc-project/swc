@@ -10,9 +10,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     default_constructor_with_span, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{
-    noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
-};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith};
 
 use crate::CompilerImpl;
 

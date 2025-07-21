@@ -4,15 +4,19 @@ use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{default_constructor_with_span, prepend_stmt, private_ident, quote_ident, ExprFactory};
+use swc_ecma_utils::{
+    default_constructor_with_span, prepend_stmt, private_ident, quote_ident, ExprFactory,
+};
 use swc_ecma_visit::{noop_visit_mut_type, Visit, VisitMut, VisitMutWith, VisitWith};
 
+use crate::es2022::{
+    private_in_object::{ClassAnalyzer, ClassData, Mode},
+    static_blocks::generate_uid,
+};
 pub use crate::features::Features;
-use crate::es2022::private_in_object::{ClassAnalyzer, ClassData, Mode};
-use crate::es2022::static_blocks::generate_uid;
 
-mod features;
 pub mod es2022;
+mod features;
 
 #[derive(Debug)]
 pub struct Compiler {
@@ -41,7 +45,7 @@ impl Pass for Compiler {
 
 struct CompilerImpl<'a> {
     config: &'a Config,
-    
+
     // State for private_in_object
     vars: Vec<VarDeclarator>,
     prepend_exprs: Vec<Box<Expr>>,
@@ -135,7 +139,8 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
                 if !has_constructor {
                     let has_super = class.super_class.is_some();
-                    class.body
+                    class
+                        .body
                         .push(ClassMember::Constructor(default_constructor_with_span(
                             has_super, class.span,
                         )));
@@ -347,9 +352,9 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                                         .make_member(IdentName::new("add".into(), DUMMY_SP))
                                         .as_callee(),
                                     args: vec![ExprOrSpread {
-                                spread: None,
-                                expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                            }],
+                                        spread: None,
+                                        expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                                    }],
                                     ..Default::default()
                                 }
                                 .into(),
@@ -359,7 +364,9 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
                     *e = CallExpr {
                         span: *span,
-                        callee: var_name.make_member(IdentName::new("has".into(), DUMMY_SP)).as_callee(),
+                        callee: var_name
+                            .make_member(IdentName::new("has".into(), DUMMY_SP))
+                            .as_callee(),
                         args: vec![ExprOrSpread {
                             spread: None,
                             expr: right.take(),
@@ -419,7 +426,9 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
                         let add_to_checker = CallExpr {
                             span: DUMMY_SP,
-                            callee: var_name.make_member(IdentName::new("add".into(), DUMMY_SP)).as_callee(),
+                            callee: var_name
+                                .make_member(IdentName::new("add".into(), DUMMY_SP))
+                                .as_callee(),
                             args: vec![ExprOrSpread {
                                 spread: None,
                                 expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
@@ -442,11 +451,13 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                                 arg: Box::new(
                                     CallExpr {
                                         span: DUMMY_SP,
-                                        callee: var_name.make_member(IdentName::new("add".into(), DUMMY_SP)).as_callee(),
+                                        callee: var_name
+                                            .make_member(IdentName::new("add".into(), DUMMY_SP))
+                                            .as_callee(),
                                         args: vec![ExprOrSpread {
-                                spread: None,
-                                expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
-                            }],
+                                            spread: None,
+                                            expr: Box::new(ThisExpr { span: DUMMY_SP }.into()),
+                                        }],
                                         ..Default::default()
                                     }
                                     .into(),
