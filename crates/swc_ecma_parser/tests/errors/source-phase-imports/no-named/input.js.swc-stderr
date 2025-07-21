@@ -1,0 +1,5 @@
+  x Expected 'from', got '{'
+   ,-[$DIR/tests/errors/source-phase-imports/no-named/input.js:1:1]
+ 1 | import source { x } from "x";
+   :               ^
+   `----
