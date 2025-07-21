@@ -4639,7 +4639,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "33.0.5"
+version = "33.0.6"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5071,7 +5071,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2021"
-version = "22.0.0"
+version = "22.0.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_compiler",
@@ -5115,7 +5115,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compiler"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "bitflags 2.6.0",
  "rustc-hash 2.1.1",
