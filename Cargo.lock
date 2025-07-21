@@ -5118,7 +5118,9 @@ dependencies = [
 name = "swc_ecma_compiler"
 version = "0.1.0"
 dependencies = [
+ "bitflags 2.6.0",
  "swc_ecma_ast",
+ "swc_ecma_visit",
 ]
 
 [[package]]
