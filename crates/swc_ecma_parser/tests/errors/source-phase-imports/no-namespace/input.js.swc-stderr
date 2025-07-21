@@ -1,0 +1,5 @@
+  x Expected 'from', got '*'
+   ,-[$DIR/tests/errors/source-phase-imports/no-namespace/input.js:1:1]
+ 1 | import source * as x from "x";
+   :               ^
+   `----

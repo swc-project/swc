@@ -868,6 +868,10 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
                 if p.is_ident_ref() && !p.input_mut().is(&P::Token::FROM)
                     || peek!(p).is_some_and(|cur| cur.is_from())
                 {
+                    // For defer phase, only namespace imports are allowed, not default imports
+                    if new_phase == ImportPhase::Defer {
+                        expect!(p, &P::Token::FROM);
+                    }
                     phase = new_phase;
                     local = parse_imported_default_binding(p)?;
                 }
@@ -886,14 +890,16 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
 
     {
         let import_spec_start = p.cur_pos();
-        if p.input_mut().eat(&P::Token::MUL) {
+        // Nmesapce imports are not allowed in source phase.
+        if phase != ImportPhase::Source && p.input_mut().eat(&P::Token::MUL) {
             expect!(p, &P::Token::AS);
             let local = parse_imported_binding(p)?;
             specifiers.push(ImportSpecifier::Namespace(ImportStarAsSpecifier {
                 span: p.span(import_spec_start),
                 local,
             }));
-        } else if p.input_mut().eat(&P::Token::LBRACE) {
+            // Named imports are only allowed in evaluation phase.
+        } else if phase == ImportPhase::Evaluation && p.input_mut().eat(&P::Token::LBRACE) {
             while !eof!(p) && !p.input_mut().is(&P::Token::RBRACE) {
                 specifiers.push(parse_import_specifier(p, type_only)?);
 
