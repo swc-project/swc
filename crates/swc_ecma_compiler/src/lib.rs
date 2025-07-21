@@ -9,6 +9,7 @@ use swc_ecma_utils::{
     default_constructor_with_span, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
+use swc_trace_macro::swc_trace;
 
 use crate::es2022::{
     private_in_object::{ClassAnalyzer, ClassData, Mode},
@@ -54,6 +55,7 @@ struct CompilerImpl<'a> {
     es2022_current_class_data: ClassData,
 }
 
+#[swc_trace]
 impl<'a> CompilerImpl<'a> {
     fn new(config: &'a Config) -> Self {
         Self {
@@ -377,6 +379,7 @@ impl<'a> CompilerImpl<'a> {
     }
 }
 
+#[swc_trace]
 impl<'a> VisitMut for CompilerImpl<'a> {
     noop_visit_mut_type!(fail);
 
