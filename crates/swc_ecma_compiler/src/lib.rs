@@ -3,13 +3,12 @@
 use std::mem::take;
 
 use rustc_hash::FxHashSet;
-use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     default_constructor_with_span, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
-use swc_ecma_visit::{noop_visit_mut_type, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use crate::es2022::{
     private_in_object::{ClassAnalyzer, ClassData, Mode},

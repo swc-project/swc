@@ -1,16 +1,8 @@
-use std::{
-    borrow::Cow,
-    mem::{replace, take},
-};
-
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
-use swc_common::{pass::CompilerPass, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    default_constructor_with_span, prepend_stmt, private_ident, quote_ident, ExprFactory,
-};
-use swc_ecma_visit::{noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::CompilerImpl;
 
