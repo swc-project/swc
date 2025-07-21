@@ -60,7 +60,7 @@ struct CompilerImpl<'a> {
 
     // Logical assignments transformation state
     logical_assignment_vars: Vec<VarDeclarator>,
-    
+
     // ES2020: Nullish coalescing transformation state
     nullish_coalescing_vars: Vec<VarDeclarator>,
 }
@@ -581,9 +581,10 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        // For nullish coalescing, we need to visit children first to ensure correct variable ordering
+        // For nullish coalescing, we need to visit children first to ensure correct
+        // variable ordering
         let is_nullish = self.config.includes.contains(Features::NULLISH_COALESCING);
-        
+
         if is_nullish {
             e.visit_mut_children_with(self);
             // Try to transform nullish coalescing after visiting children
@@ -591,7 +592,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                 return;
             }
         }
-        
+
         // Check if we need to transform logical assignments
         if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) {
             // Try to transform logical assignment first
@@ -637,15 +638,20 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_module_items(&mut self, ns: &mut Vec<ModuleItem>) {
         // ES2020: Export namespace from transformation
-        if self.config.includes.contains(Features::EXPORT_NAMESPACE_FROM) {
+        if self
+            .config
+            .includes
+            .contains(Features::EXPORT_NAMESPACE_FROM)
+        {
             self.transform_export_namespace_from(ns);
         }
-        
-        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) || 
-           self.config.includes.contains(Features::NULLISH_COALESCING) {
+
+        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
+            || self.config.includes.contains(Features::NULLISH_COALESCING)
+        {
             let logical_vars = self.logical_assignment_vars.take();
             let nullish_vars = self.nullish_coalescing_vars.take();
-            
+
             if self.config.includes.contains(Features::NULLISH_COALESCING) {
                 self.visit_mut_stmt_like_for_nullish(ns);
             } else {
@@ -654,11 +660,11 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
             let logical_vars = std::mem::replace(&mut self.logical_assignment_vars, logical_vars);
             let nullish_vars = std::mem::replace(&mut self.nullish_coalescing_vars, nullish_vars);
-            
+
             let mut all_vars = Vec::new();
             all_vars.extend(logical_vars);
             all_vars.extend(nullish_vars);
-            
+
             if !all_vars.is_empty() {
                 prepend_stmt(
                     ns,
@@ -693,11 +699,12 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
-        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) || 
-           self.config.includes.contains(Features::NULLISH_COALESCING) {
+        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
+            || self.config.includes.contains(Features::NULLISH_COALESCING)
+        {
             let logical_vars = self.logical_assignment_vars.take();
             let nullish_vars = self.nullish_coalescing_vars.take();
-            
+
             if self.config.includes.contains(Features::NULLISH_COALESCING) {
                 self.visit_mut_stmt_like_for_nullish(s);
             } else {
@@ -706,11 +713,11 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
             let logical_vars = std::mem::replace(&mut self.logical_assignment_vars, logical_vars);
             let nullish_vars = std::mem::replace(&mut self.nullish_coalescing_vars, nullish_vars);
-            
+
             let mut all_vars = Vec::new();
             all_vars.extend(logical_vars);
             all_vars.extend(nullish_vars);
-            
+
             if !all_vars.is_empty() {
                 prepend_stmt(
                     s,
