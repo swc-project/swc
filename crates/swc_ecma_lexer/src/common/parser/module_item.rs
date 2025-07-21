@@ -891,7 +891,7 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
 
     {
         let import_spec_start = p.cur_pos();
-        // Nmesapce imports are not allowed in source phase.
+        // Namespace imports are not allowed in source phase.
         if phase != ImportPhase::Source && p.input_mut().eat(&P::Token::MUL) {
             expect!(p, &P::Token::AS);
             let local = parse_imported_binding(p)?;
