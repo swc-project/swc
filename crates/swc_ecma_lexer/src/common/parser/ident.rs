@@ -89,21 +89,24 @@ pub fn parse_binding_ident<'a>(
 ) -> PResult<BindingIdent> {
     trace_cur!(p, parse_binding_ident);
 
-    if disallow_let && p.input().cur().is_let() {
+    let cur = p.input().cur();
+    if disallow_let && cur.is_let() {
         unexpected!(p, "let is reserved in const, let, class declaration")
+    } else if cur.is_unknown_ident() {
+        let span = p.input().cur_span();
+        let word = p.input_mut().expect_word_token_and_bump();
+        if atom!("arguments") == word || atom!("eval") == word {
+            p.emit_strict_mode_err(span, SyntaxError::EvalAndArgumentsInStrict);
+        }
+        return Ok(Ident::new_no_ctxt(word, span).into());
     }
 
     // "yield" and "await" is **lexically** accepted.
     let ident = parse_ident(p, true, true)?;
-    if ident.is_reserved_in_strict_bind() {
-        p.emit_strict_mode_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
-    }
-    if (p.ctx().contains(Context::InAsync) || p.ctx().contains(Context::InStaticBlock))
-        && ident.sym == "await"
+    let ctx = p.ctx();
+    if (ctx.intersects(Context::InAsync.union(Context::InStaticBlock)) && ident.sym == "await")
+        || (ctx.contains(Context::InGenerator) && ident.sym == "yield")
     {
-        p.emit_err(ident.span, SyntaxError::ExpectedIdent);
-    }
-    if p.ctx().contains(Context::InGenerator) && ident.sym == "yield" {
         p.emit_err(ident.span, SyntaxError::ExpectedIdent);
     }
 
