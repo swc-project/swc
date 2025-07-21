@@ -1232,8 +1232,6 @@ pub fn parse_new_expr<'a>(p: &mut impl Parser<'a>) -> PResult<Box<Expr>> {
 pub fn parse_bin_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
     trace_cur!(p, parse_bin_expr);
 
-    let ctx = p.ctx();
-
     let left = match p.parse_unary_expr() {
         Ok(v) => v,
         Err(err) => {
@@ -1243,7 +1241,7 @@ pub fn parse_bin_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
             if cur.is_error() {
                 let err = p.input_mut().expect_error_token_and_bump();
                 return Err(err);
-            } else if (cur.is_in() && ctx.contains(Context::IncludeInExpr))
+            } else if (cur.is_in() && p.ctx().contains(Context::IncludeInExpr))
                 || cur.is_instanceof()
                 || cur.is_bin_op()
             {
