@@ -14,8 +14,7 @@ use crate::{
     lexer::token::{Token, TokenValue},
 };
 
-pub(super) type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Token>>;
-pub(super) type ByteHandler = fn(&mut Lexer<'_>) -> LexResult<Option<Token>>;
+pub(super) type ByteHandler = fn(&mut Lexer<'_>) -> LexResult<Token>;
 
 /// Lookup table mapping any incoming byte to a handler function defined below.
 pub(super) static BYTE_HANDLERS: [ByteHandler; 256] = [
@@ -42,8 +41,6 @@ const EOF: ByteHandler = |lexer| {
     lexer.input.bump_bytes(1);
 
     Ok(Token::Eof)
-});
-    Ok(None)
 };
 
 const ERR: ByteHandler = |lexer| {
@@ -61,8 +58,7 @@ const ERR: ByteHandler = |lexer| {
 };
 
 /// Identifier and we know that this cannot be a keyword or known ident.
-const IDN: ByteHandler = Some(|lexer| lexer.read_ident_unknown());
-const IDN: ByteHandler = |lexer| lexer.read_ident_unknown().map(Some);
+const IDN: ByteHandler = |lexer| lexer.read_ident_unknown();
 
 const L_A: ByteHandler = |lexer| {
     lexer.read_keyword_with(&|s| match s {
@@ -284,8 +280,7 @@ const L_Y: ByteHandler = |lexer| {
 const L_Z: ByteHandler = IDN;
 
 /// `0`
-const ZER: ByteHandler = Some(|lexer| lexer.read_token_zero());
-const ZER: ByteHandler = |lexer| lexer.read_token_zero().map(Some);
+const ZER: ByteHandler = |lexer| lexer.read_token_zero();
 
 /// Numbers
 const DIG: ByteHandler = |lexer| {
@@ -302,29 +297,10 @@ const DIG: ByteHandler = |lexer| {
             Token::BigInt
         }
     })
-});
-
-/// String literals with `'` or `"`
-const QOT: ByteHandler = Some(|lexer| lexer.read_str_lit());
-    lexer
-        .read_number::<false, false>()
-        .map(|v| match v {
-            Either::Left((value, raw)) => {
-                lexer.state.set_token_value(TokenValue::Num { value, raw });
-                Token::Num
-            }
-            Either::Right((value, raw)) => {
-                lexer
-                    .state
-                    .set_token_value(TokenValue::BigInt { value, raw });
-                Token::BigInt
-            }
-        })
-        .map(Some)
 };
 
 /// String literals with `'` or `"`
-const QOT: ByteHandler = |lexer| lexer.read_str_lit().map(Some);
+const QOT: ByteHandler = |lexer| lexer.read_str_lit();
 
 /// Unicode
 const UNI: ByteHandler = |lexer| {
@@ -348,46 +324,28 @@ const UNI: ByteHandler = |lexer| {
 };
 
 /// `:`
-const COL: ByteHandler = Some(|lexer| lexer.read_token_colon());
+const COL: ByteHandler = |lexer| lexer.read_token_colon();
 
 /// `%`
-const PRC: ByteHandler = Some(|lexer| lexer.read_token_mul_mod(false));
+const PRC: ByteHandler = |lexer| lexer.read_token_mul_mod(false);
 
 /// `*`
-const ATR: ByteHandler = Some(|lexer| lexer.read_token_mul_mod(true));
+const ATR: ByteHandler = |lexer| lexer.read_token_mul_mod(true);
 
 /// `?`
-const QST: ByteHandler = Some(|lexer| lexer.read_token_question_mark());
+const QST: ByteHandler = |lexer| lexer.read_token_question_mark();
 
 /// `&`
-const AMP: ByteHandler = Some(|lexer| lexer.read_token_logical::<b'&'>());
+const AMP: ByteHandler = |lexer| lexer.read_token_logical::<b'&'>();
 
 /// `|`
-const PIP: ByteHandler = Some(|lexer| lexer.read_token_logical::<b'|'>());
-const COL: ByteHandler = |lexer| lexer.read_token_colon().map(Some);
-
-/// `%`
-const PRC: ByteHandler = |lexer| lexer.read_token_mul_mod(false).map(Some);
-
-/// `*`
-const ATR: ByteHandler = |lexer| lexer.read_token_mul_mod(true).map(Some);
-
-/// `?`
-const QST: ByteHandler = |lexer| lexer.read_token_question_mark().map(Some);
-
-/// `&`
-const AMP: ByteHandler = |lexer| lexer.read_token_logical::<b'&'>().map(Some);
-
-/// `|`
-const PIP: ByteHandler = |lexer| lexer.read_token_logical::<b'|'>().map(Some);
+const PIP: ByteHandler = |lexer| lexer.read_token_logical::<b'|'>();
 
 macro_rules! single_char {
     ($name:ident, $c:literal, $token:ident) => {
         const $name: ByteHandler = |lexer| {
             lexer.input.bump_bytes(1);
             Ok(Token::$token)
-        });
-            Ok(Some(Token::$token))
         };
     };
 }
@@ -420,8 +378,6 @@ const CRT: ByteHandler = |lexer| {
     } else {
         Token::Caret
     })
-});
-    }))
 };
 
 /// `+`
@@ -437,8 +393,7 @@ const EXL: ByteHandler = |lexer| lexer.read_token_bang_or_eq::<b'!'>();
 const EQL: ByteHandler = |lexer| lexer.read_token_bang_or_eq::<b'='>();
 
 /// `.`
-const PRD: ByteHandler = Some(|lexer| lexer.read_token_dot());
-const PRD: ByteHandler = |lexer| lexer.read_token_dot().map(Some);
+const PRD: ByteHandler = |lexer| lexer.read_token_dot();
 
 /// `<`
 const LSS: ByteHandler = |lexer| lexer.read_token_lt_gt::<b'<'>();
