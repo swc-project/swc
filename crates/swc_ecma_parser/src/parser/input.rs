@@ -175,46 +175,57 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffe
         }
     }
 
+    #[inline(always)]
     fn set_cur(&mut self, token: TokenAndSpan) {
         self.cur = token
     }
 
+    #[inline(always)]
     fn next(&self) -> Option<&Self::Next> {
         self.next.as_ref()
     }
 
+    #[inline(always)]
     fn set_next(&mut self, token: Option<Self::Next>) {
         self.next = token;
     }
 
+    #[inline(always)]
     fn next_mut(&mut self) -> &mut Option<Self::Next> {
         &mut self.next
     }
 
+    #[inline(always)]
     fn cur(&self) -> &super::super::lexer::Token {
         &self.cur.token
     }
 
+    #[inline(always)]
     fn get_cur(&self) -> &TokenAndSpan {
         &self.cur
     }
 
+    #[inline(always)]
     fn get_cur_mut(&mut self) -> &mut TokenAndSpan {
         &mut self.cur
     }
 
+    #[inline(always)]
     fn prev_span(&self) -> Span {
         self.prev_span
     }
 
+    #[inline(always)]
     fn set_prev_span(&mut self, span: Span) {
         self.prev_span = span;
     }
 
+    #[inline(always)]
     fn iter(&self) -> &I {
         &self.iter
     }
 
+    #[inline(always)]
     fn iter_mut(&mut self) -> &mut I {
         &mut self.iter
     }
@@ -250,8 +261,8 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffe
         } else {
             TokenAndSpan::new(Token::Eof, self.prev_span(), true)
         };
-        let prev = std::mem::replace(&mut self.cur, next);
-        self.set_prev_span(prev.span());
+        self.set_prev_span(self.cur.span());
+        self.set_cur(next);
     }
 
     fn expect_word_token_and_bump(&mut self) -> Atom {
