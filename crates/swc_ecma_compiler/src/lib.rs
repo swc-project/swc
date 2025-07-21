@@ -1,3 +1,5 @@
+#![allow(clippy::vec_box)]
+
 use std::mem::take;
 
 use rustc_hash::FxHashSet;
@@ -95,7 +97,8 @@ impl<'a> CompilerImpl<'a> {
         }
     }
 
-    /// ES2022: Analyze class private fields for 'private in object' transformation
+    /// ES2022: Analyze class private fields for 'private in object'
+    /// transformation
     fn es2022_analyze_private_fields_for_in_operator(&mut self, class: &Class) {
         class.visit_children_with(&mut ClassAnalyzer {
             brand_check_names: &mut self.es2022_current_class_data.names_used_for_brand_checks,
@@ -105,19 +108,29 @@ impl<'a> CompilerImpl<'a> {
         for m in &class.body {
             match m {
                 ClassMember::PrivateMethod(m) => {
-                    self.es2022_current_class_data.privates.insert(m.key.name.clone());
-                    self.es2022_current_class_data.methods.push(m.key.name.clone());
+                    self.es2022_current_class_data
+                        .privates
+                        .insert(m.key.name.clone());
+                    self.es2022_current_class_data
+                        .methods
+                        .push(m.key.name.clone());
 
                     if m.is_static {
-                        self.es2022_current_class_data.statics.push(m.key.name.clone());
+                        self.es2022_current_class_data
+                            .statics
+                            .push(m.key.name.clone());
                     }
                 }
 
                 ClassMember::PrivateProp(m) => {
-                    self.es2022_current_class_data.privates.insert(m.key.name.clone());
+                    self.es2022_current_class_data
+                        .privates
+                        .insert(m.key.name.clone());
 
                     if m.is_static {
-                        self.es2022_current_class_data.statics.push(m.key.name.clone());
+                        self.es2022_current_class_data
+                            .statics
+                            .push(m.key.name.clone());
                     }
                 }
 
@@ -126,7 +139,8 @@ impl<'a> CompilerImpl<'a> {
         }
     }
 
-    /// ES2022: Inject WeakSet initialization into constructor for private field brand checks
+    /// ES2022: Inject WeakSet initialization into constructor for private field
+    /// brand checks
     fn es2022_inject_weakset_init_for_private_fields(&mut self, class: &mut Class) {
         if self.es2022_current_class_data.constructor_exprs.is_empty() {
             return;
@@ -192,7 +206,8 @@ impl<'a> CompilerImpl<'a> {
                     }
                 }
 
-                let var_name = self.var_name_for_brand_check(&left, &self.es2022_current_class_data);
+                let var_name =
+                    self.var_name_for_brand_check(&left, &self.es2022_current_class_data);
 
                 if self.es2022_current_class_data.privates.contains(&left.name)
                     && self.es2022_injected_weakset_vars.insert(var_name.to_id())
@@ -249,7 +264,9 @@ impl<'a> CompilerImpl<'a> {
 
     /// ES2022: Prepend private field helper variables to statements
     fn es2022_prepend_private_field_vars(&mut self, stmts: &mut Vec<Stmt>) {
-        if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT) || self.es2022_private_field_helper_vars.is_empty() {
+        if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
+            || self.es2022_private_field_helper_vars.is_empty()
+        {
             return;
         }
 
@@ -268,7 +285,9 @@ impl<'a> CompilerImpl<'a> {
 
     /// ES2022: Prepend private field helper variables to module items
     fn es2022_prepend_private_field_vars_module(&mut self, items: &mut Vec<ModuleItem>) {
-        if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT) || self.es2022_private_field_helper_vars.is_empty() {
+        if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
+            || self.es2022_private_field_helper_vars.is_empty()
+        {
             return;
         }
 
@@ -287,7 +306,11 @@ impl<'a> CompilerImpl<'a> {
 
     /// ES2022: Add WeakSet.add() calls to private properties for brand checking
     fn es2022_add_weakset_to_private_props(&mut self, n: &mut PrivateProp) {
-        if !self.es2022_current_class_data.names_used_for_brand_checks.contains(&n.key.name) {
+        if !self
+            .es2022_current_class_data
+            .names_used_for_brand_checks
+            .contains(&n.key.name)
+        {
             return;
         }
 
@@ -299,7 +322,9 @@ impl<'a> CompilerImpl<'a> {
 
                 let tmp = private_ident!("_tmp");
 
-                self.es2022_current_class_data.vars.push_var(tmp.clone(), None);
+                self.es2022_current_class_data
+                    .vars
+                    .push_var(tmp.clone(), None);
 
                 let assign = AssignExpr {
                     span: DUMMY_SP,
@@ -415,7 +440,8 @@ impl<'a> VisitMut for CompilerImpl<'a> {
             match &mut self.es2022_current_class_data.vars {
                 Mode::ClassExpr { vars, init_exprs } => {
                     self.es2022_private_field_helper_vars.extend(take(vars));
-                    self.es2022_private_field_init_exprs.extend(take(init_exprs));
+                    self.es2022_private_field_init_exprs
+                        .extend(take(init_exprs));
                 }
                 _ => {
                     unreachable!()
@@ -485,7 +511,10 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
             e.visit_mut_children_with(self);
 
-            let mut prepend_exprs = std::mem::replace(&mut self.es2022_private_field_init_exprs, prev_prepend_exprs);
+            let mut prepend_exprs = std::mem::replace(
+                &mut self.es2022_private_field_init_exprs,
+                prev_prepend_exprs,
+            );
 
             if !prepend_exprs.is_empty() {
                 match e {
