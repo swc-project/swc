@@ -23,25 +23,6 @@ mod es2021;
 mod es2022;
 mod features;
 
-/// Trait for feature-specific transformations
-trait FeatureTransform {
-    fn transform_expr(&mut self, e: &mut Expr, config: &Config) -> bool {
-        false
-    }
-    
-    fn transform_class(&mut self, class: &mut Class, config: &Config) {
-        // Default: no transformation
-    }
-    
-    fn pre_process_class(&mut self, class: &mut Class, config: &Config) {
-        // Default: no preprocessing
-    }
-    
-    fn post_process_class(&mut self, class: &mut Class, config: &Config) {
-        // Default: no postprocessing
-    }
-}
-
 #[derive(Debug)]
 pub struct Compiler {
     config: Config,
@@ -82,9 +63,6 @@ struct CompilerImpl<'a> {
 
     // ES2020: Nullish coalescing transformation state
     nullish_coalescing_vars: Vec<VarDeclarator>,
-    
-    // Cached features for performance
-    cached_features: Features,
 }
 
 #[swc_trace]
@@ -98,7 +76,6 @@ impl<'a> CompilerImpl<'a> {
             es2022_current_class_data: ClassData::default(),
             logical_assignment_vars: Vec::new(),
             nullish_coalescing_vars: Vec::new(),
-            cached_features: config.includes,
         }
     }
 
@@ -411,14 +388,12 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_class(&mut self, class: &mut Class) {
-        let features = self.config.includes;
-        
         // Pre-processing transformations
-        if features.contains(Features::STATIC_BLOCKS) {
+        if self.config.includes.contains(Features::STATIC_BLOCKS) {
             self.es2022_static_blocks_to_private_fields(class);
         }
 
-        if features.contains(Features::PRIVATE_IN_OBJECT) {
+        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             self.es2022_analyze_private_fields_for_in_operator(class);
         }
 
@@ -426,7 +401,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         class.visit_mut_children_with(self);
 
         // Post-processing transformations
-        if features.contains(Features::PRIVATE_IN_OBJECT) {
+        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             self.es2022_inject_weakset_init_for_private_fields(class);
         }
     }
@@ -494,8 +469,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     /// Prevents #1123 for nullish coalescing
     fn visit_mut_block_stmt(&mut self, s: &mut BlockStmt) {
-        let features = self.config.includes;
-        let old_vars = if features.contains(Features::NULLISH_COALESCING) {
+        let old_vars = if self.config.includes.contains(Features::NULLISH_COALESCING) {
             self.nullish_coalescing_vars.take()
         } else {
             vec![]
@@ -505,16 +479,14 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         s.visit_mut_children_with(self);
 
         // Restore vars only if feature is enabled
-        if features.contains(Features::NULLISH_COALESCING) {
+        if self.config.includes.contains(Features::NULLISH_COALESCING) {
             self.nullish_coalescing_vars = old_vars;
         }
     }
 
     /// Prevents #1123 and #6328 for nullish coalescing
     fn visit_mut_switch_case(&mut self, s: &mut SwitchCase) {
-        let features = self.config.includes;
-        
-        if features.contains(Features::NULLISH_COALESCING) {
+        if self.config.includes.contains(Features::NULLISH_COALESCING) {
             // Prevents #6328 - test is visited separately
             s.test.visit_mut_with(self);
             let old_vars = self.nullish_coalescing_vars.take();
@@ -526,8 +498,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
-        let features = self.config.includes;
-        let saved_vars = if features.contains(Features::NULLISH_COALESCING) {
+        let saved_vars = if self.config.includes.contains(Features::NULLISH_COALESCING) {
             self.nullish_coalescing_vars.take()
         } else {
             vec![]
@@ -537,7 +508,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         n.visit_mut_children_with(self);
 
         // Post-processing for nullish coalescing
-        if features.contains(Features::NULLISH_COALESCING) {
+        if self.config.includes.contains(Features::NULLISH_COALESCING) {
             if !self.nullish_coalescing_vars.is_empty() {
                 if let BlockStmtOrExpr::Expr(expr) = n {
                     let stmts = vec![
@@ -566,13 +537,11 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_assign_pat(&mut self, p: &mut AssignPat) {
-        let features = self.config.includes;
-        
         // Visit left side first
         p.left.visit_mut_with(self);
 
         // Handle private field brand checks
-        if features.contains(Features::PRIVATE_IN_OBJECT) {
+        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             let mut buf = FxHashSet::default();
             let mut v = ClassAnalyzer {
                 brand_check_names: &mut buf,
@@ -610,19 +579,18 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                 return;
             }
         }
-        
+
         p.right.visit_mut_with(self);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        let features = self.config.includes;
-
-        // Phase 1: Pre-processing - Check and apply transformations that replace the expression
-        let logical_transformed = features.contains(Features::LOGICAL_ASSIGNMENTS)
+        // Phase 1: Pre-processing - Check and apply transformations that replace the
+        // expression
+        let logical_transformed = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
             && self.transform_logical_assignment(e);
 
         // Phase 2: Setup for private field expressions
-        let prev_prepend_exprs = if features.contains(Features::PRIVATE_IN_OBJECT) {
+        let prev_prepend_exprs = if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             Some(take(&mut self.es2022_private_field_init_exprs))
         } else {
             None
@@ -633,7 +601,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
         // Phase 4: Post-processing transformations
         // Apply nullish coalescing only if logical assignment wasn't transformed
-        if !logical_transformed && features.contains(Features::NULLISH_COALESCING) {
+        if !logical_transformed && self.config.includes.contains(Features::NULLISH_COALESCING) {
             self.transform_nullish_coalescing(e);
         }
 
@@ -666,17 +634,19 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_module_items(&mut self, ns: &mut Vec<ModuleItem>) {
-        let features = self.config.includes;
-        
         // Pre-processing: Export namespace transformation
-        if features.contains(Features::EXPORT_NAMESPACE_FROM) {
+        if self
+            .config
+            .includes
+            .contains(Features::EXPORT_NAMESPACE_FROM)
+        {
             self.transform_export_namespace_from(ns);
         }
 
         // Setup for variable hoisting
-        let need_var_hoisting = features.contains(Features::LOGICAL_ASSIGNMENTS)
-            || features.contains(Features::NULLISH_COALESCING);
-        
+        let need_var_hoisting = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
+            || self.config.includes.contains(Features::NULLISH_COALESCING);
+
         let (saved_logical_vars, saved_nullish_vars) = if need_var_hoisting {
             (
                 self.logical_assignment_vars.take(),
@@ -687,7 +657,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         };
 
         // Single recursive visit (with special handling for nullish)
-        if features.contains(Features::NULLISH_COALESCING) {
+        if self.config.includes.contains(Features::NULLISH_COALESCING) {
             self.visit_mut_stmt_like_for_nullish(ns);
         } else {
             ns.visit_mut_children_with(self);
@@ -695,8 +665,10 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
         // Post-processing: Handle variable hoisting
         if need_var_hoisting {
-            let logical_vars = std::mem::replace(&mut self.logical_assignment_vars, saved_logical_vars);
-            let nullish_vars = std::mem::replace(&mut self.nullish_coalescing_vars, saved_nullish_vars);
+            let logical_vars =
+                std::mem::replace(&mut self.logical_assignment_vars, saved_logical_vars);
+            let nullish_vars =
+                std::mem::replace(&mut self.nullish_coalescing_vars, saved_nullish_vars);
 
             let mut all_vars = Vec::new();
             all_vars.extend(logical_vars);
@@ -717,19 +689,19 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         }
 
         // Post-processing: Private field variables
-        if features.contains(Features::PRIVATE_IN_OBJECT) && !self.es2022_private_field_helper_vars.is_empty() {
+        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
+            && !self.es2022_private_field_helper_vars.is_empty()
+        {
             self.es2022_prepend_private_field_vars_module(ns);
         }
     }
 
     fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
-        let features = self.config.includes;
-        
         // Single recursive visit
         n.visit_mut_children_with(self);
 
         // Post-processing: Add WeakSet for brand checks
-        if features.contains(Features::PRIVATE_IN_OBJECT) {
+        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             self.es2022_add_weakset_to_private_props(n);
         }
     }
@@ -741,12 +713,10 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
-        let features = self.config.includes;
-        
         // Setup for variable hoisting
-        let need_var_hoisting = features.contains(Features::LOGICAL_ASSIGNMENTS)
-            || features.contains(Features::NULLISH_COALESCING);
-            
+        let need_var_hoisting = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
+            || self.config.includes.contains(Features::NULLISH_COALESCING);
+
         let (saved_logical_vars, saved_nullish_vars) = if need_var_hoisting {
             (
                 self.logical_assignment_vars.take(),
@@ -757,7 +727,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         };
 
         // Single recursive visit (with special handling for nullish)
-        if features.contains(Features::NULLISH_COALESCING) {
+        if self.config.includes.contains(Features::NULLISH_COALESCING) {
             self.visit_mut_stmt_like_for_nullish(s);
         } else {
             s.visit_mut_children_with(self);
@@ -765,8 +735,10 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
         // Post-processing: Handle variable hoisting
         if need_var_hoisting {
-            let logical_vars = std::mem::replace(&mut self.logical_assignment_vars, saved_logical_vars);
-            let nullish_vars = std::mem::replace(&mut self.nullish_coalescing_vars, saved_nullish_vars);
+            let logical_vars =
+                std::mem::replace(&mut self.logical_assignment_vars, saved_logical_vars);
+            let nullish_vars =
+                std::mem::replace(&mut self.nullish_coalescing_vars, saved_nullish_vars);
 
             let mut all_vars = Vec::new();
             all_vars.extend(logical_vars);
@@ -787,7 +759,9 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         }
 
         // Post-processing: Private field variables
-        if features.contains(Features::PRIVATE_IN_OBJECT) && !self.es2022_private_field_helper_vars.is_empty() {
+        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
+            && !self.es2022_private_field_helper_vars.is_empty()
+        {
             self.es2022_prepend_private_field_vars(s);
         }
     }
