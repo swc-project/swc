@@ -4,7 +4,7 @@ use std::{path::PathBuf, sync::Arc};
 
 use parking_lot::Mutex;
 use swc_common::sync::Lazy;
-use wasmer::Store;
+use wasmer::{AsStoreMut, Store};
 use wasmer_wasix::Runtime;
 use crate::runtime;
 
@@ -101,10 +101,24 @@ pub(crate) fn new_store() -> Store {
 pub struct WasmerRuntimeBuidler;
 
 pub struct WasmerStore {
-    table: wasmer::FunctionEnv<Vec<runtime::PluginFunc>>,
+    table: wasmer::FunctionEnv<WasmerTable>,
     store: Store,
 }
 
+struct WasmerTable {
+    memory: Option<wasmer::Memory>,
+    table: Vec<runtime::PluginFunc>
+}
+
+pub struct WasmerMemory<'a> {
+    store: &'a mut wasmer::Store,
+    memory: wasmer::Memory,
+}
+
+struct WasmerMemoryRef<'a> {
+    store: wasmer::StoreMut<'a>,
+    memory: wasmer::Memory,
+}
 pub struct WasmerFunc(wasmer::Function);
 
 pub struct WasmerInstance {
@@ -122,7 +136,10 @@ pub struct WasmerView<'a>(wasmer::WasmSlice<'a, u8>);
 impl runtime::Builder for WasmerRuntimeBuidler {
     fn new_store(&self) -> anyhow::Result<runtime::Store> {
         let mut store = new_store();
-        let table = wasmer::FunctionEnv::new(&mut store, Vec::new());
+        let table = wasmer::FunctionEnv::new(&mut store, WasmerTable {
+            memory: None,
+            table: Vec::new()
+        });
         
         Ok(runtime::Store(Box::new(WasmerStore {
             table, store 
@@ -137,8 +154,8 @@ impl runtime::Builder for WasmerRuntimeBuidler {
         let sign = func.sign;
         let idx = {
             let table = store.table.as_mut(&mut store.store);
-            let idx = table.len();
-            table.push(func);
+            let idx = table.table.len();
+            table.table.push(func);
             idx
         };
 
@@ -231,31 +248,70 @@ impl runtime::Instance for WasmerInstance {
         todo!()
     }
 
-    fn read_buf(&self, ptr: u32, buf: &mut [u8]) -> anyhow::Result<()> {
-        let view = self.memory.view(&self.store.store);
+    fn memory(&mut self) -> anyhow::Result<Box<dyn runtime::MemoryView<'_> + '_>> {
+        Ok(Box::new(WasmerMemory {
+            store: &mut self.store.store,
+            memory: self.memory.clone()
+        }))
+    }
+    
+    fn cache(&self) -> anyhow::Result<Option<Box<[u8]>>> {
+        Ok(None)
+    }
+}
+
+impl<'a> runtime::MemoryView<'a> for WasmerMemory<'a> {
+    fn read_buf(&self, ptr: u32, buf: &mut [u8])
+        -> anyhow::Result<()>
+    {
+        let view = self.memory.view(self.store);
         view.read(ptr.into(), buf)?;
         Ok(())
     }
 
-    fn write_buf(&mut self, ptr: u32, buf: &[u8]) -> anyhow::Result<()> {
-        let view = self.memory.view(&self.store.store);
+    fn write_buf(&mut self, ptr: u32, buf: &[u8])
+        -> anyhow::Result<()>
+    {
+        let view = self.memory.view(&self.store);
         view.write(ptr.into(), buf)?;
         Ok(())
     }
-    
-    fn cache(&self) -> anyhow::Result<Option<Box<[u8]>>> {
-        todo!()
+}
+
+impl<'a> runtime::MemoryView<'a> for WasmerMemoryRef<'a> {
+    fn read_buf(&self, ptr: u32, buf: &mut [u8])
+        -> anyhow::Result<()>
+    {
+        let view = self.memory.view(&self.store);
+        view.read(ptr.into(), buf)?;
+        Ok(())
+    }
+
+    fn write_buf(&mut self, ptr: u32, buf: &[u8])
+        -> anyhow::Result<()>
+    {
+        let view = self.memory.view(&self.store);
+        view.write(ptr.into(), buf)?;
+        Ok(())
     }
 }
 
 fn wasmer_func_call(
-    table: wasmer::FunctionEnvMut<'_, Vec<runtime::PluginFunc>>,
+    mut table: wasmer::FunctionEnvMut<'_, WasmerTable>,
     input: &[wasmer::Value],
     idx: usize
 ) -> Result<Vec<wasmer::Value>, wasmer::RuntimeError> {
-    let func = table.data()
+    use std::any::Any;
+
+    let func = table
+        .data()
+        .table
         .get(idx)
-        .ok_or_else(|| wasmer::RuntimeError::new("bad wasm func index"))?;
+        .ok_or_else(|| wasmer::RuntimeError::new("bad wasm func index"))?
+        .clone();
+    let memory = table.data().memory.clone().unwrap();
+    let mut store = table.as_store_mut();
+    let mut memory = WasmerMemoryRef { store, memory };
     
     let input = input[..func.sign.0 as usize].iter()
         .map(|v| match v {
@@ -265,7 +321,7 @@ fn wasmer_func_call(
         .collect::<Result<Vec<runtime::Value>, _>>()?;
     let mut output = vec![0; func.sign.1 as usize];
     
-    (func.func)(&input, &mut output);
+    (func.func)(&mut memory, &input, &mut output);
 
     Ok(output.into_iter().map(wasmer::Value::I32).collect())
 }
