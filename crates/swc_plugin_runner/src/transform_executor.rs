@@ -28,6 +28,7 @@ use crate::{
     memory_interop::write_into_memory_view,
 };
 use crate::{plugin_module_bytes::PluginModuleBytes, wasix_runtime::build_wasi_runtime};
+use crate::runtime;
 
 /// An internal state to the plugin transform.
 struct PluginTransformState {
@@ -45,6 +46,10 @@ struct PluginTransformState {
     transform_result: Arc<Mutex<Vec<u8>>>,
     #[allow(unused)]
     plugin_core_diag: PluginCorePkgDiagnostics,
+}
+
+struct SharedContext {
+    mutable_context_key_buffer: Vec<u8>
 }
 
 #[cfg(feature = "__rkyv")]
@@ -177,13 +182,14 @@ pub struct TransformExecutor {
     plugin_config: Option<serde_json::Value>,
     module_bytes: Box<dyn PluginModuleBytes>,
     runtime: Option<Arc<dyn Runtime + Send + Sync>>,
+    runtime_builder: Arc<dyn runtime::Builder>
 }
 
 #[cfg(feature = "__rkyv")]
 impl TransformExecutor {
     #[tracing::instrument(
         level = "info",
-        skip(source_map, metadata_context, plugin_config, module_bytes)
+        skip(source_map, metadata_context, plugin_config, module_bytes, runtime_builder)
     )]
     pub fn new(
         module_bytes: Box<dyn PluginModuleBytes>,
@@ -193,16 +199,8 @@ impl TransformExecutor {
         plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
         plugin_config: Option<serde_json::Value>,
         runtime: Option<Arc<dyn Runtime + Send + Sync>>,
+        runtime_builder: Arc<dyn runtime::Builder>
     ) -> Self {
-        let runtime = if runtime.is_some() {
-            runtime
-        } else {
-            // https://github.com/wasmerio/wasmer/issues/4029
-            // prevent to wasienvbuilder invoke default PluggableRuntime::new which causes
-            // unexpected failure
-            build_wasi_runtime(None)
-        };
-
         Self {
             source_map: source_map.clone(),
             unresolved_mark: *unresolved_mark,
@@ -211,6 +209,7 @@ impl TransformExecutor {
             plugin_config,
             module_bytes,
             runtime,
+            runtime_builder,
         }
     }
 
@@ -219,7 +218,18 @@ impl TransformExecutor {
     fn setup_plugin_env_exports(&mut self) -> Result<PluginTransformState, Error> {
         // First, compile plugin module bytes into wasmer::Module and get the
         // corresponding store
-        let (mut store, module) = self.module_bytes.compile_module()?;
+        let (mut store, module) = self.module_bytes.compile_module2(&*self.runtime_builder)?;
+
+        let cx = Arc::new(Mutex::new(SharedContext {
+            mutable_context_key_buffer: Vec::new()
+        }));
+
+        let cx2 = cx.clone();
+        let f0 = runtime::PluginFunc::from_fn(move |memory, k: [i32; 1]| -> [i32; 0] {
+            cx2;
+            []
+        });
+
 
         let context_key_buffer = Arc::new(Mutex::new(Vec::new()));
         let metadata_env = FunctionEnv::new(

@@ -1,6 +1,7 @@
 use swc_common::plugin::serialized::{PluginSerializedBytes, VersionedSerializable};
 use swc_plugin_proxy::AllocatedBytesPtr;
 use wasmer::{Memory, MemoryView, StoreMut, TypedFunction, WasmPtr};
+use crate::runtime::Instance;
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn copy_bytes_into_host(memory: &MemoryView, bytes_ptr: i32, bytes_ptr_len: i32) -> Vec<u8> {
@@ -12,6 +13,39 @@ pub fn copy_bytes_into_host(memory: &MemoryView, bytes_ptr: i32, bytes_ptr_len: 
     values
         .read_to_vec()
         .expect("Should able to read memory from given ptr")
+}
+
+#[tracing::instrument(level = "info", skip_all)]
+pub fn copy_bytes_into_host2(instance: &dyn Instance, bytes_ptr: i32, bytes_ptr_len: i32) -> Vec<u8> {
+    let len: usize = bytes_ptr_len.try_into().unwrap();
+    let mut buf = vec![0; len];
+    instance.read_buf(bytes_ptr as _, &mut buf)
+        .expect("Should able to read memory from given ptr");
+    buf
+}
+
+/// Locate a view from given memory, write serialized bytes into.
+#[tracing::instrument(level = "info", skip_all)]
+pub fn write_into_memory_view2<F>(
+    instance: &mut dyn Instance,
+    serialized_bytes: &PluginSerializedBytes,
+    get_allocated_ptr: F,
+) -> (u32, u32)
+where
+    F: Fn(&mut dyn Instance, usize) -> u32,
+{
+    let serialized_len = serialized_bytes.as_ptr().1;
+
+    let ptr_start = get_allocated_ptr(instance, serialized_len);
+    let serialized_size = serialized_len
+            .try_into()
+            .expect("Should be able to convert to i32");
+
+    // Note: it's important to get a view from memory _after_ alloc completes
+    instance.write_buf(ptr_start, serialized_bytes.as_slice())
+        .expect("Should able to write into memory view");
+
+    (ptr_start, serialized_size)
 }
 
 /// Locate a view from given memory, write serialized bytes into.

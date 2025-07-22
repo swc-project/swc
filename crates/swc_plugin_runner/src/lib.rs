@@ -31,15 +31,16 @@ pub fn create_plugin_transform_executor(
     plugin_config: Option<serde_json::Value>,
     runtime: Option<Arc<dyn wasmer_wasix::Runtime + Send + Sync>>,
 ) -> TransformExecutor {
-    TransformExecutor::new(
-        plugin_module,
-        source_map,
-        unresolved_mark,
-        metadata_context,
-        plugin_env_vars,
-        plugin_config,
-        runtime,
-    )
+    todo!()
+    // TransformExecutor::new(
+    //     plugin_module,
+    //     source_map,
+    //     unresolved_mark,
+    //     metadata_context,
+    //     plugin_env_vars,
+    //     plugin_config,
+    //     runtime,
+    // )
 }
 
 #[cfg(not(feature = "__rkyv"))]

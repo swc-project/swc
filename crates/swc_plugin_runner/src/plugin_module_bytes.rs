@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 use wasmer::{Module, Store};
 
 use crate::wasix_runtime::new_store;
+use crate::runtime;
 
 // A trait abstracts plugin's wasm compilation and instantiation.
 // Depends on the caller, this could be a simple clone from existing module, or
@@ -13,6 +14,9 @@ pub trait PluginModuleBytes {
     fn get_module_name(&self) -> &str;
     // Returns a compiled wasmer::Module for the plugin module.
     fn compile_module(&self) -> Result<(Store, Module), Error>;
+    fn compile_module2(&self, _builder: &dyn runtime::Builder) -> Result<(runtime::Store, Box<[u8]>), Error> {
+        todo!()
+    }
 }
 
 /// A struct for the plugin contains raw bytes can be compiled into Wasm Module.
