@@ -396,93 +396,102 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_class(&mut self, class: &mut Class) {
-        // ES2022: Static blocks transformation
+        // Pre-processing transformations
         self.es2022_static_blocks_to_private_fields(class);
 
-        // ES2022: Private in object transformation
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             self.es2022_analyze_private_fields_for_in_operator(class);
         }
 
+        // Single recursive visit
         class.visit_mut_children_with(self);
 
+        // Post-processing transformations
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             self.es2022_inject_weakset_init_for_private_fields(class);
         }
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            let old_cls = take(&mut self.es2022_current_class_data);
-
+        // Setup phase for private fields
+        let old_cls = if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
+            let old = take(&mut self.es2022_current_class_data);
             self.es2022_current_class_data.mark = Mark::fresh(Mark::root());
             self.es2022_current_class_data.ident = Some(n.ident.clone());
             self.es2022_current_class_data.vars = Mode::ClassDecl {
                 vars: Default::default(),
             };
+            Some(old)
+        } else {
+            None
+        };
 
-            n.visit_mut_children_with(self);
+        // Single recursive visit
+        n.visit_mut_children_with(self);
 
+        // Cleanup phase for private fields
+        if let Some(old_cls) = old_cls {
             match &mut self.es2022_current_class_data.vars {
                 Mode::ClassDecl { vars } => {
                     self.es2022_private_field_helper_vars.extend(take(vars));
                 }
-                _ => {
-                    unreachable!()
-                }
+                _ => unreachable!(),
             }
-
             self.es2022_current_class_data = old_cls;
-        } else {
-            n.visit_mut_children_with(self);
         }
     }
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            let old_cls = take(&mut self.es2022_current_class_data);
-
+        // Setup phase for private fields
+        let old_cls = if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
+            let old = take(&mut self.es2022_current_class_data);
             self.es2022_current_class_data.mark = Mark::fresh(Mark::root());
             self.es2022_current_class_data.ident.clone_from(&n.ident);
             self.es2022_current_class_data.vars = Mode::ClassExpr {
                 vars: Default::default(),
                 init_exprs: Default::default(),
             };
+            Some(old)
+        } else {
+            None
+        };
 
-            n.visit_mut_children_with(self);
+        // Single recursive visit
+        n.visit_mut_children_with(self);
 
+        // Cleanup phase for private fields
+        if let Some(old_cls) = old_cls {
             match &mut self.es2022_current_class_data.vars {
                 Mode::ClassExpr { vars, init_exprs } => {
                     self.es2022_private_field_helper_vars.extend(take(vars));
-                    self.es2022_private_field_init_exprs
-                        .extend(take(init_exprs));
+                    self.es2022_private_field_init_exprs.extend(take(init_exprs));
                 }
-                _ => {
-                    unreachable!()
-                }
+                _ => unreachable!(),
             }
-
             self.es2022_current_class_data = old_cls;
-        } else {
-            n.visit_mut_children_with(self);
         }
     }
 
     /// Prevents #1123 for nullish coalescing
     fn visit_mut_block_stmt(&mut self, s: &mut BlockStmt) {
-        if self.config.includes.contains(Features::NULLISH_COALESCING) {
-            let old_vars = self.nullish_coalescing_vars.take();
-            s.visit_mut_children_with(self);
-            self.nullish_coalescing_vars = old_vars;
+        let old_vars = if self.config.includes.contains(Features::NULLISH_COALESCING) {
+            Some(self.nullish_coalescing_vars.take())
         } else {
-            s.visit_mut_children_with(self);
+            None
+        };
+
+        // Single recursive visit
+        s.visit_mut_children_with(self);
+
+        if let Some(old_vars) = old_vars {
+            self.nullish_coalescing_vars = old_vars;
         }
     }
 
     /// Prevents #1123 and #6328 for nullish coalescing
     fn visit_mut_switch_case(&mut self, s: &mut SwitchCase) {
         if self.config.includes.contains(Features::NULLISH_COALESCING) {
-            // Prevents #6328
+            // Prevents #6328 - test is visited separately
             s.test.visit_mut_with(self);
             let old_vars = self.nullish_coalescing_vars.take();
             s.cons.visit_mut_with(self);
@@ -493,14 +502,19 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
-        if self.config.includes.contains(Features::NULLISH_COALESCING) {
-            let vars = self.nullish_coalescing_vars.take();
-            n.visit_mut_children_with(self);
+        let vars = if self.config.includes.contains(Features::NULLISH_COALESCING) {
+            Some(self.nullish_coalescing_vars.take())
+        } else {
+            None
+        };
 
+        // Single recursive visit
+        n.visit_mut_children_with(self);
+
+        if let Some(vars) = vars {
+            // Post-processing for nullish coalescing
             if !self.nullish_coalescing_vars.is_empty() {
                 if let BlockStmtOrExpr::Expr(expr) = n {
-                    // expr
-                    // { var decl = init; return expr; }
                     let stmts = vec![
                         VarDecl {
                             span: DUMMY_SP,
@@ -522,92 +536,87 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                     });
                 }
             }
-
             self.nullish_coalescing_vars = vars;
-        } else {
-            n.visit_mut_children_with(self);
         }
     }
 
     fn visit_mut_assign_pat(&mut self, p: &mut AssignPat) {
+        // Visit left side first
+        p.left.visit_mut_with(self);
+
+        // Handle private field brand checks
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            p.left.visit_mut_with(self);
+            let mut buf = FxHashSet::default();
+            let mut v = ClassAnalyzer {
+                brand_check_names: &mut buf,
+                ignore_class: false,
+            };
+            p.right.visit_with(&mut v);
 
-            {
-                let mut buf = FxHashSet::default();
-                let mut v = ClassAnalyzer {
-                    brand_check_names: &mut buf,
-                    ignore_class: false,
+            if buf.is_empty() {
+                p.right.visit_mut_with(self);
+            } else {
+                let mut bs = BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(p.right.take()),
+                    }
+                    .into()],
+                    ..Default::default()
                 };
-                p.right.visit_with(&mut v);
+                bs.visit_mut_with(self);
 
-                if buf.is_empty() {
-                    p.right.visit_mut_with(self);
-                } else {
-                    let mut bs = BlockStmt {
+                p.right = CallExpr {
+                    span: DUMMY_SP,
+                    callee: ArrowExpr {
                         span: DUMMY_SP,
-                        stmts: Vec::new(),
-                        ..Default::default()
-                    };
-                    bs.stmts.push(
-                        ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(p.right.take()),
-                        }
-                        .into(),
-                    );
-                    bs.visit_mut_with(self);
-
-                    p.right = CallExpr {
-                        span: DUMMY_SP,
-                        callee: ArrowExpr {
-                            span: DUMMY_SP,
-                            params: Default::default(),
-                            body: Box::new(BlockStmtOrExpr::BlockStmt(bs)),
-                            is_async: false,
-                            is_generator: false,
-                            ..Default::default()
-                        }
-                        .as_callee(),
-                        args: Default::default(),
+                        params: Default::default(),
+                        body: Box::new(BlockStmtOrExpr::BlockStmt(bs)),
+                        is_async: false,
+                        is_generator: false,
                         ..Default::default()
                     }
-                    .into();
+                    .as_callee(),
+                    args: Default::default(),
+                    ..Default::default()
                 }
+                .into();
             }
         } else {
-            p.visit_mut_children_with(self);
+            p.right.visit_mut_with(self);
         }
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        // For nullish coalescing, we need to visit children first to ensure correct
-        // variable ordering
-        let is_nullish = self.config.includes.contains(Features::NULLISH_COALESCING);
-
-        if is_nullish {
+        let features = self.config.includes;
+        
+        // Phase 1: Check for transformations that need to happen before visiting children
+        let should_transform_logical = features.contains(Features::LOGICAL_ASSIGNMENTS) 
+            && self.transform_logical_assignment(e);
+        
+        if should_transform_logical {
+            // If logical assignment was transformed, visit the result
             e.visit_mut_children_with(self);
-            // Try to transform nullish coalescing after visiting children
-            if self.transform_nullish_coalescing(e) {
-                return;
-            }
+            return;
         }
 
-        // Check if we need to transform logical assignments
-        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) {
-            // Try to transform logical assignment first
-            if self.transform_logical_assignment(e) {
-                // If transformed, continue visiting children
-                e.visit_mut_children_with(self);
-                return;
-            }
+        // Phase 2: Handle private field expressions
+        let prev_prepend_exprs = if features.contains(Features::PRIVATE_IN_OBJECT) {
+            Some(take(&mut self.es2022_private_field_init_exprs))
+        } else {
+            None
+        };
+
+        // Phase 3: Single recursive visit
+        e.visit_mut_children_with(self);
+
+        // Phase 4: Post-processing transformations
+        if features.contains(Features::NULLISH_COALESCING) {
+            self.transform_nullish_coalescing(e);
         }
 
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) && !is_nullish {
-            let prev_prepend_exprs = take(&mut self.es2022_private_field_init_exprs);
-
-            e.visit_mut_children_with(self);
-
+        if let Some(prev_prepend_exprs) = prev_prepend_exprs {
             let mut prepend_exprs = std::mem::replace(
                 &mut self.es2022_private_field_init_exprs,
                 prev_prepend_exprs,
@@ -627,37 +636,37 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                         .into();
                     }
                 }
-                return;
+            } else {
+                // Transform private in expressions
+                self.es2022_transform_private_in_to_weakset_has(e);
             }
-
-            self.es2022_transform_private_in_to_weakset_has(e);
-        } else if !is_nullish {
-            e.visit_mut_children_with(self);
         }
     }
 
     fn visit_mut_module_items(&mut self, ns: &mut Vec<ModuleItem>) {
-        // ES2020: Export namespace from transformation
-        if self
-            .config
-            .includes
-            .contains(Features::EXPORT_NAMESPACE_FROM)
-        {
+        // Pre-processing: Export namespace transformation
+        if self.config.includes.contains(Features::EXPORT_NAMESPACE_FROM) {
             self.transform_export_namespace_from(ns);
         }
 
-        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
+        // Setup for variable hoisting
+        let (logical_vars, nullish_vars) = if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
             || self.config.includes.contains(Features::NULLISH_COALESCING)
         {
-            let logical_vars = self.logical_assignment_vars.take();
-            let nullish_vars = self.nullish_coalescing_vars.take();
+            (Some(self.logical_assignment_vars.take()), Some(self.nullish_coalescing_vars.take()))
+        } else {
+            (None, None)
+        };
 
-            if self.config.includes.contains(Features::NULLISH_COALESCING) {
-                self.visit_mut_stmt_like_for_nullish(ns);
-            } else {
-                ns.visit_mut_children_with(self);
-            }
+        // Single recursive visit (with special handling for nullish)
+        if self.config.includes.contains(Features::NULLISH_COALESCING) {
+            self.visit_mut_stmt_like_for_nullish(ns);
+        } else {
+            ns.visit_mut_children_with(self);
+        }
 
+        // Post-processing: Handle variable hoisting
+        if let (Some(logical_vars), Some(nullish_vars)) = (logical_vars, nullish_vars) {
             let logical_vars = std::mem::replace(&mut self.logical_assignment_vars, logical_vars);
             let nullish_vars = std::mem::replace(&mut self.nullish_coalescing_vars, nullish_vars);
 
@@ -677,18 +686,19 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                     .into(),
                 );
             }
-        } else {
-            ns.visit_mut_children_with(self);
         }
+
+        // Post-processing: Private field variables
         self.es2022_prepend_private_field_vars_module(ns);
     }
 
     fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
+        // Single recursive visit
+        n.visit_mut_children_with(self);
+
+        // Post-processing: Add WeakSet for brand checks
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            n.visit_mut_children_with(self);
             self.es2022_add_weakset_to_private_props(n);
-        } else {
-            n.visit_mut_children_with(self);
         }
     }
 
@@ -699,18 +709,24 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
-        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
+        // Setup for variable hoisting
+        let (logical_vars, nullish_vars) = if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
             || self.config.includes.contains(Features::NULLISH_COALESCING)
         {
-            let logical_vars = self.logical_assignment_vars.take();
-            let nullish_vars = self.nullish_coalescing_vars.take();
+            (Some(self.logical_assignment_vars.take()), Some(self.nullish_coalescing_vars.take()))
+        } else {
+            (None, None)
+        };
 
-            if self.config.includes.contains(Features::NULLISH_COALESCING) {
-                self.visit_mut_stmt_like_for_nullish(s);
-            } else {
-                s.visit_mut_children_with(self);
-            }
+        // Single recursive visit (with special handling for nullish)
+        if self.config.includes.contains(Features::NULLISH_COALESCING) {
+            self.visit_mut_stmt_like_for_nullish(s);
+        } else {
+            s.visit_mut_children_with(self);
+        }
 
+        // Post-processing: Handle variable hoisting
+        if let (Some(logical_vars), Some(nullish_vars)) = (logical_vars, nullish_vars) {
             let logical_vars = std::mem::replace(&mut self.logical_assignment_vars, logical_vars);
             let nullish_vars = std::mem::replace(&mut self.nullish_coalescing_vars, nullish_vars);
 
@@ -730,9 +746,9 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                     .into(),
                 );
             }
-        } else {
-            s.visit_mut_children_with(self);
         }
+
+        // Post-processing: Private field variables
         self.es2022_prepend_private_field_vars(s);
     }
 }
