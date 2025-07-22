@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_ecmascript"
 repository    = { workspace = true }
-version       = "31.0.0"
+version       = "32.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -40,11 +40,11 @@ typescript   = ["typescript-parser", "swc_ecma_transforms/typescript"]
 [dependencies]
 swc_ecma_ast        = { version = "14.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen    = { version = "16.0.0", path = "../swc_ecma_codegen", optional = true }
-swc_ecma_minifier   = { version = "27.0.4", path = "../swc_ecma_minifier", optional = true }
-swc_ecma_parser     = { version = "21.0.1", path = "../swc_ecma_parser", optional = true, default-features = false }
-swc_ecma_preset_env = { version = "27.0.0", path = "../swc_ecma_preset_env", optional = true }
-swc_ecma_quote      = { version = "21.0.0", path = "../swc_ecma_quote", optional = true }
-swc_ecma_transforms = { version = "26.0.0", path = "../swc_ecma_transforms", optional = true }
+swc_ecma_minifier   = { version = "28.0.0", path = "../swc_ecma_minifier", optional = true }
+swc_ecma_parser     = { version = "22.0.0", path = "../swc_ecma_parser", optional = true, default-features = false }
+swc_ecma_preset_env = { version = "28.0.0", path = "../swc_ecma_preset_env", optional = true }
+swc_ecma_quote      = { version = "22.0.0", path = "../swc_ecma_quote", optional = true }
+swc_ecma_transforms = { version = "27.0.0", path = "../swc_ecma_transforms", optional = true }
 swc_ecma_utils      = { version = "19.0.0", path = "../swc_ecma_utils", optional = true }
 swc_ecma_visit      = { version = "14.0.0", path = "../swc_ecma_visit", optional = true }
 
