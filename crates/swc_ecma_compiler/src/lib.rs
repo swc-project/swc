@@ -464,7 +464,8 @@ impl<'a> VisitMut for CompilerImpl<'a> {
             match &mut self.es2022_current_class_data.vars {
                 Mode::ClassExpr { vars, init_exprs } => {
                     self.es2022_private_field_helper_vars.extend(take(vars));
-                    self.es2022_private_field_init_exprs.extend(take(init_exprs));
+                    self.es2022_private_field_init_exprs
+                        .extend(take(init_exprs));
                 }
                 _ => unreachable!(),
             }
@@ -590,11 +591,12 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         let features = self.config.includes;
-        
-        // Phase 1: Check for transformations that need to happen before visiting children
-        let should_transform_logical = features.contains(Features::LOGICAL_ASSIGNMENTS) 
+
+        // Phase 1: Check for transformations that need to happen before visiting
+        // children
+        let should_transform_logical = features.contains(Features::LOGICAL_ASSIGNMENTS)
             && self.transform_logical_assignment(e);
-        
+
         if should_transform_logical {
             // If logical assignment was transformed, visit the result
             e.visit_mut_children_with(self);
@@ -645,18 +647,26 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_module_items(&mut self, ns: &mut Vec<ModuleItem>) {
         // Pre-processing: Export namespace transformation
-        if self.config.includes.contains(Features::EXPORT_NAMESPACE_FROM) {
+        if self
+            .config
+            .includes
+            .contains(Features::EXPORT_NAMESPACE_FROM)
+        {
             self.transform_export_namespace_from(ns);
         }
 
         // Setup for variable hoisting
-        let (logical_vars, nullish_vars) = if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
-            || self.config.includes.contains(Features::NULLISH_COALESCING)
-        {
-            (Some(self.logical_assignment_vars.take()), Some(self.nullish_coalescing_vars.take()))
-        } else {
-            (None, None)
-        };
+        let (logical_vars, nullish_vars) =
+            if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
+                || self.config.includes.contains(Features::NULLISH_COALESCING)
+            {
+                (
+                    Some(self.logical_assignment_vars.take()),
+                    Some(self.nullish_coalescing_vars.take()),
+                )
+            } else {
+                (None, None)
+            };
 
         // Single recursive visit (with special handling for nullish)
         if self.config.includes.contains(Features::NULLISH_COALESCING) {
@@ -710,13 +720,17 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
         // Setup for variable hoisting
-        let (logical_vars, nullish_vars) = if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
-            || self.config.includes.contains(Features::NULLISH_COALESCING)
-        {
-            (Some(self.logical_assignment_vars.take()), Some(self.nullish_coalescing_vars.take()))
-        } else {
-            (None, None)
-        };
+        let (logical_vars, nullish_vars) =
+            if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
+                || self.config.includes.contains(Features::NULLISH_COALESCING)
+            {
+                (
+                    Some(self.logical_assignment_vars.take()),
+                    Some(self.nullish_coalescing_vars.take()),
+                )
+            } else {
+                (None, None)
+            };
 
         // Single recursive visit (with special handling for nullish)
         if self.config.includes.contains(Features::NULLISH_COALESCING) {
