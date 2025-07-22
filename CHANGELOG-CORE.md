@@ -2705,12 +2705,6 @@
 
 ## [swc_core@v10.3.0] - 2025-01-17
 
-### Bug Fixes
-
-
-
-- **(typescript)** Collect usages in extend clauses of classes and interfaces ([#9893](https://github.com/swc-project/swc/issues/9893)) ([ef29ef6](https://github.com/swc-project/swc/commit/ef29ef6a225927ccdd3d98751f9a2cfef88ca237))
-
 ### Performance
 
 

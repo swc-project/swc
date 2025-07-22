@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.13.2] - 2025-07-22
 
 ### Bug Fixes
 
@@ -2186,12 +2186,6 @@
 - **(es/minifier)** Invert cache to be really a cache ([#9910](https://github.com/swc-project/swc/issues/9910)) ([8bfb0e5](https://github.com/swc-project/swc/commit/8bfb0e5edd51934dff37fe70136b73d5301a4e41))
 
 ## [1.10.8] - 2025-01-19
-
-### Bug Fixes
-
-
-
-- **(typescript)** Collect usages in extend clauses of classes and interfaces ([#9893](https://github.com/swc-project/swc/issues/9893)) ([ef29ef6](https://github.com/swc-project/swc/commit/ef29ef6a225927ccdd3d98751f9a2cfef88ca237))
 
 ### Performance
 
