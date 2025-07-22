@@ -56,12 +56,9 @@ impl Optimizer<'_> {
             }
         }
 
-        let lt = e.left.get_type(self.ctx.expr_ctx);
-        let rt = e.right.get_type(self.ctx.expr_ctx);
-
         if e.op == op!("===") {
-            if let Known(lt) = lt {
-                if let Known(rt) = rt {
+            if let Known(lt) = e.left.get_type(self.ctx.expr_ctx) {
+                if let Known(rt) = e.right.get_type(self.ctx.expr_ctx) {
                     if lt == rt {
                         e.op = op!("==");
                         self.changed = true;
