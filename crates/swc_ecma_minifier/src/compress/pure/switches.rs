@@ -524,6 +524,7 @@ impl Pure<'_> {
 
                     if terminate {
                         remove_last_break(&mut first.cons);
+                        remove_last_break(&mut second.cons);
                         // they cannot both be default as that's syntax error
                         let (def, case) = if first.test.is_none() {
                             (first, second)
