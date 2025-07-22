@@ -100,7 +100,19 @@ where
     })
 }
 
-pub trait RenamedVariable: Clone + Sized + std::marker::Send + std::marker::Sync + 'static {
+mod private {
+    use swc_atoms::Atom;
+    use swc_ecma_ast::Id;
+
+    pub trait Sealed {}
+
+    impl Sealed for Atom {}
+    impl Sealed for Id {}
+}
+
+pub trait RenamedVariable:
+    private::Sealed + Clone + Sized + std::marker::Send + std::marker::Sync + 'static
+{
     fn new_private(sym: Atom) -> Self;
     fn to_id(&self) -> Id;
 }
