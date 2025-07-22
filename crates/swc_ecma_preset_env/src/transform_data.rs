@@ -204,6 +204,20 @@ pub enum Feature {
     BugfixTransformSafariClassFieldInitializerScope, // TODO
 }
 
+// [TODO]: Unify Feature flag
+impl From<Feature> for swc_ecma_compiler::Features {
+    fn from(value: Feature) -> Self {
+        match value {
+            Feature::ClassStaticBlock => Self::STATIC_BLOCKS,
+            Feature::OptionalChaining => Self::OPTIONAL_CHAINING,
+            Feature::PrivatePropertyInObject => Self::PRIVATE_IN_OBJECT,
+            Feature::LogicalAssignmentOperators => Self::LOGICAL_ASSIGNMENTS,
+            Feature::ExportNamespaceFrom => Self::EXPORT_NAMESPACE_FROM,
+            _ => Self::empty(),
+        }
+    }
+}
+
 pub(crate) static FEATURES: Lazy<FxHashMap<Feature, BrowserData<Option<Version>>>> =
     Lazy::new(|| {
         let map: FxHashMap<Feature, BrowserData<Option<String>>> =

@@ -16,7 +16,7 @@ use swc_ecma_transforms::{
         bugfixes,
         class_fields_use_set::class_fields_use_set,
         es2015::{self, generator::generator},
-        es2016, es2017, es2018, es2019, es2020, es2021, es2022, es3,
+        es2016, es2017, es2018, es2019, es2020, es2022, es3,
         regexp::{self, regexp},
     },
     Assumptions,
@@ -68,6 +68,44 @@ where
         }};
     }
 
+    macro_rules! add_compiler {
+        ($($feature:ident)|*) => {{
+            let mut feature = swc_ecma_compiler::Features::empty();
+            $(
+                {
+                    let f = transform_data::Feature::$feature;
+                    let enable = !caniuse(f);
+
+                    if debug {
+                        println!("{}: {:?}", f.as_str(), enable);
+                    }
+
+                    if enable {
+                        feature |= swc_ecma_compiler::Features::from(f);
+                    }
+                }
+            )*
+            feature
+        }};
+        (| $($feature:ident)|*) => {{
+            add_compiler!($($feature)|*)
+        }};
+        ($prev:expr, $($feature:ident)|*) => {{
+            let feature = add_compiler!($($feature)|*);
+            (
+                $prev,
+                swc_ecma_compiler::Compiler::new(swc_ecma_compiler::Config {
+                    includes: feature,
+                    assumptions,
+                    ..Default::default()
+                }),
+            )
+        }};
+        ($prev:expr, | $($feature:ident)|*) => {{
+            add_compiler!($prev, $($feature)|*)
+        }};
+    }
+
     let pass = (
         pass,
         Optional::new(
@@ -116,7 +154,7 @@ where
     // static block needs to be placed before class property
     // because it transforms into private static property
 
-    let pass = add!(pass, ClassStaticBlock, es2022::static_blocks());
+    let pass = add_compiler!(pass, ClassStaticBlock);
     let pass = add!(
         pass,
         ClassProperties,
@@ -131,18 +169,16 @@ where
             unresolved_mark
         )
     );
-    let pass = add!(pass, PrivatePropertyInObject, es2022::private_in_object());
 
-    // ES2021
-    let pass = add!(
+    #[rustfmt::skip]
+    let pass = add_compiler!(
         pass,
-        LogicalAssignmentOperators,
-        es2021::logical_assignments()
+        /* ES2022 */ | PrivatePropertyInObject
+        /* ES2021 */ | LogicalAssignmentOperators
+        /* ES2020 */ | ExportNamespaceFrom
     );
 
     // ES2020
-
-    let pass = add!(pass, ExportNamespaceFrom, es2020::export_namespace_from());
     let pass = add!(
         pass,
         NullishCoalescing,
