@@ -17,12 +17,12 @@ impl<'a> CompilerImpl<'a> {
         for mut stmt in stmts.take() {
             stmt.visit_mut_with(self);
 
-            if !self.nullish_coalescing_vars.is_empty() {
+            if !self.es2020_nullish_coalescing_vars.is_empty() {
                 buf.push(T::from(
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        decls: take(&mut self.nullish_coalescing_vars),
+                        decls: take(&mut self.es2020_nullish_coalescing_vars),
                         declare: false,
                         ..Default::default()
                     }
@@ -47,7 +47,7 @@ impl<'a> CompilerImpl<'a> {
                 let (l, aliased) = alias_if_required(left, "ref");
 
                 if aliased {
-                    self.nullish_coalescing_vars.push(VarDeclarator {
+                    self.es2020_nullish_coalescing_vars.push(VarDeclarator {
                         span: DUMMY_SP,
                         name: l.clone().into(),
                         init: None,
@@ -97,7 +97,7 @@ impl<'a> CompilerImpl<'a> {
 
                     AssignTarget::Simple(left) => {
                         let alias = alias_ident_for_simple_assign_tatget(left, "refs");
-                        self.nullish_coalescing_vars.push(VarDeclarator {
+                        self.es2020_nullish_coalescing_vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             name: alias.clone().into(),
                             init: None,

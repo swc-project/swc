@@ -11,7 +11,7 @@ impl<'a> CompilerImpl<'a> {
         c: ComputedPropName,
     ) -> (ComputedPropName, ComputedPropName) {
         let alias = alias_ident_for(&c.expr, "_ref");
-        self.logical_assignment_vars.push(VarDeclarator {
+        self.es2021_logical_assignment_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: alias.clone().into(),
             init: None,
@@ -79,7 +79,7 @@ impl<'a> CompilerImpl<'a> {
                         obj @ Expr::This(_) => (obj.clone().into(), obj.into()),
                         obj => {
                             let alias = alias_ident_for(&obj, "_ref");
-                            self.logical_assignment_vars.push(VarDeclarator {
+                            self.es2021_logical_assignment_vars.push(VarDeclarator {
                                 span: DUMMY_SP,
                                 name: alias.clone().into(),
                                 init: None,

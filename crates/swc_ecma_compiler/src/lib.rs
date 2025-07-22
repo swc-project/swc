@@ -59,10 +59,10 @@ struct CompilerImpl<'a> {
     es2022_current_class_data: ClassData,
 
     // Logical assignments transformation state
-    logical_assignment_vars: Vec<VarDeclarator>,
+    es2021_logical_assignment_vars: Vec<VarDeclarator>,
 
     // ES2020: Nullish coalescing transformation state
-    nullish_coalescing_vars: Vec<VarDeclarator>,
+    es2020_nullish_coalescing_vars: Vec<VarDeclarator>,
 }
 
 #[swc_trace]
@@ -74,8 +74,8 @@ impl<'a> CompilerImpl<'a> {
             es2022_private_field_init_exprs: Vec::new(),
             es2022_injected_weakset_vars: FxHashSet::default(),
             es2022_current_class_data: ClassData::default(),
-            logical_assignment_vars: Vec::new(),
-            nullish_coalescing_vars: Vec::new(),
+            es2021_logical_assignment_vars: Vec::new(),
+            es2020_nullish_coalescing_vars: Vec::new(),
         }
     }
 
@@ -470,7 +470,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     /// Prevents #1123 for nullish coalescing
     fn visit_mut_block_stmt(&mut self, s: &mut BlockStmt) {
         let old_vars = if self.config.includes.contains(Features::NULLISH_COALESCING) {
-            self.nullish_coalescing_vars.take()
+            self.es2020_nullish_coalescing_vars.take()
         } else {
             vec![]
         };
@@ -480,7 +480,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
         // Restore vars only if feature is enabled
         if self.config.includes.contains(Features::NULLISH_COALESCING) {
-            self.nullish_coalescing_vars = old_vars;
+            self.es2020_nullish_coalescing_vars = old_vars;
         }
     }
 
@@ -489,9 +489,9 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         if self.config.includes.contains(Features::NULLISH_COALESCING) {
             // Prevents #6328 - test is visited separately
             s.test.visit_mut_with(self);
-            let old_vars = self.nullish_coalescing_vars.take();
+            let old_vars = self.es2020_nullish_coalescing_vars.take();
             s.cons.visit_mut_with(self);
-            self.nullish_coalescing_vars = old_vars;
+            self.es2020_nullish_coalescing_vars = old_vars;
         } else {
             s.visit_mut_children_with(self);
         }
@@ -499,7 +499,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
         let saved_vars = if self.config.includes.contains(Features::NULLISH_COALESCING) {
-            self.nullish_coalescing_vars.take()
+            self.es2020_nullish_coalescing_vars.take()
         } else {
             vec![]
         };
@@ -509,13 +509,13 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
         // Post-processing for nullish coalescing
         if self.config.includes.contains(Features::NULLISH_COALESCING) {
-            if !self.nullish_coalescing_vars.is_empty() {
+            if !self.es2020_nullish_coalescing_vars.is_empty() {
                 if let BlockStmtOrExpr::Expr(expr) = n {
                     let stmts = vec![
                         VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
-                            decls: self.nullish_coalescing_vars.take(),
+                            decls: self.es2020_nullish_coalescing_vars.take(),
                             declare: false,
                             ..Default::default()
                         }
@@ -532,7 +532,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                     });
                 }
             }
-            self.nullish_coalescing_vars = saved_vars;
+            self.es2020_nullish_coalescing_vars = saved_vars;
         }
     }
 
@@ -649,8 +649,8 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
         let (saved_logical_vars, saved_nullish_vars) = if need_var_hoisting {
             (
-                self.logical_assignment_vars.take(),
-                self.nullish_coalescing_vars.take(),
+                self.es2021_logical_assignment_vars.take(),
+                self.es2020_nullish_coalescing_vars.take(),
             )
         } else {
             (vec![], vec![])
@@ -666,9 +666,9 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         // Post-processing: Handle variable hoisting
         if need_var_hoisting {
             let logical_vars =
-                std::mem::replace(&mut self.logical_assignment_vars, saved_logical_vars);
+                std::mem::replace(&mut self.es2021_logical_assignment_vars, saved_logical_vars);
             let nullish_vars =
-                std::mem::replace(&mut self.nullish_coalescing_vars, saved_nullish_vars);
+                std::mem::replace(&mut self.es2020_nullish_coalescing_vars, saved_nullish_vars);
 
             let mut all_vars = Vec::new();
             all_vars.extend(logical_vars);
@@ -719,8 +719,8 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
         let (saved_logical_vars, saved_nullish_vars) = if need_var_hoisting {
             (
-                self.logical_assignment_vars.take(),
-                self.nullish_coalescing_vars.take(),
+                self.es2021_logical_assignment_vars.take(),
+                self.es2020_nullish_coalescing_vars.take(),
             )
         } else {
             (vec![], vec![])
@@ -736,9 +736,9 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         // Post-processing: Handle variable hoisting
         if need_var_hoisting {
             let logical_vars =
-                std::mem::replace(&mut self.logical_assignment_vars, saved_logical_vars);
+                std::mem::replace(&mut self.es2021_logical_assignment_vars, saved_logical_vars);
             let nullish_vars =
-                std::mem::replace(&mut self.nullish_coalescing_vars, saved_nullish_vars);
+                std::mem::replace(&mut self.es2020_nullish_coalescing_vars, saved_nullish_vars);
 
             let mut all_vars = Vec::new();
             all_vars.extend(logical_vars);
