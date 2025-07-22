@@ -60,6 +60,8 @@ struct ManglingRenamer<'a> {
 }
 
 impl<'a> Renamer for ManglingRenamer<'a> {
+    type Target = Atom;
+
     const MANGLE: bool = true;
     const RESET_N: bool = false;
 
