@@ -29,7 +29,7 @@ pub fn es2022(config: Config, unresolved_mark: Mark) -> impl Pass {
         }),
         Compiler::new(swc_ecma_compiler::Config {
             includes: Features::STATIC_BLOCKS | Features::PRIVATE_IN_OBJECT,
-            excludes: Features::empty(),
+            ..Default::default()
         }),
         class_properties(config.class_properties, unresolved_mark),
     )

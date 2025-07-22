@@ -5,7 +5,6 @@ use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{alias_ident_for_simple_assign_tatget, alias_if_required, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 pub fn nullish_coalescing(c: Config) -> impl Pass + 'static {
     visit_mut_pass(NullishCoalescing {
@@ -27,7 +26,6 @@ pub struct Config {
     pub no_document_all: bool,
 }
 
-#[swc_trace]
 impl NullishCoalescing {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
@@ -58,7 +56,6 @@ impl NullishCoalescing {
     }
 }
 
-#[swc_trace]
 impl VisitMut for NullishCoalescing {
     noop_visit_mut_type!(fail);
 

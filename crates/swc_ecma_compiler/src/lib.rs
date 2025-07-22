@@ -5,6 +5,7 @@ use std::mem::take;
 use rustc_hash::FxHashSet;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::assumptions::Assumptions;
 use swc_ecma_utils::{
     default_constructor_with_span, prepend_stmt, private_ident, quote_ident, ExprFactory,
 };
@@ -17,6 +18,7 @@ use crate::es2022::{
 };
 pub use crate::features::Features;
 
+mod es2020;
 mod es2021;
 mod es2022;
 mod features;
@@ -32,8 +34,9 @@ impl Compiler {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Default)]
 pub struct Config {
+    pub assumptions: Assumptions,
     /// Always compile these syntaxes.
     pub includes: Features,
     /// Always preserve these syntaxes.
@@ -56,7 +59,7 @@ struct CompilerImpl<'a> {
     es2022_current_class_data: ClassData,
 
     // Logical assignments transformation state
-    logical_assignment_vars: Vec<VarDeclarator>,
+    es2021_logical_assignment_vars: Vec<VarDeclarator>,
 }
 
 #[swc_trace]
@@ -68,16 +71,12 @@ impl<'a> CompilerImpl<'a> {
             es2022_private_field_init_exprs: Vec::new(),
             es2022_injected_weakset_vars: FxHashSet::default(),
             es2022_current_class_data: ClassData::default(),
-            logical_assignment_vars: Vec::new(),
+            es2021_logical_assignment_vars: Vec::new(),
         }
     }
 
     /// ES2022: Transform static blocks to static private fields
     fn es2022_static_blocks_to_private_fields(&mut self, class: &mut Class) {
-        if !self.config.includes.contains(Features::STATIC_BLOCKS) {
-            return;
-        }
-
         let mut private_names = FxHashSet::default();
         for member in &class.body {
             if let ClassMember::PrivateProp(private_property) = member {
@@ -268,9 +267,7 @@ impl<'a> CompilerImpl<'a> {
 
     /// ES2022: Prepend private field helper variables to statements
     fn es2022_prepend_private_field_vars(&mut self, stmts: &mut Vec<Stmt>) {
-        if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
-            || self.es2022_private_field_helper_vars.is_empty()
-        {
+        if self.es2022_private_field_helper_vars.is_empty() {
             return;
         }
 
@@ -289,9 +286,7 @@ impl<'a> CompilerImpl<'a> {
 
     /// ES2022: Prepend private field helper variables to module items
     fn es2022_prepend_private_field_vars_module(&mut self, items: &mut Vec<ModuleItem>) {
-        if !self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
-            || self.es2022_private_field_helper_vars.is_empty()
-        {
+        if self.es2022_private_field_helper_vars.is_empty() {
             return;
         }
 
@@ -389,145 +384,162 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_class(&mut self, class: &mut Class) {
-        // ES2022: Static blocks transformation
-        self.es2022_static_blocks_to_private_fields(class);
+        // Pre-processing transformations
+        if self.config.includes.contains(Features::STATIC_BLOCKS) {
+            self.es2022_static_blocks_to_private_fields(class);
+        }
 
-        // ES2022: Private in object transformation
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             self.es2022_analyze_private_fields_for_in_operator(class);
         }
 
+        // Single recursive visit
         class.visit_mut_children_with(self);
 
+        // Post-processing transformations
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             self.es2022_inject_weakset_init_for_private_fields(class);
         }
     }
 
     fn visit_mut_class_decl(&mut self, n: &mut ClassDecl) {
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            let old_cls = take(&mut self.es2022_current_class_data);
-
+        // Setup phase for private fields
+        let old_cls = if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
+            let old = take(&mut self.es2022_current_class_data);
             self.es2022_current_class_data.mark = Mark::fresh(Mark::root());
             self.es2022_current_class_data.ident = Some(n.ident.clone());
             self.es2022_current_class_data.vars = Mode::ClassDecl {
                 vars: Default::default(),
             };
+            Some(old)
+        } else {
+            None
+        };
 
-            n.visit_mut_children_with(self);
+        // Single recursive visit
+        n.visit_mut_children_with(self);
 
+        // Cleanup phase for private fields
+        if let Some(old_cls) = old_cls {
             match &mut self.es2022_current_class_data.vars {
                 Mode::ClassDecl { vars } => {
                     self.es2022_private_field_helper_vars.extend(take(vars));
                 }
-                _ => {
-                    unreachable!()
-                }
+                _ => unreachable!(),
             }
-
             self.es2022_current_class_data = old_cls;
-        } else {
-            n.visit_mut_children_with(self);
         }
     }
 
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            let old_cls = take(&mut self.es2022_current_class_data);
-
+        // Setup phase for private fields
+        let old_cls = if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
+            let old = take(&mut self.es2022_current_class_data);
             self.es2022_current_class_data.mark = Mark::fresh(Mark::root());
             self.es2022_current_class_data.ident.clone_from(&n.ident);
             self.es2022_current_class_data.vars = Mode::ClassExpr {
                 vars: Default::default(),
                 init_exprs: Default::default(),
             };
+            Some(old)
+        } else {
+            None
+        };
 
-            n.visit_mut_children_with(self);
+        // Single recursive visit
+        n.visit_mut_children_with(self);
 
+        // Cleanup phase for private fields
+        if let Some(old_cls) = old_cls {
             match &mut self.es2022_current_class_data.vars {
                 Mode::ClassExpr { vars, init_exprs } => {
                     self.es2022_private_field_helper_vars.extend(take(vars));
                     self.es2022_private_field_init_exprs
                         .extend(take(init_exprs));
                 }
-                _ => {
-                    unreachable!()
-                }
+                _ => unreachable!(),
             }
-
             self.es2022_current_class_data = old_cls;
-        } else {
-            n.visit_mut_children_with(self);
         }
+    }
+
+    /// Prevents #1123 for nullish coalescing
+    fn visit_mut_block_stmt(&mut self, s: &mut BlockStmt) {
+        // Single recursive visit
+        s.visit_mut_children_with(self);
+    }
+
+    /// Prevents #1123 and #6328 for nullish coalescing
+    fn visit_mut_switch_case(&mut self, s: &mut SwitchCase) {
+        s.visit_mut_children_with(self);
     }
 
     fn visit_mut_assign_pat(&mut self, p: &mut AssignPat) {
+        // Visit left side first
+        p.left.visit_mut_with(self);
+
+        // Handle private field brand checks
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            p.left.visit_mut_with(self);
+            let mut buf = FxHashSet::default();
+            let mut v = ClassAnalyzer {
+                brand_check_names: &mut buf,
+                ignore_class: false,
+            };
+            p.right.visit_with(&mut v);
 
-            {
-                let mut buf = FxHashSet::default();
-                let mut v = ClassAnalyzer {
-                    brand_check_names: &mut buf,
-                    ignore_class: false,
+            if !buf.is_empty() {
+                let mut bs = BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(p.right.take()),
+                    }
+                    .into()],
+                    ..Default::default()
                 };
-                p.right.visit_with(&mut v);
+                bs.visit_mut_with(self);
 
-                if buf.is_empty() {
-                    p.right.visit_mut_with(self);
-                } else {
-                    let mut bs = BlockStmt {
+                p.right = CallExpr {
+                    span: DUMMY_SP,
+                    callee: ArrowExpr {
                         span: DUMMY_SP,
-                        stmts: Vec::new(),
-                        ..Default::default()
-                    };
-                    bs.stmts.push(
-                        ReturnStmt {
-                            span: DUMMY_SP,
-                            arg: Some(p.right.take()),
-                        }
-                        .into(),
-                    );
-                    bs.visit_mut_with(self);
-
-                    p.right = CallExpr {
-                        span: DUMMY_SP,
-                        callee: ArrowExpr {
-                            span: DUMMY_SP,
-                            params: Default::default(),
-                            body: Box::new(BlockStmtOrExpr::BlockStmt(bs)),
-                            is_async: false,
-                            is_generator: false,
-                            ..Default::default()
-                        }
-                        .as_callee(),
-                        args: Default::default(),
+                        params: Default::default(),
+                        body: Box::new(BlockStmtOrExpr::BlockStmt(bs)),
+                        is_async: false,
+                        is_generator: false,
                         ..Default::default()
                     }
-                    .into();
+                    .as_callee(),
+                    args: Default::default(),
+                    ..Default::default()
                 }
-            }
-        } else {
-            p.visit_mut_children_with(self);
-        }
-    }
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        // Check if we need to transform logical assignments
-        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) {
-            // Try to transform logical assignment first
-            if self.transform_logical_assignment(e) {
-                // If transformed, continue visiting children
-                e.visit_mut_children_with(self);
+                .into();
                 return;
             }
         }
 
-        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            let prev_prepend_exprs = take(&mut self.es2022_private_field_init_exprs);
+        p.right.visit_mut_with(self);
+    }
 
-            e.visit_mut_children_with(self);
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        // Phase 1: Pre-processing - Check and apply transformations that replace the
+        // expression
+        let logical_transformed = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
+            && self.transform_logical_assignment(e);
 
+        // Phase 2: Setup for private field expressions
+        let prev_prepend_exprs = if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
+            Some(take(&mut self.es2022_private_field_init_exprs))
+        } else {
+            None
+        };
+
+        // Phase 3: Single recursive visit
+        e.visit_mut_children_with(self);
+
+        // Phase 4: Post-processing transformations
+        // Handle private field expressions
+        if let Some(prev_prepend_exprs) = prev_prepend_exprs {
             let mut prepend_exprs = std::mem::replace(
                 &mut self.es2022_private_field_init_exprs,
                 prev_prepend_exprs,
@@ -547,45 +559,72 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                         .into();
                     }
                 }
-                return;
+            } else if !logical_transformed {
+                // Transform private in expressions only if no other transformation occurred
+                self.es2022_transform_private_in_to_weakset_has(e);
             }
-
-            self.es2022_transform_private_in_to_weakset_has(e);
-        } else {
-            e.visit_mut_children_with(self);
         }
     }
 
     fn visit_mut_module_items(&mut self, ns: &mut Vec<ModuleItem>) {
-        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) {
-            let vars = self.logical_assignment_vars.take();
-            ns.visit_mut_children_with(self);
+        // Pre-processing: Export namespace transformation
+        if self
+            .config
+            .includes
+            .contains(Features::EXPORT_NAMESPACE_FROM)
+        {
+            self.transform_export_namespace_from(ns);
+        }
 
-            let vars = std::mem::replace(&mut self.logical_assignment_vars, vars);
-            if !vars.is_empty() {
+        // Setup for variable hoisting
+        let need_var_hoisting = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS);
+
+        let saved_logical_vars = if need_var_hoisting {
+            self.es2021_logical_assignment_vars.take()
+        } else {
+            vec![]
+        };
+
+        // Single recursive visit
+        ns.visit_mut_children_with(self);
+
+        // Post-processing: Handle variable hoisting
+        if need_var_hoisting {
+            let logical_vars =
+                std::mem::replace(&mut self.es2021_logical_assignment_vars, saved_logical_vars);
+
+            let mut all_vars = Vec::new();
+            all_vars.extend(logical_vars);
+
+            if !all_vars.is_empty() {
                 prepend_stmt(
                     ns,
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        decls: vars,
+                        decls: all_vars,
                         ..Default::default()
                     }
                     .into(),
                 );
             }
-        } else {
-            ns.visit_mut_children_with(self);
         }
-        self.es2022_prepend_private_field_vars_module(ns);
+
+        // Post-processing: Private field variables
+        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
+            && !self.es2022_private_field_helper_vars.is_empty()
+        {
+            self.es2022_prepend_private_field_vars_module(ns);
+        }
     }
 
     fn visit_mut_private_prop(&mut self, n: &mut PrivateProp) {
+        // Single recursive visit
+        n.visit_mut_children_with(self);
+
+        // Post-processing: Add WeakSet for brand checks
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            n.visit_mut_children_with(self);
             self.es2022_add_weakset_to_private_props(n);
-        } else {
-            n.visit_mut_children_with(self);
         }
     }
 
@@ -596,26 +635,45 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
-        if self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS) {
-            let vars = self.logical_assignment_vars.take();
-            s.visit_mut_children_with(self);
+        // Setup for variable hoisting
+        let need_var_hoisting = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS);
 
-            let vars = std::mem::replace(&mut self.logical_assignment_vars, vars);
-            if !vars.is_empty() {
+        let saved_logical_vars = if need_var_hoisting {
+            self.es2021_logical_assignment_vars.take()
+        } else {
+            vec![]
+        };
+
+        // Single recursive visit
+        s.visit_mut_children_with(self);
+
+        // Post-processing: Handle variable hoisting
+        if need_var_hoisting {
+            let logical_vars =
+                std::mem::replace(&mut self.es2021_logical_assignment_vars, saved_logical_vars);
+
+            let mut all_vars = Vec::new();
+            all_vars.extend(logical_vars);
+
+            if !all_vars.is_empty() {
                 prepend_stmt(
                     s,
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        decls: vars,
+                        decls: all_vars,
                         ..Default::default()
                     }
                     .into(),
                 );
             }
-        } else {
-            s.visit_mut_children_with(self);
         }
-        self.es2022_prepend_private_field_vars(s);
+
+        // Post-processing: Private field variables
+        if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
+            && !self.es2022_private_field_helper_vars.is_empty()
+        {
+            self.es2022_prepend_private_field_vars(s);
+        }
     }
 }
