@@ -64,6 +64,7 @@ impl Fold for OnceMarker {
     }
 }
 
+/// Apply the n-th mark to idents of the form `name$2`.
 struct InlineContextMarker {
     marks: Vec<Mark>,
 }

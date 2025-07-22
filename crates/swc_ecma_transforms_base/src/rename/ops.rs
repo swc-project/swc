@@ -15,7 +15,7 @@ use crate::{
 
 pub(super) struct Operator<'a, V>
 where
-    V: RenamedVariable + Sync,
+    V: RenamedVariable,
 {
     pub rename: &'a FxHashMap<Id, V>,
     pub config: Config,
@@ -25,7 +25,7 @@ where
 
 impl<V> Operator<'_, V>
 where
-    V: RenamedVariable + Sync,
+    V: RenamedVariable,
 {
     fn keep_class_name(&mut self, ident: &mut Ident, class: &mut Class) -> Option<ClassExpr> {
         if !self.config.keep_class_names {
@@ -64,7 +64,7 @@ where
 
 impl<V> Parallel for Operator<'_, V>
 where
-    V: RenamedVariable + Sync,
+    V: RenamedVariable,
 {
     fn create(&self) -> Self {
         Self {
@@ -85,7 +85,7 @@ where
 
 impl<V> ParExplode for Operator<'_, V>
 where
-    V: RenamedVariable + Sync,
+    V: RenamedVariable,
 {
     fn after_one_stmt(&mut self, _: &mut Vec<Stmt>) {}
 
@@ -96,7 +96,7 @@ where
 
 impl<V> VisitMut for Operator<'_, V>
 where
-    V: RenamedVariable + Sync,
+    V: RenamedVariable,
 {
     noop_visit_mut_type!();
 
@@ -611,7 +611,7 @@ where
 
 struct VarFolder<'a, 'b, V>
 where
-    V: RenamedVariable + Sync,
+    V: RenamedVariable,
 {
     orig: &'a mut Operator<'b, V>,
     renamed: &'a mut Vec<ExportSpecifier>,
@@ -619,7 +619,7 @@ where
 
 impl<V> VisitMut for VarFolder<'_, '_, V>
 where
-    V: RenamedVariable + Sync,
+    V: RenamedVariable,
 {
     noop_visit_mut_type!();
 
@@ -645,7 +645,7 @@ where
 
 impl<V> Operator<'_, V>
 where
-    V: RenamedVariable + Sync,
+    V: RenamedVariable,
 {
     /// Returns `Ok(renamed_ident)` if ident should be renamed.
     fn rename_ident(&mut self, ident: &mut Ident) -> Result<(), ()> {

@@ -22,6 +22,8 @@ mod eval;
 mod ops;
 
 pub trait Renamer: Send + Sync {
+    /// See the [`RenamedVariable`] documentation, this type determines whether
+    /// impls can be used with [`renamer`] or [`renamer_keep_contexts`] .
     type Target: RenamedVariable;
 
     /// Should reset `n` to 0 for each identifier?
@@ -52,7 +54,7 @@ pub trait Renamer: Send + Sync {
 
 pub type RenameMap = FxHashMap<Id, Atom>;
 
-pub fn rename(map: &RenameMap) -> impl '_ + Pass + VisitMut {
+pub fn rename<V: RenamedVariable>(map: &FxHashMap<Id, V>) -> impl '_ + Pass + VisitMut {
     rename_with_config(map, Default::default())
 }
 
@@ -110,9 +112,22 @@ mod private {
     impl Sealed for Id {}
 }
 
+/// A trait that is used to represent a renamed variable. For
+/// `renamer_keep_contexts`, the syntax contexts of the replacements should be
+/// correct (unique), while for `hygiene` (which calls `renamer`), the resulting
+/// syntax contexts are irrelevant. This type is used to handle both cases
+/// without code duplication by using `HashMap<Id, impl RenamedVariable>`
+/// everywhere:
+/// - For `renamer`, `HashMap<Id, Atom>` is used (and `SyntaxContext::empty()`
+///   isn't store unnecessarily). All replaced idents have the same
+///   SyntaxContext #0.
+/// - For `renamer_keep_contexts`, `HashMap<Id, Id>` is used. All replaced
+///   idents have a unique SyntaxContext.
 pub trait RenamedVariable:
     private::Sealed + Clone + Sized + std::marker::Send + std::marker::Sync + 'static
 {
+    /// Potentially create a new private variable, depending on whether the
+    /// consumer cares about the syntax context after the renaming.
     fn new_private(sym: Atom) -> Self;
     fn to_id(&self) -> Id;
 }
