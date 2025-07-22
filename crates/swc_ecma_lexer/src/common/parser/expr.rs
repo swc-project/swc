@@ -1351,10 +1351,9 @@ fn parse_bin_op_recursively_inner<'a, P: Parser<'a>>(
         }
     }
 
-    let ctx = p.ctx();
     // Return left on eof
     let cur = p.input().cur();
-    let op = if cur.is_in() && ctx.contains(Context::IncludeInExpr) {
+    let op = if cur.is_in() && p.ctx().contains(Context::IncludeInExpr) {
         op!("in")
     } else if cur.is_instanceof() {
         op!("instanceof")
@@ -2410,13 +2409,16 @@ pub fn parse_primary_expr_rest<'a, P: Parser<'a>>(
             name: id.sym,
         }
         .into())
-    } else if p.is_ident_ref() {
-        let cur = p.input().cur();
-        let id_is_async = cur.is_async();
+    } else if cur.is_unknown_ident() {
         let word = p.input_mut().expect_word_token_and_bump();
         if p.ctx().contains(Context::InClassField) && word == atom!("arguments") {
             p.emit_err(p.input().prev_span(), SyntaxError::ArgumentsInClassField)
         };
+        let id = Ident::new_no_ctxt(word, p.span(token_start));
+        try_parse_arrow_expr(p, id, false)
+    } else if p.is_ident_ref() {
+        let id_is_async = p.input().cur().is_async();
+        let word = p.input_mut().expect_word_token_and_bump();
         let id = Ident::new_no_ctxt(word, p.span(token_start));
         try_parse_arrow_expr(p, id, id_is_async)
     } else {
