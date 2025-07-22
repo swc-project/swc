@@ -100,7 +100,7 @@ where
     })
 }
 
-pub trait RenamedVariable: Clone + Sized + Send + Sync + 'static {
+pub trait RenamedVariable: Clone + Sized + std::marker::Send + std::marker::Sync + 'static {
     fn new_private(sym: Atom) -> Self;
     fn to_id(&self) -> Id;
 }
