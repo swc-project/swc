@@ -18,9 +18,10 @@ pub fn es2020(config: Config, unresolved_mark: Mark) -> impl Pass {
     assumptions.no_document_all = config.nullish_coalescing.no_document_all;
 
     (
+        nullish_coalescing(config.nullish_coalescing),
         optional_chaining(config.optional_chaining, unresolved_mark),
         Compiler::new(swc_ecma_compiler::Config {
-            includes: Features::NULLISH_COALESCING | Features::EXPORT_NAMESPACE_FROM,
+            includes: Features::EXPORT_NAMESPACE_FROM,
             assumptions,
             ..Default::default()
         }),
