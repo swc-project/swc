@@ -1,11 +1,11 @@
-var c = 1;
-function o() {
-    c++;
+var a = 1;
+function c() {
+    a++;
     try {
         x();
-    } catch (c) {
-        var c;
+    } catch (a) {
+        var a;
     }
 }
-o();
-console.log(c);
+c();
+console.log(a);

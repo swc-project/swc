@@ -31,18 +31,18 @@
             var F = D(M());
             var I = ()=>{};
             (0, A.createContext)({});
-            function H(m = "DEFAULT_TOOLTIP_ID") {}
+            function z(m = "DEFAULT_TOOLTIP_ID") {}
             D(M());
-            var V = "undefined" != typeof window ? A.useLayoutEffect : A.useEffect;
-            var W = async ()=>{};
-            var X = function() {};
-            var Y = function(m) {
+            var H = "undefined" != typeof window ? A.useLayoutEffect : A.useEffect;
+            var V = async ()=>{};
+            var W = function() {};
+            var X = function(m) {
                 return void 0 === m && (m = 0), {
                     name: "offset",
                     options: m
                 };
             };
-            var z = function() {};
+            var Y = function() {};
             function G(m) {}
             function J(m) {}
             function Q(m) {}
@@ -127,15 +127,15 @@
                     ...k.platform,
                     _c: E
                 };
-                return W(m, S, {
+                return V(m, S, {
                     ...k,
                     platform: R
                 });
             };
             var er = async ({ elementReference: m = null, tooltipReference: S = null, tooltipArrowReference: h = null, place: E = "top", offset: k = 10, strategy: R = "absolute", middlewares: A = [
-                Y(Number(k)),
-                X(),
-                z({
+                X(Number(k)),
+                W(),
+                Y({
                     padding: 5
                 })
             ] })=>{
@@ -181,8 +181,8 @@
                 warning: "react-tooltip__warning_KtSkBq"
             };
             var eo = ({})=>{
-                let m = (0, A.useRef)(null), S = (0, A.useRef)(null), h = (0, A.useRef)(null), E = (0, A.useRef)(null), [k, R] = (0, A.useState)(i), [L, j] = (0, A.useState)({}), [B, C] = (0, A.useState)({}), [N, $] = (0, A.useState)(!1), [D, M] = (0, A.useState)(!1), W = (0, A.useRef)(null), { anchorRefs: X } = H(t), Y = (0, A.useRef)(!1), [z, G] = (0, A.useState)([]), J = (0, A.useRef)(!1), Q = u || f.includes("click");
-                V(()=>(J.current = !0, ()=>{
+                let m = (0, A.useRef)(null), S = (0, A.useRef)(null), h = (0, A.useRef)(null), E = (0, A.useRef)(null), [k, R] = (0, A.useState)(i), [L, j] = (0, A.useState)({}), [B, C] = (0, A.useState)({}), [N, $] = (0, A.useState)(!1), [D, M] = (0, A.useState)(!1), V = (0, A.useRef)(null), { anchorRefs: W } = z(t), X = (0, A.useRef)(!1), [Y, G] = (0, A.useState)([]), J = (0, A.useRef)(!1), Q = u || f.includes("click");
+                H(()=>(J.current = !0, ()=>{
                         J.current = !1;
                     }), []), (0, A.useEffect)(()=>{
                     if (!N) {
@@ -217,22 +217,22 @@
                         x: m.clientX,
                         y: m.clientY
                     };
-                    eo(S), W.current = S;
+                    eo(S), V.current = S;
                 }, ei = (m)=>{
                     ee(m), y;
                 }, ea = (S)=>{
                     var h;
                     [
                         document.querySelector(`[id='${l}']`),
-                        ...z
+                        ...Y
                     ].some((m)=>null == m ? void 0 : m.contains(S.target)) || null != (h = m.current) && h.contains(S.target) || Z(!1);
                 }, eu = (m)=>{
                     "Escape" === m.key && Z(!1);
                 }, es = I(ee, 50), ec = I(et, 50);
                 (0, A.useEffect)(()=>{
                     var S, h;
-                    let E = new Set(X);
-                    z.forEach((m)=>{
+                    let E = new Set(W);
+                    Y.forEach((m)=>{
                         E.add({
                             current: m
                         });
@@ -262,9 +262,9 @@
                         listener: el
                     }));
                     let A = ()=>{
-                        Y.current = !0;
+                        X.current = !0;
                     }, O = ()=>{
-                        Y.current = !1, et();
+                        X.current = !1, et();
                     };
                     return T && !Q && (null == (S = m.current) || S.addEventListener("mouseenter", A), null == (h = m.current) || h.addEventListener("mouseleave", O)), R.forEach(({ event: m, listener: S })=>{
                         E.forEach((h)=>{
@@ -282,8 +282,8 @@
                     };
                 }, [
                     D,
-                    X,
-                    z,
+                    W,
+                    Y,
                     x,
                     f
                 ]), (0, A.useEffect)(()=>{
@@ -324,7 +324,7 @@
                 ]), (0, A.useEffect)(()=>{
                     if (P) return void eo(P);
                     if (g) {
-                        W.current && eo(W.current);
+                        V.current && eo(V.current);
                         return;
                     }
                     er({
@@ -349,13 +349,13 @@
                 ]), (0, A.useEffect)(()=>{
                     var m;
                     let S = document.querySelector(`[id='${l}']`), h = [
-                        ...z,
+                        ...Y,
                         S
                     ];
-                    _ && h.includes(_) || b(null != (m = z[0]) ? m : S);
+                    _ && h.includes(_) || b(null != (m = Y[0]) ? m : S);
                 }, [
                     l,
-                    z,
+                    Y,
                     _
                 ]), (0, A.useEffect)(()=>()=>{
                         h.current && clearTimeout(h.current), E.current && clearTimeout(E.current);
@@ -403,7 +403,7 @@
                     }
                 });
             var ei = ({ setIsOpen: m })=>{
-                let [S, h] = (0, A.useState)(o), [E, k] = (0, A.useState)(l), [R, L] = (0, A.useState)(u), [j, B] = (0, A.useState)(f), [C, N] = (0, A.useState)(a), [$, D] = (0, A.useState)(T), [M, F] = (0, A.useState)(x), [I, V] = (0, A.useState)(v), [W, X] = (0, A.useState)(c), [Y, z] = (0, A.useState)(p), [G, J] = (0, A.useState)(g), [Q, Z] = (0, A.useState)(null), {} = H(t);
+                let [S, h] = (0, A.useState)(o), [E, k] = (0, A.useState)(l), [R, L] = (0, A.useState)(u), [j, B] = (0, A.useState)(f), [C, N] = (0, A.useState)(a), [$, D] = (0, A.useState)(T), [M, F] = (0, A.useState)(x), [I, H] = (0, A.useState)(v), [V, W] = (0, A.useState)(c), [X, Y] = (0, A.useState)(p), [G, J] = (0, A.useState)(g), [Q, Z] = (0, A.useState)(null), {} = z(t);
                 (0, A.useEffect)(()=>{}, [
                     o
                 ]), (0, A.useEffect)(()=>{}, [
