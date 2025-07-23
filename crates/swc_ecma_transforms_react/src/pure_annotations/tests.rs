@@ -70,7 +70,7 @@ fn run_test(input: &str, expected: &str) {
             .apply(&mut resolver(unresolved_mark, top_level_mark, false))
             .apply(&mut crate::react(
                 actual_sm.clone(),
-                Some(&actual_comments),
+                Some(actual_comments.clone()),
                 Default::default(),
                 top_level_mark,
                 unresolved_mark,

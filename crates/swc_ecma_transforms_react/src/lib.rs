@@ -4,6 +4,8 @@
 #![allow(rustc::untranslatable_diagnostic_trivial)]
 #![cfg_attr(not(feature = "concurrent"), allow(unused))]
 
+use std::mem;
+
 use swc_common::{comments::Comments, sync::Lrc, Mark, SourceMap};
 use swc_ecma_ast::Pass;
 
@@ -39,35 +41,44 @@ mod refresh;
 pub fn react<C>(
     cm: Lrc<SourceMap>,
     comments: Option<C>,
-    mut options: Options,
+    options: Options,
     top_level_mark: Mark,
     unresolved_mark: Mark,
 ) -> impl Pass
 where
-    C: Comments + Clone,
+    C: Comments + Clone + 'static,
 {
-    let Options { development, .. } = options;
-    let development = development.unwrap_or(false);
+    let development = options.common.development.into_bool();
 
-    let refresh_options = options.refresh.take();
+    let (auto_config, classic_config) = match parse_directives(options.runtime, comments.clone()) {
+        Runtime::Automatic(ref mut config) => (Some(mem::take(config)), None),
+        Runtime::Classic(ref mut config) => (None, Some(mem::take(config))),
+        Runtime::Preserve => unreachable!(),
+    };
+
+    let refresh_options = options.refresh;
 
     (
         jsx_src(development, cm.clone()),
         jsx_self(development),
         refresh(
             development,
-            refresh_options.clone(),
+            refresh_options,
             cm.clone(),
             comments.clone(),
             top_level_mark,
         ),
-        jsx(
-            cm.clone(),
-            comments.clone(),
-            options,
-            top_level_mark,
-            unresolved_mark,
-        ),
+        auto_config
+            .map(|config| automatic(config, options.common, unresolved_mark, comments.clone())),
+        classic_config.map(|config| {
+            classic(
+                config,
+                options.common,
+                top_level_mark,
+                comments.clone(),
+                cm.clone(),
+            )
+        }),
         display_name(),
         pure_annotations(comments.clone()),
     )

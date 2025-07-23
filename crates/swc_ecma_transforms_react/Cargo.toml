@@ -21,6 +21,7 @@ serde-impl = ["serde"]
 base64     = { workspace = true }
 bytes-str  = { workspace = true }
 indexmap   = { workspace = true }
+memchr     = { workspace = true }
 once_cell  = { workspace = true }
 rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"], optional = true }

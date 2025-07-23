@@ -5,8 +5,10 @@ use std::{
     path::{Path, PathBuf},
 };
 
+use swc_common::{FileName, Mark};
+use swc_ecma_ast::*;
 use swc_ecma_codegen::{Config, Emitter};
-use swc_ecma_parser::{EsSyntax, Parser, StringInput};
+use swc_ecma_parser::{EsSyntax, Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene, resolver};
 use swc_ecma_transforms_compat::{
     es2015::{arrow, classes},
@@ -38,9 +40,18 @@ fn tr(t: &mut Tester, options: Options, top_level_mark: Mark) -> impl Pass {
 
 #[derive(Debug, Deserialize)]
 #[serde(deny_unknown_fields)]
+#[serde(rename_all = "camelCase")]
 struct FixtureOptions {
-    #[serde(flatten)]
-    options: Options,
+    runtime: Option<String>,
+
+    #[serde(default)]
+    pragma: Option<String>,
+
+    #[serde(default)]
+    pragma_frag: Option<String>,
+
+    #[serde(default)]
+    import_source: Option<String>,
 
     #[serde(default, rename = "BABEL_8_BREAKING")]
     babel_8_breaking: bool,
@@ -51,6 +62,12 @@ struct FixtureOptions {
     #[serde(default)]
     throws: Option<String>,
 
+    #[serde(default)]
+    pub development: bool,
+
+    #[serde(default = "true_by_default")]
+    pub throw_if_namespace: bool,
+
     #[serde(default, alias = "useBuiltIns")]
     use_builtins: bool,
 }
@@ -59,22 +76,56 @@ fn true_by_default() -> bool {
     true
 }
 
-fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Pass {
+impl From<FixtureOptions> for Options {
+    fn from(val: FixtureOptions) -> Self {
+        let runtime = match val.runtime.as_deref() {
+            Some("automatic") => Runtime::Automatic(AutomaticConfig {
+                import_source: val
+                    .import_source
+                    .map(Into::into)
+                    .unwrap_or_else(default_import_source),
+            }),
+            Some("classic") => Runtime::Classic(ClassicConfig {
+                pragma: val.pragma.map(Into::into).unwrap_or_else(default_pragma),
+                pragma_frag: val
+                    .pragma_frag
+                    .map(Into::into)
+                    .unwrap_or_else(default_pragma_frag),
+            }),
+            Some("preserve") => Runtime::Preserve,
+            _ => {
+                if val.babel_8_breaking {
+                    Runtime::Automatic(Default::default())
+                } else {
+                    Runtime::Classic(Default::default())
+                }
+            }
+        };
+
+        Options {
+            runtime,
+            common: CommonConfig {
+                development: val.development.into(),
+                pure: val.pure.into(),
+                throw_if_namespace: val.throw_if_namespace.into(),
+            },
+            refresh: None,
+        }
+    }
+}
+
+fn fixture_tr(t: &mut Tester, options: FixtureOptions) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    options.options.next = Some(options.babel_8_breaking || options.options.runtime.is_some());
-
-    if !options.babel_8_breaking && options.options.runtime.is_none() {
-        options.options.runtime = Some(Runtime::Classic);
-    }
+    let options = options.into();
 
     (
         resolver(unresolved_mark, top_level_mark, false),
         jsx(
             t.cm.clone(),
             Some(t.comments.clone()),
-            options.options,
+            options,
             top_level_mark,
             unresolved_mark,
         ),
@@ -83,22 +134,18 @@ fn fixture_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Pass {
     )
 }
 
-fn integration_tr(t: &mut Tester, mut options: FixtureOptions) -> impl Pass {
+fn integration_tr(t: &mut Tester, options: FixtureOptions) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    options.options.next = Some(options.babel_8_breaking || options.options.runtime.is_some());
-
-    if !options.babel_8_breaking && options.options.runtime.is_none() {
-        options.options.runtime = Some(Runtime::Classic);
-    }
+    let options = options.into();
 
     (
         resolver(unresolved_mark, top_level_mark, false),
         react(
             t.cm.clone(),
             Some(t.comments.clone()),
-            options.options,
+            options,
             top_level_mark,
             unresolved_mark,
         ),
@@ -337,7 +384,10 @@ test!(
     |t| tr(
         t,
         Options {
-            pragma: Some("dom".into()),
+            runtime: Runtime::Classic(ClassicConfig {
+                pragma: "dom".into(),
+                ..Default::default()
+            }),
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -808,8 +858,14 @@ test!(
     |t| tr(
         t,
         Options {
-            pragma: Some("h".into()),
-            throw_if_namespace: false.into(),
+            runtime: Runtime::Classic(ClassicConfig {
+                pragma: "h".into(),
+                ..Default::default()
+            }),
+            common: CommonConfig {
+                throw_if_namespace: false.into(),
+                ..Default::default()
+            },
             ..Default::default()
         },
         Mark::fresh(Mark::root())
@@ -1167,7 +1223,7 @@ fn test_script(src: &str, output: &Path, options: Options) {
             resolver(Mark::new(), top_level_mark, false),
             react(
                 tester.cm.clone(),
-                Some(&tester.comments),
+                Some(tester.comments.clone()),
                 options,
                 top_level_mark,
                 unresolved_mark,

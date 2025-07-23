@@ -58,7 +58,7 @@ use swc_ecma_transforms::{
         decorators, explicit_resource_management::explicit_resource_management,
         export_default_from, import_attributes,
     },
-    react::{self, default_pragma, default_pragma_frag},
+    react::{self},
     resolver,
     typescript::{self, TsImportExportAssignConfig},
     Assumptions,
@@ -793,30 +793,29 @@ impl Options {
                                 typescript::typescript(ts_config, unresolved_mark, top_level_mark),
                                 syntax.typescript() && !syntax.jsx(),
                             ),
+                            // [TODO]: Remove tsx
                             Optional::new(
-                                typescript::tsx::<Option<&dyn Comments>>(
-                                    cm.clone(),
-                                    ts_config,
-                                    typescript::TsxConfig {
-                                        pragma: Some(
-                                            transform
-                                                .react
-                                                .pragma
-                                                .clone()
-                                                .unwrap_or_else(default_pragma),
+                                {
+                                    let (pragma, pragma_frag) = match transform.react.runtime {
+                                        react::Runtime::Classic(ref config) => (
+                                            Some(config.pragma.clone()),
+                                            Some(config.pragma_frag.clone()),
                                         ),
-                                        pragma_frag: Some(
-                                            transform
-                                                .react
-                                                .pragma_frag
-                                                .clone()
-                                                .unwrap_or_else(default_pragma_frag),
-                                        ),
-                                    },
-                                    comments.map(|v| v as _),
-                                    unresolved_mark,
-                                    top_level_mark,
-                                ),
+                                        _ => (None, None),
+                                    };
+
+                                    typescript::tsx::<Option<&dyn Comments>>(
+                                        cm.clone(),
+                                        ts_config,
+                                        typescript::TsxConfig {
+                                            pragma,
+                                            pragma_frag,
+                                        },
+                                        comments.map(|v| v as _),
+                                        unresolved_mark,
+                                        top_level_mark,
+                                    )
+                                },
                                 syntax.typescript() && syntax.jsx(),
                             ),
                         )
@@ -827,9 +826,9 @@ impl Options {
                     custom_before_pass(&program),
                     // handle jsx
                     Optional::new(
-                        react::react::<&dyn Comments>(
+                        react::react(
                             cm.clone(),
-                            comments.map(|v| v as _),
+                            comments.cloned(),
                             transform.react,
                             top_level_mark,
                             unresolved_mark,

@@ -5647,6 +5647,7 @@ dependencies = [
  "base64 0.22.1",
  "bytes-str",
  "indexmap 2.7.1",
+ "memchr",
  "once_cell",
  "rustc-hash 2.1.1",
  "serde",
