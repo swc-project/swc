@@ -4710,7 +4710,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "34.0.1"
+version = "34.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5213,7 +5213,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "22.0.0"
+version = "22.0.1"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5327,7 +5327,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "22.0.0"
+version = "22.0.1"
 dependencies = [
  "codspeed-criterion-compat",
  "either",
