@@ -1,4 +1,5 @@
 use std::{env, sync::Arc};
+use std::collections::HashMap;
 
 use anyhow::{anyhow, Context, Error};
 use parking_lot::Mutex;
@@ -13,8 +14,7 @@ use swc_common::{
     plugin::{diagnostics::PluginCorePkgDiagnostics, metadata::TransformPluginMetadataContext},
     SourceMap,
 };
-use wasmer::{AsStoreMut, FunctionEnv, Instance, Store, TypedFunction};
-use wasmer_wasix::{default_fs_backing, is_wasi_module, Runtime, WasiEnv, WasiFunctionEnv};
+use wasmer_wasix::Runtime;
 
 #[cfg(feature = "__rkyv")]
 use crate::{
@@ -27,29 +27,15 @@ use crate::{
     },
     memory_interop::write_into_memory_view,
 };
-use crate::{plugin_module_bytes::PluginModuleBytes, wasix_runtime::build_wasi_runtime};
+use crate::plugin_module_bytes::PluginModuleBytes;
 use crate::runtime;
 
 /// An internal state to the plugin transform.
 struct PluginTransformState {
-    // Main transform interface plugin exports
-    exported_plugin_transform: TypedFunction<(u32, u32, u32, u32), u32>,
-    // `__free` function automatically exported via swc_plugin sdk to allow deallocation in guest
-    // memory space
-    exported_plugin_free: TypedFunction<(u32, u32), u32>,
-    // `__alloc` function automatically exported via swc_plugin sdk to allow allocation in guest
-    // memory space
-    exported_plugin_alloc: TypedFunction<u32, u32>,
-    wasi_env: Option<WasiFunctionEnv>,
-    instance: Instance,
-    store: Store,
+    instance: Box<dyn runtime::Instance>,
     transform_result: Arc<Mutex<Vec<u8>>>,
     #[allow(unused)]
     plugin_core_diag: PluginCorePkgDiagnostics,
-}
-
-struct SharedContext {
-    mutable_context_key_buffer: Vec<u8>
 }
 
 #[cfg(feature = "__rkyv")]
@@ -60,32 +46,25 @@ impl PluginTransformState {
         unresolved_mark: swc_common::Mark,
         should_enable_comments_proxy: Option<bool>,
     ) -> Result<PluginSerializedBytes, Error> {
-        let memory = self.instance.exports.get_memory("memory")?;
-
         let should_enable_comments_proxy =
             u32::from(should_enable_comments_proxy.unwrap_or_default());
 
         // Copy host's serialized bytes into guest (plugin)'s allocated memory.
         let guest_program_ptr = write_into_memory_view(
-            memory,
-            &mut self.store.as_store_mut(),
+            &mut *self.instance.caller()?,
             program,
-            |s, serialized_len| {
-                self.exported_plugin_alloc
-                    .call(
-                        s,
-                        serialized_len
-                            .try_into()
-                            .expect("Should able to convert size"),
-                    )
+            |caller, serialized_len| {
+                let serialized_len = serialized_len
+                    .try_into()
+                    .expect("Should able to convert size");
+                caller.alloc(serialized_len)
                     .unwrap_or_else(|_| {
                         panic!("Should able to allocate memory for the size of {serialized_len}")
                     })
             },
         );
 
-        let returned_ptr_result = self.exported_plugin_transform.call(
-            &mut self.store,
+        let returned_ptr_result = self.instance.transform(
             guest_program_ptr.0,
             guest_program_ptr.1,
             unresolved_mark.as_u32(),
@@ -115,18 +94,14 @@ impl PluginTransformState {
             }
         };
 
-        self.exported_plugin_free.call(
-            &mut self.store,
-            guest_program_ptr.0,
-            guest_program_ptr.1,
-        )?;
+        self.instance.caller()?.free(guest_program_ptr.0, guest_program_ptr.1)?;
 
         // [TODO]: disabled for now as it always panic if it is being called
         // inside of tokio runtime
         // https://github.com/wasmerio/wasmer/discussions/3966
         // [NOTE]: this is not a critical as plugin does not have things to clean up
         // in most cases
-        if let Some(_wasi_env) = &self.wasi_env {
+        if let Some(_wasi_env) = Some(()) {
             //wasi_env.cleanup(&mut self.store, None);
         }
 
@@ -220,180 +195,58 @@ impl TransformExecutor {
         // corresponding store
         let (mut store, module) = self.module_bytes.compile_module2(&*self.runtime_builder)?;
 
-        let cx = Arc::new(Mutex::new(SharedContext {
-            mutable_context_key_buffer: Vec::new()
-        }));
-
-        let cx2 = cx.clone();
-        let f0 = runtime::PluginFunc::from_fn(move |memory, k: [i32; 1]| -> [i32; 0] {
-            cx2;
-            []
-        });
-
-
-        let context_key_buffer = Arc::new(Mutex::new(Vec::new()));
-        let metadata_env = FunctionEnv::new(
-            &mut store,
-            MetadataContextHostEnvironment::new(
-                &self.metadata_context,
-                &self.plugin_config,
-                &context_key_buffer,
-            ),
-        );
+        let context_key_buffer = Arc::new(Mutex::new(Vec::new()));        
+        let metadata_env = Arc::new(MetadataContextHostEnvironment::new(
+            &self.metadata_context,
+            &self.plugin_config,
+            &context_key_buffer,
+        ));
 
         let transform_result: Arc<Mutex<Vec<u8>>> = Arc::new(Mutex::new(Vec::new()));
-        let transform_env = FunctionEnv::new(
-            &mut store,
-            TransformResultHostEnvironment::new(&transform_result),
-        );
+        let transform_env = Arc::new(TransformResultHostEnvironment::new(&transform_result));
 
-        let base_env = FunctionEnv::new(&mut store, BaseHostEnvironment::new());
+        let base_env = Arc::new(BaseHostEnvironment::new());
 
         let comment_buffer = Arc::new(Mutex::new(Vec::new()));
-
-        let comments_env =
-            FunctionEnv::new(&mut store, CommentHostEnvironment::new(&comment_buffer));
+        let comments_env = Arc::new(CommentHostEnvironment::new(&comment_buffer));
 
         let source_map_buffer = Arc::new(Mutex::new(Vec::new()));
         let source_map = Arc::new(Mutex::new(self.source_map.clone()));
-
-        let source_map_host_env = FunctionEnv::new(
-            &mut store,
-            SourceMapHostEnvironment::new(&source_map, &source_map_buffer),
-        );
+        let source_map_host_env = Arc::new(SourceMapHostEnvironment::new(&source_map, &source_map_buffer));
 
         let diagnostics_buffer: Arc<Mutex<Vec<u8>>> = Arc::new(Mutex::new(Vec::new()));
-        let diagnostics_env = FunctionEnv::new(
-            &mut store,
-            DiagnosticContextHostEnvironment::new(&diagnostics_buffer),
+        let diagnostics_env = Arc::new(DiagnosticContextHostEnvironment::new(&diagnostics_buffer));
+
+        let import_object = build_import_object(
+            metadata_env,
+            transform_env,
+            base_env,
+            comments_env,
+            source_map_host_env,
+            diagnostics_env,
         );
-
-        let mut import_object = build_import_object(
-            &mut store,
-            &metadata_env,
-            &transform_env,
-            &base_env,
-            &comments_env,
-            &source_map_host_env,
-            &diagnostics_env,
-        );
-
-        // Plugin binary can be either wasm32-wasip1 or wasm32-unknown-unknown.
-        // Wasi specific env need to be initialized if given module targets
-        // wasm32-wasip1. TODO: wasm host native runtime throws 'Memory should
-        // be set on `WasiEnv` first'
-        let (instance, wasi_env) = if is_wasi_module(&module) {
-            let builder = WasiEnv::builder(self.module_bytes.get_module_name());
-            let builder = if let Some(runtime) = &self.runtime {
-                builder.runtime(runtime.clone())
-            } else {
-                builder
-            };
-
-            // Implicitly enable filesystem access for the wasi plugin to cwd.
-            //
-            // This allows wasi plugin can read arbitary data (i.e node_modules) or produce
-            // output for post process (i.e .lcov coverage data) directly.
-            //
-            // TODO: this is not finalized decision
-            // - should we support this?
-            // - can we limit to allowlisted input / output only?
-            // - should there be a top-level config from .swcrc to manually override this?
-            let mut wasi_env_builder = if let Ok(cwd) = env::current_dir() {
-                builder
-                    .fs(default_fs_backing())
-                    .map_dirs(vec![("/cwd".to_string(), cwd)].drain(..))?
-            } else {
-                builder
-            };
-
-            if let Some(env_vars) = self.plugin_env_vars.as_ref() {
-                for env in env_vars.iter() {
-                    if let Ok(value) = env::var(env.as_str()) {
-                        wasi_env_builder.add_env(env.as_str(), value);
-                    }
-                }
-            }
-
-            //create the `WasiEnv`
-            let mut wasi_env = wasi_env_builder.finalize(&mut store)?;
-
-            // Then, we get the import object related to our WASI,
-            // overwrite into imported_object
-            // and attach it to the Wasm instance.
-            let wasi_env_import_object = wasi_env.import_object(&mut store, &module)?;
-            import_object.extend(&wasi_env_import_object);
-
-            let instance = Instance::new(&mut store, &module, &import_object)?;
-
-            wasi_env.initialize(&mut store, instance.clone())?;
-
-            (instance, Some(wasi_env))
-        } else {
-            (Instance::new(&mut store, &module, &import_object)?, None)
-        };
-
-        // Attach the memory export
-        let memory = instance.exports.get_memory("memory")?;
-        import_object.define("env", "memory", memory.clone());
-
-        let alloc = instance.exports.get_typed_function(&store, "__alloc")?;
-
-        // Unlike wasmer@2, have to manually `import` memory / necessary functions from
-        // the guest into env.
-        metadata_env.as_mut(&mut store).memory = Some(memory.clone());
-        metadata_env.as_mut(&mut store).alloc_guest_memory = Some(alloc.clone());
-
-        transform_env.as_mut(&mut store).memory = Some(memory.clone());
-
-        base_env.as_mut(&mut store).memory = Some(memory.clone());
-
-        comments_env.as_mut(&mut store).memory = Some(memory.clone());
-        comments_env.as_mut(&mut store).alloc_guest_memory = Some(alloc.clone());
-
-        source_map_host_env.as_mut(&mut store).memory = Some(memory.clone());
-        source_map_host_env.as_mut(&mut store).alloc_guest_memory = Some(alloc);
-
-        diagnostics_env.as_mut(&mut store).memory = Some(memory.clone());
-
-        // As soon as instance is ready, host calls a fn to read plugin's swc_core pkg
-        // diagnostics as `handshake`. Once read those values will be available across
-        // whole plugin transform execution.
-
-        // IMPORTANT NOTE
-        // Note this is `handshake`, which we expect to success ALL TIME. Do not try to
-        // expand `PluginCorePkgDiagnostics` as it'll cause deserialization failure
-        // until we have forward-compat schema changes.
-        instance
-            .exports
-            .get_typed_function::<(), u32>(&store, "__get_transform_plugin_core_pkg_diag")?
-            .call(&mut store)?;
+        let import_object = import_object.into_iter()
+            .map(|(name, f)| {
+                self.runtime_builder.new_func(&mut store, f)
+                    .map(|f| (name, f))
+            })
+            .collect::<anyhow::Result<HashMap<_, _>>>()?;
+        let envs = self.plugin_env_vars.iter()
+            .flat_map(|list| list.iter())
+            .filter_map(|name| std::env::var(name.as_str())
+                .ok()
+                .map(|value| (name.as_str().into(), value))
+            )
+            .collect::<Vec<_>>();
+        let instance = self.runtime_builder.init(store, import_object, envs, module, None)?;
 
         let diag_result: PluginCorePkgDiagnostics =
             PluginSerializedBytes::from_slice(&(&(*diagnostics_buffer.lock()))[..])
                 .deserialize()?
                 .into_inner();
 
-        // Main transform interface plugin exports
-        let exported_plugin_transform: TypedFunction<(u32, u32, u32, u32), u32> = instance
-            .exports
-            .get_typed_function(&store, "__transform_plugin_process_impl")?;
-        // `__free` function automatically exported via swc_plugin sdk to allow
-        // deallocation in guest memory space
-        let exported_plugin_free: TypedFunction<(u32, u32), u32> =
-            instance.exports.get_typed_function(&store, "__free")?;
-        // `__alloc` function automatically exported via swc_plugin sdk to allow
-        // allocation in guest memory space
-        let exported_plugin_alloc: TypedFunction<u32, u32> =
-            instance.exports.get_typed_function(&store, "__alloc")?;
-
         Ok(PluginTransformState {
-            exported_plugin_transform,
-            exported_plugin_free,
-            exported_plugin_alloc,
             instance,
-            store,
-            wasi_env,
             transform_result,
             plugin_core_diag: diag_result,
         })
