@@ -259,7 +259,9 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffe
         } else if let Some(next) = self.iter.next() {
             next
         } else {
-            TokenAndSpan::new(Token::Eof, self.prev_span(), true)
+            let eof_pos = self.cur.span().hi;
+            let eof_span = Span::new_with_checked(eof_pos, eof_pos);
+            TokenAndSpan::new(Token::Eof, eof_span, true)
         };
         self.set_prev_span(self.cur.span());
         self.set_cur(next);
