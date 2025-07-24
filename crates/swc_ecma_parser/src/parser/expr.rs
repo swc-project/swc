@@ -140,8 +140,6 @@ impl<I: Tokens> Parser<I> {
             .into());
         } else if cur == Token::Await {
             return parse_await_expr(self, None);
-        } else if cur == Token::Eof {
-            syntax_error!(self, self.input().cur_span(), SyntaxError::TS1109);
         }
 
         // UpdateExpression
