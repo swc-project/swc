@@ -138,9 +138,6 @@ fn parse_yield_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
 
     if p.is_general_semi() || {
         let cur = p.input().cur();
-        if cur.is_eof() {
-            return parse_with_arg(p);
-        }
         !cur.is_less()
             && !cur.is_star()
             && !cur.is_slash()
@@ -417,8 +414,6 @@ fn parse_assignment_expr_base<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>
     if cur.is_error() {
         let err = p.input_mut().expect_error_token_and_bump();
         return Err(err);
-    } else if cur.is_eof() {
-        return Err(eof_error(p));
     }
 
     p.state_mut().potential_arrow_start =
@@ -1553,8 +1548,6 @@ pub(crate) fn parse_unary_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr
         .into());
     } else if cur.is_await() {
         return parse_await_expr(p, None);
-    } else if cur.is_eof() {
-        syntax_error!(p, p.input().cur_span(), SyntaxError::TS1109);
     }
 
     // UpdateExpression
@@ -1673,8 +1666,6 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
         } else if cur.is_error() {
             let err = p.input_mut().expect_error_token_and_bump();
             return Err(err);
-        } else if cur.is_eof() {
-            return Err(eof_error(p));
         }
 
         if p.input().is(&P::Token::LESS) && !peek!(p).is_some_and(|peek| peek.is_bang()) {
@@ -1702,8 +1693,6 @@ pub fn parse_lhs_expr<'a, P: Parser<'a>, const PARSE_JSX: bool>(p: &mut P) -> PR
     } else if cur.is_import() {
         p.bump(); // eat `import`
         return parse_dynamic_import_or_import_meta(p, start, false);
-    } else if cur.is_eof() {
-        return Err(eof_error(p));
     }
 
     let callee = parse_new_expr(p)?;

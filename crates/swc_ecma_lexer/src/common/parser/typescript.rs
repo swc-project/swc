@@ -976,8 +976,6 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
     } else if cur.is_error() {
         let err = p.input_mut().expect_error_token_and_bump();
         return Err(err);
-    } else if cur.is_eof() {
-        return Err(eof_error(p));
     } else {
         parse_ident_name(p)
             .map(Ident::from)
@@ -1924,8 +1922,6 @@ fn parse_ts_property_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<(bool, Box<Ex
             } else if cur.is_error() {
                 let err = p.input_mut().expect_error_token_and_bump();
                 return Err(err);
-            } else if cur.is_eof() {
-                return Err(eof_error(p));
             } else {
                 parse_maybe_private_name(p).map(|e| match e {
                     Either::Left(e) => {
