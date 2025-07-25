@@ -348,10 +348,7 @@ fn parse_export<'a, P: Parser<'a>>(
     p.assert_and_bump(&P::Token::EXPORT);
 
     let cur = p.input().cur();
-    if cur.is_error() {
-        let err = p.input_mut().expect_error_token_and_bump();
-        return Err(err);
-    } else if cur.is_eof() {
+    if cur.is_eof() {
         return Err(eof_error(p));
     }
 
