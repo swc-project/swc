@@ -100,7 +100,7 @@ pub(crate) fn new_store() -> Store {
     Store::default()
 }
 
-pub struct WasmerRuntimeBuidler;
+pub struct WasmerRuntime;
 
 #[derive(Default)]
 struct WasmerTable {
@@ -109,7 +109,7 @@ struct WasmerTable {
     free_func: Option<wasmer::TypedFunction<(u32, u32), u32>>,
 }
 
-pub struct WasmerCaller<'a> {
+struct WasmerCaller<'a> {
     memory: wasmer::Memory,
     alloc_func: &'a wasmer::TypedFunction<u32, u32>,
     free_func: &'a wasmer::TypedFunction<(u32, u32), u32>,
@@ -128,7 +128,7 @@ struct WasmerCache {
     module: wasmer::Module,
 }
 
-pub struct WasmerInstance {
+struct WasmerInstance {
     instance: wasmer::Instance,
     store: wasmer::Store,
     module: wasmer::Module,
@@ -142,7 +142,7 @@ pub struct WasmerInstance {
     transform_func: wasmer::TypedFunction<(u32, u32, u32, u32), u32>
 }
 
-impl runtime::Builder for WasmerRuntimeBuidler {
+impl runtime::Runtime for WasmerRuntime {
     fn prepare_module(&self, bytes: &[u8]) -> anyhow::Result<runtime::ModuleCache> {
         let store = new_store();
         let module = wasmer::Module::new(&store, bytes)?;

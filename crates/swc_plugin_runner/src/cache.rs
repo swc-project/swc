@@ -103,7 +103,7 @@ impl PluginModuleCacheInner {
     }
 
     /// Store plugin module bytes into the cache, from actual filesystem.
-    pub fn store_bytes_from_path(&mut self, builder: &dyn runtime::Builder, binary_path: &Path, key: &str) -> Result<(), Error> {
+    pub fn store_bytes_from_path(&mut self, rt: &dyn runtime::Runtime, binary_path: &Path, key: &str) -> Result<(), Error> {
         #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
         {
             let raw_module_bytes =
@@ -111,16 +111,16 @@ impl PluginModuleCacheInner {
 
             // If FilesystemCache is available, store serialized bytes into fs.
             if let Some(fs_cache_store) = &mut self.fs_cache_store {
-                let module_bytes_hash = builder.module_hash(&raw_module_bytes)?;
+                let module_bytes_hash = rt.module_hash(&raw_module_bytes)?;
 
                 let module =
-                    if let Some(cache) = unsafe { fs_cache_store.load(builder, &module_bytes_hash) } {
+                    if let Some(cache) = unsafe { fs_cache_store.load(rt, &module_bytes_hash) } {
                         tracing::debug!("Build WASM from cache: {key}");
                         cache
                     } else {
-                        let cache = builder.prepare_module(&raw_module_bytes)
+                        let cache = rt.prepare_module(&raw_module_bytes)
                             .context("Cannot compile plugin binary")?;
-                        fs_cache_store.store(builder, &module_bytes_hash, &cache)?;
+                        fs_cache_store.store(rt, &module_bytes_hash, &cache)?;
                         cache
                     };
 
@@ -144,11 +144,11 @@ impl PluginModuleCacheInner {
     /// Returns a PluingModuleBytes can be compiled into a wasmer::Module.
     /// Depends on the cache availability, it may return a raw bytes or a
     /// serialized bytes.
-    pub fn get(&self, builder: &dyn runtime::Builder, key: &str) -> Option<Box<dyn PluginModuleBytes>> {
+    pub fn get(&self, rt: &dyn runtime::Runtime, key: &str) -> Option<Box<dyn PluginModuleBytes>> {
         // Look for compiled module bytes first, it is the cheapest way to get compile
         // wasmer::Module.
         if let Some(compiled_module) = self.compiled_module_bytes.get(key) {
-            let cache = builder.clone_cache(compiled_module)?;
+            let cache = rt.clone_cache(compiled_module)?;
             return Some(Box::new(CompiledPluginModuleBytes::new(
                 key.to_string(),
                 cache
@@ -159,7 +159,7 @@ impl PluginModuleCacheInner {
         #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
         if let Some(fs_cache_store) = &self.fs_cache_store {
             let hash = self.fs_cache_hash_store.get(key)?;
-            let module = unsafe { fs_cache_store.load(builder, hash) };
+            let module = unsafe { fs_cache_store.load(rt, hash) };
             if let Some(module) = module {
                 return Some(Box::new(CompiledPluginModuleBytes::new(
                     key.to_string(),
@@ -241,15 +241,15 @@ impl FileSystemCache2 {
         Some(FileSystemCache2 { path })
     }
 
-    unsafe fn load(&self, builder: &dyn runtime::Builder, key: &str) -> Option<runtime::ModuleCache> {
+    unsafe fn load(&self, rt: &dyn runtime::Runtime, key: &str) -> Option<runtime::ModuleCache> {
         let path = self.path.join(key);
-        builder.load_cache(&path)
+        rt.load_cache(&path)
     }
 
-    fn store(&self, builder: &dyn runtime::Builder, key: &str, cache: &runtime::ModuleCache)
+    fn store(&self, rt: &dyn runtime::Runtime, key: &str, cache: &runtime::ModuleCache)
         -> anyhow::Result<()>
     {
         let path = self.path.join(key);
-        builder.store_cache(&path, cache)
+        rt.store_cache(&path, cache)
     }
 }

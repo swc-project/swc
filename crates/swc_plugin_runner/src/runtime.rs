@@ -16,7 +16,7 @@ pub struct Func {
     pub func: Box<dyn Fn(&mut dyn Caller<'_>, &[Value], &mut [Value]) + Send + Sync>
 }
 
-pub trait Builder: Send {
+pub trait Runtime: Send {
     fn prepare_module(&self, bytes: &[u8]) -> anyhow::Result<ModuleCache>;
     fn module_hash(&self, module: &[u8]) -> anyhow::Result<String>;
     
