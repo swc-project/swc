@@ -14507,7 +14507,7 @@
                         "left",
                         "right"
                     ].reduce(function(memo, opt) {
-                        return memo = handles[opt] && _this.withinBounds(point, handles[opt]) ? memo.concat(opt) : memo;
+                        return handles[opt] && _this.withinBounds(point, handles[opt]) ? memo.concat(opt) : memo;
                     }, []);
                     return activeHandles.length && activeHandles;
                 },
@@ -14909,7 +14909,7 @@
                                     "left",
                                     "right"
                                 ].reduce(function(memo, curr) {
-                                    return memo = handleProps[curr] ? memo.concat(react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(handleComponent, lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({
+                                    return handleProps[curr] ? memo.concat(react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(handleComponent, lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({
                                         key: "".concat(name, "-handle-").concat(curr)
                                     }, handleProps[curr]))) : memo;
                                 }, []);
@@ -17898,16 +17898,16 @@
                 switch(textAnchor){
                     case "start":
                         return widths.reduce(function(memo, width, i) {
-                            return memo = i < index ? memo + width : memo;
+                            return i < index ? memo + width : memo;
                         }, 0);
                     case "end":
                         return widths.reduce(function(memo, width, i) {
-                            return memo = i > index ? memo - width : memo;
+                            return i > index ? memo - width : memo;
                         }, 0);
                     default:
                         // middle
                         return widths.reduce(function(memo, width, i) {
-                            return memo = i === index ? memo + width / 2 : memo + (i < index ? width : 0);
+                            return i === index ? memo + width / 2 : memo + (i < index ? width : 0);
                         }, -totalWidth / 2);
                 }
             }, getChildBackgrounds = function(calculatedProps, tspanValues) {
@@ -19937,7 +19937,7 @@
                         value: function(props, externalMutations) {
                             if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(externalMutations)) {
                                 var callbacks = props.externalEventMutations.reduce(function(memo, mutation) {
-                                    return memo = lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(mutation.callback) ? memo.concat(mutation.callback) : memo;
+                                    return lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(mutation.callback) ? memo.concat(mutation.callback) : memo;
                                 }, []), compiledCallbacks = callbacks.length ? function() {
                                     callbacks.forEach(function(c) {
                                         return c();
@@ -21385,7 +21385,7 @@
                         if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_7___default()(eventReturn)) {
                             var callbacks = compileCallbacks(eventReturn);
                             _this2.setState(Array.isArray(eventReturn) ? eventReturn.reduce(function(memo, props) {
-                                return memo = lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, memo, parseEvent(props, eventKey));
+                                return lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, memo, parseEvent(props, eventKey));
                             }, {}) : parseEvent(eventReturn, eventKey), callbacks);
                         }
                     }; // Returns the state object with the mutation caused by a given eventReturn
@@ -21509,8 +21509,8 @@
            * i.e. any static `defaultEvents` on `labelComponent` will be returned
            */ getComponentEvents: function(props, components) {
                     var events = Array.isArray(components) && components.reduce(function(memo, componentName) {
-                        var _memo, component = props[componentName], defaultEvents = component && component.type && component.type.defaultEvents, componentEvents = lodash_isFunction__WEBPACK_IMPORTED_MODULE_6___default()(defaultEvents) ? defaultEvents(component.props) : defaultEvents;
-                        return memo = Array.isArray(componentEvents) ? (_memo = memo).concat.apply(_memo, _toConsumableArray(componentEvents)) : memo;
+                        var component = props[componentName], defaultEvents = component && component.type && component.type.defaultEvents, componentEvents = lodash_isFunction__WEBPACK_IMPORTED_MODULE_6___default()(defaultEvents) ? defaultEvents(component.props) : defaultEvents;
+                        return Array.isArray(componentEvents) ? memo.concat.apply(memo, _toConsumableArray(componentEvents)) : memo;
                     }, []);
                     return events && events.length ? events : void 0;
                 },
@@ -31426,7 +31426,7 @@
                 filterDatasets: function(props, datasets, bounds) {
                     var _this = this, filtered = datasets.reduce(function(memo, dataset) {
                         var selectedData = _this.getSelectedData(props, dataset.data, bounds);
-                        return memo = selectedData ? memo.concat({
+                        return selectedData ? memo.concat({
                             childName: dataset.childName,
                             eventKey: selectedData.eventKey,
                             data: selectedData.data
@@ -31850,7 +31850,7 @@
                         value: function(props, externalMutations) {
                             if (!lodash_isEmpty__WEBPACK_IMPORTED_MODULE_3___default()(externalMutations)) {
                                 var callbacks = props.externalEventMutations.reduce(function(memo, mutation) {
-                                    return memo = lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(mutation.callback) ? memo.concat(mutation.callback) : memo;
+                                    return lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default()(mutation.callback) ? memo.concat(mutation.callback) : memo;
                                 }, []), compiledCallbacks = callbacks.length ? function() {
                                     callbacks.forEach(function(c) {
                                         return c();
@@ -33246,7 +33246,7 @@
                                     }) : [
                                         style
                                     ];
-                                    return memo = memo.concat(styleArray);
+                                    return memo.concat(styleArray);
                                 }, []);
                             }
                         },

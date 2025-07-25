@@ -8529,7 +8529,7 @@
                     var floatExp = RegExp('[,.](.*)'), floatValue = floatExp.test(value.toString()), floatStep = floatExp.test(step.toString());
                     if (floatValue || floatStep) {
                         var max = Math.max(floatValue ? floatExp.exec(value.toString())[0].length : 0, floatStep ? floatExp.exec(step.toString())[0].length : 0);
-                        return value = this.roundValue(result, max);
+                        return this.roundValue(result, max);
                     }
                     return result;
                 }, NumericTextBox.prototype.roundValue = function(result, precision) {
@@ -14741,7 +14741,7 @@
                         ((0, ej2_base /* isNullOrUndefined */ .le)(event) || event && 'copy' !== event.action) && this.enableUndo(self1);
                     }
                 }, Formatter.prototype.getAncestorNode = function(node) {
-                    return node = 3 === node.nodeType ? node.parentNode : node;
+                    return 3 === node.nodeType ? node.parentNode : node;
                 }, /**
      * onKeyHandler method
      *
@@ -18939,7 +18939,7 @@
      * @hidden
 
      */ HtmlEditor.prototype.sanitizeHelper = function(value) {
-                    return value = (0, util /* sanitizeHelper */ .cC)(value, this.parent);
+                    return (0, util /* sanitizeHelper */ .cC)(value, this.parent);
                 }, HtmlEditor.prototype.addEventListener = function() {
                     this.parent.isDestroyed || (this.nodeSelectionObj = new selection /* NodeSelection */ .q(), this.colorPickerModule = new ColorPickerInput(this.parent, this.locator), this.parent.on(constant /* initialLoad */ .T5, this.instantiateRenderer, this), this.parent.on(constant /* htmlToolbarClick */ .s0, this.onToolbarClick, this), this.parent.on(constant /* keyDown */ .QG, this.onKeyDown, this), this.parent.on(constant /* keyUp */ .yR, this.onKeyUp, this), this.parent.on(constant /* renderColorPicker */ .jm, this.renderColorPicker, this), this.parent.on(constant /* initialEnd */ .Xr, this.render, this), this.parent.on(constant /* modelChanged */ .CC, this.onPropertyChanged, this), this.parent.on(constant /* destroy */ .ob, this.destroy, this), this.parent.on(constant /* selectAll */ .td, this.selectAll, this), this.parent.on(constant /* selectRange */ .jh, this.selectRange, this), this.parent.on(constant /* getSelectedHtml */ .Db, this.getSelectedHtml, this), this.parent.on(constant /* selectionSave */ .gA, this.onSelectionSave, this), this.parent.on(constant /* selectionRestore */ .Wz, this.onSelectionRestore, this), this.parent.on(constant /* readOnlyMode */ .Ed, this.updateReadOnly, this), this.parent.on(constant /* paste */ .RE, this.onPaste, this), this.parent.on(constant /* tableclass */ .LF, this.isTableClassAdded, this));
                 }, HtmlEditor.prototype.updateReadOnly = function() {
@@ -19853,16 +19853,6 @@
                     y: centerY + radius * Math.sin(radians)
                 };
             }
-            // eslint-disable-next-line
-            /**
- * Function to show the Spinner.
- *
- * @param {HTMLElement} container - Specify the target of the Spinner.
- * @returns {void}
- * @private
- */ function showSpinner(container) {
-                showHideSpinner(container, !1), container = null;
-            }
             /**
  *
  * @param {HTMLElement} container - specifies the element
@@ -19971,7 +19961,7 @@
  * @returns {void}
  * @private
  */ function hideSpinner(container) {
-                showHideSpinner(container, !0), container = null;
+                showHideSpinner(container, !0);
             }
             var uploader_extends = (extendStatics1 = function(d, b) {
                 return (extendStatics1 = Object.setPrototypeOf || ({
@@ -20400,7 +20390,7 @@
                                     createSpinner({
                                         target: spinnerTarget,
                                         width: '20px'
-                                    }), showSpinner(spinnerTarget);
+                                    }), showHideSpinner(spinnerTarget, !1);
                                 }
                                 this.sequentialUpload && /* istanbul ignore next */ this.uploadSequential(), liElement.classList.contains(RESTRICT_RETRY) || this.checkActionComplete(!0);
                             } else (0, ej2_base /* closest */ .oq)(args.target, '.' + SPINNER_PANE) || this.remove(fileData, !1, !1, !0, args);
@@ -20434,7 +20424,7 @@
                         createSpinner({
                             target: spinnerTarget,
                             width: '20px'
-                        }), showSpinner(spinnerTarget);
+                        }), showHideSpinner(spinnerTarget, !1);
                     }
                     eventArgs.postRawFile && !(0, ej2_base /* isNullOrUndefined */ .le)(selectedFiles.rawFile) && '' !== selectedFiles.rawFile ? formData.append(name, selectedFiles.rawFile, selectedFiles.name) : formData.append(name, selectedFiles.name), this.updateFormData(formData, eventArgs.customFormData);
                 }, /* istanbul ignore next */ Uploader.prototype.updateFormData = function(formData, customData) {
@@ -21642,7 +21632,7 @@
                         createSpinner({
                             target: spinnerTarget,
                             width: '20px'
-                        }), showSpinner(spinnerTarget);
+                        }), showHideSpinner(spinnerTarget, !1);
                     }
                 }, uploader_decorate([
                     (0, ej2_base /* Complex */ .Zz)({
@@ -22140,7 +22130,7 @@
                 }, PasteCleanup.prototype.removeTempClass = function() {
                     for(var classElm = this.parent.inputElement.querySelectorAll('.pasteContent_RTE'), i = 0; i < classElm.length; i++)classElm[i].classList.remove('pasteContent_RTE'), '' === classElm[i].getAttribute('class') && classElm[i].removeAttribute('class');
                 }, PasteCleanup.prototype.sanitizeHelper = function(value) {
-                    return value = (0, util /* sanitizeHelper */ .cC)(value, this.parent);
+                    return (0, util /* sanitizeHelper */ .cC)(value, this.parent);
                 }, //Plain Formatting
                 PasteCleanup.prototype.plainFormatting = function(value, args) {
                     var _this = this, clipBoardElem = this.parent.createElement('div', {
@@ -22201,7 +22191,7 @@
                     for(var groupingTags = deniedTags.slice(), keys = Object.keys(config /* pasteCleanupGroupingTags */ .n4), values = keys.map(function(key) {
                         return config /* pasteCleanupGroupingTags */ .n4[key];
                     }), addTags = [], i = 0; i < groupingTags.length; i++)if (groupingTags[i].split('[').length > 1 && (groupingTags[i] = groupingTags[i].split('[')[0].trim()), keys.indexOf(groupingTags[i]) > -1) for(var j = 0; j < values[keys.indexOf(groupingTags[i])].length; j++)0 > groupingTags.indexOf(values[keys.indexOf(groupingTags[i])][j]) && 0 > addTags.indexOf(values[keys.indexOf(groupingTags[i])][j]) && addTags.push(values[keys.indexOf(groupingTags[i])][j]);
-                    return deniedTags = deniedTags.concat(addTags);
+                    return deniedTags.concat(addTags);
                 }, //Filter Attributes in Denied Tags
                 PasteCleanup.prototype.attributesfilter = function(deniedTags) {
                     for(var i = 0; i < deniedTags.length; i++)if (deniedTags[i].split('[').length > 1) {
@@ -24128,7 +24118,7 @@
  * @returns {number} - Index
  */ function isValidLI(ul, li, index, keyCode, count) {
                             if (void 0 === count && (count = 0), (li.classList.contains('e-separator') || li.classList.contains('e-disabled')) && (index === (40 === keyCode ? ul.childElementCount - 1 : 0) ? index = 40 === keyCode ? 0 : ul.childElementCount - 1 : 40 === keyCode ? index++ : index--), (li = ul.children[index]).classList.contains('e-separator') || li.classList.contains('e-disabled')) {
-                                if (++count === ul.childElementCount) return index = -1;
+                                if (++count === ul.childElementCount) return -1;
                                 index = isValidLI(ul, li, index, keyCode, count);
                             }
                             return index;
@@ -25387,7 +25377,7 @@
                 }, Slider.prototype.fractionalToInteger = function(value) {
                     value = 0 === this.numberOfDecimals(value) ? Number(value).toFixed(this.noOfDecimals) : value;
                     for(var tens = 1, i = 0; i < this.noOfDecimals; i++)tens *= 10;
-                    return value = Number((value * tens).toFixed(0));
+                    return Number((value * tens).toFixed(0));
                 }, /**
      * To Initialize the control rendering
      * @private
@@ -25867,7 +25857,7 @@
                 }, Slider.prototype.handleValueUpdate = function() {
                     return 'Range' === this.type ? 1 === this.activeHandle ? this.handleVal1 : this.handleVal2 : this.handleVal1;
                 }, Slider.prototype.getLimitCorrectedValues = function(value) {
-                    return value = 'MinRange' === this.type || 'Default' === this.type || 1 === this.activeHandle ? this.getLimitValueAndPosition(value, this.limits.minStart, this.limits.minEnd)[0] : this.getLimitValueAndPosition(value, this.limits.maxStart, this.limits.maxEnd)[0];
+                    return 'MinRange' === this.type || 'Default' === this.type || 1 === this.activeHandle ? this.getLimitValueAndPosition(value, this.limits.minStart, this.limits.minEnd)[0] : this.getLimitValueAndPosition(value, this.limits.maxStart, this.limits.maxEnd)[0];
                 }, Slider.prototype.focusSliderElement = function() {
                     this.isElementFocused || (this.element.focus(), this.isElementFocused = !0);
                 }, Slider.prototype.buttonClick = function(args) {

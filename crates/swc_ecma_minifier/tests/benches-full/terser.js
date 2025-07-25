@@ -19779,7 +19779,7 @@
             mangle_options: options.mangle
         }).compress(toplevel)), timings && (timings.scope = Date.now()), options.mangle && toplevel.figure_out_scope(options.mangle), timings && (timings.mangle = Date.now()), options.mangle && (toplevel.compute_char_frequency(options.mangle), toplevel.mangle_names(options.mangle), toplevel = function(ast, options) {
             var cprivate = -1, private_cache = new Map(), nth_identifier = options.nth_identifier || base54;
-            return ast = ast.transform(new TreeTransformer(function(node) {
+            return ast.transform(new TreeTransformer(function(node) {
                 node instanceof AST_ClassPrivateProperty || node instanceof AST_PrivateMethod || node instanceof AST_PrivateGetter || node instanceof AST_PrivateSetter || node instanceof AST_PrivateIn ? node.key.name = mangle_private(node.key.name) : node instanceof AST_DotHash && (node.property = mangle_private(node.property));
             }));
             function mangle_private(name) {

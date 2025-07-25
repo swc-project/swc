@@ -686,7 +686,7 @@ var ts, ts1, dynamicImportUMDHelper;
          * @param allowComments Whether to allow comments on the export.
          */ function appendExportStatement(statements, exportName, expression, location, allowComments, liveBinding) {
         var statement;
-        return statements = ts1.append(statements, (statement = ts1.setTextRange(factory.createExpressionStatement(createExportExpression(exportName, expression, /* location */ void 0, liveBinding)), location), ts1.startOnNewLine(statement), allowComments || ts1.setEmitFlags(statement, 1536 /* NoComments */ ), statement));
+        return ts1.append(statements, (statement = ts1.setTextRange(factory.createExpressionStatement(createExportExpression(exportName, expression, /* location */ void 0, liveBinding)), location), ts1.startOnNewLine(statement), allowComments || ts1.setEmitFlags(statement, 1536 /* NoComments */ ), statement));
     }
     function createUnderscoreUnderscoreESModule() {
         var statement;
