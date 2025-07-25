@@ -1257,9 +1257,6 @@ fn parse_stmt_internal<'a, P: Parser<'a>>(
             span: p.span(start),
         }
         .into());
-    } else if cur.is_error() {
-        let err = p.input_mut().expect_error_token_and_bump();
-        return Err(err);
     }
 
     // Handle async function foo() {}
