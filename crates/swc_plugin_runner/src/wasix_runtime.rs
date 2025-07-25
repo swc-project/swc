@@ -55,7 +55,7 @@ impl wasmer_wasix::http::HttpClient for StubHttpClient {
 /// This is mainly for the case if a host already sets up its runtime, which
 /// makes wasix initialization fails due to conflicting runtime. When specified,
 /// instead of using default runtime it'll try to use shared one.
-pub fn build_wasi_runtime(
+fn build_wasi_runtime(
     _fs_cache_path: Option<PathBuf>,
 ) -> Option<Arc<dyn Runtime + Send + Sync>> {
     use wasmer_wasix::{
@@ -258,6 +258,7 @@ impl runtime::Runtime for WasmerRuntime {
         // Main transform interface plugin exports
         let transform_func: wasmer::TypedFunction<(u32, u32, u32, u32), u32> = instance.exports.get_typed_function(&store, "__transform_plugin_process_impl")?;
 
+        table.as_mut(&mut store).memory = Some(memory.clone());
         table.as_mut(&mut store).alloc_func = Some(alloc_func.clone());
         table.as_mut(&mut store).free_func = Some(free_func.clone());
 

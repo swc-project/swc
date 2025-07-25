@@ -6,6 +6,7 @@
     allow(unused)
 )]
 
+use std::sync::Arc;
 use std::path::PathBuf;
 
 use anyhow::{Context, Result};
@@ -21,6 +22,8 @@ use swc_ecma_loader::{
     resolvers::{lru::CachingResolver, node::NodeModulesResolver},
 };
 use swc_ecma_visit::{fold_pass, noop_fold_type, Fold};
+#[cfg(feature = "plugin")]
+use swc_plugin_runner::runtime::Runtime as PluginRuntime;
 
 /// A tuple represents a plugin.
 ///
@@ -40,6 +43,8 @@ pub fn plugins(
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
     unresolved_mark: swc_common::Mark,
+    #[cfg(feature = "plugin")]
+    plugin_runtime: Arc<dyn PluginRuntime>,
 ) -> impl Pass {
     fold_pass(RustPlugins {
         plugins: configured_plugins,
@@ -48,6 +53,8 @@ pub fn plugins(
         comments,
         source_map,
         unresolved_mark,
+        #[cfg(feature = "plugin")]
+        plugin_runtime,
     })
 }
 
@@ -58,6 +65,8 @@ struct RustPlugins {
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
     unresolved_mark: swc_common::Mark,
+    #[cfg(feature = "plugin")]
+    plugin_runtime: Arc<dyn PluginRuntime>,
 }
 
 impl RustPlugins {
@@ -116,19 +125,10 @@ impl RustPlugins {
                             .get()
                             .unwrap()
                             .lock()
-                            .get(&p.0)
+                            .get(&*self.plugin_runtime, &p.0)
                             .expect("plugin module should be loaded");
 
                         let plugin_name = plugin_module_bytes.get_module_name().to_string();
-                        let runtime = swc_plugin_runner::wasix_runtime::build_wasi_runtime(
-                            crate::config::PLUGIN_MODULE_CACHE
-                                .inner
-                                .get()
-                                .unwrap()
-                                .lock()
-                                .get_fs_cache_root()
-                                .map(std::path::PathBuf::from),
-                        );
 
                         let mut transform_plugin_executor =
                             swc_plugin_runner::create_plugin_transform_executor(
@@ -138,7 +138,7 @@ impl RustPlugins {
                                 self.plugin_env_vars.clone(),
                                 plugin_module_bytes,
                                 Some(p.1),
-                                runtime,
+                                self.plugin_runtime.clone(),
                             );
 
                         let span = tracing::span!(
@@ -209,6 +209,8 @@ impl Fold for RustPlugins {
 pub(crate) fn compile_wasm_plugins(
     cache_root: Option<&str>,
     plugins: &[PluginConfig],
+    #[cfg(feature = "plugin")]
+    plugin_runtime: &dyn PluginRuntime,
 ) -> Result<()> {
     let plugin_resolver = CachingResolver::new(
         40,
@@ -240,7 +242,7 @@ pub(crate) fn compile_wasm_plugins(
                 anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
             };
 
-            inner_cache.store_bytes_from_path(&path, plugin_name)?;
+            inner_cache.store_bytes_from_path(plugin_runtime, &path, plugin_name)?;
             tracing::debug!("Initialized WASM plugin {plugin_name}");
         }
     }

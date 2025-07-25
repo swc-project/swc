@@ -29,18 +29,17 @@ pub fn create_plugin_transform_executor(
     plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
     plugin_module: Box<dyn PluginModuleBytes>,
     plugin_config: Option<serde_json::Value>,
-    runtime: Option<Arc<dyn wasmer_wasix::Runtime + Send + Sync>>,
+    plugin_runtime: Arc<dyn runtime::Runtime>,
 ) -> TransformExecutor {
-    todo!()
-    // TransformExecutor::new(
-    //     plugin_module,
-    //     source_map,
-    //     unresolved_mark,
-    //     metadata_context,
-    //     plugin_env_vars,
-    //     plugin_config,
-    //     runtime,
-    // )
+    TransformExecutor::new(
+        plugin_module,
+        source_map,
+        unresolved_mark,
+        metadata_context,
+        plugin_env_vars,
+        plugin_config,
+        plugin_runtime,
+    )
 }
 
 #[cfg(not(feature = "__rkyv"))]

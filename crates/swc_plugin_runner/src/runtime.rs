@@ -16,7 +16,7 @@ pub struct Func {
     pub func: Box<dyn Fn(&mut dyn Caller<'_>, &[Value], &mut [Value]) + Send + Sync>
 }
 
-pub trait Runtime: Send {
+pub trait Runtime: Send + Sync {
     fn prepare_module(&self, bytes: &[u8]) -> anyhow::Result<ModuleCache>;
     fn module_hash(&self, module: &[u8]) -> anyhow::Result<String>;
     
@@ -51,7 +51,7 @@ pub trait Caller<'a> {
     fn free(&mut self, ptr: u32, size: u32) -> anyhow::Result<u32>;    
 }
 
-pub trait Instance: Send {
+pub trait Instance: Send + Sync {
     fn transform(
         &mut self,
         program_ptr: u32,
