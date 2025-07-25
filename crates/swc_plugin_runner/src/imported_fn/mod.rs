@@ -94,10 +94,10 @@ pub(crate) fn build_import_object(
     comments_env: Arc<CommentHostEnvironment>,
     source_map_host_env: Arc<SourceMapHostEnvironment>,
     diagnostics_env: Arc<DiagnosticContextHostEnvironment>,
-) -> Vec<(String, runtime::PluginFunc)> {
+) -> Vec<(String, runtime::Func)> {
     macro_rules! define {
         ( fn $name:ident ( $( $arg:ident ),* ) ) => {
-            let $name = runtime::PluginFunc::from_fn(
+            let $name = runtime::Func::from_fn(
                 move |_caller, [ $( $arg , )* ]| {
                     $name($( $arg as _ , )* );
                     []
@@ -105,7 +105,7 @@ pub(crate) fn build_import_object(
             );            
         };
         ( fn $name:ident ( $( $arg:ident ),* ) -> i32 ) => {
-            let $name = runtime::PluginFunc::from_fn(
+            let $name = runtime::Func::from_fn(
                 move |_caller, [ $( $arg , )* ]| {
                     [$name($( $arg as _ , )* ) as i32]
                 }
@@ -113,7 +113,7 @@ pub(crate) fn build_import_object(
         };
         ( fn $name:ident ( env $env:ident , $( $arg:ident ),* ) ) => {
             let env_ref = $env.clone();
-            let $name = runtime::PluginFunc::from_fn(
+            let $name = runtime::Func::from_fn(
                 move |caller, [ $( $arg , )* ]| {
                     $name(caller, &env_ref, $( $arg as _ , )* );
                     []
@@ -122,7 +122,7 @@ pub(crate) fn build_import_object(
         };
         ( fn $name:ident ( env $env:ident , $( $arg:ident ),* ) -> i32 ) => {
             let env_ref = $env.clone();
-            let $name = runtime::PluginFunc::from_fn(
+            let $name = runtime::Func::from_fn(
                 move |caller, [ $( $arg , )* ]| {
                     [$name(caller, &env_ref, $( $arg as _ , )* ) as i32]
                 }
