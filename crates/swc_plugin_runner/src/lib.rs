@@ -14,6 +14,7 @@ mod imported_fn;
 mod memory_interop;
 pub mod plugin_module_bytes;
 mod transform_executor;
+#[cfg(feature = "runtime_wasmer")]
 pub mod wasix_runtime;
 
 use plugin_module_bytes::PluginModuleBytes;
