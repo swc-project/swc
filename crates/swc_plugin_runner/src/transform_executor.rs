@@ -148,7 +148,7 @@ pub struct TransformExecutor {
     plugin_config: Option<serde_json::Value>,
     module_bytes: Box<dyn PluginModuleBytes>,
     runtime: Option<Arc<dyn Runtime + Send + Sync>>,
-    runtime_builder: Arc<dyn runtime::Builder>
+    runtime_builder: Arc<dyn runtime::Runtime>
 }
 
 #[cfg(feature = "__rkyv")]
@@ -165,7 +165,7 @@ impl TransformExecutor {
         plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
         plugin_config: Option<serde_json::Value>,
         runtime: Option<Arc<dyn Runtime + Send + Sync>>,
-        runtime_builder: Arc<dyn runtime::Builder>
+        runtime_builder: Arc<dyn runtime::Runtime>
     ) -> Self {
         Self {
             source_map: source_map.clone(),

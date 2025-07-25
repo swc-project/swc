@@ -9,7 +9,7 @@ pub trait PluginModuleBytes {
     // package name.
     fn get_module_name(&self) -> &str;
     // Returns a compiled wasmer::Module for the plugin module.
-    fn compile_module(&self, builder: &dyn runtime::Builder) -> runtime::Module;
+    fn compile_module(&self, rt: &dyn runtime::Runtime) -> runtime::Module;
 }
 
 /// A struct for the plugin contains raw bytes can be compiled into Wasm Module.
@@ -24,8 +24,8 @@ impl PluginModuleBytes for RawPluginModuleBytes {
         &self.plugin_name
     }
 
-    fn compile_module(&self, builder: &dyn runtime::Builder) -> runtime::Module {
-        let cache = builder.prepare_module(&self.bytes).unwrap();
+    fn compile_module(&self, rt: &dyn runtime::Runtime) -> runtime::Module {
+        let cache = rt.prepare_module(&self.bytes).unwrap();
         runtime::Module::Cache(cache)
     }
 }
@@ -59,9 +59,16 @@ impl CompiledPluginModuleBytes {
 
     // Allow to `pre` compile wasm module when there is a raw bytes, want to avoid
     // to skip the compilation step per each trasform.
-    pub fn from_raw_module(builder: &dyn runtime::Builder, raw: RawPluginModuleBytes) -> Self {
-        let cache = builder.prepare_module(&raw.bytes).unwrap();
+    pub fn from_raw_module(rt: &dyn runtime::Runtime, raw: RawPluginModuleBytes) -> Self {
+        let cache = rt.prepare_module(&raw.bytes).unwrap();
         CompiledPluginModuleBytes { plugin_name: raw.plugin_name, cache: Some(cache) }
+    }
+
+    pub fn clone_module(&self, rt: &dyn runtime::Runtime) -> Self {
+        CompiledPluginModuleBytes {
+            plugin_name: self.plugin_name.clone(),
+            cache: self.cache.as_ref().map(|cache| rt.clone_cache(cache).unwrap())
+        }
     }
 }
 
@@ -70,9 +77,9 @@ impl PluginModuleBytes for CompiledPluginModuleBytes {
         &self.plugin_name
     }
 
-    fn compile_module(&self, builder: &dyn runtime::Builder) -> runtime::Module {
+    fn compile_module(&self, rt: &dyn runtime::Runtime) -> runtime::Module {
         let cache = self.cache.as_ref().unwrap();
-        let cache = builder.clone_cache(cache).unwrap();
+        let cache = rt.clone_cache(cache).unwrap();
         runtime::Module::Cache(cache)
     }
 }
