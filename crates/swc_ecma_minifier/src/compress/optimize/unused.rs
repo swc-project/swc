@@ -71,10 +71,14 @@ impl Optimizer<'_> {
 
         #[cfg(debug_assertions)]
         {
-            if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
-                if had_init && var.init.is_none() {
-                    unreachable!("const/let variable without initializer: {:#?}", var);
-                }
+            if self
+                .ctx
+                .bit_ctx
+                .intersects(BitCtx::IsConst.union(BitCtx::IsLet))
+                && had_init
+                && var.init.is_none()
+            {
+                unreachable!("const/let variable without initializer: {:#?}", var);
             }
         }
     }
@@ -202,7 +206,11 @@ impl Optimizer<'_> {
 
             if v.ref_count == 0 && v.usage_count == 0 {
                 if let Some(e) = init {
-                    if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
+                    if self
+                        .ctx
+                        .bit_ctx
+                        .intersects(BitCtx::IsConst.union(BitCtx::IsLet))
+                    {
                         if let Expr::Lit(Lit::Null(..)) = e {
                             return;
                         }
@@ -212,7 +220,11 @@ impl Optimizer<'_> {
                     if let Some(ret) = ret {
                         *e = ret;
                     } else {
-                        if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
+                        if self
+                            .ctx
+                            .bit_ctx
+                            .intersects(BitCtx::IsConst.union(BitCtx::IsLet))
+                        {
                             *e = Null { span: DUMMY_SP }.into();
                         } else {
                             *e = Invalid { span: DUMMY_SP }.into();
