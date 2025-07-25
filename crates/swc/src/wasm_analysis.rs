@@ -54,7 +54,8 @@ impl Compiler {
         opts: &WasmAnalysisOptions,
         comments: &SingleThreadedComments,
     ) -> Result<String> {
-        compile_wasm_plugins(opts.cache_root.as_deref(), &opts.plugins)?;
+        let plugin_runtime = self.plugin_runtime.as_ref().context("plugin runtime not configured")?;
+        compile_wasm_plugins(opts.cache_root.as_deref(), &opts.plugins, &**plugin_runtime)?;
 
         self.run(|| {
             GLOBALS.with(|globals| {
@@ -126,24 +127,16 @@ impl Compiler {
                 inner: Some(comments.clone()),
             },
             || {
+                let plugin_runtime = self.plugin_runtime.clone().context("plugin runtime not configured")?;
                 let plugin_module_bytes = crate::config::PLUGIN_MODULE_CACHE
                     .inner
                     .get()
                     .unwrap()
                     .lock()
-                    .get(&p.0)
+                    .get(&*plugin_runtime, &p.0)
                     .expect("plugin module should be loaded");
 
                 let plugin_name = plugin_module_bytes.get_module_name().to_string();
-                let runtime = swc_plugin_runner::wasix_runtime::build_wasi_runtime(
-                    crate::config::PLUGIN_MODULE_CACHE
-                        .inner
-                        .get()
-                        .unwrap()
-                        .lock()
-                        .get_fs_cache_root()
-                        .map(std::path::PathBuf::from),
-                );
                 let mut transform_plugin_executor =
                     swc_plugin_runner::create_plugin_transform_executor(
                         &self.cm,
@@ -152,7 +145,7 @@ impl Compiler {
                         None,
                         plugin_module_bytes,
                         Some(p.1.clone()),
-                        runtime,
+                        plugin_runtime
                     );
 
                 let span = tracing::span!(

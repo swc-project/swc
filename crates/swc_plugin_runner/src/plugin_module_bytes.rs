@@ -64,10 +64,10 @@ impl CompiledPluginModuleBytes {
         CompiledPluginModuleBytes { plugin_name: raw.plugin_name, cache: Some(cache) }
     }
 
-    pub fn clone_module(&self, rt: &dyn runtime::Runtime) -> Self {
+    pub fn clone_module(&self, builder: &dyn runtime::Runtime) -> Self {
         CompiledPluginModuleBytes {
             plugin_name: self.plugin_name.clone(),
-            cache: self.cache.as_ref().map(|cache| rt.clone_cache(cache).unwrap())
+            cache: self.cache.as_ref().map(|cache| builder.clone_cache(cache).unwrap())
         }
     }
 }

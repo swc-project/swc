@@ -16,6 +16,7 @@ use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
 use testing::CARGO_TARGET_DIR;
 use tracing::info;
+use swc_plugin_runner::runtime::Runtime;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
@@ -60,16 +61,14 @@ static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPlugin
         .unwrap();
 
         let raw_module_bytes = std::fs::read(&path).expect("Should able to read plugin bytes");
-        let store = wasmer::Store::default();
-        let module = wasmer::Module::new(&store, raw_module_bytes).unwrap();
+        let cache = swc_plugin_runner::wasix_runtime::WasmerRuntime.prepare_module(&raw_module_bytes).unwrap();
 
         swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes::new(
             path.as_os_str()
                 .to_str()
                 .expect("Should able to get path")
                 .to_string(),
-            module,
-            store,
+            cache
         )
     });
 
@@ -117,9 +116,9 @@ fn internal(input: PathBuf) {
                     Some(experimental_metadata),
                 )),
                 None,
-                Box::new(PLUGIN_BYTES.clone()),
+                Box::new(PLUGIN_BYTES.clone_module(&swc_plugin_runner::wasix_runtime::WasmerRuntime)),
                 Some(json!({ "pluginConfig": "testValue" })),
-                None,
+                Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime),
             );
 
             info!("Created transform executor");
@@ -176,9 +175,9 @@ fn internal(input: PathBuf) {
                     Some(experimental_metadata.clone()),
                 )),
                 None,
-                Box::new(PLUGIN_BYTES.clone()),
+                Box::new(PLUGIN_BYTES.clone_module(&swc_plugin_runner::wasix_runtime::WasmerRuntime)),
                 Some(json!({ "pluginConfig": "testValue" })),
-                None,
+                Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime),
             );
 
             serialized_program = plugin_transform_executor
@@ -195,9 +194,9 @@ fn internal(input: PathBuf) {
                     Some(experimental_metadata),
                 )),
                 None,
-                Box::new(PLUGIN_BYTES.clone()),
+                Box::new(PLUGIN_BYTES.clone_module(&swc_plugin_runner::wasix_runtime::WasmerRuntime)),
                 Some(json!({ "pluginConfig": "testValue" })),
-                None,
+                Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime),
             );
 
             serialized_program = plugin_transform_executor

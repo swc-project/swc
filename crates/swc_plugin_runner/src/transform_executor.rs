@@ -13,7 +13,6 @@ use swc_common::{
     plugin::{diagnostics::PluginCorePkgDiagnostics, metadata::TransformPluginMetadataContext},
     SourceMap,
 };
-use wasmer_wasix::Runtime;
 
 #[cfg(feature = "__rkyv")]
 use crate::{
@@ -147,15 +146,14 @@ pub struct TransformExecutor {
     plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
     plugin_config: Option<serde_json::Value>,
     module_bytes: Box<dyn PluginModuleBytes>,
-    runtime: Option<Arc<dyn Runtime + Send + Sync>>,
-    runtime_builder: Arc<dyn runtime::Runtime>
+    runtime: Arc<dyn runtime::Runtime>
 }
 
 #[cfg(feature = "__rkyv")]
 impl TransformExecutor {
     #[tracing::instrument(
         level = "info",
-        skip(source_map, metadata_context, plugin_config, module_bytes, runtime_builder)
+        skip(source_map, metadata_context, plugin_config, module_bytes, runtime)
     )]
     pub fn new(
         module_bytes: Box<dyn PluginModuleBytes>,
@@ -164,8 +162,7 @@ impl TransformExecutor {
         metadata_context: &Arc<TransformPluginMetadataContext>,
         plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
         plugin_config: Option<serde_json::Value>,
-        runtime: Option<Arc<dyn Runtime + Send + Sync>>,
-        runtime_builder: Arc<dyn runtime::Runtime>
+        runtime: Arc<dyn runtime::Runtime>
     ) -> Self {
         Self {
             source_map: source_map.clone(),
@@ -175,7 +172,6 @@ impl TransformExecutor {
             plugin_config,
             module_bytes,
             runtime,
-            runtime_builder,
         }
     }
 
@@ -185,7 +181,7 @@ impl TransformExecutor {
         // First, compile plugin module bytes into wasmer::Module and get the
         // corresponding store
         let module_name = self.module_bytes.get_module_name();
-        let module = self.module_bytes.compile_module(&*self.runtime_builder);
+        let module = self.module_bytes.compile_module(&*self.runtime);
 
         let context_key_buffer = Arc::new(Mutex::new(Vec::new()));        
         let metadata_env = Arc::new(MetadataContextHostEnvironment::new(
@@ -224,7 +220,7 @@ impl TransformExecutor {
                 .map(|value| (name.as_str().into(), value))
             )
             .collect::<Vec<_>>();
-        let instance = self.runtime_builder.init(module_name, import_object, envs, module)?;
+        let instance = self.runtime.init(module_name, import_object, envs, module)?;
 
         let diag_result: PluginCorePkgDiagnostics =
             PluginSerializedBytes::from_slice(&(&(*diagnostics_buffer.lock()))[..])
