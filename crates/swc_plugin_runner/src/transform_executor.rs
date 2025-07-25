@@ -1,5 +1,4 @@
 use std::{env, sync::Arc};
-use std::collections::HashMap;
 
 use anyhow::{anyhow, Context, Error};
 use parking_lot::Mutex;
@@ -95,15 +94,7 @@ impl PluginTransformState {
         };
 
         self.instance.caller()?.free(guest_program_ptr.0, guest_program_ptr.1)?;
-
-        // [TODO]: disabled for now as it always panic if it is being called
-        // inside of tokio runtime
-        // https://github.com/wasmerio/wasmer/discussions/3966
-        // [NOTE]: this is not a critical as plugin does not have things to clean up
-        // in most cases
-        if let Some(_wasi_env) = Some(()) {
-            //wasi_env.cleanup(&mut self.store, None);
-        }
+        self.instance.cleanup()?;
 
         ret
     }
@@ -193,7 +184,8 @@ impl TransformExecutor {
     fn setup_plugin_env_exports(&mut self) -> Result<PluginTransformState, Error> {
         // First, compile plugin module bytes into wasmer::Module and get the
         // corresponding store
-        let (mut store, module) = self.module_bytes.compile_module2(&*self.runtime_builder)?;
+        let module_name = self.module_bytes.get_module_name();
+        let module = self.module_bytes.compile_module(&*self.runtime_builder);
 
         let context_key_buffer = Arc::new(Mutex::new(Vec::new()));        
         let metadata_env = Arc::new(MetadataContextHostEnvironment::new(
@@ -225,12 +217,6 @@ impl TransformExecutor {
             source_map_host_env,
             diagnostics_env,
         );
-        let import_object = import_object.into_iter()
-            .map(|(name, f)| {
-                self.runtime_builder.new_func(&mut store, f)
-                    .map(|f| (name, f))
-            })
-            .collect::<anyhow::Result<HashMap<_, _>>>()?;
         let envs = self.plugin_env_vars.iter()
             .flat_map(|list| list.iter())
             .filter_map(|name| std::env::var(name.as_str())
@@ -238,7 +224,7 @@ impl TransformExecutor {
                 .map(|value| (name.as_str().into(), value))
             )
             .collect::<Vec<_>>();
-        let instance = self.runtime_builder.init(store, import_object, envs, module, None)?;
+        let instance = self.runtime_builder.init(module_name, import_object, envs, module)?;
 
         let diag_result: PluginCorePkgDiagnostics =
             PluginSerializedBytes::from_slice(&(&(*diagnostics_buffer.lock()))[..])

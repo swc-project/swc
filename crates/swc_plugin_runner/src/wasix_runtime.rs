@@ -1,6 +1,7 @@
 #![allow(unused)]
 
-use std::{path::PathBuf, sync::Arc};
+use std::sync::Arc;
+use std::path::{Path, PathBuf};
 use std::collections::HashMap;
 
 use parking_lot::Mutex;
@@ -101,14 +102,9 @@ pub(crate) fn new_store() -> Store {
 
 pub struct WasmerRuntimeBuidler;
 
-pub struct WasmerStore {
-    table: wasmer::FunctionEnv<WasmerTable>,
-    store: Store,
-}
-
+#[derive(Default)]
 struct WasmerTable {
     memory: Option<wasmer::Memory>,
-    table: Vec<runtime::PluginFunc>,
     alloc_func: Option<wasmer::TypedFunction<u32, u32>>,
     free_func: Option<wasmer::TypedFunction<(u32, u32), u32>>,
 }
@@ -126,12 +122,20 @@ struct WasmerCallerRef<'a> {
     free_func: &'a wasmer::TypedFunction<(u32, u32), u32>,
     store: wasmer::StoreMut<'a>,
 }
-pub struct WasmerFunc(wasmer::Function);
+
+struct WasmerCache {
+    store: wasmer::Store,
+    module: wasmer::Module,
+}
 
 pub struct WasmerInstance {
     instance: wasmer::Instance,
-    store: Box<WasmerStore>,
+    store: wasmer::Store,
+    module: wasmer::Module,
+
+    table: wasmer::FunctionEnv<WasmerTable>,
     wasi_env: Option<wasmer_wasix::WasiFunctionEnv>,
+
     memory: wasmer::Memory,
     alloc_func: wasmer::TypedFunction<u32, u32>,
     free_func: wasmer::TypedFunction<(u32, u32), u32>,
@@ -139,69 +143,70 @@ pub struct WasmerInstance {
 }
 
 impl runtime::Builder for WasmerRuntimeBuidler {
-    fn new_store(&self) -> anyhow::Result<runtime::Store> {
-        let mut store = new_store();
-        let table = wasmer::FunctionEnv::new(&mut store, WasmerTable {
-            memory: None, alloc_func: None, free_func: None,
-            table: Vec::new(),
-        });
-        
-        Ok(runtime::Store(Box::new(WasmerStore {
-            table, store 
+    fn prepare_module(&self, bytes: &[u8]) -> anyhow::Result<runtime::ModuleCache> {
+        let store = new_store();
+        let module = wasmer::Module::new(&store, bytes)?;
+        Ok(runtime::ModuleCache(Box::new(WasmerCache {
+            store, module
         })))
     }
 
-    fn new_func(&self, store: &mut runtime::Store, func: runtime::PluginFunc)
-        -> anyhow::Result<runtime::Func>
-    {
-        let store = store.0.downcast_mut::<WasmerStore>().unwrap();
-
-        let sign = func.sign;
-        let idx = {
-            let table = store.table.as_mut(&mut store.store);
-            let idx = table.table.len();
-            table.table.push(func);
-            idx
-        };
-
-        let sign = wasmer::FunctionType::new(
-            vec![wasmer::Type::I32; sign.0 as usize],
-            vec![wasmer::Type::I32; sign.1 as usize]
-        );
-        let func = wasmer::Function::new_with_env(
-            &mut store.store,
-            &store.table,
-            sign,
-            move |env, args| wasmer_func_call(env, args, idx)
-        );
-        Ok(runtime::Func(Box::new(WasmerFunc(func))))
+    #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
+    fn module_hash(&self, bytes: &[u8]) -> anyhow::Result<String> {
+        Ok(wasmer_cache::Hash::generate(bytes).to_string())
     }
 
+    #[cfg(any(target_arch = "wasm32", not(feature = "filesystem_cache")))]
+    fn module_hash(&self, bytes: &[u8]) -> anyhow::Result<String> {
+        Err(anyhow::format_err!("module_hash is not implemented"))
+    }    
+    
     fn init(
         &self,
-        store: runtime::Store,
-        imports: HashMap<String, runtime::Func>,
+        name: &str,
+        imports: Vec<(String, runtime::Func)>,
         envs: Vec<(String, String)>,
-        module: Box<[u8]>,
-        _cache: Option<Box<[u8]>>
+        module: runtime::Module,
     )
         -> anyhow::Result<Box<dyn runtime::Instance>>
     {
-        let mut store = store.0.downcast::<WasmerStore>().unwrap();
-        
+        let (mut store, module) = match module {
+            runtime::Module::Cache(cache) => {
+                let cache = cache.0.downcast::<WasmerCache>().unwrap();
+                (cache.store, cache.module)
+            },
+            runtime::Module::Bytes(buf) => {
+                let store = new_store();
+                let module = wasmer::Module::new(&store, &buf)?;
+                (store, module)
+            }
+        };
+
+        let mut table = wasmer::FunctionEnv::new(&mut store, WasmerTable::default());
         let mut ns = wasmer::Exports::new();
         for (name, func) in imports {
-            let func = func.0.downcast::<WasmerFunc>().unwrap();
-            ns.insert(name, func.0);
+            let sign = wasmer::FunctionType::new(
+                vec![wasmer::Type::I32; func.sign.0 as usize],
+                vec![wasmer::Type::I32; func.sign.1 as usize]
+            );
+            let func = wasmer::Function::new_with_env(
+                &mut store,
+                &table,
+                sign,
+                move |env, args| wasmer_func_call(env, &func, args)
+            );
+            
+            ns.insert(name, func);
         }
         let mut imports = wasmer::Imports::new();
         imports.register_namespace("env", ns);
 
-        let module = wasmer::Module::new(&store.store, &module)?;
-
         let (instance, wasi_env) = if wasmer_wasix::is_wasi_module(&module) {
-            let name = module.name().unwrap_or("unknown");
-            let builder = wasmer_wasix::WasiEnv::builder(name);
+            let mut builder = wasmer_wasix::WasiEnv::builder(name);
+
+            if let Some(runtime) = build_wasi_runtime(None) {
+                builder = builder.runtime(runtime);
+            }
 
             // Implicitly enable filesystem access for the wasi plugin to cwd.
             //
@@ -222,19 +227,19 @@ impl runtime::Builder for WasmerRuntimeBuidler {
 
             builder.add_envs(envs);
 
-            let mut wasi_env = builder.finalize(&mut store.store)?;
+            let mut wasi_env = builder.finalize(&mut store)?;
 
             // Then, we get the import object related to our WASI,
             // overwrite into imported_object
             // and attach it to the Wasm instance.
-            let wasi_env_import_object = wasi_env.import_object(&mut store.store, &module)?;
+            let wasi_env_import_object = wasi_env.import_object(&mut store, &module)?;
             imports.extend(&wasi_env_import_object);
 
-            let instance = wasmer::Instance::new(&mut store.store, &module, &imports)?;
-            wasi_env.initialize(&mut store.store, instance.clone())?;
+            let instance = wasmer::Instance::new(&mut store, &module, &imports)?;
+            wasi_env.initialize(&mut store, instance.clone())?;
             (instance, Some(wasi_env))
         } else {
-            let instance = wasmer::Instance::new(&mut store.store, &module, &imports)?;
+            let instance = wasmer::Instance::new(&mut store, &module, &imports)?;
             (instance, None)
         };
 
@@ -244,17 +249,17 @@ impl runtime::Builder for WasmerRuntimeBuidler {
 
         // `__alloc` function automatically exported via swc_plugin sdk to allow
         // allocation in guest memory space
-        let alloc_func: wasmer::TypedFunction<u32, u32> = instance.exports.get_typed_function(&store.store, "__alloc")?;
+        let alloc_func: wasmer::TypedFunction<u32, u32> = instance.exports.get_typed_function(&store, "__alloc")?;
 
         // `__free` function automatically exported via swc_plugin sdk to allow
         // deallocation in guest memory space        
-        let free_func: wasmer::TypedFunction<(u32, u32), u32> = instance.exports.get_typed_function(&store.store, "__free")?;
+        let free_func: wasmer::TypedFunction<(u32, u32), u32> = instance.exports.get_typed_function(&store, "__free")?;
 
         // Main transform interface plugin exports
-        let transform_func: wasmer::TypedFunction<(u32, u32, u32, u32), u32> = instance.exports.get_typed_function(&store.store, "__transform_plugin_process_impl")?;
+        let transform_func: wasmer::TypedFunction<(u32, u32, u32, u32), u32> = instance.exports.get_typed_function(&store, "__transform_plugin_process_impl")?;
 
-        store.table.as_mut(&mut store.store).alloc_func = Some(alloc_func.clone());
-        store.table.as_mut(&mut store.store).free_func = Some(free_func.clone());
+        table.as_mut(&mut store).alloc_func = Some(alloc_func.clone());
+        table.as_mut(&mut store).free_func = Some(free_func.clone());
 
         // As soon as instance is ready, host calls a fn to read plugin's swc_core pkg
         // diagnostics as `handshake`. Once read those values will be available across
@@ -266,21 +271,54 @@ impl runtime::Builder for WasmerRuntimeBuidler {
         // until we have forward-compat schema changes.
         instance
             .exports
-            .get_typed_function::<(), u32>(&store.store, "__get_transform_plugin_core_pkg_diag")?
-            .call(&mut store.store)?;
+            .get_typed_function::<(), u32>(&store, "__get_transform_plugin_core_pkg_diag")?
+            .call(&mut store)?;
 
         Ok(Box::new(WasmerInstance {
-            instance, store, wasi_env,
+            instance, store, module, table, wasi_env,
             memory,
             alloc_func, free_func, transform_func
         }))        
+    }
+
+    fn clone_cache(&self, cache: &runtime::ModuleCache) -> Option<runtime::ModuleCache> {
+        let cache = cache.0.downcast_ref::<WasmerCache>()?;
+
+        let store = wasmer::Store::new(cache.store.engine().clone());
+        let module = cache.module.clone();
+        Some(runtime::ModuleCache(Box::new(WasmerCache {
+            store, module
+        })))
+    }
+
+    unsafe fn load_cache(&self, path: &std::path::Path) -> Option<runtime::ModuleCache> {
+        let store = new_store();
+        let module = wasmer::Module::deserialize_from_file(store.engine(), path);
+
+        if module.is_err() {
+            // If an error occurs while deserializing then we can not trust it anymore
+            // so delete the cache file
+            let _ = std::fs::remove_file(path);
+        }
+
+        module
+            .ok()
+            .map(|module| runtime::ModuleCache(Box::new(WasmerCache {
+                store, module
+            })))
+    }
+
+    fn store_cache(&self, path: &Path, cache: &runtime::ModuleCache) -> anyhow::Result<()> {
+        let cache = cache.0.downcast_ref::<WasmerCache>().unwrap();
+        cache.module.serialize_to_file(path)?;
+        Ok(())
     }
 }
 
 impl runtime::Instance for WasmerInstance {
     fn transform(&mut self, program_ptr: u32, program_len: u32, unresolved_mark: u32, should_enable_comments_proxy: u32) -> anyhow::Result<u32> {
         self.transform_func.call(
-            &mut self.store.store,
+            &mut self.store,
             program_ptr,
             program_len,
             unresolved_mark,
@@ -292,14 +330,31 @@ impl runtime::Instance for WasmerInstance {
     fn caller(&mut self) -> anyhow::Result<Box<dyn runtime::Caller<'_> + '_>> {
         Ok(Box::new(WasmerCaller {
             memory: self.memory.clone(),
-            store: &mut self.store.store,
+            store: &mut self.store,
             alloc_func: &self.alloc_func,
             free_func: &self.free_func
         }))
     }
     
-    fn cache(&self) -> anyhow::Result<Option<Box<[u8]>>> {
-        Ok(None)
+    fn cache(&self) -> Option<runtime::ModuleCache> {
+        let store = wasmer::Store::new(self.store.engine().clone());
+        let module = self.module.clone();
+        Some(runtime::ModuleCache(Box::new(WasmerCache {
+            store, module
+        })))
+    }
+
+    fn cleanup(&mut self) -> anyhow::Result<()> {
+        // [TODO]: disabled for now as it always panic if it is being called
+        // inside of tokio runtime
+        // https://github.com/wasmerio/wasmer/discussions/3966
+        // [NOTE]: this is not a critical as plugin does not have things to clean up
+        // in most cases
+        if let Some(_wasi_env) = Some(()) {
+            //wasi_env.cleanup(&mut self.store, None);
+        }
+
+        Ok(())
     }
 }
 
@@ -359,17 +414,11 @@ impl<'a> runtime::Caller<'a> for WasmerCallerRef<'a> {
 
 fn wasmer_func_call(
     mut table: wasmer::FunctionEnvMut<'_, WasmerTable>,
+    func: &runtime::Func,
     input: &[wasmer::Value],
-    idx: usize
 ) -> Result<Vec<wasmer::Value>, wasmer::RuntimeError> {
     use std::any::Any;
 
-    let func = table
-        .data()
-        .table
-        .get(idx)
-        .ok_or_else(|| wasmer::RuntimeError::new("bad wasm func index"))?
-        .clone();
     let memory = table.data().memory.clone().unwrap();
     let alloc_func = table.data().alloc_func.clone().unwrap();
     let free_func = table.data().free_func.clone().unwrap();
