@@ -73,7 +73,6 @@ pub(super) fn optimizer<'a>(
             in_strict: options.module,
             remaining_depth: 6,
         },
-        var_kind: None,
         scope: SyntaxContext::default(),
         bit_ctx: BitCtx::default(),
     };
@@ -101,8 +100,6 @@ pub(super) fn optimizer<'a>(
 struct Ctx {
     expr_ctx: ExprCtx,
 
-    var_kind: Option<VarDeclKind>,
-
     /// Current scope.
     scope: SyntaxContext,
 
@@ -120,68 +117,75 @@ bitflags! {
     #[derive(Debug, Clone, Copy, Default)]
     pub(crate) struct BitCtx: u32 {
         /// `true` if the [VarDecl] has const annotation.
-        const HasConstAnn = 1 << 0;
+        const IsConst = 1 << 0;
+        const IsVar = 1 << 1;
+        const IsLet = 1 << 2;
 
-        const DontUsePrependNorAppend = 1 << 1;
+        const DontUsePrependNorAppend = 1 << 3;
 
-        const InBoolCtx = 1 << 2;
+        const InBoolCtx = 1 << 4;
 
-        const InAsm = 1 << 3;
+        const InAsm = 1 << 5;
 
         /// `true` only for [Callee::Expr].
-        const IsCallee = 1 << 4;
+        const IsCallee = 1 << 6;
 
         /// `true` if we are try block. `true` means we cannot be sure about control
         /// flow.
-        const InTryBlock = 1 << 5;
+        const InTryBlock = 1 << 7;
+
         /// `true` while handling `test` of if / while / for.
-        const InCond = 1 << 6;
+        const InCond = 1 << 8;
 
         /// `true` if we are in `arg` of `delete arg`.
-        const IsDeleteArg = 1 << 7;
+        const IsDeleteArg = 1 << 9;
+
         /// `true` if we are in `arg` of `++arg` or `--arg`.
-        const IsUpdateArg = 1 << 8;
-        const IsLhsOfAssign = 1 << 9;
+        const IsUpdateArg = 1 << 10;
+
+        const IsLhsOfAssign = 1 << 11;
+
         /// `false` for `d` in `d[0] = foo`.
-        const IsExactLhsOfAssign = 1 << 10;
+        const IsExactLhsOfAssign = 1 << 12;
 
         /// `true` for loop bodies and conditions of loops.
-        const ExecutedMultipleTime = 1 << 11;
+        const ExecutedMultipleTime = 1 << 13;
 
         /// `true` while handling `expr` of `!expr`
-        const InBangArg = 1 << 12;
-        const InVarDeclOfForInOrOfLoop = 1 << 13;
+        const InBangArg = 1 << 14;
 
-        const DontUseNegatedIife = 1 << 14;
+        const InVarDeclOfForInOrOfLoop = 1 << 15;
+
+        const DontUseNegatedIife = 1 << 16;
 
         /// `true` while handling top-level export decls.
-        const IsExported = 1 << 15;
+        const IsExported = 1 << 17;
 
         /// `true` while handling top level items.
-        const TopLevel = 1 << 16;
+        const TopLevel = 1 << 18;
 
         /// `true` while we are in a function or something similar.
-        const InFnLike = 1 << 17;
+        const InFnLike = 1 << 19;
 
-        const InBlock = 1 << 18;
+        const InBlock = 1 << 20;
 
-        const InObjOfNonComputedMember = 1 << 19;
+        const InObjOfNonComputedMember = 1 << 21;
 
-        const InTplExpr = 1 << 20;
+        const InTplExpr = 1 << 22;
 
         /// True while handling callee, except an arrow expression in callee.
-        const IsThisAwareCallee = 1 << 21;
+        const IsThisAwareCallee = 1 << 23;
 
-        const IsNestedIfReturnMerging = 1 << 22;
+        const IsNestedIfReturnMerging = 1 << 24;
 
-        const DontInvokeIife = 1 << 23;
+        const DontInvokeIife = 1 << 25;
 
-        const InWithStmt = 1 << 24;
+        const InWithStmt = 1 << 26;
 
-        const InParam = 1 << 25;
+        const InParam = 1 << 27;
 
         /// `true` while we are inside a class body.
-        const InClass = 1 << 26;
+        const InClass = 1 << 28;
     }
 }
 
@@ -2336,7 +2340,6 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_param(&mut self, n: &mut Param) {
         let ctx = Ctx {
             bit_ctx: self.ctx.bit_ctx.with(BitCtx::InParam, true),
-            var_kind: None,
             ..self.ctx.clone()
         };
         let mut o = self.with_ctx(ctx);
@@ -2769,8 +2772,9 @@ impl VisitMut for Optimizer<'_> {
                 .ctx
                 .bit_ctx
                 .with(BitCtx::IsUpdateArg, false)
-                .with(BitCtx::HasConstAnn, false),
-            var_kind: None,
+                .with(BitCtx::IsConst, false)
+                .with(BitCtx::IsLet, false)
+                .with(BitCtx::IsVar, false),
             ..self.ctx.clone()
         };
 
@@ -2787,8 +2791,12 @@ impl VisitMut for Optimizer<'_> {
                     .ctx
                     .bit_ctx
                     .with(BitCtx::IsUpdateArg, false)
-                    .with(BitCtx::HasConstAnn, self.has_const_ann(n.ctxt)),
-                var_kind: Some(n.kind),
+                    .with(
+                        BitCtx::IsConst,
+                        n.kind == VarDeclKind::Const || self.has_const_ann(n.ctxt),
+                    )
+                    .with(BitCtx::IsVar, n.kind == VarDeclKind::Var)
+                    .with(BitCtx::IsLet, n.kind == VarDeclKind::Let),
                 ..self.ctx.clone()
             };
 
