@@ -25724,7 +25724,7 @@
                         ];
                     },
                     useRef: function(e) {
-                        return rD().memoizedState = e = {
+                        return rD().memoizedState = {
                             current: e
                         };
                     },

@@ -11474,7 +11474,7 @@
                 // check: category-no-encode-has-axis-data in dataset.html
                 var data = series.getData(), isValueMultipleLine = reduce(value, function(isValueMultipleLine, val, idx) {
                     var dimItem = data.getDimensionInfo(idx);
-                    return isValueMultipleLine = isValueMultipleLine || dimItem && !1 !== dimItem.tooltip && null != dimItem.displayName;
+                    return isValueMultipleLine || dimItem && !1 !== dimItem.tooltip && null != dimItem.displayName;
                 }, !1), inlineValues = [], inlineValueTypes = [], blocks = [];
                 function setEachItem(val, dim) {
                     var dimInfo = data.getDimensionInfo(dim); // If `dimInfo.tooltip` is not set, show tooltip.
@@ -18950,7 +18950,7 @@
      */ function(tpl, value, isUTC) {
             deprecateReplaceLog('echarts.format.formatTime', 'echarts.time.format'), ('week' === tpl || 'month' === tpl || 'quarter' === tpl || 'half-year' === tpl || 'year' === tpl) && (tpl = 'MM-dd\nyyyy');
             var date = parseDate(value), utc = isUTC ? 'UTC' : '', y = date['get' + utc + 'FullYear'](), M = date['get' + utc + 'Month']() + 1, d = date['get' + utc + 'Date'](), h = date['get' + utc + 'Hours'](), m = date['get' + utc + 'Minutes'](), s = date['get' + utc + 'Seconds'](), S = date['get' + utc + 'Milliseconds']();
-            return tpl = tpl.replace('MM', pad(M, 2)).replace('M', M).replace('yyyy', y).replace('yy', y % 100 + '').replace('dd', pad(d, 2)).replace('d', d).replace('hh', pad(h, 2)).replace('h', h).replace('mm', pad(m, 2)).replace('m', m).replace('ss', pad(s, 2)).replace('s', s).replace('SSS', pad(S, 3));
+            return tpl.replace('MM', pad(M, 2)).replace('M', M).replace('yyyy', y).replace('yy', y % 100 + '').replace('dd', pad(d, 2)).replace('d', d).replace('hh', pad(h, 2)).replace('h', h).replace('mm', pad(m, 2)).replace('m', m).replace('ss', pad(s, 2)).replace('s', s).replace('SSS', pad(S, 3));
         },
         capitalFirst: /**
      * Capital first
