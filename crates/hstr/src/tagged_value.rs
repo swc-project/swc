@@ -2,6 +2,8 @@
 
 use std::{num::NonZeroU8, os::raw::c_void, ptr::NonNull, slice};
 
+use crate::TAG_MASK;
+
 #[cfg(feature = "atom_size_128")]
 type RawTaggedValue = u128;
 #[cfg(any(
@@ -97,8 +99,6 @@ impl TaggedValue {
             feature = "atom_size_128"
         )))]
         {
-            use crate::TAG_MASK;
-
             (self.value.as_ptr() as usize & !(TAG_MASK as usize)) as _
         }
     }
