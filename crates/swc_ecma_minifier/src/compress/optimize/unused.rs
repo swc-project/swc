@@ -1047,7 +1047,7 @@ struct ThisPropertyVisitor {
 }
 
 impl Visit for ThisPropertyVisitor {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
         if self.should_abort {

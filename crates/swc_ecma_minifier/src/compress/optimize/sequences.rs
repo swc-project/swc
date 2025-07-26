@@ -2608,7 +2608,7 @@ struct UsageCounter<'a> {
 }
 
 impl Visit for UsageCounter<'_> {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     fn visit_ident(&mut self, i: &Ident) {
         if self.target.sym == i.sym && self.target.ctxt == i.ctxt {

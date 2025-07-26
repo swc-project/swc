@@ -692,7 +692,7 @@ struct LabelFinder<'a> {
     found: bool,
 }
 impl Visit for LabelFinder<'_> {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     fn visit_break_stmt(&mut self, s: &BreakStmt) {
         if let Some(label) = &s.label {
