@@ -146,13 +146,7 @@ impl Optimizer<'_> {
                 ..
             }) if matches!(obj.as_ref(), Expr::Ident(ident) if &*ident.sym == "Number") => {
                 if let Expr::Ident(number_ident) = &**obj {
-                    if self
-                        .data
-                        .vars
-                        .get(&number_ident.to_id())
-                        .map(|var| var.flags.contains(VarUsageInfoFlags::DECLARED))
-                        .unwrap_or(false)
-                    {
+                    if number_ident.ctxt != self.ctx.expr_ctx.unresolved_ctxt {
                         return;
                     }
                 }
