@@ -1,25 +1,17 @@
 //// [tsxInArrowFunction.tsx]
 // didn't work
-/*#__PURE__*/ React.createElement("div", null, function() {
-    return /*#__PURE__*/ React.createElement("div", {
-        text: "wat"
-    });
-});
+<div>{function() {
+    return <div text="wat"/>;
+}}</div>;
 // didn't work
-/*#__PURE__*/ React.createElement("div", null, function(x) {
-    return /*#__PURE__*/ React.createElement("div", {
-        text: "wat"
-    });
-});
+<div>{function(x) {
+    return <div text="wat"/>;
+}}</div>;
 // worked
-/*#__PURE__*/ React.createElement("div", null, function() {
-    return /*#__PURE__*/ React.createElement("div", {
-        text: "wat"
-    });
-});
+<div>{function() {
+    return <div text="wat"/>;
+}}</div>;
 // worked (!)
-/*#__PURE__*/ React.createElement("div", null, function() {
-    return /*#__PURE__*/ React.createElement("div", {
-        text: "wat"
-    });
-});
+<div>{function() {
+    return <div text="wat"></div>;
+}}</div>;

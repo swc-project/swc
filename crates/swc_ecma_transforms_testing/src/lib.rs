@@ -160,14 +160,18 @@ impl Tester<'_> {
         Ok(stmts.pop().unwrap())
     }
 
-    pub fn apply_transform<T: Pass>(
+    pub fn apply_transform<F, T>(
         &mut self,
-        tr: T,
+        tr: F,
         name: &str,
         syntax: Syntax,
         is_module: Option<bool>,
         src: &str,
-    ) -> Result<Program, ()> {
+    ) -> Result<Program, ()>
+    where
+        T: Pass,
+        F: FnOnce(&mut Self) -> T,
+    {
         let program =
             self.with_parser(
                 name,
@@ -180,6 +184,7 @@ impl Tester<'_> {
                 },
             )?;
 
+        let tr = tr(self);
         Ok(program.apply(tr))
     }
 
@@ -248,7 +253,7 @@ pub fn test_transform<F, P>(
 {
     Tester::run(|tester| {
         let expected = tester.apply_transform(
-            swc_ecma_utils::DropSpan,
+            |_| swc_ecma_utils::DropSpan,
             "output.js",
             syntax,
             is_module,
@@ -259,8 +264,13 @@ pub fn test_transform<F, P>(
 
         println!("----- Actual -----");
 
-        let tr = (tr(tester), visit_mut_pass(RegeneratorHandler));
-        let actual = tester.apply_transform(tr, "input.js", syntax, is_module, input)?;
+        let actual = tester.apply_transform(
+            |t| (tr(t), visit_mut_pass(RegeneratorHandler)),
+            "input.js",
+            syntax,
+            is_module,
+            input,
+        )?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -336,7 +346,7 @@ pub fn test_inline_input_output<F, P>(
 
     let expected_src = Tester::run(|tester| {
         let expected_program =
-            tester.apply_transform(noop_pass(), "expected.js", syntax, is_module, expected)?;
+            tester.apply_transform(|_| noop_pass(), "expected.js", syntax, is_module, expected)?;
 
         let expected_src = tester.print(&expected_program, &Default::default());
 
@@ -351,8 +361,6 @@ pub fn test_inline_input_output<F, P>(
 
     let actual_src = Tester::run_captured(|tester| {
         println!("----- {} -----\n{}", Color::Green.paint("Input"), input);
-
-        let tr = tr(tester);
 
         println!("----- {} -----", Color::Green.paint("Actual"));
 
@@ -417,7 +425,7 @@ pub fn test_inlined_transform<F, P>(
 
     test_fixture_inner(
         syntax,
-        Box::new(move |tester| Box::new(tr(tester))),
+        tr,
         input,
         &snapshot_dir.join(format!("{test_name}.js")),
         FixtureTestConfig {
@@ -536,9 +544,13 @@ where
     P: Pass,
 {
     Tester::run(|tester| {
-        let tr = (tr(tester), visit_mut_pass(RegeneratorHandler));
-
-        let program = tester.apply_transform(tr, "input.js", syntax, Some(true), input)?;
+        let program = tester.apply_transform(
+            |t| (tr(t), visit_mut_pass(RegeneratorHandler)),
+            "input.js",
+            syntax,
+            Some(true),
+            input,
+        )?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -581,10 +593,8 @@ where
     P: Pass,
 {
     Tester::run(|tester| {
-        let tr = (tr(tester), visit_mut_pass(RegeneratorHandler));
-
         let program = tester.apply_transform(
-            tr,
+            |t| (tr(t), visit_mut_pass(RegeneratorHandler)),
             "input.js",
             syntax,
             Some(true),
@@ -859,22 +869,19 @@ pub fn test_fixture<P>(
 {
     let input = fs::read_to_string(input).unwrap();
 
-    test_fixture_inner(
-        syntax,
-        Box::new(|tester| Box::new(tr(tester))),
-        &input,
-        output,
-        config,
-    );
+    test_fixture_inner(syntax, tr, &input, output, config);
 }
 
-fn test_fixture_inner<'a>(
+fn test_fixture_inner<F, P>(
     syntax: Syntax,
-    tr: Box<dyn 'a + FnOnce(&mut Tester) -> Box<dyn 'a + Pass>>,
+    tr: F,
     input: &str,
     output: &Path,
     config: FixtureTestConfig,
-) {
+) where
+    P: Pass,
+    F: FnOnce(&mut Tester) -> P,
+{
     let _logger = testing::init();
 
     let expected = read_to_string(output);
@@ -882,8 +889,13 @@ fn test_fixture_inner<'a>(
     let expected = expected.unwrap_or_default();
 
     let expected_src = Tester::run(|tester| {
-        let expected_program =
-            tester.apply_transform(noop_pass(), "expected.js", syntax, config.module, &expected)?;
+        let expected_program = tester.apply_transform(
+            |_| noop_pass(),
+            "expected.js",
+            syntax,
+            config.module,
+            &expected,
+        )?;
 
         let expected_src = tester.print(&expected_program, &tester.comments.clone());
 
@@ -906,8 +918,6 @@ fn test_fixture_inner<'a>(
 
     let (actual_src, stderr) = Tester::run_captured(|tester| {
         eprintln!("----- {} -----\n{}", Color::Green.paint("Input"), input);
-
-        let tr = tr(tester);
 
         eprintln!("----- {} -----", Color::Green.paint("Actual"));
 

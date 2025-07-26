@@ -145,7 +145,7 @@ impl_struct!(JSXAttr, [span, name, value]);
 
 impl_enum!(
     JSXAttrValue,
-    [Lit, JSXExprContainer, JSXElement, JSXFragment]
+    [Str, JSXExprContainer, JSXElement, JSXFragment]
 );
 
 impl_enum!(JSXAttrName, [Ident, JSXNamespacedName]);

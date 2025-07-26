@@ -1,11 +1,8 @@
 //// [file.tsx]
 define([
     "require",
-    "exports",
-    "@swc/helpers/_/_object_spread",
-    "@swc/helpers/_/_object_spread_props",
-    "react"
-], function(require, exports, _object_spread, _object_spread_props, _react) {
+    "exports"
+], function(require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -32,43 +29,25 @@ define([
         return this._buildMainButton(props);
     }
     // OK
-    var b0 = /*#__PURE__*/ _react.createElement(MainButton, {
-        to: "/some/path"
-    }, "GO");
-    var b1 = /*#__PURE__*/ _react.createElement(MainButton, {
-        onClick: function(e) {}
-    }, "Hello world");
-    var b2 = /*#__PURE__*/ _react.createElement(MainButton, obj);
-    var b3 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread._({
+    var b0 = <MainButton to='/some/path'>GO</MainButton>;
+    var b1 = <MainButton onClick={function(e) {}}>Hello world</MainButton>;
+    var b2 = <MainButton {...obj}/>;
+    var b3 = <MainButton {...{
         to: 10000
-    }, obj));
-    var b4 = /*#__PURE__*/ _react.createElement(MainButton, obj1); // any; just pick the first overload
-    var b5 = /*#__PURE__*/ _react.createElement(MainButton, _object_spread_props._(_object_spread._({}, obj1), {
-        to: "/to/somewhere"
-    })); // should pick the second overload
-    var b6 = /*#__PURE__*/ _react.createElement(MainButton, obj2);
-    var b7 = /*#__PURE__*/ _react.createElement(MainButton, {
+    }} {...obj}/>;
+    var b4 = <MainButton {...obj1}/>; // any; just pick the first overload
+    var b5 = <MainButton {...obj1} to="/to/somewhere"/>; // should pick the second overload
+    var b6 = <MainButton {...obj2}/>;
+    var b7 = <MainButton {...{
         onClick: function() {
             console.log("hi");
         }
-    });
-    var b8 = /*#__PURE__*/ _react.createElement(MainButton, {
+    }}/>;
+    var b8 = <MainButton {...{
         onClick: function onClick() {}
-    }); // OK; method declaration get retained (See GitHub #13365)
-    var b9 = /*#__PURE__*/ _react.createElement(MainButton, {
-        to: "/some/path",
-        "extra-prop": true
-    }, "GO");
-    var b10 = /*#__PURE__*/ _react.createElement(MainButton, {
-        to: "/some/path",
-        children: "hi"
-    });
-    var b11 = /*#__PURE__*/ _react.createElement(MainButton, {
-        onClick: function(e) {},
-        className: "hello",
-        "data-format": true
-    }, "Hello world");
-    var b12 = /*#__PURE__*/ _react.createElement(MainButton, {
-        "data-format": "Hello world"
-    });
+    }}/>; // OK; method declaration get retained (See GitHub #13365)
+    var b9 = <MainButton to='/some/path' extra-prop>GO</MainButton>;
+    var b10 = <MainButton to='/some/path' children="hi"></MainButton>;
+    var b11 = <MainButton onClick={function(e) {}} className="hello" data-format>Hello world</MainButton>;
+    var b12 = <MainButton data-format="Hello world"/>;
 });

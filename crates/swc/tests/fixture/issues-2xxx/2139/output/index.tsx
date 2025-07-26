@@ -1,4 +1,5 @@
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
 class ReusablePayments extends PureComponent {
     componentDidMount() {
         this.setDefaultReusablePayment();
@@ -31,7 +32,7 @@ class ReusablePayments extends PureComponent {
         if (!stripePaymentSources.length) {
             return null;
         }
-        return /*#__PURE__*/ React.createElement(DeletePaymentSourceComponent, {
+        return /*#__PURE__*/ _jsx(DeletePaymentSourceComponent, {
             onCompleted: (param)=>{
                 var deletePaymentSource = param.deletePaymentSource;
                 if (deletePaymentSource.success) {
@@ -45,40 +46,64 @@ class ReusablePayments extends PureComponent {
             },
             refetchQueries: [
                 "ReusablePaymentSources"
-            ]
-        }, (deletePaymentSource)=>/*#__PURE__*/ React.createElement("div", {
-                className: styles.selectionList
-            }, stripePaymentSources.map((payment)=>{
-                var cardIcon = "brand" in payment.paymentEntity ? payment.paymentEntity.brand === "Visa" ? /*#__PURE__*/ React.createElement(Visa, null) : payment.paymentEntity.brand === "MasterCard" ? /*#__PURE__*/ React.createElement(MasterCard, null) : payment.paymentEntity.brand === "American Express" ? /*#__PURE__*/ React.createElement(AmericanExpress, null) : payment.paymentEntity.brand === "Discover" ? /*#__PURE__*/ React.createElement(Discover, null) : null : null;
-                return /*#__PURE__*/ React.createElement("div", {
-                    key: payment.id,
-                    className: classNames(styles.creditCard, {
-                        [styles.creditCardChecked]: selectedReusablePayment === payment
+            ],
+            children: (deletePaymentSource)=>/*#__PURE__*/ _jsx("div", {
+                    className: styles.selectionList,
+                    children: stripePaymentSources.map((payment)=>{
+                        var cardIcon = "brand" in payment.paymentEntity ? payment.paymentEntity.brand === "Visa" ? /*#__PURE__*/ _jsx(Visa, {}) : payment.paymentEntity.brand === "MasterCard" ? /*#__PURE__*/ _jsx(MasterCard, {}) : payment.paymentEntity.brand === "American Express" ? /*#__PURE__*/ _jsx(AmericanExpress, {}) : payment.paymentEntity.brand === "Discover" ? /*#__PURE__*/ _jsx(Discover, {}) : null : null;
+                        return /*#__PURE__*/ _jsx("div", {
+                            className: classNames(styles.creditCard, {
+                                [styles.creditCardChecked]: selectedReusablePayment === payment
+                            }),
+                            children: /*#__PURE__*/ _jsxs("div", {
+                                className: styles.creditCardContainer,
+                                children: [
+                                    /*#__PURE__*/ _jsx(Radio, {
+                                        value: payment.id,
+                                        checked: selectedReusablePayment === payment,
+                                        onChange: this.handleSelectPayment.bind(this, payment),
+                                        children: /*#__PURE__*/ _jsxs("div", {
+                                            className: styles.paymentHeader,
+                                            children: [
+                                                /*#__PURE__*/ _jsxs("div", {
+                                                    className: styles.paymentHeaderContainer,
+                                                    children: [
+                                                        cardIcon,
+                                                        payment.paymentEntity.__typename === "PaymentCard" && /*#__PURE__*/ _jsx("div", {
+                                                            className: styles.textBold,
+                                                            children: payment.paymentEntity.brand
+                                                        })
+                                                    ]
+                                                }),
+                                                /*#__PURE__*/ _jsxs("div", {
+                                                    className: styles.textSmall,
+                                                    children: [
+                                                        payment.owner && (payment.owner.verifiedName || payment.owner.name),
+                                                        " ",
+                                                        "-",
+                                                        payment.paymentEntity.__typename === "PaymentCard" && ` xxx ${payment.paymentEntity.last4}`
+                                                    ]
+                                                })
+                                            ]
+                                        })
+                                    }),
+                                    /*#__PURE__*/ _jsx("div", {
+                                        className: styles.creditCardActions,
+                                        children: /*#__PURE__*/ _jsx(Button, {
+                                            onClick: this.handleDeletePaymentSource.bind(this, payment.id, deletePaymentSource),
+                                            className: styles.removeCardButton,
+                                            variant: "secondary-link",
+                                            type: "button",
+                                            size: "xsmall",
+                                            children: "Remove"
+                                        })
+                                    })
+                                ]
+                            })
+                        }, payment.id);
                     })
-                }, /*#__PURE__*/ React.createElement("div", {
-                    className: styles.creditCardContainer
-                }, /*#__PURE__*/ React.createElement(Radio, {
-                    value: payment.id,
-                    checked: selectedReusablePayment === payment,
-                    onChange: this.handleSelectPayment.bind(this, payment)
-                }, /*#__PURE__*/ React.createElement("div", {
-                    className: styles.paymentHeader
-                }, /*#__PURE__*/ React.createElement("div", {
-                    className: styles.paymentHeaderContainer
-                }, cardIcon, payment.paymentEntity.__typename === "PaymentCard" && /*#__PURE__*/ React.createElement("div", {
-                    className: styles.textBold
-                }, payment.paymentEntity.brand)), /*#__PURE__*/ React.createElement("div", {
-                    className: styles.textSmall
-                }, payment.owner && (payment.owner.verifiedName || payment.owner.name), " ", "-", payment.paymentEntity.__typename === "PaymentCard" && ` xxx ${payment.paymentEntity.last4}`))), /*#__PURE__*/ React.createElement("div", {
-                    className: styles.creditCardActions
-                }, /*#__PURE__*/ React.createElement(Button, {
-                    onClick: this.handleDeletePaymentSource.bind(this, payment.id, deletePaymentSource),
-                    className: styles.removeCardButton,
-                    variant: "secondary-link",
-                    type: "button",
-                    size: "xsmall"
-                }, "Remove"))));
-            })));
+                })
+        });
     }
     constructor(...args){
         super(...args), _define_property(this, "handleSelectPayment", (selected)=>{

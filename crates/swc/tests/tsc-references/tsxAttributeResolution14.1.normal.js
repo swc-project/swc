@@ -16,17 +16,13 @@ define([
 ], function(require) {
     "use strict";
     function VerticalNavMenuItem(prop) {
-        return /*#__PURE__*/ React.createElement("div", null, "props.primaryText");
+        return <div>props.primaryText</div>;
     }
     function VerticalNav() {
-        return /*#__PURE__*/ React.createElement("div", null, /*#__PURE__*/ React.createElement(VerticalNavMenuItem, {
-            primaryText: 2
-        }), "  // error", /*#__PURE__*/ React.createElement(VerticalNavMenuItem, {
-            justRandomProp: 2,
-            primaryText: "hello"
-        }), "  // ok", /*#__PURE__*/ React.createElement(VerticalNavMenuItem, {
-            justRandomProp1: true,
-            primaryText: "hello"
-        }), "  // error");
+        return <div>
+      <VerticalNavMenuItem primaryText={2}/>  // error
+      <VerticalNavMenuItem justRandomProp={2} primaryText={"hello"}/>  // ok
+      <VerticalNavMenuItem justRandomProp1={true} primaryText={"hello"}/>  // error
+    </div>;
     }
 });

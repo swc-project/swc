@@ -150,6 +150,12 @@ impl Comments for PluginCommentsProxy {
             c.add_pure_comment(pos);
         });
     }
+
+    fn for_each(&self, f: &mut dyn FnMut(&Comment)) {
+        swc_common::comments::COMMENTS.with(|c| {
+            c.for_each(f);
+        });
+    }
 }
 
 #[cfg(all(feature = "__plugin_mode", target_arch = "wasm32"))]
@@ -275,5 +281,9 @@ impl Comments for PluginCommentsProxy {
                 __add_pure_comment_proxy(pos.0);
             }
         }
+    }
+
+    fn for_each(&self, f: &mut dyn FnMut(&Comment)) {
+        unimplemented!()
     }
 }

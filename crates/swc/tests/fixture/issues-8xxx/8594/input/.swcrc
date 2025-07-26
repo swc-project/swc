@@ -9,6 +9,11 @@
         "minify": {
             "compress": false,
             "mangle": false
+        },
+        "transform": {
+            "react": {
+                "runtime": "classic"
+            }
         }
     },
     "module": {

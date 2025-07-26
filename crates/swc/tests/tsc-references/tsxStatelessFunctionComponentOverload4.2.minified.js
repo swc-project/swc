@@ -1,29 +1,16 @@
 //// [file.tsx]
 define([
-    "require",
-    "exports",
-    "@swc/helpers/_/_object_spread",
-    "@swc/helpers/_/_object_spread_props",
-    "react"
-], function(require, exports, _object_spread, _object_spread_props, _react) {
-    Object.defineProperty(exports, "__esModule", {
-        value: !0
-    });
+    "require"
+], function(require) {
     var obj2, obj = {
         yy: 10,
         yy1: "hello"
     };
-    OneThing, OneThing, OneThing, _object_spread_props._(_object_spread._({}, obj), {
-        yy1: !0
-    }), OneThing, _object_spread_props._(_object_spread._({}, obj), {
+    <OneThing extraProp/>, <OneThing yy={10}/>, <OneThing {...obj} yy1/>, <OneThing {...obj} {...{
         extra: "extra attr"
-    }), OneThing, _object_spread_props._(_object_spread._({}, obj), {
-        y1: 10000
-    }), OneThing, _object_spread_props._(_object_spread._({}, obj), {
+    }}/>, <OneThing {...obj} y1={10000}/>, <OneThing {...obj} {...{
         yy: !0
-    }), OneThing, _object_spread_props._(_object_spread._({}, obj2), {
+    }}/>, <OneThing {...obj2} {...{
         extra: "extra attr"
-    }), OneThing, _object_spread_props._(_object_spread._({}, obj2), {
-        yy: !0
-    }), TestingOneThing, TestingOneThing, TestingOptional, TestingOptional, TestingOptional, TestingOptional;
+    }}/>, <OneThing {...obj2} yy/>, <TestingOneThing extra-data/>, <TestingOneThing yy="hello" direction="left"/>, <TestingOptional y1 y3="hello"/>, <TestingOptional y1="hello" y2={1000} y3/>, <TestingOptional y1="hello" y2={1000} children="hi"/>, <TestingOptional y1="hello" y2={1000}>Hi</TestingOptional>;
 });

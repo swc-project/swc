@@ -7,14 +7,14 @@ var Button = /*#__PURE__*/ function() {
     }
     var _proto = Button.prototype;
     _proto.render = function render() {
-        return /*#__PURE__*/ React.createElement("div", null, "My Button");
+        return <div>My Button</div>;
     };
     return Button;
 }();
 // OK
-var k1 = /*#__PURE__*/ React.createElement("div", null, " ", /*#__PURE__*/ React.createElement("h2", null, " Hello "), " ", /*#__PURE__*/ React.createElement("h1", null, " world "));
-var k2 = /*#__PURE__*/ React.createElement("div", null, " ", /*#__PURE__*/ React.createElement("h2", null, " Hello "), " ", function(user) {
-    return /*#__PURE__*/ React.createElement("h2", null, user.name);
-});
-var k3 = /*#__PURE__*/ React.createElement("div", null, " ", 1, " ", "That is a number", " ");
-var k4 = /*#__PURE__*/ React.createElement(Button, null, " ", /*#__PURE__*/ React.createElement("h2", null, " Hello "), " ");
+var k1 = <div> <h2> Hello </h2> <h1> world </h1></div>;
+var k2 = <div> <h2> Hello </h2> {function(user) {
+    return <h2>{user.name}</h2>;
+}}</div>;
+var k3 = <div> {1} {"That is a number"} </div>;
+var k4 = <Button> <h2> Hello </h2> </Button>;

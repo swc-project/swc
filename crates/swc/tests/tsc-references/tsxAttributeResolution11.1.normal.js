@@ -30,7 +30,5 @@ define([
         return MyComponent;
     }();
     // Should be an OK
-    var x = /*#__PURE__*/ React.createElement(MyComponent, {
-        bar: "world"
-    });
+    var x = <MyComponent bar='world'/>;
 });
