@@ -81,7 +81,7 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if !may_remove && usage.var_kind != Some(VarDeclKind::Const) {
+            if !may_remove && !usage.flags.contains(VarUsageInfoFlags::IS_CONST) {
                 log_abort!(
                     "inline: [x] Preserving non-const variable `{}` because it's top-level",
                     crate::debug::dump(ident, false)
@@ -233,10 +233,9 @@ impl Optimizer<'_> {
                             if u.flags.contains(VarUsageInfoFlags::DECLARED_AS_FOR_INIT)
                                 && !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
                             {
-                                should_inline &= !matches!(
-                                    u.var_kind,
-                                    Some(VarDeclKind::Let | VarDeclKind::Const)
-                                )
+                                should_inline &= !u.flags.intersects(
+                                    VarUsageInfoFlags::IS_CONST.union(VarUsageInfoFlags::IS_LET),
+                                );
                             }
 
                             if u.flags.intersects(

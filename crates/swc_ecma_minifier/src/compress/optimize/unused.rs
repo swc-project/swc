@@ -780,7 +780,7 @@ impl Optimizer<'_> {
                     (!v.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY)
                         && v.ref_count == 0
                         && v.usage_count == 0)
-                        || v.var_kind.is_some()
+                        || v.flags.intersects(VarUsageInfoFlags::VAR_DECLARE_KIND_MASK)
                 })
                 .unwrap_or(false);
 
