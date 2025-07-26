@@ -10,7 +10,9 @@ use swc_common::{comments::SingleThreadedComments, Mark};
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
-use swc_ecma_transforms_proposal::{decorator_2022_03::decorator_2022_03, DecoratorVersion};
+use swc_ecma_transforms_proposal::{
+    decorator_2022_03::decorator_2022_03, decorator_2023_11::decorator_2023_11, DecoratorVersion,
+};
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 use swc_ecma_visit::Fold;
 
@@ -132,7 +134,7 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Pa
     for plugin in &options_json.plugins {
         match plugin {
             BabelPluginEntry::NameOnly(name) => match &**name {
-                "proposal-class-properties" => {
+                "proposal-class-properties" | "transform-class-properties" => {
                     add!(swc_ecma_transforms_compat::es2022::static_blocks());
                     add!(swc_ecma_transforms_compat::es2022::class_properties(
                         Default::default(),
@@ -141,7 +143,7 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Pa
                     continue;
                 }
 
-                "proposal-private-methods" => {
+                "proposal-private-methods" | "transform-private-methods" => {
                     add!(swc_ecma_transforms_compat::es2022::class_properties(
                         Default::default(),
                         unresolved_mark
@@ -149,17 +151,19 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Pa
                     continue;
                 }
 
-                "proposal-class-static-block" => {
+                "proposal-class-static-block" | "transform-class-static-block" => {
                     add!(swc_ecma_transforms_compat::es2022::static_blocks());
                     continue;
                 }
-                _ => {}
+                _ => {
+                    panic!("Unknown plugin: {}", name);
+                }
             },
             BabelPluginEntry::WithConfig(name, config) => match &**name {
                 "proposal-decorators" => match config {
                     BabelPluginOption::Decorator { version } => match version {
                         DecoratorVersion::V202311 => {
-                            todo!()
+                            add!(decorator_2023_11());
                         }
                         DecoratorVersion::V202112 => todo!(),
                         DecoratorVersion::V202203 => {
