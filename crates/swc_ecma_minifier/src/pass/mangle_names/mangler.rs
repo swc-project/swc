@@ -106,7 +106,7 @@ impl ManglerVisitor {
 }
 
 impl VisitMut for ManglerVisitor {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_private_name(&mut self, n: &mut PrivateName) {
         self.private_name_mangler.rename_private(n);

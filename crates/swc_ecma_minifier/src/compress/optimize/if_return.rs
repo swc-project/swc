@@ -512,7 +512,7 @@ pub(super) struct ReturnFinder {
 }
 
 impl Visit for ReturnFinder {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     fn visit_return_stmt(&mut self, n: &ReturnStmt) {
         n.visit_children_with(self);

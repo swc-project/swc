@@ -306,7 +306,7 @@ enum FinalizerMode {
 }
 
 impl VisitMut for Finalizer<'_> {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
         e.visit_mut_children_with(self);
@@ -503,7 +503,7 @@ impl<'a> NormalMultiReplacer<'a> {
 }
 
 impl VisitMut for NormalMultiReplacer<'_> {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         if self.vars.is_empty() {
@@ -596,7 +596,7 @@ impl ExprReplacer {
 }
 
 impl VisitMut for ExprReplacer {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);

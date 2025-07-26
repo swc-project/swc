@@ -277,7 +277,7 @@ impl Hoister<'_> {
 }
 
 impl VisitMut for Hoister<'_> {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         self.handle_stmt_likes(stmts);

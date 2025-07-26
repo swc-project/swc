@@ -1338,7 +1338,7 @@ pub struct ReturnVisitor {
 }
 
 impl Visit for ReturnVisitor {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}
@@ -1381,7 +1381,7 @@ pub struct DeclVisitor {
 }
 
 impl Visit for DeclVisitor {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}
