@@ -2086,7 +2086,7 @@ impl Optimizer<'_> {
                 }) => {
                     if let Expr::Ident(a_id) = &**arg {
                         if let Some(usage) = self.data.vars.get(&a_id.to_id()) {
-                            if let Some(VarDeclKind::Const) = usage.var_kind {
+                            if usage.flags.contains(VarUsageInfoFlags::IS_CONST) {
                                 return Err(());
                             }
                         }
@@ -2161,7 +2161,7 @@ impl Optimizer<'_> {
                 }) => {
                     if let Expr::Ident(a_id) = &**arg {
                         if let Some(usage) = self.data.vars.get(&a_id.to_id()) {
-                            if let Some(VarDeclKind::Const) = usage.var_kind {
+                            if usage.flags.contains(VarUsageInfoFlags::IS_CONST) {
                                 return Err(());
                             }
                         }
@@ -2266,7 +2266,7 @@ impl Optimizer<'_> {
                             }
 
                             // Reassignment to const?
-                            if let Some(VarDeclKind::Const) = usage.var_kind {
+                            if usage.flags.contains(VarUsageInfoFlags::IS_CONST) {
                                 return Ok(false);
                             }
 
@@ -2405,7 +2405,7 @@ impl Optimizer<'_> {
                         let init = a.init.take();
 
                         if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
-                            if usage.var_kind == Some(VarDeclKind::Const) {
+                            if usage.flags.contains(VarUsageInfoFlags::IS_CONST) {
                                 a.init = Some(Expr::undefined(DUMMY_SP));
                             }
                         }

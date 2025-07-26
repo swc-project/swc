@@ -86,10 +86,19 @@ bitflags::bitflags! {
         const USED_RECURSIVELY          = 1 << 23;
 
         /// `a` in `foo(<a />)`
-        const USED_AS_JSX_CALLEE       = 1 << 24;
+        const USED_AS_JSX_CALLEE        = 1 << 24;
 
         /// The variable is declared without initializer.
         const LAZY_INIT                 = 1 << 25;
+
+        const IS_VAR                    = 1 << 26;
+        const IS_LET                    = 1 << 27;
+        const IS_CONST                  = 1 << 28;
+
+
+        const VAR_DECLARE_KIND_MASK     = Self::IS_VAR.bits()
+                                        | Self::IS_LET.bits()
+                                        | Self::IS_CONST.bits();
     }
 
     #[derive(Debug, Default, Clone, Copy)]
@@ -118,7 +127,6 @@ pub(crate) struct VarUsageInfo {
 
     pub(crate) property_mutation_count: u32,
 
-    pub(crate) var_kind: Option<VarDeclKind>,
     pub(crate) merged_var_type: Option<Value<Type>>,
 
     pub(crate) callee_count: u32,
@@ -141,7 +149,6 @@ impl Default for VarUsageInfo {
             assign_count: Default::default(),
             usage_count: Default::default(),
             property_mutation_count: Default::default(),
-            var_kind: Default::default(),
             merged_var_type: Default::default(),
             callee_count: Default::default(),
             infects_to: Default::default(),
@@ -402,7 +409,7 @@ impl Storage for ProgramData {
 
         if !is_op {
             self.initialized_vars.insert(i.clone());
-            if e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const) && !inited {
+            if e.ref_count == 1 && !e.flags.contains(VarUsageInfoFlags::IS_CONST) && !inited {
                 e.flags.insert(VarUsageInfoFlags::VAR_INITIALIZED);
             } else {
                 e.flags.insert(VarUsageInfoFlags::REASSIGNED);
@@ -482,7 +489,22 @@ impl Storage for ProgramData {
 
         // This is not delcared yet, so this is the first declaration.
         if !v.flags.contains(VarUsageInfoFlags::DECLARED) {
-            v.var_kind = kind;
+            if let Some(kind) = kind {
+                match kind {
+                    VarDeclKind::Var => v.flags.insert(VarUsageInfoFlags::IS_VAR),
+                    VarDeclKind::Let => v.flags.insert(VarUsageInfoFlags::IS_LET),
+                    VarDeclKind::Const => v.flags.insert(VarUsageInfoFlags::IS_CONST),
+                };
+                debug_assert_eq!(
+                    v.flags
+                        .intersection(VarUsageInfoFlags::VAR_DECLARE_KIND_MASK)
+                        .into_iter()
+                        .count(),
+                    1
+                );
+            } else {
+                v.flags.remove(VarUsageInfoFlags::VAR_DECLARE_KIND_MASK);
+            }
             if ctx.in_decl_with_no_side_effect_for_member_access() {
                 v.flags
                     .insert(VarUsageInfoFlags::NO_SIDE_EFFECT_FOR_MEMBER_ACCESS);
