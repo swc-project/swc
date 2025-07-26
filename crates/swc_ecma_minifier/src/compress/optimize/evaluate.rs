@@ -145,6 +145,18 @@ impl Optimizer<'_> {
                 span,
                 ..
             }) if matches!(obj.as_ref(), Expr::Ident(ident) if &*ident.sym == "Number") => {
+                if let Expr::Ident(number_ident) = &**obj {
+                    if self
+                        .data
+                        .vars
+                        .get(&number_ident.to_id())
+                        .map(|var| var.flags.contains(VarUsageInfoFlags::DECLARED))
+                        .unwrap_or(false)
+                    {
+                        return;
+                    }
+                }
+
                 match &*prop.sym {
                     "MIN_VALUE" => {
                         report_change!("evaluate: `Number.MIN_VALUE` -> `5e-324`");
