@@ -16,6 +16,7 @@ use swc_common::{plugin::metadata::TransformPluginMetadataContext, Mark};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{parse_file_as_program, Syntax};
 use testing::CARGO_TARGET_DIR;
+use swc_plugin_runner::runtime::Runtime;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path, crate_name: &str) -> Result<PathBuf, Error> {
@@ -92,10 +93,11 @@ fn issue_6404() -> Result<(), Error> {
             .into_iter()
             .collect();
 
+            let runtime = Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime);
+
             let raw_module_bytes =
                 std::fs::read(&plugin_path).expect("Should able to read plugin bytes");
-            let store = wasmer::Store::default();
-            let module = wasmer::Module::new(&store, raw_module_bytes).unwrap();
+            let module = runtime.prepare_module(&raw_module_bytes).unwrap();
 
             let plugin_module =
                 swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes::new(
@@ -105,7 +107,6 @@ fn issue_6404() -> Result<(), Error> {
                         .expect("Should able to get path")
                         .to_string(),
                     module,
-                    store,
                 );
 
             let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
@@ -119,7 +120,7 @@ fn issue_6404() -> Result<(), Error> {
                 None,
                 Box::new(plugin_module),
                 Some(json!({ "pluginConfig": "testValue" })),
-                None,
+                runtime,
             );
 
             /* [TODO]: reenable this test

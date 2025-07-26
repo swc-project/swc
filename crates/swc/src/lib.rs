@@ -221,6 +221,8 @@ pub struct Compiler {
     /// CodeMap
     pub cm: Arc<SourceMap>,
     comments: SwcComments,
+    #[cfg(feature = "plugin")]
+    plugin_runtime: Option<Arc<dyn swc_plugin_runner::runtime::Runtime>>
 }
 
 /// These are **low-level** apis.
@@ -462,7 +464,15 @@ impl Compiler {
         Compiler {
             cm,
             comments: Default::default(),
+            #[cfg(feature = "plugin")]
+            plugin_runtime: Some(Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime)),
         }
+    }
+
+    #[cfg(feature = "plugin")]
+    pub fn plugin_runtime(mut self, plugin_runtime: Arc<dyn swc_plugin_runner::runtime::Runtime>) -> Self {
+        self.plugin_runtime = Some(plugin_runtime);
+        self
     }
 
     #[tracing::instrument(skip_all)]
@@ -628,6 +638,9 @@ impl Compiler {
                 Some(config),
                 comments,
                 before_pass,
+
+                #[cfg(feature = "plugin")]
+                self.plugin_runtime.clone(),
             )?;
             Ok(Some(built))
         })

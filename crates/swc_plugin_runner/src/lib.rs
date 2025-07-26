@@ -6,6 +6,7 @@ use swc_common::{plugin::metadata::TransformPluginMetadataContext, SourceMap};
 use transform_executor::TransformExecutor;
 
 pub mod cache;
+pub mod runtime;
 mod host_environment;
 #[cfg(feature = "__rkyv")]
 mod imported_fn;
@@ -13,6 +14,7 @@ mod imported_fn;
 mod memory_interop;
 pub mod plugin_module_bytes;
 mod transform_executor;
+#[cfg(feature = "runtime_wasmer")]
 pub mod wasix_runtime;
 
 use plugin_module_bytes::PluginModuleBytes;
@@ -28,7 +30,7 @@ pub fn create_plugin_transform_executor(
     plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
     plugin_module: Box<dyn PluginModuleBytes>,
     plugin_config: Option<serde_json::Value>,
-    runtime: Option<Arc<dyn wasmer_wasix::Runtime + Send + Sync>>,
+    plugin_runtime: Arc<dyn runtime::Runtime>,
 ) -> TransformExecutor {
     TransformExecutor::new(
         plugin_module,
@@ -37,7 +39,7 @@ pub fn create_plugin_transform_executor(
         metadata_context,
         plugin_env_vars,
         plugin_config,
-        runtime,
+        plugin_runtime,
     )
 }
 

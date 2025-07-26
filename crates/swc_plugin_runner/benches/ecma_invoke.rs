@@ -19,6 +19,7 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
+use swc_plugin_runner::runtime::Runtime;
 
 static SOURCE: &str = include_str!("../../swc_ecma_minifier/benches/full/typescript.js");
 
@@ -44,6 +45,8 @@ fn plugin_group(c: &mut Criterion) {
 }
 
 fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
+    let runtime = Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime);
+
     let path = &plugin_dir
         .join("target")
         .join("wasm32-wasip1")
@@ -51,8 +54,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
         .join("swc_noop_plugin.wasm");
     let raw_module_bytes = std::fs::read(path).expect("Should able to read plugin bytes");
 
-    let store = wasmer::Store::default();
-    let module = wasmer::Module::new(&store, raw_module_bytes).unwrap();
+    let module = runtime.prepare_module(&raw_module_bytes).unwrap();
 
     let plugin_module = swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes::new(
         path.as_os_str()
@@ -60,7 +62,6 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
             .expect("Should able to get path")
             .to_string(),
         module,
-        store,
     );
 
     #[cfg(feature = "__rkyv")]
@@ -96,9 +97,9 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                             None,
                         )),
                         None,
-                        Box::new(plugin_module.clone()),
+                        Box::new(plugin_module.clone_module(&*runtime)),
                         None,
-                        None,
+                        runtime.clone(),
                     );
 
                 let experimental_metadata: VersionedSerializable<FxHashMap<String, String>> =
