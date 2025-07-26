@@ -1,0 +1,5 @@
+{
+  "defaults": true,
+  "passes": 1,
+  "unsafe_passes": true
+}
