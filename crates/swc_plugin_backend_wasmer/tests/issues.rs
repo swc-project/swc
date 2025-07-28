@@ -1,5 +1,3 @@
-#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
-
 use std::{
     env, fs,
     path::{Path, PathBuf},
@@ -10,13 +8,14 @@ use std::{
 use anyhow::{anyhow, Error};
 use rustc_hash::FxHashMap;
 use serde_json::json;
-#[cfg(feature = "__rkyv")]
 use swc_common::plugin::serialized::PluginSerializedBytes;
 use swc_common::{plugin::metadata::TransformPluginMetadataContext, Mark};
+
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{parse_file_as_program, Syntax};
 use testing::CARGO_TARGET_DIR;
 use swc_plugin_runner::runtime::Runtime;
+use swc_plugin_backend_wasmer::WasmerRuntime;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path, crate_name: &str) -> Result<PathBuf, Error> {
@@ -49,7 +48,6 @@ fn build_plugin(dir: &Path, crate_name: &str) -> Result<PathBuf, Error> {
     Err(anyhow!("Could not find built plugin"))
 }
 
-#[cfg(feature = "__rkyv")]
 #[test]
 fn issue_6404() -> Result<(), Error> {
     use swc_common::plugin::serialized::VersionedSerializable;
@@ -93,7 +91,7 @@ fn issue_6404() -> Result<(), Error> {
             .into_iter()
             .collect();
 
-            let runtime = Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime);
+            let runtime = Arc::new(WasmerRuntime);
 
             let raw_module_bytes =
                 std::fs::read(&plugin_path).expect("Should able to read plugin bytes");

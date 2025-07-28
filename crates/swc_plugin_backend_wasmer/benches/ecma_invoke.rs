@@ -1,5 +1,3 @@
-#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
-
 extern crate swc_malloc;
 
 use std::{
@@ -11,7 +9,6 @@ use std::{
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use rustc_hash::FxHashMap;
-#[cfg(feature = "__rkyv")]
 use swc_common::plugin::serialized::{PluginSerializedBytes, VersionedSerializable};
 use swc_common::{
     plugin::metadata::TransformPluginMetadataContext, FileName, FilePathMapping, Globals, Mark,
@@ -20,6 +17,7 @@ use swc_common::{
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
 use swc_plugin_runner::runtime::Runtime;
+use swc_plugin_backend_wasmer::WasmerRuntime;
 
 static SOURCE: &str = include_str!("../../swc_ecma_minifier/benches/full/typescript.js");
 
@@ -45,7 +43,7 @@ fn plugin_group(c: &mut Criterion) {
 }
 
 fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
-    let runtime = Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime);
+    let runtime = Arc::new(WasmerRuntime);
 
     let path = &plugin_dir
         .join("target")
@@ -64,7 +62,6 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
         module,
     );
 
-    #[cfg(feature = "__rkyv")]
     b.iter(|| {
         GLOBALS.set(&Globals::new(), || {
             tokio::runtime::Runtime::new().unwrap().block_on(async {

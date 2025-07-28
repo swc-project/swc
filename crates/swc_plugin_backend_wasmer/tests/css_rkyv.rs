@@ -1,4 +1,3 @@
-#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
 use std::{
     env, fs,
     path::{Path, PathBuf},
@@ -9,12 +8,12 @@ use std::{
 use anyhow::{anyhow, Error};
 use rustc_hash::FxHashMap;
 use serde_json::json;
-#[cfg(feature = "__rkyv")]
 use swc_common::plugin::serialized::PluginSerializedBytes;
 use swc_common::{plugin::metadata::TransformPluginMetadataContext, sync::Lazy, FileName, Mark};
 use testing::CARGO_TARGET_DIR;
 use tracing::info;
 use swc_plugin_runner::runtime::Runtime;
+use swc_plugin_backend_wasmer::WasmerRuntime;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
@@ -48,7 +47,6 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     Err(anyhow!("Could not find built plugin"))
 }
 
-#[cfg(feature = "__rkyv")]
 static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes> =
     Lazy::new(|| {
         let path = build_plugin(
@@ -60,7 +58,7 @@ static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPlugin
         .unwrap();
 
         let raw_module_bytes = std::fs::read(&path).expect("Should able to read plugin bytes");
-        let module = swc_plugin_runner::wasix_runtime::WasmerRuntime.prepare_module(&raw_module_bytes).unwrap();
+        let module = WasmerRuntime.prepare_module(&raw_module_bytes).unwrap();
 
         swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes::new(
             path.as_os_str()
@@ -71,7 +69,6 @@ static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPlugin
         )
     });
 
-#[cfg(feature = "__rkyv")]
 #[testing::fixture("../swc_css_parser/tests/fixture/**/input.css")]
 fn invoke(input: PathBuf) {
     use swc_css_ast::Stylesheet;
@@ -107,9 +104,9 @@ fn invoke(input: PathBuf) {
                     Some(experimental_metadata),
                 )),
                 None,
-                Box::new(PLUGIN_BYTES.clone_module(&swc_plugin_runner::wasix_runtime::WasmerRuntime)),
+                Box::new(PLUGIN_BYTES.clone_module(&WasmerRuntime)),
                 Some(json!({ "pluginConfig": "testValue" })),
-                Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime),
+                Arc::new(WasmerRuntime),
             );
 
             info!("Created transform executor");
@@ -160,9 +157,9 @@ fn invoke(input: PathBuf) {
                     Some(experimental_metadata.clone()),
                 )),
                 None,
-                Box::new(PLUGIN_BYTES.clone_module(&swc_plugin_runner::wasix_runtime::WasmerRuntime)),
+                Box::new(PLUGIN_BYTES.clone_module(&WasmerRuntime)),
                 Some(json!({ "pluginConfig": "testValue" })),
-                Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime),
+                Arc::new(WasmerRuntime),
             );
 
             serialized_program = plugin_transform_executor
@@ -179,9 +176,9 @@ fn invoke(input: PathBuf) {
                     Some(experimental_metadata),
                 )),
                 None,
-                Box::new(PLUGIN_BYTES.clone_module(&swc_plugin_runner::wasix_runtime::WasmerRuntime)),
+                Box::new(PLUGIN_BYTES.clone_module(&WasmerRuntime)),
                 Some(json!({ "pluginConfig": "testValue" })),
-                Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime),
+                Arc::new(WasmerRuntime),
             );
 
             serialized_program = plugin_transform_executor

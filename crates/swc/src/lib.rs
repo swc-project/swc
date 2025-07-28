@@ -464,8 +464,10 @@ impl Compiler {
         Compiler {
             cm,
             comments: Default::default(),
-            #[cfg(feature = "plugin")]
-            plugin_runtime: Some(Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime)),
+            #[cfg(all(feature = "plugin", feature = "plugin_backend_wasmer"))]
+            plugin_runtime: Some(Arc::new(swc_plugin_backend_wasmer::WasmerRuntime)),
+            #[cfg(all(feature = "plugin", not(feature = "plugin_backend_wasmer")))]
+            plugin_runtime: None,
         }
     }
 

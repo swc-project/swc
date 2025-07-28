@@ -1,5 +1,3 @@
-#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
-
 use std::{
     env, fs,
     path::{Path, PathBuf},
@@ -10,7 +8,6 @@ use std::{
 use anyhow::{anyhow, Error};
 use rustc_hash::FxHashMap;
 use serde_json::json;
-#[cfg(feature = "__rkyv")]
 use swc_common::plugin::serialized::PluginSerializedBytes;
 use swc_common::{
     errors::HANDLER, plugin::metadata::TransformPluginMetadataContext, sync::Lazy, FileName, Mark,
@@ -20,6 +17,7 @@ use swc_ecma_parser::{parse_file_as_program, Syntax};
 use swc_ecma_visit::{Visit, VisitWith};
 use testing::CARGO_TARGET_DIR;
 use swc_plugin_runner::runtime::Runtime;
+use swc_plugin_backend_wasmer::WasmerRuntime;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
@@ -73,7 +71,6 @@ impl Visit for TestVisitor {
     }
 }
 
-#[cfg(feature = "__rkyv")]
 static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes> =
     Lazy::new(|| {
         let path = build_plugin(
@@ -85,7 +82,7 @@ static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPlugin
         .unwrap();
 
         let raw_module_bytes = std::fs::read(&path).expect("Should able to read plugin bytes");
-        let module = swc_plugin_runner::wasix_runtime::WasmerRuntime.prepare_module(&raw_module_bytes).unwrap();
+        let module = WasmerRuntime.prepare_module(&raw_module_bytes).unwrap();
 
         swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes::new(
             path.as_os_str()
@@ -96,7 +93,6 @@ static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPlugin
         )
     });
 
-#[cfg(feature = "__rkyv")]
 #[test]
 fn internal() {
     use swc_common::plugin::serialized::VersionedSerializable;
@@ -140,9 +136,9 @@ fn internal() {
                     Some(experimental_metadata),
                 )),
                 None,
-                Box::new(PLUGIN_BYTES.clone_module(&swc_plugin_runner::wasix_runtime::WasmerRuntime)),
+                Box::new(PLUGIN_BYTES.clone_module(&WasmerRuntime)),
                 Some(json!({ "pluginConfig": "testValue" })),
-                Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime),
+                Arc::new(WasmerRuntime),
             );
 
             /* [TODO]: reenable this later
@@ -215,9 +211,9 @@ fn internal() {
                             Some(experimental_metadata),
                         )),
                         None,
-                        Box::new(PLUGIN_BYTES.clone_module(&swc_plugin_runner::wasix_runtime::WasmerRuntime)),
+                        Box::new(PLUGIN_BYTES.clone_module(&WasmerRuntime)),
                         Some(json!({ "pluginConfig": "testValue" })),
-                        Arc::new(swc_plugin_runner::wasix_runtime::WasmerRuntime),
+                        Arc::new(WasmerRuntime),
                     );
 
                 capture(|| {

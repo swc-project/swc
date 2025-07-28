@@ -7,30 +7,14 @@ use std::{
 };
 
 use anyhow::{Context, Error};
-use enumset::EnumSet;
 use parking_lot::Mutex;
 use rustc_hash::FxHashMap;
 use swc_common::sync::{Lazy, OnceCell};
-#[cfg(not(target_arch = "wasm32"))]
-use wasmer::{sys::BaseTunables, sys::CpuFeature, sys::Target, sys::Triple, Engine};
-use wasmer::{Module, Store};
-use wasmer_wasix::fs;
 
 use crate::runtime;
 use crate::{
     plugin_module_bytes::{CompiledPluginModuleBytes, PluginModuleBytes, RawPluginModuleBytes},
-    wasix_runtime::new_store,
 };
-
-/// Version for bytecode cache stored in local filesystem.
-///
-/// This MUST be updated when bump up wasmer.
-///
-/// Bytecode cache generated via wasmer is generally portable,
-/// however it is not gauranteed to be compatible across wasmer's
-/// internal changes.
-/// https://github.com/wasmerio/wasmer/issues/2781
-const MODULE_SERIALIZATION_VERSION: &str = "v7";
 
 #[derive(Default)]
 pub struct PluginModuleCacheInner {
@@ -63,7 +47,7 @@ impl PluginModuleCacheInner {
 
     /// Check if the cache contains bytes for the corresponding key.
     pub fn contains(&self, rt: &dyn runtime::Runtime, key: &str) -> bool {
-        if Some(rt.name()) != self.current_runtime {
+        if Some(rt.identifier()) != self.current_runtime {
             return false;
         }
         
@@ -111,7 +95,7 @@ impl PluginModuleCacheInner {
 
     /// Store plugin module bytes into the cache, from actual filesystem.
     pub fn store_bytes_from_path(&mut self, rt: &dyn runtime::Runtime, binary_path: &Path, key: &str) -> Result<(), Error> {
-        let runtime_name = rt.name();
+        let runtime_name = rt.identifier();
 
         // The module caches of different runtimes are not compatible, so we cleanup the old caches.
         if *self.current_runtime.get_or_insert(runtime_name) != runtime_name {
@@ -248,8 +232,7 @@ impl FileSystemCache {
         let mut path = root_path?;
         path.push("plugins");
         path.push(format!(
-            "{}_{}_{}_{}",
-            MODULE_SERIALIZATION_VERSION,
+            "{}_{}_{}",
             std::env::consts::OS,
             std::env::consts::ARCH,
             option_env!("CARGO_PKG_VERSION").unwrap_or("plugin_runner_unknown")
@@ -260,14 +243,14 @@ impl FileSystemCache {
     }
 
     unsafe fn load(&self, rt: &dyn runtime::Runtime, key: &str) -> Option<runtime::ModuleCache> {
-        let path = self.path.join(format!("{}.{}", key, rt.name()));
+        let path = self.path.join(format!("{}.{}", key, rt.identifier()));
         rt.load_cache(&path)
     }
 
     fn store(&self, rt: &dyn runtime::Runtime, key: &str, cache: &runtime::ModuleCache)
         -> anyhow::Result<()>
     {
-        let path = self.path.join(format!("{}.{}", key, rt.name()));
+        let path = self.path.join(format!("{}.{}", key, rt.identifier()));
         rt.store_cache(&path, cache)
     }
 }

@@ -19,6 +19,7 @@ path       = "src/lib.rs"
 [features]
 default = []
 plugin = [
+  "swc_core/plugin_backend_wasmer",
   "swc_core/plugin_transform_host_native",
   "swc_core/plugin_transform_host_native_filesystem_cache",
 ]

@@ -4503,6 +4503,7 @@ dependencies = [
  "swc_error_reporters",
  "swc_malloc",
  "swc_node_comments",
+ "swc_plugin_backend_wasmer",
  "swc_plugin_proxy",
  "swc_plugin_runner",
  "swc_sourcemap",
@@ -6032,6 +6033,34 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_plugin_backend_wasmer"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "codspeed-criterion-compat",
+ "enumset",
+ "parking_lot",
+ "rustc-hash 2.1.1",
+ "serde",
+ "serde_json",
+ "swc_common",
+ "swc_css_ast",
+ "swc_css_parser",
+ "swc_ecma_ast",
+ "swc_ecma_parser",
+ "swc_ecma_visit",
+ "swc_malloc",
+ "swc_plugin_runner",
+ "swc_transform_common",
+ "testing",
+ "tokio",
+ "tracing",
+ "wasmer",
+ "wasmer-compiler-cranelift",
+ "wasmer-wasix",
+]
+
+[[package]]
 name = "swc_plugin_macro"
 version = "1.1.0"
 dependencies = [
@@ -6061,9 +6090,6 @@ version = "17.0.0"
 dependencies = [
  "anyhow",
  "blake3",
- "codspeed-criterion-compat",
- "enumset",
- "futures",
  "parking_lot",
  "rustc-hash 2.1.1",
  "serde",
@@ -6071,20 +6097,12 @@ dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_css_ast",
- "swc_css_parser",
  "swc_ecma_ast",
- "swc_ecma_parser",
- "swc_ecma_visit",
- "swc_malloc",
  "swc_plugin_proxy",
  "swc_transform_common",
- "testing",
  "tokio",
  "tracing",
  "vergen",
- "wasmer",
- "wasmer-compiler-cranelift",
- "wasmer-wasix",
 ]
 
 [[package]]

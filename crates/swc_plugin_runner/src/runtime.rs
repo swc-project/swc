@@ -17,7 +17,7 @@ pub struct Func {
 }
 
 pub trait Runtime: Send + Sync {
-    fn name(&self) -> &'static str;
+    fn identifier(&self) -> &'static str;
     
     fn prepare_module(&self, bytes: &[u8]) -> anyhow::Result<ModuleCache>;
     
