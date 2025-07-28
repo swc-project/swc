@@ -231,7 +231,7 @@ pub(crate) fn compile_wasm_plugins(
     for plugin_config in plugins.iter() {
         let plugin_name = &plugin_config.0;
 
-        if !inner_cache.contains(plugin_name) {
+        if !inner_cache.contains(plugin_runtime, plugin_name) {
             let resolved_path = plugin_resolver
                 .resolve(&FileName::Real(PathBuf::from(plugin_name)), plugin_name)
                 .with_context(|| format!("failed to resolve plugin path: {plugin_name}"))?;

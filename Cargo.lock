@@ -6060,6 +6060,7 @@ name = "swc_plugin_runner"
 version = "17.0.0"
 dependencies = [
  "anyhow",
+ "blake3",
  "codspeed-criterion-compat",
  "enumset",
  "futures",
@@ -6082,7 +6083,6 @@ dependencies = [
  "tracing",
  "vergen",
  "wasmer",
- "wasmer-cache",
  "wasmer-compiler-cranelift",
  "wasmer-wasix",
 ]
@@ -7252,18 +7252,6 @@ dependencies = [
  "wasmparser 0.224.1",
  "wat",
  "windows-sys 0.59.0",
-]
-
-[[package]]
-name = "wasmer-cache"
-version = "6.1.0-rc.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "69c453f91ba2a6983db25b54f562da91019050dd10a7127d67be1b2f2ecf778f"
-dependencies = [
- "blake3",
- "hex",
- "thiserror 1.0.69",
- "wasmer",
 ]
 
 [[package]]

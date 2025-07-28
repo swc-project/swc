@@ -143,6 +143,10 @@ struct WasmerInstance {
 }
 
 impl runtime::Runtime for WasmerRuntime {
+    fn name(&self) -> &'static str {
+        "wasmer"
+    }
+    
     fn prepare_module(&self, bytes: &[u8]) -> anyhow::Result<runtime::ModuleCache> {
         let store = new_store();
         let module = wasmer::Module::new(&store, bytes)?;
@@ -150,16 +154,6 @@ impl runtime::Runtime for WasmerRuntime {
             store, module
         })))
     }
-
-    #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
-    fn module_hash(&self, bytes: &[u8]) -> anyhow::Result<String> {
-        Ok(wasmer_cache::Hash::generate(bytes).to_string())
-    }
-
-    #[cfg(any(target_arch = "wasm32", not(feature = "filesystem_cache")))]
-    fn module_hash(&self, bytes: &[u8]) -> anyhow::Result<String> {
-        Err(anyhow::format_err!("module_hash is not implemented"))
-    }    
     
     fn init(
         &self,

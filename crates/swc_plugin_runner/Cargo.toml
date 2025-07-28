@@ -13,9 +13,9 @@ bench   = false
 doctest = false
 
 [features]
-default = ["filesystem_cache", "plugin_transform_host_native", "rkyv-impl"]
+default = ["filesystem_cache", "plugin_transform_host_native"]
 runtime_wasmer = [
-  "wasmer", "wasmer-wasix", "dep:wasmer-cache", "dep:wasmer-compiler-cranelift",
+  "wasmer", "wasmer-wasix", "dep:wasmer-compiler-cranelift",
 ]
 plugin_transform_host_js = [
   "runtime_wasmer",
@@ -35,7 +35,7 @@ plugin_transform_host_native_shared_runtime = ["tokio"]
 
 # Supports a cache allow to store compiled bytecode into filesystem location.
 # This feature implies in-memory cache support. This is not supported on wasm32 target.
-filesystem_cache              = ["dep:wasmer-cache"]
+filesystem_cache              = ["blake3"]
 plugin_transform_schema_v1    = ["swc_common/plugin_transform_schema_v1"]
 plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 
@@ -74,8 +74,8 @@ swc_plugin_proxy = { version = "14.0.0", path = "../swc_plugin_proxy" }
 swc_transform_common = { version = "8.0.0", path = "../swc_transform_common" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-wasmer-cache              = { version = "6.1.0-rc.2", optional = true }
 wasmer-compiler-cranelift = { version = "6.1.0-rc.2", default-features = false, optional = true }
+blake3 = { workspace = true, optional = true }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
