@@ -16,7 +16,6 @@ bench = false
 concurrent = ["swc_common/concurrent"]
 
 [dependencies]
-bytes-str  = { workspace = true }
 rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 

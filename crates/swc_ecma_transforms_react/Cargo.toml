@@ -26,8 +26,6 @@ once_cell  = { workspace = true }
 rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"], optional = true }
 sha1       = { workspace = true }
-
-string_enum                = { version = "1.0.2", path = "../string_enum" }
 swc_atoms                  = { version = "7.0.0", path = "../swc_atoms" }
 swc_common                 = { version = "14.0.2", path = "../swc_common" }
 swc_config                 = { version = "3.1.1", path = "../swc_config" }
