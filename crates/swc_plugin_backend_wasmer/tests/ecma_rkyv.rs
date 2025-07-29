@@ -8,14 +8,17 @@ use std::{
 use anyhow::{anyhow, Error};
 use rustc_hash::FxHashMap;
 use serde_json::json;
-use swc_common::plugin::serialized::PluginSerializedBytes;
-use swc_common::{plugin::metadata::TransformPluginMetadataContext, sync::Lazy, FileName, Mark};
+use swc_common::{
+    plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
+    sync::Lazy,
+    FileName, Mark,
+};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
+use swc_plugin_backend_wasmer::WasmerRuntime;
+use swc_plugin_runner::runtime::Runtime;
 use testing::CARGO_TARGET_DIR;
 use tracing::info;
-use swc_plugin_runner::runtime::Runtime;
-use swc_plugin_backend_wasmer::WasmerRuntime;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
@@ -66,7 +69,7 @@ static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPlugin
                 .to_str()
                 .expect("Should able to get path")
                 .to_string(),
-            cache
+            cache,
         )
     });
 

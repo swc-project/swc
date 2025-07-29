@@ -9,8 +9,10 @@ use swc_common::{
     BytePos, SourceMap, SourceMapper, Span,
 };
 
-use crate::runtime;
-use crate::memory_interop::{allocate_return_values_into_guest, write_into_memory_view};
+use crate::{
+    memory_interop::{allocate_return_values_into_guest, write_into_memory_view},
+    runtime,
+};
 
 /// External environment state for imported (declared in host, injected into
 /// guest) fn for source map proxy.
@@ -59,11 +61,7 @@ pub fn lookup_char_pos_proxy(
     let serialized_loc_bytes =
         PluginSerializedBytes::try_serialize(&ret).expect("Should be serializable");
 
-    allocate_return_values_into_guest(
-        caller,
-        allocated_ret_ptr,
-        &serialized_loc_bytes,
-    );
+    allocate_return_values_into_guest(caller, allocated_ret_ptr, &serialized_loc_bytes);
     1
 }
 
@@ -71,7 +69,7 @@ pub fn lookup_char_pos_proxy(
 pub fn doctest_offset_line_proxy(
     _caller: &mut dyn runtime::Caller<'_>,
     env: &SourceMapHostEnvironment,
-    orig: u32
+    orig: u32,
 ) -> u32 {
     env.source_map.lock().doctest_offset_line(orig as usize) as u32
 }
@@ -102,11 +100,7 @@ pub fn merge_spans_proxy(
         let span = VersionedSerializable::new(span);
         let serialized_bytes =
             PluginSerializedBytes::try_serialize(&span).expect("Should be serializable");
-        write_into_memory_view(
-            caller,
-            &serialized_bytes,
-            |_, _| allocated_ptr,
-        );
+        write_into_memory_view(caller, &serialized_bytes, |_, _| allocated_ptr);
         1
     } else {
         0
@@ -127,7 +121,9 @@ pub fn span_to_lines_proxy(
         hi: BytePos(span_hi),
     };
 
-    let ret = env.source_map.lock()
+    let ret = env
+        .source_map
+        .lock()
         .span_to_lines(span)
         .map(|lines| PartialFileLines {
             file: if should_request_source_file == 0 {
@@ -142,11 +138,7 @@ pub fn span_to_lines_proxy(
         PluginSerializedBytes::try_serialize(&VersionedSerializable::new(ret))
             .expect("Should be serializable");
 
-    allocate_return_values_into_guest(
-        caller,
-        allocated_ret_ptr,
-        &serialized_loc_bytes,
-    );
+    allocate_return_values_into_guest(caller, allocated_ret_ptr, &serialized_loc_bytes);
     1
 }
 
@@ -164,11 +156,7 @@ pub fn lookup_byte_offset_proxy(
         PluginSerializedBytes::try_serialize(&VersionedSerializable::new(ret))
             .expect("Should be serializable");
 
-    allocate_return_values_into_guest(
-        caller,
-        allocated_ret_ptr,
-        &serialized_loc_bytes,
-    );
+    allocate_return_values_into_guest(caller, allocated_ret_ptr, &serialized_loc_bytes);
     1
 }
 
@@ -189,11 +177,7 @@ pub fn span_to_string_proxy(
         PluginSerializedBytes::try_serialize(&VersionedSerializable::new(ret))
             .expect("Should be serializable");
 
-    allocate_return_values_into_guest(
-        caller,
-        allocated_ret_ptr,
-        &serialized_loc_bytes,
-    );
+    allocate_return_values_into_guest(caller, allocated_ret_ptr, &serialized_loc_bytes);
     1
 }
 
@@ -214,11 +198,7 @@ pub fn span_to_filename_proxy(
         PluginSerializedBytes::try_serialize(&VersionedSerializable::new(ret))
             .expect("Should be serializable");
 
-    allocate_return_values_into_guest(
-        caller,
-        allocated_ret_ptr,
-        &serialized_loc_bytes,
-    );
+    allocate_return_values_into_guest(caller, allocated_ret_ptr, &serialized_loc_bytes);
     1
 }
 
@@ -239,10 +219,6 @@ pub fn span_to_source_proxy(
         PluginSerializedBytes::try_serialize(&VersionedSerializable::new(ret))
             .expect("Should be serializable");
 
-    allocate_return_values_into_guest(
-        caller,
-        allocated_ret_ptr,
-        &serialized_loc_bytes,
-    );
+    allocate_return_values_into_guest(caller, allocated_ret_ptr, &serialized_loc_bytes);
     1
 }

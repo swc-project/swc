@@ -236,8 +236,9 @@ impl Options {
         comments: Option<&'a SingleThreadedComments>,
         custom_before_pass: impl FnOnce(&Program) -> P,
 
-        #[cfg(feature = "plugin")]
-        plugin_runtime: Option<Arc<dyn swc_plugin_runner::runtime::Runtime>>
+        #[cfg(feature = "plugin")] plugin_runtime: Option<
+            Arc<dyn swc_plugin_runner::runtime::Runtime>,
+        >,
     ) -> Result<BuiltInput<Box<dyn 'a + Pass>>, Error>
     where
         P: 'a + Pass,
@@ -675,12 +676,12 @@ impl Options {
             #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
             {
                 let plugin_runtime = plugin_runtime.context("plugin runtime not configured")?;
-                
+
                 if let Some(plugins) = &experimental.plugins {
                     crate::plugin::compile_wasm_plugins(
                         experimental.cache_root.as_deref(),
                         plugins,
-                        &*plugin_runtime
+                        &*plugin_runtime,
                     )
                     .context("Failed to compile wasm plugins")?;
                 }

@@ -42,8 +42,8 @@
 */
 
 use std::sync::Arc;
+
 use crate::{
-    runtime,
     host_environment::BaseHostEnvironment,
     imported_fn::{
         comments::{
@@ -59,6 +59,7 @@ use crate::{
         source_map::span_to_source_proxy,
         span::span_dummy_with_cmt_proxy,
     },
+    runtime,
 };
 
 pub(crate) mod comments;
@@ -102,14 +103,14 @@ pub(crate) fn build_import_object(
                     $name($( $arg as _ , )* );
                     []
                 }
-            );            
+            );
         };
         ( fn $name:ident ( $( $arg:ident ),* ) -> i32 ) => {
             let $name = runtime::Func::from_fn(
                 move |_caller, [ $( $arg , )* ]| {
                     [$name($( $arg as _ , )* ) as i32]
                 }
-            );            
+            );
         };
         ( fn $name:ident ( env $env:ident , $( $arg:ident ),* ) ) => {
             let env_ref = $env.clone();
@@ -129,7 +130,7 @@ pub(crate) fn build_import_object(
             );
         }
     }
-    
+
     // core_diagnostics
     define!(fn set_plugin_core_pkg_diagnostics(env diagnostics_env, bytes_ptr, bytes_ptr_len));
 
@@ -146,7 +147,7 @@ pub(crate) fn build_import_object(
     // handler
     define!(fn emit_diagnostics(env base_env, bytes_ptr, bytes_ptr_len));
     define!(fn emit_output(env base_env, output_ptr, output_len));
-    
+
     // hygiene
     define!(fn mark_fresh_proxy(parent) -> i32);
     define!(fn mark_parent_proxy(self_mark) -> i32);
@@ -186,13 +187,25 @@ pub(crate) fn build_import_object(
     define!(fn span_to_source_proxy(env source_map_host_env, span_lo, span_hi, allocated_ret_ptr) -> i32);
 
     [
-        ("__set_transform_plugin_core_pkg_diagnostics", set_plugin_core_pkg_diagnostics),
+        (
+            "__set_transform_plugin_core_pkg_diagnostics",
+            set_plugin_core_pkg_diagnostics,
+        ),
         // metadata
-        ("__copy_context_key_to_host_env", copy_context_key_to_host_env),
+        (
+            "__copy_context_key_to_host_env",
+            copy_context_key_to_host_env,
+        ),
         ("__get_transform_plugin_config", get_transform_plugin_config),
         ("__get_transform_context", get_transform_context),
-        ("__get_experimental_transform_context", get_experimental_transform_context),
-        ("__get_raw_experiemtal_transform_context", get_raw_experiemtal_transform_context),
+        (
+            "__get_experimental_transform_context",
+            get_experimental_transform_context,
+        ),
+        (
+            "__get_raw_experiemtal_transform_context",
+            get_raw_experiemtal_transform_context,
+        ),
         // transform
         ("__set_transform_result", set_transform_result),
         // handler
@@ -203,8 +216,14 @@ pub(crate) fn build_import_object(
         ("__mark_parent_proxy", mark_parent_proxy),
         ("__mark_is_descendant_of_proxy", mark_is_descendant_of_proxy),
         ("__mark_least_ancestor", mark_least_ancestor_proxy),
-        ("__syntax_context_apply_mark_proxy", syntax_context_apply_mark_proxy),
-        ("__syntax_context_remove_mark_proxy", syntax_context_remove_mark_proxy),
+        (
+            "__syntax_context_apply_mark_proxy",
+            syntax_context_apply_mark_proxy,
+        ),
+        (
+            "__syntax_context_remove_mark_proxy",
+            syntax_context_remove_mark_proxy,
+        ),
         ("__syntax_context_outer_proxy", syntax_context_outer_proxy),
         // span
         ("__span_dummy_with_cmt_proxy", span_dummy_with_cmt_proxy),
@@ -219,8 +238,14 @@ pub(crate) fn build_import_object(
         ("__add_trailing_comment_proxy", add_trailing_comment_proxy),
         ("__add_trailing_comments_proxy", add_trailing_comments_proxy),
         ("__has_trailing_comments_proxy", has_trailing_comments_proxy),
-        ("__move_trailing_comments_proxy", move_trailing_comments_proxy),
-        ("__take_trailing_comments_proxy", take_trailing_comments_proxy),
+        (
+            "__move_trailing_comments_proxy",
+            move_trailing_comments_proxy,
+        ),
+        (
+            "__take_trailing_comments_proxy",
+            take_trailing_comments_proxy,
+        ),
         ("__get_trailing_comments_proxy", get_trailing_comments_proxy),
         ("__add_pure_comment_proxy", add_pure_comment_proxy),
         // source_map
@@ -231,9 +256,9 @@ pub(crate) fn build_import_object(
         ("__span_to_filename_proxy", span_to_filename_proxy),
         ("__span_to_source_proxy", span_to_source_proxy),
         ("__span_to_lines_proxy", span_to_lines_proxy),
-        ("__lookup_byte_offset_proxy", lookup_byte_offset_proxy)
+        ("__lookup_byte_offset_proxy", lookup_byte_offset_proxy),
     ]
-        .into_iter()
-        .map(|(name, f)| (name.into(), f))
-        .collect()
+    .into_iter()
+    .map(|(name, f)| (name.into(), f))
+    .collect()
 }

@@ -1,11 +1,13 @@
-use std::sync::Arc;
-use std::path::{Path, PathBuf};
+use std::{
+    path::{Path, PathBuf},
+    sync::Arc,
+};
 
 use parking_lot::Mutex;
 use swc_common::sync::Lazy;
-use wasmer::{AsStoreMut, Store};
-use wasmer_wasix::{Runtime, default_fs_backing};
 use swc_plugin_runner::runtime;
+use wasmer::{AsStoreMut, Store};
+use wasmer_wasix::{default_fs_backing, Runtime};
 
 /// Identifier for bytecode cache stored in local filesystem.
 ///
@@ -45,9 +47,7 @@ static ENGINE: Lazy<Mutex<wasmer::Engine>> = Lazy::new(|| {
 /// This is mainly for the case if a host already sets up its runtime, which
 /// makes wasix initialization fails due to conflicting runtime. When specified,
 /// instead of using default runtime it'll try to use shared one.
-fn build_wasi_runtime(
-    _fs_cache_path: Option<PathBuf>,
-) -> Option<Arc<dyn Runtime + Send + Sync>> {
+fn build_wasi_runtime(_fs_cache_path: Option<PathBuf>) -> Option<Arc<dyn Runtime + Send + Sync>> {
     use wasmer_wasix::{
         runtime::{
             module_cache::{ModuleCache, SharedCache},
@@ -125,41 +125,40 @@ struct WasmerInstance {
     _wasi_env: Option<wasmer_wasix::WasiFunctionEnv>,
 
     store: wasmer::Store,
-    module: wasmer::Module,    
+    module: wasmer::Module,
 
     memory: wasmer::Memory,
     alloc_func: wasmer::TypedFunction<u32, u32>,
     free_func: wasmer::TypedFunction<(u32, u32), u32>,
-    transform_func: wasmer::TypedFunction<(u32, u32, u32, u32), u32>
+    transform_func: wasmer::TypedFunction<(u32, u32, u32, u32), u32>,
 }
 
 impl runtime::Runtime for WasmerRuntime {
     fn identifier(&self) -> &'static str {
         MODULE_SERIALIZATION_IDENTIFIER
     }
-    
+
     fn prepare_module(&self, bytes: &[u8]) -> anyhow::Result<runtime::ModuleCache> {
         let store = new_store();
         let module = wasmer::Module::new(&store, bytes)?;
         Ok(runtime::ModuleCache(Box::new(WasmerCache {
-            store, module
+            store,
+            module,
         })))
     }
-    
+
     fn init(
         &self,
         name: &str,
         imports: Vec<(String, runtime::Func)>,
         envs: Vec<(String, String)>,
         module: runtime::Module,
-    )
-        -> anyhow::Result<Box<dyn runtime::Instance>>
-    {
+    ) -> anyhow::Result<Box<dyn runtime::Instance>> {
         let (mut store, module) = match module {
             runtime::Module::Cache(cache) => {
                 let cache = cache.0.downcast::<WasmerCache>().unwrap();
                 (cache.store, cache.module)
-            },
+            }
             runtime::Module::Bytes(buf) => {
                 let store = new_store();
                 let module = wasmer::Module::new(&store, &buf)?;
@@ -172,15 +171,13 @@ impl runtime::Runtime for WasmerRuntime {
         for (name, func) in imports {
             let sign = wasmer::FunctionType::new(
                 vec![wasmer::Type::I32; func.sign.0 as usize],
-                vec![wasmer::Type::I32; func.sign.1 as usize]
+                vec![wasmer::Type::I32; func.sign.1 as usize],
             );
-            let func = wasmer::Function::new_with_env(
-                &mut store,
-                &table,
-                sign,
-                move |env, args| wasmer_func_call(env, &func, args)
-            );
-            
+            let func =
+                wasmer::Function::new_with_env(&mut store, &table, sign, move |env, args| {
+                    wasmer_func_call(env, &func, args)
+                });
+
             ns.insert(name, func);
         }
         let mut imports = wasmer::Imports::new();
@@ -234,14 +231,18 @@ impl runtime::Runtime for WasmerRuntime {
 
         // `__alloc` function automatically exported via swc_plugin sdk to allow
         // allocation in guest memory space
-        let alloc_func: wasmer::TypedFunction<u32, u32> = instance.exports.get_typed_function(&store, "__alloc")?;
+        let alloc_func: wasmer::TypedFunction<u32, u32> =
+            instance.exports.get_typed_function(&store, "__alloc")?;
 
         // `__free` function automatically exported via swc_plugin sdk to allow
-        // deallocation in guest memory space        
-        let free_func: wasmer::TypedFunction<(u32, u32), u32> = instance.exports.get_typed_function(&store, "__free")?;
+        // deallocation in guest memory space
+        let free_func: wasmer::TypedFunction<(u32, u32), u32> =
+            instance.exports.get_typed_function(&store, "__free")?;
 
         // Main transform interface plugin exports
-        let transform_func: wasmer::TypedFunction<(u32, u32, u32, u32), u32> = instance.exports.get_typed_function(&store, "__transform_plugin_process_impl")?;
+        let transform_func: wasmer::TypedFunction<(u32, u32, u32, u32), u32> = instance
+            .exports
+            .get_typed_function(&store, "__transform_plugin_process_impl")?;
 
         table.as_mut(&mut store).memory = Some(memory.clone());
         table.as_mut(&mut store).alloc_func = Some(alloc_func.clone());
@@ -265,9 +266,13 @@ impl runtime::Runtime for WasmerRuntime {
             _table: table,
             _wasi_env: wasi_env,
 
-            store, module, 
-            memory, alloc_func, free_func, transform_func
-        }))        
+            store,
+            module,
+            memory,
+            alloc_func,
+            free_func,
+            transform_func,
+        }))
     }
 
     fn clone_cache(&self, cache: &runtime::ModuleCache) -> Option<runtime::ModuleCache> {
@@ -276,7 +281,8 @@ impl runtime::Runtime for WasmerRuntime {
         let store = wasmer::Store::new(cache.store.engine().clone());
         let module = cache.module.clone();
         Some(runtime::ModuleCache(Box::new(WasmerCache {
-            store, module
+            store,
+            module,
         })))
     }
 
@@ -292,9 +298,7 @@ impl runtime::Runtime for WasmerRuntime {
 
         module
             .ok()
-            .map(|module| runtime::ModuleCache(Box::new(WasmerCache {
-                store, module
-            })))
+            .map(|module| runtime::ModuleCache(Box::new(WasmerCache { store, module })))
     }
 
     fn store_cache(&self, path: &Path, cache: &runtime::ModuleCache) -> anyhow::Result<()> {
@@ -305,14 +309,21 @@ impl runtime::Runtime for WasmerRuntime {
 }
 
 impl runtime::Instance for WasmerInstance {
-    fn transform(&mut self, program_ptr: u32, program_len: u32, unresolved_mark: u32, should_enable_comments_proxy: u32) -> anyhow::Result<u32> {
-        self.transform_func.call(
-            &mut self.store,
-            program_ptr,
-            program_len,
-            unresolved_mark,
-            should_enable_comments_proxy
-        )
+    fn transform(
+        &mut self,
+        program_ptr: u32,
+        program_len: u32,
+        unresolved_mark: u32,
+        should_enable_comments_proxy: u32,
+    ) -> anyhow::Result<u32> {
+        self.transform_func
+            .call(
+                &mut self.store,
+                program_ptr,
+                program_len,
+                unresolved_mark,
+                should_enable_comments_proxy,
+            )
             .map_err(Into::into)
     }
 
@@ -321,15 +332,16 @@ impl runtime::Instance for WasmerInstance {
             memory: self.memory.clone(),
             store: &mut self.store,
             alloc_func: &self.alloc_func,
-            free_func: &self.free_func
+            free_func: &self.free_func,
         }))
     }
-    
+
     fn cache(&self) -> Option<runtime::ModuleCache> {
         let store = wasmer::Store::new(self.store.engine().clone());
         let module = self.module.clone();
         Some(runtime::ModuleCache(Box::new(WasmerCache {
-            store, module
+            store,
+            module,
         })))
     }
 
@@ -348,17 +360,13 @@ impl runtime::Instance for WasmerInstance {
 }
 
 impl<'a> runtime::Caller<'a> for WasmerCaller<'a> {
-    fn read_buf(&self, ptr: u32, buf: &mut [u8])
-        -> anyhow::Result<()>
-    {
+    fn read_buf(&self, ptr: u32, buf: &mut [u8]) -> anyhow::Result<()> {
         let view = self.memory.view(self.store);
         view.read(ptr.into(), buf)?;
         Ok(())
     }
 
-    fn write_buf(&mut self, ptr: u32, buf: &[u8])
-        -> anyhow::Result<()>
-    {
+    fn write_buf(&mut self, ptr: u32, buf: &[u8]) -> anyhow::Result<()> {
         let view = self.memory.view(&self.store);
         // [TODO]: we need wasmer@3 compatible optimization like before
         // https://github.com/swc-project/swc/blob/f73f96dd94639f8b7edcdb6290653e16bf848db6/crates/swc_plugin_runner/src/memory_interop.rs#L54
@@ -367,37 +375,41 @@ impl<'a> runtime::Caller<'a> for WasmerCaller<'a> {
     }
 
     fn alloc(&mut self, size: u32) -> anyhow::Result<u32> {
-        self.alloc_func.call(&mut self.store, size).map_err(Into::into)
+        self.alloc_func
+            .call(&mut self.store, size)
+            .map_err(Into::into)
     }
 
     fn free(&mut self, ptr: u32, size: u32) -> anyhow::Result<u32> {
-        self.free_func.call(&mut self.store, ptr, size).map_err(Into::into)
-    }    
+        self.free_func
+            .call(&mut self.store, ptr, size)
+            .map_err(Into::into)
+    }
 }
 
 impl<'a> runtime::Caller<'a> for WasmerCallerRef<'a> {
-    fn read_buf(&self, ptr: u32, buf: &mut [u8])
-        -> anyhow::Result<()>
-    {
+    fn read_buf(&self, ptr: u32, buf: &mut [u8]) -> anyhow::Result<()> {
         let view = self.memory.view(&self.store);
         view.read(ptr.into(), buf)?;
         Ok(())
     }
 
-    fn write_buf(&mut self, ptr: u32, buf: &[u8])
-        -> anyhow::Result<()>
-    {
+    fn write_buf(&mut self, ptr: u32, buf: &[u8]) -> anyhow::Result<()> {
         let view = self.memory.view(&self.store);
         view.write(ptr.into(), buf)?;
         Ok(())
     }
 
     fn alloc(&mut self, size: u32) -> anyhow::Result<u32> {
-        self.alloc_func.call(&mut self.store, size).map_err(Into::into)
+        self.alloc_func
+            .call(&mut self.store, size)
+            .map_err(Into::into)
     }
 
     fn free(&mut self, ptr: u32, size: u32) -> anyhow::Result<u32> {
-        self.free_func.call(&mut self.store, ptr, size).map_err(Into::into)
+        self.free_func
+            .call(&mut self.store, ptr, size)
+            .map_err(Into::into)
     }
 }
 
@@ -411,19 +423,21 @@ fn wasmer_func_call(
     let free_func = table.data().free_func.clone().unwrap();
     let store = table.as_store_mut();
     let mut caller = WasmerCallerRef {
-        store, memory,
+        store,
+        memory,
         alloc_func: &alloc_func,
-        free_func: &free_func
+        free_func: &free_func,
     };
-    
-    let input = input[..func.sign.0 as usize].iter()
+
+    let input = input[..func.sign.0 as usize]
+        .iter()
         .map(|v| match v {
             wasmer::Value::I32(v) => Ok(*v),
-            _ => Err(wasmer::RuntimeError::new("not support argument type"))
+            _ => Err(wasmer::RuntimeError::new("not support argument type")),
         })
         .collect::<Result<Vec<runtime::Value>, _>>()?;
     let mut output = vec![0; func.sign.1 as usize];
-    
+
     (func.func)(&mut caller, &input, &mut output);
 
     Ok(output.into_iter().map(wasmer::Value::I32).collect())

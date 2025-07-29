@@ -6,8 +6,7 @@
     allow(unused)
 )]
 
-use std::sync::Arc;
-use std::path::PathBuf;
+use std::{path::PathBuf, sync::Arc};
 
 use anyhow::{Context, Result};
 use atoms::Atom;
@@ -43,8 +42,7 @@ pub fn plugins(
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
     unresolved_mark: swc_common::Mark,
-    #[cfg(feature = "plugin")]
-    plugin_runtime: Arc<dyn PluginRuntime>,
+    #[cfg(feature = "plugin")] plugin_runtime: Arc<dyn PluginRuntime>,
 ) -> impl Pass {
     fold_pass(RustPlugins {
         plugins: configured_plugins,
@@ -209,8 +207,7 @@ impl Fold for RustPlugins {
 pub(crate) fn compile_wasm_plugins(
     cache_root: Option<&str>,
     plugins: &[PluginConfig],
-    #[cfg(feature = "plugin")]
-    plugin_runtime: &dyn PluginRuntime,
+    #[cfg(feature = "plugin")] plugin_runtime: &dyn PluginRuntime,
 ) -> Result<()> {
     let plugin_resolver = CachingResolver::new(
         40,

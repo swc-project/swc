@@ -222,7 +222,7 @@ pub struct Compiler {
     pub cm: Arc<SourceMap>,
     comments: SwcComments,
     #[cfg(feature = "plugin")]
-    plugin_runtime: Option<Arc<dyn swc_plugin_runner::runtime::Runtime>>
+    plugin_runtime: Option<Arc<dyn swc_plugin_runner::runtime::Runtime>>,
 }
 
 /// These are **low-level** apis.
@@ -472,7 +472,10 @@ impl Compiler {
     }
 
     #[cfg(feature = "plugin")]
-    pub fn plugin_runtime(mut self, plugin_runtime: Arc<dyn swc_plugin_runner::runtime::Runtime>) -> Self {
+    pub fn plugin_runtime(
+        mut self,
+        plugin_runtime: Arc<dyn swc_plugin_runner::runtime::Runtime>,
+    ) -> Self {
         self.plugin_runtime = Some(plugin_runtime);
         self
     }
@@ -640,7 +643,6 @@ impl Compiler {
                 Some(config),
                 comments,
                 before_pass,
-
                 #[cfg(feature = "plugin")]
                 self.plugin_runtime.clone(),
             )?;

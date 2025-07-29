@@ -8,14 +8,15 @@ use std::{
 use anyhow::{anyhow, Error};
 use rustc_hash::FxHashMap;
 use serde_json::json;
-use swc_common::plugin::serialized::PluginSerializedBytes;
-use swc_common::{plugin::metadata::TransformPluginMetadataContext, Mark};
-
+use swc_common::{
+    plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
+    Mark,
+};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{parse_file_as_program, Syntax};
-use testing::CARGO_TARGET_DIR;
-use swc_plugin_runner::runtime::Runtime;
 use swc_plugin_backend_wasmer::WasmerRuntime;
+use swc_plugin_runner::runtime::Runtime;
+use testing::CARGO_TARGET_DIR;
 
 /// Returns the path to the built plugin
 fn build_plugin(dir: &Path, crate_name: &str) -> Result<PathBuf, Error> {

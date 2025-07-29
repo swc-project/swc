@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+
 use crate::runtime;
 
 // A trait abstracts plugin's wasm compilation and instantiation.
@@ -46,7 +47,7 @@ impl RawPluginModuleBytes {
 pub struct CompiledPluginModuleBytes {
     plugin_name: String,
     #[serde(skip)]
-    cache: Option<runtime::ModuleCache>
+    cache: Option<runtime::ModuleCache>,
 }
 
 impl CompiledPluginModuleBytes {
@@ -61,13 +62,19 @@ impl CompiledPluginModuleBytes {
     // to skip the compilation step per each trasform.
     pub fn from_raw_module(rt: &dyn runtime::Runtime, raw: RawPluginModuleBytes) -> Self {
         let cache = rt.prepare_module(&raw.bytes).unwrap();
-        CompiledPluginModuleBytes { plugin_name: raw.plugin_name, cache: Some(cache) }
+        CompiledPluginModuleBytes {
+            plugin_name: raw.plugin_name,
+            cache: Some(cache),
+        }
     }
 
     pub fn clone_module(&self, builder: &dyn runtime::Runtime) -> Self {
         CompiledPluginModuleBytes {
             plugin_name: self.plugin_name.clone(),
-            cache: self.cache.as_ref().map(|cache| builder.clone_cache(cache).unwrap())
+            cache: self
+                .cache
+                .as_ref()
+                .map(|cache| builder.clone_cache(cache).unwrap()),
         }
     }
 }

@@ -9,15 +9,17 @@ use std::{
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use rustc_hash::FxHashMap;
-use swc_common::plugin::serialized::{PluginSerializedBytes, VersionedSerializable};
 use swc_common::{
-    plugin::metadata::TransformPluginMetadataContext, FileName, FilePathMapping, Globals, Mark,
-    SourceMap, GLOBALS,
+    plugin::{
+        metadata::TransformPluginMetadataContext,
+        serialized::{PluginSerializedBytes, VersionedSerializable},
+    },
+    FileName, FilePathMapping, Globals, Mark, SourceMap, GLOBALS,
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
-use swc_plugin_runner::runtime::Runtime;
 use swc_plugin_backend_wasmer::WasmerRuntime;
+use swc_plugin_runner::runtime::Runtime;
 
 static SOURCE: &str = include_str!("../../swc_ecma_minifier/benches/full/typescript.js");
 

@@ -11,9 +11,9 @@ use parking_lot::Mutex;
 use rustc_hash::FxHashMap;
 use swc_common::sync::{Lazy, OnceCell};
 
-use crate::runtime;
 use crate::{
     plugin_module_bytes::{CompiledPluginModuleBytes, PluginModuleBytes, RawPluginModuleBytes},
+    runtime,
 };
 
 #[derive(Default)]
@@ -50,7 +50,7 @@ impl PluginModuleCacheInner {
         if Some(rt.identifier()) != self.current_runtime {
             return false;
         }
-        
+
         let is_in_cache = self.memory_cache_store.contains_key(key)
             || self.compiled_module_bytes.contains_key(key);
 
@@ -85,24 +85,26 @@ impl PluginModuleCacheInner {
     /// this to store compiled module bytes. CompiledModuleBytes provides way to
     /// create it via RawModuleBytes, so there's no practical reason to
     /// store raw bytes most cases.
-    fn insert_compiled_module_bytes(
-        &mut self,
-        key: String,
-        value: runtime::ModuleCache,
-    ) {
+    fn insert_compiled_module_bytes(&mut self, key: String, value: runtime::ModuleCache) {
         self.compiled_module_bytes.insert(key, value);
     }
 
     /// Store plugin module bytes into the cache, from actual filesystem.
-    pub fn store_bytes_from_path(&mut self, rt: &dyn runtime::Runtime, binary_path: &Path, key: &str) -> Result<(), Error> {
+    pub fn store_bytes_from_path(
+        &mut self,
+        rt: &dyn runtime::Runtime,
+        binary_path: &Path,
+        key: &str,
+    ) -> Result<(), Error> {
         let runtime_name = rt.identifier();
 
-        // The module caches of different runtimes are not compatible, so we cleanup the old caches.
+        // The module caches of different runtimes are not compatible, so we cleanup the
+        // old caches.
         if *self.current_runtime.get_or_insert(runtime_name) != runtime_name {
             self.current_runtime = Some(runtime_name);
             self.compiled_module_bytes.clear();
         }
-        
+
         #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
         {
             let raw_module_bytes =
@@ -117,7 +119,8 @@ impl PluginModuleCacheInner {
                         tracing::debug!("Build WASM from cache: {key}");
                         cache
                     } else {
-                        let cache = rt.prepare_module(&raw_module_bytes)
+                        let cache = rt
+                            .prepare_module(&raw_module_bytes)
                             .context("Cannot compile plugin binary")?;
                         fs_cache_store.store(rt, &module_bytes_hash, &cache)?;
                         cache
@@ -150,7 +153,7 @@ impl PluginModuleCacheInner {
             let cache = rt.clone_cache(compiled_module)?;
             return Some(Box::new(CompiledPluginModuleBytes::new(
                 key.to_string(),
-                cache
+                cache,
             )));
         }
 
@@ -214,7 +217,7 @@ impl PluginModuleCache {
 
 #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
 struct FileSystemCache {
-    path: PathBuf
+    path: PathBuf,
 }
 
 #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
@@ -247,9 +250,12 @@ impl FileSystemCache {
         rt.load_cache(&path)
     }
 
-    fn store(&self, rt: &dyn runtime::Runtime, key: &str, cache: &runtime::ModuleCache)
-        -> anyhow::Result<()>
-    {
+    fn store(
+        &self,
+        rt: &dyn runtime::Runtime,
+        key: &str,
+        cache: &runtime::ModuleCache,
+    ) -> anyhow::Result<()> {
         let path = self.path.join(format!("{}.{}", key, rt.identifier()));
         rt.store_cache(&path, cache)
     }

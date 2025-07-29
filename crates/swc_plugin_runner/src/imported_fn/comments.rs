@@ -8,8 +8,10 @@ use swc_common::{
 };
 use swc_plugin_proxy::COMMENTS;
 
-use crate::runtime;
-use crate::memory_interop::{allocate_return_values_into_guest, copy_bytes_into_host};
+use crate::{
+    memory_interop::{allocate_return_values_into_guest, copy_bytes_into_host},
+    runtime,
+};
 
 /// External environment state for imported (declared in host, injected into
 /// guest) fn for comments proxy.
@@ -82,11 +84,7 @@ where
 
 /// Common logics for add_*_comment/comments.
 #[tracing::instrument(level = "info", skip_all)]
-fn add_comments_inner<F>(
-    env: &CommentHostEnvironment,
-    byte_pos: u32,
-    f: F
-)
+fn add_comments_inner<F>(env: &CommentHostEnvironment, byte_pos: u32, f: F)
 where
     F: FnOnce(&SingleThreadedComments, BytePos, PluginSerializedBytes),
 {
@@ -107,7 +105,7 @@ where
 pub fn add_leading_comment_proxy(
     _caller: &mut dyn runtime::Caller<'_>,
     env: &CommentHostEnvironment,
-    byte_pos: u32
+    byte_pos: u32,
 ) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
         comments.add_leading(
@@ -124,7 +122,7 @@ pub fn add_leading_comment_proxy(
 pub fn add_leading_comments_proxy(
     _caller: &mut dyn runtime::Caller<'_>,
     env: &CommentHostEnvironment,
-    byte_pos: u32
+    byte_pos: u32,
 ) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
         comments.add_leading_comments(
@@ -218,7 +216,7 @@ pub fn get_leading_comments_proxy(
 pub fn add_trailing_comment_proxy(
     _caller: &mut dyn runtime::Caller<'_>,
     env: &CommentHostEnvironment,
-    byte_pos: u32
+    byte_pos: u32,
 ) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
         comments.add_trailing(
@@ -235,7 +233,7 @@ pub fn add_trailing_comment_proxy(
 pub fn add_trailing_comments_proxy(
     _caller: &mut dyn runtime::Caller<'_>,
     env: &CommentHostEnvironment,
-    byte_pos: u32
+    byte_pos: u32,
 ) {
     add_comments_inner(env, byte_pos, |comments, byte_pos, serialized| {
         comments.add_trailing_comments(

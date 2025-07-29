@@ -25,8 +25,7 @@ use crate::{
     },
     memory_interop::write_into_memory_view,
 };
-use crate::plugin_module_bytes::PluginModuleBytes;
-use crate::runtime;
+use crate::{plugin_module_bytes::PluginModuleBytes, runtime};
 
 /// An internal state to the plugin transform.
 struct PluginTransformState {
@@ -55,10 +54,9 @@ impl PluginTransformState {
                 let serialized_len = serialized_len
                     .try_into()
                     .expect("Should able to convert size");
-                caller.alloc(serialized_len)
-                    .unwrap_or_else(|_| {
-                        panic!("Should able to allocate memory for the size of {serialized_len}")
-                    })
+                caller.alloc(serialized_len).unwrap_or_else(|_| {
+                    panic!("Should able to allocate memory for the size of {serialized_len}")
+                })
             },
         );
 
@@ -92,7 +90,9 @@ impl PluginTransformState {
             }
         };
 
-        self.instance.caller()?.free(guest_program_ptr.0, guest_program_ptr.1)?;
+        self.instance
+            .caller()?
+            .free(guest_program_ptr.0, guest_program_ptr.1)?;
         self.instance.cleanup()?;
 
         ret
@@ -146,7 +146,7 @@ pub struct TransformExecutor {
     plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
     plugin_config: Option<serde_json::Value>,
     module_bytes: Box<dyn PluginModuleBytes>,
-    runtime: Arc<dyn runtime::Runtime>
+    runtime: Arc<dyn runtime::Runtime>,
 }
 
 #[cfg(feature = "__rkyv")]
@@ -162,7 +162,7 @@ impl TransformExecutor {
         metadata_context: &Arc<TransformPluginMetadataContext>,
         plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
         plugin_config: Option<serde_json::Value>,
-        runtime: Arc<dyn runtime::Runtime>
+        runtime: Arc<dyn runtime::Runtime>,
     ) -> Self {
         Self {
             source_map: source_map.clone(),
@@ -183,7 +183,7 @@ impl TransformExecutor {
         let module_name = self.module_bytes.get_module_name();
         let module = self.module_bytes.compile_module(&*self.runtime);
 
-        let context_key_buffer = Arc::new(Mutex::new(Vec::new()));        
+        let context_key_buffer = Arc::new(Mutex::new(Vec::new()));
         let metadata_env = Arc::new(MetadataContextHostEnvironment::new(
             &self.metadata_context,
             &self.plugin_config,
@@ -200,7 +200,10 @@ impl TransformExecutor {
 
         let source_map_buffer = Arc::new(Mutex::new(Vec::new()));
         let source_map = Arc::new(Mutex::new(self.source_map.clone()));
-        let source_map_host_env = Arc::new(SourceMapHostEnvironment::new(&source_map, &source_map_buffer));
+        let source_map_host_env = Arc::new(SourceMapHostEnvironment::new(
+            &source_map,
+            &source_map_buffer,
+        ));
 
         let diagnostics_buffer: Arc<Mutex<Vec<u8>>> = Arc::new(Mutex::new(Vec::new()));
         let diagnostics_env = Arc::new(DiagnosticContextHostEnvironment::new(&diagnostics_buffer));
@@ -213,14 +216,19 @@ impl TransformExecutor {
             source_map_host_env,
             diagnostics_env,
         );
-        let envs = self.plugin_env_vars.iter()
+        let envs = self
+            .plugin_env_vars
+            .iter()
             .flat_map(|list| list.iter())
-            .filter_map(|name| std::env::var(name.as_str())
-                .ok()
-                .map(|value| (name.as_str().into(), value))
-            )
+            .filter_map(|name| {
+                std::env::var(name.as_str())
+                    .ok()
+                    .map(|value| (name.as_str().into(), value))
+            })
             .collect::<Vec<_>>();
-        let instance = self.runtime.init(module_name, import_object, envs, module)?;
+        let instance = self
+            .runtime
+            .init(module_name, import_object, envs, module)?;
 
         let diag_result: PluginCorePkgDiagnostics =
             PluginSerializedBytes::from_slice(&(&(*diagnostics_buffer.lock()))[..])

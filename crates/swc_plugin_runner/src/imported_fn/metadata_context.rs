@@ -6,8 +6,10 @@ use swc_common::plugin::{
     serialized::{PluginSerializedBytes, VersionedSerializable},
 };
 
-use crate::{memory_interop::copy_bytes_into_host, runtime};
-use crate::memory_interop::allocate_return_values_into_guest;
+use crate::{
+    memory_interop::{allocate_return_values_into_guest, copy_bytes_into_host},
+    runtime,
+};
 
 #[derive(Clone)]
 pub struct MetadataContextHostEnvironment {
@@ -60,11 +62,7 @@ pub fn get_transform_plugin_config(
                 PluginSerializedBytes::try_serialize(&VersionedSerializable::new(config))
                     .expect("Should be serializable");
 
-            allocate_return_values_into_guest(
-                caller,
-                allocated_ret_ptr,
-                &serialized,
-            );
+            allocate_return_values_into_guest(caller, allocated_ret_ptr, &serialized);
 
             return 1;
         }
@@ -80,16 +78,13 @@ pub fn get_transform_context(
     allocated_ret_ptr: u32,
 ) -> i32 {
     let value = VersionedSerializable::new(
-        env.metadata_context.get(&TransformPluginMetadataContextKind::from(key)),
+        env.metadata_context
+            .get(&TransformPluginMetadataContextKind::from(key)),
     );
 
     let serialized = PluginSerializedBytes::try_serialize(&value).expect("Should be serializable");
 
-    allocate_return_values_into_guest(
-        caller,
-        allocated_ret_ptr,
-        &serialized,
-    );
+    allocate_return_values_into_guest(caller, allocated_ret_ptr, &serialized);
 
     1
 }
@@ -116,11 +111,7 @@ pub fn get_experimental_transform_context(
         let serialized = PluginSerializedBytes::try_serialize(&VersionedSerializable::new(value))
             .expect("Should be serializable");
 
-        allocate_return_values_into_guest(
-            caller,
-            allocated_ret_ptr,
-            &serialized,
-        );
+        allocate_return_values_into_guest(caller, allocated_ret_ptr, &serialized);
 
         return 1;
     }

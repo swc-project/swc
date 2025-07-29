@@ -54,7 +54,10 @@ impl Compiler {
         opts: &WasmAnalysisOptions,
         comments: &SingleThreadedComments,
     ) -> Result<String> {
-        let plugin_runtime = self.plugin_runtime.as_ref().context("plugin runtime not configured")?;
+        let plugin_runtime = self
+            .plugin_runtime
+            .as_ref()
+            .context("plugin runtime not configured")?;
         compile_wasm_plugins(opts.cache_root.as_deref(), &opts.plugins, &**plugin_runtime)?;
 
         self.run(|| {
@@ -127,7 +130,10 @@ impl Compiler {
                 inner: Some(comments.clone()),
             },
             || {
-                let plugin_runtime = self.plugin_runtime.clone().context("plugin runtime not configured")?;
+                let plugin_runtime = self
+                    .plugin_runtime
+                    .clone()
+                    .context("plugin runtime not configured")?;
                 let plugin_module_bytes = crate::config::PLUGIN_MODULE_CACHE
                     .inner
                     .get()
@@ -145,7 +151,7 @@ impl Compiler {
                         None,
                         plugin_module_bytes,
                         Some(p.1.clone()),
-                        plugin_runtime
+                        plugin_runtime,
                     );
 
                 let span = tracing::span!(

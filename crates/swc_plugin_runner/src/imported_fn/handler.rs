@@ -4,8 +4,7 @@ use swc_common::{
 };
 use swc_transform_common::output::experimental_emit;
 
-use crate::runtime;
-use crate::{host_environment::BaseHostEnvironment, memory_interop::copy_bytes_into_host};
+use crate::{host_environment::BaseHostEnvironment, memory_interop::copy_bytes_into_host, runtime};
 
 #[tracing::instrument(level = "info", skip_all)]
 pub fn emit_diagnostics(
@@ -35,7 +34,7 @@ pub fn emit_output(
     caller: &mut dyn runtime::Caller<'_>,
     _env: &BaseHostEnvironment,
     output_ptr: i32,
-    output_len: i32
+    output_len: i32,
 ) {
     let mut output_bytes = Vec::new();
     copy_bytes_into_host(caller, output_ptr, output_len, &mut output_bytes);

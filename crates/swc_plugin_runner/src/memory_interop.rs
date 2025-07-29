@@ -1,5 +1,6 @@
 use swc_common::plugin::serialized::{PluginSerializedBytes, VersionedSerializable};
 use swc_plugin_proxy::AllocatedBytesPtr;
+
 use crate::runtime;
 
 #[tracing::instrument(level = "info", skip_all)]
@@ -11,7 +12,8 @@ pub fn copy_bytes_into_host(
 ) {
     let len: usize = bytes_ptr_len.try_into().unwrap();
     buf.resize(len, 0);
-    caller.read_buf(bytes_ptr.cast_unsigned(), buf)
+    caller
+        .read_buf(bytes_ptr.cast_unsigned(), buf)
         .expect("Should able to read memory from given ptr");
 }
 
@@ -29,8 +31,8 @@ where
 
     let ptr_start = get_allocated_ptr(view, serialized_len);
     let serialized_size = serialized_len
-            .try_into()
-            .expect("Should be able to convert to i32");
+        .try_into()
+        .expect("Should be able to convert to i32");
 
     // Note: it's important to get a view from memory _after_ alloc completes
     view.write_buf(ptr_start, serialized_bytes.as_slice())
@@ -61,7 +63,8 @@ pub fn allocate_return_values_into_guest(
     // guest cannot predetermine size to allocate, instead
     // let host allocate by calling guest's alloc via attached
     // hostenvironment.
-    let guest_memory_ptr = caller.alloc(serialized_bytes_len)
+    let guest_memory_ptr = caller
+        .alloc(serialized_bytes_len)
         .expect("Should able to allocate memory in the plugin");
 
     let (allocated_ptr, allocated_ptr_len) =
@@ -73,7 +76,5 @@ pub fn allocate_return_values_into_guest(
     let comment_ptr_serialized =
         PluginSerializedBytes::try_serialize(&allocated_bytes).expect("Should be serializable");
 
-    write_into_memory_view(caller, &comment_ptr_serialized, |_, _| {
-        allocated_ret_ptr
-    });
+    write_into_memory_view(caller, &comment_ptr_serialized, |_, _| allocated_ret_ptr);
 }

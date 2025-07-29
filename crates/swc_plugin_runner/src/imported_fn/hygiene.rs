@@ -4,8 +4,9 @@ use swc_common::{
     Mark, SyntaxContext,
 };
 
-use crate::runtime;
-use crate::{host_environment::BaseHostEnvironment, memory_interop::write_into_memory_view};
+use crate::{
+    host_environment::BaseHostEnvironment, memory_interop::write_into_memory_view, runtime,
+};
 
 /// A proxy to Mark::fresh() that can be used in plugin.
 /// This it not directly called by plugin, instead `impl Mark` will selectively
@@ -44,11 +45,7 @@ pub fn mark_is_descendant_of_proxy(
     let serialized_bytes =
         PluginSerializedBytes::try_serialize(&context).expect("Should be serializable");
 
-    write_into_memory_view(
-        caller,
-        &serialized_bytes,
-        |_, _| allocated_ptr,
-    );
+    write_into_memory_view(caller, &serialized_bytes, |_, _| allocated_ptr);
 }
 
 #[tracing::instrument(level = "info", skip_all)]
@@ -69,11 +66,7 @@ pub fn mark_least_ancestor_proxy(
     let serialized_bytes =
         PluginSerializedBytes::try_serialize(&context).expect("Should be serializable");
 
-    write_into_memory_view(
-        caller,
-        &serialized_bytes,
-        |_, _| allocated_ptr,
-    );
+    write_into_memory_view(caller, &serialized_bytes, |_, _| allocated_ptr);
 }
 
 #[tracing::instrument(level = "info", skip_all)]
@@ -102,11 +95,7 @@ pub fn syntax_context_remove_mark_proxy(
     let serialized_bytes =
         PluginSerializedBytes::try_serialize(&context).expect("Should be serializable");
 
-    write_into_memory_view(
-        caller,
-        &serialized_bytes,
-        |_, _| allocated_ptr,
-    );
+    write_into_memory_view(caller, &serialized_bytes, |_, _| allocated_ptr);
 }
 
 #[tracing::instrument(level = "info", skip_all)]
