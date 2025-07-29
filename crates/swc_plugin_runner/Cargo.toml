@@ -54,6 +54,7 @@ swc_transform_common = { version = "8.0.0", path = "../swc_transform_common" }
 blake3 = { workspace = true, optional = true }
 
 [package.metadata.cargo-shear]
+# ignored, as they are only used to enable features
 ignored = [
   "swc_ecma_ast",
   "swc_css_ast",
