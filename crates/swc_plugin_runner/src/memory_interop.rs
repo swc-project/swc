@@ -13,7 +13,7 @@ pub fn copy_bytes_into_host(
     let len: usize = bytes_ptr_len.try_into().unwrap();
     buf.resize(len, 0);
     caller
-        .read_buf(bytes_ptr.cast_unsigned(), buf)
+        .read_buf(bytes_ptr as u32, buf)
         .expect("Should able to read memory from given ptr");
 }
 
