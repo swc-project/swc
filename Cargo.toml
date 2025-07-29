@@ -124,6 +124,8 @@ resolver = "2"
   wasm-bindgen-futures      = "0.4.41"
   wasmer                    = { version = "6.1.0-rc.2", default-features = false }
   wasmer-wasix              = { version = "0.601.0-rc.2", default-features = false }
+  wasmtime                  = { version = "35", default-features = false }
+  wasmtime-wasi             = { version = "35", default-features = false }
 
   foldhash        = "0.1"
   precomputed-map = "0.2"
