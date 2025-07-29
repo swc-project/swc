@@ -2401,7 +2401,7 @@ impl VisitMut for Optimizer<'_> {
             }
         };
 
-        let change = !self.expand_if_stmt_from_cond(s);
+        self.expand_if_stmt_from_cond(s);
 
         let ctx = self
             .ctx
@@ -2610,7 +2610,7 @@ impl VisitMut for Optimizer<'_> {
         debug_assert_eq!(self.append_stmts.len(), append_len);
         debug_assert_valid(s);
 
-        self.compress_if_stmt_as_cond(s, change);
+        self.compress_if_stmt_as_cond(s);
 
         debug_assert_eq!(self.prepend_stmts.len(), prepend_len);
         debug_assert_eq!(self.append_stmts.len(), append_len);

@@ -184,12 +184,12 @@ impl Optimizer<'_> {
         *stmts = new;
     }
 
-    pub(super) fn expand_if_stmt_from_cond(&mut self, s: &mut Stmt) -> bool {
-        let mut changed = false;
+    pub(super) fn expand_if_stmt_from_cond(&mut self, s: &mut Stmt) {
+        // let mut changed = false;
         if self.options.conditionals {
             if let Stmt::Return(r) = s {
                 if let Some(Expr::Cond(c)) = r.arg.as_deref_mut() {
-                    changed = true;
+                    // changed = true;
                     *s = Stmt::If(IfStmt {
                         span: c.span,
                         test: take(&mut c.test),
@@ -207,7 +207,7 @@ impl Optimizer<'_> {
             }
             if let Stmt::Expr(e) = s {
                 if let Expr::Cond(c) = &mut *e.expr {
-                    changed = true;
+                    // changed = true;
                     *s = Stmt::If(IfStmt {
                         span: c.span,
                         test: take(&mut c.test),
@@ -224,7 +224,7 @@ impl Optimizer<'_> {
                 }
             }
         }
-        changed
+        // changed
     }
 
     ///
@@ -249,7 +249,7 @@ impl Optimizer<'_> {
     ///     some_condition ? side_effects(x) : side_effects(y);
     /// }
     /// ```
-    pub(super) fn compress_if_stmt_as_cond(&mut self, s: &mut Stmt, change: bool) {
+    pub(super) fn compress_if_stmt_as_cond(&mut self, s: &mut Stmt) {
         let stmt = match s {
             Stmt::If(v) => v,
             _ => return,
@@ -331,12 +331,12 @@ impl Optimizer<'_> {
             None => return,
         };
 
-        let new_expr = self.compress_similar_cons_alt(&mut stmt.test, cons, alt, true, change);
+        let new_expr = self.compress_similar_cons_alt(&mut stmt.test, cons, alt, true);
 
         if let Some(v) = new_expr {
             debug_assert_valid(&v);
 
-            self.changed = self.changed || change;
+            self.changed = true;
             report_change!("conditionals: Merging cons and alt as only one argument differs");
             *s = ExprStmt {
                 span: stmt.span,
@@ -352,7 +352,7 @@ impl Optimizer<'_> {
                 "Compressing if statement as conditional expression (even though cons and alt is \
                  not compressable)"
             );
-            self.changed = self.changed || change;
+            self.changed = true;
             *s = ExprStmt {
                 span: stmt.span,
                 expr: CondExpr {
@@ -378,13 +378,8 @@ impl Optimizer<'_> {
             _ => return,
         };
 
-        let compressed = self.compress_similar_cons_alt(
-            &mut cond.test,
-            &mut cond.cons,
-            &mut cond.alt,
-            false,
-            true,
-        );
+        let compressed =
+            self.compress_similar_cons_alt(&mut cond.test, &mut cond.cons, &mut cond.alt, false);
 
         if let Some(v) = compressed {
             *e = v;
@@ -412,7 +407,7 @@ impl Optimizer<'_> {
         cons: &mut Expr,
         alt: &mut Expr,
         is_for_if_stmt: bool,
-        change: bool,
+        // change: bool,
     ) -> Option<Expr> {
         debug_assert_valid(cons);
         debug_assert_valid(alt);
@@ -487,7 +482,7 @@ impl Optimizer<'_> {
                         report_change!(
                             "conditionals: Merging cons and alt as only one argument differs"
                         );
-                        self.changed |= change;
+                        self.changed = true;
 
                         let mut new_args = Vec::new();
 
@@ -730,7 +725,7 @@ impl Optimizer<'_> {
             // =>
             // (z && condition(), "fuji");
             (Expr::Seq(cons), alt) if (**cons.exprs.last().unwrap()).eq_ignore_span(&*alt) => {
-                self.changed |= change;
+                self.changed = true;
                 report_change!("conditionals: Reducing seq expr in cons");
                 //
                 cons.exprs.pop();
@@ -771,7 +766,7 @@ impl Optimizer<'_> {
                 if idx == 0 {
                     None
                 } else if idx == left_len {
-                    self.changed |= change;
+                    self.changed = true;
                     report_change!("conditionals: Reducing similar seq expr in cons");
 
                     let mut alt = right.exprs.take();
@@ -794,7 +789,7 @@ impl Optimizer<'_> {
                         .into(),
                     )
                 } else if idx == right_len {
-                    self.changed |= change;
+                    self.changed = true;
                     report_change!("conditionals: Reducing similar seq expr in alt");
 
                     let mut cons = left.exprs.take();
@@ -817,7 +812,7 @@ impl Optimizer<'_> {
                         .into(),
                     )
                 } else {
-                    self.changed |= change;
+                    self.changed = true;
                     report_change!("conditionals: Reducing similar seq expr");
                     let _ = left.exprs.split_off(left_len - idx);
                     let mut common = right.exprs.split_off(right_len - idx);
