@@ -5,7 +5,10 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
 use crate::{
-    compress::{pure::DropOpts, util::is_primitive},
+    compress::{
+        pure::{Ctx, DropOpts},
+        util::is_primitive,
+    },
     util::idents_used_by,
 };
 
@@ -445,7 +448,7 @@ impl Pure<'_> {
 
     /// Try turn switch into if and remove empty switch
     fn optimize_small_switch(&mut self, s: &mut Stmt) {
-        if self.ctx.is_label_body {
+        if self.ctx.contains(Ctx::IS_LABEL_BODY) {
             return;
         }
 
