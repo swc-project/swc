@@ -1,4 +1,4 @@
-use std::mem::swap;
+use std::mem::{swap, take};
 
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -182,6 +182,46 @@ impl Optimizer<'_> {
         new.extend(cur.map(Stmt::If).map(T::from));
 
         *stmts = new;
+    }
+
+    pub(super) fn expand_if_stmt_from_cond(&mut self, s: &mut Stmt) {
+        loop {
+            if let Stmt::Return(r) = s {
+                if let Some(Expr::Cond(c)) = r.arg.as_deref_mut() {
+                    *s = Stmt::If(IfStmt {
+                        span: c.span,
+                        test: take(&mut c.test),
+                        cons: Box::new(Stmt::Return(ReturnStmt {
+                            span: r.span,
+                            arg: Some(take(&mut c.cons)),
+                        })),
+                        alt: Some(Box::new(Stmt::Return(ReturnStmt {
+                            span: r.span,
+                            arg: Some(take(&mut c.alt)),
+                        }))),
+                    });
+                    continue;
+                }
+            }
+            if let Stmt::Expr(e) = s {
+                if let Expr::Cond(c) = &mut *e.expr {
+                    *s = Stmt::If(IfStmt {
+                        span: c.span,
+                        test: take(&mut c.test),
+                        cons: Box::new(Stmt::Expr(ExprStmt {
+                            span: e.span,
+                            expr: take(&mut c.cons),
+                        })),
+                        alt: Some(Box::new(Stmt::Expr(ExprStmt {
+                            span: e.span,
+                            expr: take(&mut c.alt),
+                        }))),
+                    });
+                    continue;
+                }
+            }
+            break;
+        }
     }
 
     ///
