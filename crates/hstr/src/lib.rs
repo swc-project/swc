@@ -8,6 +8,7 @@ use std::{
     mem::{self, forget, transmute},
     num::NonZeroU8,
     ops::Deref,
+    ptr::NonNull,
     str::from_utf8_unchecked,
 };
 
@@ -15,7 +16,7 @@ use debug_unreachable::debug_unreachable;
 use once_cell::sync::Lazy;
 
 pub use crate::dynamic::{global_atom_store_gc, AtomStore};
-use crate::tagged_value::TaggedValue;
+use crate::{dynamic::calc_hash, tagged_value::TaggedValue};
 
 mod dynamic;
 mod global_store;
@@ -109,6 +110,35 @@ pub const fn inline_atom(s: &str) -> Option<Atom> {
     dynamic::inline_atom(s)
 }
 
+#[doc(hidden)]
+pub struct StaticStorage {
+    pub hash: u64,
+    pub value: &'static str,
+}
+#[doc(hidden)]
+pub const fn static_atom_storage(value: &'static str) -> StaticStorage {
+    StaticStorage {
+        hash: calc_hash(value),
+        value,
+    }
+}
+
+#[doc(hidden)]
+#[inline(always)]
+pub fn from_static(value: &'static StaticStorage) -> Atom {
+    let mut entry = value as *const _;
+    debug_assert!(0 == entry as u8 & TAG_MASK);
+    // Tag it as a static pointer
+    entry = ((entry as usize) | STATIC_TAG as usize) as *mut _;
+    let ptr: NonNull<_> = unsafe {
+        // Safety: references always return a non-null pointers
+        NonNull::new_unchecked(entry as *mut StaticStorage)
+    };
+    Atom {
+        unsafe_data: TaggedValue::new_ptr(ptr),
+    }
+}
+
 /// Create an atom from a string literal. This atom is never dropped.
 #[macro_export]
 macro_rules! atom {
@@ -119,13 +149,12 @@ macro_rules! atom {
         if INLINE.is_some() {
             INLINE.unwrap()
         } else {
-            // Otherwise we use a
-            #[inline(never)]
+            // Otherwise we use a static allocated payload to hold the hash and data and
+            // return a constructed pointer to it
             fn get_atom() -> $crate::Atom {
-                static CACHE: $crate::CachedAtom =
-                    $crate::CachedAtom::new(|| $crate::Atom::from($s));
+                static CACHE: $crate::StaticStorage = $crate::static_atom_storage($s);
 
-                (*CACHE).clone()
+                $crate::from_static(&CACHE)
             }
 
             get_atom()
@@ -179,7 +208,11 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
         String::deserialize(deserializer).map(Self::new)
     }
 }
+// Data is stored in a ThinArc
 const DYNAMIC_TAG: u8 = 0b_00;
+// Data is stored in a static field
+const STATIC_TAG: u8 = 0b_10;
+// Data is stored inline in the Atom uppermost bytes
 const INLINE_TAG: u8 = 0b_01; // len in upper nybble
 const INLINE_TAG_INIT: NonZeroU8 = unsafe { NonZeroU8::new_unchecked(INLINE_TAG) };
 const TAG_MASK: u8 = 0b_11;
@@ -253,37 +286,28 @@ impl Atom {
 
 impl Atom {
     #[inline(never)]
-    fn get_hash(&self) -> u64 {
-        match self.tag() {
-            DYNAMIC_TAG => {
-                unsafe { crate::dynamic::deref_from(self.unsafe_data) }
-                    .header
-                    .header
-                    .hash
-            }
-            INLINE_TAG => {
-                // This is passed as input to the caller's `Hasher` implementation, so it's okay
-                // that this isn't really a hash
-                self.unsafe_data.hash()
-            }
-            _ => unsafe { debug_unreachable!() },
-        }
-    }
-
-    #[inline(never)]
     fn as_str(&self) -> &str {
         match self.tag() {
             DYNAMIC_TAG => unsafe {
                 let item = crate::dynamic::deref_from(self.unsafe_data);
                 from_utf8_unchecked(transmute::<&[u8], &'static [u8]>(&item.slice))
             },
-            INLINE_TAG => {
-                let len = (self.unsafe_data.tag() & LEN_MASK) >> LEN_OFFSET;
-                let src = self.unsafe_data.data();
-                unsafe { std::str::from_utf8_unchecked(&src[..(len as usize)]) }
+            INLINE_TAG => self.inline_as_str(),
+            STATIC_TAG => {
+                let storage = self.unsafe_data.get_ptr() as *const StaticStorage;
+                // SAFETY: these are only constructed from static item references
+                (unsafe { &*storage }).value
             }
             _ => unsafe { debug_unreachable!() },
         }
+    }
+
+    // Same as `[as_str]` for when you know if is inline
+    fn inline_as_str(&self) -> &str {
+        debug_assert_eq!(self.tag(), INLINE_TAG);
+        let len = (self.unsafe_data.tag() & LEN_MASK) >> LEN_OFFSET;
+        let src = self.unsafe_data.data();
+        unsafe { std::str::from_utf8_unchecked(&src[..(len as usize)]) }
     }
 }
 
@@ -307,31 +331,37 @@ impl PartialEq for Atom {
         if self.unsafe_data == other.unsafe_data {
             return true;
         }
-
-        // If one is inline and the other is not, the length is different.
-        // If one is static and the other is not, it's different.
-        if self.tag() != other.tag() {
+        // If one is inline and the other is not, the length must be different.
+        // If they are both inline and equal, the previous check would have returned
+        // true.
+        if self.tag() == INLINE_TAG || other.tag() == INLINE_TAG {
             return false;
         }
-
-        if self.is_dynamic() && other.is_dynamic() {
-            let te = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
-            let oe = unsafe { crate::dynamic::deref_from(other.unsafe_data) };
-
-            if te.header.header.hash != oe.header.header.hash {
-                return false;
+        fn unpack<'a>(a: &'a Atom) -> (u64, &'a [u8]) {
+            match a.tag() {
+                STATIC_TAG => {
+                    let storage = a.unsafe_data.get_ptr() as *const StaticStorage;
+                    // SAFETY: these are only constructed from static item references
+                    let storage = unsafe { &*storage };
+                    (storage.hash, storage.value.as_bytes())
+                }
+                DYNAMIC_TAG =>
+                // SAFETY: we have checked the tag
+                unsafe {
+                    let item = crate::dynamic::deref_from(a.unsafe_data);
+                    (
+                        item.header.header.hash,
+                        // Extend the lifetime of the slice to the lifetime of the Atom it is
+                        // derived from.
+                        transmute::<&[u8], &'a [u8]>(&item.slice),
+                    )
+                },
+                _ => unsafe { debug_unreachable!() },
             }
-
-            return te.slice == oe.slice;
         }
-
-        if self.get_hash() != other.get_hash() {
-            return false;
-        }
-
-        // If the store is different, the string may be the same, even though the
-        // `unsafe_data` is different
-        self.as_str() == other.as_str()
+        let (h1, s1) = unpack(self);
+        let (h2, s2) = unpack(other);
+        h1 == h2 && s1 == s2
     }
 }
 
@@ -340,7 +370,24 @@ impl Eq for Atom {}
 impl Hash for Atom {
     #[inline(always)]
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        state.write_u64(self.get_hash());
+        match self.tag() {
+            STATIC_TAG => {
+                let storage = self.unsafe_data.get_ptr() as *const StaticStorage;
+                // SAFETY: these are only constructed from static item references
+                let storage = unsafe { &*storage };
+                state.write_u64(storage.hash);
+                state.write_u8(0xff);
+            }
+            DYNAMIC_TAG => {
+                let item = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
+                state.write_u64(item.header.header.hash);
+                state.write_u8(0xff);
+            }
+            INLINE_TAG => {
+                self.inline_as_str().hash(state);
+            }
+            _ => unsafe { debug_unreachable!() },
+        }
     }
 }
 

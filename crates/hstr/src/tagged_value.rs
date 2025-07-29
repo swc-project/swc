@@ -2,6 +2,8 @@
 
 use std::{num::NonZeroU8, os::raw::c_void, ptr::NonNull, slice};
 
+use crate::TAG_MASK;
+
 #[cfg(feature = "atom_size_128")]
 type RawTaggedValue = u128;
 #[cfg(any(
@@ -80,11 +82,6 @@ impl TaggedValue {
     }
 
     #[inline(always)]
-    pub fn hash(&self) -> u64 {
-        self.get_value() as _
-    }
-
-    #[inline(always)]
     pub fn get_ptr(&self) -> *const c_void {
         #[cfg(any(
             target_pointer_width = "32",
@@ -93,7 +90,7 @@ impl TaggedValue {
             feature = "atom_size_128"
         ))]
         {
-            self.value.get() as usize as _
+            (self.value.get() as usize & !(TAG_MASK as usize)) as _
         }
         #[cfg(not(any(
             target_pointer_width = "32",
@@ -101,8 +98,8 @@ impl TaggedValue {
             feature = "atom_size_64",
             feature = "atom_size_128"
         )))]
-        unsafe {
-            std::mem::transmute(Some(self.value))
+        {
+            (self.value.as_ptr() as usize & !(TAG_MASK as usize)) as _
         }
     }
 

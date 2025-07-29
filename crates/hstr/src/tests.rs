@@ -1,3 +1,7 @@
+use std::hash::{Hash, Hasher};
+
+use rustc_hash::FxHasher;
+
 use crate::{Atom, AtomStore};
 
 fn store_with_atoms(texts: Vec<&str>) -> (AtomStore, Vec<Atom>) {
@@ -36,7 +40,7 @@ fn eager_drop() {
         a1.unsafe_data, a2.unsafe_data,
         "Different stores should have different addresses"
     );
-    assert_eq!(a1.get_hash(), a2.get_hash(), "Same string should be equal");
+    assert_eq!(get_hash(&a1), get_hash(&a2), "Same string should be equal");
     assert_eq!(a1, a2, "Same string should be equal");
 }
 
@@ -52,7 +56,7 @@ fn store_multiple() {
         a1.unsafe_data, a2.unsafe_data,
         "Different stores should have different addresses"
     );
-    assert_eq!(a1.get_hash(), a2.get_hash(), "Same string should be equal");
+    assert_eq!(get_hash(&a1), get_hash(&a2), "Same string should be equal");
     assert_eq!(a1, a2, "Same string should be equal");
 }
 
@@ -81,4 +85,10 @@ fn store_ref_count_dynamic() {
 
     drop(a2);
     assert_eq!(atoms[0].ref_count(), 1);
+}
+
+fn get_hash(value: &Atom) -> u64 {
+    let mut hasher = FxHasher::default();
+    value.hash(&mut hasher);
+    hasher.finish()
 }
