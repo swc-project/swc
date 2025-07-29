@@ -1,7 +1,6 @@
 extern crate swc_malloc;
 
 use std::{
-    env,
     path::{Path, PathBuf},
     process::Command,
     sync::Arc,
@@ -24,7 +23,7 @@ use swc_plugin_runner::runtime::Runtime;
 static SOURCE: &str = include_str!("../../swc_ecma_minifier/benches/full/typescript.js");
 
 fn plugin_group(c: &mut Criterion) {
-    let plugin_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
+    let plugin_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("tests")
         .join("fixture")
         .join("swc_noop_plugin");
