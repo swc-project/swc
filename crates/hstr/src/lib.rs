@@ -252,7 +252,6 @@ impl Atom {
 }
 
 impl Atom {
-    #[inline(never)]
     fn get_hash(&self) -> u64 {
         match self.tag() {
             DYNAMIC_TAG => {
@@ -270,7 +269,6 @@ impl Atom {
         }
     }
 
-    #[inline(never)]
     fn as_str(&self) -> &str {
         match self.tag() {
             DYNAMIC_TAG => unsafe {
