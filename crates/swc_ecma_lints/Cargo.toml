@@ -29,12 +29,12 @@ swc_config = { version = "3.1.1", path = "../swc_config" }
 swc_ecma_ast = { version = "14.0.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_utils = { version = "19.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "19.0.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "14.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
-swc_ecma_parser           = { version = "22.0.1", path = "../swc_ecma_parser" }
+swc_ecma_parser           = { version = "22.0.2", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base  = { version = "23.0.0", path = "../swc_ecma_transforms_base" }
 swc_malloc                = { version = "1.2.3", path = "../swc_malloc" }
 testing                   = { version = "15.0.0", path = "../testing" }

@@ -18,4 +18,4 @@ tracing = { workspace = true }
 swc_ecma_ast             = { version = "14.0.0", path = "../swc_ecma_ast" }
 swc_ecma_compiler        = { version = "1.0.0", path = "../swc_ecma_compiler" }
 swc_ecma_transforms_base = { version = "23.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils           = { version = "19.0.0", path = "../swc_ecma_utils" }
+swc_ecma_utils           = { version = "19.0.1", path = "../swc_ecma_utils" }

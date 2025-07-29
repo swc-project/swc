@@ -4710,7 +4710,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "34.0.2"
+version = "34.0.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5213,7 +5213,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "22.0.1"
+version = "22.0.2"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5283,7 +5283,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "28.0.1"
+version = "28.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5327,7 +5327,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "22.0.1"
+version = "22.0.2"
 dependencies = [
  "codspeed-criterion-compat",
  "either",
@@ -5715,7 +5715,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "20.0.0"
+version = "20.0.1"
 dependencies = [
  "bitflags 2.6.0",
  "indexmap 2.7.1",
@@ -5731,7 +5731,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "19.0.0"
+version = "19.0.1"
 dependencies = [
  "indexmap 2.7.1",
  "num_cpus",
