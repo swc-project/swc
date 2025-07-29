@@ -1,6 +1,6 @@
 //! Plugin runtime abstract
 
-use std::{any::Any, path::Path};
+use std::{any::Any, fmt, path::Path};
 
 /// Runtime FFI Value
 pub type Value = i32;
@@ -23,7 +23,7 @@ pub struct Func {
 }
 
 /// Plugin runtime abstract
-pub trait Runtime: Send + Sync {
+pub trait Runtime: fmt::Debug + Send + Sync {
     /// An identifier used to identify the runtime implement,
     /// which should include the runtime name and version.
     fn identifier(&self) -> &'static str;

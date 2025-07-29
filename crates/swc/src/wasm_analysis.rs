@@ -18,7 +18,7 @@ use swc_ecma_transforms::resolver;
 use swc_plugin_proxy::HostCommentsStorage;
 
 use crate::{
-    config::ErrorFormat,
+    config::{ErrorFormat, RuntimeOptions},
     plugin::{compile_wasm_plugins, PluginConfig},
     Compiler,
 };
@@ -54,7 +54,8 @@ impl Compiler {
         opts: &WasmAnalysisOptions,
         comments: &SingleThreadedComments,
     ) -> Result<String> {
-        let plugin_runtime = self
+        let plugin_runtime = opts
+            .runtime_options
             .plugin_runtime
             .as_ref()
             .context("plugin runtime not configured")?;
@@ -99,6 +100,7 @@ impl Compiler {
                     .map(|p| {
                         GLOBALS.set(globals, || {
                             self.inovke_wasm_analysis_plugin(
+                                plugin_runtime.clone(),
                                 &serialized,
                                 unresolved_mark,
                                 &transform_metadata_context,
@@ -119,6 +121,7 @@ impl Compiler {
 
     fn inovke_wasm_analysis_plugin(
         &self,
+        plugin_runtime: Arc<dyn swc_plugin_runner::runtime::Runtime>,
         serialized: &PluginSerializedBytes,
         unresolved_mark: Mark,
         transform_metadata_context: &Arc<TransformPluginMetadataContext>,
@@ -130,10 +133,6 @@ impl Compiler {
                 inner: Some(comments.clone()),
             },
             || {
-                let plugin_runtime = self
-                    .plugin_runtime
-                    .clone()
-                    .context("plugin runtime not configured")?;
                 let plugin_module_bytes = crate::config::PLUGIN_MODULE_CACHE
                     .inner
                     .get()
@@ -198,4 +197,7 @@ pub struct WasmAnalysisOptions {
 
     #[serde(default)]
     pub cache_root: Option<String>,
+
+    #[serde(skip, default)]
+    pub runtime_options: RuntimeOptions,
 }
