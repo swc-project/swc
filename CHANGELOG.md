@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.13.3] - 2025-07-29
 
 ### Bug Fixes
 
@@ -2175,17 +2175,8 @@
 
 ## [1.10.9] - 2025-01-21
 
-### Bug Fixes
-
-
-
-- **(es/minifier)** Set param type to unknown ([#9905](https://github.com/swc-project/swc/issues/9905)) ([09b3b37](https://github.com/swc-project/swc/commit/09b3b371f93ca603c61992eca3e44208cd857dc5))
-
 ### Features
 
-
-
-- **(es/minifier)** Turn `1 * v` into `+v` ([#9903](https://github.com/swc-project/swc/issues/9903)) ([a228347](https://github.com/swc-project/swc/commit/a2283475b1b8f770e113806590f4959550f89f31))
 
 
 - **(es/minifier)** Compress `foo ? num : 0` into `num * !!foo` ([#9908](https://github.com/swc-project/swc/issues/9908)) ([ce22557](https://github.com/swc-project/swc/commit/ce22557a0512e9263cb316116e5262757d884479))
