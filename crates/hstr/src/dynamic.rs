@@ -174,7 +174,6 @@ trait Storage {
 }
 
 impl Storage for &'_ mut AtomStore {
-    #[inline(never)]
     fn insert_entry(self, text: &str, hash: u64) -> Item {
         // If the text is too long, interning is not worth it.
         if text.len() > 512 {
@@ -203,7 +202,7 @@ impl Storage for &'_ mut AtomStore {
     }
 }
 
-#[inline(never)]
+#[inline(always)]
 fn calc_hash(text: &str) -> u64 {
     let mut hasher = FxHasher::default();
     text.hash(&mut hasher);
