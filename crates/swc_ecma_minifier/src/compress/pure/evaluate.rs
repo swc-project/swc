@@ -8,7 +8,10 @@ use super::Pure;
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::util::{eval_as_number, is_pure_undefined_or_null},
+    compress::{
+        pure::Ctx,
+        util::{eval_as_number, is_pure_undefined_or_null},
+    },
     util::ValueExt,
 };
 
@@ -183,7 +186,11 @@ impl Pure<'_> {
             return;
         }
 
-        if self.ctx.in_delete || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.intersects(
+            Ctx::IN_DELETE
+                .union(Ctx::IS_UPDATE_ARG)
+                .union(Ctx::IS_LHS_OF_ASSIGN),
+        ) {
             return;
         }
 
@@ -336,7 +343,11 @@ impl Pure<'_> {
             return;
         }
 
-        if self.ctx.in_delete || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.intersects(
+            Ctx::IN_DELETE
+                .union(Ctx::IS_UPDATE_ARG)
+                .union(Ctx::IS_LHS_OF_ASSIGN),
+        ) {
             return;
         }
 
@@ -748,7 +759,7 @@ impl Pure<'_> {
     }
 
     pub(super) fn eval_member_expr(&mut self, e: &mut Expr) {
-        if self.ctx.in_opt_chain {
+        if self.ctx.contains(Ctx::IN_OPT_CHAIN) {
             return;
         }
 
@@ -803,7 +814,11 @@ impl Pure<'_> {
             return;
         }
 
-        if self.ctx.in_delete || self.ctx.is_update_arg || self.ctx.is_lhs_of_assign {
+        if self.ctx.intersects(
+            Ctx::IN_DELETE
+                .union(Ctx::IS_UPDATE_ARG)
+                .union(Ctx::IS_LHS_OF_ASSIGN),
+        ) {
             return;
         }
 

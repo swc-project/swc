@@ -13,7 +13,10 @@ use swc_ecma_utils::{
 
 use super::Pure;
 use crate::compress::{
-    pure::strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
+    pure::{
+        strings::{convert_str_value_to_tpl_cooked, convert_str_value_to_tpl_raw},
+        Ctx,
+    },
     util::is_pure_undefined,
 };
 
@@ -1566,7 +1569,7 @@ impl Pure<'_> {
             return;
         }
 
-        if self.ctx.in_delete {
+        if self.ctx.contains(Ctx::IN_DELETE) {
             return;
         }
 
