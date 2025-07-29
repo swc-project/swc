@@ -2194,9 +2194,6 @@
 
 
 
-- **(es/minifier)** Do heavy operation only if required ([#9902](https://github.com/swc-project/swc/issues/9902)) ([2687231](https://github.com/swc-project/swc/commit/26872310f60d4de40e717cd30e7bf856bad3edba))
-
-
 - **(es/minifier)** Cache `var_or_default` calls ([#9909](https://github.com/swc-project/swc/issues/9909)) ([4a3be8d](https://github.com/swc-project/swc/commit/4a3be8d60b1ad49d723a5e102264ec3284603638))
 
 
