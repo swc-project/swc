@@ -39,7 +39,6 @@ parking_lot  = { workspace = true }
 rustc-hash   = { workspace = true }
 serde        = { workspace = true, features = ["derive"] }
 serde_json   = { workspace = true }
-tokio        = { workspace = true, optional = true }
 tracing      = { workspace = true }
 
 swc_atoms = { version = "7.0.0", path = '../swc_atoms' }
@@ -53,3 +52,9 @@ swc_transform_common = { version = "8.0.0", path = "../swc_transform_common" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 blake3 = { workspace = true, optional = true }
+
+[package.metadata.cargo-shear]
+ignored = [
+  "swc_ecma_ast",
+  "swc_css_ast",
+]

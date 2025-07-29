@@ -14,7 +14,6 @@ mod imported_fn;
 mod memory_interop;
 pub mod plugin_module_bytes;
 mod transform_executor;
-// pub mod wasix_runtime;
 
 use plugin_module_bytes::PluginModuleBytes;
 
