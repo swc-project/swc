@@ -16,12 +16,12 @@ os:
     - swc_html_parser
     - swc_node_bundler
     - swc_plugin
-    - swc_plugin_runner
+    - swc_plugin_backend_wasmer
     - swc_plugin_testing
   macos:
     - swc
     - swc_allocator
-    - swc_plugin_runner
+    - swc_plugin_backend_wasmer
 
 # host:
 #   swc: ubuntu-large
