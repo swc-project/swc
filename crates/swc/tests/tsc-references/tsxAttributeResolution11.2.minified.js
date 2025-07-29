@@ -15,4 +15,11 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
+    var MyComponent = /*#__PURE__*/ function() {
+        function MyComponent() {
+            _class_call_check._(this, MyComponent);
+        }
+        return MyComponent.prototype.render = function() {}, MyComponent;
+    }();
+    <MyComponent bar='world'/>;
 });

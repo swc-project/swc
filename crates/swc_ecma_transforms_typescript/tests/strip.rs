@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use swc_common::{comments::NoopComments, pass::Optional, Mark};
+use swc_common::{pass::Optional, Mark};
 use swc_ecma_ast::Pass;
 use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
@@ -15,7 +15,7 @@ use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_react::jsx;
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
 use swc_ecma_transforms_typescript::{
-    tsx, typescript, ImportsNotUsedAsValues, TsImportExportAssignConfig, TsxConfig,
+    typescript, ImportsNotUsedAsValues, TsImportExportAssignConfig,
 };
 
 fn tr(t: &mut Tester) -> impl Pass {
@@ -36,20 +36,22 @@ fn tr_config(
         ..Default::default()
     });
 
+    let (before_resolver, after_resolver) = jsx(
+        t.cm.clone(),
+        Some(t.comments.clone()),
+        Default::default(),
+        unresolved_mark,
+    );
+
     (
         Optional::new(
             decorators(decorators_config.unwrap_or_default()),
             has_decorators,
         ),
+        before_resolver,
         resolver(unresolved_mark, top_level_mark, true),
         typescript(config, unresolved_mark, top_level_mark),
-        jsx(
-            t.cm.clone(),
-            None::<NoopComments>,
-            Default::default(),
-            top_level_mark,
-            unresolved_mark,
-        ),
+        after_resolver,
         Optional::new(class_fields_use_set(true), !use_define_for_class_fields),
     )
 }
@@ -58,27 +60,24 @@ fn tsxr(t: &Tester) -> impl Pass {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
+    let (before_resolver_jsx, after_resolver_jsx) = swc_ecma_transforms_react::jsx(
+        t.cm.clone(),
+        Some(t.comments.clone()),
+        swc_ecma_transforms_react::Options::default(),
+        unresolved_mark,
+    );
+
+    let config = typescript::Config {
+        no_empty_export: true,
+        import_not_used_as_values: ImportsNotUsedAsValues::Remove,
+        ..Default::default()
+    };
+
     (
+        before_resolver_jsx,
         resolver(unresolved_mark, top_level_mark, false),
-        tsx(
-            t.cm.clone(),
-            typescript::Config {
-                no_empty_export: true,
-                import_not_used_as_values: ImportsNotUsedAsValues::Remove,
-                ..Default::default()
-            },
-            TsxConfig::default(),
-            t.comments.clone(),
-            unresolved_mark,
-            top_level_mark,
-        ),
-        swc_ecma_transforms_react::jsx(
-            t.cm.clone(),
-            Some(t.comments.clone()),
-            swc_ecma_transforms_react::Options::default(),
-            top_level_mark,
-            unresolved_mark,
-        ),
+        typescript(config, unresolved_mark, top_level_mark),
+        after_resolver_jsx,
     )
 }
 
@@ -1806,7 +1805,8 @@ test!(
     }),
     |t| tsxr(t),
     imports_not_used_as_values_jsx_prag,
-    r#"/** @jsx h */
+    r#"/** @jsxRuntime classic */
+/** @jsx h */
 import html, { h } from "example";
 serve((_req) =>
   html({
@@ -1824,6 +1824,7 @@ test!(
     |t| tsxr(t),
     imports_not_used_as_values_shebang_jsx_prag,
     r#"#!/usr/bin/env -S deno run -A
+/** @jsxRuntime classic */
 /** @jsx h */
 import html, { h } from "example";
 serve((_req) =>
@@ -2811,20 +2812,17 @@ test!(
 
 test!(
     Syntax::Typescript(TsSyntax::default()),
-    |t| {
+    |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            tsx(
-                t.cm.clone(),
+            typescript(
                 typescript::Config {
                     verbatim_module_syntax: false,
                     ..Default::default()
                 },
-                TsxConfig::default(),
-                t.comments.clone(),
                 unresolved_mark,
                 top_level_mark,
             ),

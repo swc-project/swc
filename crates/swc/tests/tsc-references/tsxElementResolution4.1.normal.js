@@ -1,13 +1,7 @@
 //// [file.tsx]
 // OK
-/*#__PURE__*/ React.createElement("div", {
-    n: "x"
-});
+<div n='x'/>;
 // OK
-/*#__PURE__*/ React.createElement("span", {
-    m: "ok"
-});
+<span m='ok'/>;
 // Error
-/*#__PURE__*/ React.createElement("span", {
-    q: ""
-});
+<span q=''/>;

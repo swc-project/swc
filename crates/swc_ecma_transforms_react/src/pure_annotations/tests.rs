@@ -66,15 +66,19 @@ fn run_test(input: &str, expected: &str) {
         let top_level_mark = Mark::new();
 
         let (actual, actual_sm, actual_comments) = parse(tester, input)?;
+
+        let (before_resolver, after_resolver) = crate::react(
+            actual_sm.clone(),
+            Some(actual_comments.clone()),
+            Default::default(),
+            top_level_mark,
+            unresolved_mark,
+        );
+
         let actual = actual
+            .apply(before_resolver)
             .apply(&mut resolver(unresolved_mark, top_level_mark, false))
-            .apply(&mut crate::react(
-                actual_sm.clone(),
-                Some(&actual_comments),
-                Default::default(),
-                top_level_mark,
-                unresolved_mark,
-            ));
+            .apply(after_resolver);
 
         let actual_src = emit(actual_sm, actual_comments, &actual);
 
@@ -131,10 +135,12 @@ test!(
 test!(
     create_element_jsx,
     r#"
+  // @jsxRuntime classic
   import React from 'react';
   const x = <div />;
   "#,
     r#"
+  // @jsxRuntime classic
   import React from 'react';
   const x = /*#__PURE__*/ React.createElement("div", null);
   "#
@@ -143,10 +149,12 @@ test!(
 test!(
     create_element_fragment_jsx,
     r#"
+  // @jsxRuntime classic
   import React from 'react';
   const x = <><div /></>;
   "#,
     r#"
+  // @jsxRuntime classic
   import React from 'react';
   const x = /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement("div", null));
   "#

@@ -1,9 +1,8 @@
 //// [file.tsx]
 define([
     "require",
-    "exports",
-    "react"
-], function(require, exports, _react) {
+    "exports"
+], function(require, exports) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
@@ -27,4 +26,19 @@ define([
     }
     function NoOverload(buttonProps) {}
     function NoOverload1(linkProps) {}
+    <MainButton {...{
+        onClick: function(k) {
+            console.log(k);
+        }
+    }} extra/>, <MainButton onClick={function(k) {
+        console.log(k);
+    }} extra/>, <MainButton {...{
+        goTo: "home"
+    }} extra/>, <MainButton goTo="home" extra/>, <NoOverload {...{
+        onClick: function(k) {
+            console.log(k);
+        }
+    }} extra/>, <NoOverload1 {...{
+        goTo: "home"
+    }} extra/>;
 });

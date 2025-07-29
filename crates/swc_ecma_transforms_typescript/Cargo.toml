@@ -16,7 +16,6 @@ bench = false
 concurrent = ["swc_common/concurrent"]
 
 [dependencies]
-bytes-str  = { workspace = true }
 rustc-hash = { workspace = true }
 serde      = { workspace = true, features = ["derive"] }
 
@@ -35,6 +34,7 @@ swc_ecma_codegen             = { version = "16.0.0", path = "../swc_ecma_codegen
 swc_ecma_parser              = { version = "22.0.2", path = "../swc_ecma_parser" }
 swc_ecma_transforms_compat   = { version = "25.0.0", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_proposal = { version = "23.0.0", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_react    = { version = "25.0.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_testing  = { version = "26.0.0", path = "../swc_ecma_transforms_testing" }
 testing                      = { version = "15.0.0", path = "../testing" }
 

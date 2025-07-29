@@ -1,1 +1,7 @@
-/*#__PURE__*/ React.createElement("span", null, " ", foo);
+/*#__PURE__*/ import { jsxs as _jsxs } from "react/jsx-runtime";
+_jsxs("span", {
+    children: [
+        " ",
+        foo
+    ]
+});

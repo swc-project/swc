@@ -183,7 +183,7 @@ impl Expr {
             span,
             op: op!("void"),
             arg: Lit::Num(Number {
-                span,
+                span: DUMMY_SP,
                 value: 0.0,
                 raw: None,
             })

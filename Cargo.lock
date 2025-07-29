@@ -5647,11 +5647,11 @@ dependencies = [
  "base64 0.22.1",
  "bytes-str",
  "indexmap 2.7.1",
+ "memchr",
  "once_cell",
  "rustc-hash 2.1.1",
  "serde",
  "sha1",
- "string_enum",
  "swc_atoms",
  "swc_common",
  "swc_config",
@@ -5694,7 +5694,6 @@ dependencies = [
 name = "swc_ecma_transforms_typescript"
 version = "25.0.0"
 dependencies = [
- "bytes-str",
  "codspeed-criterion-compat",
  "rustc-hash 2.1.1",
  "serde",

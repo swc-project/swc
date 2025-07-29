@@ -1,18 +1,11 @@
 //// [file.tsx]
 define([
-    "require",
-    "exports",
-    "react"
-], function(require, exports, _react) {
+    "require"
+], function(require) {
     "use strict";
-    Object.defineProperty(exports, "__esModule", {
-        value: true
-    });
     function MyComponent1(attr) {
-        return /*#__PURE__*/ _react.createElement("div", null, "attr.values");
+        return <div>attr.values</div>;
     }
     // Error
-    var i1 = /*#__PURE__*/ _react.createElement(MyComponent1, {
-        values: 5
-    });
+    var i1 = <MyComponent1 values={5}/>;
 });
