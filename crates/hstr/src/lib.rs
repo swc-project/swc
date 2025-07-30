@@ -300,7 +300,6 @@ impl Atom {
 }
 
 impl PartialEq for Atom {
-    #[inline(never)]
     fn eq(&self, other: &Self) -> bool {
         if self.unsafe_data == other.unsafe_data {
             return true;
