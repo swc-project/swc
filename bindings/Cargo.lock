@@ -283,6 +283,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "binding_es_ast_viewer"
+version = "1.13.3"
+dependencies = [
+ "anyhow",
+ "swc_core",
+ "swc_error_reporters",
+ "wasm-bindgen",
+]
+
+[[package]]
 name = "binding_html_node"
 version = "0.1.0"
 dependencies = [

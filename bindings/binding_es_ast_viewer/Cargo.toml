@@ -1,0 +1,33 @@
+[package]
+authors    = ["강동윤 <kdy1997.dev@gmail.com>"]
+edition    = "2021"
+license    = { workspace = true }
+name       = "binding_es_ast_viewer"
+publish    = false
+repository = { workspace = true }
+version    = "1.13.3"
+
+[dependencies]
+anyhow       = { workspace = true }
+wasm-bindgen = { workspace = true }
+
+    [dependencies.swc_core]
+    features = [
+        "ecma_ast",
+        "common",
+        "ecma_visit",
+        "ecma_transforms",
+        "ecma_parser_unstable",
+    ]
+    workspace = true
+
+    [dependencies.swc_error_reporters]
+    workspace = true
+
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[[example]]
+name = "cli"
+path = "examples/cli.rs"
