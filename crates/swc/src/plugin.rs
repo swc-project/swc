@@ -35,14 +35,15 @@ use swc_plugin_runner::runtime::Runtime as PluginRuntime;
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct PluginConfig(pub String, pub serde_json::Value);
 
-pub fn plugins(
+#[cfg(feature = "plugin")]
+pub(crate) fn plugins(
     configured_plugins: Option<Vec<PluginConfig>>,
     plugin_env_vars: Option<Vec<Atom>>,
     metadata_context: std::sync::Arc<swc_common::plugin::metadata::TransformPluginMetadataContext>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
     unresolved_mark: swc_common::Mark,
-    #[cfg(feature = "plugin")] plugin_runtime: Arc<dyn PluginRuntime>,
+    plugin_runtime: Arc<dyn PluginRuntime>,
 ) -> impl Pass {
     fold_pass(RustPlugins {
         plugins: configured_plugins,
@@ -51,11 +52,11 @@ pub fn plugins(
         comments,
         source_map,
         unresolved_mark,
-        #[cfg(feature = "plugin")]
         plugin_runtime,
     })
 }
 
+#[cfg(feature = "plugin")]
 struct RustPlugins {
     plugins: Option<Vec<PluginConfig>>,
     plugin_env_vars: Option<std::sync::Arc<Vec<Atom>>>,
@@ -63,10 +64,10 @@ struct RustPlugins {
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
     unresolved_mark: swc_common::Mark,
-    #[cfg(feature = "plugin")]
     plugin_runtime: Arc<dyn PluginRuntime>,
 }
 
+#[cfg(feature = "plugin")]
 impl RustPlugins {
     #[cfg(feature = "plugin")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
@@ -173,10 +174,10 @@ impl RustPlugins {
     }
 }
 
+#[cfg(feature = "plugin")]
 impl Fold for RustPlugins {
     noop_fold_type!();
 
-    #[cfg(feature = "plugin")]
     fn fold_module(&mut self, n: Module) -> Module {
         match self.apply(Program::Module(n)) {
             Ok(program) => program.expect_module(),
@@ -189,7 +190,6 @@ impl Fold for RustPlugins {
         }
     }
 
-    #[cfg(feature = "plugin")]
     fn fold_script(&mut self, n: Script) -> Script {
         match self.apply(Program::Script(n)) {
             Ok(program) => program.expect_script(),
