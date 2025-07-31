@@ -53,7 +53,6 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          target: wasm32-wasip1
 
       - uses: Swatinem/rust-cache@v2
         # Some crates are too slow to build
