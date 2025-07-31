@@ -81,15 +81,17 @@ impl Id {
 }
 
 impl IdentLike for Id {
+    type Id = (Atom, SyntaxContext);
+
     fn from_ident(i: &Ident) -> Self {
         i.into()
     }
 
-    fn to_id(&self) -> (Atom, SyntaxContext) {
+    fn to_id(&self) -> Self::Id {
         (self.0.clone(), self.1)
     }
 
-    fn into_id(self) -> (Atom, SyntaxContext) {
+    fn into_id(self) -> Self::Id {
         (self.0, self.1)
     }
 }

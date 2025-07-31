@@ -23,8 +23,8 @@ pub use self::{
     expr::*,
     function::{Function, Param, ParamOrTsParamProp},
     ident::{
-        unsafe_id, unsafe_id_from_ident, BindingIdent, EsReserved, Id, Ident, IdentName,
-        PrivateName, UnsafeId,
+        hashed_id_from_id, unsafe_id, unsafe_id_from_ident, BindingIdent, EsReserved, HashedId, Id,
+        Ident, IdentName, PrivateName, UnsafeId,
     },
     jsx::{
         JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,

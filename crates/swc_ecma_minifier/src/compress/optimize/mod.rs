@@ -227,7 +227,7 @@ struct Optimizer<'a> {
 
     vars: Vars,
 
-    typeofs: Box<FxHashMap<Id, Atom>>,
+    typeofs: Box<FxHashMap<HashedId, Atom>>,
     /// This information is created by analyzing identifier usages.
     ///
     /// This is calculated multiple time, but only once per one
@@ -237,7 +237,7 @@ struct Optimizer<'a> {
 
     mode: &'a dyn Mode,
 
-    functions: Box<FxHashMap<Id, FnMetadata>>,
+    functions: Box<FxHashMap<HashedId, FnMetadata>>,
 }
 
 #[derive(Default)]
@@ -245,34 +245,34 @@ struct Vars {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: FxHashMap<Id, Box<Expr>>,
+    lits: FxHashMap<HashedId, Box<Expr>>,
 
     /// Used for `hoist_props`.
-    hoisted_props: Box<FxHashMap<(Id, Atom), Ident>>,
+    hoisted_props: Box<FxHashMap<(HashedId, Atom), Ident>>,
 
     /// Literals which are cheap to clone, but not sure if we can inline without
     /// making output bigger.
     ///
     /// https://github.com/swc-project/swc/issues/4415
-    lits_for_cmp: FxHashMap<Id, Box<Expr>>,
+    lits_for_cmp: FxHashMap<HashedId, Box<Expr>>,
 
     /// This stores [Expr::Array] if all elements are literals.
-    lits_for_array_access: FxHashMap<Id, Box<Expr>>,
+    lits_for_array_access: FxHashMap<HashedId, Box<Expr>>,
 
     /// Used for copying functions.
     ///
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
-    simple_functions: FxHashMap<Id, Box<Expr>>,
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+    simple_functions: FxHashMap<HashedId, Box<Expr>>,
+    vars_for_inlining: FxHashMap<HashedId, Box<Expr>>,
 
     /// Variables which should be removed by [Finalizer] because of the order of
     /// visit.
-    removed: FxHashSet<Id>,
+    removed: FxHashSet<HashedId>,
 }
 
 impl Vars {
-    fn has_pending_inline_for(&self, id: &Id) -> bool {
-        self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
+    fn has_pending_inline_for(&self, id: HashedId) -> bool {
+        self.lits.contains_key(&id) || self.vars_for_inlining.contains_key(&id)
     }
 
     /// Returns true if something is changed.
@@ -344,7 +344,7 @@ impl Optimizer<'_> {
         if self
             .data
             .vars
-            .get(&id.to_id())
+            .get(&id.hashed_id())
             .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED))
         {
             return false;
@@ -827,7 +827,7 @@ impl Optimizer<'_> {
 
                 if let Expr::Ident(callee) = &**callee {
                     if self.options.reduce_vars && self.options.side_effects {
-                        if let Some(usage) = self.data.vars.get(&callee.to_id()) {
+                        if let Some(usage) = self.data.vars.get(&callee.hashed_id()) {
                             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                 && usage.flags.contains(VarUsageInfoFlags::PURE_FN)
                             {
@@ -894,7 +894,7 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                let old = i.id.to_id();
+                let old = i.id.hashed_id();
                 self.store_var_for_inlining(&mut i.id, right, true);
 
                 if i.is_dummy() && self.options.unused {
@@ -1809,13 +1809,13 @@ impl VisitMut for Optimizer<'_> {
                 ..
             }) => {
                 if let Some(i) = left.as_ident_mut() {
-                    let old = i.to_id();
+                    let old = i.hashed_id();
 
                     self.store_var_for_inlining(i, right, false);
 
                     if i.is_dummy() && self.options.unused {
                         report_change!("inline: Removed variable ({}, {:?})", old.0, old.1);
-                        self.vars.removed.insert(old.clone());
+                        self.vars.removed.insert(old);
                     }
 
                     if right.is_invalid() {
@@ -2045,7 +2045,7 @@ impl VisitMut for Optimizer<'_> {
         .entered();
 
         self.functions
-            .entry(f.ident.to_id())
+            .entry(f.ident.hashed_id())
             .or_insert_with(|| FnMetadata::from(&*f.function));
 
         self.drop_unused_params(&mut f.function.params);
@@ -2064,7 +2064,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
         if let Some(ident) = &e.ident {
             self.functions
-                .entry(ident.to_id())
+                .entry(ident.hashed_id())
                 .or_insert_with(|| FnMetadata::from(&*e.function));
         }
 
@@ -3010,7 +3010,7 @@ impl VisitMut for Optimizer<'_> {
 
                 if let Some(Expr::Invalid(..)) = var.init.as_deref() {
                     if let Pat::Ident(i) = &var.name {
-                        if let Some(usage) = self.data.vars.get(&i.id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(&i.id.hashed_id()) {
                             if usage
                                 .flags
                                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)

@@ -58,9 +58,10 @@ impl Hoister<'_> {
                         let ids: Vec<Id> = find_pat_ids(&var.decls);
 
                         if ids.iter().any(|id| {
+                            let id = hashed_id_from_id(id);
                             self.data
                                 .vars
-                                .get(id)
+                                .get(&id)
                                 .map(|v| !v.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL))
                                 .unwrap_or(false)
                         }) {
@@ -95,7 +96,7 @@ impl Hoister<'_> {
         let mut var_decls = Vec::new();
         let mut fn_decls = Vec::with_capacity(stmts.len());
         let mut new_stmts = Vec::with_capacity(stmts.len());
-        let mut done = FxHashSet::default();
+        let mut done: FxHashSet<HashedId> = FxHashSet::default();
 
         let mut found_non_var_decl = false;
         for stmt in stmts.take() {
@@ -122,14 +123,15 @@ impl Hoister<'_> {
                                 let ids: Vec<Ident> = find_pat_ids(&decl.name);
 
                                 for id in ids {
-                                    if done.insert(id.to_id()) {
+                                    let hashed_id = id.hashed_id();
+                                    if done.insert(hashed_id) {
                                         // If the enclosing function declares parameter with same
                                         // name, we can drop a varaible.
                                         if decl.init.is_none()
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&id.to_id())
+                                                .get(&hashed_id)
                                                 .map(|v| {
                                                     v.flags.contains(
                                                         VarUsageInfoFlags::DECLARED_AS_FN_PARAM,
@@ -215,7 +217,7 @@ impl Hoister<'_> {
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&name.to_id())
+                                                .get(&name.hashed_id())
                                                 .map(|v| {
                                                     v.flags.contains(
                                                         VarUsageInfoFlags::DECLARED_AS_FN_PARAM,
@@ -226,7 +228,7 @@ impl Hoister<'_> {
                                             return false;
                                         }
 
-                                        done.insert(name.to_id())
+                                        done.insert(name.hashed_id())
                                     }
                                     _ => true,
                                 };

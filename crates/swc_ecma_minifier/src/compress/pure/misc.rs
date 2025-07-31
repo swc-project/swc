@@ -1981,6 +1981,8 @@ impl Pure<'_> {
                         if l.ctxt == r.ctxt
                             && l.ctxt != self.expr_ctx.unresolved_ctxt
                             && l.sym == r.sym
+                            && l.sym == r.sym
+                            && l.ctxt != self.expr_ctx.unresolved_ctxt
                         {
                             self.changed = true;
                             *e = *assign.right.take();

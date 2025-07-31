@@ -83,7 +83,7 @@ pub enum AccessKind {
 
 pub type Access = (Id, AccessKind);
 
-pub fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Access>
+pub fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<(HashedId, AccessKind)>
 where
     N: InfectableNode + VisitWith<InfectionCollector>,
 {
@@ -120,7 +120,7 @@ pub fn try_collect_infects_from<N>(
     node: &N,
     config: AliasConfig,
     max_entries: usize,
-) -> Result<FxHashSet<Access>, TooManyAccesses>
+) -> Result<FxHashSet<(HashedId, AccessKind)>, TooManyAccesses>
 where
     N: InfectableNode + VisitWith<InfectionCollector>,
 {
@@ -158,34 +158,38 @@ pub struct InfectionCollector {
     config: AliasConfig,
     unresolved_ctxt: Option<SyntaxContext>,
 
-    bindings: FxHashSet<Id>,
+    bindings: FxHashSet<HashedId>,
 
     ctx: Ctx,
 
-    accesses: FxHashSet<Access>,
+    accesses: FxHashSet<(HashedId, AccessKind)>,
 
     max_entries: Option<usize>,
 }
 
 impl InfectionCollector {
     fn add_binding(&mut self, e: &Ident) {
-        if self.bindings.insert(e.to_id()) {
-            self.accesses.remove(&(e.to_id(), AccessKind::Reference));
-            self.accesses.remove(&(e.to_id(), AccessKind::Call));
+        let hashed_id = e.hashed_id();
+        if self.bindings.insert(hashed_id) {
+            self.accesses.remove(&(hashed_id, AccessKind::Reference));
+            self.accesses.remove(&(hashed_id, AccessKind::Call));
         }
     }
 
-    fn add_usage(&mut self, e: Id) {
-        if self.bindings.contains(&e) {
+    fn add_usage(&mut self, ident: &Ident) {
+        let hashed_id = ident.hashed_id();
+        if self.bindings.contains(&hashed_id) {
             return;
         }
 
-        if self.unresolved_ctxt == Some(e.1) && is_global_var_with_pure_property_access(&e.0) {
+        if self.unresolved_ctxt == Some(ident.ctxt)
+            && is_global_var_with_pure_property_access(&ident.sym)
+        {
             return;
         }
 
         self.accesses.insert((
-            e,
+            hashed_id,
             if self.ctx.contains(Ctx::IsCallee) {
                 AccessKind::Call
             } else {
@@ -297,7 +301,7 @@ impl Visit for InfectionCollector {
         match e {
             Expr::Ident(i) => {
                 if self.ctx.contains(Ctx::TrackExprIdent) {
-                    self.add_usage(i.to_id());
+                    self.add_usage(i);
                 }
             }
 
@@ -336,7 +340,7 @@ impl Visit for InfectionCollector {
     }
 
     fn visit_ident(&mut self, n: &Ident) {
-        self.add_usage(n.to_id());
+        self.add_usage(n);
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {

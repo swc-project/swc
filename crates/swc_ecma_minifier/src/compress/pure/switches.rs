@@ -117,7 +117,7 @@ impl Pure<'_> {
                 } else {
                     if !may_match_other_than_exact
                         && !test.is_ident()
-                        && !idents_used_by(test).is_empty()
+                        && !idents_used_by::<_, Id>(test).is_empty()
                     {
                         may_match_other_than_exact = true;
                     }

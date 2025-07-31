@@ -4,7 +4,7 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{Type, Value};
 
 use super::{ctx::Ctx, ScopeKind};
-use crate::alias::Access;
+use crate::alias::AccessKind;
 
 pub trait Storage: Sized + Default {
     type ScopeData: ScopeDataLike;
@@ -20,13 +20,13 @@ pub trait Storage: Sized + Default {
 
     fn top_scope(&mut self) -> &mut Self::ScopeData;
 
-    fn var_or_default(&mut self, id: Id) -> &mut Self::VarData;
+    fn var_or_default(&mut self, id: HashedId) -> &mut Self::VarData;
 
     fn merge(&mut self, kind: ScopeKind, child: Self);
 
-    fn report_usage(&mut self, ctx: Ctx, i: Id);
+    fn report_usage(&mut self, ctx: Ctx, i: HashedId);
 
-    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>);
+    fn report_assign(&mut self, ctx: Ctx, i: HashedId, is_op: bool, ty: Value<Type>);
 
     fn declare_decl(
         &mut self,
@@ -39,9 +39,9 @@ pub trait Storage: Sized + Default {
     fn get_initialized_cnt(&self) -> usize;
     fn truncate_initialized_cnt(&mut self, len: usize);
 
-    fn mark_property_mutation(&mut self, id: Id);
+    fn mark_property_mutation(&mut self, id: HashedId);
 
-    fn get_var_data(&self, id: Id) -> Option<&Self::VarData>;
+    fn get_var_data(&self, id: HashedId) -> Option<&Self::VarData>;
 }
 
 pub trait ScopeDataLike: Sized + Default + Clone {
@@ -80,7 +80,7 @@ pub trait VarDataLike: Sized {
 
     fn mark_used_as_ref(&mut self);
 
-    fn add_infects_to(&mut self, other: Access);
+    fn add_infects_to(&mut self, other: (HashedId, AccessKind));
 
     fn prevent_inline(&mut self);
 

@@ -143,6 +143,7 @@ impl Visit for IdentRefFinder<'_> {
 
         match *e {
             Expr::Ident(ref i) if i.ctxt == self.ident.ctxt && i.sym == self.ident.sym => {
+            Expr::Ident(ref i) if i.sym == self.ident.sym && i.ctxt == self.ident.ctxt => {
                 self.found = true;
             }
             _ => {}

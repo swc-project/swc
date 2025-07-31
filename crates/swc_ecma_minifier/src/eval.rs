@@ -50,7 +50,7 @@ struct Eval {
 
 #[derive(Default)]
 struct EvalStore {
-    cache: FxHashMap<Id, Box<Expr>>,
+    cache: FxHashMap<HashedId, Box<Expr>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -60,7 +60,7 @@ pub enum EvalResult {
 }
 
 impl Mode for Eval {
-    fn store(&self, id: Id, value: &Expr) {
+    fn store(&self, id: HashedId, value: &Expr) {
         let mut w = self.store.lock();
         w.cache.insert(id, Box::new(value.clone()));
     }
@@ -192,7 +192,7 @@ impl Evaluator {
                 self.run();
 
                 let lock = self.data.store.lock();
-                let val = lock.cache.get(&i.to_id())?;
+                let val = lock.cache.get(&i.hashed_id())?;
 
                 return Some(val.clone());
             }

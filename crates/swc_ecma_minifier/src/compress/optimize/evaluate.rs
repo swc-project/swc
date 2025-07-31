@@ -42,9 +42,9 @@ impl Optimizer<'_> {
         }) = e
         {
             if let Expr::Ident(obj) = &**obj {
-                let metadata = *self.functions.get(&obj.to_id())?;
-
-                let usage = self.data.vars.get(&obj.to_id())?;
+                let hashed_id = obj.hashed_id();
+                let metadata = *self.functions.get(&hashed_id)?;
+                let usage = self.data.vars.get(&hashed_id)?;
 
                 if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                     return None;
@@ -101,7 +101,7 @@ impl Optimizer<'_> {
             if self
                 .data
                 .vars
-                .get(&i.to_id())
+                .get(&i.hashed_id())
                 .map(|var| var.flags.contains(VarUsageInfoFlags::DECLARED))
                 .unwrap_or(false)
             {

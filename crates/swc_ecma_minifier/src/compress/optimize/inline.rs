@@ -58,7 +58,7 @@ impl Optimizer<'_> {
             }
         }
 
-        if let Some(usage) = self.data.vars.get(&ident.to_id()) {
+        if let Some(usage) = self.data.vars.get(&ident.hashed_id()) {
             let ref_count = usage.ref_count - u32::from(can_drop && usage.ref_count > 1);
             if !usage.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) {
                 return;
@@ -96,7 +96,7 @@ impl Optimizer<'_> {
 
             // No use => dropped
             if ref_count == 0 {
-                self.mode.store(ident.to_id(), &*init);
+                self.mode.store(ident.hashed_id(), &*init);
 
                 if init.may_have_side_effects(self.ctx.expr_ctx) {
                     // TODO: Inline partially
@@ -112,7 +112,7 @@ impl Optimizer<'_> {
 
             let mut inlined_into_init = false;
 
-            let id = ident.to_id();
+            let hashed_id = ident.hashed_id();
 
             // We inline arrays partially if it's pure (all elements are literal), and not
             // modified.
@@ -149,7 +149,7 @@ impl Optimizer<'_> {
                         );
                         self.vars
                             .lits_for_array_access
-                            .insert(ident.to_id(), Box::new(init.clone()));
+                            .insert(ident.hashed_id(), Box::new(init.clone()));
                     }
                 }
             }
@@ -183,17 +183,17 @@ impl Optimizer<'_> {
             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                 match init {
                     Expr::Fn(..) | Expr::Arrow(..) | Expr::Class(..) => {
-                        self.typeofs.insert(ident.to_id(), atom!("function"));
+                        self.typeofs.insert(ident.hashed_id(), atom!("function"));
                     }
                     Expr::Array(..) | Expr::Object(..) => {
-                        self.typeofs.insert(ident.to_id(), atom!("object"));
+                        self.typeofs.insert(ident.hashed_id(), atom!("object"));
                     }
                     _ => {}
                 }
             }
 
             if !usage.mutated() {
-                self.mode.store(ident.to_id(), &*init);
+                self.mode.store(ident.hashed_id(), &*init);
             }
 
             if usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
@@ -214,7 +214,7 @@ impl Optimizer<'_> {
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
                         if !usage.flags.contains(VarUsageInfoFlags::ASSIGNED_FN_LOCAL) {
                             false
-                        } else if let Some(u) = self.data.vars.get(&id.to_id()) {
+                        } else if let Some(u) = self.data.vars.get(&id.hashed_id()) {
                             let mut should_inline =
                                 !u.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                     && u.flags.contains(VarUsageInfoFlags::DECLARED);
@@ -276,7 +276,7 @@ impl Optimizer<'_> {
                             } else {
                                 self.vars
                                     .lits_for_cmp
-                                    .insert(ident.to_id(), init.clone().into());
+                                    .insert(ident.hashed_id(), init.clone().into());
                                 false
                             }
                         }
@@ -306,7 +306,7 @@ impl Optimizer<'_> {
                     self.vars.inline_with_multi_replacer(init);
                 }
 
-                self.mode.store(id.clone(), &*init);
+                self.mode.store(hashed_id, &*init);
 
                 let VarUsageInfo {
                     usage_count,
@@ -316,7 +316,7 @@ impl Optimizer<'_> {
                 } = **usage;
                 let mut inc_usage = || {
                     if let Expr::Ident(i) = &*init {
-                        if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
+                        if let Some(u) = self.data.vars.get_mut(&i.hashed_id()) {
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_ARG;
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_REF;
                             u.flags |= flags & VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY;
@@ -356,7 +356,7 @@ impl Optimizer<'_> {
 
                     inc_usage();
 
-                    self.vars.lits.insert(id.clone(), init.take().into());
+                    self.vars.lits.insert(hashed_id, init.take().into());
 
                     ident.take();
                 } else if self.options.inline != 0 || self.options.reduce_vars {
@@ -366,15 +366,15 @@ impl Optimizer<'_> {
                         ident.ctxt
                     );
 
-                    self.mode.store(id.clone(), &*init);
+                    self.mode.store(hashed_id, &*init);
 
                     inc_usage();
 
-                    self.vars.lits.insert(id.clone(), init.clone().into());
+                    self.vars.lits.insert(hashed_id, init.clone().into());
                 }
             }
 
-            let usage = self.data.vars.get(&id).unwrap();
+            let usage = self.data.vars.get(&hashed_id).unwrap();
 
             // Single use => inlined
             if !self.ctx.bit_ctx.contains(BitCtx::IsExported)
@@ -430,7 +430,10 @@ impl Optimizer<'_> {
                     }
 
                     Expr::Fn(f) => {
-                        let excluded: Vec<Id> = find_pat_ids(&f.function.params);
+                        let excluded: Vec<HashedId> = find_pat_ids::<_, Ident>(&f.function.params)
+                            .iter()
+                            .map(|i| i.hashed_id())
+                            .collect();
 
                         for id in idents_used_by(&f.function.params) {
                             if excluded.contains(&id) {
@@ -447,7 +450,10 @@ impl Optimizer<'_> {
                     }
 
                     Expr::Arrow(f) => {
-                        let excluded: Vec<Id> = find_pat_ids(&f.params);
+                        let excluded: Vec<HashedId> = find_pat_ids::<_, Ident>(&f.params)
+                            .iter()
+                            .map(|i| i.hashed_id())
+                            .collect();
 
                         for id in idents_used_by(&f.params) {
                             if excluded.contains(&id) {
@@ -478,7 +484,7 @@ impl Optimizer<'_> {
                             return;
                         }
 
-                        if let Some(init_usage) = self.data.vars.get(&id.to_id()) {
+                        if let Some(init_usage) = self.data.vars.get(&id.hashed_id()) {
                             if init_usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                 || !init_usage.flags.contains(VarUsageInfoFlags::DECLARED)
                             {
@@ -544,10 +550,10 @@ impl Optimizer<'_> {
                             // block_scoping pass.
                             // If the function captures the environment, we
                             // can't inline it.
-                            let params: Vec<Id> = find_pat_ids(&f.function.params);
+                            let params: Vec<HashedId> = find_pat_ids(&f.function.params);
 
                             if !params.is_empty() {
-                                let captured = idents_captured_by(&f.function.body);
+                                let captured = idents_captured_by::<_, HashedId>(&f.function.body);
 
                                 for param in params {
                                     if captured.contains(&param) {
@@ -578,7 +584,7 @@ impl Optimizer<'_> {
 
                 self.vars
                     .vars_for_inlining
-                    .insert(ident.take().to_id(), init.take().into());
+                    .insert(ident.take().hashed_id(), init.take().into());
             }
         }
     }
@@ -629,20 +635,21 @@ impl Optimizer<'_> {
     /// Stores `typeof` of [ClassDecl] and [FnDecl].
     pub(super) fn store_typeofs(&mut self, decl: &mut Decl) {
         let i = match &*decl {
-            Decl::Class(v) => v.ident.clone(),
-            Decl::Fn(f) => f.ident.clone(),
+            Decl::Class(v) => &v.ident,
+            Decl::Fn(f) => &f.ident,
             _ => return,
         };
         if i.sym == *"arguments" {
             return;
         }
 
-        if let Some(usage) = self.data.vars.get(&i.to_id()) {
+        let hashed_id = i.hashed_id();
+        if let Some(usage) = self.data.vars.get(&hashed_id) {
             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                 trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.ctxt);
                 match &*decl {
                     Decl::Fn(..) | Decl::Class(..) => {
-                        self.typeofs.insert(i.to_id(), atom!("function"));
+                        self.typeofs.insert(hashed_id, atom!("function"));
                     }
                     _ => {}
                 }
@@ -697,7 +704,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(usage) = self.data.vars.get(&i.to_id()) {
+        if let Some(usage) = self.data.vars.get(&i.hashed_id()) {
             if usage
                 .flags
                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
@@ -763,7 +770,7 @@ impl Optimizer<'_> {
                             }
 
                             self.vars.simple_functions.insert(
-                                i.to_id(),
+                                i.hashed_id(),
                                 FnExpr {
                                     ident: None,
                                     function: f.function.clone(),
@@ -859,7 +866,7 @@ impl Optimizer<'_> {
                     }
                 };
 
-                self.vars.vars_for_inlining.insert(i.to_id(), e);
+                self.vars.vars_for_inlining.insert(i.hashed_id(), e);
             } else {
                 log_abort!("inline: [x] Usage: {:?}", usage);
             }
@@ -877,7 +884,7 @@ impl Optimizer<'_> {
                 if let MemberProp::Computed(prop) = &mut me.prop {
                     if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
                         if let Expr::Ident(obj) = &*me.obj {
-                            let new = self.vars.lits_for_array_access.get(&obj.to_id());
+                            let new = self.vars.lits_for_array_access.get(&obj.hashed_id());
 
                             if let Some(new) = new {
                                 report_change!("inline: Inlined array access");
@@ -890,14 +897,14 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Ident(i) => {
-                let id = i.to_id();
+                let id = i.hashed_id();
                 if let Some(mut value) = self
                     .vars
                     .lits
                     .get(&id)
                     .or_else(|| {
                         if self.ctx.bit_ctx.contains(BitCtx::IsCallee) {
-                            self.vars.simple_functions.get(&i.to_id())
+                            self.vars.simple_functions.get(&id)
                         } else {
                             None
                         }
@@ -924,8 +931,9 @@ impl Optimizer<'_> {
 
                         let new_ctxt = *new_ctxt;
 
-                        if let Some(usage) = self.data.vars.get(&id).cloned() {
+                        if let Some(usage) = self.data.vars.get(&hashed_id_from_id(&id)).cloned() {
                             let new_id = (id.0.clone(), new_ctxt);
+                            let new_id = hashed_id_from_id(&new_id);
                             self.data.vars.insert(new_id, usage);
                         }
 
@@ -944,8 +952,10 @@ impl Optimizer<'_> {
                     return;
                 }
 
+                let hashed_id = i.hashed_id();
+
                 // Check without cloning
-                if let Some(value) = self.vars.vars_for_inlining.get(&i.to_id()) {
+                if let Some(value) = self.vars.vars_for_inlining.get(&hashed_id) {
                     if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign)
                         && !is_valid_for_lhs(value)
                     {
@@ -959,7 +969,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if let Some(value) = self.vars.vars_for_inlining.remove(&i.to_id()) {
+                if let Some(value) = self.vars.vars_for_inlining.remove(&hashed_id) {
                     self.changed = true;
                     report_change!("inline: Replacing '{}' with an expression", i);
 

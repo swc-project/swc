@@ -1,6 +1,7 @@
 use std::{
     borrow::Cow,
     fmt::Display,
+    hash::{Hash, Hasher},
     ops::{Deref, DerefMut},
 };
 
@@ -240,6 +241,13 @@ struct Align64<T>(pub(crate) T);
 const T: bool = true;
 const F: bool = false;
 
+pub fn hashed_id_from_id(id: &Id) -> HashedId {
+    let mut hasher = rustc_hash::FxHasher::default();
+    id.0.hash(&mut hasher);
+    id.1.hash(&mut hasher);
+    HashedId(hasher.finish())
+}
+
 impl Ident {
     /// In `op`, [EqIgnoreSpan] of [Ident] will ignore the syntax context.
     pub fn within_ignored_ctxt<F, Ret>(op: F) -> Ret
@@ -259,6 +267,13 @@ impl Ident {
     /// Creates `Id` using `Atom` and `SyntaxContext` of `self`.
     pub fn to_id(&self) -> Id {
         (self.sym.clone(), self.ctxt)
+    }
+
+    pub fn hashed_id(&self) -> HashedId {
+        let mut hasher = rustc_hash::FxHasher::default();
+        self.sym.hash(&mut hasher);
+        self.ctxt.hash(&mut hasher);
+        HashedId(hasher.finish())
     }
 
     #[inline]
@@ -526,6 +541,9 @@ pub unsafe fn unsafe_id_from_ident(id: &Ident) -> UnsafeId {
 
 /// See [Ident] for documentation.
 pub type Id = (Atom, SyntaxContext);
+
+#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
+pub struct HashedId(u64);
 
 impl Take for Ident {
     fn dummy() -> Self {
