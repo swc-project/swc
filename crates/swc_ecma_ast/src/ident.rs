@@ -6,6 +6,7 @@ use std::{
     ops::{Deref, DerefMut},
 };
 
+use indexmap::map::RawEntryApiV1;
 use once_cell::sync::Lazy;
 use phf::phf_set;
 use rustc_hash::FxHashSet;
@@ -545,28 +546,41 @@ impl IdIdx {
 
 #[derive(Default)]
 pub struct Ids {
-    map: hashbrown::HashMap<Id, IdIdx, rustc_hash::FxBuildHasher>,
+    map: indexmap::IndexMap<Id, (), rustc_hash::FxBuildHasher>,
 }
 
 impl Ids {
+    #[inline(always)]
+    pub fn intern_ident(&mut self, ident: &Ident) -> IdIdx {
+        self.intern(&ident.sym, ident.ctxt)
+    }
+
     pub fn intern(&mut self, atom: &Atom, ctxt: SyntaxContext) -> IdIdx {
         let mut hasher = rustc_hash::FxHasher::default();
         atom.hash(&mut hasher);
         ctxt.hash(&mut hasher);
         let hash = hasher.finish();
 
-        let len = self.map.len();
-
-        let (_, idx) = self
+        use indexmap::map::raw_entry_v1::RawEntryMut::*;
+        let idx = match self
             .map
-            .raw_entry_mut()
+            .raw_entry_mut_v1()
             .from_hash(hash, |id| id.1 == ctxt && id.0.eq(atom))
-            .or_insert_with(|| {
-                let idx = IdIdx(len as u32);
+        {
+            Occupied(occ) => occ.index(),
+            Vacant(vac) => {
                 let id = (atom.clone(), ctxt);
-                (id, idx)
-            });
-        *idx
+                let idx = vac.index();
+                vac.insert_hashed_nocheck(hash, id, ());
+                idx
+            }
+        };
+        IdIdx(idx as u32)
+    }
+
+    #[inline(always)]
+    pub fn get(&self, idx: IdIdx) -> &Id {
+        &self.map.get_index(idx.0 as usize).unwrap().0
     }
 }
 
