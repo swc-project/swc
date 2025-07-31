@@ -55,13 +55,12 @@ impl Hoister<'_> {
                 Some(stmt) => match stmt {
                     Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => 1,
                     Stmt::Decl(Decl::Var(var)) if self.config.hoist_vars => {
-                        let ids: Vec<Id> = find_pat_ids(&var.decls);
+                        let ids: Vec<IdIdx> = find_pat_ids(&var.decls);
 
                         if ids.iter().any(|id| {
-                            let id = hashed_id_from_id(id);
                             self.data
                                 .vars
-                                .get(&id)
+                                .get(id)
                                 .map(|v| !v.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL))
                                 .unwrap_or(false)
                         }) {
@@ -96,7 +95,7 @@ impl Hoister<'_> {
         let mut var_decls = Vec::new();
         let mut fn_decls = Vec::with_capacity(stmts.len());
         let mut new_stmts = Vec::with_capacity(stmts.len());
-        let mut done: FxHashSet<HashedId> = FxHashSet::default();
+        let mut done: FxHashSet<IdIdx> = FxHashSet::default();
 
         let mut found_non_var_decl = false;
         for stmt in stmts.take() {
@@ -123,15 +122,15 @@ impl Hoister<'_> {
                                 let ids: Vec<Ident> = find_pat_ids(&decl.name);
 
                                 for id in ids {
-                                    let hashed_id = id.hashed_id();
-                                    if done.insert(hashed_id) {
+                                    let idx = IdIdx::from_ident(&id);
+                                    if done.insert(idx) {
                                         // If the enclosing function declares parameter with same
                                         // name, we can drop a varaible.
                                         if decl.init.is_none()
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&hashed_id)
+                                                .get(&idx)
                                                 .map(|v| {
                                                     v.flags.contains(
                                                         VarUsageInfoFlags::DECLARED_AS_FN_PARAM,
@@ -211,13 +210,14 @@ impl Hoister<'_> {
 
                                 let preserve = match &decl.name {
                                     Pat::Ident(name) => {
+                                        let id = IdIdx::from_ident(&name.id);
                                         // If the enclosing function declares parameter with same
                                         // name, we can drop a varaible. (If it's side-effect free).
                                         if decl.init.is_none()
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&name.hashed_id())
+                                                .get(&id)
                                                 .map(|v| {
                                                     v.flags.contains(
                                                         VarUsageInfoFlags::DECLARED_AS_FN_PARAM,
@@ -228,7 +228,7 @@ impl Hoister<'_> {
                                             return false;
                                         }
 
-                                        done.insert(name.hashed_id())
+                                        done.insert(id)
                                     }
                                     _ => true,
                                 };

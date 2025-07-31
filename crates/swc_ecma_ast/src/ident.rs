@@ -1,5 +1,6 @@
 use std::{
     borrow::Cow,
+    cell::RefCell,
     fmt::Display,
     hash::{Hash, Hasher},
     ops::{Deref, DerefMut},
@@ -241,13 +242,6 @@ struct Align64<T>(pub(crate) T);
 const T: bool = true;
 const F: bool = false;
 
-pub fn hashed_id_from_id(id: &Id) -> HashedId {
-    let mut hasher = rustc_hash::FxHasher::default();
-    id.0.hash(&mut hasher);
-    id.1.hash(&mut hasher);
-    HashedId(hasher.finish())
-}
-
 impl Ident {
     /// In `op`, [EqIgnoreSpan] of [Ident] will ignore the syntax context.
     pub fn within_ignored_ctxt<F, Ret>(op: F) -> Ret
@@ -267,13 +261,6 @@ impl Ident {
     /// Creates `Id` using `Atom` and `SyntaxContext` of `self`.
     pub fn to_id(&self) -> Id {
         (self.sym.clone(), self.ctxt)
-    }
-
-    pub fn hashed_id(&self) -> HashedId {
-        let mut hasher = rustc_hash::FxHasher::default();
-        self.sym.hash(&mut hasher);
-        self.ctxt.hash(&mut hasher);
-        HashedId(hasher.finish())
     }
 
     #[inline]
@@ -543,7 +530,49 @@ pub unsafe fn unsafe_id_from_ident(id: &Ident) -> UnsafeId {
 pub type Id = (Atom, SyntaxContext);
 
 #[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
-pub struct HashedId(u64);
+pub struct IdIdx(u32);
+
+impl IdIdx {
+    pub fn new(atom: &Atom, ctxt: SyntaxContext) -> Self {
+        GLOBAL_ID_LIST.with(|ids| ids.borrow_mut().intern(atom, ctxt))
+    }
+
+    #[inline(always)]
+    pub fn from_ident(i: &Ident) -> Self {
+        Self::new(&i.sym, i.ctxt)
+    }
+}
+
+#[derive(Default)]
+pub struct Ids {
+    map: hashbrown::HashMap<Id, IdIdx, rustc_hash::FxBuildHasher>,
+}
+
+impl Ids {
+    pub fn intern(&mut self, atom: &Atom, ctxt: SyntaxContext) -> IdIdx {
+        let mut hasher = rustc_hash::FxHasher::default();
+        atom.hash(&mut hasher);
+        ctxt.hash(&mut hasher);
+        let hash = hasher.finish();
+
+        let len = self.map.len();
+
+        let (_, idx) = self
+            .map
+            .raw_entry_mut()
+            .from_hash(hash, |id| id.1 == ctxt && id.0.eq(atom))
+            .or_insert_with(|| {
+                let idx = IdIdx(len as u32);
+                let id = (atom.clone(), ctxt);
+                (id, idx)
+            });
+        *idx
+    }
+}
+
+thread_local! {
+    static GLOBAL_ID_LIST: RefCell<Ids> = Default::default();
+}
 
 impl Take for Ident {
     fn dummy() -> Self {

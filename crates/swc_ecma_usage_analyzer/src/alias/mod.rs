@@ -81,9 +81,9 @@ pub enum AccessKind {
     Call,
 }
 
-pub type Access = (Id, AccessKind);
+pub type Access = (IdIdx, AccessKind);
 
-pub fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<(HashedId, AccessKind)>
+pub fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<(IdIdx, AccessKind)>
 where
     N: InfectableNode + VisitWith<InfectionCollector>,
 {
@@ -120,7 +120,7 @@ pub fn try_collect_infects_from<N>(
     node: &N,
     config: AliasConfig,
     max_entries: usize,
-) -> Result<FxHashSet<(HashedId, AccessKind)>, TooManyAccesses>
+) -> Result<FxHashSet<Access>, TooManyAccesses>
 where
     N: InfectableNode + VisitWith<InfectionCollector>,
 {
@@ -154,31 +154,30 @@ where
 }
 
 pub struct InfectionCollector {
-    #[allow(unused)]
     config: AliasConfig,
     unresolved_ctxt: Option<SyntaxContext>,
 
-    bindings: FxHashSet<HashedId>,
+    bindings: FxHashSet<IdIdx>,
 
     ctx: Ctx,
 
-    accesses: FxHashSet<(HashedId, AccessKind)>,
+    accesses: FxHashSet<Access>,
 
     max_entries: Option<usize>,
 }
 
 impl InfectionCollector {
     fn add_binding(&mut self, e: &Ident) {
-        let hashed_id = e.hashed_id();
-        if self.bindings.insert(hashed_id) {
-            self.accesses.remove(&(hashed_id, AccessKind::Reference));
-            self.accesses.remove(&(hashed_id, AccessKind::Call));
+        let id = IdIdx::from_ident(e);
+        if self.bindings.insert(id) {
+            self.accesses.remove(&(id, AccessKind::Reference));
+            self.accesses.remove(&(id, AccessKind::Call));
         }
     }
 
     fn add_usage(&mut self, ident: &Ident) {
-        let hashed_id = ident.hashed_id();
-        if self.bindings.contains(&hashed_id) {
+        let id = IdIdx::from_ident(ident);
+        if self.bindings.contains(&id) {
             return;
         }
 
@@ -189,7 +188,7 @@ impl InfectionCollector {
         }
 
         self.accesses.insert((
-            hashed_id,
+            id,
             if self.ctx.contains(Ctx::IsCallee) {
                 AccessKind::Call
             } else {

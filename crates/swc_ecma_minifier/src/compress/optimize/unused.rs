@@ -185,7 +185,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(v) = self.data.vars.get(&i.hashed_id()) {
+        if let Some(v) = self.data.vars.get(&IdIdx::from_ident(i)) {
             let is_used_in_member =
                 v.property_mutation_count > 0 || v.flags.contains(VarUsageInfoFlags::USED_AS_REF);
             if v.ref_count == 0
@@ -257,7 +257,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if let Some(usage) = self.data.vars.get(&e.hashed_id()) {
+                if let Some(usage) = self.data.vars.get(&IdIdx::from_ident(e)) {
                     if !usage.flags.contains(VarUsageInfoFlags::DECLARED) {
                         return true;
                     }
@@ -517,7 +517,7 @@ impl Optimizer<'_> {
                 if self
                     .data
                     .vars
-                    .get(&ident.hashed_id())
+                    .get(&IdIdx::from_ident(ident))
                     .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
                     .unwrap_or(false)
                 {
@@ -569,7 +569,7 @@ impl Optimizer<'_> {
                 if self
                     .data
                     .vars
-                    .get(&ident.hashed_id())
+                    .get(&IdIdx::from_ident(ident))
                     .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
                     .unwrap_or(false)
                 {
@@ -611,7 +611,7 @@ impl Optimizer<'_> {
         };
 
         if let Expr::Ident(arg) = &*update.arg {
-            if let Some(var) = self.data.vars.get(&arg.hashed_id()) {
+            if let Some(var) = self.data.vars.get(&IdIdx::from_ident(arg)) {
                 // Update is counted as usage
                 if var
                     .flags
@@ -659,7 +659,7 @@ impl Optimizer<'_> {
         };
 
         if let AssignTarget::Simple(SimpleAssignTarget::Ident(left)) = &assign.left {
-            if let Some(var) = self.data.vars.get(&left.hashed_id()) {
+            if let Some(var) = self.data.vars.get(&IdIdx::from_ident(&left.id)) {
                 // TODO: We don't need fn_local check
                 if var
                     .flags
@@ -724,7 +724,7 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if let Some(var) = self.data.vars.get(&i.hashed_id()) {
+            if let Some(var) = self.data.vars.get(&IdIdx::from_ident(i)) {
                 // technically this is inline
                 if !var.flags.intersects(
                     VarUsageInfoFlags::INLINE_PREVENTED.union(VarUsageInfoFlags::EXPORTED),
@@ -775,7 +775,7 @@ impl Optimizer<'_> {
             let can_remove_ident = self
                 .data
                 .vars
-                .get(&i.hashed_id())
+                .get(&IdIdx::from_ident(i))
                 .map(|v| {
                     (!v.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY)
                         && v.ref_count == 0
@@ -805,7 +805,7 @@ impl Optimizer<'_> {
         for d in var.decls.iter_mut() {
             if d.init.is_none() {
                 if let Pat::Ident(name) = &d.name {
-                    if let Some(usage) = self.data.vars.get_mut(&name.hashed_id()) {
+                    if let Some(usage) = self.data.vars.get_mut(&IdIdx::from_ident(name)) {
                         if usage.flags.contains(
                             VarUsageInfoFlags::IS_FN_LOCAL
                                 .union(VarUsageInfoFlags::DECLARED_AS_FN_PARAM),
@@ -865,7 +865,7 @@ impl Optimizer<'_> {
         let name = v.name.as_ident()?;
         let obj = v.init.as_mut()?.as_mut_object()?;
 
-        let usage = self.data.vars.get(&name.hashed_id())?;
+        let usage = self.data.vars.get(&IdIdx::from_ident(name))?;
 
         if usage.flags.intersects(
             VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY
@@ -903,7 +903,7 @@ impl Optimizer<'_> {
         let mut unknown_used_props = self
             .data
             .vars
-            .get(&name.hashed_id())
+            .get(&IdIdx::from_ident(name))
             .map(|v| v.accessed_props.clone())
             .unwrap_or_default();
 

@@ -1,6 +1,6 @@
 use swc_atoms::Atom;
 use swc_common::SyntaxContext;
-use swc_ecma_ast::{unsafe_id_from_ident, BindingIdent, HashedId, Id, Ident, UnsafeId};
+use swc_ecma_ast::{unsafe_id_from_ident, BindingIdent, Id, IdIdx, Ident, UnsafeId};
 
 pub trait IdentLike: Sized + Send + Sync + 'static {
     type Id;
@@ -95,11 +95,11 @@ impl IdentLike for UnsafeId {
     }
 }
 
-impl IdentLike for HashedId {
-    type Id = HashedId;
+impl IdentLike for IdIdx {
+    type Id = IdIdx;
 
     fn from_ident(i: &Ident) -> Self {
-        i.hashed_id()
+        IdIdx::from_ident(i)
     }
 
     fn to_id(&self) -> Self::Id {

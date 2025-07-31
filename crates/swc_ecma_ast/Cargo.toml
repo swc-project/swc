@@ -39,6 +39,7 @@ shrink-to-fit = [
 arbitrary        = { workspace = true, features = ["derive"], optional = true }
 bitflags         = { workspace = true }
 bytecheck        = { workspace = true, optional = true }
+hashbrown        = { workspace = true }
 is-macro         = { workspace = true }
 num-bigint       = { workspace = true, features = ["serde"] }
 once_cell        = { workspace = true }

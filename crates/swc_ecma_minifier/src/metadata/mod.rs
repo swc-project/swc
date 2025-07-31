@@ -49,7 +49,7 @@ struct InfoMarker<'a> {
     #[allow(dead_code)]
     options: Option<&'a CompressOptions>,
     pure_funcs: Option<FxHashSet<NodeIgnoringSpan<'a, Expr>>>,
-    pure_callee: FxHashSet<HashedId>,
+    pure_callee: FxHashSet<IdIdx>,
 
     comments: Option<&'a dyn Comments>,
     marks: Marks,
@@ -61,7 +61,8 @@ impl InfoMarker<'_> {
     fn is_pure_callee(&self, callee: &Expr) -> bool {
         match callee {
             Expr::Ident(callee) => {
-                if self.pure_callee.contains(&callee.hashed_id()) {
+                let id = IdIdx::from_ident(callee);
+                if self.pure_callee.contains(&id) {
                     return true;
                 }
             }
@@ -230,7 +231,7 @@ const NO_SIDE_EFFECTS_FLAG: &str = "NO_SIDE_EFFECTS";
 struct InfoCollector<'a> {
     comments: Option<&'a dyn Comments>,
 
-    pure_callees: &'a mut FxHashSet<HashedId>,
+    pure_callees: &'a mut FxHashSet<IdIdx>,
 }
 
 impl Visit for InfoCollector<'_> {
@@ -241,7 +242,8 @@ impl Visit for InfoCollector<'_> {
 
         if let Decl::Fn(f) = &f.decl {
             if has_flag(self.comments, f.function.span, NO_SIDE_EFFECTS_FLAG) {
-                self.pure_callees.insert(f.ident.hashed_id());
+                let id = IdIdx::from_ident(&f.ident);
+                self.pure_callees.insert(id);
             }
         }
     }
@@ -250,7 +252,8 @@ impl Visit for InfoCollector<'_> {
         f.visit_children_with(self);
 
         if has_flag(self.comments, f.function.span, NO_SIDE_EFFECTS_FLAG) {
-            self.pure_callees.insert(f.ident.hashed_id());
+            let id = IdIdx::from_ident(&f.ident);
+            self.pure_callees.insert(id);
         }
     }
 
@@ -259,7 +262,8 @@ impl Visit for InfoCollector<'_> {
 
         if let Some(ident) = &f.ident {
             if has_flag(self.comments, f.function.span, NO_SIDE_EFFECTS_FLAG) {
-                self.pure_callees.insert(ident.hashed_id());
+                let id = IdIdx::from_ident(ident);
+                self.pure_callees.insert(id);
             }
         }
     }
@@ -274,7 +278,8 @@ impl Visit for InfoCollector<'_> {
                         || has_flag(self.comments, v.span, NO_SIDE_EFFECTS_FLAG)
                         || has_flag(self.comments, init.span(), NO_SIDE_EFFECTS_FLAG)
                     {
-                        self.pure_callees.insert(ident.hashed_id());
+                        let id = IdIdx::from_ident(ident);
+                        self.pure_callees.insert(id);
                     }
                 }
             }

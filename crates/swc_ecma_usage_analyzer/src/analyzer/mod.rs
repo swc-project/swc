@@ -82,7 +82,7 @@ where
     scope: S::ScopeData,
     ctx: Ctx,
     expr_ctx: ExprCtx,
-    used_recursively: FxHashMap<HashedId, RecursiveUsage>,
+    used_recursively: FxHashMap<IdIdx, RecursiveUsage>,
 }
 
 impl<S> UsageAnalyzer<S>
@@ -150,7 +150,7 @@ where
             self.scope.mark_used_arguments();
         }
 
-        let id = i.hashed_id();
+        let id = IdIdx::from_ident(i);
 
         if let Some(recr) = self.used_recursively.get(&id) {
             if let RecursiveUsage::Var { can_ignore: false } = recr {
@@ -167,7 +167,6 @@ where
     fn report_assign_pat(&mut self, p: &Pat, is_read_modify: bool) {
         for id in find_pat_ids(p) {
             // It's hard to determined the type of pat assignment
-            let id = hashed_id_from_id(&id);
             self.data
                 .report_assign(self.ctx, id, is_read_modify, Value::Unknown)
         }
@@ -175,8 +174,9 @@ where
         if let Pat::Expr(e) = p {
             match &**e {
                 Expr::Ident(i) => {
+                    let id = IdIdx::from_ident(i);
                     self.data
-                        .report_assign(self.ctx, i.hashed_id(), is_read_modify, Value::Unknown)
+                        .report_assign(self.ctx, id, is_read_modify, Value::Unknown)
                 }
                 _ => self.mark_mutation_if_member(e.as_member()),
             }
@@ -185,7 +185,8 @@ where
 
     fn report_assign_expr_if_ident(&mut self, e: Option<&Ident>, is_op: bool, ty: Value<Type>) {
         if let Some(i) = e {
-            self.data.report_assign(self.ctx, i.hashed_id(), is_op, ty)
+            let id = IdIdx::from_ident(i);
+            self.data.report_assign(self.ctx, id, is_op, ty)
         }
     }
 
@@ -222,7 +223,8 @@ where
     fn mark_mutation_if_member(&mut self, e: Option<&MemberExpr>) {
         if let Some(m) = e {
             for_each_id_ref_in_expr(&m.obj, &mut |id| {
-                self.data.mark_property_mutation(id.hashed_id())
+                let id = IdIdx::from_ident(id);
+                self.data.mark_property_mutation(id)
             });
         }
     }
@@ -286,7 +288,6 @@ where
         match &n.left {
             AssignTarget::Pat(p) => {
                 for id in find_pat_ids(p) {
-                    let id = hashed_id_from_id(&id);
                     self.data.report_assign(
                         self.ctx,
                         id,
@@ -307,7 +308,7 @@ where
 
         if n.op == op!("=") {
             let left = match &n.left {
-                AssignTarget::Simple(left) => left.leftmost().as_deref().map(Ident::hashed_id),
+                AssignTarget::Simple(left) => left.leftmost(),
                 AssignTarget::Pat(..) => None,
             };
 
@@ -322,6 +323,7 @@ where
                     },
                 ) {
                     if v.is_none() {
+                        let left = IdIdx::from_ident(&left);
                         v = Some(self.data.var_or_default(left));
                     }
 
@@ -365,7 +367,8 @@ where
         } else {
             if e.op == op!("in") {
                 for_each_id_ref_in_expr(&e.right, &mut |obj| {
-                    let var = self.data.var_or_default(obj.hashed_id());
+                    let id = IdIdx::from_ident(obj);
+                    let var = self.data.var_or_default(id);
                     var.mark_used_as_ref();
 
                     match &*e.left {
@@ -426,9 +429,8 @@ where
 
         if let Callee::Expr(callee) = &n.callee {
             for_each_id_ref_in_expr(callee, &mut |i| {
-                self.data
-                    .var_or_default(i.hashed_id())
-                    .mark_used_as_callee();
+                let id = IdIdx::from_ident(i);
+                self.data.var_or_default(id).mark_used_as_callee();
             });
 
             match &**callee {
@@ -441,8 +443,9 @@ where
 
                             if is_safe_to_access_prop(&arg.expr) {
                                 if let Pat::Ident(id) = &p.pat {
+                                    let id = IdIdx::from_ident(id);
                                     self.data
-                                        .var_or_default(id.hashed_id())
+                                        .var_or_default(id)
                                         .mark_initialized_with_safe_value();
                                 }
                             }
@@ -459,8 +462,9 @@ where
 
                             if is_safe_to_access_prop(&arg.expr) {
                                 if let Pat::Ident(id) = &p {
+                                    let id = IdIdx::from_ident(id);
                                     self.data
-                                        .var_or_default(id.hashed_id())
+                                        .var_or_default(id)
                                         .mark_initialized_with_safe_value();
                                 }
                             }
@@ -487,7 +491,8 @@ where
             if call_may_mutate {
                 for a in &n.args {
                     for_each_id_ref_in_expr(&a.expr, &mut |id| {
-                        self.data.mark_property_mutation(id.hashed_id());
+                        let id = IdIdx::from_ident(id);
+                        self.data.mark_property_mutation(id);
                     });
                 }
             }
@@ -495,7 +500,8 @@ where
 
         for arg in &n.args {
             for_each_id_ref_in_expr(&arg.expr, &mut |arg| {
-                self.data.var_or_default(arg.hashed_id()).mark_used_as_arg();
+                let id = IdIdx::from_ident(arg);
+                self.data.var_or_default(id).mark_used_as_arg();
             })
         }
 
@@ -506,7 +512,8 @@ where
                 }
                 Expr::Member(m) if !m.obj.is_ident() => {
                     for_each_id_ref_in_expr(&m.obj, &mut |id| {
-                        self.data.var_or_default(id.hashed_id()).mark_used_as_ref()
+                        let id = IdIdx::from_ident(id);
+                        self.data.var_or_default(id).mark_used_as_ref()
                     })
                 }
                 _ => {}
@@ -653,12 +660,14 @@ where
         match d {
             DefaultDecl::Class(c) => {
                 if let Some(i) = &c.ident {
-                    self.data.var_or_default(i.hashed_id()).prevent_inline();
+                    let id = IdIdx::from_ident(i);
+                    self.data.var_or_default(id).prevent_inline();
                 }
             }
             DefaultDecl::Fn(f) => {
                 if let Some(i) = &f.ident {
-                    self.data.var_or_default(i.hashed_id()).prevent_inline();
+                    let id = IdIdx::from_ident(i);
+                    self.data.var_or_default(id).prevent_inline();
                 }
             }
             _ => {}
@@ -685,20 +694,17 @@ where
 
         match &n.decl {
             Decl::Class(c) => {
-                self.data
-                    .var_or_default(c.ident.hashed_id())
-                    .prevent_inline();
+                let id = IdIdx::from_ident(&c.ident);
+                self.data.var_or_default(id).prevent_inline();
             }
             Decl::Fn(f) => {
-                self.data
-                    .var_or_default(f.ident.hashed_id())
-                    .prevent_inline();
+                let id = IdIdx::from_ident(&f.ident);
+                self.data.var_or_default(id).prevent_inline();
             }
             Decl::Var(v) => {
                 let ids = find_pat_ids(v);
 
                 for id in ids {
-                    let id = hashed_id_from_id(&id);
                     self.data.var_or_default(id).mark_as_exported();
                 }
             }
@@ -720,7 +726,8 @@ where
         match &n.orig {
             ModuleExportName::Ident(orig) => {
                 self.report_usage(orig);
-                let v = self.data.var_or_default(orig.hashed_id());
+                let id = IdIdx::from_ident(orig);
+                let v = self.data.var_or_default(id);
                 v.prevent_inline();
                 v.mark_used_as_ref();
             }
@@ -771,9 +778,8 @@ where
 
         if e.spread.is_some() {
             for_each_id_ref_in_expr(&e.expr, &mut |i| {
-                self.data
-                    .var_or_default(i.hashed_id())
-                    .mark_indexed_with_dynamic_key();
+                let id = IdIdx::from_ident(i);
+                self.data.var_or_default(id).mark_indexed_with_dynamic_key();
             });
         }
     }
@@ -789,13 +795,11 @@ where
         self.with_ctx(ctx)
             .declare_decl(&n.ident, Some(Value::Known(Type::Obj)), None, true);
 
+        let id = IdIdx::from_ident(&n.ident);
         if n.function.body.is_empty() {
-            self.data
-                .var_or_default(n.ident.hashed_id())
-                .mark_as_pure_fn();
+            self.data.var_or_default(id).mark_as_pure_fn();
         }
 
-        let id = n.ident.hashed_id();
         self.used_recursively.insert(id, RecursiveUsage::FnOrClass);
         n.visit_children_with(self);
         self.used_recursively.remove(&id);
@@ -811,7 +815,7 @@ where
                 },
             ) {
                 if v.is_none() {
-                    v = Some(self.data.var_or_default(n.ident.hashed_id()));
+                    v = Some(self.data.var_or_default(IdIdx::from_ident(&n.ident)));
                 }
 
                 v.as_mut().unwrap().add_infects_to(id);
@@ -826,11 +830,11 @@ where
     fn visit_fn_expr(&mut self, n: &FnExpr) {
         if let Some(n_id) = &n.ident {
             self.data
-                .var_or_default(n_id.hashed_id())
+                .var_or_default(IdIdx::from_ident(n_id))
                 .mark_declared_as_fn_expr();
 
             self.used_recursively
-                .insert(n_id.hashed_id(), RecursiveUsage::FnOrClass);
+                .insert(IdIdx::from_ident(n_id), RecursiveUsage::FnOrClass);
 
             n.visit_children_with(self);
 
@@ -845,13 +849,13 @@ where
                     },
                 ) {
                     if v.is_none() {
-                        v = Some(self.data.var_or_default(n_id.hashed_id()));
+                        v = Some(self.data.var_or_default(IdIdx::from_ident(n_id)));
                     }
 
                     v.as_mut().unwrap().add_infects_to(id);
                 }
             }
-            self.used_recursively.remove(&n_id.hashed_id());
+            self.used_recursively.remove(&IdIdx::from_ident(n_id));
         } else {
             n.visit_children_with(self);
         }
@@ -1011,9 +1015,8 @@ where
 
         if let JSXElementName::Ident(i) = n {
             self.with_ctx(ctx).report_usage(i);
-            self.data
-                .var_or_default(i.hashed_id())
-                .mark_used_as_jsx_callee();
+            let id = IdIdx::from_ident(i);
+            self.data.var_or_default(id).mark_used_as_jsx_callee();
         }
     }
 
@@ -1032,7 +1035,8 @@ where
         }
 
         for_each_id_ref_in_expr(&e.obj, &mut |obj| {
-            let v = self.data.var_or_default(obj.hashed_id());
+            let id = IdIdx::from_ident(obj);
+            let v = self.data.var_or_default(id);
             v.mark_has_property_access();
 
             if let MemberProp::Computed(prop) = &e.prop {
@@ -1057,7 +1061,7 @@ where
             match &*member_expr.obj {
                 Expr::Member(member_expr) => is_root_of_member_expr_declared(member_expr, data),
                 Expr::Ident(ident) => data
-                    .get_var_data(ident.hashed_id())
+                    .get_var_data(IdIdx::from_ident(ident))
                     .map(|var| var.is_declared())
                     .unwrap_or(false),
 
@@ -1116,7 +1120,8 @@ where
                 if let Some(args) = &n.args {
                     for a in args {
                         for_each_id_ref_in_expr(&a.expr, &mut |id| {
-                            self.data.mark_property_mutation(id.hashed_id());
+                            let id = IdIdx::from_ident(id);
+                            self.data.mark_property_mutation(id);
                         });
                     }
                 }
@@ -1247,9 +1252,8 @@ where
         e.visit_children_with(self);
 
         for_each_id_ref_in_expr(&e.expr, &mut |i| {
-            self.data
-                .var_or_default(i.hashed_id())
-                .mark_indexed_with_dynamic_key();
+            let id = IdIdx::from_ident(i);
+            self.data.var_or_default(id).mark_indexed_with_dynamic_key();
         });
     }
 
@@ -1401,7 +1405,7 @@ where
                     },
                 ) {
                     if v.is_none() {
-                        v = Some(self.data.var_or_default(var.hashed_id()));
+                        v = Some(self.data.var_or_default(IdIdx::from_ident(var)));
                     }
 
                     v.as_mut().unwrap().add_infects_to(id);
@@ -1462,7 +1466,7 @@ where
                         definite: false,
                         ..
                     } => {
-                        let id = id.hashed_id();
+                        let id = IdIdx::from_ident(id);
                         self.used_recursively.insert(
                             id,
                             RecursiveUsage::Var {
@@ -1479,7 +1483,9 @@ where
                         init: None,
                         ..
                     } => {
-                        self.data.var_or_default(id.hashed_id()).mark_as_lazy_init();
+                        self.data
+                            .var_or_default(IdIdx::from_ident(id))
+                            .mark_as_lazy_init();
                         return;
                     }
                     _ => (),

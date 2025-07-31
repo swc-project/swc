@@ -183,7 +183,7 @@ impl Optimizer<'_> {
             if self
                 .data
                 .vars
-                .get(&ident.hashed_id())
+                .get(&IdIdx::from_ident(ident))
                 .filter(|usage| usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY))
                 .is_some()
             {
@@ -202,7 +202,7 @@ impl Optimizer<'_> {
                         if param.sym == "arguments" {
                             continue;
                         }
-                        if let Some(usage) = self.data.vars.get(&param.hashed_id()) {
+                        if let Some(usage) = self.data.vars.get(&IdIdx::from_ident(&param.id)) {
                             if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                 continue;
                             }
@@ -225,7 +225,7 @@ impl Optimizer<'_> {
                                     param.id.sym,
                                     param.id.ctxt
                                 );
-                                vars.insert(param.hashed_id(), arg.clone());
+                                vars.insert(IdIdx::from_ident(param), arg.clone());
                             } else {
                                 trace_op!(
                                     "iife: Trying to inline argument ({}{:?}) (not inlinable)",
@@ -240,13 +240,14 @@ impl Optimizer<'_> {
                                 param.id.ctxt
                             );
 
-                            vars.insert(param.hashed_id(), Expr::undefined(param.span()));
+                            vars.insert(IdIdx::from_ident(param), Expr::undefined(param.span()));
                         }
                     }
 
                     Pat::Rest(rest_pat) => {
                         if let Pat::Ident(param_id) = &*rest_pat.arg {
-                            if let Some(usage) = self.data.vars.get(&param_id.hashed_id()) {
+                            let id = IdIdx::from_ident(param_id);
+                            if let Some(usage) = self.data.vars.get(&id) {
                                 if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                     || usage.ref_count != 1
                                     || !usage.flags.contains(VarUsageInfoFlags::HAS_PROPERTY_ACCESS)
@@ -269,7 +270,7 @@ impl Optimizer<'_> {
                                 }
 
                                 vars.insert(
-                                    param_id.hashed_id(),
+                                    id,
                                     ArrayLit {
                                         span: param_id.span,
                                         elems: e
@@ -350,10 +351,11 @@ impl Optimizer<'_> {
             ident: Some(ident), ..
         }) = callee
         {
+            let id = IdIdx::from_ident(ident);
             if self
                 .data
                 .vars
-                .get(&ident.hashed_id())
+                .get(&id)
                 .filter(|usage| usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY))
                 .is_some()
             {
@@ -367,7 +369,8 @@ impl Optimizer<'_> {
             // We check for parameter and argument
             for (idx, param) in params.iter_mut().enumerate() {
                 if let Pat::Ident(param) = &mut **param {
-                    if let Some(usage) = self.data.vars.get(&param.hashed_id()) {
+                    let id = IdIdx::from_ident(&param.id);
+                    if let Some(usage) = self.data.vars.get(&id) {
                         if usage.ref_count == 0 {
                             removed.push(idx);
                         }
@@ -413,7 +416,7 @@ impl Optimizer<'_> {
     pub(super) fn inline_vars_in_node<N>(
         &mut self,
         n: &mut N,
-        mut vars: FxHashMap<HashedId, Box<Expr>>,
+        mut vars: FxHashMap<IdIdx, Box<Expr>>,
     ) where
         N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
     {
@@ -509,7 +512,7 @@ impl Optimizer<'_> {
                     if self
                         .data
                         .vars
-                        .get(&i.hashed_id())
+                        .get(&IdIdx::from_ident(i))
                         .filter(|usage| usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY))
                         .is_some()
                     {
@@ -753,7 +756,7 @@ impl Optimizer<'_> {
         // Don't create top-level variables.
         if !self.may_add_ident() {
             for pid in param_ids.clone() {
-                if let Some(usage) = self.data.vars.get(&pid.hashed_id()) {
+                if let Some(usage) = self.data.vars.get(&IdIdx::from_ident(pid)) {
                     if usage.ref_count > 1
                         || usage.assign_count > 0
                         || usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED)
@@ -801,7 +804,7 @@ impl Optimizer<'_> {
                         match &decl.name {
                             Pat::Ident(id) if id.sym == "arguments" => return false,
                             Pat::Ident(id) => {
-                                if self.vars.has_pending_inline_for(id.hashed_id()) {
+                                if self.vars.has_pending_inline_for(IdIdx::from_ident(id)) {
                                     log_abort!(
                                         "iife: [x] Cannot inline because pending inline of `{}`",
                                         id.id
@@ -899,10 +902,10 @@ impl Optimizer<'_> {
 
         if self.ctx.bit_ctx.contains(BitCtx::ExecutedMultipleTime) {
             if params_len != 0 {
-                let captured = idents_captured_by::<_, HashedId>(body);
+                let captured = idents_captured_by::<_, IdIdx>(body);
 
                 for param in param_ids {
-                    if captured.contains(&param.hashed_id()) {
+                    if captured.contains(&IdIdx::from_ident(param)) {
                         log_abort!(
                             "iife: [x] Cannot inline because of the capture of `{}`",
                             param
@@ -945,7 +948,7 @@ impl Optimizer<'_> {
             let no_arg = arg.is_none();
 
             if let Some(arg) = arg {
-                let hashed_id = param.hashed_id();
+                let hashed_id = IdIdx::from_ident(param);
                 if let Some(usage) = self.data.vars.get_mut(&hashed_id) {
                     if usage.ref_count == 1
                         && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
@@ -1003,7 +1006,7 @@ impl Optimizer<'_> {
             let mut arg = args.get_mut(idx).map(|arg| arg.expr.take());
 
             if let Some(arg) = &mut arg {
-                let hashed_id = param.hashed_id();
+                let hashed_id = IdIdx::from_ident(param);
                 if let Some(usage) = self.data.vars.get_mut(&hashed_id) {
                     if usage.ref_count == 1
                         && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
@@ -1588,7 +1591,7 @@ impl Optimizer<'_> {
                     let mut substitutions = FxHashMap::default();
                     for (param, arg) in arrow.params.iter().zip(&call.args) {
                         if let Pat::Ident(ident) = param {
-                            substitutions.insert(ident.hashed_id(), arg.expr.clone());
+                            substitutions.insert(IdIdx::from_ident(ident), arg.expr.clone());
                         }
                     }
 

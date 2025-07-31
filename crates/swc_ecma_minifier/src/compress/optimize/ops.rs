@@ -18,7 +18,8 @@ impl Optimizer<'_> {
         match e.op {
             op!("===") | op!("==") | op!("!==") | op!("!=") => {
                 if e.left.is_ident() && e.left.eq_ignore_span(&e.right) {
-                    let hashed_id = e.left.as_ident().unwrap().hashed_id();
+                    let e_left_ident = e.left.as_ident().unwrap();
+                    let hashed_id = IdIdx::from_ident(e_left_ident);
                     if let Some(t) = self.typeofs.get(&hashed_id) {
                         match &**t {
                             "object" | "function" => {
@@ -249,7 +250,7 @@ impl Optimizer<'_> {
         {
             match &**arg {
                 Expr::Ident(arg) => {
-                    if let Some(value) = self.typeofs.get(&arg.hashed_id()).cloned() {
+                    if let Some(value) = self.typeofs.get(&IdIdx::from_ident(arg)).cloned() {
                         report_change!(
                             "Converting typeof of variable to literal as we know the value"
                         );

@@ -77,7 +77,7 @@ impl Optimizer<'_> {
             Pat::Ident(i) => self
                 .data
                 .vars
-                .get(&i.id.hashed_id())
+                .get(&IdIdx::from_ident(&i.id))
                 .map(|v| v.declared_count >= 2)
                 .unwrap_or(false),
             _ => true,

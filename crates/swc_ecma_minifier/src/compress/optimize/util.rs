@@ -219,13 +219,13 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
 /// handle all edge cases and this type is the complement for it.
 #[derive(Clone, Copy)]
 pub(crate) struct Finalizer<'a> {
-    pub simple_functions: &'a FxHashMap<HashedId, Box<Expr>>,
-    pub lits: &'a FxHashMap<HashedId, Box<Expr>>,
-    pub lits_for_cmp: &'a FxHashMap<HashedId, Box<Expr>>,
-    pub lits_for_array_access: &'a FxHashMap<HashedId, Box<Expr>>,
-    pub hoisted_props: &'a FxHashMap<(HashedId, Atom), Ident>,
+    pub simple_functions: &'a FxHashMap<IdIdx, Box<Expr>>,
+    pub lits: &'a FxHashMap<IdIdx, Box<Expr>>,
+    pub lits_for_cmp: &'a FxHashMap<IdIdx, Box<Expr>>,
+    pub lits_for_array_access: &'a FxHashMap<IdIdx, Box<Expr>>,
+    pub hoisted_props: &'a FxHashMap<(IdIdx, Atom), Ident>,
 
-    pub vars_to_remove: &'a FxHashSet<HashedId>,
+    pub vars_to_remove: &'a FxHashSet<IdIdx>,
 
     pub changed: bool,
 }
@@ -241,7 +241,7 @@ impl Parallel for Finalizer<'_> {
 }
 
 impl Finalizer<'_> {
-    fn var(&mut self, i: HashedId, mode: FinalizerMode) -> Option<Box<Expr>> {
+    fn var(&mut self, i: IdIdx, mode: FinalizerMode) -> Option<Box<Expr>> {
         let mut e = match mode {
             FinalizerMode::Callee => {
                 let mut value = self.simple_functions.get(&i).cloned()?;
@@ -288,7 +288,7 @@ impl Finalizer<'_> {
 
     fn check(&mut self, e: &mut Expr, mode: FinalizerMode) {
         if let Expr::Ident(i) = e {
-            if let Some(new) = self.var(i.hashed_id(), mode) {
+            if let Some(new) = self.var(IdIdx::from_ident(i), mode) {
                 debug!("multi-replacer: Replaced `{}`", i);
                 self.changed = true;
 
@@ -341,7 +341,7 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::Ident(i) => {
-                if let Some(expr) = self.lits.get(&i.hashed_id()) {
+                if let Some(expr) = self.lits.get(&IdIdx::from_ident(i)) {
                     *n = *expr.clone();
                     return;
                 }
@@ -358,7 +358,10 @@ impl VisitMut for Finalizer<'_> {
                         _ => return,
                     };
 
-                    if let Some(ident) = self.hoisted_props.get(&(obj.hashed_id(), sym.clone())) {
+                    if let Some(ident) = self
+                        .hoisted_props
+                        .get(&(IdIdx::from_ident(obj), sym.clone()))
+                    {
                         self.changed = true;
                         *n = ident.clone().into();
                         return;
@@ -442,7 +445,7 @@ impl VisitMut for Finalizer<'_> {
 
         if n.init.is_none() {
             if let Pat::Ident(i) = &n.name {
-                if self.vars_to_remove.contains(&i.hashed_id()) {
+                if self.vars_to_remove.contains(&IdIdx::from_ident(i)) {
                     n.name.take();
                 }
             }
@@ -459,7 +462,7 @@ impl VisitMut for Finalizer<'_> {
         n.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = n {
-            if let Some(expr) = self.lits.get(&i.hashed_id()) {
+            if let Some(expr) = self.lits.get(&IdIdx::from_ident(i)) {
                 *n = Prop::KeyValue(KeyValueProp {
                     key: i.take().into(),
                     value: expr.clone(),
@@ -471,13 +474,13 @@ impl VisitMut for Finalizer<'_> {
 }
 
 pub(crate) struct NormalMultiReplacer<'a> {
-    pub vars: &'a mut FxHashMap<HashedId, Box<Expr>>,
+    pub vars: &'a mut FxHashMap<IdIdx, Box<Expr>>,
     pub changed: bool,
 }
 
 impl<'a> NormalMultiReplacer<'a> {
     /// `worked` will be changed to `true` if any replacement is done
-    pub fn new(vars: &'a mut FxHashMap<HashedId, Box<Expr>>) -> Self {
+    pub fn new(vars: &'a mut FxHashMap<IdIdx, Box<Expr>>) -> Self {
         NormalMultiReplacer {
             vars,
             changed: false,
@@ -485,7 +488,7 @@ impl<'a> NormalMultiReplacer<'a> {
     }
 
     fn var(&mut self, i: &Ident) -> Option<Box<Expr>> {
-        let hashed_id = i.hashed_id();
+        let hashed_id = IdIdx::from_ident(i);
         let mut e = self.vars.remove(&hashed_id)?;
 
         e.visit_mut_children_with(self);

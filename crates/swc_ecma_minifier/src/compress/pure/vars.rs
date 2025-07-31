@@ -165,7 +165,7 @@ impl Pure<'_> {
             }
 
             match &v.name {
-                Pat::Ident(i) => found.insert(i.hashed_id()),
+                Pat::Ident(i) => found.insert(IdIdx::from_ident(i)),
                 _ => true,
             }
         })

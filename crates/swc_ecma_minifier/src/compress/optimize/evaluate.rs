@@ -42,7 +42,7 @@ impl Optimizer<'_> {
         }) = e
         {
             if let Expr::Ident(obj) = &**obj {
-                let hashed_id = obj.hashed_id();
+                let hashed_id = IdIdx::from_ident(obj);
                 let metadata = *self.functions.get(&hashed_id)?;
                 let usage = self.data.vars.get(&hashed_id)?;
 
@@ -101,7 +101,7 @@ impl Optimizer<'_> {
             if self
                 .data
                 .vars
-                .get(&i.hashed_id())
+                .get(&IdIdx::from_ident(i))
                 .map(|var| var.flags.contains(VarUsageInfoFlags::DECLARED))
                 .unwrap_or(false)
             {
