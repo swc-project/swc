@@ -58,7 +58,7 @@ codspeed-criterion-compat = { workspace = true }
 pretty_assertions         = { workspace = true }
 
 swc_ecma_codegen = { version = "16.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_parser  = { version = "22.0.2", path = "../swc_ecma_parser" }
+swc_ecma_parser  = { version = "22.0.3", path = "../swc_ecma_parser" }
 testing          = { version = "15.0.0", path = "../testing" }
 
 [[bench]]

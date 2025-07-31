@@ -1989,7 +1989,7 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hstr"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "compact_str",
  "criterion",
@@ -4710,7 +4710,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "34.0.3"
+version = "34.0.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5327,7 +5327,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "22.0.2"
+version = "22.0.3"
 dependencies = [
  "codspeed-criterion-compat",
  "either",
