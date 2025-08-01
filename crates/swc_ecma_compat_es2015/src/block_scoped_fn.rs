@@ -39,7 +39,7 @@ impl VisitMut for BlockScopedFns {
             }
 
             if let Stmt::Decl(Decl::Fn(decl)) = stmt {
-                if IdentUsageFinder::find(&decl.ident.to_id(), &decl.function) {
+                if IdentUsageFinder::find(&decl.ident, &decl.function) {
                     extra_stmts.push(decl.into());
                     continue;
                 }

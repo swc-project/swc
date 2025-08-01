@@ -795,7 +795,7 @@ impl Pure<'_> {
 
             if let AssignTarget::Simple(SimpleAssignTarget::Ident(a_left)) = a_left {
                 if let Expr::Ident(b_id) = b {
-                    if b_id.to_id() == a_left.id.to_id() {
+                    if b_id.ctxt == a_left.id.ctxt && b_id.sym == a_left.id.sym {
                         report_change!("evaluate: Trivial: `{}`", a_left.id);
                         *b = *a_right.clone();
                         self.changed = true;

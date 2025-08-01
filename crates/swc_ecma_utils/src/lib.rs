@@ -118,7 +118,7 @@ where
     visitor.found
 }
 
-pub fn contains_ident_ref<'a, N>(body: &N, ident: &'a Id) -> bool
+pub fn contains_ident_ref<'a, N>(body: &N, ident: &'a Ident) -> bool
 where
     N: VisitWith<IdentRefFinder<'a>>,
 {
@@ -131,7 +131,7 @@ where
 }
 
 pub struct IdentRefFinder<'a> {
-    ident: &'a Id,
+    ident: &'a Ident,
     found: bool,
 }
 
@@ -142,7 +142,7 @@ impl Visit for IdentRefFinder<'_> {
         e.visit_children_with(self);
 
         match *e {
-            Expr::Ident(ref i) if i.sym == self.ident.0 && i.ctxt == self.ident.1 => {
+            Expr::Ident(ref i) if i.ctxt == self.ident.ctxt && i.sym == self.ident.sym => {
                 self.found = true;
             }
             _ => {}
@@ -1707,7 +1707,7 @@ impl VisitMut for DropSpan {
 
 /// Finds usage of `ident`
 pub struct IdentUsageFinder<'a> {
-    ident: &'a Id,
+    ident: &'a Ident,
     found: bool,
 }
 
@@ -1730,7 +1730,7 @@ impl Visit for IdentUsageFinder<'_> {
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, i: &Ident) {
-        if i.ctxt == self.ident.1 && i.sym == self.ident.0 {
+        if i.ctxt == self.ident.ctxt && i.sym == self.ident.sym {
             self.found = true;
         }
     }
@@ -1781,7 +1781,7 @@ impl Visit for IdentUsageFinder<'_> {
 }
 
 impl<'a> IdentUsageFinder<'a> {
-    pub fn find<N>(ident: &'a Id, node: &N) -> bool
+    pub fn find<N>(ident: &'a Ident, node: &N) -> bool
     where
         N: VisitWith<Self>,
     {
@@ -2382,7 +2382,7 @@ impl VisitMut for IdentRenamer<'_> {
                 let orig = p.key.clone();
                 p.key.visit_mut_with(self);
 
-                if orig.to_id() == p.key.to_id() {
+                if orig.ctxt == p.key.ctxt && orig.sym == p.key.sym {
                     return;
                 }
 
@@ -3698,8 +3698,8 @@ mod ident_usage_finder_parallel_tests {
 
     use super::*;
 
-    fn make_id(name: &str) -> Id {
-        (Atom::from(name), SyntaxContext::empty())
+    fn make_id(name: &str) -> Ident {
+        Ident::new(Atom::from(name), Span::dummy(), SyntaxContext::empty())
     }
 
     #[test]

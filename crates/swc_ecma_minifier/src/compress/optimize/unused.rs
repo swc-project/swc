@@ -836,11 +836,11 @@ impl Optimizer<'_> {
         }
 
         if let Some(Expr::Fn(f)) = v.init.as_deref_mut() {
-            if f.ident.is_none() {
+            let Some(f_ident) = f.ident.as_ref() else {
                 return;
-            }
+            };
 
-            if contains_ident_ref(&f.function.body, &f.ident.as_ref().unwrap().to_id()) {
+            if contains_ident_ref(&f.function.body, f_ident) {
                 return;
             }
 
