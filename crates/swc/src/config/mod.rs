@@ -188,6 +188,38 @@ pub struct Options {
 
     #[serde(default)]
     pub experimental: ExperimentalOptions,
+
+    #[serde(skip, default)]
+    pub runtime_options: RuntimeOptions,
+}
+
+#[derive(Clone, Debug)]
+pub struct RuntimeOptions {
+    #[cfg(feature = "plugin")]
+    pub(crate) plugin_runtime: Option<Arc<dyn swc_plugin_runner::runtime::Runtime>>,
+}
+
+impl RuntimeOptions {
+    #[cfg(feature = "plugin")]
+    pub fn plugin_runtime(
+        mut self,
+        plugin_runtime: Arc<dyn swc_plugin_runner::runtime::Runtime>,
+    ) -> Self {
+        self.plugin_runtime = Some(plugin_runtime);
+        self
+    }
+}
+
+#[allow(clippy::derivable_impls)]
+impl Default for RuntimeOptions {
+    fn default() -> Self {
+        RuntimeOptions {
+            #[cfg(all(feature = "plugin", feature = "plugin_backend_wasmer"))]
+            plugin_runtime: Some(Arc::new(swc_plugin_backend_wasmer::WasmerRuntime)),
+            #[cfg(all(feature = "plugin", not(feature = "plugin_backend_wasmer")))]
+            plugin_runtime: None,
+        }
+    }
 }
 
 #[derive(Debug, Clone, Default, Deserialize, Merge)]
@@ -671,10 +703,17 @@ impl Options {
             // 2. embedded runtime can compiles & execute wasm
             #[cfg(all(feature = "plugin", not(target_arch = "wasm32")))]
             {
+                let plugin_runtime = self
+                    .runtime_options
+                    .plugin_runtime
+                    .clone()
+                    .context("plugin runtime not configured")?;
+
                 if let Some(plugins) = &experimental.plugins {
                     crate::plugin::compile_wasm_plugins(
                         experimental.cache_root.as_deref(),
                         plugins,
+                        &*plugin_runtime,
                     )
                     .context("Failed to compile wasm plugins")?;
                 }
@@ -686,6 +725,7 @@ impl Options {
                     comments.cloned(),
                     cm.clone(),
                     unresolved_mark,
+                    plugin_runtime,
                 ))
             }
 

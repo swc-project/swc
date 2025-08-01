@@ -290,7 +290,7 @@ jobs:
           key: swc-exec-cache-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
 
       - name: Run cargo test
-        if: matrix.settings.crate != 'swc_plugin_runner' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm'
+        if: matrix.settings.crate != 'swc_plugin_backend_wasmer' && matrix.settings.crate != 'swc_ecma_parser' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm'
         run: |
           cargo test -p ${{ matrix.settings.crate }}
 
@@ -311,10 +311,10 @@ jobs:
           cargo test --manifest-path ./bindings/swc_cli/Cargo.toml --features plugin
 
       - name: Run cargo test (plugin)
-        if: matrix.settings.crate == 'swc_plugin_runner'
+        if: matrix.settings.crate == 'swc_plugin_backend_wasmer'
         run: |
           # export CARGO_TARGET_DIR=$(pwd)/target
-          cargo test -p swc_plugin_runner --release --features plugin_transform_schema_v1 --features rkyv-impl --features ecma --features css
+          cargo test -p swc_plugin_backend_wasmer --release
 
       - name: Run cargo test (swc_ecma_minifier)
         if: matrix.settings.crate == 'swc_ecma_minifier'

@@ -1,4 +1,3 @@
-#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
 use std::{
     env, fs,
     path::{Path, PathBuf},
@@ -9,11 +8,15 @@ use std::{
 use anyhow::{anyhow, Error};
 use rustc_hash::FxHashMap;
 use serde_json::json;
-#[cfg(feature = "__rkyv")]
-use swc_common::plugin::serialized::PluginSerializedBytes;
-use swc_common::{plugin::metadata::TransformPluginMetadataContext, sync::Lazy, FileName, Mark};
+use swc_common::{
+    plugin::{metadata::TransformPluginMetadataContext, serialized::PluginSerializedBytes},
+    sync::Lazy,
+    FileName, Mark,
+};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
+use swc_plugin_backend_wasmer::WasmerRuntime;
+use swc_plugin_runner::runtime::Runtime;
 use testing::CARGO_TARGET_DIR;
 use tracing::info;
 
@@ -48,7 +51,6 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     Err(anyhow!("Could not find built plugin"))
 }
 
-#[cfg(feature = "__rkyv")]
 static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes> =
     Lazy::new(|| {
         let path = build_plugin(
@@ -60,20 +62,17 @@ static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPlugin
         .unwrap();
 
         let raw_module_bytes = std::fs::read(&path).expect("Should able to read plugin bytes");
-        let store = wasmer::Store::default();
-        let module = wasmer::Module::new(&store, raw_module_bytes).unwrap();
+        let cache = WasmerRuntime.prepare_module(&raw_module_bytes).unwrap();
 
         swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes::new(
             path.as_os_str()
                 .to_str()
                 .expect("Should able to get path")
                 .to_string(),
-            module,
-            store,
+            cache,
         )
     });
 
-#[cfg(feature = "__rkyv")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.ts")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/*.tsx")]
 fn internal(input: PathBuf) {
@@ -117,9 +116,9 @@ fn internal(input: PathBuf) {
                     Some(experimental_metadata),
                 )),
                 None,
-                Box::new(PLUGIN_BYTES.clone()),
+                Box::new(PLUGIN_BYTES.clone_module(&WasmerRuntime)),
                 Some(json!({ "pluginConfig": "testValue" })),
-                None,
+                Arc::new(WasmerRuntime),
             );
 
             info!("Created transform executor");
@@ -176,9 +175,9 @@ fn internal(input: PathBuf) {
                     Some(experimental_metadata.clone()),
                 )),
                 None,
-                Box::new(PLUGIN_BYTES.clone()),
+                Box::new(PLUGIN_BYTES.clone_module(&WasmerRuntime)),
                 Some(json!({ "pluginConfig": "testValue" })),
-                None,
+                Arc::new(WasmerRuntime),
             );
 
             serialized_program = plugin_transform_executor
@@ -195,9 +194,9 @@ fn internal(input: PathBuf) {
                     Some(experimental_metadata),
                 )),
                 None,
-                Box::new(PLUGIN_BYTES.clone()),
+                Box::new(PLUGIN_BYTES.clone_module(&WasmerRuntime)),
                 Some(json!({ "pluginConfig": "testValue" })),
-                None,
+                Arc::new(WasmerRuntime),
             );
 
             serialized_program = plugin_transform_executor

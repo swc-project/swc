@@ -13,24 +13,11 @@ bench   = false
 doctest = false
 
 [features]
-default = ["filesystem_cache", "plugin_transform_host_native"]
-plugin_transform_host_js = [
-  "wasmer/js-default",
-  "wasmer-wasix/js-default",
-  "wasmer-compiler-cranelift/wasm",
-]
-plugin_transform_host_native = [
-  "wasmer/cranelift",
-  "wasmer/sys",
-  "wasmer-wasix/sys-minimal",
-  "wasmer-wasix/host-fs",
-  "wasmer-compiler-cranelift/default",
-]
-plugin_transform_host_native_shared_runtime = ["tokio"]
+default = ["filesystem_cache"]
 
 # Supports a cache allow to store compiled bytecode into filesystem location.
 # This feature implies in-memory cache support. This is not supported on wasm32 target.
-filesystem_cache              = ["wasmer-cache"]
+filesystem_cache              = ["blake3"]
 plugin_transform_schema_v1    = ["swc_common/plugin_transform_schema_v1"]
 plugin_transform_schema_vtest = ["swc_common/plugin_transform_schema_vtest"]
 
@@ -48,16 +35,11 @@ vergen = { workspace = true, features = ["build", "cargo"] }
 
 [dependencies]
 anyhow       = { workspace = true }
-enumset      = { workspace = true }
-futures      = { workspace = true }
 parking_lot  = { workspace = true }
 rustc-hash   = { workspace = true }
 serde        = { workspace = true, features = ["derive"] }
 serde_json   = { workspace = true }
-tokio        = { workspace = true, optional = true }
 tracing      = { workspace = true }
-wasmer       = { workspace = true }
-wasmer-wasix = { workspace = true }
 
 swc_atoms = { version = "7.0.0", path = '../swc_atoms' }
 swc_common = { version = "14.0.2", path = "../swc_common", features = [
@@ -69,25 +51,11 @@ swc_plugin_proxy = { version = "14.0.0", path = "../swc_plugin_proxy" }
 swc_transform_common = { version = "8.0.0", path = "../swc_transform_common" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
-wasmer-cache              = { version = "6.1.0-rc.2", optional = true }
-wasmer-compiler-cranelift = { version = "6.1.0-rc.2", default-features = false }
+blake3 = { workspace = true, optional = true }
 
-[dev-dependencies]
-codspeed-criterion-compat = { workspace = true }
-
-swc_css_ast = { version = "14.0.0", path = "../swc_css_ast", features = [
-  "rkyv-impl",
-] }
-swc_css_parser = { version = "14.0.0", path = "../swc_css_parser" }
-swc_ecma_ast = { version = "14.0.0", path = "../swc_ecma_ast", features = [
-  "rkyv-impl",
-] }
-swc_ecma_parser = { version = "22.0.3", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "14.0.0", path = "../swc_ecma_visit" }
-swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
-testing = { version = "15.0.0", path = "../testing" }
-tokio = { workspace = true, features = ["rt"] }
-
-[[bench]]
-harness = false
-name    = "ecma_invoke"
+[package.metadata.cargo-shear]
+# ignored, as they are only used to enable features
+ignored = [
+  "swc_ecma_ast",
+  "swc_css_ast",
+]
