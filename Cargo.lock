@@ -6427,13 +6427,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_plugin_backend_wasmer"
-version = "0.1.0"
+name = "swc_plugin_backend_tests"
+version = "0.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
- "enumset",
- "parking_lot",
  "rustc-hash 2.1.1",
  "serde",
  "serde_json",
@@ -6444,11 +6442,24 @@ dependencies = [
  "swc_ecma_parser",
  "swc_ecma_visit",
  "swc_malloc",
+ "swc_plugin_backend_wasmer",
+ "swc_plugin_backend_wasmtime",
  "swc_plugin_runner",
  "swc_transform_common",
  "testing",
  "tokio",
  "tracing",
+]
+
+[[package]]
+name = "swc_plugin_backend_wasmer"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "enumset",
+ "parking_lot",
+ "swc_common",
+ "swc_plugin_runner",
  "wasmer",
  "wasmer-compiler-cranelift",
  "wasmer-wasix",
@@ -6509,10 +6520,6 @@ dependencies = [
  "tracing",
  "vergen",
 ]
-
-[[package]]
-name = "swc_plugin_testing"
-version = "0.24.2"
 
 [[package]]
 name = "swc_sourcemap"
