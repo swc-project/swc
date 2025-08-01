@@ -653,7 +653,7 @@ impl Optimizer<'_> {
             Expr::Class(cls) => {
                 // Do not remove class if it's self-referencing
                 if let Some(id) = &cls.ident {
-                    if IdentUsageFinder::find(&id.to_id(), &cls.class.body) {
+                    if IdentUsageFinder::find(id, &cls.class.body) {
                         return Some(cls.take().into());
                     }
                 }
