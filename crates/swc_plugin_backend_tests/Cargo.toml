@@ -13,6 +13,7 @@ bench   = false
 doctest = false
 
 [dev-dependencies]
+anyhow                    = { workspace = true }
 codspeed-criterion-compat = { workspace = true }
 rustc-hash                = { workspace = true }
 serde                     = { workspace = true, features = ["derive"] }
@@ -20,6 +21,9 @@ serde_json                = { workspace = true }
 tokio                     = { workspace = true, features = ["rt"] }
 tracing                   = { workspace = true }
 
+swc_common = { version = "14.0.2", path = "../swc_common", features = [
+  "concurrent",
+] }
 swc_plugin_runner = { version = "17.0.0", path = "../swc_plugin_runner", features = ["rkyv-impl", "plugin_transform_schema_v1"] }
 swc_css_ast = { version = "14.0.0", path = "../swc_css_ast", features = [
   "rkyv-impl",
