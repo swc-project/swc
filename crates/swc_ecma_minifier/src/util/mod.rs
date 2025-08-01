@@ -7,10 +7,11 @@ use swc_atoms::Atom;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene};
-use swc_ecma_utils::{ident::IdentLike, DropSpan, ModuleItemLike, StmtLike, Value};
+use swc_ecma_utils::{DropSpan, ModuleItemLike, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, visit_mut_pass, visit_obj_and_computed, Visit, VisitWith};
 
 pub(crate) mod base54;
+pub(crate) mod ident_usage_collector;
 pub(crate) mod size;
 pub(crate) mod sort;
 
@@ -335,75 +336,13 @@ where
     visitor.found
 }
 
-#[derive(Default)]
-pub(crate) struct IdentUsageCollector<I: IdentLike> {
-    ids: FxHashSet<I>,
-    ignore_nested: bool,
-}
-
-impl<I: IdentLike + std::hash::Hash + PartialEq + Eq> Visit for IdentUsageCollector<I> {
-    noop_visit_type!(fail);
-
-    visit_obj_and_computed!();
-
-    fn visit_block_stmt_or_expr(&mut self, n: &BlockStmtOrExpr) {
-        if self.ignore_nested {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_constructor(&mut self, n: &Constructor) {
-        if self.ignore_nested {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_function(&mut self, n: &Function) {
-        if self.ignore_nested {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_getter_prop(&mut self, n: &GetterProp) {
-        if self.ignore_nested {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_setter_prop(&mut self, n: &SetterProp) {
-        if self.ignore_nested {
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_ident(&mut self, n: &Ident) {
-        self.ids.insert(I::from_ident(n));
-    }
-
-    fn visit_prop_name(&mut self, n: &PropName) {
-        if let PropName::Computed(..) = n {
-            n.visit_children_with(self);
-        }
-    }
-}
-
-#[derive(Default)]
-pub(crate) struct CapturedIdCollector<I: IdentLike + std::hash::Hash + PartialEq + Eq> {
-    ids: FxHashSet<I>,
+pub(crate) struct CapturedIdCollector<'a> {
+    id_map: &'a mut Ids,
+    ids: FxHashSet<IdIdx>,
     is_nested: bool,
 }
 
-impl<I: IdentLike + std::hash::Hash + PartialEq + Eq> Visit for CapturedIdCollector<I> {
+impl Visit for CapturedIdCollector<'_> {
     noop_visit_type!(fail);
 
     visit_obj_and_computed!();
@@ -431,7 +370,8 @@ impl<I: IdentLike + std::hash::Hash + PartialEq + Eq> Visit for CapturedIdCollec
 
     fn visit_ident(&mut self, n: &Ident) {
         if self.is_nested {
-            self.ids.insert(I::from_ident(n));
+            let id = self.id_map.intern_ident(n);
+            self.ids.insert(id);
         }
     }
 
@@ -442,43 +382,14 @@ impl<I: IdentLike + std::hash::Hash + PartialEq + Eq> Visit for CapturedIdCollec
     }
 }
 
-pub(crate) fn idents_captured_by<N, I: IdentLike + std::hash::Hash + PartialEq + Eq>(
-    n: &N,
-) -> FxHashSet<I>
+pub(crate) fn idents_captured_by<'a, N>(n: &N, id_map: &'a mut Ids) -> FxHashSet<IdIdx>
 where
-    N: VisitWith<CapturedIdCollector<I>>,
+    N: VisitWith<CapturedIdCollector<'a>>,
 {
     let mut v = CapturedIdCollector {
         is_nested: false,
         ids: FxHashSet::default(),
-    };
-    n.visit_with(&mut v);
-    v.ids
-}
-
-pub(crate) fn idents_used_by<N, I: IdentLike + std::hash::Hash + PartialEq + Eq>(
-    n: &N,
-) -> FxHashSet<I>
-where
-    N: VisitWith<IdentUsageCollector<I>>,
-{
-    let mut v = IdentUsageCollector {
-        ignore_nested: false,
-        ids: FxHashSet::default(),
-    };
-    n.visit_with(&mut v);
-    v.ids
-}
-
-pub(crate) fn idents_used_by_ignoring_nested<N, I: IdentLike + std::hash::Hash + PartialEq + Eq>(
-    n: &N,
-) -> FxHashSet<I>
-where
-    N: VisitWith<IdentUsageCollector<I>>,
-{
-    let mut v = IdentUsageCollector {
-        ignore_nested: true,
-        ids: FxHashSet::default(),
+        id_map,
     };
     n.visit_with(&mut v);
     v.ids

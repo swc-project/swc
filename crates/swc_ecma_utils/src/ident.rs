@@ -1,6 +1,6 @@
 use swc_atoms::Atom;
 use swc_common::SyntaxContext;
-use swc_ecma_ast::{unsafe_id_from_ident, BindingIdent, Id, IdIdx, Ident, UnsafeId};
+use swc_ecma_ast::{unsafe_id_from_ident, BindingIdent, Id, Ident, UnsafeId};
 
 pub trait IdentLike: Sized + Send + Sync + 'static {
     type Id;
@@ -92,21 +92,5 @@ impl IdentLike for UnsafeId {
 
     fn into_id(self) -> Id {
         unreachable!("UnsafeId.into_id() is not allowed because it is very likely to be unsafe")
-    }
-}
-
-impl IdentLike for IdIdx {
-    type Id = IdIdx;
-
-    fn from_ident(i: &Ident) -> Self {
-        IdIdx::from_ident(i)
-    }
-
-    fn to_id(&self) -> Self::Id {
-        *self
-    }
-
-    fn into_id(self) -> Self::Id {
-        self
     }
 }

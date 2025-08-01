@@ -2,7 +2,7 @@ use ctx::BitContext;
 use rustc_hash::FxHashMap;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value};
+use swc_ecma_utils::{find_pat_ids_with_idx, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -21,18 +21,23 @@ pub mod storage;
 /// TODO: Scope-local. (Including block)
 ///
 /// If `marks` is [None], markers are ignored.
-pub fn analyze_with_storage<S, N>(n: &N, marks: Option<Marks>) -> S
+pub fn analyze_with_storage<'a, S, N>(n: &N, marks: Option<Marks>, id_map: &'a mut Ids) -> S
 where
     S: Storage,
-    N: VisitWith<UsageAnalyzer<S>>,
+    N: VisitWith<UsageAnalyzer<'a, S>>,
 {
-    analyze_with_custom_storage(Default::default(), n, marks)
+    analyze_with_custom_storage(Default::default(), n, marks, id_map)
 }
 
-pub fn analyze_with_custom_storage<S, N>(data: S, n: &N, marks: Option<Marks>) -> S
+pub fn analyze_with_custom_storage<'a, S, N>(
+    data: S,
+    n: &N,
+    marks: Option<Marks>,
+    id_map: &'a mut Ids,
+) -> S
 where
     S: Storage,
-    N: VisitWith<UsageAnalyzer<S>>,
+    N: VisitWith<UsageAnalyzer<'a, S>>,
 {
     let _timer = timer!("analyze");
 
@@ -49,6 +54,7 @@ where
             remaining_depth: 3,
         },
         used_recursively: FxHashMap::default(),
+        id_map,
     };
     n.visit_with(&mut v);
     let top_scope = v.scope;
@@ -73,7 +79,7 @@ enum RecursiveUsage {
 
 /// This assumes there are no two variable with same name and same span hygiene.
 #[derive(Debug)]
-pub struct UsageAnalyzer<S>
+pub struct UsageAnalyzer<'a, S>
 where
     S: Storage,
 {
@@ -83,9 +89,10 @@ where
     ctx: Ctx,
     expr_ctx: ExprCtx,
     used_recursively: FxHashMap<IdIdx, RecursiveUsage>,
+    id_map: &'a mut Ids,
 }
 
-impl<S> UsageAnalyzer<S>
+impl<S> UsageAnalyzer<'_, S>
 where
     S: Storage,
 {
@@ -102,6 +109,7 @@ where
             expr_ctx: self.expr_ctx,
             scope: Default::default(),
             used_recursively,
+            id_map: self.id_map,
         };
 
         let ret = op(&mut child);
@@ -150,7 +158,7 @@ where
             self.scope.mark_used_arguments();
         }
 
-        let id = IdIdx::from_ident(i);
+        let id = self.id_map.intern_ident(i);
 
         if let Some(recr) = self.used_recursively.get(&id) {
             if let RecursiveUsage::Var { can_ignore: false } = recr {
@@ -165,7 +173,7 @@ where
     }
 
     fn report_assign_pat(&mut self, p: &Pat, is_read_modify: bool) {
-        for id in find_pat_ids(p) {
+        for id in find_pat_ids_with_idx(p, self.id_map) {
             // It's hard to determined the type of pat assignment
             self.data
                 .report_assign(self.ctx, id, is_read_modify, Value::Unknown)
@@ -174,7 +182,7 @@ where
         if let Pat::Expr(e) = p {
             match &**e {
                 Expr::Ident(i) => {
-                    let id = IdIdx::from_ident(i);
+                    let id = self.id_map.intern_ident(i);
                     self.data
                         .report_assign(self.ctx, id, is_read_modify, Value::Unknown)
                 }
@@ -185,7 +193,7 @@ where
 
     fn report_assign_expr_if_ident(&mut self, e: Option<&Ident>, is_op: bool, ty: Value<Type>) {
         if let Some(i) = e {
-            let id = IdIdx::from_ident(i);
+            let id = self.id_map.intern_ident(i);
             self.data.report_assign(self.ctx, id, is_op, ty)
         }
     }
@@ -199,7 +207,8 @@ where
     ) -> &mut S::VarData {
         self.scope.add_declared_symbol(i);
 
-        let v = self.data.declare_decl(self.ctx, i, init_type, kind);
+        let id = self.id_map.intern_ident(i);
+        let v = self.data.declare_decl(self.ctx, id, init_type, kind);
 
         if is_fn_decl {
             v.mark_declared_as_fn_decl();
@@ -223,22 +232,24 @@ where
     fn mark_mutation_if_member(&mut self, e: Option<&MemberExpr>) {
         if let Some(m) = e {
             for_each_id_ref_in_expr(&m.obj, &mut |id| {
-                let id = IdIdx::from_ident(id);
+                let id = self.id_map.intern_ident(id);
                 self.data.mark_property_mutation(id)
             });
         }
     }
 }
 
-impl<S> Visit for UsageAnalyzer<S>
+impl<S> Visit for UsageAnalyzer<'_, S>
 where
     S: Storage,
 {
     noop_visit_type!();
 
     fn visit_array_lit(&mut self, n: &ArrayLit) {
-        let ctx = self.ctx.with(BitContext::IsIdRef, true);
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+        let saved_ctx = self.ctx;
+        self.ctx = self.ctx.with(BitContext::IsIdRef, true);
+        n.visit_children_with(self);
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(
@@ -248,11 +259,13 @@ where
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         self.with_child(n.ctxt, ScopeKind::Fn, |child| {
             {
-                let ctx = child
+                let saved_ctx = child.ctx;
+                child.ctx = child
                     .ctx
                     .with(BitContext::InPatOfParam, true)
                     .with(BitContext::InlinePrevented, true);
-                n.params.visit_with(&mut *child.with_ctx(ctx));
+                n.params.visit_with(child);
+                child.ctx = saved_ctx;
             }
 
             match &*n.body {
@@ -274,20 +287,22 @@ where
         let is_op_assign = n.op != op!("=");
         n.left.visit_with(self);
 
+        let saved_ctx = self.ctx;
         // We mark bar in
         //
         // foo[i] = bar
         //
         // as `used_as_ref`.
-        let ctx = self.ctx.with(
+        self.ctx = self.ctx.with(
             BitContext::IsIdRef,
             matches!(n.op, op!("=") | op!("||=") | op!("&&=") | op!("??=")),
         );
-        n.right.visit_with(&mut *self.with_ctx(ctx));
+        n.right.visit_with(self);
+        self.ctx = saved_ctx;
 
         match &n.left {
             AssignTarget::Pat(p) => {
-                for id in find_pat_ids(p) {
+                for id in find_pat_ids_with_idx(p, self.id_map) {
                     self.data.report_assign(
                         self.ctx,
                         id,
@@ -321,9 +336,10 @@ where
                         ignore_named_child_scope: true,
                         ..Default::default()
                     },
+                    self.id_map,
                 ) {
                     if v.is_none() {
-                        let left = IdIdx::from_ident(&left);
+                        let left = self.id_map.intern_ident(&left);
                         v = Some(self.data.var_or_default(left));
                     }
 
@@ -337,12 +353,14 @@ where
         p.left.visit_with(self);
 
         {
-            let ctx = Ctx {
+            let saved_ctx = self.ctx;
+            self.ctx = Ctx {
                 bit_ctx: self.ctx.bit_ctx.with(BitContext::InPatOfParam, false),
                 var_decl_kind_of_pat: None,
                 ..self.ctx
             };
-            p.right.visit_with(&mut *self.with_ctx(ctx))
+            p.right.visit_with(self);
+            self.ctx = saved_ctx;
         }
     }
 
@@ -351,23 +369,26 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_await_expr(&mut self, n: &AwaitExpr) {
-        let ctx = self.ctx.with(BitContext::InAwaitArg, true);
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+        let saved_ctx = self.ctx;
+        self.ctx = self.ctx.with(BitContext::InAwaitArg, true);
+        n.visit_children_with(self);
+        self.ctx = saved_ctx;
     }
 
     fn visit_bin_expr(&mut self, e: &BinExpr) {
         if e.op.may_short_circuit() {
-            let ctx = self.ctx.with(BitContext::IsIdRef, true);
-            e.left.visit_with(&mut *self.with_ctx(ctx));
-            let ctx = self
-                .ctx
+            let saved_ctx = self.ctx;
+            self.ctx = self.ctx.with(BitContext::IsIdRef, true);
+            e.left.visit_with(self);
+            self.ctx = saved_ctx
                 .with(BitContext::InCond, true)
                 .with(BitContext::IsIdRef, true);
-            self.with_ctx(ctx).visit_in_cond(&e.right);
+            self.visit_in_cond(&e.right);
+            self.ctx = saved_ctx;
         } else {
             if e.op == op!("in") {
                 for_each_id_ref_in_expr(&e.right, &mut |obj| {
-                    let id = IdIdx::from_ident(obj);
+                    let id = self.id_map.intern_ident(obj);
                     let var = self.data.var_or_default(id);
                     var.mark_used_as_ref();
 
@@ -384,8 +405,10 @@ where
                 })
             }
 
-            let ctx = self.ctx.with(BitContext::IsIdRef, false);
-            e.visit_children_with(&mut *self.with_ctx(ctx));
+            let saved_ctx = self.ctx;
+            self.ctx = self.ctx.with(BitContext::IsIdRef, false);
+            e.visit_children_with(self);
+            self.ctx = saved_ctx;
         }
     }
 
@@ -423,13 +446,15 @@ where
                 .unwrap_or_default();
 
         {
-            let ctx = self.ctx.with(BitContext::InlinePrevented, inline_prevented);
-            n.callee.visit_with(&mut *self.with_ctx(ctx));
+            let saved_ctx = self.ctx;
+            self.ctx = self.ctx.with(BitContext::InlinePrevented, inline_prevented);
+            n.callee.visit_with(self);
+            self.ctx = saved_ctx;
         }
 
         if let Callee::Expr(callee) = &n.callee {
             for_each_id_ref_in_expr(callee, &mut |i| {
-                let id = IdIdx::from_ident(i);
+                let id = self.id_map.intern_ident(i);
                 self.data.var_or_default(id).mark_used_as_callee();
             });
 
@@ -443,7 +468,7 @@ where
 
                             if is_safe_to_access_prop(&arg.expr) {
                                 if let Pat::Ident(id) = &p.pat {
-                                    let id = IdIdx::from_ident(id);
+                                    let id = self.id_map.intern_ident(id);
                                     self.data
                                         .var_or_default(id)
                                         .mark_initialized_with_safe_value();
@@ -462,7 +487,7 @@ where
 
                             if is_safe_to_access_prop(&arg.expr) {
                                 if let Pat::Ident(id) = &p {
-                                    let id = IdIdx::from_ident(id);
+                                    let id = self.id_map.intern_ident(&id);
                                     self.data
                                         .var_or_default(id)
                                         .mark_initialized_with_safe_value();
@@ -477,11 +502,13 @@ where
         }
 
         {
-            let ctx = self
+            let saved_ctx = self.ctx;
+            self.ctx = self
                 .ctx
                 .with(BitContext::InlinePrevented, inline_prevented)
                 .with(BitContext::IsIdRef, true);
-            n.args.visit_with(&mut *self.with_ctx(ctx));
+            n.args.visit_with(self);
+            self.ctx = saved_ctx;
 
             let call_may_mutate = match &n.callee {
                 Callee::Expr(e) => call_may_mutate(e, self.expr_ctx),
@@ -491,7 +518,7 @@ where
             if call_may_mutate {
                 for a in &n.args {
                     for_each_id_ref_in_expr(&a.expr, &mut |id| {
-                        let id = IdIdx::from_ident(id);
+                        let id = self.id_map.intern_ident(id);
                         self.data.mark_property_mutation(id);
                     });
                 }
@@ -500,7 +527,7 @@ where
 
         for arg in &n.args {
             for_each_id_ref_in_expr(&arg.expr, &mut |arg| {
-                let id = IdIdx::from_ident(arg);
+                let id = self.id_map.intern_ident(arg);
                 self.data.var_or_default(id).mark_used_as_arg();
             })
         }
@@ -512,7 +539,7 @@ where
                 }
                 Expr::Member(m) if !m.obj.is_ident() => {
                     for_each_id_ref_in_expr(&m.obj, &mut |id| {
-                        let id = IdIdx::from_ident(id);
+                        let id = self.id_map.intern_ident(id);
                         self.data.var_or_default(id).mark_used_as_ref()
                     })
                 }
@@ -527,16 +554,20 @@ where
     )]
     fn visit_catch_clause(&mut self, n: &CatchClause) {
         {
-            let ctx = self
+            let saved_ctx = self.ctx;
+            self.ctx = self
                 .ctx
                 .with(BitContext::InCond, true)
                 .with(BitContext::InCatchParam, true);
-            n.param.visit_with(&mut *self.with_ctx(ctx));
+            n.param.visit_with(self);
+            self.ctx = saved_ctx;
         }
 
         {
-            let ctx = self.ctx.with(BitContext::InCond, true);
-            self.with_ctx(ctx).visit_in_cond(&n.body);
+            let saved_ctx = self.ctx;
+            self.ctx = self.ctx.with(BitContext::InCond, true);
+            self.visit_in_cond(&n.body);
+            self.ctx = saved_ctx;
         }
     }
 
@@ -548,8 +579,10 @@ where
         n.decorators.visit_with(self);
 
         {
-            let ctx = self.ctx.with(BitContext::InlinePrevented, true);
-            n.super_class.visit_with(&mut *self.with_ctx(ctx));
+            let saved_ctx = self.ctx;
+            self.ctx = self.ctx.with(BitContext::InlinePrevented, true);
+            n.super_class.visit_with(self);
+            self.ctx = saved_ctx;
         }
 
         self.with_child(n.ctxt, ScopeKind::Fn, |child| n.body.visit_with(child))
@@ -587,8 +620,10 @@ where
         self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
-                let ctx = a.ctx.with(BitContext::InPatOfParam, true);
-                n.function.params.visit_with(&mut *a.with_ctx(ctx));
+                let saved_ctx = a.ctx;
+                a.ctx = saved_ctx.with(BitContext::InPatOfParam, true);
+                n.function.params.visit_with(a);
+                a.ctx = saved_ctx;
             }
 
             n.function.visit_with(a);
@@ -600,9 +635,10 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_class_prop(&mut self, n: &ClassProp) {
-        let ctx = self.ctx.with(BitContext::IsIdRef, true);
-
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+        let saved_ctx = self.ctx;
+        self.ctx = self.ctx.with(BitContext::IsIdRef, true);
+        n.visit_children_with(self);
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(
@@ -610,9 +646,10 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_computed_prop_name(&mut self, n: &ComputedPropName) {
-        let ctx = self.ctx.with(BitContext::IsIdRef, true);
-
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+        let saved_ctx = self.ctx;
+        self.ctx = self.ctx.with(BitContext::IsIdRef, true);
+        n.visit_children_with(self);
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(
@@ -621,18 +658,24 @@ where
     )]
     fn visit_cond_expr(&mut self, n: &CondExpr) {
         {
-            let ctx = self.ctx.with(BitContext::IsIdRef, false);
-
-            n.test.visit_with(&mut *self.with_ctx(ctx));
+            let saved_ctx = self.ctx;
+            self.ctx = self.ctx.with(BitContext::IsIdRef, false);
+            n.test.visit_with(self);
+            self.ctx = saved_ctx;
         }
 
         {
-            let ctx = self
+            let saved_ctx = self.ctx;
+            self.ctx = self
                 .ctx
                 .with(BitContext::InCond, true)
                 .with(BitContext::IsIdRef, true);
-            self.with_ctx(ctx).visit_in_cond(&n.cons);
-            self.with_ctx(ctx).visit_in_cond(&n.alt);
+            self.visit_in_cond(&n.cons);
+            self.ctx = saved_ctx
+                .with(BitContext::InCond, true)
+                .with(BitContext::IsIdRef, true);
+            self.visit_in_cond(&n.alt);
+            self.ctx = saved_ctx;
         }
     }
 
@@ -643,8 +686,10 @@ where
     fn visit_constructor(&mut self, n: &Constructor) {
         self.with_child(n.ctxt, ScopeKind::Fn, |child| {
             {
-                let ctx = child.ctx.with(BitContext::InPatOfParam, true);
-                n.params.visit_with(&mut *child.with_ctx(ctx));
+                let saved_ctx = child.ctx;
+                child.ctx = child.ctx.with(BitContext::InPatOfParam, true);
+                n.params.visit_with(child);
+                child.ctx = saved_ctx;
             }
 
             // Bypass visit_block_stmt
@@ -660,13 +705,13 @@ where
         match d {
             DefaultDecl::Class(c) => {
                 if let Some(i) = &c.ident {
-                    let id = IdIdx::from_ident(i);
+                    let id = self.id_map.intern_ident(i);
                     self.data.var_or_default(id).prevent_inline();
                 }
             }
             DefaultDecl::Fn(f) => {
                 if let Some(i) = &f.ident {
-                    let id = IdIdx::from_ident(i);
+                    let id = self.id_map.intern_ident(i);
                     self.data.var_or_default(id).prevent_inline();
                 }
             }
@@ -679,10 +724,12 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_do_while_stmt(&mut self, n: &DoWhileStmt) {
-        n.body
-            .visit_with(&mut *self.with_ctx(self.ctx.with(BitContext::ExecutedMultipleTime, true)));
-        n.test
-            .visit_with(&mut *self.with_ctx(self.ctx.with(BitContext::ExecutedMultipleTime, true)));
+        let saved_ctx = self.ctx;
+        self.ctx = self.ctx.with(BitContext::ExecutedMultipleTime, true);
+        n.body.visit_with(self);
+        self.ctx = saved_ctx.with(BitContext::ExecutedMultipleTime, true);
+        n.test.visit_with(self);
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(
@@ -694,15 +741,15 @@ where
 
         match &n.decl {
             Decl::Class(c) => {
-                let id = IdIdx::from_ident(&c.ident);
+                let id = self.id_map.intern_ident(&c.ident);
                 self.data.var_or_default(id).prevent_inline();
             }
             Decl::Fn(f) => {
-                let id = IdIdx::from_ident(&f.ident);
+                let id = self.id_map.intern_ident(&f.ident);
                 self.data.var_or_default(id).prevent_inline();
             }
             Decl::Var(v) => {
-                let ids = find_pat_ids(v);
+                let ids = find_pat_ids_with_idx(v, self.id_map);
 
                 for id in ids {
                     self.data.var_or_default(id).mark_as_exported();
@@ -717,16 +764,17 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_export_default_expr(&mut self, n: &ExportDefaultExpr) {
-        let ctx = self.ctx.with(BitContext::IsIdRef, true);
-
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+        let saved_ctx = self.ctx;
+        self.ctx = self.ctx.with(BitContext::IsIdRef, true);
+        n.visit_children_with(self);
+        self.ctx = saved_ctx;
     }
 
     fn visit_export_named_specifier(&mut self, n: &ExportNamedSpecifier) {
         match &n.orig {
             ModuleExportName::Ident(orig) => {
                 self.report_usage(orig);
-                let id = IdIdx::from_ident(orig);
+                let id = self.id_map.intern_ident(orig);
                 let v = self.data.var_or_default(id);
                 v.prevent_inline();
                 v.mark_used_as_ref();
@@ -740,6 +788,7 @@ where
         tracing::instrument(level = "debug", skip(self, e))
     )]
     fn visit_expr(&mut self, e: &Expr) {
+        let saved_ctx = self.ctx;
         let ctx = Ctx {
             bit_ctx: self
                 .ctx
@@ -751,8 +800,9 @@ where
             in_pat_of_var_decl_with_init: None,
             ..self.ctx
         };
-
-        e.visit_children_with(&mut *self.with_ctx(ctx));
+        self.ctx = ctx;
+        e.visit_children_with(self);
+        self.ctx = saved_ctx;
 
         if let Expr::Ident(i) = e {
             #[cfg(feature = "tracing-spans")]
@@ -765,7 +815,9 @@ where
                 // );
             }
 
-            self.with_ctx(ctx).report_usage(i);
+            self.ctx = ctx;
+            self.report_usage(i);
+            self.ctx = saved_ctx;
         }
     }
 
@@ -778,7 +830,7 @@ where
 
         if e.spread.is_some() {
             for_each_id_ref_in_expr(&e.expr, &mut |i| {
-                let id = IdIdx::from_ident(i);
+                let id = self.id_map.intern_ident(i);
                 self.data.var_or_default(id).mark_indexed_with_dynamic_key();
             });
         }
@@ -789,13 +841,14 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_fn_decl(&mut self, n: &FnDecl) {
-        let ctx = self
+        let saved_ctx = self.ctx;
+        self.ctx = self
             .ctx
             .with(BitContext::InDeclWithNoSideEffectForMemberAccess, true);
-        self.with_ctx(ctx)
-            .declare_decl(&n.ident, Some(Value::Known(Type::Obj)), None, true);
+        self.declare_decl(&n.ident, Some(Value::Known(Type::Obj)), None, true);
+        self.ctx = saved_ctx;
 
-        let id = IdIdx::from_ident(&n.ident);
+        let id = self.id_map.intern_ident(&n.ident);
         if n.function.body.is_empty() {
             self.data.var_or_default(id).mark_as_pure_fn();
         }
@@ -813,9 +866,10 @@ where
                     ignore_named_child_scope: true,
                     ..Default::default()
                 },
+                self.id_map,
             ) {
                 if v.is_none() {
-                    v = Some(self.data.var_or_default(IdIdx::from_ident(&n.ident)));
+                    v = Some(self.data.var_or_default(self.id_map.intern_ident(&n.ident)));
                 }
 
                 v.as_mut().unwrap().add_infects_to(id);
@@ -830,11 +884,11 @@ where
     fn visit_fn_expr(&mut self, n: &FnExpr) {
         if let Some(n_id) = &n.ident {
             self.data
-                .var_or_default(IdIdx::from_ident(n_id))
+                .var_or_default(self.id_map.intern_ident(n_id))
                 .mark_declared_as_fn_expr();
 
             self.used_recursively
-                .insert(IdIdx::from_ident(n_id), RecursiveUsage::FnOrClass);
+                .insert(self.id_map.intern_ident(n_id), RecursiveUsage::FnOrClass);
 
             n.visit_children_with(self);
 
@@ -847,15 +901,17 @@ where
                         ignore_named_child_scope: true,
                         ..Default::default()
                     },
+                    self.id_map,
                 ) {
                     if v.is_none() {
-                        v = Some(self.data.var_or_default(IdIdx::from_ident(n_id)));
+                        v = Some(self.data.var_or_default(self.id_map.intern_ident(n_id)));
                     }
 
                     v.as_mut().unwrap().add_infects_to(id);
                 }
             }
-            self.used_recursively.remove(&IdIdx::from_ident(n_id));
+            self.used_recursively
+                .remove(&self.id_map.intern_ident(n_id));
         } else {
             n.visit_children_with(self);
         }
@@ -869,26 +925,33 @@ where
         n.right.visit_with(self);
 
         self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
+            let saved_ctx = child.ctx;
             let head_ctx = child
                 .ctx
                 .with(BitContext::InLeftOfForLoop, true)
                 .with(BitContext::IsIdRef, true)
                 .with(BitContext::ExecutedMultipleTime, true)
                 .with(BitContext::InCond, true);
-            n.left.visit_with(&mut *child.with_ctx(head_ctx));
+            child.ctx = head_ctx;
+            n.left.visit_with(child);
+            child.ctx = saved_ctx;
 
             n.right.visit_with(child);
 
             if let ForHead::Pat(pat) = &n.left {
-                child.with_ctx(head_ctx).report_assign_pat(pat, true)
+                child.ctx = head_ctx;
+                child.report_assign_pat(pat, true);
+                child.ctx = saved_ctx;
             }
 
-            let ctx = child
+            let saved_ctx = child.ctx;
+            child.ctx = child
                 .ctx
                 .with(BitContext::ExecutedMultipleTime, true)
                 .with(BitContext::InCond, true);
 
-            child.with_ctx(ctx).visit_in_cond(&n.body);
+            child.visit_in_cond(&n.body);
+            child.ctx = saved_ctx;
         });
     }
 
@@ -900,23 +963,30 @@ where
         n.right.visit_with(self);
 
         self.with_child(SyntaxContext::empty(), ScopeKind::Block, |child| {
+            let saved_ctx = child.ctx;
             let head_ctx = child
                 .ctx
                 .with(BitContext::InLeftOfForLoop, true)
                 .with(BitContext::IsIdRef, true)
                 .with(BitContext::ExecutedMultipleTime, true)
                 .with(BitContext::InCond, true);
-            n.left.visit_with(&mut *child.with_ctx(head_ctx));
+            child.ctx = head_ctx;
+            n.left.visit_with(child);
+            child.ctx = saved_ctx;
 
             if let ForHead::Pat(pat) = &n.left {
-                child.with_ctx(head_ctx).report_assign_pat(pat, true)
+                child.ctx = head_ctx;
+                child.report_assign_pat(pat, true);
+                child.ctx = saved_ctx;
             }
 
-            let ctx = child
+            let saved_ctx = child.ctx;
+            child.ctx = child
                 .ctx
                 .with(BitContext::ExecutedMultipleTime, true)
                 .with(BitContext::InCond, true);
-            child.with_ctx(ctx).visit_in_cond(&n.body);
+            child.visit_in_cond(&n.body);
+            child.ctx = saved_ctx;
         });
     }
 
@@ -927,14 +997,19 @@ where
     fn visit_for_stmt(&mut self, n: &ForStmt) {
         n.init.visit_with(self);
 
+        let saved_ctx = self.ctx;
         let ctx = self
             .ctx
             .with(BitContext::ExecutedMultipleTime, true)
             .with(BitContext::InCond, true);
 
-        self.with_ctx(ctx).visit_in_cond(&n.test);
-        self.with_ctx(ctx).visit_in_cond(&n.update);
-        self.with_ctx(ctx).visit_in_cond(&n.body);
+        self.ctx = ctx;
+        self.visit_in_cond(&n.test);
+        self.ctx = ctx;
+        self.visit_in_cond(&n.update);
+        self.ctx = ctx;
+        self.visit_in_cond(&n.body);
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(
@@ -944,18 +1019,19 @@ where
     fn visit_function(&mut self, n: &Function) {
         n.decorators.visit_with(self);
 
-        let ctx = Ctx { ..self.ctx };
+        let saved_ctx = self.ctx;
 
-        self.with_ctx(ctx)
-            .with_child(n.ctxt, ScopeKind::Fn, |child| {
-                n.params.visit_with(child);
+        self.with_child(n.ctxt, ScopeKind::Fn, |child| {
+            n.params.visit_with(child);
 
-                if let Some(body) = &n.body {
-                    // We use visit_children_with instead of visit_with to bypass block scope
-                    // handler.
-                    body.visit_children_with(child);
-                }
-            })
+            if let Some(body) = &n.body {
+                // We use visit_children_with instead of visit_with to bypass block scope
+                // handler.
+                body.visit_children_with(child);
+            }
+        });
+
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(
@@ -975,11 +1051,15 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_if_stmt(&mut self, n: &IfStmt) {
+        let saved_ctx = self.ctx;
         let ctx = self.ctx.with(BitContext::InCond, true);
+        self.ctx = ctx;
         n.test.visit_with(self);
-
-        self.with_ctx(ctx).visit_in_cond(&n.cons);
-        self.with_ctx(ctx).visit_in_cond(&n.alt);
+        self.ctx = ctx;
+        self.visit_in_cond(&n.cons);
+        self.ctx = ctx;
+        self.visit_in_cond(&n.alt);
+        self.ctx = saved_ctx;
     }
 
     fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {
@@ -999,6 +1079,7 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_jsx_element_name(&mut self, n: &JSXElementName) {
+        let saved_ctx = self.ctx;
         let ctx = Ctx {
             bit_ctx: self
                 .ctx
@@ -1011,11 +1092,15 @@ where
             ..self.ctx
         };
 
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+        self.ctx = ctx;
+        n.visit_children_with(self);
+        self.ctx = saved_ctx;
 
         if let JSXElementName::Ident(i) = n {
-            self.with_ctx(ctx).report_usage(i);
-            let id = IdIdx::from_ident(i);
+            self.ctx = ctx;
+            self.report_usage(i);
+            self.ctx = saved_ctx;
+            let id = self.id_map.intern_ident(i);
             self.data.var_or_default(id).mark_used_as_jsx_callee();
         }
     }
@@ -1026,8 +1111,10 @@ where
     )]
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         {
-            let ctx = self.ctx.with(BitContext::IsIdRef, false);
-            e.obj.visit_with(&mut *self.with_ctx(ctx));
+            let saved_ctx = self.ctx;
+            self.ctx = self.ctx.with(BitContext::IsIdRef, false);
+            e.obj.visit_with(self);
+            self.ctx = saved_ctx;
         }
 
         if let MemberProp::Computed(c) = &e.prop {
@@ -1035,7 +1122,7 @@ where
         }
 
         for_each_id_ref_in_expr(&e.obj, &mut |obj| {
-            let id = IdIdx::from_ident(obj);
+            let id = self.id_map.intern_ident(obj);
             let v = self.data.var_or_default(id);
             v.mark_has_property_access();
 
@@ -1057,11 +1144,15 @@ where
             }
         });
 
-        fn is_root_of_member_expr_declared(member_expr: &MemberExpr, data: &impl Storage) -> bool {
+        fn is_root_of_member_expr_declared<S: Storage>(
+            this: &mut UsageAnalyzer<'_, S>,
+            member_expr: &MemberExpr,
+        ) -> bool {
             match &*member_expr.obj {
-                Expr::Member(member_expr) => is_root_of_member_expr_declared(member_expr, data),
-                Expr::Ident(ident) => data
-                    .get_var_data(IdIdx::from_ident(ident))
+                Expr::Member(member_expr) => is_root_of_member_expr_declared(this, member_expr),
+                Expr::Ident(ident) => this
+                    .data
+                    .get_var_data(this.id_map.intern_ident(ident))
                     .map(|var| var.is_declared())
                     .unwrap_or(false),
 
@@ -1069,7 +1160,7 @@ where
             }
         }
 
-        if is_root_of_member_expr_declared(e, &self.data) {
+        if is_root_of_member_expr_declared(self, e) {
             if let MemberProp::Ident(ident) = &e.prop {
                 self.data.add_property_atom(ident.sym.clone());
             }
@@ -1086,8 +1177,10 @@ where
         self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
-                let ctx = a.ctx.with(BitContext::InPatOfParam, true);
-                n.function.params.visit_with(&mut *a.with_ctx(ctx));
+                let saved_ctx = a.ctx;
+                a.ctx = a.ctx.with(BitContext::InPatOfParam, true);
+                n.function.params.visit_with(a);
+                a.ctx = saved_ctx;
             }
 
             n.function.visit_with(a);
@@ -1095,8 +1188,10 @@ where
     }
 
     fn visit_module(&mut self, n: &Module) {
-        let ctx = self.ctx.with(BitContext::IsTopLevel, true);
-        n.visit_children_with(&mut *self.with_ctx(ctx))
+        let saved_ctx = self.ctx;
+        self.ctx = self.ctx.with(BitContext::IsTopLevel, true);
+        n.visit_children_with(self);
+        self.ctx = saved_ctx;
     }
 
     fn visit_named_export(&mut self, n: &NamedExport) {
@@ -1113,14 +1208,16 @@ where
     fn visit_new_expr(&mut self, n: &NewExpr) {
         {
             n.callee.visit_with(self);
-            let ctx = self.ctx.with(BitContext::IsIdRef, true);
-            n.args.visit_with(&mut *self.with_ctx(ctx));
+            let saved_ctx = self.ctx;
+            self.ctx = self.ctx.with(BitContext::IsIdRef, true);
+            n.args.visit_with(self);
+            self.ctx = saved_ctx;
 
             if call_may_mutate(&n.callee, self.expr_ctx) {
                 if let Some(args) = &n.args {
                     for a in args {
                         for_each_id_ref_in_expr(&a.expr, &mut |id| {
-                            let id = IdIdx::from_ident(id);
+                            let id = self.id_map.intern_ident(id);
                             self.data.mark_property_mutation(id);
                         });
                     }
@@ -1134,10 +1231,12 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_param(&mut self, n: &Param) {
-        let ctx = self.ctx.with(BitContext::InPatOfParam, false);
-        n.decorators.visit_with(&mut *self.with_ctx(ctx));
+        let saved_ctx = self.ctx;
+        self.ctx = self.ctx.with(BitContext::InPatOfParam, false);
+        n.decorators.visit_with(self);
+        self.ctx = saved_ctx;
 
-        let ctx = Ctx {
+        self.ctx = Ctx {
             bit_ctx: self
                 .ctx
                 .bit_ctx
@@ -1146,7 +1245,8 @@ where
             var_decl_kind_of_pat: None,
             ..self.ctx
         };
-        n.pat.visit_with(&mut *self.with_ctx(ctx));
+        n.pat.visit_with(self);
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(
@@ -1159,10 +1259,12 @@ where
                 i.visit_with(self);
             }
             _ => {
-                let ctx = self
+                let saved_ctx = self.ctx;
+                self.ctx = self
                     .ctx
                     .with(BitContext::InDeclWithNoSideEffectForMemberAccess, false);
-                n.visit_children_with(&mut *self.with_ctx(ctx));
+                n.visit_children_with(self);
+                self.ctx = saved_ctx;
             }
         }
     }
@@ -1177,8 +1279,10 @@ where
         self.with_child(n.function.ctxt, ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
-                let ctx = a.ctx.with(BitContext::InPatOfParam, true);
-                n.function.params.visit_with(&mut *a.with_ctx(ctx));
+                let saved_ctx = a.ctx;
+                a.ctx = a.ctx.with(BitContext::InPatOfParam, true);
+                n.function.params.visit_with(a);
+                a.ctx = saved_ctx;
             }
 
             n.function.visit_with(a);
@@ -1190,8 +1294,10 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_private_prop(&mut self, n: &PrivateProp) {
-        let ctx = self.ctx.with(BitContext::IsIdRef, true);
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+        let saved_ctx = self.ctx;
+        self.ctx = self.ctx.with(BitContext::IsIdRef, true);
+        n.visit_children_with(self);
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(
@@ -1199,13 +1305,16 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_prop(&mut self, n: &Prop) {
+        let saved_ctx = self.ctx;
         if let Prop::Shorthand(i) = n {
-            let ctx = self.ctx.with(BitContext::IsIdRef, true);
-            self.with_ctx(ctx).report_usage(i);
+            self.ctx = self.ctx.with(BitContext::IsIdRef, true);
+            self.report_usage(i);
+            self.ctx = saved_ctx;
             self.data.add_property_atom(i.sym.clone());
         } else {
-            let ctx = self.ctx.with(BitContext::IsIdRef, true);
-            n.visit_children_with(&mut *self.with_ctx(ctx));
+            self.ctx = self.ctx.with(BitContext::IsIdRef, true);
+            n.visit_children_with(self);
+            self.ctx = saved_ctx;
         }
     }
 
@@ -1224,8 +1333,10 @@ where
     }
 
     fn visit_script(&mut self, n: &Script) {
-        let ctx = self.ctx.with(BitContext::IsTopLevel, true);
-        n.visit_children_with(&mut *self.with_ctx(ctx))
+        let saved_ctx = self.ctx;
+        self.ctx = self.ctx.with(BitContext::IsTopLevel, true);
+        n.visit_children_with(self);
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(
@@ -1236,8 +1347,10 @@ where
         self.with_child(SyntaxContext::empty(), ScopeKind::Fn, |a| {
             n.key.visit_with(a);
             {
-                let ctx = a.ctx.with(BitContext::InPatOfParam, true);
-                n.param.visit_with(&mut *a.with_ctx(ctx));
+                let saved_ctx = a.ctx;
+                a.ctx = a.ctx.with(BitContext::InPatOfParam, true);
+                n.param.visit_with(a);
+                a.ctx = saved_ctx;
             }
 
             n.body.visit_with(a);
@@ -1252,7 +1365,7 @@ where
         e.visit_children_with(self);
 
         for_each_id_ref_in_expr(&e.expr, &mut |i| {
-            let id = IdIdx::from_ident(i);
+            let id = self.id_map.intern_ident(i);
             self.data.var_or_default(id).mark_indexed_with_dynamic_key();
         });
     }
@@ -1262,26 +1375,29 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_stmt(&mut self, n: &Stmt) {
-        let ctx = self
+        let saved_ctx = self.ctx;
+        self.ctx = self
             .ctx
             .with(BitContext::InAwaitArg, false)
             .with(BitContext::IsIdRef, true);
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+        n.visit_children_with(self);
+        self.ctx = saved_ctx;
     }
 
     fn visit_stmts(&mut self, stmts: &[Stmt]) {
         let mut had_cond = false;
 
         for stmt in stmts {
-            let ctx = self
+            let saved_ctx = self.ctx;
+            self.ctx = self
                 .ctx
                 .with(
                     BitContext::InCond,
                     self.ctx.bit_ctx.contains(BitContext::InCond) || had_cond,
                 )
                 .with(BitContext::IsIdRef, true);
-
-            stmt.visit_with(&mut *self.with_ctx(ctx));
+            stmt.visit_with(self);
+            self.ctx = saved_ctx;
 
             had_cond |= can_end_conditionally(stmt);
         }
@@ -1293,14 +1409,18 @@ where
     )]
     fn visit_super_prop_expr(&mut self, e: &SuperPropExpr) {
         if let SuperProp::Computed(c) = &e.prop {
-            let ctx = self.ctx.with(BitContext::IsIdRef, false);
-            c.visit_with(&mut *self.with_ctx(ctx));
+            let saved_ctx = self.ctx;
+            self.ctx = self.ctx.with(BitContext::IsIdRef, false);
+            c.visit_with(self);
+            self.ctx = saved_ctx;
         }
     }
 
     fn visit_switch_case(&mut self, n: &SwitchCase) {
-        let ctx = self.ctx.with(BitContext::IsIdRef, false);
-        n.visit_children_with(&mut *self.with_ctx(ctx))
+        let saved_ctx = self.ctx;
+        self.ctx = self.ctx.with(BitContext::IsIdRef, false);
+        n.visit_children_with(self);
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(
@@ -1313,13 +1433,17 @@ where
         let mut fallthrough = false;
 
         for case in n.cases.iter() {
+            let saved_ctx = self.ctx;
             let ctx = self.ctx.with(BitContext::InCond, true);
+            self.ctx = ctx;
             if fallthrough {
-                self.with_ctx(ctx).visit_in_cond(&case.test);
-                self.with_ctx(ctx).visit_in_cond(&case.cons);
+                self.visit_in_cond(&case.test);
+                self.ctx = ctx;
+                self.visit_in_cond(&case.cons);
             } else {
-                self.with_ctx(ctx).visit_in_cond(case);
+                self.visit_in_cond(case);
             }
+            self.ctx = saved_ctx;
             fallthrough = !case.cons.iter().rev().any(|s| s.terminates())
         }
     }
@@ -1329,16 +1453,20 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_tagged_tpl(&mut self, n: &TaggedTpl) {
+        let saved_ctx = self.ctx;
         {
-            let ctx = self.ctx.with(BitContext::IsIdRef, false);
-            n.tag.visit_with(&mut *self.with_ctx(ctx));
+            self.ctx = self.ctx.with(BitContext::IsIdRef, false);
+            n.tag.visit_with(self);
+            self.ctx = saved_ctx;
         }
 
         {
-            let ctx = self.ctx.with(BitContext::IsIdRef, true);
+            self.ctx = self.ctx.with(BitContext::IsIdRef, true);
             // Bypass visit_tpl
-            n.tpl.visit_children_with(&mut *self.with_ctx(ctx))
+            n.tpl.visit_children_with(self);
         }
+
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(
@@ -1346,8 +1474,10 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_tpl(&mut self, n: &Tpl) {
-        let ctx = self.ctx.with(BitContext::IsIdRef, false);
-        n.visit_children_with(&mut *self.with_ctx(ctx))
+        let saved_ctx = self.ctx;
+        self.ctx = self.ctx.with(BitContext::IsIdRef, false);
+        n.visit_children_with(self);
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(
@@ -1355,8 +1485,10 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_try_stmt(&mut self, n: &TryStmt) {
-        let ctx = self.ctx.with(BitContext::InCond, true);
-        self.with_ctx(ctx).visit_children_in_cond(n);
+        let saved_ctx = self.ctx;
+        self.ctx = self.ctx.with(BitContext::InCond, true);
+        self.visit_children_in_cond(n);
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(
@@ -1386,12 +1518,14 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_var_decl(&mut self, n: &VarDecl) {
-        let ctx = Ctx {
+        let saved_ctx = self.ctx;
+        self.ctx = Ctx {
             var_decl_kind_of_pat: Some(n.kind),
             bit_ctx: self.ctx.bit_ctx.with(BitContext::InAwaitArg, false),
             ..self.ctx
         };
-        n.visit_children_with(&mut *self.with_ctx(ctx));
+        n.visit_children_with(self);
+        self.ctx = saved_ctx;
 
         for decl in &n.decls {
             if let (Pat::Ident(var), Some(init)) = (&decl.name, decl.init.as_deref()) {
@@ -1403,9 +1537,10 @@ where
                         ignore_named_child_scope: true,
                         ..Default::default()
                     },
+                    self.id_map,
                 ) {
                     if v.is_none() {
-                        v = Some(self.data.var_or_default(IdIdx::from_ident(var)));
+                        v = Some(self.data.var_or_default(self.id_map.intern_ident(var)));
                     }
 
                     v.as_mut().unwrap().add_infects_to(id);
@@ -1424,7 +1559,8 @@ where
                 ..
             }) if (&**arguments == "arguments"));
         {
-            let ctx = Ctx {
+            let saved_ctx = self.ctx;
+            self.ctx = Ctx {
                 bit_ctx: self
                     .ctx
                     .bit_ctx
@@ -1446,7 +1582,8 @@ where
                     .map(|init| init.get_type(self.expr_ctx)),
                 ..self.ctx
             };
-            e.name.visit_with(&mut *self.with_ctx(ctx));
+            e.name.visit_with(self);
+            self.ctx = saved_ctx;
         }
 
         {
@@ -1466,14 +1603,18 @@ where
                         definite: false,
                         ..
                     } => {
-                        let id = IdIdx::from_ident(id);
+                        let id = self.id_map.intern_ident(id);
                         self.used_recursively.insert(
                             id,
                             RecursiveUsage::Var {
                                 can_ignore: !init.may_have_side_effects(self.expr_ctx),
                             },
                         );
-                        e.init.visit_with(&mut *self.with_ctx(ctx));
+                        let saved_ctx = self.ctx;
+                        self.ctx = ctx;
+                        e.init.visit_with(self);
+                        self.ctx = saved_ctx;
+
                         self.used_recursively.remove(&id);
                         return;
                     }
@@ -1484,7 +1625,7 @@ where
                         ..
                     } => {
                         self.data
-                            .var_or_default(IdIdx::from_ident(id))
+                            .var_or_default(self.id_map.intern_ident(id))
                             .mark_as_lazy_init();
                         return;
                     }
@@ -1492,7 +1633,9 @@ where
                 }
             }
 
-            e.init.visit_with(&mut *self.with_ctx(ctx));
+            let saved_ctx = self.ctx;
+            e.init.visit_with(self);
+            self.ctx = saved_ctx;
         }
     }
 
@@ -1501,13 +1644,17 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_while_stmt(&mut self, n: &WhileStmt) {
-        n.test
-            .visit_with(&mut *self.with_ctx(self.ctx.with(BitContext::ExecutedMultipleTime, true)));
-        let ctx = self
-            .ctx
+        let saved_ctx = self.ctx;
+
+        self.ctx = self.ctx.with(BitContext::ExecutedMultipleTime, true);
+        n.test.visit_with(self);
+
+        self.ctx = saved_ctx
             .with(BitContext::ExecutedMultipleTime, true)
             .with(BitContext::InCond, true);
-        self.with_ctx(ctx).visit_in_cond(&n.body);
+        self.visit_in_cond(&n.body);
+
+        self.ctx = saved_ctx;
     }
 
     #[cfg_attr(

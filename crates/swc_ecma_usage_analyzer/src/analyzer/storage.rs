@@ -31,7 +31,7 @@ pub trait Storage: Sized + Default {
     fn declare_decl(
         &mut self,
         ctx: Ctx,
-        i: &Ident,
+        i: IdIdx,
         init_type: Option<Value<Type>>,
         kind: Option<VarDeclKind>,
     ) -> &mut Self::VarData;

@@ -57,6 +57,11 @@ pub mod number;
 pub mod stack_size;
 pub mod str;
 pub use node_ignore_span::NodeIgnoringSpan;
+mod find_pat_ids;
+
+pub use find_pat_ids::{
+    find_pat_ids, find_pat_ids_with_idx, DestructuringFinder, DestructuringFinderWithIdx,
+};
 
 // TODO: remove
 pub struct ThisVisitor {
@@ -143,7 +148,6 @@ impl Visit for IdentRefFinder<'_> {
 
         match *e {
             Expr::Ident(ref i) if i.ctxt == self.ident.ctxt && i.sym == self.ident.sym => {
-            Expr::Ident(ref i) if i.sym == self.ident.sym && i.ctxt == self.ident.ctxt => {
                 self.found = true;
             }
             _ => {}
@@ -1601,42 +1605,6 @@ impl IsDirective for &ModuleItem {
     fn as_ref(&self) -> Option<&Stmt> {
         self.as_stmt()
     }
-}
-
-/// Finds all **binding** idents of variables.
-pub struct DestructuringFinder<I: IdentLike> {
-    pub found: Vec<I>,
-}
-
-/// Finds all **binding** idents of `node`.
-///
-/// If you want to avoid allocation, use [`for_each_binding_ident`] instead.
-pub fn find_pat_ids<T, I: IdentLike>(node: &T) -> Vec<I>
-where
-    T: VisitWith<DestructuringFinder<I>>,
-{
-    let mut v = DestructuringFinder { found: Vec::new() };
-    node.visit_with(&mut v);
-
-    v.found
-}
-
-impl<I: IdentLike> Visit for DestructuringFinder<I> {
-    /// No-op (we don't care about expressions)
-    fn visit_expr(&mut self, _: &Expr) {}
-
-    fn visit_ident(&mut self, i: &Ident) {
-        self.found.push(I::from_ident(i));
-    }
-
-    fn visit_jsx_member_expr(&mut self, n: &JSXMemberExpr) {
-        n.obj.visit_with(self);
-    }
-
-    /// No-op (we don't care about expressions)
-    fn visit_prop_name(&mut self, _: &PropName) {}
-
-    fn visit_ts_type(&mut self, _: &TsType) {}
 }
 
 /// Finds all **binding** idents of variables.

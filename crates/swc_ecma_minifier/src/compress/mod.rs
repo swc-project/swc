@@ -36,6 +36,7 @@ pub(crate) fn compressor<'a, M>(
     options: &'a CompressOptions,
     mangle_options: Option<&'a MangleOptions>,
     mode: &'a M,
+    id_map: &'a mut Ids,
 ) -> impl 'a + Pass
 where
     M: Mode,
@@ -47,6 +48,7 @@ where
         changed: false,
         pass: 1,
         mode,
+        id_map,
     }
 }
 
@@ -58,6 +60,7 @@ struct Compressor<'a> {
     pass: usize,
 
     mode: &'a dyn Mode,
+    id_map: &'a mut Ids,
 }
 
 impl CompilerPass for Compressor<'_> {
@@ -80,7 +83,7 @@ impl Compressor<'_> {
         );
 
         if self.options.hoist_vars || self.options.hoist_fns {
-            let data = analyze(&*n, Some(self.marks), false);
+            let data = analyze(&*n, Some(self.marks), false, self.id_map);
 
             let mut v = decl_hoister(
                 DeclHoisterConfig {
@@ -89,6 +92,7 @@ impl Compressor<'_> {
                     _top_level: self.options.top_level(),
                 },
                 &data,
+                self.id_map,
             );
             n.visit_mut_with(&mut v);
             self.changed |= v.changed();
@@ -145,6 +149,7 @@ impl Compressor<'_> {
 
             let mut visitor = pure_optimizer(
                 self.options,
+                self.id_map,
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: self.pass > 1,
@@ -173,7 +178,7 @@ impl Compressor<'_> {
         {
             let _timer = timer!("apply full optimizer");
 
-            let mut data = analyze(&*n, Some(self.marks), false);
+            let mut data = analyze(&*n, Some(self.marks), false, self.id_map);
 
             // TODO: reset_opt_flags
             //
@@ -185,6 +190,7 @@ impl Compressor<'_> {
                 self.mangle_options,
                 &mut data,
                 self.mode,
+                self.id_map,
             );
             n.visit_mut_with(&mut visitor);
 

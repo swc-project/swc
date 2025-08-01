@@ -60,6 +60,7 @@ pub(super) fn optimizer<'a>(
     mangle_options: Option<&'a MangleOptions>,
     data: &'a mut ProgramData,
     mode: &'a dyn Mode,
+    id_map: &'a mut Ids,
 ) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
@@ -90,6 +91,7 @@ pub(super) fn optimizer<'a>(
         ctx,
         mode,
         functions: Default::default(),
+        id_map,
     }
 }
 
@@ -215,6 +217,8 @@ impl Ctx {
 }
 
 struct Optimizer<'a> {
+    id_map: &'a mut Ids,
+
     marks: Marks,
 
     changed: bool,
@@ -276,7 +280,7 @@ impl Vars {
     }
 
     /// Returns true if something is changed.
-    fn inline_with_multi_replacer<N>(&mut self, n: &mut N) -> bool
+    fn inline_with_multi_replacer<N>(&mut self, n: &mut N, id_map: &mut Ids) -> bool
     where
         N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
         N: for<'aa> VisitMutWith<Finalizer<'aa>>,
@@ -297,13 +301,14 @@ impl Vars {
                 hoisted_props: &self.hoisted_props,
                 vars_to_remove: &self.removed,
                 changed: false,
+                id_map,
             };
             n.visit_mut_with(&mut v);
             changed |= v.changed;
         }
 
         if !self.vars_for_inlining.is_empty() {
-            let mut v = NormalMultiReplacer::new(&mut self.vars_for_inlining);
+            let mut v = NormalMultiReplacer::new(id_map, &mut self.vars_for_inlining);
             n.visit_mut_with(&mut v);
             changed |= v.changed;
         }
@@ -339,12 +344,12 @@ impl From<&Function> for FnMetadata {
     }
 }
 
-impl Optimizer<'_> {
-    fn may_remove_ident(&self, id: &Ident) -> bool {
+impl<'a> Optimizer<'a> {
+    fn may_remove_ident(&mut self, id: &Ident) -> bool {
         if self
             .data
             .vars
-            .get(&IdIdx::from_ident(id))
+            .get(&self.id_map.intern_ident(id))
             .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED))
         {
             return false;
@@ -443,7 +448,8 @@ impl Optimizer<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
-        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer<ProgramData>> + VisitWith<AssertValid>,
+        Vec<T>:
+            VisitMutWith<Self> + VisitWith<UsageAnalyzer<'a, ProgramData>> + VisitWith<AssertValid>,
     {
         let mut use_asm = false;
         let prepend_stmts = self.prepend_stmts.take();
@@ -827,7 +833,7 @@ impl Optimizer<'_> {
 
                 if let Expr::Ident(callee) = &**callee {
                     if self.options.reduce_vars && self.options.side_effects {
-                        if let Some(usage) = self.data.vars.get(&IdIdx::from_ident(callee)) {
+                        if let Some(usage) = self.data.vars.get(&self.id_map.intern_ident(callee)) {
                             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                 && usage.flags.contains(VarUsageInfoFlags::PURE_FN)
                             {
@@ -894,7 +900,7 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                let old = IdIdx::from_ident(&i.id);
+                let old = self.id_map.intern_ident(&i.id);
                 self.store_var_for_inlining(&mut i.id, right, true);
 
                 if i.is_dummy() && self.options.unused {
@@ -1809,7 +1815,7 @@ impl VisitMut for Optimizer<'_> {
                 ..
             }) => {
                 if let Some(i) = left.as_ident_mut() {
-                    let old = IdIdx::from_ident(&i.id);
+                    let old = self.id_map.intern_ident(&i.id);
 
                     self.store_var_for_inlining(i, right, false);
 
@@ -2045,7 +2051,7 @@ impl VisitMut for Optimizer<'_> {
         .entered();
 
         self.functions
-            .entry(IdIdx::from_ident(&f.ident))
+            .entry(self.id_map.intern_ident(&f.ident))
             .or_insert_with(|| FnMetadata::from(&*f.function));
 
         self.drop_unused_params(&mut f.function.params);
@@ -2064,7 +2070,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
         if let Some(ident) = &e.ident {
             self.functions
-                .entry(IdIdx::from_ident(ident))
+                .entry(self.id_map.intern_ident(ident))
                 .or_insert_with(|| FnMetadata::from(&*e.function));
         }
 
@@ -2273,7 +2279,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
         self.with_ctx(ctx).handle_stmt_likes(stmts, true);
 
-        if self.vars.inline_with_multi_replacer(stmts) {
+        if self.vars.inline_with_multi_replacer(stmts, self.id_map) {
             self.changed = true;
         }
 
@@ -2368,7 +2374,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        if self.vars.inline_with_multi_replacer(s) {
+        if self.vars.inline_with_multi_replacer(s, self.id_map) {
             self.changed = true;
         }
 
@@ -3010,7 +3016,7 @@ impl VisitMut for Optimizer<'_> {
 
                 if let Some(Expr::Invalid(..)) = var.init.as_deref() {
                     if let Pat::Ident(i) = &var.name {
-                        if let Some(usage) = self.data.vars.get(&IdIdx::from_ident(&i.id)) {
+                        if let Some(usage) = self.data.vars.get(&self.id_map.intern_ident(&i.id)) {
                             if usage
                                 .flags
                                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)

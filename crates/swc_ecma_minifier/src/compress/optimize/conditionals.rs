@@ -387,7 +387,7 @@ impl Optimizer<'_> {
                 // to   f(a, a = 1 ? true : false)
                 let side_effects_in_test = test.may_have_side_effects(self.ctx.expr_ctx);
 
-                if self.data.contains_unresolved(test) {
+                if self.data.contains_unresolved(test, self.id_map) {
                     return None;
                 }
 
@@ -404,7 +404,7 @@ impl Optimizer<'_> {
                 let side_effect_free = self
                     .data
                     .vars
-                    .get(&IdIdx::from_ident(cons_callee))
+                    .get(&self.id_map.intern_ident(cons_callee))
                     .map(|v| {
                         v.flags.contains(
                             VarUsageInfoFlags::IS_FN_LOCAL.union(VarUsageInfoFlags::DECLARED),
@@ -526,7 +526,7 @@ impl Optimizer<'_> {
             }
 
             (Expr::New(cons), Expr::New(alt)) => {
-                if self.data.contains_unresolved(test) {
+                if self.data.contains_unresolved(test, self.id_map) {
                     return None;
                 }
 
@@ -590,7 +590,7 @@ impl Optimizer<'_> {
             ) if cons.left.eq_ignore_span(&alt.left) && cons.left.as_ident().is_some() => {
                 if self
                     .data
-                    .ident_is_unresolved(&cons.left.as_ident().unwrap().id)
+                    .ident_is_unresolved(&cons.left.as_ident().unwrap().id, self.id_map)
                 {
                     return None;
                 }

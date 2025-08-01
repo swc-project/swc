@@ -1,6 +1,5 @@
 use std::{
     borrow::Cow,
-    cell::RefCell,
     fmt::Display,
     hash::{Hash, Hasher},
     ops::{Deref, DerefMut},
@@ -533,18 +532,7 @@ pub type Id = (Atom, SyntaxContext);
 #[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
 pub struct IdIdx(u32);
 
-impl IdIdx {
-    pub fn new(atom: &Atom, ctxt: SyntaxContext) -> Self {
-        GLOBAL_ID_LIST.with(|ids| ids.borrow_mut().intern(atom, ctxt))
-    }
-
-    #[inline(always)]
-    pub fn from_ident(i: &Ident) -> Self {
-        Self::new(&i.sym, i.ctxt)
-    }
-}
-
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub struct Ids {
     map: indexmap::IndexMap<Id, (), rustc_hash::FxBuildHasher>,
 }
@@ -580,12 +568,8 @@ impl Ids {
 
     #[inline(always)]
     pub fn get(&self, idx: IdIdx) -> &Id {
-        &self.map.get_index(idx.0 as usize).unwrap().0
+        self.map.get_index(idx.0 as usize).unwrap().0
     }
-}
-
-thread_local! {
-    static GLOBAL_ID_LIST: RefCell<Ids> = Default::default();
 }
 
 impl Take for Ident {

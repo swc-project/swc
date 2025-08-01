@@ -22,7 +22,7 @@ impl Optimizer<'_> {
                 ) if &**l_v == "undefined" => {
                     // TODO?
                     if let Expr::Ident(arg) = &**arg {
-                        if let Some(usage) = o.data.vars.get(&IdIdx::from_ident(arg)) {
+                        if let Some(usage) = o.data.vars.get(&o.id_map.intern_ident(arg)) {
                             if !usage.flags.contains(VarUsageInfoFlags::DECLARED) {
                                 return false;
                             }

@@ -3,7 +3,7 @@ use rustc_hash::FxHashSet;
 use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::analyzer::UsageAnalyzer;
-use swc_ecma_utils::{find_pat_ids, StmtLike};
+use swc_ecma_utils::{find_pat_ids, find_pat_ids_with_idx, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 
 use super::util::drop_invalid_stmts;
@@ -18,11 +18,16 @@ pub(super) struct DeclHoisterConfig {
     pub _top_level: bool,
 }
 
-pub(super) fn decl_hoister(config: DeclHoisterConfig, data: &ProgramData) -> Hoister {
+pub(super) fn decl_hoister<'a>(
+    config: DeclHoisterConfig,
+    data: &'a ProgramData,
+    id_map: &'a mut Ids,
+) -> Hoister<'a> {
     Hoister {
         config,
         changed: false,
         data,
+        id_map,
     }
 }
 
@@ -30,6 +35,7 @@ pub(super) struct Hoister<'a> {
     config: DeclHoisterConfig,
     changed: bool,
     data: &'a ProgramData,
+    id_map: &'a mut Ids,
 }
 
 impl Repeated for Hoister<'_> {
@@ -42,11 +48,11 @@ impl Repeated for Hoister<'_> {
     }
 }
 
-impl Hoister<'_> {
+impl<'a> Hoister<'a> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + IsModuleItem + ModuleItemExt,
-        Vec<T>: for<'aa> VisitMutWith<Hoister<'aa>> + VisitWith<UsageAnalyzer<ProgramData>>,
+        Vec<T>: for<'aa> VisitMutWith<Hoister<'aa>> + VisitWith<UsageAnalyzer<'a, ProgramData>>,
     {
         stmts.visit_mut_children_with(self);
         let len = stmts.len();
@@ -55,7 +61,7 @@ impl Hoister<'_> {
                 Some(stmt) => match stmt {
                     Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => 1,
                     Stmt::Decl(Decl::Var(var)) if self.config.hoist_vars => {
-                        let ids: Vec<IdIdx> = find_pat_ids(&var.decls);
+                        let ids: Vec<IdIdx> = find_pat_ids_with_idx(&var.decls, self.id_map);
 
                         if ids.iter().any(|id| {
                             self.data
@@ -122,7 +128,7 @@ impl Hoister<'_> {
                                 let ids: Vec<Ident> = find_pat_ids(&decl.name);
 
                                 for id in ids {
-                                    let idx = IdIdx::from_ident(&id);
+                                    let idx = self.id_map.intern_ident(&id);
                                     if done.insert(idx) {
                                         // If the enclosing function declares parameter with same
                                         // name, we can drop a varaible.
@@ -210,7 +216,7 @@ impl Hoister<'_> {
 
                                 let preserve = match &decl.name {
                                     Pat::Ident(name) => {
-                                        let id = IdIdx::from_ident(&name.id);
+                                        let id = self.id_map.intern_ident(&name);
                                         // If the enclosing function declares parameter with same
                                         // name, we can drop a varaible. (If it's side-effect free).
                                         if decl.init.is_none()

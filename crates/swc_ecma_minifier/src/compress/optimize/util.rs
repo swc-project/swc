@@ -7,13 +7,11 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, Remapper};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
 use super::{Ctx, Optimizer};
-use crate::HEAVY_TASK_PARALLELS;
 
 impl<'b> Optimizer<'b> {
     pub(super) fn normalize_expr(&mut self, e: &mut Expr) {
@@ -217,7 +215,6 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
 /// A visitor responsible for inlining special kind of variables and removing
 /// (some) unused variables. Due to the order of visit, the main visitor cannot
 /// handle all edge cases and this type is the complement for it.
-#[derive(Clone, Copy)]
 pub(crate) struct Finalizer<'a> {
     pub simple_functions: &'a FxHashMap<IdIdx, Box<Expr>>,
     pub lits: &'a FxHashMap<IdIdx, Box<Expr>>,
@@ -228,17 +225,18 @@ pub(crate) struct Finalizer<'a> {
     pub vars_to_remove: &'a FxHashSet<IdIdx>,
 
     pub changed: bool,
+    pub id_map: &'a mut Ids,
 }
 
-impl Parallel for Finalizer<'_> {
-    fn create(&self) -> Self {
-        *self
-    }
+// impl Parallel for Finalizer<'_> {
+//     fn create(&self) -> Self {
+//         *self
+//     }
 
-    fn merge(&mut self, other: Self) {
-        self.changed |= other.changed;
-    }
-}
+//     fn merge(&mut self, other: Self) {
+//         self.changed |= other.changed;
+//     }
+// }
 
 impl Finalizer<'_> {
     fn var(&mut self, i: IdIdx, mode: FinalizerMode) -> Option<Box<Expr>> {
@@ -288,7 +286,8 @@ impl Finalizer<'_> {
 
     fn check(&mut self, e: &mut Expr, mode: FinalizerMode) {
         if let Expr::Ident(i) = e {
-            if let Some(new) = self.var(IdIdx::from_ident(i), mode) {
+            let id = self.id_map.intern_ident(i);
+            if let Some(new) = self.var(id, mode) {
                 debug!("multi-replacer: Replaced `{}`", i);
                 self.changed = true;
 
@@ -333,15 +332,15 @@ impl VisitMut for Finalizer<'_> {
     }
 
     fn visit_mut_class_members(&mut self, members: &mut Vec<ClassMember>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, members, |v, member| {
-            member.visit_mut_with(v);
-        });
+        for member in members {
+            member.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::Ident(i) => {
-                if let Some(expr) = self.lits.get(&IdIdx::from_ident(i)) {
+                if let Some(expr) = self.lits.get(&self.id_map.intern_ident(i)) {
                     *n = *expr.clone();
                     return;
                 }
@@ -360,7 +359,7 @@ impl VisitMut for Finalizer<'_> {
 
                     if let Some(ident) = self
                         .hoisted_props
-                        .get(&(IdIdx::from_ident(obj), sym.clone()))
+                        .get(&(self.id_map.intern_ident(obj), sym.clone()))
                     {
                         self.changed = true;
                         *n = ident.clone().into();
@@ -375,15 +374,15 @@ impl VisitMut for Finalizer<'_> {
     }
 
     fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
+        for item in n {
+            item.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
+        for item in n {
+            item.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
@@ -397,9 +396,9 @@ impl VisitMut for Finalizer<'_> {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
+        for item in n {
+            item.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_opt_var_decl_or_expr(&mut self, n: &mut Option<VarDeclOrExpr>) {
@@ -413,15 +412,15 @@ impl VisitMut for Finalizer<'_> {
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
+        for item in n {
+            item.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
+        for item in n {
+            item.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_stmt(&mut self, n: &mut Stmt) {
@@ -435,9 +434,9 @@ impl VisitMut for Finalizer<'_> {
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
-            n.visit_mut_with(v);
-        });
+        for item in n {
+            item.visit_mut_with(self);
+        }
     }
 
     fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
@@ -445,7 +444,7 @@ impl VisitMut for Finalizer<'_> {
 
         if n.init.is_none() {
             if let Pat::Ident(i) = &n.name {
-                if self.vars_to_remove.contains(&IdIdx::from_ident(i)) {
+                if self.vars_to_remove.contains(&self.id_map.intern_ident(i)) {
                     n.name.take();
                 }
             }
@@ -462,7 +461,7 @@ impl VisitMut for Finalizer<'_> {
         n.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = n {
-            if let Some(expr) = self.lits.get(&IdIdx::from_ident(i)) {
+            if let Some(expr) = self.lits.get(&self.id_map.intern_ident(i)) {
                 *n = Prop::KeyValue(KeyValueProp {
                     key: i.take().into(),
                     value: expr.clone(),
@@ -474,21 +473,23 @@ impl VisitMut for Finalizer<'_> {
 }
 
 pub(crate) struct NormalMultiReplacer<'a> {
+    pub id_map: &'a mut Ids,
     pub vars: &'a mut FxHashMap<IdIdx, Box<Expr>>,
     pub changed: bool,
 }
 
 impl<'a> NormalMultiReplacer<'a> {
     /// `worked` will be changed to `true` if any replacement is done
-    pub fn new(vars: &'a mut FxHashMap<IdIdx, Box<Expr>>) -> Self {
+    pub fn new(id_map: &'a mut Ids, vars: &'a mut FxHashMap<IdIdx, Box<Expr>>) -> Self {
         NormalMultiReplacer {
+            id_map,
             vars,
             changed: false,
         }
     }
 
     fn var(&mut self, i: &Ident) -> Option<Box<Expr>> {
-        let hashed_id = IdIdx::from_ident(i);
+        let hashed_id = self.id_map.intern_ident(i);
         let mut e = self.vars.remove(&hashed_id)?;
 
         e.visit_mut_children_with(self);

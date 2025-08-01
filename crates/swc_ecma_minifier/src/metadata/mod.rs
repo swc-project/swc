@@ -20,6 +20,7 @@ pub(crate) fn info_marker<'a>(
     options: Option<&'a CompressOptions>,
     comments: Option<&'a dyn Comments>,
     marks: Marks,
+    id_map: &'a mut Ids,
     // unresolved_mark: Mark,
 ) -> impl 'a + VisitMut {
     let pure_funcs = options.map(|options| {
@@ -37,6 +38,7 @@ pub(crate) fn info_marker<'a>(
         // unresolved_mark,
         state: Default::default(),
         pure_callee: Default::default(),
+        id_map,
     }
 }
 
@@ -55,13 +57,14 @@ struct InfoMarker<'a> {
     marks: Marks,
     // unresolved_mark: Mark,
     state: State,
+    id_map: &'a mut Ids,
 }
 
 impl InfoMarker<'_> {
-    fn is_pure_callee(&self, callee: &Expr) -> bool {
+    fn is_pure_callee(&mut self, callee: &Expr) -> bool {
         match callee {
             Expr::Ident(callee) => {
-                let id = IdIdx::from_ident(callee);
+                let id = self.id_map.intern_ident(callee);
                 if self.pure_callee.contains(&id) {
                     return true;
                 }
@@ -176,6 +179,7 @@ impl VisitMut for InfoMarker<'_> {
 
     fn visit_mut_module(&mut self, n: &mut Module) {
         n.visit_with(&mut InfoCollector {
+            id_map: self.id_map,
             comments: self.comments,
             pure_callees: &mut self.pure_callee,
         });
@@ -193,6 +197,7 @@ impl VisitMut for InfoMarker<'_> {
 
     fn visit_mut_script(&mut self, n: &mut Script) {
         n.visit_with(&mut InfoCollector {
+            id_map: self.id_map,
             comments: self.comments,
             pure_callees: &mut self.pure_callee,
         });
@@ -229,6 +234,7 @@ fn is_param_one_of(p: &Param, allowed: &[&str]) -> bool {
 const NO_SIDE_EFFECTS_FLAG: &str = "NO_SIDE_EFFECTS";
 
 struct InfoCollector<'a> {
+    id_map: &'a mut Ids,
     comments: Option<&'a dyn Comments>,
 
     pure_callees: &'a mut FxHashSet<IdIdx>,
@@ -242,7 +248,7 @@ impl Visit for InfoCollector<'_> {
 
         if let Decl::Fn(f) = &f.decl {
             if has_flag(self.comments, f.function.span, NO_SIDE_EFFECTS_FLAG) {
-                let id = IdIdx::from_ident(&f.ident);
+                let id = self.id_map.intern_ident(&f.ident);
                 self.pure_callees.insert(id);
             }
         }
@@ -252,7 +258,7 @@ impl Visit for InfoCollector<'_> {
         f.visit_children_with(self);
 
         if has_flag(self.comments, f.function.span, NO_SIDE_EFFECTS_FLAG) {
-            let id = IdIdx::from_ident(&f.ident);
+            let id = self.id_map.intern_ident(&f.ident);
             self.pure_callees.insert(id);
         }
     }
@@ -262,7 +268,7 @@ impl Visit for InfoCollector<'_> {
 
         if let Some(ident) = &f.ident {
             if has_flag(self.comments, f.function.span, NO_SIDE_EFFECTS_FLAG) {
-                let id = IdIdx::from_ident(ident);
+                let id = self.id_map.intern_ident(ident);
                 self.pure_callees.insert(id);
             }
         }
@@ -278,7 +284,7 @@ impl Visit for InfoCollector<'_> {
                         || has_flag(self.comments, v.span, NO_SIDE_EFFECTS_FLAG)
                         || has_flag(self.comments, init.span(), NO_SIDE_EFFECTS_FLAG)
                     {
-                        let id = IdIdx::from_ident(ident);
+                        let id = self.id_map.intern_ident(ident);
                         self.pure_callees.insert(id);
                     }
                 }

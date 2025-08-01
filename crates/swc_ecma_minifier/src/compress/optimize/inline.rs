@@ -4,7 +4,8 @@ use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
 use swc_ecma_utils::{
-    class_has_side_effect, collect_decls, contains_this_expr, find_pat_ids, ExprExt, Remapper,
+    class_has_side_effect, collect_decls, contains_this_expr, find_pat_ids_with_idx, ExprExt,
+    Remapper,
 };
 use swc_ecma_visit::VisitMutWith;
 
@@ -16,7 +17,9 @@ use crate::{
     },
     program_data::{ScopeData, VarUsageInfo, VarUsageInfoFlags},
     util::{
-        idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
+        ident_usage_collector::{idents_used_by, idents_used_by_ignoring_nested},
+        idents_captured_by,
+        size::SizeWithCtxt,
     },
 };
 
@@ -58,7 +61,7 @@ impl Optimizer<'_> {
             }
         }
 
-        if let Some(usage) = self.data.vars.get(&IdIdx::from_ident(ident)) {
+        if let Some(usage) = self.data.vars.get(&self.id_map.intern_ident(ident)) {
             let ref_count = usage.ref_count - u32::from(can_drop && usage.ref_count > 1);
             if !usage.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) {
                 return;
@@ -96,7 +99,7 @@ impl Optimizer<'_> {
 
             // No use => dropped
             if ref_count == 0 {
-                self.mode.store(IdIdx::from_ident(ident), &*init);
+                self.mode.store(self.id_map.intern_ident(ident), &*init);
 
                 if init.may_have_side_effects(self.ctx.expr_ctx) {
                     // TODO: Inline partially
@@ -112,7 +115,7 @@ impl Optimizer<'_> {
 
             let mut inlined_into_init = false;
 
-            let hashed_id = IdIdx::from_ident(ident);
+            let hashed_id = self.id_map.intern_ident(ident);
 
             // We inline arrays partially if it's pure (all elements are literal), and not
             // modified.
@@ -141,7 +144,7 @@ impl Optimizer<'_> {
                         })
                     {
                         inlined_into_init = true;
-                        self.vars.inline_with_multi_replacer(arr);
+                        self.vars.inline_with_multi_replacer(arr, self.id_map);
                         report_change!(
                             "inline: Decided to store '{}{:?}' for array access",
                             ident.sym,
@@ -149,7 +152,7 @@ impl Optimizer<'_> {
                         );
                         self.vars
                             .lits_for_array_access
-                            .insert(IdIdx::from_ident(ident), Box::new(init.clone()));
+                            .insert(self.id_map.intern_ident(ident), Box::new(init.clone()));
                     }
                 }
             }
@@ -184,18 +187,18 @@ impl Optimizer<'_> {
                 match init {
                     Expr::Fn(..) | Expr::Arrow(..) | Expr::Class(..) => {
                         self.typeofs
-                            .insert(IdIdx::from_ident(ident), atom!("function"));
+                            .insert(self.id_map.intern_ident(ident), atom!("function"));
                     }
                     Expr::Array(..) | Expr::Object(..) => {
                         self.typeofs
-                            .insert(IdIdx::from_ident(ident), atom!("object"));
+                            .insert(self.id_map.intern_ident(ident), atom!("object"));
                     }
                     _ => {}
                 }
             }
 
             if !usage.mutated() {
-                self.mode.store(IdIdx::from_ident(ident), &*init);
+                self.mode.store(self.id_map.intern_ident(ident), &*init);
             }
 
             if usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
@@ -216,7 +219,7 @@ impl Optimizer<'_> {
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
                         if !usage.flags.contains(VarUsageInfoFlags::ASSIGNED_FN_LOCAL) {
                             false
-                        } else if let Some(u) = self.data.vars.get(&IdIdx::from_ident(id)) {
+                        } else if let Some(u) = self.data.vars.get(&self.id_map.intern_ident(id)) {
                             let mut should_inline =
                                 !u.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                     && u.flags.contains(VarUsageInfoFlags::DECLARED);
@@ -278,7 +281,7 @@ impl Optimizer<'_> {
                             } else {
                                 self.vars
                                     .lits_for_cmp
-                                    .insert(IdIdx::from_ident(ident), init.clone().into());
+                                    .insert(self.id_map.intern_ident(ident), init.clone().into());
                                 false
                             }
                         }
@@ -305,7 +308,7 @@ impl Optimizer<'_> {
             {
                 if !inlined_into_init {
                     inlined_into_init = true;
-                    self.vars.inline_with_multi_replacer(init);
+                    self.vars.inline_with_multi_replacer(init, self.id_map);
                 }
 
                 self.mode.store(hashed_id, &*init);
@@ -318,7 +321,7 @@ impl Optimizer<'_> {
                 } = **usage;
                 let mut inc_usage = || {
                     if let Expr::Ident(i) = &*init {
-                        if let Some(u) = self.data.vars.get_mut(&IdIdx::from_ident(i)) {
+                        if let Some(u) = self.data.vars.get_mut(&self.id_map.intern_ident(i)) {
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_ARG;
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_REF;
                             u.flags |= flags & VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY;
@@ -432,9 +435,10 @@ impl Optimizer<'_> {
                     }
 
                     Expr::Fn(f) => {
-                        let excluded: Vec<IdIdx> = find_pat_ids::<_, IdIdx>(&f.function.params);
+                        let excluded: Vec<IdIdx> =
+                            find_pat_ids_with_idx(&f.function.params, self.id_map);
 
-                        for id in idents_used_by(&f.function.params) {
+                        for id in idents_used_by(&f.function.params, &mut self.id_map) {
                             if excluded.contains(&id) {
                                 continue;
                             }
@@ -449,9 +453,9 @@ impl Optimizer<'_> {
                     }
 
                     Expr::Arrow(f) => {
-                        let excluded: Vec<IdIdx> = find_pat_ids::<_, IdIdx>(&f.params);
+                        let excluded: Vec<IdIdx> = find_pat_ids_with_idx(&f.params, self.id_map);
 
-                        for id in idents_used_by(&f.params) {
+                        for id in idents_used_by(&f.params, &mut self.id_map) {
                             if excluded.contains(&id) {
                                 continue;
                             }
@@ -466,7 +470,7 @@ impl Optimizer<'_> {
                     }
 
                     Expr::Object(..) if self.options.pristine_globals => {
-                        for id in idents_used_by_ignoring_nested(init) {
+                        for id in idents_used_by_ignoring_nested(init, &mut self.id_map) {
                             if let Some(v_usage) = self.data.vars.get(&id) {
                                 if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                     return;
@@ -480,7 +484,8 @@ impl Optimizer<'_> {
                             return;
                         }
 
-                        if let Some(init_usage) = self.data.vars.get(&IdIdx::from_ident(id)) {
+                        if let Some(init_usage) = self.data.vars.get(&self.id_map.intern_ident(id))
+                        {
                             if init_usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                 || !init_usage.flags.contains(VarUsageInfoFlags::DECLARED)
                             {
@@ -512,7 +517,7 @@ impl Optimizer<'_> {
                     }
 
                     _ => {
-                        for id in idents_used_by(init) {
+                        for id in idents_used_by(init, &mut self.id_map) {
                             if let Some(v_usage) = self.data.vars.get(&id) {
                                 if v_usage.property_mutation_count > usage.property_mutation_count
                                     || v_usage.flags.intersects(
@@ -546,10 +551,11 @@ impl Optimizer<'_> {
                             // block_scoping pass.
                             // If the function captures the environment, we
                             // can't inline it.
-                            let params: Vec<IdIdx> = find_pat_ids(&f.function.params);
+                            let params: Vec<IdIdx> =
+                                find_pat_ids_with_idx(&f.function.params, self.id_map);
 
                             if !params.is_empty() {
-                                let captured = idents_captured_by::<_, IdIdx>(&f.function.body);
+                                let captured = idents_captured_by(&f.function.body, self.id_map);
 
                                 for param in params {
                                     if captured.contains(&param) {
@@ -569,7 +575,7 @@ impl Optimizer<'_> {
                 }
 
                 if !inlined_into_init {
-                    self.vars.inline_with_multi_replacer(init);
+                    self.vars.inline_with_multi_replacer(init, self.id_map);
                 }
 
                 report_change!(
@@ -579,7 +585,7 @@ impl Optimizer<'_> {
                 self.changed = true;
 
                 let ident = ident.take();
-                let id = IdIdx::from_ident(&ident);
+                let id = self.id_map.intern_ident(&ident);
                 self.vars.vars_for_inlining.insert(id, init.take().into());
             }
         }
@@ -639,7 +645,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        let hashed_id = IdIdx::from_ident(i);
+        let hashed_id = self.id_map.intern_ident(i);
         if let Some(usage) = self.data.vars.get(&hashed_id) {
             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                 trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.ctxt);
@@ -700,7 +706,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(usage) = self.data.vars.get(&IdIdx::from_ident(&i)) {
+        if let Some(usage) = self.data.vars.get(&self.id_map.intern_ident(&i)) {
             if usage
                 .flags
                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
@@ -726,7 +732,7 @@ impl Optimizer<'_> {
             }
 
             // Inline very simple functions.
-            self.vars.inline_with_multi_replacer(decl);
+            self.vars.inline_with_multi_replacer(decl, self.id_map);
             match decl {
                 Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
                     if let Some(body) = &f.function.body {
@@ -759,6 +765,7 @@ impl Optimizer<'_> {
                                 AliasConfig::default()
                                     .marks(Some(self.marks))
                                     .need_all(true),
+                                self.id_map,
                             ) {
                                 if let Some(usage) = self.data.vars.get_mut(&i.0) {
                                     usage.ref_count += 1;
@@ -766,7 +773,7 @@ impl Optimizer<'_> {
                             }
 
                             self.vars.simple_functions.insert(
-                                IdIdx::from_ident(&i),
+                                self.id_map.intern_ident(&i),
                                 FnExpr {
                                     ident: None,
                                     function: f.function.clone(),
@@ -862,7 +869,9 @@ impl Optimizer<'_> {
                     }
                 };
 
-                self.vars.vars_for_inlining.insert(IdIdx::from_ident(&i), e);
+                self.vars
+                    .vars_for_inlining
+                    .insert(self.id_map.intern_ident(&i), e);
             } else {
                 log_abort!("inline: [x] Usage: {:?}", usage);
             }
@@ -880,7 +889,10 @@ impl Optimizer<'_> {
                 if let MemberProp::Computed(prop) = &mut me.prop {
                     if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
                         if let Expr::Ident(obj) = &*me.obj {
-                            let new = self.vars.lits_for_array_access.get(&IdIdx::from_ident(obj));
+                            let new = self
+                                .vars
+                                .lits_for_array_access
+                                .get(&self.id_map.intern_ident(obj));
 
                             if let Some(new) = new {
                                 report_change!("inline: Inlined array access");
@@ -893,7 +905,7 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Ident(i) => {
-                let id = IdIdx::from_ident(i);
+                let id = self.id_map.intern_ident(i);
                 if let Some(mut value) = self
                     .vars
                     .lits
@@ -927,8 +939,13 @@ impl Optimizer<'_> {
 
                         let new_ctxt = *new_ctxt;
 
-                        if let Some(usage) = self.data.vars.get(&IdIdx::new(&id.0, id.1)).cloned() {
-                            let new_id = IdIdx::new(&id.0, new_ctxt);
+                        if let Some(usage) = self
+                            .data
+                            .vars
+                            .get(&self.id_map.intern(&id.0, id.1))
+                            .cloned()
+                        {
+                            let new_id = self.id_map.intern(&id.0, new_ctxt);
                             self.data.vars.insert(new_id, usage);
                         }
 
@@ -947,7 +964,7 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                let hashed_id = IdIdx::from_ident(i);
+                let hashed_id = self.id_map.intern_ident(i);
 
                 // Check without cloning
                 if let Some(value) = self.vars.vars_for_inlining.get(&hashed_id) {

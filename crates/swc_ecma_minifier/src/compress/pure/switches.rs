@@ -9,7 +9,7 @@ use crate::{
         pure::{Ctx, DropOpts},
         util::is_primitive,
     },
-    util::idents_used_by,
+    util::ident_usage_collector::idents_used_by,
 };
 
 /// Methods related to option `switches`.
@@ -117,7 +117,7 @@ impl Pure<'_> {
                 } else {
                     if !may_match_other_than_exact
                         && !test.is_ident()
-                        && !idents_used_by::<_, Id>(test).is_empty()
+                        && !idents_used_by(test, &mut Ids::default()).is_empty()
                     {
                         may_match_other_than_exact = true;
                     }

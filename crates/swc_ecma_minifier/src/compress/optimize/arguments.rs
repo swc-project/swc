@@ -77,7 +77,7 @@ impl Optimizer<'_> {
             Pat::Ident(i) => self
                 .data
                 .vars
-                .get(&IdIdx::from_ident(&i.id))
+                .get(&self.id_map.intern_ident(&i.id))
                 .map(|v| v.declared_count >= 2)
                 .unwrap_or(false),
             _ => true,
