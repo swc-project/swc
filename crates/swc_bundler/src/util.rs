@@ -50,7 +50,7 @@ pub(crate) trait ExprExt: Into<Expr> {
     #[track_caller]
     fn assign_to<T>(self, lhs: T) -> VarDeclarator
     where
-        T: IdentLike,
+        T: IdentLike<Id = Id>,
     {
         let init = self.into();
         let lhs = lhs.into_id();

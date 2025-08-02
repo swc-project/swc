@@ -39,7 +39,8 @@ fn eval(module: &str, expr: &str) -> Option<String> {
             .unwrap()
         };
 
-        let mut evaluator = Evaluator::new(module_ast, marks);
+        let mut id_map = Ids::default();
+        let mut evaluator = Evaluator::new(module_ast, marks, &mut id_map);
 
         let res = evaluator.eval(&expr_ast);
 
@@ -72,12 +73,11 @@ fn eval_lit() {
     assert_eq!(eval("", "false").unwrap(), "false");
 }
 
-struct PartialInliner {
-    marks: Marks,
-    eval: Option<Evaluator>,
+struct PartialInliner<'a> {
+    eval: Evaluator<'a>,
 }
 
-impl PartialInliner {
+impl<'a> PartialInliner<'a> {
     fn run_test<F>(src: &str, op: F)
     where
         F: FnOnce(Lrc<SourceMap>, Module, &mut PartialInliner),
@@ -99,10 +99,9 @@ impl PartialInliner {
             .unwrap();
             module.visit_mut_with(&mut resolver(Mark::new(), Mark::new(), false));
 
-            let mut inliner = PartialInliner {
-                marks,
-                eval: Default::default(),
-            };
+            let mut id_map = Ids::default();
+            let eval = Evaluator::new(module.clone(), marks, &mut id_map);
+            let mut inliner = PartialInliner { eval };
 
             op(cm, module, &mut inliner);
 
@@ -168,51 +167,44 @@ impl PartialInliner {
     }
 }
 
-impl VisitMut for PartialInliner {
+impl VisitMut for PartialInliner<'_> {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        if let Some(evaluator) = self.eval.as_mut() {
-            if let Expr::TaggedTpl(tt) = e {
-                if let Expr::Ident(ref tag) = &*tt.tag {
-                    if &*tag.sym == "css" {
-                        let res = evaluator.eval_tpl(&tt.tpl);
+        if let Expr::TaggedTpl(tt) = e {
+            if let Expr::Ident(ref tag) = &*tt.tag {
+                if &*tag.sym == "css" {
+                    let res = self.eval.eval_tpl(&tt.tpl);
 
-                        let res = match res {
-                            Some(v) => v,
-                            None => return,
-                        };
+                    let res = match res {
+                        Some(v) => v,
+                        None => return,
+                    };
 
-                        match res {
-                            EvalResult::Lit(Lit::Str(s)) => {
-                                let el = TplElement {
-                                    span: s.span,
-                                    tail: true,
-                                    // TODO possible bug for quotes
-                                    raw: Atom::new(&*s.value),
-                                    cooked: Some(Atom::new(&*s.value)),
-                                };
-                                tt.tpl = Box::new(Tpl {
-                                    span: el.span,
-                                    exprs: Default::default(),
-                                    quasis: vec![el],
-                                });
-                            }
-                            _ => {
-                                unreachable!()
-                            }
+                    match res {
+                        EvalResult::Lit(Lit::Str(s)) => {
+                            let el = TplElement {
+                                span: s.span,
+                                tail: true,
+                                // TODO possible bug for quotes
+                                raw: Atom::new(&*s.value),
+                                cooked: Some(Atom::new(&*s.value)),
+                            };
+                            tt.tpl = Box::new(Tpl {
+                                span: el.span,
+                                exprs: Default::default(),
+                                quasis: vec![el],
+                            });
+                        }
+                        _ => {
+                            unreachable!()
                         }
                     }
                 }
             }
         }
-    }
-
-    fn visit_mut_module(&mut self, module: &mut Module) {
-        self.eval = Some(Evaluator::new(module.clone(), self.marks));
-        module.visit_mut_children_with(self);
     }
 }
 

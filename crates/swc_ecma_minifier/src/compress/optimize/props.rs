@@ -38,7 +38,7 @@ impl Optimizer<'_> {
 
             // If a variable is initialized multiple time, we currently don't do anything
             // smart.
-            let usage = self.data.vars.get(&name.to_id())?;
+            let usage = self.data.vars.get(&self.id_map.intern_ident(&name.id))?;
             if usage.mutated()
                 || usage.flags.intersects(
                     VarUsageInfoFlags::USED_ABOVE_DECL
@@ -73,7 +73,7 @@ impl Optimizer<'_> {
             let mut unknown_used_props = self
                 .data
                 .vars
-                .get(&name.to_id())
+                .get(&self.id_map.intern_ident(name))
                 .map(|v| v.accessed_props.clone())
                 .unwrap_or_default();
 
@@ -124,7 +124,8 @@ impl Optimizer<'_> {
             }
 
             if let Some(init) = n.init.as_deref() {
-                self.mode.store(name.to_id(), init);
+                let hashed_id = self.id_map.intern_ident(name);
+                self.mode.store(hashed_id, init);
             }
 
             let mut new_vars = Vec::new();
@@ -175,7 +176,7 @@ impl Optimizer<'_> {
 
                 self.vars
                     .hoisted_props
-                    .insert((name.to_id(), key), new_var_name);
+                    .insert((self.id_map.intern_ident(name), key), new_var_name);
 
                 new_vars.push(new_var);
             }
@@ -210,7 +211,7 @@ impl Optimizer<'_> {
             if let Some(value) = self
                 .vars
                 .hoisted_props
-                .get(&(obj.to_id(), sym.clone()))
+                .get(&(self.id_map.intern_ident(obj), sym.clone()))
                 .cloned()
             {
                 report_change!("hoist_props: Inlining `{}.{}`", obj.sym, sym);

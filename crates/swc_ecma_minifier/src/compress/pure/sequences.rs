@@ -299,7 +299,9 @@ impl Pure<'_> {
                     }) if prop.is_ident_with("apply") || prop.is_ident_with("call") => {
                         //
                         if let Expr::Ident(b_callee_obj) = &**b_callee_obj {
-                            if b_callee_obj.to_id() != var_name.to_id() {
+                            if b_callee_obj.ctxt != var_name.ctxt
+                                || b_callee_obj.sym != var_name.sym
+                            {
                                 continue;
                             }
                         } else {

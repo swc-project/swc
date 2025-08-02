@@ -98,6 +98,7 @@ pub fn optimize(
 ) -> Program {
     let _timer = timer!("minify");
 
+    let mut id_map = Ids::default();
     let mut marks = Marks::new();
     marks.top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
     marks.unresolved_mark = extra.unresolved_mark;
@@ -128,6 +129,7 @@ pub fn optimize(
             comments,
             marks,
             // extra.unresolved_mark,
+            &mut id_map,
         ));
         debug_assert_valid(&n);
     }
@@ -164,6 +166,7 @@ pub fn optimize(
                 c,
                 options.mangle.as_ref(),
                 &Minification,
+                &mut id_map,
             ));
 
             perform_dce(&mut n, c, marks);
@@ -177,6 +180,7 @@ pub fn optimize(
 
         n.visit_mut_with(&mut pure_optimizer(
             c,
+            &mut id_map,
             marks,
             PureOptimizerConfig {
                 force_str_for_tpl: Minification.force_str_for_tpl(),
@@ -220,7 +224,7 @@ pub fn optimize(
         );
 
         if let Some(property_mangle_options) = &mangle.props {
-            mangle_properties(&mut n, property_mangle_options, chars);
+            mangle_properties(&mut n, property_mangle_options, chars, &mut id_map);
         }
     }
 

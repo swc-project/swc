@@ -4,10 +4,7 @@ use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::{debug_assert_valid, simplify};
 use swc_ecma_usage_analyzer::marks::Marks;
-use swc_ecma_utils::{
-    parallel::{cpu_count, Parallel, ParallelExt},
-    ExprCtx,
-};
+use swc_ecma_utils::ExprCtx;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
 use tracing::Level;
@@ -45,11 +42,13 @@ pub(crate) struct PureOptimizerConfig {
 #[allow(clippy::needless_lifetimes)]
 pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
+    id_map: &'a mut Ids,
     marks: Marks,
     config: PureOptimizerConfig,
 ) -> impl 'a + VisitMut + Repeated {
     Pure {
         options,
+        id_map,
         config,
         marks,
         expr_ctx: ExprCtx {
@@ -65,6 +64,7 @@ pub(crate) fn pure_optimizer<'a>(
 
 struct Pure<'a> {
     options: &'a CompressOptions,
+    id_map: &'a mut Ids,
     config: PureOptimizerConfig,
     marks: Marks,
     expr_ctx: ExprCtx,
@@ -73,17 +73,17 @@ struct Pure<'a> {
     changed: bool,
 }
 
-impl Parallel for Pure<'_> {
-    fn create(&self) -> Self {
-        Self { ..*self }
-    }
+// impl Parallel for Pure<'_> {
+//     fn create(&self) -> Self {
+//         Self { ..*self }
+//     }
 
-    fn merge(&mut self, other: Self) {
-        if other.changed {
-            self.changed = true;
-        }
-    }
-}
+//     fn merge(&mut self, other: Self) {
+//         if other.changed {
+//             self.changed = true;
+//         }
+//     }
+// }
 
 impl Repeated for Pure<'_> {
     fn changed(&self) -> bool {
@@ -174,22 +174,22 @@ impl Pure<'_> {
     }
 
     /// Visit `nodes`, maybe in parallel.
-    fn visit_par<N>(&mut self, threshold_multiplier: usize, nodes: &mut Vec<N>)
+    fn visit_par<N>(&mut self, _threshold_multiplier: usize, nodes: &mut Vec<N>)
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        self.maybe_par(cpu_count() * threshold_multiplier, nodes, |v, node| {
-            node.visit_mut_with(v);
-        });
+        for node in nodes {
+            node.visit_mut_with(self);
+        }
     }
 
     fn visit_par_ref<N>(&mut self, nodes: &mut [&mut N])
     where
         N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
     {
-        self.maybe_par(0, nodes, |v, node| {
-            node.visit_mut_with(v);
-        });
+        for node in nodes {
+            node.visit_mut_with(self);
+        }
     }
 }
 
