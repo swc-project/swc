@@ -1,4 +1,4 @@
-var _initClass, _init_b, _init_c, _get___c, _set___c, _call_d, _initProto, _initStatic;
+var _initClass, _init_b, _init_c, _get_c, _set_c, _call_d, _initProto, _initStatic;
 let _A;
 new class extends _identity {
     constructor(){
@@ -7,7 +7,7 @@ new class extends _identity {
     static{
         class A {
             static{
-                ({ e: [_init_b, _init_c, _get___c, _set___c, _call_d, _initProto, _initStatic], c: [_A, _initClass] } = _apply_decs_2203_r(this, [
+                ({ e: [_init_b, _init_c, _get_c, _set_c, _call_d, _initProto, _initStatic], c: [_A, _initClass] } = _apply_decs_2203_r(this, [
                     [
                         dec3,
                         6,
@@ -45,22 +45,22 @@ new class extends _identity {
             }
             a() {}
             static get b() {
-                return this.#___private_b_1;
+                return this.#_private_b_1;
             }
             static set b(_v) {
-                this.#___private_b_1 = _v;
+                this.#_private_b_1 = _v;
             }
             get #d() {
                 return _call_d;
             }
         }
     }
-    #___private_b_1 = _init_b(this);
+    #_private_b_1 = _init_b(this);
     #__c_2 = _init_c(this);
     get #c() {
-        return _get___c(this);
+        return _get_c(this);
     }
     set #c(_v) {
-        _set___c(this, _v);
+        _set_c(this, _v);
     }
 }();
