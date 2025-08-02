@@ -128,12 +128,16 @@ where
         let in_catch_param = self.ctx.bit_ctx.contains(BitContext::InCatchParam);
 
         if in_pat_of_var_decl || in_pat_of_param || in_catch_param {
-            let v = self.declare_decl(
-                i,
-                self.ctx.in_pat_of_var_decl_with_init,
-                self.ctx.var_decl_kind_of_pat,
-                false,
-            );
+            let kind = if self.ctx.bit_ctx.contains(BitContext::IsVar) {
+                Some(VarDeclKind::Var)
+            } else if self.ctx.bit_ctx.contains(BitContext::IsLet) {
+                Some(VarDeclKind::Let)
+            } else if self.ctx.bit_ctx.contains(BitContext::IsConst) {
+                Some(VarDeclKind::Const)
+            } else {
+                None
+            };
+            let v = self.declare_decl(i, self.ctx.in_pat_of_var_decl_with_init, kind, false);
 
             if in_pat_of_param {
                 v.mark_declared_as_fn_param();
@@ -336,8 +340,13 @@ where
 
         {
             let ctx = Ctx {
-                bit_ctx: self.ctx.bit_ctx.with(BitContext::InPatOfParam, false),
-                var_decl_kind_of_pat: None,
+                bit_ctx: self.ctx.bit_ctx.with(
+                    BitContext::InPatOfParam
+                        .union(BitContext::IsVar)
+                        .union(BitContext::IsConst)
+                        .union(BitContext::IsLet),
+                    false,
+                ),
                 ..self.ctx
             };
             p.right.visit_with(&mut *self.with_ctx(ctx))
@@ -727,13 +736,15 @@ where
     )]
     fn visit_expr(&mut self, e: &Expr) {
         let ctx = Ctx {
-            bit_ctx: self
-                .ctx
-                .bit_ctx
-                .with(BitContext::InPatOfVarDecl, false)
-                .with(BitContext::InPatOfParam, false)
-                .with(BitContext::InCatchParam, false),
-            var_decl_kind_of_pat: None,
+            bit_ctx: self.ctx.bit_ctx.with(
+                BitContext::InPatOfVarDecl
+                    .union(BitContext::InPatOfParam)
+                    .union(BitContext::InCatchParam)
+                    .union(BitContext::IsVar)
+                    .union(BitContext::IsConst)
+                    .union(BitContext::IsLet),
+                false,
+            ),
             in_pat_of_var_decl_with_init: None,
             ..self.ctx
         };
@@ -988,13 +999,15 @@ where
     )]
     fn visit_jsx_element_name(&mut self, n: &JSXElementName) {
         let ctx = Ctx {
-            bit_ctx: self
-                .ctx
-                .bit_ctx
-                .with(BitContext::InPatOfVarDecl, false)
-                .with(BitContext::InPatOfParam, false)
-                .with(BitContext::InCatchParam, false),
-            var_decl_kind_of_pat: None,
+            bit_ctx: self.ctx.bit_ctx.with(
+                BitContext::InPatOfVarDecl
+                    .union(BitContext::InPatOfParam)
+                    .union(BitContext::InCatchParam)
+                    .union(BitContext::IsVar)
+                    .union(BitContext::IsConst)
+                    .union(BitContext::IsLet),
+                false,
+            ),
             in_pat_of_var_decl_with_init: None,
             ..self.ctx
         };
@@ -1128,9 +1141,13 @@ where
             bit_ctx: self
                 .ctx
                 .bit_ctx
-                .with(BitContext::InPatOfParam, true)
-                .with(BitContext::IsIdRef, true),
-            var_decl_kind_of_pat: None,
+                .with(BitContext::IsIdRef.union(BitContext::InPatOfParam), true)
+                .with(
+                    BitContext::IsVar
+                        .union(BitContext::IsConst)
+                        .union(BitContext::IsLet),
+                    false,
+                ),
             ..self.ctx
         };
         n.pat.visit_with(&mut *self.with_ctx(ctx));
@@ -1374,9 +1391,16 @@ where
         tracing::instrument(level = "debug", skip_all)
     )]
     fn visit_var_decl(&mut self, n: &VarDecl) {
+        let mut bit_ctx = self.ctx.bit_ctx.with(BitContext::InAwaitArg, false);
+        if n.kind == VarDeclKind::Var {
+            bit_ctx.insert(BitContext::IsVar);
+        } else if n.kind == VarDeclKind::Let {
+            bit_ctx.insert(BitContext::IsLet);
+        } else if n.kind == VarDeclKind::Const {
+            bit_ctx.insert(BitContext::IsConst);
+        }
         let ctx = Ctx {
-            var_decl_kind_of_pat: Some(n.kind),
-            bit_ctx: self.ctx.bit_ctx.with(BitContext::InAwaitArg, false),
+            bit_ctx,
             ..self.ctx
         };
         n.visit_children_with(&mut *self.with_ctx(ctx));
