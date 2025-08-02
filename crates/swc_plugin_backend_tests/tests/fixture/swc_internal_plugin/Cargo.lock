@@ -58,9 +58,8 @@ checksum = "d92bec98840b8f03a5ff5413de5293bfcd8bf96467cf5452609f939ec6f5de16"
 
 [[package]]
 name = "ast_node"
-version = "3.0.0"
+version = "3.0.3"
 dependencies = [
- "proc-macro2",
  "quote",
  "swc_macros_common",
  "syn",
@@ -90,7 +89,7 @@ dependencies = [
 
 [[package]]
 name = "better_scoped_tls"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "scoped-tls",
 ]
@@ -433,9 +432,8 @@ dependencies = [
 
 [[package]]
 name = "from_variant"
-version = "2.0.0"
+version = "2.0.2"
 dependencies = [
- "proc-macro2",
  "swc_macros_common",
  "syn",
 ]
@@ -510,12 +508,11 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hstr"
-version = "1.0.0"
+version = "2.0.1"
 dependencies = [
  "hashbrown 0.14.5",
  "new_debug_unreachable",
  "once_cell",
- "phf",
  "rustc-hash",
  "triomphe",
 ]
@@ -857,21 +854,11 @@ checksum = "26995317201fa17f3656c36716aed4a7c81743a9634ac4c99c0eeda495db0cec"
 
 [[package]]
 name = "par-core"
-version = "1.0.4"
+version = "2.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "757892557993c69e82f9de0f9051e87144278aa342f03bf53617bbf044554484"
+checksum = "e96cbd21255b7fb29a5d51ef38a779b517a91abd59e2756c039583f43ef4c90f"
 dependencies = [
  "once_cell",
-]
-
-[[package]]
-name = "par-iter"
-version = "1.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8a5b20f31e9ba82bfcbbb54a67aa40be6cebec9f668ba5753be138f9523c531a"
-dependencies = [
- "either",
- "par-core",
 ]
 
 [[package]]
@@ -1210,6 +1197,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "seq-macro"
+version = "0.3.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1bc711410fbe7399f390ca1c3b60ad0f53f80e95c5eb935e52268a0e2cd49acc"
+
+[[package]]
 name = "serde"
 version = "1.0.219"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1329,9 +1322,8 @@ checksum = "a2eb9349b6444b326872e140eb1cf5e7c522154d69e7a0ffb0fb81c06b37543f"
 
 [[package]]
 name = "string_enum"
-version = "1.0.0"
+version = "1.0.2"
 dependencies = [
- "proc-macro2",
  "quote",
  "swc_macros_common",
  "syn",
@@ -1345,39 +1337,35 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc_allocator"
-version = "4.0.0"
+version = "4.0.1"
 dependencies = [
  "allocator-api2",
  "bumpalo",
  "hashbrown 0.14.5",
- "ptr_meta",
  "rustc-hash",
- "triomphe",
 ]
 
 [[package]]
 name = "swc_atoms"
-version = "5.0.0"
+version = "7.0.0"
 dependencies = [
  "bytecheck",
  "hstr",
  "once_cell",
  "rancor",
  "rkyv",
- "rustc-hash",
  "serde",
 ]
 
 [[package]]
 name = "swc_common"
-version = "11.1.3"
+version = "14.0.2"
 dependencies = [
  "anyhow",
  "ast_node",
  "better_scoped_tls",
  "bytecheck",
  "bytes-str",
- "cfg-if",
  "either",
  "from_variant",
  "new_debug_unreachable",
@@ -1389,7 +1377,6 @@ dependencies = [
  "rustc-hash",
  "serde",
  "siphasher 0.3.11",
- "swc_allocator",
  "swc_atoms",
  "swc_eq_ignore_macros",
  "swc_sourcemap",
@@ -1402,58 +1389,36 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "26.4.5"
+version = "34.0.4"
 dependencies = [
- "once_cell",
  "swc_allocator",
  "swc_atoms",
  "swc_common",
- "swc_css_ast",
- "swc_css_visit",
+ "swc_ecma_ast",
+ "swc_ecma_quote_macros",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_testing",
  "swc_ecma_visit",
  "swc_plugin",
  "swc_plugin_macro",
  "swc_plugin_proxy",
+ "swc_transform_common",
  "vergen",
 ]
 
 [[package]]
-name = "swc_css_ast"
-version = "11.0.0"
-dependencies = [
- "bytecheck",
- "is-macro",
- "rancor",
- "rkyv",
- "string_enum",
- "swc_atoms",
- "swc_common",
-]
-
-[[package]]
-name = "swc_css_visit"
-version = "11.0.0"
-dependencies = [
- "serde",
- "swc_atoms",
- "swc_common",
- "swc_css_ast",
- "swc_visit",
-]
-
-[[package]]
 name = "swc_ecma_ast"
-version = "11.0.0"
+version = "14.0.0"
 dependencies = [
  "bitflags",
+ "bytecheck",
  "is-macro",
  "num-bigint",
  "once_cell",
  "phf",
+ "rancor",
+ "rkyv",
  "rustc-hash",
- "scoped-tls",
  "string_enum",
  "swc_atoms",
  "swc_common",
@@ -1463,7 +1428,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "13.2.0"
+version = "16.0.0"
 dependencies = [
  "ascii",
  "compact_str",
@@ -1485,26 +1450,24 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen_macros"
-version = "2.0.0"
+version = "2.0.2"
 dependencies = [
  "proc-macro2",
- "quote",
  "swc_macros_common",
  "syn",
 ]
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "14.0.5"
+version = "22.0.2"
 dependencies = [
  "arrayvec",
  "bitflags",
  "either",
- "new_debug_unreachable",
  "num-bigint",
- "num-traits",
  "phf",
  "rustc-hash",
+ "seq-macro",
  "serde",
  "smallvec",
  "smartstring",
@@ -1513,36 +1476,41 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "tracing",
- "typed-arena",
 ]
 
 [[package]]
 name = "swc_ecma_parser"
-version = "14.0.2"
+version = "22.0.3"
 dependencies = [
- "arrayvec",
- "bitflags",
  "either",
- "new_debug_unreachable",
  "num-bigint",
- "num-traits",
- "phf",
- "rustc-hash",
  "serde",
- "smallvec",
- "smartstring",
- "stacker",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_lexer",
  "tracing",
- "typed-arena",
+]
+
+[[package]]
+name = "swc_ecma_quote_macros"
+version = "22.0.0"
+dependencies = [
+ "anyhow",
+ "proc-macro2",
+ "quote",
+ "rustc-hash",
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_parser",
+ "swc_macros_common",
+ "syn",
 ]
 
 [[package]]
 name = "swc_ecma_testing"
-version = "12.0.0"
+version = "15.0.0"
 dependencies = [
  "anyhow",
  "hex",
@@ -1553,17 +1521,15 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "15.1.1"
+version = "23.0.0"
 dependencies = [
  "better_scoped_tls",
- "bitflags",
  "indexmap",
  "once_cell",
  "par-core",
  "phf",
  "rustc-hash",
  "serde",
- "smallvec",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -1575,7 +1541,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "18.0.0"
+version = "26.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -1584,7 +1550,6 @@ dependencies = [
  "serde",
  "serde_json",
  "sha2",
- "swc_allocator",
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -1600,13 +1565,12 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "15.0.2"
+version = "19.0.1"
 dependencies = [
  "indexmap",
  "num_cpus",
  "once_cell",
  "par-core",
- "par-iter",
  "rustc-hash",
  "ryu-js",
  "swc_atoms",
@@ -1614,12 +1578,11 @@ dependencies = [
  "swc_ecma_ast",
  "swc_ecma_visit",
  "tracing",
- "unicode-id",
 ]
 
 [[package]]
 name = "swc_ecma_visit"
-version = "11.0.0"
+version = "14.0.0"
 dependencies = [
  "new_debug_unreachable",
  "num-bigint",
@@ -1632,7 +1595,7 @@ dependencies = [
 
 [[package]]
 name = "swc_eq_ignore_macros"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1641,21 +1604,27 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "13.0.0"
+version = "16.0.1"
 dependencies = [
  "anyhow",
  "miette",
  "once_cell",
- "parking_lot",
  "serde",
- "serde_derive",
- "serde_json",
  "swc_common",
 ]
 
 [[package]]
+name = "swc_internal_plugin"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "swc_core",
+ "swc_transform_common",
+]
+
+[[package]]
 name = "swc_macros_common"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1663,16 +1632,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_noop_plugin"
-version = "0.1.0"
-dependencies = [
- "serde",
- "swc_core",
-]
-
-[[package]]
 name = "swc_plugin"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "once_cell",
 ]
@@ -1688,7 +1649,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "11.0.0"
+version = "14.0.0"
 dependencies = [
  "better_scoped_tls",
  "bytecheck",
@@ -1722,16 +1683,25 @@ dependencies = [
 
 [[package]]
 name = "swc_trace_macro"
-version = "2.0.1"
+version = "2.0.2"
 dependencies = [
- "proc-macro2",
  "quote",
  "syn",
 ]
 
 [[package]]
+name = "swc_transform_common"
+version = "8.0.0"
+dependencies = [
+ "better_scoped_tls",
+ "rustc-hash",
+ "serde",
+ "swc_common",
+]
+
+[[package]]
 name = "swc_visit"
-version = "2.0.0"
+version = "2.0.1"
 dependencies = [
  "either",
  "new_debug_unreachable",
@@ -1789,9 +1759,8 @@ dependencies = [
 
 [[package]]
 name = "testing"
-version = "12.0.0"
+version = "15.0.0"
 dependencies = [
- "ansi_term",
  "cargo_metadata 0.18.1",
  "difference",
  "once_cell",
@@ -1809,7 +1778,7 @@ dependencies = [
 
 [[package]]
 name = "testing_macros"
-version = "1.0.0"
+version = "1.0.1"
 dependencies = [
  "anyhow",
  "glob",
@@ -1978,22 +1947,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "typed-arena"
-version = "2.0.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6af6ae20167a9ece4bcb41af5b80f8a1f1df981f6391189ce00fd257af04126a"
-
-[[package]]
 name = "typenum"
 version = "1.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1dccffe3ce07af9386bfd29e80c0ab1a8205a2fc34e4bcd40364df902cfa8f3f"
-
-[[package]]
-name = "unicode-id"
-version = "0.3.5"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "10103c57044730945224467c09f71a4db0071c123a0648cc3e818913bde6b561"
 
 [[package]]
 name = "unicode-id-start"

@@ -175,7 +175,7 @@ impl runtime::Runtime for WasmerRuntime {
             );
             let func =
                 wasmer::Function::new_with_env(&mut store, &table, sign, move |env, args| {
-                    wasmer_func_call(env, &func, args)
+                    wasmer_func_call(env, args, &func)
                 });
 
             ns.insert(name, func);
@@ -415,8 +415,8 @@ impl<'a> runtime::Caller<'a> for WasmerCallerRef<'a> {
 
 fn wasmer_func_call(
     mut table: wasmer::FunctionEnvMut<'_, WasmerTable>,
-    func: &runtime::Func,
     input: &[wasmer::Value],
+    func: &runtime::Func,
 ) -> Result<Vec<wasmer::Value>, wasmer::RuntimeError> {
     let memory = table.data().memory.clone().unwrap();
     let alloc_func = table.data().alloc_func.clone().unwrap();
