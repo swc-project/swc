@@ -1705,7 +1705,7 @@ impl Default for GlobalInliningPassEnvs {
 }
 
 impl GlobalPassOption {
-    pub(crate) fn build(
+    pub fn build(
         self,
         cm: &SourceMap,
         handler: &Handler,
