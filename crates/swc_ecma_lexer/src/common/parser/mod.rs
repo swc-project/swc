@@ -91,8 +91,7 @@ pub trait Parser<'a>: Sized + Clone {
 
     #[inline]
     fn do_inside_of_context<T>(&mut self, context: Context, f: impl FnOnce(&mut Self) -> T) -> T {
-        let ctx = self.ctx();
-        let inserted = ctx.complement().intersection(context);
+        let inserted = self.ctx().complement().intersection(context);
         if inserted.is_empty() {
             f(self)
         } else {
@@ -104,8 +103,7 @@ pub trait Parser<'a>: Sized + Clone {
     }
 
     fn do_outside_of_context<T>(&mut self, context: Context, f: impl FnOnce(&mut Self) -> T) -> T {
-        let ctx = self.ctx();
-        let removed = ctx.intersection(context);
+        let removed = self.ctx().intersection(context);
         if !removed.is_empty() {
             self.input_mut().update_ctx(|ctx| ctx.remove(removed));
             let result = f(self);
