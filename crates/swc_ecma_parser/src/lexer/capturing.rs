@@ -41,27 +41,12 @@ impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
-        let next = self.inner.next();
-
-        match next {
-            Some(ts) => {
-                let mut v = self.captured.borrow_mut();
-
-                // remove tokens that could change due to backtracing
-                while let Some(last) = v.last() {
-                    if last.span.lo >= ts.span.lo {
-                        v.pop();
-                    } else {
-                        break;
-                    }
-                }
-
-                v.push(ts);
-
-                Some(ts)
-            }
-            None => None,
+        let token = self.inner.next();
+        // [TODO]: RUST 1.76.0 self.inner.next().inspect(|ts| {
+        if let Some(ts) = token {
+            self.capture_rescanned_token(ts);
         }
+        token
     }
 }
 
@@ -187,7 +172,27 @@ impl<I: Tokens> Tokens for Capturing<I> {
         start: swc_common::BytePos,
         start_with_back_tick: bool,
     ) -> TokenAndSpan {
-        self.inner
-            .rescan_template_token(start, start_with_back_tick)
+        let ts = self
+            .inner
+            .rescan_template_token(start, start_with_back_tick);
+        self.capture_rescanned_token(ts)
+    }
+}
+
+impl<I> Capturing<I> {
+    fn capture_rescanned_token(&mut self, ts: TokenAndSpan) -> TokenAndSpan {
+        let mut v = self.captured.borrow_mut();
+
+        // remove tokens that could change due to backtracing
+        while let Some(last) = v.last() {
+            if last.span.lo >= ts.span.lo {
+                v.pop();
+            } else {
+                break;
+            }
+        }
+
+        v.push(ts);
+        ts
     }
 }
