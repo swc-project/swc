@@ -18,6 +18,7 @@
           "end": 12
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "N",
         "optional": false
       },
@@ -69,6 +70,7 @@
                 "end": 38
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "num",
               "optional": false
             },
@@ -130,6 +132,7 @@
                 "end": 70
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "interfaced",
               "optional": false,
               "typeAnnotation": {
@@ -151,6 +154,7 @@
                       "end": 73
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "N",
                     "optional": false
                   },
@@ -210,6 +214,7 @@
               "end": 98
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "interfaced",
             "optional": false
           },
@@ -262,6 +267,7 @@
                 "end": 131
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "inlined",
               "optional": false,
               "typeAnnotation": {
@@ -315,6 +321,7 @@
                           "end": 151
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "nun",
                         "optional": false
                       },
@@ -400,6 +407,7 @@
               "end": 180
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "inlined",
             "optional": false
           },
@@ -452,6 +460,7 @@
                 "end": 217
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "ignoreJsdoc",
               "optional": false,
               "typeAnnotation": null
@@ -508,6 +517,7 @@
               "end": 292
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ignoreJsdoc",
             "optional": false
           },

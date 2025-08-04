@@ -49,6 +49,7 @@
                   "end": 11
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "span",
                 "optional": false
               },
@@ -84,6 +85,7 @@
                   "end": 64
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "span",
                 "optional": false
               }

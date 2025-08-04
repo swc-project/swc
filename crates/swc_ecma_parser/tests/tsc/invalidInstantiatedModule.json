@@ -21,6 +21,7 @@
           "end": 9
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "M",
         "optional": false
       },
@@ -46,6 +47,7 @@
                   "end": 34
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Point",
                 "optional": false
               },
@@ -174,6 +176,7 @@
                       "end": 80
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Point",
                     "optional": false,
                     "typeAnnotation": null
@@ -211,6 +214,7 @@
           "end": 108
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "M2",
         "optional": false
       },
@@ -240,6 +244,7 @@
                   "end": 137
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Point",
                 "optional": false
               },
@@ -267,6 +272,7 @@
                         "end": 141
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "x",
                       "optional": false
                     },
@@ -302,6 +308,7 @@
                         "end": 152
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "y",
                       "optional": false
                     },
@@ -356,6 +363,7 @@
                       "end": 183
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Point",
                     "optional": false,
                     "typeAnnotation": null
@@ -400,6 +408,7 @@
               "end": 197
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "m",
             "optional": false,
             "typeAnnotation": null
@@ -411,6 +420,7 @@
               "end": 202
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "M2",
             "optional": false
           },
@@ -441,6 +451,7 @@
               "end": 209
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "p",
             "optional": false,
             "typeAnnotation": {
@@ -468,6 +479,7 @@
                       "end": 212
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "m",
                     "optional": false
                   },

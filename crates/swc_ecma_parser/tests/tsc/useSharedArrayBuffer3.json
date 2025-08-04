@@ -28,6 +28,7 @@
               "end": 26
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foge",
             "optional": false,
             "typeAnnotation": null
@@ -46,6 +47,7 @@
                 "end": 50
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "SharedArrayBuffer",
               "optional": false
             },
@@ -92,6 +94,7 @@
               "end": 65
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "bar",
             "optional": false,
             "typeAnnotation": null
@@ -116,6 +119,7 @@
                   "end": 72
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "foge",
                 "optional": false
               },
@@ -183,6 +187,7 @@
               "end": 94
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "len",
             "optional": false,
             "typeAnnotation": null
@@ -200,6 +205,7 @@
                 "end": 101
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "foge",
               "optional": false
             },

@@ -18,6 +18,7 @@
           "end": 38
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "BadGenerator",
         "optional": false
       },
@@ -37,6 +38,7 @@
               "end": 55
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Iterator",
             "optional": false
           },
@@ -71,6 +73,7 @@
               "end": 73
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Iterable",
             "optional": false
           },
@@ -111,6 +114,7 @@
           "end": 98
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "g3",
         "optional": false
       },
@@ -153,6 +157,7 @@
               "end": 114
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "BadGenerator",
             "optional": false
           },

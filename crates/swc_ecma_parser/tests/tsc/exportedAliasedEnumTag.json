@@ -28,6 +28,7 @@
               "end": 92
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "middlewarify",
             "optional": false,
             "typeAnnotation": null
@@ -52,6 +53,7 @@
                   "end": 101
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "module",
                 "optional": false
               },
@@ -103,6 +105,7 @@
               "end": 142
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "middlewarify",
             "optional": false
           },

@@ -14,6 +14,7 @@
           "end": 44
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A",
         "optional": false
       },
@@ -86,6 +87,7 @@
                 "end": 86
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "A",
               "optional": false
             },
@@ -334,6 +336,7 @@
                         "end": 229
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "y",
                       "optional": false,
                       "typeAnnotation": {
@@ -429,6 +432,7 @@
                               "end": 267
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "y",
                             "optional": false,
                             "typeAnnotation": null
@@ -529,6 +533,7 @@
                             "end": 316
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "y",
                           "optional": false,
                           "typeAnnotation": null
@@ -1233,6 +1238,7 @@
                     "end": 623
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "_a",
                   "optional": false,
                   "typeAnnotation": {
@@ -1254,6 +1260,7 @@
                           "end": 626
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "A",
                         "optional": false
                       },
@@ -1310,6 +1317,7 @@
                               "end": 641
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "_a",
                             "optional": false
                           },

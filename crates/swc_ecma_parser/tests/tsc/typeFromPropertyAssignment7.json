@@ -28,6 +28,7 @@
               "end": 96
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "obj",
             "optional": false,
             "typeAnnotation": null
@@ -70,6 +71,7 @@
               "end": 106
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "obj",
             "optional": false
           },
@@ -100,6 +102,7 @@
                   "end": 131
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "hunch",
                 "optional": false,
                 "typeAnnotation": null
@@ -167,6 +170,7 @@
               "end": 159
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "b",
             "optional": false,
             "typeAnnotation": null
@@ -191,6 +195,7 @@
                   "end": 165
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "obj",
                 "optional": false
               },

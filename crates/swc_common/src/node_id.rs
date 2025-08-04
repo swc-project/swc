@@ -1,6 +1,6 @@
-#[derive(
-    Eq, Hash, Default, Debug, PartialEq, Clone, Copy, serde::Serialize, serde::Deserialize,
-)]
+use crate::util::take::Take;
+
+#[derive(Eq, Hash, Debug, PartialEq, Clone, Copy, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -12,4 +12,16 @@ pub struct NodeId(#[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))] u32);
 
 impl NodeId {
     pub const DUMMY: NodeId = NodeId(u32::MAX);
+}
+
+impl Default for NodeId {
+    fn default() -> Self {
+        NodeId::DUMMY
+    }
+}
+
+impl Take for NodeId {
+    fn dummy() -> Self {
+        NodeId::DUMMY
+    }
 }

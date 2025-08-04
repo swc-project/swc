@@ -21,6 +21,7 @@
           "end": 9
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A",
         "optional": false
       },
@@ -44,6 +45,7 @@
                 "end": 32
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Point",
               "optional": false
             },
@@ -71,6 +73,7 @@
                       "end": 44
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "x",
                     "optional": false
                   },
@@ -106,6 +109,7 @@
                       "end": 63
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "y",
                     "optional": false
                   },
@@ -149,6 +153,7 @@
                   "end": 107
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "points",
                 "optional": false
               },
@@ -172,6 +177,7 @@
                           "end": 131
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "idx",
                         "optional": false,
                         "typeAnnotation": {
@@ -210,6 +216,7 @@
                             "end": 139
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Point",
                           "optional": false
                         },
@@ -233,6 +240,7 @@
                           "end": 161
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "idx",
                         "optional": false,
                         "typeAnnotation": {
@@ -271,6 +279,7 @@
                             "end": 169
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Point",
                           "optional": false
                         },

@@ -20,6 +20,7 @@
             "end": 520
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "f",
           "optional": false
         },
@@ -39,6 +40,7 @@
                 "end": 522
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "x",
               "optional": false,
               "typeAnnotation": null
@@ -58,6 +60,7 @@
                 "end": 525
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "y",
               "optional": false,
               "typeAnnotation": null
@@ -77,6 +80,7 @@
                 "end": 528
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "z",
               "optional": false,
               "typeAnnotation": null
@@ -96,6 +100,7 @@
                 "end": 535
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "alpha",
               "optional": false,
               "typeAnnotation": null
@@ -115,6 +120,7 @@
                 "end": 541
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "beta",
               "optional": false,
               "typeAnnotation": null
@@ -134,6 +140,7 @@
                 "end": 548
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "gamma",
               "optional": false,
               "typeAnnotation": null
@@ -202,6 +209,7 @@
                             "end": 564
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "x",
                           "optional": false
                         },
@@ -212,6 +220,7 @@
                             "end": 568
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "y",
                           "optional": false
                         }
@@ -223,6 +232,7 @@
                           "end": 572
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "z",
                         "optional": false
                       }
@@ -234,6 +244,7 @@
                         "end": 580
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "alpha",
                       "optional": false
                     }
@@ -245,6 +256,7 @@
                       "end": 587
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "beta",
                     "optional": false
                   }
@@ -256,6 +268,7 @@
                     "end": 595
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "gamma",
                   "optional": false
                 }

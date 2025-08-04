@@ -39,6 +39,7 @@
               "end": 163
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "await",
             "optional": false,
             "typeAnnotation": {
@@ -71,6 +72,7 @@
           "end": 185
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -89,6 +91,7 @@
           "end": 199
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "await",
         "optional": false
       },

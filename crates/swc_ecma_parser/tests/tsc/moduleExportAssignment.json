@@ -14,6 +14,7 @@
           "end": 86
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "EE",
         "optional": false
       },
@@ -55,6 +56,7 @@
                     "end": 126
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "s",
                   "optional": false,
                   "typeAnnotation": null
@@ -118,6 +120,7 @@
               "end": 144
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "npmlog",
             "optional": false,
             "typeAnnotation": null
@@ -142,6 +145,7 @@
                   "end": 153
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "module",
                 "optional": false
               },
@@ -168,6 +172,7 @@
                   "end": 170
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "EE",
                 "optional": false
               },
@@ -205,6 +210,7 @@
               "end": 180
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "npmlog",
             "optional": false
           },
@@ -266,6 +272,7 @@
                 "end": 232
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "module",
               "optional": false
             },
@@ -330,6 +337,7 @@
               "end": 269
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "npmlog",
             "optional": false
           },
@@ -385,6 +393,7 @@
                 "end": 282
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "module",
               "optional": false
             },
@@ -436,6 +445,7 @@
             "end": 303
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "npmlog",
           "optional": false
         },
@@ -474,6 +484,7 @@
               "end": 312
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -519,6 +530,7 @@
               "end": 355
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "npmlog",
             "optional": false,
             "typeAnnotation": null
@@ -537,6 +549,7 @@
                 "end": 365
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "require",
               "optional": false
             },
@@ -579,6 +592,7 @@
             "end": 384
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "npmlog",
           "optional": false
         },
@@ -611,6 +625,7 @@
             "end": 393
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "npmlog",
           "optional": false
         },

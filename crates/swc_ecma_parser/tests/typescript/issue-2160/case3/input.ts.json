@@ -72,6 +72,7 @@
                     "end": 11
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "_",
                   "optional": false,
                   "typeAnnotation": null
@@ -132,6 +133,7 @@
                             "end": 17
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "a",
                           "optional": false,
                           "typeAnnotation": null

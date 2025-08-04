@@ -18,6 +18,7 @@
           "end": 42
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "BoxOfFoo",
         "optional": false
       },
@@ -42,6 +43,7 @@
                 "end": 44
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "T",
               "optional": false
             },
@@ -61,6 +63,7 @@
                   "end": 56
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Foo",
                 "optional": false
               },
@@ -92,6 +95,7 @@
                 "end": 68
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "item",
               "optional": false
             },
@@ -116,6 +120,7 @@
                     "end": 71
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "T",
                   "optional": false
                 },
@@ -139,6 +144,7 @@
           "end": 88
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Foo",
         "optional": false
       },
@@ -166,6 +172,7 @@
                 "end": 99
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "self",
               "optional": false
             },
@@ -202,6 +209,7 @@
           "end": 123
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Bar",
         "optional": false
       },
@@ -221,6 +229,7 @@
               "end": 135
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Foo",
             "optional": false
           },
@@ -248,6 +257,7 @@
                 "end": 147
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "other",
               "optional": false
             },
@@ -272,6 +282,7 @@
                     "end": 157
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "BoxOfFoo",
                   "optional": false
                 },

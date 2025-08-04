@@ -20,6 +20,7 @@
             "end": 65
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "AmbientClass",
           "optional": false
         },
@@ -103,6 +104,7 @@
             "end": 127
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "NonAmbientClass",
           "optional": false
         },
@@ -194,6 +196,7 @@
             "end": 202
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "AmbientBase",
           "optional": false
         },
@@ -277,6 +280,7 @@
             "end": 260
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "AmbientDerived",
           "optional": false
         },
@@ -394,6 +398,7 @@
             "end": 280
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "AmbientBase",
           "optional": false
         },
@@ -419,6 +424,7 @@
           "end": 371
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ambientNamespace",
         "optional": false
       },
@@ -444,6 +450,7 @@
                   "end": 402
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "AmbientBase",
                 "optional": false
               },
@@ -527,6 +534,7 @@
                   "end": 464
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "AmbientDerived",
                 "optional": false
               },
@@ -644,6 +652,7 @@
                   "end": 484
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "AmbientBase",
                 "optional": false
               },
@@ -671,6 +680,7 @@
             "end": 582
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "NonAmbientBase",
           "optional": false
         },
@@ -762,6 +772,7 @@
             "end": 637
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "NonAmbientDerived",
           "optional": false
         },
@@ -895,6 +906,7 @@
             "end": 660
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "NonAmbientBase",
           "optional": false
         },

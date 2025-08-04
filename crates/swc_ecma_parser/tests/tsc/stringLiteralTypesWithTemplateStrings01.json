@@ -28,6 +28,7 @@
               "end": 31
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ABC",
             "optional": false,
             "typeAnnotation": {
@@ -101,6 +102,7 @@
               "end": 64
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "DE_NEWLINE_F",
             "optional": false,
             "typeAnnotation": {
@@ -174,6 +176,7 @@
               "end": 98
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "G_QUOTE_HI",
             "optional": false,
             "typeAnnotation": {
@@ -228,6 +231,7 @@
               "end": 125
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "JK_BACKTICK_L",
             "optional": false,
             "typeAnnotation": {

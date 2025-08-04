@@ -31,6 +31,7 @@
               "end": 148
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -61,6 +62,7 @@
                   "end": 170
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "x",
                 "optional": false,
                 "typeAnnotation": null
@@ -80,6 +82,7 @@
                   "end": 173
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "k",
                 "optional": false,
                 "typeAnnotation": null
@@ -120,6 +123,7 @@
                       "end": 185
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "k",
                     "optional": false
                   },
@@ -133,6 +137,7 @@
                           "end": 187
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "x",
                         "optional": false
                       }
@@ -173,6 +178,7 @@
               "end": 219
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false,
             "typeAnnotation": null
@@ -191,6 +197,7 @@
                 "end": 229
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "require",
               "optional": false
             },
@@ -234,6 +241,7 @@
             "end": 243
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "f",
           "optional": false
         },
@@ -267,6 +275,7 @@
                     "end": 248
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "n",
                   "optional": false,
                   "typeAnnotation": null

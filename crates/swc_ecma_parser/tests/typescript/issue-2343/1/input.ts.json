@@ -20,6 +20,7 @@
             "end": 31
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "someFn",
           "optional": false
         },
@@ -39,6 +40,7 @@
                 "end": 36
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "some",
               "optional": false,
               "typeAnnotation": {

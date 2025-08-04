@@ -35,6 +35,7 @@
                 "end": 28
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "let",
               "optional": false,
               "typeAnnotation": null

@@ -570,6 +570,7 @@ impl<'a> arbitrary::Arbitrary<'a> for Ident {
             sym,
             optional,
             ctxt: Default::default(),
+            node_id: NodeId::DUMMY,
         })
     }
 }

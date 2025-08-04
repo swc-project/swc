@@ -28,6 +28,7 @@
               "end": 62
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "R",
             "optional": false,
             "typeAnnotation": {
@@ -71,6 +72,7 @@
             "end": 84
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "R",
           "optional": false,
           "typeAnnotation": null
@@ -146,6 +148,7 @@
               "end": 164
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "R",
             "optional": false
           }
@@ -200,6 +203,7 @@
                     "end": 196
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "__esmodule",
                   "optional": false,
                   "typeAnnotation": null
@@ -219,6 +223,7 @@
                     "end": 207
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "__proto__",
                   "optional": false,
                   "typeAnnotation": null
@@ -236,6 +241,7 @@
               "end": 213
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "R",
             "optional": false
           },

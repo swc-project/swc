@@ -28,6 +28,7 @@
               "end": 50
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "promise1",
             "optional": false,
             "typeAnnotation": null
@@ -59,6 +60,7 @@
                     "end": 64
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Promise",
                   "optional": false
                 },
@@ -83,6 +85,7 @@
                               "end": 81
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "resolve",
                             "optional": false,
                             "typeAnnotation": null
@@ -102,6 +105,7 @@
                               "end": 89
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "reject",
                             "optional": false,
                             "typeAnnotation": null

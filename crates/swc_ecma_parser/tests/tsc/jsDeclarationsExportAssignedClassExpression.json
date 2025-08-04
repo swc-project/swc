@@ -31,6 +31,7 @@
               "end": 122
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -52,6 +53,7 @@
               "end": 144
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Thing",
             "optional": false
           },
@@ -92,6 +94,7 @@
                       "end": 205
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "p",
                     "optional": false,
                     "typeAnnotation": null
@@ -164,6 +167,7 @@
                             "end": 232
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "p",
                           "optional": false
                         }

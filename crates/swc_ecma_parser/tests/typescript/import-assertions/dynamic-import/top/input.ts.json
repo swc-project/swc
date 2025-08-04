@@ -134,6 +134,7 @@
                     "end": 63
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "lazy",
                   "optional": false,
                   "typeAnnotation": null
@@ -159,6 +160,7 @@
                       "end": 75
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "console",
                     "optional": false
                   },
@@ -181,6 +183,7 @@
                         "end": 84
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "lazy",
                       "optional": false
                     }

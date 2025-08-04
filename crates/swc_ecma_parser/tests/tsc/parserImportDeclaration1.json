@@ -20,6 +20,7 @@
           "end": 18
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "TypeScript",
         "optional": false
       },
@@ -36,6 +37,7 @@
             "end": 39
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "TypeScriptServices",
           "optional": false
         },
