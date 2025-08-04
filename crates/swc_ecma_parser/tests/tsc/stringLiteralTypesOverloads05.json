@@ -18,6 +18,7 @@
           "end": 40
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Animal",
         "optional": false
       },
@@ -45,6 +46,7 @@
                 "end": 49
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "animal",
               "optional": false
             },
@@ -89,6 +91,7 @@
           "end": 70
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Dog",
         "optional": false
       },
@@ -108,6 +111,7 @@
               "end": 85
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Animal",
             "optional": false
           },
@@ -135,6 +139,7 @@
                 "end": 91
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "dog",
               "optional": false
             },
@@ -172,6 +177,7 @@
           "end": 111
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Cat",
         "optional": false
       },
@@ -191,6 +197,7 @@
               "end": 126
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Animal",
             "optional": false
           },
@@ -218,6 +225,7 @@
                 "end": 132
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "cat",
               "optional": false
             },
@@ -255,6 +263,7 @@
           "end": 154
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Moose",
         "optional": false
       },
@@ -274,6 +283,7 @@
               "end": 169
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Animal",
             "optional": false
           },
@@ -301,6 +311,7 @@
                 "end": 177
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "moose",
               "optional": false
             },
@@ -334,6 +345,7 @@
           "end": 201
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "doThing",
         "optional": false
       },
@@ -353,6 +365,7 @@
               "end": 203
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
@@ -410,6 +423,7 @@
               "end": 216
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Dog",
             "optional": false
           },
@@ -426,6 +440,7 @@
           "end": 234
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "doThing",
         "optional": false
       },
@@ -445,6 +460,7 @@
               "end": 236
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
@@ -502,6 +518,7 @@
               "end": 249
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Cat",
             "optional": false
           },
@@ -518,6 +535,7 @@
           "end": 267
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "doThing",
         "optional": false
       },
@@ -537,6 +555,7 @@
               "end": 269
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
@@ -586,6 +605,7 @@
               "end": 286
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Animal",
             "optional": false
           },
@@ -602,6 +622,7 @@
           "end": 304
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "doThing",
         "optional": false
       },
@@ -621,6 +642,7 @@
               "end": 306
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
@@ -654,6 +676,7 @@
               "end": 317
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "y",
             "optional": true,
             "typeAnnotation": {
@@ -701,6 +724,7 @@
                 "end": 357
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "undefined",
               "optional": false
             }
@@ -729,6 +753,7 @@
               "end": 334
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Moose",
             "optional": false
           },

@@ -14,6 +14,7 @@
           "end": 17
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Controller",
         "optional": false
       },
@@ -174,6 +175,7 @@
           "end": 99
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "IScope",
         "optional": false
       },
@@ -201,6 +203,7 @@
                 "end": 112
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "create",
               "optional": false
             },
@@ -237,6 +240,7 @@
                         "end": 131
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Controller",
                       "optional": false
                     },
@@ -276,6 +280,7 @@
                 "end": 162
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "delete",
               "optional": false
             },
@@ -312,6 +317,7 @@
                         "end": 181
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Controller",
                       "optional": false
                     },
@@ -351,6 +357,7 @@
                 "end": 228
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "var",
               "optional": false
             },
@@ -387,6 +394,7 @@
                         "end": 247
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Controller",
                       "optional": false
                     },

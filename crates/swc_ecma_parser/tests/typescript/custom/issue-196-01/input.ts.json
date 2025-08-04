@@ -25,6 +25,7 @@
             "end": 17
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Link",
           "optional": false
         },
@@ -50,6 +51,7 @@
                   "end": 25
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "key",
                 "optional": false
               },
@@ -85,6 +87,7 @@
                   "end": 39
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "text",
                 "optional": false
               },

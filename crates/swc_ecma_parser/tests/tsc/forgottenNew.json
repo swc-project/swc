@@ -21,6 +21,7 @@
           "end": 13
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Tools",
         "optional": false
       },
@@ -46,6 +47,7 @@
                   "end": 43
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "NullLogger",
                 "optional": false
               },
@@ -90,6 +92,7 @@
               "end": 61
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "logger",
             "optional": false,
             "typeAnnotation": null
@@ -114,6 +117,7 @@
                   "end": 69
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Tools",
                 "optional": false
               },

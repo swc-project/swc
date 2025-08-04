@@ -19,6 +19,7 @@
           "end": 8
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "S",
         "optional": false
       },
@@ -79,6 +80,7 @@
           "end": 28
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "T",
         "optional": false
       },
@@ -109,6 +111,7 @@
                   "end": 32
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "S",
                 "optional": false
               },
@@ -128,6 +131,7 @@
                 "end": 38
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "S",
               "optional": false
             },
@@ -159,6 +163,7 @@
               "end": 48
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false,
             "typeAnnotation": {
@@ -180,6 +185,7 @@
                     "end": 51
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "T",
                   "optional": false
                 },
@@ -205,6 +211,7 @@
           "end": 64
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "foo",
         "optional": false
       },
@@ -280,6 +287,7 @@
                     "end": 135
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "foo",
                   "optional": false,
                   "typeAnnotation": null
@@ -309,6 +317,7 @@
                           "end": 142
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "foo",
                         "optional": false
                       },
@@ -331,6 +340,7 @@
                               "end": 147
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "S",
                             "optional": false
                           },

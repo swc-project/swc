@@ -21,6 +21,7 @@
           "end": 9
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A",
         "optional": false
       },
@@ -46,6 +47,7 @@
                   "end": 34
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Point",
                 "optional": false
               },
@@ -164,6 +166,7 @@
           "end": 92
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A",
         "optional": false
       },
@@ -189,6 +192,7 @@
                   "end": 138
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Point",
                 "optional": false
               },
@@ -307,6 +311,7 @@
           "end": 205
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "X",
         "optional": false
       },
@@ -325,6 +330,7 @@
             "end": 207
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Y",
           "optional": false
         },
@@ -343,6 +349,7 @@
               "end": 209
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Z",
             "optional": false
           },
@@ -368,6 +375,7 @@
                       "end": 233
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Line",
                     "optional": false
                   },
@@ -448,6 +456,7 @@
           "end": 277
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "X",
         "optional": false
       },
@@ -480,6 +489,7 @@
                   "end": 299
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Y",
                 "optional": false
               },
@@ -512,6 +522,7 @@
                           "end": 325
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Z",
                         "optional": false
                       },
@@ -537,6 +548,7 @@
                                   "end": 387
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "Line",
                                 "optional": false
                               },

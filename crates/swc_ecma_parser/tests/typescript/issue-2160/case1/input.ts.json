@@ -51,6 +51,7 @@
                     "end": 6
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Array",
                   "optional": false
                 },
@@ -122,6 +123,7 @@
                     "end": 24
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "_",
                   "optional": false,
                   "typeAnnotation": null
@@ -133,6 +135,7 @@
                     "end": 27
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "i",
                   "optional": false,
                   "typeAnnotation": null
@@ -209,6 +212,7 @@
                             "end": 40
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "loading",
                           "optional": false
                         },

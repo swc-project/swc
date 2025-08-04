@@ -28,6 +28,7 @@
               "end": 11
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "regex2",
             "optional": false,
             "typeAnnotation": null

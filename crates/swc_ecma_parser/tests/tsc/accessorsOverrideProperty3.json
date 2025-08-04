@@ -14,6 +14,7 @@
           "end": 74
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Animal",
         "optional": false
       },
@@ -81,6 +82,7 @@
           "end": 107
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Lion",
         "optional": false
       },
@@ -229,6 +231,7 @@
                     "end": 215
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "val",
                   "optional": false,
                   "typeAnnotation": null
@@ -291,6 +294,7 @@
                         "end": 236
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "val",
                       "optional": false
                     }
@@ -318,6 +322,7 @@
           "end": 122
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Animal",
         "optional": false
       },

@@ -25,6 +25,7 @@
             "end": 11
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "assertType",
           "optional": false
         },
@@ -38,6 +39,7 @@
                 "end": 33
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "foo",
               "optional": false
             }
@@ -64,6 +66,7 @@
                     "end": 19
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "key",
                   "optional": false,
                   "typeAnnotation": {
@@ -85,6 +88,7 @@
                           "end": 22
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "K",
                         "optional": false
                       },
@@ -113,6 +117,7 @@
                         "end": 14
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "K",
                       "optional": false
                     },
@@ -143,6 +148,7 @@
                       "end": 28
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "K",
                     "optional": false
                   },

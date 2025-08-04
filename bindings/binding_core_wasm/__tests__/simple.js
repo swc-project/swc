@@ -111,6 +111,7 @@ describe("parse", () => {
                   "decorators": [],
                   "identifier": {
                     "ctxt": 2,
+                    "nodeId": 4294967295,
                     "optional": false,
                     "span": {
                       "end": 254,
@@ -157,6 +158,7 @@ describe("parse", () => {
                   "decorators": [],
                   "identifier": {
                     "ctxt": 2,
+                    "nodeId": 4294967295,
                     "optional": false,
                     "span": {
                       "end": 267,

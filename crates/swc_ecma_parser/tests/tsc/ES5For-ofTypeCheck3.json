@@ -28,6 +28,7 @@
               "end": 25
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "tuple",
             "optional": false,
             "typeAnnotation": {
@@ -146,6 +147,7 @@
                 "end": 65
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "v",
               "optional": false,
               "typeAnnotation": null
@@ -162,6 +164,7 @@
           "end": 74
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "tuple",
         "optional": false
       },

@@ -25,6 +25,7 @@
               "end": 13
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "React",
             "optional": false
           }
@@ -52,6 +53,7 @@
           "end": 41
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "App",
         "optional": false
       },
@@ -94,6 +96,7 @@
                     "end": 63
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "isLoading",
                   "optional": false,
                   "typeAnnotation": null
@@ -137,6 +140,7 @@
                       "end": 91
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "div",
                     "optional": false
                   },
@@ -173,6 +177,7 @@
                           "end": 102
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "h1",
                         "optional": false
                       },
@@ -208,6 +213,7 @@
                           "end": 113
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "h1",
                         "optional": false
                       }
@@ -241,6 +247,7 @@
                           "end": 140
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "isLoading",
                         "optional": false
                       },
@@ -259,6 +266,7 @@
                               "end": 147
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "div",
                             "optional": false
                           },
@@ -294,6 +302,7 @@
                               "end": 161
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "div",
                             "optional": false
                           }
@@ -314,6 +323,7 @@
                               "end": 169
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "div",
                             "optional": false
                           },
@@ -349,6 +359,7 @@
                               "end": 205
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "div",
                             "optional": false
                           }
@@ -379,6 +390,7 @@
                       "end": 224
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "div",
                     "optional": false
                   }
@@ -406,6 +418,7 @@
           "end": 252
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "App",
         "optional": false
       }

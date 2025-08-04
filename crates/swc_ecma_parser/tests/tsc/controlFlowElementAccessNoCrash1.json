@@ -18,6 +18,7 @@
           "end": 57
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "TestTscEdit",
         "optional": false
       },
@@ -45,6 +46,7 @@
                 "end": 69
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "caption",
               "optional": false
             },
@@ -80,6 +82,7 @@
                 "end": 96
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "commandLineArgs",
               "optional": false
             },
@@ -132,6 +135,7 @@
           "end": 145
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "TestTscCompile",
         "optional": false
       },
@@ -159,6 +163,7 @@
                 "end": 161
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "subScenario",
               "optional": false
             },
@@ -194,6 +199,7 @@
                 "end": 188
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "commandLineArgs",
               "optional": false
             },
@@ -246,6 +252,7 @@
           "end": 253
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "VerifyTscEditDiscrepanciesInput",
         "optional": false
       },
@@ -273,6 +280,7 @@
                 "end": 263
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "index",
               "optional": false
             },
@@ -308,6 +316,7 @@
                 "end": 280
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "edits",
               "optional": false
             },
@@ -345,6 +354,7 @@
                         "end": 302
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "TestTscEdit",
                       "optional": false
                     },
@@ -368,6 +378,7 @@
                 "end": 323
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "commandLineArgs",
               "optional": false
             },
@@ -399,6 +410,7 @@
                       "end": 339
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "TestTscCompile",
                     "optional": false
                   },
@@ -435,6 +447,7 @@
           "end": 386
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "testTscCompile",
         "optional": false
       },
@@ -454,6 +467,7 @@
               "end": 392
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "input",
             "optional": false,
             "typeAnnotation": {
@@ -475,6 +489,7 @@
                     "end": 408
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "TestTscCompile",
                   "optional": false
                 },
@@ -513,6 +528,7 @@
           "end": 449
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "verifyTscEditDiscrepancies",
         "optional": false
       },
@@ -545,6 +561,7 @@
                     "end": 459
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "index",
                   "optional": false,
                   "typeAnnotation": null
@@ -564,6 +581,7 @@
                     "end": 468
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "edits",
                   "optional": false,
                   "typeAnnotation": null
@@ -583,6 +601,7 @@
                     "end": 487
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "commandLineArgs",
                   "optional": false,
                   "typeAnnotation": null
@@ -610,6 +629,7 @@
                     "end": 523
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "VerifyTscEditDiscrepanciesInput",
                   "optional": false
                 },
@@ -669,6 +689,7 @@
                           "end": 544
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "caption",
                         "optional": false,
                         "typeAnnotation": null
@@ -692,6 +713,7 @@
                       "end": 554
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "edits",
                     "optional": false
                   },
@@ -708,6 +730,7 @@
                         "end": 560
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "index",
                       "optional": false
                     }
@@ -737,6 +760,7 @@
                   "end": 579
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "testTscCompile",
                 "optional": false
               },
@@ -767,6 +791,7 @@
                             "end": 606
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "caption",
                           "optional": false
                         }
@@ -807,6 +832,7 @@
                                   "end": 634
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "edits",
                                 "optional": false
                               },
@@ -823,6 +849,7 @@
                                     "end": 640
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "index",
                                   "optional": false
                                 }
@@ -844,6 +871,7 @@
                               "end": 676
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "commandLineArgs",
                             "optional": false
                           }

@@ -18,6 +18,7 @@
           "end": 151
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Drawable",
         "optional": false
       },
@@ -44,6 +45,7 @@
                 "end": 162
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "draw",
               "optional": false
             },
@@ -83,6 +85,7 @@
           "end": 193
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Sizable",
         "optional": false
       },
@@ -109,6 +112,7 @@
                 "end": 204
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "size",
               "optional": false
             },
@@ -144,6 +148,7 @@
           "end": 311
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Square",
         "optional": false
       },
@@ -291,6 +296,7 @@
           "end": 463
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "BadSquare",
         "optional": false
       },

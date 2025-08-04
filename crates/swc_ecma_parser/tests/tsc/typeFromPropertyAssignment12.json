@@ -28,6 +28,7 @@
               "end": 103
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Outer",
             "optional": false,
             "typeAnnotation": null
@@ -50,6 +51,7 @@
                     "end": 122
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "element",
                   "optional": false,
                   "typeAnnotation": null
@@ -69,6 +71,7 @@
                     "end": 130
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "config",
                   "optional": false,
                   "typeAnnotation": null
@@ -125,6 +128,7 @@
               "end": 184
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Outer",
             "optional": false
           },
@@ -155,6 +159,7 @@
                   "end": 205
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "line",
                 "optional": false,
                 "typeAnnotation": null
@@ -174,6 +179,7 @@
                   "end": 209
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "ch",
                 "optional": false,
                 "typeAnnotation": null
@@ -233,6 +239,7 @@
                 "end": 242
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Outer",
               "optional": false
             },
@@ -287,6 +294,7 @@
               "end": 270
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "pos",
             "optional": false,
             "typeAnnotation": null
@@ -311,6 +319,7 @@
                   "end": 282
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Outer",
                 "optional": false
               },
@@ -374,6 +383,7 @@
             "end": 299
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "pos",
           "optional": false
         },

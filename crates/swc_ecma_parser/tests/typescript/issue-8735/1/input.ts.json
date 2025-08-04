@@ -14,6 +14,7 @@
           "end": 25
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "getFirstElement",
         "optional": false
       },
@@ -33,6 +34,7 @@
               "end": 34
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "array",
             "optional": false,
             "typeAnnotation": {
@@ -60,6 +62,7 @@
                       "end": 37
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "T",
                     "optional": false
                   },
@@ -116,6 +119,7 @@
                       "end": 69
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "array",
                     "optional": false
                   },
@@ -151,6 +155,7 @@
                     "end": 88
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "array",
                   "optional": false
                 },
@@ -204,6 +209,7 @@
                 "end": 27
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "T",
               "optional": false
             },
@@ -241,6 +247,7 @@
                   "end": 43
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "T",
                 "optional": false
               },
@@ -281,6 +288,7 @@
               "end": 117
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "myFunction",
             "optional": false,
             "typeAnnotation": null
@@ -304,6 +312,7 @@
                   "end": 135
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "getFirstElement",
                 "optional": false
               },

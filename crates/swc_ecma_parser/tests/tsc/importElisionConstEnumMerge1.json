@@ -26,6 +26,7 @@
             "end": 45
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Enum",
           "optional": false
         },
@@ -43,6 +44,7 @@
                 "end": 53
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "One",
               "optional": false
             },
@@ -79,6 +81,7 @@
               "end": 98
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Enum",
             "optional": false
           },
@@ -115,6 +118,7 @@
           "end": 130
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Enum",
         "optional": false
       },
@@ -145,6 +149,7 @@
                   "end": 150
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Foo",
                 "optional": false
               },
@@ -182,6 +187,7 @@
               "end": 176
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Enum",
             "optional": false
           },
@@ -213,6 +219,7 @@
               "end": 217
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Enum",
             "optional": false
           },
@@ -252,6 +259,7 @@
             "end": 240
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Enum",
           "optional": false
         },
