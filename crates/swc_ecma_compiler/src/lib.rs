@@ -603,10 +603,8 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
             // Post-processing: Handle variable hoisting
             if need_var_hoisting {
-                let logical_vars = std::mem::replace(
-                    &mut self.es2021_logical_assignment_vars,
-                    saved_logical_vars,
-                );
+                let logical_vars =
+                    std::mem::replace(&mut self.es2021_logical_assignment_vars, saved_logical_vars);
 
                 if !logical_vars.is_empty() {
                     prepend_stmt(
@@ -666,10 +664,8 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
             // Post-processing: Handle variable hoisting
             if need_var_hoisting {
-                let logical_vars = std::mem::replace(
-                    &mut self.es2021_logical_assignment_vars,
-                    saved_logical_vars,
-                );
+                let logical_vars =
+                    std::mem::replace(&mut self.es2021_logical_assignment_vars, saved_logical_vars);
 
                 if !logical_vars.is_empty() {
                     prepend_stmt(

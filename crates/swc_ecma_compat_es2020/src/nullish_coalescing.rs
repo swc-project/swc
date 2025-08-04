@@ -1,8 +1,7 @@
 use swc_ecma_ast::Pass;
+pub use swc_ecma_compiler::es2020::nullish_coalescing::Config;
 use swc_ecma_compiler::{Compiler, Features};
 use swc_ecma_transforms_base::assumptions::Assumptions;
-
-pub use swc_ecma_compiler::es2020::nullish_coalescing::Config;
 
 pub fn nullish_coalescing(c: Config) -> impl Pass {
     let mut assumptions = Assumptions::default();

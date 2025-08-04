@@ -14,7 +14,8 @@ pub struct Config {
 }
 
 impl<'a> CompilerImpl<'a> {
-    /// Transform nullish coalescing binary expressions (??) to conditional expressions
+    /// Transform nullish coalescing binary expressions (??) to conditional
+    /// expressions
     pub(crate) fn transform_nullish_coalescing_bin_expr(&mut self, e: &mut Expr) -> bool {
         if let Expr::Bin(BinExpr {
             span,
@@ -52,7 +53,8 @@ impl<'a> CompilerImpl<'a> {
         false
     }
 
-    /// Transform nullish coalescing assignment expressions (??=) to assignment expressions
+    /// Transform nullish coalescing assignment expressions (??=) to assignment
+    /// expressions
     pub(crate) fn transform_nullish_coalescing_assign_expr(&mut self, e: &mut Expr) -> bool {
         if let Expr::Assign(ref mut assign @ AssignExpr { op: op!("??="), .. }) = e {
             match &mut assign.left {
