@@ -1,9 +1,11 @@
 [package]
 name = "swc_plugin_backend_wasmtime"
 version = "0.1.0"
-edition.workspace = true
-license.workspace = true
-repository.workspace = true
+edition = { workspace = true }
+license = { workspace = true }
+repository = { workspace = true }
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Runner backend (wasmtime) for swc plugins. This crate is INTERNAL crate and used by swc itself."
 
 [dependencies]
 anyhow        = { workspace = true }
