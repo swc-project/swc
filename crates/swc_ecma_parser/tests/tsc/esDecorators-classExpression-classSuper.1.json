@@ -28,6 +28,7 @@
               "end": 88
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "dec",
             "optional": false,
             "typeAnnotation": {
@@ -60,6 +61,7 @@
           "end": 114
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Base",
         "optional": false
       },
@@ -111,6 +113,7 @@
                       "end": 142
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "args",
                     "optional": false,
                     "typeAnnotation": null
@@ -203,6 +206,7 @@
               "end": 173
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "method",
             "optional": false,
             "typeAnnotation": null
@@ -241,6 +245,7 @@
               "end": 200
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "C",
             "optional": false
           },
@@ -263,6 +268,7 @@
                   "end": 192
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "dec",
                 "optional": false
               }
@@ -408,6 +414,7 @@
                               "end": 300
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "method",
                             "optional": false
                           }
@@ -580,6 +587,7 @@
                               "end": 377
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "method",
                             "optional": false
                           }
@@ -619,6 +627,7 @@
               "end": 213
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Base",
             "optional": false
           },

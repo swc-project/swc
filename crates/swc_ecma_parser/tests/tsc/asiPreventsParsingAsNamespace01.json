@@ -28,6 +28,7 @@
               "end": 15
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "namespace",
             "optional": false,
             "typeAnnotation": {
@@ -74,6 +75,7 @@
               "end": 30
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "n",
             "optional": false,
             "typeAnnotation": {
@@ -113,6 +115,7 @@
           "end": 93
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "n",
         "optional": false
       },

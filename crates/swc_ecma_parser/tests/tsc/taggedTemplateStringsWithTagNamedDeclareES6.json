@@ -14,6 +14,7 @@
           "end": 33
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "declare",
         "optional": false
       },
@@ -33,6 +34,7 @@
               "end": 35
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
@@ -76,6 +78,7 @@
                 "end": 47
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "ys",
               "optional": false,
               "typeAnnotation": null
@@ -145,6 +148,7 @@
             "end": 68
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "declare",
           "optional": false
         },

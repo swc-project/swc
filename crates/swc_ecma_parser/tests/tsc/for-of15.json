@@ -14,6 +14,7 @@
           "end": 36
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StringIterator",
         "optional": false
       },
@@ -110,6 +111,7 @@
                   "end": 88
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Symbol",
                 "optional": false
               },
@@ -197,6 +199,7 @@
               "end": 138
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "v",
             "optional": false,
             "typeAnnotation": {
@@ -234,6 +237,7 @@
           "end": 154
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "v",
         "optional": false,
         "typeAnnotation": null
@@ -252,6 +256,7 @@
             "end": 176
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "StringIterator",
           "optional": false
         },

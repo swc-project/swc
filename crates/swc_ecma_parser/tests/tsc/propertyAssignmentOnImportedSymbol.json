@@ -34,6 +34,7 @@
                 "end": 91
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "hurk",
               "optional": false,
               "typeAnnotation": null
@@ -71,6 +72,7 @@
               "end": 136
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "hurk",
             "optional": false
           },
@@ -117,6 +119,7 @@
               "end": 157
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "hurk",
             "optional": false
           },

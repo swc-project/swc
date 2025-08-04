@@ -14,6 +14,7 @@
           "end": 43
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A1",
         "optional": false
       },
@@ -115,6 +116,7 @@
                     "end": 110
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "param",
                   "optional": false,
                   "typeAnnotation": {
@@ -252,6 +254,7 @@
                   "end": 186
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "name",
                 "optional": false,
                 "typeAnnotation": {
@@ -306,6 +309,7 @@
                         "end": 208
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "A1",
                       "optional": false
                     },
@@ -355,6 +359,7 @@
                         "end": 231
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "A1",
                       "optional": false
                     },
@@ -404,6 +409,7 @@
                         "end": 270
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "console",
                       "optional": false
                     },
@@ -432,6 +438,7 @@
                             "end": 277
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "A1",
                           "optional": false
                         },
@@ -475,6 +482,7 @@
                         "end": 301
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "console",
                       "optional": false
                     },
@@ -503,6 +511,7 @@
                             "end": 308
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "A1",
                           "optional": false
                         },

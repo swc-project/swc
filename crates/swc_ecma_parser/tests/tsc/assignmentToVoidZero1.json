@@ -31,6 +31,7 @@
               "end": 154
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "exports",
             "optional": false
           },
@@ -63,6 +64,7 @@
                 "end": 166
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "exports",
               "optional": false
             },
@@ -121,6 +123,7 @@
               "end": 186
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "exports",
             "optional": false
           },
@@ -170,6 +173,7 @@
               "end": 201
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "exports",
             "optional": false
           },

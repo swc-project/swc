@@ -18,6 +18,7 @@
           "end": 30
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "PropertyDescriptor2",
         "optional": false
       },
@@ -45,6 +46,7 @@
                 "end": 49
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "configurable",
               "optional": false
             },
@@ -80,6 +82,7 @@
                 "end": 75
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "enumerable",
               "optional": false
             },
@@ -115,6 +118,7 @@
                 "end": 96
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "value",
               "optional": false
             },
@@ -150,6 +154,7 @@
                 "end": 116
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "writable",
               "optional": false
             },
@@ -184,6 +189,7 @@
                 "end": 135
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "get",
               "optional": false
             },
@@ -220,6 +226,7 @@
                 "end": 152
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "set",
               "optional": false
             },
@@ -233,6 +240,7 @@
                   "end": 155
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "v",
                 "optional": false,
                 "typeAnnotation": {

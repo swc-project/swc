@@ -21,6 +21,7 @@
           "end": 54
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "global",
         "optional": false
       },
@@ -44,6 +45,7 @@
                 "end": 86
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "SymbolConstructor",
               "optional": false
             },
@@ -71,6 +73,7 @@
                       "end": 105
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "obs",
                     "optional": false
                   },
@@ -121,6 +124,7 @@
               "end": 137
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "observable",
             "optional": false,
             "typeAnnotation": {
@@ -148,6 +152,7 @@
                       "end": 152
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Symbol",
                     "optional": false
                   },
@@ -177,6 +182,7 @@
                 "end": 165
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Symbol",
               "optional": false
             },
@@ -208,6 +214,7 @@
             "end": 196
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "MyObservable",
           "optional": false
         },
@@ -252,6 +259,7 @@
                     "end": 230
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "_val",
                   "optional": false,
                   "typeAnnotation": {
@@ -273,6 +281,7 @@
                           "end": 233
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "T",
                         "optional": false
                       },
@@ -324,6 +333,7 @@
                       "end": 257
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "next",
                     "optional": false,
                     "typeAnnotation": {
@@ -346,6 +356,7 @@
                               "end": 263
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "val",
                             "optional": false,
                             "typeAnnotation": {
@@ -367,6 +378,7 @@
                                     "end": 266
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "T",
                                   "optional": false
                                 },
@@ -430,6 +442,7 @@
                           "end": 291
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "next",
                         "optional": false
                       },
@@ -496,6 +509,7 @@
                   "end": 325
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "observable",
                 "optional": false
               }
@@ -567,6 +581,7 @@
                   "end": 198
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "T",
                 "optional": false
               },
@@ -596,6 +611,7 @@
           "end": 382
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "InteropObservable",
         "optional": false
       },
@@ -619,6 +635,7 @@
                 "end": 384
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "T",
               "optional": false
             },
@@ -657,6 +674,7 @@
                   "end": 401
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Symbol",
                 "optional": false
               },
@@ -711,6 +729,7 @@
                             "end": 425
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "subscribe",
                           "optional": false
                         },
@@ -724,6 +743,7 @@
                               "end": 430
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "next",
                             "optional": false,
                             "typeAnnotation": {
@@ -746,6 +766,7 @@
                                       "end": 436
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "val",
                                     "optional": false,
                                     "typeAnnotation": {
@@ -767,6 +788,7 @@
                                             "end": 439
                                           },
                                           "ctxt": 0,
+                                          "nodeId": 4294967295,
                                           "value": "T",
                                           "optional": false
                                         },
@@ -830,6 +852,7 @@
           "end": 474
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "from",
         "optional": false
       },
@@ -849,6 +872,7 @@
               "end": 481
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "obs",
             "optional": false,
             "typeAnnotation": {
@@ -870,6 +894,7 @@
                     "end": 500
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "InteropObservable",
                   "optional": false
                 },
@@ -893,6 +918,7 @@
                           "end": 502
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "T",
                         "optional": false
                       },
@@ -945,6 +971,7 @@
                     "end": 521
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "obs",
                   "optional": false
                 },
@@ -967,6 +994,7 @@
                         "end": 528
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Symbol",
                       "optional": false
                     },
@@ -1009,6 +1037,7 @@
                 "end": 476
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "T",
               "optional": false
             },
@@ -1042,6 +1071,7 @@
             "end": 543
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "from",
           "optional": false
         },
@@ -1062,6 +1092,7 @@
                   "end": 560
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "MyObservable",
                 "optional": false
               },

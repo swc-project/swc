@@ -41,6 +41,7 @@
                     "end": 96
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "notation",
                   "optional": false,
                   "typeAnnotation": null
@@ -60,6 +61,7 @@
                     "end": 103
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "style",
                   "optional": false,
                   "typeAnnotation": null
@@ -79,6 +81,7 @@
                     "end": 116
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "signDisplay",
                   "optional": false,
                   "typeAnnotation": null
@@ -122,6 +125,7 @@
                       "end": 129
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Intl",
                     "optional": false
                   },
@@ -192,6 +196,7 @@
               "end": 197
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Intl",
             "optional": false
           },
@@ -258,6 +263,7 @@
               "end": 263
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Intl",
             "optional": false
           },
@@ -355,6 +361,7 @@
                     "end": 345
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "currency",
                   "optional": false,
                   "typeAnnotation": null
@@ -374,6 +381,7 @@
                     "end": 359
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "currencySign",
                   "optional": false,
                   "typeAnnotation": null
@@ -417,6 +425,7 @@
                       "end": 372
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Intl",
                     "optional": false
                   },
@@ -569,6 +578,7 @@
                     "end": 504
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "unit",
                   "optional": false,
                   "typeAnnotation": null
@@ -588,6 +598,7 @@
                     "end": 517
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "unitDisplay",
                   "optional": false,
                   "typeAnnotation": null
@@ -631,6 +642,7 @@
                       "end": 530
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Intl",
                     "optional": false
                   },
@@ -783,6 +795,7 @@
                     "end": 666
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "compactDisplay",
                   "optional": false,
                   "typeAnnotation": null
@@ -826,6 +839,7 @@
                       "end": 679
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Intl",
                     "optional": false
                   },
@@ -948,6 +962,7 @@
               "end": 795
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Intl",
             "optional": false
           },
@@ -1032,6 +1047,7 @@
               "end": 900
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "types",
             "optional": false,
             "typeAnnotation": {
@@ -1065,6 +1081,7 @@
                         "end": 906
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Intl",
                       "optional": false
                     },

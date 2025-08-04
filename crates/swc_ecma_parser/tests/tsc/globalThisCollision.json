@@ -28,6 +28,7 @@
               "end": 105
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "globalThis",
             "optional": false,
             "typeAnnotation": null

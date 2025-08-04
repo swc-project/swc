@@ -28,6 +28,7 @@
               "end": 103
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "a",
             "optional": false,
             "typeAnnotation": null
@@ -68,6 +69,7 @@
               "end": 116
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "b",
             "optional": false,
             "typeAnnotation": null
@@ -94,6 +96,7 @@
           "end": 130
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -142,6 +145,7 @@
                         "end": 161
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "a",
                       "optional": false,
                       "typeAnnotation": null
@@ -172,6 +176,7 @@
                     "end": 178
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "a",
                   "optional": false
                 }
@@ -189,6 +194,7 @@
                     "end": 189
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "b",
                   "optional": false
                 }
@@ -233,6 +239,7 @@
                         "end": 226
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "a",
                       "optional": false,
                       "typeAnnotation": null
@@ -263,6 +270,7 @@
                     "end": 243
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "a",
                   "optional": false
                 }
@@ -280,6 +288,7 @@
                     "end": 254
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "b",
                   "optional": false
                 }

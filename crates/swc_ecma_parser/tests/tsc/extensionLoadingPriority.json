@@ -89,6 +89,7 @@
               "end": 384
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "a",
             "optional": false
           }
@@ -127,6 +128,7 @@
               "end": 410
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "dir",
             "optional": false
           }

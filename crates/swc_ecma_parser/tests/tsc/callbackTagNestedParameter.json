@@ -14,6 +14,7 @@
           "end": 402
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "eachPerson",
         "optional": false
       },
@@ -33,6 +34,7 @@
               "end": 411
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "callback",
             "optional": false,
             "typeAnnotation": null
@@ -73,6 +75,7 @@
                   "end": 427
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "callback",
                 "optional": false
               },

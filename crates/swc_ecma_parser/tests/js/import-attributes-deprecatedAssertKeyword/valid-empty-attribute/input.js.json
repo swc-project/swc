@@ -25,6 +25,7 @@
               "end": 11
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false
           }
@@ -42,6 +43,7 @@
               "end": 18
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "bar",
             "optional": false
           },
@@ -89,6 +91,7 @@
               "end": 57
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ns",
             "optional": false
           }
@@ -134,6 +137,7 @@
               "end": 93
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "quux",
             "optional": false
           },
@@ -180,6 +184,7 @@
               "end": 133
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ns2",
             "optional": false
           }

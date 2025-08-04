@@ -28,6 +28,7 @@
               "end": 230
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "myTypes",
             "optional": false,
             "typeAnnotation": null
@@ -64,6 +65,7 @@
               "end": 532
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "myTypes",
             "optional": false
           },
@@ -95,6 +97,7 @@
               "end": 573
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "myTypes",
             "optional": false
           },
@@ -138,6 +141,7 @@
               "end": 684
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "testFnTypes",
             "optional": false,
             "typeAnnotation": null
@@ -163,6 +167,7 @@
           "end": 930
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "testFn",
         "optional": false
       },
@@ -182,6 +187,7 @@
               "end": 936
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "input",
             "optional": false,
             "typeAnnotation": null
@@ -229,6 +235,7 @@
                     "end": 960
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "input",
                   "optional": false
                 }
@@ -280,6 +287,7 @@
                         "end": 1001
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "input",
                       "optional": false
                     }
@@ -339,6 +347,7 @@
               "end": 1060
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "testFn",
             "optional": false
           },
@@ -358,6 +367,7 @@
               "end": 1073
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "testFnTypes",
             "optional": false
           },

@@ -28,6 +28,7 @@
               "end": 183
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -68,6 +69,7 @@
               "end": 270
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "one_twenty",
             "optional": false,
             "typeAnnotation": null
@@ -87,6 +89,7 @@
                   "end": 274
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "s",
                 "optional": false,
                 "typeAnnotation": null
@@ -119,6 +122,7 @@
           "end": 378
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "SharedClass",
         "optional": false
       },
@@ -218,6 +222,7 @@
               "end": 504
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "outside",
             "optional": false,
             "typeAnnotation": null
@@ -237,6 +242,7 @@
                   "end": 508
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "n",
                 "optional": false,
                 "typeAnnotation": null
@@ -256,6 +262,7 @@
                   "end": 513
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "n",
                 "optional": false
               },
@@ -301,6 +308,7 @@
               "end": 578
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "noreturn",
             "optional": false,
             "typeAnnotation": null
@@ -320,6 +328,7 @@
                   "end": 587
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "barts",
                 "optional": false,
                 "typeAnnotation": null
@@ -331,6 +340,7 @@
                   "end": 594
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "tidus",
                 "optional": false,
                 "typeAnnotation": null
@@ -342,6 +352,7 @@
                   "end": 602
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "noctis",
                 "optional": false,
                 "typeAnnotation": null

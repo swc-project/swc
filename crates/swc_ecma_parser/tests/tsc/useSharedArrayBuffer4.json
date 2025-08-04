@@ -28,6 +28,7 @@
               "end": 42
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foge",
             "optional": false,
             "typeAnnotation": null
@@ -46,6 +47,7 @@
                 "end": 66
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "SharedArrayBuffer",
               "optional": false
             },
@@ -92,6 +94,7 @@
               "end": 81
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "bar",
             "optional": false,
             "typeAnnotation": null
@@ -116,6 +119,7 @@
                   "end": 88
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "foge",
                 "optional": false
               },
@@ -183,6 +187,7 @@
               "end": 114
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "species",
             "optional": false,
             "typeAnnotation": null
@@ -200,6 +205,7 @@
                 "end": 121
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "foge",
               "optional": false
             },
@@ -222,6 +228,7 @@
                     "end": 128
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Symbol",
                   "optional": false
                 },
@@ -263,6 +270,7 @@
               "end": 152
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "stringTag",
             "optional": false,
             "typeAnnotation": null
@@ -280,6 +288,7 @@
                 "end": 159
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "foge",
               "optional": false
             },
@@ -302,6 +311,7 @@
                     "end": 166
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Symbol",
                   "optional": false
                 },
@@ -343,6 +353,7 @@
               "end": 188
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "len",
             "optional": false,
             "typeAnnotation": null
@@ -360,6 +371,7 @@
                 "end": 195
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "foge",
               "optional": false
             },

@@ -25,6 +25,7 @@
             "end": 18
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Color",
           "optional": false
         },
@@ -50,6 +51,7 @@
                   "end": 24
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "r",
                 "optional": false
               },
@@ -85,6 +87,7 @@
                   "end": 35
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "g",
                 "optional": false
               },
@@ -120,6 +123,7 @@
                   "end": 46
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "b",
                 "optional": false
               },
@@ -174,6 +178,7 @@
                 "end": 147
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Palette",
               "optional": false,
               "typeAnnotation": null
@@ -446,6 +451,7 @@
                     "end": 308
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Record",
                   "optional": false
                 },
@@ -477,6 +483,7 @@
                           "end": 322
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Color",
                         "optional": false
                       },

@@ -21,6 +21,7 @@
           "end": 71
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "global",
         "optional": false
       },
@@ -51,6 +52,7 @@
                     "end": 97
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "globalThis",
                   "optional": false
                 },
@@ -61,6 +63,7 @@
                     "end": 107
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "global",
                   "optional": false
                 },

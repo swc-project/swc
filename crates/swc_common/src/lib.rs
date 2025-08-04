@@ -39,6 +39,7 @@ pub use swc_eq_ignore_macros::{EqIgnoreSpan, TypeEq};
 pub use self::{
     eq::{EqIgnoreSpan, TypeEq},
     errors::{SourceMapper, SourceMapperDyn},
+    node_id::NodeId,
     pos::{
         hygiene, BytePos, CharPos, FileName, Globals, Loc, LocWithOpt, Mark, MultiSpan, SourceFile,
         SourceFileAndBytePos, SourceFileAndLine, Span, SpanLinesError, Spanned, SyntaxContext,
@@ -59,6 +60,7 @@ mod eq;
 pub mod errors;
 pub mod input;
 pub mod iter;
+mod node_id;
 pub mod pass;
 pub mod plugin;
 mod pos;

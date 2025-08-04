@@ -20,6 +20,7 @@
             "end": 108
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "S",
           "optional": false
         },
@@ -210,6 +211,7 @@
                             "end": 194
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "S",
                           "optional": false
                         },
@@ -263,6 +265,7 @@
             "end": 371
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "__classPrivateFieldGet",
           "optional": false
         },
@@ -282,6 +285,7 @@
                 "end": 401
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "receiver",
               "optional": false,
               "typeAnnotation": {
@@ -303,6 +307,7 @@
                       "end": 404
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "T",
                     "optional": false
                   },
@@ -325,6 +330,7 @@
                 "end": 411
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "state",
               "optional": false,
               "typeAnnotation": {
@@ -374,6 +380,7 @@
                   "end": 373
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "T",
                 "optional": false
               },
@@ -403,6 +410,7 @@
                   "end": 391
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "V",
                 "optional": false
               },
@@ -433,6 +441,7 @@
                 "end": 420
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "V",
               "optional": false
             },
@@ -456,6 +465,7 @@
             "end": 468
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "__classPrivateFieldSet",
           "optional": false
         },
@@ -475,6 +485,7 @@
                 "end": 498
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "receiver",
               "optional": false,
               "typeAnnotation": {
@@ -496,6 +507,7 @@
                       "end": 501
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "T",
                     "optional": false
                   },
@@ -518,6 +530,7 @@
                 "end": 508
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "state",
               "optional": false,
               "typeAnnotation": {
@@ -551,6 +564,7 @@
                 "end": 520
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "value",
               "optional": false,
               "typeAnnotation": {
@@ -572,6 +586,7 @@
                       "end": 523
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "V",
                     "optional": false
                   },
@@ -610,6 +625,7 @@
                   "end": 470
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "T",
                 "optional": false
               },
@@ -639,6 +655,7 @@
                   "end": 488
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "V",
                 "optional": false
               },
@@ -669,6 +686,7 @@
                 "end": 527
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "V",
               "optional": false
             },

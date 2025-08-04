@@ -21,6 +21,7 @@
           "end": 9
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A",
         "optional": false
       },
@@ -50,6 +51,7 @@
                   "end": 39
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Point",
                 "optional": false
               },
@@ -77,6 +79,7 @@
                         "end": 51
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "x",
                       "optional": false
                     },
@@ -112,6 +115,7 @@
                         "end": 70
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "y",
                       "optional": false
                     },
@@ -166,6 +170,7 @@
                       "end": 108
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Origin",
                     "optional": false,
                     "typeAnnotation": {
@@ -187,6 +192,7 @@
                             "end": 115
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Point",
                           "optional": false
                         },
@@ -267,6 +273,7 @@
                   "end": 163
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Point3d",
                 "optional": false
               },
@@ -286,6 +293,7 @@
                       "end": 177
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Point",
                     "optional": false
                   },
@@ -313,6 +321,7 @@
                         "end": 189
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "z",
                       "optional": false
                     },
@@ -367,6 +376,7 @@
                       "end": 229
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Origin3d",
                     "optional": false,
                     "typeAnnotation": {
@@ -388,6 +398,7 @@
                             "end": 238
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Point3d",
                           "optional": false
                         },
@@ -488,6 +499,7 @@
                   "end": 289
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Line",
                 "optional": false
               },
@@ -512,6 +524,7 @@
                         "end": 296
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "TPoint",
                       "optional": false
                     },
@@ -531,6 +544,7 @@
                           "end": 310
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Point",
                         "optional": false
                       },
@@ -562,6 +576,7 @@
                           "end": 331
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "start",
                         "optional": false,
                         "typeAnnotation": {
@@ -583,6 +598,7 @@
                                 "end": 339
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "TPoint",
                               "optional": false
                             },
@@ -597,6 +613,7 @@
                           "end": 344
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "end",
                         "optional": false,
                         "typeAnnotation": {
@@ -618,6 +635,7 @@
                                 "end": 352
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "TPoint",
                               "optional": false
                             },
@@ -643,6 +661,7 @@
                         "end": 368
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "start",
                       "optional": false
                     },
@@ -667,6 +686,7 @@
                             "end": 376
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "TPoint",
                           "optional": false
                         },
@@ -688,6 +708,7 @@
                         "end": 389
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "end",
                       "optional": false
                     },
@@ -712,6 +733,7 @@
                             "end": 397
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "TPoint",
                           "optional": false
                         },

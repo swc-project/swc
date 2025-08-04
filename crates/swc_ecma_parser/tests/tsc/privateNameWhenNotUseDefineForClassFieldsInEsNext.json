@@ -14,6 +14,7 @@
           "end": 101
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "TestWithStatics",
         "optional": false
       },
@@ -92,6 +93,7 @@
                   "end": 153
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "TestWithStatics",
                 "optional": false
               },
@@ -149,6 +151,7 @@
                 "end": 206
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Inner",
               "optional": false
             },
@@ -248,6 +251,7 @@
                                 "end": 273
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "TestWithStatics",
                               "optional": false
                             },
@@ -301,6 +305,7 @@
                       "end": 333
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "InnerInner",
                     "optional": false
                   },
@@ -367,6 +372,7 @@
                                       "end": 389
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "TestWithStatics",
                                     "optional": false
                                   },
@@ -409,6 +415,7 @@
                                       "end": 429
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "Inner",
                                     "optional": false
                                   },
@@ -559,6 +566,7 @@
                                               "end": 577
                                             },
                                             "ctxt": 0,
+                                            "nodeId": 4294967295,
                                             "value": "TestWithStatics",
                                             "optional": false
                                           },
@@ -601,6 +609,7 @@
                                               "end": 621
                                             },
                                             "ctxt": 0,
+                                            "nodeId": 4294967295,
                                             "value": "Inner",
                                             "optional": false
                                           },
@@ -687,6 +696,7 @@
           "end": 707
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "TestNonStatics",
         "optional": false
       },
@@ -765,6 +775,7 @@
                   "end": 751
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "TestNonStatics",
                 "optional": false
               },
@@ -822,6 +833,7 @@
                 "end": 797
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Inner",
               "optional": false
             },
@@ -921,6 +933,7 @@
                                 "end": 863
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "TestNonStatics",
                               "optional": false
                             },
@@ -974,6 +987,7 @@
                       "end": 916
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "InnerInner",
                     "optional": false
                   },
@@ -1040,6 +1054,7 @@
                                       "end": 971
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "TestNonStatics",
                                     "optional": false
                                   },
@@ -1082,6 +1097,7 @@
                                       "end": 1011
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "Inner",
                                     "optional": false
                                   },
@@ -1232,6 +1248,7 @@
                                               "end": 1158
                                             },
                                             "ctxt": 0,
+                                            "nodeId": 4294967295,
                                             "value": "TestNonStatics",
                                             "optional": false
                                           },
@@ -1274,6 +1291,7 @@
                                               "end": 1202
                                             },
                                             "ctxt": 0,
+                                            "nodeId": 4294967295,
                                             "value": "Inner",
                                             "optional": false
                                           },
