@@ -9,7 +9,8 @@ use phf::phf_set;
 use rustc_hash::FxHashSet;
 use swc_atoms::{atom, Atom, UnsafeAtom};
 use swc_common::{
-    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, NodeId, Span, Spanned, SyntaxContext,
+    DUMMY_SP,
 };
 
 use crate::{typescript::TsTypeAnn, Expr};
@@ -91,6 +92,7 @@ impl From<&'_ BindingIdent> for Ident {
             ctxt: bi.ctxt,
             sym: bi.sym.clone(),
             optional: bi.optional,
+            node_id: bi.node_id,
         }
     }
 }
@@ -178,6 +180,9 @@ pub struct Ident {
 
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
     pub ctxt: SyntaxContext,
+
+    #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
+    pub node_id: NodeId,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
     pub sym: Atom,
@@ -592,6 +597,7 @@ impl Ident {
             ctxt,
             sym,
             optional: false,
+            node_id: NodeId::DUMMY,
         }
     }
 
