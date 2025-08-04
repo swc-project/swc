@@ -28,6 +28,7 @@
               "end": 14
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "example",
             "optional": false,
             "typeAnnotation": null
@@ -85,6 +86,7 @@
                               "end": 58
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "callback",
                             "optional": false
                           },
@@ -106,6 +108,7 @@
                                       "end": 98
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "options",
                                     "optional": false,
                                     "typeAnnotation": null
@@ -145,6 +148,7 @@
                                     "end": 75
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "something",
                                   "optional": false
                                 },
@@ -168,6 +172,7 @@
                                           "end": 81
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "Type1",
                                         "optional": false
                                       },
@@ -186,6 +191,7 @@
                                           "end": 88
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "Type2",
                                         "optional": false
                                       },

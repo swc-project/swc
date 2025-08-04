@@ -19,6 +19,7 @@
           "end": 24
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "InjectedTeamsProps",
         "optional": false
       },
@@ -41,6 +42,7 @@
           "end": 46
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Component",
         "optional": false
       },
@@ -74,6 +76,7 @@
                 "end": 49
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "_T",
               "optional": false
             },
@@ -96,6 +99,7 @@
                 "end": 53
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "_U",
               "optional": false
             },
@@ -119,6 +123,7 @@
           "end": 77
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ComponentType",
         "optional": false
       },
@@ -152,6 +157,7 @@
                 "end": 80
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "_T",
               "optional": false
             },
@@ -189,6 +195,7 @@
               "end": 107
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "withTeamsForUser",
             "optional": false,
             "typeAnnotation": null
@@ -208,6 +215,7 @@
                   "end": 179
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "_WrappedComponent",
                 "optional": false,
                 "typeAnnotation": {
@@ -229,6 +237,7 @@
                         "end": 176
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "ComponentType",
                       "optional": false
                     },
@@ -252,6 +261,7 @@
                               "end": 178
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "P",
                             "optional": false
                           },
@@ -326,6 +336,7 @@
                   "end": 210
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Component",
                 "optional": false
               },
@@ -358,6 +369,7 @@
                             "end": 215
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Omit",
                           "optional": false
                         },
@@ -381,6 +393,7 @@
                                   "end": 217
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "P",
                                 "optional": false
                               },
@@ -406,6 +419,7 @@
                                     "end": 226
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "A",
                                   "optional": false
                                 },
@@ -428,6 +442,7 @@
                             "end": 237
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Partial",
                           "optional": false
                         },
@@ -451,6 +466,7 @@
                                   "end": 239
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "B",
                                 "optional": false
                               },
@@ -474,6 +490,7 @@
                         "end": 243
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "C",
                       "optional": false
                     },
@@ -505,6 +522,7 @@
                       "end": 112
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "P",
                     "optional": false
                   },
@@ -524,6 +542,7 @@
                         "end": 139
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "InjectedTeamsProps",
                       "optional": false
                     },

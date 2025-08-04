@@ -14,6 +14,7 @@
           "end": 28
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "B",
         "optional": false
       },
@@ -100,6 +101,7 @@
                               "end": 100
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "console",
                             "optional": false
                           },
@@ -155,6 +157,7 @@
                               "end": 132
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "B",
                             "optional": false
                           },
@@ -284,6 +287,7 @@
                 "end": 234
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Foo",
               "optional": false
             },
@@ -400,6 +404,7 @@
                           "end": 303
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "console",
                         "optional": false
                       },
@@ -434,6 +439,7 @@
                                 "end": 309
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "B",
                               "optional": false
                             },
@@ -492,6 +498,7 @@
                             "end": 330
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "B",
                           "optional": false
                         },
@@ -556,6 +563,7 @@
                             "end": 360
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "B",
                           "optional": false
                         },

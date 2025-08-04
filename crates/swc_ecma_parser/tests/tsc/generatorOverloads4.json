@@ -14,6 +14,7 @@
           "end": 23
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -55,6 +56,7 @@
                     "end": 33
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "s",
                   "optional": false,
                   "typeAnnotation": {
@@ -104,6 +106,7 @@
                     "end": 52
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Iterable",
                   "optional": false
                 },
@@ -164,6 +167,7 @@
                     "end": 66
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "s",
                   "optional": false,
                   "typeAnnotation": {
@@ -213,6 +217,7 @@
                     "end": 85
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Iterable",
                   "optional": false
                 },
@@ -273,6 +278,7 @@
                     "end": 100
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "s",
                   "optional": false,
                   "typeAnnotation": {
@@ -330,6 +336,7 @@
                     "end": 116
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Iterable",
                   "optional": false
                 },

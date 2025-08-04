@@ -18,6 +18,7 @@
           "end": 14
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Foo",
         "optional": false
       },
@@ -45,6 +46,7 @@
                 "end": 26
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "public",
               "optional": false
             },
@@ -66,6 +68,7 @@
                 "end": 34
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "biz",
               "optional": false
             },

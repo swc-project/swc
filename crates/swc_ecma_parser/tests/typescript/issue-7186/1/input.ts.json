@@ -24,6 +24,7 @@
             "end": 32
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "PackageManager",
           "optional": false
         },
@@ -50,6 +51,7 @@
                   "end": 57
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "onDidUnloadPackage",
                 "optional": false
               },
@@ -63,6 +65,7 @@
                     "end": 66
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "callback",
                   "optional": false,
                   "typeAnnotation": {
@@ -85,6 +88,7 @@
                             "end": 76
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "package",
                           "optional": false,
                           "typeAnnotation": {
@@ -106,6 +110,7 @@
                                   "end": 85
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "Package",
                                 "optional": false
                               },
@@ -153,6 +158,7 @@
                       "end": 107
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Disposable",
                     "optional": false
                   },

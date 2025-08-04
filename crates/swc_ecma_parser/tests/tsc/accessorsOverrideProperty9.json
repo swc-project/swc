@@ -25,6 +25,7 @@
             "end": 120
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Constructor",
           "optional": false
         },
@@ -48,6 +49,7 @@
                   "end": 122
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "T",
                 "optional": false
               },
@@ -90,6 +92,7 @@
                   "end": 143
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "args",
                 "optional": false,
                 "typeAnnotation": null
@@ -138,6 +141,7 @@
                   "end": 156
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "T",
                 "optional": false
               },
@@ -168,6 +172,7 @@
             "end": 182
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "PropertiesOf",
           "optional": false
         },
@@ -191,6 +196,7 @@
                   "end": 184
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "T",
                 "optional": false
               },
@@ -222,6 +228,7 @@
                 "end": 192
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "K",
               "optional": false
             },
@@ -248,6 +255,7 @@
                     "end": 203
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "T",
                   "optional": false
                 },
@@ -278,6 +286,7 @@
                   "end": 207
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "T",
                 "optional": false
               },
@@ -296,6 +305,7 @@
                   "end": 209
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "K",
                 "optional": false
               },
@@ -318,6 +328,7 @@
           "end": 244
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "IApiItemConstructor",
         "optional": false
       },
@@ -337,6 +348,7 @@
               "end": 264
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Constructor",
             "optional": false
           },
@@ -360,6 +372,7 @@
                     "end": 272
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "ApiItem",
                   "optional": false
                 },
@@ -381,6 +394,7 @@
               "end": 287
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "PropertiesOf",
             "optional": false
           },
@@ -404,6 +418,7 @@
                     "end": 302
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "ApiItem",
                   "optional": false
                 },
@@ -431,6 +446,7 @@
           "end": 335
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ApiItem",
         "optional": false
       },
@@ -511,6 +527,7 @@
                     "end": 375
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "ReadonlyArray",
                   "optional": false
                 },
@@ -534,6 +551,7 @@
                           "end": 383
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "ApiItem",
                         "optional": false
                       },
@@ -567,6 +585,7 @@
           "end": 447
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ApiEnumMember",
         "optional": false
       },
@@ -585,6 +604,7 @@
           "end": 463
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ApiItem",
         "optional": false
       },
@@ -606,6 +626,7 @@
           "end": 520
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ApiItemContainerMixin",
         "optional": false
       },
@@ -625,6 +646,7 @@
               "end": 536
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ApiItem",
             "optional": false
           },
@@ -652,6 +674,7 @@
                 "end": 557
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "members",
               "optional": false
             },
@@ -676,6 +699,7 @@
                     "end": 572
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "ReadonlyArray",
                   "optional": false
                 },
@@ -699,6 +723,7 @@
                           "end": 580
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "ApiItem",
                         "optional": false
                       },
@@ -721,6 +746,7 @@
           "end": 616
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ApiItemContainerMixin",
         "optional": false
       },
@@ -740,6 +766,7 @@
               "end": 669
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "baseClass",
             "optional": false,
             "typeAnnotation": {
@@ -761,6 +788,7 @@
                     "end": 681
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "TBaseClass",
                   "optional": false
                 },
@@ -793,6 +821,7 @@
                 "end": 775
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "MixedClass",
               "optional": false
             },
@@ -844,6 +873,7 @@
                           "end": 859
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "args",
                         "optional": false,
                         "typeAnnotation": null
@@ -914,6 +944,7 @@
                                 "end": 889
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "args",
                               "optional": false
                             }
@@ -996,6 +1027,7 @@
                           "end": 938
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "ReadonlyArray",
                         "optional": false
                       },
@@ -1019,6 +1051,7 @@
                                 "end": 946
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "ApiItem",
                               "optional": false
                             },
@@ -1044,6 +1077,7 @@
                 "end": 793
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "baseClass",
               "optional": false
             },
@@ -1064,6 +1098,7 @@
                     "end": 826
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "ApiItemContainerMixin",
                   "optional": false
                 },
@@ -1084,6 +1119,7 @@
                 "end": 997
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "MixedClass",
               "optional": false
             }
@@ -1112,6 +1148,7 @@
                 "end": 627
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "TBaseClass",
               "optional": false
             },
@@ -1131,6 +1168,7 @@
                   "end": 655
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "IApiItemConstructor",
                 "optional": false
               },
@@ -1166,6 +1204,7 @@
                   "end": 695
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "TBaseClass",
                 "optional": false
               },
@@ -1201,6 +1240,7 @@
                         "end": 711
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "args",
                       "optional": false,
                       "typeAnnotation": null
@@ -1249,6 +1289,7 @@
                         "end": 744
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "ApiItemContainerMixin",
                       "optional": false
                     },
@@ -1277,6 +1318,7 @@
             "end": 1056
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "ApiEnum",
           "optional": false
         },
@@ -1357,6 +1399,7 @@
                       "end": 1177
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "ReadonlyArray",
                     "optional": false
                   },
@@ -1380,6 +1423,7 @@
                             "end": 1191
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "ApiEnumMember",
                           "optional": false
                         },
@@ -1412,6 +1456,7 @@
               "end": 1086
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ApiItemContainerMixin",
             "optional": false
           },
@@ -1425,6 +1470,7 @@
                   "end": 1094
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "ApiItem",
                 "optional": false
               }

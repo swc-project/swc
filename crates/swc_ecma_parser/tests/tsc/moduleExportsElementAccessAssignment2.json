@@ -28,6 +28,7 @@
               "end": 149
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "GlobalThing",
             "optional": false,
             "typeAnnotation": null
@@ -74,6 +75,7 @@
           "end": 243
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "f",
         "optional": false
       },
@@ -93,6 +95,7 @@
               "end": 248
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "type",
             "optional": false,
             "typeAnnotation": null
@@ -112,6 +115,7 @@
               "end": 254
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ctor",
             "optional": false,
             "typeAnnotation": null
@@ -131,6 +135,7 @@
               "end": 263
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "exports",
             "optional": false,
             "typeAnnotation": null
@@ -178,6 +183,7 @@
                     "end": 289
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "exports",
                   "optional": false
                 }
@@ -226,6 +232,7 @@
                           "end": 324
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "exports",
                         "optional": false
                       },
@@ -258,6 +265,7 @@
                               "end": 338
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "type",
                             "optional": false
                           }
@@ -271,6 +279,7 @@
                         "end": 346
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "ctor",
                       "optional": false
                     }
@@ -306,6 +315,7 @@
             "end": 389
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "GlobalThing",
           "optional": false
         },

@@ -20,6 +20,7 @@
             "end": 156
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Service",
           "optional": false
         },
@@ -57,6 +58,7 @@
               "end": 202
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Service",
             "optional": false
           }
@@ -98,6 +100,7 @@
               "end": 243
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "decorator",
             "optional": false,
             "typeAnnotation": {
@@ -130,6 +133,7 @@
           "end": 279
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "MyComponent",
         "optional": false
       },
@@ -153,6 +157,7 @@
               "end": 261
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "decorator",
             "optional": false
           }
@@ -192,6 +197,7 @@
                   "end": 312
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Service",
                 "optional": false,
                 "typeAnnotation": {
@@ -213,6 +219,7 @@
                         "end": 321
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Service",
                       "optional": false
                     },
@@ -264,6 +271,7 @@
                     "end": 359
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": {
@@ -297,6 +305,7 @@
                     "end": 346
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "decorator",
                   "optional": false
                 }

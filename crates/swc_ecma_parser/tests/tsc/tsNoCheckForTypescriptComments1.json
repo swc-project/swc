@@ -34,6 +34,7 @@
                 "end": 96
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "a",
               "optional": false,
               "typeAnnotation": null
@@ -87,6 +88,7 @@
             "end": 262
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Aleph",
           "optional": false
         },
@@ -114,6 +116,7 @@
                   "end": 268
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "q",
                 "optional": false
               },
@@ -154,6 +157,7 @@
             "end": 297
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Bet",
           "optional": false
         },
@@ -232,6 +236,7 @@
                 "end": 314
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Aleph",
               "optional": false
             },

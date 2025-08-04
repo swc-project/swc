@@ -21,6 +21,7 @@
           "end": 9
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A",
         "optional": false
       },
@@ -40,6 +41,7 @@
                 "end": 23
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "B",
               "optional": false
             },
@@ -127,6 +129,7 @@
                       "end": 72
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "beez",
                     "optional": false,
                     "typeAnnotation": {
@@ -148,6 +151,7 @@
                             "end": 79
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Array",
                           "optional": false
                         },
@@ -171,6 +175,7 @@
                                   "end": 81
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "B",
                                 "optional": false
                               },
@@ -216,6 +221,7 @@
                       "end": 104
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "beez2",
                     "optional": false,
                     "typeAnnotation": null
@@ -234,6 +240,7 @@
                         "end": 116
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Array",
                       "optional": false
                     },
@@ -258,6 +265,7 @@
                               "end": 118
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "B",
                             "optional": false
                           },

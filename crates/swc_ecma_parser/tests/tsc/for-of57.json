@@ -28,6 +28,7 @@
               "end": 24
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "iter",
             "optional": false,
             "typeAnnotation": {
@@ -49,6 +50,7 @@
                     "end": 34
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Iterable",
                   "optional": false
                 },
@@ -107,6 +109,7 @@
                 "end": 56
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "num",
               "optional": false,
               "typeAnnotation": null
@@ -123,6 +126,7 @@
           "end": 64
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "iter",
         "optional": false
       },

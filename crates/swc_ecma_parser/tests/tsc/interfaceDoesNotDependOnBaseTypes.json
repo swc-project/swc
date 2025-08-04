@@ -28,6 +28,7 @@
               "end": 6
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
@@ -49,6 +50,7 @@
                     "end": 18
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "StringTree",
                   "optional": false
                 },
@@ -88,6 +90,7 @@
               "end": 32
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false
           }
@@ -136,6 +139,7 @@
                     "end": 54
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false
                 },
@@ -191,6 +195,7 @@
                     "end": 70
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false
                 },
@@ -250,6 +255,7 @@
           "end": 101
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StringTree",
         "optional": false
       },
@@ -282,6 +288,7 @@
                 "end": 128
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "StringTreeArray",
               "optional": false
             },
@@ -303,6 +310,7 @@
           "end": 155
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StringTreeArray",
         "optional": false
       },
@@ -322,6 +330,7 @@
               "end": 169
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Array",
             "optional": false
           },
@@ -345,6 +354,7 @@
                     "end": 180
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "StringTree",
                   "optional": false
                 },

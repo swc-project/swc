@@ -31,6 +31,7 @@
               "end": 86
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "window",
             "optional": false
           },
@@ -73,6 +74,7 @@
             "end": 103
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "window",
           "optional": false
         },
@@ -112,6 +114,7 @@
               "end": 204
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },

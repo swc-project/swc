@@ -46,6 +46,7 @@
                 "end": 63
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "packageName",
               "optional": false
             },

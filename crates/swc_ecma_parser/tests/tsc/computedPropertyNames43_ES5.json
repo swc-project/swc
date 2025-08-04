@@ -14,6 +14,7 @@
           "end": 26
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Foo",
         "optional": false
       },
@@ -67,6 +68,7 @@
           "end": 43
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Foo2",
         "optional": false
       },
@@ -146,6 +148,7 @@
           "end": 61
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -167,6 +170,7 @@
                 "end": 78
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "s",
               "optional": false,
               "typeAnnotation": {
@@ -205,6 +209,7 @@
                   "end": 85
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Foo2",
                 "optional": false
               },
@@ -234,6 +239,7 @@
           "end": 97
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "D",
         "optional": false
       },
@@ -303,6 +309,7 @@
                         "end": 172
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Foo",
                       "optional": false
                     },
@@ -362,6 +369,7 @@
                     "end": 193
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "p",
                   "optional": false,
                   "typeAnnotation": {
@@ -383,6 +391,7 @@
                           "end": 199
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Foo2",
                         "optional": false
                       },
@@ -427,6 +436,7 @@
           "end": 107
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },

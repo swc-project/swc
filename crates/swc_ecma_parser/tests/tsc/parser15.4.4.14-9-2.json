@@ -14,6 +14,7 @@
           "end": 531
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "testcase",
         "optional": false
       },
@@ -56,6 +57,7 @@
                     "end": 545
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "obj",
                   "optional": false,
                   "typeAnnotation": null
@@ -148,6 +150,7 @@
                     "end": 591
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "one",
                   "optional": false,
                   "typeAnnotation": null
@@ -188,6 +191,7 @@
                     "end": 609
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "_float",
                   "optional": false,
                   "typeAnnotation": null
@@ -260,6 +264,7 @@
                     "end": 627
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "a",
                   "optional": false,
                   "typeAnnotation": null
@@ -278,6 +283,7 @@
                       "end": 639
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Array",
                     "optional": false
                   },
@@ -302,6 +308,7 @@
                           "end": 655
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "undefined",
                         "optional": false
                       }
@@ -337,6 +344,7 @@
                           "end": 668
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "obj",
                         "optional": false
                       }
@@ -433,6 +441,7 @@
                           "end": 708
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "one",
                         "optional": false
                       }
@@ -481,6 +490,7 @@
                           "end": 728
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "_float",
                         "optional": false
                       }
@@ -590,6 +600,7 @@
                             "end": 746
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "a",
                           "optional": false
                         },
@@ -687,6 +698,7 @@
                             "end": 810
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "a",
                           "optional": false
                         },
@@ -753,6 +765,7 @@
                           "end": 870
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "a",
                         "optional": false
                       },
@@ -827,6 +840,7 @@
                         "end": 930
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "a",
                       "optional": false
                     },
@@ -920,6 +934,7 @@
             "end": 1020
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "runTestCase",
           "optional": false
         },
@@ -933,6 +948,7 @@
                 "end": 1029
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "testcase",
               "optional": false
             }

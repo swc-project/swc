@@ -20,6 +20,7 @@
             "end": 21
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "MyClass",
           "optional": false
         },
@@ -76,6 +77,7 @@
                       "end": 40
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "MyDecorator",
                     "optional": false
                   },

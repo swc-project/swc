@@ -34,6 +34,7 @@
                 "end": 135
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "colors",
               "optional": false,
               "typeAnnotation": null
@@ -101,6 +102,7 @@
                 "end": 194
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "brandColors",
               "optional": false,
               "typeAnnotation": null
@@ -135,6 +137,7 @@
                         "end": 217
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "colors",
                       "optional": false
                     },

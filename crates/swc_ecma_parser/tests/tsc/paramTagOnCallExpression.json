@@ -14,6 +14,7 @@
           "end": 103
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "factory",
         "optional": false
       },
@@ -33,6 +34,7 @@
               "end": 108
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "type",
             "optional": false,
             "typeAnnotation": {
@@ -105,6 +107,7 @@
               "end": 226
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "exports",
             "optional": false
           },
@@ -131,6 +134,7 @@
               "end": 245
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "factory",
             "optional": false
           },

@@ -28,6 +28,7 @@
               "end": 151
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "test",
             "optional": false,
             "typeAnnotation": null
@@ -68,6 +69,7 @@
               "end": 211
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "tost",
             "optional": false,
             "typeAnnotation": null
@@ -105,6 +107,7 @@
               "end": 264
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "TestEnum",
             "optional": false
           },
@@ -148,6 +151,7 @@
               "end": 315
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "tist",
             "optional": false,
             "typeAnnotation": null
@@ -165,6 +169,7 @@
                 "end": 326
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "TestEnum",
               "optional": false
             },
@@ -210,6 +215,7 @@
                 "end": 399
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "TestEnum",
               "optional": false,
               "typeAnnotation": null

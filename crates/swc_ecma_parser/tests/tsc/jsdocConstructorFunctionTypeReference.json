@@ -28,6 +28,7 @@
               "end": 147
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Validator",
             "optional": false,
             "typeAnnotation": null
@@ -41,6 +42,7 @@
                 "end": 164
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "VFunc",
               "optional": false
             },
@@ -148,6 +150,7 @@
                 "end": 205
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Validator",
               "optional": false
             },
@@ -203,6 +206,7 @@
               "end": 285
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "validateRegExpFlags",
             "optional": false,
             "typeAnnotation": null
@@ -225,6 +229,7 @@
                     "end": 302
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "state",
                   "optional": false,
                   "typeAnnotation": null
@@ -264,6 +269,7 @@
                         "end": 322
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "state",
                       "optional": false
                     },

@@ -14,6 +14,7 @@
           "end": 42
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Test1",
         "optional": false
       },
@@ -56,6 +57,7 @@
                     "end": 56
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": {
@@ -83,6 +85,7 @@
                             "end": 69
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "this",
                           "optional": false
                         },

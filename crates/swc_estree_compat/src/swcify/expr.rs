@@ -1,4 +1,4 @@
-use swc_common::Spanned;
+use swc_common::{NodeId, Spanned};
 use swc_ecma_ast::{
     op, ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BindingIdent,
     BlockStmtOrExpr, CallExpr, Callee, ClassExpr, ComputedPropName, CondExpr, Expr, ExprOrSpread,
@@ -321,6 +321,7 @@ impl Swcify for Identifier {
                 sym: self.name,
                 optional: self.optional.unwrap_or(false),
                 ctxt: Default::default(),
+                node_id: NodeId::DUMMY,
             },
             type_ann: self.type_annotation.swcify(ctx).flatten().map(Box::new),
         }

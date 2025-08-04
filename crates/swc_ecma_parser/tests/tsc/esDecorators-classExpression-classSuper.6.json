@@ -28,6 +28,7 @@
               "end": 88
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "dec",
             "optional": false,
             "typeAnnotation": {
@@ -60,6 +61,7 @@
           "end": 114
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Base",
         "optional": false
       },
@@ -111,6 +113,7 @@
                       "end": 142
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "args",
                     "optional": false,
                     "typeAnnotation": null
@@ -213,6 +216,7 @@
                       "end": 178
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "args",
                     "optional": false,
                     "typeAnnotation": null
@@ -303,6 +307,7 @@
               "end": 270
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "C",
             "optional": false
           },
@@ -325,6 +330,7 @@
                   "end": 262
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "dec",
                 "optional": false
               }
@@ -527,6 +533,7 @@
                         "end": 385
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "v",
                       "optional": false,
                       "typeAnnotation": {
@@ -959,6 +966,7 @@
                         "end": 586
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "v",
                       "optional": false,
                       "typeAnnotation": {
@@ -1054,6 +1062,7 @@
               "end": 283
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Base",
             "optional": false
           },
