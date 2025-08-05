@@ -1,6 +1,6 @@
 [package]
 name = "swc_plugin_backend_wasmtime"
-version = "0.1.0"
+version = "0.2.0"
 edition = { workspace = true }
 license = { workspace = true }
 repository = { workspace = true }
@@ -16,4 +16,4 @@ wasmtime-wasi = { workspace = true, features = ["preview1"] }
 swc_common = { version = "14.0.2", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_plugin_runner = { version = "17.0.0", path = "../swc_plugin_runner" }
+swc_plugin_runner = { version = "18.0.0", path = "../swc_plugin_runner" }
