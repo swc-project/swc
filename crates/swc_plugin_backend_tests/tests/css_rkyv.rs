@@ -13,8 +13,7 @@ use swc_common::{
     sync::Lazy,
     FileName, Mark,
 };
-use swc_plugin_backend_wasmer::WasmerRuntime;
-use swc_plugin_runner::runtime::Runtime;
+use swc_plugin_runner::{plugin_module_bytes::CompiledPluginModuleBytes, runtime::Runtime};
 use testing::CARGO_TARGET_DIR;
 use tracing::info;
 
@@ -50,30 +49,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
     Err(anyhow!("Could not find built plugin"))
 }
 
-static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes> =
-    Lazy::new(|| {
-        let path = build_plugin(
-            &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
-                .join("tests")
-                .join("css-plugins")
-                .join("swc_noop_plugin"),
-        )
-        .unwrap();
-
-        let raw_module_bytes = std::fs::read(&path).expect("Should able to read plugin bytes");
-        let module = WasmerRuntime.prepare_module(&raw_module_bytes).unwrap();
-
-        swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes::new(
-            path.as_os_str()
-                .to_str()
-                .expect("Should able to get path")
-                .to_string(),
-            module,
-        )
-    });
-
-#[testing::fixture("../swc_css_parser/tests/fixture/**/input.css")]
-fn invoke(input: PathBuf) {
+fn invoke(input: PathBuf, rt: Arc<dyn Runtime>, module: &'static CompiledPluginModuleBytes) {
     use swc_css_ast::Stylesheet;
 
     tokio::runtime::Runtime::new().unwrap().block_on(async {
@@ -107,9 +83,9 @@ fn invoke(input: PathBuf) {
                     Some(experimental_metadata),
                 )),
                 None,
-                Box::new(PLUGIN_BYTES.clone_module(&WasmerRuntime)),
+                Box::new(module.clone_module(&*rt)),
                 Some(json!({ "pluginConfig": "testValue" })),
-                Arc::new(WasmerRuntime),
+                rt.clone(),
             );
 
             info!("Created transform executor");
@@ -160,9 +136,9 @@ fn invoke(input: PathBuf) {
                     Some(experimental_metadata.clone()),
                 )),
                 None,
-                Box::new(PLUGIN_BYTES.clone_module(&WasmerRuntime)),
+                Box::new(module.clone_module(&*rt)),
                 Some(json!({ "pluginConfig": "testValue" })),
-                Arc::new(WasmerRuntime),
+                rt.clone(),
             );
 
             serialized_program = plugin_transform_executor
@@ -179,9 +155,9 @@ fn invoke(input: PathBuf) {
                     Some(experimental_metadata),
                 )),
                 None,
-                Box::new(PLUGIN_BYTES.clone_module(&WasmerRuntime)),
+                Box::new(module.clone_module(&*rt)),
                 Some(json!({ "pluginConfig": "testValue" })),
-                Arc::new(WasmerRuntime),
+                rt.clone(),
             );
 
             serialized_program = plugin_transform_executor
@@ -199,4 +175,62 @@ fn invoke(input: PathBuf) {
         })
         .expect("Should able to run multiple plugins transform");
     });
+}
+
+#[testing::fixture("../swc_css_parser/tests/fixture/**/input.css")]
+fn wasmer(input: PathBuf) {
+    use swc_plugin_backend_wasmer::WasmerRuntime;
+
+    static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes> =
+        Lazy::new(|| {
+            let path = build_plugin(
+                &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
+                    .join("tests")
+                    .join("css-plugins")
+                    .join("swc_noop_plugin"),
+            )
+            .unwrap();
+
+            let raw_module_bytes = std::fs::read(&path).expect("Should able to read plugin bytes");
+            let module = WasmerRuntime.prepare_module(&raw_module_bytes).unwrap();
+
+            swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes::new(
+                path.as_os_str()
+                    .to_str()
+                    .expect("Should able to get path")
+                    .to_string(),
+                module,
+            )
+        });
+
+    invoke(input, Arc::new(WasmerRuntime), &PLUGIN_BYTES)
+}
+
+#[testing::fixture("../swc_css_parser/tests/fixture/**/input.css")]
+fn wasmtime(input: PathBuf) {
+    use swc_plugin_backend_wasmtime::WasmtimeRuntime;
+
+    static PLUGIN_BYTES: Lazy<swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes> =
+        Lazy::new(|| {
+            let path = build_plugin(
+                &PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
+                    .join("tests")
+                    .join("css-plugins")
+                    .join("swc_noop_plugin"),
+            )
+            .unwrap();
+
+            let raw_module_bytes = std::fs::read(&path).expect("Should able to read plugin bytes");
+            let module = WasmtimeRuntime.prepare_module(&raw_module_bytes).unwrap();
+
+            swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes::new(
+                path.as_os_str()
+                    .to_str()
+                    .expect("Should able to get path")
+                    .to_string(),
+                module,
+            )
+        });
+
+    invoke(input, Arc::new(WasmtimeRuntime), &PLUGIN_BYTES)
 }

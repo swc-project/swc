@@ -17,7 +17,6 @@ use swc_common::{
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
-use swc_plugin_backend_wasmer::WasmerRuntime;
 use swc_plugin_runner::runtime::Runtime;
 
 static SOURCE: &str = include_str!("../../swc_ecma_minifier/benches/full/typescript.js");
@@ -40,12 +39,24 @@ fn plugin_group(c: &mut Criterion) {
         assert!(status.success());
     }
 
-    c.bench_function("es/plugin/invoke/1", |b| bench_transform(b, &plugin_dir));
+    c.bench_function("es/plugin/invoke/1/wasmer", |b| {
+        bench_transform(
+            b,
+            &plugin_dir,
+            Arc::new(swc_plugin_backend_wasmer::WasmerRuntime),
+        )
+    });
+
+    c.bench_function("es/plugin/invoke/1/wasmtime", |b| {
+        bench_transform(
+            b,
+            &plugin_dir,
+            Arc::new(swc_plugin_backend_wasmtime::WasmtimeRuntime),
+        )
+    });
 }
 
-fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
-    let runtime = Arc::new(WasmerRuntime);
-
+fn bench_transform(b: &mut Bencher, plugin_dir: &Path, runtime: Arc<dyn Runtime>) {
     let path = &plugin_dir
         .join("target")
         .join("wasm32-wasip1")

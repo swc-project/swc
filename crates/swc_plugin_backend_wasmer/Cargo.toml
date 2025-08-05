@@ -40,29 +40,3 @@ swc_plugin_runner = { version = "17.0.0", path = "../swc_plugin_runner" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 wasmer-compiler-cranelift = { version = "6.1.0-rc.2", default-features = false }
-
-[dev-dependencies]
-codspeed-criterion-compat = { workspace = true }
-rustc-hash                = { workspace = true }
-serde                     = { workspace = true, features = ["derive"] }
-serde_json                = { workspace = true }
-tokio                     = { workspace = true, features = ["rt"] }
-tracing                   = { workspace = true }
-
-swc_plugin_runner = { version = "17.0.0", path = "../swc_plugin_runner", features = ["rkyv-impl", "plugin_transform_schema_v1"] }
-swc_css_ast = { version = "14.0.0", path = "../swc_css_ast", features = [
-  "rkyv-impl",
-] }
-swc_css_parser = { version = "14.0.0", path = "../swc_css_parser" }
-swc_ecma_ast = { version = "14.0.0", path = "../swc_ecma_ast", features = [
-  "rkyv-impl",
-] }
-swc_ecma_parser = { version = "22.0.3", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "14.0.0", path = "../swc_ecma_visit" }
-swc_transform_common = { version = "8.0.0", path = "../swc_transform_common" }
-swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
-testing = { version = "15.0.0", path = "../testing" }
-
-[[bench]]
-harness = false
-name    = "ecma_invoke"
