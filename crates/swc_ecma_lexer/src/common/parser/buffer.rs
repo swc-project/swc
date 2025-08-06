@@ -67,11 +67,6 @@ pub trait Buffer<'a> {
     fn expect_jsx_text_token_and_bump(&mut self) -> (Atom, Atom);
     fn expect_shebang_token_and_bump(&mut self) -> Atom;
 
-    #[inline]
-    fn knows_cur(&self) -> bool {
-        !self.cur().is_eof()
-    }
-
     fn had_line_break_before_cur(&self) -> bool {
         self.get_cur().had_line_break()
     }

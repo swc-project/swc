@@ -1,4 +1,5 @@
-  x Unexpected eof
-   ,-[$DIR/tests/typescript-errors/missing-fn-expr-body/anonymous/input.ts:1:21]
+  x Unexpected token `<eof>`. Expected {
+   ,-[$DIR/tests/typescript-errors/missing-fn-expr-body/anonymous/input.ts:1:1]
  1 | let f = function ()
+   :                    ^
    `----

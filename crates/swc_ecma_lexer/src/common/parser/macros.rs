@@ -51,7 +51,7 @@ macro_rules! syntax_error {
 macro_rules! peek {
     ($p:expr) => {{
         debug_assert!(
-            $p.input().knows_cur(),
+            !$p.input().cur().is_eof(),
             "parser should not call peek() without knowing current token.
 Current token is {:?}",
             $p.input().cur(),
@@ -80,13 +80,6 @@ macro_rules! debug_tracing {
             .entered()
         }
     }};
-}
-
-/// Returns true on eof.
-macro_rules! eof {
-    ($p:expr) => {
-        $p.input().cur().is_eof()
-    };
 }
 
 macro_rules! return_if_arrow {
