@@ -526,7 +526,10 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        // Phase 1: Pre-processing - Check and apply transformations that replace the
+        // Phase 1: Process children first to handle nested patterns
+        e.visit_mut_children_with(self);
+
+        // Phase 2: Pre-processing - Check and apply transformations that replace the
         // expression
         let logical_transformed = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
             && self.transform_logical_assignment(e);
@@ -536,15 +539,12 @@ impl<'a> VisitMut for CompilerImpl<'a> {
             && (self.transform_nullish_coalescing_bin_expr(e)
                 || self.transform_nullish_coalescing_assign_expr(e));
 
-        // Phase 2: Setup for private field expressions
+        // Phase 3: Setup for private field expressions
         let prev_prepend_exprs = if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             Some(take(&mut self.es2022_private_field_init_exprs))
         } else {
             None
         };
-
-        // Phase 3: Single recursive visit
-        e.visit_mut_children_with(self);
 
         // Phase 4: Post-processing transformations
         // Handle private field expressions
