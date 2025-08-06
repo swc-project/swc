@@ -20,18 +20,18 @@ pub trait Storage: Sized + Default {
 
     fn top_scope(&mut self) -> &mut Self::ScopeData;
 
-    fn var_or_default(&mut self, id: Id) -> &mut Self::VarData;
+    fn var_or_default(&mut self, id: IdIdx) -> &mut Self::VarData;
 
     fn merge(&mut self, kind: ScopeKind, child: Self);
 
-    fn report_usage(&mut self, ctx: Ctx, i: Id);
+    fn report_usage(&mut self, ctx: Ctx, i: IdIdx);
 
-    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>);
+    fn report_assign(&mut self, ctx: Ctx, i: IdIdx, is_op: bool, ty: Value<Type>);
 
     fn declare_decl(
         &mut self,
         ctx: Ctx,
-        i: &Ident,
+        i: IdIdx,
         init_type: Option<Value<Type>>,
         kind: Option<VarDeclKind>,
     ) -> &mut Self::VarData;
@@ -39,9 +39,9 @@ pub trait Storage: Sized + Default {
     fn get_initialized_cnt(&self) -> usize;
     fn truncate_initialized_cnt(&mut self, len: usize);
 
-    fn mark_property_mutation(&mut self, id: Id);
+    fn mark_property_mutation(&mut self, id: IdIdx);
 
-    fn get_var_data(&self, id: Id) -> Option<&Self::VarData>;
+    fn get_var_data(&self, id: IdIdx) -> Option<&Self::VarData>;
 }
 
 pub trait ScopeDataLike: Sized + Default + Clone {

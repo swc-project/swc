@@ -3,12 +3,15 @@ use swc_common::SyntaxContext;
 use swc_ecma_ast::{unsafe_id_from_ident, BindingIdent, Id, Ident, UnsafeId};
 
 pub trait IdentLike: Sized + Send + Sync + 'static {
+    type Id;
     fn from_ident(i: &Ident) -> Self;
-    fn to_id(&self) -> Id;
-    fn into_id(self) -> Id;
+    fn to_id(&self) -> Self::Id;
+    fn into_id(self) -> Self::Id;
 }
 
 impl IdentLike for Atom {
+    type Id = Id;
+
     fn from_ident(i: &Ident) -> Self {
         i.sym.clone()
     }
@@ -23,6 +26,8 @@ impl IdentLike for Atom {
 }
 
 impl IdentLike for BindingIdent {
+    type Id = Id;
+
     fn from_ident(i: &Ident) -> Self {
         i.clone().into()
     }
@@ -37,6 +42,8 @@ impl IdentLike for BindingIdent {
 }
 
 impl IdentLike for (Atom, SyntaxContext) {
+    type Id = Id;
+
     #[inline]
     fn from_ident(i: &Ident) -> Self {
         (i.sym.clone(), i.ctxt)
@@ -54,6 +61,8 @@ impl IdentLike for (Atom, SyntaxContext) {
 }
 
 impl IdentLike for Ident {
+    type Id = Id;
+
     #[inline]
     fn from_ident(i: &Ident) -> Self {
         Ident::new(i.sym.clone(), i.span, i.ctxt)
@@ -71,6 +80,8 @@ impl IdentLike for Ident {
 }
 
 impl IdentLike for UnsafeId {
+    type Id = Id;
+
     fn from_ident(i: &Ident) -> Self {
         unsafe { unsafe_id_from_ident(i) }
     }

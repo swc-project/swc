@@ -1,9 +1,11 @@
 use std::{
     borrow::Cow,
     fmt::Display,
+    hash::{Hash, Hasher},
     ops::{Deref, DerefMut},
 };
 
+use indexmap::map::RawEntryApiV1;
 use once_cell::sync::Lazy;
 use phf::phf_set;
 use rustc_hash::FxHashSet;
@@ -526,6 +528,49 @@ pub unsafe fn unsafe_id_from_ident(id: &Ident) -> UnsafeId {
 
 /// See [Ident] for documentation.
 pub type Id = (Atom, SyntaxContext);
+
+#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
+pub struct IdIdx(u32);
+
+#[derive(Default, Debug)]
+pub struct Ids {
+    map: indexmap::IndexMap<Id, (), rustc_hash::FxBuildHasher>,
+}
+
+impl Ids {
+    #[inline(always)]
+    pub fn intern_ident(&mut self, ident: &Ident) -> IdIdx {
+        self.intern(&ident.sym, ident.ctxt)
+    }
+
+    pub fn intern(&mut self, atom: &Atom, ctxt: SyntaxContext) -> IdIdx {
+        let mut hasher = rustc_hash::FxHasher::default();
+        atom.hash(&mut hasher);
+        ctxt.hash(&mut hasher);
+        let hash = hasher.finish();
+
+        use indexmap::map::raw_entry_v1::RawEntryMut::*;
+        let idx = match self
+            .map
+            .raw_entry_mut_v1()
+            .from_hash(hash, |id| id.1 == ctxt && id.0.eq(atom))
+        {
+            Occupied(occ) => occ.index(),
+            Vacant(vac) => {
+                let id = (atom.clone(), ctxt);
+                let idx = vac.index();
+                vac.insert_hashed_nocheck(hash, id, ());
+                idx
+            }
+        };
+        IdIdx(idx as u32)
+    }
+
+    #[inline(always)]
+    pub fn get(&self, idx: IdIdx) -> &Id {
+        self.map.get_index(idx.0 as usize).unwrap().0
+    }
+}
 
 impl Take for Ident {
     fn dummy() -> Self {

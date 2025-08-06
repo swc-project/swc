@@ -5337,6 +5337,7 @@ dependencies = [
  "arbitrary",
  "bitflags 2.6.0",
  "bytecheck 0.8.1",
+ "indexmap 2.7.1",
  "is-macro",
  "num-bigint",
  "once_cell",

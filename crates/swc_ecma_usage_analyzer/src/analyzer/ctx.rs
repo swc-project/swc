@@ -1,26 +1,8 @@
 #![allow(dead_code)]
 
-use std::ops::{Deref, DerefMut};
-
 use bitflags::bitflags;
 use swc_ecma_ast::VarDeclKind;
 use swc_ecma_utils::{Type, Value};
-
-use super::{storage::Storage, UsageAnalyzer};
-
-impl<S> UsageAnalyzer<S>
-where
-    S: Storage,
-{
-    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<S> {
-        let orig_ctx = self.ctx;
-        self.ctx = ctx;
-        WithCtx {
-            analyzer: self,
-            orig_ctx,
-        }
-    }
-}
 
 #[derive(Debug, Default, Clone, Copy)]
 #[non_exhaustive]
@@ -101,42 +83,5 @@ impl BitContext {
     pub fn with(mut self, flag: Self, value: bool) -> Self {
         self.set(flag, value);
         self
-    }
-}
-
-pub(super) struct WithCtx<'a, S>
-where
-    S: Storage,
-{
-    analyzer: &'a mut UsageAnalyzer<S>,
-    orig_ctx: Ctx,
-}
-
-impl<S> Deref for WithCtx<'_, S>
-where
-    S: Storage,
-{
-    type Target = UsageAnalyzer<S>;
-
-    fn deref(&self) -> &Self::Target {
-        self.analyzer
-    }
-}
-
-impl<S> DerefMut for WithCtx<'_, S>
-where
-    S: Storage,
-{
-    fn deref_mut(&mut self) -> &mut Self::Target {
-        self.analyzer
-    }
-}
-
-impl<S> Drop for WithCtx<'_, S>
-where
-    S: Storage,
-{
-    fn drop(&mut self) {
-        self.analyzer.ctx = self.orig_ctx;
     }
 }

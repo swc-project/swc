@@ -15,7 +15,9 @@ use crate::{
     option::{CompressOptions, TopLevelOptions},
 };
 
-pub struct Evaluator {
+pub struct Evaluator<'a> {
+    id_map: &'a mut Ids,
+
     expr_ctx: ExprCtx,
 
     program: Program,
@@ -25,8 +27,8 @@ pub struct Evaluator {
     done: bool,
 }
 
-impl Evaluator {
-    pub fn new(module: Module, marks: Marks) -> Self {
+impl<'a> Evaluator<'a> {
+    pub fn new(module: Module, marks: Marks, id_map: &'a mut Ids) -> Self {
         Evaluator {
             expr_ctx: ExprCtx {
                 unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
@@ -39,6 +41,7 @@ impl Evaluator {
             marks,
             data: Default::default(),
             done: Default::default(),
+            id_map,
         }
     }
 }
@@ -50,7 +53,7 @@ struct Eval {
 
 #[derive(Default)]
 struct EvalStore {
-    cache: FxHashMap<Id, Box<Expr>>,
+    cache: FxHashMap<IdIdx, Box<Expr>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -60,7 +63,7 @@ pub enum EvalResult {
 }
 
 impl Mode for Eval {
-    fn store(&self, id: Id, value: &Expr) {
+    fn store(&self, id: IdIdx, value: &Expr) {
         let mut w = self.store.lock();
         w.cache.insert(id, Box::new(value.clone()));
     }
@@ -78,7 +81,7 @@ impl Mode for Eval {
     }
 }
 
-impl Evaluator {
+impl<'a> Evaluator<'a> {
     #[tracing::instrument(name = "Evaluator::run", level = "debug", skip_all)]
     fn run(&mut self) {
         if !self.done {
@@ -97,6 +100,7 @@ impl Evaluator {
                 },
                 None,
                 &data,
+                self.id_map,
             ));
         }
     }
@@ -192,7 +196,8 @@ impl Evaluator {
                 self.run();
 
                 let lock = self.data.store.lock();
-                let val = lock.cache.get(&i.to_id())?;
+                let id = self.id_map.intern_ident(i);
+                let val = lock.cache.get(&id)?;
 
                 return Some(val.clone());
             }
@@ -211,6 +216,7 @@ impl Evaluator {
 
                 e.visit_mut_with(&mut pure_optimizer(
                     &Default::default(),
+                    self.id_map,
                     self.marks,
                     PureOptimizerConfig {
                         enable_join_vars: false,
@@ -248,6 +254,7 @@ impl Evaluator {
         {
             e.visit_mut_with(&mut pure_optimizer(
                 &Default::default(),
+                self.id_map,
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: false,
