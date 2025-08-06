@@ -379,7 +379,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
         );
 
         if self.next().is_none() {
-            let next = self.iter_mut().next();
+            let next = self.iter.next();
             self.set_next(next);
         }
 
@@ -392,18 +392,8 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
     }
 
     #[inline(always)]
-    fn get_cur_mut(&mut self) -> &mut TokenAndSpan {
-        &mut self.cur
-    }
-
-    #[inline(always)]
     fn prev_span(&self) -> Span {
         self.prev_span
-    }
-
-    #[inline(always)]
-    fn set_prev_span(&mut self, span: Span) {
-        self.prev_span = span;
     }
 
     #[inline(always)]

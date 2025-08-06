@@ -35,10 +35,8 @@ pub trait Buffer<'a> {
 
     fn cur(&self) -> &Self::Token;
     fn get_cur(&self) -> &Self::TokenAndSpan;
-    fn get_cur_mut(&mut self) -> &mut Self::TokenAndSpan;
 
     fn prev_span(&self) -> Span;
-    fn set_prev_span(&mut self, span: Span);
 
     fn peek<'b>(&'b mut self) -> Option<&'b Self::Token>
     where
