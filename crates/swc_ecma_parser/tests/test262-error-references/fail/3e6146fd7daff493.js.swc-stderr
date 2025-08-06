@@ -1,4 +1,4 @@
-  x Unexpected eof
+  x Expression expected
    ,-[$DIR/tests/test262-parser/fail/3e6146fd7daff493.js:1:1]
  1 | for(;;)
    `----

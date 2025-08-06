@@ -255,7 +255,7 @@ pub fn parse_var_stmt<'a, P: Parser<'a>>(p: &mut P, for_loop: bool) -> PResult<B
         //      var a,;
         //
         // NewLine is ok
-        if p.input().is(&P::Token::SEMI) || eof!(p) {
+        if p.input().is(&P::Token::SEMI) {
             let prev_span = p.input().prev_span();
             let span = if prev_span == var_span {
                 Span::new_with_checked(prev_span.hi, prev_span.hi)
@@ -329,7 +329,7 @@ pub fn parse_using_decl<'a, P: Parser<'a>>(
         //      var a,;
         //
         // NewLine is ok
-        if p.input().is(&P::Token::SEMI) || eof!(p) {
+        if p.input().is(&P::Token::SEMI) {
             let span = p.input().prev_span();
             p.emit_err(span, SyntaxError::TS1009);
             break;
@@ -975,7 +975,7 @@ fn parse_switch_stmt<'a, P: Parser<'a>>(p: &mut P) -> PResult<Stmt> {
             };
             expect!(p, &P::Token::COLON);
 
-            while !eof!(p) && {
+            while {
                 let cur = p.input().cur();
                 !(cur.is_case() || cur.is_default() || cur.is_rbrace())
             } {
