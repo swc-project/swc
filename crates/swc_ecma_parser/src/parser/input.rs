@@ -104,16 +104,16 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
         let prev = self.cur;
-        let t = self.iter_mut().scan_jsx_token(allow_multiline_jsx_text);
-        self.set_prev_span(prev.span);
+        let t = self.iter.scan_jsx_token(allow_multiline_jsx_text);
+        self.prev_span = prev.span;
         self.set_cur(t);
     }
 
     #[allow(unused)]
     fn scan_jsx_open_el_terminal_token(&mut self) {
         let prev = self.cur;
-        let t = self.iter_mut().scan_jsx_open_el_terminal_token();
-        self.set_prev_span(prev.span);
+        let t = self.iter.scan_jsx_open_el_terminal_token();
+        self.prev_span = prev.span;
         self.set_cur(t);
     }
 
@@ -123,15 +123,13 @@ impl<I: Tokens> Buffer<I> {
         }
         // rescan `>=`, `>>`, `>>=`, `>>>`, `>>>=` into `>`
         let start = self.cur.span.lo;
-        let t = self.iter_mut().rescan_jsx_open_el_terminal_token(start);
+        let t = self.iter.rescan_jsx_open_el_terminal_token(start);
         self.set_cur(t);
     }
 
     pub fn rescan_jsx_token(&mut self, allow_multiline_jsx_text: bool) {
         let start = self.cur.span.lo;
-        let t = self
-            .iter_mut()
-            .rescan_jsx_token(allow_multiline_jsx_text, start);
+        let t = self.iter.rescan_jsx_token(allow_multiline_jsx_text, start);
         self.set_cur(t);
     }
 
@@ -140,20 +138,18 @@ impl<I: Tokens> Buffer<I> {
             return;
         }
         let start = self.cur.span.lo;
-        let cur = self.iter_mut().scan_jsx_identifier(start);
+        let cur = self.iter.scan_jsx_identifier(start);
         debug_assert!(cur.token == Token::JSXName);
         self.set_cur(cur);
     }
 
     pub fn scan_jsx_attribute_value(&mut self) {
-        self.cur = self.iter_mut().scan_jsx_attribute_value();
+        self.cur = self.iter.scan_jsx_attribute_value();
     }
 
     pub fn rescan_template_token(&mut self, start_with_back_tick: bool) {
         let start = self.cur_pos();
-        self.cur = self
-            .iter_mut()
-            .rescan_template_token(start, start_with_back_tick);
+        self.cur = self.iter.rescan_template_token(start, start_with_back_tick);
     }
 }
 
@@ -206,18 +202,8 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffe
     }
 
     #[inline(always)]
-    fn get_cur_mut(&mut self) -> &mut TokenAndSpan {
-        &mut self.cur
-    }
-
-    #[inline(always)]
     fn prev_span(&self) -> Span {
         self.prev_span
-    }
-
-    #[inline(always)]
-    fn set_prev_span(&mut self, span: Span) {
-        self.prev_span = span;
     }
 
     #[inline(always)]
@@ -263,7 +249,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffe
             let eof_span = Span::new_with_checked(eof_pos, eof_pos);
             TokenAndSpan::new(Token::Eof, eof_span, true)
         };
-        self.set_prev_span(self.cur.span());
+        self.prev_span = self.cur.span();
         self.set_cur(next);
     }
 
