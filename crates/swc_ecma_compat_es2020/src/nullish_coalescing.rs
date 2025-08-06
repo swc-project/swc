@@ -11,6 +11,5 @@ pub fn nullish_coalescing(c: Config) -> impl Pass {
         includes: Features::NULLISH_COALESCING,
         excludes: Features::empty(),
         assumptions,
-        ..Default::default()
     })
 }
