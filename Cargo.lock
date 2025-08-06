@@ -5128,7 +5128,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "24.0.0"
+version = "25.0.0"
 dependencies = [
  "serde",
  "swc_common",
