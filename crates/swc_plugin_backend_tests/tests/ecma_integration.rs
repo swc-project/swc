@@ -260,5 +260,7 @@ fn wasmtime() {
         )
     });
 
-    internal(Arc::new(WasmtimeRuntime), &PLUGIN_BYTES);
+    tokio::runtime::Runtime::new().unwrap().block_on(async {
+        internal(Arc::new(WasmtimeRuntime), &PLUGIN_BYTES);
+    });
 }

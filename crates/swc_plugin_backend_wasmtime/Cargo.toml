@@ -9,9 +9,8 @@ description   = "Runner backend (wasmtime) for swc plugins. This crate is INTERN
 
 [dependencies]
 anyhow        = { workspace = true }
-parking_lot   = { workspace = true }
 wasmtime      = { workspace = true, features = ["runtime", "cranelift", "threads"] }
-wasmtime-wasi = { workspace = true, features = ["preview1"] }
+wasi-common   = { workspace = true, features = ["sync", "wasmtime"] }
 
 swc_common = { version = "14.0.2", path = "../swc_common", features = [
   "concurrent",

@@ -1389,7 +1389,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "34.0.4"
+version = "35.0.0"
 dependencies = [
  "swc_allocator",
  "swc_atoms",
@@ -1524,7 +1524,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "23.0.0"
+version = "24.0.0"
 dependencies = [
  "better_scoped_tls",
  "indexmap",
@@ -1544,7 +1544,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "26.0.0"
+version = "27.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -1568,7 +1568,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "19.0.1"
+version = "20.0.0"
 dependencies = [
  "indexmap",
  "num_cpus",

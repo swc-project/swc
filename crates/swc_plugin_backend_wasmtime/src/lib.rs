@@ -1,7 +1,6 @@
 use std::path::Path;
 
 use anyhow::Context;
-use parking_lot::Mutex;
 use swc_common::sync::OnceCell;
 use swc_plugin_runner::runtime;
 
@@ -22,12 +21,12 @@ struct WasmtimeTable {
     alloc_func: Option<wasmtime::TypedFunc<u32, u32>>,
     free_func: Option<wasmtime::TypedFunc<(u32, u32), u32>>,
 
-    wasi: wasmtime_wasi::preview1::WasiP1Ctx,
+    wasi: wasi_common::WasiCtx,
 }
 
 struct WasmtimeInstance {
     instance: wasmtime::Instance,
-    store: Mutex<wasmtime::Store<WasmtimeTable>>,
+    store: wasmtime::Store<WasmtimeTable>,
 
     memory: wasmtime::Memory,
     alloc_func: wasmtime::TypedFunc<u32, u32>,
@@ -103,17 +102,14 @@ impl runtime::Runtime for WasmtimeRuntime {
         };
 
         let current_dir = std::env::current_dir()?;
-        let wasi = wasmtime_wasi::p2::WasiCtxBuilder::new()
-            .envs(&envs)
-            .preopened_dir(
-                &current_dir,
-                "/cwd",
-                wasmtime_wasi::DirPerms::all(),
-                wasmtime_wasi::FilePerms::all(),
-            )?
-            .allow_udp(false)
-            .allow_tcp(false)
-            .build_p1();
+        let dir = wasi_common::sync::Dir::open_ambient_dir(
+            &current_dir,
+            wasi_common::sync::ambient_authority(),
+        )?;
+        let wasi = wasi_common::sync::WasiCtxBuilder::new()
+            .envs(&envs)?
+            .preopened_dir(dir, "/cwd")?
+            .build();
 
         let table = WasmtimeTable {
             memory: None,
@@ -134,7 +130,7 @@ impl runtime::Runtime for WasmtimeRuntime {
             })?;
         }
 
-        wasmtime_wasi::preview1::add_to_linker_sync(&mut linker, |t| &mut t.wasi)?;
+        wasi_common::sync::add_to_linker(&mut linker, |t| &mut t.wasi)?;
 
         let mut store = wasmtime::Store::new(engine, table);
         let instance = linker.instantiate(&mut store, &module)?;
@@ -158,7 +154,7 @@ impl runtime::Runtime for WasmtimeRuntime {
             .call(&mut store, ())?;
 
         Ok(Box::new(WasmtimeInstance {
-            store: Mutex::new(store),
+            store,
             instance,
             memory,
             alloc_func,
@@ -176,9 +172,8 @@ impl runtime::Instance for WasmtimeInstance {
         unresolved_mark: u32,
         should_enable_comments_proxy: u32,
     ) -> anyhow::Result<u32> {
-        let store = Mutex::get_mut(&mut self.store);
         self.transform_func.call(
-            store,
+            &mut self.store,
             (
                 program_ptr,
                 program_len,
@@ -190,7 +185,7 @@ impl runtime::Instance for WasmtimeInstance {
 
     fn caller(&mut self) -> anyhow::Result<Box<dyn runtime::Caller<'_> + '_>> {
         Ok(Box::new(WasmtimeCaller {
-            store: Mutex::get_mut(&mut self.store),
+            store: &mut self.store,
             memory: &self.memory,
             alloc_func: &self.alloc_func,
             free_func: &self.free_func,
@@ -198,8 +193,7 @@ impl runtime::Instance for WasmtimeInstance {
     }
 
     fn cache(&self) -> Option<runtime::ModuleCache> {
-        let store = self.store.lock();
-        let module = self.instance.module(&*store);
+        let module = self.instance.module(&self.store);
         let cache = WasmtimeCache(module.clone());
         Some(runtime::ModuleCache(Box::new(cache)))
     }
