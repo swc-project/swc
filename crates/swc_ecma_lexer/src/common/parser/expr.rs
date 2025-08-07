@@ -226,11 +226,13 @@ pub fn parse_str_lit<'a>(p: &mut impl Parser<'a>) -> swc_ecma_ast::Str {
     debug_assert!(p.input().cur().is_str());
     let token_and_span = p.input().get_cur();
     let start = token_and_span.span().lo;
-    let (value, raw) = p.input_mut().expect_string_token_and_bump();
+    let (value, raw, lone_surrogate) = p.input_mut().expect_string_token_and_bump();
+    dbg!(&value, &raw);
     swc_ecma_ast::Str {
         span: p.span(start),
         value,
         raw: Some(raw),
+        lone_surrogate,
     }
 }
 
