@@ -740,12 +740,12 @@ impl Optimizer<'_> {
                             // Currently, we only drop variable declarations if they have the same
                             // name.
                             if let (Pat::Ident(an), Pat::Ident(bn)) = (&av.name, &bv.name) {
-                                if an.to_id() == bn.to_id() {
+                                if an.ctxt == bn.ctxt && an.sym == bn.sym {
                                     // We need to preserve side effect of `av.init`
 
                                     match bv.init.as_deref_mut() {
                                         Some(b_init) => {
-                                            if is_ident_used_by(an.to_id(), b_init) {
+                                            if is_ident_used_by(an, b_init) {
                                                 log_abort!(
                                                     "We can't duplicated binding because \
                                                      initializer uses the previous declaration of \
@@ -928,8 +928,8 @@ impl Optimizer<'_> {
                                 }
                             }
 
-                            if let Some(id) = a.id() {
-                                if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
+                            if let Some(id) = a.ident() {
+                                if merge_seq_cache.is_ident_used_by(id, &**e2, b_idx) {
                                     break;
                                 }
                             }
@@ -939,8 +939,8 @@ impl Optimizer<'_> {
                                 break;
                             }
 
-                            if let Some(id) = a.id() {
-                                if merge_seq_cache.is_ident_used_by(&id, &**e2, b_idx) {
+                            if let Some(id) = a.ident() {
+                                if merge_seq_cache.is_ident_used_by(id, &**e2, b_idx) {
                                     break;
                                 }
                             }
@@ -1058,13 +1058,13 @@ impl Optimizer<'_> {
         if let Some(a) = a {
             match a {
                 Mergable::Var(a) => {
-                    if is_ident_used_by(e.to_id(), &a.init) {
+                    if is_ident_used_by(e, &a.init) {
                         log_abort!("ident used by a (var)");
                         return false;
                     }
                 }
                 Mergable::Expr(a) => {
-                    if is_ident_used_by(e.to_id(), &**a) {
+                    if is_ident_used_by(e, &**a) {
                         log_abort!("ident used by a (expr)");
                         return false;
                     }
@@ -1073,7 +1073,7 @@ impl Optimizer<'_> {
                 Mergable::FnDecl(a) => {
                     // TODO(kdy1): I'm not sure if we can remove this check. I added this
                     // just to be safe, and we may remove this check in future.
-                    if is_ident_used_by(e.to_id(), &**a) {
+                    if is_ident_used_by(e, &**a) {
                         log_abort!("ident used by a (fn)");
                         return false;
                     }
@@ -1222,20 +1222,20 @@ impl Optimizer<'_> {
                 if let Some(a) = a {
                     match a {
                         Mergable::Var(a) => {
-                            if is_ident_used_by(left_id.to_id(), &**a) {
+                            if is_ident_used_by(left_id, &**a) {
                                 log_abort!("e.left is used by a (var)");
                                 return false;
                             }
                         }
                         Mergable::Expr(a) => {
-                            if is_ident_used_by(left_id.to_id(), &**a) {
+                            if is_ident_used_by(left_id, &**a) {
                                 log_abort!("e.left is used by a (expr)");
                                 return false;
                             }
                         }
                         Mergable::FnDecl(a) => {
                             // TODO(kdy1): I'm not sure if this check is required.
-                            if is_ident_used_by(left_id.to_id(), &**a) {
+                            if is_ident_used_by(left_id, &**a) {
                                 log_abort!("e.left is used by a ()");
                                 return false;
                             }
@@ -1736,17 +1736,17 @@ impl Optimizer<'_> {
                                     {
                                         match &*a {
                                             Mergable::Var(a) => {
-                                                if is_ident_used_by(left_obj.to_id(), &**a) {
+                                                if is_ident_used_by(left_obj, &**a) {
                                                     return Ok(false);
                                                 }
                                             }
                                             Mergable::Expr(a) => {
-                                                if is_ident_used_by(left_obj.to_id(), &**a) {
+                                                if is_ident_used_by(left_obj, &**a) {
                                                     return Ok(false);
                                                 }
                                             }
                                             Mergable::FnDecl(a) => {
-                                                if is_ident_used_by(left_obj.to_id(), &**a) {
+                                                if is_ident_used_by(left_obj, &**a) {
                                                     return Ok(false);
                                                 }
                                             }
@@ -1789,13 +1789,13 @@ impl Optimizer<'_> {
 
                 if !self.is_skippable_for_seq(Some(a), &b_left.id.clone().into()) {
                     // Let's be safe
-                    if is_ident_used_by(b_left.to_id(), &b_assign.right) {
+                    if is_ident_used_by(&b_left.id, &b_assign.right) {
                         return Ok(false);
                     }
 
                     // As we are not *skipping* lhs, we can inline here
-                    if let Some(a_id) = a.id() {
-                        if a_id == b_left.to_id() {
+                    if let Some(a_id) = a.ident() {
+                        if a_id.ctxt == b_left.ctxt && a_id.sym == b_left.sym {
                             if self.replace_seq_assignment(a, b)? {
                                 return Ok(true);
                             }
@@ -1805,12 +1805,12 @@ impl Optimizer<'_> {
                     return Ok(false);
                 }
 
-                if is_ident_used_by(b_left.to_id(), &b_assign.right) {
+                if is_ident_used_by(&b_left.id, &b_assign.right) {
                     return Err(());
                 }
 
-                if let Some(a_id) = a.id() {
-                    if a_id == b_left.to_id() {
+                if let Some(a_id) = a.ident() {
+                    if a_id.ctxt == b_left.ctxt && a_id.sym == b_left.sym {
                         if self.replace_seq_assignment(a, b)? {
                             return Ok(true);
                         }
@@ -1853,11 +1853,9 @@ impl Optimizer<'_> {
 
                 if let Expr::Member(MemberExpr { obj, .. }) = &**b_callee {
                     if let Expr::Ident(obj) = &**obj {
-                        let callee_id = obj.to_id();
-
                         if let Mergable::Expr(Expr::Update(UpdateExpr { arg, .. })) = a {
                             if let Expr::Ident(arg) = &**arg {
-                                if arg.to_id() == callee_id {
+                                if arg.ctxt == obj.ctxt && arg.sym == obj.sym {
                                     return Ok(false);
                                 }
                             }
@@ -2119,7 +2117,7 @@ impl Optimizer<'_> {
                             }
 
                             if let Expr::Ident(orig_expr) = &*e {
-                                if orig_expr.to_id() == a_id.to_id() {
+                                if orig_expr.ctxt == a_id.ctxt && orig_expr.sym == a_id.sym {
                                     replaced = true;
                                     *e = UpdateExpr {
                                         span: DUMMY_SP,
@@ -2134,7 +2132,7 @@ impl Optimizer<'_> {
 
                             if let Expr::Update(e @ UpdateExpr { prefix: false, .. }) = e {
                                 if let Expr::Ident(arg) = &*e.arg {
-                                    if *op == e.op && arg.to_id() == a_id.to_id() {
+                                    if *op == e.op && arg.ctxt == a_id.ctxt && arg.sym == a_id.sym {
                                         e.prefix = true;
                                         replaced = true;
                                     }
@@ -2194,7 +2192,7 @@ impl Optimizer<'_> {
                             }
 
                             if let Expr::Ident(orig_expr) = &*e {
-                                if orig_expr.to_id() == a_id.to_id() {
+                                if orig_expr.ctxt == a_id.ctxt && orig_expr.sym == a_id.sym {
                                     replaced = true;
                                     *e = UpdateExpr {
                                         span: DUMMY_SP,
@@ -2209,7 +2207,7 @@ impl Optimizer<'_> {
 
                             if let Expr::Update(e @ UpdateExpr { prefix: false, .. }) = e {
                                 if let Expr::Ident(arg) = &*e.arg {
-                                    if *op == e.op && arg.to_id() == a_id.to_id() {
+                                    if *op == e.op && arg.ctxt == a_id.ctxt && arg.sym == a_id.sym {
                                         e.prefix = true;
                                         replaced = true;
                                     }
@@ -2454,7 +2452,7 @@ impl Optimizer<'_> {
         match b {
             Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
                 if let Some(b_left) = b.left.as_ident() {
-                    if b_left.to_id() == left_id.to_id() {
+                    if b_left.ctxt == left_id.ctxt && b_left.sym == left_id.sym {
                         report_change!("sequences: Merged assignment into another assignment");
                         self.changed = true;
 
@@ -2493,7 +2491,7 @@ impl Optimizer<'_> {
 
                     if let Some(a_op) = a_op {
                         if can_drop_op_for(a_op, b.op, var_type, a_type, b_type) {
-                            if b_left.to_id() == left_id.to_id() {
+                            if b_left.ctxt == left_id.ctxt && b_left.sym == left_id.sym {
                                 if let Some(bin_op) = b.op.to_update() {
                                     report_change!(
                                         "sequences: Merged assignment into another (op) assignment"
@@ -2579,12 +2577,15 @@ impl Optimizer<'_> {
             return true;
         }
 
-        if let Some(a_id) = a.id() {
+        if let Some(a_id) = a.ident() {
             match a {
                 Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
                 Mergable::Expr(Expr::Assign(..)) => {
                     let used_by_b = idents_used_by(&*b.right);
-                    if used_by_b.contains(&a_id) {
+                    if used_by_b
+                        .iter()
+                        .any(|id| id.1 == a_id.ctxt && id.0 == a_id.sym)
+                    {
                         return true;
                     }
                 }
@@ -2696,17 +2697,17 @@ enum Mergable<'a> {
 }
 
 impl Mergable<'_> {
-    fn id(&self) -> Option<Id> {
+    fn ident(&self) -> Option<&Ident> {
         match self {
             Mergable::Var(s) => match &s.name {
-                Pat::Ident(i) => Some(i.id.to_id()),
+                Pat::Ident(i) => Some(&i.id),
                 _ => None,
             },
             Mergable::Expr(s) => match &**s {
-                Expr::Assign(s) => s.left.as_ident().map(|v| v.to_id()),
+                Expr::Assign(s) => s.left.as_ident().map(|i| &i.id),
                 _ => None,
             },
-            Mergable::FnDecl(f) => Some(f.ident.to_id()),
+            Mergable::FnDecl(f) => Some(&f.ident),
             Mergable::Drop => None,
         }
     }
@@ -2728,12 +2729,14 @@ impl MergeSequenceCache {
 
     fn is_ident_used_by<N: VisitWith<IdentUsageCollector>>(
         &mut self,
-        ident: &Id,
+        ident: &Ident,
         node: &N,
         node_id: usize,
     ) -> bool {
         let idents = self.ident_usage_cache[node_id].get_or_insert_with(|| idents_used_by(node));
-        idents.contains(ident)
+        idents
+            .iter()
+            .any(|id| id.1 == ident.ctxt && id.0 == ident.sym)
     }
 
     fn invalidate(&mut self, node_id: usize) {
@@ -2746,10 +2749,10 @@ impl MergeSequenceCache {
                 return true;
             }
 
-            if let Some(a_id) = a.id() {
-                if a_id.0 == "arguments"
+            if let Some(a_id) = a.ident() {
+                if a_id.sym == "arguments"
                     || (matches!(a, Mergable::Var(_) | Mergable::FnDecl(_))
-                        && !optimizer.may_remove_ident(&Ident::from(a_id)))
+                        && !optimizer.may_remove_ident(a_id))
                 {
                     return true;
                 }

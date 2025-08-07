@@ -96,7 +96,7 @@ impl SystemJs {
             AssignTarget::Simple(pat_or_expr) => match pat_or_expr {
                 SimpleAssignTarget::Ident(ident) => {
                     for (k, v) in self.export_map.iter() {
-                        if ident.to_id() == *k {
+                        if ident.ctxt == k.1 && ident.sym == k.0 {
                             let mut expr = assign_expr.into();
                             for value in v.iter() {
                                 expr = self.export_call(value.clone(), DUMMY_SP, expr).into();
@@ -150,7 +150,7 @@ impl SystemJs {
             match &*update_expr.arg {
                 Expr::Ident(ident) => {
                     for (k, v) in self.export_map.iter() {
-                        if ident.to_id() == *k {
+                        if ident.ctxt == k.1 && ident.sym == k.0 {
                             let mut expr = BinExpr {
                                 span: DUMMY_SP,
                                 op: op!(bin, "+"),

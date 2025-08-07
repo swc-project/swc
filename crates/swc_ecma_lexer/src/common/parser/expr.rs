@@ -73,7 +73,7 @@ pub fn parse_array_lit<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
 
     let mut elems = Vec::with_capacity(8);
 
-    while !eof!(p) && !p.input().is(&P::Token::RBRACKET) {
+    while !p.input().is(&P::Token::RBRACKET) {
         if p.input().is(&P::Token::COMMA) {
             expect!(p, &P::Token::COMMA);
             elems.push(None);
@@ -289,7 +289,7 @@ pub fn parse_args<'a, P: Parser<'a>>(
         let mut first = true;
         let mut expr_or_spreads = Vec::with_capacity(2);
 
-        while !eof!(p) && !p.input().is(&P::Token::RPAREN) {
+        while !p.input().is(&P::Token::RPAREN) {
             if first {
                 first = false;
             } else {
@@ -1242,8 +1242,6 @@ pub fn parse_bin_expr<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<Expr>> {
             {
                 p.emit_err(p.input().cur_span(), SyntaxError::TS1109);
                 Invalid { span: err.span() }.into()
-            } else if cur.is_eof() {
-                return Err(eof_error(p));
             } else {
                 return Err(err);
             }
@@ -1805,7 +1803,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
 
     // TODO(kdy1): optimize (once we parsed a pattern, we can parse everything else
     // as a pattern instead of reparsing)
-    while !eof!(p) && !p.input().is(&P::Token::RPAREN) {
+    while !p.input().is(&P::Token::RPAREN) {
         // https://github.com/swc-project/swc/issues/410
         let is_async = p.input().is(&P::Token::ASYNC)
             && peek!(p).is_some_and(|t| t.is_lparen() || t.is_word() || t.is_function());

@@ -115,7 +115,7 @@ macro_rules! impl_for {
                     };
                     // If function's body references the name of variable, we just skip the
                     // function
-                    if IdentUsageFinder::find(&name.to_id(), &*node) {
+                    if IdentUsageFinder::find(&name, &*node) {
                         // self.name = Some(name);
                         node.ident = None;
                     } else {

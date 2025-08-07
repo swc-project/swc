@@ -1,9 +1,6 @@
-#![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
-
 extern crate swc_malloc;
 
 use std::{
-    env,
     path::{Path, PathBuf},
     process::Command,
     sync::Arc,
@@ -11,19 +8,21 @@ use std::{
 
 use codspeed_criterion_compat::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use rustc_hash::FxHashMap;
-#[cfg(feature = "__rkyv")]
-use swc_common::plugin::serialized::{PluginSerializedBytes, VersionedSerializable};
 use swc_common::{
-    plugin::metadata::TransformPluginMetadataContext, FileName, FilePathMapping, Globals, Mark,
-    SourceMap, GLOBALS,
+    plugin::{
+        metadata::TransformPluginMetadataContext,
+        serialized::{PluginSerializedBytes, VersionedSerializable},
+    },
+    FileName, FilePathMapping, Globals, Mark, SourceMap, GLOBALS,
 };
 use swc_ecma_ast::EsVersion;
 use swc_ecma_parser::parse_file_as_program;
+use swc_plugin_runner::runtime::Runtime;
 
 static SOURCE: &str = include_str!("../../swc_ecma_minifier/benches/full/typescript.js");
 
 fn plugin_group(c: &mut Criterion) {
-    let plugin_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap())
+    let plugin_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("tests")
         .join("fixture")
         .join("swc_noop_plugin");
@@ -40,10 +39,24 @@ fn plugin_group(c: &mut Criterion) {
         assert!(status.success());
     }
 
-    c.bench_function("es/plugin/invoke/1", |b| bench_transform(b, &plugin_dir));
+    c.bench_function("es/plugin/invoke/1/wasmer", |b| {
+        bench_transform(
+            b,
+            &plugin_dir,
+            Arc::new(swc_plugin_backend_wasmer::WasmerRuntime),
+        )
+    });
+
+    c.bench_function("es/plugin/invoke/1/wasmtime", |b| {
+        bench_transform(
+            b,
+            &plugin_dir,
+            Arc::new(swc_plugin_backend_wasmtime::WasmtimeRuntime),
+        )
+    });
 }
 
-fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
+fn bench_transform(b: &mut Bencher, plugin_dir: &Path, runtime: Arc<dyn Runtime>) {
     let path = &plugin_dir
         .join("target")
         .join("wasm32-wasip1")
@@ -51,8 +64,7 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
         .join("swc_noop_plugin.wasm");
     let raw_module_bytes = std::fs::read(path).expect("Should able to read plugin bytes");
 
-    let store = wasmer::Store::default();
-    let module = wasmer::Module::new(&store, raw_module_bytes).unwrap();
+    let module = runtime.prepare_module(&raw_module_bytes).unwrap();
 
     let plugin_module = swc_plugin_runner::plugin_module_bytes::CompiledPluginModuleBytes::new(
         path.as_os_str()
@@ -60,10 +72,8 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
             .expect("Should able to get path")
             .to_string(),
         module,
-        store,
     );
 
-    #[cfg(feature = "__rkyv")]
     b.iter(|| {
         GLOBALS.set(&Globals::new(), || {
             tokio::runtime::Runtime::new().unwrap().block_on(async {
@@ -96,9 +106,9 @@ fn bench_transform(b: &mut Bencher, plugin_dir: &Path) {
                             None,
                         )),
                         None,
-                        Box::new(plugin_module.clone()),
+                        Box::new(plugin_module.clone_module(&*runtime)),
                         None,
-                        None,
+                        runtime.clone(),
                     );
 
                 let experimental_metadata: VersionedSerializable<FxHashMap<String, String>> =

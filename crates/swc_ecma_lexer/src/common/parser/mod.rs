@@ -253,7 +253,7 @@ pub trait Parser<'a>: Sized + Clone {
     #[inline(always)]
     fn bump(&mut self) {
         debug_assert!(
-            self.input().knows_cur(),
+            !self.input().cur().is_eof(),
             "parser should not call bump() without knowing current token"
         );
         self.input_mut().bump()

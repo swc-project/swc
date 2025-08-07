@@ -6,7 +6,7 @@
     allow(unused)
 )]
 
-use std::path::PathBuf;
+use std::{path::PathBuf, sync::Arc};
 
 use anyhow::{Context, Result};
 use atoms::Atom;
@@ -21,6 +21,8 @@ use swc_ecma_loader::{
     resolvers::{lru::CachingResolver, node::NodeModulesResolver},
 };
 use swc_ecma_visit::{fold_pass, noop_fold_type, Fold};
+#[cfg(feature = "plugin")]
+use swc_plugin_runner::runtime::Runtime as PluginRuntime;
 
 /// A tuple represents a plugin.
 ///
@@ -33,13 +35,15 @@ use swc_ecma_visit::{fold_pass, noop_fold_type, Fold};
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct PluginConfig(pub String, pub serde_json::Value);
 
-pub fn plugins(
+#[cfg(feature = "plugin")]
+pub(crate) fn plugins(
     configured_plugins: Option<Vec<PluginConfig>>,
     plugin_env_vars: Option<Vec<Atom>>,
     metadata_context: std::sync::Arc<swc_common::plugin::metadata::TransformPluginMetadataContext>,
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
     unresolved_mark: swc_common::Mark,
+    plugin_runtime: Arc<dyn PluginRuntime>,
 ) -> impl Pass {
     fold_pass(RustPlugins {
         plugins: configured_plugins,
@@ -48,9 +52,11 @@ pub fn plugins(
         comments,
         source_map,
         unresolved_mark,
+        plugin_runtime,
     })
 }
 
+#[cfg(feature = "plugin")]
 struct RustPlugins {
     plugins: Option<Vec<PluginConfig>>,
     plugin_env_vars: Option<std::sync::Arc<Vec<Atom>>>,
@@ -58,8 +64,10 @@ struct RustPlugins {
     comments: Option<swc_common::comments::SingleThreadedComments>,
     source_map: std::sync::Arc<swc_common::SourceMap>,
     unresolved_mark: swc_common::Mark,
+    plugin_runtime: Arc<dyn PluginRuntime>,
 }
 
+#[cfg(feature = "plugin")]
 impl RustPlugins {
     #[cfg(feature = "plugin")]
     fn apply(&mut self, n: Program) -> Result<Program, anyhow::Error> {
@@ -116,19 +124,10 @@ impl RustPlugins {
                             .get()
                             .unwrap()
                             .lock()
-                            .get(&p.0)
+                            .get(&*self.plugin_runtime, &p.0)
                             .expect("plugin module should be loaded");
 
                         let plugin_name = plugin_module_bytes.get_module_name().to_string();
-                        let runtime = swc_plugin_runner::wasix_runtime::build_wasi_runtime(
-                            crate::config::PLUGIN_MODULE_CACHE
-                                .inner
-                                .get()
-                                .unwrap()
-                                .lock()
-                                .get_fs_cache_root()
-                                .map(std::path::PathBuf::from),
-                        );
 
                         let mut transform_plugin_executor =
                             swc_plugin_runner::create_plugin_transform_executor(
@@ -138,7 +137,7 @@ impl RustPlugins {
                                 self.plugin_env_vars.clone(),
                                 plugin_module_bytes,
                                 Some(p.1),
-                                runtime,
+                                self.plugin_runtime.clone(),
                             );
 
                         let span = tracing::span!(
@@ -175,10 +174,10 @@ impl RustPlugins {
     }
 }
 
+#[cfg(feature = "plugin")]
 impl Fold for RustPlugins {
     noop_fold_type!();
 
-    #[cfg(feature = "plugin")]
     fn fold_module(&mut self, n: Module) -> Module {
         match self.apply(Program::Module(n)) {
             Ok(program) => program.expect_module(),
@@ -191,7 +190,6 @@ impl Fold for RustPlugins {
         }
     }
 
-    #[cfg(feature = "plugin")]
     fn fold_script(&mut self, n: Script) -> Script {
         match self.apply(Program::Script(n)) {
             Ok(program) => program.expect_script(),
@@ -209,6 +207,7 @@ impl Fold for RustPlugins {
 pub(crate) fn compile_wasm_plugins(
     cache_root: Option<&str>,
     plugins: &[PluginConfig],
+    #[cfg(feature = "plugin")] plugin_runtime: &dyn PluginRuntime,
 ) -> Result<()> {
     let plugin_resolver = CachingResolver::new(
         40,
@@ -229,7 +228,7 @@ pub(crate) fn compile_wasm_plugins(
     for plugin_config in plugins.iter() {
         let plugin_name = &plugin_config.0;
 
-        if !inner_cache.contains(plugin_name) {
+        if !inner_cache.contains(plugin_runtime, plugin_name) {
             let resolved_path = plugin_resolver
                 .resolve(&FileName::Real(PathBuf::from(plugin_name)), plugin_name)
                 .with_context(|| format!("failed to resolve plugin path: {plugin_name}"))?;
@@ -240,7 +239,7 @@ pub(crate) fn compile_wasm_plugins(
                 anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
             };
 
-            inner_cache.store_bytes_from_path(&path, plugin_name)?;
+            inner_cache.store_bytes_from_path(plugin_runtime, &path, plugin_name)?;
             tracing::debug!("Initialized WASM plugin {plugin_name}");
         }
     }

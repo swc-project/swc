@@ -12,6 +12,7 @@ crate-type = ["cdylib"]
 [features]
 default = ["swc_v1", "plugin"]
 plugin = [
+  "swc_core/plugin_backend_wasmer",
   "swc_core/plugin_transform_host_native",
   "swc_core/plugin_transform_host_native_filesystem_cache",
 ]

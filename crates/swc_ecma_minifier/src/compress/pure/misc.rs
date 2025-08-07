@@ -1978,7 +1978,10 @@ impl Pure<'_> {
                 // Convert `a = a` to `a`.
                 if let Some(l) = assign.left.as_ident() {
                     if let Expr::Ident(r) = &*assign.right {
-                        if l.to_id() == r.to_id() && l.ctxt != self.expr_ctx.unresolved_ctxt {
+                        if l.ctxt == r.ctxt
+                            && l.ctxt != self.expr_ctx.unresolved_ctxt
+                            && l.sym == r.sym
+                        {
                             self.changed = true;
                             *e = *assign.right.take();
                         }
@@ -2134,7 +2137,7 @@ impl Pure<'_> {
                     Expr::Fn(callee) => {
                         if let Some(body) = &mut callee.function.body {
                             if let Some(ident) = &callee.ident {
-                                if IdentUsageFinder::find(&ident.to_id(), body) {
+                                if IdentUsageFinder::find(ident, body) {
                                     return;
                                 }
                             }

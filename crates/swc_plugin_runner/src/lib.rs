@@ -12,8 +12,8 @@ mod imported_fn;
 #[cfg(feature = "__rkyv")]
 mod memory_interop;
 pub mod plugin_module_bytes;
+pub mod runtime;
 mod transform_executor;
-pub mod wasix_runtime;
 
 use plugin_module_bytes::PluginModuleBytes;
 
@@ -28,7 +28,7 @@ pub fn create_plugin_transform_executor(
     plugin_env_vars: Option<Arc<Vec<swc_atoms::Atom>>>,
     plugin_module: Box<dyn PluginModuleBytes>,
     plugin_config: Option<serde_json::Value>,
-    runtime: Option<Arc<dyn wasmer_wasix::Runtime + Send + Sync>>,
+    plugin_runtime: Arc<dyn runtime::Runtime>,
 ) -> TransformExecutor {
     TransformExecutor::new(
         plugin_module,
@@ -37,7 +37,7 @@ pub fn create_plugin_transform_executor(
         metadata_context,
         plugin_env_vars,
         plugin_config,
-        runtime,
+        plugin_runtime,
     )
 }
 

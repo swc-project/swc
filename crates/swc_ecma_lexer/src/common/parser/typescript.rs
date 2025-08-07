@@ -315,9 +315,6 @@ pub fn eat_any_ts_modifier<'a>(p: &mut impl Parser<'a>) -> PResult<bool> {
     if p.syntax().typescript()
         && {
             let cur = p.input().cur();
-            if cur.is_eof() {
-                return Err(eof_error(p));
-            }
             cur.is_public() || cur.is_protected() || cur.is_private() || cur.is_readonly()
         }
         && peek!(p).is_some_and(|t| t.is_word() || t.is_lbrace() || t.is_lbracket())
@@ -337,9 +334,7 @@ pub fn parse_ts_modifier<'a, P: Parser<'a>>(
     allowed_modifiers: &[&'static str],
     stop_on_start_of_class_static_blocks: bool,
 ) -> PResult<Option<&'static str>> {
-    if !p.input().syntax().typescript() {
-        return Ok(None);
-    }
+    debug_assert!(p.input().syntax().typescript());
     let pos = {
         let cur = p.input().cur();
         let modifier = if cur.is_unknown_ident() {
@@ -431,7 +426,7 @@ pub fn parse_ts_entity_name<'a, P: Parser<'a>>(
     while p.input_mut().eat(&P::Token::DOT) {
         let dot_start = p.input().cur_pos();
         let cur = p.input().cur();
-        if cur.is_eof() || (!cur.is_hash() && !cur.is_word()) {
+        if !cur.is_hash() && !cur.is_word() {
             p.emit_err(
                 Span::new_with_checked(dot_start, dot_start),
                 SyntaxError::TS1003,
@@ -2128,7 +2123,7 @@ pub fn parse_ts_interface_decl<'a, P: Parser<'a>>(
     if p.input().is(&P::Token::EXTENDS) {
         p.emit_err(p.input().cur_span(), SyntaxError::TS1172);
 
-        while !eof!(p) && !p.input().is(&P::Token::LBRACE) {
+        while !p.input().cur().is_eof() && !p.input().is(&P::Token::LBRACE) {
             p.bump();
         }
     }

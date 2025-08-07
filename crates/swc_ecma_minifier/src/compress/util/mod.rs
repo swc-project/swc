@@ -535,11 +535,11 @@ pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
     None
 }
 
-pub(crate) fn is_ident_used_by<N>(id: Id, node: &N) -> bool
+pub(crate) fn is_ident_used_by<N>(id: &Ident, node: &N) -> bool
 where
     N: for<'aa> VisitWith<IdentUsageFinder<'aa>>,
 {
-    IdentUsageFinder::find(&id, node)
+    IdentUsageFinder::find(id, node)
 }
 
 pub struct ExprReplacer<F>
