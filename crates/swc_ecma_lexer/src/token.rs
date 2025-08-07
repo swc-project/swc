@@ -461,6 +461,7 @@ pub enum Token {
     Str {
         value: Atom,
         raw: Atom,
+        lone_surrogate: bool,
     },
 
     /// Regexp literal.
@@ -654,8 +655,12 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn str(value: Atom, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
-        Self::Str { value, raw }
+    fn str(value: Atom, raw: Atom, lone_surrogate: bool, _: &mut crate::Lexer<'a>) -> Self {
+        Self::Str {
+            value,
+            raw,
+            lone_surrogate,
+        }
     }
 
     #[inline(always)]
@@ -733,9 +738,13 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn take_str(self, _: &mut Self::Buffer) -> (Atom, Atom) {
+    fn take_str(self, _: &mut Self::Buffer) -> (Atom, Atom, bool) {
         match self {
-            Self::Str { value, raw } => (value, raw),
+            Self::Str {
+                value,
+                raw,
+                lone_surrogate,
+            } => (value, raw, lone_surrogate),
             _ => unreachable!(),
         }
     }
@@ -1647,7 +1656,11 @@ impl Debug for Token {
             PlusPlus => write!(f, "++")?,
             MinusMinus => write!(f, "--")?,
             Tilde => write!(f, "~")?,
-            Str { value, raw } => write!(f, "string literal ({value}, {raw})")?,
+            Str {
+                value,
+                raw,
+                lone_surrogate,
+            } => write!(f, "string literal ({value}, {raw}, {lone_surrogate})")?,
             Regex(exp, flags) => write!(f, "regexp literal ({exp}, {flags})")?,
             Num { value, raw, .. } => write!(f, "numeric literal ({value}, {raw})")?,
             BigInt { value, raw } => write!(f, "bigint literal ({value}, {raw})")?,

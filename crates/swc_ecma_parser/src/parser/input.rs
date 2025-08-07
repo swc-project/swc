@@ -59,12 +59,16 @@ impl<I: Tokens> Buffer<I> {
         (value, raw)
     }
 
-    pub fn expect_string_token_value(&mut self) -> (Atom, Atom) {
-        let Some(crate::lexer::TokenValue::Str { value, raw }) = self.iter.take_token_value()
+    pub fn expect_string_token_value(&mut self) -> (Atom, Atom, bool) {
+        let Some(crate::lexer::TokenValue::Str {
+            value,
+            raw,
+            lone_surrogate,
+        }) = self.iter.take_token_value()
         else {
             unreachable!()
         };
-        (value, raw)
+        (value, raw, lone_surrogate)
     }
 
     pub fn expect_bigint_token_value(&mut self) -> (Box<num_bigint::BigInt>, Atom) {
@@ -287,7 +291,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffe
         ret
     }
 
-    fn expect_string_token_and_bump(&mut self) -> (Atom, Atom) {
+    fn expect_string_token_and_bump(&mut self) -> (Atom, Atom, bool) {
         let cur = *self.cur();
         let ret = cur.take_str(self);
         self.bump();
