@@ -190,6 +190,9 @@ pub struct Str {
     /// Use `None` value only for transformations to avoid recalculate escaped
     /// characters in strings
     pub raw: Option<Atom>,
+
+    ///  The string value contains lone surrogate
+    pub lone_surrogate: bool,
 }
 
 impl Take for Str {
@@ -198,6 +201,7 @@ impl Take for Str {
             span: DUMMY_SP,
             value: atom!(""),
             raw: None,
+            lone_surrogate: false,
         }
     }
 }
@@ -282,6 +286,7 @@ impl From<Atom> for Str {
             span: DUMMY_SP,
             value,
             raw: None,
+            lone_surrogate: false,
         }
     }
 }
