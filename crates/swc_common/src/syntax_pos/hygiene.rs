@@ -71,7 +71,6 @@ impl SyntaxContext {
 struct SyntaxContextData {
     outer_mark: Mark,
     prev_ctxt: SyntaxContext,
-    opaque: SyntaxContext,
 }
 
 /// A mark is a unique id associated with a macro expansion.
@@ -285,7 +284,6 @@ impl HygieneData {
             syntax_contexts: vec![SyntaxContextData {
                 outer_mark: Mark::root(),
                 prev_ctxt: SyntaxContext(0),
-                opaque: SyntaxContext(0),
             }],
             markings: HashMap::default(),
         }
@@ -368,16 +366,12 @@ impl SyntaxContext {
     #[allow(unused)]
     fn apply_mark_internal(self, mark: Mark) -> SyntaxContext {
         HygieneData::with(|data| {
-            let syntax_contexts = &mut data.syntax_contexts;
-            let mut opaque = syntax_contexts[self.0 as usize].opaque;
-
-            let prev_ctxt = opaque;
-            *data.markings.entry((prev_ctxt, mark)).or_insert_with(|| {
+            *data.markings.entry((self, mark)).or_insert_with(|| {
+                let syntax_contexts = &mut data.syntax_contexts;
                 let new_opaque = SyntaxContext(syntax_contexts.len() as u32);
                 syntax_contexts.push(SyntaxContextData {
                     outer_mark: mark,
-                    prev_ctxt,
-                    opaque: new_opaque,
+                    prev_ctxt: self,
                 });
                 new_opaque
             })
