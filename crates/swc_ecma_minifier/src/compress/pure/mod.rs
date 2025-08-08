@@ -398,11 +398,9 @@ impl VisitMut for Pure<'_> {
                 if !arg.is_lit() {
                     self.ignore_return_value(
                         arg,
-                        DropOpts {
-                            drop_global_refs_if_unused: true,
-                            drop_number: true,
-                            drop_str_lit: true,
-                        },
+                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                            .union(DropOpts::DROP_NUMBER)
+                            .union(DropOpts::DROP_STR_LIT),
                     );
                     if arg.is_invalid() {
                         *e = *Expr::undefined(*span);
@@ -653,11 +651,7 @@ impl VisitMut for Pure<'_> {
 
         self.ignore_return_value(
             &mut s.expr,
-            DropOpts {
-                drop_number: true,
-                drop_global_refs_if_unused: true,
-                drop_str_lit: false,
-            },
+            DropOpts::DROP_NUMBER.union(DropOpts::DROP_GLOBAL_REFS_IF_UNUSED),
         );
 
         if s.expr.is_invalid() {
@@ -860,12 +854,9 @@ impl VisitMut for Pure<'_> {
             if let Some(VarDeclOrExpr::Expr(e)) = n {
                 self.ignore_return_value(
                     e,
-                    DropOpts {
-                        drop_number: true,
-                        drop_global_refs_if_unused: true,
-                        drop_str_lit: true,
-                        ..Default::default()
-                    },
+                    DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                        .union(DropOpts::DROP_NUMBER)
+                        .union(DropOpts::DROP_STR_LIT),
                 );
                 if e.is_invalid() {
                     *n = None;
@@ -976,14 +967,7 @@ impl VisitMut for Pure<'_> {
             let is_last = idx == len - 1;
 
             if !is_last {
-                self.ignore_return_value(
-                    e,
-                    DropOpts {
-                        drop_number: true,
-                        drop_global_refs_if_unused: false,
-                        drop_str_lit: true,
-                    },
-                );
+                self.ignore_return_value(e, DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT));
             }
         }
 
@@ -1018,13 +1002,7 @@ impl VisitMut for Pure<'_> {
                     return;
                 }
 
-                self.ignore_return_value(
-                    expr,
-                    DropOpts {
-                        drop_number: true,
-                        ..Default::default()
-                    },
-                );
+                self.ignore_return_value(expr, DropOpts::DROP_NUMBER);
 
                 if expr.is_invalid() {
                     *s = Stmt::dummy();

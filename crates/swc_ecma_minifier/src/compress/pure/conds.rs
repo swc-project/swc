@@ -74,11 +74,7 @@ impl Pure<'_> {
         } else {
             self.ignore_return_value(
                 &mut cond.test,
-                DropOpts {
-                    drop_number: true,
-                    drop_str_lit: true,
-                    ..Default::default()
-                },
+                DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
             );
 
             self.changed = true;
