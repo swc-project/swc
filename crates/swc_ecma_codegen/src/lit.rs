@@ -88,7 +88,7 @@ impl MacroNode for Str {
             }
         }
 
-        if self.lone_surrogate {
+        if self.lone_surrogates {
             emitter
                 .wr
                 .write_str_lit(DUMMY_SP, &self.raw.as_ref().unwrap())?;

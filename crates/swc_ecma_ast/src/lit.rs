@@ -192,7 +192,7 @@ pub struct Str {
     pub raw: Option<Atom>,
 
     ///  The string value contains lone surrogate
-    pub lone_surrogate: bool,
+    pub lone_surrogates: bool,
 }
 
 impl Take for Str {
@@ -201,7 +201,7 @@ impl Take for Str {
             span: DUMMY_SP,
             value: atom!(""),
             raw: None,
-            lone_surrogate: false,
+            lone_surrogates: false,
         }
     }
 }
@@ -286,7 +286,7 @@ impl From<Atom> for Str {
             span: DUMMY_SP,
             value,
             raw: None,
-            lone_surrogate: false,
+            lone_surrogates: false,
         }
     }
 }

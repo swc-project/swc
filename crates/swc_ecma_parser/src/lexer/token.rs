@@ -19,7 +19,7 @@ pub enum TokenValue {
     Str {
         value: Atom,
         raw: Atom,
-        lone_surrogate: bool,
+        lone_surrogates: bool,
     },
     // regexp
     Regex {
@@ -660,13 +660,13 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
-    fn str(value: Atom, raw: Atom, lone_surrogate: bool, lexer: &mut crate::Lexer<'a>) -> Self {
+    fn str(value: Atom, raw: Atom, lone_surrogates: bool, lexer: &mut crate::Lexer<'a>) -> Self {
         let bt = std::backtrace::Backtrace::force_capture();
         println!("{}", bt.to_string());
         lexer.set_token_value(Some(TokenValue::Str {
             value,
             raw,
-            lone_surrogate,
+            lone_surrogates,
         }));
         Token::Str
     }
@@ -825,7 +825,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
         lexer.set_token_value(Some(TokenValue::Str {
             value,
             raw,
-            lone_surrogate: false,
+            lone_surrogates: false,
         }));
         Token::JSXText
     }

@@ -968,7 +968,7 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
             span,
             value: value.to_string().into(),
             raw: Some(new_raw.into()),
-            lone_surrogate: false,
+            lone_surrogates: false,
         })
     } else if cur.is_lbracket() {
         p.assert_and_bump(&P::Token::LBRACKET);
@@ -2198,7 +2198,7 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
             span: arg_span,
             value: atom!(""),
             raw: Some(atom!("\"\"")),
-            lone_surrogate: false,
+            lone_surrogates: false,
         }
     };
 

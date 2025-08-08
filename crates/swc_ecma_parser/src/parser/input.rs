@@ -63,12 +63,12 @@ impl<I: Tokens> Buffer<I> {
         let Some(crate::lexer::TokenValue::Str {
             value,
             raw,
-            lone_surrogate,
+            lone_surrogates,
         }) = self.iter.take_token_value()
         else {
             unreachable!()
         };
-        (value, raw, lone_surrogate)
+        (value, raw, lone_surrogates)
     }
 
     pub fn expect_bigint_token_value(&mut self) -> (Box<num_bigint::BigInt>, Atom) {
