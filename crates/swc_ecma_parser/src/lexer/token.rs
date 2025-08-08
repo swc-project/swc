@@ -661,8 +661,6 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
 
     #[inline(always)]
     fn str(value: Atom, raw: Atom, lone_surrogates: bool, lexer: &mut crate::Lexer<'a>) -> Self {
-        let bt = std::backtrace::Backtrace::force_capture();
-        println!("{}", bt.to_string());
         lexer.set_token_value(Some(TokenValue::Str {
             value,
             raw,
