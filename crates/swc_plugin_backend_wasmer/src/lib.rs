@@ -25,12 +25,12 @@ static ENGINE: Lazy<Mutex<wasmer::Engine>> = Lazy::new(|| {
     // Use empty enumset to disable simd.
     use enumset::EnumSet;
     use wasmer::sys::{BaseTunables, CompilerConfig, EngineBuilder, Target, Triple};
-    let set = EnumSet::new();
 
     // [TODO]: Should we use is_x86_feature_detected! macro instead?
     #[cfg(target_arch = "x86_64")]
-    set.insert(wasmer::sys::CpuFeature::SSE2);
-    let target = Target::new(Triple::host(), set);
+    let target = Target::new(Triple::host(), EnumSet::only(wasmer::sys::CpuFeature::SSE2));
+    #[cfg(not(target_arch = "x86_64"))]
+    let target = Target::new(Triple::host(), EnumSet::new());
 
     let config = wasmer_compiler_cranelift::Cranelift::default();
     let mut engine = EngineBuilder::new(Box::new(config) as Box<dyn CompilerConfig>)
