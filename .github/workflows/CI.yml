@@ -127,7 +127,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "yarn"
 
       - name: Install node dependencies
@@ -175,7 +175,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "yarn"
 
       - name: Install node dependencies
@@ -230,7 +230,7 @@ jobs:
       # Source map format
       - uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "22"
           cache: "yarn"
 
       # We explicitly do this to cache properly.
@@ -244,10 +244,10 @@ jobs:
           # toolchain: stable
           # override: true
 
-      - uses: denoland/setup-deno@v1
+      - uses: denoland/setup-deno@v2
         if: matrix.settings.crate == 'swc_bundler'
         with:
-          deno-version: v1.x
+          deno-version: v2.x
 
       - name: Install node dependencies
         shell: bash
@@ -255,14 +255,14 @@ jobs:
           corepack enable
           yarn
           # I don't want to think deeply about this
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || \
-          yarn global add jest@27 mocha || true
+          yarn global add jest@30 mocha || \
+          yarn global add jest@30 mocha || \
+          yarn global add jest@30 mocha || \
+          yarn global add jest@30 mocha || \
+          yarn global add jest@30 mocha || \
+          yarn global add jest@30 mocha || \
+          yarn global add jest@30 mocha || \
+          yarn global add jest@30 mocha || true
 
       - name: Configure path (windows)
         shell: bash
@@ -282,7 +282,7 @@ jobs:
           echo "SWC_ECMA_TESTING_CACHE_DIR=$(pwd)/.swc-exec-cache" >> $GITHUB_ENV
 
       - name: Cache execution results
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         if: ${{ matrix.settings.crate }} == 'swc' || ${{ startsWith(matrix.settings.crate, 'swc_ecma_transforms_') }}
         with:
           path: |
@@ -426,7 +426,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "22"
           cache: "yarn"
 
       - name: Set platform name

@@ -29,7 +29,7 @@ runs:
         tool: cargo-edit@0.12.2
 
     - name: "Setup jq"
-      uses: dcarbone/install-jq-action@v2
+      uses: dcarbone/install-jq-action@v3
       with:
         version: "1.7"
         force: true

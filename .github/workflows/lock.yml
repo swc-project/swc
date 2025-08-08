@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.repository_owner == 'swc-project'
     steps:
-      - uses: dessant/lock-threads@v3
+      - uses: dessant/lock-threads@v5
         with:
           github-token: ${{ secrets.BOT_GH_TOKEN }}
           issue-inactive-days: 30
