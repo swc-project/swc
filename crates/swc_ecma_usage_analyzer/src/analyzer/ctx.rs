@@ -3,7 +3,6 @@
 use std::ops::{Deref, DerefMut};
 
 use bitflags::bitflags;
-use swc_ecma_ast::VarDeclKind;
 use swc_ecma_utils::{Type, Value};
 
 use super::{storage::Storage, UsageAnalyzer};
@@ -25,7 +24,6 @@ where
 #[derive(Debug, Default, Clone, Copy)]
 #[non_exhaustive]
 pub struct Ctx {
-    pub var_decl_kind_of_pat: Option<VarDeclKind>,
     pub in_pat_of_var_decl_with_init: Option<Value<Type>>,
     pub(crate) bit_ctx: BitContext,
 }
@@ -93,6 +91,9 @@ bitflags! {
         const InCond = 1 << 8;
         const InlinePrevented = 1 << 9;
         const IsTopLevel = 1 << 10;
+        const IsVar = 1 << 11;
+        const IsLet = 1 << 12;
+        const IsConst = 1 << 13;
     }
 }
 
