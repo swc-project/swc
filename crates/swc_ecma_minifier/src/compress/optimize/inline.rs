@@ -296,7 +296,7 @@ impl Optimizer<'_> {
                             || usage.flags.contains(VarUsageInfoFlags::USED_AS_ARG)
                                 && ref_count > 1
                             || ref_count > usage.callee_count
-                            || !is_arrow_simple_enough_for_copy(arr).is_some_and(|cost| cost <= 8))
+                            || is_arrow_simple_enough_for_copy(arr).is_none_or(|cost| cost > 8))
                     }
                     _ => false,
                 }

@@ -1,4 +1,4 @@
-use std::{collections::VecDeque, iter::repeat};
+use std::collections::VecDeque;
 
 use petgraph::{
     prelude::GraphMap,
@@ -67,8 +67,10 @@ impl StmtDepGraph {
 
     fn insert_transitives(&mut self, from: usize, to: usize) {
         if self.paths.len() <= from {
-            self.paths
-                .extend(repeat(Default::default()).take(from + 1 - self.paths.len()))
+            self.paths.extend(std::iter::repeat_n(
+                Default::default(),
+                from + 1 - self.paths.len(),
+            ))
         }
         if !self.paths[from].insert(to) {
             return;

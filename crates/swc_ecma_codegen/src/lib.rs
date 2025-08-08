@@ -1376,7 +1376,7 @@ fn require_space_before_rhs(rhs: &Expr, op: &BinaryOp) -> bool {
 }
 
 fn is_empty_comments(span: &Span, comments: &Option<&dyn Comments>) -> bool {
-    span.is_dummy() || comments.map_or(true, |c| !c.has_leading(span.span_hi() - BytePos(1)))
+    span.is_dummy() || comments.is_none_or(|c| !c.has_leading(span.span_hi() - BytePos(1)))
 }
 
 fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
