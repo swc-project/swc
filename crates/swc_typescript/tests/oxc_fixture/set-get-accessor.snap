@@ -8,21 +8,51 @@ declare class Cls {
     set b(v: string);
     private get c();
     private set c(value);
+    accessor d: string;
+    private accessor e;
+    private static accessor f;
 }
 // Incorrect
 declare class ClsBad {
     get a();
     set a(v);
 }
+/// Infer type from the function body of the getter
+declare class GlobalSymbol1 {
+    set [Symbol.toStringTag](v: string);
+    get [Symbol.toStringTag](): string;
+}
+// Infer type from the parameter type of the setter
+declare class GlobalSymbol2 {
+    set [Symbol.toStringTag](v: number);
+    get [Symbol.toStringTag](): number;
+}
+// Infer type from the parameter type of the setter
+declare class GlobalSymbol3 {
+    set [Symbol.toStringTag](v: string);
+    get [Symbol.toStringTag](): string;
+}
+// Cannot infer type from the function body of the getter
+declare class GlobalSymbol4 {
+    set [Symbol.toStringTag](v);
+    get [Symbol.toStringTag]();
+}
 
 
 ==================== Errors ====================
   x TS9009: At least one accessor must have an explicit return type annotation with --isolatedDeclarations.
-    ,-[$DIR/tests/oxc_fixture/set-get-accessor.ts:21:1]
- 20 | class ClsBad {
- 21 |   get a() {
+    ,-[$DIR/tests/oxc_fixture/set-get-accessor.ts:25:1]
+ 24 | class ClsBad {
+ 25 |   get a() {
     :       ^
- 22 |     return;
+ 26 |     return;
+    `----
+  x TS9009: At least one accessor must have an explicit return type annotation with --isolatedDeclarations.
+    ,-[$DIR/tests/oxc_fixture/set-get-accessor.ts:64:1]
+ 63 |   }
+ 64 |   get [Symbol.toStringTag]() {
+    :       ^^^^^^^^^^^^^^^^^^^^
+ 65 |     return GlobalSymbol4;
     `----
 
 
