@@ -1538,7 +1538,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.bump(); // 'x'
 
                 match self.read_int_u32::<16>(2)? {
-                    Some(val) => return Ok(Some(EscapedChar::Char(Char::from(val as u32)))),
+                    Some(val) => return Ok(Some(EscapedChar::Char(Char::from(val)))),
                     None => self.error(
                         start,
                         SyntaxError::BadCharacterEscapeSequence {
@@ -1818,8 +1818,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                     let value = self.read_unicode_escape()?;
                     match value {
-                        UnicodeEscape::CodePoint(char) => {
-                            let ch = Char::from(char);
+                        UnicodeEscape::CodePoint(ch) => {
+                            let ch = Char::from(ch);
                             let valid = if first {
                                 ch.is_ident_start()
                             } else {
