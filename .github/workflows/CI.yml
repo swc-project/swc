@@ -72,7 +72,7 @@ jobs:
       - name: Install cargo-deny
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-deny@0.14.15
+          tool: cargo-deny@0.18.3
 
       - name: Check licenses
         run: |
@@ -92,7 +92,7 @@ jobs:
       - name: Install cargo-shear
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-shear@1.3.3
+          tool: cargo-shear@1.4.1
 
       - name: cargo-shear
         run: cargo shear --fix
@@ -346,7 +346,7 @@ jobs:
         uses: taiki-e/install-action@v2
         if: matrix.settings.os == 'ubuntu-latest'
         with:
-          tool: cargo-hack@0.5.29
+          tool: cargo-hack@0.6.37
 
       - name: Check compilation
         if: matrix.settings.os == 'ubuntu-latest'
@@ -457,7 +457,7 @@ jobs:
           cargo clean
           (cd ./bindings && cargo clean)
 
-          npm install -g @swc/cli@0.1.56
+          npm install -g @swc/cli@0.7.8
           npm link
           npm install -g file:$PWD
 
@@ -488,7 +488,7 @@ jobs:
           # yarn global add qunit failonlyreporter
 
           # Download
-          # git clone --depth 1 https://github.com/reduxjs/redux.git -b v4.1.0 tests/integration/redux/repo
+          # git clone --depth 1 https://github.com/reduxjs/redux.git -b v5.0.1 tests/integration/redux/repo
           # TODO
           # swc --sync tests/integration/redux/repo/src/ -d tests/integration/redux/repo/lib/
           # echo "module.exports=require('./index')" > tests/integration/redux/repo/lib/redux.js

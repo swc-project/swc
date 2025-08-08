@@ -88,7 +88,7 @@ jobs:
 
       # - if: ${{ failure() && github.event.inputs.mode == 'passing' }}
       #   name: Notify failure
-      #   uses: tsickert/discord-webhook@v5.3.0
+      #   uses: tsickert/discord-webhook@v7.0.0
       #   with:
       #     webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
       #     content: |
@@ -97,7 +97,7 @@ jobs:
 
       # - if: ${{ success() &&github.event.inputs.mode == 'ignored' }}
       #   name: Notify success
-      #   uses: tsickert/discord-webhook@v5.3.0
+      #   uses: tsickert/discord-webhook@v7.0.0
       #   with:
       #     webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
       #     content: |
