@@ -383,10 +383,15 @@ impl Lexer<'_> {
                 consume_cooked!();
 
                 match self.read_escaped_char(true) {
-                    Ok(Some((chars, _is_lone_surrogates))) => {
+                    Ok(Some(escaped)) => {
                         if let Ok(ref mut cooked) = cooked {
-                            for c in chars {
-                                cooked.extend(c);
+                            match escaped {
+                                swc_ecma_lexer::common::lexer::EscapedChar::Char(ch) => {
+                                    cooked.extend(ch)
+                                }
+                                swc_ecma_lexer::common::lexer::EscapedChar::LoneSurrogate(ch) => {
+                                    cooked.push_str(format!("\u{FFFD}{ch:04x}").as_str());
+                                }
                             }
                         }
                     }
