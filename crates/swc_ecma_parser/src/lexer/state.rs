@@ -508,7 +508,7 @@ impl Lexer<'_> {
         self.state.set_token_value(TokenValue::Str {
             raw,
             value,
-            lone_surrogate: false,
+            lone_surrogates: false,
         });
 
         self.state.start = start;
