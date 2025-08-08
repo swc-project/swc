@@ -44,11 +44,7 @@ impl Pure<'_> {
 
             self.ignore_return_value(
                 &mut sw.discriminant,
-                DropOpts {
-                    drop_number: true,
-                    drop_str_lit: true,
-                    ..Default::default()
-                },
+                DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
             );
 
             let discriminant = sw.discriminant.take();
@@ -207,11 +203,7 @@ impl Pure<'_> {
 
             self.ignore_return_value(
                 discriminant,
-                DropOpts {
-                    drop_number: true,
-                    drop_str_lit: true,
-                    ..Default::default()
-                },
+                DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
             );
 
             if !discriminant.is_invalid() {
@@ -225,11 +217,7 @@ impl Pure<'_> {
                 // We are creating ExprStmt, so we can ignore return value
                 self.ignore_return_value(
                     &mut test,
-                    DropOpts {
-                        drop_number: true,
-                        drop_str_lit: true,
-                        ..Default::default()
-                    },
+                    DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
                 );
 
                 if !test.is_invalid() {
@@ -497,11 +485,7 @@ impl Pure<'_> {
                     } else {
                         self.ignore_return_value(
                             &mut discriminant,
-                            DropOpts {
-                                drop_number: true,
-                                drop_str_lit: true,
-                                ..Default::default()
-                            },
+                            DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
                         );
 
                         let mut stmts = vec![];
@@ -628,11 +612,7 @@ impl Pure<'_> {
             let mut exprs = Vec::new();
             self.ignore_return_value(
                 &mut s.discriminant,
-                DropOpts {
-                    drop_number: true,
-                    drop_str_lit: true,
-                    ..Default::default()
-                },
+                DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
             );
             if !s.discriminant.is_invalid() {
                 exprs.push(s.discriminant.take());
@@ -645,11 +625,7 @@ impl Pure<'_> {
                     .filter_map(|mut e| {
                         self.ignore_return_value(
                             &mut e,
-                            DropOpts {
-                                drop_number: true,
-                                drop_str_lit: true,
-                                ..Default::default()
-                            },
+                            DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
                         );
                         if e.is_invalid() {
                             None
