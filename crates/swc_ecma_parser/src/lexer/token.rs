@@ -19,6 +19,7 @@ pub enum TokenValue {
     Str {
         value: Atom,
         raw: Atom,
+        lone_surrogates: bool,
     },
     // regexp
     Regex {
@@ -659,8 +660,12 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
-    fn str(value: Atom, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
-        lexer.set_token_value(Some(TokenValue::Str { value, raw }));
+    fn str(value: Atom, raw: Atom, lone_surrogates: bool, lexer: &mut crate::Lexer<'a>) -> Self {
+        lexer.set_token_value(Some(TokenValue::Str {
+            value,
+            raw,
+            lone_surrogates,
+        }));
         Token::Str
     }
 
@@ -734,7 +739,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
-    fn take_str(self, buffer: &mut Self::Buffer) -> (Atom, Atom) {
+    fn take_str(self, buffer: &mut Self::Buffer) -> (Atom, Atom, bool) {
         buffer.expect_string_token_value()
     }
 
@@ -815,7 +820,11 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
 
     #[inline(always)]
     fn jsx_text(value: Atom, raw: Atom, lexer: &mut Self::Lexer) -> Self {
-        lexer.set_token_value(Some(TokenValue::Str { value, raw }));
+        lexer.set_token_value(Some(TokenValue::Str {
+            value,
+            raw,
+            lone_surrogates: false,
+        }));
         Token::JSXText
     }
 
@@ -826,7 +835,8 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
 
     #[inline(always)]
     fn take_jsx_text(self, buffer: &mut Self::Buffer) -> (Atom, Atom) {
-        buffer.expect_string_token_value()
+        let (value, raw, _) = buffer.expect_string_token_value();
+        (value, raw)
     }
 
     #[inline(always)]
