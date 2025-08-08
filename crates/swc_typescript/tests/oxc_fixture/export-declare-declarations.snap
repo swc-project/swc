@@ -1,0 +1,15 @@
+```==================== .D.TS ====================
+
+import { Reference } from 'mod';
+declare class Class {
+}
+declare function Function(): Reference;
+declare const variable: number;
+declare enum Enum {
+    A = 0,
+    B = 1,
+    C = 2
+}
+export { Class, Function, variable, Enum };
+
+
