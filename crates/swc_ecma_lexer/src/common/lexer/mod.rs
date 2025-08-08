@@ -2107,7 +2107,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let mut buf: Option<String> = None;
 
-        let mut is_lone_surrogate = false;
+        let mut is_lone_surrogates = false;
 
         loop {
             let table = if quote == b'"' {
@@ -2131,7 +2131,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                     let end = self.cur_pos();
                     let raw = unsafe { self.input_slice(start, end) };
-                    return Ok(Self::Token::str(self.atom(s), self.atom(raw), is_lone_surrogate, self));
+                    return Ok(Self::Token::str(self.atom(s), self.atom(raw), is_lone_surrogates, self));
                 },
             };
             dbg!(&fast_path_result);
@@ -2167,7 +2167,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.input_slice(start, end)
                     };
                     let raw = self.atom(raw);
-                    return Ok(Self::Token::str(value, raw, is_lone_surrogate, self));
+                    return Ok(Self::Token::str(value, raw, is_lone_surrogates, self));
                 }
                 b'\\' => {
                     let end = self.cur_pos();
@@ -2183,8 +2183,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         buf.as_mut().unwrap().push_str(s);
                     }
 
-                    if let Some((chars, lone_surrogate)) = self.read_escaped_char(false)? {
-                        is_lone_surrogate = lone_surrogate;
+                    if let Some((chars, lone_surrogates)) = self.read_escaped_char(false)? {
+                        is_lone_surrogates = lone_surrogates;
                         for c in chars {
                             buf.as_mut().unwrap().extend(c);
                         }
@@ -2213,7 +2213,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     return Ok(Self::Token::str(
                         self.atom(s),
                         self.atom(raw),
-                        is_lone_surrogate,
+                        is_lone_surrogates,
                         self,
                     ));
                 }

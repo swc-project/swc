@@ -383,7 +383,7 @@ impl Lexer<'_> {
                 consume_cooked!();
 
                 match self.read_escaped_char(true) {
-                    Ok(Some((chars, _is_lone_surrogate))) => {
+                    Ok(Some((chars, _is_lone_surrogates))) => {
                         if let Ok(ref mut cooked) = cooked {
                             for c in chars {
                                 cooked.extend(c);
