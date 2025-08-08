@@ -5,10 +5,10 @@ use std::{
 };
 
 use anyhow::{Context, Result};
-use clap::{ArgEnum, Parser, Subcommand};
+use clap::{Parser, Subcommand, ValueEnum};
 use swc_core::diagnostics::get_core_engine_diagnostics;
 
-#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Debug, ArgEnum)]
+#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Debug, ValueEnum)]
 pub enum PluginTargetType {
     /// wasm32-unknown-unknown target.
     Wasm32UnknownUnknown,
@@ -30,7 +30,7 @@ pub struct PluginScaffoldOptions {
     ///
     /// "wasm32-unknown-unknown" will makes those calls as no-op, instead
     /// generates slightly smaller binaries.
-    #[clap(long, arg_enum)]
+    #[clap(long, value_enum)]
     pub target_type: PluginTargetType,
 
     pub path: PathBuf,

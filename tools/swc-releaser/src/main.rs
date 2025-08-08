@@ -48,7 +48,8 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
     let changeset = changesets::ChangeSet::from_directory(&changeset_dir)
         .context("failed to load changeset")?;
 
-    if changeset.releases.is_empty() {
+    let releases: Vec<_> = changeset.into();
+    if releases.is_empty() {
         eprintln!("No changeset found");
         return Ok(());
     }
@@ -62,7 +63,8 @@ fn run_bump(workspace_dir: &Path, dry_run: bool) -> Result<()> {
         new_versions: &mut new_versions,
     };
 
-    for (pkg_name, release) in changeset.releases {
+    for release in releases {
+        let pkg_name = &release.package_name;
         let is_breaking = worker
             .is_breaking(pkg_name.as_str(), release.change_type())
             .with_context(|| format!("failed to check if package {pkg_name} is breaking"))?;
@@ -122,7 +124,7 @@ fn get_swc_core_version() -> Result<String> {
 
     md.packages
         .iter()
-        .find(|p| p.name == "swc_core")
+        .find(|p| p.name.as_str() == "swc_core")
         .map(|p| p.version.to_string())
         .context("failed to find swc_core")
 }
@@ -321,13 +323,13 @@ fn get_data() -> Result<(VersionMap, InternedGraph)> {
         .workspace_packages()
         .into_iter()
         .filter(|p| p.publish != Some(vec![]))
-        .map(|p| p.name.clone())
+        .map(|p| p.name.to_string())
         .collect::<Vec<_>>();
     let mut graph = InternedGraph::default();
     let mut versions = VersionMap::new();
 
     for pkg in md.workspace_packages() {
-        versions.insert(pkg.name.clone(), pkg.version.clone());
+        versions.insert(pkg.name.to_string(), pkg.version.clone());
     }
 
     for pkg in md.workspace_packages() {
@@ -337,7 +339,7 @@ fn get_data() -> Result<(VersionMap, InternedGraph)> {
             }
 
             if workspace_packages.contains(&dep.name) {
-                let from = graph.add_node(pkg.name.clone());
+                let from = graph.add_node(pkg.name.to_string());
                 let to = graph.add_node(dep.name.clone());
 
                 if from == to {
