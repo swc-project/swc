@@ -9,6 +9,7 @@ define([
     const filename = module.uri.split("/").pop();
     const dirname = require.toUrl(".");
     const main = module.id == "main";
+    foo?.bar(new URL(module.uri, document.baseURI).href);
     console.log(react);
     console.log(url);
     console.log(filename);

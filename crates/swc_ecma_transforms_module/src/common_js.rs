@@ -283,10 +283,13 @@ impl VisitMut for Cjs {
             }
             Expr::OptChain(OptChainExpr { base, .. }) if !self.config.preserve_import_meta => {
                 let OptChainBase::Member(MemberExpr { obj, prop, span }) = &mut **base else {
+                    n.visit_mut_children_with(self);
                     return;
                 };
                 if let Some(expr) = get_meta_expr(obj, prop, self.unresolved_mark, span) {
                     *n = expr;
+                } else {
+                    n.visit_mut_children_with(self);
                 }
             }
             Expr::Member(MemberExpr { span, obj, prop }) if !self.config.preserve_import_meta => {

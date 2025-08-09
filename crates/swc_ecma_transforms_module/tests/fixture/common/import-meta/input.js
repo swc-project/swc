@@ -5,6 +5,7 @@ const filename = import.meta.filename;
 const dirname = import.meta.dirname;
 const main = import.meta.main;
 
+foo?.bar(import.meta.url);
 console.log(react);
 console.log(url);
 console.log(filename);

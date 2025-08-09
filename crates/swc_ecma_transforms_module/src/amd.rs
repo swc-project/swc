@@ -286,6 +286,8 @@ where
             }
             Expr::OptChain(OptChainExpr { base, .. }) if !self.config.preserve_import_meta => {
                 let OptChainBase::Member(MemberExpr { obj, prop, span }) = &mut **base else {
+                    println!("OptChainBase::Member {:?}", base.span());
+                    n.visit_mut_children_with(self);
                     return;
                 };
                 if obj
@@ -301,6 +303,7 @@ where
                         },
                         MemberProp::PrivateName(..) => return,
                     };
+                    self.found_import_meta = true;
 
                     match p {
                         "url" => {
@@ -347,6 +350,8 @@ where
                         }
                         _ => {}
                     }
+                } else {
+                    n.visit_mut_children_with(self);
                 }
             }
             Expr::Member(MemberExpr { span, obj, prop })
