@@ -12,4 +12,5 @@
 //!  6 |     
 //!    `----
 //! 
-//! Advice:   > Exported identifiers must be unique
+//! Advice: 
+//!   > Exported identifiers must be unique

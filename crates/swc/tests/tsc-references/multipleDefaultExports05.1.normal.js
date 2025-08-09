@@ -13,7 +13,8 @@
 //!  6 | export default class CC1 {}
 //!    `----
 //! 
-//! Advice:   > Exported identifiers must be unique
+//! Advice: 
+//!   > Exported identifiers must be unique
 //!   x the name `default` is exported multiple times
 //!    ,-[4:1]
 //!  1 | 
@@ -28,4 +29,5 @@
 //!    :              `-- exported more than once
 //!    `----
 //! 
-//! Advice:   > Exported identifiers must be unique
+//! Advice: 
+//!   > Exported identifiers must be unique
