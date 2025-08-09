@@ -4,12 +4,12 @@ extern crate swc_malloc;
 
 #[macro_use]
 extern crate criterion;
-use std::{hash::Hash, mem::forget};
+use std::{hash::Hash, hint::black_box, mem::forget};
 
 use compact_str::CompactString;
-use criterion::{black_box, BatchSize, BenchmarkId, Criterion};
+use criterion::{BatchSize, BenchmarkId, Criterion};
 use par_iter::prelude::*;
-use rand::distributions::{Alphanumeric, DistString};
+use rand::distr::{Alphanumeric, SampleString};
 use rustc_hash::FxHashSet;
 use smartstring::{LazyCompact, SmartString};
 
@@ -326,5 +326,5 @@ criterion_group!(
 criterion_main!(benches);
 
 fn random_string(len: usize) -> String {
-    Alphanumeric.sample_string(&mut rand::thread_rng(), len)
+    Alphanumeric.sample_string(&mut rand::rng(), len)
 }

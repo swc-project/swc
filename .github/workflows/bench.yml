@@ -65,7 +65,7 @@ jobs:
       - name: Install cargo-codspeed
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-codspeed@3.0.2
+          tool: cargo-codspeed@3.0.5
 
       - name: Build the benchmark target(s)
         run: ./scripts/bench/build-crate.sh ${{ matrix.crate }}

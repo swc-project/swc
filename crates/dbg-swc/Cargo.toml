@@ -13,7 +13,7 @@ name  = "dbg-swc"
 
 [dependencies]
 anyhow             = { workspace = true }
-clap               = { version = "3", features = ["derive"] }
+clap               = { version = "4", features = ["derive"] }
 dialoguer          = { workspace = true }
 flate2             = { workspace = true }
 par-core           = { workspace = true, features = ["chili"] }

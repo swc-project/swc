@@ -40,7 +40,7 @@ jobs:
       - name: Install cargo-edit
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-edit@0.12.2
+          tool: cargo-edit@0.13.7
 
       - name: Install cargo-mono
         uses: taiki-e/install-action@v2
