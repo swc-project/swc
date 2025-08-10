@@ -284,76 +284,6 @@ where
                     self.support_arrow,
                 );
             }
-            Expr::OptChain(OptChainExpr { base, .. }) if !self.config.preserve_import_meta => {
-                let OptChainBase::Member(MemberExpr { obj, prop, span }) = &mut **base else {
-                    println!("OptChainBase::Member {:?}", base.span());
-                    n.visit_mut_children_with(self);
-                    return;
-                };
-                if obj
-                    .as_meta_prop()
-                    .map(|p| p.kind == MetaPropKind::ImportMeta)
-                    .unwrap_or_default()
-                {
-                    let p = match prop {
-                        MemberProp::Ident(IdentName { sym, .. }) => &**sym,
-                        MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
-                            Expr::Lit(Lit::Str(s)) => &s.value,
-                            _ => return,
-                        },
-                        MemberProp::PrivateName(..) => return,
-                    };
-                    self.found_import_meta = true;
-
-                    match p {
-                        "url" => {
-                            *n = amd_import_meta_url(*span, self.module());
-                        }
-                        "resolve" => {
-                            let require = quote_ident!(
-                                SyntaxContext::empty().apply_mark(self.unresolved_mark),
-                                obj.span(),
-                                "require"
-                            );
-
-                            *obj = Box::new(require.into());
-                        }
-                        "filename" => {
-                            *n = quote_ident!(
-                                SyntaxContext::empty().apply_mark(self.unresolved_mark),
-                                *span,
-                                "__filename"
-                            )
-                            .into();
-                        }
-                        "dirname" => {
-                            *n = quote_ident!(
-                                SyntaxContext::empty().apply_mark(self.unresolved_mark),
-                                *span,
-                                "__dirname"
-                            )
-                            .into();
-                        }
-                        "main" => {
-                            let ctxt = SyntaxContext::empty().apply_mark(self.unresolved_mark);
-                            let require = quote_ident!(ctxt, "require");
-                            let require_main = require.make_member(quote_ident!("main"));
-                            let module = quote_ident!(ctxt, "module");
-
-                            *n = BinExpr {
-                                span: *span,
-                                op: op!("=="),
-                                left: require_main.into(),
-                                right: module.into(),
-                            }
-                            .into();
-                        }
-                        _ => {}
-                    }
-                } else {
-                    n.visit_mut_children_with(self);
-                }
-            }
             Expr::Member(MemberExpr { span, obj, prop })
                 if !self.config.preserve_import_meta
                     && obj
@@ -433,6 +363,21 @@ where
                     }
                     _ => {}
                 }
+            }
+            Expr::OptChain(OptChainExpr { base, .. }) if !self.config.preserve_import_meta => {
+                if let OptChainBase::Member(member) = &mut **base {
+                    if member
+                        .obj
+                        .as_meta_prop()
+                        .is_some_and(|meta_prop| meta_prop.kind == MetaPropKind::ImportMeta)
+                    {
+                        *n = member.take().into();
+                        n.visit_mut_with(self);
+                        return;
+                    }
+                };
+
+                n.visit_mut_children_with(self);
             }
             _ => n.visit_mut_children_with(self),
         }

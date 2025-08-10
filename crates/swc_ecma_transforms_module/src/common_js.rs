@@ -168,82 +168,6 @@ impl VisitMut for Cjs {
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
-        fn get_meta_expr(
-            obj: &mut Box<Expr>,
-            prop: &MemberProp,
-            unresolved_mark: Mark,
-            span: &Span,
-        ) -> Option<Expr> {
-            if obj
-                .as_meta_prop()
-                .map(|p| p.kind == MetaPropKind::ImportMeta)
-                .unwrap_or_default()
-            {
-                let p = match prop {
-                    MemberProp::Ident(IdentName { sym, .. }) => &**sym,
-                    MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
-                        Expr::Lit(Lit::Str(s)) => &s.value,
-                        _ => return None,
-                    },
-                    MemberProp::PrivateName(..) => return None,
-                };
-
-                match p {
-                    "url" => {
-                        let require = quote_ident!(
-                            SyntaxContext::empty().apply_mark(unresolved_mark),
-                            "require"
-                        );
-                        Some(cjs_import_meta_url(*span, require, unresolved_mark))
-                    }
-                    "resolve" => {
-                        let require = quote_ident!(
-                            SyntaxContext::empty().apply_mark(unresolved_mark),
-                            obj.span(),
-                            "require"
-                        );
-
-                        *obj = Box::new(require.into());
-                        None
-                    }
-                    "filename" => Some(
-                        quote_ident!(
-                            SyntaxContext::empty().apply_mark(unresolved_mark),
-                            *span,
-                            "__filename"
-                        )
-                        .into(),
-                    ),
-                    "dirname" => Some(
-                        quote_ident!(
-                            SyntaxContext::empty().apply_mark(unresolved_mark),
-                            *span,
-                            "__dirname"
-                        )
-                        .into(),
-                    ),
-                    "main" => {
-                        let ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
-                        let require = quote_ident!(ctxt, "require");
-                        let require_main = require.make_member(quote_ident!("main"));
-                        let module = quote_ident!(ctxt, "module");
-
-                        Some(
-                            BinExpr {
-                                span: *span,
-                                op: op!("=="),
-                                left: require_main.into(),
-                                right: module.into(),
-                            }
-                            .into(),
-                        )
-                    }
-                    _ => None,
-                }
-            } else {
-                None
-            }
-        }
         match n {
             Expr::Call(CallExpr {
                 span,
@@ -281,21 +205,86 @@ impl VisitMut for Cjs {
                     is_lit_path,
                 );
             }
-            Expr::OptChain(OptChainExpr { base, .. }) if !self.config.preserve_import_meta => {
-                let OptChainBase::Member(MemberExpr { obj, prop, span }) = &mut **base else {
-                    n.visit_mut_children_with(self);
-                    return;
+            Expr::Member(MemberExpr { span, obj, prop })
+                if !self.config.preserve_import_meta
+                    && obj
+                        .as_meta_prop()
+                        .map(|p| p.kind == MetaPropKind::ImportMeta)
+                        .unwrap_or_default() =>
+            {
+                let p = match prop {
+                    MemberProp::Ident(IdentName { sym, .. }) => &**sym,
+                    MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
+                        Expr::Lit(Lit::Str(s)) => &s.value,
+                        _ => return,
+                    },
+                    MemberProp::PrivateName(..) => return,
                 };
-                if let Some(expr) = get_meta_expr(obj, prop, self.unresolved_mark, span) {
-                    *n = expr;
-                } else {
-                    n.visit_mut_children_with(self);
+
+                match p {
+                    "url" => {
+                        let require = quote_ident!(
+                            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                            "require"
+                        );
+                        *n = cjs_import_meta_url(*span, require, self.unresolved_mark);
+                    }
+                    "resolve" => {
+                        let require = quote_ident!(
+                            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                            obj.span(),
+                            "require"
+                        );
+
+                        *obj = Box::new(require.into());
+                    }
+                    "filename" => {
+                        *n = quote_ident!(
+                            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                            *span,
+                            "__filename"
+                        )
+                        .into();
+                    }
+                    "dirname" => {
+                        *n = quote_ident!(
+                            SyntaxContext::empty().apply_mark(self.unresolved_mark),
+                            *span,
+                            "__dirname"
+                        )
+                        .into();
+                    }
+                    "main" => {
+                        let ctxt = SyntaxContext::empty().apply_mark(self.unresolved_mark);
+                        let require = quote_ident!(ctxt, "require");
+                        let require_main = require.make_member(quote_ident!("main"));
+                        let module = quote_ident!(ctxt, "module");
+
+                        *n = BinExpr {
+                            span: *span,
+                            op: op!("=="),
+                            left: require_main.into(),
+                            right: module.into(),
+                        }
+                        .into();
+                    }
+                    _ => {}
                 }
             }
-            Expr::Member(MemberExpr { span, obj, prop }) if !self.config.preserve_import_meta => {
-                if let Some(expr) = get_meta_expr(obj, prop, self.unresolved_mark, span) {
-                    *n = expr;
-                }
+            Expr::OptChain(OptChainExpr { base, .. }) if !self.config.preserve_import_meta => {
+                if let OptChainBase::Member(member) = &mut **base {
+                    if member
+                        .obj
+                        .as_meta_prop()
+                        .is_some_and(|meta_prop| meta_prop.kind == MetaPropKind::ImportMeta)
+                    {
+                        *n = member.take().into();
+                        n.visit_mut_with(self);
+                        return;
+                    }
+                };
+
+                n.visit_mut_children_with(self);
             }
             _ => n.visit_mut_children_with(self),
         }
