@@ -497,7 +497,9 @@ pub fn parse_ts_type_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeRef> {
 
     let type_name = parse_ts_entity_name(p, /* allow_reserved_words */ true)?;
     trace_cur!(p, parse_ts_type_ref__type_args);
-    let type_params = if !p.input().had_line_break_before_cur() && p.input().is(&P::Token::LESS) {
+    let type_params = if !p.input().had_line_break_before_cur()
+        && (p.input().is(&P::Token::LESS) || p.input().is(&P::Token::LSHIFT))
+    {
         let ret = p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, parse_ts_type_args)?;
         p.assert_and_bump(&P::Token::GREATER);
         Some(ret)
