@@ -3,7 +3,7 @@ use std::collections::hash_map::Entry;
 use indexmap::IndexSet;
 use rustc_hash::{FxBuildHasher, FxHashMap};
 use swc_atoms::Atom;
-use swc_common::SyntaxContext;
+use swc_common::{NodeId, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
     alias::{Access, AccessKind},
@@ -36,13 +36,13 @@ where
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
-    pub(crate) vars: FxHashMap<Id, Box<VarUsageInfo>>,
+    pub(crate) vars: FxHashMap<NodeId, Box<VarUsageInfo>>,
 
     pub(crate) top: ScopeData,
 
     pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
 
-    initialized_vars: IndexSet<Id, FxBuildHasher>,
+    initialized_vars: IndexSet<NodeId, FxBuildHasher>,
 
     pub(crate) property_atoms: Option<Vec<Atom>>,
 }
@@ -210,7 +210,7 @@ impl Storage for ProgramData {
         &mut self.top
     }
 
-    fn var_or_default(&mut self, id: Id) -> &mut Self::VarData {
+    fn var_or_default(&mut self, id: NodeId) -> &mut Self::VarData {
         self.vars.entry(id).or_default()
     }
 
@@ -358,7 +358,7 @@ impl Storage for ProgramData {
         }
     }
 
-    fn report_usage(&mut self, ctx: Ctx, i: Id) {
+    fn report_usage(&mut self, ctx: Ctx, i: NodeId) {
         let inited = self.initialized_vars.contains(&i);
 
         let e = self.vars.entry(i).or_insert_with(|| {
@@ -388,8 +388,8 @@ impl Storage for ProgramData {
         }
     }
 
-    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>) {
-        let e = self.vars.entry(i.clone()).or_default();
+    fn report_assign(&mut self, ctx: Ctx, i: NodeId, is_op: bool, ty: Value<Type>) {
+        let e = self.vars.entry(i).or_default();
 
         let inited = self.initialized_vars.contains(&i);
 
@@ -401,7 +401,7 @@ impl Storage for ProgramData {
         e.assign_count += 1;
 
         if !is_op {
-            self.initialized_vars.insert(i.clone());
+            self.initialized_vars.insert(i);
             if e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const) && !inited {
                 e.flags.insert(VarUsageInfoFlags::VAR_INITIALIZED);
             } else {
@@ -415,7 +415,7 @@ impl Storage for ProgramData {
             e.usage_count = e.usage_count.saturating_sub(1);
         }
 
-        let mut to_visit: IndexSet<Id, FxBuildHasher> =
+        let mut to_visit: IndexSet<NodeId, FxBuildHasher> =
             IndexSet::from_iter(e.infects_to.iter().cloned().map(|i| i.0));
 
         let mut idx = 0;
@@ -458,7 +458,7 @@ impl Storage for ProgramData {
         //     debug!(has_init = has_init, "declare_decl(`{}`)", i);
         // }
 
-        let v = self.vars.entry(i.to_id()).or_default();
+        let v = self.vars.entry(i.node_id).or_default();
         if ctx.is_top_level() {
             v.flags |= VarUsageInfoFlags::IS_TOP_LEVEL;
         }
@@ -510,7 +510,7 @@ impl Storage for ProgramData {
         v.flags |= VarUsageInfoFlags::DECLARED;
         // not a VarDecl, thus always inited
         if init_type.is_some() || kind.is_none() {
-            self.initialized_vars.insert(i.to_id());
+            self.initialized_vars.insert(i.node_id);
         }
         if ctx.in_catch_param() {
             v.flags |= VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM;
@@ -527,7 +527,7 @@ impl Storage for ProgramData {
         self.initialized_vars.truncate(len)
     }
 
-    fn mark_property_mutation(&mut self, id: Id) {
+    fn mark_property_mutation(&mut self, id: NodeId) {
         let e = self.vars.entry(id).or_default();
         e.property_mutation_count += 1;
 
@@ -551,7 +551,7 @@ impl Storage for ProgramData {
         }
     }
 
-    fn get_var_data(&self, id: Id) -> Option<&Self::VarData> {
+    fn get_var_data(&self, id: NodeId) -> Option<&Self::VarData> {
         self.vars.get(&id).map(|v| v.as_ref())
     }
 }
@@ -749,7 +749,7 @@ impl ProgramData {
             return false;
         }
 
-        if let Some(v) = self.vars.get(&i.to_id()) {
+        if let Some(v) = self.vars.get(&i.node_id) {
             return !v.flags.contains(VarUsageInfoFlags::DECLARED);
         }
 
