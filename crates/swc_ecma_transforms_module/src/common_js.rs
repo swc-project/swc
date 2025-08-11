@@ -271,6 +271,21 @@ impl VisitMut for Cjs {
                     _ => {}
                 }
             }
+            Expr::OptChain(OptChainExpr { base, .. }) if !self.config.preserve_import_meta => {
+                if let OptChainBase::Member(member) = &mut **base {
+                    if member
+                        .obj
+                        .as_meta_prop()
+                        .is_some_and(|meta_prop| meta_prop.kind == MetaPropKind::ImportMeta)
+                    {
+                        *n = member.take().into();
+                        n.visit_mut_with(self);
+                        return;
+                    }
+                };
+
+                n.visit_mut_children_with(self);
+            }
             _ => n.visit_mut_children_with(self),
         }
     }
