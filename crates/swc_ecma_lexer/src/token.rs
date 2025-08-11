@@ -35,7 +35,6 @@ macro_rules! define_known_ident {
             ),*
         }
 
-        #[allow(unused)]
         #[macro_export]
         macro_rules! known_ident_token {
             $(
@@ -47,7 +46,6 @@ macro_rules! define_known_ident {
             )*
         }
 
-        #[allow(unused)]
         #[macro_export]
         macro_rules! known_ident {
             $(
@@ -56,7 +54,6 @@ macro_rules! define_known_ident {
                 };
             )*
         }
-        #[allow(unused)]
         #[macro_export]
         macro_rules! ident_like {
             $(

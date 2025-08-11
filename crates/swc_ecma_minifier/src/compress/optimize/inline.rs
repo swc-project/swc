@@ -804,9 +804,8 @@ impl Optimizer<'_> {
                     }
                 }
 
-                #[allow(unused)]
                 match &decl {
-                    Decl::Class(c) => {
+                    Decl::Class(_) => {
                         if self.options.inline != 3
                             || self.options.keep_classnames
                             || self.mangle_options.is_some_and(|v| v.keep_class_names)
@@ -822,7 +821,7 @@ impl Optimizer<'_> {
                             c.ident.ctxt
                         );
                     }
-                    Decl::Fn(f) => {
+                    Decl::Fn(_) => {
                         if self.options.keep_fnames
                             || self.mangle_options.is_some_and(|v| v.keep_fn_names)
                         {

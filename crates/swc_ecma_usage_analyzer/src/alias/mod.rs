@@ -154,7 +154,6 @@ where
 }
 
 pub struct InfectionCollector {
-    #[allow(unused)]
     config: AliasConfig,
     unresolved_ctxt: Option<SyntaxContext>,
 

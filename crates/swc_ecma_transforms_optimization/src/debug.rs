@@ -1,7 +1,5 @@
 #![allow(unused)]
 
-use std::{fmt::Debug, mem::forget};
-
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -17,7 +15,7 @@ where
 
 #[cfg(debug_assertions)]
 struct Ctx<'a> {
-    v: &'a dyn Debug,
+    v: &'a dyn std::fmt::Debug,
 }
 
 #[cfg(debug_assertions)]
@@ -36,7 +34,7 @@ impl Visit for AssertValid {
     fn visit_expr(&mut self, n: &Expr) {
         let ctx = Ctx { v: n };
         n.visit_children_with(self);
-        forget(ctx);
+        std::mem::forget(ctx);
     }
 
     #[cfg(debug_assertions)]
@@ -58,7 +56,7 @@ impl Visit for AssertValid {
     fn visit_stmt(&mut self, n: &Stmt) {
         let ctx = Ctx { v: n };
         n.visit_children_with(self);
-        forget(ctx);
+        std::mem::forget(ctx);
     }
 
     #[cfg(debug_assertions)]
