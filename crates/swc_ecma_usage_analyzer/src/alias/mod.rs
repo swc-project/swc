@@ -1,7 +1,7 @@
 #![allow(clippy::needless_update)]
 
 use rustc_hash::FxHashSet;
-use swc_common::SyntaxContext;
+use swc_common::{NodeId, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
@@ -81,7 +81,7 @@ pub enum AccessKind {
     Call,
 }
 
-pub type Access = (Id, AccessKind);
+pub type Access = (NodeId, AccessKind);
 
 pub fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Access>
 where
@@ -157,7 +157,7 @@ pub struct InfectionCollector {
     config: AliasConfig,
     unresolved_ctxt: Option<SyntaxContext>,
 
-    bindings: FxHashSet<Id>,
+    bindings: FxHashSet<NodeId>,
 
     ctx: Ctx,
 
@@ -168,23 +168,23 @@ pub struct InfectionCollector {
 
 impl InfectionCollector {
     fn add_binding(&mut self, e: &Ident) {
-        if self.bindings.insert(e.to_id()) {
-            self.accesses.remove(&(e.to_id(), AccessKind::Reference));
-            self.accesses.remove(&(e.to_id(), AccessKind::Call));
+        if self.bindings.insert(e.node_id) {
+            self.accesses.remove(&(e.node_id, AccessKind::Reference));
+            self.accesses.remove(&(e.node_id, AccessKind::Call));
         }
     }
 
-    fn add_usage(&mut self, e: Id) {
-        if self.bindings.contains(&e) {
+    fn add_usage(&mut self, e: &Ident) {
+        if self.bindings.contains(&e.node_id) {
             return;
         }
 
-        if self.unresolved_ctxt == Some(e.1) && is_global_var_with_pure_property_access(&e.0) {
+        if self.unresolved_ctxt == Some(e.ctxt) && is_global_var_with_pure_property_access(&e.sym) {
             return;
         }
 
         self.accesses.insert((
-            e,
+            e.node_id,
             if self.ctx.contains(Ctx::IsCallee) {
                 AccessKind::Call
             } else {
@@ -296,7 +296,7 @@ impl Visit for InfectionCollector {
         match e {
             Expr::Ident(i) => {
                 if self.ctx.contains(Ctx::TrackExprIdent) {
-                    self.add_usage(i.to_id());
+                    self.add_usage(i);
                 }
             }
 
@@ -335,7 +335,7 @@ impl Visit for InfectionCollector {
     }
 
     fn visit_ident(&mut self, n: &Ident) {
-        self.add_usage(n.to_id());
+        self.add_usage(n);
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {

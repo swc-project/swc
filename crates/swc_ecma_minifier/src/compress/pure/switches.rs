@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, EqIgnoreSpan, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, EqIgnoreSpan, NodeId, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{extract_var_ids, prepend_stmt, ExprExt, ExprFactory, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -113,7 +113,7 @@ impl Pure<'_> {
                 } else {
                     if !may_match_other_than_exact
                         && !test.is_ident()
-                        && !idents_used_by(test).is_empty()
+                        && !idents_used_by::<_, NodeId>(test).is_empty()
                     {
                         may_match_other_than_exact = true;
                     }

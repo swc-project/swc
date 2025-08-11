@@ -5,7 +5,7 @@ use std::{
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, NodeId, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{collect_decls, contains_this_expr, ExprCtx, ExprExt, Remapper};
@@ -228,13 +228,13 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
 /// handle all edge cases and this type is the complement for it.
 #[derive(Clone, Copy)]
 pub(crate) struct Finalizer<'a> {
-    pub simple_functions: &'a FxHashMap<Id, Box<Expr>>,
-    pub lits: &'a FxHashMap<Id, Box<Expr>>,
-    pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
-    pub lits_for_array_access: &'a FxHashMap<Id, Box<Expr>>,
-    pub hoisted_props: &'a FxHashMap<(Id, Atom), Ident>,
+    pub simple_functions: &'a FxHashMap<NodeId, Box<Expr>>,
+    pub lits: &'a FxHashMap<NodeId, Box<Expr>>,
+    pub lits_for_cmp: &'a FxHashMap<NodeId, Box<Expr>>,
+    pub lits_for_array_access: &'a FxHashMap<NodeId, Box<Expr>>,
+    pub hoisted_props: &'a FxHashMap<(NodeId, Atom), Ident>,
 
-    pub vars_to_remove: &'a FxHashSet<Id>,
+    pub vars_to_remove: &'a FxHashSet<NodeId>,
 
     pub changed: bool,
 }
@@ -250,7 +250,7 @@ impl Parallel for Finalizer<'_> {
 }
 
 impl Finalizer<'_> {
-    fn var(&mut self, i: &Id, mode: FinalizerMode) -> Option<Box<Expr>> {
+    fn var(&mut self, i: &NodeId, mode: FinalizerMode) -> Option<Box<Expr>> {
         let mut e = match mode {
             FinalizerMode::Callee => {
                 let mut value = self.simple_functions.get(i).cloned()?;
@@ -297,7 +297,7 @@ impl Finalizer<'_> {
 
     fn check(&mut self, e: &mut Expr, mode: FinalizerMode) {
         if let Expr::Ident(i) = e {
-            if let Some(new) = self.var(&i.to_id(), mode) {
+            if let Some(new) = self.var(&i.node_id, mode) {
                 debug!("multi-replacer: Replaced `{}`", i);
                 self.changed = true;
 
@@ -350,7 +350,7 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::Ident(i) => {
-                if let Some(expr) = self.lits.get(&i.to_id()) {
+                if let Some(expr) = self.lits.get(&i.node_id) {
                     *n = *expr.clone();
                     return;
                 }
@@ -367,7 +367,7 @@ impl VisitMut for Finalizer<'_> {
                         _ => return,
                     };
 
-                    if let Some(ident) = self.hoisted_props.get(&(obj.to_id(), sym.clone())) {
+                    if let Some(ident) = self.hoisted_props.get(&(obj.node_id, sym.clone())) {
                         self.changed = true;
                         *n = ident.clone().into();
                         return;
@@ -451,7 +451,7 @@ impl VisitMut for Finalizer<'_> {
 
         if n.init.is_none() {
             if let Pat::Ident(i) = &n.name {
-                if self.vars_to_remove.contains(&i.to_id()) {
+                if self.vars_to_remove.contains(&i.node_id) {
                     n.name.take();
                 }
             }
@@ -468,7 +468,7 @@ impl VisitMut for Finalizer<'_> {
         n.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = n {
-            if let Some(expr) = self.lits.get(&i.to_id()) {
+            if let Some(expr) = self.lits.get(&i.node_id) {
                 *n = Prop::KeyValue(KeyValueProp {
                     key: i.take().into(),
                     value: expr.clone(),
@@ -480,20 +480,20 @@ impl VisitMut for Finalizer<'_> {
 }
 
 pub(crate) struct NormalMultiReplacer<'a> {
-    pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
+    pub vars: &'a mut FxHashMap<NodeId, Box<Expr>>,
     pub changed: bool,
 }
 
 impl<'a> NormalMultiReplacer<'a> {
     /// `worked` will be changed to `true` if any replacement is done
-    pub fn new(vars: &'a mut FxHashMap<Id, Box<Expr>>) -> Self {
+    pub fn new(vars: &'a mut FxHashMap<NodeId, Box<Expr>>) -> Self {
         NormalMultiReplacer {
             vars,
             changed: false,
         }
     }
 
-    fn var(&mut self, i: &Id) -> Option<Box<Expr>> {
+    fn var(&mut self, i: &NodeId) -> Option<Box<Expr>> {
         let mut e = self.vars.remove(i)?;
 
         e.visit_mut_children_with(self);
@@ -525,7 +525,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
         }
 
         if let Expr::Ident(i) = e {
-            if let Some(new) = self.var(&i.to_id()) {
+            if let Some(new) = self.var(&i.node_id) {
                 debug!("multi-replacer: Replaced `{}`", i);
                 self.changed = true;
 
@@ -551,7 +551,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
         p.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = p {
-            if let Some(value) = self.var(&i.to_id()) {
+            if let Some(value) = self.var(&i.node_id) {
                 debug!("multi-replacer: Replaced `{}` as shorthand", i);
                 self.changed = true;
 

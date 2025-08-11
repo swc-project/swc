@@ -81,6 +81,8 @@ impl Id {
 }
 
 impl IdentLike for Id {
+    type Id = (Atom, SyntaxContext);
+
     fn from_ident(i: &Ident) -> Self {
         i.into()
     }

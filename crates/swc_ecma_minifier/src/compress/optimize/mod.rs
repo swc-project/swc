@@ -5,7 +5,7 @@ use std::iter::once;
 use bitflags::bitflags;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::{pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{pass::Repeated, util::take::Take, NodeId, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::contains_eval;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -247,33 +247,33 @@ struct Vars {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: FxHashMap<Id, Box<Expr>>,
+    lits: FxHashMap<NodeId, Box<Expr>>,
 
     /// Used for `hoist_props`.
-    hoisted_props: Box<FxHashMap<(Id, Atom), Ident>>,
+    hoisted_props: Box<FxHashMap<(NodeId, Atom), Ident>>,
 
     /// Literals which are cheap to clone, but not sure if we can inline without
     /// making output bigger.
     ///
     /// https://github.com/swc-project/swc/issues/4415
-    lits_for_cmp: FxHashMap<Id, Box<Expr>>,
+    lits_for_cmp: FxHashMap<NodeId, Box<Expr>>,
 
     /// This stores [Expr::Array] if all elements are literals.
-    lits_for_array_access: FxHashMap<Id, Box<Expr>>,
+    lits_for_array_access: FxHashMap<NodeId, Box<Expr>>,
 
     /// Used for copying functions.
     ///
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
-    simple_functions: FxHashMap<Id, Box<Expr>>,
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+    simple_functions: FxHashMap<NodeId, Box<Expr>>,
+    vars_for_inlining: FxHashMap<NodeId, Box<Expr>>,
 
     /// Variables which should be removed by [Finalizer] because of the order of
     /// visit.
-    removed: FxHashSet<Id>,
+    removed: FxHashSet<NodeId>,
 }
 
 impl Vars {
-    fn has_pending_inline_for(&self, id: &Id) -> bool {
+    fn has_pending_inline_for(&self, id: &NodeId) -> bool {
         self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
     }
 
@@ -346,7 +346,7 @@ impl Optimizer<'_> {
         if self
             .data
             .vars
-            .get(&id.to_id())
+            .get(&id.node_id)
             .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED))
         {
             return false;
@@ -834,7 +834,7 @@ impl Optimizer<'_> {
 
                 if let Expr::Ident(callee) = &**callee {
                     if self.options.reduce_vars && self.options.side_effects {
-                        if let Some(usage) = self.data.vars.get(&callee.to_id()) {
+                        if let Some(usage) = self.data.vars.get(&callee.node_id) {
                             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                 && usage.flags.contains(VarUsageInfoFlags::PURE_FN)
                             {
@@ -901,11 +901,10 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                let old = i.id.to_id();
+                let old = i.id.node_id;
                 self.store_var_for_inlining(&mut i.id, right, true);
 
                 if i.is_dummy() && self.options.unused {
-                    report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
                     self.vars.removed.insert(old);
                 }
 
@@ -1827,13 +1826,12 @@ impl VisitMut for Optimizer<'_> {
                 ..
             }) => {
                 if let Some(i) = left.as_ident_mut() {
-                    let old = i.to_id();
+                    let old = i.node_id;
 
                     self.store_var_for_inlining(i, right, false);
 
                     if i.is_dummy() && self.options.unused {
-                        report_change!("inline: Removed variable ({}, {:?})", old.0, old.1);
-                        self.vars.removed.insert(old.clone());
+                        self.vars.removed.insert(old);
                     }
 
                     if right.is_invalid() {
@@ -3058,7 +3056,7 @@ impl VisitMut for Optimizer<'_> {
 
                 if let Some(Expr::Invalid(..)) = var.init.as_deref() {
                     if let Pat::Ident(i) = &var.name {
-                        if let Some(usage) = self.data.vars.get(&i.id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(&i.id.node_id) {
                             if usage
                                 .flags
                                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)

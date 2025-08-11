@@ -1,10 +1,8 @@
 use ctx::BitContext;
 use rustc_hash::FxHashMap;
-use swc_common::SyntaxContext;
+use swc_common::{NodeId, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    find_pat_ids, ident::IdentLike, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value,
-};
+use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -84,7 +82,7 @@ where
     scope: S::ScopeData,
     ctx: Ctx,
     expr_ctx: ExprCtx,
-    used_recursively: FxHashMap<Id, RecursiveUsage>,
+    used_recursively: FxHashMap<NodeId, RecursiveUsage>,
 }
 
 impl<S> UsageAnalyzer<S>
@@ -152,7 +150,7 @@ where
             self.scope.mark_used_arguments();
         }
 
-        let i = i.to_id();
+        let i = i.node_id;
 
         if let Some(recr) = self.used_recursively.get(&i) {
             if let RecursiveUsage::Var { can_ignore: false } = recr {
@@ -167,7 +165,8 @@ where
     }
 
     fn report_assign_pat(&mut self, p: &Pat, is_read_modify: bool) {
-        for id in find_pat_ids(p) {
+        let ids: Vec<NodeId> = find_pat_ids(p);
+        for id in ids {
             // It's hard to determined the type of pat assignment
             self.data
                 .report_assign(self.ctx, id, is_read_modify, Value::Unknown)
@@ -175,12 +174,19 @@ where
 
         if let Pat::Expr(e) = p {
             self.mark_mutation_if_member(e.as_member());
+            match &**e {
+                Expr::Ident(i) => {
+                    self.data
+                        .report_assign(self.ctx, i.node_id, is_read_modify, Value::Unknown)
+                }
+                _ => self.mark_mutation_if_member(e.as_member()),
+            }
         }
     }
 
     fn report_assign_expr_if_ident(&mut self, e: Option<&Ident>, is_op: bool, ty: Value<Type>) {
         if let Some(i) = e {
-            self.data.report_assign(self.ctx, i.to_id(), is_op, ty)
+            self.data.report_assign(self.ctx, i.node_id, is_op, ty)
         }
     }
 
@@ -217,7 +223,7 @@ where
     fn mark_mutation_if_member(&mut self, e: Option<&MemberExpr>) {
         if let Some(m) = e {
             for_each_id_ref_in_expr(&m.obj, &mut |id| {
-                self.data.mark_property_mutation(id.to_id())
+                self.data.mark_property_mutation(id.node_id)
             });
         }
     }
@@ -302,6 +308,7 @@ where
         if n.op == op!("=") {
             let left = match &n.left {
                 AssignTarget::Simple(left) => left.leftmost().map(Ident::to_id),
+                AssignTarget::Simple(left) => left.leftmost(),
                 AssignTarget::Pat(..) => None,
             };
 
@@ -316,7 +323,7 @@ where
                     },
                 ) {
                     if v.is_none() {
-                        v = Some(self.data.var_or_default(left.to_id()));
+                        v = Some(self.data.var_or_default(left.node_id));
                     }
 
                     v.as_mut().unwrap().add_infects_to(id.clone());
@@ -359,7 +366,7 @@ where
         } else {
             if e.op == op!("in") {
                 for_each_id_ref_in_expr(&e.right, &mut |obj| {
-                    let var = self.data.var_or_default(obj.to_id());
+                    let var = self.data.var_or_default(obj.node_id);
                     var.mark_used_as_ref();
 
                     match &*e.left {
@@ -420,7 +427,7 @@ where
 
         if let Callee::Expr(callee) = &n.callee {
             for_each_id_ref_in_expr(callee, &mut |i| {
-                self.data.var_or_default(i.to_id()).mark_used_as_callee();
+                self.data.var_or_default(i.node_id).mark_used_as_callee();
             });
 
             match &**callee {
@@ -434,7 +441,7 @@ where
                             if is_safe_to_access_prop(&arg.expr) {
                                 if let Pat::Ident(id) = &p.pat {
                                     self.data
-                                        .var_or_default(id.to_id())
+                                        .var_or_default(id.node_id)
                                         .mark_initialized_with_safe_value();
                                 }
                             }
@@ -452,7 +459,7 @@ where
                             if is_safe_to_access_prop(&arg.expr) {
                                 if let Pat::Ident(id) = &p {
                                     self.data
-                                        .var_or_default(id.to_id())
+                                        .var_or_default(id.node_id)
                                         .mark_initialized_with_safe_value();
                                 }
                             }
@@ -479,7 +486,7 @@ where
             if call_may_mutate {
                 for a in &n.args {
                     for_each_id_ref_in_expr(&a.expr, &mut |id| {
-                        self.data.mark_property_mutation(id.to_id());
+                        self.data.mark_property_mutation(id.node_id);
                     });
                 }
             }
@@ -487,7 +494,7 @@ where
 
         for arg in &n.args {
             for_each_id_ref_in_expr(&arg.expr, &mut |arg| {
-                self.data.var_or_default(arg.to_id()).mark_used_as_arg();
+                self.data.var_or_default(arg.node_id).mark_used_as_arg();
             })
         }
 
@@ -498,7 +505,7 @@ where
                 }
                 Expr::Member(m) if !m.obj.is_ident() => {
                     for_each_id_ref_in_expr(&m.obj, &mut |id| {
-                        self.data.var_or_default(id.to_id()).mark_used_as_ref()
+                        self.data.var_or_default(id.node_id).mark_used_as_ref()
                     })
                 }
                 _ => {}
@@ -645,12 +652,12 @@ where
         match d {
             DefaultDecl::Class(c) => {
                 if let Some(i) = &c.ident {
-                    self.data.var_or_default(i.to_id()).prevent_inline();
+                    self.data.var_or_default(i.node_id).prevent_inline();
                 }
             }
             DefaultDecl::Fn(f) => {
                 if let Some(i) = &f.ident {
-                    self.data.var_or_default(i.to_id()).prevent_inline();
+                    self.data.var_or_default(i.node_id).prevent_inline();
                 }
             }
             _ => {}
@@ -677,10 +684,10 @@ where
 
         match &n.decl {
             Decl::Class(c) => {
-                self.data.var_or_default(c.ident.to_id()).prevent_inline();
+                self.data.var_or_default(c.ident.node_id).prevent_inline();
             }
             Decl::Fn(f) => {
-                self.data.var_or_default(f.ident.to_id()).prevent_inline();
+                self.data.var_or_default(f.ident.node_id).prevent_inline();
             }
             Decl::Var(v) => {
                 let ids = find_pat_ids(v);
@@ -707,7 +714,7 @@ where
         match &n.orig {
             ModuleExportName::Ident(orig) => {
                 self.report_usage(orig);
-                let v = self.data.var_or_default(orig.to_id());
+                let v = self.data.var_or_default(orig.node_id);
                 v.prevent_inline();
                 v.mark_used_as_ref();
             }
@@ -759,7 +766,7 @@ where
         if e.spread.is_some() {
             for_each_id_ref_in_expr(&e.expr, &mut |i| {
                 self.data
-                    .var_or_default(i.to_id())
+                    .var_or_default(i.node_id)
                     .mark_indexed_with_dynamic_key();
             });
         }
@@ -777,12 +784,11 @@ where
             .declare_decl(&n.ident, Some(Value::Known(Type::Obj)), None, true);
 
         if n.function.body.is_empty() {
-            self.data.var_or_default(n.ident.to_id()).mark_as_pure_fn();
+            self.data.var_or_default(n.ident.node_id).mark_as_pure_fn();
         }
 
-        let id = n.ident.to_id();
-        self.used_recursively
-            .insert(id.clone(), RecursiveUsage::FnOrClass);
+        let id = n.ident.node_id;
+        self.used_recursively.insert(id, RecursiveUsage::FnOrClass);
         n.visit_children_with(self);
         self.used_recursively.remove(&id);
 
@@ -797,7 +803,7 @@ where
                 },
             ) {
                 if v.is_none() {
-                    v = Some(self.data.var_or_default(n.ident.to_id()));
+                    v = Some(self.data.var_or_default(n.ident.node_id));
                 }
 
                 v.as_mut().unwrap().add_infects_to(id.clone());
@@ -812,11 +818,11 @@ where
     fn visit_fn_expr(&mut self, n: &FnExpr) {
         if let Some(n_id) = &n.ident {
             self.data
-                .var_or_default(n_id.to_id())
+                .var_or_default(n_id.node_id)
                 .mark_declared_as_fn_expr();
 
             self.used_recursively
-                .insert(n_id.to_id(), RecursiveUsage::FnOrClass);
+                .insert(n_id.node_id, RecursiveUsage::FnOrClass);
 
             n.visit_children_with(self);
 
@@ -831,13 +837,13 @@ where
                     },
                 ) {
                     if v.is_none() {
-                        v = Some(self.data.var_or_default(n_id.to_id()));
+                        v = Some(self.data.var_or_default(n_id.node_id));
                     }
 
                     v.as_mut().unwrap().add_infects_to(id);
                 }
             }
-            self.used_recursively.remove(&n_id.to_id());
+            self.used_recursively.remove(&n_id.node_id);
         } else {
             n.visit_children_with(self);
         }
@@ -998,7 +1004,7 @@ where
         if let JSXElementName::Ident(i) = n {
             self.with_ctx(ctx).report_usage(i);
             self.data
-                .var_or_default(i.to_id())
+                .var_or_default(i.node_id)
                 .mark_used_as_jsx_callee();
         }
     }
@@ -1018,7 +1024,7 @@ where
         }
 
         for_each_id_ref_in_expr(&e.obj, &mut |obj| {
-            let v = self.data.var_or_default(obj.to_id());
+            let v = self.data.var_or_default(obj.node_id);
             v.mark_has_property_access();
 
             if let MemberProp::Computed(prop) = &e.prop {
@@ -1043,7 +1049,7 @@ where
             match &*member_expr.obj {
                 Expr::Member(member_expr) => is_root_of_member_expr_declared(member_expr, data),
                 Expr::Ident(ident) => data
-                    .get_var_data(ident.to_id())
+                    .get_var_data(ident.node_id)
                     .map(|var| var.is_declared())
                     .unwrap_or(false),
 
@@ -1102,7 +1108,7 @@ where
                 if let Some(args) = &n.args {
                     for a in args {
                         for_each_id_ref_in_expr(&a.expr, &mut |id| {
-                            self.data.mark_property_mutation(id.to_id());
+                            self.data.mark_property_mutation(id.node_id);
                         });
                     }
                 }
@@ -1234,7 +1240,7 @@ where
 
         for_each_id_ref_in_expr(&e.expr, &mut |i| {
             self.data
-                .var_or_default(i.to_id())
+                .var_or_default(i.node_id)
                 .mark_indexed_with_dynamic_key();
         });
     }
@@ -1387,7 +1393,7 @@ where
                     },
                 ) {
                     if v.is_none() {
-                        v = Some(self.data.var_or_default(var.to_id()));
+                        v = Some(self.data.var_or_default(var.node_id));
                     }
 
                     v.as_mut().unwrap().add_infects_to(id.clone());
@@ -1448,7 +1454,7 @@ where
                         definite: false,
                         ..
                     } => {
-                        let id = id.to_id();
+                        let id = id.node_id;
                         self.used_recursively.insert(
                             id.clone(),
                             RecursiveUsage::Var {
@@ -1465,7 +1471,7 @@ where
                         init: None,
                         ..
                     } => {
-                        self.data.var_or_default(id.to_id()).mark_as_lazy_init();
+                        self.data.var_or_default(id.node_id).mark_as_lazy_init();
                         return;
                     }
                     _ => (),

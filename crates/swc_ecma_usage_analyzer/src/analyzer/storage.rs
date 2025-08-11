@@ -1,5 +1,5 @@
 use swc_atoms::Atom;
-use swc_common::SyntaxContext;
+use swc_common::{NodeId, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{Type, Value};
 
@@ -20,13 +20,13 @@ pub trait Storage: Sized + Default {
 
     fn top_scope(&mut self) -> &mut Self::ScopeData;
 
-    fn var_or_default(&mut self, id: Id) -> &mut Self::VarData;
+    fn var_or_default(&mut self, id: NodeId) -> &mut Self::VarData;
 
     fn merge(&mut self, kind: ScopeKind, child: Self);
 
-    fn report_usage(&mut self, ctx: Ctx, i: Id);
+    fn report_usage(&mut self, ctx: Ctx, i: NodeId);
 
-    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>);
+    fn report_assign(&mut self, ctx: Ctx, i: NodeId, is_op: bool, ty: Value<Type>);
 
     fn declare_decl(
         &mut self,
@@ -39,9 +39,9 @@ pub trait Storage: Sized + Default {
     fn get_initialized_cnt(&self) -> usize;
     fn truncate_initialized_cnt(&mut self, len: usize);
 
-    fn mark_property_mutation(&mut self, id: Id);
+    fn mark_property_mutation(&mut self, id: NodeId);
 
-    fn get_var_data(&self, id: Id) -> Option<&Self::VarData>;
+    fn get_var_data(&self, id: NodeId) -> Option<&Self::VarData>;
 }
 
 pub trait ScopeDataLike: Sized + Default + Clone {

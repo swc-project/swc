@@ -1,6 +1,6 @@
 use par_iter::prelude::*;
 use rustc_hash::FxHashSet;
-use swc_common::{pass::Repeated, util::take::Take, DUMMY_SP};
+use swc_common::{pass::Repeated, util::take::Take, NodeId, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::analyzer::UsageAnalyzer;
 use swc_ecma_utils::{find_pat_ids, StmtLike};
@@ -55,7 +55,7 @@ impl Hoister<'_> {
                 Some(stmt) => match stmt {
                     Stmt::Decl(Decl::Fn(..)) if self.config.hoist_fns => 1,
                     Stmt::Decl(Decl::Var(var)) if self.config.hoist_vars => {
-                        let ids: Vec<Id> = find_pat_ids(&var.decls);
+                        let ids: Vec<NodeId> = find_pat_ids(&var.decls);
 
                         if ids.iter().any(|id| {
                             self.data
@@ -95,7 +95,7 @@ impl Hoister<'_> {
         let mut var_decls = Vec::new();
         let mut fn_decls = Vec::with_capacity(stmts.len());
         let mut new_stmts = Vec::with_capacity(stmts.len());
-        let mut done = FxHashSet::default();
+        let mut done: FxHashSet<NodeId> = FxHashSet::default();
 
         let mut found_non_var_decl = false;
         for stmt in stmts.take() {
@@ -122,14 +122,14 @@ impl Hoister<'_> {
                                 let ids: Vec<Ident> = find_pat_ids(&decl.name);
 
                                 for id in ids {
-                                    if done.insert(id.to_id()) {
+                                    if done.insert(id.node_id) {
                                         // If the enclosing function declares parameter with same
                                         // name, we can drop a varaible.
                                         if decl.init.is_none()
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&id.to_id())
+                                                .get(&id.node_id)
                                                 .map(|v| {
                                                     v.flags.contains(
                                                         VarUsageInfoFlags::DECLARED_AS_FN_PARAM,
@@ -215,7 +215,7 @@ impl Hoister<'_> {
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&name.to_id())
+                                                .get(&name.node_id)
                                                 .map(|v| {
                                                     v.flags.contains(
                                                         VarUsageInfoFlags::DECLARED_AS_FN_PARAM,
@@ -226,7 +226,7 @@ impl Hoister<'_> {
                                             return false;
                                         }
 
-                                        done.insert(name.to_id())
+                                        done.insert(name.node_id)
                                     }
                                     _ => true,
                                 };
