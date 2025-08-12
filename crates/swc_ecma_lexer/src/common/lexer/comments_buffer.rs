@@ -1,13 +1,13 @@
 use swc_common::{comments::Comment, BytePos};
 
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub struct BufferedComment {
     pub kind: BufferedCommentKind,
     pub pos: BytePos,
     pub comment: Comment,
 }
 
-#[derive(Clone)]
+#[derive(Debug, Clone)]
 pub enum BufferedCommentKind {
     Leading,
     Trailing,
@@ -57,7 +57,9 @@ impl CommentsBuffer {
 
     pub fn pending_leading_to_comments<F: Fn(Comment) -> BufferedComment>(&mut self, f: F) {
         for comment in self.pending_leading.drain(..) {
-            self.comments.push(f(comment));
+            let comment = f(comment);
+            dbg!(&comment);
+            self.comments.push(comment);
         }
     }
 
