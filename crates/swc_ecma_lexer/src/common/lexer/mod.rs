@@ -888,24 +888,24 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             let comments_buffer = self.comments_buffer_mut().unwrap();
 
             // move the pending to the leading or trailing
-            for c in comments_buffer.take_pending_leading() {
+            comments_buffer.pending_leading_to_comments(|comment| {
                 // if the file had no tokens and no shebang, then treat any
                 // comments in the leading comments buffer as leading.
                 // Otherwise treat them as trailing.
                 if last == start_pos {
-                    comments_buffer.push(BufferedComment {
+                    BufferedComment {
                         kind: BufferedCommentKind::Leading,
                         pos: last,
-                        comment: c,
-                    });
+                        comment,
+                    }
                 } else {
-                    comments_buffer.push(BufferedComment {
+                    BufferedComment {
                         kind: BufferedCommentKind::Trailing,
                         pos: last,
-                        comment: c,
-                    });
+                        comment,
+                    }
                 }
-            }
+            });
 
             // now fill the user's passed in comments
             for comment in comments_buffer.take_comments() {
