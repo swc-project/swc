@@ -46,6 +46,7 @@ pub struct Parser<I: self::input::Tokens> {
 
 impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     type Buffer = self::input::Buffer<I>;
+    type Checkpoint = Self;
     type I = I;
     type Next = crate::lexer::NextTokenAndSpan;
     type Token = Token;
@@ -69,6 +70,14 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     #[inline(always)]
     fn state_mut(&mut self) -> &mut swc_ecma_lexer::common::parser::state::State {
         &mut self.state
+    }
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        self.clone()
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        *self = checkpoint;
     }
 
     #[inline(always)]
