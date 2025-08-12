@@ -47,7 +47,6 @@ pub struct Parser<I: self::input::Tokens> {
 impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     type Buffer = self::input::Buffer<I>;
     type I = I;
-    type Lexer = crate::lexer::Lexer<'a>;
     type Next = crate::lexer::NextTokenAndSpan;
     type Token = Token;
     type TokenAndSpan = TokenAndSpan;

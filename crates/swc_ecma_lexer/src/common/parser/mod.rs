@@ -52,13 +52,11 @@ pub trait Parser<'a>: Sized + Clone {
     type Token: std::fmt::Debug
         + Clone
         + TokenFactory<'a, Self::TokenAndSpan, Self::I, Buffer = Self::Buffer>;
-    type Lexer: super::lexer::Lexer<'a, Self::TokenAndSpan>;
     type Next: NextTokenAndSpan<Token = Self::Token>;
     type TokenAndSpan: TokenAndSpan<Token = Self::Token>;
     type I: Tokens<Self::TokenAndSpan>;
     type Buffer: self::buffer::Buffer<
         'a,
-        Lexer = Self::Lexer,
         Token = Self::Token,
         TokenAndSpan = Self::TokenAndSpan,
         I = Self::I,

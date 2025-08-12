@@ -328,7 +328,6 @@ impl<I: Tokens<TokenAndSpan>> Buffer<I> {
 
 impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for Buffer<I> {
     type I = I;
-    type Lexer = super::lexer::Lexer<'a>;
     type Next = TokenAndSpan;
     type Token = Token;
     type TokenAndSpan = TokenAndSpan;

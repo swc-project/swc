@@ -39,7 +39,6 @@ pub struct Parser<I: Tokens<TokenAndSpan>> {
 impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I> {
     type Buffer = Buffer<I>;
     type I = I;
-    type Lexer = crate::lexer::Lexer<'a>;
     type Next = TokenAndSpan;
     type Token = Token;
     type TokenAndSpan = TokenAndSpan;
