@@ -646,11 +646,17 @@ impl Optimizer<'_> {
                     .iter()
                     .map(|p| &p.pat.as_ident().unwrap().id);
 
+                #[cfg(feature = "debug")]
+                let param_ids_for_debug = param_ids.clone();
+
                 let new =
                     self.inline_fn_like(param_ids, f.function.params.len(), body, &mut call.args);
                 if let Some(new) = new {
                     self.changed = true;
-                    report_change!("inline: Inlining a function call (params = {param_ids:?})");
+                    report_change!(
+                        "inline: Inlining a function call (params = {:?})",
+                        param_ids_for_debug
+                    );
 
                     dump_change_detail!("{}", dump(&new, false));
 
@@ -1152,7 +1158,7 @@ impl Optimizer<'_> {
 
     fn inline_fn_like_stmt<'a>(
         &mut self,
-        params: impl Iterator<Item = &'a Ident> + Clone,
+        params: impl Iterator<Item = &'a Ident> + Clone + std::fmt::Debug,
         params_len: usize,
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
