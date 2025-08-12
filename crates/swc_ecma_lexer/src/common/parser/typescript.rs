@@ -79,11 +79,18 @@ where
     if !p.input().syntax().typescript() {
         return Ok(false);
     }
+
+    let prev_ignore_error = p.input().get_ctx().contains(Context::IgnoreError);
     let checkpoint = p.checkpoint_save();
     p.set_ctx(p.ctx() | Context::IgnoreError);
     let res = op(p);
     match res {
-        Ok(Some(res)) if res => Ok(res),
+        Ok(Some(res)) if res => {
+            let mut ctx = p.ctx();
+            ctx.set(Context::IgnoreError, prev_ignore_error);
+            p.input_mut().set_ctx(ctx);
+            Ok(res)
+        }
         _ => {
             p.checkpoint_load(checkpoint);
             Ok(false)
@@ -201,22 +208,26 @@ where
 
     trace_cur!(p, try_parse_ts);
 
+    let prev_ignore_error = p.input().get_ctx().contains(Context::IgnoreError);
     let checkpoint = p.checkpoint_save();
     p.set_ctx(p.ctx() | Context::IgnoreError);
     let res = op(p);
     match res {
         Ok(Some(res)) => {
             trace_cur!(p, try_parse_ts__success_value);
+            let mut ctx = p.ctx();
+            ctx.set(Context::IgnoreError, prev_ignore_error);
+            p.input_mut().set_ctx(ctx);
             Some(res)
         }
         Ok(None) => {
-            p.checkpoint_load(checkpoint);
             trace_cur!(p, try_parse_ts__success_no_value);
+            p.checkpoint_load(checkpoint);
             None
         }
         Err(..) => {
-            p.checkpoint_load(checkpoint);
             trace_cur!(p, try_parse_ts__fail);
+            p.checkpoint_load(checkpoint);
             None
         }
     }
