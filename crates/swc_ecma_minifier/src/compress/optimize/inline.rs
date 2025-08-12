@@ -769,6 +769,7 @@ impl Optimizer<'_> {
 
                             self.vars.simple_functions.insert(
                                 id,
+                                i.node_id,
                                 FnExpr {
                                     ident: None,
                                     function: f.function.clone(),
@@ -864,6 +865,7 @@ impl Optimizer<'_> {
                 };
 
                 self.vars.vars_for_inlining.insert(id, e);
+                self.vars.vars_for_inlining.insert(i.node_id, e);
             } else {
                 log_abort!("inline: [x] Usage: {:?}", usage);
             }

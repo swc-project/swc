@@ -42,6 +42,7 @@ use once_cell::sync::Lazy;
 use pass::mangle_names::mangle_names;
 use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::name_resolution;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_visit::VisitMutWith;
@@ -101,6 +102,8 @@ pub fn optimize(
     let mut marks = Marks::new();
     marks.top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
     marks.unresolved_mark = extra.unresolved_mark;
+
+    let _resolution = name_resolution(&mut n);
 
     debug_assert_valid(&n);
 
