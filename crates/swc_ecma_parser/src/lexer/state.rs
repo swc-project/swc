@@ -1,12 +1,12 @@
 use std::mem::take;
 
-use swc_common::BytePos;
+use swc_common::{comments::Comments, BytePos};
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::{
     common::{
         lexer::{
             char::CharExt,
-            comments_buffer::{BufferedComment, BufferedCommentKind},
+            comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBuffer},
             state::State as StateTrait,
             LexResult,
         },
@@ -42,7 +42,35 @@ pub struct State {
     token_type: Option<Token>,
 }
 
-impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
+pub struct LexerCheckpoint<'a> {
+    comments: Option<&'a dyn Comments>,
+    comments_buffer: Option<CommentsBuffer>,
+    state: State,
+    ctx: Context,
+    input_last_pos: BytePos,
+}
+
+impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
+    type Checkpoint = LexerCheckpoint<'a>;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        Self::Checkpoint {
+            comments: self.comments,
+            comments_buffer: self.comments_buffer.clone(),
+            state: self.state.clone(),
+            ctx: self.ctx,
+            input_last_pos: self.input.last_pos(),
+        }
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        self.comments = checkpoint.comments;
+        self.comments_buffer = checkpoint.comments_buffer;
+        self.state = checkpoint.state;
+        self.ctx = checkpoint.ctx;
+        unsafe { self.input.reset_to(checkpoint.input_last_pos) };
+    }
+
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {

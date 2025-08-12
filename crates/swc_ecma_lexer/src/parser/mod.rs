@@ -38,8 +38,8 @@ pub struct Parser<I: Tokens<TokenAndSpan>> {
 
 impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I> {
     type Buffer = Buffer<I>;
+    type Checkpoint = Self;
     type I = I;
-    type Lexer = crate::lexer::Lexer<'a>;
     type Next = TokenAndSpan;
     type Token = Token;
     type TokenAndSpan = TokenAndSpan;
@@ -62,6 +62,14 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::Parser<'a> for Parser<I
     #[inline(always)]
     fn state_mut(&mut self) -> &mut common::parser::state::State {
         &mut self.state
+    }
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        self.clone()
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        *self = checkpoint;
     }
 
     #[inline(always)]

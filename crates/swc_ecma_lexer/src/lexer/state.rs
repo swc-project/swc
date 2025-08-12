@@ -641,6 +641,8 @@ impl crate::common::lexer::state::TokenType for TokenType {
 }
 
 impl Tokens<TokenAndSpan> for Lexer<'_> {
+    type Checkpoint = Self;
+
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {
@@ -658,6 +660,14 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
     #[inline]
     fn ctx_mut(&mut self) -> &mut Context {
         &mut self.ctx
+    }
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        self.clone()
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        *self = checkpoint;
     }
 
     #[inline]

@@ -7,11 +7,16 @@ use crate::{common::syntax::SyntaxFlags, error::Error, lexer};
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.
 pub trait Tokens<TokenAndSpan>: Clone + Iterator<Item = TokenAndSpan> {
+    type Checkpoint;
+
     fn set_ctx(&mut self, ctx: Context);
     fn ctx(&self) -> Context;
     fn ctx_mut(&mut self) -> &mut Context;
     fn syntax(&self) -> SyntaxFlags;
     fn target(&self) -> EsVersion;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint;
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint);
 
     fn start_pos(&self) -> BytePos {
         BytePos(0)

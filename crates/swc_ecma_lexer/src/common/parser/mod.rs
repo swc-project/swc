@@ -52,22 +52,23 @@ pub trait Parser<'a>: Sized + Clone {
     type Token: std::fmt::Debug
         + Clone
         + TokenFactory<'a, Self::TokenAndSpan, Self::I, Buffer = Self::Buffer>;
-    type Lexer: super::lexer::Lexer<'a, Self::TokenAndSpan>;
     type Next: NextTokenAndSpan<Token = Self::Token>;
     type TokenAndSpan: TokenAndSpan<Token = Self::Token>;
     type I: Tokens<Self::TokenAndSpan>;
     type Buffer: self::buffer::Buffer<
         'a,
-        Lexer = Self::Lexer,
         Token = Self::Token,
         TokenAndSpan = Self::TokenAndSpan,
         I = Self::I,
     >;
+    type Checkpoint;
 
     fn input(&self) -> &Self::Buffer;
     fn input_mut(&mut self) -> &mut Self::Buffer;
     fn state(&self) -> &State;
     fn state_mut(&mut self) -> &mut State;
+    fn checkpoint_save(&self) -> Self::Checkpoint;
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint);
 
     #[inline(always)]
     fn with_state<'w>(&'w mut self, state: State) -> WithState<'a, 'w, Self> {

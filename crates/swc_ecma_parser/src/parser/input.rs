@@ -155,7 +155,6 @@ impl<I: Tokens> Buffer<I> {
 
 impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffer<I> {
     type I = I;
-    type Lexer = super::super::lexer::Lexer<'a>;
     type Next = NextTokenAndSpan;
     type Token = super::super::lexer::Token;
     type TokenAndSpan = TokenAndSpan;

@@ -19,7 +19,6 @@ pub trait NextTokenAndSpan {
 
 pub trait Buffer<'a> {
     type Token: std::fmt::Debug + PartialEq + Clone + TokenFactory<'a, Self::TokenAndSpan, Self::I>;
-    type Lexer: super::super::lexer::Lexer<'a, Self::TokenAndSpan>;
     type Next: NextTokenAndSpan<Token = Self::Token>;
     type TokenAndSpan: TokenAndSpanTrait<Token = Self::Token>;
     type I: Tokens<Self::TokenAndSpan>;

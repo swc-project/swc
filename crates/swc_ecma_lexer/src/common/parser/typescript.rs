@@ -79,20 +79,22 @@ where
     if !p.input().syntax().typescript() {
         return Ok(false);
     }
+
     let prev_ignore_error = p.input().get_ctx().contains(Context::IgnoreError);
-    let mut cloned = p.clone();
-    cloned.set_ctx(p.ctx() | Context::IgnoreError);
-    let res = op(&mut cloned);
+    let checkpoint = p.checkpoint_save();
+    p.set_ctx(p.ctx() | Context::IgnoreError);
+    let res = op(p);
     match res {
         Ok(Some(res)) if res => {
-            *p = cloned;
             let mut ctx = p.ctx();
             ctx.set(Context::IgnoreError, prev_ignore_error);
             p.input_mut().set_ctx(ctx);
             Ok(res)
         }
-        Err(..) => Ok(false),
-        _ => Ok(false),
+        _ => {
+            p.checkpoint_load(checkpoint);
+            Ok(false)
+        }
     }
 }
 
@@ -207,12 +209,11 @@ where
     trace_cur!(p, try_parse_ts);
 
     let prev_ignore_error = p.input().get_ctx().contains(Context::IgnoreError);
-    let mut cloned = p.clone();
-    cloned.set_ctx(p.ctx() | Context::IgnoreError);
-    let res = op(&mut cloned);
+    let checkpoint = p.checkpoint_save();
+    p.set_ctx(p.ctx() | Context::IgnoreError);
+    let res = op(p);
     match res {
         Ok(Some(res)) => {
-            *p = cloned;
             trace_cur!(p, try_parse_ts__success_value);
             let mut ctx = p.ctx();
             ctx.set(Context::IgnoreError, prev_ignore_error);
@@ -221,10 +222,12 @@ where
         }
         Ok(None) => {
             trace_cur!(p, try_parse_ts__success_no_value);
+            p.checkpoint_load(checkpoint);
             None
         }
         Err(..) => {
             trace_cur!(p, try_parse_ts__fail);
+            p.checkpoint_load(checkpoint);
             None
         }
     }
@@ -450,9 +453,11 @@ where
     F: FnOnce(&mut P) -> T,
 {
     debug_assert!(p.input().syntax().typescript());
-    let mut cloned = p.clone();
-    cloned.set_ctx(p.ctx() | Context::IgnoreError);
-    op(&mut cloned)
+    let checkpoint = p.checkpoint_save();
+    p.set_ctx(p.ctx() | Context::IgnoreError);
+    let ret = op(p);
+    p.checkpoint_load(checkpoint);
+    ret
 }
 
 /// `tsParseTypeArguments`
