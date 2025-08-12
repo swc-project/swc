@@ -58,7 +58,6 @@ impl CommentsBuffer {
     pub fn pending_leading_to_comments<F: Fn(Comment) -> BufferedComment>(&mut self, f: F) {
         for comment in self.pending_leading.drain(..) {
             let comment = f(comment);
-            dbg!(&comment);
             self.comments.push(comment);
         }
     }
