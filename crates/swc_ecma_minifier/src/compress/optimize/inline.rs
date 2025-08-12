@@ -805,7 +805,7 @@ impl Optimizer<'_> {
                 }
 
                 match &decl {
-                    Decl::Class(_) => {
+                    Decl::Class(_c) => {
                         if self.options.inline != 3
                             || self.options.keep_classnames
                             || self.mangle_options.is_some_and(|v| v.keep_class_names)
@@ -817,11 +817,11 @@ impl Optimizer<'_> {
                         self.changed = true;
                         report_change!(
                             "inline: Decided to inline class `{}{:?}` as it's used only once",
-                            c.ident.sym,
-                            c.ident.ctxt
+                            _c.ident.sym,
+                            _c.ident.ctxt
                         );
                     }
-                    Decl::Fn(_) => {
+                    Decl::Fn(_f) => {
                         if self.options.keep_fnames
                             || self.mangle_options.is_some_and(|v| v.keep_fn_names)
                         {
@@ -832,8 +832,8 @@ impl Optimizer<'_> {
                         self.changed = true;
                         report_change!(
                             "inline: Decided to inline function `{}{:?}` as it's used only once",
-                            f.ident.sym,
-                            f.ident.ctxt
+                            _f.ident.sym,
+                            _f.ident.ctxt
                         );
                     }
                     _ => {}
