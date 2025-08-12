@@ -47,12 +47,6 @@ impl CommentsBuffer {
         }
     }
 
-    pub fn comments_to_pending_leading<F: Fn(Comment) -> BufferedComment>(&mut self, f: F) {
-        for comment in self.pending_leading.drain(..) {
-            self.comments.push(f(comment));
-        }
-    }
-
     pub fn take_comments(&mut self) -> impl Iterator<Item = BufferedComment> + '_ {
         self.comments.drain(..)
     }
