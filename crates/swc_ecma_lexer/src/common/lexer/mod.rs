@@ -274,7 +274,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         comments_buffer.borrow_mut().push_pending_leading(cmt);
                     } else {
                         let pos = self.state().prev_hi();
-                        comments_buffer.borrow_mut().push(BufferedComment {
+                        comments_buffer.borrow_mut().push_comment(BufferedComment {
                             kind: BufferedCommentKind::Trailing,
                             pos,
                             comment: cmt,
@@ -305,7 +305,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 comments_buffer.borrow_mut().push_pending_leading(cmt);
             } else {
                 let pos = self.state().prev_hi();
-                comments_buffer.borrow_mut().push(BufferedComment {
+                comments_buffer.borrow_mut().push_comment(BufferedComment {
                     kind: BufferedCommentKind::Trailing,
                     pos,
                     comment: cmt,
@@ -412,7 +412,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                                 comments_buffer.borrow_mut().push_pending_leading(cmt);
                             } else {
                                 let pos = self.state().prev_hi();
-                                comments_buffer.borrow_mut().push(BufferedComment {
+                                comments_buffer.borrow_mut().push_comment(BufferedComment {
                                     kind: BufferedCommentKind::Trailing,
                                     pos,
                                     comment: cmt,

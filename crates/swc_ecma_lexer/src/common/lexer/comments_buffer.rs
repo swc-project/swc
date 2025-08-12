@@ -33,7 +33,7 @@ impl CommentsBuffer {
         }
     }
 
-    pub fn push(&mut self, comment: BufferedComment) {
+    pub fn push_comment(&mut self, comment: BufferedComment) {
         if let Some(last_comment) = self.comments.last() {
             if last_comment.comment.span.lo >= comment.comment.span.lo {
                 // If the last comment starts after the new comment,
@@ -63,9 +63,5 @@ impl CommentsBuffer {
 
     pub fn take_comments(&mut self) -> impl Iterator<Item = BufferedComment> + '_ {
         self.comments.drain(..)
-    }
-
-    pub fn take_pending_leading(&mut self) -> impl Iterator<Item = Comment> + '_ {
-        self.pending_leading.drain(..)
     }
 }
