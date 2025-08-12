@@ -1454,7 +1454,7 @@ where
                     } => {
                         let id = id.node_id;
                         self.used_recursively.insert(
-                            id.clone(),
+                            id,
                             RecursiveUsage::Var {
                                 can_ignore: !init.may_have_side_effects(self.expr_ctx),
                             },

@@ -697,7 +697,6 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(usage) = self.data.vars.get(&i.to_id()) {
         let id = i.node_id;
 
         if let Some(usage) = self.data.vars.get(&id) {
@@ -766,7 +765,7 @@ impl Optimizer<'_> {
                             }
 
                             self.vars.simple_functions.insert(
-                                i.to_id(),
+                                i.node_id,
                                 FnExpr {
                                     ident: None,
                                     function: f.function.clone(),
@@ -862,7 +861,7 @@ impl Optimizer<'_> {
                     }
                 };
 
-                self.vars.vars_for_inlining.insert(i.to_id(), e);
+                self.vars.vars_for_inlining.insert(i.node_id, e);
             } else {
                 log_abort!("inline: [x] Usage: {:?}", usage);
             }

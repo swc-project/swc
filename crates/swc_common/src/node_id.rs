@@ -12,6 +12,16 @@ pub struct NodeId(#[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))] u32);
 
 impl NodeId {
     pub const DUMMY: NodeId = NodeId(u32::MAX);
+
+    #[inline]
+    pub fn from_u32(id: u32) -> Self {
+        NodeId(id)
+    }
+
+    #[inline]
+    pub fn as_u32(self) -> u32 {
+        self.0
+    }
 }
 
 impl Default for NodeId {
