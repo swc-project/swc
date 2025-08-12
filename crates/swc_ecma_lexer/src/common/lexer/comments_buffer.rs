@@ -13,24 +13,15 @@ pub enum BufferedCommentKind {
     Trailing,
 }
 
-#[derive(Clone)]
+#[derive(Default, Clone)]
 pub struct CommentsBuffer {
     comments: Vec<BufferedComment>,
     pending_leading: Vec<Comment>,
 }
 
-impl Default for CommentsBuffer {
-    fn default() -> Self {
-        Self::new()
-    }
-}
-
 impl CommentsBuffer {
     pub fn new() -> Self {
-        Self {
-            comments: Vec::new(),
-            pending_leading: Vec::new(),
-        }
+        Self::default()
     }
 
     pub fn push_comment(&mut self, comment: BufferedComment) {
