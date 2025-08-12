@@ -34,10 +34,24 @@ impl CommentsBuffer {
     }
 
     pub fn push(&mut self, comment: BufferedComment) {
+        if let Some(last_comment) = self.comments.last() {
+            if last_comment.comment.span.lo >= comment.comment.span.lo {
+                // If the last comment starts after the new comment,
+                // we should not add it again.
+                return;
+            }
+        }
         self.comments.push(comment);
     }
 
     pub fn push_pending_leading(&mut self, comment: Comment) {
+        if let Some(last_comment) = self.pending_leading.last() {
+            if last_comment.span.lo >= comment.span.lo {
+                // If the last comment starts after the new comment,
+                // we should not add it again.
+                return;
+            }
+        }
         self.pending_leading.push(comment);
     }
 

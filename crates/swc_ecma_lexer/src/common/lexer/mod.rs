@@ -1,4 +1,4 @@
-use std::borrow::Cow;
+use std::{borrow::Cow, cell::RefCell, rc::Rc};
 
 use char::{Char, CharExt};
 use comments_buffer::{BufferedComment, BufferedCommentKind};
@@ -84,8 +84,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn state(&self) -> &Self::State;
     fn state_mut(&mut self) -> &mut Self::State;
     fn comments(&self) -> Option<&'a dyn swc_common::comments::Comments>;
-    fn comments_buffer(&self) -> Option<&CommentsBuffer>;
-    fn comments_buffer_mut(&mut self) -> Option<&mut CommentsBuffer>;
+    fn comments_buffer(&self) -> Option<Rc<RefCell<CommentsBuffer>>>;
     /// # Safety
     ///
     /// We know that the start and the end are valid
@@ -263,7 +262,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 // Reached EOF – entire remainder is comment
                 let end = self.input().end_pos();
 
-                if self.comments_buffer().is_some() {
+                if let Some(comments_buffer) = self.comments_buffer() {
                     let s = unsafe { self.input_slice(slice_start, end) };
                     let cmt = swc_common::comments::Comment {
                         kind: swc_common::comments::CommentKind::Line,
@@ -272,10 +271,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     };
 
                     if is_for_next {
-                        self.comments_buffer_mut().unwrap().push_pending_leading(cmt);
+                        comments_buffer.borrow_mut().push_pending_leading(cmt);
                     } else {
                         let pos = self.state().prev_hi();
-                        self.comments_buffer_mut().unwrap().push(BufferedComment {
+                        comments_buffer.borrow_mut().push(BufferedComment {
                             kind: BufferedCommentKind::Trailing,
                             pos,
                             comment: cmt,
@@ -291,7 +290,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         let end = self.cur_pos();
 
         // Create and process slice only if comments need to be stored
-        if self.comments_buffer().is_some() {
+        if let Some(comments_buffer) = self.comments_buffer() {
             let s = unsafe {
                 // Safety: We know that the start and the end are valid
                 self.input_slice(slice_start, end)
@@ -303,12 +302,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             };
 
             if is_for_next {
-                self.comments_buffer_mut()
-                    .unwrap()
-                    .push_pending_leading(cmt);
+                comments_buffer.borrow_mut().push_pending_leading(cmt);
             } else {
                 let pos = self.state().prev_hi();
-                self.comments_buffer_mut().unwrap().push(BufferedComment {
+                comments_buffer.borrow_mut().push(BufferedComment {
                     kind: BufferedCommentKind::Trailing,
                     pos,
                     comment: cmt,
@@ -398,7 +395,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             is_for_next = false;
                         }
 
-                        if self.comments_buffer().is_some() {
+                        if let Some(comments_buffer) = self.comments_buffer() {
                             let src = unsafe {
                                 // Safety: We got slice_start and end from self.input so those are
                                 // valid.
@@ -412,12 +409,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             };
 
                             if is_for_next {
-                                self.comments_buffer_mut()
-                                    .unwrap()
-                                    .push_pending_leading(cmt);
+                                comments_buffer.borrow_mut().push_pending_leading(cmt);
                             } else {
                                 let pos = self.state().prev_hi();
-                                self.comments_buffer_mut().unwrap().push(BufferedComment {
+                                comments_buffer.borrow_mut().push(BufferedComment {
                                     kind: BufferedCommentKind::Trailing,
                                     pos,
                                     comment: cmt,
@@ -882,33 +877,34 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     #[cold]
     #[inline(never)]
     fn consume_pending_comments(&mut self) {
-        if let Some(comments) = self.comments() {
+        if let (Some(comments), Some(comments_buffer)) = (self.comments(), self.comments_buffer()) {
             let last = self.state().prev_hi();
             let start_pos = self.start_pos();
-            let comments_buffer = self.comments_buffer_mut().unwrap();
 
             // move the pending to the leading or trailing
-            comments_buffer.pending_leading_to_comments(|comment| {
-                // if the file had no tokens and no shebang, then treat any
-                // comments in the leading comments buffer as leading.
-                // Otherwise treat them as trailing.
-                if last == start_pos {
-                    BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: last,
-                        comment,
+            comments_buffer
+                .borrow_mut()
+                .pending_leading_to_comments(|comment| {
+                    // if the file had no tokens and no shebang, then treat any
+                    // comments in the leading comments buffer as leading.
+                    // Otherwise treat them as trailing.
+                    if last == start_pos {
+                        BufferedComment {
+                            kind: BufferedCommentKind::Leading,
+                            pos: last,
+                            comment,
+                        }
+                    } else {
+                        BufferedComment {
+                            kind: BufferedCommentKind::Trailing,
+                            pos: last,
+                            comment,
+                        }
                     }
-                } else {
-                    BufferedComment {
-                        kind: BufferedCommentKind::Trailing,
-                        pos: last,
-                        comment,
-                    }
-                }
-            });
+                });
 
             // now fill the user's passed in comments
-            for comment in comments_buffer.take_comments() {
+            for comment in comments_buffer.borrow_mut().take_comments() {
                 match comment.kind {
                     BufferedCommentKind::Leading => {
                         comments.add_leading(comment.pos, comment.comment);

@@ -37,7 +37,7 @@ mod tests;
 pub struct Lexer<'a> {
     comments: Option<&'a dyn Comments>,
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
-    comments_buffer: Option<CommentsBuffer>,
+    comments_buffer: Option<Rc<RefCell<CommentsBuffer>>>,
 
     pub ctx: Context,
     input: StringInput<'a>,
@@ -90,15 +90,10 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
-    fn comments_buffer(&self) -> Option<&crate::common::lexer::comments_buffer::CommentsBuffer> {
-        self.comments_buffer.as_ref()
-    }
-
-    #[inline(always)]
-    fn comments_buffer_mut(
-        &mut self,
-    ) -> Option<&mut crate::common::lexer::comments_buffer::CommentsBuffer> {
-        self.comments_buffer.as_mut()
+    fn comments_buffer(
+        &self,
+    ) -> Option<Rc<RefCell<crate::common::lexer::comments_buffer::CommentsBuffer>>> {
+        self.comments_buffer.clone()
     }
 
     #[inline(always)]
@@ -129,7 +124,9 @@ impl<'a> Lexer<'a> {
 
         Lexer {
             comments,
-            comments_buffer: comments.is_some().then(CommentsBuffer::new),
+            comments_buffer: comments
+                .is_some()
+                .then(|| Rc::new(RefCell::new(CommentsBuffer::new()))),
             ctx: Default::default(),
             input,
             start_pos,

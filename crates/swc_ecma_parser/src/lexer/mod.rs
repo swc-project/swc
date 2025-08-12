@@ -39,7 +39,7 @@ pub(crate) use token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
 pub struct Lexer<'a> {
     comments: Option<&'a dyn Comments>,
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
-    comments_buffer: Option<CommentsBuffer>,
+    comments_buffer: Option<Rc<RefCell<CommentsBuffer>>>,
 
     pub ctx: Context,
     input: StringInput<'a>,
@@ -95,15 +95,8 @@ impl<'a> swc_ecma_lexer::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     #[inline(always)]
     fn comments_buffer(
         &self,
-    ) -> Option<&swc_ecma_lexer::common::lexer::comments_buffer::CommentsBuffer> {
-        self.comments_buffer.as_ref()
-    }
-
-    #[inline(always)]
-    fn comments_buffer_mut(
-        &mut self,
-    ) -> Option<&mut swc_ecma_lexer::common::lexer::comments_buffer::CommentsBuffer> {
-        self.comments_buffer.as_mut()
+    ) -> Option<Rc<RefCell<swc_ecma_lexer::common::lexer::comments_buffer::CommentsBuffer>>> {
+        self.comments_buffer.clone()
     }
 
     #[inline(always)]
@@ -133,7 +126,9 @@ impl<'a> Lexer<'a> {
 
         Lexer {
             comments,
-            comments_buffer: comments.is_some().then(CommentsBuffer::new),
+            comments_buffer: comments
+                .is_some()
+                .then(|| Rc::new(RefCell::new(CommentsBuffer::new()))),
             ctx: Default::default(),
             input,
             start_pos,
