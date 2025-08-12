@@ -1,7 +1,7 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
-use swc_common::{comments::Comments, input::StringInput};
+use swc_common::{comments::Comments, input::StringInput, Span};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::common::parser::{
     buffer::Buffer as BufferTrait, expr::parse_lhs_expr, module_item::parse_module_item_block_body,
@@ -36,6 +36,13 @@ mod typescript;
 
 pub use swc_ecma_lexer::common::parser::PResult;
 
+pub struct ParserCheckpoint<I: Tokens> {
+    lexer: I::Checkpoint,
+    buffer_prev_span: Span,
+    buffer_cur: TokenAndSpan,
+    buffer_next: Option<crate::lexer::NextTokenAndSpan>,
+}
+
 /// EcmaScript parser.
 #[derive(Clone)]
 pub struct Parser<I: self::input::Tokens> {
@@ -46,7 +53,7 @@ pub struct Parser<I: self::input::Tokens> {
 
 impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     type Buffer = self::input::Buffer<I>;
-    type Checkpoint = Self;
+    type Checkpoint = ParserCheckpoint<I>;
     type I = I;
     type Next = crate::lexer::NextTokenAndSpan;
     type Token = Token;
@@ -73,11 +80,19 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     }
 
     fn checkpoint_save(&self) -> Self::Checkpoint {
-        self.clone()
+        Self::Checkpoint {
+            lexer: self.input.iter.checkpoint_save(),
+            buffer_cur: self.input.cur,
+            buffer_next: self.input.next.clone(),
+            buffer_prev_span: self.input.prev_span,
+        }
     }
 
     fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
-        *self = checkpoint;
+        self.input.iter.checkpoint_load(checkpoint.lexer);
+        self.input.cur = checkpoint.buffer_cur;
+        self.input.next = checkpoint.buffer_next;
+        self.input.prev_span = checkpoint.buffer_prev_span;
     }
 
     #[inline(always)]
