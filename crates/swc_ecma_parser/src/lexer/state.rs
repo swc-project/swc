@@ -43,6 +43,16 @@ pub struct State {
 }
 
 impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
+    type Checkpoint = Self;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        self.clone()
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        *self = checkpoint;
+    }
+
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {

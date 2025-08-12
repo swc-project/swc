@@ -55,6 +55,16 @@ impl Iterator for TokensInput {
 }
 
 impl Tokens<TokenAndSpan> for TokensInput {
+    type Checkpoint = Self;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        self.clone()
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        *self = checkpoint;
+    }
+
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {
             let mut module_errors = self.module_errors.borrow_mut();
@@ -213,6 +223,16 @@ impl<I: Tokens<TokenAndSpan>> Iterator for Capturing<I> {
 }
 
 impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
+    type Checkpoint = I::Checkpoint;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        self.inner.checkpoint_save()
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        self.inner.checkpoint_load(checkpoint);
+    }
+
     #[inline(always)]
     fn set_ctx(&mut self, ctx: Context) {
         self.inner.set_ctx(ctx)
