@@ -48,6 +48,6 @@ testing                    = { version = "15.0.0", path = "../testing" }
 [[bench]]
 harness = false
 name    = "base"
-[[bench]]
-harness = false
-name    = "parallel"
+# [[bench]]
+# harness = false
+# name    = "parallel"

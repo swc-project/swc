@@ -38,6 +38,6 @@ swc_ecma_transforms_proposal = { version = "24.0.0", path = "../swc_ecma_transfo
 swc_ecma_transforms_testing  = { version = "27.0.0", path = "../swc_ecma_transforms_testing" }
 testing                      = { version = "15.0.0", path = "../testing" }
 
-[[bench]]
-harness = false
-name    = "compat"
+# [[bench]]
+# harness = false
+# name    = "compat"
