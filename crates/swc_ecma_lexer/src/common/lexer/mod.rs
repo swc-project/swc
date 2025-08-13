@@ -1,7 +1,6 @@
 use std::borrow::Cow;
 
 use char::{Char, CharExt};
-use comments_buffer::{BufferedComment, BufferedCommentKind};
 use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
 use smartstring::{LazyCompact, SmartString};
@@ -18,7 +17,7 @@ use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
 use crate::{
     common::lexer::{
-        comments_buffer::CommentsBuffer,
+        comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBufferTrait},
         number::{parse_integer, LazyInteger},
     },
     error::SyntaxError,
@@ -78,14 +77,15 @@ fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
 pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     type State: self::state::State;
     type Token: token::TokenFactory<'a, TokenAndSpan, Self, Lexer = Self>;
+    type CommentsBuffer: CommentsBufferTrait;
 
     fn input(&self) -> &StringInput<'a>;
     fn input_mut(&mut self) -> &mut StringInput<'a>;
     fn state(&self) -> &Self::State;
     fn state_mut(&mut self) -> &mut Self::State;
     fn comments(&self) -> Option<&'a dyn swc_common::comments::Comments>;
-    fn comments_buffer(&self) -> Option<&CommentsBuffer>;
-    fn comments_buffer_mut(&mut self) -> Option<&mut CommentsBuffer>;
+    fn comments_buffer(&self) -> Option<&Self::CommentsBuffer>;
+    fn comments_buffer_mut(&mut self) -> Option<&mut Self::CommentsBuffer>;
     /// # Safety
     ///
     /// We know that the start and the end are valid
@@ -272,10 +272,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     };
 
                     if is_for_next {
-                        self.comments_buffer_mut().unwrap().push_pending_leading(cmt);
+                        self.comments_buffer_mut().unwrap().push_pending(cmt);
                     } else {
                         let pos = self.state().prev_hi();
-                        self.comments_buffer_mut().unwrap().push(BufferedComment {
+                        self.comments_buffer_mut().unwrap().push_comment(BufferedComment {
                             kind: BufferedCommentKind::Trailing,
                             pos,
                             comment: cmt,
@@ -303,16 +303,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             };
 
             if is_for_next {
-                self.comments_buffer_mut()
-                    .unwrap()
-                    .push_pending_leading(cmt);
+                self.comments_buffer_mut().unwrap().push_pending(cmt);
             } else {
                 let pos = self.state().prev_hi();
-                self.comments_buffer_mut().unwrap().push(BufferedComment {
-                    kind: BufferedCommentKind::Trailing,
-                    pos,
-                    comment: cmt,
-                });
+                self.comments_buffer_mut()
+                    .unwrap()
+                    .push_comment(BufferedComment {
+                        kind: BufferedCommentKind::Trailing,
+                        pos,
+                        comment: cmt,
+                    });
             }
         }
 
@@ -412,16 +412,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             };
 
                             if is_for_next {
-                                self.comments_buffer_mut()
-                                    .unwrap()
-                                    .push_pending_leading(cmt);
+                                self.comments_buffer_mut().unwrap().push_pending(cmt);
                             } else {
                                 let pos = self.state().prev_hi();
-                                self.comments_buffer_mut().unwrap().push(BufferedComment {
-                                    kind: BufferedCommentKind::Trailing,
-                                    pos,
-                                    comment: cmt,
-                                });
+                                self.comments_buffer_mut()
+                                    .unwrap()
+                                    .push_comment(BufferedComment {
+                                        kind: BufferedCommentKind::Trailing,
+                                        pos,
+                                        comment: cmt,
+                                    });
                             }
                         }
 
@@ -887,25 +887,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             let start_pos = self.start_pos();
             let comments_buffer = self.comments_buffer_mut().unwrap();
 
+            // if the file had no tokens and no shebang, then treat any
+            // comments in the leading comments buffer as leading.
+            // Otherwise treat them as trailing.
+            let kind = if last == start_pos {
+                BufferedCommentKind::Leading
+            } else {
+                BufferedCommentKind::Trailing
+            };
             // move the pending to the leading or trailing
-            for c in comments_buffer.take_pending_leading() {
-                // if the file had no tokens and no shebang, then treat any
-                // comments in the leading comments buffer as leading.
-                // Otherwise treat them as trailing.
-                if last == start_pos {
-                    comments_buffer.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: last,
-                        comment: c,
-                    });
-                } else {
-                    comments_buffer.push(BufferedComment {
-                        kind: BufferedCommentKind::Trailing,
-                        pos: last,
-                        comment: c,
-                    });
-                }
-            }
+            comments_buffer.pending_to_comment(kind, last);
 
             // now fill the user's passed in comments
             for comment in comments_buffer.take_comments() {

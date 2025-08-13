@@ -11,7 +11,7 @@ use crate::{
         input::Tokens,
         lexer::{
             char::CharExt,
-            comments_buffer::{BufferedComment, BufferedCommentKind},
+            comments_buffer::{BufferedCommentKind, CommentsBufferTrait},
             state::{
                 State as StateTrait, TokenKind as TokenKindTrait, TokenType as TokenTypeTrait,
             },
@@ -870,13 +870,7 @@ impl Iterator for Lexer<'_> {
         let span = self.span(start);
         if !matches!(token, Token::Eof) {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                for comment in comments.take_pending_leading() {
-                    comments.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
-                }
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
             }
 
             self.state.update(start, token.kind());

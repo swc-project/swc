@@ -6,7 +6,7 @@ use swc_ecma_lexer::{
     common::{
         lexer::{
             char::CharExt,
-            comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBuffer},
+            comments_buffer::{BufferedCommentKind, CommentsBufferTrait},
             state::State as StateTrait,
             LexResult,
         },
@@ -20,7 +20,10 @@ use super::{Context, Input, Lexer, LexerTrait};
 use crate::{
     error::Error,
     input::Tokens,
-    lexer::token::{Token, TokenAndSpan, TokenValue},
+    lexer::{
+        comments_buffer::CommentsBufferCheckpoint,
+        token::{Token, TokenAndSpan, TokenValue},
+    },
 };
 
 /// State of lexer.
@@ -43,7 +46,7 @@ pub struct State {
 }
 
 pub struct LexerCheckpoint {
-    comments_buffer: Option<CommentsBuffer>,
+    comments_buffer: CommentsBufferCheckpoint,
     state: State,
     ctx: Context,
     input_last_pos: BytePos,
@@ -54,18 +57,24 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
 
     fn checkpoint_save(&self) -> Self::Checkpoint {
         Self::Checkpoint {
-            comments_buffer: self.comments_buffer.clone(),
             state: self.state.clone(),
             ctx: self.ctx,
             input_last_pos: self.input.last_pos(),
+            comments_buffer: self
+                .comments_buffer
+                .as_ref()
+                .map(|cb| cb.checkpoint_save())
+                .unwrap_or_default(),
         }
     }
 
     fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
-        self.comments_buffer = checkpoint.comments_buffer;
         self.state = checkpoint.state;
         self.ctx = checkpoint.ctx;
         unsafe { self.input.reset_to(checkpoint.input_last_pos) };
+        if let Some(comments_buffer) = self.comments_buffer.as_mut() {
+            comments_buffer.checkpoint_load(checkpoint.comments_buffer);
+        }
     }
 
     #[inline]
@@ -209,13 +218,7 @@ impl crate::input::Tokens for Lexer<'_> {
         let span = self.span(start);
         if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                for comment in comments.take_pending_leading() {
-                    comments.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
-                }
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
             }
 
             self.state.set_token_type(token);
@@ -247,13 +250,7 @@ impl crate::input::Tokens for Lexer<'_> {
         let span = self.span(start);
         if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                for comment in comments.take_pending_leading() {
-                    comments.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
-                }
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
             }
 
             self.state.set_token_type(token);
@@ -377,13 +374,7 @@ impl crate::input::Tokens for Lexer<'_> {
 
         if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                for comment in comments.take_pending_leading() {
-                    comments.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
-                }
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
             }
 
             self.state.set_token_type(token);
@@ -594,13 +585,7 @@ impl Iterator for Lexer<'_> {
         let span = self.span(start);
         if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                for comment in comments.take_pending_leading() {
-                    comments.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
-                }
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
             }
 
             self.state.set_token_type(token);
