@@ -225,6 +225,7 @@ impl Optimizer<'_> {
                                     param.id.sym,
                                     param.id.ctxt
                                 );
+                                debug_assert!(param.node_id != NodeId::DUMMY);
                                 vars.insert(param.node_id, arg.clone());
                             } else {
                                 trace_op!(
@@ -240,6 +241,7 @@ impl Optimizer<'_> {
                                 param.id.ctxt
                             );
 
+                            debug_assert!(param.node_id != NodeId::DUMMY);
                             vars.insert(param.node_id, Expr::undefined(param.span()));
                         }
                     }
@@ -268,6 +270,7 @@ impl Optimizer<'_> {
                                     continue;
                                 }
 
+                                debug_assert!(param_id.node_id != NodeId::DUMMY);
                                 vars.insert(
                                     param_id.node_id,
                                     ArrayLit {
