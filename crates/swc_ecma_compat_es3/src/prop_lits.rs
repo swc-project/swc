@@ -48,7 +48,12 @@ impl Fold for PropertyLiteral {
                 raw, value, span, ..
             }) => {
                 if value.is_reserved() || !is_valid_ident(&value) {
-                    PropName::Str(Str { span, raw, value })
+                    PropName::Str(Str {
+                        span,
+                        raw,
+                        value,
+                        lone_surrogates: false,
+                    })
                 } else {
                     PropName::Ident(IdentName::new(value, span))
                 }
@@ -59,6 +64,7 @@ impl Fold for PropertyLiteral {
                     PropName::Str(Str {
                         span,
                         raw: None,
+                        lone_surrogates: false,
                         value: sym,
                     })
                 } else {

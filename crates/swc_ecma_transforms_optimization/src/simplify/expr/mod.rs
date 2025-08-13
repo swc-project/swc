@@ -791,6 +791,7 @@ pub fn optimize_member_expr(
 
                 *expr = Lit::Str(Str {
                     raw: None,
+                    lone_surrogates: false,
                     value: value.into(),
                     span: *span,
                 })
@@ -1018,6 +1019,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
 
                     *expr = Lit::Str(Str {
                         raw: None,
+                        lone_surrogates: false,
                         value: l.into(),
                         span: *span,
                     })
@@ -1045,6 +1047,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
 
                                 *expr = Lit::Str(Str {
                                     raw: None,
+                                    lone_surrogates: false,
                                     value: value.into(),
                                     span: *span,
                                 })
@@ -1434,6 +1437,7 @@ fn try_fold_typeof(_expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
     *expr = Lit::Str(Str {
         span: *span,
         raw: None,
+        lone_surrogates: false,
         value: val.into(),
     })
     .into();

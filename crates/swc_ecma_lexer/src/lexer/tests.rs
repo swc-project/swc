@@ -201,6 +201,7 @@ fn test262_lexer_error_0002() {
             Token::Str {
                 value: atom!("use strict"),
                 raw: atom!("'use\\x20strict'"),
+                lone_surrogates: false,
             }
             .span(0..15)
             .lb(),
@@ -343,6 +344,7 @@ fn str_escape() {
         vec![Token::Str {
             value: atom!("\n"),
             raw: atom!("'\\n'"),
+            lone_surrogates: false,
         }]
     );
 }
@@ -354,6 +356,7 @@ fn str_escape_2() {
         vec![Token::Str {
             value: atom!("\\n"),
             raw: atom!("'\\\\n'"),
+            lone_surrogates: false,
         }]
     );
 }
@@ -365,6 +368,7 @@ fn str_escape_3() {
         vec![Token::Str {
             value: atom!("\x00"),
             raw: atom!("'\\x00'"),
+            lone_surrogates: false,
         }]
     );
 }
@@ -376,6 +380,7 @@ fn str_escape_hex() {
         vec![Token::Str {
             value: atom!("a"),
             raw: atom!("'\\x61'"),
+            lone_surrogates: false,
         }
         .span(0..6)
         .lb(),]
@@ -389,6 +394,7 @@ fn str_escape_octal() {
         vec![Token::Str {
             value: atom!("Hello\nWorld"),
             raw: atom!("'Hello\\012World'"),
+            lone_surrogates: false,
         }
         .span(0..16)
         .lb(),]
@@ -402,6 +408,7 @@ fn str_escape_unicode_long() {
         vec![Token::Str {
             value: atom!("4"),
             raw: atom!("'\\u{00000000034}'"),
+            lone_surrogates: false,
         }
         .span(0..17)
         .lb(),]
@@ -759,6 +766,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("abcde"),
             raw: atom!("'abcde'"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -766,6 +774,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("abcde"),
             raw: atom!("\"abcde\""),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -773,6 +782,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("русский"),
             raw: atom!("'русский'"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -780,6 +790,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("2"),
             raw: atom!("'\\x32'"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -787,6 +798,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("ᄑ"),
             raw: atom!("'\\u1111'"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -794,6 +806,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("ᄑ"),
             raw: atom!("'\\u{1111}'"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -801,6 +814,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("\t"),
             raw: atom!("'\t'"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -808,6 +822,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("\n"),
             raw: atom!("'\\n'"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -815,6 +830,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("abc"),
             raw: atom!("'\\\nabc'"),
+            lone_surrogates: false,
         }]
     );
     assert_eq!(
@@ -822,6 +838,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!(""),
             raw: atom!("''"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -829,6 +846,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("'"),
             raw: atom!("'\\''"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -836,6 +854,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!(""),
             raw: atom!("\"\""),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -843,6 +862,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("\""),
             raw: atom!("\"\\\"\""),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -850,6 +870,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("\u{0000}"),
             raw: atom!("'\\0'"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -857,6 +878,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("\n"),
             raw: atom!("'\\n'"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -864,6 +886,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("\r"),
             raw: atom!("'\\r'"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -871,6 +894,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("\n"),
             raw: atom!("'\\012'"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -878,6 +902,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("\u{0007}"),
             raw: atom!("'\\07'"),
+            lone_surrogates: false,
         }],
     );
     assert_eq!(
@@ -885,6 +910,7 @@ fn str_lit() {
         vec![Token::Str {
             value: atom!("\u{0000}8"),
             raw: atom!("'\\08'"),
+            lone_surrogates: false,
         }],
     );
 }
@@ -1198,6 +1224,7 @@ fn issue_299_01() {
             Token::Str {
                 value: atom!("\\ "),
                 raw: atom!("'\\ '"),
+                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1235,6 +1262,7 @@ fn issue_299_02() {
             Token::Str {
                 value: atom!("\\\\"),
                 raw: atom!("'\\\\'"),
+                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1272,6 +1300,7 @@ fn jsx_string_1() {
             Token::Str {
                 value: atom!("abc"),
                 raw: atom!("'abc'"),
+                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1309,6 +1338,7 @@ fn jsx_string_2() {
             Token::Str {
                 value: atom!("abc"),
                 raw: atom!("\"abc\""),
+                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1346,6 +1376,7 @@ fn jsx_string_3() {
             Token::Str {
                 value: atom!("\n"),
                 raw: atom!("'\n'"),
+                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1383,6 +1414,7 @@ fn jsx_string_4() {
             Token::Str {
                 value: atom!("³"),
                 raw: atom!("'&sup3;'"),
+                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1420,6 +1452,7 @@ fn jsx_string_5() {
             Token::Str {
                 value: atom!("*"),
                 raw: atom!("'&#42;'"),
+                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1457,6 +1490,7 @@ fn jsx_string_6() {
             Token::Str {
                 value: atom!("#"),
                 raw: atom!("'&#x23;'"),
+                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1494,6 +1528,7 @@ fn jsx_string_7() {
             Token::Str {
                 value: atom!("&"),
                 raw: atom!("'&'"),
+                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1531,6 +1566,7 @@ fn jsx_string_8() {
             Token::Str {
                 value: atom!("&;"),
                 raw: atom!("'&;'"),
+                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1568,6 +1604,7 @@ fn jsx_string_9() {
             Token::Str {
                 value: atom!("&&"),
                 raw: atom!("'&&'"),
+                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1592,6 +1629,7 @@ fn issue_316() {
         vec![Token::Str {
             value: atom!("Hi\r\n.."),
             raw: atom!("'Hi\\r\\n..'"),
+            lone_surrogates: false,
         }]
     );
 }
@@ -1604,6 +1642,7 @@ fn issue_401() {
             Token::Str {
                 value: atom!("17"),
                 raw: atom!("'17'"),
+                lone_surrogates: false,
             },
             tok!("as"),
             tok!("const")
@@ -1654,6 +1693,7 @@ fn issue_915_1() {
             Token::Str {
                 value: atom!("\r\n"),
                 raw: atom!("\"\\r\\n\""),
+                lone_surrogates: false,
             },
             RParen
         ]
@@ -1887,6 +1927,7 @@ fn issue_2853_1_js() {
             Token::Str {
                 value: atom!("\u{0000}a"),
                 raw: atom!("\"\\0a\""),
+                lone_surrogates: false,
             }
         ],
     );
@@ -1909,6 +1950,7 @@ fn issue_2853_2_ts() {
             Token::Str {
                 value: atom!("\u{0000}a"),
                 raw: atom!("\"\\0a\""),
+                lone_surrogates: false,
             }
         ],
     );
@@ -1931,6 +1973,7 @@ fn issue_2853_3_js() {
             Token::Str {
                 value: atom!("\u{0000}a"),
                 raw: atom!("\"\u{0000}a\""),
+                lone_surrogates: false,
             }
         ],
     );
@@ -1953,6 +1996,7 @@ fn issue_2853_4_ts() {
             Token::Str {
                 value: atom!("\u{0000}a"),
                 raw: atom!("\"\u{0000}a\""),
+                lone_surrogates: false,
             }
         ],
     );
@@ -1978,6 +2022,7 @@ fn issue_2853_5_jsx() {
             Token::Str {
                 value: atom!("\u{0000}a"),
                 raw: atom!("\"\\0a\""),
+                lone_surrogates: false,
             }
         ]
     );
@@ -2003,6 +2048,7 @@ fn issue_2853_6_tsx() {
             Token::Str {
                 value: atom!("\u{0000}a"),
                 raw: atom!("\"\\0a\""),
+                lone_surrogates: false,
             }
         ]
     );
@@ -2028,6 +2074,7 @@ fn issue_2853_7_jsx() {
             Token::Str {
                 value: atom!("\u{0000}a"),
                 raw: atom!("\"\u{0000}a\""),
+                lone_surrogates: false,
             }
         ]
     );
@@ -2053,6 +2100,7 @@ fn issue_2853_8_tsx() {
             Token::Str {
                 value: atom!("\u{0000}a"),
                 raw: atom!("\"\u{0000}a\""),
+                lone_surrogates: false,
             }
         ]
     );

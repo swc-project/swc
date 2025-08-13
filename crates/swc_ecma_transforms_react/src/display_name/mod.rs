@@ -43,6 +43,7 @@ impl VisitMut for DisplayName {
                     Lit::Str(Str {
                         span: prop.span,
                         raw: None,
+                        lone_surrogates: false,
                         value: prop.sym.clone(),
                     })
                     .into(),
@@ -56,6 +57,7 @@ impl VisitMut for DisplayName {
                     Lit::Str(Str {
                         span: ident.span,
                         raw: None,
+                        lone_surrogates: false,
                         value: ident.sym.clone(),
                     })
                     .into(),
@@ -73,6 +75,7 @@ impl VisitMut for DisplayName {
                     Lit::Str(Str {
                         span: DUMMY_SP,
                         raw: None,
+                        lone_surrogates: false,
                         value: atom!("input"),
                     })
                     .into(),
@@ -90,6 +93,7 @@ impl VisitMut for DisplayName {
                     PropName::Ident(ref i) => Lit::Str(Str {
                         span: i.span,
                         raw: None,
+                        lone_surrogates: false,
                         value: i.sym.clone(),
                     })
                     .into(),
@@ -110,6 +114,7 @@ impl VisitMut for DisplayName {
                         span: ident.span,
                         value: ident.sym.clone(),
                         raw: None,
+                        lone_surrogates: false,
                     })
                     .into(),
                 ),
