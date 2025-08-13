@@ -25,10 +25,6 @@ impl CommentsBuffer {
             pending_leading: OneDirectionalList::new(),
         }
     }
-
-    pub fn take_pending_leading(&mut self) -> Rev<IntoIter<Comment>> {
-        self.pending_leading.take_all()
-    }
 }
 
 impl CommentsBufferTrait for CommentsBuffer {
