@@ -668,27 +668,32 @@ impl Optimizer<'_> {
                     return Some(cls.take().into());
                 }
 
+                let Some(side_effects) =
+                    extract_class_side_effect(self.ctx.expr_ctx, &mut cls.class)
+                else {
+                    return Some(cls.take().into());
+                };
+
                 report_change!(
                     "ignore_return_value: Dropping unused class expr as it does not have any side \
                      effect"
                 );
                 self.changed = true;
 
-                let exprs: Vec<Box<Expr>> =
-                    extract_class_side_effect(self.ctx.expr_ctx, *cls.class.take())
-                        .into_iter()
-                        .filter_map(|mut e| self.ignore_return_value(&mut e))
-                        .map(Box::new)
-                        .collect();
+                let side_effects: Vec<Box<Expr>> = side_effects
+                    .into_iter()
+                    .filter_map(|e| self.ignore_return_value(e))
+                    .map(Box::new)
+                    .collect();
 
-                if exprs.is_empty() {
+                if side_effects.is_empty() {
                     return None;
                 }
 
                 return Some(
                     SeqExpr {
                         span: cls.class.span,
-                        exprs,
+                        exprs: side_effects,
                     }
                     .into(),
                 );
