@@ -6,7 +6,7 @@ use swc_ecma_lexer::{
     common::{
         lexer::{
             char::CharExt,
-            comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBufferCheckpoint},
+            comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBufferTrait},
             state::State as StateTrait,
             LexResult,
         },
@@ -20,7 +20,10 @@ use super::{Context, Input, Lexer, LexerTrait};
 use crate::{
     error::Error,
     input::Tokens,
-    lexer::token::{Token, TokenAndSpan, TokenValue},
+    lexer::{
+        comments_buffer::CommentsBufferCheckpoint,
+        token::{Token, TokenAndSpan, TokenValue},
+    },
 };
 
 /// State of lexer.

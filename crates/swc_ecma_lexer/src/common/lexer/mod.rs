@@ -1,7 +1,6 @@
 use std::borrow::Cow;
 
 use char::{Char, CharExt};
-use comments_buffer::{BufferedComment, BufferedCommentKind};
 use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
 use smartstring::{LazyCompact, SmartString};
@@ -18,7 +17,7 @@ use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
 use crate::{
     common::lexer::{
-        comments_buffer::CommentsBuffer,
+        comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBufferTrait},
         number::{parse_integer, LazyInteger},
     },
     error::SyntaxError,
@@ -78,14 +77,15 @@ fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
 pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     type State: self::state::State;
     type Token: token::TokenFactory<'a, TokenAndSpan, Self, Lexer = Self>;
+    type CommentsBuffer: CommentsBufferTrait;
 
     fn input(&self) -> &StringInput<'a>;
     fn input_mut(&mut self) -> &mut StringInput<'a>;
     fn state(&self) -> &Self::State;
     fn state_mut(&mut self) -> &mut Self::State;
     fn comments(&self) -> Option<&'a dyn swc_common::comments::Comments>;
-    fn comments_buffer(&self) -> Option<&CommentsBuffer>;
-    fn comments_buffer_mut(&mut self) -> Option<&mut CommentsBuffer>;
+    fn comments_buffer(&self) -> Option<&Self::CommentsBuffer>;
+    fn comments_buffer_mut(&mut self) -> Option<&mut Self::CommentsBuffer>;
     /// # Safety
     ///
     /// We know that the start and the end are valid

@@ -11,7 +11,7 @@ use crate::{
         input::Tokens,
         lexer::{
             char::CharExt,
-            comments_buffer::{BufferedComment, BufferedCommentKind},
+            comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBufferTrait},
             state::{
                 State as StateTrait, TokenKind as TokenKindTrait, TokenType as TokenTypeTrait,
             },
