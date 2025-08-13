@@ -19,11 +19,31 @@ pub struct CommentsBuffer {
     pending_leading: Vec<Comment>,
 }
 
+#[derive(Debug, Default)]
+pub struct CommentsBufferCheckpoint {
+    comments_pos: usize,
+    pending_leading: usize,
+}
+
 impl CommentsBuffer {
     pub fn new() -> Self {
         Self::default()
     }
 
+    pub fn checkpoint_save(&self) -> CommentsBufferCheckpoint {
+        CommentsBufferCheckpoint {
+            comments_pos: self.comments.len(),
+            pending_leading: self.pending_leading.len(),
+        }
+    }
+
+    pub fn checkpoint_load(&mut self, checkpoint: CommentsBufferCheckpoint) {
+        self.comments.truncate(checkpoint.comments_pos);
+        self.pending_leading.truncate(checkpoint.pending_leading);
+    }
+}
+
+impl CommentsBuffer {
     pub fn push_comment(&mut self, comment: BufferedComment) {
         if let Some(last_comment) = self.comments.last() {
             if last_comment.comment.span.lo >= comment.comment.span.lo {

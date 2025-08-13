@@ -6,7 +6,7 @@ use swc_ecma_lexer::{
     common::{
         lexer::{
             char::CharExt,
-            comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBuffer},
+            comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBufferCheckpoint},
             state::State as StateTrait,
             LexResult,
         },
@@ -44,6 +44,9 @@ pub struct State {
 
 pub struct LexerCheckpoint {
     comments_buffer: Option<CommentsBuffer>,
+pub struct LexerCheckpoint<'a> {
+    comments: Option<&'a dyn Comments>,
+    comments_buffer: CommentsBufferCheckpoint,
     state: State,
     ctx: Context,
     input_last_pos: BytePos,
@@ -58,6 +61,12 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
             state: self.state.clone(),
             ctx: self.ctx,
             input_last_pos: self.input.last_pos(),
+            comments: self.comments,
+            comments_buffer: self
+                .comments_buffer
+                .as_ref()
+                .map(|cb| cb.checkpoint_save())
+                .unwrap_or_default(),
         }
     }
 
@@ -66,6 +75,10 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
         self.state = checkpoint.state;
         self.ctx = checkpoint.ctx;
         unsafe { self.input.reset_to(checkpoint.input_last_pos) };
+        self.comments = checkpoint.comments;
+        if let Some(comments_buffer) = self.comments_buffer.as_mut() {
+            comments_buffer.checkpoint_load(checkpoint.comments_buffer);
+        }
     }
 
     #[inline]
