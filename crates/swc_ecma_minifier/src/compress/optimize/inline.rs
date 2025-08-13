@@ -141,7 +141,7 @@ impl Optimizer<'_> {
                         })
                     {
                         inlined_into_init = true;
-                        self.vars.inline_with_multi_replacer(arr);
+                        self.vars.inline_with_multi_replacer(arr, self.r);
                         report_change!(
                             "inline: Decided to store '{}{:?}' for array access",
                             ident.sym,
@@ -212,9 +212,12 @@ impl Optimizer<'_> {
                     Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => false,
 
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
+                        let node_id = self.r.find_binding_by_ident(id);
+                        debug_assert!(id.node_id != node_id);
+
                         if !usage.flags.contains(VarUsageInfoFlags::ASSIGNED_FN_LOCAL) {
                             false
-                        } else if let Some(u) = self.data.vars.get(&id.node_id) {
+                        } else if let Some(u) = self.data.vars.get(&node_id) {
                             let mut should_inline =
                                 !u.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                     && u.flags.contains(VarUsageInfoFlags::DECLARED);
@@ -303,7 +306,7 @@ impl Optimizer<'_> {
             {
                 if !inlined_into_init {
                     inlined_into_init = true;
-                    self.vars.inline_with_multi_replacer(init);
+                    self.vars.inline_with_multi_replacer(init, self.r);
                 }
 
                 self.mode.store(id, &*init);
@@ -316,7 +319,9 @@ impl Optimizer<'_> {
                 } = **usage;
                 let mut inc_usage = || {
                     if let Expr::Ident(i) = &*init {
-                        if let Some(u) = self.data.vars.get_mut(&i.node_id) {
+                        let node_id = self.r.find_binding_by_ident(i);
+                        debug_assert!(i.node_id != node_id);
+                        if let Some(u) = self.data.vars.get_mut(&node_id) {
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_ARG;
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_REF;
                             u.flags |= flags & VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY;
@@ -465,6 +470,8 @@ impl Optimizer<'_> {
 
                     Expr::Object(..) if self.options.pristine_globals => {
                         for id in idents_used_by_ignoring_nested(init) {
+                            let node_id = self.r.find_binding_by_node_id(id);
+                            debug_assert!(node_id != id);
                             if let Some(v_usage) = self.data.vars.get(&id) {
                                 if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                     return;
@@ -511,7 +518,9 @@ impl Optimizer<'_> {
 
                     _ => {
                         for id in idents_used_by(init) {
-                            if let Some(v_usage) = self.data.vars.get(&id) {
+                            let node_id = self.r.find_binding_by_node_id(id);
+                            debug_assert!(node_id != id);
+                            if let Some(v_usage) = self.data.vars.get(&node_id) {
                                 if v_usage.property_mutation_count > usage.property_mutation_count
                                     || v_usage.flags.intersects(
                                         VarUsageInfoFlags::HAS_PROPERTY_ACCESS
@@ -567,7 +576,7 @@ impl Optimizer<'_> {
                 }
 
                 if !inlined_into_init {
-                    self.vars.inline_with_multi_replacer(init);
+                    self.vars.inline_with_multi_replacer(init, self.r);
                 }
 
                 report_change!(
@@ -725,7 +734,7 @@ impl Optimizer<'_> {
             }
 
             // Inline very simple functions.
-            self.vars.inline_with_multi_replacer(decl);
+            self.vars.inline_with_multi_replacer(decl, self.r);
             match decl {
                 Decl::Fn(f) if self.options.inline >= 2 && f.ident.sym != *"arguments" => {
                     if let Some(body) = &f.function.body {
@@ -892,13 +901,16 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Ident(i) => {
+                let node_id = self.r.find_binding_by_ident(i);
+                debug_assert!(i.node_id != node_id);
+
                 if let Some(mut value) = self
                     .vars
                     .lits
-                    .get(&i.node_id)
+                    .get(&node_id)
                     .or_else(|| {
                         if self.ctx.bit_ctx.contains(BitCtx::IsCallee) {
-                            self.vars.simple_functions.get(&i.node_id)
+                            self.vars.simple_functions.get(&node_id)
                         } else {
                             None
                         }
@@ -920,12 +932,12 @@ impl Optimizer<'_> {
 
                     // for id in bindings {
                     //     let new_ctxt = cache
-                    //         .entry(id.1)
-                    //         .or_insert_with(|| id.1.apply_mark(new_mark));
+                    //         .entry(id.ctxt)
+                    //         .or_insert_with(|| id.ctxt.apply_mark(new_mark));
 
                     //     let new_ctxt = *new_ctxt;
 
-                    //     if let Some(usage) = self.data.vars.get(&id).cloned() {
+                    //     if let Some(usage) = self.data.vars.get(&id.node_id).cloned() {
                     //         let new_id = (id.0.clone(), new_ctxt);
                     //         self.data.vars.insert(new_id, usage);
                     //     }
@@ -938,15 +950,14 @@ impl Optimizer<'_> {
                     //     value.visit_mut_with(&mut remapper);
                     // }
 
-                    // self.changed = true;
-                    // report_change!("inline: Replacing a variable `{}` with cheap expression", i);
-
-                    // *e = *value;
+                    self.changed = true;
+                    report_change!("inline: Replacing a variable `{}` with cheap expression", i);
+                    *e = *value;
                     return;
                 }
 
                 // Check without cloning
-                if let Some(value) = self.vars.vars_for_inlining.get(&i.node_id) {
+                if let Some(value) = self.vars.vars_for_inlining.get(&node_id) {
                     if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign)
                         && !is_valid_for_lhs(value)
                     {

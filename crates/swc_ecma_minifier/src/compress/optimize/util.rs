@@ -7,7 +7,10 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, NodeId, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
+use swc_ecma_transforms_base::{
+    perf::{Parallel, ParallelExt},
+    resolve::Resolver,
+};
 use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, Remapper};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
@@ -473,13 +476,15 @@ impl VisitMut for Finalizer<'_> {
 pub(crate) struct NormalMultiReplacer<'a> {
     pub vars: &'a mut FxHashMap<NodeId, Box<Expr>>,
     pub changed: bool,
+    pub r: &'a Resolver,
 }
 
 impl<'a> NormalMultiReplacer<'a> {
     /// `worked` will be changed to `true` if any replacement is done
-    pub fn new(vars: &'a mut FxHashMap<NodeId, Box<Expr>>) -> Self {
+    pub fn new(vars: &'a mut FxHashMap<NodeId, Box<Expr>>, r: &'a Resolver) -> Self {
         NormalMultiReplacer {
             vars,
+            r,
             changed: false,
         }
     }
@@ -516,7 +521,8 @@ impl VisitMut for NormalMultiReplacer<'_> {
         }
 
         if let Expr::Ident(i) = e {
-            if let Some(new) = self.var(&i.node_id) {
+            let node_id = self.r.find_binding_by_ident(i);
+            if let Some(new) = self.var(&node_id) {
                 debug!("multi-replacer: Replaced `{}`", i);
                 self.changed = true;
 

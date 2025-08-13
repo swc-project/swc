@@ -6,6 +6,7 @@ use std::thread;
 use pretty_assertions::assert_eq;
 use swc_common::pass::{CompilerPass, Repeated};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::Resolver;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_visit::VisitMutWith;
 #[cfg(debug_assertions)]
@@ -36,6 +37,7 @@ pub(crate) fn compressor<'a, M>(
     options: &'a CompressOptions,
     mangle_options: Option<&'a MangleOptions>,
     mode: &'a M,
+    r: &'a mut Resolver,
 ) -> impl 'a + Pass
 where
     M: Mode,
@@ -47,6 +49,7 @@ where
         changed: false,
         pass: 1,
         mode,
+        r,
     }
 }
 
@@ -58,6 +61,7 @@ struct Compressor<'a> {
     pass: usize,
 
     mode: &'a dyn Mode,
+    r: &'a mut Resolver,
 }
 
 impl CompilerPass for Compressor<'_> {
@@ -80,7 +84,7 @@ impl Compressor<'_> {
         );
 
         if self.options.hoist_vars || self.options.hoist_fns {
-            let data = analyze(&*n, Some(self.marks), false);
+            let data = analyze(&*n, Some(self.marks), false, self.r);
 
             let mut v = decl_hoister(
                 DeclHoisterConfig {
@@ -173,7 +177,7 @@ impl Compressor<'_> {
         {
             let _timer = timer!("apply full optimizer");
 
-            let mut data = analyze(&*n, Some(self.marks), false);
+            let mut data = analyze(&*n, Some(self.marks), false, self.r);
 
             // TODO: reset_opt_flags
             //
@@ -185,6 +189,7 @@ impl Compressor<'_> {
                 self.mangle_options,
                 &mut data,
                 self.mode,
+                self.r,
             );
             n.visit_mut_with(&mut visitor);
 

@@ -5,6 +5,7 @@ use rustc_hash::FxHashMap;
 use swc_atoms::atom;
 use swc_common::{NodeId, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::Resolver;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::{ExprCtx, ExprExt};
 use swc_ecma_visit::VisitMutWith;
@@ -15,7 +16,7 @@ use crate::{
     option::{CompressOptions, TopLevelOptions},
 };
 
-pub struct Evaluator {
+pub struct Evaluator<'r> {
     expr_ctx: ExprCtx,
 
     program: Program,
@@ -23,10 +24,12 @@ pub struct Evaluator {
     data: Eval,
     /// We run minification only once.
     done: bool,
+
+    r: &'r mut Resolver,
 }
 
-impl Evaluator {
-    pub fn new(module: Module, marks: Marks) -> Self {
+impl<'r> Evaluator<'r> {
+    pub fn new(module: Module, marks: Marks, r: &'r mut Resolver) -> Self {
         Evaluator {
             expr_ctx: ExprCtx {
                 unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
@@ -39,6 +42,7 @@ impl Evaluator {
             marks,
             data: Default::default(),
             done: Default::default(),
+            r,
         }
     }
 }
@@ -78,7 +82,7 @@ impl Mode for Eval {
     }
 }
 
-impl Evaluator {
+impl<'r> Evaluator<'r> {
     #[tracing::instrument(name = "Evaluator::run", level = "debug", skip_all)]
     fn run(&mut self) {
         if !self.done {
@@ -97,6 +101,7 @@ impl Evaluator {
                 },
                 None,
                 &data,
+                self.r,
             ));
         }
     }

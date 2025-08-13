@@ -29,7 +29,7 @@ impl ScopeId {
     pub const ROOT: Self = Self(0);
 }
 
-#[derive(Default)]
+#[derive(Default, Debug)]
 pub(super) struct ScopeArena(Vec<Scope>);
 
 impl ScopeArena {

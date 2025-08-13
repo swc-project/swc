@@ -419,7 +419,7 @@ impl Optimizer<'_> {
     {
         trace_op!("inline: inline_vars_in_node");
 
-        let mut v = NormalMultiReplacer::new(&mut vars);
+        let mut v = NormalMultiReplacer::new(&mut vars, self.r);
         n.visit_mut_with(&mut v);
         self.changed |= v.changed;
     }
@@ -621,7 +621,7 @@ impl Optimizer<'_> {
                                 exprs.push(arg.expr.take());
                             }
                         }
-                        if self.vars.inline_with_multi_replacer(body) {
+                        if self.vars.inline_with_multi_replacer(body, self.r) {
                             self.changed = true;
                         }
                         exprs.push(body.take());
@@ -1050,7 +1050,7 @@ impl Optimizer<'_> {
             return None;
         }
 
-        if self.vars.inline_with_multi_replacer(body) {
+        if self.vars.inline_with_multi_replacer(body, self.r) {
             self.changed = true;
         }
 
@@ -1595,7 +1595,7 @@ impl Optimizer<'_> {
                     // Apply substitutions to the body
                     let mut new_body = (**body).clone();
                     if !substitutions.is_empty() {
-                        let mut replacer = NormalMultiReplacer::new(&mut substitutions);
+                        let mut replacer = NormalMultiReplacer::new(&mut substitutions, self.r);
                         new_body.visit_mut_with(&mut replacer);
                     }
 
