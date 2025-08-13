@@ -498,6 +498,9 @@ impl Pure<'_> {
                             if let Value::Known(third_str) = bin.right.as_pure_string(self.expr_ctx)
                             {
                                 // TODO: add back cases like `"@" + "\ude00"`
+                                // Here we need to check if left and right are high and low
+                                // surrogates So we can make them a
+                                // pair
                                 if left.right.is_str_lone_surrogates()
                                     || bin.right.is_str_lone_surrogates()
                                 {
