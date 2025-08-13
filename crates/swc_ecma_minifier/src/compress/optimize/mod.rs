@@ -7,7 +7,10 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{pass::Repeated, util::take::Take, NodeId, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{rename::contains_eval, resolve::Resolver};
+use swc_ecma_transforms_base::{
+    rename::contains_eval,
+    resolve::{RefTo, Resolver},
+};
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
 use swc_ecma_utils::{
@@ -351,9 +354,10 @@ impl Optimizer<'_> {
             return false;
         }
 
-        if self.r.find_binding_by_ident(id) != NodeId::DUMMY {
-            return true;
-        }
+        match self.r.find_binding_by_ident(id) {
+            RefTo::Itself | RefTo::Binding(_) => return true,
+            _ => {}
+        };
 
         if id.ctxt != self.marks.top_level_ctxt {
             return true;

@@ -217,6 +217,7 @@ impl Storage for ProgramData {
     }
 
     fn var_or_default(&mut self, id: NodeId) -> &mut Self::VarData {
+        debug_assert!(id != NodeId::DUMMY);
         self.vars.entry(id).or_default()
     }
 
@@ -235,6 +236,7 @@ impl Storage for ProgramData {
         for (id, mut var_info) in child.vars {
             // trace!("merge({:?},{}{:?})", kind, id.0, id.1);
             let inited = self.initialized_vars.contains(&id);
+            debug_assert!(id != NodeId::DUMMY);
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
                     if var_info.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
@@ -367,6 +369,7 @@ impl Storage for ProgramData {
     fn report_usage(&mut self, ctx: Ctx, i: NodeId) {
         let inited = self.initialized_vars.contains(&i);
 
+        debug_assert!(i != NodeId::DUMMY);
         let e = self.vars.entry(i).or_insert_with(|| {
             let mut default = VarUsageInfo::default();
             default.flags.insert(VarUsageInfoFlags::USED_ABOVE_DECL);
@@ -395,6 +398,7 @@ impl Storage for ProgramData {
     }
 
     fn report_assign(&mut self, ctx: Ctx, i: NodeId, is_op: bool, ty: Value<Type>) {
+        debug_assert!(i != NodeId::DUMMY);
         let e = self.vars.entry(i).or_default();
 
         let inited = self.initialized_vars.contains(&i);
@@ -545,6 +549,7 @@ impl Storage for ProgramData {
             .collect::<Vec<_>>();
 
         for other in to_mark_mutate {
+            debug_assert!(other != NodeId::DUMMY);
             let other = self.vars.entry(other).or_default();
 
             other.property_mutation_count += 1;

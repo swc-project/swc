@@ -4,6 +4,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::atom;
 use swc_common::{util::take::Take, EqIgnoreSpan, Mark, NodeId};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::RefTo;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
 use swc_ecma_utils::{
     class_has_side_effect, collect_decls, contains_this_expr, find_pat_ids, ExprExt, Remapper,
@@ -214,17 +215,21 @@ impl Optimizer<'_> {
                     Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => false,
 
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
-                        let node_id = self.r.find_binding_by_ident(id);
-                        debug_assert!(id.node_id != node_id);
+                        let node_id = match self.r.find_binding_by_ident(id) {
+                            RefTo::Binding(node_id) => Some(node_id),
+                            RefTo::Unresolved => None,
+                            RefTo::Itself => unreachable!(),
+                        };
 
                         if !usage.flags.contains(VarUsageInfoFlags::ASSIGNED_FN_LOCAL) {
                             false
-                        } else if let Some(u) = self.data.vars.get(&node_id) {
-                            let mut should_inline =
-                                !u.flags.contains(VarUsageInfoFlags::REASSIGNED)
-                                    && u.flags.contains(VarUsageInfoFlags::DECLARED);
+                        } else if let Some(node_id) = node_id {
+                            if let Some(u) = self.data.vars.get(&node_id) {
+                                let mut should_inline =
+                                    !u.flags.contains(VarUsageInfoFlags::REASSIGNED)
+                                        && u.flags.contains(VarUsageInfoFlags::DECLARED);
 
-                            should_inline &=
+                                should_inline &=
                                 // Function declarations are hoisted
                                 //
                                 // As we copy expressions, this can cause a problem.
@@ -235,33 +240,36 @@ impl Optimizer<'_> {
                                     || !u.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_DECL)
                                     || usage.callee_count == 0;
 
-                            if u.flags.contains(VarUsageInfoFlags::DECLARED_AS_FOR_INIT)
-                                && !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
-                            {
-                                should_inline &= !matches!(
-                                    u.var_kind,
-                                    Some(VarDeclKind::Let | VarDeclKind::Const)
-                                )
-                            }
-
-                            if u.flags.intersects(
-                                VarUsageInfoFlags::DECLARED_AS_FN_DECL
-                                    .union(VarUsageInfoFlags::DECLARED_AS_FN_EXPR),
-                            ) {
-                                if self.options.keep_fnames
-                                    || self.mangle_options.is_some_and(|v| v.keep_fn_names)
+                                if u.flags.contains(VarUsageInfoFlags::DECLARED_AS_FOR_INIT)
+                                    && !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
                                 {
-                                    should_inline = false
+                                    should_inline &= !matches!(
+                                        u.var_kind,
+                                        Some(VarDeclKind::Let | VarDeclKind::Const)
+                                    )
                                 }
-                            }
 
-                            if u.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_EXPR) {
-                                if self.options.inline != 3 {
-                                    return;
+                                if u.flags.intersects(
+                                    VarUsageInfoFlags::DECLARED_AS_FN_DECL
+                                        .union(VarUsageInfoFlags::DECLARED_AS_FN_EXPR),
+                                ) {
+                                    if self.options.keep_fnames
+                                        || self.mangle_options.is_some_and(|v| v.keep_fn_names)
+                                    {
+                                        should_inline = false
+                                    }
                                 }
-                            }
 
-                            should_inline
+                                if u.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_EXPR) {
+                                    if self.options.inline != 3 {
+                                        return;
+                                    }
+                                }
+
+                                should_inline
+                            } else {
+                                false
+                            }
                         } else {
                             false
                         }
@@ -321,7 +329,11 @@ impl Optimizer<'_> {
                 } = **usage;
                 let mut inc_usage = || {
                     if let Expr::Ident(i) = &*init {
-                        let node_id = self.r.find_binding_by_ident(i);
+                        let node_id = match self.r.find_binding_by_ident(i) {
+                            RefTo::Binding(node_id) => node_id,
+                            RefTo::Unresolved => return,
+                            RefTo::Itself => unreachable!(),
+                        };
                         debug_assert!(i.node_id != node_id);
                         if let Some(u) = self.data.vars.get_mut(&node_id) {
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_ARG;
@@ -472,8 +484,11 @@ impl Optimizer<'_> {
 
                     Expr::Object(..) if self.options.pristine_globals => {
                         for id in idents_used_by_ignoring_nested(init) {
-                            let node_id = self.r.find_binding_by_node_id(id);
-                            debug_assert!(node_id != id);
+                            let node_id = match self.r.find_binding_by_node_id(id) {
+                                RefTo::Binding(node_id) => node_id,
+                                RefTo::Unresolved => continue,
+                                RefTo::Itself => unreachable!(),
+                            };
                             if let Some(v_usage) = self.data.vars.get(&id) {
                                 if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                     return;
@@ -520,8 +535,11 @@ impl Optimizer<'_> {
 
                     _ => {
                         for id in idents_used_by(init) {
-                            let node_id = self.r.find_binding_by_node_id(id);
-                            debug_assert!(node_id != id);
+                            let node_id = match self.r.find_binding_by_node_id(id) {
+                                RefTo::Binding(node_id) => node_id,
+                                RefTo::Unresolved => continue,
+                                RefTo::Itself => unreachable!(),
+                            };
                             if let Some(v_usage) = self.data.vars.get(&node_id) {
                                 if v_usage.property_mutation_count > usage.property_mutation_count
                                     || v_usage.flags.intersects(
@@ -905,8 +923,11 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Ident(i) => {
-                let node_id = self.r.find_binding_by_ident(i);
-                debug_assert!(i.node_id != node_id);
+                let node_id = match self.r.find_binding_by_ident(i) {
+                    RefTo::Binding(node_id) => node_id,
+                    RefTo::Unresolved => return,
+                    RefTo::Itself => unreachable!(),
+                };
 
                 if let Some(mut value) = self
                     .vars

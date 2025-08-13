@@ -11,7 +11,7 @@ use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
 use swc_ecma_utils::{collect_decls, contains_this_expr, ExprCtx, ExprExt, Remapper};
 use swc_ecma_transforms_base::{
     perf::{Parallel, ParallelExt},
-    resolve::Resolver,
+    resolve::{RefTo, Resolver},
 };
 use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, Remapper};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -532,7 +532,11 @@ impl VisitMut for NormalMultiReplacer<'_> {
         }
 
         if let Expr::Ident(i) = e {
-            let node_id = self.r.find_binding_by_ident(i);
+            let node_id = match self.r.find_binding_by_ident(i) {
+                RefTo::Binding(node_id) => node_id,
+                RefTo::Unresolved => return,
+                RefTo::Itself => unreachable!(),
+            };
             if let Some(new) = self.var(&node_id) {
                 debug!("multi-replacer: Replaced `{}`", i);
                 self.changed = true;

@@ -1,20 +1,33 @@
 use swc_common::NodeId;
 
 #[derive(Debug, Default)]
-pub(super) struct ReferenceMap(Vec<NodeId>);
+pub(super) struct ReferenceMap(Vec<RefTo>);
+
+#[derive(Debug, Clone, Copy)]
+pub enum RefTo {
+    Unresolved,
+    Itself,
+    Binding(NodeId),
+}
 
 impl ReferenceMap {
     pub(super) fn add_binding(&mut self, id: NodeId) {
         debug_assert!(self.0.len() == id.as_u32() as usize);
-        self.0.push(id);
+        self.0.push(RefTo::Itself);
     }
 
     pub(super) fn add_reference(&mut self, from: NodeId, to: NodeId) {
         debug_assert!(self.0.len() == from.as_u32() as usize);
-        self.0.push(to);
+        debug_assert!(from != to);
+        self.0.push(RefTo::Binding(to));
     }
 
-    pub(super) fn get_binding(&self, id: NodeId) -> NodeId {
+    pub(super) fn add_unresolved_reference(&mut self, from: NodeId) {
+        debug_assert!(self.0.len() == from.as_u32() as usize);
+        self.0.push(RefTo::Unresolved);
+    }
+
+    pub(super) fn get_binding(&self, id: NodeId) -> RefTo {
         debug_assert!(
             (id.as_u32() as usize) < self.0.len(),
             "id: {id:#?}, self.0.len(): {}",

@@ -2,7 +2,7 @@ use ctx::BitContext;
 use rustc_hash::FxHashMap;
 use swc_common::{NodeId, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::resolve::Resolver;
+use swc_ecma_transforms_base::resolve::{RefTo, Resolver};
 use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
@@ -159,8 +159,11 @@ where
             self.scope.mark_used_arguments();
         }
 
-        let node_id = self.r.find_binding_by_ident(i);
-        debug_assert!(i.node_id != node_id);
+        let node_id = match self.r.find_binding_by_ident(i) {
+            RefTo::Binding(node_id) => node_id,
+            RefTo::Unresolved => return,
+            RefTo::Itself => unreachable!(),
+        };
 
         if let Some(recr) = self.used_recursively.get(&node_id) {
             if let RecursiveUsage::Var { can_ignore: false } = recr {
@@ -504,8 +507,11 @@ where
 
         for arg in &n.args {
             for_each_id_ref_in_expr(&arg.expr, &mut |arg| {
-                let node_id = self.r.find_binding_by_ident(arg);
-                debug_assert!(arg.node_id != node_id);
+                let node_id = match self.r.find_binding_by_ident(arg) {
+                    RefTo::Binding(node_id) => node_id,
+                    RefTo::Unresolved => return,
+                    RefTo::Itself => unreachable!(),
+                };
                 self.data.var_or_default(node_id).mark_used_as_arg();
             })
         }
@@ -1036,8 +1042,11 @@ where
         }
 
         for_each_id_ref_in_expr(&e.obj, &mut |obj| {
-            let node_id = self.r.find_binding_by_ident(obj);
-            debug_assert!(obj.node_id != node_id);
+            let node_id = match self.r.find_binding_by_ident(obj) {
+                RefTo::Binding(node_id) => node_id,
+                RefTo::Unresolved => return,
+                RefTo::Itself => unreachable!(),
+            };
             let v = self.data.var_or_default(node_id);
             v.mark_has_property_access();
 

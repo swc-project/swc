@@ -6,7 +6,8 @@ use swc_common::NodeId;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::resolve::{
+pub use self::reference::RefTo;
+use self::{
     reference::ReferenceMap,
     scope::{ScopeArena, ScopeId},
 };
@@ -44,11 +45,11 @@ pub fn name_resolution(root: &mut impl VisitMutWith<Resolver>) -> Resolver {
 }
 
 impl Resolver {
-    pub fn find_binding_by_node_id(&self, id: NodeId) -> NodeId {
+    pub fn find_binding_by_node_id(&self, id: NodeId) -> RefTo {
         self.references.get_binding(id)
     }
 
-    pub fn find_binding_by_ident(&self, ident: &Ident) -> NodeId {
+    pub fn find_binding_by_ident(&self, ident: &Ident) -> RefTo {
         self.references.get_binding(ident.node_id)
     }
 }
@@ -81,7 +82,7 @@ impl Resolver {
         let id = self.next_node_id();
         debug_assert!(node.node_id == NodeId::DUMMY);
         node.node_id = id;
-        self.references.add_reference(id, NodeId::DUMMY);
+        self.references.add_unresolved_reference(id);
     }
 
     fn lookup_binding(&mut self, name: &Atom, scope: ScopeId) -> Option<NodeId> {
