@@ -215,8 +215,14 @@ impl<'a> arbitrary::Arbitrary<'a> for Str {
         let span = u.arbitrary()?;
         let value = u.arbitrary::<String>()?.into();
         let raw = Some(u.arbitrary::<String>()?.into());
+        let lone_surrogates = u.arbitrary()?;
 
-        Ok(Self { span, value, raw })
+        Ok(Self {
+            span,
+            value,
+            raw,
+            lone_surrogates,
+        })
     }
 }
 

@@ -1010,6 +1010,11 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                 left.as_pure_string(expr_ctx),
                 right.as_pure_string(expr_ctx),
             ) {
+                // TODO: add back cases like `"\ud83d" + "\ude00"`
+                if left.is_str_lone_surrogates() || right.is_str_lone_surrogates() {
+                    dbg!(&expr);
+                    return;
+                }
                 if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
                     let mut l = l.into_owned();
 
