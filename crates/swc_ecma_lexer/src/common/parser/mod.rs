@@ -159,21 +159,21 @@ pub trait Parser<'a>: Sized + Clone {
         let cur = self.input().cur();
         if cur.is_error() {
             let err = self.input_mut().expect_error_token_and_bump();
-            self.input().iter().add_error(err);
+            self.input_mut().iter_mut().add_error(err);
         }
-        self.input().iter().add_error(error);
+        self.input_mut().iter_mut().add_error(error);
     }
 
     #[cold]
-    fn emit_strict_mode_err(&self, span: Span, error: SyntaxError) {
+    fn emit_strict_mode_err(&mut self, span: Span, error: SyntaxError) {
         if self.ctx().contains(Context::IgnoreError) {
             return;
         }
         let error = crate::error::Error::new(span, error);
         if self.ctx().contains(Context::Strict) {
-            self.input().iter().add_error(error);
+            self.input_mut().iter_mut().add_error(error);
         } else {
-            self.input().iter().add_module_mode_error(error);
+            self.input_mut().iter_mut().add_module_mode_error(error);
         }
     }
 

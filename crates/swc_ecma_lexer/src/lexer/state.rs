@@ -711,12 +711,12 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
     }
 
     #[inline]
-    fn add_error(&self, error: Error) {
+    fn add_error(&mut self, error: Error) {
         self.errors.borrow_mut().push(error);
     }
 
     #[inline]
-    fn add_module_mode_error(&self, error: Error) {
+    fn add_module_mode_error(&mut self, error: Error) {
         if self.ctx.contains(Context::Module) {
             self.add_error(error);
             return;

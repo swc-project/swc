@@ -119,12 +119,12 @@ impl Tokens<TokenAndSpan> for TokensInput {
     }
 
     #[inline(always)]
-    fn add_error(&self, error: Error) {
+    fn add_error(&mut self, error: Error) {
         self.errors.borrow_mut().push(error);
     }
 
     #[inline(always)]
-    fn add_module_mode_error(&self, error: Error) {
+    fn add_module_mode_error(&mut self, error: Error) {
         if self.ctx.contains(Context::Module) {
             self.add_error(error);
             return;
@@ -288,12 +288,12 @@ impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
     }
 
     #[inline(always)]
-    fn add_error(&self, error: Error) {
+    fn add_error(&mut self, error: Error) {
         self.inner.add_error(error);
     }
 
     #[inline(always)]
-    fn add_module_mode_error(&self, error: Error) {
+    fn add_module_mode_error(&mut self, error: Error) {
         self.inner.add_module_mode_error(error)
     }
 

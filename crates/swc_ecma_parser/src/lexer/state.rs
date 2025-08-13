@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_common::{comments::Comments, BytePos};
+use swc_common::BytePos;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::{
     common::{
@@ -42,8 +42,7 @@ pub struct State {
     token_type: Option<Token>,
 }
 
-pub struct LexerCheckpoint<'a> {
-    comments: Option<&'a dyn Comments>,
+pub struct LexerCheckpoint {
     comments_buffer: Option<CommentsBuffer>,
     state: State,
     ctx: Context,
@@ -51,11 +50,10 @@ pub struct LexerCheckpoint<'a> {
 }
 
 impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
-    type Checkpoint = LexerCheckpoint<'a>;
+    type Checkpoint = LexerCheckpoint;
 
     fn checkpoint_save(&self) -> Self::Checkpoint {
         Self::Checkpoint {
-            comments: self.comments,
             comments_buffer: self.comments_buffer.clone(),
             state: self.state.clone(),
             ctx: self.ctx,
@@ -64,7 +62,6 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
     }
 
     fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
-        self.comments = checkpoint.comments;
         self.comments_buffer = checkpoint.comments_buffer;
         self.state = checkpoint.state;
         self.ctx = checkpoint.ctx;
@@ -73,9 +70,8 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
 
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
-        if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {
-            let mut module_errors = self.module_errors.borrow_mut();
-            self.errors.borrow_mut().append(&mut *module_errors);
+        if ctx.contains(Context::Module) && !self.module_errors.is_empty() {
+            self.errors.append(&mut self.module_errors);
         }
         self.ctx = ctx
     }
@@ -128,26 +124,26 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
         unreachable!();
     }
 
-    fn add_error(&self, error: Error) {
-        self.errors.borrow_mut().push(error);
+    fn add_error(&mut self, error: Error) {
+        self.errors.push(error);
     }
 
-    fn add_module_mode_error(&self, error: Error) {
+    fn add_module_mode_error(&mut self, error: Error) {
         if self.ctx.contains(Context::Module) {
             self.add_error(error);
             return;
         }
-        self.module_errors.borrow_mut().push(error);
+        self.module_errors.push(error);
     }
 
     #[inline]
     fn take_errors(&mut self) -> Vec<Error> {
-        take(&mut self.errors.borrow_mut())
+        take(&mut self.errors)
     }
 
     #[inline]
     fn take_script_module_errors(&mut self) -> Vec<Error> {
-        take(&mut self.module_errors.borrow_mut())
+        take(&mut self.module_errors)
     }
 
     #[inline]

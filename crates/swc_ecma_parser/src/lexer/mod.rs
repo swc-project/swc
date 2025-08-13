@@ -1,6 +1,6 @@
 //! ECMAScript lexer.
 
-use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
+use std::{char, iter::FusedIterator, rc::Rc};
 
 use swc_atoms::AtomStoreCell;
 use swc_common::{
@@ -50,8 +50,8 @@ pub struct Lexer<'a> {
     pub(crate) syntax: SyntaxFlags,
     pub(crate) target: EsVersion,
 
-    errors: Rc<RefCell<Vec<Error>>>,
-    module_errors: Rc<RefCell<Vec<Error>>>,
+    errors: Vec<Error>,
+    module_errors: Vec<Error>,
 
     atoms: Rc<AtomStoreCell>,
 }
@@ -73,8 +73,8 @@ impl<'a> swc_ecma_lexer::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
-    fn push_error(&self, error: Error) {
-        self.errors.borrow_mut().push(error);
+    fn push_error(&mut self, error: Error) {
+        self.errors.push(error);
     }
 
     #[inline(always)]

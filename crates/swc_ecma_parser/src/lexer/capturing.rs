@@ -118,11 +118,11 @@ impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
         self.inner.set_token_context(c);
     }
 
-    fn add_error(&self, error: swc_ecma_lexer::error::Error) {
+    fn add_error(&mut self, error: swc_ecma_lexer::error::Error) {
         self.inner.add_error(error);
     }
 
-    fn add_module_mode_error(&self, error: swc_ecma_lexer::error::Error) {
+    fn add_module_mode_error(&mut self, error: swc_ecma_lexer::error::Error) {
         self.inner.add_module_mode_error(error);
     }
 
