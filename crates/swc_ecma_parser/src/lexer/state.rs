@@ -46,9 +46,6 @@ pub struct State {
 }
 
 pub struct LexerCheckpoint {
-    comments_buffer: Option<CommentsBuffer>,
-pub struct LexerCheckpoint<'a> {
-    comments: Option<&'a dyn Comments>,
     comments_buffer: CommentsBufferCheckpoint,
     state: State,
     ctx: Context,
@@ -60,11 +57,9 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
 
     fn checkpoint_save(&self) -> Self::Checkpoint {
         Self::Checkpoint {
-            comments_buffer: self.comments_buffer.clone(),
             state: self.state.clone(),
             ctx: self.ctx,
             input_last_pos: self.input.last_pos(),
-            comments: self.comments,
             comments_buffer: self
                 .comments_buffer
                 .as_ref()
@@ -74,11 +69,9 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
     }
 
     fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
-        self.comments_buffer = checkpoint.comments_buffer;
         self.state = checkpoint.state;
         self.ctx = checkpoint.ctx;
         unsafe { self.input.reset_to(checkpoint.input_last_pos) };
-        self.comments = checkpoint.comments;
         if let Some(comments_buffer) = self.comments_buffer.as_mut() {
             comments_buffer.checkpoint_load(checkpoint.comments_buffer);
         }
