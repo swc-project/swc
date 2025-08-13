@@ -869,14 +869,12 @@ impl Iterator for Lexer<'_> {
 
         let span = self.span(start);
         if !matches!(token, Token::Eof) {
-            if let Some(comments) = self.comments_buffer.as_ref() {
-                comments
-                    .borrow_mut()
-                    .pending_leading_to_comments(|comment| BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                comments.pending_leading_to_comments(|comment| BufferedComment {
+                    kind: BufferedCommentKind::Leading,
+                    pos: start,
+                    comment,
+                });
             }
 
             self.state.update(start, token.kind());

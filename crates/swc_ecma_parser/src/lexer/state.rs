@@ -208,14 +208,12 @@ impl crate::input::Tokens for Lexer<'_> {
         };
         let span = self.span(start);
         if token != Token::Eof {
-            if let Some(comments) = self.comments_buffer.as_ref() {
-                comments
-                    .borrow_mut()
-                    .pending_leading_to_comments(|comment| BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                comments.pending_leading_to_comments(|comment| BufferedComment {
+                    kind: BufferedCommentKind::Leading,
+                    pos: start,
+                    comment,
+                });
             }
 
             self.state.set_token_type(token);
@@ -247,13 +245,11 @@ impl crate::input::Tokens for Lexer<'_> {
         let span = self.span(start);
         if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                comments
-                    .borrow_mut()
-                    .pending_leading_to_comments(|comment| BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
+                comments.pending_leading_to_comments(|comment| BufferedComment {
+                    kind: BufferedCommentKind::Leading,
+                    pos: start,
+                    comment,
+                });
             }
 
             self.state.set_token_type(token);
@@ -376,14 +372,12 @@ impl crate::input::Tokens for Lexer<'_> {
         };
 
         if token != Token::Eof {
-            if let Some(comments) = self.comments_buffer.as_ref() {
-                comments
-                    .borrow_mut()
-                    .pending_leading_to_comments(|comment| BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                comments.pending_leading_to_comments(|comment| BufferedComment {
+                    kind: BufferedCommentKind::Leading,
+                    pos: start,
+                    comment,
+                });
             }
 
             self.state.set_token_type(token);
@@ -593,14 +587,12 @@ impl Iterator for Lexer<'_> {
 
         let span = self.span(start);
         if token != Token::Eof {
-            if let Some(comments) = self.comments_buffer.as_ref() {
-                comments
-                    .borrow_mut()
-                    .pending_leading_to_comments(|comment| BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
+            if let Some(comments) = self.comments_buffer.as_mut() {
+                comments.pending_leading_to_comments(|comment| BufferedComment {
+                    kind: BufferedCommentKind::Leading,
+                    pos: start,
+                    comment,
+                });
             }
 
             self.state.set_token_type(token);
