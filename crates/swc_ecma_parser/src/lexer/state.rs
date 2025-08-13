@@ -6,7 +6,7 @@ use swc_ecma_lexer::{
     common::{
         lexer::{
             char::CharExt,
-            comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBufferTrait},
+            comments_buffer::{BufferedCommentKind, CommentsBufferTrait},
             state::State as StateTrait,
             LexResult,
         },
@@ -225,11 +225,7 @@ impl crate::input::Tokens for Lexer<'_> {
         let span = self.span(start);
         if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                comments.pending_leading_to_comments(|comment| BufferedComment {
-                    kind: BufferedCommentKind::Leading,
-                    pos: start,
-                    comment,
-                });
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
             }
 
             self.state.set_token_type(token);
@@ -261,11 +257,7 @@ impl crate::input::Tokens for Lexer<'_> {
         let span = self.span(start);
         if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                comments.pending_leading_to_comments(|comment| BufferedComment {
-                    kind: BufferedCommentKind::Leading,
-                    pos: start,
-                    comment,
-                });
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
             }
 
             self.state.set_token_type(token);
@@ -389,11 +381,7 @@ impl crate::input::Tokens for Lexer<'_> {
 
         if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                comments.pending_leading_to_comments(|comment| BufferedComment {
-                    kind: BufferedCommentKind::Leading,
-                    pos: start,
-                    comment,
-                });
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
             }
 
             self.state.set_token_type(token);
@@ -604,11 +592,7 @@ impl Iterator for Lexer<'_> {
         let span = self.span(start);
         if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                comments.pending_leading_to_comments(|comment| BufferedComment {
-                    kind: BufferedCommentKind::Leading,
-                    pos: start,
-                    comment,
-                });
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
             }
 
             self.state.set_token_type(token);

@@ -272,7 +272,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     };
 
                     if is_for_next {
-                        self.comments_buffer_mut().unwrap().push_pending_leading(cmt);
+                        self.comments_buffer_mut().unwrap().push_pending(cmt);
                     } else {
                         let pos = self.state().prev_hi();
                         self.comments_buffer_mut().unwrap().push_comment(BufferedComment {
@@ -303,9 +303,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             };
 
             if is_for_next {
-                self.comments_buffer_mut()
-                    .unwrap()
-                    .push_pending_leading(cmt);
+                self.comments_buffer_mut().unwrap().push_pending(cmt);
             } else {
                 let pos = self.state().prev_hi();
                 self.comments_buffer_mut()
@@ -414,9 +412,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             };
 
                             if is_for_next {
-                                self.comments_buffer_mut()
-                                    .unwrap()
-                                    .push_pending_leading(cmt);
+                                self.comments_buffer_mut().unwrap().push_pending(cmt);
                             } else {
                                 let pos = self.state().prev_hi();
                                 self.comments_buffer_mut()
@@ -891,25 +887,16 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             let start_pos = self.start_pos();
             let comments_buffer = self.comments_buffer_mut().unwrap();
 
+            // if the file had no tokens and no shebang, then treat any
+            // comments in the leading comments buffer as leading.
+            // Otherwise treat them as trailing.
+            let kind = if last == start_pos {
+                BufferedCommentKind::Leading
+            } else {
+                BufferedCommentKind::Trailing
+            };
             // move the pending to the leading or trailing
-            comments_buffer.pending_leading_to_comments(|comment| {
-                // if the file had no tokens and no shebang, then treat any
-                // comments in the leading comments buffer as leading.
-                // Otherwise treat them as trailing.
-                if last == start_pos {
-                    BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: last,
-                        comment,
-                    }
-                } else {
-                    BufferedComment {
-                        kind: BufferedCommentKind::Trailing,
-                        pos: last,
-                        comment,
-                    }
-                }
-            });
+            comments_buffer.pending_to_comment(kind, last);
 
             // now fill the user's passed in comments
             for comment in comments_buffer.take_comments() {

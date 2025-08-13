@@ -1,5 +1,7 @@
-use swc_common::comments::Comment;
-use swc_ecma_lexer::common::lexer::comments_buffer::{BufferedComment, CommentsBufferTrait};
+use swc_common::{comments::Comment, BytePos};
+use swc_ecma_lexer::common::lexer::comments_buffer::{
+    BufferedComment, BufferedCommentKind, CommentsBufferTrait,
+};
 
 #[derive(Default, Clone)]
 pub struct CommentsBuffer {
@@ -38,14 +40,14 @@ impl CommentsBufferTrait for CommentsBuffer {
     }
 
     #[inline]
-    fn push_pending_leading(&mut self, comment: Comment) {
+    fn push_pending(&mut self, comment: Comment) {
         self.pending_leading.push(comment);
     }
 
     #[inline]
-    fn pending_leading_to_comments<F: Fn(Comment) -> BufferedComment>(&mut self, f: F) {
+    fn pending_to_comment(&mut self, kind: BufferedCommentKind, pos: BytePos) {
         for comment in self.pending_leading.drain(..) {
-            let comment = f(comment);
+            let comment = BufferedComment { kind, pos, comment };
             self.comments.push(comment);
         }
     }

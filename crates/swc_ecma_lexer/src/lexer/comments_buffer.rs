@@ -1,8 +1,10 @@
 use std::{iter::Rev, rc::Rc, vec::IntoIter};
 
-use swc_common::comments::Comment;
+use swc_common::{comments::Comment, BytePos};
 
-use crate::common::lexer::comments_buffer::{BufferedComment, CommentsBufferTrait};
+use crate::common::lexer::comments_buffer::{
+    BufferedComment, BufferedCommentKind, CommentsBufferTrait,
+};
 
 #[derive(Clone)]
 pub struct CommentsBuffer {
@@ -32,7 +34,7 @@ impl CommentsBufferTrait for CommentsBuffer {
     }
 
     #[inline]
-    fn push_pending_leading(&mut self, comment: Comment) {
+    fn push_pending(&mut self, comment: Comment) {
         self.pending_leading.push(comment);
     }
 
@@ -42,9 +44,9 @@ impl CommentsBufferTrait for CommentsBuffer {
     }
 
     #[inline]
-    fn pending_leading_to_comments<F: Fn(Comment) -> BufferedComment>(&mut self, f: F) {
+    fn pending_to_comment(&mut self, kind: BufferedCommentKind, pos: BytePos) {
         for comment in self.pending_leading.take_all() {
-            let comment = f(comment);
+            let comment = BufferedComment { kind, pos, comment };
             self.comments.push(comment);
         }
     }
