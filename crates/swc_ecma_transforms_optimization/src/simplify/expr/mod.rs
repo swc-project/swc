@@ -1011,6 +1011,8 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                 right.as_pure_string(expr_ctx),
             ) {
                 // TODO: add back cases like `"\ud83d" + "\ude00"`
+                // Here we need to check if left and right are high and low surrogates
+                // So we can make them a pair
                 if left.is_str_lone_surrogates() || right.is_str_lone_surrogates() {
                     dbg!(&expr);
                     return;
