@@ -34,3 +34,4 @@ swc_ecma_ast   = { version = "15.0.0", path = "../swc_ecma_ast" }
 swc_ecma_utils = { version = "21.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "15.0.0", path = "../swc_ecma_visit" }
 swc_timer      = { version = "1.0.0", path = "../swc_timer" }
+swc_ecma_transforms_base = { version = "23.0.0", path = "../swc_ecma_transforms_base" }

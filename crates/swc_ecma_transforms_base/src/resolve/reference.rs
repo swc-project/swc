@@ -13,4 +13,13 @@ impl ReferenceMap {
         debug_assert!(self.0.len() == from.as_u32() as usize);
         self.0.push(to);
     }
+
+    pub(super) fn get_binding(&self, id: NodeId) -> NodeId {
+        debug_assert!(
+            (id.as_u32() as usize) < self.0.len(),
+            "id: {id:#?}, self.0.len(): {}",
+            self.0.len()
+        );
+        unsafe { *self.0.get_unchecked(id.as_u32() as usize) }
+    }
 }

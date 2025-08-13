@@ -46,7 +46,8 @@ impl Hoister<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike + IsModuleItem + ModuleItemExt,
-        Vec<T>: for<'aa> VisitMutWith<Hoister<'aa>> + VisitWith<UsageAnalyzer<ProgramData>>,
+        Vec<T>:
+            for<'aa> VisitMutWith<Hoister<'aa>> + for<'r> VisitWith<UsageAnalyzer<'r, ProgramData>>,
     {
         stmts.visit_mut_children_with(self);
         let len = stmts.len();

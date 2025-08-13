@@ -2,6 +2,7 @@ use ctx::BitContext;
 use rustc_hash::FxHashMap;
 use swc_common::{NodeId, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::Resolver;
 use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
@@ -21,18 +22,23 @@ pub mod storage;
 /// TODO: Scope-local. (Including block)
 ///
 /// If `marks` is [None], markers are ignored.
-pub fn analyze_with_storage<S, N>(n: &N, marks: Option<Marks>) -> S
+pub fn analyze_with_storage<'r, S, N>(n: &N, marks: Option<Marks>, r: &'r Resolver) -> S
 where
     S: Storage,
-    N: VisitWith<UsageAnalyzer<S>>,
+    N: VisitWith<UsageAnalyzer<'r, S>>,
 {
-    analyze_with_custom_storage(Default::default(), n, marks)
+    analyze_with_custom_storage(Default::default(), n, marks, r)
 }
 
-pub fn analyze_with_custom_storage<S, N>(data: S, n: &N, marks: Option<Marks>) -> S
+pub fn analyze_with_custom_storage<'r, S, N>(
+    data: S,
+    n: &N,
+    marks: Option<Marks>,
+    r: &'r Resolver,
+) -> S
 where
     S: Storage,
-    N: VisitWith<UsageAnalyzer<S>>,
+    N: VisitWith<UsageAnalyzer<'r, S>>,
 {
     let _timer = timer!("analyze");
 
@@ -49,6 +55,7 @@ where
             remaining_depth: 3,
         },
         used_recursively: FxHashMap::default(),
+        r,
     };
     n.visit_with(&mut v);
     let top_scope = v.scope;
@@ -73,7 +80,7 @@ enum RecursiveUsage {
 
 /// This assumes there are no two variable with same name and same span hygiene.
 #[derive(Debug)]
-pub struct UsageAnalyzer<S>
+pub struct UsageAnalyzer<'r, S>
 where
     S: Storage,
 {
@@ -83,9 +90,10 @@ where
     ctx: Ctx,
     expr_ctx: ExprCtx,
     used_recursively: FxHashMap<NodeId, RecursiveUsage>,
+    r: &'r Resolver,
 }
 
-impl<S> UsageAnalyzer<S>
+impl<'r, S> UsageAnalyzer<'r, S>
 where
     S: Storage,
 {
@@ -102,6 +110,7 @@ where
             expr_ctx: self.expr_ctx,
             scope: Default::default(),
             used_recursively,
+            r: self.r,
         };
 
         let ret = op(&mut child);
@@ -150,18 +159,19 @@ where
             self.scope.mark_used_arguments();
         }
 
-        let i = i.node_id;
+        let node_id = self.r.find_binding_by_ident(i);
+        debug_assert!(i.node_id != node_id);
 
-        if let Some(recr) = self.used_recursively.get(&i) {
+        if let Some(recr) = self.used_recursively.get(&node_id) {
             if let RecursiveUsage::Var { can_ignore: false } = recr {
-                self.data.report_usage(self.ctx, i.clone());
-                self.data.var_or_default(i.clone()).mark_used_above_decl()
+                self.data.report_usage(self.ctx, node_id);
+                self.data.var_or_default(node_id).mark_used_above_decl()
             }
-            self.data.var_or_default(i.clone()).mark_used_recursively();
+            self.data.var_or_default(node_id).mark_used_recursively();
             return;
         }
 
-        self.data.report_usage(self.ctx, i)
+        self.data.report_usage(self.ctx, node_id)
     }
 
     fn report_assign_pat(&mut self, p: &Pat, is_read_modify: bool) {
@@ -229,7 +239,7 @@ where
     }
 }
 
-impl<S> Visit for UsageAnalyzer<S>
+impl<S> Visit for UsageAnalyzer<'_, S>
 where
     S: Storage,
 {
@@ -494,7 +504,9 @@ where
 
         for arg in &n.args {
             for_each_id_ref_in_expr(&arg.expr, &mut |arg| {
-                self.data.var_or_default(arg.node_id).mark_used_as_arg();
+                let node_id = self.r.find_binding_by_ident(arg);
+                debug_assert!(arg.node_id != node_id);
+                self.data.var_or_default(node_id).mark_used_as_arg();
             })
         }
 
@@ -1024,7 +1036,9 @@ where
         }
 
         for_each_id_ref_in_expr(&e.obj, &mut |obj| {
-            let v = self.data.var_or_default(obj.node_id);
+            let node_id = self.r.find_binding_by_ident(obj);
+            debug_assert!(obj.node_id != node_id);
+            let v = self.data.var_or_default(node_id);
             v.mark_has_property_access();
 
             if let MemberProp::Computed(prop) = &e.prop {
@@ -1454,15 +1468,14 @@ where
                         definite: false,
                         ..
                     } => {
-                        let id = id.node_id;
                         self.used_recursively.insert(
-                            id,
+                            id.node_id,
                             RecursiveUsage::Var {
                                 can_ignore: !init.may_have_side_effects(self.expr_ctx),
                             },
                         );
                         e.init.visit_with(&mut *self.with_ctx(ctx));
-                        self.used_recursively.remove(&id);
+                        self.used_recursively.remove(&id.node_id);
                         return;
                     }
 

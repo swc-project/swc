@@ -7,7 +7,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{pass::Repeated, util::take::Take, NodeId, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::rename::contains_eval;
+use swc_ecma_transforms_base::{rename::contains_eval, resolve::Resolver};
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
 use swc_ecma_utils::{
@@ -60,6 +60,7 @@ pub(super) fn optimizer<'a>(
     mangle_options: Option<&'a MangleOptions>,
     data: &'a mut ProgramData,
     mode: &'a dyn Mode,
+    r: &'a mut Resolver,
 ) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
@@ -91,6 +92,7 @@ pub(super) fn optimizer<'a>(
         ctx,
         mode,
         functions: Default::default(),
+        r,
     }
 }
 
@@ -238,6 +240,7 @@ struct Optimizer<'a> {
     ctx: Ctx,
 
     mode: &'a dyn Mode,
+    r: &'a Resolver,
 
     functions: Box<FxHashMap<Id, FnMetadata>>,
 }
@@ -278,7 +281,7 @@ impl Vars {
     }
 
     /// Returns true if something is changed.
-    fn inline_with_multi_replacer<N>(&mut self, n: &mut N) -> bool
+    fn inline_with_multi_replacer<N>(&mut self, n: &mut N, r: &Resolver) -> bool
     where
         N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
         N: for<'aa> VisitMutWith<Finalizer<'aa>>,
@@ -305,7 +308,7 @@ impl Vars {
         }
 
         if !self.vars_for_inlining.is_empty() {
-            let mut v = NormalMultiReplacer::new(&mut self.vars_for_inlining);
+            let mut v = NormalMultiReplacer::new(&mut self.vars_for_inlining, r);
             n.visit_mut_with(&mut v);
             changed |= v.changed;
         }
@@ -343,13 +346,13 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
-        if self
-            .data
-            .vars
-            .get(&id.node_id)
-            .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED))
-        {
+        let var = self.data.vars.get(&id.node_id);
+        if var.is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED)) {
             return false;
+        }
+
+        if self.r.find_binding_by_ident(id) != NodeId::DUMMY {
+            return true;
         }
 
         if id.ctxt != self.marks.top_level_ctxt {
@@ -445,7 +448,9 @@ impl Optimizer<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
-        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer<ProgramData>> + VisitWith<AssertValid>,
+        Vec<T>: VisitMutWith<Self>
+            + for<'r> VisitWith<UsageAnalyzer<'r, ProgramData>>
+            + VisitWith<AssertValid>,
     {
         let mut use_asm = false;
         let prepend_stmts = self.prepend_stmts.take();
@@ -2294,7 +2299,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
         self.with_ctx(ctx).handle_stmt_likes(stmts, true);
 
-        if self.vars.inline_with_multi_replacer(stmts) {
+        if self.vars.inline_with_multi_replacer(stmts, self.r) {
             self.changed = true;
         }
 
@@ -2389,7 +2394,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        if self.vars.inline_with_multi_replacer(s) {
+        if self.vars.inline_with_multi_replacer(s, self.r) {
             self.changed = true;
         }
 

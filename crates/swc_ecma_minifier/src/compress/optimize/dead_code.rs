@@ -64,7 +64,7 @@ impl Optimizer<'_> {
                             VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL),
                         ) && !(used_arguments
                             && var.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM))
-                            && !var.flags.intersects(VarUsageInfoFlags::EXPORTED)
+                            && !var.flags.contains(VarUsageInfoFlags::EXPORTED)
                     })
                     .unwrap_or(false)
                 {

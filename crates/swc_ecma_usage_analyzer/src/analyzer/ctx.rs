@@ -8,11 +8,11 @@ use swc_ecma_utils::{Type, Value};
 
 use super::{storage::Storage, UsageAnalyzer};
 
-impl<S> UsageAnalyzer<S>
+impl<'r, S> UsageAnalyzer<'r, S>
 where
     S: Storage,
 {
-    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<S> {
+    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, 'r, S> {
         let orig_ctx = self.ctx;
         self.ctx = ctx;
         WithCtx {
@@ -104,26 +104,26 @@ impl BitContext {
     }
 }
 
-pub(super) struct WithCtx<'a, S>
+pub(super) struct WithCtx<'a, 'r, S>
 where
     S: Storage,
 {
-    analyzer: &'a mut UsageAnalyzer<S>,
+    analyzer: &'a mut UsageAnalyzer<'r, S>,
     orig_ctx: Ctx,
 }
 
-impl<S> Deref for WithCtx<'_, S>
+impl<'a, 'r, S> Deref for WithCtx<'a, 'r, S>
 where
     S: Storage,
 {
-    type Target = UsageAnalyzer<S>;
+    type Target = UsageAnalyzer<'r, S>;
 
     fn deref(&self) -> &Self::Target {
         self.analyzer
     }
 }
 
-impl<S> DerefMut for WithCtx<'_, S>
+impl<'a, 'r, S> DerefMut for WithCtx<'a, 'r, S>
 where
     S: Storage,
 {
@@ -132,7 +132,7 @@ where
     }
 }
 
-impl<S> Drop for WithCtx<'_, S>
+impl<'a, 'r, S> Drop for WithCtx<'a, 'r, S>
 where
     S: Storage,
 {

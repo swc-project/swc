@@ -2,7 +2,7 @@
 #![allow(clippy::mutable_key_type)]
 #![cfg_attr(not(test), allow(unused))]
 
-pub use self::{resolve::name_resolution, resolver::resolver};
+pub use self::resolver::resolver;
 
 #[doc(hidden)]
 pub mod ext;
@@ -16,7 +16,7 @@ pub mod native;
 pub mod perf;
 pub mod quote;
 pub mod rename;
-mod resolve;
+pub mod resolve;
 mod resolver;
 pub mod scope;
 #[cfg(test)]

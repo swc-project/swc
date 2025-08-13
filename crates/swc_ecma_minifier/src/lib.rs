@@ -42,7 +42,7 @@ use once_cell::sync::Lazy;
 use pass::mangle_names::mangle_names;
 use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::name_resolution;
+use swc_ecma_transforms_base::resolve::name_resolution;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_visit::VisitMutWith;
@@ -103,7 +103,7 @@ pub fn optimize(
     marks.top_level_ctxt = SyntaxContext::empty().apply_mark(extra.top_level_mark);
     marks.unresolved_mark = extra.unresolved_mark;
 
-    let _resolution = name_resolution(&mut n);
+    let mut resolver = name_resolution(&mut n);
 
     debug_assert_valid(&n);
 
@@ -167,6 +167,7 @@ pub fn optimize(
                 c,
                 options.mangle.as_ref(),
                 &Minification,
+                &mut resolver,
             ));
 
             perform_dce(&mut n, c, marks);
@@ -223,7 +224,7 @@ pub fn optimize(
         );
 
         if let Some(property_mangle_options) = &mangle.props {
-            mangle_properties(&mut n, property_mangle_options, chars);
+            mangle_properties(&mut n, property_mangle_options, chars, &mut resolver);
         }
     }
 

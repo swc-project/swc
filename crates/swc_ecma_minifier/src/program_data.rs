@@ -5,6 +5,7 @@ use rustc_hash::{FxBuildHasher, FxHashMap};
 use swc_atoms::Atom;
 use swc_common::{NodeId, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::Resolver;
 use swc_ecma_usage_analyzer::{
     alias::{Access, AccessKind},
     analyzer::{
@@ -18,9 +19,14 @@ use swc_ecma_usage_analyzer::{
 use swc_ecma_utils::{Merge, Type, Value};
 use swc_ecma_visit::VisitWith;
 
-pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>, collect_property_atoms: bool) -> ProgramData
+pub(crate) fn analyze<'r, N>(
+    n: &N,
+    marks: Option<Marks>,
+    collect_property_atoms: bool,
+    r: &'r Resolver,
+) -> ProgramData
 where
-    N: VisitWith<UsageAnalyzer<ProgramData>>,
+    N: VisitWith<UsageAnalyzer<'r, ProgramData>>,
 {
     let data = if collect_property_atoms {
         ProgramData {
@@ -30,7 +36,7 @@ where
     } else {
         ProgramData::default()
     };
-    analyze_with_custom_storage(data, n, marks)
+    analyze_with_custom_storage(data, n, marks, r)
 }
 
 /// Analyzed info of a whole program we are working on.

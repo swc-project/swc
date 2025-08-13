@@ -4,6 +4,7 @@ use once_cell::sync::Lazy;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::Resolver;
 use swc_ecma_usage_analyzer::util::get_mut_object_define_property_name_arg;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -102,6 +103,7 @@ pub(crate) fn mangle_properties(
     m: &mut Program,
     options: &ManglePropertiesOptions,
     chars: Base54Chars,
+    r: &mut Resolver,
 ) {
     let mut state = ManglePropertiesState {
         options,
@@ -112,7 +114,7 @@ pub(crate) fn mangle_properties(
         n: 0,
     };
 
-    let mut data = analyze(&*m, None, true);
+    let mut data = analyze(&*m, None, true, r);
 
     for prop in std::mem::take(data.property_atoms.as_mut().unwrap()) {
         state.add(prop);

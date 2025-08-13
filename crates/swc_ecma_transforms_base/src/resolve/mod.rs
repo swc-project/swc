@@ -1,6 +1,7 @@
 mod reference;
 mod scope;
 
+use swc_atoms::Atom;
 use swc_common::NodeId;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -10,6 +11,7 @@ use crate::resolve::{
     scope::{ScopeArena, ScopeId},
 };
 
+#[derive(Debug)]
 pub struct Resolver {
     references: ReferenceMap,
 
@@ -21,7 +23,7 @@ pub struct Resolver {
     in_binding: bool,
 }
 
-pub fn name_resolution(root: &mut Program) -> Resolver {
+pub fn name_resolution(root: &mut impl VisitMutWith<Resolver>) -> Resolver {
     let mut scopes = ScopeArena::default();
     let current_scope_id = scopes.alloc_root();
     debug_assert_eq!(current_scope_id, ScopeId::ROOT);
@@ -39,6 +41,16 @@ pub fn name_resolution(root: &mut Program) -> Resolver {
     root.visit_mut_with(&mut resolver);
 
     resolver
+}
+
+impl Resolver {
+    pub fn find_binding_by_node_id(&self, id: NodeId) -> NodeId {
+        self.references.get_binding(id)
+    }
+
+    pub fn find_binding_by_ident(&self, ident: &Ident) -> NodeId {
+        self.references.get_binding(ident.node_id)
+    }
 }
 
 impl Resolver {
@@ -65,11 +77,18 @@ impl Resolver {
         self.references.add_reference(id, to);
     }
 
-    fn find_reference(&mut self, node: &Ident) -> Option<NodeId> {
-        let mut scope_id = self.current_scope_id;
+    fn mark_unresolved(&mut self, node: &mut Ident) {
+        let id = self.next_node_id();
+        debug_assert!(node.node_id == NodeId::DUMMY);
+        node.node_id = id;
+        self.references.add_reference(id, NodeId::DUMMY);
+    }
+
+    fn lookup_binding(&mut self, name: &Atom, scope: ScopeId) -> Option<NodeId> {
+        let mut scope_id = scope;
         loop {
             let scope = self.scopes.get(scope_id);
-            if let Some(binding) = scope.get_binding(&node.sym) {
+            if let Some(binding) = scope.get_binding(name) {
                 return Some(binding);
             }
             let Some(parent) = scope.parent() else {
@@ -86,8 +105,12 @@ impl VisitMut for Resolver {
     fn visit_mut_ident(&mut self, node: &mut Ident) {
         if self.in_binding {
             self.add_binding(node);
-        } else if let Some(reference) = self.find_reference(node) {
+        } else if let Some(reference) = self.lookup_binding(&node.sym, self.current_scope_id) {
             self.add_reference(node, reference);
+        } else {
+            // TODO: unnecessary to mark all ident to unresolved,
+            // TODO: for example: actually `b` in `a.b` is not a reference.
+            self.mark_unresolved(node);
         }
     }
 
