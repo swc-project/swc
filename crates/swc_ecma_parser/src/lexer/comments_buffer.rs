@@ -34,17 +34,17 @@ impl CommentsBuffer {
 }
 
 impl CommentsBufferTrait for CommentsBuffer {
-    #[inline]
+    #[inline(always)]
     fn push_comment(&mut self, comment: BufferedComment) {
         self.comments.push(comment);
     }
 
-    #[inline]
+    #[inline(always)]
     fn push_pending(&mut self, comment: Comment) {
         self.pending_leading.push(comment);
     }
 
-    #[inline]
+    #[inline(always)]
     fn pending_to_comment(&mut self, kind: BufferedCommentKind, pos: BytePos) {
         for comment in self.pending_leading.drain(..) {
             let comment = BufferedComment { kind, pos, comment };
@@ -52,7 +52,7 @@ impl CommentsBufferTrait for CommentsBuffer {
         }
     }
 
-    #[inline]
+    #[inline(always)]
     fn take_comments(&mut self) -> impl Iterator<Item = BufferedComment> + '_ {
         self.comments.drain(..)
     }
