@@ -453,6 +453,7 @@ impl Decorators {
                         let key_prop_value = Lit::Str(Str {
                             span: method.key.span,
                             raw: None,
+                            lone_surrogates: false,
                             value: method.key.name.clone(),
                         })
                         .into();
@@ -464,6 +465,7 @@ impl Decorators {
                             PropName::Ident(i) => Lit::Str(Str {
                                 span: i.span,
                                 raw: None,
+                                lone_surrogates: false,
                                 value: i.sym,
                             })
                             .into(),

@@ -69,6 +69,7 @@ impl Optimizer<'_> {
             *n = Lit::Str(Str {
                 span,
                 raw: None,
+                lone_surrogates: false,
                 value: value.into(),
             })
             .into();
@@ -89,6 +90,7 @@ impl Optimizer<'_> {
                 *n = Lit::Str(Str {
                     span: v.span,
                     raw: None,
+                    lone_surrogates: false,
                     value: value.into(),
                 })
                 .into();
@@ -110,6 +112,7 @@ impl Optimizer<'_> {
                 *n = Lit::Str(Str {
                     span: v.span,
                     raw: None,
+                    lone_surrogates: false,
                     value: value.into(),
                 })
                 .into();

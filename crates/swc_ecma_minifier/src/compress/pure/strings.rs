@@ -211,6 +211,7 @@ impl Pure<'_> {
                         *e = Lit::Str(Str {
                             span: t.span,
                             raw: None,
+                            lone_surrogates: false,
                             value: value.clone(),
                         })
                         .into();
@@ -238,6 +239,7 @@ impl Pure<'_> {
                     *e = Lit::Str(Str {
                         span: t.span,
                         raw: None,
+                        lone_surrogates: false,
                         value,
                     })
                     .into();
@@ -513,6 +515,7 @@ impl Pure<'_> {
                                     right: Lit::Str(Str {
                                         span: left_span,
                                         raw: None,
+                                        lone_surrogates: false,
                                         value: new_str.into(),
                                     })
                                     .into(),

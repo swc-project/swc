@@ -1433,6 +1433,7 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
         PropName::Ident(i) => Lit::Str(Str {
             span: i.span,
             raw: None,
+            lone_surrogates: false,
             value: i.sym,
         })
         .into(),

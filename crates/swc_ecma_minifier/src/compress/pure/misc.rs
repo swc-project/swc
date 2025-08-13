@@ -517,6 +517,7 @@ impl Pure<'_> {
             *e = Lit::Str(Str {
                 span: call.span,
                 raw: None,
+                lone_surrogates: false,
                 value: atom!(""),
             })
             .into();
@@ -573,12 +574,14 @@ impl Pure<'_> {
             let sep: Box<Expr> = Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
+                lone_surrogates: false,
                 value: separator,
             })
             .into();
             let mut res = Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
+                lone_surrogates: false,
                 value: atom!(""),
             })
             .into();
@@ -657,6 +660,7 @@ impl Pure<'_> {
         *e = Lit::Str(Str {
             span: call.span,
             raw: None,
+            lone_surrogates: false,
             value: res.into(),
         })
         .into()
@@ -803,6 +807,7 @@ impl Pure<'_> {
                 result_parts.push(Box::new(Expr::Lit(Lit::Str(Str {
                     span: DUMMY_SP,
                     raw: None,
+                    lone_surrogates: false,
                     value: atom!(""),
                 }))));
             }
@@ -830,6 +835,7 @@ impl Pure<'_> {
                         result_parts.push(Box::new(Expr::Lit(Lit::Str(Str {
                             span: DUMMY_SP,
                             raw: None,
+                            lone_surrogates: false,
                             value: joined.into(),
                         }))));
                     }
@@ -886,6 +892,7 @@ impl Pure<'_> {
                             expr: Box::new(Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
                                 raw: None,
+                                lone_surrogates: false,
                                 value: joined.into(),
                             }))),
                         }));
@@ -914,6 +921,7 @@ impl Pure<'_> {
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span: DUMMY_SP,
                         raw: None,
+                        lone_surrogates: false,
                         value: separator.into(),
                     }))),
                 }]
@@ -1217,6 +1225,7 @@ impl Pure<'_> {
                                 span: *span,
                                 value: atom!(""),
                                 raw: None,
+                                lone_surrogates: false,
                             })
                             .into(),
                         ),
@@ -1231,6 +1240,7 @@ impl Pure<'_> {
                                         span: *span,
                                         value: atom!(""),
                                         raw: None,
+                                        lone_surrogates: false,
                                     })
                                     .into(),
                                 }
