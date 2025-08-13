@@ -60,6 +60,6 @@ codspeed-criterion-compat = { workspace = true }
 swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
 testing    = { version = "15.0.0", path = "../testing" }
 
-# [[bench]]
-# harness = false
-# name    = "full"
+[[bench]]
+harness = false
+name    = "full"
