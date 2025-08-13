@@ -70,7 +70,7 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
-    fn push_error(&self, error: crate::error::Error) {
+    fn push_error(&mut self, error: crate::error::Error) {
         self.errors.borrow_mut().push(error);
     }
 

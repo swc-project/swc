@@ -92,7 +92,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     unsafe fn input_slice(&mut self, start: BytePos, end: BytePos) -> &'a str;
     fn input_uncons_while(&mut self, f: impl FnMut(char) -> bool) -> &'a str;
     fn atom<'b>(&self, s: impl Into<Cow<'b, str>>) -> swc_atoms::Atom;
-    fn push_error(&self, error: crate::error::Error);
+    fn push_error(&mut self, error: crate::error::Error);
 
     #[inline(always)]
     #[allow(clippy::misnamed_getters)]

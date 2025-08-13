@@ -33,7 +33,7 @@ pub trait Tokens<TokenAndSpan>: Clone + Iterator<Item = TokenAndSpan> {
     ///
     /// It is required because parser should backtrack while parsing typescript
     /// code.
-    fn add_error(&self, error: Error);
+    fn add_error(&mut self, error: Error);
 
     /// Add an error which is valid syntax in script mode.
     ///
@@ -42,7 +42,7 @@ pub trait Tokens<TokenAndSpan>: Clone + Iterator<Item = TokenAndSpan> {
     /// Implementor should check for if [Context].module, and buffer errors if
     /// module is false. Also, implementors should move errors to the error
     /// buffer on set_ctx if the parser mode become module mode.
-    fn add_module_mode_error(&self, error: Error);
+    fn add_module_mode_error(&mut self, error: Error);
 
     fn end_pos(&self) -> BytePos;
 
