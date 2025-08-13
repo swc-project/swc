@@ -32,8 +32,6 @@ impl Optimizer<'_> {
         init: &mut Expr,
         can_drop: bool,
     ) {
-        let may_remove = self.may_remove_ident(ident);
-
         trace_op!(
             "inline: store_var_for_inlining({}, may_remove = {:?})",
             crate::debug::dump(ident, false),
@@ -80,6 +78,8 @@ impl Optimizer<'_> {
             if usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
                 return;
             }
+
+            let may_remove = self.may_remove_ident(ident);
 
             if !may_remove && usage.var_kind != Some(VarDeclKind::Const) {
                 log_abort!(
