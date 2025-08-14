@@ -211,6 +211,8 @@ impl Pure<'_> {
                         *e = Lit::Str(Str {
                             span: t.span,
                             raw: None,
+                            // This can never contain lone surrogates
+                            // because `\` is already filtered
                             lone_surrogates: false,
                             value: value.clone(),
                         })
