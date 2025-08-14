@@ -183,7 +183,8 @@
             "end": 89
           },
           "value": "symbol",
-          "raw": "\"symbol\""
+          "raw": "\"symbol\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {

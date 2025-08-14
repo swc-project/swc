@@ -135,7 +135,8 @@
           "end": 112
         },
         "value": "./a",
-        "raw": "'./a'"
+        "raw": "'./a'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

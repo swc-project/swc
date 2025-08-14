@@ -88,7 +88,8 @@
             "end": 247
           },
           "value": "cjs-dep",
-          "raw": "\"cjs-dep\""
+          "raw": "\"cjs-dep\"",
+          "loneSurrogates": false
         }
       }
     },

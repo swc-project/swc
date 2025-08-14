@@ -36,7 +36,8 @@
             "end": 83
           },
           "value": "./b.js",
-          "raw": "\"./b.js\""
+          "raw": "\"./b.js\"",
+          "loneSurrogates": false
         }
       }
     },

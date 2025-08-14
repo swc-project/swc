@@ -483,7 +483,8 @@
                       "end": 216
                     },
                     "value": "",
-                    "raw": "\"\""
+                    "raw": "\"\"",
+                    "loneSurrogates": false
                   }
                 },
                 "thisParam": null,

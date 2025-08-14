@@ -75,7 +75,8 @@
                           "end": 80
                         },
                         "value": "Yadda",
-                        "raw": "\"Yadda\""
+                        "raw": "\"Yadda\"",
+                        "loneSurrogates": false
                       }
                     },
                     {
@@ -238,7 +239,8 @@
                             "end": 224
                           },
                           "value": "Behold! The actual method implementation!",
-                          "raw": "\"Behold! The actual method implementation!\""
+                          "raw": "\"Behold! The actual method implementation!\"",
+                          "loneSurrogates": false
                         }
                       }
                     ],

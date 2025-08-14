@@ -37,7 +37,8 @@
           "end": 79
         },
         "value": "./mod.mjs",
-        "raw": "\"./mod.mjs\""
+        "raw": "\"./mod.mjs\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": {
@@ -103,7 +104,8 @@
           "end": 134
         },
         "value": "./mod.mjs",
-        "raw": "\"./mod.mjs\""
+        "raw": "\"./mod.mjs\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": {
@@ -180,7 +182,8 @@
           "end": 191
         },
         "value": "./mod.mjs",
-        "raw": "\"./mod.mjs\""
+        "raw": "\"./mod.mjs\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": {
@@ -246,7 +249,8 @@
           "end": 249
         },
         "value": "./mod.mjs",
-        "raw": "\"./mod.mjs\""
+        "raw": "\"./mod.mjs\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": {
@@ -282,7 +286,8 @@
                       "end": 268
                     },
                     "value": "a",
-                    "raw": "\"a\""
+                    "raw": "\"a\"",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -324,7 +329,8 @@
           "end": 308
         },
         "value": "./mod.mjs",
-        "raw": "\"./mod.mjs\""
+        "raw": "\"./mod.mjs\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": {
@@ -410,7 +416,8 @@
           "end": 370
         },
         "value": "./mod.mjs",
-        "raw": "\"./mod.mjs\""
+        "raw": "\"./mod.mjs\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": {
@@ -437,7 +444,8 @@
                 "end": 390
               },
               "value": "json",
-              "raw": "\"json\""
+              "raw": "\"json\"",
+              "loneSurrogates": false
             }
           },
           {

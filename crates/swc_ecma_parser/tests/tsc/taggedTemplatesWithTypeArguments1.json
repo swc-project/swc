@@ -1854,7 +1854,8 @@
                       "end": 767
                     },
                     "value": "prop",
-                    "raw": "\"prop\""
+                    "raw": "\"prop\"",
+                    "loneSurrogates": false
                   }
                 }
               },

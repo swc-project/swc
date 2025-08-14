@@ -146,7 +146,8 @@
                           "end": 106
                         },
                         "value": "Unexpected ",
-                        "raw": "\"Unexpected \""
+                        "raw": "\"Unexpected \"",
+                        "loneSurrogates": false
                       },
                       "right": {
                         "type": "Identifier",
@@ -206,7 +207,8 @@
           "end": 170
         },
         "value": "./a",
-        "raw": "\"./a\""
+        "raw": "\"./a\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

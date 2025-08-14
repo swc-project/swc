@@ -60,7 +60,8 @@
                   "end": 16
                 },
                 "value": "a",
-                "raw": "\"a\""
+                "raw": "\"a\"",
+                "loneSurrogates": false
               },
               "right": {
                 "type": "ObjectExpression",
@@ -78,7 +79,8 @@
                         "end": 25
                       },
                       "value": "a",
-                      "raw": "\"a\""
+                      "raw": "\"a\"",
+                      "loneSurrogates": false
                     },
                     "value": {
                       "type": "BooleanLiteral",

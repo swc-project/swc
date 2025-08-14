@@ -90,7 +90,8 @@
               "end": 217
             },
             "value": "my-fake-sym",
-            "raw": "\"my-fake-sym\""
+            "raw": "\"my-fake-sym\"",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -199,7 +200,8 @@
             "end": 261
           },
           "value": "ok",
-          "raw": "\"ok\""
+          "raw": "\"ok\"",
+          "loneSurrogates": false
         }
       }
     },
@@ -272,7 +274,8 @@
             "end": 287
           },
           "value": "ok",
-          "raw": "\"ok\""
+          "raw": "\"ok\"",
+          "loneSurrogates": false
         }
       }
     },
@@ -641,7 +644,8 @@
                     "end": 491
                   },
                   "value": "./lateBoundAssignmentDeclarationSupport4.js",
-                  "raw": "\"./lateBoundAssignmentDeclarationSupport4.js\""
+                  "raw": "\"./lateBoundAssignmentDeclarationSupport4.js\"",
+                  "loneSurrogates": false
                 }
               }
             ],
@@ -773,7 +777,8 @@
                   "end": 547
                 },
                 "value": "my-fake-sym",
-                "raw": "\"my-fake-sym\""
+                "raw": "\"my-fake-sym\"",
+                "loneSurrogates": false
               }
             }
           },

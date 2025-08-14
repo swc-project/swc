@@ -81,7 +81,8 @@
                 "end": 82
               },
               "value": "prop",
-              "raw": "\"prop\""
+              "raw": "\"prop\"",
+              "loneSurrogates": false
             }
           }
         },
@@ -193,7 +194,8 @@
                 "end": 124
               },
               "value": "prop",
-              "raw": "\"prop\""
+              "raw": "\"prop\"",
+              "loneSurrogates": false
             }
           }
         },

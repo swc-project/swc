@@ -416,7 +416,8 @@
                 "end": 113
               },
               "value": "",
-              "raw": "\"\""
+              "raw": "\"\"",
+              "loneSurrogates": false
             }
           },
           {

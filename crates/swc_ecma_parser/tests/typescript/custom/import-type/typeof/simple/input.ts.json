@@ -55,7 +55,8 @@
                       "end": 32
                     },
                     "value": "readline",
-                    "raw": "\"readline\""
+                    "raw": "\"readline\"",
+                    "loneSurrogates": false
                   },
                   "qualifier": null,
                   "typeArguments": null,

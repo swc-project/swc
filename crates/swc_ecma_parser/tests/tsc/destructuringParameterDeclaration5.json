@@ -1573,7 +1573,8 @@
                       "end": 661
                     },
                     "value": "string",
-                    "raw": "\"string\""
+                    "raw": "\"string\"",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -1763,7 +1764,8 @@
                       "end": 722
                     },
                     "value": "string",
-                    "raw": "\"string\""
+                    "raw": "\"string\"",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -2265,7 +2267,8 @@
                       "end": 891
                     },
                     "value": "world",
-                    "raw": "\"world\""
+                    "raw": "\"world\"",
+                    "loneSurrogates": false
                   }
                 }
               ]

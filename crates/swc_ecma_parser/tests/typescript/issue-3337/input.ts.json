@@ -37,7 +37,8 @@
           "end": 33
         },
         "value": "joiful",
-        "raw": "'joiful'"
+        "raw": "'joiful'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

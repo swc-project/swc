@@ -136,7 +136,8 @@
                 "end": 100
               },
               "value": "#baz",
-              "raw": "\"#baz\""
+              "raw": "\"#baz\"",
+              "loneSurrogates": false
             }
           },
           "value": {
@@ -165,7 +166,8 @@
                   "end": 115
                 },
                 "value": "#baz",
-                "raw": "\"#baz\""
+                "raw": "\"#baz\"",
+                "loneSurrogates": false
               }
             }
           },

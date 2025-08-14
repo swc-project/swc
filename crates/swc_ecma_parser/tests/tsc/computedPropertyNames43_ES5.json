@@ -264,7 +264,8 @@
                 "end": 152
               },
               "value": "get1",
-              "raw": "\"get1\""
+              "raw": "\"get1\"",
+              "loneSurrogates": false
             }
           },
           "function": {
@@ -343,7 +344,8 @@
                 "end": 190
               },
               "value": "set1",
-              "raw": "\"set1\""
+              "raw": "\"set1\"",
+              "loneSurrogates": false
             }
           },
           "function": {

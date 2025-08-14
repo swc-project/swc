@@ -300,7 +300,8 @@
                         "end": 154
                       },
                       "value": "foo",
-                      "raw": "\"foo\""
+                      "raw": "\"foo\"",
+                      "loneSurrogates": false
                     }
                   }
                 },
@@ -400,7 +401,8 @@
                         "end": 192
                       },
                       "value": "bar",
-                      "raw": "\"bar\""
+                      "raw": "\"bar\"",
+                      "loneSurrogates": false
                     }
                   }
                 },
