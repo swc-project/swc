@@ -376,7 +376,8 @@
                             "end": 266
                           },
                           "value": "Unexpected node.",
-                          "raw": "\"Unexpected node.\""
+                          "raw": "\"Unexpected node.\"",
+                          "loneSurrogates": false
                         }
                       }
                     },

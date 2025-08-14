@@ -49,7 +49,8 @@
                     "end": 38
                   },
                   "value": "ABC",
-                  "raw": "\"ABC\""
+                  "raw": "\"ABC\"",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -122,7 +123,8 @@
                     "end": 73
                   },
                   "value": "DE\nF",
-                  "raw": "\"DE\\nF\""
+                  "raw": "\"DE\\nF\"",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -195,7 +197,8 @@
                     "end": 106
                   },
                   "value": "G\"HI",
-                  "raw": "'G\"HI'"
+                  "raw": "'G\"HI'",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -249,7 +252,8 @@
                     "end": 133
                   },
                   "value": "JK`L",
-                  "raw": "\"JK`L\""
+                  "raw": "\"JK`L\"",
+                  "loneSurrogates": false
                 }
               }
             }

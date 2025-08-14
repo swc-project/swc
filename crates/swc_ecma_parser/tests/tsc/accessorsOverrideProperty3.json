@@ -113,7 +113,8 @@
               "end": 144
             },
             "value": "grrr",
-            "raw": "'grrr'"
+            "raw": "'grrr'",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": false,

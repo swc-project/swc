@@ -38,7 +38,8 @@
               "end": 93
             },
             "value": "w",
-            "raw": "\"w\""
+            "raw": "\"w\"",
+            "loneSurrogates": false
           },
           "value": null,
           "typeAnnotation": {
@@ -76,7 +77,8 @@
               "end": 116
             },
             "value": "x",
-            "raw": "\"x\""
+            "raw": "\"x\"",
+            "loneSurrogates": false
           },
           "value": {
             "type": "NumericLiteral",
@@ -108,7 +110,8 @@
               "end": 145
             },
             "value": "y",
-            "raw": "\"y\""
+            "raw": "\"y\"",
+            "loneSurrogates": false
           },
           "value": null,
           "typeAnnotation": {
@@ -146,7 +149,8 @@
               "end": 175
             },
             "value": "z",
-            "raw": "\"z\""
+            "raw": "\"z\"",
+            "loneSurrogates": false
           },
           "value": {
             "type": "NumericLiteral",

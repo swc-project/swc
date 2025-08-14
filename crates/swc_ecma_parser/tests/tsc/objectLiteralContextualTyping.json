@@ -333,7 +333,8 @@
                           "end": 550
                         },
                         "value": "Sprocket",
-                        "raw": "\"Sprocket\""
+                        "raw": "\"Sprocket\"",
+                        "loneSurrogates": false
                       }
                     }
                   ]
@@ -463,7 +464,8 @@
                           "end": 601
                         },
                         "value": "Sprocket",
-                        "raw": "\"Sprocket\""
+                        "raw": "\"Sprocket\"",
+                        "loneSurrogates": false
                       }
                     },
                     {
@@ -483,7 +485,8 @@
                           "end": 629
                         },
                         "value": "Bumpy wheel",
-                        "raw": "\"Bumpy wheel\""
+                        "raw": "\"Bumpy wheel\"",
+                        "loneSurrogates": false
                       }
                     }
                   ]
@@ -613,7 +616,8 @@
                           "end": 680
                         },
                         "value": "Sprocket",
-                        "raw": "\"Sprocket\""
+                        "raw": "\"Sprocket\"",
+                        "loneSurrogates": false
                       }
                     },
                     {

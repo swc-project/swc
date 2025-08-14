@@ -39,7 +39,8 @@
               "end": 43
             },
             "value": "sausages",
-            "raw": "\"sausages\""
+            "raw": "\"sausages\"",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -291,7 +292,8 @@
             "end": 303
           },
           "value": "./file3",
-          "raw": "'./file3'"
+          "raw": "'./file3'",
+          "loneSurrogates": false
         }
       }
     },

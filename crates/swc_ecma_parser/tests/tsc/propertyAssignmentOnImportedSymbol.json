@@ -85,7 +85,8 @@
           "end": 152
         },
         "value": "./mod1",
-        "raw": "'./mod1'"
+        "raw": "'./mod1'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

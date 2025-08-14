@@ -146,7 +146,8 @@
                   "end": 105
                 },
                 "value": "nonsense",
-                "raw": "\"nonsense\""
+                "raw": "\"nonsense\"",
+                "loneSurrogates": false
               }
             }
           }

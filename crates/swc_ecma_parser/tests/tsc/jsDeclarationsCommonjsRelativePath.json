@@ -18,7 +18,8 @@
           "end": 127
         },
         "value": "use strict",
-        "raw": "'use strict'"
+        "raw": "'use strict'",
+        "loneSurrogates": false
       }
     },
     {
@@ -119,7 +120,8 @@
           "end": 210
         },
         "value": "use strict",
-        "raw": "'use strict'"
+        "raw": "'use strict'",
+        "loneSurrogates": false
       }
     },
     {
@@ -182,7 +184,8 @@
                       "end": 243
                     },
                     "value": "./thing",
-                    "raw": "'./thing'"
+                    "raw": "'./thing'",
+                    "loneSurrogates": false
                   }
                 }
               ],

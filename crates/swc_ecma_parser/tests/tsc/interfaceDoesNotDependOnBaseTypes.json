@@ -99,7 +99,8 @@
             "end": 45
           },
           "value": "string",
-          "raw": "\"string\""
+          "raw": "\"string\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -158,7 +159,8 @@
                       "end": 62
                     },
                     "value": "",
-                    "raw": "\"\""
+                    "raw": "\"\"",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -222,7 +224,8 @@
                             "end": 79
                           },
                           "value": "",
-                          "raw": "\"\""
+                          "raw": "\"\"",
+                          "loneSurrogates": false
                         }
                       }
                     ]

@@ -509,7 +509,8 @@
               "end": 358
             },
             "value": "1",
-            "raw": "'1'"
+            "raw": "'1'",
+            "loneSurrogates": false
           },
           "value": null,
           "typeAnnotation": {
@@ -587,7 +588,8 @@
               "end": 406
             },
             "value": "1",
-            "raw": "'1'"
+            "raw": "'1'",
+            "loneSurrogates": false
           },
           "value": null,
           "typeAnnotation": {

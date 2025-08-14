@@ -134,7 +134,8 @@
           "end": 251
         },
         "value": "./exports.js",
-        "raw": "\"./exports.js\""
+        "raw": "\"./exports.js\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -193,7 +194,8 @@
           "end": 345
         },
         "value": "./exports.js",
-        "raw": "\"./exports.js\""
+        "raw": "\"./exports.js\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

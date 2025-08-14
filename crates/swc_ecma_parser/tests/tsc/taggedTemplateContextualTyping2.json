@@ -1305,7 +1305,8 @@
                 "end": 807
               },
               "value": "hello",
-              "raw": "\"hello\""
+              "raw": "\"hello\"",
+              "loneSurrogates": false
             }
           ],
           "quasis": [
@@ -1518,7 +1519,8 @@
                 "end": 899
               },
               "value": "hello",
-              "raw": "\"hello\""
+              "raw": "\"hello\"",
+              "loneSurrogates": false
             }
           ],
           "quasis": [

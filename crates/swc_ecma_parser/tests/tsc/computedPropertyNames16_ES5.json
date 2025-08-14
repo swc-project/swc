@@ -577,7 +577,8 @@
                 "end": 224
               },
               "value": "",
-              "raw": "\"\""
+              "raw": "\"\"",
+              "loneSurrogates": false
             }
           },
           "function": {

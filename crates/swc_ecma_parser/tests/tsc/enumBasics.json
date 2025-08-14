@@ -798,7 +798,8 @@
                 "end": 628
               },
               "value": "foo",
-              "raw": "'foo'"
+              "raw": "'foo'",
+              "loneSurrogates": false
             },
             "property": {
               "type": "Identifier",
@@ -883,7 +884,8 @@
                 "end": 658
               },
               "value": "foo",
-              "raw": "'foo'"
+              "raw": "'foo'",
+              "loneSurrogates": false
             }
           }
         }
@@ -981,7 +983,8 @@
                 "end": 754
               },
               "value": "foo",
-              "raw": "'foo'"
+              "raw": "'foo'",
+              "loneSurrogates": false
             },
             "property": {
               "type": "Identifier",
@@ -1209,7 +1212,8 @@
                 "end": 1039
               },
               "value": "foo",
-              "raw": "'foo'"
+              "raw": "'foo'",
+              "loneSurrogates": false
             },
             "property": {
               "type": "Computed",
@@ -1224,7 +1228,8 @@
                   "end": 1045
                 },
                 "value": "foo",
-                "raw": "'foo'"
+                "raw": "'foo'",
+                "loneSurrogates": false
               }
             }
           }
@@ -1279,7 +1284,8 @@
                 "end": 1129
               },
               "value": "foo",
-              "raw": "'foo'"
+              "raw": "'foo'",
+              "loneSurrogates": false
             },
             "property": {
               "type": "Computed",
@@ -1294,7 +1300,8 @@
                   "end": 1135
                 },
                 "value": "foo",
-                "raw": "'foo'"
+                "raw": "'foo'",
+                "loneSurrogates": false
               }
             }
           }

@@ -2631,7 +2631,8 @@
                     "end": 2107
                   },
                   "value": "string",
-                  "raw": "\"string\""
+                  "raw": "\"string\"",
+                  "loneSurrogates": false
                 }
               },
               "right": {
@@ -2666,7 +2667,8 @@
                     "end": 2132
                   },
                   "value": "number",
-                  "raw": "\"number\""
+                  "raw": "\"number\"",
+                  "loneSurrogates": false
                 }
               }
             },
@@ -3308,7 +3310,8 @@
                   "end": 2590
                 },
                 "value": "hello",
-                "raw": "\"hello\""
+                "raw": "\"hello\"",
+                "loneSurrogates": false
               }
             }
           },

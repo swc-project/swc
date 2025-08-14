@@ -243,7 +243,8 @@
                       "end": 102
                     },
                     "value": "abc0abc",
-                    "raw": "\"abc0abc\""
+                    "raw": "\"abc0abc\"",
+                    "loneSurrogates": false
                   }
                 }
               },
@@ -261,7 +262,8 @@
                     "end": 123
                   },
                   "value": "abc0abc",
-                  "raw": "\"abc0abc\""
+                  "raw": "\"abc0abc\"",
+                  "loneSurrogates": false
                 },
                 "right": {
                   "type": "TemplateLiteral",

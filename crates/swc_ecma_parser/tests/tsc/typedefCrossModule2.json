@@ -375,7 +375,8 @@
                     "end": 487
                   },
                   "value": "./mod1.js",
-                  "raw": "'./mod1.js'"
+                  "raw": "'./mod1.js'",
+                  "loneSurrogates": false
                 }
               }
             ],

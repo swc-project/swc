@@ -214,7 +214,8 @@
               "end": 184
             },
             "value": "method",
-            "raw": "\"method\""
+            "raw": "\"method\"",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -361,7 +362,8 @@
                               "end": 275
                             },
                             "value": "method",
-                            "raw": "\"method\""
+                            "raw": "\"method\"",
+                            "loneSurrogates": false
                           }
                         }
                       },
@@ -514,7 +516,8 @@
                               "end": 352
                             },
                             "value": "method",
-                            "raw": "\"method\""
+                            "raw": "\"method\"",
+                            "loneSurrogates": false
                           }
                         }
                       },

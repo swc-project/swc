@@ -13929,7 +13929,8 @@
                     "end": 4228
                   },
                   "value": "audio",
-                  "raw": "\"audio\""
+                  "raw": "\"audio\"",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -14023,7 +14024,8 @@
                         "end": 4293
                       },
                       "value": "audio",
-                      "raw": "\"audio\""
+                      "raw": "\"audio\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -14039,7 +14041,8 @@
                         "end": 4303
                       },
                       "value": "video",
-                      "raw": "\"video\""
+                      "raw": "\"video\"",
+                      "loneSurrogates": false
                     }
                   }
                 ]
@@ -14247,7 +14250,8 @@
                   "end": 4454
                 },
                 "value": "audio",
-                "raw": "\"audio\""
+                "raw": "\"audio\"",
+                "loneSurrogates": false
               }
             }
           ]
@@ -14315,7 +14319,8 @@
                       "end": 4516
                     },
                     "value": "audio",
-                    "raw": "\"audio\""
+                    "raw": "\"audio\"",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -14331,7 +14336,8 @@
                       "end": 4526
                     },
                     "value": "video",
-                    "raw": "\"video\""
+                    "raw": "\"video\"",
+                    "loneSurrogates": false
                   }
                 }
               ]

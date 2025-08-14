@@ -101,7 +101,8 @@
                         "end": 52
                       },
                       "value": "bad",
-                      "raw": "\"bad\""
+                      "raw": "\"bad\"",
+                      "loneSurrogates": false
                     }
                   }
                 }

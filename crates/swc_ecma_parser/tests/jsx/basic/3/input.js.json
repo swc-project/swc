@@ -70,7 +70,8 @@
                   "end": 15
                 },
                 "value": "bar",
-                "raw": "\"bar\""
+                "raw": "\"bar\"",
+                "loneSurrogates": false
               }
             }
           ],

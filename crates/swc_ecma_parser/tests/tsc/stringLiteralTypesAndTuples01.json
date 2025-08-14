@@ -92,7 +92,8 @@
                     "end": 94
                   },
                   "value": "Hello",
-                  "raw": "\"Hello\""
+                  "raw": "\"Hello\"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -104,7 +105,8 @@
                     "end": 103
                   },
                   "value": "Brave",
-                  "raw": "\"Brave\""
+                  "raw": "\"Brave\"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -116,7 +118,8 @@
                     "end": 110
                   },
                   "value": "New",
-                  "raw": "\"New\""
+                  "raw": "\"New\"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -128,7 +131,8 @@
                     "end": 119
                   },
                   "value": "World",
-                  "raw": "\"World\""
+                  "raw": "\"World\"",
+                  "loneSurrogates": false
                 }
               }
             ]
@@ -175,7 +179,8 @@
                 "end": 149
               },
               "value": "t-rex",
-              "raw": "\"t-rex\""
+              "raw": "\"t-rex\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -191,7 +196,8 @@
                 "end": 160
               },
               "value": "raptor",
-              "raw": "\"raptor\""
+              "raw": "\"raptor\"",
+              "loneSurrogates": false
             }
           }
         ]
@@ -288,7 +294,8 @@
                           "end": 190
                         },
                         "value": "I'm",
-                        "raw": "\"I'm\""
+                        "raw": "\"I'm\"",
+                        "loneSurrogates": false
                       }
                     }
                   },
@@ -312,7 +319,8 @@
                           "end": 195
                         },
                         "value": "a",
-                        "raw": "\"a\""
+                        "raw": "\"a\"",
+                        "loneSurrogates": false
                       }
                     }
                   },
@@ -362,7 +370,8 @@
                     "end": 219
                   },
                   "value": "I'm",
-                  "raw": "'I\\'m'"
+                  "raw": "'I\\'m'",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -374,7 +383,8 @@
                     "end": 224
                   },
                   "value": "a",
-                  "raw": "'a'"
+                  "raw": "'a'",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -386,7 +396,8 @@
                     "end": 233
                   },
                   "value": "t-rex",
-                  "raw": "'t-rex'"
+                  "raw": "'t-rex'",
+                  "loneSurrogates": false
                 }
               }
             ]
@@ -538,7 +549,8 @@
                   "end": 313
                 },
                 "value": "t-rex",
-                "raw": "\"t-rex\""
+                "raw": "\"t-rex\"",
+                "loneSurrogates": false
               }
             },
             "consequent": {
@@ -562,7 +574,8 @@
                       "end": 342
                     },
                     "value": "ROAAAAR!",
-                    "raw": "\"ROAAAAR!\""
+                    "raw": "\"ROAAAAR!\"",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -599,7 +612,8 @@
                   "end": 375
                 },
                 "value": "raptor",
-                "raw": "\"raptor\""
+                "raw": "\"raptor\"",
+                "loneSurrogates": false
               }
             },
             "consequent": {
@@ -623,7 +637,8 @@
                       "end": 404
                     },
                     "value": "yip yip!",
-                    "raw": "\"yip yip!\""
+                    "raw": "\"yip yip!\"",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -650,7 +665,8 @@
                   "end": 436
                 },
                 "value": "Unexpected ",
-                "raw": "\"Unexpected \""
+                "raw": "\"Unexpected \"",
+                "loneSurrogates": false
               },
               "right": {
                 "type": "Identifier",

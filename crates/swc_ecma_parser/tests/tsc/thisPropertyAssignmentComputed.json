@@ -51,7 +51,8 @@
                   "end": 127
                 },
                 "value": "a",
-                "raw": "\"a\""
+                "raw": "\"a\"",
+                "loneSurrogates": false
               },
               "right": {
                 "type": "StringLiteral",
@@ -60,7 +61,8 @@
                   "end": 133
                 },
                 "value": "b",
-                "raw": "\"b\""
+                "raw": "\"b\"",
+                "loneSurrogates": false
               }
             }
           }

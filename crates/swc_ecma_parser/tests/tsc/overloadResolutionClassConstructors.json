@@ -965,7 +965,8 @@
                     "end": 863
                   },
                   "value": "",
-                  "raw": "''"
+                  "raw": "''",
+                  "loneSurrogates": false
                 }
               }
             ],
@@ -1008,7 +1009,8 @@
                 "end": 1004
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           },
           {
@@ -1086,7 +1088,8 @@
                 "end": 1151
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           },
           {
@@ -1661,7 +1664,8 @@
                 "end": 1402
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           },
           {
@@ -1685,7 +1689,8 @@
                 "end": 1409
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           }
         ],
@@ -1845,7 +1850,8 @@
                 "end": 1599
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           },
           {
@@ -1857,7 +1863,8 @@
                 "end": 1603
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           },
           {
@@ -1869,7 +1876,8 @@
                 "end": 1607
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           }
         ],
@@ -1933,7 +1941,8 @@
                 "end": 1654
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           },
           {
@@ -1945,7 +1954,8 @@
                 "end": 1658
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           },
           {
@@ -2324,7 +2334,8 @@
                 "end": 2045
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           },
           {
@@ -2412,7 +2423,8 @@
                 "end": 2080
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           }
         ],
@@ -2476,7 +2488,8 @@
                 "end": 2118
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           },
           {
@@ -2564,7 +2577,8 @@
                 "end": 2162
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           }
         ],
@@ -2628,7 +2642,8 @@
                 "end": 2297
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           },
           {
@@ -2692,7 +2707,8 @@
                 "end": 2316
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           }
         ],
@@ -2785,7 +2801,8 @@
                 "end": 2370
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           },
           {

@@ -3062,7 +3062,8 @@
                   "end": 1316
                 },
                 "value": "",
-                "raw": "''"
+                "raw": "''",
+                "loneSurrogates": false
               }
             }
           },

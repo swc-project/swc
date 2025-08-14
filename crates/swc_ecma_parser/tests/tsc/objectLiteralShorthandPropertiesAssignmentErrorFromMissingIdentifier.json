@@ -107,7 +107,8 @@
               "end": 66
             },
             "value": "my name",
-            "raw": "\"my name\""
+            "raw": "\"my name\"",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -932,7 +933,8 @@
                     "end": 429
                   },
                   "value": "hello",
-                  "raw": "\"hello\""
+                  "raw": "\"hello\"",
+                  "loneSurrogates": false
                 }
               },
               {

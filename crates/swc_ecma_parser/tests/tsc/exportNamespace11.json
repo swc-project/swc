@@ -37,7 +37,8 @@
           "end": 69
         },
         "value": "./intermediate",
-        "raw": "'./intermediate'"
+        "raw": "'./intermediate'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -161,7 +162,8 @@
           "end": 188
         },
         "value": "./ghost",
-        "raw": "'./ghost'"
+        "raw": "'./ghost'",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null

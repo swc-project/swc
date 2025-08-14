@@ -39,7 +39,8 @@
               "end": 86
             },
             "value": "zh-CN",
-            "raw": "\"zh-CN\""
+            "raw": "\"zh-CN\"",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -278,7 +279,8 @@
                         "end": 180
                       },
                       "value": "./locales/",
-                      "raw": "\"./locales/\""
+                      "raw": "\"./locales/\"",
+                      "loneSurrogates": false
                     },
                     "right": {
                       "type": "Identifier",
@@ -298,7 +300,8 @@
                       "end": 201
                     },
                     "value": ".js",
-                    "raw": "\".js\""
+                    "raw": "\".js\"",
+                    "loneSurrogates": false
                   }
                 }
               }

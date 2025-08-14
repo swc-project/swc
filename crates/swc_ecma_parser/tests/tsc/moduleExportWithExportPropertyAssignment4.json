@@ -221,7 +221,8 @@
             "end": 264
           },
           "value": "string",
-          "raw": "'string'"
+          "raw": "'string'",
+          "loneSurrogates": false
         }
       }
     },
@@ -563,7 +564,8 @@
             "end": 401
           },
           "value": "string",
-          "raw": "'string'"
+          "raw": "'string'",
+          "loneSurrogates": false
         }
       }
     },
@@ -627,7 +629,8 @@
             "end": 440
           },
           "value": "string",
-          "raw": "'string'"
+          "raw": "'string'",
+          "loneSurrogates": false
         }
       }
     },
@@ -685,7 +688,8 @@
                     "end": 529
                   },
                   "value": "./mod1",
-                  "raw": "'./mod1'"
+                  "raw": "'./mod1'",
+                  "loneSurrogates": false
                 }
               }
             ],

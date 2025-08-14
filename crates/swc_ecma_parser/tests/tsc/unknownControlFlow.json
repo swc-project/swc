@@ -95,7 +95,8 @@
                 "end": 100
               },
               "value": "a",
-              "raw": "'a'"
+              "raw": "'a'",
+              "loneSurrogates": false
             }
           }
         ]
@@ -3897,7 +3898,8 @@
                   "end": 3057
                 },
                 "value": "object",
-                "raw": "\"object\""
+                "raw": "\"object\"",
+                "loneSurrogates": false
               }
             },
             "consequent": {
@@ -4046,7 +4048,8 @@
                   "end": 3145
                 },
                 "value": "object",
-                "raw": "\"object\""
+                "raw": "\"object\"",
+                "loneSurrogates": false
               }
             },
             "consequent": {
@@ -4133,7 +4136,8 @@
                     "end": 3226
                   },
                   "value": "object",
-                  "raw": "\"object\""
+                  "raw": "\"object\"",
+                  "loneSurrogates": false
                 }
               }
             },
@@ -4211,7 +4215,8 @@
                     "end": 3291
                   },
                   "value": "object",
-                  "raw": "\"object\""
+                  "raw": "\"object\"",
+                  "loneSurrogates": false
                 }
               },
               "right": {
@@ -4401,7 +4406,8 @@
                   "end": 3411
                 },
                 "value": "object",
-                "raw": "\"object\""
+                "raw": "\"object\"",
+                "loneSurrogates": false
               }
             },
             "consequent": {
@@ -7051,7 +7057,8 @@
                         "end": 5087
                       },
                       "value": "object",
-                      "raw": "'object'"
+                      "raw": "'object'",
+                      "loneSurrogates": false
                     }
                   },
                   "right": {
@@ -7086,7 +7093,8 @@
                         "end": 5112
                       },
                       "value": "object",
-                      "raw": "'object'"
+                      "raw": "'object'",
+                      "loneSurrogates": false
                     }
                   }
                 },
@@ -8685,7 +8693,8 @@
                 "end": 5995
               },
               "value": "foo",
-              "raw": "'foo'"
+              "raw": "'foo'",
+              "loneSurrogates": false
             }
           }
         ],
@@ -8735,7 +8744,8 @@
                 "end": 6023
               },
               "value": "foo",
-              "raw": "'foo'"
+              "raw": "'foo'",
+              "loneSurrogates": false
             }
           }
         ],
@@ -8785,7 +8795,8 @@
                 "end": 6051
               },
               "value": "foo",
-              "raw": "'foo'"
+              "raw": "'foo'",
+              "loneSurrogates": false
             }
           }
         ],
@@ -8835,7 +8846,8 @@
                 "end": 6069
               },
               "value": "foo",
-              "raw": "'foo'"
+              "raw": "'foo'",
+              "loneSurrogates": false
             }
           }
         ],
@@ -11047,7 +11059,8 @@
                     "end": 7694
                   },
                   "value": "utf8",
-                  "raw": "'utf8'"
+                  "raw": "'utf8'",
+                  "loneSurrogates": false
                 }
               }
             },
@@ -11092,7 +11105,8 @@
                             "end": 7732
                           },
                           "value": "encoding",
-                          "raw": "'encoding'"
+                          "raw": "'encoding'",
+                          "loneSurrogates": false
                         }
                       }
                     ],
@@ -11343,7 +11357,8 @@
                             "end": 7941
                           },
                           "value": "Meaning of life value",
-                          "raw": "'Meaning of life value'"
+                          "raw": "'Meaning of life value'",
+                          "loneSurrogates": false
                         }
                       }
                     ],
@@ -11701,7 +11716,8 @@
                     "end": 8165
                   },
                   "value": "A",
-                  "raw": "'A'"
+                  "raw": "'A'",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -11744,7 +11760,8 @@
                     "end": 8177
                   },
                   "value": "B",
-                  "raw": "'B'"
+                  "raw": "'B'",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -11815,7 +11832,8 @@
                     "end": 8207
                   },
                   "value": "A",
-                  "raw": "'A'"
+                  "raw": "'A'",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -11858,7 +11876,8 @@
                     "end": 8219
                   },
                   "value": "B",
-                  "raw": "'B'"
+                  "raw": "'B'",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -11901,7 +11920,8 @@
                     "end": 8231
                   },
                   "value": "C",
-                  "raw": "'C'"
+                  "raw": "'C'",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -12490,7 +12510,8 @@
                 "end": 8486
               },
               "value": "A",
-              "raw": "\"A\""
+              "raw": "\"A\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -12506,7 +12527,8 @@
                 "end": 8492
               },
               "value": "B",
-              "raw": "\"B\""
+              "raw": "\"B\"",
+              "loneSurrogates": false
             }
           }
         ]
@@ -12816,7 +12838,8 @@
             "end": 8641
           },
           "value": "left",
-          "raw": "'left'"
+          "raw": "'left'",
+          "loneSurrogates": false
         }
       }
     },
@@ -12858,7 +12881,8 @@
                 "end": 8663
               },
               "value": "right",
-              "raw": "'right'"
+              "raw": "'right'",
+              "loneSurrogates": false
             }
           },
           {
@@ -12906,7 +12930,8 @@
                         "end": 8682
                       },
                       "value": "right",
-                      "raw": "'right'"
+                      "raw": "'right'",
+                      "loneSurrogates": false
                     }
                   }
                 }
@@ -13075,7 +13100,8 @@
                       "end": 8782
                     },
                     "value": "never",
-                    "raw": "'never'"
+                    "raw": "'never'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -13205,7 +13231,8 @@
                   "end": 8843
                 },
                 "value": "left",
-                "raw": "'left'"
+                "raw": "'left'",
+                "loneSurrogates": false
               }
             },
             "consequent": {
@@ -13260,7 +13287,8 @@
                                 "end": 8872
                               },
                               "value": "left",
-                              "raw": "'left'"
+                              "raw": "'left'",
+                              "loneSurrogates": false
                             }
                           }
                         }
@@ -13311,7 +13339,8 @@
                     "end": 8918
                   },
                   "value": "right",
-                  "raw": "'right'"
+                  "raw": "'right'",
+                  "loneSurrogates": false
                 }
               },
               "consequent": {
@@ -13366,7 +13395,8 @@
                                   "end": 8948
                                 },
                                 "value": "right",
-                                "raw": "'right'"
+                                "raw": "'right'",
+                                "loneSurrogates": false
                               }
                             }
                           }

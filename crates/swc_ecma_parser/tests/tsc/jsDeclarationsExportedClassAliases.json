@@ -272,7 +272,8 @@
                     "end": 357
                   },
                   "value": "./errors",
-                  "raw": "\"./errors\""
+                  "raw": "\"./errors\"",
+                  "loneSurrogates": false
                 }
               }
             ],

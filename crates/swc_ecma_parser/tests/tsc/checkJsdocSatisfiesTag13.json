@@ -167,7 +167,8 @@
                     "end": 252
                   },
                   "value": "oops",
-                  "raw": "\"oops\""
+                  "raw": "\"oops\"",
+                  "loneSurrogates": false
                 }
               }
             ]

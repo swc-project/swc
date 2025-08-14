@@ -39,7 +39,8 @@
               "end": 195
             },
             "value": " STRING_CONTENT ",
-            "raw": "\" STRING_CONTENT \""
+            "raw": "\" STRING_CONTENT \"",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -79,7 +80,8 @@
               "end": 270
             },
             "value": " STRING_CONTENT ",
-            "raw": "\" STRING_CONTENT \""
+            "raw": "\" STRING_CONTENT \"",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -119,7 +121,8 @@
               "end": 342
             },
             "value": " STRING_CONTENT ",
-            "raw": "' STRING_CONTENT '"
+            "raw": "' STRING_CONTENT '",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -159,7 +162,8 @@
               "end": 417
             },
             "value": " STRING_CONTENT ",
-            "raw": "' STRING_CONTENT '"
+            "raw": "' STRING_CONTENT '",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -310,7 +314,8 @@
                     "end": 662
                   },
                   "value": "  STRING_CONTENT  ",
-                  "raw": "\"  STRING_CONTENT  \""
+                  "raw": "\"  STRING_CONTENT  \"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -322,7 +327,8 @@
                     "end": 702
                   },
                   "value": "   STRING_CONTENT   ",
-                  "raw": "\"   STRING_CONTENT   \""
+                  "raw": "\"   STRING_CONTENT   \"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -334,7 +340,8 @@
                     "end": 727
                   },
                   "value": "STRING_CONTENT ",
-                  "raw": "\"STRING_CONTENT \""
+                  "raw": "\"STRING_CONTENT \"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -346,7 +353,8 @@
                     "end": 752
                   },
                   "value": " STRING_CONTENT",
-                  "raw": "\" STRING_CONTENT\""
+                  "raw": "\" STRING_CONTENT\"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -381,7 +389,8 @@
                     "end": 775
                   },
                   "value": " ",
-                  "raw": "' '"
+                  "raw": "' '",
+                  "loneSurrogates": false
                 }
               }
             ]
