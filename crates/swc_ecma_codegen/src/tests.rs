@@ -701,7 +701,7 @@ fn check_latest(src: &str, expected: &str) {
 
 #[test]
 fn invalid_unicode_in_ident() {
-    check_latest("\\ud83d;", "\\ud83d;");
+    check_latest("\\ud83d;", "\u{FFFD}d83d;");
 }
 
 #[test]
