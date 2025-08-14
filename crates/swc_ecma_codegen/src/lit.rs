@@ -390,12 +390,9 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
     // Add 1 for each escaped quote
     let capacity = v.len() + escape_count;
     let mut buf = CompactString::with_capacity(capacity);
-    // dbg!(&v);
 
-    dbg!(v.chars().collect::<Vec<_>>());
     let mut iter = v.chars().peekable();
     while let Some(c) = iter.next() {
-        // dbg!(&c);
         match c {
             '\x00' => {
                 if target < EsVersion::Es5 || matches!(iter.peek(), Some('0'..='9')) {
@@ -411,112 +408,22 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
             '\u{000b}' => buf.push_str("\\v"),
             '\t' => buf.push('\t'),
             '\\' => {
-                dbg!(c);
                 buf.push_str("\\\\");
-                // let next = iter.peek();
-                // dbg!(next);
-                // match next {
-                //     Some('u') => {
-                //         let mut inner_iter = iter.clone();
-                //         inner_iter.next();
-                //
-                //         let mut is_curly = false;
-                //         let mut next = inner_iter.peek();
-                //
-                //         if next == Some(&'{') {
-                //             is_curly = true;
-                //             inner_iter.next();
-                //             next = inner_iter.peek();
-                //         } else if next != Some(&'D') && next != Some(&'d') {
-                //             buf.push('\\');
-                //         }
-                //
-                //         if let Some(c @ 'D' | c @ 'd') = next {
-                //             let mut inner_buf = String::with_capacity(8);
-                //             inner_buf.push('\\');
-                //             inner_buf.push('u');
-                //
-                //             if is_curly {
-                //                 inner_buf.push('{');
-                //             }
-                //
-                //             inner_buf.push(*c);
-                //             inner_iter.next();
-                //
-                //             let mut is_valid = true;
-                //             for _ in 0..3 {
-                //                 match inner_iter.next() {
-                //                     Some(c @ '0'..='9') | Some(c @ 'a'..='f')
-                //                     | Some(c @ 'A'..='F') => {
-                //                         inner_buf.push(c);
-                //                     }
-                //                     _ => {
-                //                         is_valid = false;
-                //                         break;
-                //                     }
-                //                 }
-                //             }
-                //
-                //             if is_curly {
-                //                 inner_buf.push('}');
-                //             }
-                //
-                //             let range = if is_curly {
-                //                 3..(inner_buf.len() - 1)
-                //             } else {
-                //                 2..6
-                //             };
-                //
-                //             if is_valid {
-                //                 let val_str = &inner_buf[range];
-                //                 if let Ok(v) = u32::from_str_radix(val_str,
-                // 16) {                     if v > 0xffff {
-                //     buf.push_str(&inner_buf); let end = if is_curly { 7 }
-                //     else { 5
-                // };                         for _ in 0..end {
-                //                             iter.next();
-                //                         }
-                //                     } else if (0xd800..=0xdfff).contains(&v)
-                // {                         buf.push('\\');
-                //                     } else {
-                //                         buf.push_str("\\\\");
-                //                     }
-                //                 } else {
-                //                     buf.push_str("\\\\");
-                //                 }
-                //             } else {
-                //                 buf.push_str("\\\\");
-                //             }
-                //         } else if is_curly {
-                //             buf.push_str("\\\\");
-                //         } else {
-                //             buf.push('\\');
-                //         }
-                //     }
-                //     _ => buf.push_str("\\\\"),
-                // }
             }
             c if c == escape_char => {
-                dbg!(c);
                 buf.push('\\');
                 buf.push(c);
             }
             '\x01'..='\x0f' => {
-                dbg!(c);
                 buf.push_str("\\x0");
                 write!(&mut buf, "{:x}", c as u8).unwrap();
             }
             '\x10'..='\x1f' => {
-                dbg!(c);
                 buf.push_str("\\x");
                 write!(&mut buf, "{:x}", c as u8).unwrap();
             }
-            '\x20'..='\x7e' => {
-                dbg!(c);
-                buf.push(c)
-            }
+            '\x20'..='\x7e' => buf.push(c),
             '\u{7f}'..='\u{ff}' => {
-                dbg!(c);
                 if ascii_only || target <= EsVersion::Es5 {
                     buf.push_str("\\x");
                     write!(&mut buf, "{:x}", c as u8).unwrap();
@@ -528,7 +435,6 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
             '\u{2029}' => buf.push_str("\\u2029"),
             '\u{FEFF}' => buf.push_str("\\uFEFF"),
             c => {
-                dbg!(c, c > '\u{FFFF}', ascii_only);
                 if c.is_ascii() {
                     buf.push(c);
                 } else if c > '\u{FFFF}' {
@@ -549,8 +455,6 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
             }
         }
     }
-
-    dbg!(buf.to_string());
 
     (quote_char, CowStr::Owned(buf))
 }
