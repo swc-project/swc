@@ -25,3 +25,18 @@ class Foo {
         _computedKey1
     ]
 ], []));
+var __ = {
+    writable: true,
+    value: [_initProto] = _apply_decs_2203_r(Foo, [
+        [
+            dec,
+            2,
+            _computedKey
+        ],
+        [
+            dec,
+            2,
+            _computedKey1
+        ]
+    ], []).e
+};
