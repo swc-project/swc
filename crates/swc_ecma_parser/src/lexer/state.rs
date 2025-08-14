@@ -566,9 +566,6 @@ impl Lexer<'_> {
                         self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
                     }
                 }
-                // for c in chars {
-                //     v.extend(c);
-                // }
                 self.token_flags |= swc_ecma_lexer::lexer::TokenFlags::UNICODE;
             } else {
                 break;
