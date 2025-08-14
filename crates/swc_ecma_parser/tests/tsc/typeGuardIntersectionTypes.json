@@ -1887,7 +1887,8 @@
                     "end": 1107
                   },
                   "value": "number",
-                  "raw": "'number'"
+                  "raw": "'number'",
+                  "loneSurrogates": false
                 }
               }
             }

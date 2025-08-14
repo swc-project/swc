@@ -329,7 +329,8 @@
                     "end": 311
                   },
                   "value": "./commonJSAliasedExport",
-                  "raw": "'./commonJSAliasedExport'"
+                  "raw": "'./commonJSAliasedExport'",
+                  "loneSurrogates": false
                 }
               }
             ],

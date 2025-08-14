@@ -1369,7 +1369,8 @@
                                 "end": 589
                               },
                               "value": "hello",
-                              "raw": "\"hello\""
+                              "raw": "\"hello\"",
+                              "loneSurrogates": false
                             }
                           }
                         ]

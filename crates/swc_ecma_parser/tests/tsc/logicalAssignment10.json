@@ -322,7 +322,8 @@
                   "end": 175
                 },
                 "value": "obj",
-                "raw": "\"obj\""
+                "raw": "\"obj\"",
+                "loneSurrogates": false
               }
             }
           },

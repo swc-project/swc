@@ -18,7 +18,8 @@
           "end": 163
         },
         "value": "a.js",
-        "raw": "\"a.js\""
+        "raw": "\"a.js\"",
+        "loneSurrogates": false
       }
     },
     {
@@ -34,7 +35,8 @@
           "end": 221
         },
         "value": "a.js.js",
-        "raw": "\"a.js.js\""
+        "raw": "\"a.js.js\"",
+        "loneSurrogates": false
       }
     },
     {
@@ -50,7 +52,8 @@
           "end": 289
         },
         "value": "dir/index.ts",
-        "raw": "\"dir/index.ts\""
+        "raw": "\"dir/index.ts\"",
+        "loneSurrogates": false
       }
     },
     {
@@ -66,7 +69,8 @@
           "end": 345
         },
         "value": "dir.js",
-        "raw": "\"dir.js\""
+        "raw": "\"dir.js\"",
+        "loneSurrogates": false
       }
     },
     {
@@ -101,7 +105,8 @@
           "end": 398
         },
         "value": "./a.js",
-        "raw": "\"./a.js\""
+        "raw": "\"./a.js\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -139,7 +144,8 @@
           "end": 423
         },
         "value": "./dir",
-        "raw": "\"./dir\""
+        "raw": "\"./dir\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

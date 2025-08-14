@@ -115,7 +115,8 @@
                 "end": 52
               },
               "value": "AM",
-              "raw": "\"AM\""
+              "raw": "\"AM\"",
+              "loneSurrogates": false
             }
           ],
           "quasis": [

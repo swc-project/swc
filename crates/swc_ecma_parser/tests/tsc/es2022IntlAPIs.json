@@ -54,7 +54,8 @@
                       "end": 189
                     },
                     "value": "short",
-                    "raw": "'short'"
+                    "raw": "'short'",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -66,7 +67,8 @@
                       "end": 197
                     },
                     "value": "long",
-                    "raw": "'long'"
+                    "raw": "'long'",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -78,7 +80,8 @@
                       "end": 212
                     },
                     "value": "shortOffset",
-                    "raw": "'shortOffset'"
+                    "raw": "'shortOffset'",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -90,7 +93,8 @@
                       "end": 226
                     },
                     "value": "longOffset",
-                    "raw": "'longOffset'"
+                    "raw": "'longOffset'",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -102,7 +106,8 @@
                       "end": 242
                     },
                     "value": "shortGeneric",
-                    "raw": "'shortGeneric'"
+                    "raw": "'shortGeneric'",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -114,7 +119,8 @@
                       "end": 257
                     },
                     "value": "longGeneric",
-                    "raw": "'longGeneric'"
+                    "raw": "'longGeneric'",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -250,7 +256,8 @@
                           "end": 358
                         },
                         "value": "en-US",
-                        "raw": "'en-US'"
+                        "raw": "'en-US'",
+                        "loneSurrogates": false
                       }
                     },
                     {
@@ -279,7 +286,8 @@
                                 "end": 397
                               },
                               "value": "America/Los_Angeles",
-                              "raw": "'America/Los_Angeles'"
+                              "raw": "'America/Los_Angeles'",
+                              "loneSurrogates": false
                             }
                           },
                           {
@@ -365,7 +373,8 @@
                       "end": 471
                     },
                     "value": "calendar",
-                    "raw": "'calendar'"
+                    "raw": "'calendar'",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -377,7 +386,8 @@
                       "end": 484
                     },
                     "value": "collation",
-                    "raw": "'collation'"
+                    "raw": "'collation'",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -389,7 +399,8 @@
                       "end": 496
                     },
                     "value": "currency",
-                    "raw": "'currency'"
+                    "raw": "'currency'",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -401,7 +412,8 @@
                       "end": 515
                     },
                     "value": "numberingSystem",
-                    "raw": "'numberingSystem'"
+                    "raw": "'numberingSystem'",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -413,7 +425,8 @@
                       "end": 527
                     },
                     "value": "timeZone",
-                    "raw": "'timeZone'"
+                    "raw": "'timeZone'",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -425,7 +438,8 @@
                       "end": 535
                     },
                     "value": "unit",
-                    "raw": "'unit'"
+                    "raw": "'unit'",
+                    "loneSurrogates": false
                   }
                 }
               ]

@@ -262,7 +262,8 @@
                               "end": 215
                             },
                             "value": "method",
-                            "raw": "\"method\""
+                            "raw": "\"method\"",
+                            "loneSurrogates": false
                           }
                         }
                       },

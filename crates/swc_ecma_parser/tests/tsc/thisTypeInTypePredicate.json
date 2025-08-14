@@ -309,7 +309,8 @@
                         "end": 128
                       },
                       "value": "number",
-                      "raw": "'number'"
+                      "raw": "'number'",
+                      "loneSurrogates": false
                     },
                     "right": {
                       "type": "UnaryExpression",

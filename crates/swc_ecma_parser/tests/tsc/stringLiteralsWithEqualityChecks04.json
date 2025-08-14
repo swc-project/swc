@@ -249,7 +249,8 @@
                         "end": 151
                       },
                       "value": "foo",
-                      "raw": "\"foo\""
+                      "raw": "\"foo\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -417,7 +418,8 @@
               "end": 206
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",
@@ -480,7 +482,8 @@
               "end": 226
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -523,7 +526,8 @@
               "end": 237
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "StringLiteral",
@@ -532,7 +536,8 @@
               "end": 246
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -575,7 +580,8 @@
               "end": 257
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",
@@ -638,7 +644,8 @@
               "end": 278
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -691,7 +698,8 @@
               "end": 294
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -734,7 +742,8 @@
               "end": 305
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",
@@ -841,7 +850,8 @@
               "end": 334
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",
@@ -904,7 +914,8 @@
               "end": 354
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -947,7 +958,8 @@
               "end": 365
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "StringLiteral",
@@ -956,7 +968,8 @@
               "end": 374
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -999,7 +1012,8 @@
               "end": 385
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",
@@ -1062,7 +1076,8 @@
               "end": 406
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -1115,7 +1130,8 @@
               "end": 422
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -1158,7 +1174,8 @@
               "end": 433
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",

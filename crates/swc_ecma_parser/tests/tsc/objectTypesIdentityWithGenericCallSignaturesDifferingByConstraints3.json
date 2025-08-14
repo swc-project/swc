@@ -2523,7 +2523,8 @@
                           "end": 1181
                         },
                         "value": "",
-                        "raw": "''"
+                        "raw": "''",
+                        "loneSurrogates": false
                       }
                     }
                   ]

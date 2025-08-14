@@ -393,7 +393,8 @@
                     "end": 357
                   },
                   "value": "./semver",
-                  "raw": "\"./semver\""
+                  "raw": "\"./semver\"",
+                  "loneSurrogates": false
                 }
               }
             ],

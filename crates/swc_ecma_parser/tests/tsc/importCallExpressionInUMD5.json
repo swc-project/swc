@@ -52,7 +52,8 @@
                   "end": 91
                 },
                 "value": "foo",
-                "raw": "\"foo\""
+                "raw": "\"foo\"",
+                "loneSurrogates": false
               }
             }
           ]
@@ -125,7 +126,8 @@
                     "end": 223
                   },
                   "value": ".",
-                  "raw": "'.'"
+                  "raw": "'.'",
+                  "loneSurrogates": false
                 },
                 "definite": false
               }
@@ -206,7 +208,8 @@
                               "end": 291
                             },
                             "value": "/package.json",
-                            "raw": "'/package.json'"
+                            "raw": "'/package.json'",
+                            "loneSurrogates": false
                           }
                         }
                       }

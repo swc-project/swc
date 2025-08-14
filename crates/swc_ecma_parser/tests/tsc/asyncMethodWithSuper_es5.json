@@ -285,7 +285,8 @@
                             "end": 398
                           },
                           "value": "x",
-                          "raw": "\"x\""
+                          "raw": "\"x\"",
+                          "loneSurrogates": false
                         }
                       }
                     },
@@ -399,7 +400,8 @@
                               "end": 526
                             },
                             "value": "x",
-                            "raw": "\"x\""
+                            "raw": "\"x\"",
+                            "loneSurrogates": false
                           }
                         }
                       },
@@ -582,7 +584,8 @@
                             "end": 778
                           },
                           "value": "x",
-                          "raw": "\"x\""
+                          "raw": "\"x\"",
+                          "loneSurrogates": false
                         }
                       }
                     },
@@ -696,7 +699,8 @@
                               "end": 906
                             },
                             "value": "x",
-                            "raw": "\"x\""
+                            "raw": "\"x\"",
+                            "loneSurrogates": false
                           }
                         }
                       },
@@ -790,7 +794,8 @@
                             "end": 1020
                           },
                           "value": "x",
-                          "raw": "\"x\""
+                          "raw": "\"x\"",
+                          "loneSurrogates": false
                         }
                       }
                     },
@@ -953,7 +958,8 @@
                                     "end": 1191
                                   },
                                   "value": "x",
-                                  "raw": "\"x\""
+                                  "raw": "\"x\"",
+                                  "loneSurrogates": false
                                 }
                               }
                             }
