@@ -243,7 +243,7 @@ struct Optimizer<'a> {
     ctx: Ctx,
 
     mode: &'a dyn Mode,
-    r: &'a Resolver,
+    r: &'a mut Resolver,
 
     functions: Box<FxHashMap<Id, FnMetadata>>,
 }

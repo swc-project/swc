@@ -6,6 +6,15 @@ use swc_common::NodeId;
 pub(super) struct Scope {
     parent: Option<ScopeId>,
     bindings: IndexMap<Atom, NodeId>,
+    kind: ScopeKind,
+}
+
+#[derive(Debug, Default, Clone, Copy)]
+pub(super) enum ScopeKind {
+    #[default]
+    Block,
+    Fn,
+    Class,
 }
 
 impl Scope {
@@ -19,6 +28,10 @@ impl Scope {
 
     pub(super) fn parent(&self) -> Option<ScopeId> {
         self.parent
+    }
+
+    pub(super) fn kind(&self) -> ScopeKind {
+        self.kind
     }
 }
 
@@ -37,6 +50,17 @@ impl ScopeArena {
         debug_assert!(self.0.is_empty());
         self.0.push(Scope::default());
         ScopeId::ROOT
+    }
+
+    pub(super) fn alloc_new_scope(&mut self, parent: ScopeId, kind: ScopeKind) -> ScopeId {
+        debug_assert!(parent.0 < self.0.len() as u32);
+        let id = ScopeId(self.0.len() as u32);
+        self.0.push(Scope {
+            parent: Some(parent),
+            bindings: IndexMap::new(),
+            kind,
+        });
+        id
     }
 
     pub(super) fn get(&self, id: ScopeId) -> &Scope {

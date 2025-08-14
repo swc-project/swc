@@ -440,7 +440,13 @@ where
 
         if let Callee::Expr(callee) = &n.callee {
             for_each_id_ref_in_expr(callee, &mut |i| {
-                self.data.var_or_default(i.node_id).mark_used_as_callee();
+                let node_id = match self.r.find_binding_by_ident(i) {
+                    RefTo::Binding(node_id) => node_id,
+                    RefTo::Unresolved => return,
+                    RefTo::Itself => unreachable!(),
+                };
+                debug_assert!(node_id != i.node_id);
+                self.data.var_or_default(node_id).mark_used_as_callee();
             });
 
             match &**callee {
@@ -1047,6 +1053,7 @@ where
                 RefTo::Unresolved => return,
                 RefTo::Itself => unreachable!(),
             };
+            debug_assert!(node_id != obj.node_id);
             let v = self.data.var_or_default(node_id);
             v.mark_has_property_access();
 
