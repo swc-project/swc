@@ -1224,7 +1224,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_unicode_escape(&mut self) -> LexResult<UnicodeEscape> {
         debug_assert_eq!(self.cur(), Some('u'));
 
-        // let mut chars = Vec::with_capacity(4);
         let mut is_curly = false;
 
         self.bump(); // 'u'
@@ -1271,7 +1270,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         match c {
             Some(c) => {
-                // chars.push(c.into());
                 if is_curly && !self.eat(b'}') {
                     self.error(state, SyntaxError::InvalidUnicodeEscape)?
                 }
