@@ -1821,7 +1821,15 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             }
                             buf.extend(ch);
                         }
-                        UnicodeEscape::SurrogatePair(_) | UnicodeEscape::LoneSurrogate(_) => {
+                        UnicodeEscape::SurrogatePair(ch) => {
+                            buf.extend(Char::from(ch));
+                            self.emit_error(start, SyntaxError::InvalidIdentChar);
+                        }
+                        UnicodeEscape::LoneSurrogate(ch) => {
+                            // Use escape character `\u{FFFD}` to escape lone surrogate
+                            // For example, for a lone surrogate `\uD800`,
+                            // we use sym: "\uFFFDD880" as the output.
+                            buf.extend(format!("\u{FFFD}{ch:04x}").chars());
                             self.emit_error(start, SyntaxError::InvalidIdentChar);
                         }
                     };
