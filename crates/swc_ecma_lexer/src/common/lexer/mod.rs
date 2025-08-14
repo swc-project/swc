@@ -1146,6 +1146,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         ))
     }
 
+    // Modified based on <https://github.com/oxc-project/oxc/blob/f0e1510b44efdb1b0d9a09f950181b0e4c435abe/crates/oxc_parser/src/lexer/unicode.rs#L237>
     /// Unicode code unit (`\uXXXX`).
     ///
     /// The opening `\u` must already have been consumed before calling this
@@ -1186,8 +1187,8 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         // returned `Some`, and already exited.
         debug_assert!(high >= MIN_HIGH);
         let is_pair = high <= MAX_HIGH
-            && self.input().peek() == Some('\\')
-            && self.input().peek_ahead() == Some('u');
+            && self.input().cur() == Some('\\')
+            && self.input().peek() == Some('u');
         if !is_pair {
             return Ok(Some(UnicodeEscape::LoneSurrogate(high)));
         }
@@ -1301,39 +1302,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 }
 
                 Ok(value)
-
-                // chars.push(Char::from('\\'));
-                // chars.push(Char::from('u'));
-
-                // if is_curly {
-                //     // chars.push(Char::from('{'));
-                //
-                //     for _ in 0..6 {
-                //         if let Some(c) = self.input().cur() {
-                //             if c == '}' {
-                //                 break;
-                //             }
-                //
-                //             self.bump();
-                //
-                //             // chars.push(Char::from(c));
-                //         } else {
-                //             break;
-                //         }
-                //     }
-                //
-                //     // chars.push(Char::from('}'));
-                // } else {
-                //     for _ in 0..4 {
-                //         if let Some(_c) = self.input().cur() {
-                //             self.bump();
-                //
-                //             // chars.push(Char::from(c));
-                //         }
-                //     }
-                // }
-
-                // chars.push(Char::from('\u{FFFD}'));
             }
         }
     }
@@ -1833,22 +1801,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             self.emit_error(start, SyntaxError::InvalidIdentChar);
                         }
                     };
-
-                    // if let Some(c) = chars.first() {
-                    //     let valid = if first {
-                    //         c.is_ident_start()
-                    //     } else {
-                    //         c.is_ident_part()
-                    //     };
-                    //
-                    //     if !valid {
-                    //         self.emit_error(start, SyntaxError::InvalidIdentChar);
-                    //     }
-                    // }
-                    //
-                    // for c in chars {
-                    //     buf.extend(c);
-                    // }
 
                     slice_start = self.cur_pos();
                     continue;
