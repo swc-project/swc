@@ -17,7 +17,8 @@
 //!  10 |     export default x;
 //!     `----
 //! 
-//! Advice:   > Exported identifiers must be unique
+//! Advice: 
+//!   > Exported identifiers must be unique
 //!   x the name `default` is exported multiple times
 //!     ,-[5:1]
 //!   2 |     
@@ -35,7 +36,8 @@
 //!  11 |     
 //!     `----
 //! 
-//! Advice:   > Exported identifiers must be unique
+//! Advice: 
+//!   > Exported identifiers must be unique
 //// [m2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

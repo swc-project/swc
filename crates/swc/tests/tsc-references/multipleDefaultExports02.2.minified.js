@@ -14,7 +14,8 @@
 //!  8 |     
 //!    `----
 //! 
-//! Advice:   > Exported identifiers must be unique
+//! Advice: 
+//!   > Exported identifiers must be unique
 //// [m2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

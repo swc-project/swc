@@ -170,7 +170,7 @@ impl Take for Token {
 }
 
 #[allow(clippy::derived_hash_with_manual_eq)]
-#[allow(clippy::transmute_float_to_int)]
+#[allow(unnecessary_transmutes)]
 impl Hash for Token {
     fn hash<H: Hasher>(&self, state: &mut H) {
         fn integer_decode(val: f64) -> (u64, i16, i8) {

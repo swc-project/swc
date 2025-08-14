@@ -138,7 +138,7 @@ impl FastDts {
         for item in items.iter_mut() {
             match item {
                 ModuleItem::Stmt(stmt) => {
-                    if stmt.as_decl().map_or(true, |decl| !decl.is_ts_module()) {
+                    if stmt.as_decl().is_none_or(|decl| !decl.is_ts_module()) {
                         has_non_exported_stmt = true;
                     }
                 }
@@ -496,7 +496,7 @@ impl FastDts {
                         || ts_module_decl
                             .id
                             .as_ident()
-                            .map_or(true, |ident| used_refs.used_as_type(&ident.to_id()))
+                            .is_none_or(|ident| used_refs.used_as_type(&ident.to_id()))
                 }
             },
             ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) => {

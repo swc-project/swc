@@ -213,7 +213,7 @@ impl Parser {
         if let Some(cp) = self.parse_character_escape_sequence() {
             return Ok(Some(cp));
         }
-        if self.peek() == Some('0') && self.peek2().map_or(true, |ch| !ch.is_ascii_digit()) {
+        if self.peek() == Some('0') && self.peek2().is_none_or(|ch| !ch.is_ascii_digit()) {
             self.advance();
             return Ok(Some(0x00));
         }
