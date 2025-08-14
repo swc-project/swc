@@ -1436,6 +1436,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                                         cooked.extend(ch);
                                     }
                                     EscapedChar::LoneSurrogate(ch) => {
+                                        // Following what we did in string literals,
+                                        // this need to be restored in the following optimization
+                                        // parts if you're going to use the cooked value.
+                                        // For example, merging two lone surrogates
+                                        // `TemplateElement` into a surrogate
+                                        // pair.
                                         cooked.push_str(format!("\u{FFFD}{ch:04x}").as_str());
                                     }
                                 }
@@ -1510,8 +1516,15 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 Ok(value) => match value {
                     UnicodeEscape::CodePoint(ch) | UnicodeEscape::SurrogatePair(ch) => {
                         if ch == '\u{FFFD}' {
-                            // If the escape sequence is a replacement character,
-                            // we should return it as a single character.
+                            // `\uFFFD` is used to escape lone surrogates in the string literal.
+                            //
+                            // To avoid any confusion, we will treat the user input `\uFFFD`
+                            // character as a lone surrogate. Because we don't even know if there's
+                            // any upcoming lone surrogates in the same string literal.
+                            //
+                            // And if we don't treat it as a lone surrogate, then the upcoming lone
+                            // surrogate will be translated to `\uFFFDXXXX` and we will not be able
+                            // to distinguish them afterwards.
                             return Ok(Some(EscapedChar::LoneSurrogate(ch as u32)));
                         }
                         return Ok(Some(EscapedChar::Char(ch.into())));
@@ -1792,9 +1805,21 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             self.emit_error(start, SyntaxError::InvalidIdentChar);
                         }
                         UnicodeEscape::LoneSurrogate(ch) => {
-                            // Use escape character `\u{FFFD}` to escape lone surrogate
-                            // For example, for a lone surrogate `\uD800`,
-                            // we use sym: "\uFFFDD880" as the output.
+                            // Lone surrogates can be stored in UTF-16 context like how strings are
+                            // stored in JavaScript. So this is not a problem in JavaScript.
+                            //
+                            // Hoever, in Rust, strings need to be valid UTF-8 sequence which, with
+                            // regard to its nature, these lone surrogates are invalid sequences.
+                            //
+                            // Here, instead of chaning the current `StringLiteral` implementation,
+                            // we use `\u{FFFD}`(Replacement Character) to escape lone surrogates by
+                            // appending the 4 hex values to the char and mark the whole
+                            // `StringLiteral` as it contains lone surrogates. So that we can
+                            // restore the correct codepoint in the following optimization phase.
+                            //
+                            // For example:
+                            // * for a lone surrogate `\uD800`,
+                            // we use sym: `\u{FFFD}D880` as the value.
                             buf.extend(format!("\u{FFFD}{ch:04x}").chars());
                             self.emit_error(start, SyntaxError::InvalidIdentChar);
                         }
@@ -2163,6 +2188,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         match escaped {
                             EscapedChar::Char(ch) => buf.as_mut().unwrap().extend(ch),
                             EscapedChar::LoneSurrogate(ch) => {
+                                // Mark the whole string literal as it contains lone surrogates
+                                // so that we can restore the correct codepoint in the following
+                                // optimization parts
                                 contains_lone_surrogates |= true;
                                 buf.as_mut()
                                     .unwrap()
