@@ -185,7 +185,9 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(v) = self.data.vars.get(&i.node_id) {
+        let node_id = self.r.find_binding_by_ident(i);
+
+        if let Some(v) = self.data.vars.get(&node_id) {
             let is_used_in_member =
                 v.property_mutation_count > 0 || v.flags.contains(VarUsageInfoFlags::USED_AS_REF);
             if v.ref_count == 0
@@ -257,7 +259,9 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if let Some(usage) = self.data.vars.get(&e.node_id) {
+                debug_assert!(!self.r.is_ref_to_itself(e.node_id));
+                let node_id = self.r.find_binding_by_ident(e);
+                if let Some(usage) = self.data.vars.get(&node_id) {
                     if !usage.flags.contains(VarUsageInfoFlags::DECLARED) {
                         return true;
                     }
@@ -516,6 +520,7 @@ impl Optimizer<'_> {
                 }
 
                 // If it is not used, drop it.
+                debug_assert!(self.r.is_ref_to_itself(ident.node_id));
                 if self
                     .data
                     .vars
@@ -575,6 +580,7 @@ impl Optimizer<'_> {
                 }
 
                 // If it is not used, drop it.
+                debug_assert!(self.r.is_ref_to_itself(ident.node_id));
                 if self
                     .data
                     .vars
@@ -620,7 +626,8 @@ impl Optimizer<'_> {
         };
 
         if let Expr::Ident(arg) = &*update.arg {
-            if let Some(var) = self.data.vars.get(&arg.node_id) {
+            let node_id = self.r.find_binding_by_ident(arg);
+            if let Some(var) = self.data.vars.get(&node_id) {
                 // Update is counted as usage
                 if var
                     .flags
@@ -668,7 +675,9 @@ impl Optimizer<'_> {
         };
 
         if let AssignTarget::Simple(SimpleAssignTarget::Ident(left)) = &assign.left {
-            if let Some(var) = self.data.vars.get(&left.node_id) {
+            debug_assert!(!self.r.is_ref_to_itself(left.id.node_id));
+            let node_id = self.r.find_binding_by_ident(&left.id);
+            if let Some(var) = self.data.vars.get(&node_id) {
                 // TODO: We don't need fn_local check
                 if var
                     .flags
@@ -733,7 +742,9 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if let Some(var) = self.data.vars.get(&i.node_id) {
+            let node_id = self.r.find_binding_by_ident(&i.id);
+
+            if let Some(var) = self.data.vars.get(&node_id) {
                 // technically this is inline
                 if !var.flags.intersects(
                     VarUsageInfoFlags::INLINE_PREVENTED.union(VarUsageInfoFlags::EXPORTED),
@@ -781,6 +792,7 @@ impl Optimizer<'_> {
         }
 
         if let Some(i) = &name {
+            debug_assert!(self.r.is_ref_to_itself(i.node_id));
             let can_remove_ident = self
                 .data
                 .vars
@@ -814,7 +826,9 @@ impl Optimizer<'_> {
         for d in var.decls.iter_mut() {
             if d.init.is_none() {
                 if let Pat::Ident(name) = &d.name {
-                    if let Some(usage) = self.data.vars.get_mut(&name.node_id) {
+                    debug_assert!(!self.r.is_ref_to_unresolved(name.node_id));
+                    let node_id = self.r.find_binding_by_ident(name);
+                    if let Some(usage) = self.data.vars.get_mut(&node_id) {
                         if usage.flags.contains(
                             VarUsageInfoFlags::IS_FN_LOCAL
                                 .union(VarUsageInfoFlags::DECLARED_AS_FN_PARAM),
@@ -873,7 +887,8 @@ impl Optimizer<'_> {
         let name = v.name.as_ident()?;
         let obj = v.init.as_mut()?.as_mut_object()?;
 
-        let usage = self.data.vars.get(&name.node_id)?;
+        let node_id = self.r.find_binding_by_ident(name);
+        let usage = self.data.vars.get(&node_id)?;
 
         if usage.flags.intersects(
             VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY
@@ -911,7 +926,7 @@ impl Optimizer<'_> {
         let mut unknown_used_props = self
             .data
             .vars
-            .get(&name.node_id)
+            .get(&node_id)
             .map(|v| v.accessed_props.clone())
             .unwrap_or_default();
 

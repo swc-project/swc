@@ -2,6 +2,7 @@ use par_iter::prelude::*;
 use rustc_hash::FxHashSet;
 use swc_common::{pass::Repeated, util::take::Take, NodeId, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::Resolver;
 use swc_ecma_usage_analyzer::analyzer::UsageAnalyzer;
 use swc_ecma_utils::{find_pat_ids, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
@@ -18,11 +19,16 @@ pub(super) struct DeclHoisterConfig {
     pub _top_level: bool,
 }
 
-pub(super) fn decl_hoister(config: DeclHoisterConfig, data: &ProgramData) -> Hoister {
+pub(super) fn decl_hoister<'a>(
+    config: DeclHoisterConfig,
+    data: &'a ProgramData,
+    r: &'a mut Resolver,
+) -> Hoister<'a> {
     Hoister {
         config,
         changed: false,
         data,
+        r,
     }
 }
 
@@ -30,6 +36,7 @@ pub(super) struct Hoister<'a> {
     config: DeclHoisterConfig,
     changed: bool,
     data: &'a ProgramData,
+    r: &'a mut Resolver,
 }
 
 impl Repeated for Hoister<'_> {
@@ -123,14 +130,16 @@ impl Hoister<'_> {
                                 let ids: Vec<Ident> = find_pat_ids(&decl.name);
 
                                 for id in ids {
-                                    if done.insert(id.node_id) {
+                                    debug_assert!(self.r.is_ref_to_binding(id.node_id));
+                                    let node_id = self.r.find_binding_by_ident(&id);
+                                    if done.insert(node_id) {
                                         // If the enclosing function declares parameter with same
                                         // name, we can drop a varaible.
                                         if decl.init.is_none()
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&id.node_id)
+                                                .get(&node_id)
                                                 .map(|v| {
                                                     v.flags.contains(
                                                         VarUsageInfoFlags::DECLARED_AS_FN_PARAM,
@@ -210,13 +219,15 @@ impl Hoister<'_> {
 
                                 let preserve = match &decl.name {
                                     Pat::Ident(name) => {
+                                        debug_assert!(self.r.is_ref_to_binding(name.id.node_id));
+                                        let node_id = self.r.find_binding_by_ident(&name.id);
                                         // If the enclosing function declares parameter with same
                                         // name, we can drop a varaible. (If it's side-effect free).
                                         if decl.init.is_none()
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&name.node_id)
+                                                .get(&node_id)
                                                 .map(|v| {
                                                     v.flags.contains(
                                                         VarUsageInfoFlags::DECLARED_AS_FN_PARAM,
@@ -227,7 +238,7 @@ impl Hoister<'_> {
                                             return false;
                                         }
 
-                                        done.insert(name.node_id)
+                                        done.insert(node_id)
                                     }
                                     _ => true,
                                 };

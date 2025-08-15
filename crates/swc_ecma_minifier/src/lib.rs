@@ -181,6 +181,7 @@ pub fn optimize(
 
         n.visit_mut_with(&mut pure_optimizer(
             c,
+            &mut resolver,
             marks,
             PureOptimizerConfig {
                 force_str_for_tpl: Minification.force_str_for_tpl(),

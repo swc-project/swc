@@ -4,8 +4,8 @@ use bitflags::bitflags;
 
 use super::InfectionCollector;
 
-impl InfectionCollector {
-    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx {
+impl<'a, 'r> InfectionCollector<'r> {
+    pub(super) fn with_ctx(&'a mut self, ctx: Ctx) -> WithCtx<'a, 'r> {
         let orig_ctx = self.ctx;
         self.ctx = ctx;
 
@@ -25,26 +25,26 @@ bitflags! {
     }
 }
 
-pub(super) struct WithCtx<'a> {
-    analyzer: &'a mut InfectionCollector,
+pub(super) struct WithCtx<'a, 'r> {
+    analyzer: &'a mut InfectionCollector<'r>,
     orig_ctx: Ctx,
 }
 
-impl Deref for WithCtx<'_> {
-    type Target = InfectionCollector;
+impl<'a, 'r> Deref for WithCtx<'a, 'r> {
+    type Target = InfectionCollector<'r>;
 
     fn deref(&self) -> &Self::Target {
         self.analyzer
     }
 }
 
-impl DerefMut for WithCtx<'_> {
+impl<'a, 'r> DerefMut for WithCtx<'a, 'r> {
     fn deref_mut(&mut self) -> &mut Self::Target {
         self.analyzer
     }
 }
 
-impl Drop for WithCtx<'_> {
+impl<'a, 'r> Drop for WithCtx<'a, 'r> {
     fn drop(&mut self) {
         self.analyzer.ctx = self.orig_ctx;
     }

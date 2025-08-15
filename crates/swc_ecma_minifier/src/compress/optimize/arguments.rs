@@ -74,12 +74,14 @@ impl Optimizer<'_> {
                 id: Ident { sym, .. },
                 ..
             }) if &**sym == "arguments" => true,
-            Pat::Ident(i) => self
-                .data
-                .vars
-                .get(&i.node_id)
-                .map(|v| v.declared_count >= 2)
-                .unwrap_or(false),
+            Pat::Ident(i) => {
+                debug_assert!(self.r.is_ref_to_itself(i.id.node_id));
+                self.data
+                    .vars
+                    .get(&i.node_id)
+                    .map(|v| v.declared_count >= 2)
+                    .unwrap_or(false)
+            }
             _ => true,
         }) {
             return;

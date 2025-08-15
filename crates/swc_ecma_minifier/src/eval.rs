@@ -197,7 +197,8 @@ impl<'r> Evaluator<'r> {
                 self.run();
 
                 let lock = self.data.store.lock();
-                let val = lock.cache.get(&i.node_id)?;
+                let node_id = self.r.find_binding_by_ident(i);
+                let val = lock.cache.get(&node_id)?;
 
                 return Some(val.clone());
             }
@@ -216,6 +217,7 @@ impl<'r> Evaluator<'r> {
 
                 e.visit_mut_with(&mut pure_optimizer(
                     &Default::default(),
+                    self.r,
                     self.marks,
                     PureOptimizerConfig {
                         enable_join_vars: false,
@@ -253,6 +255,7 @@ impl<'r> Evaluator<'r> {
         {
             e.visit_mut_with(&mut pure_optimizer(
                 &Default::default(),
+                self.r,
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: false,

@@ -15,6 +15,8 @@ pub(super) enum ScopeKind {
     Block,
     Fn,
     Class,
+    TopLevel,
+    Global,
 }
 
 impl Scope {
@@ -39,17 +41,26 @@ impl Scope {
 pub(super) struct ScopeId(u32);
 
 impl ScopeId {
-    pub const ROOT: Self = Self(0);
+    pub const EXPORT: Self = Self(0);
+    pub const GLOBAL: Self = Self(2);
+    pub const TOP_LEVEL: Self = Self(3);
+    pub const UNRESOLVED: Self = Self(1);
 }
 
 #[derive(Default, Debug)]
 pub(super) struct ScopeArena(Vec<Scope>);
 
 impl ScopeArena {
-    pub(super) fn alloc_root(&mut self) -> ScopeId {
+    pub(super) fn alloc_export_scope(&mut self) -> ScopeId {
         debug_assert!(self.0.is_empty());
         self.0.push(Scope::default());
-        ScopeId::ROOT
+        ScopeId::EXPORT
+    }
+
+    pub(super) fn alloc_unresolved_scope(&mut self) -> ScopeId {
+        debug_assert!(self.0.len() == 1);
+        self.0.push(Scope::default());
+        ScopeId::UNRESOLVED
     }
 
     pub(super) fn alloc_new_scope(&mut self, parent: ScopeId, kind: ScopeKind) -> ScopeId {

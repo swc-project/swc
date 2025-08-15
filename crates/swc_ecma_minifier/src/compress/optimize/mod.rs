@@ -7,10 +7,7 @@ use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
 use swc_common::{pass::Repeated, util::take::Take, NodeId, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{
-    rename::contains_eval,
-    resolve::{RefTo, Resolver},
-};
+use swc_ecma_transforms_base::{rename::contains_eval, resolve::Resolver};
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
 use swc_ecma_utils::{
@@ -305,6 +302,7 @@ impl Vars {
                 hoisted_props: &self.hoisted_props,
                 vars_to_remove: &self.removed,
                 changed: false,
+                r,
             };
             n.visit_mut_with(&mut v);
             changed |= v.changed;
@@ -349,15 +347,20 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
-        let var = self.data.vars.get(&id.node_id);
-        if var.is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED)) {
+        let node_id = self.r.find_binding_by_ident(id);
+
+        if self
+            .data
+            .vars
+            .get(&node_id)
+            .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED))
+        {
             return false;
         }
 
-        match self.r.find_binding_by_ident(id) {
-            RefTo::Itself | RefTo::Binding(_) => return true,
-            _ => {}
-        };
+        if self.r.is_ref_to_binding(node_id) || self.r.is_ref_to_itself(node_id) {
+            return true;
+        }
 
         if id.ctxt != self.marks.top_level_ctxt {
             return true;
@@ -843,7 +846,8 @@ impl Optimizer<'_> {
 
                 if let Expr::Ident(callee) = &**callee {
                     if self.options.reduce_vars && self.options.side_effects {
-                        if let Some(usage) = self.data.vars.get(&callee.node_id) {
+                        let node_id = self.r.find_binding_by_ident(callee);
+                        if let Some(usage) = self.data.vars.get(&node_id) {
                             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                 && usage.flags.contains(VarUsageInfoFlags::PURE_FN)
                             {
@@ -910,7 +914,8 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                let old = i.id.node_id;
+                debug_assert!(!self.r.is_ref_to_unresolved(i.node_id));
+                let old = self.r.find_binding_by_ident(i);
                 self.store_var_for_inlining(&mut i.id, right, true);
 
                 if i.is_dummy() && self.options.unused {
@@ -1835,8 +1840,8 @@ impl VisitMut for Optimizer<'_> {
                 ..
             }) => {
                 if let Some(i) = left.as_ident_mut() {
-                    let old = i.node_id;
-
+                    debug_assert!(!self.r.is_ref_to_unresolved(i.node_id));
+                    let old = self.r.find_binding_by_ident(&i.id);
                     self.store_var_for_inlining(i, right, false);
 
                     if i.is_dummy() && self.options.unused {
@@ -2858,6 +2863,7 @@ impl VisitMut for Optimizer<'_> {
                 let no_reassignment = n.decls.iter().all(|var| {
                     let ids = get_ids_of_pat(&var.name);
                     for id in ids {
+                        let id = self.r.find_binding_by_node_id(id);
                         if let Some(usage) = self.data.vars.get(&id) {
                             if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                 return false;
@@ -3065,7 +3071,8 @@ impl VisitMut for Optimizer<'_> {
 
                 if let Some(Expr::Invalid(..)) = var.init.as_deref() {
                     if let Pat::Ident(i) = &var.name {
-                        if let Some(usage) = self.data.vars.get(&i.id.node_id) {
+                        let id = self.r.find_binding_by_ident(&i.id);
+                        if let Some(usage) = self.data.vars.get(&id) {
                             if usage
                                 .flags
                                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)

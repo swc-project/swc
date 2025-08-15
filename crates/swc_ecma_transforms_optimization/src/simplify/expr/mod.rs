@@ -10,6 +10,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     ext::ExprRefExt,
     perf::{cpu_count, Parallel, ParallelExt},
+    resolve::Resolver,
 };
 use swc_ecma_utils::{
     is_literal, number::JsNumber, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType,
@@ -229,7 +230,7 @@ impl VisitMut for SimplifyExpr {
                 debug_assert_valid(expr);
             }
             Expr::Bin(_) => {
-                optimize_bin_expr(self.expr_ctx, expr, &mut self.changed);
+                optimize_bin_expr(self.expr_ctx, expr, &mut self.changed, None);
                 if expr.is_seq() {
                     expr.visit_mut_with(self);
                 }
@@ -950,7 +951,12 @@ pub fn optimize_member_expr(
 }
 
 /// **NOTE**: This is **NOT** a public API. DO NOT USE.
-pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
+pub fn optimize_bin_expr(
+    expr_ctx: ExprCtx,
+    expr: &mut Expr,
+    changed: &mut bool,
+    r: Option<&mut Resolver>,
+) {
     let BinExpr {
         left,
         op,
@@ -989,7 +995,11 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                             raw: None,
                         }))
                     } else {
-                        Expr::Ident(Ident::new(atom!("NaN"), *span, expr_ctx.unresolved_ctxt))
+                        let mut ident = Ident::new(atom!("NaN"), *span, expr_ctx.unresolved_ctxt);
+                        if let Some(r) = r {
+                            r.add_unresolved(&mut ident);
+                        }
+                        Expr::Ident(ident)
                     };
 
                     *expr = *expr_ctx.preserve_effects(*span, value_expr.into(), {

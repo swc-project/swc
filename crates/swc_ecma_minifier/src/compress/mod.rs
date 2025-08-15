@@ -93,6 +93,7 @@ impl Compressor<'_> {
                     _top_level: self.options.top_level(),
                 },
                 &data,
+                self.r,
             );
             n.visit_mut_with(&mut v);
             self.changed |= v.changed();
@@ -149,6 +150,7 @@ impl Compressor<'_> {
 
             let mut visitor = pure_optimizer(
                 self.options,
+                self.r,
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: self.pass > 1,

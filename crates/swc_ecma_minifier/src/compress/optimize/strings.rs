@@ -123,12 +123,13 @@ impl Optimizer<'_> {
             }) => {
                 if let (Expr::Lit(Lit::Num(l)), Expr::Lit(Lit::Num(r))) = (&**left, &**right) {
                     if l.value == 0.0 && r.value == 0.0 {
-                        *n = Ident::new(
+                        let mut ident = Ident::new(
                             atom!("NaN"),
                             *span,
                             SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                        )
-                        .into();
+                        );
+                        self.r.add_unresolved(&mut ident);
+                        *n = ident.into();
                         self.changed = true;
                         report_change!("strings: Evaluated 0 / 0 => NaN in string context");
                     }

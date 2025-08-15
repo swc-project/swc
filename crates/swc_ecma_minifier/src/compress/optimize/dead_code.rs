@@ -55,10 +55,12 @@ impl Optimizer<'_> {
                     .map(|s| s.contains(ScopeData::USED_ARGUMENTS))
                     .unwrap_or(false);
 
+                let node_id = self.r.find_binding_by_ident(lhs);
+
                 if self
                     .data
                     .vars
-                    .get(&lhs.node_id)
+                    .get(&node_id)
                     .map(|var| {
                         var.flags.contains(
                             VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL),
@@ -94,10 +96,12 @@ impl Optimizer<'_> {
                         .map(|s| s.contains(ScopeData::USED_ARGUMENTS))
                         .unwrap_or(false);
 
+                    let node_id = self.r.find_binding_by_ident(lhs);
+
                     if self
                         .data
                         .vars
-                        .get(&lhs.node_id)
+                        .get(&node_id)
                         .map(|var| {
                             var.flags.contains(
                                 VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL),

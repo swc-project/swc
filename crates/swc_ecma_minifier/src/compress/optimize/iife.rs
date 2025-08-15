@@ -180,6 +180,7 @@ impl Optimizer<'_> {
             ident: Some(ident), ..
         }) = callee
         {
+            debug_assert!(self.r.is_ref_to_itself(ident.node_id));
             if self
                 .data
                 .vars
@@ -202,6 +203,7 @@ impl Optimizer<'_> {
                         if param.sym == "arguments" {
                             continue;
                         }
+                        debug_assert!(self.r.is_ref_to_itself(param.node_id));
                         if let Some(usage) = self.data.vars.get(&param.node_id) {
                             if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                 continue;
@@ -225,7 +227,6 @@ impl Optimizer<'_> {
                                     param.id.sym,
                                     param.id.ctxt
                                 );
-                                debug_assert!(param.node_id != NodeId::DUMMY);
                                 vars.insert(param.node_id, arg.clone());
                             } else {
                                 trace_op!(
@@ -241,14 +242,15 @@ impl Optimizer<'_> {
                                 param.id.ctxt
                             );
 
-                            debug_assert!(param.node_id != NodeId::DUMMY);
                             vars.insert(param.node_id, Expr::undefined(param.span()));
                         }
                     }
 
                     Pat::Rest(rest_pat) => {
                         if let Pat::Ident(param_id) = &*rest_pat.arg {
-                            if let Some(usage) = self.data.vars.get(&param_id.node_id) {
+                            debug_assert!(self.r.is_ref_to_itself(param_id.node_id));
+                            let node_id = param_id.node_id;
+                            if let Some(usage) = self.data.vars.get(&node_id) {
                                 if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                     || usage.ref_count != 1
                                     || !usage.flags.contains(VarUsageInfoFlags::HAS_PROPERTY_ACCESS)
@@ -270,9 +272,8 @@ impl Optimizer<'_> {
                                     continue;
                                 }
 
-                                debug_assert!(param_id.node_id != NodeId::DUMMY);
                                 vars.insert(
-                                    param_id.node_id,
+                                    node_id,
                                     ArrayLit {
                                         span: param_id.span,
                                         elems: e
@@ -353,6 +354,7 @@ impl Optimizer<'_> {
             ident: Some(ident), ..
         }) = callee
         {
+            debug_assert!(self.r.is_ref_to_itself(ident.node_id));
             if self
                 .data
                 .vars
@@ -370,6 +372,7 @@ impl Optimizer<'_> {
             // We check for parameter and argument
             for (idx, param) in params.iter_mut().enumerate() {
                 if let Pat::Ident(param) = &mut **param {
+                    debug_assert!(self.r.is_ref_to_itself(param.node_id));
                     if let Some(usage) = self.data.vars.get(&param.node_id) {
                         if usage.ref_count == 0 {
                             removed.push(idx);
@@ -509,6 +512,7 @@ impl Optimizer<'_> {
                 trace_op!("iife: Checking recursiveness");
 
                 if let Some(i) = &f.ident {
+                    debug_assert!(self.r.is_ref_to_itself(i.node_id));
                     if self
                         .data
                         .vars
@@ -762,6 +766,7 @@ impl Optimizer<'_> {
         // Don't create top-level variables.
         if !self.may_add_ident() {
             for pid in param_ids.clone() {
+                debug_assert!(self.r.is_ref_to_itself(pid.node_id));
                 if let Some(usage) = self.data.vars.get(&pid.node_id) {
                     if usage.ref_count > 1
                         || usage.assign_count > 0
@@ -810,7 +815,8 @@ impl Optimizer<'_> {
                         match &decl.name {
                             Pat::Ident(id) if id.sym == "arguments" => return false,
                             Pat::Ident(id) => {
-                                if self.vars.has_pending_inline_for(&id.node_id) {
+                                let node_id = self.r.find_binding_by_ident(id);
+                                if self.vars.has_pending_inline_for(&node_id) {
                                     log_abort!(
                                         "iife: [x] Cannot inline because pending inline of `{}`",
                                         id.id
@@ -954,7 +960,9 @@ impl Optimizer<'_> {
             let no_arg = arg.is_none();
 
             if let Some(arg) = arg {
-                if let Some(usage) = self.data.vars.get_mut(&param.node_id) {
+                debug_assert!(self.r.is_ref_to_itself(param.node_id));
+                let node_id = param.node_id;
+                if let Some(usage) = self.data.vars.get_mut(&node_id) {
                     if usage.ref_count == 1
                         && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                         && usage.property_mutation_count == 0
@@ -966,7 +974,7 @@ impl Optimizer<'_> {
                         )
                     {
                         // We don't need to create a variable in this case
-                        self.vars.vars_for_inlining.insert(param.node_id, arg);
+                        self.vars.vars_for_inlining.insert(node_id, arg);
                         continue;
                     }
 
@@ -1011,7 +1019,9 @@ impl Optimizer<'_> {
             let mut arg = args.get_mut(idx).map(|arg| arg.expr.take());
 
             if let Some(arg) = &mut arg {
-                if let Some(usage) = self.data.vars.get_mut(&param.node_id) {
+                debug_assert!(self.r.is_ref_to_itself(param.node_id));
+                let node_id = param.node_id;
+                if let Some(usage) = self.data.vars.get_mut(&node_id) {
                     if usage.ref_count == 1
                         && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                         && usage.property_mutation_count == 0
@@ -1023,9 +1033,7 @@ impl Optimizer<'_> {
                         )
                     {
                         // We don't need to create a variable in this case
-                        self.vars
-                            .vars_for_inlining
-                            .insert(param.node_id, arg.take());
+                        self.vars.vars_for_inlining.insert(node_id, arg.take());
                         continue;
                     }
 
@@ -1597,7 +1605,8 @@ impl Optimizer<'_> {
                     let mut substitutions = FxHashMap::default();
                     for (param, arg) in arrow.params.iter().zip(&call.args) {
                         if let Pat::Ident(ident) = param {
-                            substitutions.insert(ident.node_id, arg.expr.clone());
+                            let node_id = self.r.find_binding_by_ident(ident);
+                            substitutions.insert(node_id, arg.expr.clone());
                         }
                     }
 

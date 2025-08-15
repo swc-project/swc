@@ -1,6 +1,5 @@
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, NodeId, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::resolve::RefTo;
 use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
 
 use super::{unused::PropertyAccessOpts, BitCtx, Optimizer};
@@ -36,10 +35,12 @@ impl Optimizer<'_> {
             if !self.may_add_ident() {
                 return None;
             }
+            debug_assert!(!self.r.is_ref_to_unresolved(name.id.node_id));
+            let node_id = self.r.find_binding_by_ident(&name.id);
 
             // If a variable is initialized multiple time, we currently don't do anything
             // smart.
-            let usage = self.data.vars.get(&name.node_id)?;
+            let usage = self.data.vars.get(&node_id)?;
             if usage.mutated()
                 || usage.flags.intersects(
                     VarUsageInfoFlags::USED_ABOVE_DECL
@@ -74,7 +75,7 @@ impl Optimizer<'_> {
             let mut unknown_used_props = self
                 .data
                 .vars
-                .get(&name.node_id)
+                .get(&node_id)
                 .map(|v| v.accessed_props.clone())
                 .unwrap_or_default();
 
@@ -125,7 +126,7 @@ impl Optimizer<'_> {
             }
 
             if let Some(init) = n.init.as_deref() {
-                self.mode.store(name.node_id, init);
+                self.mode.store(node_id, init);
             }
 
             let mut new_vars = Vec::new();
@@ -166,24 +167,19 @@ impl Optimizer<'_> {
                 };
 
                 let mut new_var_name_ident = private_ident!(format!("{}_{}", name.id.sym, suffix));
-                let new_var_decl_name_id = name.id.node_id;
-                self.r
-                    .add_reference_map(&mut new_var_name_ident, new_var_decl_name_id);
+
+                self.r.add_reference_map(&mut new_var_name_ident, node_id);
 
                 let new_var = VarDeclarator {
                     span: DUMMY_SP,
-                    name: {
-                        let mut n = new_var_name_ident.clone();
-                        n.node_id = new_var_decl_name_id;
-                        n.into()
-                    },
+                    name: new_var_name_ident.clone().into(),
                     init: Some(value),
                     definite: false,
                 };
 
                 self.vars
                     .hoisted_props
-                    .insert((name.node_id, key), new_var_name_ident);
+                    .insert((node_id, key), new_var_name_ident);
 
                 new_vars.push(new_var);
             }
@@ -215,12 +211,10 @@ impl Optimizer<'_> {
                 _ => return,
             };
 
-            let node_id = match self.r.find_binding_by_ident(obj) {
-                RefTo::Binding(id) => id,
-                RefTo::Unresolved => return,
-                RefTo::Itself => unreachable!(),
-            };
+            debug_assert!(!self.r.is_ref_to_itself(obj.node_id));
+            let node_id = self.r.find_binding_by_ident(obj);
             debug_assert!(node_id != obj.node_id);
+            debug_assert!(node_id != NodeId::DUMMY);
             if let Some(value) = self
                 .vars
                 .hoisted_props

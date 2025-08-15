@@ -1,6 +1,7 @@
 use swc_atoms::Atom;
 use swc_common::{NodeId, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::Resolver;
 use swc_ecma_utils::{Type, Value};
 
 use super::{ctx::Ctx, ScopeKind};
@@ -34,6 +35,7 @@ pub trait Storage: Sized + Default {
         i: &Ident,
         init_type: Option<Value<Type>>,
         kind: Option<VarDeclKind>,
+        r: &Resolver,
     ) -> &mut Self::VarData;
 
     fn get_initialized_cnt(&self) -> usize;
