@@ -696,7 +696,7 @@ pub fn optimize_member_expr(
         _ => return,
     };
 
-    #[derive(Clone, PartialEq)]
+    #[derive(Clone, PartialEq, Debug)]
     enum KnownOp {
         /// [a, b].length
         Len,
