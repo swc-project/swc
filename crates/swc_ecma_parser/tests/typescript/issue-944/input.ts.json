@@ -61,7 +61,8 @@
                   "end": 39
                 },
                 "value": "key",
-                "raw": "\"key\""
+                "raw": "\"key\"",
+                "loneSurrogates": false
               },
               "right": {
                 "type": "ObjectExpression",

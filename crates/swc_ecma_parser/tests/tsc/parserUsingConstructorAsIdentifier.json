@@ -922,7 +922,8 @@
                             "end": 949
                           },
                           "value": "constructor",
-                          "raw": "\"constructor\""
+                          "raw": "\"constructor\"",
+                          "loneSurrogates": false
                         }
                       },
                       {

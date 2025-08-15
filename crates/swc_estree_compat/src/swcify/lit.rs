@@ -33,6 +33,7 @@ impl Swcify for StringLiteral {
             span: ctx.span(&self.base),
             value: self.value,
             raw: Some(self.raw),
+            lone_surrogates: false,
         }
     }
 }

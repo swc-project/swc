@@ -14652,7 +14652,8 @@
                                                 "end": 13361
                                               },
                                               "value": "initWalkers function is not up to date with enum content!",
-                                              "raw": "\"initWalkers function is not up to date with enum content!\""
+                                              "raw": "\"initWalkers function is not up to date with enum content!\"",
+                                              "loneSurrogates": false
                                             }
                                           }
                                         ],

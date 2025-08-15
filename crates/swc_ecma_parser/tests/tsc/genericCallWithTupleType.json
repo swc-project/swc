@@ -388,7 +388,8 @@
                   "end": 122
                 },
                 "value": "foo",
-                "raw": "\"foo\""
+                "raw": "\"foo\"",
+                "loneSurrogates": false
               }
             },
             {
@@ -619,7 +620,8 @@
                   "end": 214
                 },
                 "value": "foo",
-                "raw": "\"foo\""
+                "raw": "\"foo\"",
+                "loneSurrogates": false
               }
             },
             {
@@ -824,7 +826,8 @@
                   "end": 291
                 },
                 "value": "string",
-                "raw": "\"string\""
+                "raw": "\"string\"",
+                "loneSurrogates": false
               }
             }
           ]
@@ -964,7 +967,8 @@
                   "end": 343
                 },
                 "value": "foo",
-                "raw": "\"foo\""
+                "raw": "\"foo\"",
+                "loneSurrogates": false
               }
             },
             {
@@ -1037,7 +1041,8 @@
                   "end": 367
                 },
                 "value": "foo",
-                "raw": "\"foo\""
+                "raw": "\"foo\"",
+                "loneSurrogates": false
               }
             },
             {
@@ -1049,7 +1054,8 @@
                   "end": 374
                 },
                 "value": "bar",
-                "raw": "\"bar\""
+                "raw": "\"bar\"",
+                "loneSurrogates": false
               }
             }
           ]
@@ -1122,7 +1128,8 @@
                   "end": 398
                 },
                 "value": "bar",
-                "raw": "\"bar\""
+                "raw": "\"bar\"",
+                "loneSurrogates": false
               }
             }
           ]
@@ -1266,7 +1273,8 @@
                   "end": 454
                 },
                 "value": "foo",
-                "raw": "\"foo\""
+                "raw": "\"foo\"",
+                "loneSurrogates": false
               }
             }
           ]

@@ -625,7 +625,8 @@
           "end": 389
         },
         "value": "./assignmentToVoidZero2",
-        "raw": "'./assignmentToVoidZero2'"
+        "raw": "'./assignmentToVoidZero2'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

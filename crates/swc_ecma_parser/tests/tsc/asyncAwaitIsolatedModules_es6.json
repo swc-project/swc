@@ -39,7 +39,8 @@
           "end": 78
         },
         "value": "missing",
-        "raw": "\"missing\""
+        "raw": "\"missing\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

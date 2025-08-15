@@ -77,7 +77,8 @@
                                 "end": 55
                               },
                               "value": "",
-                              "raw": "\"\""
+                              "raw": "\"\"",
+                              "loneSurrogates": false
                             }
                           },
                           {
@@ -112,7 +113,8 @@
                                 "end": 67
                               },
                               "value": "",
-                              "raw": "\"\""
+                              "raw": "\"\"",
+                              "loneSurrogates": false
                             }
                           },
                           {

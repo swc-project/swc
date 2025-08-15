@@ -276,7 +276,8 @@
             "end": 249
           },
           "value": "ok",
-          "raw": "'ok'"
+          "raw": "'ok'",
+          "loneSurrogates": false
         }
       }
     },
@@ -483,7 +484,8 @@
                     "end": 389
                   },
                   "value": "./moduleExportAliasDuplicateAlias",
-                  "raw": "'./moduleExportAliasDuplicateAlias'"
+                  "raw": "'./moduleExportAliasDuplicateAlias'",
+                  "loneSurrogates": false
                 }
               }
             ],

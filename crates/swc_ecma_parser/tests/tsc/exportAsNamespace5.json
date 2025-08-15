@@ -133,7 +133,8 @@
           "end": 181
         },
         "value": "./three",
-        "raw": "\"./three\""
+        "raw": "\"./three\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null
@@ -170,7 +171,8 @@
           "end": 227
         },
         "value": "./two",
-        "raw": "\"./two\""
+        "raw": "\"./two\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

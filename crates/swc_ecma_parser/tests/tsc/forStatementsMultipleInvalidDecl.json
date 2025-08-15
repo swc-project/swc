@@ -1052,7 +1052,8 @@
                 "end": 508
               },
               "value": "a string",
-              "raw": "'a string'"
+              "raw": "'a string'",
+              "loneSurrogates": false
             },
             "definite": false
           }
@@ -1628,7 +1629,8 @@
                   "end": 717
                 },
                 "value": "",
-                "raw": "''"
+                "raw": "''",
+                "loneSurrogates": false
               },
               "async": false,
               "generator": false,

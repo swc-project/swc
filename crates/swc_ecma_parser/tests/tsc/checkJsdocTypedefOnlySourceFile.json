@@ -110,7 +110,8 @@
               "end": 208
             },
             "value": "str",
-            "raw": "'str'"
+            "raw": "'str'",
+            "loneSurrogates": false
           },
           "definite": false
         }

@@ -818,7 +818,8 @@
               "end": 295
             },
             "value": "member",
-            "raw": "\"member\""
+            "raw": "\"member\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -926,7 +927,8 @@
               "end": 329
             },
             "value": "member",
-            "raw": "\"member\""
+            "raw": "\"member\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -1199,7 +1201,8 @@
                   "end": 403
                 },
                 "value": "member",
-                "raw": "\"member\""
+                "raw": "\"member\"",
+                "loneSurrogates": false
               }
             }
           },
@@ -1388,7 +1391,8 @@
                   "end": 474
                 },
                 "value": "member",
-                "raw": "\"member\""
+                "raw": "\"member\"",
+                "loneSurrogates": false
               }
             }
           },

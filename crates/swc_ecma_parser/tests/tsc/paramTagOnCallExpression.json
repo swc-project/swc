@@ -144,7 +144,8 @@
                   "end": 256
                 },
                 "value": "inherits",
-                "raw": "'inherits'"
+                "raw": "'inherits'",
+                "loneSurrogates": false
               }
             }
           ],
