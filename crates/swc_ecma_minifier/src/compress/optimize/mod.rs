@@ -303,6 +303,7 @@ impl Vars {
                 hoisted_props: &self.hoisted_props,
                 vars_to_remove: &self.removed,
                 changed: false,
+                r,
             };
             n.visit_mut_with(&mut v);
             changed |= v.changed;
@@ -1817,7 +1818,11 @@ impl VisitMut for Optimizer<'_> {
                 ..
             }) => {
                 if let Some(i) = left.as_ident_mut() {
-                    let old = i.node_id;
+                    let old = match self.r.find_binding_by_ident(i) {
+                        RefTo::Itself => i.node_id,
+                        RefTo::Binding(node_id) => node_id,
+                        RefTo::Unresolved => return,
+                    };
 
                     self.store_var_for_inlining(i, right, false);
 

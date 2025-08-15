@@ -227,6 +227,7 @@ pub(crate) struct Finalizer<'a> {
     pub lits_for_cmp: &'a FxHashMap<NodeId, Box<Expr>>,
     pub lits_for_array_access: &'a FxHashMap<NodeId, Box<Expr>>,
     pub hoisted_props: &'a FxHashMap<(NodeId, Atom), Ident>,
+    pub r: &'a Resolver,
 
     pub vars_to_remove: &'a FxHashSet<NodeId>,
 
@@ -291,7 +292,12 @@ impl Finalizer<'_> {
 
     fn check(&mut self, e: &mut Expr, mode: FinalizerMode) {
         if let Expr::Ident(i) = e {
-            if let Some(new) = self.var(&i.node_id, mode) {
+            let node_id = match self.r.find_binding_by_ident(i) {
+                RefTo::Binding(node_id) => node_id,
+                RefTo::Unresolved => return,
+                RefTo::Itself => unreachable!(),
+            };
+            if let Some(new) = self.var(&node_id, mode) {
                 debug!("multi-replacer: Replaced `{}`", i);
                 self.changed = true;
 
@@ -344,7 +350,12 @@ impl VisitMut for Finalizer<'_> {
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::Ident(i) => {
-                if let Some(expr) = self.lits.get(&i.node_id) {
+                let node_id = match self.r.find_binding_by_ident(i) {
+                    RefTo::Binding(node_id) => node_id,
+                    RefTo::Unresolved => return,
+                    RefTo::Itself => unreachable!(),
+                };
+                if let Some(expr) = self.lits.get(&node_id) {
                     *n = *expr.clone();
                     return;
                 }
@@ -361,7 +372,13 @@ impl VisitMut for Finalizer<'_> {
                         _ => return,
                     };
 
-                    if let Some(ident) = self.hoisted_props.get(&(obj.node_id, sym.clone())) {
+                    let node_id = match self.r.find_binding_by_ident(obj) {
+                        RefTo::Binding(node_id) => node_id,
+                        RefTo::Unresolved => return,
+                        RefTo::Itself => unreachable!(),
+                    };
+
+                    if let Some(ident) = self.hoisted_props.get(&(node_id, sym.clone())) {
                         self.changed = true;
                         *n = ident.clone().into();
                         return;
@@ -445,7 +462,13 @@ impl VisitMut for Finalizer<'_> {
 
         if n.init.is_none() {
             if let Pat::Ident(i) = &n.name {
-                if self.vars_to_remove.contains(&i.node_id) {
+                let node_id = match self.r.find_binding_by_ident(i) {
+                    // dummy
+                    RefTo::Binding(node_id) => node_id,
+                    RefTo::Itself => i.node_id,
+                    RefTo::Unresolved => return,
+                };
+                if self.vars_to_remove.contains(&node_id) {
                     n.name.take();
                 }
             }
@@ -462,7 +485,12 @@ impl VisitMut for Finalizer<'_> {
         n.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = n {
-            if let Some(expr) = self.lits.get(&i.node_id) {
+            let node_id = match self.r.find_binding_by_ident(i) {
+                RefTo::Binding(node_id) => node_id,
+                RefTo::Unresolved => return,
+                RefTo::Itself => unreachable!(),
+            };
+            if let Some(expr) = self.lits.get(&node_id) {
                 *n = Prop::KeyValue(KeyValueProp {
                     key: i.take().into(),
                     value: expr.clone(),
@@ -552,7 +580,12 @@ impl VisitMut for NormalMultiReplacer<'_> {
         p.visit_mut_children_with(self);
 
         if let Prop::Shorthand(i) = p {
-            if let Some(value) = self.var(&i.node_id) {
+            let node_id = match self.r.find_binding_by_ident(i) {
+                RefTo::Binding(node_id) => node_id,
+                RefTo::Unresolved => return,
+                RefTo::Itself => unreachable!(),
+            };
+            if let Some(value) = self.var(&node_id) {
                 debug!("multi-replacer: Replaced `{}` as shorthand", i);
                 self.changed = true;
 

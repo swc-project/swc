@@ -488,13 +488,15 @@ impl Optimizer<'_> {
                         report_change!("evaluate: `{} / 0` => `Infinity`", ln);
 
                         // Sign does not matter for NaN
+                        let mut ident = Ident::new_no_ctxt(atom!("Infinity"), bin.span);
+                        self.r.add_unresolved(&mut ident);
                         *e = if ln.is_sign_positive() == rn.is_sign_positive() {
-                            Ident::new_no_ctxt(atom!("Infinity"), bin.span).into()
+                            ident.into()
                         } else {
                             UnaryExpr {
                                 span: bin.span,
                                 op: op!(unary, "-"),
-                                arg: Ident::new_no_ctxt(atom!("Infinity"), bin.span).into(),
+                                arg: ident.into(),
                             }
                             .into()
                         };

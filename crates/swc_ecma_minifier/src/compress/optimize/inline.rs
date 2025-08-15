@@ -59,7 +59,13 @@ impl Optimizer<'_> {
             }
         }
 
-        if let Some(usage) = self.data.vars.get(&ident.node_id) {
+        let node_id = match self.r.find_binding_by_ident(ident) {
+            RefTo::Itself => ident.node_id,
+            RefTo::Binding(node_id) => node_id,
+            RefTo::Unresolved => return,
+        };
+        debug_assert!(node_id != NodeId::DUMMY);
+        if let Some(usage) = self.data.vars.get(&node_id) {
             let ref_count = usage.ref_count - u32::from(can_drop && usage.ref_count > 1);
             if !usage.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) {
                 return;
@@ -97,7 +103,7 @@ impl Optimizer<'_> {
 
             // No use => dropped
             if ref_count == 0 {
-                self.mode.store(ident.node_id, &*init);
+                self.mode.store(node_id, &*init);
 
                 if init.may_have_side_effects(self.ctx.expr_ctx) {
                     // TODO: Inline partially
@@ -112,8 +118,6 @@ impl Optimizer<'_> {
                 self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0;
 
             let mut inlined_into_init = false;
-
-            let id = ident.node_id;
 
             // We inline arrays partially if it's pure (all elements are literal), and not
             // modified.
@@ -150,7 +154,7 @@ impl Optimizer<'_> {
                         );
                         self.vars
                             .lits_for_array_access
-                            .insert(ident.node_id, Box::new(init.clone()));
+                            .insert(node_id, Box::new(init.clone()));
                     }
                 }
             }
@@ -194,7 +198,7 @@ impl Optimizer<'_> {
             }
 
             if !usage.mutated() {
-                self.mode.store(ident.node_id, &*init);
+                self.mode.store(node_id, &*init);
             }
 
             if usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
@@ -285,9 +289,7 @@ impl Optimizer<'_> {
                             {
                                 true
                             } else {
-                                self.vars
-                                    .lits_for_cmp
-                                    .insert(ident.node_id, init.clone().into());
+                                self.vars.lits_for_cmp.insert(node_id, init.clone().into());
                                 false
                             }
                         }
@@ -317,7 +319,7 @@ impl Optimizer<'_> {
                     self.vars.inline_with_multi_replacer(init, self.r);
                 }
 
-                self.mode.store(id, &*init);
+                self.mode.store(node_id, &*init);
 
                 let VarUsageInfo {
                     usage_count,
@@ -327,11 +329,7 @@ impl Optimizer<'_> {
                 } = **usage;
                 let mut inc_usage = || {
                     if let Expr::Ident(i) = &*init {
-                        let node_id = match self.r.find_binding_by_ident(i) {
-                            RefTo::Binding(node_id) => node_id,
-                            RefTo::Unresolved => return,
-                            RefTo::Itself => unreachable!(),
-                        };
+                        debug_assert!(matches!(self.r.find_binding_by_ident(i), RefTo::Binding(_)));
                         debug_assert!(i.node_id != node_id);
                         if let Some(u) = self.data.vars.get_mut(&node_id) {
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_ARG;
@@ -373,7 +371,7 @@ impl Optimizer<'_> {
 
                     inc_usage();
 
-                    self.vars.lits.insert(id, init.take().into());
+                    self.vars.lits.insert(node_id, init.take().into());
 
                     ident.take();
                 } else if self.options.inline != 0 || self.options.reduce_vars {
@@ -383,15 +381,15 @@ impl Optimizer<'_> {
                         ident.ctxt
                     );
 
-                    self.mode.store(id, &*init);
+                    self.mode.store(node_id, &*init);
 
                     inc_usage();
 
-                    self.vars.lits.insert(id, init.clone().into());
+                    self.vars.lits.insert(node_id, init.clone().into());
                 }
             }
 
-            let usage = self.data.vars.get(&id).unwrap();
+            let usage = self.data.vars.get(&node_id).unwrap();
 
             // Single use => inlined
             if !self.ctx.bit_ctx.contains(BitCtx::IsExported)
@@ -500,7 +498,12 @@ impl Optimizer<'_> {
                             return;
                         }
 
-                        if let Some(init_usage) = self.data.vars.get(&id.node_id) {
+                        let id_node_id = match self.r.find_binding_by_ident(id) {
+                            RefTo::Binding(node_id) => node_id,
+                            RefTo::Itself => unreachable!(),
+                            RefTo::Unresolved => return,
+                        };
+                        if let Some(init_usage) = self.data.vars.get(&id_node_id) {
                             if init_usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                 || !init_usage.flags.contains(VarUsageInfoFlags::DECLARED)
                             {
@@ -534,9 +537,12 @@ impl Optimizer<'_> {
                     _ => {
                         for id in idents_used_by(init) {
                             let node_id = match self.r.find_binding_by_node_id(id) {
-                                RefTo::Binding(node_id) => node_id,
+                                RefTo::Binding(node_id) => {
+                                    debug_assert!(id != node_id);
+                                    node_id
+                                }
+                                RefTo::Itself => id,
                                 RefTo::Unresolved => continue,
-                                RefTo::Itself => unreachable!(),
                             };
                             if let Some(v_usage) = self.data.vars.get(&node_id) {
                                 if v_usage.property_mutation_count > usage.property_mutation_count
@@ -664,6 +670,7 @@ impl Optimizer<'_> {
             return;
         }
 
+        debug_assert_eq!(self.r.find_binding_by_ident(&i), RefTo::Itself);
         if let Some(usage) = self.data.vars.get(&i.node_id) {
             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                 trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.ctxt);
@@ -724,6 +731,7 @@ impl Optimizer<'_> {
             return;
         }
 
+        debug_assert_eq!(self.r.find_binding_by_ident(&i), RefTo::Itself);
         let id = i.node_id;
 
         if let Some(usage) = self.data.vars.get(&id) {
@@ -792,7 +800,7 @@ impl Optimizer<'_> {
                             }
 
                             self.vars.simple_functions.insert(
-                                i.node_id,
+                                id,
                                 FnExpr {
                                     ident: None,
                                     function: f.function.clone(),
@@ -888,7 +896,7 @@ impl Optimizer<'_> {
                     }
                 };
 
-                self.vars.vars_for_inlining.insert(i.node_id, e);
+                self.vars.vars_for_inlining.insert(id, e);
             } else {
                 log_abort!("inline: [x] Usage: {:?}", usage);
             }
@@ -906,7 +914,16 @@ impl Optimizer<'_> {
                 if let MemberProp::Computed(prop) = &mut me.prop {
                     if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
                         if let Expr::Ident(obj) = &*me.obj {
-                            let new = self.vars.lits_for_array_access.get(&obj.node_id);
+                            let node_id = match self.r.find_binding_by_ident(obj) {
+                                RefTo::Unresolved => None,
+                                RefTo::Binding(node_id) => Some(node_id),
+                                RefTo::Itself => unreachable!(),
+                            };
+
+                            let new = node_id.and_then(|node_id| {
+                                debug_assert!(node_id != obj.node_id);
+                                self.vars.lits_for_array_access.get(&node_id)
+                            });
 
                             if let Some(new) = new {
                                 report_change!("inline: Inlined array access");
@@ -924,6 +941,9 @@ impl Optimizer<'_> {
                     RefTo::Unresolved => return,
                     RefTo::Itself => unreachable!(),
                 };
+                debug_assert!(i.node_id != node_id);
+                debug_assert!(i.node_id != NodeId::DUMMY);
+                debug_assert!(node_id != NodeId::DUMMY);
 
                 if let Some(mut value) = self
                     .vars
@@ -946,7 +966,7 @@ impl Optimizer<'_> {
 
                     // currently renamer relies on the fact no distinct var has same ctxt, we need
                     // to remap all new bindings.
-                    // let bindings: FxHashSet<NodeId> = collect_decls(&*value);
+                    let bindings: FxHashSet<NodeId> = collect_decls(&*value);
                     // let new_mark = Mark::new();
                     // let mut cache = FxHashMap::default();
                     // let mut remap = FxHashMap::default();
@@ -992,7 +1012,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if let Some(value) = self.vars.vars_for_inlining.remove(&i.node_id) {
+                if let Some(value) = self.vars.vars_for_inlining.remove(&node_id) {
                     self.changed = true;
                     report_change!("inline: Replacing '{}' with an expression", i);
 

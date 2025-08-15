@@ -1,5 +1,5 @@
 #![allow(clippy::vec_box)]
-use std::{borrow::Cow, mem::transmute};
+use std::mem::transmute;
 
 use is_macro::Is;
 use string_enum::StringEnum;

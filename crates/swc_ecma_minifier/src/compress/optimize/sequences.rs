@@ -3,6 +3,7 @@ use std::{iter::once, mem::take};
 use rustc_hash::FxHashSet;
 use swc_common::{pass::Either, util::take::Take, EqIgnoreSpan, NodeId, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::RefTo;
 use swc_ecma_usage_analyzer::{
     alias::{try_collect_infects_from, AccessKind, AliasConfig},
     util::is_global_var_with_pure_property_access,
@@ -2385,8 +2386,15 @@ impl Optimizer<'_> {
         let take_a = |a: &mut Mergable, force_drop: bool, drop_op| {
             match a {
                 Mergable::Var(a) => {
+                    let left_node_id = match self.r.find_binding_by_ident(&left_id) {
+                        RefTo::Binding(node_id) => node_id,
+                        RefTo::Itself => left_id.node_id,
+                        RefTo::Unresolved => {
+                            return a.init.clone().unwrap_or_else(|| Expr::undefined(DUMMY_SP))
+                        }
+                    };
                     if self.options.unused {
-                        if let Some(usage) = self.data.vars.get(&left_id.node_id) {
+                        if let Some(usage) = self.data.vars.get(&left_node_id) {
                             // We are eliminating one usage, so we use 1 instead of
                             // 0
                             if !force_drop
@@ -2402,7 +2410,7 @@ impl Optimizer<'_> {
                     if can_take_init || force_drop {
                         let init = a.init.take();
 
-                        if let Some(usage) = self.data.vars.get(&left_id.node_id) {
+                        if let Some(usage) = self.data.vars.get(&left_node_id) {
                             if usage.var_kind == Some(VarDeclKind::Const) {
                                 a.init = Some(Expr::undefined(DUMMY_SP));
                             }
@@ -2478,38 +2486,45 @@ impl Optimizer<'_> {
                         Mergable::FnDecl(_) => Some(op!("=")),
                         _ => None,
                     };
-
-                    let var_type = self
-                        .data
-                        .vars
-                        .get(&left_id.node_id)
-                        .and_then(|info| info.merged_var_type);
                     let Some(a_type) = a_type else {
                         return Ok(false);
                     };
-                    let b_type = b.right.get_type(self.ctx.expr_ctx);
 
                     if let Some(a_op) = a_op {
-                        if can_drop_op_for(a_op, b.op, var_type, a_type, b_type) {
-                            if b_left.ctxt == left_id.ctxt && b_left.sym == left_id.sym {
-                                if let Some(bin_op) = b.op.to_update() {
-                                    report_change!(
-                                        "sequences: Merged assignment into another (op) assignment"
-                                    );
-                                    self.changed = true;
+                        let left_node_id = match self.r.find_binding_by_ident(&left_id) {
+                            RefTo::Binding(node_id) => Some(node_id),
+                            RefTo::Itself => Some(left_id.node_id),
+                            RefTo::Unresolved => None,
+                        };
+                        if let Some(left_node_id) = left_node_id {
+                            let var_type = self
+                                .data
+                                .vars
+                                .get(&left_node_id)
+                                .and_then(|info| info.merged_var_type);
+                            let b_type = b.right.get_type(self.ctx.expr_ctx);
+                            if can_drop_op_for(a_op, b.op, var_type, a_type, b_type) {
+                                if b_left.ctxt == left_id.ctxt && b_left.sym == left_id.sym {
+                                    if let Some(bin_op) = b.op.to_update() {
+                                        report_change!(
+                                            "sequences: Merged assignment into another (op) \
+                                             assignment"
+                                        );
+                                        self.changed = true;
 
-                                    b.op = a_op;
+                                        b.op = a_op;
 
-                                    let to = take_a(a, true, true);
+                                        let to = take_a(a, true, true);
 
-                                    b.right = BinExpr {
-                                        span: DUMMY_SP,
-                                        op: bin_op,
-                                        left: to,
-                                        right: b.right.take(),
+                                        b.right = BinExpr {
+                                            span: DUMMY_SP,
+                                            op: bin_op,
+                                            left: to,
+                                            right: b.right.take(),
+                                        }
+                                        .into();
+                                        return Ok(true);
                                     }
-                                    .into();
-                                    return Ok(true);
                                 }
                             }
                         }

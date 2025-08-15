@@ -3,7 +3,7 @@ use swc_common::NodeId;
 #[derive(Debug, Default)]
 pub(super) struct ReferenceMap(Vec<RefTo>);
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, PartialEq)]
 pub enum RefTo {
     Unresolved,
     Itself,

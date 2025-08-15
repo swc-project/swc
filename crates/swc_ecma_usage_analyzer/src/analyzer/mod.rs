@@ -198,7 +198,14 @@ where
 
     fn report_assign_expr_if_ident(&mut self, e: Option<&Ident>, is_op: bool, ty: Value<Type>) {
         if let Some(i) = e {
-            self.data.report_assign(self.ctx, i.node_id, is_op, ty)
+            let id = match self.r.find_binding_by_ident(i) {
+                RefTo::Binding(node_id) => node_id,
+                RefTo::Unresolved => return,
+                RefTo::Itself => unreachable!(),
+            };
+            debug_assert!(i.node_id != id);
+            debug_assert!(id != NodeId::DUMMY);
+            self.data.report_assign(self.ctx, id, is_op, ty)
         }
     }
 
@@ -209,9 +216,7 @@ where
         kind: Option<VarDeclKind>,
         is_fn_decl: bool,
     ) -> &mut S::VarData {
-        self.scope.add_declared_symbol(i);
-
-        let v = self.data.declare_decl(self.ctx, i, init_type, kind);
+        let v = self.data.declare_decl(self.ctx, i, init_type, kind, self.r);
 
         if is_fn_decl {
             v.mark_declared_as_fn_decl();
@@ -235,7 +240,12 @@ where
     fn mark_mutation_if_member(&mut self, e: Option<&MemberExpr>) {
         if let Some(m) = e {
             for_each_id_ref_in_expr(&m.obj, &mut |id| {
-                self.data.mark_property_mutation(id.node_id)
+                let id = match self.r.find_binding_by_ident(id) {
+                    RefTo::Binding(node_id) => node_id,
+                    RefTo::Unresolved => return,
+                    RefTo::Itself => unreachable!(),
+                };
+                self.data.mark_property_mutation(id)
             });
         }
     }
@@ -299,6 +309,11 @@ where
         match &n.left {
             AssignTarget::Pat(p) => {
                 for id in find_pat_ids(p) {
+                    let id = match self.r.find_binding_by_node_id(id) {
+                        RefTo::Binding(node_id) => node_id,
+                        RefTo::Unresolved => continue,
+                        RefTo::Itself => unreachable!(),
+                    };
                     self.data.report_assign(
                         self.ctx,
                         id,
@@ -334,10 +349,19 @@ where
                     },
                 ) {
                     if v.is_none() {
-                        v = Some(self.data.var_or_default(left.node_id));
+                        let node_id = match self.r.find_binding_by_ident(left) {
+                            RefTo::Binding(node_id) => Some(node_id),
+                            RefTo::Unresolved => None,
+                            RefTo::Itself => unreachable!(),
+                        };
+                        if let Some(node_id) = node_id {
+                            debug_assert!(node_id != left.node_id);
+                            debug_assert!(node_id != NodeId::DUMMY);
+                            v = Some(self.data.var_or_default(node_id));
+                        }
                     }
 
-                    v.as_mut().unwrap().add_infects_to(id.clone());
+                    v.as_mut().unwrap().add_infects_to(id);
                 }
             }
         }
@@ -377,7 +401,13 @@ where
         } else {
             if e.op == op!("in") {
                 for_each_id_ref_in_expr(&e.right, &mut |obj| {
-                    let var = self.data.var_or_default(obj.node_id);
+                    let node_id = match self.r.find_binding_by_ident(obj) {
+                        RefTo::Binding(node_id) => node_id,
+                        RefTo::Unresolved => return,
+                        RefTo::Itself => unreachable!(),
+                    };
+                    debug_assert!(node_id != obj.node_id);
+                    let var = self.data.var_or_default(node_id);
                     var.mark_used_as_ref();
 
                     match &*e.left {
@@ -503,7 +533,13 @@ where
             if call_may_mutate {
                 for a in &n.args {
                     for_each_id_ref_in_expr(&a.expr, &mut |id| {
-                        self.data.mark_property_mutation(id.node_id);
+                        let node_id = match self.r.find_binding_by_ident(id) {
+                            RefTo::Binding(node_id) => node_id,
+                            RefTo::Unresolved => return,
+                            RefTo::Itself => unreachable!(),
+                        };
+                        debug_assert!(node_id != id.node_id);
+                        self.data.mark_property_mutation(node_id);
                     });
                 }
             }
@@ -527,7 +563,12 @@ where
                 }
                 Expr::Member(m) if !m.obj.is_ident() => {
                     for_each_id_ref_in_expr(&m.obj, &mut |id| {
-                        self.data.var_or_default(id.node_id).mark_used_as_ref()
+                        let node_id = match self.r.find_binding_by_ident(id) {
+                            RefTo::Binding(node_id) => node_id,
+                            RefTo::Unresolved => return,
+                            RefTo::Itself => unreachable!(),
+                        };
+                        self.data.var_or_default(node_id).mark_used_as_ref()
                     })
                 }
                 _ => {}
@@ -706,16 +747,26 @@ where
 
         match &n.decl {
             Decl::Class(c) => {
+                debug_assert_eq!(self.r.find_binding_by_ident(&c.ident), RefTo::Itself);
                 self.data.var_or_default(c.ident.node_id).prevent_inline();
             }
             Decl::Fn(f) => {
+                debug_assert_eq!(self.r.find_binding_by_ident(&f.ident), RefTo::Itself);
                 self.data.var_or_default(f.ident.node_id).prevent_inline();
             }
             Decl::Var(v) => {
-                let ids = find_pat_ids(v);
+                for id in find_pat_ids(v) {
+                    let node_id = match self.r.find_binding_by_node_id(id) {
+                        RefTo::Binding(node_id) => {
+                            debug_assert!(node_id != id);
+                            debug_assert!(v.kind == VarDeclKind::Var);
+                            node_id
+                        }
+                        RefTo::Itself => id,
+                        RefTo::Unresolved => unreachable!(),
+                    };
 
-                for id in ids {
-                    self.data.var_or_default(id).mark_as_exported();
+                    self.data.var_or_default(node_id).mark_as_exported();
                 }
             }
             _ => {}
@@ -805,14 +856,16 @@ where
         self.with_ctx(ctx)
             .declare_decl(&n.ident, Some(Value::Known(Type::Obj)), None, true);
 
+        let node_id = n.ident.node_id;
+        debug_assert_eq!(self.r.find_binding_by_ident(&n.ident), RefTo::Itself);
         if n.function.body.is_empty() {
-            self.data.var_or_default(n.ident.node_id).mark_as_pure_fn();
+            self.data.var_or_default(node_id).mark_as_pure_fn();
         }
 
-        let id = n.ident.node_id;
-        self.used_recursively.insert(id, RecursiveUsage::FnOrClass);
+        self.used_recursively
+            .insert(node_id, RecursiveUsage::FnOrClass);
         n.visit_children_with(self);
-        self.used_recursively.remove(&id);
+        self.used_recursively.remove(&node_id);
 
         {
             let mut v = None;
@@ -825,7 +878,7 @@ where
                 },
             ) {
                 if v.is_none() {
-                    v = Some(self.data.var_or_default(n.ident.node_id));
+                    v = Some(self.data.var_or_default(node_id));
                 }
 
                 v.as_mut().unwrap().add_infects_to(id.clone());
@@ -839,12 +892,12 @@ where
     )]
     fn visit_fn_expr(&mut self, n: &FnExpr) {
         if let Some(n_id) = &n.ident {
-            self.data
-                .var_or_default(n_id.node_id)
-                .mark_declared_as_fn_expr();
+            let node_id = n_id.node_id;
+            debug_assert_eq!(self.r.find_binding_by_ident(n_id), RefTo::Itself);
+            self.data.var_or_default(node_id).mark_declared_as_fn_expr();
 
             self.used_recursively
-                .insert(n_id.node_id, RecursiveUsage::FnOrClass);
+                .insert(node_id, RecursiveUsage::FnOrClass);
 
             n.visit_children_with(self);
 
@@ -859,13 +912,13 @@ where
                     },
                 ) {
                     if v.is_none() {
-                        v = Some(self.data.var_or_default(n_id.node_id));
+                        v = Some(self.data.var_or_default(node_id));
                     }
 
                     v.as_mut().unwrap().add_infects_to(id);
                 }
             }
-            self.used_recursively.remove(&n_id.node_id);
+            self.used_recursively.remove(&node_id);
         } else {
             n.visit_children_with(self);
         }
@@ -1073,19 +1126,32 @@ where
             }
         });
 
-        fn is_root_of_member_expr_declared(member_expr: &MemberExpr, data: &impl Storage) -> bool {
+        fn is_root_of_member_expr_declared<S: Storage>(
+            this: &UsageAnalyzer<'_, S>,
+            member_expr: &MemberExpr,
+            data: &impl Storage,
+        ) -> bool {
             match &*member_expr.obj {
-                Expr::Member(member_expr) => is_root_of_member_expr_declared(member_expr, data),
-                Expr::Ident(ident) => data
-                    .get_var_data(ident.node_id)
-                    .map(|var| var.is_declared())
-                    .unwrap_or(false),
+                Expr::Member(member_expr) => {
+                    is_root_of_member_expr_declared(this, member_expr, data)
+                }
+                Expr::Ident(ident) => {
+                    let node_id = match this.r.find_binding_by_ident(ident) {
+                        RefTo::Unresolved => return true,
+                        RefTo::Itself => unreachable!(),
+                        RefTo::Binding(node_id) => node_id,
+                    };
+                    debug_assert!(node_id != ident.node_id);
+                    data.get_var_data(node_id)
+                        .map(|var| var.is_declared())
+                        .unwrap_or(false)
+                }
 
                 _ => false,
             }
         }
 
-        if is_root_of_member_expr_declared(e, &self.data) {
+        if is_root_of_member_expr_declared(self, e, &self.data) {
             if let MemberProp::Ident(ident) = &e.prop {
                 self.data.add_property_atom(ident.sym.clone());
             }
@@ -1136,7 +1202,13 @@ where
                 if let Some(args) = &n.args {
                     for a in args {
                         for_each_id_ref_in_expr(&a.expr, &mut |id| {
-                            self.data.mark_property_mutation(id.node_id);
+                            let node_id = match self.r.find_binding_by_ident(id) {
+                                RefTo::Unresolved => return,
+                                RefTo::Itself => unreachable!(),
+                                RefTo::Binding(node_id) => node_id,
+                            };
+                            debug_assert!(node_id != id.node_id);
+                            self.data.mark_property_mutation(node_id);
                         });
                     }
                 }
@@ -1267,6 +1339,7 @@ where
         e.visit_children_with(self);
 
         for_each_id_ref_in_expr(&e.expr, &mut |i| {
+            debug_assert!(self.r.find_binding_by_ident(i) == RefTo::Itself);
             self.data
                 .var_or_default(i.node_id)
                 .mark_indexed_with_dynamic_key();
@@ -1421,10 +1494,18 @@ where
                     },
                 ) {
                     if v.is_none() {
-                        v = Some(self.data.var_or_default(var.node_id));
+                        let node_id = match self.r.find_binding_by_ident(&var.id) {
+                            RefTo::Binding(node_id) => {
+                                debug_assert!(n.kind == VarDeclKind::Var);
+                                node_id
+                            }
+                            RefTo::Itself => var.node_id,
+                            RefTo::Unresolved => unreachable!(),
+                        };
+                        v = Some(self.data.var_or_default(node_id));
                     }
 
-                    v.as_mut().unwrap().add_infects_to(id.clone());
+                    v.as_mut().unwrap().add_infects_to(id);
                 }
             }
         }
@@ -1482,14 +1563,20 @@ where
                         definite: false,
                         ..
                     } => {
+                        let node_id = match self.r.find_binding_by_ident(id) {
+                            // dummy var kind
+                            RefTo::Binding(node_id) => node_id,
+                            RefTo::Itself => id.node_id,
+                            RefTo::Unresolved => unreachable!(),
+                        };
                         self.used_recursively.insert(
-                            id.node_id,
+                            node_id,
                             RecursiveUsage::Var {
                                 can_ignore: !init.may_have_side_effects(self.expr_ctx),
                             },
                         );
                         e.init.visit_with(&mut *self.with_ctx(ctx));
-                        self.used_recursively.remove(&id.node_id);
+                        self.used_recursively.remove(&node_id);
                         return;
                     }
 
@@ -1498,7 +1585,13 @@ where
                         init: None,
                         ..
                     } => {
-                        self.data.var_or_default(id.node_id).mark_as_lazy_init();
+                        let node_id = match self.r.find_binding_by_ident(id) {
+                            // dummy var kind
+                            RefTo::Binding(node_id) => node_id,
+                            RefTo::Itself => id.node_id,
+                            RefTo::Unresolved => unreachable!(),
+                        };
+                        self.data.var_or_default(node_id).mark_as_lazy_init();
                         return;
                     }
                     _ => (),
