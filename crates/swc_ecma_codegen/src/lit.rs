@@ -43,7 +43,6 @@ impl MacroNode for Lit {
 #[node_impl]
 impl MacroNode for Str {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
-        dbg!(self);
         emitter.wr.commit_pending_semi()?;
 
         emitter.emit_leading_comments_of_span(self.span(), false)?;
