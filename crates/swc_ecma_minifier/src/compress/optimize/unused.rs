@@ -1,7 +1,8 @@
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, NodeId, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::RefTo;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
 use swc_ecma_utils::{contains_ident_ref, contains_this_expr, ExprExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -185,7 +186,13 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(v) = self.data.vars.get(&i.to_id()) {
+        let node_id = match self.r.find_binding_by_ident(i) {
+            RefTo::Unresolved => return,
+            RefTo::Itself => i.node_id,
+            RefTo::Binding(node_id) => node_id,
+        };
+
+        if let Some(v) = self.data.vars.get(&node_id) {
             let is_used_in_member =
                 v.property_mutation_count > 0 || v.flags.contains(VarUsageInfoFlags::USED_AS_REF);
             if v.ref_count == 0
@@ -257,7 +264,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if let Some(usage) = self.data.vars.get(&e.to_id()) {
+                if let Some(usage) = self.data.vars.get(&e.node_id) {
                     if !usage.flags.contains(VarUsageInfoFlags::DECLARED) {
                         return true;
                     }
@@ -517,7 +524,7 @@ impl Optimizer<'_> {
                 if self
                     .data
                     .vars
-                    .get(&ident.to_id())
+                    .get(&ident.node_id)
                     .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
                     .unwrap_or(false)
                 {
@@ -569,7 +576,7 @@ impl Optimizer<'_> {
                 if self
                     .data
                     .vars
-                    .get(&ident.to_id())
+                    .get(&ident.node_id)
                     .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
                     .unwrap_or(false)
                 {
@@ -611,7 +618,7 @@ impl Optimizer<'_> {
         };
 
         if let Expr::Ident(arg) = &*update.arg {
-            if let Some(var) = self.data.vars.get(&arg.to_id()) {
+            if let Some(var) = self.data.vars.get(&arg.node_id) {
                 // Update is counted as usage
                 if var
                     .flags
@@ -659,7 +666,12 @@ impl Optimizer<'_> {
         };
 
         if let AssignTarget::Simple(SimpleAssignTarget::Ident(left)) = &assign.left {
-            if let Some(var) = self.data.vars.get(&left.to_id()) {
+            let node_id = match self.r.find_binding_by_ident(left) {
+                RefTo::Binding(node_id) => Some(node_id),
+                RefTo::Unresolved => None,
+                RefTo::Itself => unreachable!(),
+            };
+            if let Some(var) = node_id.and_then(|node_id| self.data.vars.get(&node_id)) {
                 // TODO: We don't need fn_local check
                 if var
                     .flags
@@ -724,7 +736,13 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if let Some(var) = self.data.vars.get(&i.to_id()) {
+            let node_id = match self.r.find_binding_by_ident(i) {
+                RefTo::Binding(node_id) => node_id,
+                RefTo::Itself => unreachable!(),
+                RefTo::Unresolved => return,
+            };
+
+            if let Some(var) = self.data.vars.get(&node_id) {
                 // technically this is inline
                 if !var.flags.intersects(
                     VarUsageInfoFlags::INLINE_PREVENTED.union(VarUsageInfoFlags::EXPORTED),
@@ -772,10 +790,11 @@ impl Optimizer<'_> {
         }
 
         if let Some(i) = &name {
+            debug_assert_eq!(self.r.find_binding_by_ident(i), RefTo::Itself);
             let can_remove_ident = self
                 .data
                 .vars
-                .get(&i.to_id())
+                .get(&i.node_id)
                 .map(|v| {
                     (!v.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY)
                         && v.ref_count == 0
@@ -805,7 +824,14 @@ impl Optimizer<'_> {
         for d in var.decls.iter_mut() {
             if d.init.is_none() {
                 if let Pat::Ident(name) = &d.name {
-                    if let Some(usage) = self.data.vars.get_mut(&name.to_id()) {
+                    let node_id = match self.r.find_binding_by_ident(name) {
+                        RefTo::Itself => Some(name.node_id),
+                        RefTo::Binding(node_id) => Some(node_id),
+                        RefTo::Unresolved => None,
+                    };
+                    if let Some(usage) =
+                        node_id.and_then(|node_id| self.data.vars.get_mut(&node_id))
+                    {
                         if usage.flags.contains(
                             VarUsageInfoFlags::IS_FN_LOCAL
                                 .union(VarUsageInfoFlags::DECLARED_AS_FN_PARAM),
@@ -864,7 +890,14 @@ impl Optimizer<'_> {
         let name = v.name.as_ident()?;
         let obj = v.init.as_mut()?.as_mut_object()?;
 
-        let usage = self.data.vars.get(&name.to_id())?;
+        let node_id = match self.r.find_binding_by_ident(name) {
+            RefTo::Unresolved => return None,
+            RefTo::Itself => name.node_id,
+            // dummy
+            RefTo::Binding(node_id) => node_id,
+        };
+
+        let usage = self.data.vars.get(&node_id)?;
 
         if usage.flags.intersects(
             VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY
@@ -902,7 +935,7 @@ impl Optimizer<'_> {
         let mut unknown_used_props = self
             .data
             .vars
-            .get(&name.to_id())
+            .get(&node_id)
             .map(|v| v.accessed_props.clone())
             .unwrap_or_default();
 

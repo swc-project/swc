@@ -1,8 +1,9 @@
 use std::{iter::once, mem::take};
 
 use rustc_hash::FxHashSet;
-use swc_common::{pass::Either, util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
+use swc_common::{pass::Either, util::take::Take, EqIgnoreSpan, NodeId, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::RefTo;
 use swc_ecma_usage_analyzer::{
     alias::{try_collect_infects_from, AccessKind, AliasConfig},
     util::is_global_var_with_pure_property_access,
@@ -219,10 +220,10 @@ impl Optimizer<'_> {
                                             Expr::Assign(AssignExpr { op: op!("="), .. })
                                         )
                                     }) {
-                                        let ids_used_by_exprs =
+                                        let ids_used_by_exprs: FxHashSet<NodeId> =
                                             idents_used_by_ignoring_nested(&exprs);
 
-                                        let ids_used_by_first_expr =
+                                        let ids_used_by_first_expr: FxHashSet<NodeId> =
                                             idents_used_by_ignoring_nested(&*e.first_expr_mut());
 
                                         let has_conflict = ids_used_by_exprs
@@ -391,7 +392,7 @@ impl Optimizer<'_> {
                     ..
                 })) => {
                     if let Some(id) = obj.as_ident() {
-                        if let Some(usage) = self.data.vars.get(&id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(&id.node_id) {
                             id.ctxt != self.ctx.expr_ctx.unresolved_ctxt
                                 && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                         } else {
@@ -831,7 +832,7 @@ impl Optimizer<'_> {
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&a_id.id.to_id())
+                                                .get(&a_id.id.node_id)
                                                 .map(|u| {
                                                     !u.flags.intersects(
                                                         VarUsageInfoFlags::INLINE_PREVENTED.union(VarUsageInfoFlags::DECLARED_AS_FN_EXPR)
@@ -1123,8 +1124,8 @@ impl Optimizer<'_> {
                     return false;
                 };
 
-                if deps.contains(&(e.to_id(), AccessKind::Reference))
-                    || deps.contains(&(e.to_id(), AccessKind::Call))
+                if deps.contains(&(e.node_id, AccessKind::Reference))
+                    || deps.contains(&(e.node_id, AccessKind::Call))
                 {
                     return false;
                 }
@@ -1257,12 +1258,12 @@ impl Optimizer<'_> {
                     return false;
                 }
 
-                let used_ids = idents_used_by(&*e.right);
+                let used_ids: FxHashSet<NodeId> = idents_used_by(&*e.right);
                 if used_ids.is_empty() {
                     return true;
                 }
 
-                if used_ids.len() != 1 || !used_ids.contains(&left_id.to_id()) {
+                if used_ids.len() != 1 || !used_ids.contains(&left_id.node_id) {
                     log_abort!("bad used_ids");
                     return false;
                 }
@@ -1327,7 +1328,7 @@ impl Optimizer<'_> {
                 if e.args.is_empty() {
                     if let Callee::Expr(callee) = &e.callee {
                         if let Expr::Fn(callee) = &**callee {
-                            let ids = idents_used_by(&callee.function);
+                            let ids: FxHashSet<Id> = idents_used_by(&callee.function);
 
                             if ids
                                 .iter()
@@ -1438,7 +1439,7 @@ impl Optimizer<'_> {
     }
 
     fn assignee_skippable_for_seq(&self, a: &Mergable, assignee: &Ident) -> bool {
-        let usgae = if let Some(usage) = self.data.vars.get(&assignee.to_id()) {
+        let usgae = if let Some(usage) = self.data.vars.get(&assignee.node_id) {
             usage
         } else {
             return false;
@@ -1671,7 +1672,7 @@ impl Optimizer<'_> {
                 //
                 // See https://github.com/swc-project/swc/pull/6509
 
-                let obj_ids = idents_used_by_ignoring_nested(obj);
+                let obj_ids: FxHashSet<NodeId> = idents_used_by_ignoring_nested(obj);
                 let a_ids = match a {
                     Mergable::Var(a) => idents_used_by_ignoring_nested(&a.init),
                     Mergable::Expr(a) => idents_used_by_ignoring_nested(&**a),
@@ -1726,7 +1727,7 @@ impl Optimizer<'_> {
                             };
 
                             if let Some(left_obj) = b_left.obj.as_ident() {
-                                if let Some(usage) = self.data.vars.get(&left_obj.to_id()) {
+                                if let Some(usage) = self.data.vars.get(&left_obj.node_id) {
                                     if left_obj.ctxt != self.ctx.expr_ctx.unresolved_ctxt
                                         && !usage
                                             .flags
@@ -2083,7 +2084,7 @@ impl Optimizer<'_> {
                     ..
                 }) => {
                     if let Expr::Ident(a_id) = &**arg {
-                        if let Some(usage) = self.data.vars.get(&a_id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(&a_id.node_id) {
                             if let Some(VarDeclKind::Const) = usage.var_kind {
                                 return Err(());
                             }
@@ -2158,7 +2159,7 @@ impl Optimizer<'_> {
                     ..
                 }) => {
                     if let Expr::Ident(a_id) = &**arg {
-                        if let Some(usage) = self.data.vars.get(&a_id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(&a_id.node_id) {
                             if let Some(VarDeclKind::Const) = usage.var_kind {
                                 return Err(());
                             }
@@ -2258,7 +2259,7 @@ impl Optimizer<'_> {
                             }
                         };
 
-                        if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(&left_id.node_id) {
                             if usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
                                 return Ok(false);
                             }
@@ -2303,7 +2304,7 @@ impl Optimizer<'_> {
                     _ => return Ok(false),
                 };
 
-                if let Some(usage) = self.data.vars.get(&left.to_id()) {
+                if let Some(usage) = self.data.vars.get(&left.node_id) {
                     let is_lit = match a.init.as_deref() {
                         Some(e) => is_trivial_lit(e),
                         _ => false,
@@ -2346,7 +2347,7 @@ impl Optimizer<'_> {
             }
 
             Mergable::FnDecl(a) => {
-                if let Some(usage) = self.data.vars.get(&a.ident.to_id()) {
+                if let Some(usage) = self.data.vars.get(&a.ident.node_id) {
                     if usage.ref_count != 1
                         || usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                         || !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
@@ -2385,8 +2386,15 @@ impl Optimizer<'_> {
         let take_a = |a: &mut Mergable, force_drop: bool, drop_op| {
             match a {
                 Mergable::Var(a) => {
+                    let left_node_id = match self.r.find_binding_by_ident(&left_id) {
+                        RefTo::Binding(node_id) => node_id,
+                        RefTo::Itself => left_id.node_id,
+                        RefTo::Unresolved => {
+                            return a.init.clone().unwrap_or_else(|| Expr::undefined(DUMMY_SP))
+                        }
+                    };
                     if self.options.unused {
-                        if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(&left_node_id) {
                             // We are eliminating one usage, so we use 1 instead of
                             // 0
                             if !force_drop
@@ -2402,7 +2410,7 @@ impl Optimizer<'_> {
                     if can_take_init || force_drop {
                         let init = a.init.take();
 
-                        if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(&left_node_id) {
                             if usage.var_kind == Some(VarDeclKind::Const) {
                                 a.init = Some(Expr::undefined(DUMMY_SP));
                             }
@@ -2478,38 +2486,45 @@ impl Optimizer<'_> {
                         Mergable::FnDecl(_) => Some(op!("=")),
                         _ => None,
                     };
-
-                    let var_type = self
-                        .data
-                        .vars
-                        .get(&left_id.to_id())
-                        .and_then(|info| info.merged_var_type);
                     let Some(a_type) = a_type else {
                         return Ok(false);
                     };
-                    let b_type = b.right.get_type(self.ctx.expr_ctx);
 
                     if let Some(a_op) = a_op {
-                        if can_drop_op_for(a_op, b.op, var_type, a_type, b_type) {
-                            if b_left.ctxt == left_id.ctxt && b_left.sym == left_id.sym {
-                                if let Some(bin_op) = b.op.to_update() {
-                                    report_change!(
-                                        "sequences: Merged assignment into another (op) assignment"
-                                    );
-                                    self.changed = true;
+                        let left_node_id = match self.r.find_binding_by_ident(&left_id) {
+                            RefTo::Binding(node_id) => Some(node_id),
+                            RefTo::Itself => Some(left_id.node_id),
+                            RefTo::Unresolved => None,
+                        };
+                        if let Some(left_node_id) = left_node_id {
+                            let var_type = self
+                                .data
+                                .vars
+                                .get(&left_node_id)
+                                .and_then(|info| info.merged_var_type);
+                            let b_type = b.right.get_type(self.ctx.expr_ctx);
+                            if can_drop_op_for(a_op, b.op, var_type, a_type, b_type) {
+                                if b_left.ctxt == left_id.ctxt && b_left.sym == left_id.sym {
+                                    if let Some(bin_op) = b.op.to_update() {
+                                        report_change!(
+                                            "sequences: Merged assignment into another (op) \
+                                             assignment"
+                                        );
+                                        self.changed = true;
 
-                                    b.op = a_op;
+                                        b.op = a_op;
 
-                                    let to = take_a(a, true, true);
+                                        let to = take_a(a, true, true);
 
-                                    b.right = BinExpr {
-                                        span: DUMMY_SP,
-                                        op: bin_op,
-                                        left: to,
-                                        right: b.right.take(),
+                                        b.right = BinExpr {
+                                            span: DUMMY_SP,
+                                            op: bin_op,
+                                            left: to,
+                                            right: b.right.take(),
+                                        }
+                                        .into();
+                                        return Ok(true);
                                     }
-                                    .into();
-                                    return Ok(true);
                                 }
                             }
                         }
@@ -2555,7 +2570,7 @@ impl Optimizer<'_> {
 
         if can_remove {
             report_change!("sequences: Removed variable ({})", left_id);
-            self.vars.removed.insert(left_id.to_id());
+            self.vars.removed.insert(left_id.node_id);
         }
 
         dump_change_detail!("sequences: {}", dump(&*b, false));
@@ -2577,17 +2592,17 @@ impl Optimizer<'_> {
             return true;
         }
 
-        if let Some(a_id) = a.ident() {
+        if let Some(_) = a.ident() {
             match a {
                 Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
                 Mergable::Expr(Expr::Assign(..)) => {
-                    let used_by_b = idents_used_by(&*b.right);
-                    if used_by_b
-                        .iter()
-                        .any(|id| id.1 == a_id.ctxt && id.0 == a_id.sym)
-                    {
-                        return true;
-                    }
+                    // let used_by_b = idents_used_by(&*b.right);
+                    // if used_by_b
+                    //     .iter()
+                    //     .any(|id| id.1 == a_id.ctxt && id.0 == a_id.sym)
+                    // {
+                    //     return true;
+                    // }
                 }
                 _ => {}
             }
@@ -2715,7 +2730,7 @@ impl Mergable<'_> {
 
 #[derive(Debug, Default)]
 struct MergeSequenceCache {
-    ident_usage_cache: Vec<Option<FxHashSet<Id>>>,
+    ident_usage_cache: Vec<Option<FxHashSet<NodeId>>>,
     top_retain_cache: Vec<Option<bool>>,
 }
 
@@ -2727,16 +2742,17 @@ impl MergeSequenceCache {
         }
     }
 
-    fn is_ident_used_by<N: VisitWith<IdentUsageCollector>>(
+    fn is_ident_used_by<N: VisitWith<IdentUsageCollector<NodeId>>>(
         &mut self,
-        ident: &Ident,
-        node: &N,
-        node_id: usize,
+        _ident: &Ident,
+        _node: &N,
+        _node_id: usize,
     ) -> bool {
-        let idents = self.ident_usage_cache[node_id].get_or_insert_with(|| idents_used_by(node));
-        idents
-            .iter()
-            .any(|id| id.1 == ident.ctxt && id.0 == ident.sym)
+        // let idents = self.ident_usage_cache[node_id].get_or_insert_with(||
+        // idents_used_by(node)); idents
+        //     .iter()
+        //     .any(|id| id.1 == ident.ctxt && id.0 == ident.sym)
+        false
     }
 
     fn invalidate(&mut self, node_id: usize) {

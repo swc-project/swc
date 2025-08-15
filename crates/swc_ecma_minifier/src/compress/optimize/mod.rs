@@ -5,9 +5,12 @@ use std::iter::once;
 use bitflags::bitflags;
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::Atom;
-use swc_common::{pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{pass::Repeated, util::take::Take, NodeId, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::rename::contains_eval;
+use swc_ecma_transforms_base::{
+    rename::contains_eval,
+    resolve::{RefTo, Resolver},
+};
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
 use swc_ecma_utils::{
@@ -60,6 +63,7 @@ pub(super) fn optimizer<'a>(
     mangle_options: Option<&'a MangleOptions>,
     data: &'a mut ProgramData,
     mode: &'a dyn Mode,
+    r: &'a mut Resolver,
 ) -> impl 'a + VisitMut + Repeated {
     assert!(
         options.top_retain.iter().all(|s| s.trim() != ""),
@@ -90,6 +94,7 @@ pub(super) fn optimizer<'a>(
         ctx,
         mode,
         functions: Default::default(),
+        r,
     }
 }
 
@@ -236,6 +241,7 @@ struct Optimizer<'a> {
     ctx: Ctx,
 
     mode: &'a dyn Mode,
+    r: &'a mut Resolver,
 
     functions: Box<FxHashMap<Id, FnMetadata>>,
 }
@@ -245,38 +251,38 @@ struct Vars {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: FxHashMap<Id, Box<Expr>>,
+    lits: FxHashMap<NodeId, Box<Expr>>,
 
     /// Used for `hoist_props`.
-    hoisted_props: Box<FxHashMap<(Id, Atom), Ident>>,
+    hoisted_props: Box<FxHashMap<(NodeId, Atom), Ident>>,
 
     /// Literals which are cheap to clone, but not sure if we can inline without
     /// making output bigger.
     ///
     /// https://github.com/swc-project/swc/issues/4415
-    lits_for_cmp: FxHashMap<Id, Box<Expr>>,
+    lits_for_cmp: FxHashMap<NodeId, Box<Expr>>,
 
     /// This stores [Expr::Array] if all elements are literals.
-    lits_for_array_access: FxHashMap<Id, Box<Expr>>,
+    lits_for_array_access: FxHashMap<NodeId, Box<Expr>>,
 
     /// Used for copying functions.
     ///
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
-    simple_functions: FxHashMap<Id, Box<Expr>>,
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+    simple_functions: FxHashMap<NodeId, Box<Expr>>,
+    vars_for_inlining: FxHashMap<NodeId, Box<Expr>>,
 
     /// Variables which should be removed by [Finalizer] because of the order of
     /// visit.
-    removed: FxHashSet<Id>,
+    removed: FxHashSet<NodeId>,
 }
 
 impl Vars {
-    fn has_pending_inline_for(&self, id: &Id) -> bool {
+    fn has_pending_inline_for(&self, id: &NodeId) -> bool {
         self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
     }
 
     /// Returns true if something is changed.
-    fn inline_with_multi_replacer<N>(&mut self, n: &mut N) -> bool
+    fn inline_with_multi_replacer<N>(&mut self, n: &mut N, r: &Resolver) -> bool
     where
         N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
         N: for<'aa> VisitMutWith<Finalizer<'aa>>,
@@ -297,13 +303,14 @@ impl Vars {
                 hoisted_props: &self.hoisted_props,
                 vars_to_remove: &self.removed,
                 changed: false,
+                r,
             };
             n.visit_mut_with(&mut v);
             changed |= v.changed;
         }
 
         if !self.vars_for_inlining.is_empty() {
-            let mut v = NormalMultiReplacer::new(&mut self.vars_for_inlining);
+            let mut v = NormalMultiReplacer::new(&mut self.vars_for_inlining, r);
             n.visit_mut_with(&mut v);
             changed |= v.changed;
         }
@@ -341,14 +348,15 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
-        if self
-            .data
-            .vars
-            .get(&id.to_id())
-            .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED))
-        {
+        let var = self.data.vars.get(&id.node_id);
+        if var.is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED)) {
             return false;
         }
+
+        match self.r.find_binding_by_ident(id) {
+            RefTo::Itself | RefTo::Binding(_) => return true,
+            _ => {}
+        };
 
         if id.ctxt != self.marks.top_level_ctxt {
             return true;
@@ -443,7 +451,9 @@ impl Optimizer<'_> {
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: StmtLike + ModuleItemLike + ModuleItemExt + VisitMutWith<Self> + VisitWith<AssertValid>,
-        Vec<T>: VisitMutWith<Self> + VisitWith<UsageAnalyzer<ProgramData>> + VisitWith<AssertValid>,
+        Vec<T>: VisitMutWith<Self>
+            + for<'r> VisitWith<UsageAnalyzer<'r, ProgramData>>
+            + VisitWith<AssertValid>,
     {
         let mut use_asm = false;
         let prepend_stmts = self.prepend_stmts.take();
@@ -827,7 +837,7 @@ impl Optimizer<'_> {
 
                 if let Expr::Ident(callee) = &**callee {
                     if self.options.reduce_vars && self.options.side_effects {
-                        if let Some(usage) = self.data.vars.get(&callee.to_id()) {
+                        if let Some(usage) = self.data.vars.get(&callee.node_id) {
                             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                 && usage.flags.contains(VarUsageInfoFlags::PURE_FN)
                             {
@@ -894,11 +904,10 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                let old = i.id.to_id();
+                let old = i.id.node_id;
                 self.store_var_for_inlining(&mut i.id, right, true);
 
                 if i.is_dummy() && self.options.unused {
-                    report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
                     self.vars.removed.insert(old);
                 }
 
@@ -1809,13 +1818,16 @@ impl VisitMut for Optimizer<'_> {
                 ..
             }) => {
                 if let Some(i) = left.as_ident_mut() {
-                    let old = i.to_id();
+                    let old = match self.r.find_binding_by_ident(i) {
+                        RefTo::Itself => i.node_id,
+                        RefTo::Binding(node_id) => node_id,
+                        RefTo::Unresolved => return,
+                    };
 
                     self.store_var_for_inlining(i, right, false);
 
                     if i.is_dummy() && self.options.unused {
-                        report_change!("inline: Removed variable ({}, {:?})", old.0, old.1);
-                        self.vars.removed.insert(old.clone());
+                        self.vars.removed.insert(old);
                     }
 
                     if right.is_invalid() {
@@ -2273,7 +2285,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
         self.with_ctx(ctx).handle_stmt_likes(stmts, true);
 
-        if self.vars.inline_with_multi_replacer(stmts) {
+        if self.vars.inline_with_multi_replacer(stmts, self.r) {
             self.changed = true;
         }
 
@@ -2368,7 +2380,7 @@ impl VisitMut for Optimizer<'_> {
         let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
         s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
-        if self.vars.inline_with_multi_replacer(s) {
+        if self.vars.inline_with_multi_replacer(s, self.r) {
             self.changed = true;
         }
 
@@ -3010,7 +3022,7 @@ impl VisitMut for Optimizer<'_> {
 
                 if let Some(Expr::Invalid(..)) = var.init.as_deref() {
                     if let Pat::Ident(i) = &var.name {
-                        if let Some(usage) = self.data.vars.get(&i.id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(&i.id.node_id) {
                             if usage
                                 .flags
                                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)

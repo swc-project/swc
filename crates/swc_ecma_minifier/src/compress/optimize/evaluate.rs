@@ -44,7 +44,7 @@ impl Optimizer<'_> {
             if let Expr::Ident(obj) = &**obj {
                 let metadata = *self.functions.get(&obj.to_id())?;
 
-                let usage = self.data.vars.get(&obj.to_id())?;
+                let usage = self.data.vars.get(&obj.node_id)?;
 
                 if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                     return None;
@@ -101,7 +101,7 @@ impl Optimizer<'_> {
             if self
                 .data
                 .vars
-                .get(&i.to_id())
+                .get(&i.node_id)
                 .map(|var| var.flags.contains(VarUsageInfoFlags::DECLARED))
                 .unwrap_or(false)
             {
@@ -488,13 +488,15 @@ impl Optimizer<'_> {
                         report_change!("evaluate: `{} / 0` => `Infinity`", ln);
 
                         // Sign does not matter for NaN
+                        let mut ident = Ident::new_no_ctxt(atom!("Infinity"), bin.span);
+                        self.r.add_unresolved(&mut ident);
                         *e = if ln.is_sign_positive() == rn.is_sign_positive() {
-                            Ident::new_no_ctxt(atom!("Infinity"), bin.span).into()
+                            ident.into()
                         } else {
                             UnaryExpr {
                                 span: bin.span,
                                 op: op!(unary, "-"),
-                                arg: Ident::new_no_ctxt(atom!("Infinity"), bin.span).into(),
+                                arg: ident.into(),
                             }
                             .into()
                         };

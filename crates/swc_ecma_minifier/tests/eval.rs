@@ -9,7 +9,7 @@ use swc_ecma_minifier::{
     marks::Marks,
 };
 use swc_ecma_parser::{parse_file_as_expr, parse_file_as_module, EsSyntax, Syntax};
-use swc_ecma_transforms_base::resolver;
+use swc_ecma_transforms_base::{resolve::name_resolution, resolver};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};
 
@@ -18,7 +18,7 @@ fn eval(module: &str, expr: &str) -> Option<String> {
         let fm = cm.new_source_file(FileName::Anon.into(), module.to_string());
         let marks = Marks::new();
 
-        let module_ast = parse_file_as_module(
+        let mut module_ast = parse_file_as_module(
             &fm,
             Default::default(),
             EsVersion::latest(),
@@ -39,7 +39,8 @@ fn eval(module: &str, expr: &str) -> Option<String> {
             .unwrap()
         };
 
-        let mut evaluator = Evaluator::new(module_ast, marks);
+        let mut r = name_resolution(&mut module_ast);
+        let mut evaluator = Evaluator::new(module_ast, marks, &mut r);
 
         let res = evaluator.eval(&expr_ast);
 
@@ -72,12 +73,11 @@ fn eval_lit() {
     assert_eq!(eval("", "false").unwrap(), "false");
 }
 
-struct PartialInliner {
-    marks: Marks,
-    eval: Option<Evaluator>,
+struct PartialInliner<'a> {
+    eval: Option<Evaluator<'a>>,
 }
 
-impl PartialInliner {
+impl PartialInliner<'_> {
     fn run_test<F>(src: &str, op: F)
     where
         F: FnOnce(Lrc<SourceMap>, Module, &mut PartialInliner),
@@ -99,9 +99,10 @@ impl PartialInliner {
             .unwrap();
             module.visit_mut_with(&mut resolver(Mark::new(), Mark::new(), false));
 
+            let mut r = name_resolution(&mut module);
+
             let mut inliner = PartialInliner {
-                marks,
-                eval: Default::default(),
+                eval: Some(Evaluator::new(module.clone(), marks, &mut r)),
             };
 
             op(cm, module, &mut inliner);
@@ -113,7 +114,6 @@ impl PartialInliner {
 
     fn expect(src: &str, expected: &str) {
         PartialInliner::run_test(src, |cm, mut module, inliner| {
-            //
             module.visit_mut_with(inliner);
 
             let expected_module = {
@@ -168,7 +168,7 @@ impl PartialInliner {
     }
 }
 
-impl VisitMut for PartialInliner {
+impl VisitMut for PartialInliner<'_> {
     noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -208,11 +208,6 @@ impl VisitMut for PartialInliner {
                 }
             }
         }
-    }
-
-    fn visit_mut_module(&mut self, module: &mut Module) {
-        self.eval = Some(Evaluator::new(module.clone(), self.marks));
-        module.visit_mut_children_with(self);
     }
 }
 
