@@ -578,6 +578,7 @@ where
     ctx.preserve_effects(span, Lit::Bool(Bool { value, span }).into(), orig)
 }
 
+// TODO: support returning lone surrogates
 fn nth_char(s: &str, mut idx: usize) -> Option<Cow<str>> {
     if s.chars().any(|c| c.len_utf16() > 1) {
         return None;
@@ -1014,7 +1015,6 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                 // Here we need to check if left and right are high and low surrogates
                 // So we can make them a pair
                 if left.is_str_lone_surrogates() || right.is_str_lone_surrogates() {
-                    dbg!(&expr);
                     return;
                 }
                 if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
