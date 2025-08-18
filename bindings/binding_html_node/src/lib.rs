@@ -156,6 +156,8 @@ pub struct MinifyOptions {
     #[serde(default)]
     tag_omission: Option<bool>,
     #[serde(default)]
+    keep_head_and_body: Option<bool>,
+    #[serde(default)]
     self_closing_void_elements: Option<bool>,
     #[serde(default)]
     quotes: Option<bool>,
@@ -664,6 +666,7 @@ fn minify_inner(
                             scripting_enabled,
                             context_element: context_element.as_ref(),
                             tag_omission: opts.tag_omission,
+                            keep_head_and_body: opts.keep_head_and_body,
                             self_closing_void_elements: opts.self_closing_void_elements,
                             quotes: opts.quotes,
                         },
