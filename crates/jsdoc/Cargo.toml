@@ -20,9 +20,9 @@ nom   = { workspace = true }
 serde = { workspace = true, features = ["derive"], optional = true }
 
 swc_atoms  = { version = "7.0.0", path = "../swc_atoms" }
-swc_common = { version = "14.0.2", path = "../swc_common" }
+swc_common = { version = "14.0.3", path = "../swc_common" }
 
 [dev-dependencies]
 dashmap         = { workspace = true }
-swc_ecma_parser = { version = "22.0.3", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "23.0.0", path = "../swc_ecma_parser" }
 testing         = { version = "15.0.0", path = "../testing" }

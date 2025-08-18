@@ -1,6 +1,6 @@
 [package]
 name = "swc_plugin_backend_wasmer"
-version = "1.0.0"
+version = "2.0.0"
 edition = { workspace = true }
 license = { workspace = true }
 repository = { workspace = true }
@@ -33,10 +33,10 @@ parking_lot  = { workspace = true }
 wasmer       = { workspace = true }
 wasmer-wasix = { workspace = true }
 
-swc_common = { version = "14.0.2", path = "../swc_common", features = [
+swc_common = { version = "14.0.3", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_plugin_runner = { version = "18.0.0", path = "../swc_plugin_runner" }
+swc_plugin_runner = { version = "19.0.0", path = "../swc_plugin_runner" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 wasmer-compiler-cranelift = { version = "6.1.0-rc.2", default-features = false }

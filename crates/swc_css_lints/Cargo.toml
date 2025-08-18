@@ -22,7 +22,7 @@ serde       = { workspace = true, features = ["derive"] }
 thiserror   = { workspace = true }
 
 swc_atoms     = { version = "7.0.0", path = "../swc_atoms" }
-swc_common    = { version = "14.0.2", path = "../swc_common" }
+swc_common    = { version = "14.0.3", path = "../swc_common" }
 swc_config    = { version = "3.1.1", path = "../swc_config", features = ["regex"] }
 swc_css_ast   = { version = "14.0.0", path = "../swc_css_ast" }
 swc_css_visit = { version = "14.0.0", path = "../swc_css_visit" }

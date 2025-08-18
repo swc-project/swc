@@ -21,25 +21,25 @@ serde_json                = { workspace = true }
 tokio                     = { workspace = true, features = ["rt"] }
 tracing                   = { workspace = true }
 
-swc_common = { version = "14.0.2", path = "../swc_common", features = [
+swc_common = { version = "14.0.3", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_plugin_runner = { version = "18.0.0", path = "../swc_plugin_runner", features = ["rkyv-impl", "plugin_transform_schema_v1"] }
+swc_plugin_runner = { version = "19.0.0", path = "../swc_plugin_runner", features = ["rkyv-impl", "plugin_transform_schema_v1"] }
 swc_css_ast = { version = "14.0.0", path = "../swc_css_ast", features = [
   "rkyv-impl",
 ] }
 swc_css_parser = { version = "14.0.0", path = "../swc_css_parser" }
-swc_ecma_ast = { version = "14.0.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "15.0.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
-swc_ecma_parser = { version = "22.0.3", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "14.0.0", path = "../swc_ecma_visit" }
+swc_ecma_parser = { version = "23.0.0", path = "../swc_ecma_parser" }
+swc_ecma_visit = { version = "15.0.0", path = "../swc_ecma_visit" }
 swc_transform_common = { version = "8.0.0", path = "../swc_transform_common" }
 swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
 testing = { version = "15.0.0", path = "../testing" }
 
-swc_plugin_backend_wasmer = { version = "1.0", path = "../swc_plugin_backend_wasmer" }
-swc_plugin_backend_wasmtime = { version = "0.2", path = "../swc_plugin_backend_wasmtime" }
+swc_plugin_backend_wasmer = { version = "2.0", path = "../swc_plugin_backend_wasmer" }
+swc_plugin_backend_wasmtime = { version = "1.0", path = "../swc_plugin_backend_wasmtime" }
 
 [[bench]]
 harness = false
