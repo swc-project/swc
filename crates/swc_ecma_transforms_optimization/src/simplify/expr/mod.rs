@@ -1034,22 +1034,18 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                 left.as_pure_string(expr_ctx),
                 right.as_pure_string(expr_ctx),
             ) {
-                // TODO: add back cases like `"\ud83d" + "\ude00"`
-                // Here we need to check if left and right are high and low surrogates
-                // So we can make them a pair
-                if left.is_str_lone_surrogates() || right.is_str_lone_surrogates() {
-                    return;
-                }
                 if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
                     let mut l = l.into_owned();
 
                     l.push_str(&r);
 
+                    let ls = left.is_str_lone_surrogates() || right.is_str_lone_surrogates();
+
                     *changed = true;
 
                     *expr = Lit::Str(Str {
                         raw: None,
-                        lone_surrogates: false,
+                        lone_surrogates: ls,
                         value: l.into(),
                         span: *span,
                     })
