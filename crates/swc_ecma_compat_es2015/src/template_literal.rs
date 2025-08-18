@@ -69,6 +69,7 @@ impl VisitMut for TemplateLiteral {
                             span: quasis[0].span,
                             value: Atom::from(&*s),
                             raw: None,
+                            // TODO: should inherit lone surrogates here
                             lone_surrogates: false,
                         }
                     })
@@ -101,6 +102,7 @@ impl VisitMut for TemplateLiteral {
                                         span: *span,
                                         value: (&*s).into(),
                                         raw: None,
+                                        // TODO: should inherit lone surrogates here
                                         lone_surrogates: false,
                                     })
                                     .into(),
@@ -142,6 +144,7 @@ impl VisitMut for TemplateLiteral {
                                             span: span.with_hi(r_span.hi()),
                                             raw: None,
                                             value: format!("{value}{r_value}").into(),
+                                            // TODO: should inherit lone surrogates here
                                             lone_surrogates: false,
                                         })
                                         .into();
