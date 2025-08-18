@@ -53,6 +53,7 @@ impl MacroNode for Str {
             && self.raw.is_some()
             && self.raw.as_ref().unwrap().contains('\\')
             && (!emitter.cfg.inline_script || !self.raw.as_ref().unwrap().contains("script"))
+            && !self.lone_surrogates
         {
             emitter
                 .wr
@@ -65,7 +66,7 @@ impl MacroNode for Str {
 
         let target = emitter.cfg.target;
 
-        if !emitter.cfg.minify {
+        if !emitter.cfg.minify && !self.lone_surrogates {
             if let Some(raw) = &self.raw {
                 let es5_safe = match emitter.cfg.target {
                     EsVersion::Es3 | EsVersion::Es5 => {
@@ -87,16 +88,12 @@ impl MacroNode for Str {
             }
         }
 
-        if self.lone_surrogates {
-            emitter
-                .wr
-                .write_str_lit(DUMMY_SP, self.raw.as_ref().unwrap())?;
-            return Ok(());
-        }
-
-        let (quote_char, mut value) = get_quoted_utf16(&self.value, emitter.cfg.ascii_only, target);
-
-        // dbg!(&quote_char, &*value);
+        let (quote_char, mut value) = get_quoted_utf16(
+            &self.value,
+            self.lone_surrogates,
+            emitter.cfg.ascii_only,
+            target,
+        );
 
         if emitter.cfg.inline_script {
             value = CowStr::Owned(
@@ -321,7 +318,12 @@ where
 }
 
 /// Returns `(quote_char, value)`
-pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar, CowStr) {
+pub fn get_quoted_utf16(
+    v: &str,
+    lone_surrogates: bool,
+    ascii_only: bool,
+    target: EsVersion,
+) -> (AsciiChar, CowStr) {
     // Fast path: If the string is ASCII and doesn't need escaping, we can avoid
     // allocation
     if v.is_ascii() {
@@ -406,8 +408,21 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
             '\r' => buf.push_str("\\r"),
             '\u{000b}' => buf.push_str("\\v"),
             '\t' => buf.push('\t'),
-            '\\' => {
-                buf.push_str("\\\\");
+            '\\' => buf.push_str("\\\\"),
+            '\u{FFFD}' if lone_surrogates => {
+                // If the string contains any lone surrogate,
+                // then '\u{FFFD}' is used to escape the lone surrogate.
+                // For example `\uD800` is escaped to `\u{FFFD}D800`.
+
+                // Restore 4 hex characters
+                // SAFETY: `\u{FFFD}` should always have 4 trailing
+                // characters if the string contains any lone surrogate.
+                let hex1 = iter.next().unwrap();
+                let hex2 = iter.next().unwrap();
+                let hex3 = iter.next().unwrap();
+                let hex4 = iter.next().unwrap();
+
+                buf.extend(['\\', 'u', hex1, hex2, hex3, hex4]);
             }
             c if c == escape_char => {
                 buf.push('\\');
