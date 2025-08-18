@@ -415,7 +415,7 @@ pub fn get_quoted_utf16(
                 // For example `\uD800` is escaped to `\u{FFFD}D800`.
 
                 // Restore 4 hex characters
-                // SAFETY: `\u{FFFD}` should always have 4 trailing
+                // SAFETY: `\u{FFFD}` should always have 4 trailing hex
                 // characters if the string contains any lone surrogate.
                 let hex1 = iter.next().unwrap();
                 let hex2 = iter.next().unwrap();

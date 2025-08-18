@@ -12,6 +12,7 @@ use swc_common::{
     BytePos, Span,
 };
 use swc_ecma_ast::{EsVersion, Ident};
+use swc_ecma_utils::unicode::pair_to_code_point;
 
 use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
@@ -1162,10 +1163,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         const MAX_LOW: u32 = 0xdfff;
 
         // `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
-        #[inline]
-        const fn pair_to_code_point(high: u32, low: u32) -> u32 {
-            (high - 0xd800) * 0x400 + low - 0xdc00 + 0x10000
-        }
 
         const _: () = {
             assert!(char::from_u32(pair_to_code_point(MIN_HIGH, MIN_LOW)).is_some());
