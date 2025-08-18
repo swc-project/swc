@@ -32,6 +32,8 @@ pub struct CodegenConfig<'a> {
     /// Don't print optional tags (only when `minify` enabled)
     /// By default `true` when `minify` enabled, otherwise `false`
     pub tag_omission: Option<bool>,
+    /// Keep <head> tags and </body> closing tag when `tag_omission` is enabled
+    pub keep_head_and_body: Option<bool>,
     /// Making SVG and MathML elements self-closing where possible (only when
     /// `minify` enabled) By default `false` when `minify` enabled,
     /// otherwise `true`
@@ -58,6 +60,7 @@ where
     // For legacy `<plaintext>`
     is_plaintext: bool,
     tag_omission: bool,
+    keep_head_and_body: bool,
     self_closing_void_elements: bool,
     quotes: bool,
 }
@@ -68,6 +71,7 @@ where
 {
     pub fn new(wr: W, config: CodegenConfig<'a>) -> Self {
         let tag_omission = config.tag_omission.unwrap_or(config.minify);
+        let keep_head_and_body = config.keep_head_and_body.unwrap_or(false);
         let self_closing_void_elements = config.tag_omission.unwrap_or(!config.minify);
         let quotes = config.quotes.unwrap_or(!config.minify);
 
@@ -77,6 +81,7 @@ where
             ctx: Default::default(),
             is_plaintext: false,
             tag_omission,
+            keep_head_and_body,
             self_closing_void_elements,
             quotes,
         }
@@ -227,8 +232,9 @@ where
                 // A head element's start tag can be omitted if the element is empty, or if the
                 // first thing inside the head element is an element.
                 "head"
-                    if n.children.is_empty()
-                        || matches!(n.children.first(), Some(Child::Element(..))) =>
+                    if !self.keep_head_and_body
+                        && (n.children.is_empty()
+                            || matches!(n.children.first(), Some(Child::Element(..)))) =>
                 {
                     true
                 }
@@ -236,40 +242,46 @@ where
                 // first thing inside the body element is not ASCII whitespace or a comment, except
                 // if the first thing inside the body element would be parsed differently outside.
                 "body"
-                    if n.children.is_empty()
-                        || (match n.children.first() {
-                            Some(Child::Text(text))
-                                if !text.data.is_empty()
-                                    && text.data.chars().next().unwrap().is_ascii_whitespace() =>
-                            {
-                                false
-                            }
-                            Some(Child::Comment(..)) => false,
-                            Some(Child::Element(Element {
-                                namespace,
-                                tag_name,
-                                ..
-                            })) if *namespace == Namespace::HTML
-                                && matches!(
-                                    &**tag_name,
-                                    "base"
-                                        | "basefont"
-                                        | "bgsound"
-                                        | "frameset"
-                                        | "link"
-                                        | "meta"
-                                        | "noframes"
-                                        | "noscript"
-                                        | "script"
-                                        | "style"
-                                        | "template"
-                                        | "title"
-                                ) =>
-                            {
-                                false
-                            }
-                            _ => true,
-                        }) =>
+                    if !self.keep_head_and_body
+                        && (n.children.is_empty()
+                            || (match n.children.first() {
+                                Some(Child::Text(text))
+                                    if !text.data.is_empty()
+                                        && text
+                                            .data
+                                            .chars()
+                                            .next()
+                                            .unwrap()
+                                            .is_ascii_whitespace() =>
+                                {
+                                    false
+                                }
+                                Some(Child::Comment(..)) => false,
+                                Some(Child::Element(Element {
+                                    namespace,
+                                    tag_name,
+                                    ..
+                                })) if *namespace == Namespace::HTML
+                                    && matches!(
+                                        &**tag_name,
+                                        "base"
+                                            | "basefont"
+                                            | "bgsound"
+                                            | "frameset"
+                                            | "link"
+                                            | "meta"
+                                            | "noframes"
+                                            | "noscript"
+                                            | "script"
+                                            | "style"
+                                            | "template"
+                                            | "title"
+                                    ) =>
+                                {
+                                    false
+                                }
+                                _ => true,
+                            })) =>
                 {
                     true
                 }
@@ -432,10 +444,11 @@ where
                     //
                     // A body element's end tag can be omitted if the body element is not
                     // immediately followed by a comment.
-                    "html" | "body" => !matches!(next, Some(Child::Comment(..))),
+                    "html" => !matches!(next, Some(Child::Comment(..))),
+                    "body" if !self.keep_head_and_body => !matches!(next, Some(Child::Comment(..))),
                     // A head element's end tag can be omitted if the head element is not
                     // immediately followed by ASCII whitespace or a comment.
-                    "head" => match next {
+                    "head" if !self.keep_head_and_body => match next {
                         Some(Child::Text(text))
                             if text.data.chars().next().unwrap().is_ascii_whitespace() =>
                         {
