@@ -52,6 +52,8 @@ pub mod parallel;
 mod value;
 pub mod var;
 
+pub mod unicode;
+
 mod node_ignore_span;
 pub mod number;
 pub mod stack_size;

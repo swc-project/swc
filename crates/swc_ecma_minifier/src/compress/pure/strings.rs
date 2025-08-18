@@ -211,8 +211,6 @@ impl Pure<'_> {
                         *e = Lit::Str(Str {
                             span: t.span,
                             raw: None,
-                            // This can never contain lone surrogates
-                            // because `\` is already filtered
                             lone_surrogates: false,
                             value: value.clone(),
                         })
@@ -499,17 +497,9 @@ impl Pure<'_> {
                         if let Value::Known(second_str) = left.right.as_pure_string(self.expr_ctx) {
                             if let Value::Known(third_str) = bin.right.as_pure_string(self.expr_ctx)
                             {
-                                // TODO: add back cases like `"@" + "\ude00"`
-                                // Here we need to check if left and right are high and low
-                                // surrogates So we can make them a
-                                // pair
-                                if left.right.is_str_lone_surrogates()
-                                    || bin.right.is_str_lone_surrogates()
-                                {
-                                    return;
-                                }
-
                                 let new_str = format!("{second_str}{third_str}");
+                                let new_lone_surrogates = left.right.is_str_lone_surrogates()
+                                    || bin.right.is_str_lone_surrogates();
                                 let left_span = left.span;
 
                                 self.changed = true;
@@ -527,7 +517,7 @@ impl Pure<'_> {
                                     right: Lit::Str(Str {
                                         span: left_span,
                                         raw: None,
-                                        lone_surrogates: false,
+                                        lone_surrogates: new_lone_surrogates,
                                         value: new_str.into(),
                                     })
                                     .into(),

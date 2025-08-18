@@ -191,9 +191,9 @@ pub struct Str {
     /// characters in strings
     pub raw: Option<Atom>,
 
-    ///  The string value contains lone surrogates.
+    /// The string value contains lone surrogates.
     ///
-    ///  For example, a "\uD808" is a lone surrogate
+    /// For example, a "\uD808" is a lone surrogate
     pub lone_surrogates: bool,
 }
 
