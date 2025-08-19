@@ -571,7 +571,7 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedTaggedTpl, 28);
     assert_size!(ArchivedThisExpr, 8);
     assert_size!(ArchivedTpl, 24);
-    assert_size!(ArchivedTplElement, 32);
+    assert_size!(ArchivedTplElement, 36);
     assert_size!(ArchivedUnaryExpr, 16);
     assert_size!(ArchivedUpdateExpr, 16);
     assert_size!(ArchivedYieldExpr, 20);
