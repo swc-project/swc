@@ -2962,12 +2962,13 @@
     "toArray": {
       "pure": null,
       "global": [
+        "es.iterator.to-array",
+        "es.iterator.constructor",
         "esnext.async-iterator.to-array",
-        "esnext.async-iterator.constructor",
         "es.promise",
         "es.object.to-string"
       ],
-      "name": "esnext.async-iterator.to-array",
+      "name": "es.iterator.to-array",
       "exclude": []
     },
     "setYear": {
@@ -3259,9 +3260,10 @@
       "pure": "instance/find",
       "global": [
         "es.array.find",
+        "es.iterator.find",
+        "es.iterator.constructor",
         "esnext.async-iterator.find",
         "esnext.iterator.find",
-        "esnext.iterator.constructor",
         "es.object.to-string"
       ],
       "name": "es.array.find",
