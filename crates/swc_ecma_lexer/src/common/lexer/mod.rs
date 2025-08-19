@@ -1162,15 +1162,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
         const MIN_LOW: u32 = 0xdc00;
         const MAX_LOW: u32 = 0xdfff;
 
-        // `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
-
-        const _: () = {
-            assert!(char::from_u32(pair_to_code_point(MIN_HIGH, MIN_LOW)).is_some());
-            assert!(char::from_u32(pair_to_code_point(MIN_HIGH, MAX_LOW)).is_some());
-            assert!(char::from_u32(pair_to_code_point(MAX_HIGH, MIN_LOW)).is_some());
-            assert!(char::from_u32(pair_to_code_point(MAX_HIGH, MAX_LOW)).is_some());
-        };
-
         let Some(high) = self.read_int_u32::<16>(4)? else {
             return Ok(None);
         };
@@ -1817,7 +1808,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             // For example:
                             // * for a lone surrogate `\uD800`,
                             // we use sym: `\u{FFFD}D880` as the value.
-                            buf.extend(format!("\u{FFFD}{ch:04x}").chars());
+                            buf.push_str(format!("\u{FFFD}{ch:04x}").as_str());
                             self.emit_error(start, SyntaxError::InvalidIdentChar);
                         }
                     };
