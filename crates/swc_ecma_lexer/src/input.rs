@@ -469,6 +469,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
     ) -> (
         crate::common::lexer::LexResult<swc_atoms::Atom>,
         swc_atoms::Atom,
+        bool,
     ) {
         let t = self.bump();
         t.take_template(self)

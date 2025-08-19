@@ -110,7 +110,8 @@
                       },
                       "tail": false,
                       "cooked": "./locales/",
-                      "raw": "./locales/"
+                      "raw": "./locales/",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -120,7 +121,8 @@
                       },
                       "tail": true,
                       "cooked": ".js",
-                      "raw": ".js"
+                      "raw": ".js",
+                      "loneSurrogates": false
                     }
                   ]
                 }

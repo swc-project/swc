@@ -108,7 +108,8 @@
                                 },
                                 "tail": true,
                                 "cooked": "�d800",
-                                "raw": "\\uD800"
+                                "raw": "\\uD800",
+                                "loneSurrogates": true
                               }
                             ]
                           }
@@ -247,7 +248,8 @@
                                 },
                                 "tail": true,
                                 "cooked": "�d800",
-                                "raw": "\\u{D800}"
+                                "raw": "\\u{D800}",
+                                "loneSurrogates": true
                               }
                             ]
                           }

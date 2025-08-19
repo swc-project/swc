@@ -14,6 +14,7 @@ pub enum TokenValue {
     Template {
         raw: Atom,
         cooked: LexResult<Atom>,
+        lone_surrogates: bool,
     },
     // string, jsx text
     Str {
@@ -670,8 +671,17 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
-    fn template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
-        lexer.set_token_value(Some(TokenValue::Template { cooked, raw }));
+    fn template(
+        cooked: LexResult<Atom>,
+        raw: Atom,
+        lone_surrogates: bool,
+        lexer: &mut crate::Lexer<'a>,
+    ) -> Self {
+        lexer.set_token_value(Some(TokenValue::Template {
+            cooked,
+            raw,
+            lone_surrogates,
+        }));
         Token::Template
     }
 
@@ -814,7 +824,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
-    fn take_template(self, buffer: &mut Self::Buffer) -> (LexResult<Atom>, Atom) {
+    fn take_template(self, buffer: &mut Self::Buffer) -> (LexResult<Atom>, Atom, bool) {
         buffer.expect_template_token_value()
     }
 

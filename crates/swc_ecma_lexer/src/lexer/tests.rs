@@ -255,6 +255,7 @@ multiline`"
             Token::Template {
                 cooked: Ok(atom!("this\nis\nmultiline")),
                 raw: atom!("this\nis\nmultiline"),
+                lone_surrogates: false,
             },
             tok!('`'),
         ]
@@ -270,6 +271,7 @@ fn tpl_raw_unicode_escape() {
             Token::Template {
                 cooked: Ok(format!("{}", '\u{0010}').into()),
                 raw: atom!("\\u{0010}"),
+                lone_surrogates: false,
             },
             tok!('`'),
         ]
@@ -293,6 +295,7 @@ fn tpl_invalid_unicode_escape() {
                     }
                 )),
                 raw: atom!("\\unicode"),
+                lone_surrogates: false,
             },
             tok!('`'),
         ]
@@ -312,6 +315,7 @@ fn tpl_invalid_unicode_escape() {
                     }
                 )),
                 raw: atom!("\\u{"),
+                lone_surrogates: false,
             },
             tok!('`'),
         ]
@@ -331,6 +335,7 @@ fn tpl_invalid_unicode_escape() {
                     }
                 )),
                 raw: atom!("\\xhex"),
+                lone_surrogates: false,
             },
             tok!('`'),
         ]
@@ -924,6 +929,7 @@ fn tpl_empty() {
             Template {
                 raw: atom!(""),
                 cooked: Ok(atom!("")),
+                lone_surrogates: false,
             },
             tok!('`')
         ]
@@ -939,6 +945,7 @@ fn tpl() {
             Template {
                 raw: atom!(""),
                 cooked: Ok(atom!("")),
+                lone_surrogates: false,
             },
             tok!("${"),
             Word(Word::Ident("a".into())),
@@ -946,6 +953,7 @@ fn tpl() {
             Template {
                 raw: atom!(""),
                 cooked: Ok(atom!("")),
+                lone_surrogates: false,
             },
             tok!('`'),
         ]
@@ -958,6 +966,7 @@ fn tpl() {
             Template {
                 raw: atom!("te\\nst"),
                 cooked: Ok(atom!("te\nst")),
+                lone_surrogates: false,
             },
             tok!("${"),
             Word(Word::Ident("a".into())),
@@ -965,6 +974,20 @@ fn tpl() {
             Template {
                 raw: atom!("test"),
                 cooked: Ok(atom!("test")),
+                lone_surrogates: false,
+            },
+            tok!('`'),
+        ]
+    );
+
+    assert_eq!(
+        lex_tokens(Syntax::default(), r"`\uD800`"),
+        vec![
+            tok!('`'),
+            Template {
+                raw: atom!("\\uD800"),
+                cooked: Ok(atom!("\u{FFFD}d800")),
+                lone_surrogates: true
             },
             tok!('`'),
         ]
@@ -1136,6 +1159,7 @@ fn issue_191() {
             Token::Template {
                 raw: atom!(""),
                 cooked: Ok(atom!("")),
+                lone_surrogates: false,
             },
             tok!("${"),
             Token::Word(Word::Ident("foo".into())),
@@ -1143,6 +1167,7 @@ fn issue_191() {
             Token::Template {
                 raw: atom!("<bar>"),
                 cooked: Ok(atom!("<bar>")),
+                lone_surrogates: false,
             },
             tok!('`')
         ]
@@ -1158,6 +1183,7 @@ fn issue_5722() {
             Template {
                 raw: atom!(""),
                 cooked: Ok(atom!("")),
+                lone_surrogates: false,
             },
             tok!("${"),
             tok!('{'),
@@ -1172,6 +1198,7 @@ fn issue_5722() {
             Template {
                 raw: atom!(""),
                 cooked: Ok(atom!("")),
+                lone_surrogates: false,
             },
             tok!('`'),
         ]

@@ -1243,7 +1243,8 @@
                                         },
                                         "tail": false,
                                         "cooked": "<",
-                                        "raw": "<"
+                                        "raw": "<",
+                                        "loneSurrogates": false
                                       },
                                       {
                                         "type": "TemplateElement",
@@ -1253,7 +1254,8 @@
                                         },
                                         "tail": false,
                                         "cooked": ">: I'm logging stuff from ",
-                                        "raw": ">: I'm logging stuff from "
+                                        "raw": ">: I'm logging stuff from ",
+                                        "loneSurrogates": false
                                       },
                                       {
                                         "type": "TemplateElement",
@@ -1263,7 +1265,8 @@
                                         },
                                         "tail": true,
                                         "cooked": "!",
-                                        "raw": "!"
+                                        "raw": "!",
+                                        "loneSurrogates": false
                                       }
                                     ]
                                   }

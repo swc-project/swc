@@ -87,12 +87,16 @@ impl<I: Tokens> Buffer<I> {
         (value, flags)
     }
 
-    pub fn expect_template_token_value(&mut self) -> (LexResult<Atom>, Atom) {
-        let Some(crate::lexer::TokenValue::Template { cooked, raw }) = self.iter.take_token_value()
+    pub fn expect_template_token_value(&mut self) -> (LexResult<Atom>, Atom, bool) {
+        let Some(crate::lexer::TokenValue::Template {
+            cooked,
+            raw,
+            lone_surrogates,
+        }) = self.iter.take_token_value()
         else {
             unreachable!()
         };
-        (cooked, raw)
+        (cooked, raw, lone_surrogates)
     }
 
     pub fn expect_error_token_value(&mut self) -> swc_ecma_lexer::error::Error {
@@ -312,7 +316,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffe
         ret
     }
 
-    fn expect_template_token_and_bump(&mut self) -> (LexResult<Atom>, Atom) {
+    fn expect_template_token_and_bump(&mut self) -> (LexResult<Atom>, Atom, bool) {
         let cur = *self.cur();
         let ret = cur.take_template(self);
         self.bump();

@@ -437,6 +437,7 @@ pub enum Token {
     Template {
         raw: Atom,
         cooked: LexResult<Atom>,
+        lone_surrogates: bool,
     },
     /// ':'
     Colon,
@@ -664,8 +665,17 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn template(cooked: LexResult<Atom>, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
-        Self::Template { cooked, raw }
+    fn template(
+        cooked: LexResult<Atom>,
+        raw: Atom,
+        lone_surrogates: bool,
+        _: &mut crate::Lexer<'a>,
+    ) -> Self {
+        Self::Template {
+            cooked,
+            raw,
+            lone_surrogates,
+        }
     }
 
     #[inline(always)]
@@ -833,9 +843,13 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn take_template(self, _: &mut Self::Buffer) -> (LexResult<Atom>, Atom) {
+    fn take_template(self, _: &mut Self::Buffer) -> (LexResult<Atom>, Atom, bool) {
         match self {
-            Self::Template { cooked, raw } => (cooked, raw),
+            Self::Template {
+                cooked,
+                raw,
+                lone_surrogates,
+            } => (cooked, raw, lone_surrogates),
             _ => unreachable!(),
         }
     }

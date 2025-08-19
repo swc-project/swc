@@ -346,7 +346,8 @@
                         },
                         "tail": false,
                         "cooked": "hi, ",
-                        "raw": "hi, "
+                        "raw": "hi, ",
+                        "loneSurrogates": false
                       },
                       {
                         "type": "TemplateElement",
@@ -356,7 +357,8 @@
                         },
                         "tail": true,
                         "cooked": "!",
-                        "raw": "!"
+                        "raw": "!",
+                        "loneSurrogates": false
                       }
                     ]
                   }

@@ -56,7 +56,8 @@
                 },
                 "tail": true,
                 "cooked": "1",
-                "raw": "1"
+                "raw": "1",
+                "loneSurrogates": false
               }
             ]
           }
@@ -114,7 +115,8 @@
                 },
                 "tail": true,
                 "cooked": "1",
-                "raw": "1"
+                "raw": "1",
+                "loneSurrogates": false
               }
             ]
           }
@@ -232,7 +234,8 @@
                   },
                   "tail": true,
                   "cooked": "1",
-                  "raw": "1"
+                  "raw": "1",
+                  "loneSurrogates": false
                 }
               ]
             },
@@ -252,7 +255,8 @@
                   },
                   "tail": true,
                   "cooked": "1",
-                  "raw": "1"
+                  "raw": "1",
+                  "loneSurrogates": false
                 }
               ]
             }
@@ -311,7 +315,8 @@
                 },
                 "tail": true,
                 "cooked": "1",
-                "raw": "1"
+                "raw": "1",
+                "loneSurrogates": false
               }
             ]
           }
@@ -355,7 +360,8 @@
                   },
                   "tail": true,
                   "cooked": "1",
-                  "raw": "1"
+                  "raw": "1",
+                  "loneSurrogates": false
                 }
               ]
             },
@@ -375,7 +381,8 @@
                   },
                   "tail": true,
                   "cooked": "1",
-                  "raw": "1"
+                  "raw": "1",
+                  "loneSurrogates": false
                 }
               ]
             }
@@ -420,7 +427,8 @@
                   },
                   "tail": true,
                   "cooked": "1",
-                  "raw": "1"
+                  "raw": "1",
+                  "loneSurrogates": false
                 }
               ]
             },
@@ -485,7 +493,8 @@
                   },
                   "tail": true,
                   "cooked": "1",
-                  "raw": "1"
+                  "raw": "1",
+                  "loneSurrogates": false
                 }
               ]
             }
@@ -547,7 +556,8 @@
                     },
                     "tail": true,
                     "cooked": "1",
-                    "raw": "1"
+                    "raw": "1",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -568,7 +578,8 @@
                   },
                   "tail": true,
                   "cooked": "1",
-                  "raw": "1"
+                  "raw": "1",
+                  "loneSurrogates": false
                 }
               ]
             }
@@ -627,7 +638,8 @@
                 },
                 "tail": true,
                 "cooked": "1",
-                "raw": "1"
+                "raw": "1",
+                "loneSurrogates": false
               }
             ]
           }
@@ -671,7 +683,8 @@
                   },
                   "tail": true,
                   "cooked": "1",
-                  "raw": "1"
+                  "raw": "1",
+                  "loneSurrogates": false
                 }
               ]
             },
@@ -691,7 +704,8 @@
                   },
                   "tail": true,
                   "cooked": "2",
-                  "raw": "2"
+                  "raw": "2",
+                  "loneSurrogates": false
                 }
               ]
             }
@@ -743,7 +757,8 @@
                     },
                     "tail": true,
                     "cooked": "1",
-                    "raw": "1"
+                    "raw": "1",
+                    "loneSurrogates": false
                   }
                 ]
               },
@@ -763,7 +778,8 @@
                     },
                     "tail": true,
                     "cooked": "2",
-                    "raw": "2"
+                    "raw": "2",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -784,7 +800,8 @@
                   },
                   "tail": true,
                   "cooked": "3",
-                  "raw": "3"
+                  "raw": "3",
+                  "loneSurrogates": false
                 }
               ]
             }
@@ -901,7 +918,8 @@
                   },
                   "tail": true,
                   "cooked": "12",
-                  "raw": "12"
+                  "raw": "12",
+                  "loneSurrogates": false
                 }
               ]
             },
@@ -968,7 +986,8 @@
                 },
                 "tail": true,
                 "cooked": "1",
-                "raw": "1"
+                "raw": "1",
+                "loneSurrogates": false
               }
             ]
           }
@@ -1012,7 +1031,8 @@
                   },
                   "tail": true,
                   "cooked": "1",
-                  "raw": "1"
+                  "raw": "1",
+                  "loneSurrogates": false
                 }
               ]
             },
@@ -1032,7 +1052,8 @@
                   },
                   "tail": true,
                   "cooked": "1",
-                  "raw": "1"
+                  "raw": "1",
+                  "loneSurrogates": false
                 }
               ]
             }
@@ -1087,7 +1108,8 @@
                   },
                   "tail": true,
                   "cooked": "1",
-                  "raw": "1"
+                  "raw": "1",
+                  "loneSurrogates": false
                 }
               ]
             }

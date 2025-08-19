@@ -119,7 +119,8 @@
                             },
                             "tail": false,
                             "cooked": "error with status ",
-                            "raw": "error with status "
+                            "raw": "error with status ",
+                            "loneSurrogates": false
                           },
                           {
                             "type": "TemplateElement",
@@ -129,7 +130,8 @@
                             },
                             "tail": true,
                             "cooked": "",
-                            "raw": ""
+                            "raw": "",
+                            "loneSurrogates": false
                           }
                         ]
                       }

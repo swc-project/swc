@@ -71,7 +71,8 @@
                 },
                 "tail": true,
                 "cooked": "ABC",
-                "raw": "ABC"
+                "raw": "ABC",
+                "loneSurrogates": false
               }
             ]
           },
@@ -145,7 +146,8 @@
                 },
                 "tail": true,
                 "cooked": "DE\nF",
-                "raw": "DE\nF"
+                "raw": "DE\nF",
+                "loneSurrogates": false
               }
             ]
           },
@@ -274,7 +276,8 @@
                 },
                 "tail": true,
                 "cooked": "JK`L",
-                "raw": "JK\\`L"
+                "raw": "JK\\`L",
+                "loneSurrogates": false
               }
             ]
           },

@@ -369,7 +369,8 @@
                                       },
                                       "tail": true,
                                       "cooked": "Dot product only applicable for vectors of equal length",
-                                      "raw": "Dot product only applicable for vectors of equal length"
+                                      "raw": "Dot product only applicable for vectors of equal length",
+                                      "loneSurrogates": false
                                     }
                                   ]
                                 }

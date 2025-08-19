@@ -37,7 +37,8 @@
             },
             "tail": false,
             "cooked": "abc",
-            "raw": "abc"
+            "raw": "abc",
+            "loneSurrogates": false
           },
           {
             "type": "TemplateElement",
@@ -47,7 +48,8 @@
             },
             "tail": true,
             "cooked": "abc",
-            "raw": "abc"
+            "raw": "abc",
+            "loneSurrogates": false
           }
         ]
       },
@@ -74,7 +76,8 @@
                 },
                 "tail": true,
                 "cooked": "abc",
-                "raw": "abc"
+                "raw": "abc",
+                "loneSurrogates": false
               }
             ]
           },
@@ -102,7 +105,8 @@
                 },
                 "tail": true,
                 "cooked": "123",
-                "raw": "123"
+                "raw": "123",
+                "loneSurrogates": false
               }
             ]
           },
@@ -140,7 +144,8 @@
                 },
                 "tail": false,
                 "cooked": "abc",
-                "raw": "abc"
+                "raw": "abc",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -150,7 +155,8 @@
                 },
                 "tail": true,
                 "cooked": "abc",
-                "raw": "abc"
+                "raw": "abc",
+                "loneSurrogates": false
               }
             ]
           },
@@ -187,7 +193,8 @@
                     },
                     "tail": false,
                     "cooked": "def",
-                    "raw": "def"
+                    "raw": "def",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -197,7 +204,8 @@
                     },
                     "tail": true,
                     "cooked": "def",
-                    "raw": "def"
+                    "raw": "def",
+                    "loneSurrogates": false
                   }
                 ]
               }

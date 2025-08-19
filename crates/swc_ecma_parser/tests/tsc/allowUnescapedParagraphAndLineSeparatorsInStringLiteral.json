@@ -212,7 +212,8 @@
                 },
                 "tail": true,
                 "cooked": " STRING_CONTENT ",
-                "raw": " STRING_CONTENT "
+                "raw": " STRING_CONTENT ",
+                "loneSurrogates": false
               }
             ]
           },
@@ -263,7 +264,8 @@
                 },
                 "tail": true,
                 "cooked": " STRING_CONTENT ",
-                "raw": " STRING_CONTENT "
+                "raw": " STRING_CONTENT ",
+                "loneSurrogates": false
               }
             ]
           },
@@ -375,7 +377,8 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": "\\ "
+                      "raw": "\\ ",
+                      "loneSurrogates": false
                     }
                   ]
                 }

@@ -161,6 +161,7 @@ impl Optimizer<'_> {
                         cooked: Some(s.value.clone()),
                         raw: convert_str_value_to_tpl_raw(&s.value),
                         tail: true,
+                        lone_surrogates: s.lone_surrogates,
                     }],
                 });
                 self.changed = true;

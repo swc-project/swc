@@ -64,13 +64,13 @@ impl VisitMut for TemplateLiteral {
                             .cooked
                             .clone()
                             .unwrap_or_else(|| quasis[0].raw.clone());
+                        let ls = quasis[0].lone_surrogates;
 
                         Str {
                             span: quasis[0].span,
                             value: Atom::from(&*s),
                             raw: None,
-                            // TODO: should inherit lone surrogates here
-                            lone_surrogates: false,
+                            lone_surrogates: ls,
                         }
                     })
                     .into(),
@@ -93,7 +93,11 @@ impl VisitMut for TemplateLiteral {
                         // Quasis
                         match quasis.next() {
                             Some(TplElement {
-                                span, cooked, raw, ..
+                                span,
+                                cooked,
+                                raw,
+                                lone_surrogates,
+                                ..
                             }) => {
                                 let s = cooked.clone().unwrap_or_else(|| raw.clone());
 
@@ -102,8 +106,7 @@ impl VisitMut for TemplateLiteral {
                                         span: *span,
                                         value: (&*s).into(),
                                         raw: None,
-                                        // TODO: should inherit lone surrogates here
-                                        lone_surrogates: false,
+                                        lone_surrogates: *lone_surrogates,
                                     })
                                     .into(),
                                 )
@@ -138,14 +141,14 @@ impl VisitMut for TemplateLiteral {
                                     Expr::Lit(Lit::Str(Str {
                                         span: r_span,
                                         value: r_value,
+                                        lone_surrogates: r_ls,
                                         ..
                                     })) => {
                                         obj = Lit::Str(Str {
                                             span: span.with_hi(r_span.hi()),
                                             raw: None,
                                             value: format!("{value}{r_value}").into(),
-                                            // TODO: should inherit lone surrogates here
-                                            lone_surrogates: false,
+                                            lone_surrogates: lone_surrogates || r_ls,
                                         })
                                         .into();
                                         continue;

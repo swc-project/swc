@@ -14601,7 +14601,8 @@
                           },
                           "tail": false,
                           "cooked": "Shard ",
-                          "raw": "Shard "
+                          "raw": "Shard ",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -14611,7 +14612,8 @@
                           },
                           "tail": false,
                           "cooked": " disconnected (",
-                          "raw": " disconnected ("
+                          "raw": " disconnected (",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -14621,7 +14623,8 @@
                           },
                           "tail": false,
                           "cooked": ",",
-                          "raw": ","
+                          "raw": ",",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -14631,7 +14634,8 @@
                           },
                           "tail": false,
                           "cooked": "): ",
-                          "raw": "): "
+                          "raw": "): ",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -14641,7 +14645,8 @@
                           },
                           "tail": true,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -14860,7 +14865,8 @@
                           },
                           "tail": false,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -14870,7 +14876,8 @@
                           },
                           "tail": false,
                           "cooked": " ",
-                          "raw": " "
+                          "raw": " ",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -14880,7 +14887,8 @@
                           },
                           "tail": false,
                           "cooked": " ",
-                          "raw": " "
+                          "raw": " ",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -14890,7 +14898,8 @@
                           },
                           "tail": true,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         }
                       ]
                     }

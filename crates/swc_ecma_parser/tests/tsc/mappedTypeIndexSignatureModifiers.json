@@ -1299,7 +1299,8 @@
                           },
                           "tail": false,
                           "cooked": "wow",
-                          "raw": "wow"
+                          "raw": "wow",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -1309,7 +1310,8 @@
                           },
                           "tail": true,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -1540,7 +1542,8 @@
                           },
                           "tail": false,
                           "cooked": "wow",
-                          "raw": "wow"
+                          "raw": "wow",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -1550,7 +1553,8 @@
                           },
                           "tail": true,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -1781,7 +1785,8 @@
                           },
                           "tail": false,
                           "cooked": "wow",
-                          "raw": "wow"
+                          "raw": "wow",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -1791,7 +1796,8 @@
                           },
                           "tail": true,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -3166,7 +3172,8 @@
                           },
                           "tail": false,
                           "cooked": "wow",
-                          "raw": "wow"
+                          "raw": "wow",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -3176,7 +3183,8 @@
                           },
                           "tail": true,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         }
                       ]
                     }
