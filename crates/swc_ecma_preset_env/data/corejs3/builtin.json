@@ -2965,6 +2965,7 @@
         "es.iterator.to-array",
         "es.iterator.constructor",
         "esnext.async-iterator.to-array",
+        "esnext.async-iterator.constructor",
         "es.promise",
         "es.object.to-string"
       ],
@@ -3264,6 +3265,7 @@
         "es.iterator.constructor",
         "esnext.async-iterator.find",
         "esnext.iterator.find",
+        "esnext.iterator.constructor",
         "es.object.to-string"
       ],
       "name": "es.array.find",
