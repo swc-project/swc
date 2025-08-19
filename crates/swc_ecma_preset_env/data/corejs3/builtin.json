@@ -3025,6 +3025,8 @@
       "pure": "instance/some",
       "global": [
         "es.array.some",
+        "es.iterator.some",
+        "es.iterator.constructor",
         "esnext.async-iterator.some",
         "esnext.iterator.some",
         "esnext.iterator.constructor",
@@ -3300,6 +3302,8 @@
       "global": [
         "es.array.flat-map",
         "es.array.unscopables.flat-map",
+        "es.iterator.flat-map",
+        "es.iterator.constructor",
         "esnext.async-iterator.flat-map",
         "esnext.iterator.flat-map",
         "esnext.iterator.constructor",
@@ -3357,6 +3361,8 @@
       "pure": "instance/map",
       "global": [
         "es.array.map",
+        "es.iterator.map",
+        "es.iterator.constructor",
         "esnext.async-iterator.map",
         "esnext.iterator.map"
       ],
@@ -3490,6 +3496,8 @@
       "pure": "instance/every",
       "global": [
         "es.array.every",
+        "es.iterator.every",
+        "es.iterator.constructor",
         "esnext.async-iterator.every",
         "esnext.iterator.every",
         "esnext.iterator.constructor",
@@ -3555,12 +3563,14 @@
     "drop": {
       "pure": null,
       "global": [
+        "es.iterator.drop",
+        "es.iterator.constructor",
         "esnext.async-iterator.drop",
         "esnext.async-iterator.constructor",
         "es.promise",
         "es.object.to-string"
       ],
-      "name": "esnext.async-iterator.drop",
+      "name": "es.iterator.drop",
       "exclude": []
     },
     "lastIndex": {
@@ -3647,6 +3657,8 @@
       "pure": "instance/for-each",
       "global": [
         "es.array.for-each",
+        "es.iterator.for-each",
+        "es.iterator.constructor",
         "esnext.async-iterator.for-each",
         "esnext.iterator.for-each",
         "esnext.iterator.constructor",
@@ -3667,12 +3679,14 @@
     "take": {
       "pure": null,
       "global": [
+        "es.iterator.take",
+        "es.iterator.constructor",
         "esnext.async-iterator.take",
         "esnext.async-iterator.constructor",
         "es.promise",
         "es.object.to-string"
       ],
-      "name": "esnext.async-iterator.take",
+      "name": "es.iterator.take",
       "exclude": []
     },
     "trimStart": {
@@ -3807,6 +3821,8 @@
       "pure": "instance/filter",
       "global": [
         "es.array.filter",
+        "es.iterator.filter",
+        "es.iterator.constructor",
         "esnext.async-iterator.filter",
         "esnext.iterator.filter",
         "esnext.iterator.constructor",
@@ -3843,6 +3859,8 @@
       "pure": "instance/reduce",
       "global": [
         "es.array.reduce",
+        "es.iterator.reduce",
+        "es.iterator.constructor",
         "esnext.async-iterator.reduce",
         "esnext.iterator.reduce",
         "esnext.iterator.constructor",
