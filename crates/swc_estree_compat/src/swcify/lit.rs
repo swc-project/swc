@@ -129,6 +129,7 @@ impl Swcify for TemplateElement {
             tail: self.tail,
             cooked: self.value.cooked,
             raw: self.value.raw,
+            lone_surrogates: false,
         }
     }
 }
