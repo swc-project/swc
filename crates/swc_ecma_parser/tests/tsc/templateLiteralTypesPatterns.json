@@ -54,7 +54,8 @@
               },
               "tail": false,
               "cooked": "/",
-              "raw": "/"
+              "raw": "/",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -64,7 +65,8 @@
               },
               "tail": true,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             }
           ]
         }
@@ -343,7 +345,8 @@
               },
               "tail": false,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -353,7 +356,8 @@
               },
               "tail": false,
               "cooked": "://",
-              "raw": "://"
+              "raw": "://",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -363,7 +367,8 @@
               },
               "tail": true,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             }
           ]
         }
@@ -821,7 +826,8 @@
                       },
                       "tail": false,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -831,7 +837,8 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -1110,7 +1117,8 @@
               },
               "tail": false,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -1120,7 +1128,8 @@
               },
               "tail": true,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             }
           ]
         }
@@ -1597,7 +1606,8 @@
                       },
                       "tail": false,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -1607,7 +1617,8 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -2734,7 +2745,8 @@
                       },
                       "tail": false,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -2744,7 +2756,8 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -4509,7 +4522,8 @@
               },
               "tail": false,
               "cooked": "a",
-              "raw": "a"
+              "raw": "a",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -4519,7 +4533,8 @@
               },
               "tail": true,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             }
           ]
         }
@@ -4574,7 +4589,8 @@
               },
               "tail": false,
               "cooked": "a",
-              "raw": "a"
+              "raw": "a",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -4584,7 +4600,8 @@
               },
               "tail": true,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             }
           ]
         }
@@ -4639,7 +4656,8 @@
               },
               "tail": false,
               "cooked": "a",
-              "raw": "a"
+              "raw": "a",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -4649,7 +4667,8 @@
               },
               "tail": true,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             }
           ]
         }
@@ -4899,7 +4918,8 @@
               },
               "tail": true,
               "cooked": "bno",
-              "raw": "bno"
+              "raw": "bno",
+              "loneSurrogates": false
             }
           ]
         }
@@ -5125,7 +5145,8 @@
               },
               "tail": true,
               "cooked": "aok",
-              "raw": "aok"
+              "raw": "aok",
+              "loneSurrogates": false
             }
           ]
         }
@@ -5276,7 +5297,8 @@
                       },
                       "tail": false,
                       "cooked": "a",
-                      "raw": "a"
+                      "raw": "a",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -5286,7 +5308,8 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -5622,7 +5645,8 @@
               },
               "tail": false,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -5632,7 +5656,8 @@
               },
               "tail": true,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             }
           ]
         }
@@ -5715,7 +5740,8 @@
               },
               "tail": false,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -5725,7 +5751,8 @@
               },
               "tail": false,
               "cooked": " ",
-              "raw": " "
+              "raw": " ",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -5735,7 +5762,8 @@
               },
               "tail": true,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             }
           ]
         }
@@ -6012,7 +6040,8 @@
                           },
                           "tail": false,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -6022,7 +6051,8 @@
                           },
                           "tail": true,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -6105,7 +6135,8 @@
                           },
                           "tail": false,
                           "cooked": "foo",
-                          "raw": "foo"
+                          "raw": "foo",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -6115,7 +6146,8 @@
                           },
                           "tail": true,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -6223,7 +6255,8 @@
                           },
                           "tail": true,
                           "cooked": "foo1",
-                          "raw": "foo1"
+                          "raw": "foo1",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -6293,7 +6326,8 @@
                           },
                           "tail": false,
                           "cooked": "foo",
-                          "raw": "foo"
+                          "raw": "foo",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -6303,7 +6337,8 @@
                           },
                           "tail": true,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -6411,7 +6446,8 @@
                           },
                           "tail": true,
                           "cooked": "foo1",
-                          "raw": "foo1"
+                          "raw": "foo1",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -6481,7 +6517,8 @@
                           },
                           "tail": false,
                           "cooked": "foo",
-                          "raw": "foo"
+                          "raw": "foo",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -6491,7 +6528,8 @@
                           },
                           "tail": true,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -6561,7 +6599,8 @@
                           },
                           "tail": false,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -6571,7 +6610,8 @@
                           },
                           "tail": true,
                           "cooked": "foo",
-                          "raw": "foo"
+                          "raw": "foo",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -6647,7 +6687,8 @@
                       },
                       "tail": false,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -6657,7 +6698,8 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -6738,7 +6780,8 @@
                           },
                           "tail": false,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -6748,7 +6791,8 @@
                           },
                           "tail": true,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -6922,7 +6966,8 @@
               },
               "tail": false,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -6932,7 +6977,8 @@
               },
               "tail": false,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -6942,7 +6988,8 @@
               },
               "tail": true,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             }
           ]
         }
@@ -6997,7 +7044,8 @@
               },
               "tail": false,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -7007,7 +7055,8 @@
               },
               "tail": true,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             }
           ]
         }
@@ -7078,7 +7127,8 @@
               },
               "tail": false,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -7088,7 +7138,8 @@
               },
               "tail": false,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -7098,7 +7149,8 @@
               },
               "tail": false,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -7108,7 +7160,8 @@
               },
               "tail": true,
               "cooked": "",
-              "raw": ""
+              "raw": "",
+              "loneSurrogates": false
             }
           ]
         }
@@ -7250,7 +7303,8 @@
                       },
                       "tail": false,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -7260,7 +7314,8 @@
                       },
                       "tail": false,
                       "cooked": "-",
-                      "raw": "-"
+                      "raw": "-",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -7270,7 +7325,8 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -7565,7 +7621,8 @@
                 },
                 "tail": false,
                 "cooked": "",
-                "raw": ""
+                "raw": "",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -7575,7 +7632,8 @@
                 },
                 "tail": false,
                 "cooked": "-",
-                "raw": "-"
+                "raw": "-",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -7585,7 +7643,8 @@
                 },
                 "tail": true,
                 "cooked": "",
-                "raw": ""
+                "raw": "",
+                "loneSurrogates": false
               }
             ]
           }
@@ -8098,7 +8157,8 @@
                               },
                               "tail": false,
                               "cooked": "",
-                              "raw": ""
+                              "raw": "",
+                              "loneSurrogates": false
                             },
                             {
                               "type": "TemplateElement",
@@ -8108,7 +8168,8 @@
                               },
                               "tail": true,
                               "cooked": "Downcast",
-                              "raw": "Downcast"
+                              "raw": "Downcast",
+                              "loneSurrogates": false
                             }
                           ]
                         }
@@ -8330,7 +8391,8 @@
                               },
                               "tail": false,
                               "cooked": "",
-                              "raw": ""
+                              "raw": "",
+                              "loneSurrogates": false
                             },
                             {
                               "type": "TemplateElement",
@@ -8340,7 +8402,8 @@
                               },
                               "tail": true,
                               "cooked": "Downcast",
-                              "raw": "Downcast"
+                              "raw": "Downcast",
+                              "loneSurrogates": false
                             }
                           ]
                         }
@@ -8556,7 +8619,8 @@
                           },
                           "tail": false,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -8566,7 +8630,8 @@
                           },
                           "tail": true,
                           "cooked": "Downcast",
-                          "raw": "Downcast"
+                          "raw": "Downcast",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -8780,7 +8845,8 @@
                           },
                           "tail": false,
                           "cooked": "",
-                          "raw": ""
+                          "raw": "",
+                          "loneSurrogates": false
                         },
                         {
                           "type": "TemplateElement",
@@ -8790,7 +8856,8 @@
                           },
                           "tail": true,
                           "cooked": "Downcast",
-                          "raw": "Downcast"
+                          "raw": "Downcast",
+                          "loneSurrogates": false
                         }
                       ]
                     }
@@ -8949,7 +9016,8 @@
                                 },
                                 "tail": false,
                                 "cooked": "a",
-                                "raw": "a"
+                                "raw": "a",
+                                "loneSurrogates": false
                               },
                               {
                                 "type": "TemplateElement",
@@ -8959,7 +9027,8 @@
                                 },
                                 "tail": true,
                                 "cooked": "",
-                                "raw": ""
+                                "raw": "",
+                                "loneSurrogates": false
                               }
                             ]
                           }
@@ -8995,7 +9064,8 @@
                                 },
                                 "tail": false,
                                 "cooked": "",
-                                "raw": ""
+                                "raw": "",
+                                "loneSurrogates": false
                               },
                               {
                                 "type": "TemplateElement",
@@ -9005,7 +9075,8 @@
                                 },
                                 "tail": true,
                                 "cooked": "a",
-                                "raw": "a"
+                                "raw": "a",
+                                "loneSurrogates": false
                               }
                             ]
                           }
@@ -9022,7 +9093,8 @@
                       },
                       "tail": false,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -9032,7 +9104,8 @@
                       },
                       "tail": true,
                       "cooked": "Test",
-                      "raw": "Test"
+                      "raw": "Test",
+                      "loneSurrogates": false
                     }
                   ]
                 }

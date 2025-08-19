@@ -2409,7 +2409,8 @@
                                           },
                                           "tail": true,
                                           "cooked": "pegasus - 4 legs, wings",
-                                          "raw": "pegasus - 4 legs, wings"
+                                          "raw": "pegasus - 4 legs, wings",
+                                          "loneSurrogates": false
                                         }
                                       ]
                                     }
@@ -2518,7 +2519,8 @@
                                             },
                                             "tail": true,
                                             "cooked": "bird - 2 legs, wings",
-                                            "raw": "bird - 2 legs, wings"
+                                            "raw": "bird - 2 legs, wings",
+                                            "loneSurrogates": false
                                           }
                                         ]
                                       }
@@ -2605,7 +2607,8 @@
                                             },
                                             "tail": false,
                                             "cooked": "unknown - ",
-                                            "raw": "unknown - "
+                                            "raw": "unknown - ",
+                                            "loneSurrogates": false
                                           },
                                           {
                                             "type": "TemplateElement",
@@ -2615,7 +2618,8 @@
                                             },
                                             "tail": true,
                                             "cooked": " legs, wings",
-                                            "raw": " legs, wings"
+                                            "raw": " legs, wings",
+                                            "loneSurrogates": false
                                           }
                                         ]
                                       }
@@ -2706,7 +2710,8 @@
                                     },
                                     "tail": false,
                                     "cooked": "manbearpig - ",
-                                    "raw": "manbearpig - "
+                                    "raw": "manbearpig - ",
+                                    "loneSurrogates": false
                                   },
                                   {
                                     "type": "TemplateElement",
@@ -2716,7 +2721,8 @@
                                     },
                                     "tail": true,
                                     "cooked": " legs, no wings",
-                                    "raw": " legs, no wings"
+                                    "raw": " legs, no wings",
+                                    "loneSurrogates": false
                                   }
                                 ]
                               }
@@ -2828,7 +2834,8 @@
                                     },
                                     "tail": true,
                                     "cooked": "quetzalcoatl - no legs, wings",
-                                    "raw": "quetzalcoatl - no legs, wings"
+                                    "raw": "quetzalcoatl - no legs, wings",
+                                    "loneSurrogates": false
                                   }
                                 ]
                               }
@@ -2889,7 +2896,8 @@
                                     },
                                     "tail": true,
                                     "cooked": "snake - no legs, no wings",
-                                    "raw": "snake - no legs, no wings"
+                                    "raw": "snake - no legs, no wings",
+                                    "loneSurrogates": false
                                   }
                                 ]
                               }

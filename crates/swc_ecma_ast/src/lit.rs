@@ -193,7 +193,11 @@ pub struct Str {
 
     /// The string value contains lone surrogates.
     ///
-    /// For example, a "\uD808" is a lone surrogate
+    /// `value` is encoded with `\u{FFFD}` to mark the lone surrogate as an
+    /// escaped value.
+    ///
+    /// For example, a "\uD808" is a lone surrogate, and it's encoded as
+    /// `\u{FFFD}D808`.
     pub lone_surrogates: bool,
 }
 

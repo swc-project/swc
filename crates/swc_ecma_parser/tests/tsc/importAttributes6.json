@@ -141,7 +141,8 @@
                   },
                   "tail": true,
                   "cooked": "a",
-                  "raw": "a"
+                  "raw": "a",
+                  "loneSurrogates": false
                 }
               ]
             }

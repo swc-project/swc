@@ -192,7 +192,8 @@
                         },
                         "tail": false,
                         "cooked": "withUsersTeams(",
-                        "raw": "withUsersTeams("
+                        "raw": "withUsersTeams(",
+                        "loneSurrogates": false
                       },
                       {
                         "type": "TemplateElement",
@@ -202,7 +203,8 @@
                         },
                         "tail": true,
                         "cooked": ")",
-                        "raw": ")"
+                        "raw": ")",
+                        "loneSurrogates": false
                       }
                     ]
                   },
@@ -2088,7 +2090,8 @@
                                 },
                                 "tail": false,
                                 "cooked": "/organizations/",
-                                "raw": "/organizations/"
+                                "raw": "/organizations/",
+                                "loneSurrogates": false
                               },
                               {
                                 "type": "TemplateElement",
@@ -2098,7 +2101,8 @@
                                 },
                                 "tail": true,
                                 "cooked": "/user-teams/",
-                                "raw": "/user-teams/"
+                                "raw": "/user-teams/",
+                                "loneSurrogates": false
                               }
                             ]
                           }

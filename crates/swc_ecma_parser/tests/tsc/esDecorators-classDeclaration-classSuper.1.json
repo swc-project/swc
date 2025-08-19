@@ -460,7 +460,8 @@
                         },
                         "tail": true,
                         "cooked": "",
-                        "raw": ""
+                        "raw": "",
+                        "loneSurrogates": false
                       }
                     ]
                   }
@@ -527,7 +528,8 @@
                         },
                         "tail": true,
                         "cooked": "",
-                        "raw": ""
+                        "raw": "",
+                        "loneSurrogates": false
                       }
                     ]
                   }
@@ -594,7 +596,8 @@
                         },
                         "tail": true,
                         "cooked": "",
-                        "raw": ""
+                        "raw": "",
+                        "loneSurrogates": false
                       }
                     ]
                   }

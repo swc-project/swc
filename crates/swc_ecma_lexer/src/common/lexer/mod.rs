@@ -1308,6 +1308,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let mut cooked = Ok(String::new());
         let mut cooked_slice_start = start;
+        let mut contains_lone_surrogates = false;
         let raw_slice_start = start;
 
         macro_rules! consume_cooked {
@@ -1373,7 +1374,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             self.input_slice(raw_slice_start, end)
                         };
                         let raw = self.atom(raw);
-                        return Ok(Self::Token::template(cooked, raw, self));
+                        return Ok(Self::Token::template(
+                            cooked,
+                            raw,
+                            contains_lone_surrogates,
+                            self,
+                        ));
                     } else {
                         // Just a regular $ character, continue scanning
                         self.bump();
@@ -1394,7 +1400,12 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     let end = self.input().cur_pos();
                     let raw = unsafe { self.input_slice(raw_slice_start, end) };
                     let raw = self.atom(raw);
-                    return Ok(Self::Token::template(cooked, raw, self));
+                    return Ok(Self::Token::template(
+                        cooked,
+                        raw,
+                        contains_lone_surrogates,
+                        self,
+                    ));
                 }
                 b'\r' => {
                     // Handle carriage return line terminator
@@ -1424,6 +1435,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                                         cooked.extend(ch);
                                     }
                                     EscapedChar::LoneSurrogate(ch) => {
+                                        contains_lone_surrogates |= true;
                                         // Following what we did in string literals,
                                         // this need to be restored in the following optimization
                                         // parts if you're going to use the cooked value.

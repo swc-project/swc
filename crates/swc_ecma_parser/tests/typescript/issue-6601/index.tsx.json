@@ -190,7 +190,8 @@
                     },
                     "tail": false,
                     "cooked": "<button\n        @click=\"",
-                    "raw": "<button\n        @click=\""
+                    "raw": "<button\n        @click=\"",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -200,7 +201,8 @@
                     },
                     "tail": true,
                     "cooked": "\"\n      ></button>",
-                    "raw": "\"\n      ></button>"
+                    "raw": "\"\n      ></button>",
+                    "loneSurrogates": false
                   }
                 ]
               },
@@ -297,7 +299,8 @@
                     },
                     "tail": false,
                     "cooked": "<button\n        @click=\"",
-                    "raw": "<button\n        @click=\""
+                    "raw": "<button\n        @click=\"",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -307,7 +310,8 @@
                     },
                     "tail": true,
                     "cooked": "\"\n      ></button>",
-                    "raw": "\"\n      ></button>"
+                    "raw": "\"\n      ></button>",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -435,7 +439,8 @@
                       },
                       "tail": true,
                       "cooked": "<bar></bar>",
-                      "raw": "<bar></bar>"
+                      "raw": "<bar></bar>",
+                      "loneSurrogates": false
                     }
                   ]
                 },
@@ -532,7 +537,8 @@
                       },
                       "tail": false,
                       "cooked": "<button\n        @click=\"",
-                      "raw": "<button\n        @click=\""
+                      "raw": "<button\n        @click=\"",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -542,7 +548,8 @@
                       },
                       "tail": true,
                       "cooked": "\"\n      ></button>",
-                      "raw": "\"\n      ></button>"
+                      "raw": "\"\n      ></button>",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -570,7 +577,8 @@
                       },
                       "tail": true,
                       "cooked": "<bar></bar>",
-                      "raw": "<bar></bar>"
+                      "raw": "<bar></bar>",
+                      "loneSurrogates": false
                     }
                   ]
                 },
@@ -667,7 +675,8 @@
                       },
                       "tail": false,
                       "cooked": "<button\n        @click=\"",
-                      "raw": "<button\n        @click=\""
+                      "raw": "<button\n        @click=\"",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -677,7 +686,8 @@
                       },
                       "tail": true,
                       "cooked": "\"\n      ></button>",
-                      "raw": "\"\n      ></button>"
+                      "raw": "\"\n      ></button>",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -1759,7 +1769,8 @@
                       },
                       "tail": false,
                       "cooked": "<button @click=\"",
-                      "raw": "<button @click=\""
+                      "raw": "<button @click=\"",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -1769,7 +1780,8 @@
                       },
                       "tail": true,
                       "cooked": "\"></button>",
-                      "raw": "\"></button>"
+                      "raw": "\"></button>",
+                      "loneSurrogates": false
                     }
                   ]
                 },
@@ -1877,7 +1889,8 @@
                     },
                     "tail": false,
                     "cooked": "<button\n        @click=\"",
-                    "raw": "<button\n        @click=\""
+                    "raw": "<button\n        @click=\"",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -1887,7 +1900,8 @@
                     },
                     "tail": true,
                     "cooked": "\"\n      ></button>",
-                    "raw": "\"\n      ></button>"
+                    "raw": "\"\n      ></button>",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -2085,7 +2099,8 @@
                     },
                     "tail": false,
                     "cooked": "<button @click=\"",
-                    "raw": "<button @click=\""
+                    "raw": "<button @click=\"",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -2095,7 +2110,8 @@
                     },
                     "tail": true,
                     "cooked": "\"></button>",
-                    "raw": "\"></button>"
+                    "raw": "\"></button>",
+                    "loneSurrogates": false
                   }
                 ]
               },
@@ -2226,7 +2242,8 @@
                       },
                       "tail": false,
                       "cooked": "<button @click=\"",
-                      "raw": "<button @click=\""
+                      "raw": "<button @click=\"",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -2236,7 +2253,8 @@
                       },
                       "tail": true,
                       "cooked": "\"></button>",
-                      "raw": "\"></button>"
+                      "raw": "\"></button>",
+                      "loneSurrogates": false
                     }
                   ]
                 },
@@ -2463,7 +2481,8 @@
                       },
                       "tail": false,
                       "cooked": "<button @click=\"",
-                      "raw": "<button @click=\""
+                      "raw": "<button @click=\"",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -2473,7 +2492,8 @@
                       },
                       "tail": true,
                       "cooked": "\"></button>",
-                      "raw": "\"></button>"
+                      "raw": "\"></button>",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -2589,7 +2609,8 @@
                       },
                       "tail": false,
                       "cooked": "<button @click=\"",
-                      "raw": "<button @click=\""
+                      "raw": "<button @click=\"",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -2599,7 +2620,8 @@
                       },
                       "tail": true,
                       "cooked": "\"></button>",
-                      "raw": "\"></button>"
+                      "raw": "\"></button>",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -3395,7 +3417,8 @@
                               },
                               "tail": false,
                               "cooked": "<button @click=\"",
-                              "raw": "<button @click=\""
+                              "raw": "<button @click=\"",
+                              "loneSurrogates": false
                             },
                             {
                               "type": "TemplateElement",
@@ -3405,7 +3428,8 @@
                               },
                               "tail": true,
                               "cooked": "\" ></button>",
-                              "raw": "\" ></button>"
+                              "raw": "\" ></button>",
+                              "loneSurrogates": false
                             }
                           ]
                         }
@@ -3479,7 +3503,8 @@
                                 },
                                 "tail": true,
                                 "cooked": "Sorry, we are out of test.",
-                                "raw": "Sorry, we are out of test."
+                                "raw": "Sorry, we are out of test.",
+                                "loneSurrogates": false
                               }
                             ]
                           }

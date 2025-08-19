@@ -107,7 +107,8 @@
                   },
                   "tail": false,
                   "cooked": "",
-                  "raw": ""
+                  "raw": "",
+                  "loneSurrogates": false
                 },
                 {
                   "type": "TemplateElement",
@@ -117,7 +118,8 @@
                   },
                   "tail": true,
                   "cooked": "a",
-                  "raw": "a"
+                  "raw": "a",
+                  "loneSurrogates": false
                 }
               ]
             },
@@ -192,7 +194,8 @@
                   },
                   "tail": false,
                   "cooked": "",
-                  "raw": ""
+                  "raw": "",
+                  "loneSurrogates": false
                 },
                 {
                   "type": "TemplateElement",
@@ -202,7 +205,8 @@
                   },
                   "tail": true,
                   "cooked": "",
-                  "raw": ""
+                  "raw": "",
+                  "loneSurrogates": false
                 }
               ]
             },
