@@ -179,7 +179,7 @@ pub fn should_enable(target: &Versions, feature: &Versions, default: bool) -> bo
                         _ => None,
                     });
 
-                feature_or_fallback_version.map_or(true, |v| v > target_version)
+                feature_or_fallback_version.is_none_or(|v| v > target_version)
             })
         },
     )

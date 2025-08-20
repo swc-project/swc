@@ -11,7 +11,8 @@
 //!    : `---- exported more than once
 //!    `----
 //! 
-//! Advice:   > Exported identifiers must be unique
+//! Advice: 
+//!   > Exported identifiers must be unique
 //!   x the name `C` is defined multiple times
 //!    ,-[2:1]
 //!  1 | 

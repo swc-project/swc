@@ -8,7 +8,8 @@
  5 | Number.parseInt("12");
    `----
 
-Advice:   > Add radix parameter `10` for parsing decimal numbers
+Advice: 
+  > Add radix parameter `10` for parsing decimal numbers
    ,-[2:1]
  1 | // requires add radix equals 10
  2 | parseInt("12");
@@ -29,7 +30,8 @@ Advice:   > Add radix parameter `10` for parsing decimal numbers
  8 | globalThis.parseInt("12");
    `----
 
-Advice:   > Add radix parameter `10` for parsing decimal numbers
+Advice: 
+  > Add radix parameter `10` for parsing decimal numbers
    ,-[5:1]
  2 | parseInt("12");
  3 | 
@@ -52,7 +54,8 @@ Advice:   > Add radix parameter `10` for parsing decimal numbers
  11 | Number['parseInt']("12");
     `----
 
-Advice:   > Add radix parameter `10` for parsing decimal numbers
+Advice: 
+  > Add radix parameter `10` for parsing decimal numbers
     ,-[8:1]
   5 | Number.parseInt("12");
   6 | 
@@ -75,7 +78,8 @@ Advice:   > Add radix parameter `10` for parsing decimal numbers
  14 | parseInt("12", 1);
     `----
 
-Advice:   > Add radix parameter `10` for parsing decimal numbers
+Advice: 
+  > Add radix parameter `10` for parsing decimal numbers
     ,-[11:1]
   8 | globalThis.parseInt("12");
   9 | 
@@ -142,7 +146,8 @@ Advice:   > Add radix parameter `10` for parsing decimal numbers
  39 | // requires add radix equals 10
     `----
 
-Advice:   > Add radix parameter `10` for parsing decimal numbers
+Advice: 
+  > Add radix parameter `10` for parsing decimal numbers
     ,-[36:1]
  33 | 
  34 | // requires add radix equals 10
@@ -165,7 +170,8 @@ Advice:   > Add radix parameter `10` for parsing decimal numbers
  43 | globalThis?.parseInt("12");
     `----
 
-Advice:   > Add radix parameter `10` for parsing decimal numbers
+Advice: 
+  > Add radix parameter `10` for parsing decimal numbers
     ,-[40:1]
  37 | }
  38 | 

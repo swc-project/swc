@@ -1,0 +1,66 @@
+# https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/optimizing-pr-creation-version-updates#setting-up-a-cooldown-period-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directories:
+      - /
+      - bindings
+      - crates/swc_core/tests/fixture/*
+      - crates/swc_plugin_backend_tests/tests/css-plugins/swc_noop_plugin
+      - crates/swc_plugin_backend_tests/tests/fixture/*
+      - packages/core/e2e/fixtures/*
+    schedule:
+      interval: weekly
+    groups: # 1 PR per week and group
+      cargo-major:
+        update-types: ["major"]
+      cargo-minor:
+        update-types: ["minor"]
+      cargo-patch:
+        update-types: ["patch"]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    groups: # 1 PR per week for all images
+      actions:
+        patterns: ["*"]
+  - package-ecosystem: gitsubmodule
+    directory: /
+    schedule:
+      interval: weekly
+    groups: # 1 PR per week for all submodules
+      submodules:
+        patterns: ["*"]
+  - package-ecosystem: npm
+    directories:
+      - /
+      - .github/bot
+      - .github/swc-ecosystem-ci
+      - bindings/binding_core_wasm
+      - bindings/binding_core_wasm/example
+      - bindings/binding_minifier_wasm
+      - bindings/binding_typescript_wasm
+      - crates/swc/tests/fixture/jsc-paths/vercel-site/1/input
+      - crates/swc_ecma_loader/tests/hoisting/packages/app
+      - crates/swc_ecma_parser/tests/test262-parser
+      - crates/swc_ecma_transforms_proposal/tests/decorator-tests
+      - crates/swc_estree_compat/tests
+      - crates/swc_node_bundler/tests
+      - crates/swc_node_bundler/tests/integration/react
+      - crates/swc_node_bundler/tests/pass/resolve-name-fix/input
+      - packages/*
+      - packages/core/scripts/npm/*
+      - packages/html/scripts/npm/*
+      - packages/minifier/scripts/npm/*
+      - packages/react-compiler/scripts/npm/*
+    schedule:
+      interval: weekly
+    groups: # 1 PR per week and group
+      npm-major:
+        update-types: ["major"]
+      npm-minor:
+        update-types: ["minor"]
+      npm-patch:
+        update-types: ["patch"]

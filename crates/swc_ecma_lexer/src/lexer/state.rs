@@ -149,7 +149,7 @@ impl State {
         } else if next.is_rparen() || next.is_rbrace() {
             // TODO: Verify
             if context.len() == 1 {
-                return true;
+                true
             } else {
                 let out = context.pop().unwrap();
                 // let a = function(){}

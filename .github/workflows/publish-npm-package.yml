@@ -220,7 +220,7 @@ jobs:
       - name: Setup node x64
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: yarn
           architecture: x64
       - name: Output toolchain
@@ -233,17 +233,17 @@ jobs:
         with:
           targets: ${{ matrix.settings.target }}
           toolchain: ${{ steps.toolchain.outputs.version }}
-      - uses: goto-bus-stop/setup-zig@v2
+      - uses: goto-bus-stop/setup-zig@v2  # unmaintained
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
         with:
-          version: 0.12.0
+          version: 0.14.1
       - name: Cache cargo registry
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cargo/registry
           key: ${{ matrix.settings.target }}-node@20-cargo-registry-trimmed
       - name: Cache cargo index
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cargo/git
           key: ${{ matrix.settings.target }}-node@20-cargo-index-trimmed
@@ -270,7 +270,7 @@ jobs:
         uses: actions/setup-node@v4
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
-          node-version: 20
+          node-version: 22
           architecture: x86
       - name: Build in docker
         uses: addnab/docker-run-action@v3
@@ -330,7 +330,7 @@ jobs:
       - name: Install dependencies
         run: corepack enable && yarn install --network-timeout 300000
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
           path: ./packages/${{ inputs.package }}
@@ -369,7 +369,7 @@ jobs:
       - name: Install dependencies
         run: corepack enable && yarn install
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-gnu
           path: ./packages/${{ inputs.package }}
@@ -379,7 +379,7 @@ jobs:
       - name: Build TypeScript
         run: yarn build:ts
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim sh -c 'npm install -f -g yarn@1.22.19 && env DISABLE_PLUGIN_E2E_TESTS=true yarn test:${{ inputs.package }}'
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim sh -c 'npm install -f -g yarn@1.22 && env DISABLE_PLUGIN_E2E_TESTS=true yarn test:${{ inputs.package }}'
   test-linux-x64-musl-binding:
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
@@ -409,7 +409,7 @@ jobs:
           yarn config set supportedArchitectures.libc "musl"
           yarn install
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-musl
           path: ./packages/${{ inputs.package }}
@@ -419,7 +419,7 @@ jobs:
       - name: Build TypeScript
         run: yarn build:ts
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine sh -c 'npm install -f -g yarn@1.22.19 && env DISABLE_PLUGIN_E2E_TESTS=true yarn test:${{ inputs.package }}'
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine sh -c 'npm install -f -g yarn@1.22 && env DISABLE_PLUGIN_E2E_TESTS=true yarn test:${{ inputs.package }}'
   # test-linux-aarch64-musl-binding:
   #   name: Test bindings on aarch64-unknown-linux-musl - node@lts
   #   needs:
@@ -432,7 +432,7 @@ jobs:
   #     - name: Corepack
   #       run: corepack enable
   #     - name: Download artifacts
-  #       uses: actions/download-artifact@v4
+  #       uses: actions/download-artifact@v5
   #       with:
   #         name: bindings-${{ inputs.package }}-${{ inputs.version}}-aarch64-unknown-linux-musl
   #         path: ./packages/${{ inputs.package }}
@@ -481,7 +481,7 @@ jobs:
   #     - name: Corepack
   #       run: corepack enable
   #     - name: Download artifacts
-  #       uses: actions/download-artifact@v4
+  #       uses: actions/download-artifact@v5
   #       with:
   #         name: bindings-${{ inputs.package }}-${{ inputs.version}}-armv7-unknown-linux-gnueabihf
   #         path: ./packages/${{ inputs.package }}
@@ -539,7 +539,7 @@ jobs:
         run: corepack enable && yarn install
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           pattern: "bindings-${{ inputs.package }}-${{ inputs.version}}-*"
           path: ./packages/${{ inputs.package }}/artifacts
@@ -631,10 +631,10 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/
