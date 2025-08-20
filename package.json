@@ -45,6 +45,7 @@
         "acorn": "^8.6.0",
         "acorn-jsx": "^5.3.2",
         "axios": "^0.21.1",
+        "babel-plugin-polyfill-corejs3": "^0.13.0",
         "babel-plugin-transform-node-env-inline": "^0.4.3",
         "benchmark": "^2.1.4",
         "bootstrap": "^5.2.1",

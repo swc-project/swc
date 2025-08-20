@@ -207,6 +207,7 @@ fn corejs3_builtin(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> a
         pure: Option<&'a str>,
         global: Vec<&'a str>,
         name: &'a str,
+        #[serde(default)]
         exclude: Vec<&'a str>,
     }
 
