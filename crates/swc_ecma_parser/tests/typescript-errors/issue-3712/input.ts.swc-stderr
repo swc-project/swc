@@ -5,24 +5,10 @@
    :               ^
  9 |             <html lang='en-US' charSet='UTF-8'>
    `----
-  x This syntax is reserved in files with the .mts or .cts extension. Use an `as` expression instead.
-   ,-[$DIR/tests/typescript-errors/issue-3712/input.ts:7:1]
- 6 | export const pageLayout = ()=>jsx(
- 7 |         <>
-   :         ^
- 8 |             < !doctype html >
-   `----
   x Expression expected
    ,-[$DIR/tests/typescript-errors/issue-3712/input.ts:7:1]
  6 | export const pageLayout = ()=>jsx(
  7 |         <>
    :          ^
  8 |             < !doctype html >
-   `----
-  x This syntax is reserved in files with the .mts or .cts extension. Use an `as` expression instead.
-   ,-[$DIR/tests/typescript-errors/issue-3712/input.ts:8:1]
- 7 |         <>
- 8 |             < !doctype html >
-   :             ^
- 9 |             <html lang='en-US' charSet='UTF-8'>
    `----
