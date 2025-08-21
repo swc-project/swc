@@ -563,8 +563,7 @@ impl Pure<'_> {
                 .any(|v| match &*v.expr {
                     e if is_pure_undefined(self.expr_ctx, e) => false,
                     Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
-                    // This can change behavior if the value is `undefined` or `null`.
-                    Expr::Ident(..) => false,
+                    // All other expressions can potentially be null/undefined
                     _ => true,
                 })
             {
@@ -598,8 +597,16 @@ impl Pure<'_> {
             for (last, elem) in arr.elems.take().into_iter().identify_last() {
                 if let Some(ExprOrSpread { spread: None, expr }) = elem {
                     match &*expr {
-                        e if is_pure_undefined(self.expr_ctx, e) => {}
-                        Expr::Lit(Lit::Null(..)) => {}
+                        e if is_pure_undefined(self.expr_ctx, e) => {
+                            // null and undefined should become empty strings in
+                            // join
+                            // Don't add anything for empty string join
+                        }
+                        Expr::Lit(Lit::Null(..)) => {
+                            // null and undefined should become empty strings in
+                            // join
+                            // Don't add anything for empty string join
+                        }
                         _ => {
                             add(&mut res, expr);
                         }
