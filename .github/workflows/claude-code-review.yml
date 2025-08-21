@@ -79,3 +79,6 @@ jobs:
           # if: |
           #   !contains(github.event.pull_request.title, '[skip-review]') &&
           #   !contains(github.event.pull_request.title, '[WIP]')
+
+          # Optional: allow bot users to trigger the action
+          allowed_bots: "*"
