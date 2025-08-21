@@ -33,7 +33,7 @@ export type Options = {
     minifyAdditionalAttributes?: [string, MinifierType][];
     sortSpaceSeparatedAttributeValues?: boolean;
     sortAttributes?: boolean;
-    tagOmission?: boolean;
+    tagOmission?: boolean | "keep-head-and-body";
     selfClosingVoidElements?: boolean;
     quotes?: boolean;
 };

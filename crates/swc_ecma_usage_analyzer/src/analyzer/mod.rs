@@ -174,13 +174,7 @@ where
         }
 
         if let Pat::Expr(e) = p {
-            match &**e {
-                Expr::Ident(i) => {
-                    self.data
-                        .report_assign(self.ctx, i.to_id(), is_read_modify, Value::Unknown)
-                }
-                _ => self.mark_mutation_if_member(e.as_member()),
-            }
+            self.mark_mutation_if_member(e.as_member());
         }
     }
 
