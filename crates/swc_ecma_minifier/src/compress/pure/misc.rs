@@ -563,10 +563,7 @@ impl Pure<'_> {
                 .any(|v| match &*v.expr {
                     e if is_pure_undefined(self.expr_ctx, e) => false,
                     Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
-                    // This can change behavior if the value is `undefined` or `null`.
-                    Expr::Ident(..) => false,
-                    Expr::OptChain(..) => false,
-                    Expr::Member(..) => false,
+                    // All other expressions can potentially be null/undefined
                     _ => true,
                 })
             {
