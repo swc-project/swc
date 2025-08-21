@@ -565,9 +565,7 @@ impl Pure<'_> {
                     Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
                     // This can change behavior if the value is `undefined` or `null`.
                     Expr::Ident(..) => false,
-                    // Optional chaining can produce undefined
                     Expr::OptChain(..) => false,
-                    // Member expressions might produce undefined
                     Expr::Member(..) => false,
                     _ => true,
                 })
