@@ -50,6 +50,7 @@ swc_ecma_visit = { version = "15.0.0", path = "../swc_ecma_visit" }
 anyhow          = { workspace = true }
 foldhash        = { workspace = true }
 precomputed-map = { workspace = true, features = ["builder"] }
+rustc-hash      = { workspace = true }
 serde           = { workspace = true, features = ["derive"] }
 serde_json      = { workspace = true }
 
