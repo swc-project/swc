@@ -566,7 +566,7 @@ impl Pure<'_> {
                     // This can change behavior if the value is `undefined` or `null`.
                     Expr::Ident(..) => false,
                     // Optional chaining can produce undefined
-                    Expr::OptChain(..) => true,
+                    Expr::OptChain(..) => false,
                     // Member expressions might produce undefined
                     Expr::Member(..) => true,
                     _ => true,
