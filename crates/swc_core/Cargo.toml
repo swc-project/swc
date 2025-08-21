@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_core"
 repository    = { workspace = true }
-version       = "36.0.0"
+version       = "36.0.1"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
@@ -376,7 +376,7 @@ swc_ecma_transforms_proposal     = { optional = true, version = "25.0.0", path =
 swc_ecma_transforms_react        = { optional = true, version = "27.0.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_testing      = { optional = true, version = "28.0.0", path = "../swc_ecma_transforms_testing" }
 swc_ecma_transforms_typescript   = { optional = true, version = "27.0.0", path = "../swc_ecma_transforms_typescript" }
-swc_ecma_usage_analyzer          = { optional = true, version = "22.0.0", path = "../swc_ecma_usage_analyzer" }
+swc_ecma_usage_analyzer          = { optional = true, version = "22.0.1", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils                   = { optional = true, version = "21.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { optional = true, version = "15.0.0", path = "../swc_ecma_visit" }
 swc_malloc                       = { optional = true, version = "1.2.3", path = "../swc_malloc" }

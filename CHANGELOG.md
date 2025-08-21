@@ -32,6 +32,9 @@
 
 
 
+- **(bindings/html)** Add `keep-head-and-body` for `tagOmission` in binding ([#11014](https://github.com/swc-project/swc/issues/11014)) ([1e1ebeb](https://github.com/swc-project/swc/commit/1e1ebeb209f2df5e47f330eac1256693a7829cb9))
+
+
 - **(html/minifier)** Support `keep_head_and_body` ([#11008](https://github.com/swc-project/swc/issues/11008)) ([86186db](https://github.com/swc-project/swc/commit/86186db36e9c311153b883fa99a20bb777ab2d64))
 
 
@@ -84,6 +87,9 @@
 
 
 - **(es/minifier)** Remove useless branch ([#10966](https://github.com/swc-project/swc/issues/10966)) ([e400de3](https://github.com/swc-project/swc/commit/e400de3aca99d4a937c37219eae6c1303785b661))
+
+
+- **(es/minifier)** Remove duplicate report assign ([#11009](https://github.com/swc-project/swc/issues/11009)) ([9590e1d](https://github.com/swc-project/swc/commit/9590e1dbe967162bc3cda0fe3a1179f0d925eb25))
 
 
 - **(es/parser)** Remove useless methods ([#10980](https://github.com/swc-project/swc/issues/10980)) ([91c6039](https://github.com/swc-project/swc/commit/91c60390b7623f164219dd6c91ef4c0cce8e4dfd))
