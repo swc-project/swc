@@ -568,7 +568,7 @@ impl Pure<'_> {
                     // Optional chaining can produce undefined
                     Expr::OptChain(..) => false,
                     // Member expressions might produce undefined
-                    Expr::Member(..) => true,
+                    Expr::Member(..) => false,
                     _ => true,
                 })
             {
