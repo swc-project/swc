@@ -2728,9 +2728,6 @@
 
 
 
-- **(es/minifier)** Make analyzer not call `collect_infects_from` recursively ([#9924](https://github.com/swc-project/swc/issues/9924)) ([37616c3](https://github.com/swc-project/swc/commit/37616c33bf877845afe55c9fc0d21ccbbf59bad3))
-
-
 - **(es/minifier)** Skip complex inline operations if possible ([#9972](https://github.com/swc-project/swc/issues/9972)) ([772cc30](https://github.com/swc-project/swc/commit/772cc309cc0ff677ebe415b1745cfcb55fe12c03))
 
 
