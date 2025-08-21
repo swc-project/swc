@@ -118,6 +118,21 @@ jobs:
           version: ${{ inputs.version }}
           ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
 
+  manage-milestone:
+    name: "Manage milestone for ${{ inputs.version }}"
+    runs-on: ubuntu-latest
+    if: inputs.onlyNightly == false
+    needs:
+      - git-tag-stable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+      - name: Manage milestone
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npx ts-node .github/bot/src/milestone-manager.ts ${{ inputs.version }}
+
   publish-npm-stable:
     name: "Publish ${{ matrix.package }}@${{ inputs.version || 'stable' }} to npm"
     strategy:
