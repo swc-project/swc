@@ -71,10 +71,14 @@ impl Optimizer<'_> {
 
         #[cfg(debug_assertions)]
         {
-            if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
-                if had_init && var.init.is_none() {
-                    unreachable!("const/let variable without initializer: {:#?}", var);
-                }
+            if self
+                .ctx
+                .bit_ctx
+                .intersects(BitCtx::IsConst.union(BitCtx::IsLet))
+                && had_init
+                && var.init.is_none()
+            {
+                unreachable!("const/let variable without initializer: {:#?}", var);
             }
         }
     }
@@ -202,7 +206,11 @@ impl Optimizer<'_> {
 
             if v.ref_count == 0 && v.usage_count == 0 {
                 if let Some(e) = init {
-                    if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
+                    if self
+                        .ctx
+                        .bit_ctx
+                        .intersects(BitCtx::IsConst.union(BitCtx::IsLet))
+                    {
                         if let Expr::Lit(Lit::Null(..)) = e {
                             return;
                         }
@@ -212,7 +220,11 @@ impl Optimizer<'_> {
                     if let Some(ret) = ret {
                         *e = ret;
                     } else {
-                        if let Some(VarDeclKind::Const | VarDeclKind::Let) = self.ctx.var_kind {
+                        if self
+                            .ctx
+                            .bit_ctx
+                            .intersects(BitCtx::IsConst.union(BitCtx::IsLet))
+                        {
                             *e = Null { span: DUMMY_SP }.into();
                         } else {
                             *e = Invalid { span: DUMMY_SP }.into();
@@ -509,34 +521,43 @@ impl Optimizer<'_> {
                     .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
                     .unwrap_or(false)
                 {
+                    let class = decl.as_mut_class().unwrap();
+                    let Some(side_effects) =
+                        extract_class_side_effect(self.ctx.expr_ctx, &mut class.class)
+                    else {
+                        return;
+                    };
+
                     self.changed = true;
                     report_change!(
                         "unused: Dropping a decl '{}{:?}' because it is not used",
                         ident.sym,
                         ident.ctxt
                     );
-                    // This will remove the declaration.
-                    let class = decl.take().class().unwrap();
-                    let mut side_effects =
-                        extract_class_side_effect(self.ctx.expr_ctx, *class.class);
 
-                    if !side_effects.is_empty() {
-                        self.prepend_stmts.push(
-                            ExprStmt {
-                                span: DUMMY_SP,
-                                expr: if side_effects.len() > 1 {
-                                    SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs: side_effects,
-                                    }
-                                    .into()
-                                } else {
-                                    side_effects.remove(0)
-                                },
-                            }
-                            .into(),
-                        )
+                    let mut side_effects: Vec<_> =
+                        side_effects.into_iter().map(|expr| expr.take()).collect();
+                    decl.take();
+
+                    if side_effects.is_empty() {
+                        return;
                     }
+
+                    self.prepend_stmts.push(
+                        ExprStmt {
+                            span: DUMMY_SP,
+                            expr: if side_effects.len() > 1 {
+                                SeqExpr {
+                                    span: DUMMY_SP,
+                                    exprs: side_effects,
+                                }
+                                .into()
+                            } else {
+                                side_effects.remove(0)
+                            },
+                        }
+                        .into(),
+                    );
                 }
             }
             Decl::Fn(FnDecl { ident, .. }) => {
@@ -824,11 +845,11 @@ impl Optimizer<'_> {
         }
 
         if let Some(Expr::Fn(f)) = v.init.as_deref_mut() {
-            if f.ident.is_none() {
+            let Some(f_ident) = f.ident.as_ref() else {
                 return;
-            }
+            };
 
-            if contains_ident_ref(&f.function.body, &f.ident.as_ref().unwrap().to_id()) {
+            if contains_ident_ref(&f.function.body, f_ident) {
                 return;
             }
 
@@ -1035,7 +1056,7 @@ struct ThisPropertyVisitor {
 }
 
 impl Visit for ThisPropertyVisitor {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
         if self.should_abort {

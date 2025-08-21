@@ -849,9 +849,11 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
     let mut readonly = None;
     let mut modifier_span = None;
     let declare = declare_token.is_some();
-    while let Some(modifier) =
+    while let Some(modifier) = if p.input().syntax().typescript() {
         parse_ts_modifier(p, &["abstract", "readonly", "override", "static"], true)?
-    {
+    } else {
+        None
+    } {
         modifier_span = Some(p.input().prev_span());
         match modifier {
             "abstract" => {
@@ -1159,7 +1161,8 @@ fn parse_class_member_with_is_static<'a, P: Parser<'a>>(
     {
         // handle async foo(){}
 
-        if parse_ts_modifier(p, &["override"], false)?.is_some() {
+        if p.input().syntax().typescript() && parse_ts_modifier(p, &["override"], false)?.is_some()
+        {
             is_override = true;
             p.emit_err(
                 p.input().prev_span(),
@@ -1499,7 +1502,7 @@ fn parse_class_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<ClassMember> {
 fn parse_class_body<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<ClassMember>> {
     let mut elems = Vec::with_capacity(32);
     let mut has_constructor_with_body = false;
-    while !eof!(p) && !p.input().is(&P::Token::RBRACE) {
+    while !p.input().is(&P::Token::RBRACE) {
         if p.input_mut().eat(&P::Token::SEMI) {
             let span = p.input().prev_span();
             debug_assert!(span.lo <= span.hi);

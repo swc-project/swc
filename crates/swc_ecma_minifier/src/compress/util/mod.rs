@@ -535,11 +535,11 @@ pub(crate) fn eval_as_number(expr_ctx: ExprCtx, e: &Expr) -> Option<f64> {
     None
 }
 
-pub(crate) fn is_ident_used_by<N>(id: Id, node: &N) -> bool
+pub(crate) fn is_ident_used_by<N>(id: &Ident, node: &N) -> bool
 where
     N: for<'aa> VisitWith<IdentUsageFinder<'aa>>,
 {
-    IdentUsageFinder::find(&id, node)
+    IdentUsageFinder::find(id, node)
 }
 
 pub struct ExprReplacer<F>
@@ -553,7 +553,7 @@ impl<F> VisitMut for ExprReplacer<F>
 where
     F: FnMut(&mut Expr),
 {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
@@ -672,7 +672,7 @@ impl UnreachableHandler {
 }
 
 impl VisitMut for UnreachableHandler {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
 
@@ -722,7 +722,7 @@ pub struct SuperFinder {
 }
 
 impl Visit for SuperFinder {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     /// Don't recurse into constructor
     fn visit_constructor(&mut self, _: &Constructor) {}

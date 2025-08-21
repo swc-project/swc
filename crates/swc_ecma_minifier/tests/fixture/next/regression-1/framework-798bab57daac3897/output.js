@@ -2992,7 +2992,7 @@
                     ];
                 },
                 useRef: function(a) {
-                    return $h().memoizedState = a = {
+                    return $h().memoizedState = {
                         current: a
                     };
                 },
@@ -3110,11 +3110,11 @@
                             case 0:
                             case 2:
                             case 15:
-                                return a = Na(a.type, !1);
+                                return Na(a.type, !1);
                             case 11:
-                                return a = Na(a.type.render, !1);
+                                return Na(a.type.render, !1);
                             case 1:
-                                return a = Na(a.type, !0);
+                                return Na(a.type, !0);
                             default:
                                 return "";
                         }
@@ -5552,7 +5552,7 @@
                     if ("function" == typeof a.render) throw Error(p(188));
                     throw Error(p(268, a = Object.keys(a).join(",")));
                 }
-                return a = null === (a = Yb(b)) ? null : a.stateNode;
+                return null === (a = Yb(b)) ? null : a.stateNode;
             }, exports.flushSync = function(a) {
                 return Qk(a);
             }, exports.hydrate = function(a, b, c) {

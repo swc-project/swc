@@ -25,7 +25,7 @@ use crate::{
 /// argument of arrow is pattern, although idents in pattern is already
 /// checked if is a keyword, it should also be checked if is arguments or
 /// eval
-fn pat_is_valid_argument_in_strict<'a>(p: &impl Parser<'a>, pat: &Pat) {
+fn pat_is_valid_argument_in_strict<'a>(p: &mut impl Parser<'a>, pat: &Pat) {
     debug_assert!(p.ctx().contains(Context::Strict));
     match pat {
         Pat::Ident(i) => {
@@ -416,7 +416,7 @@ pub fn parse_array_binding_pat<'a, P: Parser<'a>>(p: &mut P) -> PResult<Pat> {
 
     let mut rest_span = Span::default();
 
-    while !eof!(p) && !p.input().is(&P::Token::RBRACKET) {
+    while !p.input().is(&P::Token::RBRACKET) {
         if p.input_mut().eat(&P::Token::COMMA) {
             elems.push(None);
             continue;
@@ -622,7 +622,7 @@ pub fn parse_constructor_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Par
     let mut params = Vec::new();
     let mut rest_span = Span::default();
 
-    while !eof!(p) && !p.input().is(&P::Token::RPAREN) {
+    while !p.input().is(&P::Token::RPAREN) {
         if !rest_span.is_dummy() {
             p.emit_err(rest_span, SyntaxError::TS1014);
         }
@@ -676,7 +676,7 @@ pub fn parse_formal_params<'a, P: Parser<'a>>(p: &mut P) -> PResult<Vec<Param>> 
     let mut params = Vec::new();
     let mut rest_span = Span::default();
 
-    while !eof!(p) && !p.input().is(&P::Token::RPAREN) {
+    while !p.input().is(&P::Token::RPAREN) {
         if !rest_span.is_dummy() {
             p.emit_err(rest_span, SyntaxError::TS1014);
         }

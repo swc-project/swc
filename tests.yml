@@ -16,12 +16,12 @@ os:
     - swc_html_parser
     - swc_node_bundler
     - swc_plugin
-    - swc_plugin_runner
+    - swc_plugin_backend_wasmer
     - swc_plugin_testing
   macos:
     - swc
     - swc_allocator
-    - swc_plugin_runner
+    - swc_plugin_backend_wasmer
 
 # host:
 #   swc: ubuntu-large
@@ -29,7 +29,7 @@ os:
 check:
   swc:
     # plugin feature is verified by other tasks
-    - "cargo hack check --feature-powerset --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin_transform_host_js --features par-core/chili"
+    - "cargo hack check --feature-powerset --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin_transform_host_js --exclude-features plugin_backend_wasmer --features par-core/chili"
   swc_allocator:
     - "cargo hack check --feature-powerset"
   swc_bundler:

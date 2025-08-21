@@ -95,13 +95,15 @@ where
     where
         F: FnOnce(&mut UsageAnalyzer<S>) -> Ret,
     {
+        let used_recursively = std::mem::take(&mut self.used_recursively);
+
         let mut child = UsageAnalyzer {
             data: S::new(S::need_collect_prop_atom(&self.data)),
             marks: self.marks,
             ctx: self.ctx.with(BitContext::IsTopLevel, false),
             expr_ctx: self.expr_ctx,
             scope: Default::default(),
-            used_recursively: self.used_recursively.clone(),
+            used_recursively,
         };
 
         let ret = op(&mut child);
@@ -113,6 +115,8 @@ where
 
         self.scope.merge(child.scope, true);
         self.data.merge(kind, child.data);
+
+        self.used_recursively = child.used_recursively;
 
         ret
     }
@@ -170,13 +174,7 @@ where
         }
 
         if let Pat::Expr(e) = p {
-            match &**e {
-                Expr::Ident(i) => {
-                    self.data
-                        .report_assign(self.ctx, i.to_id(), is_read_modify, Value::Unknown)
-                }
-                _ => self.mark_mutation_if_member(e.as_member()),
-            }
+            self.mark_mutation_if_member(e.as_member());
         }
     }
 
@@ -303,7 +301,7 @@ where
 
         if n.op == op!("=") {
             let left = match &n.left {
-                AssignTarget::Simple(left) => left.leftmost().as_deref().map(Ident::to_id),
+                AssignTarget::Simple(left) => left.leftmost().map(Ident::to_id),
                 AssignTarget::Pat(..) => None,
             };
 

@@ -15065,7 +15065,7 @@
             }, R.updateQueue = b, b.lastEffect = a.next = a) : null === (c = b.lastEffect) ? b.lastEffect = a.next = a : (d = c.next, c.next = a, a.next = d, b.lastEffect = a), a;
         }
         function Sh(a) {
-            return Hh().memoizedState = a = {
+            return Hh().memoizedState = {
                 current: a
             };
         }
@@ -15555,13 +15555,13 @@
                         case 0:
                         case 2:
                         case 15:
-                            return a = Pa(a.type, !1);
+                            return Pa(a.type, !1);
                         case 11:
-                            return a = Pa(a.type.render, !1);
+                            return Pa(a.type.render, !1);
                         case 22:
-                            return a = Pa(a.type._render, !1);
+                            return Pa(a.type._render, !1);
                         case 1:
-                            return a = Pa(a.type, !0);
+                            return Pa(a.type, !0);
                         default:
                             return "";
                     }
@@ -17293,7 +17293,7 @@
                 if ("function" == typeof a.render) throw Error(y(188));
                 throw Error(y(268, Object.keys(a)));
             }
-            return a = null === (a = cc(b)) ? null : a.stateNode;
+            return null === (a = cc(b)) ? null : a.stateNode;
         }, exports.flushSync = function(a, b) {
             var c = X;
             if (0 != (48 & c)) return a(b);

@@ -3,10 +3,10 @@ use std::{
     cell::RefCell,
     ffi::c_void,
     hash::{BuildHasherDefault, Hash, Hasher},
-    mem::{forget, ManuallyDrop},
+    mem::ManuallyDrop,
     num::NonZeroU8,
     ops::Deref,
-    ptr::{self, NonNull},
+    ptr::NonNull,
 };
 
 use rustc_hash::FxHasher;
@@ -24,17 +24,6 @@ pub(crate) struct Metadata {
 
 #[derive(Clone, PartialEq, Eq)]
 pub(crate) struct Item(pub ThinArc<Metadata, u8>);
-
-impl Item {
-    /// https://users.rust-lang.org/t/what-is-the-ideal-way-to-destruct-a-guard-type/25974/8
-    fn into_inner(self) -> ThinArc<Metadata, u8> {
-        unsafe {
-            let inner = ptr::read(&self.0);
-            forget(self);
-            inner
-        }
-    }
-}
 
 impl Deref for Item {
     type Target = <ThinArc<Metadata, u8> as Deref>::Target;
@@ -133,7 +122,7 @@ where
 
     let hash = calc_hash(text);
     let entry = storage.insert_entry(text, hash);
-    let entry = ThinArc::into_raw(entry.into_inner()) as *mut c_void;
+    let entry = ThinArc::into_raw(entry.0) as *mut c_void;
 
     let ptr: NonNull<c_void> = unsafe {
         // Safety: Arc::into_raw returns a non-null pointer
@@ -174,7 +163,6 @@ trait Storage {
 }
 
 impl Storage for &'_ mut AtomStore {
-    #[inline(never)]
     fn insert_entry(self, text: &str, hash: u64) -> Item {
         // If the text is too long, interning is not worth it.
         if text.len() > 512 {
@@ -203,7 +191,7 @@ impl Storage for &'_ mut AtomStore {
     }
 }
 
-#[inline(never)]
+#[inline(always)]
 fn calc_hash(text: &str) -> u64 {
     let mut hasher = FxHasher::default();
     text.hash(&mut hasher);

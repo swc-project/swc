@@ -87,7 +87,7 @@ impl Preserver<'_> {
 }
 
 impl Visit for Preserver<'_> {
-    noop_visit_type!();
+    noop_visit_type!(fail);
 
     visit_obj_and_computed!();
 

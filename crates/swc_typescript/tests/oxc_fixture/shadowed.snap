@@ -1,0 +1,18 @@
+```==================== .D.TS ====================
+
+// Shadowed
+export type Foo = {
+};
+export type Bar = {
+    foo: Foo;
+};
+type Func = () => void;
+export type FuncType = Func;
+type Module = () => void;
+declare namespace Module {
+    const x = 1;
+}
+export type ModuleType = Module;
+export { };
+
+

@@ -1,0 +1,1 @@
+let Number; console.log(Number.NaN);

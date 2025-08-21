@@ -32,8 +32,6 @@ impl Optimizer<'_> {
         init: &mut Expr,
         can_drop: bool,
     ) {
-        let may_remove = self.may_remove_ident(ident);
-
         trace_op!(
             "inline: store_var_for_inlining({}, may_remove = {:?})",
             crate::debug::dump(ident, false),
@@ -80,6 +78,8 @@ impl Optimizer<'_> {
             if usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
                 return;
             }
+
+            let may_remove = self.may_remove_ident(ident);
 
             if !may_remove && usage.var_kind != Some(VarDeclKind::Const) {
                 log_abort!(
@@ -654,13 +654,12 @@ impl Optimizer<'_> {
     /// handled specially.
     pub(super) fn store_decl_for_inlining(&mut self, decl: &mut Decl) {
         let i = match &*decl {
-            Decl::Class(v) => v.ident.clone(),
+            Decl::Class(v) => &v.ident,
             Decl::Fn(f) => {
                 if f.function.is_async {
                     return;
                 }
-
-                f.ident.clone()
+                &f.ident
             }
             _ => return,
         };
@@ -672,12 +671,12 @@ impl Optimizer<'_> {
             return;
         }
 
-        if !self.may_remove_ident(&i) {
+        if !self.may_remove_ident(i) {
             log_abort!("inline: [x] Top level");
             return;
         }
 
-        if let Decl::Fn(f) = decl {
+        if let Some(f) = decl.as_fn_decl() {
             if self.has_noinline(f.function.ctxt) {
                 log_abort!("inline: [x] Has noinline");
                 return;
@@ -697,7 +696,9 @@ impl Optimizer<'_> {
             return;
         }
 
-        if let Some(usage) = self.data.vars.get(&i.to_id()) {
+        let id = i.to_id();
+
+        if let Some(usage) = self.data.vars.get(&id) {
             if usage
                 .flags
                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
@@ -747,8 +748,8 @@ impl Optimizer<'_> {
                             }
                             report_change!(
                                 "inline: Decided to inline function `{}{:?}` as it's very simple",
-                                i.sym,
-                                i.ctxt
+                                id.0,
+                                id.1
                             );
 
                             for i in collect_infects_from(
@@ -763,7 +764,7 @@ impl Optimizer<'_> {
                             }
 
                             self.vars.simple_functions.insert(
-                                i.to_id(),
+                                id,
                                 FnExpr {
                                     ident: None,
                                     function: f.function.clone(),
@@ -803,9 +804,8 @@ impl Optimizer<'_> {
                     }
                 }
 
-                #[allow(unused)]
                 match &decl {
-                    Decl::Class(c) => {
+                    Decl::Class(_c) => {
                         if self.options.inline != 3
                             || self.options.keep_classnames
                             || self.mangle_options.is_some_and(|v| v.keep_class_names)
@@ -817,11 +817,11 @@ impl Optimizer<'_> {
                         self.changed = true;
                         report_change!(
                             "inline: Decided to inline class `{}{:?}` as it's used only once",
-                            c.ident.sym,
-                            c.ident.ctxt
+                            _c.ident.sym,
+                            _c.ident.ctxt
                         );
                     }
-                    Decl::Fn(f) => {
+                    Decl::Fn(_f) => {
                         if self.options.keep_fnames
                             || self.mangle_options.is_some_and(|v| v.keep_fn_names)
                         {
@@ -832,8 +832,8 @@ impl Optimizer<'_> {
                         self.changed = true;
                         report_change!(
                             "inline: Decided to inline function `{}{:?}` as it's used only once",
-                            f.ident.sym,
-                            f.ident.ctxt
+                            _f.ident.sym,
+                            _f.ident.ctxt
                         );
                     }
                     _ => {}
@@ -859,7 +859,7 @@ impl Optimizer<'_> {
                     }
                 };
 
-                self.vars.vars_for_inlining.insert(i.to_id(), e);
+                self.vars.vars_for_inlining.insert(id, e);
             } else {
                 log_abort!("inline: [x] Usage: {:?}", usage);
             }

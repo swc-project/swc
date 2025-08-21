@@ -8,7 +8,7 @@ use swc_atoms::Atom;
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
-use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, Remapper};
+use swc_ecma_utils::{collect_decls, contains_this_expr, ExprCtx, ExprExt, Remapper};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
@@ -161,34 +161,40 @@ impl Drop for WithCtx<'_, '_> {
     }
 }
 
-pub(crate) fn extract_class_side_effect(expr_ctx: ExprCtx, c: Class) -> Vec<Box<Expr>> {
+pub(crate) fn extract_class_side_effect(
+    expr_ctx: ExprCtx,
+    c: &mut Class,
+) -> Option<Vec<&mut Box<Expr>>> {
     let mut res = Vec::new();
-    if let Some(e) = c.super_class {
+    if let Some(e) = &mut c.super_class {
         if e.may_have_side_effects(expr_ctx) {
             res.push(e);
         }
     }
 
-    for m in c.body {
+    for m in &mut c.body {
         match m {
             ClassMember::Method(ClassMethod {
                 key: PropName::Computed(key),
                 ..
             }) => {
                 if key.expr.may_have_side_effects(expr_ctx) {
-                    res.push(key.expr);
+                    res.push(&mut key.expr);
                 }
             }
 
             ClassMember::ClassProp(p) => {
-                if let PropName::Computed(key) = p.key {
+                if let PropName::Computed(key) = &mut p.key {
                     if key.expr.may_have_side_effects(expr_ctx) {
-                        res.push(key.expr);
+                        res.push(&mut key.expr);
                     }
                 }
 
-                if let Some(v) = p.value {
+                if let Some(v) = &mut p.value {
                     if p.is_static && v.may_have_side_effects(expr_ctx) {
+                        if contains_this_expr(v) {
+                            return None;
+                        }
                         res.push(v);
                     }
                 }
@@ -199,6 +205,9 @@ pub(crate) fn extract_class_side_effect(expr_ctx: ExprCtx, c: Class) -> Vec<Box<
                 ..
             }) => {
                 if v.may_have_side_effects(expr_ctx) {
+                    if contains_this_expr(v) {
+                        return None;
+                    }
                     res.push(v);
                 }
             }
@@ -207,7 +216,7 @@ pub(crate) fn extract_class_side_effect(expr_ctx: ExprCtx, c: Class) -> Vec<Box<
         }
     }
 
-    res
+    Some(res)
 }
 
 pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
@@ -306,7 +315,7 @@ enum FinalizerMode {
 }
 
 impl VisitMut for Finalizer<'_> {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_bin_expr(&mut self, e: &mut BinExpr) {
         e.visit_mut_children_with(self);
@@ -503,7 +512,7 @@ impl<'a> NormalMultiReplacer<'a> {
 }
 
 impl VisitMut for NormalMultiReplacer<'_> {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         if self.vars.is_empty() {
@@ -596,7 +605,7 @@ impl ExprReplacer {
 }
 
 impl VisitMut for ExprReplacer {
-    noop_visit_mut_type!();
+    noop_visit_mut_type!(fail);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);

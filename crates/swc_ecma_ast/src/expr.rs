@@ -1,5 +1,5 @@
 #![allow(clippy::vec_box)]
-use std::{borrow::Cow, mem::transmute};
+use std::mem::transmute;
 
 use is_macro::Is;
 use string_enum::StringEnum;
@@ -1575,12 +1575,10 @@ impl TryFrom<Box<Expr>> for SimpleAssignTarget {
 bridge_from!(SimpleAssignTarget, BindingIdent, Ident);
 
 impl SimpleAssignTarget {
-    pub fn leftmost(&self) -> Option<Cow<Ident>> {
+    pub fn leftmost(&self) -> Option<&Ident> {
         match self {
-            SimpleAssignTarget::Ident(i) => {
-                Some(Cow::Owned(Ident::new(i.sym.clone(), i.span, i.ctxt)))
-            }
-            SimpleAssignTarget::Member(MemberExpr { obj, .. }) => obj.leftmost().map(Cow::Borrowed),
+            SimpleAssignTarget::Ident(i) => Some(&i.id),
+            SimpleAssignTarget::Member(MemberExpr { obj, .. }) => obj.leftmost(),
             _ => None,
         }
     }

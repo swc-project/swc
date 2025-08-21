@@ -79,20 +79,22 @@ where
     if !p.input().syntax().typescript() {
         return Ok(false);
     }
+
     let prev_ignore_error = p.input().get_ctx().contains(Context::IgnoreError);
-    let mut cloned = p.clone();
-    cloned.set_ctx(p.ctx() | Context::IgnoreError);
-    let res = op(&mut cloned);
+    let checkpoint = p.checkpoint_save();
+    p.set_ctx(p.ctx() | Context::IgnoreError);
+    let res = op(p);
     match res {
         Ok(Some(res)) if res => {
-            *p = cloned;
             let mut ctx = p.ctx();
             ctx.set(Context::IgnoreError, prev_ignore_error);
             p.input_mut().set_ctx(ctx);
             Ok(res)
         }
-        Err(..) => Ok(false),
-        _ => Ok(false),
+        _ => {
+            p.checkpoint_load(checkpoint);
+            Ok(false)
+        }
     }
 }
 
@@ -207,12 +209,11 @@ where
     trace_cur!(p, try_parse_ts);
 
     let prev_ignore_error = p.input().get_ctx().contains(Context::IgnoreError);
-    let mut cloned = p.clone();
-    cloned.set_ctx(p.ctx() | Context::IgnoreError);
-    let res = op(&mut cloned);
+    let checkpoint = p.checkpoint_save();
+    p.set_ctx(p.ctx() | Context::IgnoreError);
+    let res = op(p);
     match res {
         Ok(Some(res)) => {
-            *p = cloned;
             trace_cur!(p, try_parse_ts__success_value);
             let mut ctx = p.ctx();
             ctx.set(Context::IgnoreError, prev_ignore_error);
@@ -221,10 +222,12 @@ where
         }
         Ok(None) => {
             trace_cur!(p, try_parse_ts__success_no_value);
+            p.checkpoint_load(checkpoint);
             None
         }
         Err(..) => {
             trace_cur!(p, try_parse_ts__fail);
+            p.checkpoint_load(checkpoint);
             None
         }
     }
@@ -315,9 +318,6 @@ pub fn eat_any_ts_modifier<'a>(p: &mut impl Parser<'a>) -> PResult<bool> {
     if p.syntax().typescript()
         && {
             let cur = p.input().cur();
-            if cur.is_eof() {
-                return Err(eof_error(p));
-            }
             cur.is_public() || cur.is_protected() || cur.is_private() || cur.is_readonly()
         }
         && peek!(p).is_some_and(|t| t.is_word() || t.is_lbrace() || t.is_lbracket())
@@ -337,9 +337,7 @@ pub fn parse_ts_modifier<'a, P: Parser<'a>>(
     allowed_modifiers: &[&'static str],
     stop_on_start_of_class_static_blocks: bool,
 ) -> PResult<Option<&'static str>> {
-    if !p.input().syntax().typescript() {
-        return Ok(None);
-    }
+    debug_assert!(p.input().syntax().typescript());
     let pos = {
         let cur = p.input().cur();
         let modifier = if cur.is_unknown_ident() {
@@ -431,7 +429,7 @@ pub fn parse_ts_entity_name<'a, P: Parser<'a>>(
     while p.input_mut().eat(&P::Token::DOT) {
         let dot_start = p.input().cur_pos();
         let cur = p.input().cur();
-        if cur.is_eof() || (!cur.is_hash() && !cur.is_word()) {
+        if !cur.is_hash() && !cur.is_word() {
             p.emit_err(
                 Span::new_with_checked(dot_start, dot_start),
                 SyntaxError::TS1003,
@@ -455,9 +453,11 @@ where
     F: FnOnce(&mut P) -> T,
 {
     debug_assert!(p.input().syntax().typescript());
-    let mut cloned = p.clone();
-    cloned.set_ctx(p.ctx() | Context::IgnoreError);
-    op(&mut cloned)
+    let checkpoint = p.checkpoint_save();
+    p.set_ctx(p.ctx() | Context::IgnoreError);
+    let ret = op(p);
+    p.checkpoint_load(checkpoint);
+    ret
 }
 
 /// `tsParseTypeArguments`
@@ -502,7 +502,9 @@ pub fn parse_ts_type_ref<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsTypeRef> {
 
     let type_name = parse_ts_entity_name(p, /* allow_reserved_words */ true)?;
     trace_cur!(p, parse_ts_type_ref__type_args);
-    let type_params = if !p.input().had_line_break_before_cur() && p.input().is(&P::Token::LESS) {
+    let type_params = if !p.input().had_line_break_before_cur()
+        && (p.input().is(&P::Token::LESS) || p.input().is(&P::Token::LSHIFT))
+    {
         let ret = p.do_outside_of_context(Context::ShouldNotLexLtOrGtAsType, parse_ts_type_args)?;
         p.assert_and_bump(&P::Token::GREATER);
         Some(ret)
@@ -2128,7 +2130,7 @@ pub fn parse_ts_interface_decl<'a, P: Parser<'a>>(
     if p.input().is(&P::Token::EXTENDS) {
         p.emit_err(p.input().cur_span(), SyntaxError::TS1172);
 
-        while !eof!(p) && !p.input().is(&P::Token::LBRACE) {
+        while !p.input().cur().is_eof() && !p.input().is(&P::Token::LBRACE) {
             p.bump();
         }
     }

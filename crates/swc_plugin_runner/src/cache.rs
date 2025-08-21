@@ -7,33 +7,19 @@ use std::{
 };
 
 use anyhow::{Context, Error};
-use enumset::EnumSet;
 use parking_lot::Mutex;
 use rustc_hash::FxHashMap;
 use swc_common::sync::{Lazy, OnceCell};
-#[cfg(not(target_arch = "wasm32"))]
-use wasmer::{sys::BaseTunables, sys::CpuFeature, sys::Target, sys::Triple, Engine};
-use wasmer::{Module, Store};
-#[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
-use wasmer_cache::{Cache as WasmerCache, FileSystemCache, Hash};
 
 use crate::{
     plugin_module_bytes::{CompiledPluginModuleBytes, PluginModuleBytes, RawPluginModuleBytes},
-    wasix_runtime::new_store,
+    runtime,
 };
-
-/// Version for bytecode cache stored in local filesystem.
-///
-/// This MUST be updated when bump up wasmer.
-///
-/// Bytecode cache generated via wasmer is generally portable,
-/// however it is not gauranteed to be compatible across wasmer's
-/// internal changes.
-/// https://github.com/wasmerio/wasmer/issues/2781
-const MODULE_SERIALIZATION_VERSION: &str = "v7";
 
 #[derive(Default)]
 pub struct PluginModuleCacheInner {
+    current_runtime: Option<&'static str>,
+
     #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
     fs_cache_root: Option<String>,
     #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
@@ -42,13 +28,13 @@ pub struct PluginModuleCacheInner {
     // FileSystemCache. This works since SWC does not revalidates plugin in single process
     // lifecycle.
     #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
-    fs_cache_hash_store: FxHashMap<String, Hash>,
+    fs_cache_hash_store: FxHashMap<String, String>,
     // Generic in-memory cache to the raw bytes, either read by fs or supplied by bindgen.
     memory_cache_store: FxHashMap<String, Vec<u8>>,
     // A naive hashmap to the compiled plugin modules.
     // Current it doesn't have any invalidation or expiration logics like lru,
     // having a lot of plugins may create some memory pressure.
-    compiled_module_bytes: FxHashMap<String, (wasmer::Store, wasmer::Module)>,
+    compiled_module_bytes: FxHashMap<String, runtime::ModuleCache>,
 }
 
 impl PluginModuleCacheInner {
@@ -60,7 +46,11 @@ impl PluginModuleCacheInner {
     }
 
     /// Check if the cache contains bytes for the corresponding key.
-    pub fn contains(&self, key: &str) -> bool {
+    pub fn contains(&self, rt: &dyn runtime::Runtime, key: &str) -> bool {
+        if Some(rt.identifier()) != self.current_runtime {
+            return false;
+        }
+
         let is_in_cache = self.memory_cache_store.contains_key(key)
             || self.compiled_module_bytes.contains_key(key);
 
@@ -95,16 +85,26 @@ impl PluginModuleCacheInner {
     /// this to store compiled module bytes. CompiledModuleBytes provides way to
     /// create it via RawModuleBytes, so there's no practical reason to
     /// store raw bytes most cases.
-    pub fn insert_compiled_module_bytes(
-        &mut self,
-        key: String,
-        value: (wasmer::Store, wasmer::Module),
-    ) {
+    fn insert_compiled_module_bytes(&mut self, key: String, value: runtime::ModuleCache) {
         self.compiled_module_bytes.insert(key, value);
     }
 
     /// Store plugin module bytes into the cache, from actual filesystem.
-    pub fn store_bytes_from_path(&mut self, binary_path: &Path, key: &str) -> Result<(), Error> {
+    pub fn store_bytes_from_path(
+        &mut self,
+        rt: &dyn runtime::Runtime,
+        binary_path: &Path,
+        key: &str,
+    ) -> Result<(), Error> {
+        let runtime_name = rt.identifier();
+
+        // The module caches of different runtimes are not compatible, so we cleanup the
+        // old caches.
+        if *self.current_runtime.get_or_insert(runtime_name) != runtime_name {
+            self.current_runtime = Some(runtime_name);
+            self.compiled_module_bytes.clear();
+        }
+
         #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
         {
             let raw_module_bytes =
@@ -112,18 +112,18 @@ impl PluginModuleCacheInner {
 
             // If FilesystemCache is available, store serialized bytes into fs.
             if let Some(fs_cache_store) = &mut self.fs_cache_store {
-                let module_bytes_hash = Hash::generate(&raw_module_bytes);
-                let store = new_store();
+                let module_bytes_hash = blake3::hash(&raw_module_bytes).to_string();
 
                 let module =
-                    if let Ok(module) = unsafe { fs_cache_store.load(&store, module_bytes_hash) } {
+                    if let Some(cache) = unsafe { fs_cache_store.load(rt, &module_bytes_hash) } {
                         tracing::debug!("Build WASM from cache: {key}");
-                        module
+                        cache
                     } else {
-                        let module = Module::new(&store, raw_module_bytes.clone())
+                        let cache = rt
+                            .prepare_module(&raw_module_bytes)
                             .context("Cannot compile plugin binary")?;
-                        fs_cache_store.store(module_bytes_hash, &module)?;
-                        module
+                        fs_cache_store.store(rt, &module_bytes_hash, &cache)?;
+                        cache
                     };
 
                 // Store hash to load from fs_cache_store later.
@@ -131,7 +131,7 @@ impl PluginModuleCacheInner {
                     .insert(key.to_string(), module_bytes_hash);
 
                 // Also store in memory for the in-process cache.
-                self.insert_compiled_module_bytes(key.to_string(), (store, module));
+                self.insert_compiled_module_bytes(key.to_string(), module);
             }
 
             // Store raw bytes into memory cache.
@@ -146,14 +146,14 @@ impl PluginModuleCacheInner {
     /// Returns a PluingModuleBytes can be compiled into a wasmer::Module.
     /// Depends on the cache availability, it may return a raw bytes or a
     /// serialized bytes.
-    pub fn get(&self, key: &str) -> Option<Box<dyn PluginModuleBytes>> {
+    pub fn get(&self, rt: &dyn runtime::Runtime, key: &str) -> Option<Box<dyn PluginModuleBytes>> {
         // Look for compiled module bytes first, it is the cheapest way to get compile
         // wasmer::Module.
         if let Some(compiled_module) = self.compiled_module_bytes.get(key) {
+            let cache = rt.clone_cache(compiled_module)?;
             return Some(Box::new(CompiledPluginModuleBytes::new(
                 key.to_string(),
-                compiled_module.1.clone(),
-                Store::new(compiled_module.0.engine().clone()),
+                cache,
             )));
         }
 
@@ -161,13 +161,11 @@ impl PluginModuleCacheInner {
         #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
         if let Some(fs_cache_store) = &self.fs_cache_store {
             let hash = self.fs_cache_hash_store.get(key)?;
-            let store = new_store();
-            let module = unsafe { fs_cache_store.load(&store, *hash) };
-            if let Ok(module) = module {
+            let module = unsafe { fs_cache_store.load(rt, hash) };
+            if let Some(module) = module {
                 return Some(Box::new(CompiledPluginModuleBytes::new(
                     key.to_string(),
                     module,
-                    store,
                 )));
             }
         }
@@ -199,11 +197,13 @@ impl PluginModuleCache {
         fs_cache_store_root: Option<&str>,
     ) -> PluginModuleCacheInner {
         PluginModuleCacheInner {
+            current_runtime: None,
+
             #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
             fs_cache_root: fs_cache_store_root.map(|s| s.to_string()),
             #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
             fs_cache_store: if enable_fs_cache_store {
-                create_filesystem_cache(fs_cache_store_root)
+                FileSystemCache::create(fs_cache_store_root)
             } else {
                 None
             },
@@ -216,28 +216,47 @@ impl PluginModuleCache {
 }
 
 #[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
-#[tracing::instrument(level = "info", skip_all)]
-fn create_filesystem_cache(filesystem_cache_root: Option<&str>) -> Option<FileSystemCache> {
-    let mut root_path = if let Some(root) = filesystem_cache_root {
-        Some(PathBuf::from(root))
-    } else if let Ok(cwd) = current_dir() {
-        Some(cwd.join(".swc"))
-    } else {
-        None
-    };
+struct FileSystemCache {
+    path: PathBuf,
+}
 
-    if let Some(root_path) = &mut root_path {
-        root_path.push("plugins");
-        root_path.push(format!(
-            "{}_{}_{}_{}",
-            MODULE_SERIALIZATION_VERSION,
+#[cfg(all(not(target_arch = "wasm32"), feature = "filesystem_cache"))]
+impl FileSystemCache {
+    #[tracing::instrument(level = "info", skip_all)]
+    fn create(root: Option<&str>) -> Option<Self> {
+        let mut root_path = if let Some(root) = root {
+            Some(PathBuf::from(root))
+        } else if let Ok(cwd) = current_dir() {
+            Some(cwd.join(".swc"))
+        } else {
+            None
+        };
+
+        let mut path = root_path?;
+        path.push("plugins");
+        path.push(format!(
+            "{}_{}_{}",
             std::env::consts::OS,
             std::env::consts::ARCH,
             option_env!("CARGO_PKG_VERSION").unwrap_or("plugin_runner_unknown")
         ));
 
-        return FileSystemCache::new(&root_path).ok();
+        std::fs::create_dir_all(&path).ok()?;
+        Some(FileSystemCache { path })
     }
 
-    None
+    unsafe fn load(&self, rt: &dyn runtime::Runtime, key: &str) -> Option<runtime::ModuleCache> {
+        let path = self.path.join(format!("{}.{}", key, rt.identifier()));
+        rt.load_cache(&path)
+    }
+
+    fn store(
+        &self,
+        rt: &dyn runtime::Runtime,
+        key: &str,
+        cache: &runtime::ModuleCache,
+    ) -> anyhow::Result<()> {
+        let path = self.path.join(format!("{}.{}", key, rt.identifier()));
+        rt.store_cache(&path, cache)
+    }
 }

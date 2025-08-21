@@ -1,5 +1,3 @@
-use wasmer::Memory;
-
 /// An external environment state imported (declared in host, injected into
 /// guest) fn can access. This'll allow host to read from updated state from
 /// guest.
@@ -11,12 +9,10 @@ use wasmer::Memory;
 ///
 /// ref: https://docs.wasmer.io/integrations/examples/host-functions#declaring-the-data
 #[derive(Clone)]
-pub struct BaseHostEnvironment {
-    pub memory: Option<Memory>,
-}
+pub struct BaseHostEnvironment {}
 
 impl BaseHostEnvironment {
     pub fn new() -> BaseHostEnvironment {
-        BaseHostEnvironment { memory: None }
+        BaseHostEnvironment {}
     }
 }

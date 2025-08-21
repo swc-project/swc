@@ -55,6 +55,16 @@ impl Iterator for TokensInput {
 }
 
 impl Tokens<TokenAndSpan> for TokensInput {
+    type Checkpoint = Self;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        self.clone()
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        *self = checkpoint;
+    }
+
     fn set_ctx(&mut self, ctx: Context) {
         if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {
             let mut module_errors = self.module_errors.borrow_mut();
@@ -109,12 +119,12 @@ impl Tokens<TokenAndSpan> for TokensInput {
     }
 
     #[inline(always)]
-    fn add_error(&self, error: Error) {
+    fn add_error(&mut self, error: Error) {
         self.errors.borrow_mut().push(error);
     }
 
     #[inline(always)]
-    fn add_module_mode_error(&self, error: Error) {
+    fn add_module_mode_error(&mut self, error: Error) {
         if self.ctx.contains(Context::Module) {
             self.add_error(error);
             return;
@@ -213,6 +223,16 @@ impl<I: Tokens<TokenAndSpan>> Iterator for Capturing<I> {
 }
 
 impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
+    type Checkpoint = I::Checkpoint;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        self.inner.checkpoint_save()
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        self.inner.checkpoint_load(checkpoint);
+    }
+
     #[inline(always)]
     fn set_ctx(&mut self, ctx: Context) {
         self.inner.set_ctx(ctx)
@@ -268,12 +288,12 @@ impl<I: Tokens<TokenAndSpan>> Tokens<TokenAndSpan> for Capturing<I> {
     }
 
     #[inline(always)]
-    fn add_error(&self, error: Error) {
+    fn add_error(&mut self, error: Error) {
         self.inner.add_error(error);
     }
 
     #[inline(always)]
-    fn add_module_mode_error(&self, error: Error) {
+    fn add_module_mode_error(&mut self, error: Error) {
         self.inner.add_module_mode_error(error)
     }
 
@@ -328,7 +348,6 @@ impl<I: Tokens<TokenAndSpan>> Buffer<I> {
 
 impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for Buffer<I> {
     type I = I;
-    type Lexer = super::lexer::Lexer<'a>;
     type Next = TokenAndSpan;
     type Token = Token;
     type TokenAndSpan = TokenAndSpan;
@@ -379,7 +398,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
         );
 
         if self.next().is_none() {
-            let next = self.iter_mut().next();
+            let next = self.iter.next();
             self.set_next(next);
         }
 
@@ -392,18 +411,8 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
     }
 
     #[inline(always)]
-    fn get_cur_mut(&mut self) -> &mut TokenAndSpan {
-        &mut self.cur
-    }
-
-    #[inline(always)]
     fn prev_span(&self) -> Span {
         self.prev_span
-    }
-
-    #[inline(always)]
-    fn set_prev_span(&mut self, span: Span) {
-        self.prev_span = span;
     }
 
     #[inline(always)]

@@ -68,6 +68,16 @@ impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
 impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
     swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Capturing<I>
 {
+    type Checkpoint = I::Checkpoint;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        self.inner.checkpoint_save()
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        self.inner.checkpoint_load(checkpoint);
+    }
+
     fn set_ctx(&mut self, ctx: swc_ecma_lexer::common::context::Context) {
         self.inner.set_ctx(ctx);
     }
@@ -108,11 +118,11 @@ impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
         self.inner.set_token_context(c);
     }
 
-    fn add_error(&self, error: swc_ecma_lexer::error::Error) {
+    fn add_error(&mut self, error: swc_ecma_lexer::error::Error) {
         self.inner.add_error(error);
     }
 
-    fn add_module_mode_error(&self, error: swc_ecma_lexer::error::Error) {
+    fn add_module_mode_error(&mut self, error: swc_ecma_lexer::error::Error) {
         self.inner.add_module_mode_error(error);
     }
 

@@ -30,6 +30,7 @@ resolver = "2"
   browserslist-rs           = "0.19.0"
   bumpalo                   = "3.16.0"
   bytes-str                 = "0.2.5"
+  blake3                    = "1.5.4"
   cargo_metadata            = "0.18.1"
   changesets                = "0.2.2"
   chrono                    = "0.4.38"
@@ -45,7 +46,6 @@ resolver = "2"
   either                    = "1.10.0"
   enumset                   = "1.1.2"
   flate2                    = "1.0"
-  futures                   = "0.3"
   glob                      = "0.3.0"
   globset                   = { version = "0.4.16", default-features = false }
   hashbrown                 = "0.14.5"
@@ -124,6 +124,8 @@ resolver = "2"
   wasm-bindgen-futures      = "0.4.41"
   wasmer                    = { version = "6.1.0-rc.2", default-features = false }
   wasmer-wasix              = { version = "0.601.0-rc.2", default-features = false }
+  wasmtime                  = { version = "35", default-features = false }
+  wasi-common               = { version = "35", default-features = false }
 
   foldhash        = "0.1"
   precomputed-map = "0.2"
