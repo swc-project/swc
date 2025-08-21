@@ -1,28 +1,14 @@
 const variable = {};
-const params = [
-    'OrderNumber=',
-    variable.data?.orderNumber,
-    '|AuditNo=',
-    variable.data?.auditNo,
-    '|JournalType=',
-    transactionTypeCode[variable.data.transactionType],
-    '|IsPreview=0'
-].join('');
-console.log(params);
-const test1 = "12";
-const test2 = "12";
-const test3 = [
-    1,
-    variable?.notExist,
-    2
-].join('');
-const test4 = [
-    1,
-    variable.data?.value,
-    2
-].join('');
-const test5 = [
-    1,
-    obj?.a?.b?.c,
-    2
-].join('');
+console.log("OrderNumber=" + variable.data?.orderNumber + "|AuditNo=" + variable.data?.auditNo + "|JournalType=" + transactionTypeCode[variable.data.transactionType] + "|IsPreview=0");
+variable?.notExist;
+variable.data?.value;
+obj?.a?.b?.c;
+// Function calls can return null/undefined
+someFunction();
+obj.method();
+// Identifiers can be null/undefined  
+unknownVar;
+// Other expressions that can be null/undefined
+condition;
+await promise;
+new Constructor();
