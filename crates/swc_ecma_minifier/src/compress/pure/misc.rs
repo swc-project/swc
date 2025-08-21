@@ -598,11 +598,13 @@ impl Pure<'_> {
                 if let Some(ExprOrSpread { spread: None, expr }) = elem {
                     match &*expr {
                         e if is_pure_undefined(self.expr_ctx, e) => {
-                            // null and undefined should become empty strings in join
+                            // null and undefined should become empty strings in
+                            // join
                             // Don't add anything for empty string join
                         }
                         Expr::Lit(Lit::Null(..)) => {
-                            // null and undefined should become empty strings in join
+                            // null and undefined should become empty strings in
+                            // join
                             // Don't add anything for empty string join
                         }
                         _ => {
