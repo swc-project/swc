@@ -7,6 +7,7 @@ use std::{
 };
 
 use anyhow::Context;
+use rustc_hash::FxHashSet;
 
 fn main() -> anyhow::Result<()> {
     let crate_dir = std::env::var("CARGO_MANIFEST_DIR")?;
@@ -153,6 +154,43 @@ fn corejs3_data(strpool: &mut StrPool, crate_dir: &Path, out_dir: &Path) -> anyh
     let pair = builder.create_pair(k, v);
     mapout.create_map("DATA_INDEX".into(), pair, &mut builder)?;
 
+    let all_modules: FxHashSet<&str> = data
+        .values()
+        .flatten()
+        .filter(|m| m.starts_with("es.") || m.starts_with("esnext."))
+        .copied()
+        .collect();
+
+    let mut esnext_modules = Vec::new();
+    for &module in &all_modules {
+        if let Some(base_name) = module.strip_prefix("esnext.") {
+            let es_module = format!("es.{base_name}");
+            if all_modules.contains(es_module.as_str()) {
+                let esnext_id = strpool.insert(module);
+                esnext_modules.push(esnext_id);
+            }
+        }
+    }
+
+    let esnext_setout = precomputed_map::builder::MapBuilder::<u32>::new()
+        .set_seed(SEED + 2)
+        .set_hash(&|seed, &v| foldhash_once(seed, &strpool.get(v)))
+        .set_next_seed(|seed, c| seed + c)
+        .build(&esnext_modules)?;
+
+    let esnext_k = builder.create_custom("EsnextKeysStringId".into());
+    let esnext_v = builder.create_u32_seq(
+        "EsnextValues".into(),
+        esnext_setout.reorder(&esnext_modules).copied(),
+    )?;
+    let esnext_pair = builder.create_pair(esnext_k, esnext_v);
+    esnext_setout.create_map("ESNEXT_FALLBACK_SET".into(), esnext_pair, &mut builder)?;
+
+    let _esnext_k_seq = builder.create_u32_seq(
+        "EsnextKeys".into(),
+        esnext_setout.reorder(&esnext_modules).copied(),
+    )?;
+
     let mut codeout = fs::File::create(out_dir.join("lib.rs"))?;
     builder.codegen(&mut codeout)?;
     u8seq.codegen(&mut codeout)?;
@@ -186,6 +224,29 @@ const VERSIONS: &[Version] = &[
     }
 
     write!(codeout, "];")?;
+
+    // 生成 esnext 模块集合的结构体
+    if !esnext_modules.is_empty() {
+        writeln!(codeout, "\nstruct EsnextKeysStringId;")?;
+        writeln!(
+            codeout,
+            "\nimpl precomputed_map::store::AccessSeq for EsnextKeysStringId {{"
+        )?;
+        writeln!(codeout, "    type Item = &'static str;")?;
+        writeln!(
+            codeout,
+            "    const LEN: usize = {};\n",
+            esnext_modules.len()
+        )?;
+        writeln!(
+            codeout,
+            "    fn index(index: usize) -> Option<Self::Item> {{"
+        )?;
+        writeln!(codeout, "        let id = EsnextKeys::index(index)?;")?;
+        writeln!(codeout, "        Some(crate::util::PooledStr(id).as_str())")?;
+        writeln!(codeout, "    }}")?;
+        writeln!(codeout, "}}")?;
+    }
 
     Ok(())
 }
