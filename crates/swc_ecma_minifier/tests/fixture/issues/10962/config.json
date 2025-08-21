@@ -1,0 +1,6 @@
+{
+  "defaults": {
+    "passes": 3,
+    "toplevel": false
+  }
+}

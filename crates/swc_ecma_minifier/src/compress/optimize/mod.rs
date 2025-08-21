@@ -31,7 +31,7 @@ use crate::{
     debug::AssertValid,
     maybe_par,
     mode::Mode,
-    option::{CompressOptions, MangleOptions},
+    option::{CompressOptions, MangleOptions, PureGetterOption},
     program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
     util::{contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt},
 };
@@ -952,25 +952,33 @@ impl Optimizer<'_> {
             // function f() {
             //      return f.g, 1
             // }
-            Expr::Member(MemberExpr { obj, prop, .. })
-                if !prop.is_computed()
-                    && (self.options.top_level() || !self.ctx.in_top_level()) =>
-            {
+            Expr::Member(MemberExpr { obj, prop, .. }) => {
+                // For computed properties, we need to evaluate the property expression
+                if prop.is_computed() {
+                    if let MemberProp::Computed(computed) = prop {
+                        if computed.expr.may_have_side_effects(self.ctx.expr_ctx) {
+                            return Some(e.take());
+                        }
+                    }
+                }
+
+                // Check if we should preserve this property access
                 if self.should_preserve_property_access(
                     obj,
                     PropertyAccessOpts {
-                        allow_getter: true,
-                        only_ident: true,
+                        allow_getter: self.options.pure_getters == PureGetterOption::Bool(true),
+                        only_ident: false,
                     },
                 ) {
                     return Some(e.take());
                 } else {
+                    // If the object expression has side effects, we need to keep it
+                    if obj.may_have_side_effects(self.ctx.expr_ctx) {
+                        return self.ignore_return_value(obj);
+                    }
                     return None;
                 }
             }
-
-            // TODO: Check if it is a pure property access.
-            Expr::Member(_) => return Some(e.take()),
 
             Expr::MetaProp(_)
             | Expr::Await(_)
