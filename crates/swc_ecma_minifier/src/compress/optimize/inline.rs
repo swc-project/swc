@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::atom;
 use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
@@ -989,6 +991,16 @@ fn is_arrow_body_simple_enough_for_copy(e: &Expr) -> Option<u8> {
         Expr::Ident(..) | Expr::Lit(..) => return Some(1),
         Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
             return Some(is_arrow_body_simple_enough_for_copy(obj)? + 2)
+        }
+        Expr::Call(c) => {
+            let mut cost = is_arrow_body_simple_enough_for_copy(c.callee.as_expr()?.deref())?;
+            for arg in &c.args {
+                let arg_cost = is_arrow_body_simple_enough_for_copy(&arg.expr)?;
+                cost += arg_cost;
+                cost += if arg.spread.is_some() { 3 } else { 0 };
+            }
+
+            return Some(cost + 2);
         }
         Expr::Unary(u) => return Some(is_arrow_body_simple_enough_for_copy(&u.arg)? + 1),
 
