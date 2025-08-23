@@ -50,7 +50,7 @@ jobs:
           assignee_trigger: "claude-bot"
 
           # Optional: Allow Claude to run specific commands
-          # allowed_tools: "Bash(npm install),Bash(npm run build),Bash(npm run test:*),Bash(npm run lint:*)"
+          allowed_tools: "Bash,WebFetch,WebSearch"
 
           # Optional: Add custom instructions for Claude to customize its behavior for your project
           # custom_instructions: |
