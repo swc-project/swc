@@ -356,13 +356,15 @@ impl Optimizer<'_> {
 
             if !has_pure_ann {
                 if let Some(init) = init.as_mut() {
-                    if self.should_preserve_property_access(
-                        init,
-                        PropertyAccessOpts {
-                            allow_getter: false,
-                            only_ident: false,
-                        },
-                    ) {
+                    if !matches!(init, Expr::Ident(_))
+                        && self.should_preserve_property_access(
+                            init,
+                            PropertyAccessOpts {
+                                allow_getter: false,
+                                only_ident: false,
+                            },
+                        )
+                    {
                         return;
                     }
                 }

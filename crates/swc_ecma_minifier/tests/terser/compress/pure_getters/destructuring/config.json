@@ -1,0 +1,7 @@
+{
+    "pure_getters": true,
+    "side_effects": true,
+    "toplevel": true,
+    "unused": true,
+    "passes": 1
+}
