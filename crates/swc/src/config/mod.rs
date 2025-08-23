@@ -763,6 +763,9 @@ impl Options {
         {
             plugin_transforms.unwrap()
         } else {
+            let jsx_enabled =
+                syntax.jsx() && transform.react.runtime != Some(react::Runtime::Preserve);
+
             let decorator_pass: Box<dyn Pass> =
                 match transform.decorator_version.unwrap_or_default() {
                     DecoratorVersion::V202112 => Box::new(decorators(decorators::Config {
@@ -831,7 +834,7 @@ impl Options {
                         (
                             Optional::new(
                                 typescript::typescript(ts_config, unresolved_mark, top_level_mark),
-                                syntax.typescript() && !syntax.jsx(),
+                                syntax.typescript() && !jsx_enabled,
                             ),
                             Optional::new(
                                 typescript::tsx::<Option<&dyn Comments>>(
@@ -857,7 +860,7 @@ impl Options {
                                     unresolved_mark,
                                     top_level_mark,
                                 ),
-                                syntax.typescript() && syntax.jsx(),
+                                syntax.typescript() && jsx_enabled,
                             ),
                         )
                     },
@@ -874,7 +877,7 @@ impl Options {
                             top_level_mark,
                             unresolved_mark,
                         ),
-                        syntax.jsx(),
+                        jsx_enabled,
                     ),
                     built_pass,
                     Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
