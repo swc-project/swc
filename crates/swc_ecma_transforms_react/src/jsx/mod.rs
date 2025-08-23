@@ -41,6 +41,8 @@ pub enum Runtime {
     Automatic,
     /// `classic`
     Classic,
+    /// `preserve`
+    Preserve,
 }
 
 /// Note: This will changed in v2
@@ -636,6 +638,7 @@ where
                 }
                 .into()
             }
+            Runtime::Preserve => unreachable!(),
         }
     }
 
@@ -924,6 +927,7 @@ where
                 }
                 .into()
             }
+            Runtime::Preserve => unreachable!(),
         }
     }
 
