@@ -89,6 +89,10 @@ async function main() {
     // 4. Move each issue/PR to the new milestone
     let movedCount = 0;
     for (const issue of issues) {
+      if (issue.state === "open") {
+        continue;
+      }
+
       try {
         await octokit.issues.update({
           owner,
