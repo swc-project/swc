@@ -155,7 +155,7 @@
     }
     // Subset of regexps that is not going to cause regexp based DDOS
     // https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS
-    const re_safe_regexp = /^[\\/|\0\s\w^$.[\]()]*$/, regexp_is_safe = (source)=>re_safe_regexp.test(source);
+    const re_safe_regexp = /^[\\/|\0\s\w^$.[\]()]*$/;
     function has_annotation(node, annotation) {
         return node._annotations & annotation;
     }
@@ -2093,8 +2093,8 @@
         }
         // Return a string summary of the token for node.js console.log
         [Symbol.for("nodejs.util.inspect.custom")](_depth, options) {
-            const special = (str)=>options.stylize(str, "special"), quote = "string" == typeof this.value && this.value.includes("`") ? "'" : "`", value = `${quote}${this.value}${quote}`;
-            return `${special("[AST_Token")} ${value} at ${this.line}:${this.col}${special("]")}`;
+            const quote = "string" == typeof this.value && this.value.includes("`") ? "'" : "`", value = `${quote}${this.value}${quote}`;
+            return `${options.stylize("[AST_Token", "special")} ${value} at ${this.line}:${this.col}${options.stylize("]", "special")}`;
         }
         get nlb() {
             return !!(0b0001 & this.flags);
@@ -7465,8 +7465,8 @@
     def_eval(AST_BigInt, function() {
         return supports_bigint ? BigInt(this.value) : this;
     }), def_eval(AST_RegExp, function(compressor) {
-        let evaluated = compressor.evaluated_regexps.get(this.value);
-        if (void 0 === evaluated && regexp_is_safe(this.value.source)) {
+        let source, evaluated = compressor.evaluated_regexps.get(this.value);
+        if (void 0 === evaluated && (source = this.value.source, re_safe_regexp.test(source))) {
             try {
                 const { source, flags } = this.value;
                 evaluated = new RegExp(source, flags);
@@ -10126,11 +10126,12 @@
                     }).optimize(compressor);
                     break;
                 case "RegExp":
+                    let source;
                     var params = [];
                     if (self1.args.length >= 1 && self1.args.length <= 2 && self1.args.every((arg)=>{
                         var value = arg.evaluate(compressor);
                         return params.push(value), arg !== value;
-                    }) && regexp_is_safe(params[0])) {
+                    }) && (source = params[0], re_safe_regexp.test(source))) {
                         let [source, flags] = params;
                         const rx = make_node(AST_RegExp, self1, {
                             value: {
