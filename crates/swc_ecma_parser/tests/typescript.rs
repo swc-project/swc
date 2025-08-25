@@ -242,7 +242,6 @@ where
     .unwrap()
     .display()
     .to_string();
-    dbg!(&fname);
 
     ::testing::run_test(treat_error_as_bug, |cm, handler| {
         if shift {
