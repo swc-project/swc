@@ -198,7 +198,9 @@ impl VisitMut for InlineGlobals {
 
 #[cfg(test)]
 mod tests {
+    use swc_common::Mark;
     use swc_ecma_transforms_testing::{test, Tester};
+    use swc_ecma_transforms_typescript::typescript;
     use swc_ecma_utils::{DropSpan, StmtOrModuleItem};
 
     use super::*;
@@ -253,92 +255,88 @@ mod tests {
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| {
-            (inline_globals(
-                envs(tester, &[("NODE_ENV", "development")]),
-                globals(tester, &[]),
-                Default::default(),
-            ),)
-        },
+        |tester| inline_globals(
+            envs(tester, &[("NODE_ENV", "development")]),
+            globals(tester, &[]),
+            Default::default()
+        ),
         issue_215,
         r#"if (process.env.x === 'development') {}"#
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| {
-            (inline_globals(
-                envs(tester, &[("NODE_ENV", "development")]),
-                globals(tester, &[]),
-                Default::default(),
-            ),)
-        },
+        |tester| inline_globals(
+            envs(tester, &[("NODE_ENV", "development")]),
+            globals(tester, &[]),
+            Default::default(),
+        ),
         node_env,
         r#"if (process.env.NODE_ENV === 'development') {}"#
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| {
-            (inline_globals(
-                envs(tester, &[]),
-                globals(tester, &[("__DEBUG__", "true")]),
-                Default::default(),
-            ),)
-        },
+        |tester| inline_globals(
+            envs(tester, &[]),
+            globals(tester, &[("__DEBUG__", "true")]),
+            Default::default()
+        ),
         globals_simple,
         r#"if (__DEBUG__) {}"#
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
-        |tester| {
-            (inline_globals(
-                envs(tester, &[]),
-                globals(tester, &[("debug", "true")]),
-                Default::default(),
-            ),)
-        },
+        |tester| inline_globals(
+            envs(tester, &[]),
+            globals(tester, &[("debug", "true")]),
+            Default::default(),
+        ),
         non_global,
         r#"if (foo.debug) {}"#
     );
 
     test!(
         Default::default(),
-        |tester| {
-            (inline_globals(
-                envs(tester, &[]),
-                globals(tester, &[]),
-                Default::default(),
-            ),)
-        },
+        |tester| inline_globals(envs(tester, &[]), globals(tester, &[]), Default::default()),
         issue_417_1,
         "const test = process.env['x']"
     );
 
     test!(
         Default::default(),
-        |tester| {
-            (inline_globals(
-                envs(tester, &[("x", "FOO")]),
-                globals(tester, &[]),
-                Default::default(),
-            ),)
-        },
+        |tester| inline_globals(
+            envs(tester, &[("x", "FOO")]),
+            globals(tester, &[]),
+            Default::default(),
+        ),
         issue_417_2,
         "const test = process.env['x']"
     );
 
     test!(
         Default::default(),
-        |tester| {
-            (inline_globals(
-                envs(tester, &[("x", "BAR")]),
-                globals(tester, &[]),
-                Default::default(),
-            ),)
-        },
+        |tester| inline_globals(
+            envs(tester, &[("x", "BAR")]),
+            globals(tester, &[]),
+            Default::default(),
+        ),
         issue_2499_1,
         "process.env.x = 'foo'"
+    );
+
+    test!(
+        swc_ecma_parser::Syntax::Typescript(Default::default()),
+        |tester| (
+            typescript(Default::default(), Mark::new(), Mark::new()),
+            inline_globals(
+                envs(tester, &[]),
+                globals(tester, &[("__MY_HOST__", "'https://swc.rs/'")]),
+                Default::default(),
+            )
+        ),
+        issue_10831_1,
+        "declare let __MY_HOST__: string; console.log(__MY_HOST__);"
     );
 }
