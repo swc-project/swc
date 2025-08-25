@@ -5715,6 +5715,7 @@ dependencies = [
  "codspeed-criterion-compat",
  "either",
  "num-bigint",
+ "pathdiff",
  "pretty_assertions",
  "serde",
  "serde_json",

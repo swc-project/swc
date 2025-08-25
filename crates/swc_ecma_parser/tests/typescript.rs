@@ -235,7 +235,13 @@ fn with_parser<F, Ret>(
 where
     F: FnOnce(&mut Parser<Lexer>, &SingleThreadedComments) -> PResult<Ret>,
 {
-    let fname = file_name.display().to_string();
+    let fname = pathdiff::diff_paths(
+        file_name,
+        PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap()),
+    )
+    .unwrap()
+    .display()
+    .to_string();
 
     ::testing::run_test(treat_error_as_bug, |cm, handler| {
         if shift {
