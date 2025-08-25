@@ -23,6 +23,19 @@ class Foo {
         }
     ]
 ], []));
+var __ = {
+    writable: true,
+    value: [_call_a, _initProto] = _apply_decs_2203_r(Foo, [
+        [
+            dec,
+            2,
+            "a",
+            function() {
+                return this.value;
+            }
+        ]
+    ], []).e
+};
 function get_a() {
     return _call_a;
 }
