@@ -53,7 +53,8 @@
                   "end": 41
                 },
                 "value": "M",
-                "raw": "\"M\""
+                "raw": "\"M\"",
+                "loneSurrogates": false
               },
               "body": {
                 "type": "TsModuleBlock",

@@ -212,7 +212,8 @@
           "end": 223
         },
         "value": "./a",
-        "raw": "'./a'"
+        "raw": "'./a'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -448,7 +449,8 @@
           "end": 331
         },
         "value": "./a",
-        "raw": "'./a'"
+        "raw": "'./a'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -701,7 +703,8 @@
           "end": 446
         },
         "value": "./a",
-        "raw": "'./a'"
+        "raw": "'./a'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -926,7 +929,8 @@
           "end": 543
         },
         "value": "./a",
-        "raw": "'./a'"
+        "raw": "'./a'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -966,7 +970,8 @@
           "end": 618
         },
         "value": "./a",
-        "raw": "'./a'"
+        "raw": "'./a'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -1015,7 +1020,8 @@
           "end": 653
         },
         "value": "./a",
-        "raw": "'./a'"
+        "raw": "'./a'",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null,
@@ -1331,7 +1337,8 @@
           "end": 765
         },
         "value": "./a",
-        "raw": "'./a'"
+        "raw": "'./a'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -1607,7 +1614,8 @@
             "end": 899
           },
           "value": "./h",
-          "raw": "'./h'"
+          "raw": "'./h'",
+          "loneSurrogates": false
         }
       }
     },
@@ -1761,7 +1769,8 @@
             "end": 987
           },
           "value": "./h",
-          "raw": "'./h'"
+          "raw": "'./h'",
+          "loneSurrogates": false
         }
       }
     },
@@ -1870,7 +1879,8 @@
             "end": 1123
           },
           "value": "./k",
-          "raw": "'./k'"
+          "raw": "'./k'",
+          "loneSurrogates": false
         }
       }
     },

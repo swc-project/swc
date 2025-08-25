@@ -323,7 +323,8 @@
                             "end": 697
                           },
                           "value": "string",
-                          "raw": "\"string\""
+                          "raw": "\"string\"",
+                          "loneSurrogates": false
                         }
                       }
                     ]
@@ -375,7 +376,8 @@
                           "end": 725
                         },
                         "value": "world",
-                        "raw": "\"world\""
+                        "raw": "\"world\"",
+                        "loneSurrogates": false
                       }
                     }
                   ]
@@ -462,7 +464,8 @@
                     "end": 758
                   },
                   "value": "string",
-                  "raw": "\"string\""
+                  "raw": "\"string\"",
+                  "loneSurrogates": false
                 }
               }
             ]
@@ -1231,7 +1234,8 @@
                       "end": 1541
                     },
                     "value": "prop1",
-                    "raw": "\"prop1\""
+                    "raw": "\"prop1\"",
+                    "loneSurrogates": false
                   },
                   "value": {
                     "type": "NumericLiteral",
@@ -1309,7 +1313,8 @@
                     "end": 1566
                   },
                   "value": "prop1",
-                  "raw": "\"prop1\""
+                  "raw": "\"prop1\"",
+                  "loneSurrogates": false
                 },
                 "value": {
                   "type": "Identifier",
@@ -1383,7 +1388,8 @@
                     "end": 1594
                   },
                   "value": "prop2",
-                  "raw": "\"prop2\""
+                  "raw": "\"prop2\"",
+                  "loneSurrogates": false
                 },
                 "value": {
                   "type": "Identifier",

@@ -2714,7 +2714,8 @@
                         "end": 1479
                       },
                       "value": "",
-                      "raw": "''"
+                      "raw": "''",
+                      "loneSurrogates": false
                     },
                     "right": {
                       "type": "Identifier",
@@ -3339,7 +3340,8 @@
                       "end": 1880
                     },
                     "value": "",
-                    "raw": "''"
+                    "raw": "''",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -3705,7 +3707,8 @@
                         "end": 2183
                       },
                       "value": "",
-                      "raw": "''"
+                      "raw": "''",
+                      "loneSurrogates": false
                     }
                   }
                 ],
@@ -4019,7 +4022,8 @@
                               "end": 2425
                             },
                             "value": "",
-                            "raw": "''"
+                            "raw": "''",
+                            "loneSurrogates": false
                           }
                         },
                         "async": false,

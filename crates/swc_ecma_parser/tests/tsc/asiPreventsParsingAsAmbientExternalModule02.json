@@ -170,7 +170,8 @@
                 "end": 212
               },
               "value": "my external module",
-              "raw": "\"my external module\""
+              "raw": "\"my external module\"",
+              "loneSurrogates": false
             }
           },
           {

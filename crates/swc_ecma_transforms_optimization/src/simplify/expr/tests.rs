@@ -1036,8 +1036,17 @@ fn test_fold_get_elem2_1() {
     fold("x = 'string'[5]", "x = \"g\"");
     fold("x = 'string'[0]", "x = \"s\"");
     fold("x = 's'[0]", "x = \"s\"");
+
+    // Surrogate Pair
     fold("x = '\\uD83D\\uDCA9'[0]", "x = \"\\uD83D\"");
     fold("x = '\\uD83D\\uDCA9'[1]", "x = \"\\uDCA9\"");
+
+    // Lone Surrogate
+    fold("x = '\\uD83D'[0]", "x = \"\\uD83D\"");
+    fold("x = 'foo\\uD83D'[3]", "x = \"\\uD83D\"");
+    fold("x = 'foo\\uD83D\\uD83D\\uDCA9'[4]", "x = \"\\uD83D\"");
+    fold("x = 'foo\\uD83D\\uD83D\\uDCA9'[5]", "x = \"\\uDCA9\"");
+    fold("x = 'a\\uD83Db\\uD83D\\uDCA9'[3]", "x = \"\\uD83D\"");
 }
 
 #[test]

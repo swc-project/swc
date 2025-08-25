@@ -369,7 +369,8 @@
                                       },
                                       "tail": true,
                                       "cooked": "Dot product only applicable for vectors of equal length",
-                                      "raw": "Dot product only applicable for vectors of equal length"
+                                      "raw": "Dot product only applicable for vectors of equal length",
+                                      "loneSurrogates": false
                                     }
                                   ]
                                 }
@@ -1898,7 +1899,8 @@
           "end": 1462
         },
         "value": "./source",
-        "raw": "\"./source\""
+        "raw": "\"./source\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

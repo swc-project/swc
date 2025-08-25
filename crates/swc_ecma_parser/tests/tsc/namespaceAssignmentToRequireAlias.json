@@ -107,7 +107,8 @@
                     "end": 210
                   },
                   "value": "untyped",
-                  "raw": "'untyped'"
+                  "raw": "'untyped'",
+                  "loneSurrogates": false
                 }
               }
             ],

@@ -767,7 +767,8 @@
               "end": 554
             },
             "value": "1",
-            "raw": "'1'"
+            "raw": "'1'",
+            "loneSurrogates": false
           },
           "value": null,
           "typeAnnotation": {
@@ -818,7 +819,8 @@
               "end": 571
             },
             "value": "2.0",
-            "raw": "'2.0'"
+            "raw": "'2.0'",
+            "loneSurrogates": false
           },
           "value": null,
           "typeAnnotation": {
@@ -896,7 +898,8 @@
               "end": 611
             },
             "value": "1",
-            "raw": "'1'"
+            "raw": "'1'",
+            "loneSurrogates": false
           },
           "value": null,
           "typeAnnotation": {
@@ -947,7 +950,8 @@
               "end": 637
             },
             "value": "2.0",
-            "raw": "'2.0'"
+            "raw": "'2.0'",
+            "loneSurrogates": false
           },
           "value": null,
           "typeAnnotation": {
@@ -1560,7 +1564,8 @@
                     "end": 999
                   },
                   "value": "1",
-                  "raw": "'1'"
+                  "raw": "'1'",
+                  "loneSurrogates": false
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1611,7 +1616,8 @@
                     "end": 1020
                   },
                   "value": "2.0",
-                  "raw": "'2.0'"
+                  "raw": "'2.0'",
+                  "loneSurrogates": false
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1689,7 +1695,8 @@
                     "end": 1072
                   },
                   "value": "1",
-                  "raw": "'1'"
+                  "raw": "'1'",
+                  "loneSurrogates": false
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1740,7 +1747,8 @@
                     "end": 1103
                   },
                   "value": "2.0",
-                  "raw": "'2.0'"
+                  "raw": "'2.0'",
+                  "loneSurrogates": false
                 },
                 "value": null,
                 "typeAnnotation": {

@@ -161,7 +161,8 @@
                 "end": 144
               },
               "value": "default",
-              "raw": "'default'"
+              "raw": "'default'",
+              "loneSurrogates": false
             }
           }
         }
