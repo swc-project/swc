@@ -188,6 +188,7 @@ impl SwcLoader {
                         self.env_map(),
                         Default::default(),
                         Default::default(),
+                        Default::default(),
                     ));
 
                     program.mutate(&mut expr_simplifier(unresolved_mark, Default::default()));
@@ -281,6 +282,7 @@ impl SwcLoader {
 
                         program.mutate(&mut inline_globals(
                             self.env_map(),
+                            Default::default(),
                             Default::default(),
                             Default::default(),
                         ));

@@ -19,14 +19,6 @@ pub type GlobalExprMap = Lrc<FxHashMap<NodeIgnoringSpan<'static, Expr>, Expr>>;
 pub fn inline_globals(
     envs: Lrc<FxHashMap<Atom, Expr>>,
     globals: Lrc<FxHashMap<Atom, Expr>>,
-    typeofs: Lrc<FxHashMap<Atom, Atom>>,
-) -> impl Pass {
-    inline_globals2(envs, globals, Default::default(), typeofs)
-}
-
-pub fn inline_globals2(
-    envs: Lrc<FxHashMap<Atom, Expr>>,
-    globals: Lrc<FxHashMap<Atom, Expr>>,
     global_exprs: GlobalExprMap,
     typeofs: Lrc<FxHashMap<Atom, Atom>>,
 ) -> impl Pass {
@@ -258,6 +250,7 @@ mod tests {
         |tester| inline_globals(
             envs(tester, &[("NODE_ENV", "development")]),
             globals(tester, &[]),
+            Default::default(),
             Default::default()
         ),
         issue_215,
@@ -270,6 +263,7 @@ mod tests {
             envs(tester, &[("NODE_ENV", "development")]),
             globals(tester, &[]),
             Default::default(),
+            Default::default(),
         ),
         node_env,
         r#"if (process.env.NODE_ENV === 'development') {}"#
@@ -280,6 +274,7 @@ mod tests {
         |tester| inline_globals(
             envs(tester, &[]),
             globals(tester, &[("__DEBUG__", "true")]),
+            Default::default(),
             Default::default()
         ),
         globals_simple,
@@ -292,6 +287,7 @@ mod tests {
             envs(tester, &[]),
             globals(tester, &[("debug", "true")]),
             Default::default(),
+            Default::default(),
         ),
         non_global,
         r#"if (foo.debug) {}"#
@@ -299,7 +295,12 @@ mod tests {
 
     test!(
         Default::default(),
-        |tester| inline_globals(envs(tester, &[]), globals(tester, &[]), Default::default()),
+        |tester| inline_globals(
+            envs(tester, &[]),
+            globals(tester, &[]),
+            Default::default(),
+            Default::default(),
+        ),
         issue_417_1,
         "const test = process.env['x']"
     );
@@ -309,6 +310,7 @@ mod tests {
         |tester| inline_globals(
             envs(tester, &[("x", "FOO")]),
             globals(tester, &[]),
+            Default::default(),
             Default::default(),
         ),
         issue_417_2,
@@ -320,6 +322,7 @@ mod tests {
         |tester| inline_globals(
             envs(tester, &[("x", "BAR")]),
             globals(tester, &[]),
+            Default::default(),
             Default::default(),
         ),
         issue_2499_1,
@@ -333,6 +336,7 @@ mod tests {
             inline_globals(
                 envs(tester, &[]),
                 globals(tester, &[("__MY_HOST__", "'https://swc.rs/'")]),
+                Default::default(),
                 Default::default(),
             )
         ),

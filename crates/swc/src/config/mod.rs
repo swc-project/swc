@@ -65,7 +65,7 @@ use swc_ecma_transforms::{
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
 use swc_ecma_transforms_optimization::{
-    inline_globals2,
+    inline_globals,
     simplify::{dce::Config as DceConfig, Config as SimplifyConfig},
     GlobalExprMap,
 };
@@ -1862,7 +1862,7 @@ impl GlobalPassOption {
             }
         };
 
-        inline_globals2(env_map, global_map, global_exprs, Arc::new(self.typeofs))
+        inline_globals(env_map, global_map, global_exprs, Arc::new(self.typeofs))
     }
 }
 
