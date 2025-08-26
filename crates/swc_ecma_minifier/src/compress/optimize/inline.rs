@@ -37,7 +37,7 @@ impl Optimizer<'_> {
         trace_op!(
             "inline: store_var_for_inlining({}, may_remove = {:?})",
             crate::debug::dump(ident, false),
-            may_remove
+            self.may_remove_ident(ident)
         );
 
         if self.data.top.contains(ScopeData::HAS_EVAL_CALL) {

@@ -523,9 +523,7 @@ impl Optimizer<'_> {
                     .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
                     .unwrap_or(false)
                 {
-                    let class = decl.as_mut_class().unwrap();
-                    let Some(side_effects) =
-                        extract_class_side_effect(self.ctx.expr_ctx, &mut class.class)
+                    let Some(side_effects) = extract_class_side_effect(self.ctx.expr_ctx, class)
                     else {
                         return;
                     };
