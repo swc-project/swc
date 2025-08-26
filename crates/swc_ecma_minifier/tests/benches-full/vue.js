@@ -500,7 +500,7 @@
                 },
                 set: function(newVal) {
                     var value = getter ? getter.call(obj) : val;
-                    /* eslint-disable no-self-compare */ newVal !== value && (newVal == newVal || value == value) && (customSetter && customSetter(), (!getter || setter) && (setter ? setter.call(obj, newVal) : val = newVal, childOb = !shallow && observe(newVal), dep.notify()));
+                    /* eslint-disable no-self-compare */ newVal === value || newVal != newVal && value != value || (customSetter && customSetter(), (!getter || setter) && (setter ? setter.call(obj, newVal) : val = newVal, childOb = !shallow && observe(newVal), dep.notify()));
                 }
             });
         }
@@ -520,8 +520,7 @@
    */ function del(target, key) {
         if ((isUndef(target) || isPrimitive(target)) && warn("Cannot delete reactive property on undefined, null, or primitive value: " + target), Array.isArray(target) && isValidArrayIndex(key)) return void target.splice(key, 1);
         var ob = target.__ob__;
-        if (target._isVue || ob && ob.vmCount) return void warn("Avoid deleting properties on a Vue instance or its root $data - just set it to null.");
-        hasOwn(target, key) && (delete target[key], ob && ob.dep.notify());
+        target._isVue || ob && ob.vmCount ? warn("Avoid deleting properties on a Vue instance or its root $data - just set it to null.") : !hasOwn(target, key) || (delete target[key], ob && ob.dep.notify());
     }
     /**
    * Walk through all properties and convert them into

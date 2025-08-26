@@ -923,7 +923,7 @@
                     config._d = new Date(+matched[1]);
                     return;
                 }
-                configFromISO(config), !1 === config._isValid && (delete config._isValid, configFromRFC2822(config), !1 === config._isValid && (delete config._isValid, config._strict ? config._isValid = !1 : // Final attempt, use Input Fallback
+                configFromISO(config), !1 !== config._isValid || (delete config._isValid, configFromRFC2822(config), !1 === config._isValid && (delete config._isValid, config._strict ? config._isValid = !1 : // Final attempt, use Input Fallback
                 hooks.createFromInputFallback(config)));
             }(config);
             else if (isArray(input)) config._a = map(input.slice(0), function(obj) {

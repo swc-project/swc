@@ -21686,7 +21686,7 @@
                             }
                             t.push(null);
                         }), e.on("data", function(i) {
-                            a("wrapped data"), r.decoder && (i = r.decoder.write(i)), (!r.objectMode || null != i) && (r.objectMode || i && i.length) && (t.push(i) || (n = !0, e.pause()));
+                            a("wrapped data"), r.decoder && (i = r.decoder.write(i)), r.objectMode && null == i || (r.objectMode || i && i.length) && (t.push(i) || (n = !0, e.pause()));
                         }), e)void 0 === this[i] && "function" == typeof e[i] && (this[i] = function(t) {
                             return function() {
                                 return e[t].apply(e, arguments);
@@ -21994,8 +21994,7 @@
                             var o = this[f];
                             if (o) t = new Promise((e = this, function(t, r) {
                                 o.then(function() {
-                                    if (e[c]) return void t(h(void 0, !0));
-                                    e[p](t, r);
+                                    e[c] ? t(h(void 0, !0)) : e[p](t, r);
                                 }, r);
                             }));
                             else {
@@ -22011,8 +22010,7 @@
                         var e = this;
                         return new Promise(function(t, r) {
                             e[d].destroy(null, function(e) {
-                                if (e) return void r(e);
-                                t(h(void 0, !0));
+                                e ? r(e) : t(h(void 0, !0));
                             });
                         });
                     }), o), v);
@@ -22203,7 +22201,7 @@
                         i(e, t), r(e);
                     }
                     function r(e) {
-                        (!e._writableState || e._writableState.emitClose) && (!e._readableState || e._readableState.emitClose) && e.emit("close");
+                        e._writableState && !e._writableState.emitClose || (!e._readableState || e._readableState.emitClose) && e.emit("close");
                     }
                     function i(e, t) {
                         e.emit("error", t);

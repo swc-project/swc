@@ -2699,8 +2699,7 @@
         }, // Direct focus to the page title, or otherwise first focusable element
         $.mobile.focusPage = function(page) {
             var autofocus = page.find("[autofocus]"), pageTitle = page.find(".ui-title:eq(0)");
-            if (autofocus.length) return void autofocus.focus();
-            pageTitle.length ? pageTitle.focus() : page.focus();
+            autofocus.length ? autofocus.focus() : pageTitle.length ? pageTitle.focus() : page.focus();
         }, // No-op implementation of transition degradation
         $.mobile._maybeDegradeTransition = $.mobile._maybeDegradeTransition || function(transition) {
             return transition;
@@ -4521,12 +4520,11 @@
             }), self._prerequisites = prerequisites;
         },
         _animate: function(args) {
-            if (// NOTE before removing the default animation of the screen
+            (// NOTE before removing the default animation of the screen
             //      this had an animate callback that would resolve the deferred
             //      now the deferred is resolved immediately
             // TODO remove the dependency on the screen deferred
-            this._ui.screen.removeClass(args.classToRemove).addClass(args.screenClassToAdd), args.prerequisites.screen.resolve(), args.transition && "none" !== args.transition && (args.applyTransition && this._applyTransition(args.transition), this._fallbackTransition)) return void this._ui.container.addClass(args.containerClassToAdd).removeClass(args.classToRemove).animationComplete(jQuery.proxy(args.prerequisites.container, "resolve"));
-            this._ui.container.removeClass(args.classToRemove), args.prerequisites.container.resolve();
+            this._ui.screen.removeClass(args.classToRemove).addClass(args.screenClassToAdd), args.prerequisites.screen.resolve(), args.transition && "none" !== args.transition && (args.applyTransition && this._applyTransition(args.transition), this._fallbackTransition)) ? this._ui.container.addClass(args.containerClassToAdd).removeClass(args.classToRemove).animationComplete(jQuery.proxy(args.prerequisites.container, "resolve")) : (this._ui.container.removeClass(args.classToRemove), args.prerequisites.container.resolve());
         },
         // The desired coordinates passed in will be returned untouched if no reference element can be identified via
         // desiredPosition.positionTo. Nevertheless, this function ensures that its return value always contains valid
@@ -6041,9 +6039,9 @@
                 return index = this._findNextTab(index, goingForward), this.tabs.eq(index).focus(), index;
             },
             _setOption: function(key, value) {
-                return "active" === key ? void // _activate() will handle invalid values and update this.options
-                this._activate(value) : "disabled" === key ? void // don't use the widget factory's disabled handling
-                this._setupDisabled(value) : void (this._super(key, value), "collapsible" === key && (this.element.toggleClass("ui-tabs-collapsible", value), !value && !1 === this.options.active && this._activate(0)), "event" === key && this._setupEvents(value), "heightStyle" === key && this._setupHeightStyle(value));
+                "active" === key ? // _activate() will handle invalid values and update this.options
+                this._activate(value) : "disabled" === key ? // don't use the widget factory's disabled handling
+                this._setupDisabled(value) : (this._super(key, value), "collapsible" === key && (this.element.toggleClass("ui-tabs-collapsible", value), value || !1 !== this.options.active || this._activate(0)), "event" === key && this._setupEvents(value), "heightStyle" === key && this._setupHeightStyle(value));
             },
             _tabId: function(tab) {
                 return tab.attr("aria-controls") || "ui-tabs-" + ++tabId;

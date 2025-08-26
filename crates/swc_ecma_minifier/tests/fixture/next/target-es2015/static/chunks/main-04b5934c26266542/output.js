@@ -2522,7 +2522,7 @@ You should only use "next/router" on the client side of your app.
                         const { pathname: pathname1 } = _parseRelativeUrl.parseRelativeUrl(url);
                         // Make sure we don't re-render on initial load,
                         // can be caused by navigating back from an external site
-                        (!this.isSsr || as !== _addBasePath.addBasePath(this.asPath) || pathname1 !== _addBasePath.addBasePath(this.pathname)) && (!this._bps || this._bps(state)) && this.change("replaceState", url, as, Object.assign({}, options, {
+                        this.isSsr && as === _addBasePath.addBasePath(this.asPath) && pathname1 === _addBasePath.addBasePath(this.pathname) || (!this._bps || this._bps(state)) && this.change("replaceState", url, as, Object.assign({}, options, {
                             shallow: options.shallow && this._shallow,
                             locale: options.locale || this.defaultLocale,
                             // @ts-ignore internal value not exposed on types
