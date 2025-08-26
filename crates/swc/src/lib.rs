@@ -723,7 +723,17 @@ impl Compiler {
                 None
             };
 
-            self.apply_transforms(handler, comments.clone(), fm.clone(), orig, config)
+            self.apply_transforms(
+                handler,
+                comments.clone(),
+                fm.clone(),
+                orig,
+                config,
+                opts.config
+                    .jsc
+                    .rewrite_relative_import_extensions
+                    .into_bool(),
+            )
         })
     }
 
@@ -967,6 +977,7 @@ impl Compiler {
         #[allow(unused)] fm: Arc<SourceFile>,
         orig: Option<sourcemap::SourceMap>,
         config: BuiltInput<impl Pass>,
+        rewrite_relative_import_extensions: bool,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             let program = config.program;
@@ -1005,9 +1016,15 @@ impl Compiler {
                 let mut program = program.clone();
 
                 if let Some((base, resolver)) = config.resolver {
-                    use swc_ecma_transforms::modules::rewriter::import_rewriter;
+                    use swc_ecma_transforms::modules::rewriter::{
+                        import_rewriter, ImportRewriterOptions,
+                    };
 
-                    program.mutate(import_rewriter(base, resolver));
+                    program.mutate(import_rewriter(ImportRewriterOptions {
+                        base,
+                        resolver,
+                        rewrite_relative_import_extensions,
+                    }));
                 }
 
                 let issues = checker.transform(&mut program);
