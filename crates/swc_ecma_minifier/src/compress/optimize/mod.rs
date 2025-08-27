@@ -27,7 +27,7 @@ use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::util::is_pure_undefined,
+    compress::{optimize::util::get_ids_of_pat, util::is_pure_undefined},
     debug::AssertValid,
     maybe_par,
     mode::Mode,
@@ -2825,7 +2825,22 @@ impl VisitMut for Optimizer<'_> {
 
         if self.options.const_to_let && !self.ctx.in_top_level() {
             if n.kind == VarDeclKind::Const {
-                n.kind = VarDeclKind::Let;
+                // If a const variable is reassigned, we should not convert it to `let`
+                let no_reassignment = n.decls.iter().all(|var| {
+                    let ids = get_ids_of_pat(&var.name);
+                    for id in ids {
+                        if let Some(usage) = self.data.vars.get(&id) {
+                            if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
+                                return false;
+                            }
+                        }
+                    }
+                    true
+                });
+
+                if no_reassignment {
+                    n.kind = VarDeclKind::Let;
+                }
             }
         }
     }
