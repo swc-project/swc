@@ -20,6 +20,7 @@ pub mod path;
 pub mod rewriter;
 pub mod system_js;
 mod top_level_this;
+pub mod typescript_import_rewriter;
 pub mod umd;
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]

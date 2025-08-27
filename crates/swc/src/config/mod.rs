@@ -50,7 +50,8 @@ use swc_ecma_transforms::{
     modules::{
         self,
         path::{ImportResolver, NodeImportResolver, Resolver},
-        rewriter::{import_rewriter, ImportRewriterOptions},
+        rewriter::import_rewriter,
+        typescript_import_rewriter::typescript_import_rewriter,
         util, EsModuleConfig,
     },
     optimization::{const_modules, json_parse, simplifier},
@@ -1479,14 +1480,14 @@ impl ModuleConfig {
         match config {
             None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
             {
-                Resolver::Default => Box::new(noop_pass()),
-                Resolver::Real { base, resolver } => {
-                    Box::new(import_rewriter(ImportRewriterOptions {
-                        base,
-                        resolver,
-                        rewrite_relative_import_extensions,
-                    }))
+                Resolver::Default => {
+                    if rewrite_relative_import_extensions {
+                        Box::new(typescript_import_rewriter())
+                    } else {
+                        Box::new(noop_pass())
+                    }
                 }
+                Resolver::Real { base, resolver } => Box::new(import_rewriter(base, resolver)),
             },
             Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
                 resolver,

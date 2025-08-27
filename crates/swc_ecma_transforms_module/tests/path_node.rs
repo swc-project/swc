@@ -10,7 +10,7 @@ use swc_ecma_loader::resolvers::{node::NodeModulesResolver, tsc::TsConfigResolve
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_module::{
     path::{ImportResolver, NodeImportResolver},
-    rewriter::{import_rewriter, ImportRewriterOptions},
+    rewriter::import_rewriter,
 };
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 use testing::run_test2;
@@ -74,11 +74,10 @@ fn issue_4730() {
 
             let resolver = paths_resolver(&input_dir, rules);
 
-            import_rewriter(ImportRewriterOptions {
-                base: FileName::Real(input_dir.join("src").join("index.js")),
-                resolver: Arc::new(resolver),
-                rewrite_relative_import_extensions: false,
-            })
+            import_rewriter(
+                FileName::Real(input_dir.join("src").join("index.js")),
+                Arc::new(resolver),
+            )
         },
         &input_dir.join("src").join("index.js"),
         &output_dir.join("index.js"),
@@ -148,11 +147,7 @@ fn fixture(input_dir: PathBuf) {
 
             let resolver = paths_resolver(&base_dir, rules);
 
-            import_rewriter(ImportRewriterOptions {
-                base: FileName::Real(index_path.clone()),
-                resolver: Arc::new(resolver),
-                rewrite_relative_import_extensions: false,
-            })
+            import_rewriter(FileName::Real(index_path.clone()), Arc::new(resolver))
         },
         &index_path,
         &output_dir.join("index.ts"),
