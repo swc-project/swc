@@ -2822,6 +2822,12 @@ impl VisitMut for Optimizer<'_> {
                 }
             });
         }
+
+        if self.options.const_to_let && !self.ctx.in_top_level() {
+            if n.kind == VarDeclKind::Const {
+                n.kind = VarDeclKind::Let;
+            }
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
