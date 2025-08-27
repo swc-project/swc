@@ -1,3 +1,7 @@
 # I use this to try stuffs
 /lab.js
 /cur.js
+
+examples/**/*.ts
+examples/**/*.js
+examples/**/\.swcrc
