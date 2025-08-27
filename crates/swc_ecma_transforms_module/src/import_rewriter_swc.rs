@@ -21,18 +21,20 @@ impl VisitMut for Rewriter {
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         e.visit_mut_children_with(self);
 
-        if let Callee::Import(_) = &e.callee {
-            if let Some(ExprOrSpread { spread: None, expr }) = &mut e.args.get_mut(0) {
-                if let Expr::Lit(Lit::Str(s)) = &mut **expr {
-                    let src = self
-                        .resolver
-                        .resolve_import(&self.base, &s.value)
-                        .with_context(|| format!("failed to resolve import `{}`", s.value))
-                        .unwrap();
+        if !e.callee.is_import() {
+            return;
+        }
 
-                    s.raw = None;
-                    s.value = src;
-                }
+        if let Some(ExprOrSpread { spread: None, expr }) = &mut e.args.get_mut(0) {
+            if let Expr::Lit(Lit::Str(s)) = &mut **expr {
+                let src = self
+                    .resolver
+                    .resolve_import(&self.base, &s.value)
+                    .with_context(|| format!("failed to resolve import `{}`", s.value))
+                    .unwrap();
+
+                s.raw = None;
+                s.value = src;
             }
         }
     }
