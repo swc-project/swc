@@ -49,9 +49,9 @@ use swc_ecma_transforms::{
     hygiene::{self, hygiene_with_config},
     modules::{
         self,
+        import_rewriter_swc::swc_import_rewriter,
+        import_rewriter_typescript::typescript_import_rewriter,
         path::{ImportResolver, NodeImportResolver, Resolver},
-        rewriter::import_rewriter,
-        typescript_import_rewriter::typescript_import_rewriter,
         util, EsModuleConfig,
     },
     optimization::{const_modules, json_parse, simplifier},
@@ -1487,7 +1487,7 @@ impl ModuleConfig {
                         Box::new(noop_pass())
                     }
                 }
-                Resolver::Real { base, resolver } => Box::new(import_rewriter(base, resolver)),
+                Resolver::Real { base, resolver } => Box::new(swc_import_rewriter(base, resolver)),
             },
             Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
                 resolver,

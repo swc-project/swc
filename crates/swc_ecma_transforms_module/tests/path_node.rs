@@ -9,8 +9,8 @@ use swc_common::FileName;
 use swc_ecma_loader::resolvers::{node::NodeModulesResolver, tsc::TsConfigResolver};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_module::{
+    import_rewriter_swc::swc_import_rewriter,
     path::{ImportResolver, NodeImportResolver},
-    rewriter::import_rewriter,
 };
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 use testing::run_test2;
@@ -74,7 +74,7 @@ fn issue_4730() {
 
             let resolver = paths_resolver(&input_dir, rules);
 
-            import_rewriter(
+            swc_import_rewriter(
                 FileName::Real(input_dir.join("src").join("index.js")),
                 Arc::new(resolver),
             )
@@ -147,7 +147,7 @@ fn fixture(input_dir: PathBuf) {
 
             let resolver = paths_resolver(&base_dir, rules);
 
-            import_rewriter(FileName::Real(index_path.clone()), Arc::new(resolver))
+            swc_import_rewriter(FileName::Real(index_path.clone()), Arc::new(resolver))
         },
         &index_path,
         &output_dir.join("index.ts"),

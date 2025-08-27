@@ -8,7 +8,7 @@ use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 use crate::path::ImportResolver;
 
 /// Import rewriter, which rewrites imports as es modules.
-pub fn import_rewriter(base: FileName, resolver: Arc<dyn ImportResolver>) -> impl Pass {
+pub fn swc_import_rewriter(base: FileName, resolver: Arc<dyn ImportResolver>) -> impl Pass {
     visit_mut_pass(Rewriter { base, resolver })
 }
 
