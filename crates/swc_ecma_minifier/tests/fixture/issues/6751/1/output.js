@@ -1,6 +1,6 @@
 let current_component;
 try {
-    const parent = current_component;
+    let parent = current_component;
     current_component = {
         m () {
             console.log("call m()");

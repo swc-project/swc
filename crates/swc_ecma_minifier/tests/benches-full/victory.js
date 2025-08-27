@@ -28318,7 +28318,7 @@
             }
             function cross(...values) {
                 var reduce;
-                const reduce1 = "function" == typeof values[values.length - 1] && (reduce = values.pop(), (values)=>reduce(...values)), lengths = (values = values.map(arrayify)).map(length), j = values.length - 1, index = Array(j + 1).fill(0), product = [];
+                let reduce1 = "function" == typeof values[values.length - 1] && (reduce = values.pop(), (values)=>reduce(...values)), lengths = (values = values.map(arrayify)).map(length), j = values.length - 1, index = Array(j + 1).fill(0), product = [];
                 if (j < 0 || lengths.some(empty)) return product;
                 for(;;){
                     product.push(index.map((j, i)=>values[i][j]));
@@ -28362,7 +28362,7 @@
             });
             /* harmony import */ var _variance_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./variance.js */ "../../victory-histogram/node_modules/d3-array/src/variance.js");
             function deviation(values, valueof) {
-                const v = Object(_variance_js__WEBPACK_IMPORTED_MODULE_0__.default)(values, valueof);
+                let v = Object(_variance_js__WEBPACK_IMPORTED_MODULE_0__.default)(values, valueof);
                 return v ? Math.sqrt(v) : v;
             }
         /***/ },
@@ -28372,7 +28372,7 @@
             "use strict";
             __webpack_require__.r(__webpack_exports__), /* harmony default export */ __webpack_exports__.default = function(values, valueof) {
                 let min, max;
-                if (void 0 === valueof) for (const value of values)null != value && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
+                if (void 0 === valueof) for (let value of values)null != value && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
                 else {
                     let index = -1;
                     for (let value of values)null != (value = valueof(value, ++index, values)) && (void 0 === min ? value >= value && (min = max = value) : (min > value && (min = value), max < value && (max = value)));
@@ -28395,11 +28395,11 @@
                 let max, defined = !1;
                 if (1 === compare.length) {
                     let maxValue;
-                    for (const element of values){
-                        const value = compare(element);
+                    for (let element of values){
+                        let value = compare(element);
                         (defined ? Object(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default)(value, maxValue) > 0 : 0 === Object(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default)(value, value)) && (max = element, maxValue = value, defined = !0);
                     }
-                } else for (const value of values)(defined ? compare(value, max) > 0 : 0 === compare(value, value)) && (max = value, defined = !0);
+                } else for (let value of values)(defined ? compare(value, max) > 0 : 0 === compare(value, value)) && (max = value, defined = !0);
                 return max;
             }
         /***/ },
@@ -28415,7 +28415,7 @@
                 let maxValue;
                 if (1 === compare.length) return Object(_maxIndex_js__WEBPACK_IMPORTED_MODULE_1__.default)(values, compare);
                 let max = -1, index = -1;
-                for (const value of values)++index, (max < 0 ? 0 === compare(value, value) : compare(value, maxValue) > 0) && (maxValue = value, max = index);
+                for (let value of values)++index, (max < 0 ? 0 === compare(value, value) : compare(value, maxValue) > 0) && (maxValue = value, max = index);
                 return max;
             }
         /***/ },
@@ -28448,15 +28448,14 @@
             function nest(values, map, reduce, keys) {
                 return function regroup(values, i) {
                     if (i >= keys.length) return reduce(values);
-                    const groups = new Map(), keyof = keys[i++];
-                    let index = -1;
-                    for (const value of values){
-                        const key = keyof(value, ++index, values), group = groups.get(key);
+                    let groups = new Map(), keyof = keys[i++], index = -1;
+                    for (let value of values){
+                        let key = keyof(value, ++index, values), group = groups.get(key);
                         group ? group.push(value) : groups.set(key, [
                             value
                         ]);
                     }
-                    for (const [key, values] of groups)groups.set(key, regroup(values, i));
+                    for (let [key, values] of groups)groups.set(key, regroup(values, i));
                     return map(groups);
                 }(values, 0);
             }
@@ -28655,11 +28654,11 @@
                 let min, defined = !1;
                 if (1 === compare.length) {
                     let minValue;
-                    for (const element of values){
-                        const value = compare(element);
+                    for (let element of values){
+                        let value = compare(element);
                         (defined ? 0 > Object(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default)(value, minValue) : 0 === Object(_ascending_js__WEBPACK_IMPORTED_MODULE_0__.default)(value, value)) && (min = element, minValue = value, defined = !0);
                     }
-                } else for (const value of values)(defined ? 0 > compare(value, min) : 0 === compare(value, value)) && (min = value, defined = !0);
+                } else for (let value of values)(defined ? 0 > compare(value, min) : 0 === compare(value, value)) && (min = value, defined = !0);
                 return min;
             }
         /***/ },
@@ -28675,7 +28674,7 @@
                 let minValue;
                 if (1 === compare.length) return Object(_minIndex_js__WEBPACK_IMPORTED_MODULE_1__.default)(values, compare);
                 let min = -1, index = -1;
-                for (const value of values)++index, (min < 0 ? 0 === compare(value, value) : 0 > compare(value, minValue)) && (minValue = value, min = index);
+                for (let value of values)++index, (min < 0 ? 0 === compare(value, value) : 0 > compare(value, minValue)) && (minValue = value, min = index);
                 return min;
             }
         /***/ },
@@ -28685,7 +28684,7 @@
             "use strict";
             function max(values, valueof) {
                 let max;
-                if (void 0 === valueof) for (const value of values)null != value && (max < value || void 0 === max && value >= value) && (max = value);
+                if (void 0 === valueof) for (let value of values)null != value && (max < value || void 0 === max && value >= value) && (max = value);
                 else {
                     let index = -1;
                     for (let value of values)null != (value = valueof(value, ++index, values)) && (max < value || void 0 === max && value >= value) && (max = value);
@@ -28702,7 +28701,7 @@
             "use strict";
             function maxIndex(values, valueof) {
                 let max, maxIndex = -1, index = -1;
-                if (void 0 === valueof) for (const value of values)++index, null != value && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
+                if (void 0 === valueof) for (let value of values)++index, null != value && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
                 else for (let value of values)null != (value = valueof(value, ++index, values)) && (max < value || void 0 === max && value >= value) && (max = value, maxIndex = index);
                 return maxIndex;
             }
@@ -28743,7 +28742,7 @@
             "use strict";
             function merge(arrays) {
                 return Array.from(function*(arrays) {
-                    for (const array of arrays)yield* array;
+                    for (let array of arrays)yield* array;
                 }(arrays));
             }
             __webpack_require__.r(__webpack_exports__), /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() {
@@ -28756,7 +28755,7 @@
             "use strict";
             function min(values, valueof) {
                 let min;
-                if (void 0 === valueof) for (const value of values)null != value && (min > value || void 0 === min && value >= value) && (min = value);
+                if (void 0 === valueof) for (let value of values)null != value && (min > value || void 0 === min && value >= value) && (min = value);
                 else {
                     let index = -1;
                     for (let value of values)null != (value = valueof(value, ++index, values)) && (min > value || void 0 === min && value >= value) && (min = value);
@@ -28773,7 +28772,7 @@
             "use strict";
             function minIndex(values, valueof) {
                 let min, minIndex = -1, index = -1;
-                if (void 0 === valueof) for (const value of values)++index, null != value && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
+                if (void 0 === valueof) for (let value of values)++index, null != value && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
                 else for (let value of values)null != (value = valueof(value, ++index, values)) && (min > value || void 0 === min && value >= value) && (min = value, minIndex = index);
                 return minIndex;
             }
@@ -28803,10 +28802,8 @@
   \*********************************************************************************************************/ /*! exports provided: default, pair */ /***/ function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             function pairs(values, pairof = pair) {
-                let previous;
-                const pairs1 = [];
-                let first = !1;
-                for (const value of values)first && pairs1.push(pairof(previous, value)), previous = value, first = !0;
+                let previous, pairs1 = [], first = !1;
+                for (let value of values)first && pairs1.push(pairof(previous, value)), previous = value, first = !0;
                 return pairs1;
             }
             function pair(a, b) {
@@ -28866,11 +28863,10 @@
                 function quickselect(array, k, left = 0, right = array.length - 1, compare = _ascending_js__WEBPACK_IMPORTED_MODULE_0__.default) {
                     for(; right > left;){
                         if (right - left > 600) {
-                            const n = right - left + 1, m = k - left + 1, z = Math.log(n), s = 0.5 * Math.exp(2 * z / 3), sd = 0.5 * Math.sqrt(z * s * (n - s) / n) * (m - n / 2 < 0 ? -1 : 1), newLeft = Math.max(left, Math.floor(k - m * s / n + sd)), newRight = Math.min(right, Math.floor(k + (n - m) * s / n + sd));
+                            let n = right - left + 1, m = k - left + 1, z = Math.log(n), s = 0.5 * Math.exp(2 * z / 3), sd = 0.5 * Math.sqrt(z * s * (n - s) / n) * (m - n / 2 < 0 ? -1 : 1), newLeft = Math.max(left, Math.floor(k - m * s / n + sd)), newRight = Math.min(right, Math.floor(k + (n - m) * s / n + sd));
                             quickselect(array, k, newLeft, newRight, compare);
                         }
-                        const t = array[k];
-                        let i = left, j = right;
+                        let t = array[k], i = left, j = right;
                         for(swap(array, left, k), compare(array[right], t) > 0 && swap(array, left, right); i < j;){
                             for(swap(array, i, j), ++i, --j; 0 > compare(array[i], t);)++i;
                             for(; compare(array[j], t) > 0;)--j;
@@ -28882,7 +28878,7 @@
             });
             /* harmony import */ var _ascending_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ascending.js */ "../../victory-histogram/node_modules/d3-array/src/ascending.js");
             function swap(array, i, j) {
-                const t = array[i];
+                let t = array[i];
                 array[i] = array[j], array[j] = t;
             }
         /***/ },
@@ -28905,7 +28901,7 @@
             });
             /* harmony import */ var _leastIndex_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./leastIndex.js */ "../../victory-histogram/node_modules/d3-array/src/leastIndex.js");
             function scan(values, compare) {
-                const index = Object(_leastIndex_js__WEBPACK_IMPORTED_MODULE_0__.default)(values, compare);
+                let index = Object(_leastIndex_js__WEBPACK_IMPORTED_MODULE_0__.default)(values, compare);
                 return index < 0 ? void 0 : index;
             }
         /***/ },

@@ -6,18 +6,18 @@
         1973: function(module) {
             eval(module.code);
         },
-        1985: function(n, e, u) {
+        1985: function(e, n, u) {
             "use strict";
-            var c = 0;
-            function t(n = {}) {
+            var t = 0;
+            function c(e = {}) {
                 ({
-                    ...n
+                    ...e
                 });
             }
-            e.useForm = function(n = {}) {
-                const e = c.default.useRef();
-                e.current ? e.current.control._options = n : e.current = {
-                    ...t(n)
+            n.useForm = function(e = {}) {
+                let n = t.default.useRef();
+                n.current ? n.current.control._options = e : n.current = {
+                    ...c(e)
                 };
             };
         }

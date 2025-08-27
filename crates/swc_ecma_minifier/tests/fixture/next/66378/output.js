@@ -156,7 +156,7 @@ export const CODEC_TO_KEY_TYPE = {
         keyType: pk.publicKeyJwk.crv
     };
     if (pk.publicKeyMultibase) {
-        const { keyBytes, keyType } = multibaseToBytes(pk.publicKeyMultibase);
+        let { keyBytes, keyType } = multibaseToBytes(pk.publicKeyMultibase);
         return {
             keyBytes,
             keyType: keyType ?? VM_TO_KEY_TYPE[pk.type]
@@ -180,7 +180,7 @@ export const CODEC_TO_KEY_TYPE = {
  */ export function bytesToMultibase(b, base = 'base58btc', codec) {
     if (!codec) return toString(encode(base, b), 'utf-8');
     {
-        const codecCode = 'string' == typeof codec ? supportedCodecs[codec] : codec, prefixLength = varint.encodingLength(codecCode), multicodecEncoding = new Uint8Array(prefixLength + b.length);
+        let codecCode = 'string' == typeof codec ? supportedCodecs[codec] : codec, prefixLength = varint.encodingLength(codecCode), multicodecEncoding = new Uint8Array(prefixLength + b.length);
         return varint.encodeTo(codecCode, multicodecEncoding) // set prefix
         , multicodecEncoding.set(b, prefixLength) // add the original bytes
         , toString(encode(base, multicodecEncoding), 'utf-8');
@@ -196,7 +196,7 @@ export const CODEC_TO_KEY_TYPE = {
  *
  * @public
  */ export function multibaseToBytes(s) {
-    const bytes = decode(s);
+    let bytes = decode(s);
     // look for known key lengths first
     // Ed25519/X25519, secp256k1/P256 compressed or not, BLS12-381 G1/G2 compressed
     if ([
@@ -212,7 +212,7 @@ export const CODEC_TO_KEY_TYPE = {
     // then assume multicodec, otherwise return the bytes
     try {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [codec, length] = varint.decode(bytes), possibleCodec = Object.entries(supportedCodecs).filter(([, code])=>code === codec)?.[0][0] ?? '';
+        let [codec, length] = varint.decode(bytes), possibleCodec = Object.entries(supportedCodecs).filter(([, code])=>code === codec)?.[0][0] ?? '';
         return {
             keyBytes: bytes.slice(length),
             keyType: CODEC_TO_KEY_TYPE[possibleCodec]
@@ -227,7 +227,7 @@ export const CODEC_TO_KEY_TYPE = {
 export function hexToBytes(s, minLength) {
     let input = s.startsWith('0x') ? s.substring(2) : s;
     if (input.length % 2 != 0 && (input = `0${input}`), minLength) {
-        const paddedLength = Math.max(input.length, 2 * minLength);
+        let paddedLength = Math.max(input.length, 2 * minLength);
         input = input.padStart(paddedLength, '00');
     }
     return fromString(input.toLowerCase(), 'base16');
@@ -251,7 +251,7 @@ export function stringToBytes(s) {
     return fromString(s, 'utf-8');
 }
 export function toJose({ r, s, recoveryParam }, recoverable) {
-    const jose = new Uint8Array(recoverable ? 65 : 64);
+    let jose = new Uint8Array(recoverable ? 65 : 64);
     if (jose.set(fromString(r, 'base16'), 0), jose.set(fromString(s, 'base16'), 32), recoverable) {
         if (void 0 === recoveryParam) throw Error('Signer did not return a recoveryParam');
         jose[64] = recoveryParam;
@@ -259,7 +259,7 @@ export function toJose({ r, s, recoveryParam }, recoverable) {
     return bytesToBase64url(jose);
 }
 export function fromJose(signature) {
-    const signatureBytes = base64ToBytes(signature);
+    let signatureBytes = base64ToBytes(signature);
     if (signatureBytes.length < 64 || signatureBytes.length > 65) throw TypeError(`Wrong size for signature. Expected 64 or 65 bytes, but got ${signatureBytes.length}`);
     return {
         r: bytesToHex(signatureBytes.slice(0, 32)),
@@ -279,7 +279,7 @@ export function leftpad(data, size = 64) {
 /**
  * Generate random x25519 key pair.
  */ export function generateKeyPair() {
-    const secretKey = x25519.utils.randomPrivateKey(), publicKey = x25519.getPublicKey(secretKey);
+    let secretKey = x25519.utils.randomPrivateKey(), publicKey = x25519.getPublicKey(secretKey);
     return {
         secretKey: secretKey,
         publicKey: publicKey
@@ -295,7 +295,7 @@ export function leftpad(data, size = 64) {
     };
 }
 export function genX25519EphemeralKeyPair() {
-    const epk = generateKeyPair();
+    let epk = generateKeyPair();
     return {
         publicKeyJWK: {
             kty: 'OKP',
