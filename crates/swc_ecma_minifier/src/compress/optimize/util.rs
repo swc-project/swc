@@ -776,3 +776,36 @@ impl VisitMut for LabelAnalyzer {
         }
     }
 }
+
+pub fn get_ids_of_pat(pat: &Pat) -> Vec<Id> {
+    fn append(pat: &Pat, ids: &mut Vec<Id>) {
+        match pat {
+            Pat::Ident(binding_ident) => ids.push(binding_ident.id.to_id()),
+            Pat::Array(array_pat) => {
+                for pat in array_pat.elems.iter().flatten() {
+                    append(pat, ids);
+                }
+            }
+            Pat::Rest(rest_pat) => append(&rest_pat.arg, ids),
+            Pat::Object(object_pat) => {
+                for pat in &object_pat.props {
+                    match pat {
+                        ObjectPatProp::KeyValue(key_value_pat_prop) => {
+                            append(&key_value_pat_prop.value, ids)
+                        }
+                        ObjectPatProp::Assign(assign_pat_prop) => {
+                            ids.push(assign_pat_prop.key.to_id())
+                        }
+                        ObjectPatProp::Rest(rest_pat) => append(&rest_pat.arg, ids),
+                    }
+                }
+            }
+            Pat::Assign(assign_pat) => append(&assign_pat.left, ids),
+            Pat::Invalid(_) | Pat::Expr(_) => {}
+        }
+    }
+
+    let mut idents = vec![];
+    append(pat, &mut idents);
+    idents
+}
