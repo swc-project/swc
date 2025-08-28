@@ -6,5 +6,5 @@ console.log(Intl.PluralRules.supportedLocalesOf([
 ], {
     localeMatcher: 'lookup'
 }).join(', '));
-const [part] = new Intl.NumberFormat().formatToParts();
+let [part] = new Intl.NumberFormat().formatToParts();
 console.log(part.type, part.value);

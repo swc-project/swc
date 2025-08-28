@@ -1,5 +1,5 @@
 //// [symbolProperty61.ts]
-const observable = Symbol.obs;
+let observable = Symbol.obs;
 export class MyObservable {
     subscribe(next) {
         next(this._val);

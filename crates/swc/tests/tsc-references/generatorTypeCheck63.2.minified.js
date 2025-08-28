@@ -28,7 +28,7 @@ function strategy(stratName, gen) {
         for (let next of gen(state))next && (next.lastStrategyApplied = stratName), yield next;
     };
 }
-const Nothing = strategy("Nothing", function*(state) {
+let Nothing = strategy("Nothing", function*(state) {
     return yield 1, state;
 }), Nothing1 = strategy("Nothing", function*(state) {}), Nothing2 = strategy("Nothing", function*(state) {
     return 1;

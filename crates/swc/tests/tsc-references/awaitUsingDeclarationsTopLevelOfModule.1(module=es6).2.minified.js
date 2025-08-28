@@ -1,7 +1,7 @@
 //// [awaitUsingDeclarationsTopLevelOfModule.1.ts]
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
-const env = {
+let env = {
     stack: [],
     error: void 0,
     hasError: !1
@@ -14,10 +14,10 @@ try {
 } catch (e) {
     env.error = e, env.hasError = !0;
 } finally{
-    const result = _ts_dispose_resources(env);
+    let result = _ts_dispose_resources(env);
     result && await result;
 }
-export const x = 1;
-export const w = 3;
+export let x = 1;
+export let w = 3;
 export default 4;
 export { y };
