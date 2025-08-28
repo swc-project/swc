@@ -8,4 +8,3 @@ Error: Hello
     at t ($DIR/tests/stacktrace/deno-10014/input/index.js:12:5)
     at a ($DIR/tests/stacktrace/deno-10014/input/index.js:2:5)
     at Object.<anonymous> ($DIR/tests/stacktrace/deno-10014/input/index.js:14:1)
-    at TracingChannel.traceSync (node:diagnostics_channel:322:14)
