@@ -12,7 +12,7 @@ export class c {
         this.a = "b", this.a = "b";
     }
 }
-for (let action of [
+for (const action of [
     'resizeTo',
     'resizeBy'
 ])window[action] = (x, y)=>{

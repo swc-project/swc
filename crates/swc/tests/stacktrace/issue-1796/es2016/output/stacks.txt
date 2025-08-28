@@ -7,3 +7,4 @@ Error: Boom
     at <anonymous> ($DIR/tests/stacktrace/issue-1796/es2016/input/index.js:3:15)
     at Error ($DIR/tests/stacktrace/issue-1796/es2016/input/index.js:4:5)
     at Object.<anonymous> ($DIR/tests/stacktrace/issue-1796/es2016/input/index.js:5:1)
+    at TracingChannel.traceSync (node:diagnostics_channel:322:14)

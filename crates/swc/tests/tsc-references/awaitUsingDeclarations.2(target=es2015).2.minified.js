@@ -3,7 +3,7 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
 {
-    let env = {
+    const env = {
         stack: [],
         error: void 0,
         hasError: !1
@@ -17,7 +17,7 @@ import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources
     } catch (e) {
         env.error = e, env.hasError = !0;
     } finally{
-        let result = _ts_dispose_resources(env);
+        const result = _ts_dispose_resources(env);
         result && await result;
     }
 }

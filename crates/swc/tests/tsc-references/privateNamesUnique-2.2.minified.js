@@ -27,5 +27,5 @@ export class Foo {
 //// [main.ts]
 import { Foo as A } from "./a";
 import { Foo as B } from "./b";
-let a = new A(), b = new B();
+const a = new A(), b = new B();
 a.copy(b);

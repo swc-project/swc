@@ -1,14 +1,14 @@
 //// [usingDeclarationsInForOf.1.ts]
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
-for (let _ of [
+for (const _ of [
     {
         [Symbol.dispose] () {}
     },
     null,
     void 0
 ]){
-    let env = {
+    const env = {
         stack: [],
         error: void 0,
         hasError: !1

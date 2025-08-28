@@ -1,5 +1,5 @@
 //// [override20.ts]
-let Foo = class {
+const Foo = class {
     m1() {}
     m2() {}
 };
