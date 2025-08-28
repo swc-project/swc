@@ -815,9 +815,8 @@
                 }), update = useEventCallback(function(end) {
                     props.preserveValue || reset(), updateCountUp(end);
                 }), initializeOnMount = useEventCallback(function() {
-                    if ("function" == typeof props.children && !(containerRef.current instanceof Element)) return void console.error('Couldn\'t find attached element to hook the CountUp instance into! Try to attach "containerRef" from the render prop to a an Element, eg. <span ref={containerRef} />.');
-                     // unlike the hook, the CountUp component initializes on mount
-                    getCountUp();
+                    "function" != typeof props.children || containerRef.current instanceof Element ? getCountUp() : console.error('Couldn\'t find attached element to hook the CountUp instance into! Try to attach "containerRef" from the render prop to a an Element, eg. <span ref={containerRef} />.') // unlike the hook, the CountUp component initializes on mount
+                    ;
                 });
                 React.useEffect(function() {
                     initializeOnMount();

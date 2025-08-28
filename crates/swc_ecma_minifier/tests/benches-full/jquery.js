@@ -1772,7 +1772,7 @@
         // Handle when the DOM is ready
         ready: function(wait) {
             // Abort if there are pending holds or we're already ready
-            !(!0 === wait ? --jQuery.readyWait : jQuery.isReady) && (// Remember that the DOM is ready
+            (!0 === wait ? --jQuery.readyWait : jQuery.isReady) || (// Remember that the DOM is ready
             jQuery.isReady = !0, !0 !== wait && --jQuery.readyWait > 0 || // If there are functions bound, to execute
             readyList.resolveWith(document, [
                 jQuery

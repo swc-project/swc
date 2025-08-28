@@ -1085,8 +1085,7 @@
                 try {
                     var result = gen[key](arg), value = result.value, wrappedAwait = value instanceof _AwaitValue;
                     Promise.resolve(wrappedAwait ? value.wrapped : value).then(function(arg) {
-                        if (wrappedAwait) return void resume("next", arg);
-                        settle(result.done ? "return" : "normal", arg);
+                        wrappedAwait ? resume("next", arg) : settle(result.done ? "return" : "normal", arg);
                     }, function(err) {
                         resume("throw", err);
                     });
@@ -2044,7 +2043,7 @@
                 request.timeout = config.timeout, "onloadend" in request ? // Use onloadend if available
                 request.onloadend = onloadend : // Listen for ready state to emulate onloadend
                 request.onreadystatechange = function() {
-                    request && 4 === request.readyState && (0 !== request.status || request.responseURL && 0 === request.responseURL.indexOf("file:")) && // readystate handler is calling before onerror or ontimeout handlers,
+                    !request || 4 !== request.readyState || (0 !== request.status || request.responseURL && 0 === request.responseURL.indexOf("file:")) && // readystate handler is calling before onerror or ontimeout handlers,
                     // so we should call onloadend on the next 'tick'
                     setTimeout(onloadend);
                 }, // Handle browser request cancellation (as opposed to a manual cancellation)
@@ -5247,8 +5246,7 @@
         var global = __webpack_require__(19514), isCallable = __webpack_require__(67106), has = __webpack_require__(1521), createNonEnumerableProperty = __webpack_require__(48181), setGlobal = __webpack_require__(65933), inspectSource = __webpack_require__(71975), InternalStateModule = __webpack_require__(44670), CONFIGURABLE_FUNCTION_NAME = __webpack_require__(25160).CONFIGURABLE, getInternalState = InternalStateModule.get, enforceInternalState = InternalStateModule.enforce, TEMPLATE = String(String).split("String");
         (module.exports = function(O, key, value, options) {
             var state, unsafe = !!options && !!options.unsafe, simple = !!options && !!options.enumerable, noTargetGet = !!options && !!options.noTargetGet, name = options && void 0 !== options.name ? options.name : key;
-            if (isCallable(value) && ("Symbol(" === String(name).slice(0, 7) && (name = "[" + String(name).replace(/^Symbol\(([^)]*)\)/, "$1") + "]"), (!has(value, "name") || CONFIGURABLE_FUNCTION_NAME && value.name !== name) && createNonEnumerableProperty(value, "name", name), (state = enforceInternalState(value)).source || (state.source = TEMPLATE.join("string" == typeof name ? name : ""))), O === global) return void (simple ? O[key] = value : setGlobal(key, value));
-            unsafe ? !noTargetGet && O[key] && (simple = !0) : delete O[key], simple ? O[key] = value : createNonEnumerableProperty(O, key, value);
+            (isCallable(value) && ("Symbol(" === String(name).slice(0, 7) && (name = "[" + String(name).replace(/^Symbol\(([^)]*)\)/, "$1") + "]"), (!has(value, "name") || CONFIGURABLE_FUNCTION_NAME && value.name !== name) && createNonEnumerableProperty(value, "name", name), (state = enforceInternalState(value)).source || (state.source = TEMPLATE.join("string" == typeof name ? name : ""))), O === global) ? simple ? O[key] = value : setGlobal(key, value) : (unsafe ? !noTargetGet && O[key] && (simple = !0) : delete O[key], simple ? O[key] = value : createNonEnumerableProperty(O, key, value));
         // add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
         })(Function.prototype, "toString", function() {
             return isCallable(this) && getInternalState(this).source || inspectSource(this);
@@ -19057,7 +19055,7 @@
         exports.__esModule = !0;
         var _env = __webpack_require__(76332);
         Object.keys(_env).forEach(function(key) {
-            "default" !== key && "__esModule" !== key && (key in exports && exports[key] === _env[key] || (exports[key] = _env[key]));
+            "default" === key || "__esModule" === key || key in exports && exports[key] === _env[key] || (exports[key] = _env[key]);
         });
     /***/ }
 }, __webpack_module_cache__ = {};

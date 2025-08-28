@@ -5639,8 +5639,7 @@
             "use strict";
             const inherits = __webpack_require__(5717), Reporter = __webpack_require__(8465)/* .Reporter */ .b, Buffer = __webpack_require__(2399).Buffer;
             function DecoderBuffer(base, options) {
-                if (Reporter.call(this, options), !Buffer.isBuffer(base)) return void this.error('Input not Buffer');
-                this.base = base, this.offset = 0, this.length = base.length;
+                (Reporter.call(this, options), Buffer.isBuffer(base)) ? (this.base = base, this.offset = 0, this.length = base.length) : this.error('Input not Buffer');
             }
             function EncoderBuffer(value, reporter) {
                 if (Array.isArray(value)) this.length = 0, this.value = value.map(function(item) {
@@ -6504,7 +6503,7 @@
                     request.timeout = config.timeout, 'onloadend' in request ? // Use onloadend if available
                     request.onloadend = onloadend : // Listen for ready state to emulate onloadend
                     request.onreadystatechange = function() {
-                        request && 4 === request.readyState && (0 !== request.status || request.responseURL && 0 === request.responseURL.indexOf('file:')) && // readystate handler is calling before onerror or ontimeout handlers,
+                        !request || 4 !== request.readyState || (0 !== request.status || request.responseURL && 0 === request.responseURL.indexOf('file:')) && // readystate handler is calling before onerror or ontimeout handlers,
                         // so we should call onloadend on the next 'tick'
                         setTimeout(onloadend);
                     }, // Handle browser request cancellation (as opposed to a manual cancellation)
@@ -6537,12 +6536,11 @@
                         request && (reject(!cancel || cancel && cancel.type ? new CanceledError() : cancel), request.abort(), request = null);
                     }, config.cancelToken && config.cancelToken.subscribe(onCanceled), config.signal && (config.signal.aborted ? onCanceled() : config.signal.addEventListener('abort', onCanceled))), requestData || (requestData = null);
                     var protocol = parseProtocol(fullPath);
-                    if (protocol && -1 === [
+                    protocol && -1 === [
                         'http',
                         'https',
                         'file'
-                    ].indexOf(protocol)) return void reject(new AxiosError('Unsupported protocol ' + protocol + ':', AxiosError.ERR_BAD_REQUEST, config));
-                    // Send the request
+                    ].indexOf(protocol) ? reject(new AxiosError('Unsupported protocol ' + protocol + ':', AxiosError.ERR_BAD_REQUEST, config)) : // Send the request
                     request.send(requestData);
                 });
             };
@@ -6618,8 +6616,7 @@
             }, /**
  * Subscribe to the cancel signal
  */ CancelToken.prototype.subscribe = function(listener) {
-                if (this.reason) return void listener(this.reason);
-                this._listeners ? this._listeners.push(listener) : this._listeners = [
+                this.reason ? listener(this.reason) : this._listeners ? this._listeners.push(listener) : this._listeners = [
                     listener
                 ];
             }, /**
@@ -19679,7 +19676,7 @@
                                 }
                                 t.push(null);
                             }), e.on("data", function(i) {
-                                u("wrapped data"), r.decoder && (i = r.decoder.write(i)), (!r.objectMode || null != i) && (r.objectMode || i && i.length) && (t.push(i) || (n = !0, e.pause()));
+                                u("wrapped data"), r.decoder && (i = r.decoder.write(i)), r.objectMode && null == i || (r.objectMode || i && i.length) && (t.push(i) || (n = !0, e.pause()));
                             }), e)void 0 === this[i] && "function" == typeof e[i] && (this[i] = function(t) {
                                 return function() {
                                     return e[t].apply(e, arguments);
@@ -20014,8 +20011,7 @@
                         function wrapForNext(e, t) {
                             return function(r, n) {
                                 e.then(function() {
-                                    if (t[f]) return void r(createIterResult(void 0, !0));
-                                    t[u](r, n);
+                                    t[f] ? r(createIterResult(void 0, !0)) : t[u](r, n);
                                 }, n);
                             };
                         }
@@ -20047,8 +20043,7 @@
                             var e = this;
                             return new Promise(function(t, r) {
                                 e[d].destroy(null, function(e) {
-                                    if (e) return void r(e);
-                                    t(createIterResult(void 0, !0));
+                                    e ? r(e) : t(createIterResult(void 0, !0));
                                 });
                             });
                         }), n), c);
@@ -20250,7 +20245,7 @@
                             emitErrorNT(e, t), emitCloseNT(e);
                         }
                         function emitCloseNT(e) {
-                            (!e._writableState || e._writableState.emitClose) && (!e._readableState || e._readableState.emitClose) && e.emit("close");
+                            e._writableState && !e._writableState.emitClose || (!e._readableState || e._readableState.emitClose) && e.emit("close");
                         }
                         function emitErrorNT(e, t) {
                             e.emit("error", t);

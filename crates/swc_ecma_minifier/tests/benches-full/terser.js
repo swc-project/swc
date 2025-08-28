@@ -3126,8 +3126,7 @@
         },
         /** go through the bits that are executed instantly, not when the class is `new`'d. Doesn't walk the name. */ visit_nondeferred_class_parts (visitor) {
             this.extends && this.extends._walk(visitor), this.properties.forEach((prop)=>{
-                if (prop instanceof AST_ClassStaticBlock) return void prop._walk(visitor);
-                prop.computed_key() && (visitor.push(prop), prop.key._walk(visitor), visitor.pop()), (prop instanceof AST_ClassPrivateProperty || prop instanceof AST_ClassProperty) && prop.static && prop.value && (visitor.push(prop), prop.value._walk(visitor), visitor.pop());
+                prop instanceof AST_ClassStaticBlock ? prop._walk(visitor) : (prop.computed_key() && (visitor.push(prop), prop.key._walk(visitor), visitor.pop()), (prop instanceof AST_ClassPrivateProperty || prop instanceof AST_ClassProperty) && prop.static && prop.value && (visitor.push(prop), prop.value._walk(visitor), visitor.pop()));
             });
         },
         /** go through the bits that are executed later, when the class is `new`'d or a static method is called */ visit_deferred_class_parts (visitor) {
