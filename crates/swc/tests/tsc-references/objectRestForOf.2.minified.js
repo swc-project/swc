@@ -12,6 +12,6 @@ for (let _ref of array){
 for (var _ref of array)_object_without_properties(_ref, [
     "x"
 ]), { x: xx } = _ref;
-for (let norest of array.map((a)=>_object_spread_props(_object_spread({}, a), {
+for (const norest of array.map((a)=>_object_spread_props(_object_spread({}, a), {
         x: 'a string'
     })))norest.x, norest.y;

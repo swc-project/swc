@@ -1,4 +1,4 @@
-let Foo = createFoo();
+const Foo = createFoo();
 export function App() {
     return React.createElement("view", null, React.createElement(Foo, null));
 }

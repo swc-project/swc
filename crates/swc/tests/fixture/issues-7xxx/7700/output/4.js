@@ -1,4 +1,4 @@
-let positions = {
+const positions = {
     top: 1,
     left: 2,
     right: 3,

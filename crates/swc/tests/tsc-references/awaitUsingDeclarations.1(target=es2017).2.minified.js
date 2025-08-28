@@ -1,7 +1,7 @@
 //// [awaitUsingDeclarations.1.ts]
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
-let env = {
+const env = {
     stack: [],
     error: void 0,
     hasError: !1
@@ -11,7 +11,7 @@ try {
         async [Symbol.asyncDispose] () {}
     }, !0);
     {
-        let env = {
+        const env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -23,13 +23,13 @@ try {
         } catch (e) {
             env.error = e, env.hasError = !0;
         } finally{
-            let result = _ts_dispose_resources(env);
+            const result = _ts_dispose_resources(env);
             result && await result;
         }
     }
     switch(Math.random()){
         case 0:
-            let env1 = {
+            const env1 = {
                 stack: [],
                 error: void 0,
                 hasError: !1
@@ -42,11 +42,11 @@ try {
             } catch (e) {
                 env1.error = e, env1.hasError = !0;
             } finally{
-                let result = _ts_dispose_resources(env1);
+                const result = _ts_dispose_resources(env1);
                 result && await result;
             }
         case 1:
-            let env2 = {
+            const env2 = {
                 stack: [],
                 error: void 0,
                 hasError: !1
@@ -58,12 +58,12 @@ try {
             } catch (e) {
                 env2.error = e, env2.hasError = !0;
             } finally{
-                let result = _ts_dispose_resources(env2);
+                const result = _ts_dispose_resources(env2);
                 result && await result;
             }
     }
     {
-        let env3 = {
+        const env3 = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -75,12 +75,12 @@ try {
         } catch (e) {
             env3.error = e, env3.hasError = !0;
         } finally{
-            let result = _ts_dispose_resources(env3);
+            const result = _ts_dispose_resources(env3);
             result && await result;
         }
     }
     try {
-        let env = {
+        const env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -92,11 +92,11 @@ try {
         } catch (e) {
             env.error = e, env.hasError = !0;
         } finally{
-            let result = _ts_dispose_resources(env);
+            const result = _ts_dispose_resources(env);
             result && await result;
         }
     } catch (e) {
-        let env = {
+        const env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -108,11 +108,11 @@ try {
         } catch (e) {
             env.error = e, env.hasError = !0;
         } finally{
-            let result = _ts_dispose_resources(env);
+            const result = _ts_dispose_resources(env);
             result && await result;
         }
     } finally{
-        let env = {
+        const env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -124,12 +124,12 @@ try {
         } catch (e) {
             env.error = e, env.hasError = !0;
         } finally{
-            let result = _ts_dispose_resources(env);
+            const result = _ts_dispose_resources(env);
             result && await result;
         }
     }
     {
-        let env = {
+        const env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -141,12 +141,12 @@ try {
         } catch (e) {
             env.error = e, env.hasError = !0;
         } finally{
-            let result = _ts_dispose_resources(env);
+            const result = _ts_dispose_resources(env);
             result && await result;
         }
     }
     for(;;){
-        let env = {
+        const env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -159,12 +159,12 @@ try {
         } catch (e) {
             env.error = e, env.hasError = !0;
         } finally{
-            let result = _ts_dispose_resources(env);
+            const result = _ts_dispose_resources(env);
             result && await result;
         }
     }
     for(;;){
-        let env = {
+        const env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -177,12 +177,12 @@ try {
         } catch (e) {
             env.error = e, env.hasError = !0;
         } finally{
-            let result = _ts_dispose_resources(env);
+            const result = _ts_dispose_resources(env);
             result && await result;
         }
     }
     for(;;){
-        let env = {
+        const env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -195,12 +195,12 @@ try {
         } catch (e) {
             env.error = e, env.hasError = !0;
         } finally{
-            let result = _ts_dispose_resources(env);
+            const result = _ts_dispose_resources(env);
             result && await result;
         }
     }
-    for(let x in {}){
-        let env = {
+    for(const x in {}){
+        const env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -212,12 +212,12 @@ try {
         } catch (e) {
             env.error = e, env.hasError = !0;
         } finally{
-            let result = _ts_dispose_resources(env);
+            const result = _ts_dispose_resources(env);
             result && await result;
         }
     }
-    for (let x of []){
-        let env = {
+    for (const x of []){
+        const env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -229,13 +229,13 @@ try {
         } catch (e) {
             env.error = e, env.hasError = !0;
         } finally{
-            let result = _ts_dispose_resources(env);
+            const result = _ts_dispose_resources(env);
             result && await result;
         }
     }
 } catch (e) {
     env.error = e, env.hasError = !0;
 } finally{
-    let result = _ts_dispose_resources(env);
+    const result = _ts_dispose_resources(env);
     result && await result;
 }

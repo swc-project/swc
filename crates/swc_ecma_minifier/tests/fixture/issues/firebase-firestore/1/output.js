@@ -7314,12 +7314,8 @@
                 ]), a.snapshot;
             }
             /** Stops listening to the query. */ async function ic(t, e) {
-                const s = t.Oo.get(e), i = t.Fo.get(s.targetId);
-                i.length > 1 ? (t.Fo.set(s.targetId, i.filter((t)=>!Ae(t, e))), t.Oo.delete(e)) : t.isPrimaryClient ? (// We need to remove the local query target first to allow us to verify
                 let s = t.Oo.get(e), i = t.Fo.get(s.targetId);
-                if (i.length > 1) return t.Fo.set(s.targetId, i.filter((t)=>!Ae(t, e))), void t.Oo.delete(e);
-                // No other queries are mapped to the target, clean up the query and the target.
-                t.isPrimaryClient ? (// We need to remove the local query target first to allow us to verify
+                i.length > 1 ? (t.Fo.set(s.targetId, i.filter((t)=>!Ae(t, e))), t.Oo.delete(e)) : t.isPrimaryClient ? (// We need to remove the local query target first to allow us to verify
                 // whether any other client is still interested in this target.
                 t.sharedClientState.removeLocalQueryTarget(s.targetId), t.sharedClientState.isActiveQueryTarget(s.targetId) || await gr(t.localStore, s.targetId, /*keepPersistedTargetData=*/ !1).then(()=>{
                     t.sharedClientState.clearQueryState(s.targetId), ao(t.remoteStore, s.targetId), wc(t, s.targetId);
