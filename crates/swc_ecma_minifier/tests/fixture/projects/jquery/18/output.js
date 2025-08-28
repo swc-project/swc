@@ -1,4 +1,4 @@
-export const obj = {
+export let obj = {
     tweener: function(props, callback) {
         jQuery.isFunction(props) ? (callback = props, props = [
             "*"

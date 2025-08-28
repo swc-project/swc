@@ -1,1 +1,1 @@
-export const foo = 6;
+export let foo = 6;

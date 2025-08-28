@@ -1,4 +1,4 @@
-export const obj = {
+export let obj = {
     setOffset: function(elem, options, i) {
         var position = jQuery.css(elem, "position");
         "static" === position && (elem.style.position = "relative");

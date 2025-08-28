@@ -1,5 +1,5 @@
 import { a as l, y, m } from "../index.f66dda46.js";
-const json = {
+let json = {
     foo: 42,
     bar: "bar"
 };

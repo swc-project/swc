@@ -1,4 +1,4 @@
-export const obj = {
+export let obj = {
     style: function(elem, name, value, extra) {
         // Don't set styles on text and comment nodes
         if (elem && 3 !== elem.nodeType && 8 !== elem.nodeType && elem.style) {

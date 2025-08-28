@@ -1,6 +1,6 @@
 import { a, b } from "./utils";
 "undefined" != typeof window && require("intersection-observer");
-const manager = function() {
+let manager = function() {
     let c = new Map();
     function j(k) {
         return c.has(k) ? c.get(k) : c.set(k, new Map()).get(k);
@@ -28,6 +28,6 @@ const manager = function() {
     };
 }();
 export default manager;
-export const { d } = manager;
-export const { l } = manager;
-export const { q } = manager;
+export let { d } = manager;
+export let { l } = manager;
+export let { q } = manager;

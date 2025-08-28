@@ -1,5 +1,5 @@
 var Model = window.Model || {};
-export const E = {
+export let E = {
     set: function(models, options) {
         (options = _.defaults({}, options, setOptions)).parse && (models = this.parse(models, options));
         var i, l, id, model, attrs, existing, sort, singular = !_.isArray(models);

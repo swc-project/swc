@@ -1,5 +1,5 @@
 "use strict";
-const k = function() {
+let k = function() {
     for(var x in [
         4242
     ])break;
