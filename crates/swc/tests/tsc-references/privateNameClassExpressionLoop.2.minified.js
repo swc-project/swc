@@ -2,7 +2,7 @@
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
 import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
-const array = [];
+let array = [];
 for(let i = 0; i < 10; ++i){
     var _myField, _method, _accessor;
     function get_accessor() {

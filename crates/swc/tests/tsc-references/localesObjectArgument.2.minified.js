@@ -1,5 +1,5 @@
 //// [localesObjectArgument.ts]
-const enUS = new Intl.Locale("en-US"), deDE = new Intl.Locale("de-DE"), jaJP = new Intl.Locale("ja-JP"), now = new Date(), readonlyLocales = [
+let enUS = new Intl.Locale("en-US"), deDE = new Intl.Locale("de-DE"), jaJP = new Intl.Locale("ja-JP"), now = new Date(), readonlyLocales = [
     'de-DE',
     'ja-JP'
 ];

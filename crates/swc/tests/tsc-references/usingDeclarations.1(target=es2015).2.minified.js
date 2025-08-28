@@ -4,7 +4,7 @@ import "@swc/helpers/_/_await_async_generator";
 import "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
-const env = {
+let env = {
     stack: [],
     error: void 0,
     hasError: !1
@@ -14,7 +14,7 @@ try {
     _ts_add_disposable_resource(env, {
         [Symbol.dispose] () {}
     }, !1);
-    const env1 = {
+    let env1 = {
         stack: [],
         error: void 0,
         hasError: !1
@@ -44,7 +44,7 @@ try {
         _ts_dispose_resources(env2);
     }
     {
-        const env = {
+        let env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -61,7 +61,7 @@ try {
     }
     switch(Math.random()){
         case 0:
-            const env11 = {
+            let env11 = {
                 stack: [],
                 error: void 0,
                 hasError: !1
@@ -77,7 +77,7 @@ try {
                 _ts_dispose_resources(env11);
             }
         case 1:
-            const env21 = {
+            let env21 = {
                 stack: [],
                 error: void 0,
                 hasError: !1
@@ -93,7 +93,7 @@ try {
             }
     }
     {
-        const env3 = {
+        let env3 = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -109,7 +109,7 @@ try {
         }
     }
     try {
-        const env = {
+        let env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -124,7 +124,7 @@ try {
             _ts_dispose_resources(env);
         }
     } catch (e) {
-        const env = {
+        let env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -139,7 +139,7 @@ try {
             _ts_dispose_resources(env);
         }
     } finally{
-        const env = {
+        let env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -155,7 +155,7 @@ try {
         }
     }
     {
-        const env = {
+        let env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -171,7 +171,7 @@ try {
         }
     }
     for(;;){
-        const env = {
+        let env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -188,7 +188,7 @@ try {
         }
     }
     for(;;){
-        const env = {
+        let env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -205,7 +205,7 @@ try {
         }
     }
     for(;;){
-        const env = {
+        let env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -221,8 +221,8 @@ try {
             _ts_dispose_resources(env);
         }
     }
-    for(const x in {}){
-        const env = {
+    for(let x in {}){
+        let env = {
             stack: [],
             error: void 0,
             hasError: !1
@@ -237,8 +237,8 @@ try {
             _ts_dispose_resources(env);
         }
     }
-    for (const x of []){
-        const env = {
+    for (let x of []){
+        let env = {
             stack: [],
             error: void 0,
             hasError: !1

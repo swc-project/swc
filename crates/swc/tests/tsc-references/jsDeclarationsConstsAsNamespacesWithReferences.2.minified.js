@@ -1,7 +1,7 @@
 //// [index.js]
-export const colors = {
+export let colors = {
     royalBlue: "#6400e4"
 };
-export const brandColors = {
+export let brandColors = {
     purple: colors.royalBlue
 };

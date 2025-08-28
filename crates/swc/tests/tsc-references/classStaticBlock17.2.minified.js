@@ -10,7 +10,7 @@ friendA = {
         _class_private_field_set(obj, _x, value);
     }
 };
-const a = new class {
+let a = new class {
     getX() {
         return _class_private_field_get(this, _x);
     }
@@ -23,7 +23,7 @@ const a = new class {
 }(41);
 new class {
     constructor(a){
-        const x = friendA.getX(a);
+        let x = friendA.getX(a);
         friendA.setX(a, x + 1);
     }
 }(a), a.getX();

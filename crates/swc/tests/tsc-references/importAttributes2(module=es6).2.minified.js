@@ -1,7 +1,7 @@
 //// [importAttributes2.ts]
 //// [0.ts]
-export const a = 1;
-export const b = 2;
+export let a = 1;
+export let b = 2;
 //// [1.ts]
 export { a, b } from './0';
 export * from './0';

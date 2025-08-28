@@ -1,7 +1,7 @@
 //// [usingDeclarations.14.ts]
 import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
 import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
-const env = {
+let env = {
     stack: [],
     error: void 0,
     hasError: !1

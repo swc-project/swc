@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
         return Testing123;
     }
 });
-const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
+let _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 class Testing123 {
 }
 Testing123.prop1 = Testing123.prop0, Testing123 = _ts_decorate._([

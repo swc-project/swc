@@ -7,7 +7,7 @@ export class cl1 {
         await import('./test');
     }
 }
-export const obj = {
+export let obj = {
     m: async ()=>{
         await import('./test');
     }
@@ -21,6 +21,6 @@ export class cl2 {
         };
     }
 }
-export const l = async ()=>{
+export let l = async ()=>{
     await import('./test');
 };
