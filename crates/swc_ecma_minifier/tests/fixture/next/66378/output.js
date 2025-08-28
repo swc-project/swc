@@ -19,7 +19,7 @@ export function base58ToBytes(s) {
 export function bytesToBase58(b) {
     return toString(b, 'base58btc');
 }
-export const SUPPORTED_PUBLIC_KEY_TYPES = {
+export let SUPPORTED_PUBLIC_KEY_TYPES = {
     ES256: [
         'JsonWebKey2020',
         'Multikey',
@@ -84,7 +84,7 @@ export const SUPPORTED_PUBLIC_KEY_TYPES = {
         'Multikey'
     ]
 };
-export const VM_TO_KEY_TYPE = {
+export let VM_TO_KEY_TYPE = {
     Secp256k1SignatureVerificationKey2018: 'Secp256k1',
     Secp256k1VerificationKey2018: 'Secp256k1',
     EcdsaSecp256k1VerificationKey2019: 'Secp256k1',
@@ -101,7 +101,7 @@ export const VM_TO_KEY_TYPE = {
     Multikey: void 0
 };
 // this is from the multicodec table https://github.com/multiformats/multicodec/blob/master/table.csv
-export const supportedCodecs = {
+export let supportedCodecs = {
     'ed25519-pub': 0xed,
     'x25519-pub': 0xec,
     'secp256k1-pub': 0xe7,
@@ -109,7 +109,7 @@ export const supportedCodecs = {
     'bls12_381-g2-pub': 0xeb,
     'p256-pub': 0x1200
 };
-export const CODEC_TO_KEY_TYPE = {
+export let CODEC_TO_KEY_TYPE = {
     'bls12_381-g1-pub': 'Bls12381G1',
     'bls12_381-g2-pub': 'Bls12381G2',
     'ed25519-pub': 'Ed25519',

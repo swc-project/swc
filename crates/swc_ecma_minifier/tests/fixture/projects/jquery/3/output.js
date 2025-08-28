@@ -1,4 +1,4 @@
-export const obj = {
+export let obj = {
     ready: function(wait) {
         // Abort if there are pending holds or we're already ready
         if (!(!0 === wait ? --jQuery.readyWait : jQuery.isReady)) {

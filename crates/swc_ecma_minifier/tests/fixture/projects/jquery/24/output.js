@@ -1,4 +1,4 @@
-export const obj = {
+export let obj = {
     buildFragment: function(elems, context, scripts, selection) {
         for(var j, elem, contains, tmp, tag, tbody, wrap, l = elems.length, // Ensure a safe fragment
         safe = createSafeFragment(context), nodes = [], i = 0; i < l; i++)if ((elem = elems[i]) || 0 === elem) // Add nodes directly

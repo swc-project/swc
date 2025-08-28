@@ -1,4 +1,4 @@
-export const E = {
+export let E = {
     _onProgress: function(e) {
         var i;
         //set the internal cache to what just came in.

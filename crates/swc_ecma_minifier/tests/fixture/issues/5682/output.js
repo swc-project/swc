@@ -1,4 +1,4 @@
-const m = 60000, h = 3600000, d = 86400000, w = 604800000, y = 31557600000;
+let m = 60000, h = 3600000, d = 86400000, w = 604800000, y = 31557600000;
 export default function(value, options) {
     try {
         if ('string' == typeof value && value.length > 0) return function(str) {

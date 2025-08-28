@@ -1,4 +1,4 @@
-export const unknownError = Response.json({
+export let unknownError = Response.json({
     message: "Unknown error."
 }, {
     status: 520

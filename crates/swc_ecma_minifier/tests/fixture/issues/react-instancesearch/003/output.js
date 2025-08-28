@@ -8,11 +8,11 @@ import { defer } from "./utils";
 function addAlgoliaAgents(searchClient) {
     "function" == typeof searchClient.addAlgoliaAgent && (searchClient.addAlgoliaAgent(`react (${ReactVersion})`), searchClient.addAlgoliaAgent(`react-instantsearch (${version})`));
 }
-const isMultiIndexContext = (widget)=>hasMultipleIndices({
+let isMultiIndexContext = (widget)=>hasMultipleIndices({
         ais: widget.props.contextValue,
         multiIndexContext: widget.props.indexContextValue
     }), isTargetedIndexEqualIndex = (widget, indexId)=>widget.props.indexContextValue.targetedIndex === indexId, sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
-    const isFirstWidgetIndex = !!firstWidget.props.indexId, isSecondWidgetIndex = !!secondWidget.props.indexId;
+    let isFirstWidgetIndex = !!firstWidget.props.indexId, isSecondWidgetIndex = !!secondWidget.props.indexId;
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
 /**

@@ -2,7 +2,7 @@ let temp;
 export function mutate(out) {
     return out[0] = 1, out[1] = 2, out[2] = 3, out;
 }
-export const myFunc = (temp = [
+export let myFunc = (temp = [
     0,
     0,
     0

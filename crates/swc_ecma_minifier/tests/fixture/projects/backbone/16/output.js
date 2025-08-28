@@ -1,4 +1,4 @@
-export const obj = {
+export let obj = {
     remove: function(models, options) {
         var i, l, index, model, singular = !_.isArray(models);
         for(models = singular ? [

@@ -1,4 +1,4 @@
-const Cache = {
+let Cache = {
     enabled: !1,
     files: {},
     add: function(key, file) {
@@ -45,7 +45,7 @@ class Loader {
     }
 }
 Loader.DEFAULT_MATERIAL_NAME = '__DEFAULT';
-const loading = {};
+let loading = {};
 class HttpError extends Error {
     constructor(message, response){
         super(message), this.response = response;

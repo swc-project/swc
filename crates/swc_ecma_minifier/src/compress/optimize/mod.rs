@@ -80,6 +80,7 @@ pub(super) fn optimizer<'a>(
     Optimizer {
         marks,
         changed: false,
+        is_module: false,
         options,
         mangle_options,
         prepend_stmts: Default::default(),
@@ -218,6 +219,7 @@ struct Optimizer<'a> {
     marks: Marks,
 
     changed: bool,
+    is_module: bool,
     options: &'a CompressOptions,
     mangle_options: Option<&'a MangleOptions>,
     /// Statements prepended to the current statement.
@@ -2258,6 +2260,11 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
+    fn visit_mut_module(&mut self, m: &mut Module) {
+        self.is_module = true;
+        m.visit_mut_children_with(self);
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
     fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
         s.visit_mut_children_with(self);
@@ -2823,7 +2830,7 @@ impl VisitMut for Optimizer<'_> {
             });
         }
 
-        if self.options.const_to_let && (self.options.module || !self.ctx.in_top_level()) {
+        if self.options.const_to_let && (self.is_module || !self.ctx.in_top_level()) {
             if n.kind == VarDeclKind::Const {
                 // If a const variable is reassigned, we should not convert it to `let`
                 let no_reassignment = n.decls.iter().all(|var| {

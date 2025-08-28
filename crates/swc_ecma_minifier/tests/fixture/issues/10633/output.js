@@ -6,7 +6,7 @@ class A {
 export class B extends A {
     constructor(){
         super();
-        const fn = ()=>super.test();
+        let fn = ()=>super.test();
         setTimeout(function() {
             fn();
         }, 0);

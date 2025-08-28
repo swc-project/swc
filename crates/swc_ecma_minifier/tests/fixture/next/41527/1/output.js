@@ -3,11 +3,11 @@ import { EmbedBlot, Scope } from 'parchment';
 import Quill from '../core/quill';
 import logger from '../core/logger';
 import Module from '../core/module';
-const debug = logger('quill:toolbar');
+let debug = logger('quill:toolbar');
 class Toolbar extends Module {
     constructor(quill, options){
         if (super(quill, options), Array.isArray(this.options.container)) {
-            const container = document.createElement('div');
+            let container = document.createElement('div');
             addControls(container, this.options.container), quill.container.parentNode.insertBefore(container, quill.container), this.container = container;
         } else 'string' == typeof this.options.container ? this.container = document.querySelector(this.options.container) : this.container = this.options.container;
         if (!(this.container instanceof HTMLElement)) return void debug.error('Container required for toolbar', this.options);
@@ -18,7 +18,7 @@ class Toolbar extends Module {
         }), this.quill.on(Quill.events.EDITOR_CHANGE, (type, range)=>{
             type === Quill.events.SELECTION_CHANGE && this.update(range);
         }), this.quill.on(Quill.events.SCROLL_OPTIMIZE, ()=>{
-            const [range] = this.quill.selection.getRange();
+            let [range] = this.quill.selection.getRange();
             this.update(range);
         });
     }
