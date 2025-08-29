@@ -7,14 +7,15 @@ use swc_ecma_minifier::option::SimpleMangleCache;
 
 fn main() {
     let cm = Arc::<SourceMap>::default();
+    let path = std::env::args()
+        .nth(1)
+        .unwrap_or_else(|| "examples/transform-input.js".to_string());
 
     let c = swc::Compiler::new(cm.clone());
     let output = GLOBALS
         .set(&Default::default(), || {
             try_with_handler(cm.clone(), Default::default(), |handler| {
-                let fm = cm
-                    .load_file(Path::new("examples/transform-input.js"))
-                    .expect("failed to load file");
+                let fm = cm.load_file(Path::new(&path)).expect("failed to load file");
 
                 c.minify(
                     fm,

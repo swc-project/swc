@@ -49,8 +49,9 @@ use swc_ecma_transforms::{
     hygiene::{self, hygiene_with_config},
     modules::{
         self,
+        import_rewriter_swc::swc_import_rewriter,
+        import_rewriter_typescript::typescript_import_rewriter,
         path::{ImportResolver, NodeImportResolver, Resolver},
-        rewriter::import_rewriter,
         util, EsModuleConfig,
     },
     optimization::{const_modules, json_parse, simplifier},
@@ -299,6 +300,7 @@ impl Options {
             #[cfg(feature = "lint")]
             lints,
             preserve_all_comments,
+            rewrite_relative_import_extensions,
             ..
         } = cfg.jsc;
         let loose = loose.into_bool();
@@ -661,6 +663,7 @@ impl Options {
                 cfg.module,
                 unresolved_mark,
                 resolver.clone(),
+                rewrite_relative_import_extensions.into_bool(),
                 |f| {
                     feature_config
                         .as_ref()
@@ -1322,6 +1325,10 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub output: JscOutputConfig,
+
+    /// https://www.typescriptlang.org/tsconfig/#rewriteRelativeImportExtensions
+    #[serde(default)]
+    pub rewrite_relative_import_extensions: BoolConfig<false>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
@@ -1458,6 +1465,7 @@ impl ModuleConfig {
         config: Option<ModuleConfig>,
         unresolved_mark: Mark,
         resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
+        rewrite_relative_import_extensions: bool,
         caniuse: impl (Fn(Feature) -> bool),
     ) -> Box<dyn Pass + 'cmt> {
         let resolver = if let Some((base, resolver)) = resolver {
@@ -1472,8 +1480,14 @@ impl ModuleConfig {
         match config {
             None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
             {
-                Resolver::Default => Box::new(noop_pass()),
-                Resolver::Real { base, resolver } => Box::new(import_rewriter(base, resolver)),
+                Resolver::Default => {
+                    if rewrite_relative_import_extensions {
+                        Box::new(typescript_import_rewriter())
+                    } else {
+                        Box::new(noop_pass())
+                    }
+                }
+                Resolver::Real { base, resolver } => Box::new(swc_import_rewriter(base, resolver)),
             },
             Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
                 resolver,
