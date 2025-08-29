@@ -1,5 +1,5 @@
-var _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource");
-var _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources");
+import { _ as _ts_add_disposable_resource } from "@swc/helpers/_/_ts_add_disposable_resource";
+import { _ as _ts_dispose_resources } from "@swc/helpers/_/_ts_dispose_resources";
 const logClean = function() {
     return {
         [Symbol.dispose] () {
@@ -17,8 +17,8 @@ async function foo() {
         hasError: false
     };
     try {
-        const a = _ts_add_disposable_resource._(env, logClean(), false);
-        const b = _ts_add_disposable_resource._(env, logClean(), true);
+        const a = _ts_add_disposable_resource(env, logClean(), false);
+        const b = _ts_add_disposable_resource(env, logClean(), true);
         for (const _ of [
             logClean(),
             logClean()
@@ -29,13 +29,13 @@ async function foo() {
                 hasError: false
             };
             try {
-                const a = _ts_add_disposable_resource._(env, _, false);
+                const a = _ts_add_disposable_resource(env, _, false);
                 {}
             } catch (e) {
                 env.error = e;
                 env.hasError = true;
             } finally{
-                _ts_dispose_resources._(env);
+                _ts_dispose_resources(env);
             }
         }
         for (const _ of [
@@ -48,13 +48,13 @@ async function foo() {
                 hasError: false
             };
             try {
-                const a = _ts_add_disposable_resource._(env, _, true);
+                const a = _ts_add_disposable_resource(env, _, true);
                 {}
             } catch (e) {
                 env.error = e;
                 env.hasError = true;
             } finally{
-                const result = _ts_dispose_resources._(env);
+                const result = _ts_dispose_resources(env);
                 if (result) await result;
             }
         }
@@ -62,7 +62,7 @@ async function foo() {
         env.error = e;
         env.hasError = true;
     } finally{
-        const result = _ts_dispose_resources._(env);
+        const result = _ts_dispose_resources(env);
         if (result) await result;
     }
 }

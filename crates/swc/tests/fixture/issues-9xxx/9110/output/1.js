@@ -1,4 +1,4 @@
-const { jsxs: _jsxs, Fragment: _Fragment } = require("react/jsx-runtime");
+import { jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
 const createFragment = (key)=>{
     var _key_name;
     return /*#__PURE__*/ _jsxs(_Fragment, {

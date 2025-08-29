@@ -1,4 +1,4 @@
-var _require = require("react/jsx-runtime"), _jsx = _require.jsx;
+import { jsx as _jsx } from "react/jsx-runtime";
 var type = function() {
     return null;
 };

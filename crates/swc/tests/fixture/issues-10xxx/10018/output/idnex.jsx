@@ -1,3 +1,3 @@
-var _require = require("foo/jsx-runtime"), _jsx = _require.jsx;
+import { jsx as _jsx } from "foo/jsx-runtime";
 ;
 _jsx("a", {});
