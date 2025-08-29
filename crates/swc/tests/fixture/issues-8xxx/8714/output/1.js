@@ -1,4 +1,4 @@
-const foo = {
+let foo = {
     x: 1,
     y: ()=>foo
 };
