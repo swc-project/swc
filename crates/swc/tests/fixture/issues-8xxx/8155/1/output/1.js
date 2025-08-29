@@ -1,7 +1,5 @@
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 let someFn = (xx, x, y)=>[
-var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
-const someFn = (xx, x, y)=>[
         x,
         y
     ], getArray = ()=>[
