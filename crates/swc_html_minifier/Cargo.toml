@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "data/**/*.json"]
 license = { workspace = true }
 name = "swc_html_minifier"
 repository = "https://github.com/swc-project/swc.git"
-version = "30.0.0"
+version = "31.0.0"
 
 [lib]
 bench = false
@@ -42,7 +42,7 @@ swc_ecma_ast = { version = "15.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "17.0.0", path = "../swc_ecma_codegen", features = [
   "serde-impl",
 ] }
-swc_ecma_minifier = { version = "30.0.1", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "31.0.0", path = "../swc_ecma_minifier", features = [
   "extra-serde",
 ] }
 swc_ecma_parser = { version = "23.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }

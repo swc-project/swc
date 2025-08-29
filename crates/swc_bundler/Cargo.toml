@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license       = { workspace = true }
 name          = "swc_bundler"
 repository    = { workspace = true }
-version       = "29.0.0"
+version       = "30.0.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -44,7 +44,7 @@ swc_ecma_codegen                 = { version = "17.0.0", path = "../swc_ecma_cod
 swc_ecma_loader                  = { version = "14.0.0", path = "../swc_ecma_loader" }
 swc_ecma_parser                  = { version = "23.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 swc_ecma_transforms_base         = { version = "25.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "26.0.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_optimization = { version = "27.0.0", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils                   = { version = "21.0.0", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { version = "15.0.0", path = "../swc_ecma_visit" }
 swc_graph_analyzer               = { version = "14.0.1", path = "../swc_graph_analyzer/" }
@@ -62,7 +62,7 @@ swc_ecma_loader = { version = "14.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "30.0.1", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "31.0.0", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
 swc_ecma_transforms_base = { version = "25.0.0", path = "../swc_ecma_transforms_base", features = [
