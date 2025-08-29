@@ -1,1 +1,1 @@
-export const exampleCode_0="\0";export const exampleCode_x00="\0";
+export let exampleCode_0="\0";export let exampleCode_x00="\0";

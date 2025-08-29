@@ -3,7 +3,7 @@ new class {
         console.log('hello');
     }
     foobar() {
-        const callMe = ()=>this.fromArrow();
+        let callMe = ()=>this.fromArrow();
         return function() {
             callMe();
         };

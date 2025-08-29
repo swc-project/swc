@@ -1,4 +1,4 @@
-export const fn = ()=>{
+export let fn = ()=>{
     let val;
     if (val) {
         if (val.a?.b !== !0) throw Error('second');

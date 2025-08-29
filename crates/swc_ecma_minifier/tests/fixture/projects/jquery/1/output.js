@@ -1,4 +1,4 @@
-export const obj = {
+export let obj = {
     init: function(selector, context, rootjQuery) {
         var match, elem;
         // HANDLE: $(""), $(null), $(undefined), $(false)

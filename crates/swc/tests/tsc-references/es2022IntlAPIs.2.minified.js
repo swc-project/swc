@@ -1,5 +1,5 @@
 //// [es2022IntlAPIs.ts]
-for (const zoneName of [
+for (let zoneName of [
     'short',
     'long',
     'shortOffset',
@@ -10,7 +10,7 @@ for (const zoneName of [
     timeZone: 'America/Los_Angeles',
     timeZoneName: zoneName
 });
-for (const key of [
+for (let key of [
     'calendar',
     'collation',
     'currency',

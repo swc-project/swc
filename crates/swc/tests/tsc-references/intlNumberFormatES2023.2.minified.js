@@ -1,11 +1,11 @@
 //// [intlNumberFormatES2023.ts]
-const { roundingPriority, roundingMode, roundingIncrement, trailingZeroDisplay, useGrouping } = new Intl.NumberFormat('en-GB').resolvedOptions();
+let { roundingPriority, roundingMode, roundingIncrement, trailingZeroDisplay, useGrouping } = new Intl.NumberFormat('en-GB').resolvedOptions();
 new Intl.NumberFormat('en-GB', {}), new Intl.NumberFormat('en-GB', {
     roundingPriority: 'lessPrecision',
     roundingIncrement: 100,
     roundingMode: 'trunc'
 });
-const { signDisplay } = new Intl.NumberFormat('en-GB', {
+let { signDisplay } = new Intl.NumberFormat('en-GB', {
     signDisplay: 'negative'
 }).resolvedOptions();
 new Intl.NumberFormat('en-GB', {

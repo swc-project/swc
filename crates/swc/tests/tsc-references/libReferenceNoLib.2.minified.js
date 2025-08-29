@@ -9,6 +9,6 @@ Object.defineProperty(exports, "__esModule", {
         return elem;
     }
 });
-const elem = {
+let elem = {
     field: 'a'
 };

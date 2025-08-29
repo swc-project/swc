@@ -1,4 +1,4 @@
-export const exported = {
+export let exported = {
     fireEvent: function(type, args, delay) {
         type = removeOn(type);
         var events = this.$events[type];

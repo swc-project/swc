@@ -1,4 +1,4 @@
-export const a = 4;
-export const b = 16;
-export const c = 5;
-export const d = ()=>4;
+export let a = 4;
+export let b = 16;
+export let c = 5;
+export let d = ()=>4;

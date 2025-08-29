@@ -3,4 +3,4 @@ let obj = {
     bar: 2
 };
 console.log(obj.bar);
-export const o = obj;
+export let o = obj;

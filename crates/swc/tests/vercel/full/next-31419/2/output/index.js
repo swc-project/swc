@@ -9,7 +9,7 @@ Promise.all(assignAll).then(function(n) {
         }
     })();
 });
-export const listOfUser = function(n) {
+export let listOfUser = function(n) {
     return new Promise(function(r, t) {
         return e(function*() {
             let e = `Select Distinct id from "TABLE" Where id = '${n}' And user_id IS not null`;

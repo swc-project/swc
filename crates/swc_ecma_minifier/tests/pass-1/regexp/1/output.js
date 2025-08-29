@@ -1,1 +1,1 @@
-export const foo = RegExp("");
+export let foo = RegExp("");

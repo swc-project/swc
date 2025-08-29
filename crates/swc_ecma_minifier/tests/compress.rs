@@ -130,7 +130,6 @@ fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> (bool, CompressOption
         serde_json::from_str(s).expect("failed to deserialize value into a compressor config");
 
     c.defaults = opts.defaults;
-    c.const_to_let = Some(false);
     c.pristine_globals = Some(true);
     c.passes = opts.passes;
 

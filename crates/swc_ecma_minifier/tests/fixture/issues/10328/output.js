@@ -1,6 +1,7 @@
 function g(x, v) {
     if ("a" === x) {
-        const h = i({
+        let h;
+        h = i({
             onCancel: ()=>h()
         });
     } else {

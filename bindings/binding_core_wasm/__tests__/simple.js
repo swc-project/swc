@@ -197,7 +197,7 @@ describe("minify", () => {
 
         expect(output).toMatchInlineSnapshot(`
             {
-              "code": "let somename=1;console.log(1);",
+              "code": "const somename=1;console.log(1);",
               "diagnostics": [],
             }
         `);
@@ -211,7 +211,7 @@ describe("minify", () => {
 
         expect(output).toMatchInlineSnapshot(`
             {
-              "code": "let somename=1;console.log(1);",
+              "code": "const somename=1;console.log(1);",
               "diagnostics": [],
             }
         `);

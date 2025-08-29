@@ -1,7 +1,7 @@
 import "../index.f66dda46.js";
 import { t as toStatic } from "./hoofd.module.6c5395cb.js";
 async function prerender(vnode) {
-    const res = await import("../prerender.daa73035/input.js").then((m)=>m.default(vnode, void 0)), head = toStatic(), elements = new Set([
+    let res = await import("../prerender.daa73035/input.js").then((m)=>m.default(vnode, void 0)), head = toStatic(), elements = new Set([
         ...head.links.map((props)=>({
                 type: "link",
                 props

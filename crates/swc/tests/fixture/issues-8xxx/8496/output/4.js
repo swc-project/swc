@@ -1,1 +1,1 @@
-export const strWithDollar="$login";export const use="asd$login";
+export let strWithDollar="$login";export let use="asd$login";

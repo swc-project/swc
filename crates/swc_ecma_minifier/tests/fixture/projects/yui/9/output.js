@@ -1,4 +1,4 @@
-export const E = {
+export let E = {
     _addLangPack: function(lang, m, packName) {
         var conf, name = m.name;
         return !this.moduleInfo[packName] && (conf = {

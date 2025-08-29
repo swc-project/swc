@@ -1,4 +1,4 @@
-export const obj = {
+export let obj = {
     inArray: function(elem, arr, i) {
         var len;
         if (arr) {

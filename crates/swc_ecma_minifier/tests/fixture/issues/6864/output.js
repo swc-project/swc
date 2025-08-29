@@ -5,7 +5,7 @@ export function removeFromMatrix(matrix, id) {
     if (!row) return matrix;
     if (1 === row.length) {
         if (2 === (newMatrix = _.without(matrix, row))[0].length) {
-            const remainingEntry = newMatrix[0];
+            let remainingEntry = newMatrix[0];
             newMatrix = [
                 [
                     remainingEntry[0]
