@@ -1,1 +1,1 @@
-function Page(o){o.foo}Page();
+function o(o){o.foo}o();

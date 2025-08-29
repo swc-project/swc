@@ -1,14 +1,13 @@
-var _call_super = require("@swc/helpers/_/_call_super");
-var _class_call_check = require("@swc/helpers/_/_class_call_check");
-var _decorate = require("@swc/helpers/_/_decorate");
-var _get = require("@swc/helpers/_/_get");
-var _get_prototype_of = require("@swc/helpers/_/_get_prototype_of");
-var _inherits = require("@swc/helpers/_/_inherits");
-var SomeClass = _decorate._([], function(_initialize) {
-    "use strict";
+import { _ as _call_super } from "@swc/helpers/_/_call_super";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+import { _ as _decorate } from "@swc/helpers/_/_decorate";
+import { _ as _get } from "@swc/helpers/_/_get";
+import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+import { _ as _inherits } from "@swc/helpers/_/_inherits";
+var SomeClass = _decorate([], function(_initialize) {
     var SomeClass = function SomeClass() {
         "use strict";
-        _class_call_check._(this, SomeClass);
+        _class_call_check(this, SomeClass);
         _initialize(this);
     };
     return {
@@ -25,15 +24,14 @@ var SomeClass = _decorate._([], function(_initialize) {
         ]
     };
 });
-var OtherClass = _decorate._([], function(_initialize, _SomeClass) {
-    "use strict";
+var OtherClass = _decorate([], function(_initialize, _SomeClass) {
     var OtherClass = /*#__PURE__*/ function(_SomeClass) {
         "use strict";
-        _inherits._(OtherClass, _SomeClass);
+        _inherits(OtherClass, _SomeClass);
         function OtherClass() {
-            _class_call_check._(this, OtherClass);
+            _class_call_check(this, OtherClass);
             var _this;
-            _this = _call_super._(this, OtherClass, arguments);
+            _this = _call_super(this, OtherClass, arguments);
             _initialize(_this);
             return _this;
         }
@@ -49,7 +47,7 @@ var OtherClass = _decorate._([], function(_initialize, _SomeClass) {
                 ],
                 key: "anotherMethod",
                 value: function anotherMethod() {
-                    _get._(_get_prototype_of._(OtherClass.prototype), "someMethod", this).call(this);
+                    _get(_get_prototype_of(OtherClass.prototype), "someMethod", this).call(this);
                 }
             }
         ]

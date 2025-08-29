@@ -1,4 +1,4 @@
-var _require = require("react/jsx-runtime"), _jsx = _require.jsx;
+import { jsx as _jsx } from "react/jsx-runtime";
 var render = function() {
     return /*#__PURE__*/ _jsx(widget.component.type, {});
 };
