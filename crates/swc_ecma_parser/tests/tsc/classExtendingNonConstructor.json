@@ -294,7 +294,8 @@
           "end": 181
         },
         "value": "hello",
-        "raw": "\"hello\""
+        "raw": "\"hello\"",
+        "loneSurrogates": false
       },
       "isAbstract": false,
       "typeParams": null,

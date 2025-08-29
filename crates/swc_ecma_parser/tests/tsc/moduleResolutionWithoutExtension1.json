@@ -52,7 +52,8 @@
                   "end": 114
                 },
                 "value": "",
-                "raw": "\"\""
+                "raw": "\"\"",
+                "loneSurrogates": false
               }
             }
           ]
@@ -97,7 +98,8 @@
           "end": 230
         },
         "value": "./foo",
-        "raw": "\"./foo\""
+        "raw": "\"./foo\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -137,7 +139,8 @@
           "end": 298
         },
         "value": "./baz",
-        "raw": "\"./baz\""
+        "raw": "\"./baz\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

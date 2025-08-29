@@ -183,7 +183,8 @@
                 },
                 "tail": false,
                 "cooked": "",
-                "raw": ""
+                "raw": "",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -193,7 +194,8 @@
                 },
                 "tail": true,
                 "cooked": "",
-                "raw": ""
+                "raw": "",
+                "loneSurrogates": false
               }
             ]
           },
@@ -286,7 +288,8 @@
                 },
                 "tail": false,
                 "cooked": "leading ",
-                "raw": "leading "
+                "raw": "leading ",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -296,7 +299,8 @@
                 },
                 "tail": true,
                 "cooked": "",
-                "raw": ""
+                "raw": "",
+                "loneSurrogates": false
               }
             ]
           },
@@ -389,7 +393,8 @@
                 },
                 "tail": false,
                 "cooked": "",
-                "raw": ""
+                "raw": "",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -399,7 +404,8 @@
                 },
                 "tail": true,
                 "cooked": " trailing",
-                "raw": " trailing"
+                "raw": " trailing",
+                "loneSurrogates": false
               }
             ]
           },
@@ -466,7 +472,8 @@
                   },
                   "tail": false,
                   "cooked": "Hello ",
-                  "raw": "Hello "
+                  "raw": "Hello ",
+                  "loneSurrogates": false
                 },
                 {
                   "type": "TemplateElement",
@@ -476,7 +483,8 @@
                   },
                   "tail": true,
                   "cooked": " World",
-                  "raw": " World"
+                  "raw": " World",
+                  "loneSurrogates": false
                 }
               ]
             },
@@ -542,7 +550,8 @@
                   },
                   "tail": true,
                   "cooked": "Hello",
-                  "raw": "Hello"
+                  "raw": "Hello",
+                  "loneSurrogates": false
                 }
               ]
             },
@@ -634,7 +643,8 @@
                     },
                     "tail": false,
                     "cooked": "",
-                    "raw": ""
+                    "raw": "",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -644,7 +654,8 @@
                     },
                     "tail": true,
                     "cooked": " end of string",
-                    "raw": " end of string"
+                    "raw": " end of string",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -739,7 +750,8 @@
                     },
                     "tail": false,
                     "cooked": "Hello ",
-                    "raw": "Hello "
+                    "raw": "Hello ",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -749,7 +761,8 @@
                     },
                     "tail": true,
                     "cooked": " World",
-                    "raw": " World"
+                    "raw": " World",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -834,7 +847,8 @@
                     },
                     "tail": true,
                     "cooked": "Hello",
-                    "raw": "Hello"
+                    "raw": "Hello",
+                    "loneSurrogates": false
                   }
                 ]
               }

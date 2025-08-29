@@ -183,7 +183,8 @@
             "end": 89
           },
           "value": "object",
-          "raw": "\"object\""
+          "raw": "\"object\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {

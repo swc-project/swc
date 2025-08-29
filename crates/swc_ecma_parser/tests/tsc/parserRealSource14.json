@@ -2348,7 +2348,8 @@
                                       "end": 1792
                                     },
                                     "value": "Invalid call to 'up'",
-                                    "raw": "\"Invalid call to 'up'\""
+                                    "raw": "\"Invalid call to 'up'\"",
+                                    "loneSurrogates": false
                                   }
                                 }
                               ],
@@ -2562,7 +2563,8 @@
                                       "end": 1959
                                     },
                                     "value": "Invalid call to 'down'",
-                                    "raw": "\"Invalid call to 'down'\""
+                                    "raw": "\"Invalid call to 'down'\"",
+                                    "loneSurrogates": false
                                   }
                                 }
                               ],

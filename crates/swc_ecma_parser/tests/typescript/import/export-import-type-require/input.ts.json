@@ -36,7 +36,8 @@
             "end": 43
           },
           "value": "react",
-          "raw": "\"react\""
+          "raw": "\"react\"",
+          "loneSurrogates": false
         }
       }
     }

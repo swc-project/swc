@@ -52,7 +52,8 @@
           "end": 311
         },
         "value": "./ts.js",
-        "raw": "\"./ts.js\""
+        "raw": "\"./ts.js\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -72,7 +73,8 @@
           "end": 337
         },
         "value": "./ts.ts",
-        "raw": "\"./ts.ts\""
+        "raw": "\"./ts.ts\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -92,7 +94,8 @@
           "end": 370
         },
         "value": "./ts.d.ts",
-        "raw": "\"./ts.d.ts\""
+        "raw": "\"./ts.d.ts\"",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null,
@@ -112,7 +115,8 @@
           "end": 398
         },
         "value": "./tsx.js",
-        "raw": "\"./tsx.js\""
+        "raw": "\"./tsx.js\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -132,7 +136,8 @@
           "end": 426
         },
         "value": "./tsx.jsx",
-        "raw": "\"./tsx.jsx\""
+        "raw": "\"./tsx.jsx\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -152,7 +157,8 @@
           "end": 453
         },
         "value": "./tsx.ts",
-        "raw": "\"./tsx.ts\""
+        "raw": "\"./tsx.ts\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -172,7 +178,8 @@
           "end": 481
         },
         "value": "./tsx.tsx",
-        "raw": "\"./tsx.tsx\""
+        "raw": "\"./tsx.tsx\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -192,7 +199,8 @@
           "end": 515
         },
         "value": "./tsx.d.ts",
-        "raw": "\"./tsx.d.ts\""
+        "raw": "\"./tsx.d.ts\"",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null,
@@ -212,7 +220,8 @@
           "end": 543
         },
         "value": "./dts.js",
-        "raw": "\"./dts.js\""
+        "raw": "\"./dts.js\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -232,7 +241,8 @@
           "end": 570
         },
         "value": "./dts.ts",
-        "raw": "\"./dts.ts\""
+        "raw": "\"./dts.ts\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -252,7 +262,8 @@
           "end": 604
         },
         "value": "./dts.d.ts",
-        "raw": "\"./dts.d.ts\""
+        "raw": "\"./dts.d.ts\"",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null,
@@ -272,7 +283,8 @@
           "end": 669
         },
         "value": "./thisfiledoesnotexist.ts",
-        "raw": "\"./thisfiledoesnotexist.ts\""
+        "raw": "\"./thisfiledoesnotexist.ts\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

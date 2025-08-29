@@ -33,6 +33,7 @@ pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
                         span: DUMMY_SP,
                         raw: None,
                         value: name.into(),
+                        lone_surrogates: false,
                     }
                     .assign_to(Ident::new_no_ctxt(atom!("INJECTED_FROM"), DUMMY_SP)),
                 ]
@@ -193,6 +194,7 @@ fn metadata(key: &str, value: &str) -> PropOrSpread {
             span: DUMMY_SP,
             value: value.into(),
             raw: None,
+            lone_surrogates: false,
         })
         .into(),
     })))

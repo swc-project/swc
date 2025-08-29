@@ -126,7 +126,8 @@
                         "end": 387
                       },
                       "value": "#1: var\\nx\\n=\\n1\\n; x === 1. Actual: ",
-                      "raw": "'#1: var\\\\nx\\\\n=\\\\n1\\\\n; x === 1. Actual: '"
+                      "raw": "'#1: var\\\\nx\\\\n=\\\\n1\\\\n; x === 1. Actual: '",
+                      "loneSurrogates": false
                     },
                     "right": {
                       "type": "ParenthesisExpression",

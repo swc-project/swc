@@ -197,7 +197,8 @@
                               "end": 116
                             },
                             "value": "",
-                            "raw": "\"\""
+                            "raw": "\"\"",
+                            "loneSurrogates": false
                           }
                         }
                       ]

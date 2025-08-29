@@ -613,7 +613,8 @@
               "end": 397
             },
             "value": "test",
-            "raw": "\"test\""
+            "raw": "\"test\"",
+            "loneSurrogates": false
           },
           "definite": false
         }

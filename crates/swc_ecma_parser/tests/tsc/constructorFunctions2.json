@@ -213,7 +213,8 @@
                     "end": 232
                   },
                   "value": "./other",
-                  "raw": "\"./other\""
+                  "raw": "\"./other\"",
+                  "loneSurrogates": false
                 }
               }
             ],

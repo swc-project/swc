@@ -301,7 +301,8 @@
                       "end": 304
                     },
                     "value": "defaulPath",
-                    "raw": "\"defaulPath\""
+                    "raw": "\"defaulPath\"",
+                    "loneSurrogates": false
                   }
                 }
               }
@@ -496,7 +497,8 @@
                           "end": 396
                         },
                         "value": "path1",
-                        "raw": "\"path1\""
+                        "raw": "\"path1\"",
+                        "loneSurrogates": false
                       }
                     },
                     {
@@ -508,7 +510,8 @@
                           "end": 405
                         },
                         "value": "path2",
-                        "raw": "\"path2\""
+                        "raw": "\"path2\"",
+                        "loneSurrogates": false
                       }
                     }
                   ]
@@ -581,7 +584,8 @@
                       "end": 443
                     },
                     "value": "PathToModule",
-                    "raw": "\"PathToModule\""
+                    "raw": "\"PathToModule\"",
+                    "loneSurrogates": false
                   },
                   "async": false,
                   "generator": false,

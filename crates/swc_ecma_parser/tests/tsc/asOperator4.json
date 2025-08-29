@@ -80,7 +80,8 @@
           "end": 116
         },
         "value": "./foo",
-        "raw": "'./foo'"
+        "raw": "'./foo'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

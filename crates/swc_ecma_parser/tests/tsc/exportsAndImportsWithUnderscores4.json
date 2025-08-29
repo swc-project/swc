@@ -133,7 +133,8 @@
                         "end": 124
                       },
                       "value": "_",
-                      "raw": "\"_\""
+                      "raw": "\"_\"",
+                      "loneSurrogates": false
                     }
                   }
                 ],
@@ -230,7 +231,8 @@
                         "end": 172
                       },
                       "value": "__",
-                      "raw": "\"__\""
+                      "raw": "\"__\"",
+                      "loneSurrogates": false
                     }
                   }
                 ],
@@ -327,7 +329,8 @@
                         "end": 222
                       },
                       "value": "___",
-                      "raw": "\"___\""
+                      "raw": "\"___\"",
+                      "loneSurrogates": false
                     }
                   }
                 ],
@@ -424,7 +427,8 @@
                         "end": 272
                       },
                       "value": "_hi",
-                      "raw": "\"_hi\""
+                      "raw": "\"_hi\"",
+                      "loneSurrogates": false
                     }
                   }
                 ],
@@ -521,7 +525,8 @@
                         "end": 330
                       },
                       "value": "__proto",
-                      "raw": "\"__proto\""
+                      "raw": "\"__proto\"",
+                      "loneSurrogates": false
                     }
                   }
                 ],
@@ -618,7 +623,8 @@
                         "end": 394
                       },
                       "value": "__esmodule",
-                      "raw": "\"__esmodule\""
+                      "raw": "\"__esmodule\"",
+                      "loneSurrogates": false
                     }
                   }
                 ],
@@ -715,7 +721,8 @@
                         "end": 453
                       },
                       "value": "___hello",
-                      "raw": "\"___hello\""
+                      "raw": "\"___hello\"",
+                      "loneSurrogates": false
                     }
                   }
                 ],
@@ -859,7 +866,8 @@
           "end": 542
         },
         "value": "./m1",
-        "raw": "\"./m1\""
+        "raw": "\"./m1\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

@@ -85,7 +85,8 @@
                 "end": 49
               },
               "value": "hello",
-              "raw": "\"hello\""
+              "raw": "\"hello\"",
+              "loneSurrogates": false
             }
           }
         ]
@@ -125,7 +126,8 @@
           "end": 73
         },
         "value": "hello",
-        "raw": "\"hello\""
+        "raw": "\"hello\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "BlockStatement",

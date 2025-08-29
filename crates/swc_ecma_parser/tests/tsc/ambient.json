@@ -113,7 +113,8 @@
           "end": 100
         },
         "value": "./a",
-        "raw": "'./a'"
+        "raw": "'./a'",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null,

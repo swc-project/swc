@@ -48,7 +48,8 @@
                 },
                 "tail": true,
                 "cooked": "𐀀",
-                "raw": "\\u{10000}"
+                "raw": "\\u{10000}",
+                "loneSurrogates": false
               }
             ]
           },

@@ -197,7 +197,8 @@
                   "end": 98
                 },
                 "value": "number",
-                "raw": "\"number\""
+                "raw": "\"number\"",
+                "loneSurrogates": false
               }
             },
             "update": {
@@ -427,7 +428,8 @@
                   "end": 241
                 },
                 "value": "number",
-                "raw": "\"number\""
+                "raw": "\"number\"",
+                "loneSurrogates": false
               }
             },
             "update": {
@@ -683,7 +685,8 @@
                   "end": 412
                 },
                 "value": "number",
-                "raw": "\"number\""
+                "raw": "\"number\"",
+                "loneSurrogates": false
               }
             },
             "update": {

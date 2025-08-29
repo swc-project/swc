@@ -109,7 +109,8 @@
           "end": 90
         },
         "value": "./a",
-        "raw": "\"./a\""
+        "raw": "\"./a\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -207,7 +208,8 @@
           "end": 168
         },
         "value": "./b",
-        "raw": "\"./b\""
+        "raw": "\"./b\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -306,7 +308,8 @@
           "end": 242
         },
         "value": "./c",
-        "raw": "\"./c\""
+        "raw": "\"./c\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

@@ -190,7 +190,8 @@
               },
               "tail": true,
               "cooked": "Hello world",
-              "raw": "Hello world"
+              "raw": "Hello world",
+              "loneSurrogates": false
             }
           ]
         }

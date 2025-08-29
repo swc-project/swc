@@ -18,7 +18,8 @@
           "end": 13
         },
         "value": "use strict",
-        "raw": "\"use strict\""
+        "raw": "\"use strict\"",
+        "loneSurrogates": false
       }
     },
     {
@@ -75,7 +76,8 @@
                     "end": 47
                   },
                   "value": "../config",
-                  "raw": "\"../config\""
+                  "raw": "\"../config\"",
+                  "loneSurrogates": false
                 }
               }
             ],
@@ -271,7 +273,8 @@
                             "end": 165
                           },
                           "value": "/auth/login",
-                          "raw": "\"/auth/login\""
+                          "raw": "\"/auth/login\"",
+                          "loneSurrogates": false
                         }
                       }
                     },
@@ -401,7 +404,8 @@
                                         "end": 284
                                       },
                                       "value": "/auth/live",
-                                      "raw": "\"/auth/live\""
+                                      "raw": "\"/auth/live\"",
+                                      "loneSurrogates": false
                                     }
                                   }
                                 ],
