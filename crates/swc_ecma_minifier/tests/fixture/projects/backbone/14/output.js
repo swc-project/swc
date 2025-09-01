@@ -1,4 +1,4 @@
-export let obj = {
+export const obj = {
     set: function(key, val, options) {
         var attr, attrs, unset, changes, silent, changing, prev, current;
         if (null == key) return this;

@@ -16,7 +16,7 @@ try {
 } finally{
     _ts_dispose_resources(env);
 }
-export let x = 1;
-export let w = 3;
+export const x = 1;
+export const w = 3;
 export default 4;
 export { y };

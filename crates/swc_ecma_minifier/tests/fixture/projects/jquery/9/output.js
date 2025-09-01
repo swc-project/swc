@@ -1,4 +1,4 @@
-export let obj = {
+export const obj = {
     fireWith: function(context, args) {
         return args = [
             context,

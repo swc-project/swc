@@ -1,4 +1,4 @@
-export let loadScript = (options)=>{
+export const loadScript = (options)=>{
     let { id, onLoad = ()=>null, ...rest } = options;
     return new Promise((resolve)=>{
         let scriptEl = document.getElementById(id), isMounted = !!scriptEl;

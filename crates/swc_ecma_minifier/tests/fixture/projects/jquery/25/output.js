@@ -1,4 +1,4 @@
-export let obj = {
+export const obj = {
     domManip: function(args, table, callback) {
         // Flatten any nested arrays
         args = core_concat.apply([], args);

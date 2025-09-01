@@ -1,4 +1,4 @@
-export let obj = {
+export const obj = {
     when: function(subordinate /* , ..., subordinateN */ ) {
         var progressValues, progressContexts, resolveContexts, i = 0, resolveValues = core_slice.call(arguments), length = resolveValues.length, // the count of uncompleted subordinates
         remaining = 1 !== length || subordinate && jQuery.isFunction(subordinate.promise) ? length : 0, // the master Deferred. If resolveValues consist of only a single Deferred, just use that.

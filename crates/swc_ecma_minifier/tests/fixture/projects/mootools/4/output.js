@@ -1,4 +1,4 @@
-export let obj = {
+export const obj = {
     flatten: function() {
         for(var array = [], i = 0, l = this.length; i < l; i++){
             var type = typeOf(this[i]);

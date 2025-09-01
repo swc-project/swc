@@ -1,4 +1,4 @@
-export let E = {
+export const E = {
     _sort: function() {
         // keep going until we make a pass without moving anything
         for(// create an indexed list

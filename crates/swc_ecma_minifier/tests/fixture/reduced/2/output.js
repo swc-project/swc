@@ -1,4 +1,4 @@
-export let def = {
+export const def = {
     code (cxt) {
         let { gen, schema, parentSchema, data, it } = cxt;
         "all" === it.opts.removeAdditional && void 0 === parentSchema.additionalProperties && additionalProperties_1.default.code(new validate_1.KeywordCxt(it, additionalProperties_1.default, "additionalProperties"));

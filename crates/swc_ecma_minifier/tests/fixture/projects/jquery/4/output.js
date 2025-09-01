@@ -1,4 +1,4 @@
-export let obj = {
+export const obj = {
     parseXML: function(data) {
         var xml;
         if (!data || "string" != typeof data) return null;

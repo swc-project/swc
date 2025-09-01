@@ -1,4 +1,4 @@
-export let obj = {
+export const obj = {
     each: function(obj, callback, args) {
         var i = 0, length = obj.length, isArray = isArraylike(obj);
         if (args) {

@@ -1,4 +1,4 @@
-export let E = {
+export const E = {
     _getTransaction: function(urls, options) {
         var i, len, req, url, requests = [];
         for(Lang.isArray(urls) || (urls = [

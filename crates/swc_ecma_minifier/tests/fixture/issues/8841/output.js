@@ -1,2 +1,2 @@
 var x;
-export let k = x;
+export const k = x;

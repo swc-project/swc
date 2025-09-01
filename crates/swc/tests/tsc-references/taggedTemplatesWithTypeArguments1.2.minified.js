@@ -1,5 +1,5 @@
 //// [taggedTemplatesWithTypeArguments1.ts]
-export let a = f`
+export const a = f`
     hello
     ${(stuff)=>stuff.x}
     brave
@@ -7,7 +7,7 @@ export let a = f`
     world
     ${(stuff)=>stuff.z}
 `;
-export let b = g`
+export const b = g`
     hello
     ${(stuff)=>stuff.x}
     brave

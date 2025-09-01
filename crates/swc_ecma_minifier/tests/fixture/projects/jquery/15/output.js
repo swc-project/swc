@@ -1,4 +1,4 @@
-export let obj = {
+export const obj = {
     position: function() {
         if (this[0]) {
             var offsetParent, offset, parentOffset = {

@@ -2830,7 +2830,11 @@ impl VisitMut for Optimizer<'_> {
             });
         }
 
-        if self.options.const_to_let && (self.is_module || !self.ctx.in_top_level()) {
+        if self.options.const_to_let
+            // Don't change constness of exported variables.
+            && !self.ctx.bit_ctx.contains(BitCtx::IsExported)
+            && (self.is_module || !self.ctx.in_top_level())
+        {
             if n.kind == VarDeclKind::Const {
                 // If a const variable is reassigned, we should not convert it to `let`
                 let no_reassignment = n.decls.iter().all(|var| {

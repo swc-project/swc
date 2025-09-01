@@ -1,4 +1,4 @@
-export let obj = {
+export const obj = {
     _validate: function(attrs, options) {
         if (!options.validate || !this.validate) return !0;
         attrs = _.extend({}, this.attributes, attrs);

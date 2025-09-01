@@ -1,2 +1,2 @@
-export let envKey = "staging";
-export let environment = "staging";
+export const envKey = "staging";
+export const environment = "staging";

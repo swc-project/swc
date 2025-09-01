@@ -1178,7 +1178,7 @@ fn issue_7513_2() {
     println!("{}", output.code);
     assert_eq!(
         output.code,
-        "export let cachedTextDecoder={ignoreBOM:!0,fatal:!0};"
+        "export const cachedTextDecoder={ignoreBOM:!0,fatal:!0};"
     );
 }
 

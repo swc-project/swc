@@ -1,4 +1,4 @@
-export let exported = {
+export const exported = {
     toQueryString: function(object, base) {
         var queryString = [];
         return Object.each(object, function(value, key) {

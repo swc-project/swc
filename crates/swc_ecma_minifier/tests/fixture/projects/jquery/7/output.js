@@ -1,4 +1,4 @@
-export let obj = {
+export const obj = {
     proxy: function(fn, context) {
         var args, proxy, tmp;
         // Quick check to determine if target is callable, in the spec

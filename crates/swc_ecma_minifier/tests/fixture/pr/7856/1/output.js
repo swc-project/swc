@@ -1,1 +1,1 @@
-export let c = ()=>"";
+export const c = ()=>"";

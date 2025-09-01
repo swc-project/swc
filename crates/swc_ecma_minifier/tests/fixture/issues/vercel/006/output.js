@@ -11,7 +11,7 @@ export function DefaultLoadingElement() {
         children: "Loading..."
     });
 }
-export let defaultLoadScriptProps = {
+export const defaultLoadScriptProps = {
     id: "script-loader",
     version: "weekly"
 };

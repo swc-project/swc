@@ -1,4 +1,4 @@
-export let obj = {
+export const obj = {
     create: function(model, options) {
         if (options = options ? _.clone(options) : {}, !(model = this._prepareModel(model, options))) return !1;
         options.wait || this.add(model, options);

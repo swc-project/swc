@@ -28,6 +28,6 @@ let manager = function() {
     };
 }();
 export default manager;
-export let { d } = manager;
-export let { l } = manager;
-export let { q } = manager;
+export const { d } = manager;
+export const { l } = manager;
+export const { q } = manager;

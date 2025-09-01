@@ -1,4 +1,4 @@
-export let obj = {
+export const obj = {
     _ensureElement: function() {
         if (this.el) this.setElement(_.result(this, "el"), !1);
         else {

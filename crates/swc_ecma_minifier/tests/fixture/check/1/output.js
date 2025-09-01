@@ -1,6 +1,6 @@
 import "module";
 let foobar = "foo";
-export let foo = foobar;
+export const foo = foobar;
 let foobarCopy = foobar += "bar";
 foobar += "foo", console.log(foobarCopy);
  // export function external1() {
