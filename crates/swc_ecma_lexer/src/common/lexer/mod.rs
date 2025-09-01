@@ -12,7 +12,6 @@ use swc_common::{
     BytePos, Span,
 };
 use swc_ecma_ast::{EsVersion, Ident};
-use swc_ecma_utils::unicode::pair_to_code_point;
 
 use self::jsx::xhtml;
 use super::{context::Context, input::Tokens};
@@ -62,6 +61,13 @@ static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
 
 static TEMPLATE_LITERAL_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| matches!(b, b'$' | b'`' | b'\\' | b'\r'));
+
+/// Converts UTF-16 surrogate pair to Unicode code point.
+/// `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
+#[inline]
+const fn pair_to_code_point(high: u32, low: u32) -> u32 {
+    (high - 0xd800) * 0x400 + low - 0xdc00 + 0x10000
+}
 
 /// A Unicode escape sequence.
 ///
