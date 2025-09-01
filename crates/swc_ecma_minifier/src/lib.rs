@@ -173,7 +173,7 @@ pub fn optimize(
 
         let _timer = timer!("postcompress");
 
-        n.visit_mut_with(&mut postcompress_optimizer(c));
+        postcompress_optimizer(&mut n, c);
 
         n.visit_mut_with(&mut pure_optimizer(
             c,
