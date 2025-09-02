@@ -17,7 +17,6 @@ pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitMut {
         comments,
         ctx: Default::default(),
         span_map: Default::default(),
-        in_opt_chain: Default::default(),
     })
 }
 
@@ -26,7 +25,6 @@ pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitM
         comments,
         ctx: Default::default(),
         span_map: Default::default(),
-        in_opt_chain: Default::default(),
     })
 }
 
@@ -38,8 +36,6 @@ struct Fixer<'a> {
     /// Key is span of inner expression, and value is span of the paren
     /// expression.
     span_map: IndexMap<Span, Span, BuildHasherDefault<FxHasher>>,
-
-    in_opt_chain: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
@@ -272,15 +268,9 @@ impl VisitMut for Fixer<'_> {
 
     fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
         let ctx = mem::replace(&mut self.ctx, Context::Callee);
-        let in_opt_chain = mem::replace(&mut self.in_opt_chain, true);
-
         node.callee.visit_mut_with(self);
-
-        self.in_opt_chain = in_opt_chain;
-
         self.ctx = Context::ForcedExpr;
         node.args.visit_mut_with(self);
-
         self.ctx = ctx;
     }
 
@@ -290,9 +280,7 @@ impl VisitMut for Fixer<'_> {
             return;
         }
 
-        let in_opt_chain = mem::replace(&mut self.in_opt_chain, true);
         n.visit_mut_children_with(self);
-        self.in_opt_chain = in_opt_chain;
     }
 
     fn visit_mut_param(&mut self, node: &mut Param) {
