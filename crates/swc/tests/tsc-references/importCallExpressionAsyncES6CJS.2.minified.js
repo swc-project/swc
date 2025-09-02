@@ -23,7 +23,7 @@ for(var name in all)Object.defineProperty(target, name, {
     enumerable: !0,
     get: Object.getOwnPropertyDescriptor(all, name).get
 });
-const _async_to_generator = require("@swc/helpers/_/_async_to_generator"), _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+let _async_to_generator = require("@swc/helpers/_/_async_to_generator"), _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 function fn() {
     return _async_to_generator._(function*() {
         yield Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./test")));
@@ -36,7 +36,7 @@ class cl1 {
         })();
     }
 }
-const obj = {
+let obj = {
     m: ()=>_async_to_generator._(function*() {
             yield Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./test")));
         })()
@@ -50,6 +50,6 @@ class cl2 {
         };
     }
 }
-const l = ()=>_async_to_generator._(function*() {
+let l = ()=>_async_to_generator._(function*() {
         yield Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./test")));
     })();

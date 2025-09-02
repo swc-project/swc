@@ -1,5 +1,5 @@
 import { m } from "../index.f66dda46.js";
-const process_env = {
+let process_env = {
     FOO: "bar",
     OVERRIDE: "11",
     EMPTY: "",

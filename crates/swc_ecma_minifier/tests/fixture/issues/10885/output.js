@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { getCondition, doSomething } from "./utils";
 export default function useMeow() {
-    const [state, setState] = useState("init");
+    let [state, setState] = useState("init");
     return {
         onMeow: async ()=>{
             if ("init" === state) switch(getCondition()){

@@ -1,2 +1,2 @@
 //// [parserForOfStatement11.ts]
-for (const [a, b] of X);
+for (let [a, b] of X);

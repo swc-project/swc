@@ -8,11 +8,11 @@ import { defer } from "./utils";
 function addAlgoliaAgents(searchClient) {
     "function" == typeof searchClient.addAlgoliaAgent && (searchClient.addAlgoliaAgent(`react (${ReactVersion})`), searchClient.addAlgoliaAgent(`react-instantsearch (${version})`));
 }
-const isMultiIndexContext = (widget)=>hasMultipleIndices({
+let isMultiIndexContext = (widget)=>hasMultipleIndices({
         ais: widget.props.contextValue,
         multiIndexContext: widget.props.indexContextValue
     }), isTargetedIndexEqualIndex = (widget, indexId)=>widget.props.indexContextValue.targetedIndex === indexId, sortIndexWidgetsFirst = (firstWidget, secondWidget)=>{
-    const isFirstWidgetIndex = !!firstWidget.props.indexId, isSecondWidgetIndex = !!secondWidget.props.indexId;
+    let isFirstWidgetIndex = !!firstWidget.props.indexId, isSecondWidgetIndex = !!secondWidget.props.indexId;
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
 /**
@@ -24,12 +24,12 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
  * @param {number} stalledSearchDelay - time (in ms) after the search is stalled
  * @return {InstantSearchManager} a new instance of InstantSearchManager
  */ export default function createInstantSearchManager({ indexName, initialState = {}, searchClient, resultsState, stalledSearchDelay }) {
-    const helper = algoliasearchHelper(searchClient, indexName, {
+    let helper = algoliasearchHelper(searchClient, indexName, {
         ...HIGHLIGHT_TAGS
     });
     addAlgoliaAgents(searchClient), helper.on("search", function() {
         stalledSearchTimer || (stalledSearchTimer = setTimeout(()=>{
-            const { resultsFacetValues, ...partialState } = store.getState();
+            let { resultsFacetValues, ...partialState } = store.getState();
             store.setState({
                 ...partialState,
                 isSearchStalled: !0
@@ -38,11 +38,8 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
     }).on("result", handleSearchSuccess({
         indexId: indexName
     })).on("error", handleSearchError);
-    let skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state;
-    const widgetsManager = function(onWidgetsUpdate) {
-        const widgets = [];
-        // Is an update scheduled?
-        let scheduled = !1;
+    let skip = !1, stalledSearchTimer = null, initialSearchParameters = helper.state, widgetsManager = function(onWidgetsUpdate) {
+        let widgets = [], scheduled = !1;
         // The state manager's updates need to be batched since more than one
         // component can register or unregister widgets during the same tick.
         function scheduleUpdate() {
@@ -59,7 +56,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
         };
     }(// Called whenever a widget has been rendered with new props.
     function() {
-        const metadata = getMetadata(store.getState().widgets);
+        let metadata = getMetadata(store.getState().widgets);
         store.setState({
             ...store.getState(),
             metadata,
@@ -79,9 +76,9 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
             // search on it first.
             if (client.transporter && !client._cacheHydrated) {
                 client._cacheHydrated = !0;
-                const baseMethod = client.search;
+                let baseMethod = client.search;
                 client.search = (requests, ...methodArgs)=>{
-                    const requestsWithSerializedParams = requests.map((request)=>{
+                    let requestsWithSerializedParams = requests.map((request)=>{
                         var parameters;
                         return {
                             ...request,
@@ -124,7 +121,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
                 // a single-index result. You can find more information about the
                 // computation of the key inside the client (see link below).
                 // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
-                const key = `/1/indexes/*/queries_body_${JSON.stringify({
+                let key = `/1/indexes/*/queries_body_${JSON.stringify({
                     requests: results1.reduce((acc, result)=>acc.concat(result.rawResults.map((request)=>({
                                 indexName: request.index,
                                 params: request.params
@@ -157,7 +154,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
                 // a single-index result. You can find more information about the
                 // computation of the key inside the client (see link below).
                 // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
-                const key = `/1/indexes/*/queries_body_${JSON.stringify({
+                let key = `/1/indexes/*/queries_body_${JSON.stringify({
                     requests: results.rawResults.map((request)=>({
                             indexName: request.index,
                             params: request.params
@@ -172,7 +169,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
             }(client, results);
         }
     }(searchClient, resultsState);
-    const store = createStore({
+    let store = createStore({
         widgets: initialState,
         metadata: resultsState ? resultsState.metadata.map((datum)=>({
                 value: ()=>({}),
@@ -199,18 +196,18 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
         return widgetsManager.getWidgets().filter((widget)=>!!widget.getMetadata).map((widget)=>widget.getMetadata(state));
     }
     function getSearchParameters() {
-        const sharedParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>!isMultiIndexContext(widget) && !widget.props.indexId).reduce((res, widget)=>widget.getSearchParameters(res), initialSearchParameters), mainParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>{
-            const targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = !!widget.props.indexId && widget.props.indexId === indexName;
+        let sharedParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>!isMultiIndexContext(widget) && !widget.props.indexId).reduce((res, widget)=>widget.getSearchParameters(res), initialSearchParameters), mainParameters = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>{
+            let targetedIndexEqualMainIndex = isMultiIndexContext(widget) && isTargetedIndexEqualIndex(widget, indexName), subIndexEqualMainIndex = !!widget.props.indexId && widget.props.indexId === indexName;
             return targetedIndexEqualMainIndex || subIndexEqualMainIndex;
         })// We have to sort the `Index` widgets first so the `index` parameter
         // is correctly set in the `reduce` function for the following widgets
         .sort(sortIndexWidgetsFirst).reduce((res, widget)=>widget.getSearchParameters(res), sharedParameters), derivedIndices = widgetsManager.getWidgets().filter((widget)=>!!widget.getSearchParameters).filter((widget)=>{
-            const targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName), subIndexNotEqualMainIndex = !!widget.props.indexId && widget.props.indexId !== indexName;
+            let targetedIndexNotEqualMainIndex = isMultiIndexContext(widget) && !isTargetedIndexEqualIndex(widget, indexName), subIndexNotEqualMainIndex = !!widget.props.indexId && widget.props.indexId !== indexName;
             return targetedIndexNotEqualMainIndex || subIndexNotEqualMainIndex;
         })// We have to sort the `Index` widgets first so the `index` parameter
         // is correctly set in the `reduce` function for the following widgets
         .sort(sortIndexWidgetsFirst).reduce((indices, widget)=>{
-            const indexId = isMultiIndexContext(widget) ? widget.props.indexContextValue.targetedIndex : widget.props.indexId, widgets = indices[indexId] || [];
+            let indexId = isMultiIndexContext(widget) ? widget.props.indexContextValue.targetedIndex : widget.props.indexId, widgets = indices[indexId] || [];
             return {
                 ...indices,
                 [indexId]: widgets.concat(widget)
@@ -226,7 +223,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
     }
     function search() {
         if (!skip) {
-            const { mainParameters, derivedParameters } = getSearchParameters(helper.state);
+            let { mainParameters, derivedParameters } = getSearchParameters(helper.state);
             // We have to call `slice` because the method `detach` on the derived
             // helpers mutates the value `derivedHelpers`. The `forEach` loop does
             // not iterate on each value and we're not able to correctly clear the
@@ -256,8 +253,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
     }
     function handleSearchSuccess({ indexId }) {
         return (event)=>{
-            const state = store.getState(), isDerivedHelpersEmpty = !helper.derivedHelpers.length;
-            let results = state.results ? state.results : {};
+            let state = store.getState(), isDerivedHelpersEmpty = !helper.derivedHelpers.length, results = state.results ? state.results : {};
             // Switching from mono index to multi index and vice versa must reset the
             // results to an empty object, otherwise we keep reference of stalled and
             // unused results.
@@ -265,10 +261,9 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
                 ...results,
                 [indexId]: event.results
             };
-            const currentState = store.getState();
-            let nextIsSearchStalled = currentState.isSearchStalled;
+            let currentState = store.getState(), nextIsSearchStalled = currentState.isSearchStalled;
             helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), stalledSearchTimer = null, nextIsSearchStalled = !1);
-            const { resultsFacetValues, ...partialState } = currentState;
+            let { resultsFacetValues, ...partialState } = currentState;
             store.setState({
                 ...partialState,
                 results,
@@ -279,10 +274,9 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
         };
     }
     function handleSearchError({ error }) {
-        const currentState = store.getState();
-        let nextIsSearchStalled = currentState.isSearchStalled;
+        let currentState = store.getState(), nextIsSearchStalled = currentState.isSearchStalled;
         helper.hasPendingRequests() || (clearTimeout(stalledSearchTimer), nextIsSearchStalled = !1);
-        const { resultsFacetValues, ...partialState } = currentState;
+        let { resultsFacetValues, ...partialState } = currentState;
         store.setState({
             ...partialState,
             isSearchStalled: nextIsSearchStalled,
@@ -300,7 +294,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
         onSearchForFacetValues: function({ facetName, query, maxFacetHits = 10 }) {
             // The values 1, 100 are the min / max values that the engine accepts.
             // see: https://www.algolia.com/doc/api-reference/api-parameters/maxFacetHits
-            const maxFacetHitsWithinRange = Math.max(1, Math.min(maxFacetHits, 100));
+            let maxFacetHitsWithinRange = Math.max(1, Math.min(maxFacetHits, 100));
             store.setState({
                 ...store.getState(),
                 searchingForFacetValues: !0
@@ -332,7 +326,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
             });
         },
         onExternalStateUpdate: function(nextSearchState) {
-            const metadata = getMetadata(nextSearchState);
+            let metadata = getMetadata(nextSearchState);
             store.setState({
                 ...store.getState(),
                 widgets: nextSearchState,
@@ -341,7 +335,7 @@ const isMultiIndexContext = (widget)=>hasMultipleIndices({
             }), search();
         },
         transitionState: function(nextSearchState) {
-            const searchState = store.getState().widgets;
+            let searchState = store.getState().widgets;
             return widgetsManager.getWidgets().filter((widget)=>!!widget.transitionState).reduce((res, widget)=>widget.transitionState(searchState, res), nextSearchState);
         },
         updateClient: function(client) {

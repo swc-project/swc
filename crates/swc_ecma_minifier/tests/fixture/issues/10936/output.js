@@ -1,4 +1,4 @@
-const variable = {};
+let variable = {};
 console.log("OrderNumber=" + variable.data?.orderNumber + "|AuditNo=" + variable.data?.auditNo + "|JournalType=" + transactionTypeCode[variable.data.transactionType] + "|IsPreview=0");
 // Additional test cases
 export const test1 = "12";
