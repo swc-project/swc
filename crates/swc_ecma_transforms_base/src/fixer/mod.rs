@@ -4,6 +4,88 @@ mod paren_remover;
 
 pub use fixer::fixer;
 pub use paren_remover::paren_remover;
+use swc_ecma_ast::{op, Expr, SeqExpr, Stmt, UnaryExpr};
+
+fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<Box<Expr>> {
+    match *expr {
+        Expr::Fn(..) | Expr::Arrow(..) | Expr::Lit(..) => {
+            if *has_padding_value {
+                None
+            } else {
+                *has_padding_value = true;
+                Some(expr)
+            }
+        }
+        Expr::Seq(SeqExpr { span, exprs }) => {
+            let len = exprs.len();
+            let mut exprs: Vec<_> = exprs
+                .into_iter()
+                .enumerate()
+                .filter_map(|(i, expr)| {
+                    if i + 1 == len {
+                        Some(expr)
+                    } else {
+                        ignore_return_value(expr, has_padding_value)
+                    }
+                })
+                .collect();
+
+            match exprs.len() {
+                0 | 1 => exprs.pop(),
+                _ => Some(SeqExpr { span, exprs }.into()),
+            }
+        }
+        Expr::Unary(UnaryExpr {
+            op: op!("void"),
+            arg,
+            ..
+        }) => ignore_return_value(arg, has_padding_value),
+        _ => Some(expr),
+    }
+}
+
+// at least 3 element in seq, which means we can safely
+// remove that padding, if not at last position
+#[allow(clippy::vec_box)]
+fn ignore_padding_value(exprs: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
+    let len = exprs.len();
+
+    if len > 2 {
+        exprs
+            .into_iter()
+            .enumerate()
+            .filter_map(|(i, e)| match e.as_ref() {
+                Expr::Fn(..) | Expr::Arrow(..) | Expr::Lit(..) if i + 1 != len => None,
+                _ => Some(e),
+            })
+            .collect()
+    } else {
+        exprs
+    }
+}
+
+fn will_eat_else_token(s: &Stmt) -> bool {
+    match s {
+        Stmt::If(s) => match &s.alt {
+            Some(alt) => will_eat_else_token(alt),
+            None => true,
+        },
+        // Ends with `}`.
+        Stmt::Block(..) => false,
+
+        Stmt::Labeled(s) => will_eat_else_token(&s.body),
+
+        Stmt::While(s) => will_eat_else_token(&s.body),
+
+        Stmt::For(s) => will_eat_else_token(&s.body),
+
+        Stmt::ForIn(s) => will_eat_else_token(&s.body),
+
+        Stmt::ForOf(s) => will_eat_else_token(&s.body),
+
+        _ => false,
+    }
+}
 
 #[cfg(test)]
 mod tests {

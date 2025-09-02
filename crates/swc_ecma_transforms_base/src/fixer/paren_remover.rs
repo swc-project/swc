@@ -1,11 +1,11 @@
-use std::{hash::BuildHasherDefault, ops::RangeFull};
+use std::ops::RangeFull;
 
-use indexmap::IndexMap;
-use rustc_hash::FxHasher;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
+
+use crate::fixer::{ignore_padding_value, ignore_return_value, will_eat_else_token};
 
 pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitMut {
     visit_mut_pass(Fixer {
@@ -16,11 +16,8 @@ pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Pass + VisitM
 
 struct Fixer<'a> {
     comments: Option<&'a dyn Comments>,
-    /// A hash map to preserve original span.
-    ///
-    /// Key is span of inner expression, and value is span of the paren
-    /// expression.
-    span_map: IndexMap<Span, Span, BuildHasherDefault<FxHasher>>,
+    /// Span mappings of inner expression and paren expression.
+    span_map: Vec<(Span, Span)>,
 }
 
 impl VisitMut for Fixer<'_> {
@@ -242,92 +239,11 @@ impl Fixer<'_> {
                     let paren_span = *paren_span;
                     *e = *expr.take();
 
-                    self.span_map.insert(expr_span, paren_span);
+                    self.span_map.push((expr_span, paren_span));
                 }
 
                 _ => return,
             }
         }
-    }
-}
-
-fn ignore_return_value(expr: Box<Expr>, has_padding_value: &mut bool) -> Option<Box<Expr>> {
-    match *expr {
-        Expr::Fn(..) | Expr::Arrow(..) | Expr::Lit(..) => {
-            if *has_padding_value {
-                None
-            } else {
-                *has_padding_value = true;
-                Some(expr)
-            }
-        }
-        Expr::Seq(SeqExpr { span, exprs }) => {
-            let len = exprs.len();
-            let mut exprs: Vec<_> = exprs
-                .into_iter()
-                .enumerate()
-                .filter_map(|(i, expr)| {
-                    if i + 1 == len {
-                        Some(expr)
-                    } else {
-                        ignore_return_value(expr, has_padding_value)
-                    }
-                })
-                .collect();
-
-            match exprs.len() {
-                0 | 1 => exprs.pop(),
-                _ => Some(SeqExpr { span, exprs }.into()),
-            }
-        }
-        Expr::Unary(UnaryExpr {
-            op: op!("void"),
-            arg,
-            ..
-        }) => ignore_return_value(arg, has_padding_value),
-        _ => Some(expr),
-    }
-}
-
-// at least 3 element in seq, which means we can safely
-// remove that padding, if not at last position
-#[allow(clippy::vec_box)]
-fn ignore_padding_value(exprs: Vec<Box<Expr>>) -> Vec<Box<Expr>> {
-    let len = exprs.len();
-
-    if len > 2 {
-        exprs
-            .into_iter()
-            .enumerate()
-            .filter_map(|(i, e)| match e.as_ref() {
-                Expr::Fn(..) | Expr::Arrow(..) | Expr::Lit(..) if i + 1 != len => None,
-                _ => Some(e),
-            })
-            .collect()
-    } else {
-        exprs
-    }
-}
-
-fn will_eat_else_token(s: &Stmt) -> bool {
-    match s {
-        Stmt::If(s) => match &s.alt {
-            Some(alt) => will_eat_else_token(alt),
-            None => true,
-        },
-        // Ends with `}`.
-        Stmt::Block(..) => false,
-
-        Stmt::Labeled(s) => will_eat_else_token(&s.body),
-
-        Stmt::While(s) => will_eat_else_token(&s.body),
-
-        Stmt::For(s) => will_eat_else_token(&s.body),
-
-        Stmt::ForIn(s) => will_eat_else_token(&s.body),
-
-        Stmt::ForOf(s) => will_eat_else_token(&s.body),
-
-        _ => false,
     }
 }
