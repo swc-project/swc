@@ -49,15 +49,15 @@ struct Fixer<'a> {
     remove_only: bool,
 }
 
-#[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 enum Context {
     #[default]
     Default,
 
-    Callee {
-        is_new: bool,
-    },
+    Callee,
+
+    NewCallee,
+
     /// Always treated as expr. (But number of comma-separated expression
     /// matters)
     ///
@@ -364,7 +364,7 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
-        let ctx = mem::replace(&mut self.ctx, Context::Callee { is_new: false });
+        let ctx = mem::replace(&mut self.ctx, Context::Callee);
 
         node.callee.visit_mut_with(self);
         if let Callee::Expr(e) = &mut node.callee {
@@ -585,7 +585,7 @@ impl VisitMut for Fixer<'_> {
             | Expr::New(NewExpr { args: None, .. }) => {
                 self.wrap(&mut n.obj);
             }
-            Expr::Call(..) if self.ctx == Context::Callee { is_new: true } => {
+            Expr::Call(..) if self.ctx == Context::NewCallee => {
                 self.wrap(&mut n.obj);
             }
             Expr::OptChain(..) if !self.in_opt_chain => {
@@ -613,7 +613,7 @@ impl VisitMut for Fixer<'_> {
 
         node.args.visit_mut_with(self);
 
-        self.ctx = Context::Callee { is_new: true };
+        self.ctx = Context::NewCallee;
         node.callee.visit_mut_with(self);
         match *node.callee {
             Expr::Call(..)
@@ -630,7 +630,7 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
-        let ctx = mem::replace(&mut self.ctx, Context::Callee { is_new: false });
+        let ctx = mem::replace(&mut self.ctx, Context::Callee);
         let in_opt_chain = mem::replace(&mut self.in_opt_chain, true);
 
         node.callee.visit_mut_with(self);
@@ -964,7 +964,7 @@ impl Fixer<'_> {
                     self.wrap(&mut expr.alt)
                 };
 
-                if let Context::Callee { is_new: true } = self.ctx {
+                if let Context::NewCallee = self.ctx {
                     self.wrap(e)
                 }
             }
@@ -993,7 +993,7 @@ impl Fixer<'_> {
                 {
                     Context::ForcedExpr | Context::FreeExpr => {}
 
-                    Context::Callee { is_new: true } => self.wrap(e),
+                    Context::NewCallee => self.wrap(e),
 
                     _ => self.wrap(callee),
                 },
@@ -1008,7 +1008,7 @@ impl Fixer<'_> {
             }) if callee.is_fn_expr() => match self.ctx {
                 Context::ForcedExpr | Context::FreeExpr => {}
 
-                Context::Callee { is_new: true } => self.wrap(e),
+                Context::NewCallee => self.wrap(e),
 
                 _ => self.wrap(callee),
             },
