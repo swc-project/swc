@@ -1,0 +1,39 @@
+{
+  "minify": false,
+  "jsc": {
+    "externalHelpers": true,
+    "parser": {
+      "tsx": true,
+      "syntax": "typescript",
+      "decorators": true
+    },
+    "experimental": {
+      "keepImportAttributes": true
+    },
+    "output": {
+      "charset": "ascii"
+    },
+    "transform": {
+      "legacyDecorator": true,
+      "decoratorMetadata": true,
+      "useDefineForClassFields": false,
+      "react": {
+        "development": false,
+        "refresh": false,
+        "runtime": "automatic"
+      }
+    }
+  },
+  "isModule": "unknown",
+  "env": {
+    "targets": [
+      "chrome >= 51",
+      "edge >= 15",
+      "firefox >= 54",
+      "safari >= 10",
+      "ios_saf >= 10"
+    ],
+    "mode": "entry",
+    "coreJs": "3.32"
+  }
+}
