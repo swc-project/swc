@@ -512,6 +512,7 @@ jobs:
   #           DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
   #           ls -la
   publish:
+    environment: publish
     name: Publish ${{ inputs.version }}
     runs-on: ubuntu-latest
     needs:
