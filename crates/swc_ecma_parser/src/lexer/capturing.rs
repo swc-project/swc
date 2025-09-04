@@ -1,4 +1,4 @@
-use std::{cell::RefCell, mem, rc::Rc};
+use std::mem;
 
 use swc_ecma_lexer::common::syntax::SyntaxFlags;
 
@@ -7,7 +7,7 @@ use crate::{input::Tokens, lexer::token::TokenAndSpan};
 #[derive(Debug)]
 pub struct Capturing<I> {
     inner: I,
-    captured: Rc<RefCell<Vec<TokenAndSpan>>>,
+    captured: Vec<TokenAndSpan>,
 }
 
 impl<I: Clone> Clone for Capturing<I> {
@@ -27,13 +27,13 @@ impl<I> Capturing<I> {
         }
     }
 
-    pub fn tokens(&self) -> Rc<RefCell<Vec<TokenAndSpan>>> {
-        self.captured.clone()
+    pub fn tokens(&self) -> &[TokenAndSpan] {
+        &self.captured
     }
 
     /// Take captured tokens
     pub fn take(&mut self) -> Vec<TokenAndSpan> {
-        mem::take(&mut *self.captured.borrow_mut())
+        mem::take(&mut self.captured)
     }
 }
 
@@ -45,7 +45,7 @@ impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
 
         match next {
             Some(ts) => {
-                let mut v = self.captured.borrow_mut();
+                let v = &mut self.captured;
 
                 // remove tokens that could change due to backtracing
                 while let Some(last) = v.last() {
