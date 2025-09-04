@@ -10,6 +10,11 @@ pub struct Capturing<I> {
     captured: Vec<TokenAndSpan>,
 }
 
+pub struct CapturingCheckpoint<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>> {
+    pos: usize,
+    inner: I::Checkpoint,
+}
+
 impl<I: Clone> Clone for Capturing<I> {
     fn clone(&self) -> Self {
         Capturing {
@@ -46,18 +51,7 @@ impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
         match next {
             Some(ts) => {
                 let v = &mut self.captured;
-
-                // remove tokens that could change due to backtracing
-                while let Some(last) = v.last() {
-                    if last.span.lo >= ts.span.lo {
-                        v.pop();
-                    } else {
-                        break;
-                    }
-                }
-
                 v.push(ts);
-
                 Some(ts)
             }
             None => None,
@@ -68,14 +62,18 @@ impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
 impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
     swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Capturing<I>
 {
-    type Checkpoint = I::Checkpoint;
+    type Checkpoint = CapturingCheckpoint<I>;
 
     fn checkpoint_save(&self) -> Self::Checkpoint {
-        self.inner.checkpoint_save()
+        Self::Checkpoint {
+            pos: self.captured.len(),
+            inner: self.inner.checkpoint_save(),
+        }
     }
 
     fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
-        self.inner.checkpoint_load(checkpoint);
+        self.captured.truncate(checkpoint.pos);
+        self.inner.checkpoint_load(checkpoint.inner);
     }
 
     fn set_ctx(&mut self, ctx: swc_ecma_lexer::common::context::Context) {
