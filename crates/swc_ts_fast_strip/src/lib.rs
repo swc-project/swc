@@ -260,7 +260,7 @@ pub fn operate(
         None => parser.parse_program(),
     };
     let errors = parser.take_errors();
-    let mut tokens = Vec::from(parser.input_mut().iter_mut().tokens());
+    let mut tokens = parser.input_mut().iter_mut().take();
 
     let mut program = match program {
         Ok(program) => program,
