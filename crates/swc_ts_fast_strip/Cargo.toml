@@ -15,16 +15,16 @@ default = []
 nightly = []
 
 [dependencies]
-anyhow       = { workspace = true }
-bytes-str    = { workspace = true }
-serde        = { workspace = true, features = ["derive"] }
-wasm-bindgen = { workspace = true, optional = true }
+anyhow = { workspace = true }
+bytes-str = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
 swc_atoms = { version = "7.0.0", path = "../swc_atoms" }
 swc_common = { version = "14.0.3", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "15.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "17.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_lexer = { version = "23.0.0", path = "../swc_ecma_lexer" }
 swc_ecma_parser = { version = "23.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
   "unstable",
@@ -33,6 +33,7 @@ swc_ecma_transforms_base = { version = "25.0.0", path = "../swc_ecma_transforms_
 swc_ecma_transforms_react = { version = "28.0.0", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_typescript = { version = "28.0.0", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_visit = { version = "15.0.0", path = "../swc_ecma_visit" }
+wasm-bindgen = { workspace = true, optional = true }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }

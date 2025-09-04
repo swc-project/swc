@@ -21,6 +21,7 @@ use swc_ecma_ast::{
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
     TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
 };
+use swc_ecma_lexer::common::parser::{buffer::Buffer, Parser as _};
 use swc_ecma_parser::{
     lexer::Lexer,
     unstable::{Capturing, Token, TokenAndSpan, TokenFactory},
@@ -251,8 +252,6 @@ pub fn operate(
         StringInput::from(&*fm),
         Some(&comments),
     ));
-    let mut tokens = Vec::from(lexer.tokens());
-
     let mut parser = Parser::new_from(lexer);
 
     let program = match options.module {
@@ -261,6 +260,7 @@ pub fn operate(
         None => parser.parse_program(),
     };
     let errors = parser.take_errors();
+    let mut tokens = Vec::from(parser.input_mut().iter_mut().tokens());
 
     let mut program = match program {
         Ok(program) => program,
