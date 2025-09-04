@@ -528,6 +528,12 @@ jobs:
 
       - uses: ./.github/actions/setup-node
 
+      # Update npm to latest, for trusted publish
+      - name: Update npm to latest
+        shell: bash
+        run: |
+          npm install -g npm@latest
+
       - name: Tag npm release
         run: |
           if [[ '${{ inputs.version }}' != *"nightly"* ]]; then
@@ -572,8 +578,6 @@ jobs:
         if: ${{ !inputs.skipPublishing }}
         run: |
           npm config set provenance true
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-          echo "npmAlwaysAuth:true\n npmAuthToken: '$NPM_TOKEN'\n" >> ~/.yarnrc
           (cd packages/${{ inputs.package }} && yarn workspaces foreach -Rt npm publish --tolerate-republish --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
