@@ -50,7 +50,7 @@
         "version": "napi version --npm-dir scripts/npm"
     },
     "devDependencies": {
-        "@napi-rs/cli": "^3.0.0-alpha.43",
+        "@napi-rs/cli": "^3.1.5",
         "typescript": "^5.1.6"
     },
     "dependencies": {
