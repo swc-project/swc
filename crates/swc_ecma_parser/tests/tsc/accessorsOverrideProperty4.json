@@ -113,7 +113,8 @@
               "end": 145
             },
             "value": "roar",
-            "raw": "'roar'"
+            "raw": "'roar'",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": false,

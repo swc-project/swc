@@ -78,6 +78,7 @@ impl FastDts {
                         span: DUMMY_SP,
                         value: s.clone().into(),
                         raw: None,
+                        lone_surrogates: false,
                     })),
                 })
             });

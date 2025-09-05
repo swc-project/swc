@@ -520,6 +520,7 @@ impl Pure<'_> {
             *e = Lit::Str(Str {
                 span: call.span,
                 raw: None,
+                lone_surrogates: false,
                 value: atom!(""),
             })
             .into();
@@ -576,12 +577,14 @@ impl Pure<'_> {
             let sep: Box<Expr> = Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
+                lone_surrogates: false,
                 value: separator,
             })
             .into();
             let mut res = Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
+                lone_surrogates: false,
                 value: atom!(""),
             })
             .into();
@@ -660,6 +663,7 @@ impl Pure<'_> {
         *e = Lit::Str(Str {
             span: call.span,
             raw: None,
+            lone_surrogates: false,
             value: res.into(),
         })
         .into()
@@ -806,6 +810,7 @@ impl Pure<'_> {
                 result_parts.push(Box::new(Expr::Lit(Lit::Str(Str {
                     span: DUMMY_SP,
                     raw: None,
+                    lone_surrogates: false,
                     value: atom!(""),
                 }))));
             }
@@ -833,6 +838,7 @@ impl Pure<'_> {
                         result_parts.push(Box::new(Expr::Lit(Lit::Str(Str {
                             span: DUMMY_SP,
                             raw: None,
+                            lone_surrogates: false,
                             value: joined.into(),
                         }))));
                     }
@@ -889,6 +895,7 @@ impl Pure<'_> {
                             expr: Box::new(Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
                                 raw: None,
+                                lone_surrogates: false,
                                 value: joined.into(),
                             }))),
                         }));
@@ -917,6 +924,7 @@ impl Pure<'_> {
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span: DUMMY_SP,
                         raw: None,
+                        lone_surrogates: false,
                         value: separator.into(),
                     }))),
                 }]
@@ -1220,6 +1228,7 @@ impl Pure<'_> {
                                 span: *span,
                                 value: atom!(""),
                                 raw: None,
+                                lone_surrogates: false,
                             })
                             .into(),
                         ),
@@ -1234,6 +1243,7 @@ impl Pure<'_> {
                                         span: *span,
                                         value: atom!(""),
                                         raw: None,
+                                        lone_surrogates: false,
                                     })
                                     .into(),
                                 }
@@ -1375,6 +1385,7 @@ impl Pure<'_> {
         };
         let mut cur_raw = String::new();
         let mut cur_cooked = String::new();
+        let mut cur_lone_surrogates = false;
         let mut first = true;
 
         for elem in elems.take().into_iter().flatten() {
@@ -1393,6 +1404,7 @@ impl Pure<'_> {
                             // quasis
                             let e = tpl.quasis[idx / 2].take();
 
+                            cur_lone_surrogates |= e.lone_surrogates;
                             cur_cooked.push_str(&e.cooked.unwrap());
                             cur_raw.push_str(&e.raw);
                         } else {
@@ -1401,10 +1413,12 @@ impl Pure<'_> {
                                 tail: false,
                                 cooked: Some((&*cur_cooked).into()),
                                 raw: (&*cur_raw).into(),
+                                lone_surrogates: cur_lone_surrogates,
                             });
 
                             cur_raw.clear();
                             cur_cooked.clear();
+                            cur_lone_surrogates = false;
 
                             let e = tpl.exprs[idx / 2].take();
 
@@ -1413,6 +1427,7 @@ impl Pure<'_> {
                     }
                 }
                 Expr::Lit(Lit::Str(s)) => {
+                    cur_lone_surrogates |= s.lone_surrogates;
                     cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
                     cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
                 }
@@ -1427,6 +1442,7 @@ impl Pure<'_> {
             tail: false,
             cooked: Some(cur_cooked.into()),
             raw: cur_raw.into(),
+            lone_surrogates: cur_lone_surrogates,
         });
 
         Some(new_tpl.into())

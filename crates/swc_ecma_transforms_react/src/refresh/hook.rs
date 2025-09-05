@@ -112,6 +112,7 @@ impl HookRegister<'_> {
             Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
+                lone_surrogates: false,
                 value: sign.into(),
             })
             .as_arg(),

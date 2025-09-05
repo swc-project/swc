@@ -12026,7 +12026,8 @@
                                     "end": 11194
                                   },
                                   "value": "__missing",
-                                  "raw": "\"__missing\""
+                                  "raw": "\"__missing\"",
+                                  "loneSurrogates": false
                                 }
                               }
                             },

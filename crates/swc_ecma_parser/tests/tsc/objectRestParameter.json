@@ -772,7 +772,8 @@
                             "end": 287
                           },
                           "value": "noo",
-                          "raw": "'noo'"
+                          "raw": "'noo'",
+                          "loneSurrogates": false
                         }
                       }
                     ]
@@ -1477,7 +1478,8 @@
                       "end": 622
                     },
                     "value": "hello",
-                    "raw": "'hello'"
+                    "raw": "'hello'",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -1554,7 +1556,8 @@
                             "end": 660
                           },
                           "value": "hello",
-                          "raw": "'hello'"
+                          "raw": "'hello'",
+                          "loneSurrogates": false
                         }
                       }
                     ]

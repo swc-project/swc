@@ -186,7 +186,8 @@
                             "end": 332
                           },
                           "value": "first",
-                          "raw": "'first'"
+                          "raw": "'first'",
+                          "loneSurrogates": false
                         }
                       },
                       {
@@ -198,7 +199,8 @@
                             "end": 342
                           },
                           "value": "second",
-                          "raw": "'second'"
+                          "raw": "'second'",
+                          "loneSurrogates": false
                         }
                       }
                     ],

@@ -272,7 +272,8 @@
               "end": 159
             },
             "value": "this is fine",
-            "raw": "'this is fine'"
+            "raw": "'this is fine'",
+            "loneSurrogates": false
           }
         }
       }
@@ -428,7 +429,8 @@
               "end": 239
             },
             "value": "not allowed either",
-            "raw": "\"not allowed either\""
+            "raw": "\"not allowed either\"",
+            "loneSurrogates": false
           }
         }
       }

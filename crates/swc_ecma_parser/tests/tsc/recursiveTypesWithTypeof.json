@@ -2247,7 +2247,8 @@
                   "end": 860
                 },
                 "value": "",
-                "raw": "''"
+                "raw": "''",
+                "loneSurrogates": false
               }
             }
           },

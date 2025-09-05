@@ -390,7 +390,8 @@
                   "end": 329
                 },
                 "value": "",
-                "raw": "\"\""
+                "raw": "\"\"",
+                "loneSurrogates": false
               }
             }
           ]
@@ -1204,7 +1205,8 @@
                     "end": 1196
                   },
                   "value": "./mod",
-                  "raw": "'./mod'"
+                  "raw": "'./mod'",
+                  "loneSurrogates": false
                 },
                 "qualifier": {
                   "type": "Identifier",
@@ -1257,7 +1259,8 @@
                     "end": 1226
                   },
                   "value": "./mod",
-                  "raw": "'./mod'"
+                  "raw": "'./mod'",
+                  "loneSurrogates": false
                 },
                 "qualifier": {
                   "type": "Identifier",
@@ -1310,7 +1313,8 @@
                     "end": 1263
                   },
                   "value": "./mod",
-                  "raw": "'./mod'"
+                  "raw": "'./mod'",
+                  "loneSurrogates": false
                 },
                 "qualifier": {
                   "type": "Identifier",
@@ -1363,7 +1367,8 @@
                     "end": 1291
                   },
                   "value": "./mod",
-                  "raw": "'./mod'"
+                  "raw": "'./mod'",
+                  "loneSurrogates": false
                 },
                 "qualifier": {
                   "type": "Identifier",
@@ -1416,7 +1421,8 @@
                     "end": 1319
                   },
                   "value": "./mod",
-                  "raw": "'./mod'"
+                  "raw": "'./mod'",
+                  "loneSurrogates": false
                 },
                 "qualifier": {
                   "type": "Identifier",
@@ -1469,7 +1475,8 @@
                     "end": 1347
                   },
                   "value": "./mod",
-                  "raw": "'./mod'"
+                  "raw": "'./mod'",
+                  "loneSurrogates": false
                 },
                 "qualifier": {
                   "type": "Identifier",
@@ -1522,7 +1529,8 @@
                     "end": 1375
                   },
                   "value": "./mod",
-                  "raw": "'./mod'"
+                  "raw": "'./mod'",
+                  "loneSurrogates": false
                 },
                 "qualifier": {
                   "type": "Identifier",
@@ -1827,7 +1835,8 @@
                       "end": 1494
                     },
                     "value": "./mod",
-                    "raw": "'./mod'"
+                    "raw": "'./mod'",
+                    "loneSurrogates": false
                   },
                   "qualifier": {
                     "type": "Identifier",
@@ -1888,7 +1897,8 @@
                       "end": 1531
                     },
                     "value": "./mod",
-                    "raw": "'./mod'"
+                    "raw": "'./mod'",
+                    "loneSurrogates": false
                   },
                   "qualifier": {
                     "type": "Identifier",
@@ -1949,7 +1959,8 @@
                       "end": 1575
                     },
                     "value": "./mod",
-                    "raw": "'./mod'"
+                    "raw": "'./mod'",
+                    "loneSurrogates": false
                   },
                   "qualifier": {
                     "type": "Identifier",
@@ -2010,7 +2021,8 @@
                       "end": 1610
                     },
                     "value": "./mod",
-                    "raw": "'./mod'"
+                    "raw": "'./mod'",
+                    "loneSurrogates": false
                   },
                   "qualifier": {
                     "type": "Identifier",
@@ -2071,7 +2083,8 @@
                       "end": 1645
                     },
                     "value": "./mod",
-                    "raw": "'./mod'"
+                    "raw": "'./mod'",
+                    "loneSurrogates": false
                   },
                   "qualifier": {
                     "type": "Identifier",
@@ -2132,7 +2145,8 @@
                       "end": 1680
                     },
                     "value": "./mod",
-                    "raw": "'./mod'"
+                    "raw": "'./mod'",
+                    "loneSurrogates": false
                   },
                   "qualifier": {
                     "type": "Identifier",
@@ -2193,7 +2207,8 @@
                       "end": 1715
                     },
                     "value": "./mod",
-                    "raw": "'./mod'"
+                    "raw": "'./mod'",
+                    "loneSurrogates": false
                   },
                   "qualifier": {
                     "type": "Identifier",

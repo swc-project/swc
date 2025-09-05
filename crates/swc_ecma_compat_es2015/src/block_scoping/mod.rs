@@ -784,6 +784,7 @@ impl VisitMut for FlowHelper<'_> {
                             span,
                             value,
                             raw: None,
+                            lone_surrogates: false,
                         })
                         .into(),
                     ),
@@ -810,6 +811,7 @@ impl VisitMut for FlowHelper<'_> {
                             span,
                             value,
                             raw: None,
+                            lone_surrogates: false,
                         })
                         .into(),
                     ),

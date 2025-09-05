@@ -301,7 +301,8 @@
               "end": 232
             },
             "value": "",
-            "raw": "\"\""
+            "raw": "\"\"",
+            "loneSurrogates": false
           },
           "definite": false
         }

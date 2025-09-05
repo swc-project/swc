@@ -153,6 +153,7 @@ impl swc_bundler::Hook for Hook {
                     span,
                     raw: None,
                     value: file_name.into(),
+                    lone_surrogates: false,
                 }))),
             },
             KeyValueProp {

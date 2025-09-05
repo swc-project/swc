@@ -21,7 +21,8 @@
           "end": 36
         },
         "value": "too*many*asterisks",
-        "raw": "\"too*many*asterisks\""
+        "raw": "\"too*many*asterisks\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",

@@ -893,7 +893,8 @@
           "end": 384
         },
         "value": "./t1",
-        "raw": "\"./t1\""
+        "raw": "\"./t1\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null
@@ -1103,7 +1104,8 @@
           "end": 458
         },
         "value": "./t1",
-        "raw": "\"./t1\""
+        "raw": "\"./t1\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

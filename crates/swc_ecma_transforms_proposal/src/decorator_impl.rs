@@ -255,6 +255,7 @@ impl DecoratorPass {
                     span: i.span,
                     value: i.sym.clone(),
                     raw: None,
+                    lone_surrogates: false,
                 })
                 .into(),
                 Ident::new(
@@ -1045,6 +1046,7 @@ impl VisitMut for DecoratorPass {
                                     span: DUMMY_SP,
                                     value: k.name.clone(),
                                     raw: None,
+                                    lone_surrogates: false,
                                 })
                                 .into();
                                 init = private_ident!(format!("_init_{}", k.name));

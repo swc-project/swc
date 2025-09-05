@@ -376,7 +376,8 @@
                             "end": 266
                           },
                           "value": "Unexpected node.",
-                          "raw": "\"Unexpected node.\""
+                          "raw": "\"Unexpected node.\"",
+                          "loneSurrogates": false
                         }
                       }
                     },
@@ -441,7 +442,8 @@
                               },
                               "tail": false,
                               "cooked": "Node array did not pass test '",
-                              "raw": "Node array did not pass test '"
+                              "raw": "Node array did not pass test '",
+                              "loneSurrogates": false
                             },
                             {
                               "type": "TemplateElement",
@@ -451,7 +453,8 @@
                               },
                               "tail": true,
                               "cooked": "'.",
-                              "raw": "'."
+                              "raw": "'.",
+                              "loneSurrogates": false
                             }
                           ]
                         },

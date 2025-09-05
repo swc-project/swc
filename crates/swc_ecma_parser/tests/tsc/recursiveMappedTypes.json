@@ -2862,7 +2862,8 @@
                   "end": 1497
                 },
                 "value": "type",
-                "raw": "\"type\""
+                "raw": "\"type\"",
+                "loneSurrogates": false
               },
               "computed": false,
               "optional": false,
@@ -2885,7 +2886,8 @@
                       "end": 1505
                     },
                     "value": "list",
-                    "raw": "\"list\""
+                    "raw": "\"list\"",
+                    "loneSurrogates": false
                   }
                 }
               }
@@ -2904,7 +2906,8 @@
                   "end": 1526
                 },
                 "value": "minimum_count",
-                "raw": "\"minimum_count\""
+                "raw": "\"minimum_count\"",
+                "loneSurrogates": false
               },
               "computed": false,
               "optional": false,
@@ -2938,7 +2941,8 @@
                   "end": 1555
                 },
                 "value": "maximum_count",
-                "raw": "\"maximum_count\""
+                "raw": "\"maximum_count\"",
+                "loneSurrogates": false
               },
               "computed": false,
               "optional": false,
@@ -2972,7 +2976,8 @@
                   "end": 1582
                 },
                 "value": "collapsable",
-                "raw": "\"collapsable\""
+                "raw": "\"collapsable\"",
+                "loneSurrogates": false
               },
               "computed": false,
               "optional": true,
@@ -3006,7 +3011,8 @@
                   "end": 1643
                 },
                 "value": "each",
-                "raw": "\"each\""
+                "raw": "\"each\"",
+                "loneSurrogates": false
               },
               "computed": false,
               "optional": false,

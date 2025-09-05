@@ -732,7 +732,8 @@
               "end": 265
             },
             "value": "length",
-            "raw": "'length'"
+            "raw": "'length'",
+            "loneSurrogates": false
           }
         }
       }

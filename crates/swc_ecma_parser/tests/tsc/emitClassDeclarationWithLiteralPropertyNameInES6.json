@@ -38,7 +38,8 @@
               "end": 38
             },
             "value": "hello",
-            "raw": "\"hello\""
+            "raw": "\"hello\"",
+            "loneSurrogates": false
           },
           "value": {
             "type": "NumericLiteral",
@@ -82,7 +83,8 @@
               "end": 64
             },
             "value": "world",
-            "raw": "\"world\""
+            "raw": "\"world\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -117,7 +119,8 @@
               "end": 87
             },
             "value": "WORLD",
-            "raw": "\"WORLD\""
+            "raw": "\"WORLD\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -152,7 +155,8 @@
               "end": 106
             },
             "value": "twenty",
-            "raw": "\"twenty\""
+            "raw": "\"twenty\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -178,7 +182,8 @@
               "end": 117
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "function": {
             "params": [],
@@ -353,7 +358,8 @@
               "end": 188
             },
             "value": "hi",
-            "raw": "\"hi\""
+            "raw": "\"hi\"",
+            "loneSurrogates": false
           },
           "value": {
             "type": "NumericLiteral",
@@ -397,7 +403,8 @@
               "end": 226
             },
             "value": "twenty-two",
-            "raw": "\"twenty-two\""
+            "raw": "\"twenty-two\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -432,7 +439,8 @@
               "end": 255
             },
             "value": "binary",
-            "raw": "\"binary\""
+            "raw": "\"binary\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -467,7 +475,8 @@
               "end": 284
             },
             "value": "octal",
-            "raw": "\"octal\""
+            "raw": "\"octal\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": true,

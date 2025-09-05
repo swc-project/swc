@@ -2239,7 +2239,8 @@
                 "end": 2048
               },
               "value": "hello",
-              "raw": "\"hello\""
+              "raw": "\"hello\"",
+              "loneSurrogates": false
             }
           }
         ],

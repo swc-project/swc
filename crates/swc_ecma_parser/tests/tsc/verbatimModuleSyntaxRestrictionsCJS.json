@@ -125,7 +125,8 @@
           "end": 298
         },
         "value": "ambient",
-        "raw": "\"ambient\""
+        "raw": "\"ambient\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -232,7 +233,8 @@
           "end": 409
         },
         "value": "./decl",
-        "raw": "\"./decl\""
+        "raw": "\"./decl\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -270,7 +272,8 @@
           "end": 451
         },
         "value": "./decl",
-        "raw": "\"./decl\""
+        "raw": "\"./decl\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -310,7 +313,8 @@
           "end": 495
         },
         "value": "./decl",
-        "raw": "\"./decl\""
+        "raw": "\"./decl\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -359,7 +363,8 @@
           "end": 557
         },
         "value": "./decl",
-        "raw": "\"./decl\""
+        "raw": "\"./decl\"",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null,
@@ -396,7 +401,8 @@
                 "end": 589
               },
               "value": "./decl",
-              "raw": "\"./decl\""
+              "raw": "\"./decl\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -440,7 +446,8 @@
               "end": 632
             },
             "value": "./decl",
-            "raw": "\"./decl\""
+            "raw": "\"./decl\"",
+            "loneSurrogates": false
           },
           "qualifier": null,
           "typeArguments": null,
@@ -1085,7 +1092,8 @@
           "end": 1323
         },
         "value": "./decl",
-        "raw": "\"./decl\""
+        "raw": "\"./decl\"",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null,

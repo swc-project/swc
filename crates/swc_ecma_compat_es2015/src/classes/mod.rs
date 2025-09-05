@@ -570,6 +570,7 @@ impl Classes {
                     span: DUMMY_SP,
                     value: atom!("use strict"),
                     raw: Some(atom!("\"use strict\"")),
+                    lone_surrogates: false,
                 })
                 .into_stmt(),
             );
@@ -631,6 +632,7 @@ impl Classes {
                     PropName::BigInt(b) => Str {
                         span: b.span,
                         raw: None,
+                        lone_surrogates: false,
                         value: b.value.to_string().into(),
                     }
                     .into(),
@@ -657,6 +659,7 @@ impl Classes {
                     expr: Str {
                         span: b.span,
                         raw: None,
+                        lone_surrogates: false,
                         value: b.value.to_string().into(),
                     }
                     .into(),

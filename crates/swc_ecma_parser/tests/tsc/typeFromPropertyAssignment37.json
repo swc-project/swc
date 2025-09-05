@@ -256,7 +256,8 @@
                     "end": 219
                   },
                   "value": "./mod",
-                  "raw": "'./mod'"
+                  "raw": "'./mod'",
+                  "loneSurrogates": false
                 }
               }
             ],

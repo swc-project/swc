@@ -43,6 +43,7 @@ impl VisitMut for DisplayName {
                     Lit::Str(Str {
                         span: prop.span,
                         raw: None,
+                        lone_surrogates: false,
                         value: prop.sym.clone(),
                     })
                     .into(),
@@ -56,6 +57,7 @@ impl VisitMut for DisplayName {
                     Lit::Str(Str {
                         span: ident.span,
                         raw: None,
+                        lone_surrogates: false,
                         value: ident.sym.clone(),
                     })
                     .into(),
@@ -73,6 +75,7 @@ impl VisitMut for DisplayName {
                     Lit::Str(Str {
                         span: DUMMY_SP,
                         raw: None,
+                        lone_surrogates: false,
                         value: atom!("input"),
                     })
                     .into(),
@@ -101,6 +104,21 @@ impl VisitMut for DisplayName {
             };
 
             value.visit_mut_with(&mut Folder { name: Some(name) });
+            value.visit_mut_with(&mut Folder {
+                name: Some(match key {
+                    PropName::Ident(ref i) => Lit::Str(Str {
+                        span: i.span,
+                        raw: None,
+                        lone_surrogates: false,
+                        value: i.sym.clone(),
+                    })
+                    .into(),
+                    PropName::Str(ref s) => Lit::Str(s.clone()).into(),
+                    PropName::Num(ref n) => Lit::Num(n.clone()).into(),
+                    PropName::BigInt(ref b) => Lit::BigInt(b.clone()).into(),
+                    PropName::Computed(ref c) => c.expr.clone(),
+                }),
+            });
         }
     }
 
@@ -112,6 +130,7 @@ impl VisitMut for DisplayName {
                         span: ident.span,
                         value: ident.sym.clone(),
                         raw: None,
+                        lone_surrogates: false,
                     })
                     .into(),
                 ),

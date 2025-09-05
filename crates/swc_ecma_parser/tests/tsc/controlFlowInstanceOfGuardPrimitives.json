@@ -199,7 +199,8 @@
                               "end": 133
                             },
                             "value": "Aha!! It's a Date in ",
-                            "raw": "\"Aha!! It's a Date in \""
+                            "raw": "\"Aha!! It's a Date in \"",
+                            "loneSurrogates": false
                           },
                           "right": {
                             "type": "CallExpression",
@@ -282,7 +283,8 @@
                     "end": 198
                   },
                   "value": "string",
-                  "raw": "'string'"
+                  "raw": "'string'",
+                  "loneSurrogates": false
                 }
               },
               "consequent": {
@@ -348,7 +350,8 @@
                                 "end": 254
                               },
                               "value": "Aha!! It's a string of length ",
-                              "raw": "\"Aha!! It's a string of length \""
+                              "raw": "\"Aha!! It's a string of length \"",
+                              "loneSurrogates": false
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -446,7 +449,8 @@
                                 "end": 329
                               },
                               "value": "Aha!! It's the number ",
-                              "raw": "\"Aha!! It's the number \""
+                              "raw": "\"Aha!! It's the number \"",
+                              "loneSurrogates": false
                             },
                             "right": {
                               "type": "CallExpression",
@@ -597,7 +601,8 @@
                 "end": 407
               },
               "value": "beef",
-              "raw": "\"beef\""
+              "raw": "\"beef\"",
+              "loneSurrogates": false
             }
           }
         ],

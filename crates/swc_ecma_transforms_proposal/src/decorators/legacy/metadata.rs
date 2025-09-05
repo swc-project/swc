@@ -337,6 +337,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                                 span: DUMMY_SP,
                                 value: atom!("undefined"),
                                 raw: None,
+                                lone_surrogates: false,
                             }))),
                         }
                         .into(),
@@ -360,6 +361,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                         span: DUMMY_SP,
                         value: atom!("undefined"),
                         raw: None,
+                        lone_surrogates: false,
                     })
                     .into(),
                 ),

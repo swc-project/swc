@@ -39,7 +39,8 @@
           "end": 279
         },
         "value": "./foo",
-        "raw": "\"./foo\""
+        "raw": "\"./foo\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

@@ -876,7 +876,8 @@
                             "end": 434
                           },
                           "value": "Hello, World!",
-                          "raw": "\"Hello, World!\""
+                          "raw": "\"Hello, World!\"",
+                          "loneSurrogates": false
                         }
                       }
                     ],

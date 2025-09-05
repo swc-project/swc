@@ -45,7 +45,8 @@
                 "end": 97
               },
               "value": "foo",
-              "raw": "\"foo\""
+              "raw": "\"foo\"",
+              "loneSurrogates": false
             },
             "definite": false
           }

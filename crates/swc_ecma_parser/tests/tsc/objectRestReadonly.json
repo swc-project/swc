@@ -239,7 +239,8 @@
                     "end": 119
                   },
                   "value": "bar",
-                  "raw": "'bar'"
+                  "raw": "'bar'",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -259,7 +260,8 @@
                     "end": 133
                   },
                   "value": "qux",
-                  "raw": "'qux'"
+                  "raw": "'qux'",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -279,7 +281,8 @@
                     "end": 149
                   },
                   "value": "quuz",
-                  "raw": "'quuz'"
+                  "raw": "'quuz'",
+                  "loneSurrogates": false
                 }
               }
             ]

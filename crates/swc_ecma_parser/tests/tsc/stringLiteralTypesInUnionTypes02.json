@@ -51,7 +51,8 @@
                 "end": 47
               },
               "value": "foo",
-              "raw": "\"foo\""
+              "raw": "\"foo\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -67,7 +68,8 @@
                 "end": 55
               },
               "value": "bar",
-              "raw": "\"bar\""
+              "raw": "\"bar\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -83,7 +85,8 @@
                 "end": 63
               },
               "value": "baz",
-              "raw": "\"baz\""
+              "raw": "\"baz\"",
+              "loneSurrogates": false
             }
           }
         ]
@@ -140,7 +143,8 @@
                         "end": 78
                       },
                       "value": "foo",
-                      "raw": "\"foo\""
+                      "raw": "\"foo\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -156,7 +160,8 @@
                         "end": 86
                       },
                       "value": "bar",
-                      "raw": "\"bar\""
+                      "raw": "\"bar\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -172,7 +177,8 @@
                         "end": 94
                       },
                       "value": "baz",
-                      "raw": "\"baz\""
+                      "raw": "\"baz\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -296,7 +302,8 @@
             "end": 155
           },
           "value": "foo",
-          "raw": "\"foo\""
+          "raw": "\"foo\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -380,7 +387,8 @@
               "end": 196
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         },
         "consequent": {

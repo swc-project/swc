@@ -20,7 +20,7 @@ impl<I: Tokens> Parser<I> {
         let cur = self.input.cur();
         debug_assert!(matches!(cur, &Token::NoSubstitutionTemplateLiteral));
 
-        let (cooked, raw) = (*cur).take_template(self.input_mut());
+        let (cooked, raw, lone_surrogates) = (*cur).take_template(self.input_mut());
         let (raw, cooked) = match cooked {
             Ok(cooked) => (raw, Some(cooked)),
             Err(err) => {
@@ -52,6 +52,7 @@ impl<I: Tokens> Parser<I> {
                 tail: true,
                 raw,
                 cooked,
+                lone_surrogates,
             }],
         })
     }
@@ -61,7 +62,7 @@ impl<I: Tokens> Parser<I> {
         let cur = self.input().cur();
         debug_assert!(matches!(cur, &Token::TemplateHead));
 
-        let (cooked, raw) = (*cur).take_template(self.input_mut());
+        let (cooked, raw, lone_surrogates) = (*cur).take_template(self.input_mut());
         let (raw, cooked) = match cooked {
             Ok(cooked) => (raw, Some(cooked)),
             Err(err) => {
@@ -87,6 +88,7 @@ impl<I: Tokens> Parser<I> {
             raw,
             tail: false,
             cooked,
+            lone_surrogates,
         })
     }
 
@@ -131,9 +133,9 @@ impl<I: Tokens> Parser<I> {
         }
         let start = self.cur_pos();
         let cur = self.input_mut().cur();
-        let (raw, cooked, tail, span) = match *cur {
+        let (raw, cooked, tail, lone_surrogates, span) = match *cur {
             Token::TemplateMiddle => {
-                let (cooked, raw) = (*cur).take_template(self.input_mut());
+                let (cooked, raw, lone_surrogates) = (*cur).take_template(self.input_mut());
                 self.bump();
                 let pos = self.input.prev_span().hi;
                 debug_assert!(start.0 <= pos.0 - 2);
@@ -141,10 +143,10 @@ impl<I: Tokens> Parser<I> {
                 // `pos.0 - 2` means skip '${'
                 let span = Span::new_with_checked(start, BytePos::from_u32(pos.0 - 2));
                 match cooked {
-                    Ok(cooked) => (raw, Some(cooked), false, span),
+                    Ok(cooked) => (raw, Some(cooked), false, lone_surrogates, span),
                     Err(err) => {
                         if is_tagged_tpl {
-                            (raw, None, false, span)
+                            (raw, None, false, lone_surrogates, span)
                         } else {
                             return Err(err);
                         }
@@ -152,7 +154,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
             Token::TemplateTail => {
-                let (cooked, raw) = (*cur).take_template(self.input_mut());
+                let (cooked, raw, lone_surrogates) = (*cur).take_template(self.input_mut());
                 self.bump();
                 let pos = self.input.prev_span().hi;
                 debug_assert!(start.0 < pos.0);
@@ -160,10 +162,10 @@ impl<I: Tokens> Parser<I> {
                 // `pos.0 - 1` means skip '`'
                 let span = Span::new_with_checked(start, BytePos::from_u32(pos.0 - 1));
                 match cooked {
-                    Ok(cooked) => (raw, Some(cooked), true, span),
+                    Ok(cooked) => (raw, Some(cooked), true, lone_surrogates, span),
                     Err(err) => {
                         if is_tagged_tpl {
-                            (raw, None, true, span)
+                            (raw, None, true, lone_surrogates, span)
                         } else {
                             return Err(err);
                         }
@@ -185,6 +187,7 @@ impl<I: Tokens> Parser<I> {
             raw,
             tail,
             cooked,
+            lone_surrogates,
         })
     }
 
@@ -242,7 +245,7 @@ impl<I: Tokens> Parser<I> {
         let cur = self.input.cur();
         debug_assert!(matches!(cur, &Token::NoSubstitutionTemplateLiteral));
 
-        let (cooked, raw) = (*cur).take_template(self.input_mut());
+        let (cooked, raw, lone_surrogates) = (*cur).take_template(self.input_mut());
         let (raw, cooked) = match cooked {
             Ok(cooked) => (raw, Some(cooked)),
             Err(_) => (raw, None),
@@ -268,6 +271,7 @@ impl<I: Tokens> Parser<I> {
                 tail: true,
                 raw,
                 cooked,
+                lone_surrogates,
             }],
         })
     }

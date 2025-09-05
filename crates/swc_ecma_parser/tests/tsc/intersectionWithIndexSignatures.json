@@ -1696,7 +1696,8 @@
                     "end": 600
                   },
                   "value": "asd",
-                  "raw": "\"asd\""
+                  "raw": "\"asd\"",
+                  "loneSurrogates": false
                 }
               }
             },
@@ -1776,7 +1777,8 @@
                 "end": 622
               },
               "value": "asd",
-              "raw": "\"asd\""
+              "raw": "\"asd\"",
+              "loneSurrogates": false
             }
           }
         },

@@ -1021,7 +1021,8 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -1119,7 +1120,8 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -1281,7 +1283,8 @@
                       "end": 499
                     },
                     "value": "y",
-                    "raw": "\"y\""
+                    "raw": "\"y\"",
+                    "loneSurrogates": false
                   }
                 }
               }
@@ -1365,7 +1368,8 @@
                         "end": 527
                       },
                       "value": "y",
-                      "raw": "\"y\""
+                      "raw": "\"y\"",
+                      "loneSurrogates": false
                     }
                   }
                 }
@@ -2445,7 +2449,8 @@
                             },
                             "tail": true,
                             "cooked": "",
-                            "raw": ""
+                            "raw": "",
+                            "loneSurrogates": false
                           }
                         ]
                       }
@@ -2587,7 +2592,8 @@
                             },
                             "tail": true,
                             "cooked": "",
-                            "raw": ""
+                            "raw": "",
+                            "loneSurrogates": false
                           }
                         ]
                       }
@@ -2837,7 +2843,8 @@
                             "end": 929
                           },
                           "value": "y",
-                          "raw": "\"y\""
+                          "raw": "\"y\"",
+                          "loneSurrogates": false
                         }
                       }
                     }
@@ -2965,7 +2972,8 @@
                               "end": 965
                             },
                             "value": "y",
-                            "raw": "\"y\""
+                            "raw": "\"y\"",
+                            "loneSurrogates": false
                           }
                         }
                       }

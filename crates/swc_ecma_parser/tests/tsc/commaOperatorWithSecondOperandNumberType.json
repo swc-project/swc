@@ -953,7 +953,8 @@
               "end": 563
             },
             "value": "",
-            "raw": "\"\""
+            "raw": "\"\"",
+            "loneSurrogates": false
           },
           {
             "type": "AssignmentExpression",
@@ -1409,7 +1410,8 @@
                     "end": 795
                   },
                   "value": "",
-                  "raw": "\"\""
+                  "raw": "\"\"",
+                  "loneSurrogates": false
                 },
                 {
                   "type": "AssignmentExpression",

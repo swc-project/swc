@@ -60,7 +60,8 @@
                   "end": 37
                 },
                 "value": "",
-                "raw": "\"\""
+                "raw": "\"\"",
+                "loneSurrogates": false
               },
               "alternate": {
                 "type": "StringLiteral",
@@ -69,7 +70,8 @@
                   "end": 42
                 },
                 "value": "",
-                "raw": "\"\""
+                "raw": "\"\"",
+                "loneSurrogates": false
               }
             }
           },
