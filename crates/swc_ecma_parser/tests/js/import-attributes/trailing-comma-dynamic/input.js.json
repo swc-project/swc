@@ -36,8 +36,7 @@
                 "end": 16
               },
               "value": "foo.js",
-              "raw": "\"foo.js\"",
-              "loneSurrogates": false
+              "raw": "\"foo.js\""
             }
           }
         ],
@@ -75,8 +74,7 @@
                 "end": 37
               },
               "value": "foo.json",
-              "raw": "\"foo.json\"",
-              "loneSurrogates": false
+              "raw": "\"foo.json\""
             }
           },
           {
@@ -122,8 +120,7 @@
                             "end": 61
                           },
                           "value": "json",
-                          "raw": "\"json\"",
-                          "loneSurrogates": false
+                          "raw": "\"json\""
                         }
                       }
                     ]

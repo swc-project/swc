@@ -306,14 +306,12 @@ mod tests {
                                     span,
                                     value: atom!(""),
                                     raw: Some(atom!("''")),
-                                    lone_surrogates: false,
                                 }),
                                 "sym",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
                                     value: atom!(""),
                                     raw: Some(atom!("''")),
-                                    lone_surrogates: false,
                                 }))
                             ),
                             prop(
@@ -321,14 +319,12 @@ mod tests {
                                     span,
                                     value: atom!(" "),
                                     raw: Some(atom!("\" \"")),
-                                    lone_surrogates: false,
                                 }),
                                 "quote",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
                                     value: atom!(" "),
                                     raw: Some(atom!("\" \"")),
-                                    lone_surrogates: false,
                                 }))
                             ),
                             prop(

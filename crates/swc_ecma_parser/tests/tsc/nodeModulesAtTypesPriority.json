@@ -290,8 +290,7 @@
           "end": 588
         },
         "value": "react",
-        "raw": "\"react\"",
-        "loneSurrogates": false
+        "raw": "\"react\""
       },
       "typeOnly": false,
       "with": null,
@@ -331,8 +330,7 @@
           "end": 625
         },
         "value": "redux",
-        "raw": "\"redux\"",
-        "loneSurrogates": false
+        "raw": "\"redux\""
       },
       "typeOnly": false,
       "with": null,

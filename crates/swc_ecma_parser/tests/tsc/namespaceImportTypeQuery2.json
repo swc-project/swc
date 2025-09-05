@@ -98,8 +98,7 @@
           "end": 99
         },
         "value": "./z",
-        "raw": "'./z'",
-        "loneSurrogates": false
+        "raw": "'./z'"
       },
       "typeOnly": false,
       "with": null,
@@ -248,8 +247,7 @@
           "end": 196
         },
         "value": "./a",
-        "raw": "'./a'",
-        "loneSurrogates": false
+        "raw": "'./a'"
       },
       "typeOnly": false,
       "with": null,

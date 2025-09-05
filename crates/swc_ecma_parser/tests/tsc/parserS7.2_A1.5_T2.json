@@ -38,8 +38,7 @@
                 "end": 353
               },
               "value": " var x = 1 ",
-              "raw": "\"\\u00A0var x\\u00A0= 1\\u00A0\"",
-              "loneSurrogates": false
+              "raw": "\"\\u00A0var x\\u00A0= 1\\u00A0\""
             }
           }
         ],
@@ -127,8 +126,7 @@
                         "end": 442
                       },
                       "value": "#1: eval(\"\\u00A0var x\\u00A0= 1\\u00A0\"); x === 1. Actual: ",
-                      "raw": "'#1: eval(\"\\\\u00A0var x\\\\u00A0= 1\\\\u00A0\"); x === 1. Actual: '",
-                      "loneSurrogates": false
+                      "raw": "'#1: eval(\"\\\\u00A0var x\\\\u00A0= 1\\\\u00A0\"); x === 1. Actual: '"
                     },
                     "right": {
                       "type": "ParenthesisExpression",
@@ -278,8 +276,7 @@
                         "end": 543
                       },
                       "value": "#2:  var x = 1 ; x === 1. Actual: ",
-                      "raw": "'#2:  var x = 1 ; x === 1. Actual: '",
-                      "loneSurrogates": false
+                      "raw": "'#2:  var x = 1 ; x === 1. Actual: '"
                     },
                     "right": {
                       "type": "ParenthesisExpression",

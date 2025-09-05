@@ -171,8 +171,7 @@
                       "end": 115
                     },
                     "value": "test",
-                    "raw": "\"test\"",
-                    "loneSurrogates": false
+                    "raw": "\"test\""
                   }
                 }
               }

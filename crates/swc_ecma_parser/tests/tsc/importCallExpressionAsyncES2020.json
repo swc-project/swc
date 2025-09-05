@@ -97,8 +97,7 @@
                               "end": 127
                             },
                             "value": "./test",
-                            "raw": "'./test'",
-                            "loneSurrogates": false
+                            "raw": "'./test'"
                           }
                         }
                       ],
@@ -231,8 +230,7 @@
                                     "end": 222
                                   },
                                   "value": "./test",
-                                  "raw": "'./test'",
-                                  "loneSurrogates": false
+                                  "raw": "'./test'"
                                 }
                               }
                             ],
@@ -389,8 +387,7 @@
                                           "end": 323
                                         },
                                         "value": "./test",
-                                        "raw": "'./test'",
-                                        "loneSurrogates": false
+                                        "raw": "'./test'"
                                       }
                                     }
                                   ],
@@ -547,8 +544,7 @@
                                           "end": 449
                                         },
                                         "value": "./test",
-                                        "raw": "'./test'",
-                                        "loneSurrogates": false
+                                        "raw": "'./test'"
                                       }
                                     }
                                   ],
@@ -695,8 +691,7 @@
                                     "end": 546
                                   },
                                   "value": "./test",
-                                  "raw": "'./test'",
-                                  "loneSurrogates": false
+                                  "raw": "'./test'"
                                 }
                               }
                             ],

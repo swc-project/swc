@@ -38,8 +38,7 @@
               "end": 36
             },
             "value": "a",
-            "raw": "\"a\"",
-            "loneSurrogates": false
+            "raw": "\"a\""
           },
           "function": {
             "params": [

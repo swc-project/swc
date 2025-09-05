@@ -430,8 +430,7 @@
                                     "end": 264
                                   },
                                   "value": " ",
-                                  "raw": "' '",
-                                  "loneSurrogates": false
+                                  "raw": "' '"
                                 },
                                 "alternate": {
                                   "type": "StringLiteral",
@@ -440,8 +439,7 @@
                                     "end": 269
                                   },
                                   "value": "",
-                                  "raw": "''",
-                                  "loneSurrogates": false
+                                  "raw": "''"
                                 }
                               }
                             }

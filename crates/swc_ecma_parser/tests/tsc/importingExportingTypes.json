@@ -21,8 +21,7 @@
           "end": 125
         },
         "value": "fs",
-        "raw": "\"fs\"",
-        "loneSurrogates": false
+        "raw": "\"fs\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -392,8 +391,7 @@
           "end": 392
         },
         "value": "fs",
-        "raw": "\"fs\"",
-        "loneSurrogates": false
+        "raw": "\"fs\""
       },
       "typeOnly": false,
       "with": null,

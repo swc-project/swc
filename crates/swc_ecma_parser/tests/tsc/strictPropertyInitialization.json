@@ -1171,8 +1171,7 @@
               "end": 877
             },
             "value": "abc",
-            "raw": "\"abc\"",
-            "loneSurrogates": false
+            "raw": "\"abc\""
           },
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
@@ -1301,8 +1300,7 @@
               "end": 930
             },
             "value": "abc",
-            "raw": "\"abc\"",
-            "loneSurrogates": false
+            "raw": "\"abc\""
           },
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
@@ -2320,8 +2318,7 @@
               "end": 1664
             },
             "value": "b",
-            "raw": "\"b\"",
-            "loneSurrogates": false
+            "raw": "\"b\""
           },
           "value": null,
           "typeAnnotation": {
@@ -3474,8 +3471,7 @@
               "end": 2541
             },
             "value": "a",
-            "raw": "'a'",
-            "loneSurrogates": false
+            "raw": "'a'"
           },
           "definite": false
         }
@@ -3669,8 +3665,7 @@
                 "end": 2618
               },
               "value": "c",
-              "raw": "'c'",
-              "loneSurrogates": false
+              "raw": "'c'"
             }
           },
           "value": null,
@@ -3872,8 +3867,7 @@
                           "end": 2708
                         },
                         "value": "c",
-                        "raw": "'c'",
-                        "loneSurrogates": false
+                        "raw": "'c'"
                       }
                     }
                   },
@@ -3942,8 +3936,7 @@
               "end": 2744
             },
             "value": "A",
-            "raw": "\"A\"",
-            "loneSurrogates": false
+            "raw": "\"A\""
           }
         },
         {
@@ -3969,8 +3962,7 @@
               "end": 2757
             },
             "value": "B",
-            "raw": "\"B\"",
-            "loneSurrogates": false
+            "raw": "\"B\""
           }
         }
       ]

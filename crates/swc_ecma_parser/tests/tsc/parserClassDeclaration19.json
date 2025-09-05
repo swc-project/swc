@@ -73,8 +73,7 @@
               "end": 31
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           },
           "function": {
             "params": [],

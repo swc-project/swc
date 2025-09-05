@@ -179,8 +179,7 @@
                   "end": 182
                 },
                 "value": "string",
-                "raw": "\"string\"",
-                "loneSurrogates": false
+                "raw": "\"string\""
               }
             },
             "consequent": {
@@ -417,8 +416,7 @@
                   "end": 344
                 },
                 "value": "string",
-                "raw": "\"string\"",
-                "loneSurrogates": false
+                "raw": "\"string\""
               }
             },
             "consequent": {
@@ -708,8 +706,7 @@
                   "end": 527
                 },
                 "value": "string",
-                "raw": "\"string\"",
-                "loneSurrogates": false
+                "raw": "\"string\""
               }
             },
             "consequent": {
@@ -1270,8 +1267,7 @@
                       "end": 843
                     },
                     "value": "Test is not defined",
-                    "raw": "'Test is not defined'",
-                    "loneSurrogates": false
+                    "raw": "'Test is not defined'"
                   }
                 }
               ],

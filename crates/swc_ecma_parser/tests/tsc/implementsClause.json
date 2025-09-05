@@ -72,8 +72,7 @@
           "end": 112
         },
         "value": "./types",
-        "raw": "'./types'",
-        "loneSurrogates": false
+        "raw": "'./types'"
       },
       "typeOnly": true,
       "with": null,
@@ -142,8 +141,7 @@
           "end": 193
         },
         "value": "./types",
-        "raw": "'./types'",
-        "loneSurrogates": false
+        "raw": "'./types'"
       },
       "typeOnly": true,
       "with": null,
@@ -181,8 +179,7 @@
           "end": 234
         },
         "value": "./ns",
-        "raw": "'./ns'",
-        "loneSurrogates": false
+        "raw": "'./ns'"
       },
       "typeOnly": false,
       "with": null,

@@ -301,8 +301,7 @@
                                         "end": 312
                                       },
                                       "value": "ERR",
-                                      "raw": "'ERR'",
-                                      "loneSurrogates": false
+                                      "raw": "'ERR'"
                                     }
                                   }
                                 ],
@@ -447,8 +446,7 @@
                               "end": 412
                             },
                             "value": "E %s %s",
-                            "raw": "'E %s %s'",
-                            "loneSurrogates": false
+                            "raw": "'E %s %s'"
                           }
                         },
                         {

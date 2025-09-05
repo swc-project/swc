@@ -73,8 +73,7 @@
                           "end": 429
                         },
                         "value": "parseHTML",
-                        "raw": "'parseHTML'",
-                        "loneSurrogates": false
+                        "raw": "'parseHTML'"
                       }
                     },
                     {
@@ -94,8 +93,7 @@
                           "end": 464
                         },
                         "value": "Parse HTML & CSS",
-                        "raw": "'Parse HTML & CSS'",
-                        "loneSurrogates": false
+                        "raw": "'Parse HTML & CSS'"
                       }
                     }
                   ]
@@ -135,8 +133,7 @@
                           "end": 516
                         },
                         "value": "styleLayout",
-                        "raw": "'styleLayout'",
-                        "loneSurrogates": false
+                        "raw": "'styleLayout'"
                       }
                     },
                     {
@@ -156,8 +153,7 @@
                           "end": 549
                         },
                         "value": "Style & Layout",
-                        "raw": "'Style & Layout'",
-                        "loneSurrogates": false
+                        "raw": "'Style & Layout'"
                       }
                     }
                   ]
@@ -369,8 +365,7 @@
                     "end": 771
                   },
                   "value": "./module.js",
-                  "raw": "'./module.js'",
-                  "loneSurrogates": false
+                  "raw": "'./module.js'"
                 }
               }
             ],

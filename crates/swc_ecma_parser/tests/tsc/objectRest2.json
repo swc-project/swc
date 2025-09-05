@@ -443,8 +443,7 @@
                 "end": 371
               },
               "value": "test",
-              "raw": "'test'",
-              "loneSurrogates": false
+              "raw": "'test'"
             }
           }
         ],

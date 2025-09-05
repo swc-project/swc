@@ -81,8 +81,7 @@
                 "end": 145
               },
               "value": "D",
-              "raw": "\"D\"",
-              "loneSurrogates": false
+              "raw": "\"D\""
             }
           }
         },
@@ -140,8 +139,7 @@
                 "end": 269
               },
               "value": "Does not work yet",
-              "raw": "\"Does not work yet\"",
-              "loneSurrogates": false
+              "raw": "\"Does not work yet\""
             }
           }
         },

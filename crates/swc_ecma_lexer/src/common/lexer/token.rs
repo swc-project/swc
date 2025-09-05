@@ -154,19 +154,14 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
     fn is_jsx_name(&self) -> bool;
     fn take_jsx_name(self, buffer: &mut Self::Buffer) -> Atom;
 
-    fn str(value: Atom, raw: Atom, lone_surrogates: bool, lexer: &mut Self::Lexer) -> Self;
+    fn str(value: Atom, raw: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_str(&self) -> bool;
     fn is_str_raw_content(&self, content: &str, buffer: &Self::Buffer) -> bool;
-    fn take_str(self, buffer: &mut Self::Buffer) -> (Atom, Atom, bool);
+    fn take_str(self, buffer: &mut Self::Buffer) -> (Atom, Atom);
 
-    fn template(
-        cooked: LexResult<Atom>,
-        raw: Atom,
-        lone_surrogates: bool,
-        lexer: &mut Self::Lexer,
-    ) -> Self;
+    fn template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_template(&self) -> bool;
-    fn take_template(self, buffer: &mut Self::Buffer) -> (LexResult<Atom>, Atom, bool);
+    fn take_template(self, buffer: &mut Self::Buffer) -> (LexResult<Atom>, Atom);
 
     fn jsx_text(value: Atom, raw: Atom, lexer: &mut Self::Lexer) -> Self;
     fn is_jsx_text(&self) -> bool;

@@ -366,8 +366,7 @@
           "end": 441
         },
         "value": "./index3",
-        "raw": "\"./index3\"",
-        "loneSurrogates": false
+        "raw": "\"./index3\""
       },
       "typeOnly": false,
       "with": null,

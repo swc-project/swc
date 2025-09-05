@@ -74,8 +74,7 @@
                     "end": 43
                   },
                   "value": "assign",
-                  "raw": "\"assign\"",
-                  "loneSurrogates": false
+                  "raw": "\"assign\""
                 }
               }
             ],
@@ -119,8 +118,7 @@
               "end": 58
             },
             "value": "",
-            "raw": "\"\"",
-            "loneSurrogates": false
+            "raw": "\"\""
           },
           "definite": false
         }
@@ -441,8 +439,7 @@
             "end": 131
           },
           "value": "",
-          "raw": "\"\"",
-          "loneSurrogates": false
+          "raw": "\"\""
         }
       }
     },

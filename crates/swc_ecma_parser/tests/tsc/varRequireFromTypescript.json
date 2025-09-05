@@ -314,8 +314,7 @@
                     "end": 253
                   },
                   "value": "./ex",
-                  "raw": "'./ex'",
-                  "loneSurrogates": false
+                  "raw": "'./ex'"
                 }
               }
             ],

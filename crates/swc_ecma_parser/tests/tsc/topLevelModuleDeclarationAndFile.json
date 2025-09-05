@@ -82,8 +82,7 @@
           "end": 130
         },
         "value": "vs/foo_0",
-        "raw": "\"vs/foo_0\"",
-        "loneSurrogates": false
+        "raw": "\"vs/foo_0\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -195,8 +194,7 @@
             "end": 253
           },
           "value": "vs/foo_0",
-          "raw": "\"vs/foo_0\"",
-          "loneSurrogates": false
+          "raw": "\"vs/foo_0\""
         }
       }
     },

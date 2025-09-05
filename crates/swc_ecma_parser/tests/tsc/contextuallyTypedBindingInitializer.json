@@ -304,8 +304,7 @@
                     "end": 147
                   },
                   "value": "show",
-                  "raw": "\"show\"",
-                  "loneSurrogates": false
+                  "raw": "\"show\""
                 },
                 "value": {
                   "type": "AssignmentPattern",
@@ -479,8 +478,7 @@
                       "end": 213
                     },
                     "value": "show",
-                    "raw": "\"show\"",
-                    "loneSurrogates": false
+                    "raw": "\"show\""
                   }
                 },
                 "value": {
@@ -1020,8 +1018,7 @@
                           "end": 441
                         },
                         "value": "hello",
-                        "raw": "\"hello\"",
-                        "loneSurrogates": false
+                        "raw": "\"hello\""
                       }
                     },
                     {
@@ -1160,8 +1157,7 @@
                         "end": 503
                       },
                       "value": "foo",
-                      "raw": "\"foo\"",
-                      "loneSurrogates": false
+                      "raw": "\"foo\""
                     }
                   },
                   {
@@ -1177,8 +1173,7 @@
                         "end": 511
                       },
                       "value": "bar",
-                      "raw": "\"bar\"",
-                      "loneSurrogates": false
+                      "raw": "\"bar\""
                     }
                   }
                 ]
@@ -1240,8 +1235,7 @@
                     "end": 540
                   },
                   "value": "foo",
-                  "raw": "\"foo\"",
-                  "loneSurrogates": false
+                  "raw": "\"foo\""
                 }
               }
             ],

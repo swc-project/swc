@@ -19,8 +19,7 @@
           "end": 11
         },
         "value": "x",
-        "raw": "\"x\"",
-        "loneSurrogates": false
+        "raw": "\"x\""
       },
       "typeOnly": false,
       "with": {
@@ -47,8 +46,7 @@
                 "end": 31
               },
               "value": "json",
-              "raw": "\"json\"",
-              "loneSurrogates": false
+              "raw": "\"json\""
             }
           }
         ]

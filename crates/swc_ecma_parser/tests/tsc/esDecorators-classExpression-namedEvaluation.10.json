@@ -222,8 +222,7 @@
                   "end": 242
                 },
                 "value": "x",
-                "raw": "\"x\"",
-                "loneSurrogates": false
+                "raw": "\"x\""
               },
               "value": {
                 "type": "ClassExpression",
@@ -423,8 +422,7 @@
                     "end": 329
                   },
                   "value": "x",
-                  "raw": "\"x\"",
-                  "loneSurrogates": false
+                  "raw": "\"x\""
                 }
               },
               "value": {
@@ -837,8 +835,7 @@
                   "end": 582
                 },
                 "value": "__proto__",
-                "raw": "\"__proto__\"",
-                "loneSurrogates": false
+                "raw": "\"__proto__\""
               },
               "value": {
                 "type": "ClassExpression",
@@ -1072,8 +1069,7 @@
                   "end": 677
                 },
                 "value": "x",
-                "raw": "\"x\"",
-                "loneSurrogates": false
+                "raw": "\"x\""
               },
               "value": {
                 "type": "ClassExpression",
@@ -1355,8 +1351,7 @@
                     "end": 780
                   },
                   "value": "x",
-                  "raw": "\"x\"",
-                  "loneSurrogates": false
+                  "raw": "\"x\""
                 }
               },
               "value": {
@@ -1892,8 +1887,7 @@
                   "end": 1057
                 },
                 "value": "__proto__",
-                "raw": "\"__proto__\"",
-                "loneSurrogates": false
+                "raw": "\"__proto__\""
               },
               "value": {
                 "type": "ClassExpression",

@@ -133,8 +133,7 @@
               "end": 452
             },
             "value": "hello",
-            "raw": "\"hello\"",
-            "loneSurrogates": false
+            "raw": "\"hello\""
           }
         }
       ]
@@ -339,8 +338,7 @@
               "end": 553
             },
             "value": "one",
-            "raw": "\"one\"",
-            "loneSurrogates": false
+            "raw": "\"one\""
           }
         },
         {
@@ -366,8 +364,7 @@
               "end": 568
             },
             "value": "two",
-            "raw": "\"two\"",
-            "loneSurrogates": false
+            "raw": "\"two\""
           }
         },
         {
@@ -393,8 +390,7 @@
               "end": 585
             },
             "value": "three",
-            "raw": "\"three\"",
-            "loneSurrogates": false
+            "raw": "\"three\""
           }
         }
       ]
@@ -477,8 +473,7 @@
               "end": 626
             },
             "value": "hi",
-            "raw": "\"hi\"",
-            "loneSurrogates": false
+            "raw": "\"hi\""
           }
         },
         {
@@ -548,8 +543,7 @@
               "end": 660
             },
             "value": "bye",
-            "raw": "\"bye\"",
-            "loneSurrogates": false
+            "raw": "\"bye\""
           }
         }
       ]
@@ -622,8 +616,7 @@
               "end": 702
             },
             "value": "hello",
-            "raw": "\"hello\"",
-            "loneSurrogates": false
+            "raw": "\"hello\""
           }
         },
         {
@@ -1018,8 +1011,7 @@
                 "end": 1009
               },
               "value": "foo",
-              "raw": "\"foo\"",
-              "loneSurrogates": false
+              "raw": "\"foo\""
             },
             "property": {
               "type": "Identifier",
@@ -1105,8 +1097,7 @@
                 "end": 1047
               },
               "value": "123",
-              "raw": "\"123\"",
-              "loneSurrogates": false
+              "raw": "\"123\""
             }
           }
         },

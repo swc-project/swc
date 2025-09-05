@@ -75,8 +75,7 @@
                   "end": 140
                 },
                 "value": "simple",
-                "raw": "'simple'",
-                "loneSurrogates": false
+                "raw": "'simple'"
               }
             }
           }
@@ -242,8 +241,7 @@
                   "end": 231
                 },
                 "value": "more complex",
-                "raw": "'more complex'",
-                "loneSurrogates": false
+                "raw": "'more complex'"
               }
             }
           }
@@ -299,8 +297,7 @@
             "end": 260
           },
           "value": "yep",
-          "raw": "'yep'",
-          "loneSurrogates": false
+          "raw": "'yep'"
         }
       }
     },

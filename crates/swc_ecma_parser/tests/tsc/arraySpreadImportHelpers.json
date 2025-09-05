@@ -177,8 +177,7 @@
           "end": 320
         },
         "value": "tslib",
-        "raw": "\"tslib\"",
-        "loneSurrogates": false
+        "raw": "\"tslib\""
       },
       "body": {
         "type": "TsModuleBlock",

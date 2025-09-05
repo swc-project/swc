@@ -43,8 +43,7 @@
                 "end": 38
               },
               "value": "foo",
-              "raw": "\"foo\"",
-              "loneSurrogates": false
+              "raw": "\"foo\""
             }
           },
           {
@@ -60,8 +59,7 @@
                 "end": 46
               },
               "value": "bar",
-              "raw": "\"bar\"",
-              "loneSurrogates": false
+              "raw": "\"bar\""
             }
           },
           {
@@ -77,8 +75,7 @@
                 "end": 54
               },
               "value": "baz",
-              "raw": "\"baz\"",
-              "loneSurrogates": false
+              "raw": "\"baz\""
             }
           }
         ]
@@ -135,8 +132,7 @@
                         "end": 69
                       },
                       "value": "foo",
-                      "raw": "\"foo\"",
-                      "loneSurrogates": false
+                      "raw": "\"foo\""
                     }
                   },
                   {
@@ -152,8 +148,7 @@
                         "end": 77
                       },
                       "value": "bar",
-                      "raw": "\"bar\"",
-                      "loneSurrogates": false
+                      "raw": "\"bar\""
                     }
                   },
                   {
@@ -169,8 +164,7 @@
                         "end": 85
                       },
                       "value": "baz",
-                      "raw": "\"baz\"",
-                      "loneSurrogates": false
+                      "raw": "\"baz\""
                     }
                   }
                 ]
@@ -286,8 +280,7 @@
             "end": 137
           },
           "value": "foo",
-          "raw": "\"foo\"",
-          "loneSurrogates": false
+          "raw": "\"foo\""
         }
       },
       "consequent": {
@@ -371,8 +364,7 @@
               "end": 178
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           }
         },
         "consequent": {

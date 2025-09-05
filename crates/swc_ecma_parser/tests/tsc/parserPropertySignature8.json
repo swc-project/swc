@@ -45,8 +45,7 @@
                 "end": 20
               },
               "value": "H",
-              "raw": "\"H\"",
-              "loneSurrogates": false
+              "raw": "\"H\""
             },
             "computed": false,
             "optional": true,

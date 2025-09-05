@@ -163,8 +163,7 @@
                 "end": 76
               },
               "value": "foo",
-              "raw": "\"foo\"",
-              "loneSurrogates": false
+              "raw": "\"foo\""
             },
             "right": {
               "type": "Identifier",
@@ -222,8 +221,7 @@
                 "end": 99
               },
               "value": "bar",
-              "raw": "\"bar\"",
-              "loneSurrogates": false
+              "raw": "\"bar\""
             },
             "right": {
               "type": "CallExpression",

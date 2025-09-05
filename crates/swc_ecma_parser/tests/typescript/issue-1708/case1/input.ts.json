@@ -52,8 +52,7 @@
                     "end": 30
                   },
                   "value": "a-b",
-                  "raw": "\"a-b\"",
-                  "loneSurrogates": false
+                  "raw": "\"a-b\""
                 },
                 "typeAnnotation": null,
                 "body": {
@@ -77,8 +76,7 @@
                           "end": 55
                         },
                         "value": "abc",
-                        "raw": "\"abc\"",
-                        "loneSurrogates": false
+                        "raw": "\"abc\""
                       }
                     }
                   ]
@@ -160,8 +158,7 @@
                     "end": 90
                   },
                   "value": "a-b",
-                  "raw": "'a-b'",
-                  "loneSurrogates": false
+                  "raw": "'a-b'"
                 }
               }
             }

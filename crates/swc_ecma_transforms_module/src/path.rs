@@ -56,7 +56,6 @@ impl Resolver {
             args: vec![Lit::Str(Str {
                 span: src_span,
                 raw: None,
-                lone_surrogates: false,
                 value: src,
             })
             .as_arg()],

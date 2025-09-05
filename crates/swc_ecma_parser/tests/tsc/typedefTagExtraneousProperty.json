@@ -56,8 +56,7 @@
                     "end": 252
                   },
                   "value": "no",
-                  "raw": "\"no\"",
-                  "loneSurrogates": false
+                  "raw": "\"no\""
                 }
               }
             ]
@@ -128,8 +127,7 @@
             "end": 315
           },
           "value": "ok but just because of the index signature",
-          "raw": "\"ok but just because of the index signature\"",
-          "loneSurrogates": false
+          "raw": "\"ok but just because of the index signature\""
         }
       }
     },
@@ -175,8 +173,7 @@
                 "end": 322
               },
               "value": "hi",
-              "raw": "'hi'",
-              "loneSurrogates": false
+              "raw": "'hi'"
             }
           }
         },
@@ -187,8 +184,7 @@
             "end": 331
           },
           "value": "yes",
-          "raw": "\"yes\"",
-          "loneSurrogates": false
+          "raw": "\"yes\""
         }
       }
     }

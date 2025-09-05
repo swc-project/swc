@@ -37,8 +37,7 @@
               "end": 19
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           },
           "init": null
         },
@@ -55,8 +54,7 @@
               "end": 30
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           },
           "init": {
             "type": "NumericLiteral",

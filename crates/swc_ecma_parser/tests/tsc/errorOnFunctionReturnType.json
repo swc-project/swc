@@ -81,8 +81,7 @@
                       "end": 241
                     },
                     "value": "Nope",
-                    "raw": "\"Nope\"",
-                    "loneSurrogates": false
+                    "raw": "\"Nope\""
                   }
                 }
               ],
@@ -137,8 +136,7 @@
                 "end": 335
               },
               "value": "asd",
-              "raw": "\"asd\"",
-              "loneSurrogates": false
+              "raw": "\"asd\""
             }
           }
         ]
@@ -241,8 +239,7 @@
                             "end": 434
                           },
                           "value": "test",
-                          "raw": "\"test\"",
-                          "loneSurrogates": false
+                          "raw": "\"test\""
                         }
                       }
                     ],
@@ -353,8 +350,7 @@
                             "end": 533
                           },
                           "value": "test",
-                          "raw": "\"test\"",
-                          "loneSurrogates": false
+                          "raw": "\"test\""
                         }
                       }
                     ],
@@ -447,8 +443,7 @@
                 "end": 753
               },
               "value": "asd",
-              "raw": "\"asd\"",
-              "loneSurrogates": false
+              "raw": "\"asd\""
             }
           }
         ]
@@ -551,8 +546,7 @@
                             "end": 848
                           },
                           "value": "test",
-                          "raw": "\"test\"",
-                          "loneSurrogates": false
+                          "raw": "\"test\""
                         }
                       }
                     ],
@@ -663,8 +657,7 @@
                             "end": 943
                           },
                           "value": "test",
-                          "raw": "\"test\"",
-                          "loneSurrogates": false
+                          "raw": "\"test\""
                         }
                       }
                     ],

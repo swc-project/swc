@@ -174,8 +174,7 @@
                                 "end": 189
                               },
                               "value": "getDate",
-                              "raw": "'getDate'",
-                              "loneSurrogates": false
+                              "raw": "'getDate'"
                             }
                           }
                         },
@@ -785,8 +784,7 @@
                     "end": 386
                   },
                   "value": "getDate",
-                  "raw": "'getDate'",
-                  "loneSurrogates": false
+                  "raw": "'getDate'"
                 }
               }
             },
@@ -1100,8 +1098,7 @@
                     "end": 483
                   },
                   "value": "getDate",
-                  "raw": "'getDate'",
-                  "loneSurrogates": false
+                  "raw": "'getDate'"
                 }
               }
             },
@@ -1271,8 +1268,7 @@
                                       "end": 563
                                     },
                                     "value": "getDate",
-                                    "raw": "'getDate'",
-                                    "loneSurrogates": false
+                                    "raw": "'getDate'"
                                   }
                                 }
                               },

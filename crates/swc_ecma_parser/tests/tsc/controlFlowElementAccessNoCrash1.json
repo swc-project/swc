@@ -417,8 +417,7 @@
                       "end": 357
                     },
                     "value": "commandLineArgs",
-                    "raw": "\"commandLineArgs\"",
-                    "loneSurrogates": false
+                    "raw": "\"commandLineArgs\""
                   }
                 }
               }

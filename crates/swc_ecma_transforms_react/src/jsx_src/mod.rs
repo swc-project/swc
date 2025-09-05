@@ -53,7 +53,6 @@ impl VisitMut for JsxSrc {
                                 value: Box::new(Expr::Lit(Lit::Str(Str {
                                     span: DUMMY_SP,
                                     raw: None,
-                                    lone_surrogates: false,
                                     value: file_name.into(),
                                 }))),
                             }))),

@@ -44,8 +44,7 @@
                 "end": 59
               },
               "value": "hello",
-              "raw": "\"hello\"",
-              "loneSurrogates": false
+              "raw": "\"hello\""
             }
           },
           "function": {
@@ -104,8 +103,7 @@
                 "end": 101
               },
               "value": "goodbye",
-              "raw": "\"goodbye\"",
-              "loneSurrogates": false
+              "raw": "\"goodbye\""
             }
           },
           "function": {

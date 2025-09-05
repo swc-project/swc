@@ -140,8 +140,7 @@
                               "end": 101
                             },
                             "value": "#6.1: var \\u0078x = 1; xx === 6. Actual: ",
-                            "raw": "'#6.1: var \\\\u0078x = 1; xx === 6. Actual: '",
-                            "loneSurrogates": false
+                            "raw": "'#6.1: var \\\\u0078x = 1; xx === 6. Actual: '"
                           },
                           "right": {
                             "type": "ParenthesisExpression",
@@ -237,8 +236,7 @@
                           "end": 184
                         },
                         "value": "#6.2: var \\u0078x = 1; xx === 6. Actual: ",
-                        "raw": "'#6.2: var \\\\u0078x = 1; xx === 6. Actual: '",
-                        "loneSurrogates": false
+                        "raw": "'#6.2: var \\\\u0078x = 1; xx === 6. Actual: '"
                       },
                       "right": {
                         "type": "ParenthesisExpression",

@@ -192,8 +192,7 @@
                         },
                         "tail": false,
                         "cooked": "withUsersTeams(",
-                        "raw": "withUsersTeams(",
-                        "loneSurrogates": false
+                        "raw": "withUsersTeams("
                       },
                       {
                         "type": "TemplateElement",
@@ -203,8 +202,7 @@
                         },
                         "tail": true,
                         "cooked": ")",
-                        "raw": ")",
-                        "loneSurrogates": false
+                        "raw": ")"
                       }
                     ]
                   },
@@ -572,8 +570,7 @@
                                                 "end": 639
                                               },
                                               "value": "user-teams-fetch-start",
-                                              "raw": "\"user-teams-fetch-start\"",
-                                              "loneSurrogates": false
+                                              "raw": "\"user-teams-fetch-start\""
                                             }
                                           }
                                         ]
@@ -921,8 +918,7 @@
                                                               "end": 991
                                                             },
                                                             "value": "app.component.perf",
-                                                            "raw": "\"app.component.perf\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"app.component.perf\""
                                                           }
                                                         },
                                                         {
@@ -942,8 +938,7 @@
                                                               "end": 1038
                                                             },
                                                             "value": "user-teams-fetch-start",
-                                                            "raw": "\"user-teams-fetch-start\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"user-teams-fetch-start\""
                                                           }
                                                         },
                                                         {
@@ -980,8 +975,7 @@
                                                                     "end": 1096
                                                                   },
                                                                   "value": "user-teams",
-                                                                  "raw": "\"user-teams\"",
-                                                                  "loneSurrogates": false
+                                                                  "raw": "\"user-teams\""
                                                                 }
                                                               },
                                                               {
@@ -1001,8 +995,7 @@
                                                                     "end": 1155
                                                                   },
                                                                   "value": "/organizations/:orgid/user-teams",
-                                                                  "raw": "\"/organizations/:orgid/user-teams\"",
-                                                                  "loneSurrogates": false
+                                                                  "raw": "\"/organizations/:orgid/user-teams\""
                                                                 }
                                                               },
                                                               {
@@ -1472,8 +1465,7 @@
                                         "end": 1531
                                       },
                                       "value": "user",
-                                      "raw": "\"user\"",
-                                      "loneSurrogates": false
+                                      "raw": "\"user\""
                                     }
                                   }
                                 ],
@@ -2090,8 +2082,7 @@
                                 },
                                 "tail": false,
                                 "cooked": "/organizations/",
-                                "raw": "/organizations/",
-                                "loneSurrogates": false
+                                "raw": "/organizations/"
                               },
                               {
                                 "type": "TemplateElement",
@@ -2101,8 +2092,7 @@
                                 },
                                 "tail": true,
                                 "cooked": "/user-teams/",
-                                "raw": "/user-teams/",
-                                "loneSurrogates": false
+                                "raw": "/user-teams/"
                               }
                             ]
                           }

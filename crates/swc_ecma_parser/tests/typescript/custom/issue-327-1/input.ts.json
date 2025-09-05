@@ -148,8 +148,7 @@
                         "end": 50
                       },
                       "value": "bas",
-                      "raw": "\"bas\"",
-                      "loneSurrogates": false
+                      "raw": "\"bas\""
                     },
                     "alternate": {
                       "type": "StringLiteral",
@@ -158,8 +157,7 @@
                         "end": 58
                       },
                       "value": "bar",
-                      "raw": "\"bar\"",
-                      "loneSurrogates": false
+                      "raw": "\"bar\""
                     }
                   }
                 },
@@ -170,8 +168,7 @@
                     "end": 67
                   },
                   "value": "bat",
-                  "raw": "\"bat\"",
-                  "loneSurrogates": false
+                  "raw": "\"bat\""
                 }
               }
             },

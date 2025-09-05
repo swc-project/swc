@@ -88,8 +88,7 @@
                     "end": 306
                   },
                   "value": "name",
-                  "raw": "'name'",
-                  "loneSurrogates": false
+                  "raw": "'name'"
                 }
               },
               {
@@ -126,8 +125,7 @@
                           "end": 345
                         },
                         "value": "x.png",
-                        "raw": "'x.png'",
-                        "loneSurrogates": false
+                        "raw": "'x.png'"
                       }
                     },
                     {
@@ -147,8 +145,7 @@
                           "end": 371
                         },
                         "value": "y.png",
-                        "raw": "'y.png'",
-                        "loneSurrogates": false
+                        "raw": "'y.png'"
                       }
                     }
                   ]
@@ -283,8 +280,7 @@
                     "end": 734
                   },
                   "value": "uppsala",
-                  "raw": "'uppsala'",
-                  "loneSurrogates": false
+                  "raw": "'uppsala'"
                 }
               },
               {
@@ -324,8 +320,7 @@
                     "end": 756
                   },
                   "value": "ok",
-                  "raw": "\"ok\"",
-                  "loneSurrogates": false
+                  "raw": "\"ok\""
                 }
               }
             ]

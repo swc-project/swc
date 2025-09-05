@@ -191,8 +191,7 @@
               "end": 174
             },
             "value": "RAWR!",
-            "raw": "'RAWR!'",
-            "loneSurrogates": false
+            "raw": "'RAWR!'"
           },
           "typeAnnotation": null,
           "isStatic": false,

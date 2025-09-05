@@ -142,8 +142,7 @@
             "end": 184
           },
           "value": "./vs/foo_0",
-          "raw": "\"./vs/foo_0\"",
-          "loneSurrogates": false
+          "raw": "\"./vs/foo_0\""
         }
       }
     },
@@ -178,8 +177,7 @@
             "end": 218
           },
           "value": "./vs/fum",
-          "raw": "\"./vs/fum\"",
-          "loneSurrogates": false
+          "raw": "\"./vs/fum\""
         }
       }
     },

@@ -47,8 +47,7 @@
               "end": 55
             },
             "value": "cat",
-            "raw": "\"cat\"",
-            "loneSurrogates": false
+            "raw": "\"cat\""
           }
         },
         {
@@ -74,8 +73,7 @@
               "end": 70
             },
             "value": "dog",
-            "raw": "\"dog\"",
-            "loneSurrogates": false
+            "raw": "\"dog\""
           }
         }
       ]
@@ -129,8 +127,7 @@
               "end": 112
             },
             "value": "cat",
-            "raw": "\"cat\"",
-            "loneSurrogates": false
+            "raw": "\"cat\""
           }
         }
       ]
@@ -828,8 +825,7 @@
                                 "end": 533
                               },
                               "value": "",
-                              "raw": "\"\"",
-                              "loneSurrogates": false
+                              "raw": "\"\""
                             }
                           }
                         ]
@@ -897,8 +893,7 @@
                                 "end": 581
                               },
                               "value": "",
-                              "raw": "\"\"",
-                              "loneSurrogates": false
+                              "raw": "\"\""
                             }
                           }
                         ]

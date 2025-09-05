@@ -204,8 +204,7 @@
                       "end": 266
                     },
                     "value": "./some-mod",
-                    "raw": "\"./some-mod\"",
-                    "loneSurrogates": false
+                    "raw": "\"./some-mod\""
                   }
                 }
               ],

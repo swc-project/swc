@@ -697,8 +697,7 @@
                 "end": 396
               },
               "value": "",
-              "raw": "''",
-              "loneSurrogates": false
+              "raw": "''"
             },
             "right": {
               "type": "Identifier",
@@ -1574,8 +1573,7 @@
                 "end": 876
               },
               "value": "",
-              "raw": "''",
-              "loneSurrogates": false
+              "raw": "''"
             }
           },
           "definite": false
@@ -1800,8 +1798,7 @@
                 "end": 1002
               },
               "value": "",
-              "raw": "''",
-              "loneSurrogates": false
+              "raw": "''"
             },
             "right": {
               "type": "ObjectExpression",

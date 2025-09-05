@@ -75,8 +75,7 @@
                           "end": 80
                         },
                         "value": "Yadda",
-                        "raw": "\"Yadda\"",
-                        "loneSurrogates": false
+                        "raw": "\"Yadda\""
                       }
                     },
                     {
@@ -239,8 +238,7 @@
                             "end": 224
                           },
                           "value": "Behold! The actual method implementation!",
-                          "raw": "\"Behold! The actual method implementation!\"",
-                          "loneSurrogates": false
+                          "raw": "\"Behold! The actual method implementation!\""
                         }
                       }
                     ],
@@ -1243,8 +1241,7 @@
                                         },
                                         "tail": false,
                                         "cooked": "<",
-                                        "raw": "<",
-                                        "loneSurrogates": false
+                                        "raw": "<"
                                       },
                                       {
                                         "type": "TemplateElement",
@@ -1254,8 +1251,7 @@
                                         },
                                         "tail": false,
                                         "cooked": ">: I'm logging stuff from ",
-                                        "raw": ">: I'm logging stuff from ",
-                                        "loneSurrogates": false
+                                        "raw": ">: I'm logging stuff from "
                                       },
                                       {
                                         "type": "TemplateElement",
@@ -1265,8 +1261,7 @@
                                         },
                                         "tail": true,
                                         "cooked": "!",
-                                        "raw": "!",
-                                        "loneSurrogates": false
+                                        "raw": "!"
                                       }
                                     ]
                                   }

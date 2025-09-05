@@ -314,8 +314,7 @@
                       },
                       "tail": false,
                       "cooked": "",
-                      "raw": "",
-                      "loneSurrogates": false
+                      "raw": ""
                     },
                     {
                       "type": "TemplateElement",
@@ -325,8 +324,7 @@
                       },
                       "tail": false,
                       "cooked": "\\",
-                      "raw": "\\\\",
-                      "loneSurrogates": false
+                      "raw": "\\\\"
                     },
                     {
                       "type": "TemplateElement",
@@ -336,8 +334,7 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": "",
-                      "loneSurrogates": false
+                      "raw": ""
                     }
                   ]
                 }
@@ -510,8 +507,7 @@
                       "end": 394
                     },
                     "value": "defaulPath",
-                    "raw": "\"defaulPath\"",
-                    "loneSurrogates": false
+                    "raw": "\"defaulPath\""
                   }
                 }
               }

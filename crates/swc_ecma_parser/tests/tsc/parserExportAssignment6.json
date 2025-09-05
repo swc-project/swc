@@ -21,8 +21,7 @@
           "end": 19
         },
         "value": "M",
-        "raw": "\"M\"",
-        "loneSurrogates": false
+        "raw": "\"M\""
       },
       "body": {
         "type": "TsModuleBlock",

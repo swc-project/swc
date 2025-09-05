@@ -146,8 +146,7 @@
                 "end": 103
               },
               "value": "__@iterator",
-              "raw": "\"__@iterator\"",
-              "loneSurrogates": false
+              "raw": "\"__@iterator\""
             },
             "computed": false,
             "optional": false,

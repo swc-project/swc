@@ -127,8 +127,7 @@
                 "end": 78
               },
               "value": "computedName1",
-              "raw": "\"computedName1\"",
-              "loneSurrogates": false
+              "raw": "\"computedName1\""
             }
           },
           "function": {
@@ -179,8 +178,7 @@
                 "end": 106
               },
               "value": "computedName2",
-              "raw": "\"computedName2\"",
-              "loneSurrogates": false
+              "raw": "\"computedName2\""
             }
           },
           "function": {
@@ -265,8 +263,7 @@
                 "end": 143
               },
               "value": "computedName3",
-              "raw": "\"computedName3\"",
-              "loneSurrogates": false
+              "raw": "\"computedName3\""
             }
           },
           "function": {
@@ -560,8 +557,7 @@
                       "end": 290
                     },
                     "value": "HELLO",
-                    "raw": "\"HELLO\"",
-                    "loneSurrogates": false
+                    "raw": "\"HELLO\""
                   }
                 }
               ]
@@ -611,8 +607,7 @@
                 "end": 325
               },
               "value": "computedname4",
-              "raw": "\"computedname4\"",
-              "loneSurrogates": false
+              "raw": "\"computedname4\""
             }
           },
           "function": {
@@ -663,8 +658,7 @@
                 "end": 360
               },
               "value": "computedname5",
-              "raw": "\"computedname5\"",
-              "loneSurrogates": false
+              "raw": "\"computedname5\""
             }
           },
           "function": {
@@ -749,8 +743,7 @@
                 "end": 404
               },
               "value": "computedname6",
-              "raw": "\"computedname6\"",
-              "loneSurrogates": false
+              "raw": "\"computedname6\""
             }
           },
           "function": {

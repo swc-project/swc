@@ -25,8 +25,7 @@
               "end": 19
             },
             "value": "default",
-            "raw": "\"default\"",
-            "loneSurrogates": false
+            "raw": "\"default\""
           },
           "exported": {
             "type": "Identifier",
@@ -48,8 +47,7 @@
           "end": 37
         },
         "value": "foo",
-        "raw": "\"foo\"",
-        "loneSurrogates": false
+        "raw": "\"foo\""
       },
       "typeOnly": false,
       "with": {
@@ -76,8 +74,7 @@
                 "end": 59
               },
               "value": "json",
-              "raw": "\"json\"",
-              "loneSurrogates": false
+              "raw": "\"json\""
             }
           }
         ]

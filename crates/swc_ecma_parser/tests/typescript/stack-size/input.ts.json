@@ -389,8 +389,7 @@
                                                                                                 "end": 500
                                                                                               },
                                                                                               "value": " || ",
-                                                                                              "raw": "' || '",
-                                                                                              "loneSurrogates": false
+                                                                                              "raw": "' || '"
                                                                                             },
                                                                                             "right": {
                                                                                               "type": "ParenthesisExpression",
@@ -417,8 +416,7 @@
                                                                                               "end": 527
                                                                                             },
                                                                                             "value": " === null || ",
-                                                                                            "raw": "' === null || '",
-                                                                                            "loneSurrogates": false
+                                                                                            "raw": "' === null || '"
                                                                                           }
                                                                                         },
                                                                                         "right": {
@@ -446,8 +444,7 @@
                                                                                           "end": 551
                                                                                         },
                                                                                         "value": " === '' ",
-                                                                                        "raw": "' === \\'\\' '",
-                                                                                        "loneSurrogates": false
+                                                                                        "raw": "' === \\'\\' '"
                                                                                       }
                                                                                     }
                                                                                   }

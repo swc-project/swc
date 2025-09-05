@@ -78,8 +78,7 @@
               "end": 160
             },
             "value": "hello",
-            "raw": "\"hello\"",
-            "loneSurrogates": false
+            "raw": "\"hello\""
           },
           "definite": false
         }
@@ -201,8 +200,7 @@
                 "end": 232
               },
               "value": "string",
-              "raw": "\"string\"",
-              "loneSurrogates": false
+              "raw": "\"string\""
             }
           }
         ],
@@ -472,8 +470,7 @@
                       "end": 416
                     },
                     "value": "hi",
-                    "raw": "\"hi\"",
-                    "loneSurrogates": false
+                    "raw": "\"hi\""
                   }
                 }
               ],

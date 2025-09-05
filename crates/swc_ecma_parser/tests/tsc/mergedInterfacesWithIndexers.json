@@ -377,8 +377,7 @@
                   "end": 218
                 },
                 "value": "1",
-                "raw": "'1'",
-                "loneSurrogates": false
+                "raw": "'1'"
               }
             }
           },
@@ -442,8 +441,7 @@
                   "end": 236
                 },
                 "value": "hi",
-                "raw": "'hi'",
-                "loneSurrogates": false
+                "raw": "'hi'"
               }
             }
           },

@@ -86,8 +86,7 @@
           "end": 234
         },
         "value": "@see/saw",
-        "raw": "\"@see/saw\"",
-        "loneSurrogates": false
+        "raw": "\"@see/saw\""
       },
       "typeOnly": false,
       "with": null,

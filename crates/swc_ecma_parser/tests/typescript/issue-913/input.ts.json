@@ -39,8 +39,7 @@
           "end": 37
         },
         "value": "../../deps.ts",
-        "raw": "\"../../deps.ts\"",
-        "loneSurrogates": false
+        "raw": "\"../../deps.ts\""
       },
       "typeOnly": false,
       "with": null,
@@ -78,8 +77,7 @@
           "end": 77
         },
         "value": "../../members.ts",
-        "raw": "\"../../members.ts\"",
-        "loneSurrogates": false
+        "raw": "\"../../members.ts\""
       },
       "typeOnly": false,
       "with": null,
@@ -119,8 +117,7 @@
           "end": 118
         },
         "value": "../../../mod.ts",
-        "raw": "\"../../../mod.ts\"",
-        "loneSurrogates": false
+        "raw": "\"../../../mod.ts\""
       },
       "typeOnly": false,
       "with": null,
@@ -174,8 +171,7 @@
                 "end": 166
               },
               "value": "decorators/middleware_test.ts",
-              "raw": "\"decorators/middleware_test.ts\"",
-              "loneSurrogates": false
+              "raw": "\"decorators/middleware_test.ts\""
             }
           },
           {
@@ -244,8 +240,7 @@
                               "end": 230
                             },
                             "value": "ResourceWithMiddlewareBeforeClass",
-                            "raw": "\"ResourceWithMiddlewareBeforeClass\"",
-                            "loneSurrogates": false
+                            "raw": "\"ResourceWithMiddlewareBeforeClass\""
                           }
                         },
                         {
@@ -314,8 +309,7 @@
                                             "end": 284
                                           },
                                           "value": "header not specified",
-                                          "raw": "\"header not specified\"",
-                                          "loneSurrogates": false
+                                          "raw": "\"header not specified\""
                                         }
                                       },
                                       {
@@ -532,8 +526,7 @@
                                                               "end": 489
                                                             },
                                                             "value": "/users/1",
-                                                            "raw": "\"/users/1\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"/users/1\""
                                                           }
                                                         }
                                                       ],
@@ -730,8 +723,7 @@
                                                           "end": 697
                                                         },
                                                         "value": "'header' not specified.",
-                                                        "raw": "\"'header' not specified.\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"'header' not specified.\""
                                                       }
                                                     }
                                                   ],
@@ -798,8 +790,7 @@
                                             "end": 755
                                           },
                                           "value": "valid",
-                                          "raw": "\"valid\"",
-                                          "loneSurrogates": false
+                                          "raw": "\"valid\""
                                         }
                                       },
                                       {
@@ -1016,8 +1007,7 @@
                                                               "end": 960
                                                             },
                                                             "value": "/users/1",
-                                                            "raw": "\"/users/1\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"/users/1\""
                                                           }
                                                         },
                                                         {
@@ -1029,8 +1019,7 @@
                                                               "end": 967
                                                             },
                                                             "value": "get",
-                                                            "raw": "\"get\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"get\""
                                                           }
                                                         },
                                                         {
@@ -1076,8 +1065,7 @@
                                                                           "end": 1045
                                                                         },
                                                                         "value": "all your base",
-                                                                        "raw": "\"all your base\"",
-                                                                        "loneSurrogates": false
+                                                                        "raw": "\"all your base\""
                                                                       }
                                                                     }
                                                                   ]
@@ -1297,8 +1285,7 @@
                                                                 "end": 1276
                                                               },
                                                               "value": "Thor",
-                                                              "raw": "\"Thor\"",
-                                                              "loneSurrogates": false
+                                                              "raw": "\"Thor\""
                                                             }
                                                           }
                                                         ]
@@ -1380,8 +1367,7 @@
                               "end": 1378
                             },
                             "value": "ResourceWithMultipleMiddlewareBeforeClass",
-                            "raw": "\"ResourceWithMultipleMiddlewareBeforeClass\"",
-                            "loneSurrogates": false
+                            "raw": "\"ResourceWithMultipleMiddlewareBeforeClass\""
                           }
                         },
                         {
@@ -1450,8 +1436,7 @@
                                             "end": 1453
                                           },
                                           "value": "correct header, custom response and value",
-                                          "raw": "\"correct header, custom response and value\"",
-                                          "loneSurrogates": false
+                                          "raw": "\"correct header, custom response and value\""
                                         }
                                       },
                                       {
@@ -1668,8 +1653,7 @@
                                                               "end": 1666
                                                             },
                                                             "value": "/users/1",
-                                                            "raw": "\"/users/1\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"/users/1\""
                                                           }
                                                         },
                                                         {
@@ -1681,8 +1665,7 @@
                                                               "end": 1673
                                                             },
                                                             "value": "get",
-                                                            "raw": "\"get\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"get\""
                                                           }
                                                         },
                                                         {
@@ -1728,8 +1711,7 @@
                                                                           "end": 1751
                                                                         },
                                                                         "value": "all your base",
-                                                                        "raw": "\"all your base\"",
-                                                                        "loneSurrogates": false
+                                                                        "raw": "\"all your base\""
                                                                       }
                                                                     }
                                                                   ]
@@ -1949,8 +1931,7 @@
                                                                 "end": 1982
                                                               },
                                                               "value": "Thor",
-                                                              "raw": "\"Thor\"",
-                                                              "loneSurrogates": false
+                                                              "raw": "\"Thor\""
                                                             }
                                                           }
                                                         ]
@@ -2080,8 +2061,7 @@
                                                                 "end": 2071
                                                               },
                                                               "value": "MYCUSTOM",
-                                                              "raw": "\"MYCUSTOM\"",
-                                                              "loneSurrogates": false
+                                                              "raw": "\"MYCUSTOM\""
                                                             }
                                                           }
                                                         ],
@@ -2097,8 +2077,7 @@
                                                           "end": 2079
                                                         },
                                                         "value": "hey",
-                                                        "raw": "\"hey\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"hey\""
                                                       }
                                                     }
                                                   ],
@@ -2177,8 +2156,7 @@
                               "end": 2164
                             },
                             "value": "ResourceWithMultipleMiddlewareAfterClass",
-                            "raw": "\"ResourceWithMultipleMiddlewareAfterClass\"",
-                            "loneSurrogates": false
+                            "raw": "\"ResourceWithMultipleMiddlewareAfterClass\""
                           }
                         },
                         {
@@ -2247,8 +2225,7 @@
                                             "end": 2239
                                           },
                                           "value": "response is html, custom header and value",
-                                          "raw": "\"response is html, custom header and value\"",
-                                          "loneSurrogates": false
+                                          "raw": "\"response is html, custom header and value\""
                                         }
                                       },
                                       {
@@ -2465,8 +2442,7 @@
                                                               "end": 2451
                                                             },
                                                             "value": "/users/1",
-                                                            "raw": "\"/users/1\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"/users/1\""
                                                           }
                                                         },
                                                         {
@@ -2478,8 +2454,7 @@
                                                               "end": 2458
                                                             },
                                                             "value": "get",
-                                                            "raw": "\"get\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"get\""
                                                           }
                                                         },
                                                         {
@@ -2525,8 +2500,7 @@
                                                                           "end": 2536
                                                                         },
                                                                         "value": "all your base",
-                                                                        "raw": "\"all your base\"",
-                                                                        "loneSurrogates": false
+                                                                        "raw": "\"all your base\""
                                                                       }
                                                                     }
                                                                   ]
@@ -2744,8 +2718,7 @@
                                                           "end": 2727
                                                         },
                                                         "value": "<h1>hey</h1>",
-                                                        "raw": "\"<h1>hey</h1>\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"<h1>hey</h1>\""
                                                       }
                                                     }
                                                   ],
@@ -2872,8 +2845,7 @@
                                                                 "end": 2821
                                                               },
                                                               "value": "Content-Type",
-                                                              "raw": "\"Content-Type\"",
-                                                              "loneSurrogates": false
+                                                              "raw": "\"Content-Type\""
                                                             }
                                                           }
                                                         ],
@@ -2889,8 +2861,7 @@
                                                           "end": 2851
                                                         },
                                                         "value": "text/html",
-                                                        "raw": "\"text/html\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"text/html\""
                                                       }
                                                     }
                                                   ],
@@ -3017,8 +2988,7 @@
                                                                 "end": 2938
                                                               },
                                                               "value": "MYCUSTOM",
-                                                              "raw": "\"MYCUSTOM\"",
-                                                              "loneSurrogates": false
+                                                              "raw": "\"MYCUSTOM\""
                                                             }
                                                           }
                                                         ],
@@ -3034,8 +3004,7 @@
                                                           "end": 2946
                                                         },
                                                         "value": "hey",
-                                                        "raw": "\"hey\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"hey\""
                                                       }
                                                     }
                                                   ],
@@ -3114,8 +3083,7 @@
                               "end": 3018
                             },
                             "value": "ResourceWithMiddlewareClass",
-                            "raw": "\"ResourceWithMiddlewareClass\"",
-                            "loneSurrogates": false
+                            "raw": "\"ResourceWithMiddlewareClass\""
                           }
                         },
                         {
@@ -3184,8 +3152,7 @@
                                             "end": 3082
                                           },
                                           "value": "custom header and swap to html",
-                                          "raw": "\"custom header and swap to html\"",
-                                          "loneSurrogates": false
+                                          "raw": "\"custom header and swap to html\""
                                         }
                                       },
                                       {
@@ -3402,8 +3369,7 @@
                                                               "end": 3281
                                                             },
                                                             "value": "/users/1",
-                                                            "raw": "\"/users/1\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"/users/1\""
                                                           }
                                                         },
                                                         {
@@ -3415,8 +3381,7 @@
                                                               "end": 3288
                                                             },
                                                             "value": "get",
-                                                            "raw": "\"get\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"get\""
                                                           }
                                                         },
                                                         {
@@ -3462,8 +3427,7 @@
                                                                           "end": 3366
                                                                         },
                                                                         "value": "all your base",
-                                                                        "raw": "\"all your base\"",
-                                                                        "loneSurrogates": false
+                                                                        "raw": "\"all your base\""
                                                                       }
                                                                     }
                                                                   ]
@@ -3681,8 +3645,7 @@
                                                           "end": 3557
                                                         },
                                                         "value": "<h1>hey</h1>",
-                                                        "raw": "\"<h1>hey</h1>\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"<h1>hey</h1>\""
                                                       }
                                                     }
                                                   ],
@@ -3809,8 +3772,7 @@
                                                                 "end": 3651
                                                               },
                                                               "value": "Content-Type",
-                                                              "raw": "\"Content-Type\"",
-                                                              "loneSurrogates": false
+                                                              "raw": "\"Content-Type\""
                                                             }
                                                           }
                                                         ],
@@ -3826,8 +3788,7 @@
                                                           "end": 3681
                                                         },
                                                         "value": "text/html",
-                                                        "raw": "\"text/html\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"text/html\""
                                                       }
                                                     }
                                                   ],
@@ -3954,8 +3915,7 @@
                                                                 "end": 3768
                                                               },
                                                               "value": "MYCUSTOM",
-                                                              "raw": "\"MYCUSTOM\"",
-                                                              "loneSurrogates": false
+                                                              "raw": "\"MYCUSTOM\""
                                                             }
                                                           }
                                                         ],
@@ -3971,8 +3931,7 @@
                                                           "end": 3776
                                                         },
                                                         "value": "hey",
-                                                        "raw": "\"hey\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"hey\""
                                                       }
                                                     }
                                                   ],
@@ -4051,8 +4010,7 @@
                               "end": 3855
                             },
                             "value": "ResourceWithMiddlewareBeforeMethod",
-                            "raw": "\"ResourceWithMiddlewareBeforeMethod\"",
-                            "loneSurrogates": false
+                            "raw": "\"ResourceWithMiddlewareBeforeMethod\""
                           }
                         },
                         {
@@ -4121,8 +4079,7 @@
                                             "end": 3902
                                           },
                                           "value": "custom header",
-                                          "raw": "\"custom header\"",
-                                          "loneSurrogates": false
+                                          "raw": "\"custom header\""
                                         }
                                       },
                                       {
@@ -4339,8 +4296,7 @@
                                                               "end": 4108
                                                             },
                                                             "value": "/users/1",
-                                                            "raw": "\"/users/1\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"/users/1\""
                                                           }
                                                         },
                                                         {
@@ -4352,8 +4308,7 @@
                                                               "end": 4115
                                                             },
                                                             "value": "get",
-                                                            "raw": "\"get\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"get\""
                                                           }
                                                         },
                                                         {
@@ -4399,8 +4354,7 @@
                                                                           "end": 4193
                                                                         },
                                                                         "value": "all your base",
-                                                                        "raw": "\"all your base\"",
-                                                                        "loneSurrogates": false
+                                                                        "raw": "\"all your base\""
                                                                       }
                                                                     }
                                                                   ]
@@ -4620,8 +4574,7 @@
                                                                 "end": 4424
                                                               },
                                                               "value": "Thor",
-                                                              "raw": "\"Thor\"",
-                                                              "loneSurrogates": false
+                                                              "raw": "\"Thor\""
                                                             }
                                                           }
                                                         ]
@@ -4703,8 +4656,7 @@
                               "end": 4527
                             },
                             "value": "ResourceWithMultipleMiddlewareBeforeMethod",
-                            "raw": "\"ResourceWithMultipleMiddlewareBeforeMethod\"",
-                            "loneSurrogates": false
+                            "raw": "\"ResourceWithMultipleMiddlewareBeforeMethod\""
                           }
                         },
                         {
@@ -4773,8 +4725,7 @@
                                             "end": 4574
                                           },
                                           "value": "custom header",
-                                          "raw": "\"custom header\"",
-                                          "loneSurrogates": false
+                                          "raw": "\"custom header\""
                                         }
                                       },
                                       {
@@ -4991,8 +4942,7 @@
                                                               "end": 4788
                                                             },
                                                             "value": "/users/1",
-                                                            "raw": "\"/users/1\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"/users/1\""
                                                           }
                                                         },
                                                         {
@@ -5004,8 +4954,7 @@
                                                               "end": 4795
                                                             },
                                                             "value": "get",
-                                                            "raw": "\"get\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"get\""
                                                           }
                                                         },
                                                         {
@@ -5051,8 +5000,7 @@
                                                                           "end": 4873
                                                                         },
                                                                         "value": "all your base",
-                                                                        "raw": "\"all your base\"",
-                                                                        "loneSurrogates": false
+                                                                        "raw": "\"all your base\""
                                                                       }
                                                                     }
                                                                   ]
@@ -5272,8 +5220,7 @@
                                                                 "end": 5104
                                                               },
                                                               "value": "Thor",
-                                                              "raw": "\"Thor\"",
-                                                              "loneSurrogates": false
+                                                              "raw": "\"Thor\""
                                                             }
                                                           }
                                                         ]
@@ -5403,8 +5350,7 @@
                                                                 "end": 5193
                                                               },
                                                               "value": "MYCUSTOM",
-                                                              "raw": "\"MYCUSTOM\"",
-                                                              "loneSurrogates": false
+                                                              "raw": "\"MYCUSTOM\""
                                                             }
                                                           }
                                                         ],
@@ -5420,8 +5366,7 @@
                                                           "end": 5201
                                                         },
                                                         "value": "hey",
-                                                        "raw": "\"hey\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"hey\""
                                                       }
                                                     }
                                                   ],
@@ -5500,8 +5445,7 @@
                               "end": 5279
                             },
                             "value": "ResourceWithMiddlewareAfterMethod",
-                            "raw": "\"ResourceWithMiddlewareAfterMethod\"",
-                            "loneSurrogates": false
+                            "raw": "\"ResourceWithMiddlewareAfterMethod\""
                           }
                         },
                         {
@@ -5570,8 +5514,7 @@
                                             "end": 5325
                                           },
                                           "value": "swap to html",
-                                          "raw": "\"swap to html\"",
-                                          "loneSurrogates": false
+                                          "raw": "\"swap to html\""
                                         }
                                       },
                                       {
@@ -5788,8 +5731,7 @@
                                                               "end": 5530
                                                             },
                                                             "value": "/users/1",
-                                                            "raw": "\"/users/1\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"/users/1\""
                                                           }
                                                         },
                                                         {
@@ -5801,8 +5743,7 @@
                                                               "end": 5537
                                                             },
                                                             "value": "get",
-                                                            "raw": "\"get\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"get\""
                                                           }
                                                         },
                                                         {
@@ -5848,8 +5789,7 @@
                                                                           "end": 5615
                                                                         },
                                                                         "value": "all your base",
-                                                                        "raw": "\"all your base\"",
-                                                                        "loneSurrogates": false
+                                                                        "raw": "\"all your base\""
                                                                       }
                                                                     }
                                                                   ]
@@ -6067,8 +6007,7 @@
                                                           "end": 5806
                                                         },
                                                         "value": "<h1>hey</h1>",
-                                                        "raw": "\"<h1>hey</h1>\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"<h1>hey</h1>\""
                                                       }
                                                     }
                                                   ],
@@ -6195,8 +6134,7 @@
                                                                 "end": 5900
                                                               },
                                                               "value": "Content-Type",
-                                                              "raw": "\"Content-Type\"",
-                                                              "loneSurrogates": false
+                                                              "raw": "\"Content-Type\""
                                                             }
                                                           }
                                                         ],
@@ -6212,8 +6150,7 @@
                                                           "end": 5930
                                                         },
                                                         "value": "text/html",
-                                                        "raw": "\"text/html\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"text/html\""
                                                       }
                                                     }
                                                   ],
@@ -6292,8 +6229,7 @@
                               "end": 6030
                             },
                             "value": "ResourceWithMultipleMiddlewareAfterMethod",
-                            "raw": "\"ResourceWithMultipleMiddlewareAfterMethod\"",
-                            "loneSurrogates": false
+                            "raw": "\"ResourceWithMultipleMiddlewareAfterMethod\""
                           }
                         },
                         {
@@ -6362,8 +6298,7 @@
                                             "end": 6094
                                           },
                                           "value": "custom header and swap to html",
-                                          "raw": "\"custom header and swap to html\"",
-                                          "loneSurrogates": false
+                                          "raw": "\"custom header and swap to html\""
                                         }
                                       },
                                       {
@@ -6580,8 +6515,7 @@
                                                               "end": 6307
                                                             },
                                                             "value": "/users/1",
-                                                            "raw": "\"/users/1\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"/users/1\""
                                                           }
                                                         },
                                                         {
@@ -6593,8 +6527,7 @@
                                                               "end": 6314
                                                             },
                                                             "value": "get",
-                                                            "raw": "\"get\"",
-                                                            "loneSurrogates": false
+                                                            "raw": "\"get\""
                                                           }
                                                         },
                                                         {
@@ -6640,8 +6573,7 @@
                                                                           "end": 6392
                                                                         },
                                                                         "value": "all your base",
-                                                                        "raw": "\"all your base\"",
-                                                                        "loneSurrogates": false
+                                                                        "raw": "\"all your base\""
                                                                       }
                                                                     }
                                                                   ]
@@ -6859,8 +6791,7 @@
                                                           "end": 6583
                                                         },
                                                         "value": "<h1>hey</h1>",
-                                                        "raw": "\"<h1>hey</h1>\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"<h1>hey</h1>\""
                                                       }
                                                     }
                                                   ],
@@ -6987,8 +6918,7 @@
                                                                 "end": 6677
                                                               },
                                                               "value": "Content-Type",
-                                                              "raw": "\"Content-Type\"",
-                                                              "loneSurrogates": false
+                                                              "raw": "\"Content-Type\""
                                                             }
                                                           }
                                                         ],
@@ -7004,8 +6934,7 @@
                                                           "end": 6707
                                                         },
                                                         "value": "text/html",
-                                                        "raw": "\"text/html\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"text/html\""
                                                       }
                                                     }
                                                   ],
@@ -7132,8 +7061,7 @@
                                                                 "end": 6794
                                                               },
                                                               "value": "MYCUSTOM",
-                                                              "raw": "\"MYCUSTOM\"",
-                                                              "loneSurrogates": false
+                                                              "raw": "\"MYCUSTOM\""
                                                             }
                                                           }
                                                         ],
@@ -7149,8 +7077,7 @@
                                                           "end": 6802
                                                         },
                                                         "value": "hey",
-                                                        "raw": "\"hey\"",
-                                                        "loneSurrogates": false
+                                                        "raw": "\"hey\""
                                                       }
                                                     }
                                                   ],
@@ -7529,8 +7456,7 @@
                         "end": 7264
                       },
                       "value": "csrf_token",
-                      "raw": "\"csrf_token\"",
-                      "loneSurrogates": false
+                      "raw": "\"csrf_token\""
                     }
                   }
                 ],
@@ -7627,8 +7553,7 @@
                             "end": 7391
                           },
                           "value": "'header' not specified.",
-                          "raw": "\"'header' not specified.\"",
-                          "loneSurrogates": false
+                          "raw": "\"'header' not specified.\""
                         }
                       }
                     ],
@@ -7884,8 +7809,7 @@
                       "end": 7552
                     },
                     "value": "Content-Type",
-                    "raw": "\"Content-Type\"",
-                    "loneSurrogates": false
+                    "raw": "\"Content-Type\""
                   }
                 },
                 {
@@ -7897,8 +7821,7 @@
                       "end": 7565
                     },
                     "value": "text/html",
-                    "raw": "\"text/html\"",
-                    "loneSurrogates": false
+                    "raw": "\"text/html\""
                   }
                 }
               ],
@@ -7950,8 +7873,7 @@
                   "end": 7602
                 },
                 "value": "<h1>hey</h1>",
-                "raw": "\"<h1>hey</h1>\"",
-                "loneSurrogates": false
+                "raw": "\"<h1>hey</h1>\""
               }
             }
           }
@@ -8200,8 +8122,7 @@
                       "end": 7749
                     },
                     "value": "MYCUSTOM",
-                    "raw": "\"MYCUSTOM\"",
-                    "loneSurrogates": false
+                    "raw": "\"MYCUSTOM\""
                   }
                 },
                 {
@@ -8213,8 +8134,7 @@
                       "end": 7756
                     },
                     "value": "hey",
-                    "raw": "\"hey\"",
-                    "loneSurrogates": false
+                    "raw": "\"hey\""
                   }
                 }
               ],
@@ -8382,8 +8302,7 @@
                     "end": 7923
                   },
                   "value": "/users/:id",
-                  "raw": "\"/users/:id\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id\""
                 }
               },
               {
@@ -8395,8 +8314,7 @@
                     "end": 7938
                   },
                   "value": "/users/:id/",
-                  "raw": "\"/users/:id/\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id/\""
                 }
               }
             ]
@@ -8500,8 +8418,7 @@
                                       "end": 8011
                                     },
                                     "value": "Thor",
-                                    "raw": "\"Thor\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Thor\""
                                   }
                                 }
                               ]
@@ -8557,8 +8474,7 @@
                                       "end": 8042
                                     },
                                     "value": "Hulk",
-                                    "raw": "\"Hulk\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Hulk\""
                                   }
                                 }
                               ]
@@ -8729,8 +8645,7 @@
                                 "end": 8126
                               },
                               "value": "id",
-                              "raw": "\"id\"",
-                              "loneSurrogates": false
+                              "raw": "\"id\""
                             }
                           }
                         ],
@@ -9161,8 +9076,7 @@
                     "end": 8499
                   },
                   "value": "/users/:id",
-                  "raw": "\"/users/:id\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id\""
                 }
               },
               {
@@ -9174,8 +9088,7 @@
                     "end": 8514
                   },
                   "value": "/users/:id/",
-                  "raw": "\"/users/:id/\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id/\""
                 }
               }
             ]
@@ -9279,8 +9192,7 @@
                                       "end": 8587
                                     },
                                     "value": "Thor",
-                                    "raw": "\"Thor\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Thor\""
                                   }
                                 }
                               ]
@@ -9336,8 +9248,7 @@
                                       "end": 8618
                                     },
                                     "value": "Hulk",
-                                    "raw": "\"Hulk\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Hulk\""
                                   }
                                 }
                               ]
@@ -9508,8 +9419,7 @@
                                 "end": 8702
                               },
                               "value": "id",
-                              "raw": "\"id\"",
-                              "loneSurrogates": false
+                              "raw": "\"id\""
                             }
                           }
                         ],
@@ -9940,8 +9850,7 @@
                     "end": 9079
                   },
                   "value": "/users/:id",
-                  "raw": "\"/users/:id\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id\""
                 }
               },
               {
@@ -9953,8 +9862,7 @@
                     "end": 9094
                   },
                   "value": "/users/:id/",
-                  "raw": "\"/users/:id/\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id/\""
                 }
               }
             ]
@@ -10058,8 +9966,7 @@
                                       "end": 9167
                                     },
                                     "value": "Thor",
-                                    "raw": "\"Thor\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Thor\""
                                   }
                                 }
                               ]
@@ -10115,8 +10022,7 @@
                                       "end": 9198
                                     },
                                     "value": "Hulk",
-                                    "raw": "\"Hulk\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Hulk\""
                                   }
                                 }
                               ]
@@ -10482,8 +10388,7 @@
                     "end": 9502
                   },
                   "value": "/users/:id",
-                  "raw": "\"/users/:id\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id\""
                 }
               },
               {
@@ -10495,8 +10400,7 @@
                     "end": 9517
                   },
                   "value": "/users/:id/",
-                  "raw": "\"/users/:id/\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id/\""
                 }
               }
             ]
@@ -10600,8 +10504,7 @@
                                       "end": 9590
                                     },
                                     "value": "Thor",
-                                    "raw": "\"Thor\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Thor\""
                                   }
                                 }
                               ]
@@ -10657,8 +10560,7 @@
                                       "end": 9621
                                     },
                                     "value": "Hulk",
-                                    "raw": "\"Hulk\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Hulk\""
                                   }
                                 }
                               ]
@@ -10887,8 +10789,7 @@
                     "end": 9795
                   },
                   "value": "/users/:id",
-                  "raw": "\"/users/:id\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id\""
                 }
               },
               {
@@ -10900,8 +10801,7 @@
                     "end": 9810
                   },
                   "value": "/users/:id/",
-                  "raw": "\"/users/:id/\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id/\""
                 }
               }
             ]
@@ -11005,8 +10905,7 @@
                                       "end": 9883
                                     },
                                     "value": "Thor",
-                                    "raw": "\"Thor\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Thor\""
                                   }
                                 }
                               ]
@@ -11062,8 +10961,7 @@
                                       "end": 9914
                                     },
                                     "value": "Hulk",
-                                    "raw": "\"Hulk\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Hulk\""
                                   }
                                 }
                               ]
@@ -11338,8 +11236,7 @@
                                 "end": 10061
                               },
                               "value": "id",
-                              "raw": "\"id\"",
-                              "loneSurrogates": false
+                              "raw": "\"id\""
                             }
                           }
                         ],
@@ -11653,8 +11550,7 @@
                     "end": 10333
                   },
                   "value": "/users/:id",
-                  "raw": "\"/users/:id\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id\""
                 }
               },
               {
@@ -11666,8 +11562,7 @@
                     "end": 10348
                   },
                   "value": "/users/:id/",
-                  "raw": "\"/users/:id/\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id/\""
                 }
               }
             ]
@@ -11771,8 +11666,7 @@
                                       "end": 10421
                                     },
                                     "value": "Thor",
-                                    "raw": "\"Thor\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Thor\""
                                   }
                                 }
                               ]
@@ -11828,8 +11722,7 @@
                                       "end": 10452
                                     },
                                     "value": "Hulk",
-                                    "raw": "\"Hulk\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Hulk\""
                                   }
                                 }
                               ]
@@ -12162,8 +12055,7 @@
                     "end": 10702
                   },
                   "value": "/users/:id",
-                  "raw": "\"/users/:id\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id\""
                 }
               },
               {
@@ -12175,8 +12067,7 @@
                     "end": 10717
                   },
                   "value": "/users/:id/",
-                  "raw": "\"/users/:id/\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id/\""
                 }
               }
             ]
@@ -12280,8 +12171,7 @@
                                       "end": 10790
                                     },
                                     "value": "Thor",
-                                    "raw": "\"Thor\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Thor\""
                                   }
                                 }
                               ]
@@ -12337,8 +12227,7 @@
                                       "end": 10821
                                     },
                                     "value": "Hulk",
-                                    "raw": "\"Hulk\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Hulk\""
                                   }
                                 }
                               ]
@@ -12626,8 +12515,7 @@
                                 "end": 11010
                               },
                               "value": "id",
-                              "raw": "\"id\"",
-                              "loneSurrogates": false
+                              "raw": "\"id\""
                             }
                           }
                         ],
@@ -12941,8 +12829,7 @@
                     "end": 11290
                   },
                   "value": "/users/:id",
-                  "raw": "\"/users/:id\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id\""
                 }
               },
               {
@@ -12954,8 +12841,7 @@
                     "end": 11305
                   },
                   "value": "/users/:id/",
-                  "raw": "\"/users/:id/\"",
-                  "loneSurrogates": false
+                  "raw": "\"/users/:id/\""
                 }
               }
             ]
@@ -13059,8 +12945,7 @@
                                       "end": 11378
                                     },
                                     "value": "Thor",
-                                    "raw": "\"Thor\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Thor\""
                                   }
                                 }
                               ]
@@ -13116,8 +13001,7 @@
                                       "end": 11409
                                     },
                                     "value": "Hulk",
-                                    "raw": "\"Hulk\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"Hulk\""
                                   }
                                 }
                               ]

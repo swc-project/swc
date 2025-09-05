@@ -227,8 +227,7 @@
                 "end": 188
               },
               "value": "hi",
-              "raw": "'hi'",
-              "loneSurrogates": false
+              "raw": "'hi'"
             }
           }
         ],
@@ -298,8 +297,7 @@
                 "end": 248
               },
               "value": "hi",
-              "raw": "'hi'",
-              "loneSurrogates": false
+              "raw": "'hi'"
             }
           }
         ],
@@ -552,8 +550,7 @@
                     "end": 376
                   },
                   "value": "./npmlog",
-                  "raw": "'./npmlog'",
-                  "loneSurrogates": false
+                  "raw": "'./npmlog'"
                 }
               }
             ],

@@ -336,7 +336,6 @@ impl Lexer<'_> {
         self.bump(); // `}` or `\``
         let mut cooked_slice_start = self.cur_pos();
         let raw_slice_start = cooked_slice_start;
-        let mut contains_lone_surrogates = false;
         let raw_atom = |this: &mut Self| {
             let last_pos = this.cur_pos();
             let s = unsafe { this.input.slice(raw_slice_start, last_pos) };
@@ -362,18 +361,10 @@ impl Lexer<'_> {
                 let raw = raw_atom(self);
                 self.bump();
                 return Ok(if started_with_backtick {
-                    self.set_token_value(Some(TokenValue::Template {
-                        raw,
-                        cooked,
-                        lone_surrogates: contains_lone_surrogates,
-                    }));
+                    self.set_token_value(Some(TokenValue::Template { raw, cooked }));
                     Token::NoSubstitutionTemplateLiteral
                 } else {
-                    self.set_token_value(Some(TokenValue::Template {
-                        raw,
-                        cooked,
-                        lone_surrogates: contains_lone_surrogates,
-                    }));
+                    self.set_token_value(Some(TokenValue::Template { raw, cooked }));
                     Token::TemplateTail
                 });
             } else if c == '$' && self.input.peek() == Some('{') {
@@ -382,34 +373,20 @@ impl Lexer<'_> {
                 let raw = raw_atom(self);
                 self.input.bump_bytes(2);
                 return Ok(if started_with_backtick {
-                    self.set_token_value(Some(TokenValue::Template {
-                        raw,
-                        cooked,
-                        lone_surrogates: contains_lone_surrogates,
-                    }));
+                    self.set_token_value(Some(TokenValue::Template { raw, cooked }));
                     Token::TemplateHead
                 } else {
-                    self.set_token_value(Some(TokenValue::Template {
-                        raw,
-                        cooked,
-                        lone_surrogates: contains_lone_surrogates,
-                    }));
+                    self.set_token_value(Some(TokenValue::Template { raw, cooked }));
                     Token::TemplateMiddle
                 });
             } else if c == '\\' {
                 consume_cooked!();
 
                 match self.read_escaped_char(true) {
-                    Ok(Some(escaped)) => {
+                    Ok(Some(chars)) => {
                         if let Ok(ref mut cooked) = cooked {
-                            match escaped {
-                                swc_ecma_lexer::common::lexer::EscapedChar::Char(ch) => {
-                                    cooked.extend(ch)
-                                }
-                                swc_ecma_lexer::common::lexer::EscapedChar::LoneSurrogate(ch) => {
-                                    contains_lone_surrogates |= true;
-                                    cooked.push_str(format!("\u{FFFD}{ch:04x}").as_str());
-                                }
+                            for c in chars {
+                                cooked.extend(c);
                             }
                         }
                     }

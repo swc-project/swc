@@ -193,7 +193,6 @@ impl VisitMut for PartialInliner {
                                     // TODO possible bug for quotes
                                     raw: Atom::new(&*s.value),
                                     cooked: Some(Atom::new(&*s.value)),
-                                    lone_surrogates: s.lone_surrogates,
                                 };
                                 tt.tpl = Box::new(Tpl {
                                     span: el.span,

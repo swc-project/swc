@@ -128,8 +128,7 @@
           "end": 258
         },
         "value": "fs",
-        "raw": "\"fs\"",
-        "loneSurrogates": false
+        "raw": "\"fs\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -271,8 +270,7 @@
           "end": 359
         },
         "value": "path",
-        "raw": "\"path\"",
-        "loneSurrogates": false
+        "raw": "\"path\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -312,8 +310,7 @@
                   "end": 390
                 },
                 "value": "fs",
-                "raw": "\"fs\"",
-                "loneSurrogates": false
+                "raw": "\"fs\""
               }
             }
           },
@@ -433,8 +430,7 @@
           "end": 533
         },
         "value": "./a",
-        "raw": "\"./a\"",
-        "loneSurrogates": false
+        "raw": "\"./a\""
       },
       "typeOnly": false,
       "with": null,
@@ -471,8 +467,7 @@
                 "end": 547
               },
               "value": "./a",
-              "raw": "\"./a\"",
-              "loneSurrogates": false
+              "raw": "\"./a\""
             }
           }
         ],
@@ -533,8 +528,7 @@
                     "end": 573
                   },
                   "value": "./a",
-                  "raw": "\"./a\"",
-                  "loneSurrogates": false
+                  "raw": "\"./a\""
                 }
               }
             ],
@@ -590,8 +584,7 @@
           "end": 632
         },
         "value": "./a",
-        "raw": "\"./a\"",
-        "loneSurrogates": false
+        "raw": "\"./a\""
       },
       "typeOnly": false,
       "with": null,
@@ -628,8 +621,7 @@
             "end": 658
           },
           "value": "./a",
-          "raw": "\"./a\"",
-          "loneSurrogates": false
+          "raw": "\"./a\""
         }
       }
     },
@@ -699,8 +691,7 @@
                 "end": 754
               },
               "value": "a",
-              "raw": "\"a\"",
-              "loneSurrogates": false
+              "raw": "\"a\""
             },
             "definite": false
           }

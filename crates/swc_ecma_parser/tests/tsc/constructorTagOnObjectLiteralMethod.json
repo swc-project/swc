@@ -106,8 +106,7 @@
                             "end": 165
                           },
                           "value": "bar",
-                          "raw": "\"bar\"",
-                          "loneSurrogates": false
+                          "raw": "\"bar\""
                         }
                       }
                     }

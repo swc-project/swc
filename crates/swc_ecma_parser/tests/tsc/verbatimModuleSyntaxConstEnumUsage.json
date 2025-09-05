@@ -129,8 +129,7 @@
           "end": 168
         },
         "value": "./foo.js",
-        "raw": "'./foo.js'",
-        "loneSurrogates": false
+        "raw": "'./foo.js'"
       },
       "typeOnly": false,
       "with": null,

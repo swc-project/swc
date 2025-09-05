@@ -39,8 +39,7 @@
               "end": 159
             },
             "value": "add",
-            "raw": "'add'",
-            "loneSurrogates": false
+            "raw": "'add'"
           },
           "definite": false
         }
@@ -80,8 +79,7 @@
               "end": 222
             },
             "value": "remove",
-            "raw": "'remove'",
-            "loneSurrogates": false
+            "raw": "'remove'"
           },
           "definite": false
         }
@@ -121,8 +119,7 @@
           "end": 280
         },
         "value": "./mod1",
-        "raw": "\"./mod1\"",
-        "loneSurrogates": false
+        "raw": "\"./mod1\""
       },
       "typeOnly": false,
       "with": null,
@@ -241,8 +238,7 @@
                       "end": 418
                     },
                     "value": "add",
-                    "raw": "'add'",
-                    "loneSurrogates": false
+                    "raw": "'add'"
                   }
                 },
                 {
@@ -262,8 +258,7 @@
                       "end": 440
                     },
                     "value": "remove",
-                    "raw": "'remove'",
-                    "loneSurrogates": false
+                    "raw": "'remove'"
                   }
                 }
               ]

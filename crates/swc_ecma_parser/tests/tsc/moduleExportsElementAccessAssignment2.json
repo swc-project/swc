@@ -189,8 +189,7 @@
                   "end": 305
                 },
                 "value": "undefined",
-                "raw": "\"undefined\"",
-                "loneSurrogates": false
+                "raw": "\"undefined\""
               }
             },
             "consequent": {
@@ -250,8 +249,7 @@
                               "end": 331
                             },
                             "value": "AST_",
-                            "raw": "\"AST_\"",
-                            "loneSurrogates": false
+                            "raw": "\"AST_\""
                           },
                           "right": {
                             "type": "Identifier",

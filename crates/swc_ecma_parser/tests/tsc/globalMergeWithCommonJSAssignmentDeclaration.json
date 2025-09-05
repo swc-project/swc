@@ -131,8 +131,7 @@
             "end": 225
           },
           "value": "anything",
-          "raw": "'anything'",
-          "loneSurrogates": false
+          "raw": "'anything'"
         }
       }
     }

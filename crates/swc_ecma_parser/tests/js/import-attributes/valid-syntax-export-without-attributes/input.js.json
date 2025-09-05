@@ -39,8 +39,7 @@
           "end": 31
         },
         "value": "foo.json",
-        "raw": "\"foo.json\"",
-        "loneSurrogates": false
+        "raw": "\"foo.json\""
       },
       "typeOnly": false,
       "with": null

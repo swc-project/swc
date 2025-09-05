@@ -56,8 +56,7 @@
                     "end": 130
                   },
                   "value": "hard",
-                  "raw": "\"hard\"",
-                  "loneSurrogates": false
+                  "raw": "\"hard\""
                 }
               }
             ]
@@ -207,8 +206,7 @@
                         "end": 237
                       },
                       "value": "./first",
-                      "raw": "'./first'",
-                      "loneSurrogates": false
+                      "raw": "'./first'"
                     }
                   }
                 ],
@@ -298,8 +296,7 @@
                       "end": 304
                     },
                     "value": "./second",
-                    "raw": "'./second'",
-                    "loneSurrogates": false
+                    "raw": "'./second'"
                   }
                 }
               ],

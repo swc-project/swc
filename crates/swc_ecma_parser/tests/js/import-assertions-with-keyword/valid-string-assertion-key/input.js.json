@@ -19,8 +19,7 @@
           "end": 13
         },
         "value": "foo",
-        "raw": "\"foo\"",
-        "loneSurrogates": false
+        "raw": "\"foo\""
       },
       "typeOnly": false,
       "with": {
@@ -39,8 +38,7 @@
                 "end": 27
               },
               "value": "type",
-              "raw": "\"type\"",
-              "loneSurrogates": false
+              "raw": "\"type\""
             },
             "value": {
               "type": "StringLiteral",
@@ -49,8 +47,7 @@
                 "end": 35
               },
               "value": "json",
-              "raw": "\"json\"",
-              "loneSurrogates": false
+              "raw": "\"json\""
             }
           }
         ]

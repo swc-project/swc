@@ -97,8 +97,7 @@
                           "end": 219
                         },
                         "value": "I'm a rectangle!",
-                        "raw": "\"I'm a rectangle!\"",
-                        "loneSurrogates": false
+                        "raw": "\"I'm a rectangle!\""
                       }
                     }
                   ],
@@ -249,8 +248,7 @@
                     "end": 327
                   },
                   "value": "./rectangle",
-                  "raw": "'./rectangle'",
-                  "loneSurrogates": false
+                  "raw": "'./rectangle'"
                 }
               }
             ],
@@ -673,8 +671,7 @@
                     "end": 766
                   },
                   "value": "./index",
-                  "raw": "\"./index\"",
-                  "loneSurrogates": false
+                  "raw": "\"./index\""
                 }
               }
             ],
@@ -825,8 +822,7 @@
                 "end": 841
               },
               "value": "Objects",
-              "raw": "\"Objects\"",
-              "loneSurrogates": false
+              "raw": "\"Objects\""
             }
           },
           {

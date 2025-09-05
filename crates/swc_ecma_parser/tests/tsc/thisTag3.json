@@ -105,8 +105,7 @@
                         "end": 215
                       },
                       "value": "",
-                      "raw": "\"\"",
-                      "loneSurrogates": false
+                      "raw": "\"\""
                     },
                     "right": {
                       "type": "Identifier",

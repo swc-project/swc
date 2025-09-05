@@ -70,8 +70,7 @@
           "end": 175
         },
         "value": "./defaultPath",
-        "raw": "\"./defaultPath\"",
-        "loneSurrogates": false
+        "raw": "\"./defaultPath\""
       },
       "typeOnly": false,
       "with": null,
@@ -356,8 +355,7 @@
                   },
                   "tail": false,
                   "cooked": "",
-                  "raw": "",
-                  "loneSurrogates": false
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -367,8 +365,7 @@
                   },
                   "tail": false,
                   "cooked": "\\",
-                  "raw": "\\\\",
-                  "loneSurrogates": false
+                  "raw": "\\\\"
                 },
                 {
                   "type": "TemplateElement",
@@ -378,8 +375,7 @@
                   },
                   "tail": true,
                   "cooked": "",
-                  "raw": "",
-                  "loneSurrogates": false
+                  "raw": ""
                 }
               ]
             }
@@ -515,8 +511,7 @@
                       "end": 475
                     },
                     "value": "./0",
-                    "raw": "\"./0\"",
-                    "loneSurrogates": false
+                    "raw": "\"./0\""
                   },
                   "alternate": {
                     "type": "StringLiteral",
@@ -525,8 +520,7 @@
                       "end": 494
                     },
                     "value": "externalModule",
-                    "raw": "\"externalModule\"",
-                    "loneSurrogates": false
+                    "raw": "\"externalModule\""
                   }
                 }
               }
@@ -867,8 +861,7 @@
                         "end": 669
                       },
                       "value": "defaulPath",
-                      "raw": "\"defaulPath\"",
-                      "loneSurrogates": false
+                      "raw": "\"defaulPath\""
                     }
                   }
                 }
@@ -1415,8 +1408,7 @@
                             },
                             "tail": false,
                             "cooked": "",
-                            "raw": "",
-                            "loneSurrogates": false
+                            "raw": ""
                           },
                           {
                             "type": "TemplateElement",
@@ -1426,8 +1418,7 @@
                             },
                             "tail": true,
                             "cooked": "\\moduleFile",
-                            "raw": "\\\\moduleFile",
-                            "loneSurrogates": false
+                            "raw": "\\\\moduleFile"
                           }
                         ]
                       },

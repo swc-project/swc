@@ -104,8 +104,7 @@
                             "end": 39
                           },
                           "value": "use strict",
-                          "raw": "\"use strict\"",
-                          "loneSurrogates": false
+                          "raw": "\"use strict\""
                         }
                       },
                       {
@@ -1181,8 +1180,7 @@
                                                 "end": 411
                                               },
                                               "value": "",
-                                              "raw": "\"\"",
-                                              "loneSurrogates": false
+                                              "raw": "\"\""
                                             },
                                             "alternate": {
                                               "type": "CallExpression",
@@ -1374,8 +1372,7 @@
                                                   "end": 520
                                                 },
                                                 "value": "object",
-                                                "raw": "\"object\"",
-                                                "loneSurrogates": false
+                                                "raw": "\"object\""
                                               }
                                             }
                                           },
@@ -1419,8 +1416,7 @@
                                                         "end": 608
                                                       },
                                                       "value": "The \"pathObject\" argument must be of type Object. Received type ",
-                                                      "raw": "'The \"pathObject\" argument must be of type Object. Received type '",
-                                                      "loneSurrogates": false
+                                                      "raw": "'The \"pathObject\" argument must be of type Object. Received type '"
                                                     },
                                                     "right": {
                                                       "type": "UnaryExpression",
@@ -1481,8 +1477,7 @@
                                                     "end": 646
                                                   },
                                                   "value": "/",
-                                                  "raw": "\"/\"",
-                                                  "loneSurrogates": false
+                                                  "raw": "\"/\""
                                                 }
                                               },
                                               {

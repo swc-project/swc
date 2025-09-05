@@ -346,8 +346,7 @@
                     "end": 360
                   },
                   "value": "./lib",
-                  "raw": "'./lib'",
-                  "loneSurrogates": false
+                  "raw": "'./lib'"
                 }
               }
             ],

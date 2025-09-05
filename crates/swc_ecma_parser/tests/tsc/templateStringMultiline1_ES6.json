@@ -27,8 +27,7 @@
             },
             "tail": true,
             "cooked": "\n",
-            "raw": "\n\\\n",
-            "loneSurrogates": false
+            "raw": "\n\\\n"
           }
         ]
       }

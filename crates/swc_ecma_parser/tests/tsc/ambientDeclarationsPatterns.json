@@ -21,8 +21,7 @@
           "end": 57
         },
         "value": "foo*baz",
-        "raw": "\"foo*baz\"",
-        "loneSurrogates": false
+        "raw": "\"foo*baz\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -131,8 +130,7 @@
           "end": 156
         },
         "value": "foo*baz",
-        "raw": "\"foo*baz\"",
-        "loneSurrogates": false
+        "raw": "\"foo*baz\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -213,8 +211,7 @@
           "end": 237
         },
         "value": "foos*",
-        "raw": "\"foos*\"",
-        "loneSurrogates": false
+        "raw": "\"foos*\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -295,8 +292,7 @@
           "end": 297
         },
         "value": "*!text",
-        "raw": "\"*!text\"",
-        "loneSurrogates": false
+        "raw": "\"*!text\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -424,8 +420,7 @@
           "end": 444
         },
         "value": "foobarbaz",
-        "raw": "\"foobarbaz\"",
-        "loneSurrogates": false
+        "raw": "\"foobarbaz\""
       },
       "typeOnly": false,
       "with": null,
@@ -506,8 +501,7 @@
           "end": 486
         },
         "value": "foosball",
-        "raw": "\"foosball\"",
-        "loneSurrogates": false
+        "raw": "\"foosball\""
       },
       "typeOnly": false,
       "with": null,
@@ -586,8 +580,7 @@
           "end": 567
         },
         "value": "./file!text",
-        "raw": "\"./file!text\"",
-        "loneSurrogates": false
+        "raw": "\"./file!text\""
       },
       "typeOnly": false,
       "with": null,

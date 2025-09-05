@@ -39,8 +39,7 @@
               "end": 40
             },
             "value": "ee",
-            "raw": "\"\\u{65}\\u{65}\"",
-            "loneSurrogates": false
+            "raw": "\"\\u{65}\\u{65}\""
           },
           "definite": false
         }

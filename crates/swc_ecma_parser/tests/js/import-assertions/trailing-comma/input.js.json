@@ -37,8 +37,7 @@
           "end": 22
         },
         "value": "foo",
-        "raw": "\"foo\"",
-        "loneSurrogates": false
+        "raw": "\"foo\""
       },
       "typeOnly": false,
       "with": {
@@ -65,8 +64,7 @@
                 "end": 44
               },
               "value": "json",
-              "raw": "\"json\"",
-              "loneSurrogates": false
+              "raw": "\"json\""
             }
           }
         ]
@@ -116,8 +114,7 @@
           "end": 84
         },
         "value": "foo",
-        "raw": "\"foo\"",
-        "loneSurrogates": false
+        "raw": "\"foo\""
       },
       "typeOnly": false,
       "with": {
@@ -144,8 +141,7 @@
                 "end": 106
               },
               "value": "json",
-              "raw": "\"json\"",
-              "loneSurrogates": false
+              "raw": "\"json\""
             }
           }
         ]

@@ -211,8 +211,7 @@
               "end": 79
             },
             "value": "a",
-            "raw": "'a'",
-            "loneSurrogates": false
+            "raw": "'a'"
           },
           "value": null,
           "typeAnnotation": {

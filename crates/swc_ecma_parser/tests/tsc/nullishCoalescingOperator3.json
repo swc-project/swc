@@ -56,8 +56,7 @@
                         "end": 46
                       },
                       "value": "literal",
-                      "raw": "'literal'",
-                      "loneSurrogates": false
+                      "raw": "'literal'"
                     }
                   },
                   {
@@ -136,8 +135,7 @@
                         "end": 86
                       },
                       "value": "",
-                      "raw": "''",
-                      "loneSurrogates": false
+                      "raw": "''"
                     }
                   },
                   {
@@ -620,8 +618,7 @@
                 "end": 329
               },
               "value": "whatever",
-              "raw": "'whatever'",
-              "loneSurrogates": false
+              "raw": "'whatever'"
             }
           },
           "definite": false

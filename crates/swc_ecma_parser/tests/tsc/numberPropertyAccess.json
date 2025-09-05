@@ -180,8 +180,7 @@
                     "end": 73
                   },
                   "value": "toFixed",
-                  "raw": "'toFixed'",
-                  "loneSurrogates": false
+                  "raw": "'toFixed'"
                 }
               }
             ],
@@ -254,8 +253,7 @@
                     "end": 102
                   },
                   "value": "toExponential",
-                  "raw": "'toExponential'",
-                  "loneSurrogates": false
+                  "raw": "'toExponential'"
                 }
               }
             },
@@ -329,8 +327,7 @@
                     "end": 133
                   },
                   "value": "hasOwnProperty",
-                  "raw": "'hasOwnProperty'",
-                  "loneSurrogates": false
+                  "raw": "'hasOwnProperty'"
                 }
               }
             },
@@ -344,8 +341,7 @@
                     "end": 144
                   },
                   "value": "toFixed",
-                  "raw": "'toFixed'",
-                  "loneSurrogates": false
+                  "raw": "'toFixed'"
                 }
               }
             ],

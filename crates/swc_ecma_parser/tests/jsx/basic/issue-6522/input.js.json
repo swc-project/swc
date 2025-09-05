@@ -565,8 +565,7 @@
                 "end": 162
               },
               "value": "test",
-              "raw": "'test'",
-              "loneSurrogates": false
+              "raw": "'test'"
             }
           }
         }

@@ -37,8 +37,7 @@
           "end": 91
         },
         "value": "typia/lib/internal/_validateReport.js",
-        "raw": "\"typia/lib/internal/_validateReport.js\"",
-        "loneSurrogates": false
+        "raw": "\"typia/lib/internal/_validateReport.js\""
       },
       "typeOnly": false,
       "with": null,
@@ -76,8 +75,7 @@
           "end": 118
         },
         "value": "typia",
-        "raw": "\"typia\"",
-        "loneSurrogates": false
+        "raw": "\"typia\""
       },
       "typeOnly": false,
       "with": null,
@@ -220,8 +218,7 @@
                                     "end": 208
                                   },
                                   "value": "number",
-                                  "raw": "\"number\"",
-                                  "loneSurrogates": false
+                                  "raw": "\"number\""
                                 },
                                 "right": {
                                   "type": "UnaryExpression",
@@ -785,8 +782,7 @@
                                                         "end": 630
                                                       },
                                                       "value": "number",
-                                                      "raw": "\"number\"",
-                                                      "loneSurrogates": false
+                                                      "raw": "\"number\""
                                                     },
                                                     "right": {
                                                       "type": "UnaryExpression",
@@ -879,8 +875,7 @@
                                                                     "end": 719
                                                                   },
                                                                   "value": "",
-                                                                  "raw": "\"\"",
-                                                                  "loneSurrogates": false
+                                                                  "raw": "\"\""
                                                                 }
                                                               }
                                                             },
@@ -901,8 +896,7 @@
                                                                   "end": 759
                                                                 },
                                                                 "value": "number",
-                                                                "raw": "\"number\"",
-                                                                "loneSurrogates": false
+                                                                "raw": "\"number\""
                                                               }
                                                             },
                                                             {
@@ -962,8 +956,7 @@
                                                     "end": 830
                                                   },
                                                   "value": "$input",
-                                                  "raw": "\"$input\"",
-                                                  "loneSurrogates": false
+                                                  "raw": "\"$input\""
                                                 }
                                               },
                                               {
@@ -1289,8 +1282,7 @@
                                       "end": 321
                                     },
                                     "value": "typia",
-                                    "raw": "\"typia\"",
-                                    "loneSurrogates": false
+                                    "raw": "\"typia\""
                                   },
                                   "qualifier": {
                                     "type": "Identifier",
@@ -1477,8 +1469,7 @@
                                   "end": 1313
                                 },
                                 "value": "typia",
-                                "raw": "\"typia\"",
-                                "loneSurrogates": false
+                                "raw": "\"typia\""
                               },
                               "qualifier": {
                                 "type": "Identifier",
@@ -1510,8 +1501,7 @@
                                         "end": 1341
                                       },
                                       "value": "typia",
-                                      "raw": "\"typia\"",
-                                      "loneSurrogates": false
+                                      "raw": "\"typia\""
                                     },
                                     "qualifier": {
                                       "type": "Identifier",

@@ -13929,8 +13929,7 @@
                     "end": 4228
                   },
                   "value": "audio",
-                  "raw": "\"audio\"",
-                  "loneSurrogates": false
+                  "raw": "\"audio\""
                 }
               }
             }
@@ -14024,8 +14023,7 @@
                         "end": 4293
                       },
                       "value": "audio",
-                      "raw": "\"audio\"",
-                      "loneSurrogates": false
+                      "raw": "\"audio\""
                     }
                   },
                   {
@@ -14041,8 +14039,7 @@
                         "end": 4303
                       },
                       "value": "video",
-                      "raw": "\"video\"",
-                      "loneSurrogates": false
+                      "raw": "\"video\""
                     }
                   }
                 ]
@@ -14250,8 +14247,7 @@
                   "end": 4454
                 },
                 "value": "audio",
-                "raw": "\"audio\"",
-                "loneSurrogates": false
+                "raw": "\"audio\""
               }
             }
           ]
@@ -14319,8 +14315,7 @@
                       "end": 4516
                     },
                     "value": "audio",
-                    "raw": "\"audio\"",
-                    "loneSurrogates": false
+                    "raw": "\"audio\""
                   }
                 },
                 {
@@ -14336,8 +14331,7 @@
                       "end": 4526
                     },
                     "value": "video",
-                    "raw": "\"video\"",
-                    "loneSurrogates": false
+                    "raw": "\"video\""
                   }
                 }
               ]

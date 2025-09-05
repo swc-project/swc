@@ -125,7 +125,7 @@ impl_struct!(
 );
 impl_struct!(Decorator, [span, expr]);
 
-impl_struct!(TplElement, [span, tail, cooked, raw, lone_surrogates]);
+impl_struct!(TplElement, [span, tail, cooked, raw]);
 
 impl_struct!(
     JSXOpeningElement,

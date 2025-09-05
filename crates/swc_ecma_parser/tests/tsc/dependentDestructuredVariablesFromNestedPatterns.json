@@ -873,8 +873,7 @@
                               "end": 525
                             },
                             "value": "fulfilled",
-                            "raw": "\"fulfilled\"",
-                            "loneSurrogates": false
+                            "raw": "\"fulfilled\""
                           }
                         },
                         "consequent": {

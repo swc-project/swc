@@ -529,7 +529,6 @@ impl VisitMut for Polyfills {
                         src: Str {
                             span: DUMMY_SP,
                             raw: None,
-                            lone_surrogates: false,
                             value: src,
                         }
                         .into(),
@@ -550,7 +549,6 @@ impl VisitMut for Polyfills {
                         src: Str {
                             span: DUMMY_SP,
                             raw: None,
-                            lone_surrogates: false,
                             value: src,
                         }
                         .into(),
@@ -589,7 +587,6 @@ impl VisitMut for Polyfills {
                                 span: DUMMY_SP,
                                 value: src,
                                 raw: None,
-                                lone_surrogates: false,
                             }
                             .as_arg()],
                             type_args: None,
@@ -618,7 +615,6 @@ impl VisitMut for Polyfills {
                                 span: DUMMY_SP,
                                 value: src,
                                 raw: None,
-                                lone_surrogates: false,
                             }
                             .as_arg()],
                             ..Default::default()

@@ -483,8 +483,7 @@
                       "end": 216
                     },
                     "value": "",
-                    "raw": "\"\"",
-                    "loneSurrogates": false
+                    "raw": "\"\""
                   }
                 },
                 "thisParam": null,
@@ -696,8 +695,7 @@
                         },
                         "tail": true,
                         "cooked": "hello bye",
-                        "raw": "hello bye",
-                        "loneSurrogates": false
+                        "raw": "hello bye"
                       }
                     ]
                   }
@@ -763,8 +761,7 @@
                         },
                         "tail": false,
                         "cooked": "hello ",
-                        "raw": "hello ",
-                        "loneSurrogates": false
+                        "raw": "hello "
                       },
                       {
                         "type": "TemplateElement",
@@ -774,8 +771,7 @@
                         },
                         "tail": true,
                         "cooked": " bye",
-                        "raw": " bye",
-                        "loneSurrogates": false
+                        "raw": " bye"
                       }
                     ]
                   }

@@ -115,8 +115,7 @@
               },
               "tail": true,
               "cooked": "string",
-              "raw": "string",
-              "loneSurrogates": false
+              "raw": "string"
             }
           ]
         }
@@ -316,8 +315,7 @@
               },
               "tail": true,
               "cooked": "test",
-              "raw": "test",
-              "loneSurrogates": false
+              "raw": "test"
             }
           ]
         },

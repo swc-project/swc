@@ -123,8 +123,7 @@
                 "end": 83
               },
               "value": "foo",
-              "raw": "'foo'",
-              "loneSurrogates": false
+              "raw": "'foo'"
             }
           },
           "definite": false

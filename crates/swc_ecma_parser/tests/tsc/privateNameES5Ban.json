@@ -151,8 +151,7 @@
               "end": 118
             },
             "value": "hello world",
-            "raw": "\"hello world\"",
-            "loneSurrogates": false
+            "raw": "\"hello world\""
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -249,8 +248,7 @@
                       "end": 171
                     },
                     "value": "",
-                    "raw": "\"\"",
-                    "loneSurrogates": false
+                    "raw": "\"\""
                   }
                 }
               ]

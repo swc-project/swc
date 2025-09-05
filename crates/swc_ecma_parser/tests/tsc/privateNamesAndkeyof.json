@@ -400,8 +400,7 @@
               "end": 248
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           },
           "definite": false
         }
@@ -438,8 +437,7 @@
             "end": 265
           },
           "value": "baz",
-          "raw": "\"baz\"",
-          "loneSurrogates": false
+          "raw": "\"baz\""
         }
       }
     },
@@ -474,8 +472,7 @@
             "end": 289
           },
           "value": "#fooField",
-          "raw": "\"#fooField\"",
-          "loneSurrogates": false
+          "raw": "\"#fooField\""
         }
       }
     },
@@ -510,8 +507,7 @@
             "end": 316
           },
           "value": "#fooMethod",
-          "raw": "\"#fooMethod\"",
-          "loneSurrogates": false
+          "raw": "\"#fooMethod\""
         }
       }
     },
@@ -546,8 +542,7 @@
             "end": 341
           },
           "value": "#fooProp",
-          "raw": "\"#fooProp\"",
-          "loneSurrogates": false
+          "raw": "\"#fooProp\""
         }
       }
     },
@@ -582,8 +577,7 @@
             "end": 367
           },
           "value": "fooField",
-          "raw": "\"fooField\"",
-          "loneSurrogates": false
+          "raw": "\"fooField\""
         }
       }
     },
@@ -618,8 +612,7 @@
             "end": 393
           },
           "value": "fooMethod",
-          "raw": "\"fooMethod\"",
-          "loneSurrogates": false
+          "raw": "\"fooMethod\""
         }
       }
     },
@@ -654,8 +647,7 @@
             "end": 417
           },
           "value": "fooProp",
-          "raw": "\"fooProp\"",
-          "loneSurrogates": false
+          "raw": "\"fooProp\""
         }
       }
     }

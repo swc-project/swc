@@ -2022,8 +2022,7 @@
                           "end": 575
                         },
                         "value": "c",
-                        "raw": "'c'",
-                        "loneSurrogates": false
+                        "raw": "'c'"
                       }
                     }
                   }
@@ -2051,8 +2050,7 @@
                   "end": 584
                 },
                 "value": "e",
-                "raw": "'e'",
-                "loneSurrogates": false
+                "raw": "'e'"
               }
             }
           }
@@ -2155,8 +2153,7 @@
                             "end": 605
                           },
                           "value": "c",
-                          "raw": "'c'",
-                          "loneSurrogates": false
+                          "raw": "'c'"
                         }
                       }
                     }
@@ -2184,8 +2181,7 @@
                     "end": 614
                   },
                   "value": "e",
-                  "raw": "'e'",
-                  "loneSurrogates": false
+                  "raw": "'e'"
                 }
               }
             }

@@ -54,8 +54,7 @@
               },
               "tail": false,
               "cooked": "",
-              "raw": "",
-              "loneSurrogates": false
+              "raw": ""
             },
             {
               "type": "TemplateElement",
@@ -65,8 +64,7 @@
               },
               "tail": true,
               "cooked": "",
-              "raw": "",
-              "loneSurrogates": false
+              "raw": ""
             }
           ]
         }
@@ -157,8 +155,7 @@
                                   "end": 137
                                 },
                                 "value": "4",
-                                "raw": "\"4\"",
-                                "loneSurrogates": false
+                                "raw": "\"4\""
                               }
                             }
                           ]

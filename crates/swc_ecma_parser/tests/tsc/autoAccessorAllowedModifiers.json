@@ -408,8 +408,7 @@
               "end": 383
             },
             "value": "k",
-            "raw": "\"k\"",
-            "loneSurrogates": false
+            "raw": "\"k\""
           },
           "value": null,
           "typeAnnotation": {
@@ -491,8 +490,7 @@
                 "end": 430
               },
               "value": "m",
-              "raw": "\"m\"",
-              "loneSurrogates": false
+              "raw": "\"m\""
             }
           },
           "value": null,

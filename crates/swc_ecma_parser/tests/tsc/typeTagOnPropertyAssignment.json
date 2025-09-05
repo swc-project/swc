@@ -56,8 +56,7 @@
                     "end": 138
                   },
                   "value": "a",
-                  "raw": "\"a\"",
-                  "loneSurrogates": false
+                  "raw": "\"a\""
                 }
               },
               {
@@ -85,8 +84,7 @@
                       "end": 185
                     },
                     "value": "b",
-                    "raw": "'b'",
-                    "loneSurrogates": false
+                    "raw": "'b'"
                   },
                   "async": false,
                   "generator": false,

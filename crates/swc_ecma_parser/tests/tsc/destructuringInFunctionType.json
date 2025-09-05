@@ -1214,8 +1214,7 @@
                 "end": 398
               },
               "value": "hello",
-              "raw": "\"hello\"",
-              "loneSurrogates": false
+              "raw": "\"hello\""
             },
             "async": false,
             "generator": false,

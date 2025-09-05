@@ -134,8 +134,7 @@
           "end": 204
         },
         "value": "./def",
-        "raw": "\"./def\"",
-        "loneSurrogates": false
+        "raw": "\"./def\""
       },
       "typeOnly": false,
       "with": null,

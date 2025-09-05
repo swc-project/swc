@@ -582,8 +582,7 @@
                     "end": 404
                   },
                   "value": "0,0",
-                  "raw": "\"0,0\"",
-                  "loneSurrogates": false
+                  "raw": "\"0,0\""
                 },
                 "definite": false
               }

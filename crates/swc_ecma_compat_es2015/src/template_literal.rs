@@ -64,13 +64,11 @@ impl VisitMut for TemplateLiteral {
                             .cooked
                             .clone()
                             .unwrap_or_else(|| quasis[0].raw.clone());
-                        let ls = quasis[0].lone_surrogates;
 
                         Str {
                             span: quasis[0].span,
                             value: Atom::from(&*s),
                             raw: None,
-                            lone_surrogates: ls,
                         }
                     })
                     .into(),
@@ -93,11 +91,7 @@ impl VisitMut for TemplateLiteral {
                         // Quasis
                         match quasis.next() {
                             Some(TplElement {
-                                span,
-                                cooked,
-                                raw,
-                                lone_surrogates,
-                                ..
+                                span, cooked, raw, ..
                             }) => {
                                 let s = cooked.clone().unwrap_or_else(|| raw.clone());
 
@@ -106,7 +100,6 @@ impl VisitMut for TemplateLiteral {
                                         span: *span,
                                         value: (&*s).into(),
                                         raw: None,
-                                        lone_surrogates: *lone_surrogates,
                                     })
                                     .into(),
                                 )
@@ -130,37 +123,23 @@ impl VisitMut for TemplateLiteral {
                         };
 
                         if !is_empty && args.is_empty() {
-                            if let Expr::Lit(Lit::Str(Str {
-                                span,
-                                value,
-                                raw,
-                                lone_surrogates,
-                            })) = *obj
-                            {
+                            if let Expr::Lit(Lit::Str(Str { span, value, raw })) = *obj {
                                 match *expr {
                                     Expr::Lit(Lit::Str(Str {
                                         span: r_span,
                                         value: r_value,
-                                        lone_surrogates: r_ls,
                                         ..
                                     })) => {
                                         obj = Lit::Str(Str {
                                             span: span.with_hi(r_span.hi()),
                                             raw: None,
                                             value: format!("{value}{r_value}").into(),
-                                            lone_surrogates: lone_surrogates || r_ls,
                                         })
                                         .into();
                                         continue;
                                     }
                                     _ => {
-                                        obj = Lit::Str(Str {
-                                            span,
-                                            raw,
-                                            value,
-                                            lone_surrogates,
-                                        })
-                                        .into();
+                                        obj = Lit::Str(Str { span, raw, value }).into();
                                     }
                                 }
                             }

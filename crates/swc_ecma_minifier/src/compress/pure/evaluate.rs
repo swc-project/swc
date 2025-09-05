@@ -412,7 +412,6 @@ impl Pure<'_> {
                     span: call.span,
                     value: atom!("function(){}"),
                     raw: None,
-                    lone_surrogates: false,
                 }
                 .into();
             }
@@ -554,7 +553,6 @@ impl Pure<'_> {
                 *e = Lit::Str(Str {
                     span: e.span(),
                     raw: None,
-                    lone_surrogates: false,
                     value: value.into(),
                 })
                 .into();
@@ -580,7 +578,6 @@ impl Pure<'_> {
                 *e = Lit::Str(Str {
                     span: e.span(),
                     raw: None,
-                    lone_surrogates: false,
                     value,
                 })
                 .into();
@@ -607,7 +604,6 @@ impl Pure<'_> {
                 *e = Lit::Str(Str {
                     span: e.span(),
                     raw: None,
-                    lone_surrogates: false,
                     value: value.into(),
                 })
                 .into();
@@ -630,7 +626,6 @@ impl Pure<'_> {
                 *e = Lit::Str(Str {
                     span: e.span(),
                     raw: None,
-                    lone_surrogates: false,
                     value,
                 })
                 .into();
@@ -658,7 +653,6 @@ impl Pure<'_> {
                 *e = Lit::Str(Str {
                     span: e.span(),
                     raw: None,
-                    lone_surrogates: false,
                     value,
                 })
                 .into();
@@ -676,7 +670,6 @@ impl Pure<'_> {
                     *e = Lit::Str(Str {
                         span: e.span(),
                         raw: None,
-                        lone_surrogates: false,
                         value,
                     })
                     .into();
@@ -702,7 +695,6 @@ impl Pure<'_> {
                     *e = Lit::Str(Str {
                         span: e.span(),
                         raw: None,
-                        lone_surrogates: false,
                         value,
                     })
                     .into()
@@ -943,7 +935,6 @@ impl Pure<'_> {
         *e = Lit::Str(Str {
             value: new_val.into(),
             raw: None,
-            lone_surrogates: false,
             ..s
         })
         .into();

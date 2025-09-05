@@ -275,8 +275,7 @@
                 "end": 272
               },
               "value": "this is fine",
-              "raw": "\"this is fine\"",
-              "loneSurrogates": false
+              "raw": "\"this is fine\""
             }
           }
         ]
@@ -327,8 +326,7 @@
               "end": 305
             },
             "value": "oui",
-            "raw": "'oui'",
-            "loneSurrogates": false
+            "raw": "'oui'"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -901,8 +899,7 @@
                             "end": 829
                           },
                           "value": "ok",
-                          "raw": "'ok'",
-                          "loneSurrogates": false
+                          "raw": "'ok'"
                         }
                       }
                     ],

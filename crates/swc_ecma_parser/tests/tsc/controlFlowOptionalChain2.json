@@ -68,8 +68,7 @@
                     "end": 51
                   },
                   "value": "A",
-                  "raw": "'A'",
-                  "loneSurrogates": false
+                  "raw": "'A'"
                 }
               }
             }
@@ -175,8 +174,7 @@
                     "end": 94
                   },
                   "value": "B",
-                  "raw": "'B'",
-                  "loneSurrogates": false
+                  "raw": "'B'"
                 }
               }
             }
@@ -344,8 +342,7 @@
                   "end": 165
                 },
                 "value": "B",
-                "raw": "'B'",
-                "loneSurrogates": false
+                "raw": "'B'"
               }
             },
             "consequent": {
@@ -609,8 +606,7 @@
                   "end": 288
                 },
                 "value": "B",
-                "raw": "'B'",
-                "loneSurrogates": false
+                "raw": "'B'"
               }
             },
             "consequent": {
@@ -812,8 +808,7 @@
                     "end": 382
                   },
                   "value": "u",
-                  "raw": "'u'",
-                  "loneSurrogates": false
+                  "raw": "'u'"
                 }
               }
             }
@@ -919,8 +914,7 @@
                     "end": 414
                   },
                   "value": "n",
-                  "raw": "'n'",
-                  "loneSurrogates": false
+                  "raw": "'n'"
                 }
               }
             }
@@ -991,8 +985,7 @@
                     "end": 437
                   },
                   "value": "X",
-                  "raw": "'X'",
-                  "loneSurrogates": false
+                  "raw": "'X'"
                 }
               }
             }
@@ -1035,8 +1028,7 @@
                     "end": 445
                   },
                   "value": "x",
-                  "raw": "'x'",
-                  "loneSurrogates": false
+                  "raw": "'x'"
                 }
               }
             }

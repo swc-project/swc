@@ -1736,8 +1736,7 @@
                             "end": 667
                           },
                           "value": "",
-                          "raw": "''",
-                          "loneSurrogates": false
+                          "raw": "''"
                         },
                         "typeAnnotation": {
                           "type": "TsKeywordType",

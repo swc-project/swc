@@ -900,8 +900,7 @@
                 "end": 435
               },
               "value": "this is a string",
-              "raw": "'this is a string'",
-              "loneSurrogates": false
+              "raw": "'this is a string'"
             },
             "definite": false
           }
@@ -2476,8 +2475,7 @@
                   "end": 1152
                 },
                 "value": "this is a string",
-                "raw": "'this is a string'",
-                "loneSurrogates": false
+                "raw": "'this is a string'"
               },
               "async": false,
               "generator": false,

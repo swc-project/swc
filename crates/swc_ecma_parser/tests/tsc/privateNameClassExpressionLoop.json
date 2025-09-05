@@ -226,8 +226,7 @@
                             "end": 120
                           },
                           "value": "hello",
-                          "raw": "\"hello\"",
-                          "loneSurrogates": false
+                          "raw": "\"hello\""
                         },
                         "typeAnnotation": null,
                         "isStatic": false,
