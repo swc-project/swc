@@ -801,7 +801,8 @@
                     "end": 554
                   },
                   "value": "foo",
-                  "raw": "'foo'"
+                  "raw": "'foo'",
+                  "loneSurrogates": false
                 }
               },
               {

@@ -741,7 +741,8 @@
                     "end": 399
                   },
                   "value": "xstate.assign",
-                  "raw": "\"xstate.assign\""
+                  "raw": "\"xstate.assign\"",
+                  "loneSurrogates": false
                 }
               }
             }

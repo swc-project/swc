@@ -92,7 +92,8 @@
           "end": 226
         },
         "value": "./cls",
-        "raw": "\"./cls\""
+        "raw": "\"./cls\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null
@@ -110,7 +111,8 @@
           "end": 273
         },
         "value": "./func",
-        "raw": "\"./func\""
+        "raw": "\"./func\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null
@@ -128,7 +130,8 @@
           "end": 296
         },
         "value": "./cls",
-        "raw": "\"./cls\""
+        "raw": "\"./cls\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null
@@ -167,7 +170,8 @@
           "end": 345
         },
         "value": "./cls",
-        "raw": "\"./cls\""
+        "raw": "\"./cls\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -236,7 +240,8 @@
           "end": 410
         },
         "value": "./cls",
-        "raw": "\"./cls\""
+        "raw": "\"./cls\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -291,7 +296,8 @@
           "end": 480
         },
         "value": "./cls",
-        "raw": "\"./cls\""
+        "raw": "\"./cls\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -360,7 +366,8 @@
           "end": 544
         },
         "value": "./cls",
-        "raw": "\"./cls\""
+        "raw": "\"./cls\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -460,7 +467,8 @@
                     "end": 627
                   },
                   "value": "./cls",
-                  "raw": "\"./cls\""
+                  "raw": "\"./cls\"",
+                  "loneSurrogates": false
                 }
               }
             ],
@@ -583,7 +591,8 @@
                     "end": 704
                   },
                   "value": "./cls",
-                  "raw": "\"./cls\""
+                  "raw": "\"./cls\"",
+                  "loneSurrogates": false
                 }
               }
             ],
@@ -697,7 +706,8 @@
                     "end": 777
                   },
                   "value": "./cls",
-                  "raw": "\"./cls\""
+                  "raw": "\"./cls\"",
+                  "loneSurrogates": false
                 }
               }
             ],
@@ -826,7 +836,8 @@
                     "end": 853
                   },
                   "value": "./cls",
-                  "raw": "\"./cls\""
+                  "raw": "\"./cls\"",
+                  "loneSurrogates": false
                 }
               }
             ],
@@ -915,7 +926,8 @@
           "end": 927
         },
         "value": "./cjs4",
-        "raw": "\"./cjs4\""
+        "raw": "\"./cjs4\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -935,7 +947,8 @@
           "end": 944
         },
         "value": "./cjs3",
-        "raw": "\"./cjs3\""
+        "raw": "\"./cjs3\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -955,7 +968,8 @@
           "end": 961
         },
         "value": "./cjs2",
-        "raw": "\"./cjs2\""
+        "raw": "\"./cjs2\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -975,7 +989,8 @@
           "end": 977
         },
         "value": "./cjs",
-        "raw": "\"./cjs\""
+        "raw": "\"./cjs\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -995,7 +1010,8 @@
           "end": 993
         },
         "value": "./bol",
-        "raw": "\"./bol\""
+        "raw": "\"./bol\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -1015,7 +1031,8 @@
           "end": 1009
         },
         "value": "./ban",
-        "raw": "\"./ban\""
+        "raw": "\"./ban\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -1035,7 +1052,8 @@
           "end": 1025
         },
         "value": "./bat",
-        "raw": "\"./bat\""
+        "raw": "\"./bat\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -1055,7 +1073,8 @@
           "end": 1041
         },
         "value": "./baz",
-        "raw": "\"./baz\""
+        "raw": "\"./baz\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -1075,7 +1094,8 @@
           "end": 1057
         },
         "value": "./bar",
-        "raw": "\"./bar\""
+        "raw": "\"./bar\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -1095,7 +1115,8 @@
           "end": 1074
         },
         "value": "./bar2",
-        "raw": "\"./bar2\""
+        "raw": "\"./bar2\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

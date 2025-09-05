@@ -49,7 +49,8 @@
                     "end": 13
                   },
                   "value": "foo",
-                  "raw": "\"foo\""
+                  "raw": "\"foo\"",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -110,7 +111,8 @@
                         "end": 27
                       },
                       "value": "foo",
-                      "raw": "\"foo\""
+                      "raw": "\"foo\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -126,7 +128,8 @@
                         "end": 35
                       },
                       "value": "bar",
-                      "raw": "\"bar\""
+                      "raw": "\"bar\"",
+                      "loneSurrogates": false
                     }
                   }
                 ]
@@ -168,7 +171,8 @@
               "end": 66
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "consequent": [
             {
@@ -194,7 +198,8 @@
               "end": 97
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           },
           "consequent": [
             {

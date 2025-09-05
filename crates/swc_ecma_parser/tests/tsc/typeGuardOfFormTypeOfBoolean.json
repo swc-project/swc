@@ -790,7 +790,8 @@
             "end": 610
           },
           "value": "boolean",
-          "raw": "\"boolean\""
+          "raw": "\"boolean\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -924,7 +925,8 @@
             "end": 723
           },
           "value": "boolean",
-          "raw": "\"boolean\""
+          "raw": "\"boolean\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -1058,7 +1060,8 @@
             "end": 841
           },
           "value": "boolean",
-          "raw": "\"boolean\""
+          "raw": "\"boolean\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -1192,7 +1195,8 @@
             "end": 976
           },
           "value": "boolean",
-          "raw": "\"boolean\""
+          "raw": "\"boolean\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -1326,7 +1330,8 @@
             "end": 1078
           },
           "value": "boolean",
-          "raw": "\"boolean\""
+          "raw": "\"boolean\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -1515,7 +1520,8 @@
             "end": 1435
           },
           "value": "boolean",
-          "raw": "\"boolean\""
+          "raw": "\"boolean\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -1649,7 +1655,8 @@
             "end": 1548
           },
           "value": "boolean",
-          "raw": "\"boolean\""
+          "raw": "\"boolean\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -1783,7 +1790,8 @@
             "end": 1666
           },
           "value": "boolean",
-          "raw": "\"boolean\""
+          "raw": "\"boolean\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -1917,7 +1925,8 @@
             "end": 1801
           },
           "value": "boolean",
-          "raw": "\"boolean\""
+          "raw": "\"boolean\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -2051,7 +2060,8 @@
             "end": 1903
           },
           "value": "boolean",
-          "raw": "\"boolean\""
+          "raw": "\"boolean\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {

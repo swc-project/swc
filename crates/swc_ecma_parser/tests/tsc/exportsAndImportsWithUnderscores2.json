@@ -91,7 +91,8 @@
                   "end": 105
                 },
                 "value": "__esmodule",
-                "raw": "\"__esmodule\""
+                "raw": "\"__esmodule\"",
+                "loneSurrogates": false
               },
               "value": {
                 "type": "BooleanLiteral",
@@ -111,7 +112,8 @@
                   "end": 128
                 },
                 "value": "__proto__",
-                "raw": "\"__proto__\""
+                "raw": "\"__proto__\"",
+                "loneSurrogates": false
               },
               "value": {
                 "type": "ObjectExpression",
@@ -158,7 +160,8 @@
           "end": 176
         },
         "value": "./m1",
-        "raw": "\"./m1\""
+        "raw": "\"./m1\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

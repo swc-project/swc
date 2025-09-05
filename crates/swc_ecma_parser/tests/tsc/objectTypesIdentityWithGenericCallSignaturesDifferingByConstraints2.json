@@ -1968,7 +1968,8 @@
                           "end": 994
                         },
                         "value": "",
-                        "raw": "''"
+                        "raw": "''",
+                        "loneSurrogates": false
                       }
                     }
                   ]

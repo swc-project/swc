@@ -1120,7 +1120,8 @@
                   "end": 697
                 },
                 "value": "number",
-                "raw": "\"number\""
+                "raw": "\"number\"",
+                "loneSurrogates": false
               }
             },
             "consequent": {
@@ -1351,7 +1352,8 @@
                       "end": 822
                     },
                     "value": "xxx",
-                    "raw": "\"xxx\""
+                    "raw": "\"xxx\"",
+                    "loneSurrogates": false
                   }
                 }
               ],

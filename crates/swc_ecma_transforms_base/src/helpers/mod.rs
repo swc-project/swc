@@ -484,6 +484,7 @@ impl InjectHelpers {
                 span: DUMMY_SP,
                 value: format!("@swc/helpers/_/_{name}").into(),
                 raw: None,
+                lone_surrogates: false,
             }
             .as_arg()],
             ..Default::default()

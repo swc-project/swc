@@ -36,7 +36,8 @@
             "end": 61
           },
           "value": "mod",
-          "raw": "\"mod\""
+          "raw": "\"mod\"",
+          "loneSurrogates": false
         }
       }
     },

@@ -104,7 +104,8 @@
                             "end": 39
                           },
                           "value": "use strict",
-                          "raw": "\"use strict\""
+                          "raw": "\"use strict\"",
+                          "loneSurrogates": false
                         }
                       },
                       {
@@ -1180,7 +1181,8 @@
                                                 "end": 411
                                               },
                                               "value": "",
-                                              "raw": "\"\""
+                                              "raw": "\"\"",
+                                              "loneSurrogates": false
                                             },
                                             "alternate": {
                                               "type": "CallExpression",
@@ -1372,7 +1374,8 @@
                                                   "end": 520
                                                 },
                                                 "value": "object",
-                                                "raw": "\"object\""
+                                                "raw": "\"object\"",
+                                                "loneSurrogates": false
                                               }
                                             }
                                           },
@@ -1416,7 +1419,8 @@
                                                         "end": 608
                                                       },
                                                       "value": "The \"pathObject\" argument must be of type Object. Received type ",
-                                                      "raw": "'The \"pathObject\" argument must be of type Object. Received type '"
+                                                      "raw": "'The \"pathObject\" argument must be of type Object. Received type '",
+                                                      "loneSurrogates": false
                                                     },
                                                     "right": {
                                                       "type": "UnaryExpression",
@@ -1477,7 +1481,8 @@
                                                     "end": 646
                                                   },
                                                   "value": "/",
-                                                  "raw": "\"/\""
+                                                  "raw": "\"/\"",
+                                                  "loneSurrogates": false
                                                 }
                                               },
                                               {

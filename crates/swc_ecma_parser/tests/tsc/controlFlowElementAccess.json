@@ -156,7 +156,8 @@
                 "end": 47
               },
               "value": "o",
-              "raw": "'o'"
+              "raw": "'o'",
+              "loneSurrogates": false
             }
           }
         },
@@ -219,7 +220,8 @@
                       "end": 71
                     },
                     "value": "o",
-                    "raw": "'o'"
+                    "raw": "'o'",
+                    "loneSurrogates": false
                   }
                 }
               },

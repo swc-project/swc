@@ -374,7 +374,8 @@
                     "end": 210
                   },
                   "value": "dog",
-                  "raw": "\"dog\""
+                  "raw": "\"dog\"",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -466,7 +467,8 @@
                     "end": 243
                   },
                   "value": "cat",
-                  "raw": "\"cat\""
+                  "raw": "\"cat\"",
+                  "loneSurrogates": false
                 }
               }
             }

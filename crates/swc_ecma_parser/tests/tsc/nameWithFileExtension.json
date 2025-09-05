@@ -83,7 +83,8 @@
             "end": 123
           },
           "value": "./foo_0.js",
-          "raw": "'./foo_0.js'"
+          "raw": "'./foo_0.js'",
+          "loneSurrogates": false
         }
       }
     },

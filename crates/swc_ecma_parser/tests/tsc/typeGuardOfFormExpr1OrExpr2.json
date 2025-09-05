@@ -656,7 +656,8 @@
               "end": 678
             },
             "value": "string",
-            "raw": "\"string\""
+            "raw": "\"string\"",
+            "loneSurrogates": false
           }
         },
         "right": {
@@ -691,7 +692,8 @@
               "end": 716
             },
             "value": "number",
-            "raw": "\"number\""
+            "raw": "\"number\"",
+            "loneSurrogates": false
           }
         }
       },
@@ -840,7 +842,8 @@
                 "end": 904
               },
               "value": "string",
-              "raw": "\"string\""
+              "raw": "\"string\"",
+              "loneSurrogates": false
             }
           },
           "right": {
@@ -875,7 +878,8 @@
                 "end": 945
               },
               "value": "number",
-              "raw": "\"number\""
+              "raw": "\"number\"",
+              "loneSurrogates": false
             }
           }
         },
@@ -911,7 +915,8 @@
               "end": 987
             },
             "value": "boolean",
-            "raw": "\"boolean\""
+            "raw": "\"boolean\"",
+            "loneSurrogates": false
           }
         }
       },
@@ -1060,7 +1065,8 @@
                 "end": 1204
               },
               "value": "string",
-              "raw": "\"string\""
+              "raw": "\"string\"",
+              "loneSurrogates": false
             }
           },
           "right": {
@@ -1095,7 +1101,8 @@
                 "end": 1245
               },
               "value": "number",
-              "raw": "\"number\""
+              "raw": "\"number\"",
+              "loneSurrogates": false
             }
           }
         },
@@ -1131,7 +1138,8 @@
               "end": 1284
             },
             "value": "boolean",
-            "raw": "\"boolean\""
+            "raw": "\"boolean\"",
+            "loneSurrogates": false
           }
         }
       },
@@ -1451,7 +1459,8 @@
               "end": 1605
             },
             "value": "string",
-            "raw": "\"string\""
+            "raw": "\"string\"",
+            "loneSurrogates": false
           }
         },
         "right": {

@@ -443,7 +443,8 @@
                     "end": 208
                   },
                   "value": "",
-                  "raw": "''"
+                  "raw": "''",
+                  "loneSurrogates": false
                 }
               }
             ]

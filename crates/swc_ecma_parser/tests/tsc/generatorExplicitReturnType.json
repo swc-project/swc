@@ -68,7 +68,8 @@
                   "end": 186
                 },
                 "value": "a",
-                "raw": "\"a\""
+                "raw": "\"a\"",
+                "loneSurrogates": false
               },
               "delegate": false
             }

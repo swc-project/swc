@@ -39,7 +39,8 @@
           "end": 27
         },
         "value": "mod",
-        "raw": "'mod'"
+        "raw": "'mod'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -79,7 +80,8 @@
           "end": 59
         },
         "value": "mod",
-        "raw": "'mod'"
+        "raw": "'mod'",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null,
@@ -119,7 +121,8 @@
           "end": 90
         },
         "value": "mod",
-        "raw": "'mod'"
+        "raw": "'mod'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -159,7 +162,8 @@
           "end": 120
         },
         "value": "mod",
-        "raw": "'mod'"
+        "raw": "'mod'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -208,7 +212,8 @@
           "end": 158
         },
         "value": "mod",
-        "raw": "'mod'"
+        "raw": "'mod'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -257,7 +262,8 @@
           "end": 195
         },
         "value": "mod",
-        "raw": "'mod'"
+        "raw": "'mod'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -306,7 +312,8 @@
           "end": 228
         },
         "value": "mod",
-        "raw": "'mod'"
+        "raw": "'mod'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -355,7 +362,8 @@
           "end": 262
         },
         "value": "mod",
-        "raw": "'mod'"
+        "raw": "'mod'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -404,7 +412,8 @@
           "end": 297
         },
         "value": "mod",
-        "raw": "'mod'"
+        "raw": "'mod'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -453,7 +462,8 @@
           "end": 334
         },
         "value": "mod",
-        "raw": "'mod'"
+        "raw": "'mod'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -502,7 +512,8 @@
           "end": 370
         },
         "value": "mod",
-        "raw": "'mod'"
+        "raw": "'mod'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -551,7 +562,8 @@
           "end": 408
         },
         "value": "mod",
-        "raw": "'mod'"
+        "raw": "'mod'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

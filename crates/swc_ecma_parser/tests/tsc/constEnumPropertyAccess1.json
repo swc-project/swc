@@ -405,7 +405,8 @@
                   "end": 427
                 },
                 "value": "A",
-                "raw": "\"A\""
+                "raw": "\"A\"",
+                "loneSurrogates": false
               }
             }
           },

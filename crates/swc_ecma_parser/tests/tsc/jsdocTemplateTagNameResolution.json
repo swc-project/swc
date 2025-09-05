@@ -99,7 +99,8 @@
               "end": 238
             },
             "value": "a",
-            "raw": "\"a\""
+            "raw": "\"a\"",
+            "loneSurrogates": false
           },
           "definite": false
         }

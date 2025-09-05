@@ -81,7 +81,8 @@
                       "end": 53
                     },
                     "value": "globalThis",
-                    "raw": "\"globalThis\""
+                    "raw": "\"globalThis\"",
+                    "loneSurrogates": false
                   }
                 }
               }

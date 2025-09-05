@@ -653,7 +653,8 @@
                     "end": 353
                   },
                   "value": "",
-                  "raw": "''"
+                  "raw": "''",
+                  "loneSurrogates": false
                 }
               }
             ],

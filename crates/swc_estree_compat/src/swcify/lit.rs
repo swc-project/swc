@@ -33,6 +33,7 @@ impl Swcify for StringLiteral {
             span: ctx.span(&self.base),
             value: self.value,
             raw: Some(self.raw),
+            lone_surrogates: false,
         }
     }
 }
@@ -128,6 +129,7 @@ impl Swcify for TemplateElement {
             tail: self.tail,
             cooked: self.value.cooked,
             raw: self.value.raw,
+            lone_surrogates: false,
         }
     }
 }

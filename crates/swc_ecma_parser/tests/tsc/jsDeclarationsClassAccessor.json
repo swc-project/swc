@@ -32,7 +32,8 @@
           "end": 168
         },
         "value": "./argument.js",
-        "raw": "\"./argument.js\""
+        "raw": "\"./argument.js\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -403,7 +404,8 @@
           "end": 499
         },
         "value": "./base.js",
-        "raw": "\"./base.js\""
+        "raw": "\"./base.js\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -550,7 +552,8 @@
                         "end": 677
                       },
                       "value": "argument",
-                      "raw": "\"argument\""
+                      "raw": "\"argument\"",
+                      "loneSurrogates": false
                     }
                   }
                 ]

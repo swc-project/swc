@@ -71,7 +71,8 @@
                       "end": 89
                     },
                     "value": "yep",
-                    "raw": "\"yep\""
+                    "raw": "\"yep\"",
+                    "loneSurrogates": false
                   }
                 }
               ],

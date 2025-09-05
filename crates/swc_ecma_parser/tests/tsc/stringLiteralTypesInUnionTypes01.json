@@ -43,7 +43,8 @@
                 "end": 38
               },
               "value": "foo",
-              "raw": "\"foo\""
+              "raw": "\"foo\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -59,7 +60,8 @@
                 "end": 46
               },
               "value": "bar",
-              "raw": "\"bar\""
+              "raw": "\"bar\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -75,7 +77,8 @@
                 "end": 54
               },
               "value": "baz",
-              "raw": "\"baz\""
+              "raw": "\"baz\"",
+              "loneSurrogates": false
             }
           }
         ]
@@ -132,7 +135,8 @@
                         "end": 69
                       },
                       "value": "foo",
-                      "raw": "\"foo\""
+                      "raw": "\"foo\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -148,7 +152,8 @@
                         "end": 77
                       },
                       "value": "bar",
-                      "raw": "\"bar\""
+                      "raw": "\"bar\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -164,7 +169,8 @@
                         "end": 85
                       },
                       "value": "baz",
-                      "raw": "\"baz\""
+                      "raw": "\"baz\"",
+                      "loneSurrogates": false
                     }
                   }
                 ]
@@ -280,7 +286,8 @@
             "end": 137
           },
           "value": "foo",
-          "raw": "\"foo\""
+          "raw": "\"foo\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -364,7 +371,8 @@
               "end": 178
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         },
         "consequent": {

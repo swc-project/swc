@@ -411,7 +411,8 @@
                       "end": 157
                     },
                     "value": "&rct=j",
-                    "raw": "\"&rct=j\""
+                    "raw": "\"&rct=j\"",
+                    "loneSurrogates": false
                   }
                 }
               }
@@ -531,7 +532,8 @@
                             "end": 199
                           },
                           "value": "&q=",
-                          "raw": "\"&q=\""
+                          "raw": "\"&q=\"",
+                          "loneSurrogates": false
                         },
                         "right": {
                           "type": "CallExpression",
@@ -594,7 +596,8 @@
                                             "end": 226
                                           },
                                           "value": "q",
-                                          "raw": "\"q\""
+                                          "raw": "\"q\"",
+                                          "loneSurrogates": false
                                         }
                                       }
                                     ],
@@ -627,7 +630,8 @@
                                             "end": 239
                                           },
                                           "value": "as_q",
-                                          "raw": "\"as_q\""
+                                          "raw": "\"as_q\"",
+                                          "loneSurrogates": false
                                         }
                                       }
                                     ],

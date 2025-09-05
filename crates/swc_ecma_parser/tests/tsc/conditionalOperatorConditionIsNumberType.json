@@ -1340,7 +1340,8 @@
               "end": 1074
             },
             "value": "string",
-            "raw": "\"string\""
+            "raw": "\"string\"",
+            "loneSurrogates": false
           },
           "property": {
             "type": "Identifier",
@@ -2608,7 +2609,8 @@
                   "end": 2190
                 },
                 "value": "string",
-                "raw": "\"string\""
+                "raw": "\"string\"",
+                "loneSurrogates": false
               },
               "property": {
                 "type": "Identifier",

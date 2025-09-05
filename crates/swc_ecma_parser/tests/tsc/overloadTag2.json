@@ -76,7 +76,8 @@
                   "end": 183
                 },
                 "value": "1",
-                "raw": "\"1\""
+                "raw": "\"1\"",
+                "loneSurrogates": false
               }
             },
             "typeAnnotation": null,
@@ -388,7 +389,8 @@
                     "end": 726
                   },
                   "value": "str",
-                  "raw": "'str'"
+                  "raw": "'str'",
+                  "loneSurrogates": false
                 }
               }
             ],
@@ -516,7 +518,8 @@
                     "end": 768
                   },
                   "value": "str",
-                  "raw": "'str'"
+                  "raw": "'str'",
+                  "loneSurrogates": false
                 }
               },
               {

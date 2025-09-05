@@ -106,7 +106,8 @@
             "end": 77
           },
           "value": "number",
-          "raw": "\"number\""
+          "raw": "\"number\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -155,7 +156,8 @@
                   "end": 123
                 },
                 "value": "number",
-                "raw": "\"number\""
+                "raw": "\"number\"",
+                "loneSurrogates": false
               }
             },
             "consequent": {
@@ -236,7 +238,8 @@
               "end": 198
             },
             "value": "number",
-            "raw": "\"number\""
+            "raw": "\"number\"",
+            "loneSurrogates": false
           }
         },
         "right": {
@@ -271,7 +274,8 @@
               "end": 236
             },
             "value": "number",
-            "raw": "\"number\""
+            "raw": "\"number\"",
+            "loneSurrogates": false
           }
         }
       },

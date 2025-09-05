@@ -201,7 +201,8 @@
                     "end": 82
                   },
                   "value": "hello",
-                  "raw": "\"hello\""
+                  "raw": "\"hello\"",
+                  "loneSurrogates": false
                 }
               }
             ]
