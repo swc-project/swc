@@ -750,8 +750,9 @@ impl Tokens<TokenAndSpan> for Lexer<'_> {
 
 impl Lexer<'_> {
     fn next_token(&mut self, start: &mut BytePos) -> Result<Token, Error> {
-        if let Some(start) = self.state.next_regexp {
-            return self.read_regexp(start);
+        if let Some(next_regexp) = self.state.next_regexp {
+            *start = next_regexp;
+            return self.read_regexp(next_regexp);
         }
 
         if self.state.is_first {

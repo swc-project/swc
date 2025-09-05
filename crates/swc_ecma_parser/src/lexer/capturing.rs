@@ -51,7 +51,18 @@ impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
         match next {
             Some(ts) => {
                 let v = &mut self.captured;
+
+                // remove tokens that could change due to backtracing
+                while let Some(last) = v.last() {
+                    if last.span.lo >= ts.span.lo {
+                        v.pop();
+                    } else {
+                        break;
+                    }
+                }
+
                 v.push(ts);
+
                 Some(ts)
             }
             None => None,
