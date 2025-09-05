@@ -26666,13 +26666,13 @@ class Zip {
                     const mem = ()=>new DataView(this._inst.exports.memory.buffer), setInt64 = (addr, v)=>{
                         mem().setUint32(addr + 0, v, !0), mem().setUint32(addr + 4, Math.floor(v / 4294967296), !0);
                     }, loadValue = (addr)=>{
-                        const f = mem().getFloat64(addr, !0);
+                        let f = mem().getFloat64(addr, !0);
                         if (0 === f) return;
                         if (!isNaN(f)) return f;
-                        const id = mem().getUint32(addr, !0);
+                        let id = mem().getUint32(addr, !0);
                         return this._values[id];
                     }, storeValue = (addr, v)=>{
-                        const nanHead = 0x7ff80000;
+                        let nanHead = 0x7ff80000;
                         if ('number' == typeof v) {
                             if (isNaN(v)) {
                                 mem().setUint32(addr + 4, nanHead, !0), mem().setUint32(addr, 0, !0);
@@ -26714,7 +26714,7 @@ class Zip {
                         }
                         mem().setUint32(addr + 4, nanHead | typeFlag, !0), mem().setUint32(addr, id, !0);
                     }, loadSlice = (array, len, cap = null)=>new Uint8Array(this._inst.exports.memory.buffer, array, len), loadSliceOfValues = (array, len, cap)=>{
-                        const a = Array(len);
+                        let a = Array(len);
                         for(let i = 0; i < len; i++)a[i] = loadValue(array + 8 * i);
                         return a;
                     }, loadString = (ptr, len)=>decoder.decode(new DataView(this._inst.exports.memory.buffer, ptr, len)), timeOrigin = Date.now() - performance.now();
@@ -26765,9 +26765,9 @@ class Zip {
                             'syscall/js.finalizeRef': (v_addr)=>{
                                 // Note: TinyGo does not support finalizers so this is only called
                                 // for one specific case, by js.go:jsString.
-                                const id = mem().getUint32(v_addr, !0);
+                                let id = mem().getUint32(v_addr, !0);
                                 if (this._goRefCounts[id]--, 0 === this._goRefCounts[id]) {
-                                    const v = this._values[id];
+                                    let v = this._values[id];
                                     this._values[id] = null, this._ids.delete(v), this._idPool.push(id);
                                 }
                             },
@@ -26798,9 +26798,9 @@ class Zip {
                             },
                             // func valueCall(v ref, m string, args []ref) (ref, bool)
                             'syscall/js.valueCall': (ret_addr, v_addr, m_ptr, m_len, args_ptr, args_len, args_cap)=>{
-                                const v = loadValue(v_addr), name = loadString(m_ptr, m_len), args = loadSliceOfValues(args_ptr, args_len, args_cap);
+                                let v = loadValue(v_addr), name = loadString(m_ptr, m_len), args = loadSliceOfValues(args_ptr, args_len, args_cap);
                                 try {
-                                    const m = Reflect.get(v, name);
+                                    let m = Reflect.get(v, name);
                                     storeValue(ret_addr, Reflect.apply(m, v, args)), mem().setUint8(ret_addr + 8, 1);
                                 } catch (err) {
                                     storeValue(ret_addr, err), mem().setUint8(ret_addr + 8, 0);
@@ -26809,7 +26809,7 @@ class Zip {
                             // func valueInvoke(v ref, args []ref) (ref, bool)
                             'syscall/js.valueInvoke': (ret_addr, v_addr, args_ptr, args_len, args_cap)=>{
                                 try {
-                                    const v = loadValue(v_addr), args = loadSliceOfValues(args_ptr, args_len, args_cap);
+                                    let v = loadValue(v_addr), args = loadSliceOfValues(args_ptr, args_len, args_cap);
                                     storeValue(ret_addr, Reflect.apply(v, void 0, args)), mem().setUint8(ret_addr + 8, 1);
                                 } catch (err) {
                                     storeValue(ret_addr, err), mem().setUint8(ret_addr + 8, 0);
@@ -26817,7 +26817,7 @@ class Zip {
                             },
                             // func valueNew(v ref, args []ref) (ref, bool)
                             'syscall/js.valueNew': (ret_addr, v_addr, args_ptr, args_len, args_cap)=>{
-                                const v = loadValue(v_addr), args = loadSliceOfValues(args_ptr, args_len, args_cap);
+                                let v = loadValue(v_addr), args = loadSliceOfValues(args_ptr, args_len, args_cap);
                                 try {
                                     storeValue(ret_addr, Reflect.construct(v, args)), mem().setUint8(ret_addr + 8, 1);
                                 } catch (err) {
@@ -26828,32 +26828,30 @@ class Zip {
                             'syscall/js.valueLength': (v_addr)=>loadValue(v_addr).length,
                             // valuePrepareString(v ref) (ref, int)
                             'syscall/js.valuePrepareString': (ret_addr, v_addr)=>{
-                                const s = String(loadValue(v_addr)), str = encoder.encode(s);
+                                let s = String(loadValue(v_addr)), str = encoder.encode(s);
                                 storeValue(ret_addr, str), setInt64(ret_addr + 8, str.length);
                             },
                             // valueLoadString(v ref, b []byte)
                             'syscall/js.valueLoadString': (v_addr, slice_ptr, slice_len, slice_cap)=>{
-                                const str = loadValue(v_addr);
+                                let str = loadValue(v_addr);
                                 loadSlice(slice_ptr, slice_len, slice_cap).set(str);
                             },
                             // func valueInstanceOf(v ref, t ref) bool
                             'syscall/js.valueInstanceOf': (v_addr, t_addr)=>loadValue(v_addr) instanceof loadValue(t_addr),
                             // func copyBytesToGo(dst []byte, src ref) (int, bool)
                             'syscall/js.copyBytesToGo': (ret_addr, dest_addr, dest_len, dest_cap, source_addr)=>{
-                                let num_bytes_copied_addr = ret_addr, returned_status_addr = ret_addr + 4;
-                                const dst = loadSlice(dest_addr, dest_len), src = loadValue(source_addr);
+                                let num_bytes_copied_addr = ret_addr, returned_status_addr = ret_addr + 4, dst = loadSlice(dest_addr, dest_len), src = loadValue(source_addr);
                                 if (!(src instanceof Uint8Array)) return void mem().setUint8(returned_status_addr, 0);
-                                const toCopy = src.subarray(0, dst.length);
+                                let toCopy = src.subarray(0, dst.length);
                                 dst.set(toCopy), setInt64(num_bytes_copied_addr, toCopy.length), mem().setUint8(returned_status_addr, 1);
                             },
                             // copyBytesToJS(dst ref, src []byte) (int, bool)
                             // Originally copied from upstream Go project, then modified:
                             //   https://github.com/golang/go/blob/3f995c3f3b43033013013e6c7ccc93a9b1411ca9/misc/wasm/wasm_exec.js#L404-L416
                             'syscall/js.copyBytesToJS': (ret_addr, dest_addr, source_addr, source_len, source_cap)=>{
-                                let num_bytes_copied_addr = ret_addr, returned_status_addr = ret_addr + 4;
-                                const dst = loadValue(dest_addr), src = loadSlice(source_addr, source_len);
+                                let num_bytes_copied_addr = ret_addr, returned_status_addr = ret_addr + 4, dst = loadValue(dest_addr), src = loadSlice(source_addr, source_len);
                                 if (!(dst instanceof Uint8Array)) return void mem().setUint8(returned_status_addr, 0);
-                                const toCopy = src.subarray(0, dst.length);
+                                let toCopy = src.subarray(0, dst.length);
                                 dst.set(toCopy), setInt64(num_bytes_copied_addr, toCopy.length), mem().setUint8(returned_status_addr, 1);
                             }
                         }
