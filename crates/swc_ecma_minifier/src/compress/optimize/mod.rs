@@ -1471,7 +1471,18 @@ impl VisitMut for Optimizer<'_> {
             n.params.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
-        n.body.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                bit_ctx: self
+                    .ctx
+                    .bit_ctx
+                    .with(BitCtx::InFnLike, true)
+                    .with(BitCtx::TopLevel, false),
+                scope: n.ctxt,
+                ..self.ctx.clone()
+            };
+            n.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
         if !self.prepend_stmts.is_empty() {
             let mut stmts = self.prepend_stmts.take().take_stmts();
