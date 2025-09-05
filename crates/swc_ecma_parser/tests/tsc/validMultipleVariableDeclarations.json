@@ -333,8 +333,7 @@
                     "end": 258
                   },
                   "value": "this is a string",
-                  "raw": "'this is a string'",
-                  "loneSurrogates": false
+                  "raw": "'this is a string'"
                 },
                 "definite": false
               }
@@ -1788,8 +1787,7 @@
                     "end": 776
                   },
                   "value": "a",
-                  "raw": "'a'",
-                  "loneSurrogates": false
+                  "raw": "'a'"
                 }
               },
               {
@@ -1801,8 +1799,7 @@
                     "end": 781
                   },
                   "value": "b",
-                  "raw": "'b'",
-                  "loneSurrogates": false
+                  "raw": "'b'"
                 }
               }
             ]

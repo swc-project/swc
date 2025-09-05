@@ -195,8 +195,7 @@
                       "end": 156
                     },
                     "value": "BYE",
-                    "raw": "\"BYE\"",
-                    "loneSurrogates": false
+                    "raw": "\"BYE\""
                   }
                 }
               ]
@@ -246,8 +245,7 @@
                 "end": 194
               },
               "value": "computedname",
-              "raw": "\"computedname\"",
-              "loneSurrogates": false
+              "raw": "\"computedname\""
             }
           },
           "function": {
@@ -279,8 +277,7 @@
                       "end": 217
                     },
                     "value": "",
-                    "raw": "\"\"",
-                    "loneSurrogates": false
+                    "raw": "\"\""
                   }
                 }
               ]
@@ -316,8 +313,7 @@
                 "end": 249
               },
               "value": "computedname1",
-              "raw": "\"computedname1\"",
-              "loneSurrogates": false
+              "raw": "\"computedname1\""
             }
           },
           "function": {
@@ -349,8 +345,7 @@
                       "end": 272
                     },
                     "value": "",
-                    "raw": "\"\"",
-                    "loneSurrogates": false
+                    "raw": "\"\""
                   }
                 }
               ]
@@ -386,8 +381,7 @@
                 "end": 304
               },
               "value": "computedname2",
-              "raw": "\"computedname2\"",
-              "loneSurrogates": false
+              "raw": "\"computedname2\""
             }
           },
           "function": {
@@ -419,8 +413,7 @@
                       "end": 327
                     },
                     "value": "",
-                    "raw": "\"\"",
-                    "loneSurrogates": false
+                    "raw": "\"\""
                   }
                 }
               ]
@@ -456,8 +449,7 @@
                 "end": 360
               },
               "value": "computedname3",
-              "raw": "\"computedname3\"",
-              "loneSurrogates": false
+              "raw": "\"computedname3\""
             }
           },
           "function": {
@@ -542,8 +534,7 @@
                 "end": 402
               },
               "value": "computedname4",
-              "raw": "\"computedname4\"",
-              "loneSurrogates": false
+              "raw": "\"computedname4\""
             }
           },
           "function": {
@@ -782,8 +773,7 @@
                 "end": 515
               },
               "value": "computedname",
-              "raw": "\"computedname\"",
-              "loneSurrogates": false
+              "raw": "\"computedname\""
             }
           },
           "function": {

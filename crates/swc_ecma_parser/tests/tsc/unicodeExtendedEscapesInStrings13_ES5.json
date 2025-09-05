@@ -39,8 +39,7 @@
               "end": 37
             },
             "value": "󝷝",
-            "raw": "\"\\u{DDDDD}\"",
-            "loneSurrogates": false
+            "raw": "\"\\u{DDDDD}\""
           },
           "definite": false
         }

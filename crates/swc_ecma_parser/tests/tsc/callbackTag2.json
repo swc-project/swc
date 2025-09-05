@@ -99,8 +99,7 @@
                 "end": 283
               },
               "value": "120",
-              "raw": "\"120\"",
-              "loneSurrogates": false
+              "raw": "\"120\""
             },
             "async": false,
             "generator": false,
@@ -355,8 +354,7 @@
                 "end": 614
               },
               "value": "cecil",
-              "raw": "\"cecil\"",
-              "loneSurrogates": false
+              "raw": "\"cecil\""
             },
             "async": false,
             "generator": false,

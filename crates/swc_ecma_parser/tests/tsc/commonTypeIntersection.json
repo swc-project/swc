@@ -88,8 +88,7 @@
                                 "end": 41
                               },
                               "value": "TypeTwo",
-                              "raw": "'TypeTwo'",
-                              "loneSurrogates": false
+                              "raw": "'TypeTwo'"
                             }
                           }
                         }
@@ -232,8 +231,7 @@
                                 "end": 94
                               },
                               "value": "TypeOne",
-                              "raw": "'TypeOne'",
-                              "loneSurrogates": false
+                              "raw": "'TypeOne'"
                             }
                           }
                         }
@@ -385,8 +383,7 @@
                                 "end": 181
                               },
                               "value": "TypeTwo",
-                              "raw": "'TypeTwo'",
-                              "loneSurrogates": false
+                              "raw": "'TypeTwo'"
                             }
                           }
                         }
@@ -493,8 +490,7 @@
                                 "end": 226
                               },
                               "value": "TypeOne",
-                              "raw": "'TypeOne'",
-                              "loneSurrogates": false
+                              "raw": "'TypeOne'"
                             }
                           }
                         }

@@ -658,8 +658,7 @@
                       "end": 462
                     },
                     "value": "./foo",
-                    "raw": "\"./foo\"",
-                    "loneSurrogates": false
+                    "raw": "\"./foo\""
                   },
                   "qualifier": null,
                   "typeArguments": null,
@@ -771,8 +770,7 @@
                       "end": 511
                     },
                     "value": "./foo2",
-                    "raw": "\"./foo2\"",
-                    "loneSurrogates": false
+                    "raw": "\"./foo2\""
                   },
                   "qualifier": {
                     "type": "TsQualifiedName",
@@ -828,8 +826,7 @@
                       "end": 528
                     },
                     "value": "",
-                    "raw": "\"\"",
-                    "loneSurrogates": false
+                    "raw": "\"\""
                   }
                 },
                 {
@@ -1157,8 +1154,7 @@
                         "end": 678
                       },
                       "value": "./foo2",
-                      "raw": "\"./foo2\"",
-                      "loneSurrogates": false
+                      "raw": "\"./foo2\""
                     },
                     "qualifier": null,
                     "typeArguments": null,

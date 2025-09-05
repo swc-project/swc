@@ -37,8 +37,7 @@
           "end": 29
         },
         "value": "node:path",
-        "raw": "\"node:path\"",
-        "loneSurrogates": false
+        "raw": "\"node:path\""
       },
       "typeOnly": false,
       "with": null,
@@ -92,8 +91,7 @@
                 "end": 59
               },
               "value": "hello, world!",
-              "raw": "\"hello, world!\"",
-              "loneSurrogates": false
+              "raw": "\"hello, world!\""
             }
           }
         ],

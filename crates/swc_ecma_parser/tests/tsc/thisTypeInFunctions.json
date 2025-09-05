@@ -10205,8 +10205,7 @@
                   "end": 5715
                 },
                 "value": "ok",
-                "raw": "\"ok\"",
-                "loneSurrogates": false
+                "raw": "\"ok\""
               }
             }
           }
@@ -10321,8 +10320,7 @@
                   "end": 5766
                 },
                 "value": "ok",
-                "raw": "\"ok\"",
-                "loneSurrogates": false
+                "raw": "\"ok\""
               }
             }
           }

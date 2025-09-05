@@ -56,8 +56,7 @@
                     "end": 73
                   },
                   "value": "bar",
-                  "raw": "\"bar\"",
-                  "loneSurrogates": false
+                  "raw": "\"bar\""
                 }
               },
               {

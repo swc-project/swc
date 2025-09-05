@@ -38,8 +38,7 @@
             },
             "tail": false,
             "cooked": "",
-            "raw": "",
-            "loneSurrogates": false
+            "raw": ""
           },
           {
             "type": "TemplateElement",
@@ -49,8 +48,7 @@
             },
             "tail": true,
             "cooked": "<bar>",
-            "raw": "<bar>",
-            "loneSurrogates": false
+            "raw": "<bar>"
           }
         ]
       }

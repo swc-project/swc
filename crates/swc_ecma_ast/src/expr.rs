@@ -1199,15 +1199,6 @@ pub struct TplElement {
     /// You may need to perform. `.replace("\r\n", "\n").replace('\r', "\n")` on
     /// this value.
     pub raw: Atom,
-
-    /// The string value contains lone surrogates.
-    ///
-    /// `cooked` is encoded with `\u{FFFD}` to mark the lone surrogate as an
-    /// escaped value.
-    ///
-    /// For example, a "\uD808" is a lone surrogate, and it's encoded as
-    /// `\u{FFFD}D808`.
-    pub lone_surrogates: bool,
 }
 
 impl Take for TplElement {
@@ -1217,7 +1208,6 @@ impl Take for TplElement {
             tail: Default::default(),
             cooked: None,
             raw: Default::default(),
-            lone_surrogates: false,
         }
     }
 }
@@ -1229,14 +1219,12 @@ impl<'a> arbitrary::Arbitrary<'a> for TplElement {
         let span = u.arbitrary()?;
         let cooked = Some(u.arbitrary::<String>()?.into());
         let raw = u.arbitrary::<String>()?.into();
-        let lone_surrogates = u.arbitrary::<bool>()?.into();
 
         Ok(Self {
             span,
             tail: false,
             cooked,
             raw,
-            lone_surrogates,
         })
     }
 }

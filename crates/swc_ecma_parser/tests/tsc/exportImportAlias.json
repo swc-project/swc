@@ -71,8 +71,7 @@
                       "end": 71
                     },
                     "value": "hello world",
-                    "raw": "'hello world'",
-                    "loneSurrogates": false
+                    "raw": "'hello world'"
                   },
                   "definite": false
                 }
@@ -1984,8 +1983,7 @@
                     "end": 1096
                   },
                   "value": "Hello",
-                  "raw": "'Hello'",
-                  "loneSurrogates": false
+                  "raw": "'Hello'"
                 }
               }
             ],

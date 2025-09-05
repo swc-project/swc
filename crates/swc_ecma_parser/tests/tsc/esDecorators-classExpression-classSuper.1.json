@@ -214,8 +214,7 @@
               "end": 184
             },
             "value": "method",
-            "raw": "\"method\"",
-            "loneSurrogates": false
+            "raw": "\"method\""
           },
           "definite": false
         }
@@ -362,8 +361,7 @@
                               "end": 275
                             },
                             "value": "method",
-                            "raw": "\"method\"",
-                            "loneSurrogates": false
+                            "raw": "\"method\""
                           }
                         }
                       },
@@ -471,8 +469,7 @@
                             },
                             "tail": true,
                             "cooked": "",
-                            "raw": "",
-                            "loneSurrogates": false
+                            "raw": ""
                           }
                         ]
                       }
@@ -517,8 +514,7 @@
                               "end": 352
                             },
                             "value": "method",
-                            "raw": "\"method\"",
-                            "loneSurrogates": false
+                            "raw": "\"method\""
                           }
                         }
                       },
@@ -539,8 +535,7 @@
                             },
                             "tail": true,
                             "cooked": "",
-                            "raw": "",
-                            "loneSurrogates": false
+                            "raw": ""
                           }
                         ]
                       }
@@ -607,8 +602,7 @@
                             },
                             "tail": true,
                             "cooked": "",
-                            "raw": "",
-                            "loneSurrogates": false
+                            "raw": ""
                           }
                         ]
                       }

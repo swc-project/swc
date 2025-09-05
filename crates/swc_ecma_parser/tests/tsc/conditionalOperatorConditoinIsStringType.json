@@ -814,8 +814,7 @@
             "end": 676
           },
           "value": "",
-          "raw": "\"\"",
-          "loneSurrogates": false
+          "raw": "\"\""
         },
         "consequent": {
           "type": "Identifier",
@@ -858,8 +857,7 @@
             "end": 708
           },
           "value": "string",
-          "raw": "\"string\"",
-          "loneSurrogates": false
+          "raw": "\"string\""
         },
         "consequent": {
           "type": "Identifier",
@@ -902,8 +900,7 @@
             "end": 743
           },
           "value": "c",
-          "raw": "'c'",
-          "loneSurrogates": false
+          "raw": "'c'"
         },
         "consequent": {
           "type": "Identifier",
@@ -946,8 +943,7 @@
             "end": 781
           },
           "value": "string",
-          "raw": "'string'",
-          "loneSurrogates": false
+          "raw": "'string'"
         },
         "consequent": {
           "type": "Identifier",
@@ -990,8 +986,7 @@
             "end": 815
           },
           "value": "  ",
-          "raw": "\"  \"",
-          "loneSurrogates": false
+          "raw": "\"  \""
         },
         "consequent": {
           "type": "Identifier",
@@ -1034,8 +1029,7 @@
             "end": 857
           },
           "value": "hello ",
-          "raw": "\"hello \"",
-          "loneSurrogates": false
+          "raw": "\"hello \""
         },
         "consequent": {
           "type": "Identifier",
@@ -1100,8 +1094,7 @@
                 "end": 965
               },
               "value": "string",
-              "raw": "\"string\"",
-              "loneSurrogates": false
+              "raw": "\"string\""
             }
           }
         ]
@@ -1161,8 +1154,7 @@
                     "end": 985
                   },
                   "value": "1",
-                  "raw": "\"1\"",
-                  "loneSurrogates": false
+                  "raw": "\"1\""
                 }
               },
               {
@@ -1174,8 +1166,7 @@
                     "end": 990
                   },
                   "value": "2",
-                  "raw": "\"2\"",
-                  "loneSurrogates": false
+                  "raw": "\"2\""
                 }
               },
               {
@@ -1187,8 +1178,7 @@
                     "end": 995
                   },
                   "value": "3",
-                  "raw": "\"3\"",
-                  "loneSurrogates": false
+                  "raw": "\"3\""
                 }
               }
             ]
@@ -1344,8 +1334,7 @@
               "end": 1115
             },
             "value": "string",
-            "raw": "\"string\"",
-            "loneSurrogates": false
+            "raw": "\"string\""
           }
         },
         "consequent": {
@@ -1993,8 +1982,7 @@
                 "end": 1722
               },
               "value": "",
-              "raw": "\"\"",
-              "loneSurrogates": false
+              "raw": "\"\""
             },
             "consequent": {
               "type": "Identifier",
@@ -2061,8 +2049,7 @@
                 "end": 1777
               },
               "value": "string",
-              "raw": "\"string\"",
-              "loneSurrogates": false
+              "raw": "\"string\""
             },
             "consequent": {
               "type": "Identifier",
@@ -2129,8 +2116,7 @@
                 "end": 1834
               },
               "value": "c",
-              "raw": "'c'",
-              "loneSurrogates": false
+              "raw": "'c'"
             },
             "consequent": {
               "type": "Identifier",
@@ -2197,8 +2183,7 @@
                 "end": 1894
               },
               "value": "string",
-              "raw": "'string'",
-              "loneSurrogates": false
+              "raw": "'string'"
             },
             "consequent": {
               "type": "Identifier",
@@ -2265,8 +2250,7 @@
                 "end": 1950
               },
               "value": "  ",
-              "raw": "\"  \"",
-              "loneSurrogates": false
+              "raw": "\"  \""
             },
             "consequent": {
               "type": "Identifier",
@@ -2333,8 +2317,7 @@
                 "end": 2022
               },
               "value": "hello",
-              "raw": "\"hello\"",
-              "loneSurrogates": false
+              "raw": "\"hello\""
             },
             "consequent": {
               "type": "Identifier",
@@ -2577,8 +2560,7 @@
                   "end": 2243
                 },
                 "value": "string",
-                "raw": "\"string\"",
-                "loneSurrogates": false
+                "raw": "\"string\""
               }
             },
             "consequent": {

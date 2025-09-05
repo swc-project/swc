@@ -49,8 +49,7 @@
                     "end": 13
                   },
                   "value": "foo",
-                  "raw": "\"foo\"",
-                  "loneSurrogates": false
+                  "raw": "\"foo\""
                 }
               }
             }
@@ -111,8 +110,7 @@
                         "end": 27
                       },
                       "value": "foo",
-                      "raw": "\"foo\"",
-                      "loneSurrogates": false
+                      "raw": "\"foo\""
                     }
                   },
                   {
@@ -128,8 +126,7 @@
                         "end": 35
                       },
                       "value": "bar",
-                      "raw": "\"bar\"",
-                      "loneSurrogates": false
+                      "raw": "\"bar\""
                     }
                   }
                 ]
@@ -279,8 +276,7 @@
               "end": 75
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           },
           "right": {
             "type": "Identifier",
@@ -343,8 +339,7 @@
               "end": 95
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           }
         }
       }
@@ -387,8 +382,7 @@
               "end": 106
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           },
           "right": {
             "type": "StringLiteral",
@@ -397,8 +391,7 @@
               "end": 115
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           }
         }
       }
@@ -495,8 +488,7 @@
               "end": 139
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           },
           "right": {
             "type": "Identifier",
@@ -559,8 +551,7 @@
               "end": 159
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           }
         }
       }
@@ -603,8 +594,7 @@
               "end": 170
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           },
           "right": {
             "type": "StringLiteral",
@@ -613,8 +603,7 @@
               "end": 179
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           }
         }
       }

@@ -65,8 +65,7 @@
                         "end": 86
                       },
                       "value": "a",
-                      "raw": "'a'",
-                      "loneSurrogates": false
+                      "raw": "'a'"
                     },
                     "right": {
                       "type": "ObjectExpression",
@@ -266,8 +265,7 @@
                         "end": 144
                       },
                       "value": "a",
-                      "raw": "'a'",
-                      "loneSurrogates": false
+                      "raw": "'a'"
                     },
                     "right": {
                       "type": "ObjectExpression",

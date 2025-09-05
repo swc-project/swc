@@ -59,8 +59,7 @@
                     "end": 28
                   },
                   "value": "path",
-                  "raw": "'path'",
-                  "loneSurrogates": false
+                  "raw": "'path'"
                 }
               }
             ],
@@ -118,8 +117,7 @@
                 "end": 59
               },
               "value": "hello, world!",
-              "raw": "\"hello, world!\"",
-              "loneSurrogates": false
+              "raw": "\"hello, world!\""
             }
           }
         ],

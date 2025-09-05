@@ -75,7 +75,6 @@ impl VisitMut for JsonParse {
                         args: vec![Lit::Str(Str {
                             span: DUMMY_SP,
                             raw: None,
-                            lone_surrogates: false,
                             value: value.into(),
                         })
                         .as_arg()],

@@ -69,7 +69,6 @@ impl Optimizer<'_> {
             *n = Lit::Str(Str {
                 span,
                 raw: None,
-                lone_surrogates: false,
                 value: value.into(),
             })
             .into();
@@ -90,7 +89,6 @@ impl Optimizer<'_> {
                 *n = Lit::Str(Str {
                     span: v.span,
                     raw: None,
-                    lone_surrogates: false,
                     value: value.into(),
                 })
                 .into();
@@ -112,7 +110,6 @@ impl Optimizer<'_> {
                 *n = Lit::Str(Str {
                     span: v.span,
                     raw: None,
-                    lone_surrogates: false,
                     value: value.into(),
                 })
                 .into();
@@ -161,7 +158,6 @@ impl Optimizer<'_> {
                         cooked: Some(s.value.clone()),
                         raw: convert_str_value_to_tpl_raw(&s.value),
                         tail: true,
-                        lone_surrogates: s.lone_surrogates,
                     }],
                 });
                 self.changed = true;

@@ -56,8 +56,7 @@
           "end": 31
         },
         "value": "foo",
-        "raw": "\"foo\"",
-        "loneSurrogates": false
+        "raw": "\"foo\""
       },
       "typeOnly": false,
       "with": {
@@ -102,8 +101,7 @@
           "end": 66
         },
         "value": "foo",
-        "raw": "\"foo\"",
-        "loneSurrogates": false
+        "raw": "\"foo\""
       },
       "typeOnly": false,
       "with": {
@@ -150,8 +148,7 @@
           "end": 102
         },
         "value": "foo",
-        "raw": "\"foo\"",
-        "loneSurrogates": false
+        "raw": "\"foo\""
       },
       "typeOnly": false,
       "with": {
@@ -195,8 +192,7 @@
           "end": 138
         },
         "value": "foo",
-        "raw": "\"foo\"",
-        "loneSurrogates": false
+        "raw": "\"foo\""
       },
       "typeOnly": false,
       "with": {

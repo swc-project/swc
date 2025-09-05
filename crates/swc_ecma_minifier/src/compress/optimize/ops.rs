@@ -257,7 +257,6 @@ impl Optimizer<'_> {
                         *e = Lit::Str(Str {
                             span: *span,
                             raw: None,
-                            lone_surrogates: false,
                             value,
                         })
                         .into();
@@ -270,7 +269,6 @@ impl Optimizer<'_> {
                     *e = Lit::Str(Str {
                         span: *span,
                         raw: None,
-                        lone_surrogates: false,
                         value: atom!("function"),
                     })
                     .into();
@@ -282,7 +280,6 @@ impl Optimizer<'_> {
                     *e = Lit::Str(Str {
                         span: *span,
                         raw: None,
-                        lone_surrogates: false,
                         value: atom!("object"),
                     })
                     .into();

@@ -1247,8 +1247,7 @@
                 "end": 658
               },
               "value": "abc",
-              "raw": "\"abc\"",
-              "loneSurrogates": false
+              "raw": "\"abc\""
             },
             "typeAnnotation": {
               "type": "TsKeywordType",

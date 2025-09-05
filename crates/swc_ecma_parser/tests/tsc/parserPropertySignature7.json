@@ -45,8 +45,7 @@
                 "end": 20
               },
               "value": "G",
-              "raw": "\"G\"",
-              "loneSurrogates": false
+              "raw": "\"G\""
             },
             "computed": false,
             "optional": false,

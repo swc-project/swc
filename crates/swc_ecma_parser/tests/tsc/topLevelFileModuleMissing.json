@@ -89,8 +89,7 @@
             "end": 123
           },
           "value": "vs/foo",
-          "raw": "\"vs/foo\"",
-          "loneSurrogates": false
+          "raw": "\"vs/foo\""
         }
       }
     },

@@ -84,8 +84,7 @@
                               "end": 44
                             },
                             "value": "Hi!",
-                            "raw": "\"Hi!\"",
-                            "loneSurrogates": false
+                            "raw": "\"Hi!\""
                           }
                         }
                       ]

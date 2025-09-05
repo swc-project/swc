@@ -64,8 +64,7 @@
           "end": 246
         },
         "value": "ambient",
-        "raw": "\"ambient\"",
-        "loneSurrogates": false
+        "raw": "\"ambient\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -230,8 +229,7 @@
             "end": 421
           },
           "value": "./decl",
-          "raw": "\"./decl\"",
-          "loneSurrogates": false
+          "raw": "\"./decl\""
         }
       }
     },
@@ -266,8 +264,7 @@
             "end": 469
           },
           "value": "./decl",
-          "raw": "\"./decl\"",
-          "loneSurrogates": false
+          "raw": "\"./decl\""
         }
       }
     },
@@ -303,8 +300,7 @@
           "end": 513
         },
         "value": "./decl",
-        "raw": "\"./decl\"",
-        "loneSurrogates": false
+        "raw": "\"./decl\""
       },
       "typeOnly": false,
       "with": null,
@@ -342,8 +338,7 @@
           "end": 572
         },
         "value": "./types",
-        "raw": "\"./types\"",
-        "loneSurrogates": false
+        "raw": "\"./types\""
       },
       "typeOnly": false,
       "with": null,

@@ -179,8 +179,7 @@
           "end": 254
         },
         "value": "./mod.js",
-        "raw": "\"./mod.js\"",
-        "loneSurrogates": false
+        "raw": "\"./mod.js\""
       },
       "typeOnly": false,
       "with": null,
@@ -258,8 +257,7 @@
           "end": 333
         },
         "value": "./mod.js",
-        "raw": "\"./mod.js\"",
-        "loneSurrogates": false
+        "raw": "\"./mod.js\""
       },
       "typeOnly": false,
       "with": null

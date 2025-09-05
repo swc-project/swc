@@ -163,8 +163,7 @@
                                   "end": 95
                                 },
                                 "value": "hello",
-                                "raw": "\"hello\"",
-                                "loneSurrogates": false
+                                "raw": "\"hello\""
                               },
                               "async": false,
                               "generator": false,

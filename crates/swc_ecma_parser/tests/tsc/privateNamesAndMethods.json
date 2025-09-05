@@ -1020,8 +1020,7 @@
                           "end": 606
                         },
                         "value": "str",
-                        "raw": "\"str\"",
-                        "loneSurrogates": false
+                        "raw": "\"str\""
                       }
                     }
                   ],

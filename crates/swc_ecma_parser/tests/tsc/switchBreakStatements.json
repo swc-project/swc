@@ -18,8 +18,7 @@
           "end": 71
         },
         "value": "",
-        "raw": "''",
-        "loneSurrogates": false
+        "raw": "''"
       },
       "cases": [
         {
@@ -35,8 +34,7 @@
               "end": 87
             },
             "value": "a",
-            "raw": "'a'",
-            "loneSurrogates": false
+            "raw": "'a'"
           },
           "consequent": [
             {
@@ -80,8 +78,7 @@
             "end": 122
           },
           "value": "",
-          "raw": "''",
-          "loneSurrogates": false
+          "raw": "''"
         },
         "cases": [
           {
@@ -97,8 +94,7 @@
                 "end": 138
               },
               "value": "a",
-              "raw": "'a'",
-              "loneSurrogates": false
+              "raw": "'a'"
             },
             "consequent": [
               {
@@ -168,8 +164,7 @@
               "end": 184
             },
             "value": "",
-            "raw": "''",
-            "loneSurrogates": false
+            "raw": "''"
           },
           "cases": [
             {
@@ -185,8 +180,7 @@
                   "end": 200
                 },
                 "value": "a",
-                "raw": "'a'",
-                "loneSurrogates": false
+                "raw": "'a'"
               },
               "consequent": [
                 {
@@ -241,8 +235,7 @@
             "end": 242
           },
           "value": "",
-          "raw": "''",
-          "loneSurrogates": false
+          "raw": "''"
         },
         "cases": [
           {
@@ -258,8 +251,7 @@
                 "end": 258
               },
               "value": "a",
-              "raw": "'a'",
-              "loneSurrogates": false
+              "raw": "'a'"
             },
             "consequent": [
               {
@@ -291,8 +283,7 @@
                       "end": 292
                     },
                     "value": "",
-                    "raw": "''",
-                    "loneSurrogates": false
+                    "raw": "''"
                   },
                   "cases": [
                     {
@@ -308,8 +299,7 @@
                           "end": 316
                         },
                         "value": "a",
-                        "raw": "'a'",
-                        "loneSurrogates": false
+                        "raw": "'a'"
                       },
                       "consequent": [
                         {
@@ -352,8 +342,7 @@
           "end": 369
         },
         "value": "",
-        "raw": "''",
-        "loneSurrogates": false
+        "raw": "''"
       },
       "cases": [
         {
@@ -369,8 +358,7 @@
               "end": 385
             },
             "value": "a",
-            "raw": "'a'",
-            "loneSurrogates": false
+            "raw": "'a'"
           },
           "consequent": [
             {
@@ -402,8 +390,7 @@
                     "end": 418
                   },
                   "value": "",
-                  "raw": "''",
-                  "loneSurrogates": false
+                  "raw": "''"
                 },
                 "cases": [
                   {
@@ -419,8 +406,7 @@
                         "end": 442
                       },
                       "value": "a",
-                      "raw": "'a'",
-                      "loneSurrogates": false
+                      "raw": "'a'"
                     },
                     "consequent": [
                       {
@@ -478,8 +464,7 @@
             "end": 501
           },
           "value": "",
-          "raw": "''",
-          "loneSurrogates": false
+          "raw": "''"
         },
         "cases": [
           {
@@ -495,8 +480,7 @@
                 "end": 517
               },
               "value": "a",
-              "raw": "'a'",
-              "loneSurrogates": false
+              "raw": "'a'"
             },
             "consequent": [
               {
@@ -512,8 +496,7 @@
                     "end": 537
                   },
                   "value": "",
-                  "raw": "''",
-                  "loneSurrogates": false
+                  "raw": "''"
                 },
                 "cases": [
                   {
@@ -529,8 +512,7 @@
                         "end": 561
                       },
                       "value": "a",
-                      "raw": "'a'",
-                      "loneSurrogates": false
+                      "raw": "'a'"
                     },
                     "consequent": [
                       {
@@ -546,8 +528,7 @@
                             "end": 589
                           },
                           "value": "",
-                          "raw": "''",
-                          "loneSurrogates": false
+                          "raw": "''"
                         },
                         "cases": [
                           {
@@ -563,8 +544,7 @@
                                 "end": 621
                               },
                               "value": "a",
-                              "raw": "'a'",
-                              "loneSurrogates": false
+                              "raw": "'a'"
                             },
                             "consequent": [
                               {
@@ -613,8 +593,7 @@
                                       "end": 725
                                     },
                                     "value": "",
-                                    "raw": "''",
-                                    "loneSurrogates": false
+                                    "raw": "''"
                                   },
                                   "cases": [
                                     {
@@ -630,8 +609,7 @@
                                           "end": 765
                                         },
                                         "value": "a",
-                                        "raw": "'a'",
-                                        "loneSurrogates": false
+                                        "raw": "'a'"
                                       },
                                       "consequent": [
                                         {

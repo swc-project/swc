@@ -67,8 +67,7 @@
                   "end": 97
                 },
                 "value": "x",
-                "raw": "'x'",
-                "loneSurrogates": false
+                "raw": "'x'"
               }
             }
           ]
@@ -107,8 +106,7 @@
           "end": 182
         },
         "value": "../lib/constants",
-        "raw": "\"../lib/constants\"",
-        "loneSurrogates": false
+        "raw": "\"../lib/constants\""
       },
       "typeOnly": false,
       "with": null,

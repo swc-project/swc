@@ -91,8 +91,7 @@
                   "end": 98
                 },
                 "value": "___",
-                "raw": "\"___\"",
-                "loneSurrogates": false
+                "raw": "\"___\""
               },
               "value": {
                 "type": "NumericLiteral",
@@ -113,8 +112,7 @@
                   "end": 118
                 },
                 "value": "___hello",
-                "raw": "\"___hello\"",
-                "loneSurrogates": false
+                "raw": "\"___hello\""
               },
               "value": {
                 "type": "NumericLiteral",
@@ -135,8 +133,7 @@
                   "end": 133
                 },
                 "value": "_hi",
-                "raw": "\"_hi\"",
-                "loneSurrogates": false
+                "raw": "\"_hi\""
               },
               "value": {
                 "type": "NumericLiteral",
@@ -184,8 +181,7 @@
           "end": 182
         },
         "value": "./m1",
-        "raw": "\"./m1\"",
-        "loneSurrogates": false
+        "raw": "\"./m1\""
       },
       "typeOnly": false,
       "with": null,

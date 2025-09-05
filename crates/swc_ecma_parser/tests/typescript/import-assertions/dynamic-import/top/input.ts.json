@@ -49,8 +49,7 @@
                     "end": 16
                   },
                   "value": "./lazy",
-                  "raw": "'./lazy'",
-                  "loneSurrogates": false
+                  "raw": "'./lazy'"
                 }
               },
               {
@@ -96,8 +95,7 @@
                                 "end": 42
                               },
                               "value": "json",
-                              "raw": "\"json\"",
-                              "loneSurrogates": false
+                              "raw": "\"json\""
                             }
                           }
                         ]

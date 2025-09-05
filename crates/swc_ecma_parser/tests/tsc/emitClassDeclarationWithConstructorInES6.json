@@ -327,8 +327,7 @@
               "end": 159
             },
             "value": "hello",
-            "raw": "\"hello\"",
-            "loneSurrogates": false
+            "raw": "\"hello\""
           },
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
@@ -475,8 +474,7 @@
                     "end": 218
                   },
                   "value": "hello",
-                  "raw": "\"hello\"",
-                  "loneSurrogates": false
+                  "raw": "\"hello\""
                 }
               }
             },

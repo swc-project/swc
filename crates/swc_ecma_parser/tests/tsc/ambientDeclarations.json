@@ -1735,8 +1735,7 @@
           "end": 1505
         },
         "value": "external1",
-        "raw": "'external1'",
-        "loneSurrogates": false
+        "raw": "'external1'"
       },
       "body": {
         "type": "TsModuleBlock",

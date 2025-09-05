@@ -52,8 +52,6 @@ pub mod parallel;
 mod value;
 pub mod var;
 
-pub mod unicode;
-
 mod node_ignore_span;
 pub mod number;
 pub mod stack_size;
@@ -730,11 +728,6 @@ pub trait ExprExt {
     #[inline(always)]
     fn is_str(&self) -> bool {
         is_str(self.as_expr())
-    }
-
-    #[inline(always)]
-    fn is_str_lone_surrogates(&self) -> bool {
-        is_str_lone_surrogates(self.as_expr())
     }
 
     #[inline(always)]
@@ -1440,7 +1433,6 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
         PropName::Ident(i) => Lit::Str(Str {
             span: i.span,
             raw: None,
-            lone_surrogates: false,
             value: i.sym,
         })
         .into(),
@@ -2699,13 +2691,6 @@ fn is_str(expr: &Expr) -> bool {
         Expr::Cond(CondExpr { cons, alt, .. }) => cons.is_str() && alt.is_str(),
         _ => false,
     }
-}
-
-fn is_str_lone_surrogates(expr: &Expr) -> bool {
-    expr.as_lit()
-        .and_then(|lit| lit.as_str())
-        .map(|s| s.lone_surrogates)
-        .unwrap_or_default()
 }
 
 fn is_array_lit(expr: &Expr) -> bool {

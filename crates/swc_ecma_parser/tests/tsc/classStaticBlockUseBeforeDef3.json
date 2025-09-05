@@ -162,8 +162,7 @@
                             "end": 166
                           },
                           "value": "gotcha!",
-                          "raw": "\"gotcha!\"",
-                          "loneSurrogates": false
+                          "raw": "\"gotcha!\""
                         }
                       }
                     ],
@@ -325,8 +324,7 @@
               "end": 274
             },
             "value": "FOO",
-            "raw": "\"FOO\"",
-            "loneSurrogates": false
+            "raw": "\"FOO\""
           },
           "definite": false
         }
@@ -472,8 +470,7 @@
                 "end": 369
               },
               "value": "FOO",
-              "raw": "\"FOO\"",
-              "loneSurrogates": false
+              "raw": "\"FOO\""
             },
             "typeAnnotation": {
               "type": "TsUnionType",
@@ -495,8 +492,7 @@
                       "end": 378
                     },
                     "value": "FOO",
-                    "raw": "\"FOO\"",
-                    "loneSurrogates": false
+                    "raw": "\"FOO\""
                   }
                 },
                 {
@@ -512,8 +508,7 @@
                       "end": 386
                     },
                     "value": "BAR",
-                    "raw": "\"BAR\"",
-                    "loneSurrogates": false
+                    "raw": "\"BAR\""
                   }
                 }
               ]
@@ -588,8 +583,7 @@
                       "end": 431
                     },
                     "value": "BAR",
-                    "raw": "\"BAR\"",
-                    "loneSurrogates": false
+                    "raw": "\"BAR\""
                   }
                 }
               },

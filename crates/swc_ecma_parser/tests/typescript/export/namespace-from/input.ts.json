@@ -37,8 +37,7 @@
           "end": 30
         },
         "value": "package",
-        "raw": "\"package\"",
-        "loneSurrogates": false
+        "raw": "\"package\""
       },
       "typeOnly": false,
       "with": null

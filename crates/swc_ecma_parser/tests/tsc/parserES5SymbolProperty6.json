@@ -70,8 +70,7 @@
               "end": 63
             },
             "value": "",
-            "raw": "\"\"",
-            "loneSurrogates": false
+            "raw": "\"\""
           },
           "typeAnnotation": {
             "type": "TsTypeAnnotation",

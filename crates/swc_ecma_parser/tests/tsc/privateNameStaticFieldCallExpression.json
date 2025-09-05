@@ -849,8 +849,7 @@
                               },
                               "tail": false,
                               "cooked": "head",
-                              "raw": "head",
-                              "loneSurrogates": false
+                              "raw": "head"
                             },
                             {
                               "type": "TemplateElement",
@@ -860,8 +859,7 @@
                               },
                               "tail": false,
                               "cooked": "middle",
-                              "raw": "middle",
-                              "loneSurrogates": false
+                              "raw": "middle"
                             },
                             {
                               "type": "TemplateElement",
@@ -871,8 +869,7 @@
                               },
                               "tail": true,
                               "cooked": "tail",
-                              "raw": "tail",
-                              "loneSurrogates": false
+                              "raw": "tail"
                             }
                           ]
                         }
@@ -977,8 +974,7 @@
                           },
                           "tail": false,
                           "cooked": "test",
-                          "raw": "test",
-                          "loneSurrogates": false
+                          "raw": "test"
                         },
                         {
                           "type": "TemplateElement",
@@ -988,8 +984,7 @@
                           },
                           "tail": false,
                           "cooked": "and",
-                          "raw": "and",
-                          "loneSurrogates": false
+                          "raw": "and"
                         },
                         {
                           "type": "TemplateElement",
@@ -999,8 +994,7 @@
                           },
                           "tail": true,
                           "cooked": "",
-                          "raw": "",
-                          "loneSurrogates": false
+                          "raw": ""
                         }
                       ]
                     }

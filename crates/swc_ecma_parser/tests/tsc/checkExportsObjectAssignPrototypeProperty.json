@@ -198,8 +198,7 @@
                       "end": 258
                     },
                     "value": "Person called ",
-                    "raw": "\"Person called \"",
-                    "loneSurrogates": false
+                    "raw": "\"Person called \""
                   },
                   "right": {
                     "type": "MemberExpression",
@@ -310,8 +309,7 @@
                 "end": 322
               },
               "value": "thing",
-              "raw": "\"thing\"",
-              "loneSurrogates": false
+              "raw": "\"thing\""
             }
           },
           {
@@ -445,8 +443,7 @@
                 "end": 410
               },
               "value": "readonlyProp",
-              "raw": "\"readonlyProp\"",
-              "loneSurrogates": false
+              "raw": "\"readonlyProp\""
             }
           },
           {
@@ -475,8 +472,7 @@
                       "end": 428
                     },
                     "value": "Smith",
-                    "raw": "\"Smith\"",
-                    "loneSurrogates": false
+                    "raw": "\"Smith\""
                   }
                 },
                 {
@@ -581,8 +577,7 @@
                 "end": 503
               },
               "value": "rwAccessors",
-              "raw": "\"rwAccessors\"",
-              "loneSurrogates": false
+              "raw": "\"rwAccessors\""
             }
           },
           {
@@ -776,8 +771,7 @@
                 "end": 615
               },
               "value": "readonlyAccessor",
-              "raw": "\"readonlyAccessor\"",
-              "loneSurrogates": false
+              "raw": "\"readonlyAccessor\""
             }
           },
           {
@@ -920,8 +914,7 @@
                 "end": 703
               },
               "value": "setonlyAccessor",
-              "raw": "\"setonlyAccessor\"",
-              "loneSurrogates": false
+              "raw": "\"setonlyAccessor\""
             }
           },
           {
@@ -1127,8 +1120,7 @@
           "end": 866
         },
         "value": "./",
-        "raw": "\"./\"",
-        "loneSurrogates": false
+        "raw": "\"./\""
       },
       "typeOnly": false,
       "with": null,
@@ -1165,8 +1157,7 @@
             "end": 901
           },
           "value": "./mod1",
-          "raw": "\"./mod1\"",
-          "loneSurrogates": false
+          "raw": "\"./mod1\""
         }
       }
     },
@@ -1224,8 +1215,7 @@
                     "end": 933
                   },
                   "value": "Name",
-                  "raw": "\"Name\"",
-                  "loneSurrogates": false
+                  "raw": "\"Name\""
                 }
               }
             ],
@@ -1538,8 +1528,7 @@
             "end": 1106
           },
           "value": "yes",
-          "raw": "\"yes\"",
-          "loneSurrogates": false
+          "raw": "\"yes\""
         }
       }
     },
@@ -1588,8 +1577,7 @@
             "end": 1159
           },
           "value": "name",
-          "raw": "\"name\"",
-          "loneSurrogates": false
+          "raw": "\"name\""
         }
       }
     },
@@ -1687,8 +1675,7 @@
             "end": 1202
           },
           "value": "no",
-          "raw": "\"no\"",
-          "loneSurrogates": false
+          "raw": "\"no\""
         }
       }
     },
@@ -1737,8 +1724,7 @@
             "end": 1225
           },
           "value": "no",
-          "raw": "\"no\"",
-          "loneSurrogates": false
+          "raw": "\"no\""
         }
       }
     },

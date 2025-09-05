@@ -148,7 +148,6 @@ impl TscDecorator {
                 return Lit::Str(Str {
                     span: DUMMY_SP,
                     raw: None,
-                    lone_surrogates: false,
                     value: i.sym.clone(),
                 })
                 .into()

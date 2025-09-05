@@ -77,8 +77,7 @@
                 "end": 197
               },
               "value": "bar",
-              "raw": "\"bar\"",
-              "loneSurrogates": false
+              "raw": "\"bar\""
             }
           },
           "function": {
@@ -189,8 +188,7 @@
                 "end": 257
               },
               "value": "bar",
-              "raw": "\"bar\"",
-              "loneSurrogates": false
+              "raw": "\"bar\""
             }
           },
           "function": {
@@ -301,8 +299,7 @@
                 "end": 317
               },
               "value": "bar",
-              "raw": "\"bar\"",
-              "loneSurrogates": false
+              "raw": "\"bar\""
             }
           },
           "value": {
@@ -312,8 +309,7 @@
               "end": 327
             },
             "value": "test",
-            "raw": "\"test\"",
-            "loneSurrogates": false
+            "raw": "\"test\""
           },
           "typeAnnotation": null,
           "isStatic": true,

@@ -295,8 +295,7 @@
                       "end": 225
                     },
                     "value": "some string",
-                    "raw": "\"some string\"",
-                    "loneSurrogates": false
+                    "raw": "\"some string\""
                   }
                 }
               }

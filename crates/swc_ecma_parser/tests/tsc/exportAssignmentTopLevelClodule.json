@@ -46,8 +46,7 @@
               "end": 66
             },
             "value": "test",
-            "raw": "\"test\"",
-            "loneSurrogates": false
+            "raw": "\"test\""
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -191,8 +190,7 @@
             "end": 178
           },
           "value": "./foo_0",
-          "raw": "\"./foo_0\"",
-          "loneSurrogates": false
+          "raw": "\"./foo_0\""
         }
       }
     },

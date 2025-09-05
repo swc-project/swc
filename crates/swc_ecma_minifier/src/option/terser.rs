@@ -494,7 +494,6 @@ fn value_to_expr(v: Value) -> Box<Expr> {
             Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
-                lone_surrogates: false,
                 value,
             })
             .into()
@@ -521,7 +520,6 @@ fn value_to_expr(v: Value) -> Box<Expr> {
                     key: PropName::Str(Str {
                         span: DUMMY_SP,
                         raw: None,
-                        lone_surrogates: false,
                         value: key.into(),
                     }),
                     value,

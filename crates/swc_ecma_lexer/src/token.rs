@@ -437,7 +437,6 @@ pub enum Token {
     Template {
         raw: Atom,
         cooked: LexResult<Atom>,
-        lone_surrogates: bool,
     },
     /// ':'
     Colon,
@@ -462,7 +461,6 @@ pub enum Token {
     Str {
         value: Atom,
         raw: Atom,
-        lone_surrogates: bool,
     },
 
     /// Regexp literal.
@@ -656,26 +654,13 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn str(value: Atom, raw: Atom, lone_surrogates: bool, _: &mut crate::Lexer<'a>) -> Self {
-        Self::Str {
-            value,
-            raw,
-            lone_surrogates,
-        }
+    fn str(value: Atom, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
+        Self::Str { value, raw }
     }
 
     #[inline(always)]
-    fn template(
-        cooked: LexResult<Atom>,
-        raw: Atom,
-        lone_surrogates: bool,
-        _: &mut crate::Lexer<'a>,
-    ) -> Self {
-        Self::Template {
-            cooked,
-            raw,
-            lone_surrogates,
-        }
+    fn template(cooked: LexResult<Atom>, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
+        Self::Template { cooked, raw }
     }
 
     #[inline(always)]
@@ -748,13 +733,9 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn take_str(self, _: &mut Self::Buffer) -> (Atom, Atom, bool) {
+    fn take_str(self, _: &mut Self::Buffer) -> (Atom, Atom) {
         match self {
-            Self::Str {
-                value,
-                raw,
-                lone_surrogates,
-            } => (value, raw, lone_surrogates),
+            Self::Str { value, raw } => (value, raw),
             _ => unreachable!(),
         }
     }
@@ -843,13 +824,9 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn take_template(self, _: &mut Self::Buffer) -> (LexResult<Atom>, Atom, bool) {
+    fn take_template(self, _: &mut Self::Buffer) -> (LexResult<Atom>, Atom) {
         match self {
-            Self::Template {
-                cooked,
-                raw,
-                lone_surrogates,
-            } => (cooked, raw, lone_surrogates),
+            Self::Template { cooked, raw } => (cooked, raw),
             _ => unreachable!(),
         }
     }
@@ -1670,11 +1647,7 @@ impl Debug for Token {
             PlusPlus => write!(f, "++")?,
             MinusMinus => write!(f, "--")?,
             Tilde => write!(f, "~")?,
-            Str {
-                value,
-                raw,
-                lone_surrogates,
-            } => write!(f, "string literal ({value}, {raw}, {lone_surrogates})")?,
+            Str { value, raw } => write!(f, "string literal ({value}, {raw})")?,
             Regex(exp, flags) => write!(f, "regexp literal ({exp}, {flags})")?,
             Num { value, raw, .. } => write!(f, "numeric literal ({value}, {raw})")?,
             BigInt { value, raw } => write!(f, "bigint literal ({value}, {raw})")?,

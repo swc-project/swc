@@ -207,8 +207,7 @@
                   "end": 87
                 },
                 "value": "number",
-                "raw": "\"number\"",
-                "loneSurrogates": false
+                "raw": "\"number\""
               }
             },
             "consequent": {
@@ -565,8 +564,7 @@
                   "end": 273
                 },
                 "value": "object",
-                "raw": "\"object\"",
-                "loneSurrogates": false
+                "raw": "\"object\""
               }
             },
             "consequent": {
@@ -713,8 +711,7 @@
                   "end": 356
                 },
                 "value": "number",
-                "raw": "\"number\"",
-                "loneSurrogates": false
+                "raw": "\"number\""
               }
             },
             "consequent": {
@@ -984,8 +981,7 @@
                   "end": 506
                 },
                 "value": "string",
-                "raw": "\"string\"",
-                "loneSurrogates": false
+                "raw": "\"string\""
               }
             },
             "consequent": {

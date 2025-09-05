@@ -37,8 +37,7 @@
           "end": 162
         },
         "value": "a",
-        "raw": "\"a\"",
-        "loneSurrogates": false
+        "raw": "\"a\""
       },
       "typeOnly": false,
       "with": null,
@@ -87,8 +86,7 @@
           "end": 216
         },
         "value": "b",
-        "raw": "\"b\"",
-        "loneSurrogates": false
+        "raw": "\"b\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -312,8 +310,7 @@
           "end": 384
         },
         "value": "a",
-        "raw": "\"a\"",
-        "loneSurrogates": false
+        "raw": "\"a\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -356,8 +353,7 @@
                 "end": 412
               },
               "value": "b",
-              "raw": "\"b\"",
-              "loneSurrogates": false
+              "raw": "\"b\""
             },
             "typeOnly": false,
             "with": null,

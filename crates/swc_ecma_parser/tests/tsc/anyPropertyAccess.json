@@ -163,8 +163,7 @@
                   "end": 43
                 },
                 "value": "foo",
-                "raw": "'foo'",
-                "loneSurrogates": false
+                "raw": "'foo'"
               }
             }
           },
@@ -235,8 +234,7 @@
                     "end": 60
                   },
                   "value": "fn",
-                  "raw": "'fn'",
-                  "loneSurrogates": false
+                  "raw": "'fn'"
                 }
               }
             },
@@ -459,8 +457,7 @@
                     "end": 115
                   },
                   "value": "0",
-                  "raw": "'0'",
-                  "loneSurrogates": false
+                  "raw": "'0'"
                 }
               }
             },

@@ -39,8 +39,7 @@
               "end": 150
             },
             "value": "𐀀",
-            "raw": "\"\\u{10000}\"",
-            "loneSurrogates": false
+            "raw": "\"\\u{10000}\""
           },
           "definite": false
         }

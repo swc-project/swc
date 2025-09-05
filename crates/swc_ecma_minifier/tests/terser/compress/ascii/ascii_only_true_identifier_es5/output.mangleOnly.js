@@ -1,6 +1,6 @@
-function r() {
-    var r = {
+function u() {
+    var u = {
         "\ud835\udc9c": true
     };
-    return r["\ud835\udc9c"];
+    return u["\ud835\udc9c"];
 }

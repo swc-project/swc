@@ -223,8 +223,7 @@
                     "end": 213
                   },
                   "value": "123",
-                  "raw": "\"123\"",
-                  "loneSurrogates": false
+                  "raw": "\"123\""
                 }
               }
             ],

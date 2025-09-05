@@ -788,8 +788,7 @@
                         "end": 289
                       },
                       "value": "yo",
-                      "raw": "'yo'",
-                      "loneSurrogates": false
+                      "raw": "'yo'"
                     }
                   },
                   {
@@ -805,8 +804,7 @@
                         "end": 296
                       },
                       "value": "ha",
-                      "raw": "'ha'",
-                      "loneSurrogates": false
+                      "raw": "'ha'"
                     }
                   },
                   {
@@ -871,8 +869,7 @@
                     "end": 329
                   },
                   "value": "yo",
-                  "raw": "'yo'",
-                  "loneSurrogates": false
+                  "raw": "'yo'"
                 }
               }
             ],

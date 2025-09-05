@@ -158,8 +158,7 @@
           "end": 221
         },
         "value": "./vue",
-        "raw": "\"./vue\"",
-        "loneSurrogates": false
+        "raw": "\"./vue\""
       },
       "typeOnly": false,
       "with": null,

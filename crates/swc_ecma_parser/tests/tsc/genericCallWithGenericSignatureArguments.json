@@ -497,8 +497,7 @@
                       "end": 492
                     },
                     "value": "",
-                    "raw": "''",
-                    "loneSurrogates": false
+                    "raw": "''"
                   },
                   "async": false,
                   "generator": false,
@@ -660,8 +659,7 @@
                       "end": 558
                     },
                     "value": "",
-                    "raw": "''",
-                    "loneSurrogates": false
+                    "raw": "''"
                   },
                   "async": false,
                   "generator": false,

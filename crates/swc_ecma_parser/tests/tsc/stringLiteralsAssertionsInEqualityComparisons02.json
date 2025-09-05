@@ -126,8 +126,7 @@
                 "end": 69
               },
               "value": "foo",
-              "raw": "\"foo\"",
-              "loneSurrogates": false
+              "raw": "\"foo\""
             },
             "right": {
               "type": "TsAsExpression",
@@ -142,8 +141,7 @@
                   "end": 79
                 },
                 "value": "bar",
-                "raw": "\"bar\"",
-                "loneSurrogates": false
+                "raw": "\"bar\""
               },
               "typeAnnotation": {
                 "type": "TsLiteralType",
@@ -158,8 +156,7 @@
                     "end": 88
                   },
                   "value": "baz",
-                  "raw": "\"baz\"",
-                  "loneSurrogates": false
+                  "raw": "\"baz\""
                 }
               }
             }
@@ -209,8 +206,7 @@
                 "end": 103
               },
               "value": "foo",
-              "raw": "\"foo\"",
-              "loneSurrogates": false
+              "raw": "\"foo\""
             },
             "right": {
               "type": "ParenthesisExpression",
@@ -231,8 +227,7 @@
                     "end": 114
                   },
                   "value": "bar",
-                  "raw": "\"bar\"",
-                  "loneSurrogates": false
+                  "raw": "\"bar\""
                 },
                 "typeAnnotation": {
                   "type": "TsLiteralType",
@@ -247,8 +242,7 @@
                       "end": 123
                     },
                     "value": "foo",
-                    "raw": "\"foo\"",
-                    "loneSurrogates": false
+                    "raw": "\"foo\""
                   }
                 }
               }
@@ -299,8 +293,7 @@
                 "end": 139
               },
               "value": "foo",
-              "raw": "\"foo\"",
-              "loneSurrogates": false
+              "raw": "\"foo\""
             },
             "right": {
               "type": "ParenthesisExpression",
@@ -321,8 +314,7 @@
                     "end": 157
                   },
                   "value": "bar",
-                  "raw": "\"bar\"",
-                  "loneSurrogates": false
+                  "raw": "\"bar\""
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
@@ -380,8 +372,7 @@
                 "end": 173
               },
               "value": "foo",
-              "raw": "\"foo\"",
-              "loneSurrogates": false
+              "raw": "\"foo\""
             },
             "right": {
               "type": "ParenthesisExpression",
@@ -402,8 +393,7 @@
                     "end": 184
                   },
                   "value": "bar",
-                  "raw": "\"bar\"",
-                  "loneSurrogates": false
+                  "raw": "\"bar\""
                 },
                 "typeAnnotation": {
                   "type": "TsTypeReference",

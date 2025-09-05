@@ -855,8 +855,7 @@
                         "end": 978
                       },
                       "value": "xmlolololol",
-                      "raw": "\"xmlolololol\"",
-                      "loneSurrogates": false
+                      "raw": "\"xmlolololol\""
                     }
                   },
                   "consequent": {
@@ -900,8 +899,7 @@
                                   "end": 1049
                                 },
                                 "value": "please do not use XML. It was a joke.",
-                                "raw": "\"please do not use XML. It was a joke.\"",
-                                "loneSurrogates": false
+                                "raw": "\"please do not use XML. It was a joke.\""
                               }
                             }
                           ],
@@ -1530,8 +1528,7 @@
                           "end": 1703
                         },
                         "value": "nope",
-                        "raw": "'nope'",
-                        "loneSurrogates": false
+                        "raw": "'nope'"
                       }
                     }
                   ],
@@ -2198,8 +2195,7 @@
                           "end": 2242
                         },
                         "value": "ignorant",
-                        "raw": "\"ignorant\"",
-                        "loneSurrogates": false
+                        "raw": "\"ignorant\""
                       }
                     }
                   ]

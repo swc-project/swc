@@ -21,8 +21,7 @@
           "end": 35
         },
         "value": "@dsherret/package",
-        "raw": "\"@dsherret/package\"",
-        "loneSurrogates": false
+        "raw": "\"@dsherret/package\""
       },
       "body": {
         "type": "TsModuleBlock",

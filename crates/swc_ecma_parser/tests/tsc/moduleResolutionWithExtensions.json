@@ -53,8 +53,7 @@
           "end": 143
         },
         "value": "./a",
-        "raw": "'./a'",
-        "loneSurrogates": false
+        "raw": "'./a'"
       },
       "typeOnly": false,
       "with": null,
@@ -92,8 +91,7 @@
           "end": 245
         },
         "value": "./a.js",
-        "raw": "'./a.js'",
-        "loneSurrogates": false
+        "raw": "'./a.js'"
       },
       "typeOnly": false,
       "with": null,
@@ -194,8 +192,7 @@
           "end": 412
         },
         "value": "./jquery",
-        "raw": "\"./jquery\"",
-        "loneSurrogates": false
+        "raw": "\"./jquery\""
       },
       "typeOnly": false,
       "with": null,
@@ -233,8 +230,7 @@
           "end": 533
         },
         "value": "./jquery.js",
-        "raw": "\"./jquery.js\"",
-        "loneSurrogates": false
+        "raw": "\"./jquery.js\""
       },
       "typeOnly": false,
       "with": null,

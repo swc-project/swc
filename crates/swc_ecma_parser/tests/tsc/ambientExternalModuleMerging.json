@@ -36,8 +36,7 @@
             "end": 87
           },
           "value": "M",
-          "raw": "\"M\"",
-          "loneSurrogates": false
+          "raw": "\"M\""
         }
       }
     },
@@ -169,8 +168,7 @@
           "end": 209
         },
         "value": "M",
-        "raw": "\"M\"",
-        "loneSurrogates": false
+        "raw": "\"M\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -251,8 +249,7 @@
           "end": 268
         },
         "value": "M",
-        "raw": "\"M\"",
-        "loneSurrogates": false
+        "raw": "\"M\""
       },
       "body": {
         "type": "TsModuleBlock",

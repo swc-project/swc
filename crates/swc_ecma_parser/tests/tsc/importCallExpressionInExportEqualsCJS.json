@@ -103,8 +103,7 @@
                               "end": 181
                             },
                             "value": "./something",
-                            "raw": "\"./something\"",
-                            "loneSurrogates": false
+                            "raw": "\"./something\""
                           }
                         }
                       ],

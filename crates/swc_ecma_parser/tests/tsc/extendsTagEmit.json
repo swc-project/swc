@@ -72,8 +72,7 @@
           "end": 164
         },
         "value": "./super",
-        "raw": "'./super'",
-        "loneSurrogates": false
+        "raw": "'./super'"
       },
       "typeOnly": false,
       "with": null,

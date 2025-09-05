@@ -39,8 +39,7 @@
           "end": 81
         },
         "value": "./lit.js",
-        "raw": "'./lit.js'",
-        "loneSurrogates": false
+        "raw": "'./lit.js'"
       },
       "typeOnly": false,
       "with": null,

@@ -752,7 +752,6 @@ where
                                         PropName::Str(Str {
                                             span: i.span,
                                             raw: None,
-                                            lone_surrogates: false,
                                             value: i.sym,
                                         })
                                     } else {
@@ -791,7 +790,6 @@ where
                                     let key = Str {
                                         span,
                                         raw: None,
-                                        lone_surrogates: false,
                                         value: str_value.into(),
                                     };
                                     let key = PropName::Str(key);
@@ -943,7 +941,6 @@ where
                 let s = Str {
                     span: text.span,
                     raw: None,
-                    lone_surrogates: false,
                     value,
                 };
 
@@ -1014,7 +1011,6 @@ where
                     Lit::Str(Str {
                         span: s.span,
                         raw: None,
-                        lone_surrogates: false,
                         value: value.into(),
                     })
                     .into()
@@ -1182,7 +1178,6 @@ where
                         src: Str {
                             span: DUMMY_SP,
                             raw: None,
-                            lone_surrogates: false,
                             value: src.into(),
                         }
                         .into(),
@@ -1263,7 +1258,6 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
                         span: DUMMY_SP,
                         value: src.into(),
                         raw: None,
-                        lone_surrogates: false,
                     }))),
                 }],
                 ..Default::default()
@@ -1292,7 +1286,6 @@ where
                     Lit::Str(Str {
                         span,
                         raw: None,
-                        lone_surrogates: false,
                         value: i.sym,
                     })
                     .into()
@@ -1322,7 +1315,6 @@ where
                 Lit::Str(Str {
                     span,
                     raw: None,
-                    lone_surrogates: false,
                     value: value.into(),
                 })
                 .into()
@@ -1368,7 +1360,6 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
                 PropName::Str(Str {
                     span,
                     raw: None,
-                    lone_surrogates: false,
                     value: i.sym,
                 })
             } else {
@@ -1381,7 +1372,6 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
             PropName::Str(Str {
                 span,
                 raw: None,
-                lone_surrogates: false,
                 value: value.into(),
             })
         }
@@ -1497,7 +1487,6 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
             Lit::Str(Str {
                 span: s.span,
                 raw: None,
-                lone_surrogates: false,
                 value: value.into(),
             })
             .into()

@@ -123,13 +123,11 @@ impl Pure<'_> {
         };
         let mut cur_cooked_str = String::new();
         let mut cur_raw_str = String::new();
-        let mut cur_lone_surrogates = false;
 
         for idx in 0..(tpl.quasis.len() + tpl.exprs.len()) {
             if idx % 2 == 0 {
                 let q = tpl.quasis[idx / 2].take();
 
-                cur_lone_surrogates |= q.lone_surrogates;
                 cur_cooked_str.push_str(&Str::from_tpl_raw(&q.raw));
                 cur_raw_str.push_str(&q.raw);
             } else {
@@ -147,21 +145,17 @@ impl Pure<'_> {
 
                                 cur_cooked_str.push_str(Str::from_tpl_raw(&q.raw).as_ref());
                                 cur_raw_str.push_str(&q.raw);
-                                cur_lone_surrogates |= q.lone_surrogates;
                             } else {
                                 let cooked = Atom::from(&*cur_cooked_str);
                                 let raw = Atom::from(&*cur_raw_str);
-                                let lone_surrogates = cur_lone_surrogates;
                                 cur_cooked_str.clear();
                                 cur_raw_str.clear();
-                                cur_lone_surrogates = false;
 
                                 new_tpl.quasis.push(TplElement {
                                     span: DUMMY_SP,
                                     tail: false,
                                     cooked: Some(cooked),
                                     raw,
-                                    lone_surrogates,
                                 });
 
                                 let e = e.exprs[idx / 2].take();
@@ -173,17 +167,14 @@ impl Pure<'_> {
                     _ => {
                         let cooked = Atom::from(&*cur_cooked_str);
                         let raw = Atom::from(&*cur_raw_str);
-                        let lone_surrogates = cur_lone_surrogates;
                         cur_cooked_str.clear();
                         cur_raw_str.clear();
-                        cur_lone_surrogates = false;
 
                         new_tpl.quasis.push(TplElement {
                             span: DUMMY_SP,
                             tail: false,
                             cooked: Some(cooked),
                             raw,
-                            lone_surrogates,
                         });
 
                         new_tpl.exprs.push(e);
@@ -194,13 +185,11 @@ impl Pure<'_> {
 
         let cooked = Atom::from(&*cur_cooked_str);
         let raw = Atom::from(&*cur_raw_str);
-        let lone_surrogates = cur_lone_surrogates;
         new_tpl.quasis.push(TplElement {
             span: DUMMY_SP,
             tail: false,
             cooked: Some(cooked),
             raw,
-            lone_surrogates,
         });
 
         *e = new_tpl.into();
@@ -222,7 +211,6 @@ impl Pure<'_> {
                         *e = Lit::Str(Str {
                             span: t.span,
                             raw: None,
-                            lone_surrogates: false,
                             value: value.clone(),
                         })
                         .into();
@@ -250,7 +238,6 @@ impl Pure<'_> {
                     *e = Lit::Str(Str {
                         span: t.span,
                         raw: None,
-                        lone_surrogates: false,
                         value,
                     })
                     .into();
@@ -281,7 +268,6 @@ impl Pure<'_> {
         let mut exprs = Vec::new();
         let mut cur_raw = String::new();
         let mut cur_cooked = Some(String::new());
-        let mut cur_lone_surrogates = false;
 
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
             if i % 2 == 0 {
@@ -289,7 +275,6 @@ impl Pure<'_> {
                 let q = tpl.quasis[i].clone();
 
                 if q.cooked.is_some() {
-                    cur_lone_surrogates |= q.lone_surrogates;
                     if let Some(cur_cooked) = &mut cur_cooked {
                         cur_cooked.push_str("");
                     }
@@ -307,8 +292,6 @@ impl Pure<'_> {
                         if cur_cooked.is_none() && s.raw.is_none() {
                             return;
                         }
-
-                        cur_lone_surrogates |= s.lone_surrogates;
 
                         if let Some(cur_cooked) = &mut cur_cooked {
                             cur_cooked.push_str("");
@@ -330,7 +313,6 @@ impl Pure<'_> {
 
                 cur_raw.push_str(&q.raw);
                 if let Some(cooked) = q.cooked {
-                    cur_lone_surrogates |= q.lone_surrogates;
                     if let Some(cur_cooked) = &mut cur_cooked {
                         cur_cooked.push_str(&cooked);
                     }
@@ -345,8 +327,6 @@ impl Pure<'_> {
 
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
-                        cur_lone_surrogates |= s.lone_surrogates;
-
                         if let Some(cur_cooked) = &mut cur_cooked {
                             cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
                         }
@@ -367,7 +347,6 @@ impl Pure<'_> {
                             tail: true,
                             cooked: cur_cooked.take().map(From::from),
                             raw: take(&mut cur_raw).into(),
-                            lone_surrogates: cur_lone_surrogates,
                         });
                         cur_cooked = Some(String::new());
 
@@ -384,7 +363,6 @@ impl Pure<'_> {
             tail: true,
             cooked: cur_cooked.map(From::from),
             raw: cur_raw.into(),
-            lone_surrogates: cur_lone_surrogates,
         });
 
         debug_assert_eq!(exprs.len() + 1, quasis.len());
@@ -518,8 +496,6 @@ impl Pure<'_> {
                             if let Value::Known(third_str) = bin.right.as_pure_string(self.expr_ctx)
                             {
                                 let new_str = format!("{second_str}{third_str}");
-                                let new_lone_surrogates = left.right.is_str_lone_surrogates()
-                                    || bin.right.is_str_lone_surrogates();
                                 let left_span = left.span;
 
                                 self.changed = true;
@@ -537,7 +513,6 @@ impl Pure<'_> {
                                     right: Lit::Str(Str {
                                         span: left_span,
                                         raw: None,
-                                        lone_surrogates: new_lone_surrogates,
                                         value: new_str.into(),
                                     })
                                     .into(),

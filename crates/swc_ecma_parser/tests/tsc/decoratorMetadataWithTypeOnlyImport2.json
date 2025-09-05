@@ -108,8 +108,7 @@
           "end": 216
         },
         "value": "./services",
-        "raw": "'./services'",
-        "loneSurrogates": false
+        "raw": "'./services'"
       },
       "typeOnly": true,
       "with": null,

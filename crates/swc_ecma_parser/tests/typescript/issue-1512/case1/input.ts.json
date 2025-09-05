@@ -37,8 +37,7 @@
           "end": 29
         },
         "value": "./index",
-        "raw": "'./index'",
-        "loneSurrogates": false
+        "raw": "'./index'"
       },
       "typeOnly": false,
       "with": null,

@@ -505,7 +505,6 @@ mod tests {
                             span,
                             value: atom!("w < w"),
                             raw: Some(atom!("\"w &lt; w\"")),
-                            lone_surrogates: false,
                         }))),
                     })],
                     name: JSXElementName::Ident(Ident::new_no_ctxt(atom!("div"), span)),

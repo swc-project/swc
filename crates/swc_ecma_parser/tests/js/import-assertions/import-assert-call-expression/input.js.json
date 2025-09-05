@@ -19,8 +19,7 @@
           "end": 11
         },
         "value": "x",
-        "raw": "\"x\"",
-        "loneSurrogates": false
+        "raw": "\"x\""
       },
       "typeOnly": false,
       "with": null,

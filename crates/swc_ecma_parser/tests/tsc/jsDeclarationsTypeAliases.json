@@ -101,8 +101,7 @@
                         "end": 657
                       },
                       "value": "",
-                      "raw": "\"\"",
-                      "loneSurrogates": false
+                      "raw": "\"\""
                     },
                     "right": {
                       "type": "Identifier",
@@ -167,8 +166,7 @@
               "end": 698
             },
             "value": "ok",
-            "raw": "\"ok\"",
-            "loneSurrogates": false
+            "raw": "\"ok\""
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -298,8 +296,7 @@
               "end": 789
             },
             "value": "ok",
-            "raw": "\"ok\"",
-            "loneSurrogates": false
+            "raw": "\"ok\""
           },
           "typeAnnotation": null,
           "isStatic": false,

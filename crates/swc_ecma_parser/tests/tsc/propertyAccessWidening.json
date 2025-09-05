@@ -523,8 +523,7 @@
                           "end": 311
                         },
                         "value": "concat",
-                        "raw": "\"concat\"",
-                        "loneSurrogates": false
+                        "raw": "\"concat\""
                       }
                     }
                   },
@@ -847,8 +846,7 @@
                         "end": 544
                       },
                       "value": "a",
-                      "raw": "\"a\"",
-                      "loneSurrogates": false
+                      "raw": "\"a\""
                     }
                   }
                 },
@@ -993,8 +991,7 @@
                       "end": 664
                     },
                     "value": "a",
-                    "raw": "\"a\"",
-                    "loneSurrogates": false
+                    "raw": "\"a\""
                   }
                 }
               },

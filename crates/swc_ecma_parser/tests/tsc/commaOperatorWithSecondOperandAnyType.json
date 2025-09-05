@@ -906,8 +906,7 @@
               "end": 486
             },
             "value": "string",
-            "raw": "\"string\"",
-            "loneSurrogates": false
+            "raw": "\"string\""
           },
           {
             "type": "ArrayExpression",
@@ -976,8 +975,7 @@
                   "end": 507
                 },
                 "value": "string",
-                "raw": "\"string\"",
-                "loneSurrogates": false
+                "raw": "\"string\""
               },
               "property": {
                 "type": "Identifier",
@@ -1086,8 +1084,7 @@
                     "end": 543
                   },
                   "value": "any",
-                  "raw": "\"any\"",
-                  "loneSurrogates": false
+                  "raw": "\"any\""
                 }
               }
             ],
@@ -1354,8 +1351,7 @@
                     "end": 667
                   },
                   "value": "string",
-                  "raw": "\"string\"",
-                  "loneSurrogates": false
+                  "raw": "\"string\""
                 },
                 {
                   "type": "NullLiteral",
@@ -1431,8 +1427,7 @@
                         "end": 704
                       },
                       "value": "string",
-                      "raw": "\"string\"",
-                      "loneSurrogates": false
+                      "raw": "\"string\""
                     },
                     "property": {
                       "type": "Identifier",
@@ -1551,8 +1546,7 @@
                           "end": 762
                         },
                         "value": "any",
-                        "raw": "\"any\"",
-                        "loneSurrogates": false
+                        "raw": "\"any\""
                       }
                     }
                   ],

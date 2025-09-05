@@ -1047,8 +1047,7 @@
             "end": 402
           },
           "value": "",
-          "raw": "''",
-          "loneSurrogates": false
+          "raw": "''"
         },
         "consequent": {
           "type": "Identifier",

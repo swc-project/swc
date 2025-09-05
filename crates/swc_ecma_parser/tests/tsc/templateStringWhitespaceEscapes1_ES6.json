@@ -27,8 +27,7 @@
             },
             "tail": true,
             "cooked": "\t\n\u000b\f\r",
-            "raw": "\\t\\n\\v\\f\\r",
-            "loneSurrogates": false
+            "raw": "\\t\\n\\v\\f\\r"
           }
         ]
       }

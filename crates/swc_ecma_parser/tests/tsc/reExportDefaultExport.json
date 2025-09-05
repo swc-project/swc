@@ -108,8 +108,7 @@
           "end": 147
         },
         "value": "./m1",
-        "raw": "\"./m1\"",
-        "loneSurrogates": false
+        "raw": "\"./m1\""
       },
       "typeOnly": false,
       "with": null,
@@ -149,8 +148,7 @@
           "end": 171
         },
         "value": "./m1",
-        "raw": "\"./m1\"",
-        "loneSurrogates": false
+        "raw": "\"./m1\""
       },
       "typeOnly": false,
       "with": null,

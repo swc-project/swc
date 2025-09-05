@@ -5,7 +5,7 @@ import r from './on-demand-entries-client';
 import { addMessageListener as n, connectHMR as c } from './error-overlay/websocket';
 var o = JSON.parse(document.getElementById('__NEXT_DATA__').textContent);
 window.__NEXT_DATA__ = o;
-var s = o.assetPrefix, i = o.page, _ = null, d = __webpack_hash__, u = (s = s || '') + (s.endsWith('/') ? '' : '/') + '_next/static/webpack/';
+var s = o.assetPrefix, i = o.page, _ = null, u = __webpack_hash__, d = (s = s || '') + (s.endsWith('/') ? '' : '/') + '_next/static/webpack/';
 n(function(a) {
     if ('\uD83D\uDC93' !== a.data) try {
         var r = JSON.parse(a.data);
@@ -28,7 +28,7 @@ n(function(a) {
                                 5
                             ]), [
                                 4,
-                                fetch('undefined' != typeof __webpack_runtime_id__ ? "".concat(u).concat(d, ".").concat(__webpack_runtime_id__, ".hot-update.json") : "".concat(u).concat(d, ".hot-update.json"))
+                                fetch('undefined' != typeof __webpack_runtime_id__ ? "".concat(d).concat(u, ".").concat(__webpack_runtime_id__, ".hot-update.json") : "".concat(d).concat(u, ".hot-update.json"))
                             ];
                         case 2:
                             return [
@@ -38,7 +38,7 @@ n(function(a) {
                         case 3:
                             return e = t.sent(), a = '/' === i ? 'index' : i, (Array.isArray(e.c) ? e.c : Object.keys(e.c)).some(function(e) {
                                 return -1 !== e.indexOf("pages".concat(a.startsWith('/') ? a : "/".concat(a))) || -1 !== e.indexOf("pages".concat(a.startsWith('/') ? a : "/".concat(a)).replace(/\//g, '\\'));
-                            }) ? document.location.reload(!0) : d = _, [
+                            }) ? document.location.reload(!0) : u = _, [
                                 3,
                                 5
                             ];

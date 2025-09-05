@@ -249,8 +249,7 @@
                         "end": 151
                       },
                       "value": "foo",
-                      "raw": "\"foo\"",
-                      "loneSurrogates": false
+                      "raw": "\"foo\""
                     }
                   },
                   {
@@ -418,8 +417,7 @@
               "end": 206
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           },
           "right": {
             "type": "Identifier",
@@ -482,8 +480,7 @@
               "end": 226
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           }
         }
       }
@@ -526,8 +523,7 @@
               "end": 237
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           },
           "right": {
             "type": "StringLiteral",
@@ -536,8 +532,7 @@
               "end": 246
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           }
         }
       }
@@ -580,8 +575,7 @@
               "end": 257
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           },
           "right": {
             "type": "Identifier",
@@ -644,8 +638,7 @@
               "end": 278
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           }
         }
       }
@@ -698,8 +691,7 @@
               "end": 294
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           }
         }
       }
@@ -742,8 +734,7 @@
               "end": 305
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           },
           "right": {
             "type": "Identifier",
@@ -850,8 +841,7 @@
               "end": 334
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           },
           "right": {
             "type": "Identifier",
@@ -914,8 +904,7 @@
               "end": 354
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           }
         }
       }
@@ -958,8 +947,7 @@
               "end": 365
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           },
           "right": {
             "type": "StringLiteral",
@@ -968,8 +956,7 @@
               "end": 374
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           }
         }
       }
@@ -1012,8 +999,7 @@
               "end": 385
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           },
           "right": {
             "type": "Identifier",
@@ -1076,8 +1062,7 @@
               "end": 406
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           }
         }
       }
@@ -1130,8 +1115,7 @@
               "end": 422
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           }
         }
       }
@@ -1174,8 +1158,7 @@
               "end": 433
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           },
           "right": {
             "type": "Identifier",

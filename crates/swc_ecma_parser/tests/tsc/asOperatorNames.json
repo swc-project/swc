@@ -135,8 +135,7 @@
               "end": 50
             },
             "value": "hello",
-            "raw": "\"hello\"",
-            "loneSurrogates": false
+            "raw": "\"hello\""
           },
           "definite": false
         }

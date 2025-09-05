@@ -18,8 +18,7 @@
           "end": 21
         },
         "value": "test",
-        "raw": "\"test\"",
-        "loneSurrogates": false
+        "raw": "\"test\""
       },
       "typeOnly": false,
       "with": null
@@ -38,8 +37,7 @@
           "end": 37
         },
         "value": "test",
-        "raw": "\"test\"",
-        "loneSurrogates": false
+        "raw": "\"test\""
       },
       "typeOnly": false,
       "with": null,
@@ -77,8 +75,7 @@
           "end": 63
         },
         "value": "test",
-        "raw": "\"test\"",
-        "loneSurrogates": false
+        "raw": "\"test\""
       },
       "typeOnly": false,
       "with": null,

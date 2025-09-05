@@ -402,8 +402,7 @@
               "end": 194
             },
             "value": "foo",
-            "raw": "\"foo\"",
-            "loneSurrogates": false
+            "raw": "\"foo\""
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -509,8 +508,7 @@
               "end": 231
             },
             "value": "bar",
-            "raw": "\"bar\"",
-            "loneSurrogates": false
+            "raw": "\"bar\""
           },
           "typeAnnotation": null,
           "isStatic": false,

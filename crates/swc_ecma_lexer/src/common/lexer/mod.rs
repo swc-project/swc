@@ -62,38 +62,6 @@ static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
 static TEMPLATE_LITERAL_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| matches!(b, b'$' | b'`' | b'\\' | b'\r'));
 
-/// Converts UTF-16 surrogate pair to Unicode code point.
-/// `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
-#[inline]
-const fn pair_to_code_point(high: u32, low: u32) -> u32 {
-    (high - 0xd800) * 0x400 + low - 0xdc00 + 0x10000
-}
-
-/// A Unicode escape sequence.
-///
-/// `\u Hex4Digits`, `\u Hex4Digits \u Hex4Digits`, or `\u{ HexDigits }`.
-pub enum UnicodeEscape {
-    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms a valid Unicode code point.
-    // Char cannot be in range 0xD800..=0xDFFF.
-    CodePoint(char),
-    // `\u Hex4Digits \u Hex4Digits`, which forms a valid Unicode astral code point.
-    // Char is in the range 0x10000..=0x10FFFF.
-    SurrogatePair(char),
-    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms an invalid Unicode code point.
-    // Code unit is in the range 0xD800..=0xDFFF.
-    LoneSurrogate(u32),
-}
-
-/// An escaped character.
-///
-/// The character can either be a valid Unicode character and a lone surrogate.
-pub enum EscapedChar {
-    /// A valid Unicode character.
-    Char(Char),
-    /// A lone surrogate character, like `\u{D800}` or `\uD800`.
-    LoneSurrogate(u32),
-}
-
 pub type LexResult<T> = Result<T, crate::error::Error>;
 
 fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
@@ -1148,76 +1116,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.input_slice(start, end)
         };
         let raw = self.atom(raw);
-        Ok(Self::Token::str(
-            value, raw, /* lone surrogate */ false, self,
-        ))
+        Ok(Self::Token::str(value, raw, self))
     }
 
-    // Modified based on <https://github.com/oxc-project/oxc/blob/f0e1510b44efdb1b0d9a09f950181b0e4c435abe/crates/oxc_parser/src/lexer/unicode.rs#L237>
-    /// Unicode code unit (`\uXXXX`).
-    ///
-    /// The opening `\u` must already have been consumed before calling this
-    /// method.
-    ///
-    /// See background info on surrogate pairs:
-    ///   * `https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae`
-    ///   * `https://mathiasbynens.be/notes/javascript-identifiers-es6`
-    fn read_unicode_code_unit(&mut self) -> LexResult<Option<UnicodeEscape>> {
-        const MIN_HIGH: u32 = 0xd800;
-        const MAX_HIGH: u32 = 0xdbff;
-        const MIN_LOW: u32 = 0xdc00;
-        const MAX_LOW: u32 = 0xdfff;
-
-        let Some(high) = self.read_int_u32::<16>(4)? else {
-            return Ok(None);
-        };
-        if let Some(ch) = char::from_u32(high) {
-            return Ok(Some(UnicodeEscape::CodePoint(ch)));
-        }
-
-        // The first code unit of a surrogate pair is always in the range from 0xD800 to
-        // 0xDBFF, and is called a high surrogate or a lead surrogate.
-        // Note: `high` must be >= `MIN_HIGH`, otherwise `char::from_u32` would have
-        // returned `Some`, and already exited.
-        debug_assert!(high >= MIN_HIGH);
-        let is_pair = high <= MAX_HIGH
-            && self.input().cur() == Some('\\')
-            && self.input().peek() == Some('u');
-        if !is_pair {
-            return Ok(Some(UnicodeEscape::LoneSurrogate(high)));
-        }
-
-        let before_second = self.input().cur_pos();
-
-        // Bump `\u`
-        self.input_mut().bump_bytes(2);
-
-        let Some(low) = self.read_int_u32::<16>(4)? else {
-            return Ok(None);
-        };
-
-        // The second code unit of a surrogate pair is always in the range from 0xDC00
-        // to 0xDFFF, and is called a low surrogate or a trail surrogate.
-        // If this isn't a valid pair, rewind to before the 2nd, and return the first
-        // only. The 2nd could be the first part of a valid pair.
-        if !(MIN_LOW..=MAX_LOW).contains(&low) {
-            unsafe {
-                // Safety: state is valid position because we got it from cur_pos()
-                self.input_mut().reset_to(before_second);
-            }
-            return Ok(Some(UnicodeEscape::LoneSurrogate(high)));
-        }
-
-        let code_point = pair_to_code_point(high, low);
-        // SAFETY: `high` and `low` have been checked to be in ranges which always yield
-        // a `code_point` which is a valid `char`
-        let ch = unsafe { char::from_u32_unchecked(code_point) };
-        Ok(Some(UnicodeEscape::SurrogatePair(ch)))
-    }
-
-    fn read_unicode_escape(&mut self) -> LexResult<UnicodeEscape> {
+    fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
         debug_assert_eq!(self.cur(), Some('u'));
 
+        let mut chars = Vec::with_capacity(4);
         let mut is_curly = false;
 
         self.bump(); // 'u'
@@ -1264,11 +1169,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         match c {
             Some(c) => {
-                if is_curly && !self.eat(b'}') {
-                    self.error(state, SyntaxError::InvalidUnicodeEscape)?
-                }
-
-                Ok(UnicodeEscape::CodePoint(c))
+                chars.push(c.into());
             }
             _ => {
                 unsafe {
@@ -1276,26 +1177,44 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     self.input_mut().reset_to(state);
                 }
 
-                let Some(value) = self.read_unicode_code_unit()? else {
-                    self.error(
-                        state,
-                        SyntaxError::BadCharacterEscapeSequence {
-                            expected: if is_curly {
-                                "1-6 hex characters"
-                            } else {
-                                "4 hex characters"
-                            },
-                        },
-                    )?
-                };
+                chars.push(Char::from('\\'));
+                chars.push(Char::from('u'));
 
-                if is_curly && !self.eat(b'}') {
-                    self.error(state, SyntaxError::InvalidUnicodeEscape)?
+                if is_curly {
+                    chars.push(Char::from('{'));
+
+                    for _ in 0..6 {
+                        if let Some(c) = self.input().cur() {
+                            if c == '}' {
+                                break;
+                            }
+
+                            self.bump();
+
+                            chars.push(Char::from(c));
+                        } else {
+                            break;
+                        }
+                    }
+
+                    chars.push(Char::from('}'));
+                } else {
+                    for _ in 0..4 {
+                        if let Some(c) = self.input().cur() {
+                            self.bump();
+
+                            chars.push(Char::from(c));
+                        }
+                    }
                 }
-
-                Ok(value)
             }
         }
+
+        if is_curly && !self.eat(b'}') {
+            self.error(state, SyntaxError::InvalidUnicodeEscape)?
+        }
+
+        Ok(chars)
     }
 
     #[cold]
@@ -1314,7 +1233,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let mut cooked = Ok(String::new());
         let mut cooked_slice_start = start;
-        let mut contains_lone_surrogates = false;
         let raw_slice_start = start;
 
         macro_rules! consume_cooked {
@@ -1380,12 +1298,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             self.input_slice(raw_slice_start, end)
                         };
                         let raw = self.atom(raw);
-                        return Ok(Self::Token::template(
-                            cooked,
-                            raw,
-                            contains_lone_surrogates,
-                            self,
-                        ));
+                        return Ok(Self::Token::template(cooked, raw, self));
                     } else {
                         // Just a regular $ character, continue scanning
                         self.bump();
@@ -1406,12 +1319,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     let end = self.input().cur_pos();
                     let raw = unsafe { self.input_slice(raw_slice_start, end) };
                     let raw = self.atom(raw);
-                    return Ok(Self::Token::template(
-                        cooked,
-                        raw,
-                        contains_lone_surrogates,
-                        self,
-                    ));
+                    return Ok(Self::Token::template(cooked, raw, self));
                 }
                 b'\r' => {
                     // Handle carriage return line terminator
@@ -1434,22 +1342,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     consume_cooked!();
 
                     match self.read_escaped_char(true) {
-                        Ok(Some(escaped)) => {
+                        Ok(Some(chars)) => {
                             if let Ok(ref mut cooked) = cooked {
-                                match escaped {
-                                    EscapedChar::Char(ch) => {
-                                        cooked.extend(ch);
-                                    }
-                                    EscapedChar::LoneSurrogate(ch) => {
-                                        contains_lone_surrogates |= true;
-                                        // Following what we did in string literals,
-                                        // this need to be restored in the following optimization
-                                        // parts if you're going to use the cooked value.
-                                        // For example, merging two lone surrogates
-                                        // `TemplateElement` into a surrogate
-                                        // pair.
-                                        cooked.push_str(format!("\u{FFFD}{ch:04x}").as_str());
-                                    }
+                                for c in chars {
+                                    cooked.extend(c);
                                 }
                             }
                         }
@@ -1469,7 +1365,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// Read an escaped character for string literal.
     ///
     /// In template literal, we should preserve raw string.
-    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<EscapedChar>> {
+    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<Vec<Char>>> {
         debug_assert_eq!(self.cur(), Some('\\'));
 
         let start = self.cur_pos();
@@ -1507,7 +1403,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.bump(); // 'x'
 
                 match self.read_int_u32::<16>(2)? {
-                    Some(val) => return Ok(Some(EscapedChar::Char(Char::from(val)))),
+                    Some(val) => return Ok(Some(vec![Char::from(val)])),
                     None => self.error(
                         start,
                         SyntaxError::BadCharacterEscapeSequence {
@@ -1519,26 +1415,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
             // read unicode escape sequences
             'u' => match self.read_unicode_escape() {
-                Ok(value) => match value {
-                    UnicodeEscape::CodePoint(ch) | UnicodeEscape::SurrogatePair(ch) => {
-                        if ch == '\u{FFFD}' {
-                            // `\uFFFD` is used to escape lone surrogates in the string literal.
-                            //
-                            // To avoid any confusion, we will treat the user input `\uFFFD`
-                            // character as a lone surrogate. Because we don't even know if there's
-                            // any upcoming lone surrogates in the same string literal.
-                            //
-                            // And if we don't treat it as a lone surrogate, then the upcoming lone
-                            // surrogate will be translated to `\uFFFDXXXX` and we will not be able
-                            // to distinguish them afterwards.
-                            return Ok(Some(EscapedChar::LoneSurrogate(ch as u32)));
-                        }
-                        return Ok(Some(EscapedChar::Char(ch.into())));
-                    }
-                    UnicodeEscape::LoneSurrogate(ch) => {
-                        return Ok(Some(EscapedChar::LoneSurrogate(ch)));
-                    }
-                },
+                Ok(chars) => return Ok(Some(chars)),
                 Err(err) => self.error(start, err.into_kind())?,
             },
 
@@ -1550,7 +1427,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     match self.cur() {
                         Some(next) if next.is_digit(8) => c,
                         // \0 is not an octal literal nor decimal literal.
-                        _ => return Ok(Some(EscapedChar::Char('\u{0000}'.into()))),
+                        _ => return Ok(Some(vec!['\u{0000}'.into()])),
                     }
                 } else {
                     c
@@ -1577,11 +1454,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                                         .and_then(|value| value.checked_add(v as u8));
                                     match new_val {
                                         Some(val) => val,
-                                        None => {
-                                            return Ok(Some(EscapedChar::Char(Char::from(
-                                                value as u32,
-                                            ))))
-                                        }
+                                        None => return Ok(Some(vec![Char::from(value as char)])),
                                     }
                                 } else {
                                     value * 8 + v as u8
@@ -1589,7 +1462,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                                 self.bump();
                             }
-                            _ => return Ok(Some(EscapedChar::Char(Char::from(value as u32)))),
+                            _ => return Ok(Some(vec![Char::from(value as u32)])),
                         }
                     }};
                 }
@@ -1597,7 +1470,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 one!(false);
                 one!(true);
 
-                return Ok(Some(EscapedChar::Char(Char::from(value as u32))));
+                return Ok(Some(vec![Char::from(value as char)]));
             }
             _ => c,
         };
@@ -1607,7 +1480,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.input_mut().bump();
         }
 
-        Ok(Some(EscapedChar::Char(Char::from(c as u32))))
+        Ok(Some(vec![c.into()]))
     }
 
     /// Expects current char to be '/'
@@ -1792,44 +1665,23 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         }
                     }
 
-                    let value = self.read_unicode_escape()?;
-                    match value {
-                        UnicodeEscape::CodePoint(ch) => {
-                            let ch = Char::from(ch);
-                            let valid = if first {
-                                ch.is_ident_start()
-                            } else {
-                                ch.is_ident_part()
-                            };
-                            if !valid {
-                                self.emit_error(start, SyntaxError::InvalidIdentChar);
-                            }
-                            buf.extend(ch);
-                        }
-                        UnicodeEscape::SurrogatePair(ch) => {
-                            buf.extend(Char::from(ch));
+                    let chars = self.read_unicode_escape()?;
+
+                    if let Some(c) = chars.first() {
+                        let valid = if first {
+                            c.is_ident_start()
+                        } else {
+                            c.is_ident_part()
+                        };
+
+                        if !valid {
                             self.emit_error(start, SyntaxError::InvalidIdentChar);
                         }
-                        UnicodeEscape::LoneSurrogate(ch) => {
-                            // Lone surrogates can be stored in UTF-16 context like how strings are
-                            // stored in JavaScript. So this is not a problem in JavaScript.
-                            //
-                            // Hoever, in Rust, strings need to be valid UTF-8 sequence which, with
-                            // regard to its nature, these lone surrogates are invalid sequences.
-                            //
-                            // Here, instead of chaning the current `StringLiteral` implementation,
-                            // we use `\u{FFFD}`(Replacement Character) to escape lone surrogates by
-                            // appending the 4 hex values to the char and mark the whole
-                            // `StringLiteral` as it contains lone surrogates. So that we can
-                            // restore the correct codepoint in the following optimization phase.
-                            //
-                            // For example:
-                            // * for a lone surrogate `\uD800`,
-                            // we use sym: `\u{FFFD}D880` as the value.
-                            buf.push_str(format!("\u{FFFD}{ch:04x}").as_str());
-                            self.emit_error(start, SyntaxError::InvalidIdentChar);
-                        }
-                    };
+                    }
+
+                    for c in chars {
+                        buf.extend(c);
+                    }
 
                     slice_start = self.cur_pos();
                     continue;
@@ -2114,8 +1966,6 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let mut buf: Option<String> = None;
 
-        let mut contains_lone_surrogates = false;
-
         loop {
             let table = if quote == b'"' {
                 &DOUBLE_QUOTE_STRING_END_TABLE
@@ -2138,10 +1988,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                     let end = self.cur_pos();
                     let raw = unsafe { self.input_slice(start, end) };
-                    return Ok(Self::Token::str(self.atom(s), self.atom(raw), contains_lone_surrogates, self));
+                    return Ok(Self::Token::str(self.atom(s), self.atom(raw), self));
                 },
             };
-            // dbg!(char::from_u32(fast_path_result as u32));
 
             match fast_path_result {
                 b'"' | b'\'' if fast_path_result == quote => {
@@ -2174,7 +2023,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         self.input_slice(start, end)
                     };
                     let raw = self.atom(raw);
-                    return Ok(Self::Token::str(value, raw, contains_lone_surrogates, self));
+                    return Ok(Self::Token::str(value, raw, self));
                 }
                 b'\\' => {
                     let end = self.cur_pos();
@@ -2190,18 +2039,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         buf.as_mut().unwrap().push_str(s);
                     }
 
-                    if let Some(escaped) = self.read_escaped_char(false)? {
-                        match escaped {
-                            EscapedChar::Char(ch) => buf.as_mut().unwrap().extend(ch),
-                            EscapedChar::LoneSurrogate(ch) => {
-                                // Mark the whole string literal as it contains lone surrogates
-                                // so that we can restore the correct codepoint in the following
-                                // optimization parts
-                                contains_lone_surrogates |= true;
-                                buf.as_mut()
-                                    .unwrap()
-                                    .push_str(format!("\u{FFFD}{ch:04x}").as_str());
-                            }
+                    if let Some(chars) = self.read_escaped_char(false)? {
+                        for c in chars {
+                            buf.as_mut().unwrap().extend(c);
                         }
                     }
 
@@ -2225,12 +2065,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         // `self.input`
                         self.input_slice(start, end)
                     };
-                    return Ok(Self::Token::str(
-                        self.atom(s),
-                        self.atom(raw),
-                        contains_lone_surrogates,
-                        self,
-                    ));
+                    return Ok(Self::Token::str(self.atom(s), self.atom(raw), self));
                 }
                 _ => self.bump(),
             }

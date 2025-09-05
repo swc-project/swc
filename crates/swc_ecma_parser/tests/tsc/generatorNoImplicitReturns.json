@@ -130,8 +130,7 @@
                   "end": 176
                 },
                 "value": "hello",
-                "raw": "'hello'",
-                "loneSurrogates": false
+                "raw": "'hello'"
               },
               "delegate": false
             }

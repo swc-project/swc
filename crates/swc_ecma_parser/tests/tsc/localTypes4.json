@@ -902,8 +902,7 @@
                         "end": 723
                       },
                       "value": "hello",
-                      "raw": "\"hello\"",
-                      "loneSurrogates": false
+                      "raw": "\"hello\""
                     }
                   }
                 }

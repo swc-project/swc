@@ -36,8 +36,7 @@
             "end": 48
           },
           "value": "commonjs-package",
-          "raw": "'commonjs-package'",
-          "loneSurrogates": false
+          "raw": "'commonjs-package'"
         }
       }
     }

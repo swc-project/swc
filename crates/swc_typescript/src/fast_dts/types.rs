@@ -381,7 +381,6 @@ impl FastDts {
                             span: *span,
                             value: str_prop,
                             raw: None,
-                            lone_surrogates: false,
                         };
 
                         return str_prop.into();
@@ -447,7 +446,6 @@ impl FastDts {
             span: DUMMY_SP,
             value: element.cooked.as_ref().unwrap_or(&element.raw).clone(),
             raw: None,
-            lone_surrogates: false,
         })
     }
 

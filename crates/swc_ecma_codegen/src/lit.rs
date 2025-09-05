@@ -53,7 +53,6 @@ impl MacroNode for Str {
             && self.raw.is_some()
             && self.raw.as_ref().unwrap().contains('\\')
             && (!emitter.cfg.inline_script || !self.raw.as_ref().unwrap().contains("script"))
-            && !self.lone_surrogates
         {
             emitter
                 .wr
@@ -66,7 +65,7 @@ impl MacroNode for Str {
 
         let target = emitter.cfg.target;
 
-        if !emitter.cfg.minify && !self.lone_surrogates {
+        if !emitter.cfg.minify {
             if let Some(raw) = &self.raw {
                 let es5_safe = match emitter.cfg.target {
                     EsVersion::Es3 | EsVersion::Es5 => {
@@ -88,12 +87,7 @@ impl MacroNode for Str {
             }
         }
 
-        let (quote_char, mut value) = get_quoted_utf16(
-            &self.value,
-            self.lone_surrogates,
-            emitter.cfg.ascii_only,
-            target,
-        );
+        let (quote_char, mut value) = get_quoted_utf16(&self.value, emitter.cfg.ascii_only, target);
 
         if emitter.cfg.inline_script {
             value = CowStr::Owned(
@@ -318,12 +312,7 @@ where
 }
 
 /// Returns `(quote_char, value)`
-pub fn get_quoted_utf16(
-    v: &str,
-    lone_surrogates: bool,
-    ascii_only: bool,
-    target: EsVersion,
-) -> (AsciiChar, CowStr) {
+pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar, CowStr) {
     // Fast path: If the string is ASCII and doesn't need escaping, we can avoid
     // allocation
     if v.is_ascii() {
@@ -408,21 +397,88 @@ pub fn get_quoted_utf16(
             '\r' => buf.push_str("\\r"),
             '\u{000b}' => buf.push_str("\\v"),
             '\t' => buf.push('\t'),
-            '\\' => buf.push_str("\\\\"),
-            '\u{FFFD}' if lone_surrogates => {
-                // If the string contains any lone surrogate,
-                // then '\u{FFFD}' is used to escape the lone surrogate.
-                // For example `\uD800` is escaped to `\u{FFFD}D800`.
+            '\\' => {
+                let next = iter.peek();
+                match next {
+                    Some('u') => {
+                        let mut inner_iter = iter.clone();
+                        inner_iter.next();
 
-                // Restore 4 hex characters
-                // SAFETY: `\u{FFFD}` should always have 4 trailing hex
-                // characters if the string contains any lone surrogate.
-                let hex1 = iter.next().unwrap();
-                let hex2 = iter.next().unwrap();
-                let hex3 = iter.next().unwrap();
-                let hex4 = iter.next().unwrap();
+                        let mut is_curly = false;
+                        let mut next = inner_iter.peek();
 
-                buf.extend(['\\', 'u', hex1, hex2, hex3, hex4]);
+                        if next == Some(&'{') {
+                            is_curly = true;
+                            inner_iter.next();
+                            next = inner_iter.peek();
+                        } else if next != Some(&'D') && next != Some(&'d') {
+                            buf.push('\\');
+                        }
+
+                        if let Some(c @ 'D' | c @ 'd') = next {
+                            let mut inner_buf = String::with_capacity(8);
+                            inner_buf.push('\\');
+                            inner_buf.push('u');
+
+                            if is_curly {
+                                inner_buf.push('{');
+                            }
+
+                            inner_buf.push(*c);
+                            inner_iter.next();
+
+                            let mut is_valid = true;
+                            for _ in 0..3 {
+                                match inner_iter.next() {
+                                    Some(c @ '0'..='9') | Some(c @ 'a'..='f')
+                                    | Some(c @ 'A'..='F') => {
+                                        inner_buf.push(c);
+                                    }
+                                    _ => {
+                                        is_valid = false;
+                                        break;
+                                    }
+                                }
+                            }
+
+                            if is_curly {
+                                inner_buf.push('}');
+                            }
+
+                            let range = if is_curly {
+                                3..(inner_buf.len() - 1)
+                            } else {
+                                2..6
+                            };
+
+                            if is_valid {
+                                let val_str = &inner_buf[range];
+                                if let Ok(v) = u32::from_str_radix(val_str, 16) {
+                                    if v > 0xffff {
+                                        buf.push_str(&inner_buf);
+                                        let end = if is_curly { 7 } else { 5 };
+                                        for _ in 0..end {
+                                            iter.next();
+                                        }
+                                    } else if (0xd800..=0xdfff).contains(&v) {
+                                        buf.push('\\');
+                                    } else {
+                                        buf.push_str("\\\\");
+                                    }
+                                } else {
+                                    buf.push_str("\\\\");
+                                }
+                            } else {
+                                buf.push_str("\\\\");
+                            }
+                        } else if is_curly {
+                            buf.push_str("\\\\");
+                        } else {
+                            buf.push('\\');
+                        }
+                    }
+                    _ => buf.push_str("\\\\"),
+                }
             }
             c if c == escape_char => {
                 buf.push('\\');

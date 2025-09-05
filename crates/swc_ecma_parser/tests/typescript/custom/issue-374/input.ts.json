@@ -53,8 +53,7 @@
               "end": 40
             },
             "value": "this is a string",
-            "raw": "\"this is a string\"",
-            "loneSurrogates": false
+            "raw": "\"this is a string\""
           },
           "definite": false
         }

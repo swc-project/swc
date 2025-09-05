@@ -308,8 +308,7 @@
                                           "end": 153
                                         },
                                         "value": "prop",
-                                        "raw": "\"prop\"",
-                                        "loneSurrogates": false
+                                        "raw": "\"prop\""
                                       },
                                       "typeAnnotation": null,
                                       "isStatic": false,
@@ -488,8 +487,7 @@
                                           "end": 221
                                         },
                                         "value": "prop",
-                                        "raw": "\"prop\"",
-                                        "loneSurrogates": false
+                                        "raw": "\"prop\""
                                       },
                                       "typeAnnotation": null,
                                       "isStatic": false,

@@ -1010,8 +1010,7 @@
               "end": 453
             },
             "value": "a string",
-            "raw": "'a string'",
-            "loneSurrogates": false
+            "raw": "'a string'"
           },
           "definite": false
         }
@@ -1443,8 +1442,7 @@
                 "end": 591
               },
               "value": "",
-              "raw": "''",
-              "loneSurrogates": false
+              "raw": "''"
             },
             "async": false,
             "generator": false,

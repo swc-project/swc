@@ -88,8 +88,7 @@
                       "end": 189
                     },
                     "value": "EN-US",
-                    "raw": "'EN-US'",
-                    "loneSurrogates": false
+                    "raw": "'EN-US'"
                   }
                 }
               ],
@@ -192,8 +191,7 @@
                             "end": 275
                           },
                           "value": "EN-US",
-                          "raw": "'EN-US'",
-                          "loneSurrogates": false
+                          "raw": "'EN-US'"
                         }
                       },
                       {
@@ -205,8 +203,7 @@
                             "end": 281
                           },
                           "value": "Fr",
-                          "raw": "'Fr'",
-                          "loneSurrogates": false
+                          "raw": "'Fr'"
                         }
                       }
                     ]
@@ -282,8 +279,7 @@
                       "end": 369
                     },
                     "value": "EN_US",
-                    "raw": "'EN_US'",
-                    "loneSurrogates": false
+                    "raw": "'EN_US'"
                   }
                 }
               ],

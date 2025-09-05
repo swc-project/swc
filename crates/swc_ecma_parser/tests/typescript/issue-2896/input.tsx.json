@@ -80,8 +80,7 @@
           "end": 34
         },
         "value": "<>hello</>",
-        "raw": "'<>hello</>'",
-        "loneSurrogates": false
+        "raw": "'<>hello</>'"
       }
     }
   ],

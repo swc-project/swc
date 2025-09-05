@@ -93,8 +93,7 @@
           "end": 114
         },
         "value": "./enum",
-        "raw": "\"./enum\"",
-        "loneSurrogates": false
+        "raw": "\"./enum\""
       },
       "typeOnly": false,
       "with": null,
@@ -228,8 +227,7 @@
           "end": 234
         },
         "value": "./merge",
-        "raw": "\"./merge\"",
-        "loneSurrogates": false
+        "raw": "\"./merge\""
       },
       "typeOnly": false,
       "with": null,

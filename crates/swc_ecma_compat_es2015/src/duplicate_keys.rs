@@ -106,7 +106,6 @@ impl VisitMut for PropNameFolder<'_> {
                         expr: Lit::Str(Str {
                             span,
                             raw: None,
-                            lone_surrogates: false,
                             value: ident.sym.clone(),
                         })
                         .into(),

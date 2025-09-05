@@ -37,8 +37,7 @@
           "end": 32
         },
         "value": "mongoose",
-        "raw": "'mongoose'",
-        "loneSurrogates": false
+        "raw": "'mongoose'"
       },
       "typeOnly": false,
       "with": null,
@@ -116,8 +115,7 @@
           "end": 101
         },
         "value": "@typegoose/typegoose",
-        "raw": "'@typegoose/typegoose'",
-        "loneSurrogates": false
+        "raw": "'@typegoose/typegoose'"
       },
       "typeOnly": false,
       "with": null,
@@ -157,8 +155,7 @@
           "end": 165
         },
         "value": "@typegoose/typegoose/lib/defaultClasses",
-        "raw": "'@typegoose/typegoose/lib/defaultClasses'",
-        "loneSurrogates": false
+        "raw": "'@typegoose/typegoose/lib/defaultClasses'"
       },
       "typeOnly": false,
       "with": null,

@@ -142,8 +142,7 @@
                       "end": 300
                     },
                     "value": "abc",
-                    "raw": "'abc'",
-                    "loneSurrogates": false
+                    "raw": "'abc'"
                   }
                 }
               ]
@@ -290,8 +289,7 @@
                       "end": 509
                     },
                     "value": "world",
-                    "raw": "\"world\"",
-                    "loneSurrogates": false
+                    "raw": "\"world\""
                   }
                 }
               ]
@@ -438,8 +436,7 @@
                       "end": 731
                     },
                     "value": "abc",
-                    "raw": "'abc'",
-                    "loneSurrogates": false
+                    "raw": "'abc'"
                   }
                 }
               ]

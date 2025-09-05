@@ -52,8 +52,7 @@
                   "end": 88
                 },
                 "value": "foo",
-                "raw": "\"foo\"",
-                "loneSurrogates": false
+                "raw": "\"foo\""
               }
             }
           ]
@@ -95,8 +94,7 @@
                 "end": 124
               },
               "value": "./0",
-              "raw": "\"./0\"",
-              "loneSurrogates": false
+              "raw": "\"./0\""
             }
           }
         ],
@@ -155,8 +153,7 @@
                     "end": 148
                   },
                   "value": "./0",
-                  "raw": "\"./0\"",
-                  "loneSurrogates": false
+                  "raw": "\"./0\""
                 }
               }
             ],
@@ -347,8 +344,7 @@
                       "end": 225
                     },
                     "value": "./0",
-                    "raw": "\"./0\"",
-                    "loneSurrogates": false
+                    "raw": "\"./0\""
                   }
                 }
               ],
@@ -439,8 +435,7 @@
                           "end": 273
                         },
                         "value": "./0",
-                        "raw": "\"./0\"",
-                        "loneSurrogates": false
+                        "raw": "\"./0\""
                       }
                     }
                   ],
@@ -559,8 +554,7 @@
                                 "end": 343
                               },
                               "value": "./0",
-                              "raw": "\"./0\"",
-                              "loneSurrogates": false
+                              "raw": "\"./0\""
                             }
                           }
                         ],
@@ -699,8 +693,7 @@
                                   "end": 426
                                 },
                                 "value": "./0",
-                                "raw": "\"./0\"",
-                                "loneSurrogates": false
+                                "raw": "\"./0\""
                               }
                             }
                           ],

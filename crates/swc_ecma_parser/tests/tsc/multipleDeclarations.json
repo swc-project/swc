@@ -384,8 +384,7 @@
                       "end": 269
                     },
                     "value": "frankly, complete nonsense",
-                    "raw": "'frankly, complete nonsense'",
-                    "loneSurrogates": false
+                    "raw": "'frankly, complete nonsense'"
                   }
                 }
               }
@@ -942,8 +941,7 @@
                       "end": 528
                     },
                     "value": "even more nonsense",
-                    "raw": "'even more nonsense'",
-                    "loneSurrogates": false
+                    "raw": "'even more nonsense'"
                   }
                 }
               }

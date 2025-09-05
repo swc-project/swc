@@ -107,8 +107,7 @@
               "end": 66
             },
             "value": "my name",
-            "raw": "\"my name\"",
-            "loneSurrogates": false
+            "raw": "\"my name\""
           },
           "definite": false
         }

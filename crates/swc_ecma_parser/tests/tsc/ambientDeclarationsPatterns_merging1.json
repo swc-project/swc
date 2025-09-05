@@ -21,8 +21,7 @@
           "end": 46
         },
         "value": "*.foo",
-        "raw": "\"*.foo\"",
-        "loneSurrogates": false
+        "raw": "\"*.foo\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -133,8 +132,7 @@
           "end": 145
         },
         "value": "a.foo",
-        "raw": "\"a.foo\"",
-        "loneSurrogates": false
+        "raw": "\"a.foo\""
       },
       "typeOnly": false,
       "with": null,
@@ -156,8 +154,7 @@
           "end": 169
         },
         "value": "a.foo",
-        "raw": "\"a.foo\"",
-        "loneSurrogates": false
+        "raw": "\"a.foo\""
       },
       "body": {
         "type": "TsModuleBlock",
@@ -268,8 +265,7 @@
           "end": 264
         },
         "value": "b.foo",
-        "raw": "\"b.foo\"",
-        "loneSurrogates": false
+        "raw": "\"b.foo\""
       },
       "typeOnly": false,
       "with": null,

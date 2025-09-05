@@ -37,8 +37,7 @@
           "end": 27
         },
         "value": "foo",
-        "raw": "'foo'",
-        "loneSurrogates": false
+        "raw": "'foo'"
       },
       "typeOnly": true,
       "with": null,
@@ -76,8 +75,7 @@
           "end": 51
         },
         "value": "./a",
-        "raw": "'./a'",
-        "loneSurrogates": false
+        "raw": "'./a'"
       },
       "typeOnly": false,
       "with": null,

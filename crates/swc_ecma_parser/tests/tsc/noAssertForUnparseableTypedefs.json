@@ -39,8 +39,7 @@
           "end": 143
         },
         "value": "nope",
-        "raw": "'nope'",
-        "loneSurrogates": false
+        "raw": "'nope'"
       },
       "typeOnly": false,
       "with": null,

@@ -134,7 +134,6 @@ impl VisitMut for ComputedProps {
                                     Lit::Str(Str {
                                         span: ident.span,
                                         raw: None,
-                                        lone_surrogates: false,
                                         value: ident.sym.clone(),
                                     })
                                     .into()
@@ -415,7 +414,6 @@ fn prop_name_to_expr(p: PropName, loose: bool) -> (Expr, bool) {
             } else {
                 Lit::Str(Str {
                     raw: None,
-                    lone_surrogates: false,
                     value: i.sym,
                     span: i.span,
                 })

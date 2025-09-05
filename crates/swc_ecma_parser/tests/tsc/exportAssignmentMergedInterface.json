@@ -387,8 +387,7 @@
             "end": 239
           },
           "value": "./foo_0",
-          "raw": "\"./foo_0\"",
-          "loneSurrogates": false
+          "raw": "\"./foo_0\""
         }
       }
     },
@@ -481,8 +480,7 @@
                 "end": 262
               },
               "value": "test",
-              "raw": "\"test\"",
-              "loneSurrogates": false
+              "raw": "\"test\""
             }
           }
         ],

@@ -290,8 +290,7 @@
                     "end": 148
                   },
                   "value": "show",
-                  "raw": "\"show\"",
-                  "loneSurrogates": false
+                  "raw": "\"show\""
                 },
                 "value": {
                   "type": "AssignmentPattern",
@@ -440,8 +439,7 @@
                       "end": 203
                     },
                     "value": "show",
-                    "raw": "\"show\"",
-                    "loneSurrogates": false
+                    "raw": "\"show\""
                   }
                 },
                 "value": {
@@ -1361,8 +1359,7 @@
                         "end": 642
                       },
                       "value": "foo",
-                      "raw": "\"foo\"",
-                      "loneSurrogates": false
+                      "raw": "\"foo\""
                     }
                   },
                   {
@@ -1378,8 +1375,7 @@
                         "end": 650
                       },
                       "value": "bar",
-                      "raw": "\"bar\"",
-                      "loneSurrogates": false
+                      "raw": "\"bar\""
                     }
                   }
                 ]
@@ -1441,8 +1437,7 @@
                     "end": 679
                   },
                   "value": "baz",
-                  "raw": "\"baz\"",
-                  "loneSurrogates": false
+                  "raw": "\"baz\""
                 }
               }
             ],
