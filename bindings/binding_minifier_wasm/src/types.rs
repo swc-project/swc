@@ -888,14 +888,23 @@ export interface ReactConfig {
       };
 
   /**
-   * jsx runtime
+   * Decides which runtime to use when transforming JSX.
+   * - `"automatic"` - Automatically imports the functions that JSX transpiles to.
+   * This is the modern approach introduced in React 17+ that eliminates the need to
+   * manually import React in every file that uses JSX.
+   * - `"classic"` - Uses the traditional JSX transform that relies on `React.createElement`
+   * calls. Requires React to be in scope, which was the standard behavior before React 17.
+   * - `"preserve"` - Leaves JSX syntax unchanged without transforming it.
+   * @default "classic"
    */
-  runtime?: 'automatic' | 'classic'
+  runtime?: "automatic" | "classic" | "preserve";
 
   /**
-   * Declares the module specifier to be used for importing the `jsx` and `jsxs` factory functions when using `runtime` 'automatic'
+   * Declares the module specifier to be used for importing the `jsx` and `jsxs` factory
+   * functions when using `runtime` 'automatic'
+   * @default "react"
    */
-  importSource?: string
+  importSource?: string;
 }
 /**
  *  - `import { DEBUG } from '@ember/env-flags';`
