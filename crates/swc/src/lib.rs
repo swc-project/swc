@@ -1005,9 +1005,9 @@ impl Compiler {
                 let mut program = program.clone();
 
                 if let Some((base, resolver)) = config.resolver {
-                    use swc_ecma_transforms::modules::import_rewriter_swc::swc_import_rewriter;
+                    use swc_ecma_transforms::modules::rewriter::import_rewriter;
 
-                    program.mutate(swc_import_rewriter(base, resolver));
+                    program.mutate(import_rewriter(base, resolver));
                 }
 
                 let issues = checker.transform(&mut program);
