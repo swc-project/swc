@@ -85,7 +85,7 @@ impl MacroNode for JSXAttr {
 impl MacroNode for JSXAttrValue {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match *self {
-            JSXAttrValue::Lit(ref n) => emit!(n),
+            JSXAttrValue::Str(ref n) => emit!(n),
             JSXAttrValue::JSXExprContainer(ref n) => emit!(n),
             JSXAttrValue::JSXElement(ref n) => emit!(n),
             JSXAttrValue::JSXFragment(ref n) => emit!(n),
