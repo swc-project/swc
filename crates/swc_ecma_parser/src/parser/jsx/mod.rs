@@ -252,7 +252,7 @@ impl<I: Tokens> Parser<I> {
             match cur.token {
                 Token::Str => {
                     let value = parse_str_lit(self);
-                    Ok(Some(JSXAttrValue::Lit(Lit::Str(value))))
+                    Ok(Some(JSXAttrValue::Str(value)))
                 }
                 Token::LBrace => {
                     let start = self.cur_pos();
