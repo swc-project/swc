@@ -50,7 +50,7 @@ use swc_ecma_transforms::{
     modules::{
         self,
         path::{ImportResolver, NodeImportResolver, Resolver},
-        rewriter::import_rewriter,
+        rewriter::{import_rewriter, typescript_import_rewriter},
         util, EsModuleConfig,
     },
     optimization::{const_modules, json_parse, simplifier},
@@ -299,6 +299,7 @@ impl Options {
             #[cfg(feature = "lint")]
             lints,
             preserve_all_comments,
+            rewrite_relative_import_extensions,
             ..
         } = cfg.jsc;
         let loose = loose.into_bool();
@@ -661,6 +662,7 @@ impl Options {
                 cfg.module,
                 unresolved_mark,
                 resolver.clone(),
+                rewrite_relative_import_extensions.into_bool(),
                 |f| {
                     feature_config
                         .as_ref()
@@ -1322,6 +1324,10 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub output: JscOutputConfig,
+
+    /// https://www.typescriptlang.org/tsconfig/#rewriteRelativeImportExtensions
+    #[serde(default)]
+    pub rewrite_relative_import_extensions: BoolConfig<false>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
@@ -1458,6 +1464,7 @@ impl ModuleConfig {
         config: Option<ModuleConfig>,
         unresolved_mark: Mark,
         resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
+        rewrite_relative_import_extensions: bool,
         caniuse: impl (Fn(Feature) -> bool),
     ) -> Box<dyn Pass + 'cmt> {
         let resolver = if let Some((base, resolver)) = resolver {
@@ -1469,11 +1476,15 @@ impl ModuleConfig {
         let support_block_scoping = caniuse(Feature::BlockScoping);
         let support_arrow = caniuse(Feature::ArrowFunctions);
 
-        match config {
+        let rewrite_relative_import_pass =
+            rewrite_relative_import_extensions.then(|| Box::new(typescript_import_rewriter()));
+        let transform_pass = match config {
             None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
             {
-                Resolver::Default => Box::new(noop_pass()),
-                Resolver::Real { base, resolver } => Box::new(import_rewriter(base, resolver)),
+                Resolver::Default => Box::new(noop_pass()) as Box<dyn Pass>,
+                Resolver::Real { base, resolver } => {
+                    Box::new(import_rewriter(base, resolver)) as Box<dyn Pass>
+                }
             },
             Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
                 resolver,
@@ -1508,7 +1519,9 @@ impl ModuleConfig {
                 unresolved_mark,
                 config,
             )),
-        }
+        };
+
+        Box::new((rewrite_relative_import_pass, transform_pass))
     }
 
     pub fn get_resolver(

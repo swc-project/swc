@@ -411,6 +411,7 @@ define_helpers!(Helpers {
     ts_values: (),
     ts_add_disposable_resource: (),
     ts_dispose_resources: (),
+    ts_rewrite_relative_import_extension: (),
 
     apply_decs_2203_r: (),
     identity: (),
