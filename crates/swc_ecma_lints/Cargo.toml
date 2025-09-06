@@ -34,8 +34,8 @@ swc_ecma_visit = { version = "15.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
-swc_ecma_parser           = { version = "23.0.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base  = { version = "25.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_parser           = { version = "24.0.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base  = { version = "26.0.0", path = "../swc_ecma_transforms_base" }
 swc_malloc                = { version = "1.2.3", path = "../swc_malloc" }
 testing                   = { version = "15.0.0", path = "../testing" }
 

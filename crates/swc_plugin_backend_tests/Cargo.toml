@@ -32,7 +32,7 @@ swc_css_parser = { version = "14.0.0", path = "../swc_css_parser" }
 swc_ecma_ast = { version = "15.0.0", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
-swc_ecma_parser = { version = "23.0.0", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "24.0.0", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "15.0.0", path = "../swc_ecma_visit" }
 swc_transform_common = { version = "8.0.0", path = "../swc_transform_common" }
 swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
