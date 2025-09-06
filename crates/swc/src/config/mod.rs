@@ -1476,17 +1476,15 @@ impl ModuleConfig {
         let support_block_scoping = caniuse(Feature::BlockScoping);
         let support_arrow = caniuse(Feature::ArrowFunctions);
 
-        match config {
+        let rewrite_relative_import_pass =
+            rewrite_relative_import_extensions.then(|| Box::new(typescript_import_rewriter()));
+        let transform_pass = match config {
             None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
             {
-                Resolver::Default => {
-                    if rewrite_relative_import_extensions {
-                        Box::new(typescript_import_rewriter())
-                    } else {
-                        Box::new(noop_pass())
-                    }
+                Resolver::Default => Box::new(noop_pass()) as Box<dyn Pass>,
+                Resolver::Real { base, resolver } => {
+                    Box::new(import_rewriter(base, resolver)) as Box<dyn Pass>
                 }
-                Resolver::Real { base, resolver } => Box::new(import_rewriter(base, resolver)),
             },
             Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
                 resolver,
@@ -1521,7 +1519,9 @@ impl ModuleConfig {
                 unresolved_mark,
                 config,
             )),
-        }
+        };
+
+        Box::new((rewrite_relative_import_pass, transform_pass))
     }
 
     pub fn get_resolver(
