@@ -15,7 +15,16 @@ impl VisitMut for Rewriter {
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         e.visit_mut_children_with(self);
 
-        if !e.callee.is_import() {
+        // In TypeScript, `require` is handled only in JavaScript files.
+        // I don't know how to check if the current file is a JavaScript file in swc,
+        // So I'll temporarily just simplify.
+        if !e.callee.is_import()
+            && !e
+                .callee
+                .as_expr()
+                .and_then(|e| e.as_ident())
+                .is_some_and(|i| i.sym == "require")
+        {
             return;
         }
 

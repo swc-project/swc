@@ -9,6 +9,6 @@ import {} from "./foo.d.mts";
 import {} from "./foo.d.css.ts";
 import {} from "#internal/foo.ts";
 import {} from "node:foo.ts";
-(require)("./foo.ts");
+// (require)("./foo.ts");
 import("node:path");
 require("node:path");

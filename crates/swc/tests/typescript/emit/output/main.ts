@@ -30,8 +30,8 @@ import("./foo.js", {
         attr: "value"
     }
 });
-require("./foo.ts");
+require("./foo.js");
 {
-    require("./foo.ts");
+    require("./foo.js");
     require(getPath());
 }
