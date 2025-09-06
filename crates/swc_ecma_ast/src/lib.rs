@@ -588,11 +588,14 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedPrivateName, 16);
 
     // JSX types
-    assert_size!(ArchivedJSXAttr, 112);
+    assert_size!(ArchivedJSXAttr, 92);
     assert_size!(ArchivedJSXAttrName, 44);
     assert_size!(ArchivedJSXAttrOrSpread, 120);
     assert_size!(ArchivedJSXAttrValue, 48);
     assert_size!(ArchivedJSXClosingElement, 68);
+    assert_size!(ArchivedJSXAttrOrSpread, 96);
+    assert_size!(ArchivedJSXAttrValue, 36);
+    assert_size!(ArchivedJSXClosingElement, 64);
     assert_size!(ArchivedJSXClosingFragment, 8);
     assert_size!(ArchivedJSXElement, 176);
     assert_size!(ArchivedJSXElementChild, 36);
