@@ -1,3 +1,3 @@
-import "#foo.js"; // Ok
-import "#internal/foo.js"; // Error
-import "pkg/foo.js"; // Ok
+import "#foo.ts"; // Ok
+import "#internal/foo.ts"; // Error
+import "pkg/foo.ts"; // Ok

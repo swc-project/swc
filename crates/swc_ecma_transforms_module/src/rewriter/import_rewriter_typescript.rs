@@ -58,7 +58,11 @@ impl VisitMut for Rewriter {
 fn get_output_extension(specifier: &Atom) -> Option<Atom> {
     // https://github.com/microsoft/TypeScript/blob/3eb7b6a1794a6d2cde7948a3016c57e628b104b9/src/compiler/utilities.ts#L4331
     let path = Path::new(specifier.as_str());
-    if !path.is_relative() {
+    if !(path.starts_with("./")
+        || path.starts_with("../")
+        || path.starts_with(".\\")
+        || path.starts_with("..\\"))
+    {
         return None;
     }
 
