@@ -684,7 +684,7 @@ impl TsStrip {
             | Token::NoSubstitutionTemplateLiteral
             | Token::Plus
             | Token::Minus
-            | Token::Slash => {
+            | Token::Regex => {
                 if prev_token == &Token::Semi {
                     self.add_overwrite(prev_span.lo, b';');
                     return;
