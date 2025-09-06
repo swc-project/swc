@@ -70,6 +70,7 @@
         "reflect-metadata": "^0.1.13",
         "regenerator-runtime": "^0.13.9",
         "source-map": "^0.7.3",
+        "source-map-explorer": "^2.5.3",
         "source-map-support": "^0.5.19",
         "sourcemap-validator": "^2.1.0",
         "swc-plugin-coverage-instrument": "^0.0.26",
