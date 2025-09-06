@@ -501,11 +501,11 @@ mod tests {
                     attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
                         span,
                         name: JSXAttrName::Ident(IdentName::new(atom!("id"), span)),
-                        value: Some(JSXAttrValue::Lit(Lit::Str(Str {
+                        value: Some(JSXAttrValue::Str(Str {
                             span,
                             value: atom!("w < w"),
                             raw: Some(atom!("\"w &lt; w\"")),
-                        }))),
+                        })),
                     })],
                     name: JSXElementName::Ident(Ident::new_no_ctxt(atom!("div"), span)),
                     self_closing: true,
