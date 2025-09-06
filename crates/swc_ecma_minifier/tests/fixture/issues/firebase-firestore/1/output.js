@@ -8145,7 +8145,7 @@
                     // operations. Meant to speed up recovery when we regain file system access
                     // after page comes into foreground.
                     this.Rc = ()=>{
-                        const t = Jr();
+                        let t = Jr();
                         t && $("AsyncQueue", "Visibility state changed to " + t.visibilityState), this.ar.tr();
                     };
                     const t = Jr();

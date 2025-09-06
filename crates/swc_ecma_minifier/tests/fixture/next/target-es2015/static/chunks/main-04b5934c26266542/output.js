@@ -2448,10 +2448,9 @@ You should only use "next/router" on the client side of your app.
                 constructor(pathname1, query1, as1, { initialProps, pageLoader, App, wrapApp, Component, err, subscription, isFallback, locale, locales, defaultLocale, domainLocales, isPreview }){
                     // Server Data Cache
                     this.sdc = {}, this.isFirstPopStateEvent = !0, this._key = createKey(), this.onPopState = (e)=>{
-                        let forcedScroll;
-                        const { isFirstPopStateEvent } = this;
+                        let forcedScroll, { isFirstPopStateEvent } = this;
                         this.isFirstPopStateEvent = !1;
-                        const state = e.state;
+                        let state = e.state;
                         if (!state) {
                             // We get state as undefined for two reasons.
                             //  1. With older safari (< 8) and older chrome (< 34)
@@ -2462,7 +2461,7 @@ You should only use "next/router" on the client side of your app.
                             // But we can simply replace the state with the new changes.
                             // Actually, for (1) we don't need to nothing. But it's hard to detect that event.
                             // So, doing the following for (1) does no harm.
-                            const { pathname, query } = this;
+                            let { pathname, query } = this;
                             this.changeState("replaceState", _formatUrl.formatWithValidation({
                                 pathname: _addBasePath.addBasePath(pathname),
                                 query
@@ -2472,9 +2471,9 @@ You should only use "next/router" on the client side of your app.
                         // __NA is used to identify if the history entry can be handled by the app-router.
                         if (state.__NA) return void window.location.reload();
                         if (!state.__N || isFirstPopStateEvent && this.locale === state.options.locale && state.as === this.asPath) return;
-                        const { url, as, options, key } = state;
+                        let { url, as, options, key } = state;
                         this._key = key;
-                        const { pathname: pathname1 } = _parseRelativeUrl.parseRelativeUrl(url);
+                        let { pathname: pathname1 } = _parseRelativeUrl.parseRelativeUrl(url);
                         // Make sure we don't re-render on initial load,
                         // can be caused by navigating back from an external site
                         this.isSsr && as === _addBasePath.addBasePath(this.asPath) && pathname1 === _addBasePath.addBasePath(this.pathname) || (!this._bps || this._bps(state)) && this.change("replaceState", url, as, Object.assign({}, options, {
