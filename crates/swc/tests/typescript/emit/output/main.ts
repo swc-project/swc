@@ -14,7 +14,7 @@ import("./foo.js", {
         attr: "value"
     }
 });
-import("" + "./foo.ts");
+import(_ts_rewrite_relative_import_extension("" + "./foo.ts"));
 // @Filename: js.js
 // Rewrite
 import "./foo.js";
@@ -33,5 +33,5 @@ import("./foo.js", {
 require("./foo.js");
 {
     require("./foo.js");
-    require(getPath());
+    require(_ts_rewrite_relative_import_extension(getPath()));
 }

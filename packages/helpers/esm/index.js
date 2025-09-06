@@ -96,6 +96,7 @@ export { _ as _ts_dispose_resources } from "./_ts_dispose_resources.js";
 export { _ as _ts_generator } from "./_ts_generator.js";
 export { _ as _ts_metadata } from "./_ts_metadata.js";
 export { _ as _ts_param } from "./_ts_param.js";
+export { _ as _ts_rewrite_relative_import_extension } from "./_ts_rewrite_relative_import_extension.js";
 export { _ as _ts_values } from "./_ts_values.js";
 export { _ as _type_of } from "./_type_of.js";
 export { _ as _unsupported_iterable_to_array } from "./_unsupported_iterable_to_array.js";

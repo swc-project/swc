@@ -1,7 +1,9 @@
 use std::path::Path;
 
 use swc_atoms::Atom;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::helper;
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
 /// This is the implementation of rewriteRelativeImportExtensions in TypeScript
@@ -35,7 +37,16 @@ impl VisitMut for Rewriter {
                     s.value = src;
                 }
             } else {
-                // Add helper shim
+                let importee = expr.take();
+                *expr = Box::new(Expr::Call(CallExpr {
+                    span: DUMMY_SP,
+                    callee: helper!(ts_rewrite_relative_import_extension),
+                    args: vec![ExprOrSpread {
+                        spread: None,
+                        expr: importee,
+                    }],
+                    ..Default::default()
+                }));
             }
         }
     }
