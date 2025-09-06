@@ -211,7 +211,8 @@
                     "end": 239
                   },
                   "value": "./first",
-                  "raw": "'./first'"
+                  "raw": "'./first'",
+                  "loneSurrogates": false
                 }
               }
             ],

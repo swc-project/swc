@@ -148,7 +148,8 @@
                         "end": 150
                       },
                       "value": "en-NZ",
-                      "raw": "'en-NZ'"
+                      "raw": "'en-NZ'",
+                      "loneSurrogates": false
                     }
                   }
                 ],
@@ -219,7 +220,8 @@
                 "end": 218
               },
               "value": "en-NZ",
-              "raw": "'en-NZ'"
+              "raw": "'en-NZ'",
+              "loneSurrogates": false
             }
           },
           {
@@ -286,7 +288,8 @@
                 "end": 284
               },
               "value": "en-NZ",
-              "raw": "'en-NZ'"
+              "raw": "'en-NZ'",
+              "loneSurrogates": false
             }
           },
           {
@@ -315,7 +318,8 @@
                       "end": 311
                     },
                     "value": "arab",
-                    "raw": "'arab'"
+                    "raw": "'arab'",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -448,7 +452,8 @@
                         "end": 393
                       },
                       "value": "en-NZ",
-                      "raw": "'en-NZ'"
+                      "raw": "'en-NZ'",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -477,7 +482,8 @@
                               "end": 414
                             },
                             "value": "currency",
-                            "raw": "'currency'"
+                            "raw": "'currency'",
+                            "loneSurrogates": false
                           }
                         },
                         {
@@ -497,7 +503,8 @@
                               "end": 431
                             },
                             "value": "NZD",
-                            "raw": "'NZD'"
+                            "raw": "'NZD'",
+                            "loneSurrogates": false
                           }
                         },
                         {
@@ -517,7 +524,8 @@
                               "end": 459
                             },
                             "value": "accounting",
-                            "raw": "'accounting'"
+                            "raw": "'accounting'",
+                            "loneSurrogates": false
                           }
                         }
                       ]
@@ -665,7 +673,8 @@
                         "end": 551
                       },
                       "value": "en-NZ",
-                      "raw": "'en-NZ'"
+                      "raw": "'en-NZ'",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -694,7 +703,8 @@
                               "end": 568
                             },
                             "value": "unit",
-                            "raw": "'unit'"
+                            "raw": "'unit'",
+                            "loneSurrogates": false
                           }
                         },
                         {
@@ -714,7 +724,8 @@
                               "end": 586
                             },
                             "value": "kilogram",
-                            "raw": "'kilogram'"
+                            "raw": "'kilogram'",
+                            "loneSurrogates": false
                           }
                         },
                         {
@@ -734,7 +745,8 @@
                               "end": 609
                             },
                             "value": "narrow",
-                            "raw": "'narrow'"
+                            "raw": "'narrow'",
+                            "loneSurrogates": false
                           }
                         }
                       ]
@@ -862,7 +874,8 @@
                         "end": 700
                       },
                       "value": "en-NZ",
-                      "raw": "'en-NZ'"
+                      "raw": "'en-NZ'",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -891,7 +904,8 @@
                               "end": 723
                             },
                             "value": "compact",
-                            "raw": "'compact'"
+                            "raw": "'compact'",
+                            "loneSurrogates": false
                           }
                         },
                         {
@@ -911,7 +925,8 @@
                               "end": 747
                             },
                             "value": "long",
-                            "raw": "'long'"
+                            "raw": "'long'",
+                            "loneSurrogates": false
                           }
                         }
                       ]
@@ -985,7 +1000,8 @@
                 "end": 816
               },
               "value": "en-NZ",
-              "raw": "'en-NZ'"
+              "raw": "'en-NZ'",
+              "loneSurrogates": false
             }
           },
           {
@@ -1014,7 +1030,8 @@
                       "end": 841
                     },
                     "value": "always",
-                    "raw": "'always'"
+                    "raw": "'always'",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -1115,7 +1132,8 @@
                     "end": 944
                   },
                   "value": "compact",
-                  "raw": "'compact'"
+                  "raw": "'compact'",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -1127,7 +1145,8 @@
                     "end": 952
                   },
                   "value": "unit",
-                  "raw": "'unit'"
+                  "raw": "'unit'",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -1139,7 +1158,8 @@
                     "end": 963
                   },
                   "value": "unknown",
-                  "raw": "'unknown'"
+                  "raw": "'unknown'",
+                  "loneSurrogates": false
                 }
               }
             ]

@@ -21,7 +21,8 @@
           "end": 56
         },
         "value": "foo",
-        "raw": "\"foo\""
+        "raw": "\"foo\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -198,7 +199,8 @@
                     "end": 168
                   },
                   "value": "foo",
-                  "raw": "\"foo\""
+                  "raw": "\"foo\"",
+                  "loneSurrogates": false
                 },
                 "qualifier": null,
                 "typeArguments": null,
@@ -275,7 +277,8 @@
           "end": 210
         },
         "value": "foo2",
-        "raw": "\"foo2\""
+        "raw": "\"foo2\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -771,7 +774,8 @@
                     "end": 524
                   },
                   "value": "foo2",
-                  "raw": "\"foo2\""
+                  "raw": "\"foo2\"",
+                  "loneSurrogates": false
                 },
                 "qualifier": {
                   "type": "TsQualifiedName",
@@ -828,7 +832,8 @@
                     "end": 541
                   },
                   "value": "",
-                  "raw": "\"\""
+                  "raw": "\"\"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -1148,7 +1153,8 @@
                       "end": 675
                     },
                     "value": "foo2",
-                    "raw": "\"foo2\""
+                    "raw": "\"foo2\"",
+                    "loneSurrogates": false
                   },
                   "qualifier": null,
                   "typeArguments": null,

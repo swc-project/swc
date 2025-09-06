@@ -310,7 +310,8 @@
                       "end": 250
                     },
                     "value": "Something failed",
-                    "raw": "\"Something failed\""
+                    "raw": "\"Something failed\"",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -672,7 +673,8 @@
                         "end": 524
                       },
                       "value": "up",
-                      "raw": "\"up\""
+                      "raw": "\"up\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -688,7 +690,8 @@
                         "end": 533
                       },
                       "value": "down",
-                      "raw": "\"down\""
+                      "raw": "\"down\"",
+                      "loneSurrogates": false
                     }
                   }
                 ]
@@ -742,7 +745,8 @@
                     "end": 579
                   },
                   "value": "up",
-                  "raw": "\"up\""
+                  "raw": "\"up\"",
+                  "loneSurrogates": false
                 },
                 "consequent": [
                   {
@@ -776,7 +780,8 @@
                     "end": 622
                   },
                   "value": "down",
-                  "raw": "\"down\""
+                  "raw": "\"down\"",
+                  "loneSurrogates": false
                 },
                 "consequent": [
                   {
@@ -841,7 +846,8 @@
                       "end": 694
                     },
                     "value": "Should never get here",
-                    "raw": "\"Should never get here\""
+                    "raw": "\"Should never get here\"",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -913,7 +919,8 @@
                         "end": 730
                       },
                       "value": "up",
-                      "raw": "\"up\""
+                      "raw": "\"up\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -929,7 +936,8 @@
                         "end": 739
                       },
                       "value": "down",
-                      "raw": "\"down\""
+                      "raw": "\"down\"",
+                      "loneSurrogates": false
                     }
                   }
                 ]
@@ -989,7 +997,8 @@
                     "end": 772
                   },
                   "value": "up",
-                  "raw": "\"up\""
+                  "raw": "\"up\"",
+                  "loneSurrogates": false
                 }
               },
               "consequent": {
@@ -1032,7 +1041,8 @@
                       "end": 807
                     },
                     "value": "down",
-                    "raw": "\"down\""
+                    "raw": "\"down\"",
+                    "loneSurrogates": false
                   }
                 },
                 "consequent": {
@@ -1080,7 +1090,8 @@
                           "end": 852
                         },
                         "value": "Should never get here",
-                        "raw": "\"Should never get here\""
+                        "raw": "\"Should never get here\"",
+                        "loneSurrogates": false
                       }
                     }
                   ],
@@ -1240,7 +1251,8 @@
                         "end": 935
                       },
                       "value": "Undefined value",
-                      "raw": "\"Undefined value\""
+                      "raw": "\"Undefined value\"",
+                      "loneSurrogates": false
                     }
                   }
                 ],
@@ -1742,7 +1754,8 @@
                   "end": 1216
                 },
                 "value": "boolean",
-                "raw": "\"boolean\""
+                "raw": "\"boolean\"",
+                "loneSurrogates": false
               }
             },
             "consequent": {
@@ -1924,7 +1937,8 @@
                         "end": 1337
                       },
                       "value": "boolean",
-                      "raw": "\"boolean\""
+                      "raw": "\"boolean\"",
+                      "loneSurrogates": false
                     }
                   },
                   "consequent": {
@@ -2189,7 +2203,8 @@
                       "end": 1509
                     },
                     "value": "Error callback",
-                    "raw": "\"Error callback\""
+                    "raw": "\"Error callback\"",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -2246,7 +2261,8 @@
                   "end": 1531
                 },
                 "value": "hello",
-                "raw": "\"hello\""
+                "raw": "\"hello\"",
+                "loneSurrogates": false
               },
               "async": false,
               "generator": false,

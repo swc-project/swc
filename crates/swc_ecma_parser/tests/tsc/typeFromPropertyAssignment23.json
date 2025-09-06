@@ -417,7 +417,8 @@
                       "end": 355
                     },
                     "value": "not checked, so no error",
-                    "raw": "'not checked, so no error'"
+                    "raw": "'not checked, so no error'",
+                    "loneSurrogates": false
                   }
                 }
               }
@@ -651,7 +652,8 @@
                       "end": 614
                     },
                     "value": "normal",
-                    "raw": "'normal'"
+                    "raw": "'normal'",
+                    "loneSurrogates": false
                   }
                 }
               ]

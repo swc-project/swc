@@ -54,7 +54,8 @@
               "end": 41
             },
             "value": "",
-            "raw": "\"\""
+            "raw": "\"\"",
+            "loneSurrogates": false
           },
           "definite": false
         }

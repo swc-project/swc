@@ -104,7 +104,8 @@
                 "end": 56
               },
               "value": "JSXExpressionContainer",
-              "raw": "'JSXExpressionContainer'"
+              "raw": "'JSXExpressionContainer'",
+              "loneSurrogates": false
             }
           }
         ],

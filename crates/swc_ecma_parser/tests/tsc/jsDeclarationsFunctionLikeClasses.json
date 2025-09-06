@@ -336,7 +336,8 @@
           "end": 366
         },
         "value": "./source",
-        "raw": "\"./source\""
+        "raw": "\"./source\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

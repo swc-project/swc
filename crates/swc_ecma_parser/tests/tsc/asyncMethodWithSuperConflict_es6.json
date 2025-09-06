@@ -365,7 +365,8 @@
                             "end": 409
                           },
                           "value": "x",
-                          "raw": "\"x\""
+                          "raw": "\"x\"",
+                          "loneSurrogates": false
                         }
                       }
                     },
@@ -481,7 +482,8 @@
                               "end": 537
                             },
                             "value": "x",
-                            "raw": "\"x\""
+                            "raw": "\"x\"",
+                            "loneSurrogates": false
                           }
                         }
                       },
@@ -743,7 +745,8 @@
                             "end": 852
                           },
                           "value": "x",
-                          "raw": "\"x\""
+                          "raw": "\"x\"",
+                          "loneSurrogates": false
                         }
                       }
                     },
@@ -859,7 +862,8 @@
                               "end": 980
                             },
                             "value": "x",
-                            "raw": "\"x\""
+                            "raw": "\"x\"",
+                            "loneSurrogates": false
                           }
                         }
                       },
@@ -954,7 +958,8 @@
                             "end": 1094
                           },
                           "value": "x",
-                          "raw": "\"x\""
+                          "raw": "\"x\"",
+                          "loneSurrogates": false
                         }
                       }
                     },
@@ -1119,7 +1124,8 @@
                                     "end": 1265
                                   },
                                   "value": "x",
-                                  "raw": "\"x\""
+                                  "raw": "\"x\"",
+                                  "loneSurrogates": false
                                 }
                               }
                             }

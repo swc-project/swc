@@ -278,7 +278,8 @@
                         "end": 242
                       },
                       "value": "foo",
-                      "raw": "'foo'"
+                      "raw": "'foo'",
+                      "loneSurrogates": false
                     },
                     "property": {
                       "type": "Identifier",
@@ -349,7 +350,8 @@
                         "end": 282
                       },
                       "value": "foo",
-                      "raw": "'foo'"
+                      "raw": "'foo'",
+                      "loneSurrogates": false
                     },
                     "property": {
                       "type": "Identifier",
@@ -602,7 +604,8 @@
                         "end": 414
                       },
                       "value": "foo",
-                      "raw": "'foo'"
+                      "raw": "'foo'",
+                      "loneSurrogates": false
                     },
                     "property": {
                       "type": "Identifier",

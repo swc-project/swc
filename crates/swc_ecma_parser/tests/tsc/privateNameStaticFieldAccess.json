@@ -48,7 +48,8 @@
               "end": 66
             },
             "value": "hello world",
-            "raw": "\"hello world\""
+            "raw": "\"hello world\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": true,

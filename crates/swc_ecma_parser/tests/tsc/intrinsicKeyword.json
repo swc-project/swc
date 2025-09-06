@@ -750,7 +750,8 @@
                     "end": 459
                   },
                   "value": "ok",
-                  "raw": "'ok'"
+                  "raw": "'ok'",
+                  "loneSurrogates": false
                 },
                 "definite": false
               }

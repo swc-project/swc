@@ -142,7 +142,8 @@
           "end": 184
         },
         "value": "./task",
-        "raw": "\"./task\""
+        "raw": "\"./task\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

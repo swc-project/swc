@@ -194,7 +194,8 @@
                                     "end": 125
                                   },
                                   "value": "should log this then throw",
-                                  "raw": "\"should log this then throw\""
+                                  "raw": "\"should log this then throw\"",
+                                  "loneSurrogates": false
                                 }
                               }
                             ],

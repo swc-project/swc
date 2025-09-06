@@ -83,7 +83,8 @@
           "end": 203
         },
         "value": "./cls",
-        "raw": "\"./cls\""
+        "raw": "\"./cls\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -194,7 +195,8 @@
           "end": 273
         },
         "value": "./cls",
-        "raw": "\"./cls\""
+        "raw": "\"./cls\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null

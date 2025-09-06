@@ -130,7 +130,8 @@
           "end": 258
         },
         "value": "fs",
-        "raw": "\"fs\""
+        "raw": "\"fs\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -275,7 +276,8 @@
           "end": 359
         },
         "value": "path",
-        "raw": "\"path\""
+        "raw": "\"path\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -316,7 +318,8 @@
                   "end": 390
                 },
                 "value": "fs",
-                "raw": "\"fs\""
+                "raw": "\"fs\"",
+                "loneSurrogates": false
               }
             }
           },
@@ -439,7 +442,8 @@
           "end": 533
         },
         "value": "./a",
-        "raw": "\"./a\""
+        "raw": "\"./a\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -476,7 +480,8 @@
                 "end": 547
               },
               "value": "./a",
-              "raw": "\"./a\""
+              "raw": "\"./a\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -539,7 +544,8 @@
                     "end": 573
                   },
                   "value": "./a",
-                  "raw": "\"./a\""
+                  "raw": "\"./a\"",
+                  "loneSurrogates": false
                 }
               }
             ],
@@ -596,7 +602,8 @@
           "end": 632
         },
         "value": "./a",
-        "raw": "\"./a\""
+        "raw": "\"./a\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -634,7 +641,8 @@
             "end": 658
           },
           "value": "./a",
-          "raw": "\"./a\""
+          "raw": "\"./a\"",
+          "loneSurrogates": false
         }
       }
     },
@@ -705,7 +713,8 @@
                 "end": 754
               },
               "value": "a",
-              "raw": "\"a\""
+              "raw": "\"a\"",
+              "loneSurrogates": false
             },
             "definite": false
           }

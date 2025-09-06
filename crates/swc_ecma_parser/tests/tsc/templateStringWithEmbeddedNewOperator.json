@@ -68,7 +68,8 @@
                         "end": 31
                       },
                       "value": "Hi",
-                      "raw": "\"Hi\""
+                      "raw": "\"Hi\"",
+                      "loneSurrogates": false
                     }
                   }
                 ],
@@ -84,7 +85,8 @@
                 },
                 "tail": false,
                 "cooked": "abc",
-                "raw": "abc"
+                "raw": "abc",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -94,7 +96,8 @@
                 },
                 "tail": true,
                 "cooked": "def",
-                "raw": "def"
+                "raw": "def",
+                "loneSurrogates": false
               }
             ]
           },

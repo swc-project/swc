@@ -67,7 +67,8 @@
                       "end": 165
                     },
                     "value": "my-symbol",
-                    "raw": "\"my-symbol\""
+                    "raw": "\"my-symbol\"",
+                    "loneSurrogates": false
                   }
                 }
               ],

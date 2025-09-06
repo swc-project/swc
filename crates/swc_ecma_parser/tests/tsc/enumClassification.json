@@ -139,7 +139,8 @@
               "end": 452
             },
             "value": "hello",
-            "raw": "\"hello\""
+            "raw": "\"hello\"",
+            "loneSurrogates": false
           }
         }
       ]
@@ -354,7 +355,8 @@
               "end": 553
             },
             "value": "one",
-            "raw": "\"one\""
+            "raw": "\"one\"",
+            "loneSurrogates": false
           }
         },
         {
@@ -381,7 +383,8 @@
               "end": 568
             },
             "value": "two",
-            "raw": "\"two\""
+            "raw": "\"two\"",
+            "loneSurrogates": false
           }
         },
         {
@@ -408,7 +411,8 @@
               "end": 585
             },
             "value": "three",
-            "raw": "\"three\""
+            "raw": "\"three\"",
+            "loneSurrogates": false
           }
         }
       ]
@@ -495,7 +499,8 @@
               "end": 626
             },
             "value": "hi",
-            "raw": "\"hi\""
+            "raw": "\"hi\"",
+            "loneSurrogates": false
           }
         },
         {
@@ -568,7 +573,8 @@
               "end": 660
             },
             "value": "bye",
-            "raw": "\"bye\""
+            "raw": "\"bye\"",
+            "loneSurrogates": false
           }
         }
       ]
@@ -644,7 +650,8 @@
               "end": 702
             },
             "value": "hello",
-            "raw": "\"hello\""
+            "raw": "\"hello\"",
+            "loneSurrogates": false
           }
         },
         {
@@ -1056,7 +1063,8 @@
                 "end": 1009
               },
               "value": "foo",
-              "raw": "\"foo\""
+              "raw": "\"foo\"",
+              "loneSurrogates": false
             },
             "property": {
               "type": "Identifier",
@@ -1145,7 +1153,8 @@
                 "end": 1047
               },
               "value": "123",
-              "raw": "\"123\""
+              "raw": "\"123\"",
+              "loneSurrogates": false
             }
           }
         },

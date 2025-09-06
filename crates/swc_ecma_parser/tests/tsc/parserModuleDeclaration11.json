@@ -182,7 +182,8 @@
                 "end": 99
               },
               "value": "abc",
-              "raw": "\"abc\""
+              "raw": "\"abc\"",
+              "loneSurrogates": false
             }
           }
         ],

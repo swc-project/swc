@@ -38,7 +38,8 @@
           "end": 104
         },
         "value": "arglebaz",
-        "raw": "'arglebaz'"
+        "raw": "'arglebaz'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

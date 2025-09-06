@@ -63,7 +63,8 @@
                       "end": 164
                     },
                     "value": "#6400e4",
-                    "raw": "\"#6400e4\""
+                    "raw": "\"#6400e4\"",
+                    "loneSurrogates": false
                   }
                 }
               ]

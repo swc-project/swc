@@ -56,7 +56,8 @@
                     },
                     "tail": true,
                     "cooked": "    ",
-                    "raw": "\\u{20}\\u{020}\\u{0020}\\u{000020}"
+                    "raw": "\\u{20}\\u{020}\\u{0020}\\u{000020}",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -70,7 +71,8 @@
                 },
                 "tail": false,
                 "cooked": "Hello",
-                "raw": "\\u{48}\\u{65}\\u{6c}\\u{6c}\\u{6f}"
+                "raw": "\\u{48}\\u{65}\\u{6c}\\u{6c}\\u{6f}",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -80,7 +82,8 @@
                 },
                 "tail": true,
                 "cooked": "world",
-                "raw": "\\u{77}\\u{6f}\\u{72}\\u{6c}\\u{64}"
+                "raw": "\\u{77}\\u{6f}\\u{72}\\u{6c}\\u{64}",
+                "loneSurrogates": false
               }
             ]
           },

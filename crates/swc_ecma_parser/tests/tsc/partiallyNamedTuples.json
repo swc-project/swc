@@ -2427,7 +2427,8 @@
                     "end": 1261
                   },
                   "value": "a",
-                  "raw": "\"a\""
+                  "raw": "\"a\"",
+                  "loneSurrogates": false
                 }
               },
               "falseType": {
@@ -2443,7 +2444,8 @@
                     "end": 1267
                   },
                   "value": "b",
-                  "raw": "\"b\""
+                  "raw": "\"b\"",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -2546,7 +2548,8 @@
                               "end": 1301
                             },
                             "value": "c",
-                            "raw": "\"c\""
+                            "raw": "\"c\"",
+                            "loneSurrogates": false
                           }
                         }
                       }

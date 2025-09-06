@@ -623,7 +623,8 @@
                 "end": 229
               },
               "value": "a",
-              "raw": "'a'"
+              "raw": "'a'",
+              "loneSurrogates": false
             }
           },
           {

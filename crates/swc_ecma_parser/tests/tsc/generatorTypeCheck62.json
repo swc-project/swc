@@ -1110,7 +1110,8 @@
                       "end": 709
                     },
                     "value": "Nothing",
-                    "raw": "\"Nothing\""
+                    "raw": "\"Nothing\"",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -1327,7 +1328,8 @@
                       "end": 819
                     },
                     "value": "Nothing",
-                    "raw": "\"Nothing\""
+                    "raw": "\"Nothing\"",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -1552,7 +1554,8 @@
                       "end": 928
                     },
                     "value": "Nothing",
-                    "raw": "\"Nothing\""
+                    "raw": "\"Nothing\"",
+                    "loneSurrogates": false
                   }
                 },
                 {

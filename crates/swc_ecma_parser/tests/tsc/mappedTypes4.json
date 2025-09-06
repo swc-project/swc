@@ -361,7 +361,8 @@
                   "end": 200
                 },
                 "value": "object",
-                "raw": "\"object\""
+                "raw": "\"object\"",
+                "loneSurrogates": false
               }
             },
             "consequent": {
@@ -1794,7 +1795,8 @@
                       "end": 815
                     },
                     "value": "hello",
-                    "raw": "\"hello\""
+                    "raw": "\"hello\"",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -1810,7 +1812,8 @@
                       "end": 825
                     },
                     "value": "world",
-                    "raw": "\"world\""
+                    "raw": "\"world\"",
+                    "loneSurrogates": false
                   }
                 },
                 {

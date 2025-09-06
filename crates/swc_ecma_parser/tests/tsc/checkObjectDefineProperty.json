@@ -108,7 +108,8 @@
                 "end": 139
               },
               "value": "name",
-              "raw": "\"name\""
+              "raw": "\"name\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -137,7 +138,8 @@
                       "end": 159
                     },
                     "value": "Charles",
-                    "raw": "\"Charles\""
+                    "raw": "\"Charles\"",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -229,7 +231,8 @@
                 "end": 217
               },
               "value": "middleInit",
-              "raw": "\"middleInit\""
+              "raw": "\"middleInit\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -258,7 +261,8 @@
                       "end": 231
                     },
                     "value": "H",
-                    "raw": "\"H\""
+                    "raw": "\"H\"",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -331,7 +335,8 @@
                 "end": 271
               },
               "value": "lastName",
-              "raw": "\"lastName\""
+              "raw": "\"lastName\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -360,7 +365,8 @@
                       "end": 289
                     },
                     "value": "Smith",
-                    "raw": "\"Smith\""
+                    "raw": "\"Smith\"",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -452,7 +458,8 @@
                 "end": 341
               },
               "value": "zip",
-              "raw": "\"zip\""
+              "raw": "\"zip\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -634,7 +641,8 @@
                 "end": 433
               },
               "value": "houseNumber",
-              "raw": "\"houseNumber\""
+              "raw": "\"houseNumber\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -764,7 +772,8 @@
                 "end": 497
               },
               "value": "zipStr",
-              "raw": "\"zipStr\""
+              "raw": "\"zipStr\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -1640,7 +1649,8 @@
             "end": 1374
           },
           "value": "./",
-          "raw": "\"./\""
+          "raw": "\"./\"",
+          "loneSurrogates": false
         }
       }
     },
@@ -1888,7 +1898,8 @@
             "end": 1462
           },
           "value": "Another",
-          "raw": "\"Another\""
+          "raw": "\"Another\"",
+          "loneSurrogates": false
         }
       }
     },
@@ -1988,7 +1999,8 @@
             "end": 1494
           },
           "value": "OK",
-          "raw": "\"OK\""
+          "raw": "\"OK\"",
+          "loneSurrogates": false
         }
       }
     },
@@ -2038,7 +2050,8 @@
             "end": 1523
           },
           "value": "should fail",
-          "raw": "\"should fail\""
+          "raw": "\"should fail\"",
+          "loneSurrogates": false
         }
       }
     },
@@ -2188,7 +2201,8 @@
             "end": 1613
           },
           "value": "R",
-          "raw": "\"R\""
+          "raw": "\"R\"",
+          "loneSurrogates": false
         }
       }
     }

@@ -50,7 +50,8 @@
                     "end": 13
                   },
                   "value": "foo",
-                  "raw": "\"foo\""
+                  "raw": "\"foo\"",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -112,7 +113,8 @@
                         "end": 27
                       },
                       "value": "foo",
-                      "raw": "\"foo\""
+                      "raw": "\"foo\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -128,7 +130,8 @@
                         "end": 35
                       },
                       "value": "bar",
-                      "raw": "\"bar\""
+                      "raw": "\"bar\"",
+                      "loneSurrogates": false
                     }
                   }
                 ]
@@ -283,7 +286,8 @@
               "end": 75
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",
@@ -349,7 +353,8 @@
               "end": 95
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -393,7 +398,8 @@
               "end": 106
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "StringLiteral",
@@ -402,7 +408,8 @@
               "end": 115
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -503,7 +510,8 @@
               "end": 139
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",
@@ -569,7 +577,8 @@
               "end": 159
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -613,7 +622,8 @@
               "end": 170
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "StringLiteral",
@@ -622,7 +632,8 @@
               "end": 179
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }

@@ -276,7 +276,8 @@
             "end": 155
           },
           "value": "number",
-          "raw": "'number'"
+          "raw": "'number'",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -437,7 +438,8 @@
             "end": 242
           },
           "value": "object",
-          "raw": "'object'"
+          "raw": "'object'",
+          "loneSurrogates": false
         }
       },
       "consequent": {

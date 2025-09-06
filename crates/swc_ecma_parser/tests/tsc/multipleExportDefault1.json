@@ -76,7 +76,8 @@
                 "end": 85
               },
               "value": "another default",
-              "raw": "\"another default\""
+              "raw": "\"another default\"",
+              "loneSurrogates": false
             }
           }
         ]

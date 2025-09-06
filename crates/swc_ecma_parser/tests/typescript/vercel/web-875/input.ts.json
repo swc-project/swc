@@ -210,7 +210,8 @@
                                       "end": 148
                                     },
                                     "value": "edge",
-                                    "raw": "'edge'"
+                                    "raw": "'edge'",
+                                    "loneSurrogates": false
                                   }
                                 },
                                 "right": {
@@ -336,7 +337,8 @@
                                                         "end": 262
                                                       },
                                                       "value": "./optimize-amp",
-                                                      "raw": "'./optimize-amp'"
+                                                      "raw": "'./optimize-amp'",
+                                                      "loneSurrogates": false
                                                     }
                                                   }
                                                 ],
@@ -370,7 +372,8 @@
                                                     "end": 326
                                                   },
                                                   "value": "./optimize-amp",
-                                                  "raw": "'./optimize-amp'"
+                                                  "raw": "'./optimize-amp'",
+                                                  "loneSurrogates": false
                                                 },
                                                 "qualifier": {
                                                   "type": "Identifier",
@@ -768,7 +771,8 @@
                                       "end": 684
                                     },
                                     "value": "edge",
-                                    "raw": "'edge'"
+                                    "raw": "'edge'",
+                                    "loneSurrogates": false
                                   }
                                 },
                                 "right": {
@@ -1022,7 +1026,8 @@
                                       "end": 917
                                     },
                                     "value": "edge",
-                                    "raw": "'edge'"
+                                    "raw": "'edge'",
+                                    "loneSurrogates": false
                                   }
                                 },
                                 "right": {
@@ -1252,7 +1257,8 @@
                                                 "end": 1142
                                               },
                                               "value": "&amp=1",
-                                              "raw": "'&amp=1'"
+                                              "raw": "'&amp=1'",
+                                              "loneSurrogates": false
                                             }
                                           }
                                         ],

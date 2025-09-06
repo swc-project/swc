@@ -57,7 +57,8 @@
                     "end": 40
                   },
                   "value": "yes",
-                  "raw": "'yes'"
+                  "raw": "'yes'",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -77,7 +78,8 @@
                     "end": 49
                   },
                   "value": "no",
-                  "raw": "'no'"
+                  "raw": "'no'",
+                  "loneSurrogates": false
                 }
               }
             ]

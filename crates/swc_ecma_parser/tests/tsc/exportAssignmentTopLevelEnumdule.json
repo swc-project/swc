@@ -212,7 +212,8 @@
             "end": 179
           },
           "value": "./foo_0",
-          "raw": "\"./foo_0\""
+          "raw": "\"./foo_0\"",
+          "loneSurrogates": false
         }
       }
     },

@@ -571,7 +571,7 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedTaggedTpl, 28);
     assert_size!(ArchivedThisExpr, 8);
     assert_size!(ArchivedTpl, 24);
-    assert_size!(ArchivedTplElement, 32);
+    assert_size!(ArchivedTplElement, 36);
     assert_size!(ArchivedUnaryExpr, 16);
     assert_size!(ArchivedUpdateExpr, 16);
     assert_size!(ArchivedYieldExpr, 20);
@@ -619,7 +619,7 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedNull, 8);
     assert_size!(ArchivedNumber, 32);
     assert_size!(ArchivedRegex, 24);
-    assert_size!(ArchivedStr, 28);
+    assert_size!(ArchivedStr, 32);
 
     // Module declaration types
     assert_size!(ArchivedDefaultDecl, 40);
@@ -638,6 +638,17 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedImportStarAsSpecifier, 36);
     assert_size!(ArchivedModuleDecl, 52);
     assert_size!(ArchivedModuleExportName, 32);
+    assert_size!(ArchivedExportDefaultSpecifier, 24);
+    assert_size!(ArchivedExportNamedSpecifier, 88);
+    assert_size!(ArchivedExportNamespaceSpecifier, 44);
+    assert_size!(ArchivedExportSpecifier, 92);
+    assert_size!(ArchivedImportDecl, 36);
+    assert_size!(ArchivedImportDefaultSpecifier, 32);
+    assert_size!(ArchivedImportNamedSpecifier, 76);
+    assert_size!(ArchivedImportSpecifier, 80);
+    assert_size!(ArchivedImportStarAsSpecifier, 32);
+    assert_size!(ArchivedModuleDecl, 48);
+    assert_size!(ArchivedModuleExportName, 36);
     assert_size!(ArchivedNamedExport, 36);
 
     // Operator types
@@ -705,9 +716,13 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedTsEnumDecl, 48);
     assert_size!(ArchivedTsEnumMember, 48);
     assert_size!(ArchivedTsEnumMemberId, 32);
+    assert_size!(ArchivedTsEntityName, 28);
+    assert_size!(ArchivedTsEnumDecl, 44);
+    assert_size!(ArchivedTsEnumMember, 52);
+    assert_size!(ArchivedTsEnumMemberId, 36);
     assert_size!(ArchivedTsExportAssignment, 12);
     assert_size!(ArchivedTsExprWithTypeArgs, 20);
-    assert_size!(ArchivedTsExternalModuleRef, 36);
+    assert_size!(ArchivedTsExternalModuleRef, 40);
     assert_size!(ArchivedTsFnOrConstructorType, 36);
     assert_size!(ArchivedTsFnParam, 40);
     assert_size!(ArchivedTsFnType, 28);
@@ -734,6 +749,11 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedTsNamespaceBody, 48);
     assert_size!(ArchivedTsNamespaceDecl, 44);
     assert_size!(ArchivedTsNamespaceExportDecl, 36);
+    assert_size!(ArchivedTsModuleName, 36);
+    assert_size!(ArchivedTsModuleRef, 44);
+    assert_size!(ArchivedTsNamespaceBody, 44);
+    assert_size!(ArchivedTsNamespaceDecl, 40);
+    assert_size!(ArchivedTsNamespaceExportDecl, 32);
     assert_size!(ArchivedTsNonNullExpr, 12);
     assert_size!(ArchivedTsOptionalType, 12);
     assert_size!(ArchivedTsParamProp, 60);
@@ -764,6 +784,10 @@ mod rkyv_layout_assert {
     assert_size!(ArchivedTsTypeQuery, 116);
     assert_size!(ArchivedTsTypeQueryExpr, 100);
     assert_size!(ArchivedTsTypeRef, 48);
+    assert_size!(ArchivedTsTypePredicate, 48);
+    assert_size!(ArchivedTsTypeQuery, 116);
+    assert_size!(ArchivedTsTypeQueryExpr, 100);
+    assert_size!(ArchivedTsTypeRef, 44);
     assert_size!(ArchivedTsUnionOrIntersectionType, 20);
     assert_size!(ArchivedTsUnionType, 16);
 }

@@ -65,7 +65,8 @@
                   },
                   "tail": false,
                   "cooked": "abc",
-                  "raw": "abc"
+                  "raw": "abc",
+                  "loneSurrogates": false
                 },
                 {
                   "type": "TemplateElement",
@@ -75,7 +76,8 @@
                   },
                   "tail": true,
                   "cooked": "abc",
-                  "raw": "abc"
+                  "raw": "abc",
+                  "loneSurrogates": false
                 }
               ]
             }

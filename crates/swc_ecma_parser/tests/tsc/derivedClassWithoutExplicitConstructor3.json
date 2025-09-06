@@ -221,7 +221,8 @@
               "end": 174
             },
             "value": "",
-            "raw": "''"
+            "raw": "''",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -510,7 +511,8 @@
               "end": 321
             },
             "value": "hello",
-            "raw": "'hello'"
+            "raw": "'hello'",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -715,7 +717,8 @@
                     "end": 416
                   },
                   "value": "",
-                  "raw": "''"
+                  "raw": "''",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -727,7 +730,8 @@
                     "end": 420
                   },
                   "value": "",
-                  "raw": "''"
+                  "raw": "''",
+                  "loneSurrogates": false
                 }
               }
             ],

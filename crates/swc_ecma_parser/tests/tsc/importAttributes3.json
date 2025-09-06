@@ -55,7 +55,8 @@
           "end": 157
         },
         "value": "./0",
-        "raw": "'./0'"
+        "raw": "'./0'",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": {
@@ -82,7 +83,8 @@
                 "end": 177
               },
               "value": "json",
-              "raw": "\"json\""
+              "raw": "\"json\"",
+              "loneSurrogates": false
             }
           }
         ]
@@ -123,7 +125,8 @@
           "end": 208
         },
         "value": "./0",
-        "raw": "'./0'"
+        "raw": "'./0'",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": {
@@ -150,7 +153,8 @@
                 "end": 228
               },
               "value": "json",
-              "raw": "\"json\""
+              "raw": "\"json\"",
+              "loneSurrogates": false
             }
           }
         ]
@@ -191,7 +195,8 @@
           "end": 279
         },
         "value": "./0",
-        "raw": "'./0'"
+        "raw": "'./0'",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": {
@@ -218,7 +223,8 @@
                 "end": 300
               },
               "value": "json",
-              "raw": "\"json\""
+              "raw": "\"json\"",
+              "loneSurrogates": false
             }
           }
         ]
@@ -258,7 +264,8 @@
           "end": 334
         },
         "value": "./0",
-        "raw": "'./0'"
+        "raw": "'./0'",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": {
@@ -285,7 +292,8 @@
                 "end": 354
               },
               "value": "json",
-              "raw": "\"json\""
+              "raw": "\"json\"",
+              "loneSurrogates": false
             }
           }
         ]

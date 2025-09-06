@@ -21,7 +21,8 @@
           "end": 94
         },
         "value": "equ",
-        "raw": "'equ'"
+        "raw": "'equ'",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -100,7 +101,8 @@
           "end": 148
         },
         "value": "equ2",
-        "raw": "'equ2'"
+        "raw": "'equ2'",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -191,7 +193,8 @@
             "end": 362
           },
           "value": "equ",
-          "raw": "'equ'"
+          "raw": "'equ'",
+          "loneSurrogates": false
         }
       }
     },
@@ -227,7 +230,8 @@
             "end": 517
           },
           "value": "equ2",
-          "raw": "'equ2'"
+          "raw": "'equ2'",
+          "loneSurrogates": false
         }
       }
     },

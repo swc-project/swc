@@ -686,7 +686,8 @@
                     "end": 523
                   },
                   "value": "./mod",
-                  "raw": "'./mod'"
+                  "raw": "'./mod'",
+                  "loneSurrogates": false
                 }
               }
             ],
@@ -881,7 +882,8 @@
                 "end": 576
               },
               "value": "nope",
-              "raw": "'nope'"
+              "raw": "'nope'",
+              "loneSurrogates": false
             }
           }
         ],
@@ -937,7 +939,8 @@
                 "end": 594
               },
               "value": "not really",
-              "raw": "'not really'"
+              "raw": "'not really'",
+              "loneSurrogates": false
             }
           }
         ],

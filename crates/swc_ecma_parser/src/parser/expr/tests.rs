@@ -386,6 +386,7 @@ fn issue_328() {
                         span,
                         value: atom!("test"),
                         raw: Some(atom!("'test'")),
+                        lone_surrogates: false,
                     }))),
                 }],
                 ..Default::default()
@@ -415,6 +416,7 @@ hehe.";"#,
             span,
             value: atom!("okokhehe."),
             raw: Some(atom!("\"ok\\\nok\\\nhehe.\"")),
+            lone_surrogates: false,
         })))
     );
 }

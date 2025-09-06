@@ -18,7 +18,8 @@
           "end": 69
         },
         "value": "use strict",
-        "raw": "\"use strict\""
+        "raw": "\"use strict\"",
+        "loneSurrogates": false
       }
     },
     {

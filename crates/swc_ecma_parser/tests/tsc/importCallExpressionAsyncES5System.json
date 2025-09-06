@@ -99,7 +99,8 @@
                               "end": 137
                             },
                             "value": "./test",
-                            "raw": "'./test'"
+                            "raw": "'./test'",
+                            "loneSurrogates": false
                           }
                         }
                       ],
@@ -234,7 +235,8 @@
                                     "end": 232
                                   },
                                   "value": "./test",
-                                  "raw": "'./test'"
+                                  "raw": "'./test'",
+                                  "loneSurrogates": false
                                 }
                               }
                             ],
@@ -393,7 +395,8 @@
                                           "end": 333
                                         },
                                         "value": "./test",
-                                        "raw": "'./test'"
+                                        "raw": "'./test'",
+                                        "loneSurrogates": false
                                       }
                                     }
                                   ],
@@ -552,7 +555,8 @@
                                           "end": 459
                                         },
                                         "value": "./test",
-                                        "raw": "'./test'"
+                                        "raw": "'./test'",
+                                        "loneSurrogates": false
                                       }
                                     }
                                   ],
@@ -701,7 +705,8 @@
                                     "end": 556
                                   },
                                   "value": "./test",
-                                  "raw": "'./test'"
+                                  "raw": "'./test'",
+                                  "loneSurrogates": false
                                 }
                               }
                             ],

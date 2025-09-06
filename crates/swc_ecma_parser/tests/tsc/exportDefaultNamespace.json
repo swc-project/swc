@@ -52,7 +52,8 @@
                   "end": 80
                 },
                 "value": "hello!",
-                "raw": "'hello!'"
+                "raw": "'hello!'",
+                "loneSurrogates": false
               }
             }
           ]
@@ -109,7 +110,8 @@
             "end": 109
           },
           "value": "yo",
-          "raw": "'yo'"
+          "raw": "'yo'",
+          "loneSurrogates": false
         }
       }
     }

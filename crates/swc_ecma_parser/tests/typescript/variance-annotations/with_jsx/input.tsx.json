@@ -6631,7 +6631,8 @@
                                   "end": 3210
                                 },
                                 "value": "PLAY",
-                                "raw": "\"PLAY\""
+                                "raw": "\"PLAY\"",
+                                "loneSurrogates": false
                               }
                             }
                           }
@@ -6784,7 +6785,8 @@
                               "end": 3259
                             },
                             "value": "PLAY",
-                            "raw": "\"PLAY\""
+                            "raw": "\"PLAY\"",
+                            "loneSurrogates": false
                           }
                         }
                       }
@@ -6873,7 +6875,8 @@
                               "end": 3294
                             },
                             "value": "RESET",
-                            "raw": "\"RESET\""
+                            "raw": "\"RESET\"",
+                            "loneSurrogates": false
                           }
                         }
                       }

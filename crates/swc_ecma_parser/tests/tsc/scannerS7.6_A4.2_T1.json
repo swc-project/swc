@@ -122,7 +122,8 @@
                       "end": 333
                     },
                     "value": "#А",
-                    "raw": "'#А'"
+                    "raw": "'#А'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -250,7 +251,8 @@
                       "end": 384
                     },
                     "value": "#Б",
-                    "raw": "'#Б'"
+                    "raw": "'#Б'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -378,7 +380,8 @@
                       "end": 435
                     },
                     "value": "#В",
-                    "raw": "'#В'"
+                    "raw": "'#В'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -506,7 +509,8 @@
                       "end": 486
                     },
                     "value": "#Г",
-                    "raw": "'#Г'"
+                    "raw": "'#Г'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -634,7 +638,8 @@
                       "end": 537
                     },
                     "value": "#Д",
-                    "raw": "'#Д'"
+                    "raw": "'#Д'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -762,7 +767,8 @@
                       "end": 588
                     },
                     "value": "#Е",
-                    "raw": "'#Е'"
+                    "raw": "'#Е'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -890,7 +896,8 @@
                       "end": 639
                     },
                     "value": "#Ж",
-                    "raw": "'#Ж'"
+                    "raw": "'#Ж'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -1018,7 +1025,8 @@
                       "end": 690
                     },
                     "value": "#З",
-                    "raw": "'#З'"
+                    "raw": "'#З'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -1146,7 +1154,8 @@
                       "end": 741
                     },
                     "value": "#И",
-                    "raw": "'#И'"
+                    "raw": "'#И'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -1274,7 +1283,8 @@
                       "end": 792
                     },
                     "value": "#Й",
-                    "raw": "'#Й'"
+                    "raw": "'#Й'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -1402,7 +1412,8 @@
                       "end": 843
                     },
                     "value": "#К",
-                    "raw": "'#К'"
+                    "raw": "'#К'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -1530,7 +1541,8 @@
                       "end": 894
                     },
                     "value": "#Л",
-                    "raw": "'#Л'"
+                    "raw": "'#Л'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -1658,7 +1670,8 @@
                       "end": 945
                     },
                     "value": "#М",
-                    "raw": "'#М'"
+                    "raw": "'#М'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -1786,7 +1799,8 @@
                       "end": 996
                     },
                     "value": "#Н",
-                    "raw": "'#Н'"
+                    "raw": "'#Н'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -1914,7 +1928,8 @@
                       "end": 1047
                     },
                     "value": "#О",
-                    "raw": "'#О'"
+                    "raw": "'#О'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -2042,7 +2057,8 @@
                       "end": 1098
                     },
                     "value": "#П",
-                    "raw": "'#П'"
+                    "raw": "'#П'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -2170,7 +2186,8 @@
                       "end": 1149
                     },
                     "value": "#Р",
-                    "raw": "'#Р'"
+                    "raw": "'#Р'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -2298,7 +2315,8 @@
                       "end": 1200
                     },
                     "value": "#С",
-                    "raw": "'#С'"
+                    "raw": "'#С'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -2426,7 +2444,8 @@
                       "end": 1251
                     },
                     "value": "#Т",
-                    "raw": "'#Т'"
+                    "raw": "'#Т'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -2554,7 +2573,8 @@
                       "end": 1302
                     },
                     "value": "#У",
-                    "raw": "'#У'"
+                    "raw": "'#У'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -2682,7 +2702,8 @@
                       "end": 1353
                     },
                     "value": "#Ф",
-                    "raw": "'#Ф'"
+                    "raw": "'#Ф'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -2810,7 +2831,8 @@
                       "end": 1404
                     },
                     "value": "#Х",
-                    "raw": "'#Х'"
+                    "raw": "'#Х'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -2938,7 +2960,8 @@
                       "end": 1455
                     },
                     "value": "#Ц",
-                    "raw": "'#Ц'"
+                    "raw": "'#Ц'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -3066,7 +3089,8 @@
                       "end": 1506
                     },
                     "value": "#Ч",
-                    "raw": "'#Ч'"
+                    "raw": "'#Ч'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -3194,7 +3218,8 @@
                       "end": 1557
                     },
                     "value": "#Ш",
-                    "raw": "'#Ш'"
+                    "raw": "'#Ш'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -3322,7 +3347,8 @@
                       "end": 1608
                     },
                     "value": "#Щ",
-                    "raw": "'#Щ'"
+                    "raw": "'#Щ'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -3450,7 +3476,8 @@
                       "end": 1659
                     },
                     "value": "#Ъ",
-                    "raw": "'#Ъ'"
+                    "raw": "'#Ъ'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -3578,7 +3605,8 @@
                       "end": 1710
                     },
                     "value": "#Ы",
-                    "raw": "'#Ы'"
+                    "raw": "'#Ы'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -3706,7 +3734,8 @@
                       "end": 1761
                     },
                     "value": "#Ь",
-                    "raw": "'#Ь'"
+                    "raw": "'#Ь'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -3834,7 +3863,8 @@
                       "end": 1812
                     },
                     "value": "#Э",
-                    "raw": "'#Э'"
+                    "raw": "'#Э'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -3962,7 +3992,8 @@
                       "end": 1863
                     },
                     "value": "#Ю",
-                    "raw": "'#Ю'"
+                    "raw": "'#Ю'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -4090,7 +4121,8 @@
                       "end": 1914
                     },
                     "value": "#Я",
-                    "raw": "'#Я'"
+                    "raw": "'#Я'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -4218,7 +4250,8 @@
                       "end": 1965
                     },
                     "value": "#Ё",
-                    "raw": "'#Ё'"
+                    "raw": "'#Ё'",
+                    "loneSurrogates": false
                   }
                 }
               ],

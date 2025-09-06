@@ -67,7 +67,8 @@
                       "end": 26
                     },
                     "value": "tty",
-                    "raw": "\"tty\""
+                    "raw": "\"tty\"",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -92,7 +93,8 @@
                     "end": 50
                   },
                   "value": "tty",
-                  "raw": "\"tty\""
+                  "raw": "\"tty\"",
+                  "loneSurrogates": false
                 },
                 "qualifier": null,
                 "typeArguments": null,

@@ -71,7 +71,8 @@
           "end": 219
         },
         "value": "./service",
-        "raw": "\"./service\""
+        "raw": "\"./service\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

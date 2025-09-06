@@ -148,7 +148,8 @@
                 "end": 84
               },
               "value": "Hello",
-              "raw": "'Hello'"
+              "raw": "'Hello'",
+              "loneSurrogates": false
             }
           }
         ],
@@ -204,7 +205,8 @@
                 "end": 104
               },
               "value": "World",
-              "raw": "'World'"
+              "raw": "'World'",
+              "loneSurrogates": false
             }
           }
         ],

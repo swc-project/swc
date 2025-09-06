@@ -854,7 +854,8 @@
             "end": 637
           },
           "value": "Object",
-          "raw": "\"Object\""
+          "raw": "\"Object\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -1012,7 +1013,8 @@
             "end": 742
           },
           "value": "Object",
-          "raw": "\"Object\""
+          "raw": "\"Object\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -1170,7 +1172,8 @@
             "end": 849
           },
           "value": "Object",
-          "raw": "\"Object\""
+          "raw": "\"Object\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -1334,7 +1337,8 @@
               "end": 958
             },
             "value": "Object",
-            "raw": "\"Object\""
+            "raw": "\"Object\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": {
             "type": "TsKeywordType",
@@ -1501,7 +1505,8 @@
             "end": 1162
           },
           "value": "Object",
-          "raw": "\"Object\""
+          "raw": "\"Object\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -1703,7 +1708,8 @@
             "end": 1546
           },
           "value": "Object",
-          "raw": "\"Object\""
+          "raw": "\"Object\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -1861,7 +1867,8 @@
             "end": 1651
           },
           "value": "Object",
-          "raw": "\"Object\""
+          "raw": "\"Object\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -2019,7 +2026,8 @@
             "end": 1757
           },
           "value": "Object",
-          "raw": "\"Object\""
+          "raw": "\"Object\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -2177,7 +2185,8 @@
             "end": 1875
           },
           "value": "Object",
-          "raw": "\"Object\""
+          "raw": "\"Object\"",
+          "loneSurrogates": false
         }
       },
       "consequent": {

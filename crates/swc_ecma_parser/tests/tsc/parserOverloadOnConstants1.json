@@ -156,7 +156,8 @@
                         "end": 106
                       },
                       "value": "canvas",
-                      "raw": "'canvas'"
+                      "raw": "'canvas'",
+                      "loneSurrogates": false
                     }
                   }
                 }
@@ -239,7 +240,8 @@
                         "end": 160
                       },
                       "value": "div",
-                      "raw": "'div'"
+                      "raw": "'div'",
+                      "loneSurrogates": false
                     }
                   }
                 }
@@ -322,7 +324,8 @@
                         "end": 212
                       },
                       "value": "span",
-                      "raw": "'span'"
+                      "raw": "'span'",
+                      "loneSurrogates": false
                     }
                   }
                 }

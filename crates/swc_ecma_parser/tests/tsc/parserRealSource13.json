@@ -10543,7 +10543,8 @@
                               "end": 6526
                             },
                             "value": "Callback",
-                            "raw": "\"Callback\""
+                            "raw": "\"Callback\"",
+                            "loneSurrogates": false
                           }
                         },
                         "definite": false

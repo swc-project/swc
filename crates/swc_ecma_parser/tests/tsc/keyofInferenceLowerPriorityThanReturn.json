@@ -2156,7 +2156,8 @@
                                   "end": 1049
                                 },
                                 "value": "serial",
-                                "raw": "\"serial\""
+                                "raw": "\"serial\"",
+                                "loneSurrogates": false
                               }
                             }
                           ]

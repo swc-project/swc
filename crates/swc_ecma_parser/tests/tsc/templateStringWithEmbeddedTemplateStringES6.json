@@ -54,7 +54,8 @@
                       "end": 45
                     },
                     "value": " | ",
-                    "raw": "\" | \""
+                    "raw": "\" | \"",
+                    "loneSurrogates": false
                   }
                 ],
                 "quasis": [
@@ -66,7 +67,8 @@
                     },
                     "tail": false,
                     "cooked": "456 ",
-                    "raw": "456 "
+                    "raw": "456 ",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -76,7 +78,8 @@
                     },
                     "tail": true,
                     "cooked": " 654",
-                    "raw": " 654"
+                    "raw": " 654",
+                    "loneSurrogates": false
                   }
                 ]
               },
@@ -94,7 +97,8 @@
                       "end": 77
                     },
                     "value": " | ",
-                    "raw": "\" | \""
+                    "raw": "\" | \"",
+                    "loneSurrogates": false
                   }
                 ],
                 "quasis": [
@@ -106,7 +110,8 @@
                     },
                     "tail": false,
                     "cooked": "456 ",
-                    "raw": "456 "
+                    "raw": "456 ",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -116,7 +121,8 @@
                     },
                     "tail": true,
                     "cooked": " 654",
-                    "raw": " 654"
+                    "raw": " 654",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -130,7 +136,8 @@
                 },
                 "tail": false,
                 "cooked": "123",
-                "raw": "123"
+                "raw": "123",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -140,7 +147,8 @@
                 },
                 "tail": false,
                 "cooked": "321 123",
-                "raw": "321 123"
+                "raw": "321 123",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -150,7 +158,8 @@
                 },
                 "tail": true,
                 "cooked": "321",
-                "raw": "321"
+                "raw": "321",
+                "loneSurrogates": false
               }
             ]
           },

@@ -76,7 +76,8 @@
                     "end": 44
                   },
                   "value": "postfix",
-                  "raw": "\"postfix\""
+                  "raw": "\"postfix\"",
+                  "loneSurrogates": false
                 }
               }
             ],

@@ -21,7 +21,8 @@
           "end": 56
         },
         "value": "foo",
-        "raw": "\"foo\""
+        "raw": "\"foo\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -198,7 +199,8 @@
                     "end": 167
                   },
                   "value": "fo",
-                  "raw": "\"fo\""
+                  "raw": "\"fo\"",
+                  "loneSurrogates": false
                 },
                 "qualifier": null,
                 "typeArguments": null,

@@ -527,7 +527,8 @@
                                     },
                                     "tail": false,
                                     "cooked": "I'm loop ",
-                                    "raw": "I'm loop "
+                                    "raw": "I'm loop ",
+                                    "loneSurrogates": false
                                   },
                                   {
                                     "type": "TemplateElement",
@@ -537,7 +538,8 @@
                                     },
                                     "tail": true,
                                     "cooked": "",
-                                    "raw": ""
+                                    "raw": "",
+                                    "loneSurrogates": false
                                   }
                                 ]
                               }
@@ -782,7 +784,8 @@
                                                       },
                                                       "tail": false,
                                                       "cooked": "I'm loop ",
-                                                      "raw": "I'm loop "
+                                                      "raw": "I'm loop ",
+                                                      "loneSurrogates": false
                                                     },
                                                     {
                                                       "type": "TemplateElement",
@@ -792,7 +795,8 @@
                                                       },
                                                       "tail": false,
                                                       "cooked": " and I know I'm loop ",
-                                                      "raw": " and I know I'm loop "
+                                                      "raw": " and I know I'm loop ",
+                                                      "loneSurrogates": false
                                                     },
                                                     {
                                                       "type": "TemplateElement",
@@ -802,7 +806,8 @@
                                                       },
                                                       "tail": true,
                                                       "cooked": "",
-                                                      "raw": ""
+                                                      "raw": "",
+                                                      "loneSurrogates": false
                                                     }
                                                   ]
                                                 }
@@ -887,7 +892,8 @@
                                                       },
                                                       "tail": false,
                                                       "cooked": "I'm loop ",
-                                                      "raw": "I'm loop "
+                                                      "raw": "I'm loop ",
+                                                      "loneSurrogates": false
                                                     },
                                                     {
                                                       "type": "TemplateElement",
@@ -897,7 +903,8 @@
                                                       },
                                                       "tail": false,
                                                       "cooked": ", but I think I'm loop ",
-                                                      "raw": ", but I think I'm loop "
+                                                      "raw": ", but I think I'm loop ",
+                                                      "loneSurrogates": false
                                                     },
                                                     {
                                                       "type": "TemplateElement",
@@ -907,7 +914,8 @@
                                                       },
                                                       "tail": true,
                                                       "cooked": "",
-                                                      "raw": ""
+                                                      "raw": "",
+                                                      "loneSurrogates": false
                                                     }
                                                   ]
                                                 }

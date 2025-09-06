@@ -104,7 +104,8 @@
                               "end": 176
                             },
                             "value": "./something",
-                            "raw": "\"./something\""
+                            "raw": "\"./something\"",
+                            "loneSurrogates": false
                           }
                         }
                       ],

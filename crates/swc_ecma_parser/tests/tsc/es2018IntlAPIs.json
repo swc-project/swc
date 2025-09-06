@@ -49,7 +49,8 @@
                     "end": 178
                   },
                   "value": "ban",
-                  "raw": "'ban'"
+                  "raw": "'ban'",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -61,7 +62,8 @@
                     "end": 196
                   },
                   "value": "id-u-co-pinyin",
-                  "raw": "'id-u-co-pinyin'"
+                  "raw": "'id-u-co-pinyin'",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -73,7 +75,8 @@
                     "end": 205
                   },
                   "value": "de-ID",
-                  "raw": "'de-ID'"
+                  "raw": "'de-ID'",
+                  "loneSurrogates": false
                 }
               }
             ]
@@ -140,7 +143,8 @@
                       "end": 249
                     },
                     "value": "lookup",
-                    "raw": "'lookup'"
+                    "raw": "'lookup'",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -304,7 +308,8 @@
                       "end": 337
                     },
                     "value": ", ",
-                    "raw": "', '"
+                    "raw": "', '",
+                    "loneSurrogates": false
                   }
                 }
               ],
