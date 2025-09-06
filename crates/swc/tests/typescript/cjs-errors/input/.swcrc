@@ -1,0 +1,14 @@
+{
+    "module": {
+        "type": "nodenext"
+    },
+    "jsc": {
+        "rewriteRelativeImportExtensions": true,
+        "parser": {
+            "syntax": "typescript"
+        },
+        "transform": {
+            "verbatimModuleSyntax": true
+        }
+    }
+}

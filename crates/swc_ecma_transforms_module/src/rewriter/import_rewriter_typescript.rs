@@ -4,7 +4,7 @@ use swc_atoms::Atom;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{visit_mut_pass, VisitMut, VisitMutWith};
 
-/// Import rewriter, which rewrites imports as es modules.
+/// This is the implementation of rewriteRelativeImportExtensions in TypeScript
 pub fn typescript_import_rewriter() -> impl Pass {
     visit_mut_pass(Rewriter)
 }

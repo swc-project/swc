@@ -1,0 +1,14 @@
+{
+    "name": "pkg",
+    "type": "module",
+    "imports": {
+        "#foo.ts": "./foo.ts",
+        "#internal/*": "./internal/*"
+    },
+    "exports": {
+        "./*.ts": {
+            "source": "./*.ts",
+            "default": "./*.js"
+        }
+    }
+}

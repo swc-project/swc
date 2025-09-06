@@ -1,0 +1,15 @@
+{
+    "module": {
+        "type": "nodenext"
+    },
+    "jsc": {
+        "target": "esnext",
+        "rewriteRelativeImportExtensions": true,
+        "parser": {
+            "syntax": "typescript"
+        },
+        "transform": {
+            "verbatimModuleSyntax": true
+        }
+    }
+}
