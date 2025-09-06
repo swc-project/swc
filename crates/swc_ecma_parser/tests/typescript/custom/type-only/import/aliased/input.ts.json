@@ -50,7 +50,8 @@
           "end": 38
         },
         "value": "foo",
-        "raw": "'foo'"
+        "raw": "'foo'",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null,

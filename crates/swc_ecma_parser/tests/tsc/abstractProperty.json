@@ -228,7 +228,8 @@
               "end": 214
             },
             "value": "B.x",
-            "raw": "'B.x'"
+            "raw": "'B.x'",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -322,7 +323,8 @@
                       "end": 275
                     },
                     "value": "C.x",
-                    "raw": "'C.x'"
+                    "raw": "'C.x'",
+                    "loneSurrogates": false
                   }
                 }
               ]

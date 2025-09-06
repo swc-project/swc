@@ -3609,7 +3609,8 @@
                             "end": 1357
                           },
                           "value": "circle",
-                          "raw": "\"circle\""
+                          "raw": "\"circle\"",
+                          "loneSurrogates": false
                         }
                       }
                     ]
@@ -4476,7 +4477,8 @@
                           "end": 1728
                         },
                         "value": "name",
-                        "raw": "\"name\""
+                        "raw": "\"name\"",
+                        "loneSurrogates": false
                       }
                     },
                     {
@@ -4488,7 +4490,8 @@
                           "end": 1740
                         },
                         "value": "location",
-                        "raw": "\"location\""
+                        "raw": "\"location\"",
+                        "loneSurrogates": false
                       }
                     }
                   ],
@@ -4586,7 +4589,8 @@
                           "end": 1830
                         },
                         "value": "hello",
-                        "raw": "\"hello\""
+                        "raw": "\"hello\"",
+                        "loneSurrogates": false
                       }
                     },
                     {
@@ -4606,7 +4610,8 @@
                           "end": 1844
                         },
                         "value": "world",
-                        "raw": "\"world\""
+                        "raw": "\"world\"",
+                        "loneSurrogates": false
                       }
                     },
                     {
@@ -4626,7 +4631,8 @@
                           "end": 1856
                         },
                         "value": "bye",
-                        "raw": "\"bye\""
+                        "raw": "\"bye\"",
+                        "loneSurrogates": false
                       }
                     }
                   ]

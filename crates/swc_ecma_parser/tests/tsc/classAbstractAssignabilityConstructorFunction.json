@@ -177,7 +177,8 @@
             "end": 117
           },
           "value": "asdf",
-          "raw": "\"asdf\""
+          "raw": "\"asdf\"",
+          "loneSurrogates": false
         }
       }
     }

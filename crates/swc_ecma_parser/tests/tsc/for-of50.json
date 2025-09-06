@@ -79,7 +79,8 @@
                                 "end": 38
                               },
                               "value": "",
-                              "raw": "\"\""
+                              "raw": "\"\"",
+                              "loneSurrogates": false
                             }
                           },
                           {

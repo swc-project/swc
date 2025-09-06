@@ -602,7 +602,8 @@
                 "end": 213
               },
               "value": "abc",
-              "raw": "\"abc\""
+              "raw": "\"abc\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -754,7 +755,8 @@
                 "end": 254
               },
               "value": "abc",
-              "raw": "\"abc\""
+              "raw": "\"abc\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -834,7 +836,8 @@
                 "end": 277
               },
               "value": "abc",
-              "raw": "\"abc\""
+              "raw": "\"abc\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -1016,7 +1019,8 @@
                 "end": 326
               },
               "value": "abc",
-              "raw": "\"abc\""
+              "raw": "\"abc\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -1103,7 +1107,8 @@
                 "end": 351
               },
               "value": "abc",
-              "raw": "\"abc\""
+              "raw": "\"abc\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -1299,7 +1304,8 @@
                 "end": 404
               },
               "value": "abc",
-              "raw": "\"abc\""
+              "raw": "\"abc\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -1402,7 +1408,8 @@
                 "end": 429
               },
               "value": "abc",
-              "raw": "\"abc\""
+              "raw": "\"abc\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -1630,7 +1637,8 @@
                 "end": 482
               },
               "value": "abc",
-              "raw": "\"abc\""
+              "raw": "\"abc\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -1778,7 +1786,8 @@
                       "end": 523
                     },
                     "value": "abc",
-                    "raw": "\"abc\""
+                    "raw": "\"abc\"",
+                    "loneSurrogates": false
                   }
                 }
               ]

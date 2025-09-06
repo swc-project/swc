@@ -21,7 +21,8 @@
           "end": 19
         },
         "value": "m",
-        "raw": "\"m\""
+        "raw": "\"m\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -63,7 +64,8 @@
                 "end": 48
               },
               "value": "a",
-              "raw": "\"a\""
+              "raw": "\"a\"",
+              "loneSurrogates": false
             },
             "typeOnly": false,
             "with": null,

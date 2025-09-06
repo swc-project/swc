@@ -40,7 +40,8 @@
               "end": 26
             },
             "value": "left-pad",
-            "raw": "'left-pad'"
+            "raw": "'left-pad'",
+            "loneSurrogates": false
           },
           "definite": false
         }

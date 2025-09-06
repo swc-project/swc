@@ -190,6 +190,15 @@ pub struct Str {
     /// Use `None` value only for transformations to avoid recalculate escaped
     /// characters in strings
     pub raw: Option<Atom>,
+
+    /// The string value contains lone surrogates.
+    ///
+    /// `value` is encoded with `\u{FFFD}` to mark the lone surrogate as an
+    /// escaped value.
+    ///
+    /// For example, a "\uD808" is a lone surrogate, and it's encoded as
+    /// `\u{FFFD}D808`.
+    pub lone_surrogates: bool,
 }
 
 impl Take for Str {
@@ -198,6 +207,7 @@ impl Take for Str {
             span: DUMMY_SP,
             value: atom!(""),
             raw: None,
+            lone_surrogates: false,
         }
     }
 }
@@ -209,8 +219,14 @@ impl<'a> arbitrary::Arbitrary<'a> for Str {
         let span = u.arbitrary()?;
         let value = u.arbitrary::<String>()?.into();
         let raw = Some(u.arbitrary::<String>()?.into());
+        let lone_surrogates = u.arbitrary()?;
 
-        Ok(Self { span, value, raw })
+        Ok(Self {
+            span,
+            value,
+            raw,
+            lone_surrogates,
+        })
     }
 }
 
@@ -282,6 +298,7 @@ impl From<Atom> for Str {
             span: DUMMY_SP,
             value,
             raw: None,
+            lone_surrogates: false,
         }
     }
 }

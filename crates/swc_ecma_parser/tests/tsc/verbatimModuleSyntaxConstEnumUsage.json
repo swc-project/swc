@@ -134,7 +134,8 @@
           "end": 168
         },
         "value": "./foo.js",
-        "raw": "'./foo.js'"
+        "raw": "'./foo.js'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

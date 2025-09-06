@@ -508,7 +508,8 @@
             "end": 223
           },
           "value": "string",
-          "raw": "\"string\""
+          "raw": "\"string\"",
+          "loneSurrogates": false
         },
         "right": {
           "type": "UnaryExpression",
@@ -647,7 +648,8 @@
             "end": 312
           },
           "value": "function",
-          "raw": "\"function\""
+          "raw": "\"function\"",
+          "loneSurrogates": false
         },
         "right": {
           "type": "UnaryExpression",
@@ -786,7 +788,8 @@
             "end": 403
           },
           "value": "number",
-          "raw": "\"number\""
+          "raw": "\"number\"",
+          "loneSurrogates": false
         },
         "right": {
           "type": "UnaryExpression",
@@ -925,7 +928,8 @@
             "end": 495
           },
           "value": "boolean",
-          "raw": "\"boolean\""
+          "raw": "\"boolean\"",
+          "loneSurrogates": false
         },
         "right": {
           "type": "UnaryExpression",

@@ -490,7 +490,8 @@
                 "end": 269
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             },
             "alternate": {
               "type": "NullLiteral",
@@ -560,7 +561,8 @@
                 "end": 303
               },
               "value": "",
-              "raw": "''"
+              "raw": "''",
+              "loneSurrogates": false
             }
           },
           "definite": false

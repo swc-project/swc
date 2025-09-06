@@ -109,7 +109,8 @@
               "end": 66
             },
             "value": "my name",
-            "raw": "\"my name\""
+            "raw": "\"my name\"",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -997,7 +998,8 @@
                     "end": 431
                   },
                   "value": "Hello",
-                  "raw": "\"Hello\""
+                  "raw": "\"Hello\"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -1126,7 +1128,8 @@
                     "end": 480
                   },
                   "value": "Hello",
-                  "raw": "\"Hello\""
+                  "raw": "\"Hello\"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -1291,7 +1294,8 @@
                     "end": 540
                   },
                   "value": "Hello",
-                  "raw": "\"Hello\""
+                  "raw": "\"Hello\"",
+                  "loneSurrogates": false
                 }
               },
               {

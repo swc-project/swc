@@ -61,7 +61,8 @@
                     "end": 102
                   },
                   "value": "./bug24024",
-                  "raw": "'./bug24024'"
+                  "raw": "'./bug24024'",
+                  "loneSurrogates": false
                 }
               }
             ],

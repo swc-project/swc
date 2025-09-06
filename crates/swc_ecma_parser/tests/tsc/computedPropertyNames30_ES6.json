@@ -203,7 +203,8 @@
                                               "end": 364
                                             },
                                             "value": "prop",
-                                            "raw": "\"prop\""
+                                            "raw": "\"prop\"",
+                                            "loneSurrogates": false
                                           }
                                         ]
                                       }

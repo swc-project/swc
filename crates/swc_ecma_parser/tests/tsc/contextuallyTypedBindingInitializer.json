@@ -313,7 +313,8 @@
                     "end": 147
                   },
                   "value": "show",
-                  "raw": "\"show\""
+                  "raw": "\"show\"",
+                  "loneSurrogates": false
                 },
                 "value": {
                   "type": "AssignmentPattern",
@@ -492,7 +493,8 @@
                       "end": 213
                     },
                     "value": "show",
-                    "raw": "\"show\""
+                    "raw": "\"show\"",
+                    "loneSurrogates": false
                   }
                 },
                 "value": {
@@ -1048,7 +1050,8 @@
                           "end": 441
                         },
                         "value": "hello",
-                        "raw": "\"hello\""
+                        "raw": "\"hello\"",
+                        "loneSurrogates": false
                       }
                     },
                     {
@@ -1190,7 +1193,8 @@
                         "end": 503
                       },
                       "value": "foo",
-                      "raw": "\"foo\""
+                      "raw": "\"foo\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -1206,7 +1210,8 @@
                         "end": 511
                       },
                       "value": "bar",
-                      "raw": "\"bar\""
+                      "raw": "\"bar\"",
+                      "loneSurrogates": false
                     }
                   }
                 ]
@@ -1270,7 +1275,8 @@
                     "end": 540
                   },
                   "value": "foo",
-                  "raw": "\"foo\""
+                  "raw": "\"foo\"",
+                  "loneSurrogates": false
                 }
               }
             ],

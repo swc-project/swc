@@ -71,7 +71,8 @@
                     "end": 90
                   },
                   "value": "value",
-                  "raw": "\"value\""
+                  "raw": "\"value\"",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -138,7 +139,8 @@
                       "end": 157
                     },
                     "value": "value",
-                    "raw": "\"value\""
+                    "raw": "\"value\"",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -339,7 +341,8 @@
                                           "end": 267
                                         },
                                         "value": "value",
-                                        "raw": "\"value\""
+                                        "raw": "\"value\"",
+                                        "loneSurrogates": false
                                       }
                                     }
                                   ]
@@ -485,7 +488,8 @@
                         "end": 351
                       },
                       "value": "value",
-                      "raw": "\"value\""
+                      "raw": "\"value\"",
+                      "loneSurrogates": false
                     }
                   }
                 ]
@@ -693,7 +697,8 @@
                                             "end": 467
                                           },
                                           "value": "value",
-                                          "raw": "\"value\""
+                                          "raw": "\"value\"",
+                                          "loneSurrogates": false
                                         }
                                       }
                                     ]
@@ -1949,7 +1954,8 @@
                 "end": 1128
               },
               "value": "windows-process-tree",
-              "raw": "\"windows-process-tree\""
+              "raw": "\"windows-process-tree\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -2224,7 +2230,8 @@
                                                                       "end": 1323
                                                                     },
                                                                     "value": "windows-process-tree",
-                                                                    "raw": "\"windows-process-tree\""
+                                                                    "raw": "\"windows-process-tree\"",
+                                                                    "loneSurrogates": false
                                                                   }
                                                                 }
                                                               ],

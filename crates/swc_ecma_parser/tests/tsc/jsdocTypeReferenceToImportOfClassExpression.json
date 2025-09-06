@@ -239,7 +239,8 @@
                     "end": 304
                   },
                   "value": "./MW",
-                  "raw": "\"./MW\""
+                  "raw": "\"./MW\"",
+                  "loneSurrogates": false
                 }
               }
             ],

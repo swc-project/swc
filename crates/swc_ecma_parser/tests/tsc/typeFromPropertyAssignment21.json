@@ -119,7 +119,8 @@
                       "end": 272
                     },
                     "value": "nope, not going to happen",
-                    "raw": "'nope, not going to happen'"
+                    "raw": "'nope, not going to happen'",
+                    "loneSurrogates": false
                   }
                 }
               }

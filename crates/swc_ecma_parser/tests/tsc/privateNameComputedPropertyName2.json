@@ -289,7 +289,8 @@
                       "end": 122
                     },
                     "value": "_",
-                    "raw": "\"_\""
+                    "raw": "\"_\"",
+                    "loneSurrogates": false
                   }
                 ]
               }

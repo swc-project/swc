@@ -70,7 +70,8 @@
                 "end": 58
               },
               "value": "build",
-              "raw": "\"build\""
+              "raw": "\"build\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -152,7 +153,8 @@
                 "end": 111
               },
               "value": "lol",
-              "raw": "\"lol\""
+              "raw": "\"lol\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -233,7 +235,8 @@
                   "end": 182
                 },
                 "value": "!",
-                "raw": "\"!\""
+                "raw": "\"!\"",
+                "loneSurrogates": false
               }
             }
           ],
@@ -337,7 +340,8 @@
                 "end": 214
               },
               "value": "-",
-              "raw": "\"-\""
+              "raw": "\"-\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -433,7 +437,8 @@
                 "end": 263
               },
               "value": "foo",
-              "raw": "\"foo\""
+              "raw": "\"foo\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -1304,7 +1309,8 @@
                 "end": 552
               },
               "value": "oops",
-              "raw": "'oops'"
+              "raw": "'oops'",
+              "loneSurrogates": false
             }
           },
           {
@@ -1316,7 +1322,8 @@
                 "end": 560
               },
               "value": "oh no",
-              "raw": "'oh no'"
+              "raw": "'oh no'",
+              "loneSurrogates": false
             }
           }
         ],

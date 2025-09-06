@@ -1202,7 +1202,8 @@
               "end": 543
             },
             "value": "this is a string",
-            "raw": "'this is a string'"
+            "raw": "'this is a string'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -1711,7 +1712,8 @@
                     "end": 756
                   },
                   "value": "a string",
-                  "raw": "'a string'"
+                  "raw": "'a string'",
+                  "loneSurrogates": false
                 }
               }
             ]
@@ -2073,7 +2075,8 @@
                 "end": 933
               },
               "value": "a string",
-              "raw": "'a string'"
+              "raw": "'a string'",
+              "loneSurrogates": false
             },
             "async": false,
             "generator": false,

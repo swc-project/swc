@@ -218,7 +218,8 @@
               "end": 186
             },
             "value": "method",
-            "raw": "\"method\""
+            "raw": "\"method\"",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -379,7 +380,8 @@
                         "end": 278
                       },
                       "value": "method",
-                      "raw": "\"method\""
+                      "raw": "\"method\"",
+                      "loneSurrogates": false
                     }
                   }
                 },
@@ -524,7 +526,8 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -587,7 +590,8 @@
                         "end": 375
                       },
                       "value": "method",
-                      "raw": "\"method\""
+                      "raw": "\"method\"",
+                      "loneSurrogates": false
                     }
                   }
                 },
@@ -608,7 +612,8 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -694,7 +699,8 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     }
                   ]
                 }

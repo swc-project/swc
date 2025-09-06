@@ -135,7 +135,8 @@
             "end": 160
           },
           "value": "cat",
-          "raw": "\"cat\""
+          "raw": "\"cat\"",
+          "loneSurrogates": false
         }
       }
     },

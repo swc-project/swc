@@ -578,13 +578,13 @@ where
     ctx.preserve_effects(span, Lit::Bool(Bool { value, span }).into(), orig)
 }
 
-fn nth_char(s: &str, mut idx: usize) -> Option<Cow<str>> {
-    if s.chars().any(|c| c.len_utf16() > 1) {
-        return None;
-    }
-
-    if !s.contains("\\ud") && !s.contains("\\uD") {
-        return Some(Cow::Owned(s.chars().nth(idx).unwrap().to_string()));
+fn nth_char(s: &str, lone_surrogates: bool, mut idx: usize) -> (Cow<str>, bool) {
+    if !lone_surrogates
+        && !s.chars().any(|c| c.len_utf16() > 1)
+        && !s.contains("\\ud")
+        && !s.contains("\\uD")
+    {
+        return (Cow::Owned(s.chars().nth(idx).unwrap().to_string()), false);
     }
 
     let mut iter = s.chars().peekable();
@@ -595,16 +595,38 @@ fn nth_char(s: &str, mut idx: usize) -> Option<Cow<str>> {
                 let mut buf = String::new();
                 buf.push('\\');
                 buf.extend(iter.take(5));
-                return Some(Cow::Owned(buf));
+                return (Cow::Owned(buf), false);
             } else {
                 for _ in 0..5 {
                     iter.next();
                 }
             }
+        } else if lone_surrogates && c == '\u{FFFD}' {
+            // Handles the case where the original string contains a lone surrogate
+            let hex1 = iter.next().unwrap();
+            let hex2 = iter.next().unwrap();
+            let hex3 = iter.next().unwrap();
+            let hex4 = iter.next().unwrap();
+
+            // Encode to lone surrogate
+            if idx == 0 {
+                let mut buf = String::with_capacity(5);
+                buf.extend(['\u{FFFD}', hex1, hex2, hex3, hex4]);
+                return (Cow::Owned(buf), true);
+            }
+        } else if let Some((high, low)) = swc_ecma_utils::unicode::code_point_to_pair(c as u32) {
+            // Handles the case where the original string contains a surrogate pair
+            // Then, it's returned as a lone surrogate
+            if idx == 0 {
+                return (Cow::Owned(format!("\u{FFFD}{high:04x}")), true);
+            }
+            if idx == 1 {
+                return (Cow::Owned(format!("\u{FFFD}{low:04x}")), true);
+            }
         }
 
         if idx == 0 {
-            return Some(Cow::Owned(c.to_string()));
+            return (Cow::Owned(c.to_string()), false);
         }
 
         idx -= 1;
@@ -696,7 +718,7 @@ pub fn optimize_member_expr(
         _ => return,
     };
 
-    #[derive(Clone, PartialEq)]
+    #[derive(Clone, PartialEq, Debug)]
     enum KnownOp {
         /// [a, b].length
         Len,
@@ -759,7 +781,12 @@ pub fn optimize_member_expr(
     // "foo".
 
     match &mut **obj {
-        Expr::Lit(Lit::Str(Str { value, span, .. })) => match op {
+        Expr::Lit(Lit::Str(Str {
+            value,
+            span,
+            lone_surrogates,
+            ..
+        })) => match op {
             // 'foo'.length
             //
             // Prototype changes do not affect .length, so we don't need to worry
@@ -783,14 +810,12 @@ pub fn optimize_member_expr(
                     return;
                 }
 
-                let Some(value) = nth_char(value, idx as _) else {
-                    return;
-                };
-
+                let (value, ls) = nth_char(value, *lone_surrogates, idx as _);
                 *changed = true;
 
                 *expr = Lit::Str(Str {
                     raw: None,
+                    lone_surrogates: ls,
                     value: value.into(),
                     span: *span,
                 })
@@ -1014,10 +1039,13 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
 
                     l.push_str(&r);
 
+                    let ls = left.is_str_lone_surrogates() || right.is_str_lone_surrogates();
+
                     *changed = true;
 
                     *expr = Lit::Str(Str {
                         raw: None,
+                        lone_surrogates: ls,
                         value: l.into(),
                         span: *span,
                     })
@@ -1045,6 +1073,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
 
                                 *expr = Lit::Str(Str {
                                     raw: None,
+                                    lone_surrogates: false,
                                     value: value.into(),
                                     span: *span,
                                 })
@@ -1434,6 +1463,7 @@ fn try_fold_typeof(_expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool) {
     *expr = Lit::Str(Str {
         span: *span,
         raw: None,
+        lone_surrogates: false,
         value: val.into(),
     })
     .into();

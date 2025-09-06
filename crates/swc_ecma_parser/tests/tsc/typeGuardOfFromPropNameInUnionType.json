@@ -422,7 +422,8 @@
                   "end": 137
                 },
                 "value": "a",
-                "raw": "\"a\""
+                "raw": "\"a\"",
+                "loneSurrogates": false
               },
               "right": {
                 "type": "Identifier",
@@ -490,7 +491,8 @@
                         "end": 163
                       },
                       "value": "1",
-                      "raw": "\"1\""
+                      "raw": "\"1\"",
+                      "loneSurrogates": false
                     }
                   }
                 }
@@ -725,7 +727,8 @@
                   "end": 260
                 },
                 "value": "a",
-                "raw": "\"a\""
+                "raw": "\"a\"",
+                "loneSurrogates": false
               },
               "right": {
                 "type": "Identifier",
@@ -1142,7 +1145,8 @@
                   "end": 440
                 },
                 "value": "a",
-                "raw": "\"a\""
+                "raw": "\"a\"",
+                "loneSurrogates": false
               },
               "right": {
                 "type": "Identifier",
@@ -1587,7 +1591,8 @@
                   "end": 716
                 },
                 "value": "a",
-                "raw": "\"a\""
+                "raw": "\"a\"",
+                "loneSurrogates": false
               },
               "right": {
                 "type": "Identifier",
@@ -1655,7 +1660,8 @@
                         "end": 742
                       },
                       "value": "1",
-                      "raw": "\"1\""
+                      "raw": "\"1\"",
+                      "loneSurrogates": false
                     }
                   }
                 }
@@ -1937,7 +1943,8 @@
                   "end": 917
                 },
                 "value": "a",
-                "raw": "\"a\""
+                "raw": "\"a\"",
+                "loneSurrogates": false
               },
               "right": {
                 "type": "ParenthesisExpression",
@@ -2332,7 +2339,8 @@
                   "end": 1107
                 },
                 "value": "a",
-                "raw": "\"a\""
+                "raw": "\"a\"",
+                "loneSurrogates": false
               },
               "right": {
                 "type": "MemberExpression",
@@ -2737,7 +2745,8 @@
                   "end": 1332
                 },
                 "value": "a",
-                "raw": "\"a\""
+                "raw": "\"a\"",
+                "loneSurrogates": false
               },
               "right": {
                 "type": "MemberExpression",
@@ -3163,7 +3172,8 @@
                         "end": 1535
                       },
                       "value": "a",
-                      "raw": "\"a\""
+                      "raw": "\"a\"",
+                      "loneSurrogates": false
                     },
                     "right": {
                       "type": "MemberExpression",
@@ -3507,7 +3517,8 @@
                         "end": 1760
                       },
                       "value": "a",
-                      "raw": "\"a\""
+                      "raw": "\"a\"",
+                      "loneSurrogates": false
                     },
                     "right": {
                       "type": "ThisExpression",
@@ -3803,7 +3814,8 @@
                   "end": 1925
                 },
                 "value": "a",
-                "raw": "\"a\""
+                "raw": "\"a\"",
+                "loneSurrogates": false
               },
               "right": {
                 "type": "Identifier",
@@ -3880,7 +3892,8 @@
                     "end": 1976
                   },
                   "value": "b",
-                  "raw": "\"b\""
+                  "raw": "\"b\"",
+                  "loneSurrogates": false
                 },
                 "right": {
                   "type": "Identifier",
@@ -3967,7 +3980,8 @@
                     "end": 2025
                   },
                   "value": "c",
-                  "raw": "\"c\""
+                  "raw": "\"c\"",
+                  "loneSurrogates": false
                 },
                 "right": {
                   "type": "Identifier",

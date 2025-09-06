@@ -180,7 +180,8 @@
                         "end": 148
                       },
                       "value": "place",
-                      "raw": "\"place\""
+                      "raw": "\"place\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -196,7 +197,8 @@
                         "end": 157
                       },
                       "value": "time",
-                      "raw": "\"time\""
+                      "raw": "\"time\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -212,7 +214,8 @@
                         "end": 168
                       },
                       "value": "method",
-                      "raw": "\"method\""
+                      "raw": "\"method\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -228,7 +231,8 @@
                         "end": 182
                       },
                       "value": "technique",
-                      "raw": "\"technique\""
+                      "raw": "\"technique\"",
+                      "loneSurrogates": false
                     }
                   }
                 ]
@@ -461,7 +465,8 @@
                             "end": 304
                           },
                           "value": "method",
-                          "raw": "\"method\""
+                          "raw": "\"method\"",
+                          "loneSurrogates": false
                         }
                       }
                     }

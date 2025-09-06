@@ -190,7 +190,8 @@
                 "end": 336
               },
               "value": "lol",
-              "raw": "'lol'"
+              "raw": "'lol'",
+              "loneSurrogates": false
             },
             "typeAnnotation": {
               "type": "TsTypeAnnotation",

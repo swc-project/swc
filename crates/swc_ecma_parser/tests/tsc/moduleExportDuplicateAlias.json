@@ -305,7 +305,8 @@
                     "end": 302
                   },
                   "value": "./moduleExportAliasDuplicateAlias",
-                  "raw": "'./moduleExportAliasDuplicateAlias'"
+                  "raw": "'./moduleExportAliasDuplicateAlias'",
+                  "loneSurrogates": false
                 }
               }
             ],

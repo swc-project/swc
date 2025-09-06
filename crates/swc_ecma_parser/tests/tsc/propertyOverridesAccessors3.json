@@ -47,7 +47,8 @@
               "end": 112
             },
             "value": "rustling noise in the bushes",
-            "raw": "'rustling noise in the bushes'"
+            "raw": "'rustling noise in the bushes'",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -504,7 +505,8 @@
               "end": 456
             },
             "value": "RAWR!",
-            "raw": "'RAWR!'"
+            "raw": "'RAWR!'",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": false,

@@ -256,7 +256,8 @@
                         "end": 151
                       },
                       "value": "foo",
-                      "raw": "\"foo\""
+                      "raw": "\"foo\"",
+                      "loneSurrogates": false
                     }
                   },
                   {
@@ -430,7 +431,8 @@
               "end": 207
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",
@@ -496,7 +498,8 @@
               "end": 229
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -540,7 +543,8 @@
               "end": 240
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "StringLiteral",
@@ -549,7 +553,8 @@
               "end": 250
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -593,7 +598,8 @@
               "end": 261
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",
@@ -659,7 +665,8 @@
               "end": 284
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -714,7 +721,8 @@
               "end": 301
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -758,7 +766,8 @@
               "end": 312
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",
@@ -870,7 +879,8 @@
               "end": 343
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",
@@ -936,7 +946,8 @@
               "end": 365
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -980,7 +991,8 @@
               "end": 376
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "StringLiteral",
@@ -989,7 +1001,8 @@
               "end": 386
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -1033,7 +1046,8 @@
               "end": 397
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",
@@ -1099,7 +1113,8 @@
               "end": 420
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -1154,7 +1169,8 @@
               "end": 437
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -1198,7 +1214,8 @@
               "end": 448
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           },
           "right": {
             "type": "Identifier",

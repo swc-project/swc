@@ -270,7 +270,8 @@
           "end": 200
         },
         "value": "./other",
-        "raw": "\"./other\""
+        "raw": "\"./other\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

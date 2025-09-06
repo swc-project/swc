@@ -131,7 +131,8 @@
                     "end": 169
                   },
                   "value": "./b/c",
-                  "raw": "\"./b/c\""
+                  "raw": "\"./b/c\"",
+                  "loneSurrogates": false
                 },
                 "qualifier": {
                   "type": "Identifier",
@@ -272,7 +273,8 @@
                         "end": 256
                       },
                       "value": "./a/inner",
-                      "raw": "\"./a/inner\""
+                      "raw": "\"./a/inner\"",
+                      "loneSurrogates": false
                     },
                     "qualifier": null,
                     "typeArguments": null,
@@ -293,7 +295,8 @@
                       "end": 261
                     },
                     "value": "c",
-                    "raw": "\"c\""
+                    "raw": "\"c\"",
+                    "loneSurrogates": false
                   }
                 }
               }

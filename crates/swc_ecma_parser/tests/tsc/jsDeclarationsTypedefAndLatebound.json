@@ -61,7 +61,8 @@
                     "end": 176
                   },
                   "value": "./LazySet",
-                  "raw": "\"./LazySet\""
+                  "raw": "\"./LazySet\"",
+                  "loneSurrogates": false
                 }
               }
             ],

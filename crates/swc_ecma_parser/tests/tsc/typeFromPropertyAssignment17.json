@@ -630,7 +630,8 @@
                     "end": 520
                   },
                   "value": "./minimatch",
-                  "raw": "'./minimatch'"
+                  "raw": "'./minimatch'",
+                  "loneSurrogates": false
                 }
               }
             ],

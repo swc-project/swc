@@ -865,7 +865,8 @@
             "end": 356
           },
           "value": "",
-          "raw": "''"
+          "raw": "''",
+          "loneSurrogates": false
         },
         "consequent": {
           "type": "Identifier",

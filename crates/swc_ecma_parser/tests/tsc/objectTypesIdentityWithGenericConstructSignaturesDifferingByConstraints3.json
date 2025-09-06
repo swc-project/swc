@@ -2204,7 +2204,8 @@
                           "end": 1095
                         },
                         "value": "",
-                        "raw": "''"
+                        "raw": "''",
+                        "loneSurrogates": false
                       }
                     }
                   ]

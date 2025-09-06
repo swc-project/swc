@@ -246,7 +246,8 @@
           "end": 243
         },
         "value": "m1",
-        "raw": "\"m1\""
+        "raw": "\"m1\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

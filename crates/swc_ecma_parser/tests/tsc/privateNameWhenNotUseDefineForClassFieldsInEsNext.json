@@ -139,7 +139,8 @@
                 "end": 191
               },
               "value": "X_ z_ zz",
-              "raw": "\"X_ z_ zz\""
+              "raw": "\"X_ z_ zz\"",
+              "loneSurrogates": false
             }
           },
           "value": {
@@ -821,7 +822,8 @@
                 "end": 782
               },
               "value": "X_ z_ zz",
-              "raw": "\"X_ z_ zz\""
+              "raw": "\"X_ z_ zz\"",
+              "loneSurrogates": false
             }
           },
           "value": {

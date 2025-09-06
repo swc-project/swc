@@ -232,7 +232,8 @@
                       },
                       "tail": false,
                       "cooked": "",
-                      "raw": ""
+                      "raw": "",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -242,7 +243,8 @@
                       },
                       "tail": true,
                       "cooked": " is wrong!",
-                      "raw": " is wrong!"
+                      "raw": " is wrong!",
+                      "loneSurrogates": false
                     }
                   ]
                 }

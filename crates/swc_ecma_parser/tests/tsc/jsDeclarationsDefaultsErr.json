@@ -81,7 +81,8 @@
               "end": 217
             },
             "value": "ok",
-            "raw": "\"ok\""
+            "raw": "\"ok\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": true,

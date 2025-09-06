@@ -51,7 +51,8 @@
             "end": 105
           },
           "value": "foo",
-          "raw": "\"foo\""
+          "raw": "\"foo\"",
+          "loneSurrogates": false
         }
       }
     },
@@ -88,7 +89,8 @@
           "end": 154
         },
         "value": "./foo.cjs",
-        "raw": "\"./foo.cjs\""
+        "raw": "\"./foo.cjs\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

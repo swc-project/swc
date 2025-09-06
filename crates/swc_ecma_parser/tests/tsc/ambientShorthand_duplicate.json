@@ -21,7 +21,8 @@
           "end": 54
         },
         "value": "foo",
-        "raw": "\"foo\""
+        "raw": "\"foo\"",
+        "loneSurrogates": false
       },
       "body": null
     },
@@ -41,7 +42,8 @@
           "end": 110
         },
         "value": "foo",
-        "raw": "\"foo\""
+        "raw": "\"foo\"",
+        "loneSurrogates": false
       },
       "body": null
     },
@@ -78,7 +80,8 @@
           "end": 242
         },
         "value": "foo",
-        "raw": "\"foo\""
+        "raw": "\"foo\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

@@ -28,6 +28,7 @@ impl VisitMut for ClassNameTdzFolder<'_> {
                                 args: vec![Str {
                                     span: i.span,
                                     raw: None,
+                                    lone_surrogates: false,
                                     value: i.sym.clone(),
                                 }
                                 .as_arg()],

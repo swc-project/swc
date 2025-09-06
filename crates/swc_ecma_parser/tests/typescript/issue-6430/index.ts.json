@@ -38,7 +38,8 @@
           "end": 84
         },
         "value": "../../../../swc_ecma_transforms_base/tests/ts-resolver/1/input",
-        "raw": "\"../../../../swc_ecma_transforms_base/tests/ts-resolver/1/input\""
+        "raw": "\"../../../../swc_ecma_transforms_base/tests/ts-resolver/1/input\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -808,7 +809,8 @@
                       "end": 362
                     },
                     "value": "str",
-                    "raw": "\"str\""
+                    "raw": "\"str\"",
+                    "loneSurrogates": false
                   }
                 }
               ],

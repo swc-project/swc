@@ -54,7 +54,8 @@
                 "end": 28
               },
               "value": "routeWillChange",
-              "raw": "'routeWillChange'"
+              "raw": "'routeWillChange'",
+              "loneSurrogates": false
             }
           },
           {

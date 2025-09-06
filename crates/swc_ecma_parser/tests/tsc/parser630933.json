@@ -40,7 +40,8 @@
               "end": 16
             },
             "value": "Hello",
-            "raw": "\"Hello\""
+            "raw": "\"Hello\"",
+            "loneSurrogates": false
           },
           "definite": false
         }

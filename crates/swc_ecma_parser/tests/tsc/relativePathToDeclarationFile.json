@@ -320,7 +320,8 @@
             "end": 349
           },
           "value": "foo",
-          "raw": "'foo'"
+          "raw": "'foo'",
+          "loneSurrogates": false
         }
       }
     },
@@ -356,7 +357,8 @@
             "end": 384
           },
           "value": "./other",
-          "raw": "'./other'"
+          "raw": "'./other'",
+          "loneSurrogates": false
         }
       }
     },
@@ -392,7 +394,8 @@
             "end": 425
           },
           "value": "./sub/relMod",
-          "raw": "'./sub/relMod'"
+          "raw": "'./sub/relMod'",
+          "loneSurrogates": false
         }
       }
     },

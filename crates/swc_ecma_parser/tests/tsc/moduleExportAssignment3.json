@@ -179,7 +179,8 @@
                     "end": 195
                   },
                   "value": "./mod",
-                  "raw": "'./mod'"
+                  "raw": "'./mod'",
+                  "loneSurrogates": false
                 }
               }
             ],

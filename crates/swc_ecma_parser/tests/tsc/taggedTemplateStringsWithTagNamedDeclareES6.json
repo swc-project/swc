@@ -179,7 +179,8 @@
               },
               "tail": false,
               "cooked": "Hello ",
-              "raw": "Hello "
+              "raw": "Hello ",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -189,7 +190,8 @@
               },
               "tail": true,
               "cooked": " world!",
-              "raw": " world!"
+              "raw": " world!",
+              "loneSurrogates": false
             }
           ]
         }

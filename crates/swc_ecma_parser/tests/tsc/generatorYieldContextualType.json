@@ -1224,7 +1224,8 @@
                             "end": 551
                           },
                           "value": "number",
-                          "raw": "\"number\""
+                          "raw": "\"number\"",
+                          "loneSurrogates": false
                         }
                       },
                       "right": {
@@ -2531,7 +2532,8 @@
                             "end": 1365
                           },
                           "value": "BreakStep",
-                          "raw": "\"BreakStep\""
+                          "raw": "\"BreakStep\"",
+                          "loneSurrogates": false
                         }
                       }
                     ],
@@ -4595,7 +4597,8 @@
                                 "end": 2619
                               },
                               "value": "",
-                              "raw": "\"\""
+                              "raw": "\"\"",
+                              "loneSurrogates": false
                             }
                           },
                           {
@@ -4615,7 +4618,8 @@
                                 "end": 2640
                               },
                               "value": "",
-                              "raw": "\"\""
+                              "raw": "\"\"",
+                              "loneSurrogates": false
                             }
                           }
                         ]

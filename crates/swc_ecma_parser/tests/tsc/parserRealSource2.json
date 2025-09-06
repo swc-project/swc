@@ -9072,7 +9072,8 @@
                             "end": 8369
                           },
                           "value": "",
-                          "raw": "\"\""
+                          "raw": "\"\"",
+                          "loneSurrogates": false
                         },
                         "definite": false
                       }
@@ -9517,7 +9518,8 @@
                                                         "end": 8625
                                                       },
                                                       "value": "|",
-                                                      "raw": "\"|\""
+                                                      "raw": "\"|\"",
+                                                      "loneSurrogates": false
                                                     }
                                                   }
                                                 }

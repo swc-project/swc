@@ -112,7 +112,8 @@
           "end": 591
         },
         "value": "./file.js",
-        "raw": "'./file.js'"
+        "raw": "'./file.js'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -247,7 +248,8 @@
                   "end": 973
                 },
                 "value": "number",
-                "raw": "'number'"
+                "raw": "'number'",
+                "loneSurrogates": false
               }
             },
             "consequent": {

@@ -50,7 +50,8 @@
                     "end": 69
                   },
                   "value": "p",
-                  "raw": "\"p\""
+                  "raw": "\"p\"",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -62,7 +63,8 @@
               "end": 75
             },
             "value": "p",
-            "raw": "\"p\""
+            "raw": "\"p\"",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -207,7 +209,8 @@
                 "end": 136
               },
               "value": "computed",
-              "raw": "\"computed\""
+              "raw": "\"computed\"",
+              "loneSurrogates": false
             }
           },
           "value": {

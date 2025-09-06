@@ -60,7 +60,8 @@
                   "end": 43
                 },
                 "value": "accessor",
-                "raw": "'accessor'"
+                "raw": "'accessor'",
+                "loneSurrogates": false
               }
             }
           },

@@ -599,7 +599,8 @@
                           "end": 370
                         },
                         "value": "NAME",
-                        "raw": "\"NAME\""
+                        "raw": "\"NAME\"",
+                        "loneSurrogates": false
                       }
                     }
                   ],

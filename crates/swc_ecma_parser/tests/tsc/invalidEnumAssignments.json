@@ -463,7 +463,8 @@
             "end": 125
           },
           "value": "",
-          "raw": "''"
+          "raw": "''",
+          "loneSurrogates": false
         }
       }
     },

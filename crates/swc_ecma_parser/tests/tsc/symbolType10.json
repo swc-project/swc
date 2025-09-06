@@ -76,7 +76,8 @@
                     "end": 44
                   },
                   "value": "bitwise",
-                  "raw": "\"bitwise\""
+                  "raw": "\"bitwise\"",
+                  "loneSurrogates": false
                 }
               }
             ],

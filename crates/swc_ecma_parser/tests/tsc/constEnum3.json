@@ -424,7 +424,8 @@
                 "end": 181
               },
               "value": "foo",
-              "raw": "'foo'"
+              "raw": "'foo'",
+              "loneSurrogates": false
             }
           }
         ],
@@ -465,7 +466,8 @@
                 "end": 191
               },
               "value": "bar",
-              "raw": "'bar'"
+              "raw": "'bar'",
+              "loneSurrogates": false
             }
           }
         ],

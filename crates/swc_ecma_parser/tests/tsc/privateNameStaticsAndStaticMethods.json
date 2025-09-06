@@ -1056,7 +1056,8 @@
                           "end": 651
                         },
                         "value": "str",
-                        "raw": "\"str\""
+                        "raw": "\"str\"",
+                        "loneSurrogates": false
                       }
                     }
                   ],
