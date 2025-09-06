@@ -24,6 +24,7 @@
             "end": 88
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "BarProps",
           "optional": false
         },
@@ -51,6 +52,7 @@
                   "end": 102
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "barProp",
                 "optional": false
               },
@@ -95,6 +97,7 @@
             "end": 141
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "FooProps",
           "optional": false
         },
@@ -122,6 +125,7 @@
                   "end": 156
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "fooProps",
                 "optional": false
               },
@@ -153,6 +157,7 @@
                           "end": 167
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "BarProps",
                         "optional": false
                       },
@@ -197,6 +202,7 @@
               "end": 198
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false,
             "typeAnnotation": {
@@ -218,6 +224,7 @@
                     "end": 208
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "FooProps",
                   "optional": false
                 },
@@ -266,6 +273,7 @@
                     "end": 226
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "fooProps",
                   "optional": false,
                   "typeAnnotation": null
@@ -290,6 +298,7 @@
               "end": 239
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false
           },
@@ -316,6 +325,7 @@
             "end": 250
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "fooProps",
           "optional": false
         },

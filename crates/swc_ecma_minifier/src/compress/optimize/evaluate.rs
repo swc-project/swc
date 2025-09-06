@@ -71,6 +71,7 @@ impl Optimizer<'_> {
                                 span: *span,
                                 value: obj.sym.clone(),
                                 raw: None,
+                                lone_surrogates: false,
                             })
                             .into();
                             self.changed = true;
@@ -322,6 +323,7 @@ impl Optimizer<'_> {
                                 *e = Lit::Str(Str {
                                     span: e.span(),
                                     raw: None,
+                                    lone_surrogates: false,
                                     value: value.into(),
                                 })
                                 .into();
@@ -353,6 +355,7 @@ impl Optimizer<'_> {
                                             expr: Lit::Str(Str {
                                                 span: p.span,
                                                 raw: None,
+                                                lone_surrogates: false,
                                                 value: p.sym.clone(),
                                             })
                                             .into(),
@@ -365,6 +368,7 @@ impl Optimizer<'_> {
                                                 expr: Lit::Str(Str {
                                                     span: key.span,
                                                     raw: None,
+                                                    lone_surrogates: false,
                                                     value: key.sym.clone(),
                                                 })
                                                 .into(),

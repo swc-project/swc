@@ -28,6 +28,7 @@
               "end": 31
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "abc",
             "optional": false,
             "typeAnnotation": {
@@ -49,7 +50,8 @@
                     "end": 42
                   },
                   "value": "AB\r\nC",
-                  "raw": "\"AB\\r\\nC\""
+                  "raw": "\"AB\\r\\nC\"",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -70,7 +72,8 @@
                 },
                 "tail": true,
                 "cooked": "AB\nC",
-                "raw": "AB\nC"
+                "raw": "AB\nC",
+                "loneSurrogates": false
               }
             ]
           },
@@ -101,6 +104,7 @@
               "end": 69
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "de_NEWLINE_f",
             "optional": false,
             "typeAnnotation": {
@@ -122,7 +126,8 @@
                     "end": 78
                   },
                   "value": "DE\nF",
-                  "raw": "\"DE\\nF\""
+                  "raw": "\"DE\\nF\"",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -141,7 +146,8 @@
                   "end": 90
                 },
                 "value": "\n",
-                "raw": "\"\\n\""
+                "raw": "\"\\n\"",
+                "loneSurrogates": false
               }
             ],
             "quasis": [
@@ -153,7 +159,8 @@
                 },
                 "tail": false,
                 "cooked": "DE",
-                "raw": "DE"
+                "raw": "DE",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -163,7 +170,8 @@
                 },
                 "tail": true,
                 "cooked": "F",
-                "raw": "F"
+                "raw": "F",
+                "loneSurrogates": false
               }
             ]
           },

@@ -14,6 +14,7 @@
           "end": 25
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A",
         "optional": false
       },
@@ -151,7 +152,8 @@
               "end": 118
             },
             "value": "hello world",
-            "raw": "\"hello world\""
+            "raw": "\"hello world\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -248,7 +250,8 @@
                       "end": 171
                     },
                     "value": "",
-                    "raw": "\"\""
+                    "raw": "\"\"",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -295,6 +298,7 @@
                     "end": 189
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": {
@@ -432,6 +436,7 @@
                     "end": 261
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": {

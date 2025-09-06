@@ -25,6 +25,7 @@
               "end": 7
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false
           }
@@ -38,7 +39,8 @@
             },
             "tail": false,
             "cooked": "",
-            "raw": ""
+            "raw": "",
+            "loneSurrogates": false
           },
           {
             "type": "TemplateElement",
@@ -48,7 +50,8 @@
             },
             "tail": true,
             "cooked": " <bar>",
-            "raw": " <bar>"
+            "raw": " <bar>",
+            "loneSurrogates": false
           }
         ]
       }

@@ -30,6 +30,7 @@ impl VisitMut for ConsoleOutputReplacer {
                             span: DUMMY_SP,
                             value: atom!("changed_via_plugin"),
                             raw: Some(atom!("\"changed_via_plugin\"")),
+                            lone_surrogates: false,
                         })
                         .into();
                     }

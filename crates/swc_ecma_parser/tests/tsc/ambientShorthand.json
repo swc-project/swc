@@ -21,7 +21,8 @@
           "end": 56
         },
         "value": "jquery",
-        "raw": "\"jquery\""
+        "raw": "\"jquery\"",
+        "loneSurrogates": false
       },
       "body": null
     },
@@ -41,7 +42,8 @@
           "end": 101
         },
         "value": "fs",
-        "raw": "\"fs\""
+        "raw": "\"fs\"",
+        "loneSurrogates": false
       },
       "body": null
     },
@@ -65,6 +67,7 @@
               "end": 177
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false
           }
@@ -82,6 +85,7 @@
               "end": 183
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "bar",
             "optional": false
           },
@@ -96,7 +100,8 @@
           "end": 198
         },
         "value": "jquery",
-        "raw": "\"jquery\""
+        "raw": "\"jquery\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -122,6 +127,7 @@
               "end": 215
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "baz",
             "optional": false
           }
@@ -134,7 +140,8 @@
           "end": 225
         },
         "value": "fs",
-        "raw": "\"fs\""
+        "raw": "\"fs\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -155,6 +162,7 @@
           "end": 238
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "boom",
         "optional": false
       },
@@ -171,7 +179,8 @@
             "end": 257
           },
           "value": "jquery",
-          "raw": "\"jquery\""
+          "raw": "\"jquery\"",
+          "loneSurrogates": false
         }
       }
     },
@@ -195,6 +204,7 @@
             "end": 263
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "foo",
           "optional": false
         },
@@ -208,6 +218,7 @@
                 "end": 267
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "bar",
               "optional": false
             }
@@ -221,6 +232,7 @@
                 "end": 272
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "baz",
               "optional": false
             }
@@ -234,6 +246,7 @@
                 "end": 278
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "boom",
               "optional": false
             }

@@ -18,6 +18,7 @@
           "end": 559
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "IWithNoCallSignatures",
         "optional": false
       },
@@ -45,6 +46,7 @@
                 "end": 569
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "foo",
               "optional": false
             },
@@ -82,6 +84,7 @@
           "end": 610
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "IWithCallSignatures",
         "optional": false
       },
@@ -109,6 +112,7 @@
                   "end": 619
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": {
@@ -161,6 +165,7 @@
           "end": 670
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "IWithCallSignatures2",
         "optional": false
       },
@@ -188,6 +193,7 @@
                   "end": 679
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": {
@@ -240,6 +246,7 @@
           "end": 730
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "IWithCallSignatures3",
         "optional": false
       },
@@ -267,6 +274,7 @@
                   "end": 739
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "b",
                 "optional": false,
                 "typeAnnotation": {
@@ -319,6 +327,7 @@
           "end": 790
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "IWithCallSignatures4",
         "optional": false
       },
@@ -346,6 +355,7 @@
                   "end": 799
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": {
@@ -396,6 +406,7 @@
                   "end": 824
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": {
@@ -421,6 +432,7 @@
                   "end": 835
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "b",
                 "optional": false,
                 "typeAnnotation": {
@@ -483,6 +495,7 @@
               "end": 905
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
@@ -511,6 +524,7 @@
                         "end": 928
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "IWithNoCallSignatures",
                       "optional": false
                     },
@@ -529,6 +543,7 @@
                         "end": 950
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "IWithCallSignatures",
                       "optional": false
                     },
@@ -553,6 +568,7 @@
                   "end": 954
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": null
@@ -578,6 +594,7 @@
                     "end": 959
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "a",
                   "optional": false
                 },
@@ -625,6 +642,7 @@
               "end": 1030
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x2",
             "optional": false,
             "typeAnnotation": {
@@ -653,6 +671,7 @@
                         "end": 1051
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "IWithCallSignatures",
                       "optional": false
                     },
@@ -671,6 +690,7 @@
                         "end": 1074
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "IWithCallSignatures2",
                       "optional": false
                     },
@@ -695,6 +715,7 @@
                   "end": 1078
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": null
@@ -720,6 +741,7 @@
                     "end": 1083
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "a",
                   "optional": false
                 },
@@ -767,6 +789,7 @@
               "end": 1130
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x2",
             "optional": false,
             "typeAnnotation": {
@@ -795,6 +818,7 @@
                         "end": 1151
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "IWithCallSignatures",
                       "optional": false
                     },
@@ -813,6 +837,7 @@
                         "end": 1174
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "IWithCallSignatures2",
                       "optional": false
                     },
@@ -837,6 +862,7 @@
                   "end": 1178
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": null
@@ -849,6 +875,7 @@
                 "end": 1183
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "a",
               "optional": false
             },
@@ -884,6 +911,7 @@
               "end": 1275
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x3",
             "optional": false,
             "typeAnnotation": {
@@ -912,6 +940,7 @@
                         "end": 1296
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "IWithCallSignatures",
                       "optional": false
                     },
@@ -930,6 +959,7 @@
                         "end": 1319
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "IWithCallSignatures3",
                       "optional": false
                     },
@@ -954,6 +984,7 @@
                   "end": 1323
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": null
@@ -979,6 +1010,7 @@
                     "end": 1353
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "a",
                   "optional": false
                 },
@@ -1026,6 +1058,7 @@
               "end": 1411
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x4",
             "optional": false,
             "typeAnnotation": {
@@ -1054,6 +1087,7 @@
                         "end": 1432
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "IWithCallSignatures",
                       "optional": false
                     },
@@ -1072,6 +1106,7 @@
                         "end": 1455
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "IWithCallSignatures4",
                       "optional": false
                     },
@@ -1096,6 +1131,7 @@
                   "end": 1459
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": null
@@ -1121,6 +1157,7 @@
                     "end": 1489
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "a",
                   "optional": false
                 },

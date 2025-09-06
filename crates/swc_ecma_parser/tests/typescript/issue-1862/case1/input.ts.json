@@ -19,6 +19,7 @@
           "end": 7
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A",
         "optional": false
       },
@@ -45,7 +46,8 @@
               },
               "tail": true,
               "cooked": "<",
-              "raw": "<"
+              "raw": "<",
+              "loneSurrogates": false
             }
           ]
         }
@@ -65,6 +67,7 @@
           "end": 21
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "B",
         "optional": false
       },
@@ -91,7 +94,8 @@
               },
               "tail": true,
               "cooked": ">",
-              "raw": ">"
+              "raw": ">",
+              "loneSurrogates": false
             }
           ]
         }

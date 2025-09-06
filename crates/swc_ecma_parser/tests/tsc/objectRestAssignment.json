@@ -28,6 +28,7 @@
               "end": 26
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ka",
             "optional": false,
             "typeAnnotation": {
@@ -74,6 +75,7 @@
               "end": 43
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "nested",
             "optional": false,
             "typeAnnotation": {
@@ -103,6 +105,7 @@
                         "end": 49
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "ki",
                       "optional": false
                     },
@@ -142,6 +145,7 @@
               "end": 62
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "other",
             "optional": false,
             "typeAnnotation": {
@@ -188,6 +192,7 @@
               "end": 80
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "rest",
             "optional": false,
             "typeAnnotation": {
@@ -234,6 +239,7 @@
               "end": 98
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "complex",
             "optional": false,
             "typeAnnotation": {
@@ -263,6 +269,7 @@
                         "end": 103
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "x",
                       "optional": false
                     },
@@ -295,6 +302,7 @@
                                 "end": 109
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "ka",
                               "optional": false
                             },
@@ -316,6 +324,7 @@
                                 "end": 113
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "ki",
                               "optional": false
                             },
@@ -341,6 +350,7 @@
                         "end": 118
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "y",
                       "optional": false
                     },
@@ -427,6 +437,7 @@
                           "end": 139
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "ka",
                         "optional": false,
                         "typeAnnotation": null
@@ -450,6 +461,7 @@
                           "end": 150
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "nested",
                         "optional": false,
                         "typeAnnotation": null
@@ -478,6 +490,7 @@
                     "end": 162
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "other",
                   "optional": false,
                   "typeAnnotation": null
@@ -500,6 +513,7 @@
                     "end": 171
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "rest",
                   "optional": false,
                   "typeAnnotation": null
@@ -517,6 +531,7 @@
               "end": 182
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "complex",
             "optional": false
           }
@@ -546,6 +561,7 @@
               "end": 212
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "overEmit",
             "optional": false,
             "typeAnnotation": {
@@ -575,6 +591,7 @@
                         "end": 217
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "a",
                       "optional": false
                     },
@@ -613,6 +630,7 @@
                                   "end": 223
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "ka",
                                 "optional": false
                               },
@@ -648,6 +666,7 @@
                                   "end": 234
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "x",
                                 "optional": false
                               },
@@ -688,6 +707,7 @@
                         "end": 249
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "b",
                       "optional": false
                     },
@@ -720,6 +740,7 @@
                                 "end": 254
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "z",
                               "optional": false
                             },
@@ -755,6 +776,7 @@
                                 "end": 266
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "ki",
                               "optional": false
                             },
@@ -790,6 +812,7 @@
                                 "end": 278
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "ku",
                               "optional": false
                             },
@@ -829,6 +852,7 @@
                         "end": 292
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "ke",
                       "optional": false
                     },
@@ -864,6 +888,7 @@
                         "end": 304
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "ko",
                       "optional": false
                     },
@@ -958,6 +983,7 @@
                               "end": 496
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "nested2",
                             "optional": false,
                             "typeAnnotation": null
@@ -985,6 +1011,7 @@
                           "end": 504
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "y",
                         "optional": false,
                         "typeAnnotation": null
@@ -1026,6 +1053,7 @@
                           "end": 513
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "z",
                         "optional": false,
                         "typeAnnotation": null
@@ -1049,6 +1077,7 @@
                           "end": 519
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "c",
                         "optional": false,
                         "typeAnnotation": null
@@ -1077,6 +1106,7 @@
                     "end": 531
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "rest2",
                   "optional": false,
                   "typeAnnotation": null
@@ -1094,6 +1124,7 @@
               "end": 544
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "overEmit",
             "optional": false
           },
@@ -1168,6 +1199,7 @@
                               "end": 565
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "nested2",
                             "optional": false,
                             "typeAnnotation": null
@@ -1195,6 +1227,7 @@
                           "end": 573
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "y",
                         "optional": false,
                         "typeAnnotation": null
@@ -1236,6 +1269,7 @@
                           "end": 582
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "z",
                         "optional": false,
                         "typeAnnotation": null
@@ -1259,6 +1293,7 @@
                           "end": 588
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "c",
                         "optional": false,
                         "typeAnnotation": null
@@ -1287,6 +1322,7 @@
                     "end": 600
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "rest2",
                   "optional": false,
                   "typeAnnotation": null
@@ -1304,6 +1340,7 @@
               "end": 613
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "overEmit",
             "optional": false
           }

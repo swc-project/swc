@@ -14,6 +14,7 @@
           "end": 93
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "getSpecifier",
         "optional": false
       },
@@ -68,6 +69,7 @@
               "end": 128
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "whatToLoad",
             "optional": false,
             "typeAnnotation": {
@@ -129,6 +131,7 @@
                   "end": 206
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "getSpecifier",
                 "optional": false
               },
@@ -163,6 +166,7 @@
               "end": 217
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "p1",
             "optional": false,
             "typeAnnotation": null
@@ -199,6 +203,7 @@
                       "end": 239
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "getSpecifier",
                     "optional": false
                   },
@@ -236,6 +241,7 @@
               "end": 252
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "p2",
             "optional": false,
             "typeAnnotation": null
@@ -271,6 +277,7 @@
                       "end": 272
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "whatToLoad",
                     "optional": false
                   },
@@ -288,6 +295,7 @@
                         "end": 287
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "getSpecifier",
                       "optional": false
                     },
@@ -301,7 +309,8 @@
                       "end": 304
                     },
                     "value": "defaulPath",
-                    "raw": "\"defaulPath\""
+                    "raw": "\"defaulPath\"",
+                    "loneSurrogates": false
                   }
                 }
               }
@@ -338,6 +347,7 @@
               "end": 308
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "p1",
             "optional": false
           },
@@ -368,6 +378,7 @@
                     "end": 318
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "zero",
                   "optional": false,
                   "typeAnnotation": null
@@ -407,6 +418,7 @@
                             "end": 339
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "zero",
                           "optional": false
                         },
@@ -458,6 +470,7 @@
               "end": 378
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "p3",
             "optional": false,
             "typeAnnotation": null
@@ -496,7 +509,8 @@
                           "end": 396
                         },
                         "value": "path1",
-                        "raw": "\"path1\""
+                        "raw": "\"path1\"",
+                        "loneSurrogates": false
                       }
                     },
                     {
@@ -508,7 +522,8 @@
                           "end": 405
                         },
                         "value": "path2",
-                        "raw": "\"path2\""
+                        "raw": "\"path2\"",
+                        "loneSurrogates": false
                       }
                     }
                   ]
@@ -544,6 +559,7 @@
               "end": 415
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "p4",
             "optional": false,
             "typeAnnotation": null
@@ -581,7 +597,8 @@
                       "end": 443
                     },
                     "value": "PathToModule",
-                    "raw": "\"PathToModule\""
+                    "raw": "\"PathToModule\"",
+                    "loneSurrogates": false
                   },
                   "async": false,
                   "generator": false,

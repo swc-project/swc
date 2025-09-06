@@ -21,7 +21,8 @@
           "end": 125
         },
         "value": "fs",
-        "raw": "\"fs\""
+        "raw": "\"fs\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -49,6 +50,7 @@
                   "end": 163
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "WriteFileOptions",
                 "optional": false
               },
@@ -80,6 +82,7 @@
                   "end": 194
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "writeFile",
                 "optional": false
               },
@@ -99,6 +102,7 @@
                       "end": 199
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "path",
                     "optional": false,
                     "typeAnnotation": {
@@ -132,6 +136,7 @@
                       "end": 213
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "data",
                     "optional": false,
                     "typeAnnotation": {
@@ -165,6 +170,7 @@
                       "end": 227
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "options",
                     "optional": false,
                     "typeAnnotation": {
@@ -186,6 +192,7 @@
                             "end": 245
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "WriteFileOptions",
                           "optional": false
                         },
@@ -208,6 +215,7 @@
                       "end": 255
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "callback",
                     "optional": false,
                     "typeAnnotation": {
@@ -230,6 +238,7 @@
                               "end": 261
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "err",
                             "optional": false,
                             "typeAnnotation": {
@@ -251,6 +260,7 @@
                                     "end": 268
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "Error",
                                   "optional": false
                                 },
@@ -330,6 +340,7 @@
               "end": 331
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "writeFile",
             "optional": false
           },
@@ -349,6 +360,7 @@
               "end": 349
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "WriteFileOptions",
             "optional": false
           },
@@ -368,6 +380,7 @@
               "end": 380
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "OtherName",
             "optional": false
           },
@@ -378,6 +391,7 @@
               "end": 367
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "WriteFileOptions",
             "optional": false
           },
@@ -391,7 +405,8 @@
           "end": 392
         },
         "value": "fs",
-        "raw": "\"fs\""
+        "raw": "\"fs\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -417,6 +432,7 @@
               "end": 453
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "JSDocType",
             "optional": false
           },
@@ -448,6 +464,7 @@
               "end": 475
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "JSDocType",
             "optional": false
           },
@@ -458,6 +475,7 @@
               "end": 489
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ThisIsFine",
             "optional": false
           },
@@ -488,6 +506,7 @@
               "end": 518
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "WriteFileOptions",
             "optional": false
           },

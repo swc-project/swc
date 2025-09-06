@@ -28,6 +28,7 @@
               "end": 6
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -75,7 +76,8 @@
                 },
                 "tail": false,
                 "cooked": "abc",
-                "raw": "abc"
+                "raw": "abc",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -85,7 +87,8 @@
                 },
                 "tail": true,
                 "cooked": "def",
-                "raw": "def"
+                "raw": "def",
+                "loneSurrogates": false
               }
             ]
           },

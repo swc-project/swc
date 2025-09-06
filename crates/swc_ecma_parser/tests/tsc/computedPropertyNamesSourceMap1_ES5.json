@@ -14,6 +14,7 @@
           "end": 44
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -44,7 +45,8 @@
                 "end": 59
               },
               "value": "hello",
-              "raw": "\"hello\""
+              "raw": "\"hello\"",
+              "loneSurrogates": false
             }
           },
           "function": {
@@ -103,7 +105,8 @@
                 "end": 107
               },
               "value": "goodbye",
-              "raw": "\"goodbye\""
+              "raw": "\"goodbye\"",
+              "loneSurrogates": false
             }
           },
           "function": {

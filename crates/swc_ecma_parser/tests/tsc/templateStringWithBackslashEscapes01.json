@@ -28,6 +28,7 @@
               "end": 8
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "a",
             "optional": false,
             "typeAnnotation": null
@@ -48,7 +49,8 @@
                 },
                 "tail": true,
                 "cooked": "helloworld",
-                "raw": "hello\\world"
+                "raw": "hello\\world",
+                "loneSurrogates": false
               }
             ]
           },
@@ -79,6 +81,7 @@
               "end": 31
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "b",
             "optional": false,
             "typeAnnotation": null
@@ -99,7 +102,8 @@
                 },
                 "tail": true,
                 "cooked": "hello\\world",
-                "raw": "hello\\\\world"
+                "raw": "hello\\\\world",
+                "loneSurrogates": false
               }
             ]
           },
@@ -130,6 +134,7 @@
               "end": 55
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "c",
             "optional": false,
             "typeAnnotation": null
@@ -150,7 +155,8 @@
                 },
                 "tail": true,
                 "cooked": "hello\\world",
-                "raw": "hello\\\\\\world"
+                "raw": "hello\\\\\\world",
+                "loneSurrogates": false
               }
             ]
           },
@@ -181,6 +187,7 @@
               "end": 80
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "d",
             "optional": false,
             "typeAnnotation": null
@@ -201,7 +208,8 @@
                 },
                 "tail": true,
                 "cooked": "hello\\\\world",
-                "raw": "hello\\\\\\\\world"
+                "raw": "hello\\\\\\\\world",
+                "loneSurrogates": false
               }
             ]
           },

@@ -21,7 +21,8 @@
           "end": 46
         },
         "value": "*.foo",
-        "raw": "\"*.foo\""
+        "raw": "\"*.foo\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -53,6 +54,7 @@
                     "end": 65
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "everywhere",
                   "optional": false,
                   "typeAnnotation": {
@@ -99,6 +101,7 @@
               "end": 121
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "everywhere",
             "optional": false
           },
@@ -118,6 +121,7 @@
               "end": 130
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "onlyInA",
             "optional": false
           },
@@ -132,7 +136,8 @@
           "end": 145
         },
         "value": "a.foo",
-        "raw": "\"a.foo\""
+        "raw": "\"a.foo\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -154,7 +159,8 @@
           "end": 169
         },
         "value": "a.foo",
-        "raw": "\"a.foo\""
+        "raw": "\"a.foo\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -186,6 +192,7 @@
                     "end": 185
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "onlyInA",
                   "optional": false,
                   "typeAnnotation": {
@@ -232,6 +239,7 @@
               "end": 240
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "everywhere",
             "optional": false
           },
@@ -251,6 +259,7 @@
               "end": 249
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "onlyInA",
             "optional": false
           },
@@ -265,7 +274,8 @@
           "end": 264
         },
         "value": "b.foo",
-        "raw": "\"b.foo\""
+        "raw": "\"b.foo\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

@@ -14,6 +14,7 @@
           "end": 170
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "mergeStringLists",
         "optional": false
       },
@@ -43,6 +44,7 @@
                 "end": 181
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "strings",
               "optional": false,
               "typeAnnotation": null
@@ -116,6 +118,7 @@
                       "end": 211
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "str",
                     "optional": false,
                     "typeAnnotation": null
@@ -132,6 +135,7 @@
                 "end": 222
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "strings",
               "optional": false
             },

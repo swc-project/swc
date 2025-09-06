@@ -73,6 +73,7 @@ impl SwcLoader {
                     span: DUMMY_SP,
                     raw: None,
                     value: v,
+                    lone_surrogates: false,
                 })
                 .into(),
             );

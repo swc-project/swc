@@ -34,6 +34,7 @@
                 "end": 91
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "hurk",
               "optional": false,
               "typeAnnotation": null
@@ -71,6 +72,7 @@
               "end": 136
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "hurk",
             "optional": false
           },
@@ -85,7 +87,8 @@
           "end": 152
         },
         "value": "./mod1",
-        "raw": "'./mod1'"
+        "raw": "'./mod1'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -117,6 +120,7 @@
               "end": 157
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "hurk",
             "optional": false
           },

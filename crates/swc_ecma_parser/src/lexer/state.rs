@@ -8,7 +8,7 @@ use swc_ecma_lexer::{
             char::CharExt,
             comments_buffer::{BufferedCommentKind, CommentsBufferTrait},
             state::State as StateTrait,
-            LexResult,
+            LexResult, UnicodeEscape,
         },
         syntax::SyntaxFlags,
     },
@@ -521,7 +521,11 @@ impl Lexer<'_> {
 
         let raw: swc_atoms::Atom = self.atom(raw);
 
-        self.state.set_token_value(TokenValue::Str { raw, value });
+        self.state.set_token_value(TokenValue::Str {
+            raw,
+            value,
+            lone_surrogates: false,
+        });
 
         self.state.start = start;
 
@@ -553,12 +557,15 @@ impl Lexer<'_> {
                     continue;
                 }
                 self.bump(); // bump 'u'
-                let Ok(chars) = self.read_unicode_escape() else {
+                let Ok(value) = self.read_unicode_escape() else {
                     self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
                     break;
                 };
-                for c in chars {
-                    v.extend(c);
+                match value {
+                    UnicodeEscape::CodePoint(ch) => v.push(ch),
+                    UnicodeEscape::SurrogatePair(_) | UnicodeEscape::LoneSurrogate(_) => {
+                        self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
+                    }
                 }
                 self.token_flags |= swc_ecma_lexer::lexer::TokenFlags::UNICODE;
             } else {

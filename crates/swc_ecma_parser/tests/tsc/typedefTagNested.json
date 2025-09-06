@@ -28,6 +28,7 @@
               "end": 254
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ex",
             "optional": false,
             "typeAnnotation": null
@@ -60,6 +61,7 @@
               "end": 285
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "app",
             "optional": false,
             "typeAnnotation": null
@@ -88,7 +90,8 @@
                     "end": 306
                   },
                   "value": "name",
-                  "raw": "'name'"
+                  "raw": "'name'",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -125,7 +128,8 @@
                           "end": 345
                         },
                         "value": "x.png",
-                        "raw": "'x.png'"
+                        "raw": "'x.png'",
+                        "loneSurrogates": false
                       }
                     },
                     {
@@ -145,7 +149,8 @@
                           "end": 371
                         },
                         "value": "y.png",
-                        "raw": "'y.png'"
+                        "raw": "'y.png'",
+                        "loneSurrogates": false
                       }
                     }
                   ]
@@ -180,6 +185,7 @@
               "end": 535
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "intercessor",
             "optional": false,
             "typeAnnotation": null
@@ -220,6 +226,7 @@
               "end": 571
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "mistake",
             "optional": false,
             "typeAnnotation": null
@@ -252,6 +259,7 @@
               "end": 714
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "sala",
             "optional": false,
             "typeAnnotation": null
@@ -280,7 +288,8 @@
                     "end": 734
                   },
                   "value": "uppsala",
-                  "raw": "'uppsala'"
+                  "raw": "'uppsala'",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -320,7 +329,8 @@
                     "end": 756
                   },
                   "value": "ok",
-                  "raw": "\"ok\""
+                  "raw": "\"ok\"",
+                  "loneSurrogates": false
                 }
               }
             ]
@@ -348,6 +358,7 @@
             "end": 764
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "sala",
           "optional": false
         },
@@ -380,6 +391,7 @@
             "end": 774
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "sala",
           "optional": false
         },
@@ -412,6 +424,7 @@
             "end": 783
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "sala",
           "optional": false
         },

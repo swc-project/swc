@@ -19,6 +19,7 @@
           "end": 13
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Movable",
         "optional": false
       },
@@ -43,6 +44,7 @@
                 "end": 26
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "move",
               "optional": false
             },
@@ -56,6 +58,7 @@
                   "end": 35
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "distance",
                 "optional": false,
                 "typeAnnotation": {
@@ -118,6 +121,7 @@
               "end": 65
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "car",
             "optional": false,
             "typeAnnotation": null
@@ -191,6 +195,7 @@
                           "end": 97
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "d",
                         "optional": false,
                         "typeAnnotation": null
@@ -270,6 +275,7 @@
                       "end": 172
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Movable",
                     "optional": false
                   },
@@ -288,6 +294,7 @@
                       "end": 181
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Record",
                     "optional": false
                   },

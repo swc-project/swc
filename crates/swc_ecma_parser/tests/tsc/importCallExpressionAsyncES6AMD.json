@@ -20,6 +20,7 @@
             "end": 79
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "fn",
           "optional": false
         },
@@ -62,6 +63,7 @@
                       "end": 97
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "req",
                     "optional": false,
                     "typeAnnotation": null
@@ -97,7 +99,8 @@
                               "end": 121
                             },
                             "value": "./test",
-                            "raw": "'./test'"
+                            "raw": "'./test'",
+                            "loneSurrogates": false
                           }
                         }
                       ],
@@ -131,6 +134,7 @@
             "end": 149
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "cl1",
           "optional": false
         },
@@ -195,6 +199,7 @@
                             "end": 192
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "req",
                           "optional": false,
                           "typeAnnotation": null
@@ -230,7 +235,8 @@
                                     "end": 216
                                   },
                                   "value": "./test",
-                                  "raw": "'./test'"
+                                  "raw": "'./test'",
+                                  "loneSurrogates": false
                                 }
                               }
                             ],
@@ -292,6 +298,7 @@
                 "end": 250
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "obj",
               "optional": false,
               "typeAnnotation": null
@@ -352,6 +359,7 @@
                                   "end": 293
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "req",
                                 "optional": false,
                                 "typeAnnotation": null
@@ -387,7 +395,8 @@
                                           "end": 317
                                         },
                                         "value": "./test",
-                                        "raw": "'./test'"
+                                        "raw": "'./test'",
+                                        "loneSurrogates": false
                                       }
                                     }
                                   ],
@@ -428,6 +437,7 @@
             "end": 353
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "cl2",
           "optional": false
         },
@@ -509,6 +519,7 @@
                                   "end": 419
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "req",
                                 "optional": false,
                                 "typeAnnotation": null
@@ -544,7 +555,8 @@
                                           "end": 443
                                         },
                                         "value": "./test",
-                                        "raw": "'./test'"
+                                        "raw": "'./test'",
+                                        "loneSurrogates": false
                                       }
                                     }
                                   ],
@@ -613,6 +625,7 @@
                 "end": 486
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "l",
               "optional": false,
               "typeAnnotation": null
@@ -656,6 +669,7 @@
                             "end": 516
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "req",
                           "optional": false,
                           "typeAnnotation": null
@@ -691,7 +705,8 @@
                                     "end": 540
                                   },
                                   "value": "./test",
-                                  "raw": "'./test'"
+                                  "raw": "'./test'",
+                                  "loneSurrogates": false
                                 }
                               }
                             ],

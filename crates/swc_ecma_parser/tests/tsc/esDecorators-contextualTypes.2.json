@@ -14,6 +14,7 @@
           "end": 47
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -62,6 +63,7 @@
                       "end": 72
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "boundMethodLogger",
                     "optional": false
                   },
@@ -75,7 +77,8 @@
                           "end": 80
                         },
                         "value": "Yadda",
-                        "raw": "\"Yadda\""
+                        "raw": "\"Yadda\"",
+                        "loneSurrogates": false
                       }
                     },
                     {
@@ -216,6 +219,7 @@
                           "end": 176
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "console",
                         "optional": false
                       },
@@ -238,7 +242,8 @@
                             "end": 224
                           },
                           "value": "Behold! The actual method implementation!",
-                          "raw": "\"Behold! The actual method implementation!\""
+                          "raw": "\"Behold! The actual method implementation!\"",
+                          "loneSurrogates": false
                         }
                       }
                     ],
@@ -293,6 +298,7 @@
               "end": 245
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "C",
             "optional": false
           },
@@ -313,6 +319,7 @@
           "end": 276
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "boundMethodLogger",
         "optional": false
       },
@@ -332,6 +339,7 @@
               "end": 317
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "source",
             "optional": false,
             "typeAnnotation": {
@@ -371,6 +379,7 @@
                 "end": 332
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "bound",
               "optional": false,
               "typeAnnotation": null
@@ -415,6 +424,7 @@
                   "end": 378
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "loggedDecorator",
                 "optional": false
               },
@@ -433,6 +443,7 @@
                       "end": 394
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "target",
                     "optional": false,
                     "typeAnnotation": {
@@ -455,6 +466,7 @@
                               "end": 401
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "this",
                             "optional": false,
                             "typeAnnotation": {
@@ -476,6 +488,7 @@
                                     "end": 407
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "This",
                                   "optional": false
                                 },
@@ -500,6 +513,7 @@
                                 "end": 416
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "args",
                               "optional": false,
                               "typeAnnotation": null
@@ -523,6 +537,7 @@
                                     "end": 422
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "Args",
                                   "optional": false
                                 },
@@ -551,6 +566,7 @@
                                 "end": 433
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "Return",
                               "optional": false
                             },
@@ -575,6 +591,7 @@
                       "end": 450
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "context",
                     "optional": false,
                     "typeAnnotation": {
@@ -596,6 +613,7 @@
                             "end": 479
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "ClassMethodDecoratorContext",
                           "optional": false
                         },
@@ -619,6 +637,7 @@
                                   "end": 484
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "This",
                                 "optional": false
                               },
@@ -638,6 +657,7 @@
                                     "end": 491
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "this",
                                   "optional": false,
                                   "typeAnnotation": {
@@ -659,6 +679,7 @@
                                           "end": 497
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "This",
                                         "optional": false
                                       },
@@ -683,6 +704,7 @@
                                       "end": 506
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "args",
                                     "optional": false,
                                     "typeAnnotation": null
@@ -706,6 +728,7 @@
                                           "end": 512
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "Args",
                                         "optional": false
                                       },
@@ -734,6 +757,7 @@
                                       "end": 523
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "Return",
                                     "optional": false
                                   },
@@ -775,6 +799,7 @@
                         "end": 592
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "bound",
                       "optional": false
                     },
@@ -812,6 +837,7 @@
                                   "end": 615
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "context",
                                 "optional": false
                               },
@@ -912,6 +938,7 @@
                                                     "end": 682
                                                   },
                                                   "ctxt": 0,
+                                                  "nodeId": 4294967295,
                                                   "value": "context",
                                                   "optional": false
                                                 },
@@ -993,6 +1020,7 @@
                                                         "end": 712
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "context",
                                                       "optional": false
                                                     },
@@ -1072,6 +1100,7 @@
                               "end": 787
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "this",
                             "optional": false,
                             "typeAnnotation": null
@@ -1101,6 +1130,7 @@
                                 "end": 796
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "args",
                               "optional": false,
                               "typeAnnotation": null
@@ -1149,6 +1179,7 @@
                                     "end": 819
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "console",
                                   "optional": false
                                 },
@@ -1178,6 +1209,7 @@
                                           "end": 834
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "source",
                                         "optional": false
                                       },
@@ -1207,6 +1239,7 @@
                                                 "end": 870
                                               },
                                               "ctxt": 0,
+                                              "nodeId": 4294967295,
                                               "value": "context",
                                               "optional": false
                                             },
@@ -1241,7 +1274,8 @@
                                         },
                                         "tail": false,
                                         "cooked": "<",
-                                        "raw": "<"
+                                        "raw": "<",
+                                        "loneSurrogates": false
                                       },
                                       {
                                         "type": "TemplateElement",
@@ -1251,7 +1285,8 @@
                                         },
                                         "tail": false,
                                         "cooked": ">: I'm logging stuff from ",
-                                        "raw": ">: I'm logging stuff from "
+                                        "raw": ">: I'm logging stuff from ",
+                                        "loneSurrogates": false
                                       },
                                       {
                                         "type": "TemplateElement",
@@ -1261,7 +1296,8 @@
                                         },
                                         "tail": true,
                                         "cooked": "!",
-                                        "raw": "!"
+                                        "raw": "!",
+                                        "loneSurrogates": false
                                       }
                                     ]
                                   }
@@ -1296,6 +1332,7 @@
                                     "end": 917
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "target",
                                   "optional": false
                                 },
@@ -1328,6 +1365,7 @@
                                       "end": 934
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "args",
                                     "optional": false
                                   }
@@ -1375,6 +1413,7 @@
                           "end": 538
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "this",
                         "optional": false,
                         "typeAnnotation": {
@@ -1396,6 +1435,7 @@
                                 "end": 544
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "This",
                               "optional": false
                             },
@@ -1420,6 +1460,7 @@
                             "end": 553
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "args",
                           "optional": false,
                           "typeAnnotation": null
@@ -1443,6 +1484,7 @@
                                 "end": 559
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "Args",
                               "optional": false
                             },
@@ -1471,6 +1513,7 @@
                             "end": 570
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Return",
                           "optional": false
                         },
@@ -1506,6 +1549,7 @@
                 "end": 281
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "This",
               "optional": false
             },
@@ -1528,6 +1572,7 @@
                 "end": 287
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Args",
               "optional": false
             },
@@ -1564,6 +1609,7 @@
                 "end": 309
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Return",
               "optional": false
             },
