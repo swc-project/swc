@@ -2,6 +2,7 @@ use is_macro::Is;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, SyntaxContext, DUMMY_SP};
 
 use crate::{
+    compat::{UnknownBytes, KIND_CLASS},
     expr::Expr,
     function::{Function, ParamOrTsParamProp},
     ident::PrivateName,
@@ -44,6 +45,8 @@ pub struct Class {
     /// Typescript extension.
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub implements: Vec<TsExprWithTypeArgs>,
+
+    pub extras: UnknownBytes<KIND_CLASS, 16>,
 }
 
 impl Take for Class {
