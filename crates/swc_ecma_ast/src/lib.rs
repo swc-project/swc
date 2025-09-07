@@ -77,6 +77,7 @@ pub use self::{
 #[macro_use]
 mod macros;
 mod class;
+pub mod compat;
 mod decl;
 mod expr;
 mod function;
