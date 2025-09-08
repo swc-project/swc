@@ -370,7 +370,7 @@ pub(crate) fn is_pure_undefined(expr_ctx: ExprCtx, e: &Expr) -> bool {
             ..
         }) if !arg.may_have_side_effects(expr_ctx) => true,
 
-        _ => e.is_undefined(expr_ctx),
+        _ => e.is_undefined(expr_ctx.unresolved_ctxt),
     }
 }
 
@@ -419,7 +419,7 @@ pub(crate) fn eval_to_undefined(expr_ctx: ExprCtx, e: &Expr) -> bool {
             eval_to_undefined(expr_ctx, &c.cons) && eval_to_undefined(expr_ctx, &c.alt)
         }
 
-        _ => e.is_undefined(expr_ctx),
+        _ => e.is_undefined(expr_ctx.unresolved_ctxt),
     }
 }
 
@@ -787,7 +787,10 @@ pub(crate) fn can_absorb_negate(e: &Expr, expr_ctx: ExprCtx) -> bool {
         Expr::Bin(BinExpr { op, .. }) if is_eq(*op) => true,
         Expr::Unary(UnaryExpr {
             op: op!("!"), arg, ..
-        }) => arg.get_type(expr_ctx) == Value::Known(Type::Bool),
+        }) => {
+            arg.get_type(expr_ctx.unresolved_ctxt, expr_ctx.remaining_depth)
+                == Value::Known(Type::Bool)
+        }
         _ => false,
     }
 }

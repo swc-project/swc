@@ -107,7 +107,9 @@ impl Pure<'_> {
 
         let Expr::Cond(cond) = e else { return };
 
-        let lt = cond.cons.get_type(self.expr_ctx);
+        let lt = cond
+            .cons
+            .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth);
         if let Value::Known(Type::Bool) = lt {
             let lb = cond.cons.as_pure_bool(self.expr_ctx);
             if let Value::Known(true) = lb {
@@ -145,7 +147,9 @@ impl Pure<'_> {
             }
         }
 
-        let rt = cond.alt.get_type(self.expr_ctx);
+        let rt = cond
+            .alt
+            .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth);
         if let Value::Known(Type::Bool) = rt {
             let rb = cond.alt.as_pure_bool(self.expr_ctx);
             if let Value::Known(false) = rb {
@@ -233,7 +237,10 @@ impl Pure<'_> {
                 Expr::Lit(Lit::Num(Number { value: 0.0, .. })),
             ) if *value > 0.0
                 && (!cond.test.is_bin()
-                    || cond.test.get_type(self.expr_ctx) == Value::Known(Type::Bool)) =>
+                    || cond.test.get_type(
+                        self.expr_ctx.unresolved_ctxt,
+                        self.expr_ctx.remaining_depth,
+                    ) == Value::Known(Type::Bool)) =>
             {
                 report_change!("conditionals: `foo ? num : 0` => `num * !!foo`");
                 self.changed = true;
@@ -292,8 +299,12 @@ impl Pure<'_> {
             return;
         }
 
-        let lt = bin.left.get_type(self.expr_ctx);
-        let rt = bin.right.get_type(self.expr_ctx);
+        let lt = bin
+            .left
+            .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth);
+        let rt = bin
+            .right
+            .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth);
 
         let _lb = bin.left.as_pure_bool(self.expr_ctx);
         let rb = bin.right.as_pure_bool(self.expr_ctx);

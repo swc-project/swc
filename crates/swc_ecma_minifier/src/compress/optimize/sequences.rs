@@ -1340,7 +1340,7 @@ impl Optimizer<'_> {
                 }
 
                 if let Callee::Expr(callee) = &e.callee {
-                    if callee.is_pure_callee(self.ctx.expr_ctx) {
+                    if callee.is_pure_callee(self.ctx.expr_ctx.unresolved_ctxt) {
                         if !self.is_skippable_for_seq(a, callee) {
                             return false;
                         }
@@ -1403,7 +1403,7 @@ impl Optimizer<'_> {
                     false
                 }
                 OptChainBase::Call(e) => {
-                    if e.callee.is_pure_callee(self.ctx.expr_ctx) {
+                    if e.callee.is_pure_callee(self.ctx.expr_ctx.unresolved_ctxt) {
                         if !self.is_skippable_for_seq(a, &e.callee) {
                             return false;
                         }
@@ -2371,7 +2371,12 @@ impl Optimizer<'_> {
             Mergable::Drop => return Ok(false),
         };
 
-        let a_type = a_right.as_deref().map(|a| a.get_type(self.ctx.expr_ctx));
+        let a_type = a_right.as_deref().map(|a| {
+            a.get_type(
+                self.ctx.expr_ctx.unresolved_ctxt,
+                self.ctx.expr_ctx.remaining_depth,
+            )
+        });
 
         if let Some(a_right) = a_right {
             if a_right.is_this() || a_right.is_ident_ref_to("arguments") {
@@ -2487,7 +2492,10 @@ impl Optimizer<'_> {
                     let Some(a_type) = a_type else {
                         return Ok(false);
                     };
-                    let b_type = b.right.get_type(self.ctx.expr_ctx);
+                    let b_type = b.right.get_type(
+                        self.ctx.expr_ctx.unresolved_ctxt,
+                        self.ctx.expr_ctx.remaining_depth,
+                    );
 
                     if let Some(a_op) = a_op {
                         if can_drop_op_for(a_op, b.op, var_type, a_type, b_type) {

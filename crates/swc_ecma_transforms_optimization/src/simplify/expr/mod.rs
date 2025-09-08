@@ -420,7 +420,7 @@ impl VisitMut for SimplifyExpr {
         self.in_callee = old_in_callee;
 
         if let Pat::Assign(a) = p {
-            if a.right.is_undefined(self.expr_ctx)
+            if a.right.is_undefined(self.expr_ctx.unresolved_ctxt)
                 || match *a.right {
                     Expr::Unary(UnaryExpr {
                         op: op!("void"),
@@ -1026,7 +1026,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                 }
             }
 
-            match expr.get_type(expr_ctx) {
+            match expr.get_type(expr_ctx.unresolved_ctxt, expr_ctx.remaining_depth) {
                 // String concatenation
                 Known(StringType) => match expr {
                     Expr::Bin(BinExpr {
@@ -1185,7 +1185,7 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                 return;
             }
 
-            if is_obj(left) && right.is_global_ref_to(expr_ctx, "Object") {
+            if is_obj(left) && right.is_global_ref_to(expr_ctx.unresolved_ctxt, "Object") {
                 *changed = true;
 
                 *expr = *make_bool_expr(expr_ctx, *span, true, iter::once(left.take()));
@@ -1474,8 +1474,12 @@ fn perform_arithmetic_op(expr_ctx: ExprCtx, op: BinaryOp, left: &Expr, right: &E
 
     if (lv.is_unknown() && rv.is_unknown())
         || op == op!(bin, "+")
-            && (!left.get_type(expr_ctx).casted_to_number_on_add()
-                || !right.get_type(expr_ctx).casted_to_number_on_add())
+            && (!left
+                .get_type(expr_ctx.unresolved_ctxt, expr_ctx.remaining_depth)
+                .casted_to_number_on_add()
+                || !right
+                    .get_type(expr_ctx.unresolved_ctxt, expr_ctx.remaining_depth)
+                    .casted_to_number_on_add())
     {
         return Unknown;
     }
@@ -1630,7 +1634,10 @@ fn perform_abstract_rel_cmp(
     }
 
     // Try to evaluate based on the general type.
-    let (lt, rt) = (left.get_type(expr_ctx), right.get_type(expr_ctx));
+    let (lt, rt) = (
+        left.get_type(expr_ctx.unresolved_ctxt, expr_ctx.remaining_depth),
+        right.get_type(expr_ctx.unresolved_ctxt, expr_ctx.remaining_depth),
+    );
 
     if let (Known(StringType), Known(StringType)) = (lt, rt) {
         if let (Known(lv), Known(rv)) = (
@@ -1668,8 +1675,8 @@ fn perform_abstract_eq_cmp(
     right: &Expr,
 ) -> Value<bool> {
     let (lt, rt) = (
-        try_val!(left.get_type(expr_ctx)),
-        try_val!(right.get_type(expr_ctx)),
+        try_val!(left.get_type(expr_ctx.unresolved_ctxt, expr_ctx.remaining_depth)),
+        try_val!(right.get_type(expr_ctx.unresolved_ctxt, expr_ctx.remaining_depth)),
     );
 
     if lt == rt {
@@ -1745,8 +1752,8 @@ fn perform_strict_eq_cmp(expr_ctx: ExprCtx, left: &Expr, right: &Expr) -> Value<
     }
 
     let (lt, rt) = (
-        try_val!(left.get_type(expr_ctx)),
-        try_val!(right.get_type(expr_ctx)),
+        try_val!(left.get_type(expr_ctx.unresolved_ctxt, expr_ctx.remaining_depth)),
+        try_val!(right.get_type(expr_ctx.unresolved_ctxt, expr_ctx.remaining_depth)),
     );
     // Strict equality can only be true for values of the same type.
     if lt != rt {

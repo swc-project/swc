@@ -35,8 +35,12 @@ impl Pure<'_> {
             )
         };
         match (
-            n.left.get_type(self.expr_ctx).opt()?,
-            n.right.get_type(self.expr_ctx).opt()?,
+            n.left
+                .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth)
+                .opt()?,
+            n.right
+                .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth)
+                .opt()?,
         ) {
             // Abort if types differ, or one of them is unknown.
             (lt, rt) if lt != rt => {}

@@ -28,11 +28,11 @@ impl Pure<'_> {
             _ => return,
         };
 
-        match l_l.get_type(self.expr_ctx) {
+        match l_l.get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth) {
             Known(Type::Str) => {}
             _ => return,
         }
-        match r_l.get_type(self.expr_ctx) {
+        match r_l.get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth) {
             Known(Type::Str) => {}
             _ => return,
         }
@@ -487,8 +487,12 @@ impl Pure<'_> {
                 },
             ) = &mut *bin.left
             {
-                let type_of_second = left.right.get_type(self.expr_ctx);
-                let type_of_third = bin.right.get_type(self.expr_ctx);
+                let type_of_second = left
+                    .right
+                    .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth);
+                let type_of_third = bin
+                    .right
+                    .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth);
 
                 if let Value::Known(Type::Str) = type_of_second {
                     if let Value::Known(Type::Str) = type_of_third {
@@ -534,8 +538,8 @@ impl Pure<'_> {
             ..
         }) = e
         {
-            let lt = left.get_type(self.expr_ctx);
-            let rt = right.get_type(self.expr_ctx);
+            let lt = left.get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth);
+            let rt = right.get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth);
             if let Value::Known(Type::Str) = lt {
                 if let Value::Known(Type::Str) = rt {
                     match &**left {

@@ -2,9 +2,7 @@ use ctx::BitContext;
 use rustc_hash::FxHashMap;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    find_pat_ids, ident::IdentLike, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value,
-};
+use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -159,7 +157,7 @@ where
                 self.data.report_usage(self.ctx, i.clone());
                 self.data.var_or_default(i.clone()).mark_used_above_decl()
             }
-            self.data.var_or_default(i.clone()).mark_used_recursively();
+            self.data.var_or_default(i).mark_used_recursively();
             return;
         }
 
@@ -285,7 +283,8 @@ where
                         self.ctx,
                         id,
                         is_op_assign,
-                        n.right.get_type(self.expr_ctx),
+                        n.right
+                            .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth),
                     )
                 }
             }
@@ -293,7 +292,8 @@ where
                 self.report_assign_expr_if_ident(
                     e.as_ident().map(Ident::from).as_ref(),
                     is_op_assign,
-                    n.right.get_type(self.expr_ctx),
+                    n.right
+                        .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth),
                 );
                 self.mark_mutation_if_member(e.as_member())
             }
@@ -301,7 +301,7 @@ where
 
         if n.op == op!("=") {
             let left = match &n.left {
-                AssignTarget::Simple(left) => left.leftmost().map(Ident::to_id),
+                AssignTarget::Simple(left) => left.leftmost(),
                 AssignTarget::Pat(..) => None,
             };
 
@@ -319,7 +319,7 @@ where
                         v = Some(self.data.var_or_default(left.to_id()));
                     }
 
-                    v.as_mut().unwrap().add_infects_to(id.clone());
+                    v.as_mut().unwrap().add_infects_to(id);
                 }
             }
         }
@@ -472,7 +472,7 @@ where
             n.args.visit_with(&mut *self.with_ctx(ctx));
 
             let call_may_mutate = match &n.callee {
-                Callee::Expr(e) => call_may_mutate(e, self.expr_ctx),
+                Callee::Expr(e) => call_may_mutate(e, self.expr_ctx.unresolved_ctxt),
                 _ => true,
             };
 
@@ -800,7 +800,7 @@ where
                     v = Some(self.data.var_or_default(n.ident.to_id()));
                 }
 
-                v.as_mut().unwrap().add_infects_to(id.clone());
+                v.as_mut().unwrap().add_infects_to(id);
             }
         }
     }
@@ -1098,7 +1098,7 @@ where
             let ctx = self.ctx.with(BitContext::IsIdRef, true);
             n.args.visit_with(&mut *self.with_ctx(ctx));
 
-            if call_may_mutate(&n.callee, self.expr_ctx) {
+            if call_may_mutate(&n.callee, self.expr_ctx.unresolved_ctxt) {
                 if let Some(args) = &n.args {
                     for a in args {
                         for_each_id_ref_in_expr(&a.expr, &mut |id| {
@@ -1390,7 +1390,7 @@ where
                         v = Some(self.data.var_or_default(var.to_id()));
                     }
 
-                    v.as_mut().unwrap().add_infects_to(id.clone());
+                    v.as_mut().unwrap().add_infects_to(id);
                 }
             }
         }
@@ -1422,10 +1422,9 @@ where
                             .map(is_safe_to_access_prop)
                             .unwrap_or(false),
                     ),
-                in_pat_of_var_decl_with_init: e
-                    .init
-                    .as_ref()
-                    .map(|init| init.get_type(self.expr_ctx)),
+                in_pat_of_var_decl_with_init: e.init.as_ref().map(|init| {
+                    init.get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth)
+                }),
                 ..self.ctx
             };
             e.name.visit_with(&mut *self.with_ctx(ctx));
@@ -1683,7 +1682,7 @@ fn is_safe_to_access_prop(e: &Expr) -> bool {
     }
 }
 
-fn call_may_mutate(expr: &Expr, expr_ctx: ExprCtx) -> bool {
+fn call_may_mutate(expr: &Expr, unresolved: SyntaxContext) -> bool {
     fn is_global_fn_wont_mutate(s: &Ident, unresolved: SyntaxContext) -> bool {
         s.ctxt == unresolved
             && matches!(
@@ -1731,13 +1730,13 @@ fn call_may_mutate(expr: &Expr, expr_ctx: ExprCtx) -> bool {
             )
     }
 
-    if expr.is_pure_callee(expr_ctx) {
+    if expr.is_pure_callee(unresolved) {
         false
     } else {
         match expr {
-            Expr::Ident(i) if is_global_fn_wont_mutate(i, expr_ctx.unresolved_ctxt) => false,
+            Expr::Ident(i) if is_global_fn_wont_mutate(i, unresolved) => false,
             Expr::Member(MemberExpr { obj, .. }) => {
-                !matches!(&**obj, Expr::Ident(i) if is_global_fn_wont_mutate(i, expr_ctx.unresolved_ctxt))
+                !matches!(&**obj, Expr::Ident(i) if is_global_fn_wont_mutate(i, unresolved))
             }
             _ => true,
         }

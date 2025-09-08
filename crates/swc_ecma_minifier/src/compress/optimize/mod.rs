@@ -1562,11 +1562,17 @@ impl VisitMut for Optimizer<'_> {
         self.optimize_bin_and_or(n);
 
         if n.op == op!(bin, "+") {
-            if let Known(Type::Str) = n.left.get_type(self.ctx.expr_ctx) {
+            if let Known(Type::Str) = n.left.get_type(
+                self.ctx.expr_ctx.unresolved_ctxt,
+                self.ctx.expr_ctx.remaining_depth,
+            ) {
                 self.optimize_expr_in_str_ctx(&mut n.right);
             }
 
-            if let Known(Type::Str) = n.right.get_type(self.ctx.expr_ctx) {
+            if let Known(Type::Str) = n.right.get_type(
+                self.ctx.expr_ctx.unresolved_ctxt,
+                self.ctx.expr_ctx.remaining_depth,
+            ) {
                 self.optimize_expr_in_str_ctx(&mut n.left);
             }
         }
