@@ -34,7 +34,7 @@ mod shorthand_property;
 pub mod spread;
 mod sticky_regex;
 pub mod template_literal;
-mod typeof_symbol;
+pub mod typeof_symbol;
 
 fn exprs(unresolved_mark: Mark) -> impl Pass {
     (
@@ -42,7 +42,6 @@ fn exprs(unresolved_mark: Mark) -> impl Pass {
         duplicate_keys(),
         sticky_regex(),
         instance_of(),
-        typeof_symbol(),
     )
 }
 
@@ -91,6 +90,7 @@ where
         parameters(c.parameters, unresolved_mark),
         (
             exprs(unresolved_mark),
+            typeof_symbol(c.typeof_symbol),
             computed_properties(c.computed_props),
             destructuring(c.destructuring),
             block_scoping(unresolved_mark),
@@ -113,6 +113,9 @@ pub struct Config {
 
     #[serde(flatten)]
     pub destructuring: destructuring::Config,
+
+    #[serde(flatten)]
+    pub typeof_symbol: typeof_symbol::Config,
 
     #[serde(flatten)]
     pub spread: spread::Config,
