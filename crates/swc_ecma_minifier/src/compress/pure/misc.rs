@@ -6,10 +6,7 @@ use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
-use swc_ecma_utils::{
-    ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type,
-    Value::{self, Known},
-};
+use swc_ecma_utils::{ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value};
 
 use super::Pure;
 use crate::compress::{
@@ -2422,11 +2419,10 @@ impl Pure<'_> {
             _ => return,
         };
 
-        let lt = cond.cons.get_type(self.expr_ctx);
-        let rt = cond.alt.get_type(self.expr_ctx);
-        match (lt, rt) {
-            (Known(Type::Bool), Known(Type::Bool)) => {}
-            _ => return,
+        if (cond.cons.get_type(self.expr_ctx) != Value::Known(Type::Bool))
+            || (cond.alt.get_type(self.expr_ctx) != Value::Known(Type::Bool))
+        {
+            return;
         }
 
         let lb = cond.cons.as_pure_bool(self.expr_ctx);
