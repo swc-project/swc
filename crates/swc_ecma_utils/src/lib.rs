@@ -565,63 +565,59 @@ pub trait StmtExt {
     }
 
     fn may_have_side_effects(&self, ctx: ExprCtx) -> bool {
-        fn may_have_side_effects(stmt: &Stmt, ctx: ExprCtx) -> bool {
-            match stmt {
-                Stmt::Block(block_stmt) => block_stmt
+        match self.as_stmt() {
+            Stmt::Block(block_stmt) => block_stmt
+                .stmts
+                .iter()
+                .any(|stmt| stmt.may_have_side_effects(ctx)),
+            Stmt::Empty(_) => false,
+            Stmt::Labeled(labeled_stmt) => labeled_stmt.body.may_have_side_effects(ctx),
+            Stmt::If(if_stmt) => {
+                if_stmt.test.may_have_side_effects(ctx)
+                    || if_stmt.cons.may_have_side_effects(ctx)
+                    || if_stmt
+                        .alt
+                        .as_ref()
+                        .is_some_and(|stmt| stmt.may_have_side_effects(ctx))
+            }
+            Stmt::Switch(switch_stmt) => {
+                switch_stmt.discriminant.may_have_side_effects(ctx)
+                    || switch_stmt.cases.iter().any(|case| {
+                        case.test
+                            .as_ref()
+                            .is_some_and(|expr| expr.may_have_side_effects(ctx))
+                            || case.cons.iter().any(|con| con.may_have_side_effects(ctx))
+                    })
+            }
+            Stmt::Try(try_stmt) => {
+                try_stmt
+                    .block
                     .stmts
                     .iter()
-                    .any(|stmt| stmt.may_have_side_effects(ctx)),
-                Stmt::Empty(_) => false,
-                Stmt::Labeled(labeled_stmt) => labeled_stmt.body.may_have_side_effects(ctx),
-                Stmt::If(if_stmt) => {
-                    if_stmt.test.may_have_side_effects(ctx)
-                        || if_stmt.cons.may_have_side_effects(ctx)
-                        || if_stmt
-                            .alt
-                            .as_ref()
-                            .is_some_and(|stmt| stmt.may_have_side_effects(ctx))
-                }
-                Stmt::Switch(switch_stmt) => {
-                    switch_stmt.discriminant.may_have_side_effects(ctx)
-                        || switch_stmt.cases.iter().any(|case| {
-                            case.test
-                                .as_ref()
-                                .is_some_and(|expr| expr.may_have_side_effects(ctx))
-                                || case.cons.iter().any(|con| con.may_have_side_effects(ctx))
-                        })
-                }
-                Stmt::Try(try_stmt) => {
-                    try_stmt
-                        .block
-                        .stmts
-                        .iter()
-                        .any(|stmt| stmt.may_have_side_effects(ctx))
-                        || try_stmt.handler.as_ref().is_some_and(|handler| {
-                            handler
-                                .body
-                                .stmts
-                                .iter()
-                                .any(|stmt| stmt.may_have_side_effects(ctx))
-                        })
-                        || try_stmt.finalizer.as_ref().is_some_and(|finalizer| {
-                            finalizer
-                                .stmts
-                                .iter()
-                                .any(|stmt| stmt.may_have_side_effects(ctx))
-                        })
-                }
-                Stmt::Decl(decl) => match decl {
-                    Decl::Class(class_decl) => class_has_side_effect(ctx, &class_decl.class),
-                    Decl::Fn(_) => !ctx.in_strict,
-                    Decl::Var(var_decl) => var_decl.kind == VarDeclKind::Var,
-                    _ => false,
-                },
-                Stmt::Expr(expr_stmt) => expr_stmt.expr.may_have_side_effects(ctx),
-                _ => true,
+                    .any(|stmt| stmt.may_have_side_effects(ctx))
+                    || try_stmt.handler.as_ref().is_some_and(|handler| {
+                        handler
+                            .body
+                            .stmts
+                            .iter()
+                            .any(|stmt| stmt.may_have_side_effects(ctx))
+                    })
+                    || try_stmt.finalizer.as_ref().is_some_and(|finalizer| {
+                        finalizer
+                            .stmts
+                            .iter()
+                            .any(|stmt| stmt.may_have_side_effects(ctx))
+                    })
             }
+            Stmt::Decl(decl) => match decl {
+                Decl::Class(class_decl) => class_has_side_effect(ctx, &class_decl.class),
+                Decl::Fn(_) => !ctx.in_strict,
+                Decl::Var(var_decl) => var_decl.kind == VarDeclKind::Var,
+                _ => false,
+            },
+            Stmt::Expr(expr_stmt) => expr_stmt.expr.may_have_side_effects(ctx),
+            _ => true,
         }
-
-        may_have_side_effects(self.as_stmt(), ctx)
     }
 }
 
@@ -742,8 +738,8 @@ pub trait ExprExt {
     }
 
     #[inline(always)]
-    fn is_undefined(&self, ctx: ExprCtx) -> bool {
-        is_undefined(self.as_expr(), ctx)
+    fn is_undefined(&self, unresolved_ctxt: SyntaxContext) -> bool {
+        is_undefined(self.as_expr(), unresolved_ctxt)
     }
 
     #[inline(always)]
@@ -753,14 +749,14 @@ pub trait ExprExt {
 
     /// Returns `true` if `id` references a global object.
     #[inline(always)]
-    fn is_global_ref_to(&self, ctx: ExprCtx, id: &str) -> bool {
-        is_global_ref_to(self.as_expr(), ctx, id)
+    fn is_global_ref_to(&self, unresolved_ctxt: SyntaxContext, id: &str) -> bool {
+        is_global_ref_to(self.as_expr(), unresolved_ctxt, id)
     }
 
     /// Returns `true` if `id` references a global object.
     #[inline(always)]
-    fn is_one_of_global_ref_to(&self, ctx: ExprCtx, ids: &[&str]) -> bool {
-        is_one_of_global_ref_to(self.as_expr(), ctx, ids)
+    fn is_one_of_global_ref_to(&self, unresolved_ctxt: SyntaxContext, ids: &[&str]) -> bool {
+        is_one_of_global_ref_to(self.as_expr(), unresolved_ctxt, ids)
     }
 
     #[inline(always)]
@@ -805,13 +801,13 @@ pub trait ExprExt {
     /// Apply the supplied predicate against all possible result Nodes of the
     /// expression.
     #[inline(always)]
-    fn get_type(&self, ctx: ExprCtx) -> Value<Type> {
-        get_type(self.as_expr(), ctx)
+    fn get_type(&self, unresolved_ctxt: SyntaxContext, remaining_depth: u8) -> Value<Type> {
+        get_type(self.as_expr(), unresolved_ctxt, remaining_depth)
     }
 
     #[inline(always)]
-    fn is_pure_callee(&self, ctx: ExprCtx) -> bool {
-        is_pure_callee(self.as_expr(), ctx)
+    fn is_pure_callee(&self, unresolved_ctxt: SyntaxContext) -> bool {
+        is_pure_callee(self.as_expr(), unresolved_ctxt)
     }
 
     #[inline(always)]
@@ -1795,17 +1791,6 @@ impl<'a> IdentUsageFinder<'a> {
 }
 
 impl ExprCtx {
-    pub fn consume_depth(self) -> Option<Self> {
-        if self.remaining_depth == 0 {
-            return None;
-        }
-
-        Some(Self {
-            remaining_depth: self.remaining_depth - 1,
-            ..self
-        })
-    }
-
     /// make a new expression which evaluates `val` preserving side effects, if
     /// any.
     pub fn preserve_effects<I>(self, span: Span, val: Box<Expr>, exprs: I) -> Box<Expr>
@@ -2702,8 +2687,8 @@ fn is_nan(expr: &Expr) -> bool {
     expr.is_ident_ref_to("NaN")
 }
 
-fn is_undefined(expr: &Expr, ctx: ExprCtx) -> bool {
-    expr.is_global_ref_to(ctx, "undefined")
+fn is_undefined(expr: &Expr, unresolved_ctxt: SyntaxContext) -> bool {
+    expr.is_global_ref_to(unresolved_ctxt, "undefined")
 }
 
 fn is_void(expr: &Expr) -> bool {
@@ -2716,16 +2701,16 @@ fn is_void(expr: &Expr) -> bool {
     )
 }
 
-fn is_global_ref_to(expr: &Expr, ctx: ExprCtx, id: &str) -> bool {
+fn is_global_ref_to(expr: &Expr, unresolved_ctxt: SyntaxContext, id: &str) -> bool {
     match expr {
-        Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && &*i.sym == id,
+        Expr::Ident(i) => i.ctxt == unresolved_ctxt && &*i.sym == id,
         _ => false,
     }
 }
 
-fn is_one_of_global_ref_to(expr: &Expr, ctx: ExprCtx, ids: &[&str]) -> bool {
+fn is_one_of_global_ref_to(expr: &Expr, unresolved_ctxt: SyntaxContext, ids: &[&str]) -> bool {
     match expr {
-        Expr::Ident(i) => i.ctxt == ctx.unresolved_ctxt && ids.contains(&&*i.sym),
+        Expr::Ident(i) => i.ctxt == unresolved_ctxt && ids.contains(&&*i.sym),
         _ => false,
     }
 }
@@ -2737,17 +2722,19 @@ fn as_pure_bool(expr: &Expr, ctx: ExprCtx) -> BoolValue {
     }
 }
 
-fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
-    let Some(ctx) = ctx.consume_depth() else {
+fn cast_to_bool(expr: &Expr, mut ctx: ExprCtx) -> (Purity, BoolValue) {
+    if ctx.remaining_depth == 0 {
         return (MayBeImpure, Unknown);
-    };
+    }
 
-    if expr.is_global_ref_to(ctx, "undefined") {
+    if expr.is_global_ref_to(ctx.unresolved_ctxt, "undefined") {
         return (Pure, Known(false));
     }
     if expr.is_nan() {
         return (Pure, Known(false));
     }
+
+    ctx.remaining_depth -= 1;
 
     let val = match expr {
         Expr::Paren(ref e) => return e.expr.cast_to_bool(ctx),
@@ -2846,7 +2833,9 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
             ref right,
             ..
         }) => {
-            if left.get_type(ctx) != Known(BoolType) || right.get_type(ctx) != Known(BoolType) {
+            if left.get_type(ctx.unresolved_ctxt, ctx.remaining_depth) != Known(BoolType)
+                || right.get_type(ctx.unresolved_ctxt, ctx.remaining_depth) != Known(BoolType)
+            {
                 return (MayBeImpure, Unknown);
             }
 
@@ -2964,10 +2953,11 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
     }
 }
 
-fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
-    let Some(ctx) = ctx.consume_depth() else {
+fn cast_to_number(expr: &Expr, mut ctx: ExprCtx) -> (Purity, Value<f64>) {
+    if ctx.remaining_depth == 0 {
         return (MayBeImpure, Unknown);
-    };
+    }
+    ctx.remaining_depth -= 1;
 
     let v = match expr {
         Expr::Lit(l) => match l {
@@ -3059,10 +3049,11 @@ fn as_pure_number(expr: &Expr, ctx: ExprCtx) -> Value<f64> {
     v
 }
 
-fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
-    let Some(ctx) = ctx.consume_depth() else {
+fn as_pure_string(expr: &Expr, mut ctx: ExprCtx) -> Value<Cow<'_, str>> {
+    if ctx.remaining_depth == 0 {
         return Unknown;
-    };
+    }
+    ctx.remaining_depth -= 1;
 
     match *expr {
         Expr::Lit(ref l) => match *l {
@@ -3155,17 +3146,18 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
     }
 }
 
-fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
-    let Some(ctx) = ctx.consume_depth() else {
+fn get_type(expr: &Expr, unresolved_ctxt: SyntaxContext, remaining_depth: u8) -> Value<Type> {
+    if remaining_depth == 0 {
         return Unknown;
-    };
+    }
+    let remaining_depth = remaining_depth - 1;
 
     match expr {
         Expr::Assign(AssignExpr {
             ref right,
             op: op!("="),
             ..
-        }) => right.get_type(ctx),
+        }) => right.get_type(unresolved_ctxt, remaining_depth),
 
         Expr::Member(MemberExpr {
             obj,
@@ -3182,7 +3174,7 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
         Expr::Seq(SeqExpr { ref exprs, .. }) => exprs
             .last()
             .expect("sequence expression should not be empty")
-            .get_type(ctx),
+            .get_type(unresolved_ctxt, remaining_depth),
 
         Expr::Bin(BinExpr {
             ref left,
@@ -3200,7 +3192,10 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             cons: ref left,
             alt: ref right,
             ..
-        }) => and(left.get_type(ctx), right.get_type(ctx)),
+        }) => and(
+            left.get_type(unresolved_ctxt, remaining_depth),
+            right.get_type(unresolved_ctxt, remaining_depth),
+        ),
 
         Expr::Bin(BinExpr {
             ref left,
@@ -3208,12 +3203,12 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             ref right,
             ..
         }) => {
-            let rt = right.get_type(ctx);
+            let rt = right.get_type(unresolved_ctxt, remaining_depth);
             if rt == Known(StringType) {
                 return Known(StringType);
             }
 
-            let lt = left.get_type(ctx);
+            let lt = left.get_type(unresolved_ctxt, remaining_depth);
             if lt == Known(StringType) {
                 return Known(StringType);
             }
@@ -3242,7 +3237,7 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
             ref right,
             ..
         }) => {
-            if right.get_type(ctx) == Known(StringType) {
+            if right.get_type(unresolved_ctxt, remaining_depth) == Known(StringType) {
                 return Known(StringType);
             }
             Unknown
@@ -3335,8 +3330,8 @@ fn get_type(expr: &Expr, ctx: ExprCtx) -> Value<Type> {
     }
 }
 
-fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
-    if expr.is_global_ref_to(ctx, "Date") {
+fn is_pure_callee(expr: &Expr, unresolved_ctxt: SyntaxContext) -> bool {
+    if expr.is_global_ref_to(unresolved_ctxt, "Date") {
         return true;
     }
 
@@ -3374,7 +3369,7 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
                 )
             }
 
-            obj.is_global_ref_to(ctx, "Math")
+            obj.is_global_ref_to(unresolved_ctxt, "Math")
                 || match &**obj {
                     // Allow dummy span
                     Expr::Ident(Ident {
@@ -3402,15 +3397,14 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
     }
 }
 
-fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
-    let Some(ctx) = ctx.consume_depth() else {
+fn may_have_side_effects(expr: &Expr, mut ctx: ExprCtx) -> bool {
+    if ctx.remaining_depth == 0 {
         return true;
-    };
-
-    if expr.is_pure_callee(ctx) {
+    }
+    if expr.is_pure_callee(ctx.unresolved_ctxt) {
         return false;
     }
-
+    ctx.remaining_depth -= 1;
     match expr {
         Expr::Ident(i) => {
             if ctx.is_unresolved_ref_safe {
@@ -3543,7 +3537,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             callee: Callee::Expr(callee),
             ref args,
             ..
-        }) if callee.is_pure_callee(ctx) => {
+        }) if callee.is_pure_callee(ctx.unresolved_ctxt) => {
             args.iter().any(|arg| arg.expr.may_have_side_effects(ctx))
         }
         Expr::OptChain(OptChainExpr { base, .. })
@@ -3551,7 +3545,7 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                 && OptChainBase::as_call(base)
                     .unwrap()
                     .callee
-                    .is_pure_callee(ctx) =>
+                    .is_pure_callee(ctx.unresolved_ctxt) =>
         {
             OptChainBase::as_call(base)
                 .unwrap()

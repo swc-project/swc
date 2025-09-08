@@ -57,8 +57,14 @@ impl Optimizer<'_> {
         }
 
         if e.op == op!("===") {
-            if let Known(lt) = e.left.get_type(self.ctx.expr_ctx) {
-                if let Known(rt) = e.right.get_type(self.ctx.expr_ctx) {
+            if let Known(lt) = e.left.get_type(
+                self.ctx.expr_ctx.unresolved_ctxt,
+                self.ctx.expr_ctx.remaining_depth,
+            ) {
+                if let Known(rt) = e.right.get_type(
+                    self.ctx.expr_ctx.unresolved_ctxt,
+                    self.ctx.expr_ctx.remaining_depth,
+                ) {
                     if lt == rt {
                         e.op = op!("==");
                         self.changed = true;
@@ -131,7 +137,10 @@ impl Optimizer<'_> {
                     | Expr::Bin(BinExpr { op: op!("<"), .. })
                     | Expr::Bin(BinExpr { op: op!(">="), .. })
                     | Expr::Bin(BinExpr { op: op!(">"), .. }) => {
-                        if let Known(Type::Bool) = arg.get_type(self.ctx.expr_ctx) {
+                        if let Known(Type::Bool) = arg.get_type(
+                            self.ctx.expr_ctx.unresolved_ctxt,
+                            self.ctx.expr_ctx.remaining_depth,
+                        ) {
                             self.changed = true;
                             report_change!("Optimizing: `!!expr` => `expr`");
                             *e = *arg.take();
@@ -187,14 +196,20 @@ impl Optimizer<'_> {
             _ => {}
         }
 
-        let lt = bin.left.get_type(self.ctx.expr_ctx);
+        let lt = bin.left.get_type(
+            self.ctx.expr_ctx.unresolved_ctxt,
+            self.ctx.expr_ctx.remaining_depth,
+        );
         match lt {
             // Don't change type
             Known(Type::Bool) => {}
             _ => return,
         }
 
-        let rt = bin.right.get_type(self.ctx.expr_ctx);
+        let rt = bin.right.get_type(
+            self.ctx.expr_ctx.unresolved_ctxt,
+            self.ctx.expr_ctx.remaining_depth,
+        );
         match rt {
             Known(Type::Bool) => {}
             _ => return,

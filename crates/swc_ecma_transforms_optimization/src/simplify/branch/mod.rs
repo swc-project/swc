@@ -145,13 +145,13 @@ impl VisitMut for Remover {
 
             Expr::Cond(cond)
                 if !cond.test.may_have_side_effects(self.expr_ctx)
-                    && (cond.cons.is_undefined(self.expr_ctx)
+                    && (cond.cons.is_undefined(self.expr_ctx.unresolved_ctxt)
                         || matches!(*cond.cons, Expr::Unary(UnaryExpr {
                                 op: op!("void"),
                                 ref arg,
                                 ..
                             }) if !arg.may_have_side_effects(self.expr_ctx)))
-                    && (cond.alt.is_undefined(self.expr_ctx)
+                    && (cond.alt.is_undefined(self.expr_ctx.unresolved_ctxt)
                         || matches!(*cond.alt, Expr::Unary(UnaryExpr {
                                 op: op!("void"),
                                 ref arg,
@@ -281,7 +281,7 @@ impl VisitMut for Remover {
                 span,
                 key,
                 value: Some(expr),
-            }) if expr.is_undefined(self.expr_ctx)
+            }) if expr.is_undefined(self.expr_ctx.unresolved_ctxt)
                 || match **expr {
                     Expr::Unary(UnaryExpr {
                         op: op!("void"),
@@ -323,7 +323,7 @@ impl VisitMut for Remover {
 
         match p {
             Pat::Assign(assign)
-                if assign.right.is_undefined(self.expr_ctx)
+                if assign.right.is_undefined(self.expr_ctx.unresolved_ctxt)
                     || match *assign.right {
                         Expr::Unary(UnaryExpr {
                             op: op!("void"),
@@ -655,7 +655,13 @@ impl VisitMut for Remover {
                         Expr::Lit(Lit::Str(..))
                         | Expr::Lit(Lit::Null(..))
                         | Expr::Lit(Lit::Num(..)) => true,
-                        ref e if e.is_nan() || e.is_global_ref_to(self.expr_ctx, "undefined") => {
+                        ref e
+                            if e.is_nan()
+                                || e.is_global_ref_to(
+                                    self.expr_ctx.unresolved_ctxt,
+                                    "undefined",
+                                ) =>
+                        {
                             true
                         }
                         _ => false,
@@ -725,7 +731,10 @@ impl VisitMut for Remover {
 
                                     _ => {
                                         if !test.is_nan()
-                                            && !test.is_global_ref_to(self.expr_ctx, "undefined")
+                                            && !test.is_global_ref_to(
+                                                self.expr_ctx.unresolved_ctxt,
+                                                "undefined",
+                                            )
                                         {
                                             non_constant_case_idx = Some(i);
                                         }
@@ -1637,7 +1646,7 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: ExprCtx) -> Option<Box<E
             ref callee,
             args,
             ..
-        }) if callee.is_pure_callee(ctx) => ignore_result(
+        }) if callee.is_pure_callee(ctx.unresolved_ctxt) => ignore_result(
             ArrayLit {
                 span,
                 elems: args
@@ -1654,7 +1663,7 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: ExprCtx) -> Option<Box<E
             callee: Callee::Expr(ref callee),
             args,
             ..
-        }) if callee.is_pure_callee(ctx) => ignore_result(
+        }) if callee.is_pure_callee(ctx.unresolved_ctxt) => ignore_result(
             ArrayLit {
                 span,
                 elems: args.into_iter().map(Some).collect(),
@@ -1670,7 +1679,9 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: ExprCtx) -> Option<Box<E
             ctx,
         ),
 
-        Expr::TaggedTpl(TaggedTpl { span, tag, tpl, .. }) if tag.is_pure_callee(ctx) => {
+        Expr::TaggedTpl(TaggedTpl { span, tag, tpl, .. })
+            if tag.is_pure_callee(ctx.unresolved_ctxt) =>
+        {
             ignore_result(
                 ctx.preserve_effects(span, Expr::undefined(span), tpl.exprs),
                 true,

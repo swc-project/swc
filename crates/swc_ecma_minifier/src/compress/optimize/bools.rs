@@ -183,8 +183,14 @@ impl Optimizer<'_> {
             _ => return None,
         };
 
-        let lt = left.get_type(self.ctx.expr_ctx);
-        let rt = right.get_type(self.ctx.expr_ctx);
+        let lt = left.get_type(
+            self.ctx.expr_ctx.unresolved_ctxt,
+            self.ctx.expr_ctx.remaining_depth,
+        );
+        let rt = right.get_type(
+            self.ctx.expr_ctx.unresolved_ctxt,
+            self.ctx.expr_ctx.remaining_depth,
+        );
         if let (Value::Known(Type::Undefined), Value::Known(Type::Null))
         | (Value::Known(Type::Null), Value::Known(Type::Undefined)) = (lt, rt)
         {

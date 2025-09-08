@@ -263,7 +263,7 @@ impl Pure<'_> {
             || is_typeof_unaray(&e.right, &e.left)
             || (self.options.comparisons
                 && matches!(
-                    (e.left.get_type(self.expr_ctx), e.right.get_type(self.expr_ctx)),
+                    (e.left.get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth), e.right.get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth)),
                     (Value::Known(l), Value::Known(r)) if l == r
                 ));
 
@@ -306,8 +306,10 @@ impl Pure<'_> {
                 right,
                 ..
             }) => {
-                let lt = left.get_type(self.expr_ctx);
-                let rt = right.get_type(self.expr_ctx);
+                let lt =
+                    left.get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth);
+                let rt =
+                    right.get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth);
 
                 if let (Value::Known(Type::Bool), Value::Known(Type::Bool)) = (lt, rt) {
                     let rb = right.as_pure_bool(self.expr_ctx);

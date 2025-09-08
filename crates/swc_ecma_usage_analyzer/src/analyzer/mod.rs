@@ -283,7 +283,8 @@ where
                         self.ctx,
                         id,
                         is_op_assign,
-                        n.right.get_type(self.expr_ctx),
+                        n.right
+                            .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth),
                     )
                 }
             }
@@ -291,7 +292,8 @@ where
                 self.report_assign_expr_if_ident(
                     e.as_ident().map(Ident::from).as_ref(),
                     is_op_assign,
-                    n.right.get_type(self.expr_ctx),
+                    n.right
+                        .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth),
                 );
                 self.mark_mutation_if_member(e.as_member())
             }
@@ -470,7 +472,7 @@ where
             n.args.visit_with(&mut *self.with_ctx(ctx));
 
             let call_may_mutate = match &n.callee {
-                Callee::Expr(e) => call_may_mutate(e, self.expr_ctx),
+                Callee::Expr(e) => call_may_mutate(e, self.expr_ctx.unresolved_ctxt),
                 _ => true,
             };
 
@@ -1096,7 +1098,7 @@ where
             let ctx = self.ctx.with(BitContext::IsIdRef, true);
             n.args.visit_with(&mut *self.with_ctx(ctx));
 
-            if call_may_mutate(&n.callee, self.expr_ctx) {
+            if call_may_mutate(&n.callee, self.expr_ctx.unresolved_ctxt) {
                 if let Some(args) = &n.args {
                     for a in args {
                         for_each_id_ref_in_expr(&a.expr, &mut |id| {
@@ -1420,10 +1422,9 @@ where
                             .map(is_safe_to_access_prop)
                             .unwrap_or(false),
                     ),
-                in_pat_of_var_decl_with_init: e
-                    .init
-                    .as_ref()
-                    .map(|init| init.get_type(self.expr_ctx)),
+                in_pat_of_var_decl_with_init: e.init.as_ref().map(|init| {
+                    init.get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth)
+                }),
                 ..self.ctx
             };
             e.name.visit_with(&mut *self.with_ctx(ctx));
@@ -1681,7 +1682,7 @@ fn is_safe_to_access_prop(e: &Expr) -> bool {
     }
 }
 
-fn call_may_mutate(expr: &Expr, expr_ctx: ExprCtx) -> bool {
+fn call_may_mutate(expr: &Expr, unresolved: SyntaxContext) -> bool {
     fn is_global_fn_wont_mutate(s: &Ident, unresolved: SyntaxContext) -> bool {
         s.ctxt == unresolved
             && matches!(
@@ -1729,13 +1730,13 @@ fn call_may_mutate(expr: &Expr, expr_ctx: ExprCtx) -> bool {
             )
     }
 
-    if expr.is_pure_callee(expr_ctx) {
+    if expr.is_pure_callee(unresolved) {
         false
     } else {
         match expr {
-            Expr::Ident(i) if is_global_fn_wont_mutate(i, expr_ctx.unresolved_ctxt) => false,
+            Expr::Ident(i) if is_global_fn_wont_mutate(i, unresolved) => false,
             Expr::Member(MemberExpr { obj, .. }) => {
-                !matches!(&**obj, Expr::Ident(i) if is_global_fn_wont_mutate(i, expr_ctx.unresolved_ctxt))
+                !matches!(&**obj, Expr::Ident(i) if is_global_fn_wont_mutate(i, unresolved))
             }
             _ => true,
         }

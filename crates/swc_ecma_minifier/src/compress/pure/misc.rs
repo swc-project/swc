@@ -1134,7 +1134,11 @@ impl Pure<'_> {
                 callee: Callee::Expr(callee),
                 args,
                 ..
-            }) if callee.is_one_of_global_ref_to(self.expr_ctx, &["Array", "Object", "RegExp"]) => {
+            }) if callee.is_one_of_global_ref_to(
+                self.expr_ctx.unresolved_ctxt,
+                &["Array", "Object", "RegExp"],
+            ) =>
+            {
                 let new_expr = match &**callee {
                     Expr::Ident(Ident { sym, .. }) if &**sym == "RegExp" => {
                         self.optimize_regex(args, span)
@@ -1163,7 +1167,7 @@ impl Pure<'_> {
                 args,
                 ..
             }) if callee.is_one_of_global_ref_to(
-                self.expr_ctx,
+                self.expr_ctx.unresolved_ctxt,
                 &["Boolean", "Number", "String", "Symbol"],
             ) =>
             {
@@ -1273,7 +1277,7 @@ impl Pure<'_> {
                 args,
                 ..
             }) if callee.is_one_of_global_ref_to(
-                self.expr_ctx,
+                self.expr_ctx.unresolved_ctxt,
                 &[
                     "Object",
                     // https://262.ecma-international.org/12.0/#sec-array-constructor
@@ -1292,7 +1296,7 @@ impl Pure<'_> {
                     "TypeError",
                     "URIError",
                 ],
-            ) || (callee.is_global_ref_to(self.expr_ctx, "RegExp")
+            ) || (callee.is_global_ref_to(self.expr_ctx.unresolved_ctxt, "RegExp")
                 && can_compress_new_regexp(args.as_deref())) =>
             {
                 self.changed = true;
@@ -1615,7 +1619,7 @@ impl Pure<'_> {
                 callee: Callee::Expr(callee),
                 args,
                 ..
-            }) if callee.is_pure_callee(self.expr_ctx) => {
+            }) if callee.is_pure_callee(self.expr_ctx.unresolved_ctxt) => {
                 report_change!("ignore_return_value: Dropping a pure call (callee is pure)");
                 self.changed = true;
 
@@ -1644,7 +1648,9 @@ impl Pure<'_> {
                 ctxt,
                 args,
                 ..
-            }) if callee.is_pure_callee(self.expr_ctx) || ctxt.has_mark(self.marks.pure) => {
+            }) if callee.is_pure_callee(self.expr_ctx.unresolved_ctxt)
+                || ctxt.has_mark(self.marks.pure) =>
+            {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
 
@@ -1667,7 +1673,7 @@ impl Pure<'_> {
                 args,
                 ..
             }) => {
-                if callee.is_pure_callee(self.expr_ctx) {
+                if callee.is_pure_callee(self.expr_ctx.unresolved_ctxt) {
                     self.changed = true;
                     report_change!("Dropping pure call as callee is pure");
                     *e = self
@@ -1683,7 +1689,7 @@ impl Pure<'_> {
                 tpl,
                 ..
             }) => {
-                if callee.is_pure_callee(self.expr_ctx) {
+                if callee.is_pure_callee(self.expr_ctx.unresolved_ctxt) {
                     self.changed = true;
                     report_change!("Dropping pure tag tpl as callee is pure");
                     *e = self
@@ -2157,7 +2163,7 @@ impl Pure<'_> {
                 Expr::New(NewExpr {
                     span, callee, args, ..
                 }) if callee.is_one_of_global_ref_to(
-                    self.expr_ctx,
+                    self.expr_ctx.unresolved_ctxt,
                     &[
                         "Map", "Set", "Array", "Object", "Boolean", "Number", "String",
                     ],
@@ -2181,7 +2187,7 @@ impl Pure<'_> {
                     args,
                     ..
                 }) if callee.is_one_of_global_ref_to(
-                    self.expr_ctx,
+                    self.expr_ctx.unresolved_ctxt,
                     &["Array", "Object", "Boolean", "Number"],
                 ) =>
                 {
@@ -2422,8 +2428,12 @@ impl Pure<'_> {
             _ => return,
         };
 
-        let lt = cond.cons.get_type(self.expr_ctx);
-        let rt = cond.alt.get_type(self.expr_ctx);
+        let lt = cond
+            .cons
+            .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth);
+        let rt = cond
+            .alt
+            .get_type(self.expr_ctx.unresolved_ctxt, self.expr_ctx.remaining_depth);
         match (lt, rt) {
             (Known(Type::Bool), Known(Type::Bool)) => {}
             _ => return,
