@@ -2,9 +2,7 @@ use ctx::BitContext;
 use rustc_hash::FxHashMap;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    find_pat_ids, ident::IdentLike, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value,
-};
+use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt, Type, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
@@ -159,7 +157,7 @@ where
                 self.data.report_usage(self.ctx, i.clone());
                 self.data.var_or_default(i.clone()).mark_used_above_decl()
             }
-            self.data.var_or_default(i.clone()).mark_used_recursively();
+            self.data.var_or_default(i).mark_used_recursively();
             return;
         }
 
@@ -301,7 +299,7 @@ where
 
         if n.op == op!("=") {
             let left = match &n.left {
-                AssignTarget::Simple(left) => left.leftmost().map(Ident::to_id),
+                AssignTarget::Simple(left) => left.leftmost(),
                 AssignTarget::Pat(..) => None,
             };
 
@@ -319,7 +317,7 @@ where
                         v = Some(self.data.var_or_default(left.to_id()));
                     }
 
-                    v.as_mut().unwrap().add_infects_to(id.clone());
+                    v.as_mut().unwrap().add_infects_to(id);
                 }
             }
         }
@@ -800,7 +798,7 @@ where
                     v = Some(self.data.var_or_default(n.ident.to_id()));
                 }
 
-                v.as_mut().unwrap().add_infects_to(id.clone());
+                v.as_mut().unwrap().add_infects_to(id);
             }
         }
     }
@@ -1390,7 +1388,7 @@ where
                         v = Some(self.data.var_or_default(var.to_id()));
                     }
 
-                    v.as_mut().unwrap().add_infects_to(id.clone());
+                    v.as_mut().unwrap().add_infects_to(id);
                 }
             }
         }

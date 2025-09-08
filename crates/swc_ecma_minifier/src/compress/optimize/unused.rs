@@ -107,21 +107,19 @@ impl Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
     pub(super) fn drop_unused_vars(&mut self, name: &mut Pat, init: Option<&mut Expr>) {
-        if self
-            .ctx
-            .bit_ctx
-            .intersects(BitCtx::IsExported | BitCtx::InAsm)
-        {
-            return;
-        }
-
-        trace_op!("unused: drop_unused_vars({})", dump(&*name, false));
-
         if !self.options.unused && !self.options.side_effects {
             return;
         }
 
-        if self.ctx.bit_ctx.contains(BitCtx::InVarDeclOfForInOrOfLoop) {
+        if self.ctx.bit_ctx.intersects(
+            BitCtx::IsExported
+                .union(BitCtx::InAsm)
+                .union(BitCtx::InVarDeclOfForInOrOfLoop),
+        ) {
+            return;
+        }
+
+        if !name.is_ident() && init.is_none() {
             return;
         }
 
@@ -135,9 +133,7 @@ impl Optimizer<'_> {
             }
         }
 
-        if !name.is_ident() && init.is_none() {
-            return;
-        }
+        trace_op!("unused: drop_unused_vars({})", dump(&*name, false));
 
         self.take_pat_if_unused(name, init, true);
     }
