@@ -530,14 +530,11 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
 }
 
 pub fn minify_number(num: f64, detect_dot: &mut bool) -> String {
-    // ddddd -> 0xhhhh
-    // len(0xhhhh) == len(ddddd)
-    // 10000000 <= num <= 0xffffff
     'hex: {
         if num.fract() == 0.0 && num.abs() <= u64::MAX as f64 {
             let int = num.abs() as u64;
 
-            if int < 10000000 {
+            if int < 1_000_000_000_000 {
                 break 'hex;
             }
 
