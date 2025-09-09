@@ -23,7 +23,7 @@ swc_common = { version = "14.0.3", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "15.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "17.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "17.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_lexer = { version = "23.0.0", path = "../swc_ecma_lexer" }
 swc_ecma_parser = { version = "24.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",

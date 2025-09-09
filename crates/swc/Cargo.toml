@@ -85,7 +85,7 @@ swc_common = { version = "14.0.3", path = "../swc_common", features = [
 swc_compiler_base = { version = "34.0.0", path = "../swc_compiler_base" }
 swc_config = { version = "3.1.1", path = "../swc_config" }
 swc_ecma_ast = { version = "15.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "17.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "17.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "21.0.0", path = "../swc_ecma_ext_transforms" }
 swc_ecma_lints = { version = "22.0.0", path = "../swc_ecma_lints", optional = true }
 swc_ecma_loader = { version = "14.0.0", path = "../swc_ecma_loader", features = [
@@ -93,7 +93,7 @@ swc_ecma_loader = { version = "14.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "32.0.0", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "32.0.1", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "24.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 swc_ecma_preset_env = { version = "33.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "32.0.0", path = "../swc_ecma_transforms", features = [

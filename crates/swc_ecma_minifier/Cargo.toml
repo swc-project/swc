@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = { workspace = true }
 name          = "swc_ecma_minifier"
 repository    = { workspace = true }
-version       = "32.0.0"
+version       = "32.0.1"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -58,7 +58,7 @@ swc_config = { version = "3.1.1", path = "../swc_config", features = [
 swc_ecma_ast = { version = "15.0.0", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_codegen = { version = "17.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "17.0.1", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "24.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 swc_ecma_transforms_base = { version = "26.0.0", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_optimization = { version = "28.0.0", path = "../swc_ecma_transforms_optimization" }

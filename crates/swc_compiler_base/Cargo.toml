@@ -29,8 +29,8 @@ swc_common = { version = "14.0.3", path = "../swc_common", features = [
 ] }
 swc_config = { version = "3.1.1", path = "../swc_config" }
 swc_ecma_ast = { version = "15.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "17.0.0", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "32.0.0", path = "../swc_ecma_minifier" }
+swc_ecma_codegen = { version = "17.0.1", path = "../swc_ecma_codegen" }
+swc_ecma_minifier = { version = "32.0.1", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "24.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 swc_ecma_visit = { version = "15.0.0", path = "../swc_ecma_visit" }
 swc_timer = { version = "1.0.0", path = "../swc_timer" }
