@@ -176,7 +176,7 @@ where
 
     fn report_assign_pat(&mut self, p: &Pat, is_read_modify: bool) {
         for id in find_pat_ids(p) {
-            debug_assert!(!self.r.is_ref_to_unresolved(id));
+            debug_assert!(!self.r.is_ref_to_unresolved(id), "p: {p:#?}, id: {id:#?}");
             let id = self.r.find_binding_by_node_id(id);
             // It's hard to determined the type of pat assignment
             self.data

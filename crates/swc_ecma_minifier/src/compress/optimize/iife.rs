@@ -204,15 +204,14 @@ impl Optimizer<'_> {
                             continue;
                         }
                         debug_assert!(self.r.is_ref_to_itself(param.node_id));
-                        if let Some(usage) = self.data.vars.get(&param.node_id) {
+                        let node_id = param.node_id;
+                        if let Some(usage) = self.data.vars.get(&node_id) {
                             if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                 continue;
                             }
                         }
 
-                        let arg = e.args.get(idx).map(|v| &v.expr);
-
-                        if let Some(arg) = arg {
+                        if let Some(arg) = e.args.get(idx).map(|v| &v.expr) {
                             match &**arg {
                                 Expr::Lit(Lit::Regex(..)) => continue,
                                 Expr::Lit(Lit::Str(s)) if s.value.len() > 3 => continue,
@@ -220,14 +219,13 @@ impl Optimizer<'_> {
                                 _ => continue,
                             }
 
-                            let should_be_inlined = self.can_be_inlined_for_iife(arg);
-                            if should_be_inlined {
+                            if self.can_be_inlined_for_iife(arg) {
                                 trace_op!(
                                     "iife: Trying to inline argument ({}{:?})",
                                     param.id.sym,
                                     param.id.ctxt
                                 );
-                                vars.insert(param.node_id, arg.clone());
+                                vars.insert(node_id, arg.clone());
                             } else {
                                 trace_op!(
                                     "iife: Trying to inline argument ({}{:?}) (not inlinable)",
@@ -242,7 +240,7 @@ impl Optimizer<'_> {
                                 param.id.ctxt
                             );
 
-                            vars.insert(param.node_id, Expr::undefined(param.span()));
+                            vars.insert(node_id, Expr::undefined(param.span()));
                         }
                     }
 

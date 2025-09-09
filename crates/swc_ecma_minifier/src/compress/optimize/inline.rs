@@ -707,10 +707,10 @@ impl Optimizer<'_> {
             return;
         }
 
-        let id = i.node_id;
-        debug_assert!(self.r.is_ref_to_itself(id));
+        let node_id = i.node_id;
+        debug_assert!(self.r.is_ref_to_itself(node_id));
 
-        if let Some(usage) = self.data.vars.get(&id) {
+        if let Some(usage) = self.data.vars.get(&node_id) {
             if usage
                 .flags
                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
@@ -778,7 +778,7 @@ impl Optimizer<'_> {
                             }
 
                             self.vars.simple_functions.insert(
-                                id,
+                                node_id,
                                 FnExpr {
                                     ident: None,
                                     function: f.function.clone(),
@@ -873,7 +873,7 @@ impl Optimizer<'_> {
                     }
                 };
 
-                self.vars.vars_for_inlining.insert(id, e);
+                self.vars.vars_for_inlining.insert(node_id, e);
             } else {
                 log_abort!("inline: [x] Usage: {:?}", usage);
             }

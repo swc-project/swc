@@ -217,6 +217,20 @@ impl Resolver {
                 for prop in n.props.iter_mut() {
                     match prop {
                         ObjectPatProp::KeyValue(p) => {
+                            if let PropName::Computed(key) = &mut p.key {
+                                struct BindingIdent<'r> {
+                                    r: &'r mut Resolver,
+                                }
+                                impl<'r> VisitMut for BindingIdent<'r> {
+                                    noop_visit_mut_type!();
+
+                                    fn visit_mut_ident(&mut self, ident: &mut Ident) {
+                                        self.r.add_binding_for_ident(ident);
+                                    }
+                                }
+                                let mut v = BindingIdent { r: self };
+                                key.visit_mut_children_with(&mut v);
+                            };
                             self.visit_pat_with_binding(&mut p.value, is_var);
                         }
                         ObjectPatProp::Assign(p) => {
@@ -243,67 +257,6 @@ impl Resolver {
             }
             Pat::Expr(_) => {
                 // TODO:
-            }
-        }
-    }
-
-    fn lookahead_hoist_stmt(&mut self, stmt: &mut Stmt) {
-        let Stmt::Decl(decl) = stmt else {
-            return;
-        };
-        match decl {
-            Decl::Fn(n) => {
-                self.add_binding_for_ident(&mut n.ident);
-            }
-            Decl::Class(n) => {
-                self.add_binding_for_ident(&mut n.ident);
-            }
-            _ => {}
-        }
-    }
-
-    fn lookahead_hoist_stmts(&mut self, stmts: &mut Vec<Stmt>) {
-        for stmt in stmts {
-            self.lookahead_hoist_stmt(stmt);
-        }
-    }
-
-    fn lookahead_hoist_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
-        debug_assert!(self.current_scope_id == ScopeId::TOP_LEVEL);
-        for stmt in stmts {
-            let decl = match stmt {
-                ModuleItem::ModuleDecl(m) => m,
-                ModuleItem::Stmt(stmt) => {
-                    self.lookahead_hoist_stmt(stmt);
-                    continue;
-                }
-            };
-            match decl {
-                ModuleDecl::Import(n) => {
-                    for spec in &mut n.specifiers {
-                        match spec {
-                            ImportSpecifier::Named(n) => {
-                                self.add_binding_for_ident(&mut n.local);
-                            }
-                            ImportSpecifier::Default(n) => {
-                                self.add_binding_for_ident(&mut n.local);
-                            }
-                            ImportSpecifier::Namespace(n) => {
-                                self.add_binding_for_ident(&mut n.local);
-                            }
-                        }
-                    }
-                }
-                ModuleDecl::ExportDecl(n) => match &mut n.decl {
-                    Decl::Fn(n) => {
-                        self.add_binding_for_ident(&mut n.ident);
-                    }
-                    Decl::Class(n) => {
-                        self.add_binding_for_ident(&mut n.ident);
-                    }
-                    _ => {}
-                },
-                _ => {}
             }
         }
     }
@@ -421,7 +374,9 @@ impl VisitMut for Resolver {
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
         for decl in &mut node.decls {
-            self.visit_pat_with_binding(&mut decl.name, node.kind == VarDeclKind::Var);
+            if node.kind != VarDeclKind::Var {
+                self.visit_pat_with_binding(&mut decl.name, false);
+            }
             decl.init.visit_mut_children_with(self);
         }
     }
@@ -436,10 +391,16 @@ impl VisitMut for Resolver {
         self.visit_pat_with_binding(&mut node.pat, false);
     }
 
+    fn visit_mut_function(&mut self, node: &mut Function) {
+        let mut lookahead = DeepLookahead { r: self };
+        node.body.visit_mut_with(&mut lookahead);
+        node.visit_mut_children_with(self);
+    }
+
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
         debug_assert!(self.is_ref_to_itself(node.ident.node_id));
         self.with_new_scope(ScopeKind::Fn, |this| {
-            node.function.visit_mut_children_with(this);
+            node.function.visit_mut_with(this);
         });
     }
 
@@ -449,7 +410,7 @@ impl VisitMut for Resolver {
                 this.add_binding_for_ident(ident);
             }
             this.with_new_scope(ScopeKind::Fn, |this| {
-                node.function.visit_mut_children_with(this);
+                node.function.visit_mut_with(this);
             });
         });
     }
@@ -458,6 +419,10 @@ impl VisitMut for Resolver {
         self.with_new_scope(ScopeKind::Fn, |this| {
             for param in &mut node.params {
                 this.visit_pat_with_binding(param, false);
+            }
+            if let Some(block_stmt) = node.body.as_mut_block_stmt() {
+                let mut lookahead = DeepLookahead { r: this };
+                block_stmt.visit_mut_children_with(&mut lookahead);
             }
             node.body.visit_mut_children_with(this);
         });
@@ -480,12 +445,16 @@ impl VisitMut for Resolver {
     }
 
     fn visit_mut_stmts(&mut self, node: &mut Vec<Stmt>) {
-        self.lookahead_hoist_stmts(node);
+        let mut lookahead = ShadowLookahead { r: self };
+        lookahead.lookahead_hoist_stmts(node);
         node.visit_mut_children_with(self);
     }
 
     fn visit_mut_module_items(&mut self, node: &mut Vec<ModuleItem>) {
-        self.lookahead_hoist_module_items(node);
+        let mut lookahead = ShadowLookahead { r: self };
+        lookahead.lookahead_hoist_module_items(node);
+        let mut lookahead = DeepLookahead { r: self };
+        node.visit_mut_children_with(&mut lookahead);
         node.visit_mut_children_with(self);
     }
 
@@ -552,7 +521,119 @@ impl VisitMut for Resolver {
 
     fn visit_mut_script(&mut self, node: &mut Script) {
         self.start_visit_with(|this| {
+            let mut lookahead = DeepLookahead { r: this };
+            node.body.visit_mut_children_with(&mut lookahead);
             this.visit_mut_stmts(&mut node.body);
         });
+    }
+}
+
+/// only lookahead current block
+struct ShadowLookahead<'r> {
+    r: &'r mut Resolver,
+}
+
+impl<'r> ShadowLookahead<'r> {
+    fn lookahead_hoist_stmt(&mut self, stmt: &mut Stmt) {
+        let Stmt::Decl(decl) = stmt else {
+            return;
+        };
+        match decl {
+            Decl::Fn(n) => {
+                self.r.add_binding_for_ident(&mut n.ident);
+            }
+            Decl::Class(n) => {
+                self.r.add_binding_for_ident(&mut n.ident);
+            }
+            _ => {}
+        }
+    }
+
+    fn lookahead_hoist_stmts(&mut self, stmts: &mut Vec<Stmt>) {
+        for stmt in stmts {
+            self.lookahead_hoist_stmt(stmt);
+        }
+    }
+
+    fn lookahead_hoist_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
+        debug_assert!(self.r.current_scope_id == ScopeId::TOP_LEVEL);
+        for stmt in stmts {
+            let decl = match stmt {
+                ModuleItem::ModuleDecl(m) => m,
+                ModuleItem::Stmt(stmt) => {
+                    self.lookahead_hoist_stmt(stmt);
+                    continue;
+                }
+            };
+            match decl {
+                ModuleDecl::Import(n) => {
+                    for spec in &mut n.specifiers {
+                        match spec {
+                            ImportSpecifier::Named(n) => {
+                                self.r.add_binding_for_ident(&mut n.local);
+                            }
+                            ImportSpecifier::Default(n) => {
+                                self.r.add_binding_for_ident(&mut n.local);
+                            }
+                            ImportSpecifier::Namespace(n) => {
+                                self.r.add_binding_for_ident(&mut n.local);
+                            }
+                        }
+                    }
+                }
+                ModuleDecl::ExportDecl(n) => match &mut n.decl {
+                    Decl::Fn(n) => {
+                        self.r.add_binding_for_ident(&mut n.ident);
+                    }
+                    Decl::Class(n) => {
+                        self.r.add_binding_for_ident(&mut n.ident);
+                    }
+                    _ => {}
+                },
+                _ => {}
+            }
+        }
+    }
+}
+
+/// lookahead current block and its child blocks(exclude function, class...)
+struct DeepLookahead<'r> {
+    r: &'r mut Resolver,
+}
+
+impl<'r> VisitMut for DeepLookahead<'r> {
+    noop_visit_mut_type!();
+
+    fn visit_mut_arrow_expr(&mut self, _: &mut ArrowExpr) {}
+
+    fn visit_mut_constructor(&mut self, _: &mut Constructor) {}
+
+    fn visit_mut_expr(&mut self, _: &mut Expr) {}
+
+    fn visit_mut_function(&mut self, _: &mut Function) {}
+
+    fn visit_mut_param(&mut self, _: &mut Param) {}
+
+    fn visit_mut_assign_target(&mut self, _: &mut AssignTarget) {}
+
+    fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
+
+    fn visit_mut_tagged_tpl(&mut self, _: &mut TaggedTpl) {}
+
+    fn visit_mut_tpl(&mut self, _: &mut Tpl) {}
+
+    fn visit_mut_fn_decl(&mut self, _: &mut FnDecl) {}
+
+    fn visit_mut_class_decl(&mut self, _: &mut ClassDecl) {}
+
+    fn visit_mut_import_decl(&mut self, _: &mut ImportDecl) {}
+
+    fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
+        if node.kind != VarDeclKind::Var {
+            return;
+        }
+        for decl in &mut node.decls {
+            self.r.visit_pat_with_binding(&mut decl.name, true);
+        }
     }
 }
