@@ -5071,7 +5071,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "39.0.1"
+version = "39.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5334,7 +5334,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "17.0.1"
+version = "17.0.2"
 dependencies = [
  "ascii",
  "base64 0.22.1",
@@ -5644,7 +5644,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "32.0.1"
+version = "32.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -6434,7 +6434,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_backend_wasmtime"
-version = "1.0.1"
+version = "1.0.2"
 dependencies = [
  "anyhow",
  "swc_common",
