@@ -2381,8 +2381,8 @@ impl Optimizer<'_> {
             }
 
             Mergable::FnDecl(a) => {
-                debug_assert!(self.r.is_ref_to_itself(a.ident.node_id));
-                if let Some(usage) = self.data.vars.get(&a.ident.node_id) {
+                let node_id = self.r.find_binding_by_ident(&a.ident);
+                if let Some(usage) = self.data.vars.get(&node_id) {
                     if usage.ref_count != 1
                         || usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                         || !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
@@ -2473,8 +2473,10 @@ impl Optimizer<'_> {
                 Mergable::FnDecl(a) => {
                     // We can inline a function declaration as a function expression.
 
+                    let mut ident = a.ident.take();
+                    ident.node_id = self.r.find_binding_by_ident(&ident);
                     FnExpr {
-                        ident: Some(a.ident.take()),
+                        ident: Some(ident),
                         function: a.function.take(),
                     }
                     .into()

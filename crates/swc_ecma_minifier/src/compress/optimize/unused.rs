@@ -580,11 +580,11 @@ impl Optimizer<'_> {
                 }
 
                 // If it is not used, drop it.
-                debug_assert!(self.r.is_ref_to_itself(ident.node_id));
+                let node_id = self.r.find_binding_by_ident(ident);
                 if self
                     .data
                     .vars
-                    .get(&ident.node_id)
+                    .get(&node_id)
                     .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
                     .unwrap_or(false)
                 {

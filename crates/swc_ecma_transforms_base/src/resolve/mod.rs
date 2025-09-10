@@ -21,6 +21,9 @@ pub struct Resolver {
     next_scope_id: u32,
 
     current_node_id: u32,
+
+    strict_mode: bool,
+    is_module: bool,
 }
 
 pub fn name_resolution(
@@ -36,6 +39,9 @@ pub fn name_resolution(
         scopes,
         current_scope_id: export_scope,
         next_scope_id: 0,
+
+        strict_mode: false,
+        is_module: false,
     };
 
     let mut lookahead = LookaheadResolver { r: &mut resolver };
@@ -48,12 +54,12 @@ pub fn name_resolution(
 }
 
 impl Resolver {
-    #[inline]
+    #[inline(always)]
     pub fn find_binding_by_node_id(&self, id: NodeId) -> NodeId {
         self.references.get_binding_node(id)
     }
 
-    #[inline]
+    #[inline(always)]
     pub fn find_binding_by_ident(&self, ident: &Ident) -> NodeId {
         self.find_binding_by_node_id(ident.node_id)
     }
@@ -102,6 +108,7 @@ impl Resolver {
         self.references.add_reference(from.node_id, to);
     }
 
+    #[inline]
     pub fn add_unresolved(&mut self, ident: &mut Ident) {
         self.mark_unresolved(ident);
     }
@@ -132,14 +139,21 @@ impl Resolver {
     }
 
     fn add_reference(&mut self, node: &mut Ident, to: NodeId) {
-        let id = self.next_node_id();
         debug_assert!(node.node_id == NodeId::DUMMY, "node: {node:#?}");
-        node.node_id = id;
-        self.references.add_reference(id, to);
+        if !self.is_module
+            && self.current_scope_id == ScopeId::TOP_LEVEL
+            && matches!(node.sym.as_str(), "undefined" | "NaN" | "Infinity")
+        {
+            self.mark_unresolved(node);
+        } else {
+            let id = self.next_node_id();
+            node.node_id = id;
+            self.references.add_reference(id, to);
+        }
     }
 
     fn mark_unresolved(&mut self, node: &mut Ident) {
-        debug_assert!(node.node_id == NodeId::DUMMY);
+        debug_assert!(node.node_id == NodeId::DUMMY, "node: {node:#?}");
         let id = self.next_node_id();
         node.node_id = id;
 
@@ -167,38 +181,39 @@ impl Resolver {
         }
     }
 
-    fn visit_pat_with_binding(&mut self, pat: &mut Pat, is_var: bool) {
-        let hoist_decl_var_kind = |this: &mut Self, i: &mut Ident| {
-            let mut scope_id = this.current_scope_id;
-            loop {
-                let Some(parent) = this.scopes.get(scope_id).parent() else {
-                    break;
-                };
-                scope_id = parent;
-                if !matches!(this.scopes.get(parent).kind(), ScopeKind::Block) {
-                    break;
-                }
-            }
-            let dummy_var = match this.scopes.get(scope_id).get_binding(&i.sym) {
-                Some(n) => n,
-                None => {
-                    let dummy_var = this.next_node_id();
-                    this.references.add_binding(dummy_var);
-                    this.scopes
-                        .get_mut(scope_id)
-                        .add_binding(i.sym.clone(), dummy_var);
-                    dummy_var
-                }
+    fn hoist_decl_var_kind(&mut self, i: &mut Ident) {
+        let mut scope_id = self.current_scope_id;
+        loop {
+            let Some(parent) = self.scopes.get(scope_id).parent() else {
+                break;
             };
-            let id = this.next_node_id();
-            debug_assert!(i.node_id == NodeId::DUMMY);
-            i.node_id = id;
-            this.references.add_reference(id, dummy_var);
+            scope_id = parent;
+            if !matches!(self.scopes.get(parent).kind(), ScopeKind::Block) {
+                break;
+            }
+        }
+        let dummy_var = match self.scopes.get(scope_id).get_binding(&i.sym) {
+            Some(n) => n,
+            None => {
+                let dummy_var = self.next_node_id();
+                self.references.add_binding(dummy_var);
+                self.scopes
+                    .get_mut(scope_id)
+                    .add_binding(i.sym.clone(), dummy_var);
+                dummy_var
+            }
         };
+        let id = self.next_node_id();
+        debug_assert!(i.node_id == NodeId::DUMMY);
+        i.node_id = id;
+        self.references.add_reference(id, dummy_var);
+    }
+
+    fn visit_pat_with_binding(&mut self, pat: &mut Pat, is_var: bool) {
         match pat {
             Pat::Ident(n) => {
                 if is_var {
-                    hoist_decl_var_kind(self, n);
+                    self.hoist_decl_var_kind(n);
                 } else {
                     self.add_binding_for_ident(n);
                 }
@@ -233,7 +248,7 @@ impl Resolver {
                         }
                         ObjectPatProp::Assign(p) => {
                             if is_var {
-                                hoist_decl_var_kind(self, &mut p.key);
+                                self.hoist_decl_var_kind(&mut p.key);
                             } else {
                                 self.add_binding_for_ident(&mut p.key.id);
                             }
@@ -383,7 +398,7 @@ impl VisitMut for Resolver {
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        debug_assert!(self.is_ref_to_itself(node.ident.node_id));
+        // `node.ident` had been defined in `LookaheadResolver`
         self.with_new_scope(ScopeKind::Fn, |this| {
             node.function.visit_mut_with(this);
         });
@@ -391,9 +406,7 @@ impl VisitMut for Resolver {
 
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
         self.with_new_scope(ScopeKind::Fn, |this| {
-            if let Some(ident) = &mut node.ident {
-                this.add_binding_for_ident(ident);
-            }
+            // `node.ident` had been defined in `LookaheadResolver`
             this.with_new_scope(ScopeKind::Fn, |this| {
                 node.function.visit_mut_with(this);
             });
@@ -420,9 +433,7 @@ impl VisitMut for Resolver {
 
     fn visit_mut_class_expr(&mut self, node: &mut ClassExpr) {
         self.with_new_scope(ScopeKind::Class, |this| {
-            if let Some(ident) = &mut node.ident {
-                this.add_binding_for_ident(ident);
-            }
+            // `node.ident` had been defined in `LookaheadResolver`
             node.class.visit_mut_with(this);
         });
     }
@@ -569,7 +580,12 @@ impl<'r> VisitMut for LookaheadResolver<'r> {
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
-        self.r.add_binding_for_ident(&mut node.ident);
+        if self.r.strict_mode {
+            self.r.add_binding_for_ident(&mut node.ident);
+        } else {
+            self.r.hoist_decl_var_kind(&mut node.ident);
+        }
+
         self.with_new_scope(ScopeKind::Fn, |this| {
             node.function.visit_mut_with(this);
         });
@@ -577,10 +593,29 @@ impl<'r> VisitMut for LookaheadResolver<'r> {
 
     fn visit_mut_fn_expr(&mut self, node: &mut FnExpr) {
         self.with_new_scope(ScopeKind::Fn, |this| {
+            if let Some(ident) = &mut node.ident {
+                this.r.add_binding_for_ident(ident);
+            }
             this.with_new_scope(ScopeKind::Fn, |this| {
                 node.function.visit_mut_with(this);
             });
         });
+    }
+
+    fn visit_mut_function(&mut self, node: &mut Function) {
+        node.params.visit_mut_with(self);
+        if let Some(body) = &mut node.body {
+            let old_strict_mode = self.r.strict_mode;
+            if !self.r.strict_mode {
+                self.r.strict_mode = body
+                    .stmts
+                    .first()
+                    .map(|stmt| stmt.is_use_strict())
+                    .unwrap_or(false);
+            }
+            body.visit_mut_with(self);
+            self.r.strict_mode = old_strict_mode;
+        }
     }
 
     fn visit_mut_class_method(&mut self, node: &mut ClassMethod) {
@@ -599,12 +634,30 @@ impl<'r> VisitMut for LookaheadResolver<'r> {
             for param in &mut node.params {
                 this.r.visit_pat_with_binding(param, false);
             }
-            node.body.visit_mut_with(this);
+
+            match node.body.as_mut() {
+                BlockStmtOrExpr::BlockStmt(block_stmt) => {
+                    let old_strict_mode = this.r.strict_mode;
+                    if !this.r.strict_mode {
+                        this.r.strict_mode = block_stmt
+                            .stmts
+                            .first()
+                            .map(|stmt| stmt.is_use_strict())
+                            .unwrap_or(false);
+                    }
+                    block_stmt.visit_mut_with(this);
+                    this.r.strict_mode = old_strict_mode;
+                }
+                BlockStmtOrExpr::Expr(expr) => expr.visit_mut_with(this),
+            }
         });
     }
 
     fn visit_mut_class_expr(&mut self, node: &mut ClassExpr) {
         self.with_new_scope(ScopeKind::Class, |this| {
+            if let Some(ident) = &mut node.ident {
+                this.r.add_binding_for_ident(ident);
+            }
             node.class.visit_mut_with(this);
         });
     }
@@ -614,6 +667,13 @@ impl<'r> VisitMut for LookaheadResolver<'r> {
         self.with_new_scope(ScopeKind::Class, |this| {
             node.class.visit_mut_with(this);
         });
+    }
+
+    fn visit_mut_class(&mut self, node: &mut Class) {
+        let old_strict_mode = self.r.strict_mode;
+        self.r.strict_mode = true;
+        node.visit_mut_children_with(self);
+        self.r.strict_mode = old_strict_mode;
     }
 
     fn visit_mut_for_of_stmt(&mut self, node: &mut ForOfStmt) {
@@ -685,12 +745,19 @@ impl<'r> VisitMut for LookaheadResolver<'r> {
     }
 
     fn visit_mut_module(&mut self, node: &mut Module) {
+        self.r.strict_mode = true;
+        self.r.is_module = true;
         self.start_visit_with(|this| {
             this.visit_mut_module_items(&mut node.body);
         });
     }
 
     fn visit_mut_script(&mut self, node: &mut Script) {
+        self.r.strict_mode = node
+            .body
+            .first()
+            .map(|stmt| stmt.is_use_strict())
+            .unwrap_or(false);
         self.start_visit_with(|this| {
             this.visit_mut_stmts(&mut node.body);
         });

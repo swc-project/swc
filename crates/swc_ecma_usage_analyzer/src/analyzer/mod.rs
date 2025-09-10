@@ -690,8 +690,8 @@ where
             }
             DefaultDecl::Fn(f) => {
                 if let Some(i) = &f.ident {
-                    debug_assert!(self.r.is_ref_to_itself(i.node_id));
-                    self.data.var_or_default(i.node_id).prevent_inline();
+                    let node_id = self.r.find_binding_by_ident(i);
+                    self.data.var_or_default(node_id).prevent_inline();
                 }
             }
             _ => {}
@@ -722,8 +722,8 @@ where
                 self.data.var_or_default(c.ident.node_id).prevent_inline();
             }
             Decl::Fn(f) => {
-                debug_assert!(self.r.is_ref_to_itself(f.ident.node_id));
-                self.data.var_or_default(f.ident.node_id).prevent_inline();
+                let node_id = self.r.find_binding_by_ident(&f.ident);
+                self.data.var_or_default(node_id).prevent_inline();
             }
             Decl::Var(v) => {
                 for id in find_pat_ids(v) {
@@ -821,8 +821,7 @@ where
         self.with_ctx(ctx)
             .declare_decl(&n.ident, Some(Value::Known(Type::Obj)), None, true);
 
-        let node_id = n.ident.node_id;
-        debug_assert!(self.r.is_ref_to_itself(node_id));
+        let node_id = self.r.find_binding_by_ident(&n.ident);
         if n.function.body.is_empty() {
             self.data.var_or_default(node_id).mark_as_pure_fn();
         }
@@ -860,7 +859,7 @@ where
     fn visit_fn_expr(&mut self, n: &FnExpr) {
         if let Some(n_id) = &n.ident {
             let node_id = n_id.node_id;
-            debug_assert!(self.r.is_ref_to_itself(node_id));
+            debug_assert!(self.r.is_ref_to_itself(node_id), "ident: {n_id:#?}");
             self.data.var_or_default(node_id).mark_declared_as_fn_expr();
 
             self.used_recursively

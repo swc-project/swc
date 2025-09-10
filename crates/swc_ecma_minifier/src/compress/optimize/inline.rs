@@ -650,8 +650,8 @@ impl Optimizer<'_> {
             return;
         }
 
-        debug_assert!(self.r.is_ref_to_itself(i.node_id));
-        if let Some(usage) = self.data.vars.get(&i.node_id) {
+        let node_id = self.r.find_binding_by_ident(i);
+        if let Some(usage) = self.data.vars.get(&node_id) {
             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                 trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.ctxt);
                 match &*decl {
@@ -710,8 +710,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        let node_id = i.node_id;
-        debug_assert!(self.r.is_ref_to_itself(node_id));
+        let node_id = self.r.find_binding_by_ident(i);
 
         if let Some(usage) = self.data.vars.get(&node_id) {
             if usage
