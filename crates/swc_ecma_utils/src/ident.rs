@@ -65,7 +65,9 @@ impl IdentLike for Ident {
 
     #[inline]
     fn from_ident(i: &Ident) -> Self {
-        Ident::new(i.sym.clone(), i.span, i.ctxt)
+        let mut ret = Ident::new(i.sym.clone(), i.span, i.ctxt);
+        ret.node_id = i.node_id;
+        ret
     }
 
     #[inline]

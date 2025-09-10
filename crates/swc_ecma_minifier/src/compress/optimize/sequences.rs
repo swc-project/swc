@@ -391,7 +391,6 @@ impl Optimizer<'_> {
                     ..
                 })) => {
                     if let Some(id) = obj.as_ident() {
-                        debug_assert!(!self.r.is_ref_to_unresolved(id.node_id));
                         let node_id = self.r.find_binding_by_ident(id);
                         if let Some(usage) = self.data.vars.get(&node_id) {
                             id.ctxt != self.ctx.expr_ctx.unresolved_ctxt
@@ -2289,7 +2288,6 @@ impl Optimizer<'_> {
                             }
                         };
 
-                        debug_assert!(!self.r.is_ref_to_unresolved(left_id.node_id));
                         let left_node_id = self.r.find_binding_by_ident(&left_id);
 
                         if let Some(usage) = self.data.vars.get(&left_node_id) {

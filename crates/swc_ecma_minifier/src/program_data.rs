@@ -470,7 +470,7 @@ impl Storage for ProgramData {
         //     debug!(has_init = has_init, "declare_decl(`{}`)", i);
         // }
 
-        debug_assert!(!r.is_ref_to_unresolved(i.node_id));
+        debug_assert!(!r.is_ref_to_unresolved(i.node_id), "ident: {i:#?}");
         let node_id = r.find_binding_by_ident(i);
 
         let v = self.vars.entry(node_id).or_default();

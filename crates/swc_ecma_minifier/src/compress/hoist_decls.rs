@@ -66,9 +66,11 @@ impl Hoister<'_> {
                         let ids: Vec<NodeId> = find_pat_ids(&var.decls);
 
                         if ids.iter().any(|id| {
+                            debug_assert!(!self.r.is_ref_to_unresolved(*id));
+                            let id = self.r.find_binding_by_node_id(*id);
                             self.data
                                 .vars
-                                .get(id)
+                                .get(&id)
                                 .map(|v| !v.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL))
                                 .unwrap_or(false)
                         }) {

@@ -259,7 +259,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                debug_assert!(!self.r.is_ref_to_itself(e.node_id));
+                debug_assert!(!self.r.is_ref_to_itself(e.node_id), "e: {e:#?}");
                 let node_id = self.r.find_binding_by_ident(e);
                 if let Some(usage) = self.data.vars.get(&node_id) {
                     if !usage.flags.contains(VarUsageInfoFlags::DECLARED) {

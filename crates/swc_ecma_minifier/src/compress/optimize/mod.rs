@@ -358,10 +358,6 @@ impl Optimizer<'_> {
             return false;
         }
 
-        if self.r.is_ref_to_binding(node_id) || self.r.is_ref_to_itself(node_id) {
-            return true;
-        }
-
         if id.ctxt != self.marks.top_level_ctxt {
             return true;
         }
@@ -914,7 +910,6 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                debug_assert!(!self.r.is_ref_to_unresolved(i.node_id));
                 let old = self.r.find_binding_by_ident(i);
                 self.store_var_for_inlining(&mut i.id, right, true);
 
@@ -1840,7 +1835,6 @@ impl VisitMut for Optimizer<'_> {
                 ..
             }) => {
                 if let Some(i) = left.as_ident_mut() {
-                    debug_assert!(!self.r.is_ref_to_unresolved(i.node_id));
                     let old = self.r.find_binding_by_ident(&i.id);
                     self.store_var_for_inlining(i, right, false);
 

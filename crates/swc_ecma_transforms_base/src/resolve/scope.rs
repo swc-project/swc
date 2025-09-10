@@ -16,7 +16,6 @@ pub(super) enum ScopeKind {
     Fn,
     Class,
     TopLevel,
-    Global,
 }
 
 impl Scope {
@@ -38,12 +37,11 @@ impl Scope {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub(super) struct ScopeId(u32);
+pub(super) struct ScopeId(pub(super) u32);
 
 impl ScopeId {
     pub const EXPORT: Self = Self(0);
-    pub const GLOBAL: Self = Self(2);
-    pub const TOP_LEVEL: Self = Self(3);
+    pub const TOP_LEVEL: Self = Self(2);
     pub const UNRESOLVED: Self = Self(1);
 }
 
@@ -75,7 +73,12 @@ impl ScopeArena {
     }
 
     pub(super) fn get(&self, id: ScopeId) -> &Scope {
-        debug_assert!(id.0 < self.0.len() as u32);
+        debug_assert!(
+            id.0 < self.0.len() as u32,
+            "length: {}, index: {}",
+            self.0.len(),
+            id.0
+        );
         unsafe { self.0.get_unchecked(id.0 as usize) }
     }
 

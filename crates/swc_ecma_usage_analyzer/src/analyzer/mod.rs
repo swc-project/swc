@@ -176,7 +176,6 @@ where
 
     fn report_assign_pat(&mut self, p: &Pat, is_read_modify: bool) {
         for id in find_pat_ids(p) {
-            debug_assert!(!self.r.is_ref_to_unresolved(id), "p: {p:#?}, id: {id:#?}");
             let id = self.r.find_binding_by_node_id(id);
             // It's hard to determined the type of pat assignment
             self.data
@@ -339,7 +338,6 @@ where
                     debug_assert_eq!(self.r.find_binding_by_node_id(id.0), id.0);
 
                     if v.is_none() {
-                        debug_assert!(!self.r.is_ref_to_unresolved(left.node_id));
                         let left_node_id = self.r.find_binding_by_ident(left);
                         debug_assert!(left_node_id != NodeId::DUMMY);
                         v = Some(self.data.var_or_default(left_node_id));
@@ -1295,9 +1293,10 @@ where
         e.visit_children_with(self);
 
         for_each_id_ref_in_expr(&e.expr, &mut |i| {
-            debug_assert!(self.r.is_ref_to_itself(i.node_id));
+            debug_assert!(!self.r.is_ref_to_itself(i.node_id));
+            let node_id = self.r.find_binding_by_ident(i);
             self.data
-                .var_or_default(i.node_id)
+                .var_or_default(node_id)
                 .mark_indexed_with_dynamic_key();
         });
     }

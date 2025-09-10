@@ -1101,6 +1101,8 @@ impl Optimizer<'_> {
                             let ids = find_pat_ids(decl);
 
                             for id in ids {
+                                debug_assert!(!self.r.is_ref_to_unresolved(id));
+                                let id = self.r.find_binding_by_node_id(id);
                                 if let Some(usage) = self.data.vars.get_mut(&id) {
                                     // as we turn var declaration into assignment
                                     // we need to maintain correct var usage

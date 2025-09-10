@@ -54,7 +54,6 @@ impl Optimizer<'_> {
             }
         }
 
-        debug_assert!(!self.r.is_ref_to_unresolved(ident.node_id));
         let node_id = self.r.find_binding_by_ident(ident);
         debug_assert!(node_id != NodeId::DUMMY);
         if let Some(usage) = self.data.vars.get(&node_id) {
@@ -435,8 +434,10 @@ impl Optimizer<'_> {
 
                     Expr::Fn(f) => {
                         let excluded: Vec<NodeId> = find_pat_ids(&f.function.params);
+                        debug_assert!(excluded.iter().all(|id| self.r.is_ref_to_itself(*id)));
 
                         for id in idents_used_by(&f.function.params) {
+                            let id = self.r.find_binding_by_node_id(id);
                             if excluded.contains(&id) {
                                 continue;
                             }
@@ -452,8 +453,10 @@ impl Optimizer<'_> {
 
                     Expr::Arrow(f) => {
                         let excluded: Vec<NodeId> = find_pat_ids(&f.params);
+                        debug_assert!(excluded.iter().all(|id| self.r.is_ref_to_itself(*id)));
 
                         for id in idents_used_by(&f.params) {
+                            let id = self.r.find_binding_by_node_id(id);
                             if excluded.contains(&id) {
                                 continue;
                             }
