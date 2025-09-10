@@ -50,11 +50,7 @@ pub fn name_resolution(
 impl Resolver {
     #[inline]
     pub fn find_binding_by_node_id(&self, id: NodeId) -> NodeId {
-        match self.references.get_binding(id) {
-            RefTo::Itself => id,
-            RefTo::Binding(node_id) => node_id,
-            RefTo::Unresolved(node_id) => node_id,
-        }
+        self.references.get_binding_node(id)
     }
 
     #[inline]
@@ -75,7 +71,7 @@ impl Resolver {
     ///     ~ -> special case, it refs to the **binding** where hoisted.
     /// ```
     pub fn is_ref_to_binding(&self, id: NodeId) -> bool {
-        matches!(self.references.get_binding(id), RefTo::Binding(_))
+        matches!(self.references.get_binding_kind(id), RefTo::Binding)
     }
 
     ///```txt
@@ -88,7 +84,7 @@ impl Resolver {
     /// ~ -> unresolved
     /// ```
     pub fn is_ref_to_unresolved(&self, id: NodeId) -> bool {
-        matches!(self.references.get_binding(id), RefTo::Unresolved(_))
+        matches!(self.references.get_binding_kind(id), RefTo::Unresolved)
     }
 
     ///```txt
@@ -96,7 +92,7 @@ impl Resolver {
     ///     ~ -> itself
     /// ```
     pub fn is_ref_to_itself(&self, id: NodeId) -> bool {
-        matches!(self.references.get_binding(id), RefTo::Itself)
+        matches!(self.references.get_binding_kind(id), RefTo::Itself)
     }
 
     pub fn add_reference_map(&mut self, from: &mut Ident, to: NodeId) {
