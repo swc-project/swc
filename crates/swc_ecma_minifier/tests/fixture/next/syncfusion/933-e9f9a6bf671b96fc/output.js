@@ -5949,7 +5949,7 @@
      *
      * @returns {void} ?
      */ Component.prototype.destroy = function() {
-                    !this.isDestroyed && (this.enablePersistence && this.setPersistData(), this.localObserver.destroy(), this.refreshing || (removeClass([
+                    this.isDestroyed || (this.enablePersistence && this.setPersistData(), this.localObserver.destroy(), this.refreshing || (removeClass([
                         this.element
                     ], [
                         'e-control'
@@ -14000,8 +14000,7 @@
                     'msie' === ej2_base /* Browser.info.name */ .AR.info.name ? this.contentModule.getEditPanel().removeEventListener('mscontrolselect', this.preventImgResize) : 'mozilla' === ej2_base /* Browser.info.name */ .AR.info.name && (this.contentModule.getDocument().execCommand('enableObjectResizing', !0, 'true'), this.contentModule.getDocument().execCommand('enableInlineTableEditing', !0, 'true'));
                 }, RichTextEditor.prototype.resizeHandler = function() {
                     var isExpand = !1;
-                    if (!document.body.contains(this.element)) return void document.defaultView.removeEventListener('resize', this.onResizeHandler, !0);
-                    this.toolbarSettings.enable && !this.inlineMode.enable && (this.toolbarModule.refreshToolbarOverflow(), isExpand = this.toolbarModule.baseToolbar.toolbarObj.element.classList.contains(classes /* CLS_EXPAND_OPEN */ .Yi)), this.setContentHeight('windowResize', isExpand), this.notify(constant /* windowResize */ .Qr, null);
+                    document.body.contains(this.element) ? (this.toolbarSettings.enable && !this.inlineMode.enable && (this.toolbarModule.refreshToolbarOverflow(), isExpand = this.toolbarModule.baseToolbar.toolbarObj.element.classList.contains(classes /* CLS_EXPAND_OPEN */ .Yi)), this.setContentHeight('windowResize', isExpand), this.notify(constant /* windowResize */ .Qr, null)) : document.defaultView.removeEventListener('resize', this.onResizeHandler, !0);
                 }, RichTextEditor.prototype.scrollHandler = function(e) {
                     this.notify(constant /* scroll */ .AR, {
                         args: e

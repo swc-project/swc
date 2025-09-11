@@ -1,5 +1,5 @@
 //// [uniqueSymbolsDeclarations.ts]
-const constCall = Symbol();
+let constCall = Symbol();
 Symbol(), Symbol(), Symbol(), constType, constType, constType, constType;
 class C {
     static{

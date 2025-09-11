@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.13.5",
+    "version": "1.13.6-nightly-20250904.2",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -42,7 +42,8 @@
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
-        "access": "public"
+        "access": "public",
+        "provenance": true
     },
     "types": "./index.d.ts",
     "scripts": {
@@ -94,7 +95,7 @@
         "@swc/types": "workspace:^"
     },
     "devDependencies": {
-        "@napi-rs/cli": "^3.0.0-alpha.43",
+        "@napi-rs/cli": "^3.1.5",
         "cross-env": "^7.0.3",
         "jest": "^29.7.0",
         "typescript": "^5.3.3"

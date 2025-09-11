@@ -1,6 +1,4 @@
 d(()=>{
-    var obj = {
-        key: "some string"
-    }, b = ()=>(a, obj.key);
+    var b = ()=>(a, "some string");
     return ()=>b;
 });

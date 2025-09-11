@@ -1,6 +1,6 @@
 {
     "name": "@swc/minifier",
-    "version": "1.13.5",
+    "version": "1.13.6-nightly-20250904.2",
     "description": "Super-fast alternative for terser",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -38,7 +38,8 @@
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
-        "access": "public"
+        "access": "public",
+        "provenance": true
     },
     "types": "./index.d.ts",
     "scripts": {
@@ -61,7 +62,7 @@
         "@swc/types": "workspace:^"
     },
     "devDependencies": {
-        "@napi-rs/cli": "^3.0.0-alpha.22",
+        "@napi-rs/cli": "^3.1.5",
         "@types/node": "^20.7.1",
         "cross-env": "^7.0.3",
         "typescript": "^5.2.2"

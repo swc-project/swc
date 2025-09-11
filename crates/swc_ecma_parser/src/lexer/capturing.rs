@@ -1,4 +1,4 @@
-use std::{cell::RefCell, mem, rc::Rc};
+use std::mem;
 
 use swc_ecma_lexer::common::syntax::SyntaxFlags;
 
@@ -7,7 +7,12 @@ use crate::{input::Tokens, lexer::token::TokenAndSpan};
 #[derive(Debug)]
 pub struct Capturing<I> {
     inner: I,
-    captured: Rc<RefCell<Vec<TokenAndSpan>>>,
+    captured: Vec<TokenAndSpan>,
+}
+
+pub struct CapturingCheckpoint<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>> {
+    pos: usize,
+    inner: I::Checkpoint,
 }
 
 impl<I: Clone> Clone for Capturing<I> {
@@ -27,13 +32,13 @@ impl<I> Capturing<I> {
         }
     }
 
-    pub fn tokens(&self) -> Rc<RefCell<Vec<TokenAndSpan>>> {
-        self.captured.clone()
+    pub fn tokens(&self) -> &[TokenAndSpan] {
+        &self.captured
     }
 
     /// Take captured tokens
     pub fn take(&mut self) -> Vec<TokenAndSpan> {
-        mem::take(&mut *self.captured.borrow_mut())
+        mem::take(&mut self.captured)
     }
 }
 
@@ -45,7 +50,7 @@ impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
 
         match next {
             Some(ts) => {
-                let mut v = self.captured.borrow_mut();
+                let v = &mut self.captured;
 
                 // remove tokens that could change due to backtracing
                 while let Some(last) = v.last() {
@@ -68,14 +73,18 @@ impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
 impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
     swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Capturing<I>
 {
-    type Checkpoint = I::Checkpoint;
+    type Checkpoint = CapturingCheckpoint<I>;
 
     fn checkpoint_save(&self) -> Self::Checkpoint {
-        self.inner.checkpoint_save()
+        Self::Checkpoint {
+            pos: self.captured.len(),
+            inner: self.inner.checkpoint_save(),
+        }
     }
 
     fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
-        self.inner.checkpoint_load(checkpoint);
+        self.captured.truncate(checkpoint.pos);
+        self.inner.checkpoint_load(checkpoint.inner);
     }
 
     fn set_ctx(&mut self, ctx: swc_ecma_lexer::common::context::Context) {

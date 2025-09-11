@@ -27,7 +27,7 @@ use super::util::{drop_invalid_stmts, is_fine_for_if_cons};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
-    compress::util::is_pure_undefined,
+    compress::{optimize::util::get_ids_of_pat, util::is_pure_undefined},
     debug::AssertValid,
     maybe_par,
     mode::Mode,
@@ -80,6 +80,7 @@ pub(super) fn optimizer<'a>(
     Optimizer {
         marks,
         changed: false,
+        is_module: false,
         options,
         mangle_options,
         prepend_stmts: Default::default(),
@@ -218,6 +219,7 @@ struct Optimizer<'a> {
     marks: Marks,
 
     changed: bool,
+    is_module: bool,
     options: &'a CompressOptions,
     mangle_options: Option<&'a MangleOptions>,
     /// Statements prepended to the current statement.
@@ -1469,7 +1471,18 @@ impl VisitMut for Optimizer<'_> {
             n.params.visit_mut_with(&mut *self.with_ctx(ctx));
         }
 
-        n.body.visit_mut_with(self);
+        {
+            let ctx = Ctx {
+                bit_ctx: self
+                    .ctx
+                    .bit_ctx
+                    .with(BitCtx::InFnLike, true)
+                    .with(BitCtx::TopLevel, false),
+                scope: n.ctxt,
+                ..self.ctx.clone()
+            };
+            n.body.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
 
         if !self.prepend_stmts.is_empty() {
             let mut stmts = self.prepend_stmts.take().take_stmts();
@@ -2258,6 +2271,11 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
+    fn visit_mut_module(&mut self, m: &mut Module) {
+        self.is_module = true;
+        m.visit_mut_children_with(self);
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
     fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
         s.visit_mut_children_with(self);
@@ -2810,6 +2828,10 @@ impl VisitMut for Optimizer<'_> {
 
         if n.kind == VarDeclKind::Let {
             n.decls.iter_mut().for_each(|var| {
+                if !var.name.is_ident() {
+                    return;
+                }
+
                 if let Some(e) = &var.init {
                     if is_pure_undefined(self.ctx.expr_ctx, e) {
                         self.changed = true;
@@ -2821,6 +2843,31 @@ impl VisitMut for Optimizer<'_> {
                     }
                 }
             });
+        }
+
+        if self.options.const_to_let
+            // Don't change constness of exported variables.
+            && !self.ctx.bit_ctx.contains(BitCtx::IsExported)
+            && (self.is_module || !self.ctx.in_top_level())
+        {
+            if n.kind == VarDeclKind::Const {
+                // If a const variable is reassigned, we should not convert it to `let`
+                let no_reassignment = n.decls.iter().all(|var| {
+                    let ids = get_ids_of_pat(&var.name);
+                    for id in ids {
+                        if let Some(usage) = self.data.vars.get(&id) {
+                            if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
+                                return false;
+                            }
+                        }
+                    }
+                    true
+                });
+
+                if no_reassignment {
+                    n.kind = VarDeclKind::Let;
+                }
+            }
         }
     }
 

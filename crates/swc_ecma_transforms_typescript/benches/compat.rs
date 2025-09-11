@@ -288,7 +288,9 @@ fn es2015_sticky_regex(b: &mut Bencher) {
 }
 
 fn es2015_typeof_symbol(b: &mut Bencher) {
-    run(b, |_| swc_ecma_transforms_compat::es2015::typeof_symbol());
+    run(b, |_| {
+        swc_ecma_transforms_compat::es2015::typeof_symbol(Default::default())
+    });
 }
 
 fn es3(b: &mut Bencher) {

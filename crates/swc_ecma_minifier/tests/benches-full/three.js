@@ -3611,7 +3611,7 @@ function(global, factory) {
         }
         return {
             start: function() {
-                !0 !== isAnimating && null !== animationLoop && (requestId = context.requestAnimationFrame(onAnimationFrame), isAnimating = !0);
+                !0 === isAnimating || null !== animationLoop && (requestId = context.requestAnimationFrame(onAnimationFrame), isAnimating = !0);
             },
             stop: function() {
                 context.cancelAnimationFrame(requestId), isAnimating = !1;
@@ -6747,7 +6747,7 @@ function(global, factory) {
         }
         function setTextureCube(texture, slot) {
             var textureProperties = properties.get(texture);
-            if (texture.version > 0 && textureProperties.__version !== texture.version) return void function(textureProperties, texture, slot) {
+            texture.version > 0 && textureProperties.__version !== texture.version ? function(textureProperties, texture, slot) {
                 if (6 === texture.image.length) {
                     initTexture(textureProperties, texture), state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture), _gl.pixelStorei(37440, texture.flipY);
                     for(var mipmaps, isCompressed = texture && (texture.isCompressedTexture || texture.image[0].isCompressedTexture), isDataTexture = texture.image[0] && texture.image[0].isDataTexture, cubeImage = [], i = 0; i < 6; i++)isCompressed || isDataTexture ? cubeImage[i] = isDataTexture ? texture.image[i].image : texture.image[i] : cubeImage[i] = resizeImage(texture.image[i], !1, !0, maxCubemapSize);
@@ -6782,8 +6782,7 @@ function(global, factory) {
                     generateMipmap(34067, texture, image.width, image.height), textureProperties.__version = texture.version, texture.onUpdate && texture.onUpdate(texture);
                 }
             } // Render targets
-            (textureProperties, texture, slot);
-            state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture);
+            (textureProperties, texture, slot) : (state.activeTexture(33984 + slot), state.bindTexture(34067, textureProperties.__webglTexture));
         }
         var wrappingToGL = ((_wrappingToGL = {})[1000] = 10497, _wrappingToGL[1001] = 33071, _wrappingToGL[1002] = 33648, _wrappingToGL), filterToGL = ((_filterToGL = {})[1003] = 9728, _filterToGL[1004] = 9984, _filterToGL[1005] = 9986, _filterToGL[1006] = 9729, _filterToGL[1007] = 9985, _filterToGL[1008] = 9987, _filterToGL);
         function setTextureParameters(textureType, texture, supportsMips) {
@@ -6871,12 +6870,10 @@ function(global, factory) {
             textureUnits = 0;
         }, this.setTexture2D = setTexture2D, this.setTexture2DArray = function(texture, slot) {
             var textureProperties = properties.get(texture);
-            if (texture.version > 0 && textureProperties.__version !== texture.version) return void uploadTexture(textureProperties, texture, slot);
-            state.activeTexture(33984 + slot), state.bindTexture(35866, textureProperties.__webglTexture);
+            texture.version > 0 && textureProperties.__version !== texture.version ? uploadTexture(textureProperties, texture, slot) : (state.activeTexture(33984 + slot), state.bindTexture(35866, textureProperties.__webglTexture));
         }, this.setTexture3D = function(texture, slot) {
             var textureProperties = properties.get(texture);
-            if (texture.version > 0 && textureProperties.__version !== texture.version) return void uploadTexture(textureProperties, texture, slot);
-            state.activeTexture(33984 + slot), state.bindTexture(32879, textureProperties.__webglTexture);
+            texture.version > 0 && textureProperties.__version !== texture.version ? uploadTexture(textureProperties, texture, slot) : (state.activeTexture(33984 + slot), state.bindTexture(32879, textureProperties.__webglTexture));
         }, this.setTextureCube = setTextureCube, this.setupRenderTarget = function(renderTarget) {
             var renderTargetProperties = properties.get(renderTarget), textureProperties = properties.get(renderTarget.texture);
             renderTarget.addEventListener('dispose', onRenderTargetDispose), textureProperties.__webglTexture = _gl.createTexture(), info.memory.textures++;
@@ -7238,8 +7235,7 @@ function(global, factory) {
         }, this.getSize = function(target) {
             return void 0 === target && (console.warn('WebGLRenderer: .getsize() now requires a Vector2 as an argument'), target = new Vector2()), target.set(_width, _height);
         }, this.setSize = function(width, height, updateStyle) {
-            if (xr.isPresenting) return void console.warn('THREE.WebGLRenderer: Can\'t change size while VR device is presenting.');
-            _width = width, _height = height, _canvas.width = Math.floor(width * _pixelRatio), _canvas.height = Math.floor(height * _pixelRatio), !1 !== updateStyle && (_canvas.style.width = width + 'px', _canvas.style.height = height + 'px'), this.setViewport(0, 0, width, height);
+            xr.isPresenting ? console.warn('THREE.WebGLRenderer: Can\'t change size while VR device is presenting.') : (_width = width, _height = height, _canvas.width = Math.floor(width * _pixelRatio), _canvas.height = Math.floor(height * _pixelRatio), !1 !== updateStyle && (_canvas.style.width = width + 'px', _canvas.style.height = height + 'px'), this.setViewport(0, 0, width, height));
         }, this.getDrawingBufferSize = function(target) {
             return void 0 === target && (console.warn('WebGLRenderer: .getdrawingBufferSize() now requires a Vector2 as an argument'), target = new Vector2()), target.set(_width * _pixelRatio, _height * _pixelRatio).floor();
         }, this.setDrawingBufferSize = function(width, height, pixelRatio) {
@@ -8516,8 +8512,7 @@ function(global, factory) {
             }
         },
         mergeMesh: function(mesh) {
-            if (!(mesh && mesh.isMesh)) return void console.error('THREE.Geometry.mergeMesh(): mesh not an instance of THREE.Mesh.', mesh);
-            mesh.matrixAutoUpdate && mesh.updateMatrix(), this.merge(mesh.geometry, mesh.matrix);
+            mesh && mesh.isMesh ? (mesh.matrixAutoUpdate && mesh.updateMatrix(), this.merge(mesh.geometry, mesh.matrix)) : console.error('THREE.Geometry.mergeMesh(): mesh not an instance of THREE.Mesh.', mesh);
         },
         /*
 		 * Checks for duplicate vertices with hashmap.
@@ -12690,8 +12685,7 @@ function(global, factory) {
                     return;
                 }
                 var metadata = json.metadata;
-                if (void 0 === metadata || void 0 === metadata.type || 'geometry' === metadata.type.toLowerCase()) return void console.error('THREE.ObjectLoader: Can\'t load ' + url);
-                scope.parse(json, onLoad);
+                void 0 === metadata || void 0 === metadata.type || 'geometry' === metadata.type.toLowerCase() ? console.error('THREE.ObjectLoader: Can\'t load ' + url) : scope.parse(json, onLoad);
             }, onProgress, onError);
         }, _proto.parse = function(json, onLoad) {
             var animations = this.parseAnimations(json.animations), shapes = this.parseShapes(json.shapes), geometries = this.parseGeometries(json.geometries, shapes), images = this.parseImages(json.images, function() {

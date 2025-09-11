@@ -8,8 +8,7 @@
             /* module decorator */ module = __webpack_require__.nmd(module), (global = function() {
                 return this;
             }()) || "undefined" == typeof window || (global = window), (define = function(module, deps, payload) {
-                if ("string" != typeof module) return void (define.original ? define.original.apply(this, arguments) : (console.error("dropping module because define wasn't a string."), console.trace()));
-                2 == arguments.length && (payload = deps), define.modules[module] || (define.payloads[module] = payload, define.modules[module] = null);
+                "string" != typeof module ? define.original ? define.original.apply(this, arguments) : (console.error("dropping module because define wasn't a string."), console.trace()) : (2 == arguments.length && (payload = deps), define.modules[module] || (define.payloads[module] = payload, define.modules[module] = null));
             }).modules = {}, define.payloads = {}, _require = function(parentId, module, callback) {
                 if ("string" == typeof module) {
                     var payload = lookup(parentId, module);

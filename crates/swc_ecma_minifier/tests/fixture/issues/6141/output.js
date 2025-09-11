@@ -1,7 +1,7 @@
 !function foo(obj) {
     if (obj) {
-        for(const key in obj){
-            const element = obj[key];
+        for(let key in obj){
+            let element = obj[key];
             element && foo(element.children);
         }
         return !0;

@@ -1,1 +1,1 @@
-!function(){var n=function(){};doSomething(n),doSomethingElse(n)}();
+var o;doSomething(o=function(){}),doSomethingElse(o);

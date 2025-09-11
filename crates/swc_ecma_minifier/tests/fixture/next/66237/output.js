@@ -22,14 +22,14 @@
             try {
                 "u" > typeof Intl && Intl.v8BreakIterator;
             } catch (e) {}
-            const e = ()=>"object" == typeof document && !!document, I = ()=>e() && document.documentElement.getAttribute("dir") || "ltr";
+            let e = ()=>"object" == typeof document && !!document, I = ()=>e() && document.documentElement.getAttribute("dir") || "ltr";
             function B(t, n, o) {
                 o ? t.setAttribute(n, o) : t.removeAttribute(n);
             }
-            const d = /* @__PURE__ */ new Map();
+            let d = /* @__PURE__ */ new Map();
             function C(t) {
                 if (d.has(t.constructor)) return d.get(t.constructor);
-                for (const [o, i] of customElements.__definitions)if (i.ctor === t.constructor) return d.set(t.constructor, o), o;
+                for (let [o, i] of customElements.__definitions)if (i.ctor === t.constructor) return d.set(t.constructor, o), o;
                 throw Error("Given element ".concat(t.constructor.name, " has not been registered yet."));
             }
         /***/ }

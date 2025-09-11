@@ -1,6 +1,6 @@
-var _tagged_template_literal = require("@swc/helpers/_/_tagged_template_literal");
+import { _ as _tagged_template_literal } from "@swc/helpers/_/_tagged_template_literal";
 function _templateObject() {
-    var data = _tagged_template_literal._([
+    var data = _tagged_template_literal([
         '"!"4'
     ], [
         "\\x22\\x21\\x224"

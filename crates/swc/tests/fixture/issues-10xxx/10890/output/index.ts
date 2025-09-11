@@ -1,8 +1,7 @@
-var _decorate = require("@swc/helpers/_/_decorate");
-let Foo = _decorate._([
+import { _ as _decorate } from "@swc/helpers/_/_decorate";
+let Foo = _decorate([
     foo
 ], function(_initialize) {
-    "use strict";
     class Foo {
         constructor(){
             _initialize(this);
