@@ -2828,6 +2828,10 @@ impl VisitMut for Optimizer<'_> {
 
         if n.kind == VarDeclKind::Let {
             n.decls.iter_mut().for_each(|var| {
+                if !var.name.is_ident() {
+                    return;
+                }
+
                 if let Some(e) = &var.init {
                     if is_pure_undefined(self.ctx.expr_ctx, e) {
                         self.changed = true;
