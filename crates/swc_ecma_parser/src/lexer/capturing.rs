@@ -40,6 +40,21 @@ impl<I> Capturing<I> {
     pub fn take(&mut self) -> Vec<TokenAndSpan> {
         mem::take(&mut self.captured)
     }
+
+    fn capture(&mut self, ts: TokenAndSpan) {
+        let v = &mut self.captured;
+
+        // remove tokens that could change due to backtracing
+        while let Some(last) = v.last() {
+            if last.span.lo >= ts.span.lo {
+                v.pop();
+            } else {
+                break;
+            }
+        }
+
+        v.push(ts);
+    }
 }
 
 impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
@@ -50,19 +65,7 @@ impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
 
         match next {
             Some(ts) => {
-                let v = &mut self.captured;
-
-                // remove tokens that could change due to backtracing
-                while let Some(last) = v.last() {
-                    if last.span.lo >= ts.span.lo {
-                        v.pop();
-                    } else {
-                        break;
-                    }
-                }
-
-                v.push(ts);
-
+                self.capture(ts);
                 Some(ts)
             }
             None => None,
@@ -182,7 +185,9 @@ impl<I: Tokens> Tokens for Capturing<I> {
     }
 
     fn rescan_jsx_open_el_terminal_token(&mut self, reset: swc_common::BytePos) -> TokenAndSpan {
-        self.inner.rescan_jsx_open_el_terminal_token(reset)
+        let ts = self.inner.rescan_jsx_open_el_terminal_token(reset);
+        self.capture(ts);
+        ts
     }
 
     fn rescan_jsx_token(
@@ -190,15 +195,21 @@ impl<I: Tokens> Tokens for Capturing<I> {
         allow_multiline_jsx_text: bool,
         reset: swc_common::BytePos,
     ) -> TokenAndSpan {
-        self.inner.rescan_jsx_token(allow_multiline_jsx_text, reset)
+        let ts = self.inner.rescan_jsx_token(allow_multiline_jsx_text, reset);
+        self.capture(ts);
+        ts
     }
 
     fn scan_jsx_identifier(&mut self, start: swc_common::BytePos) -> TokenAndSpan {
-        self.inner.scan_jsx_identifier(start)
+        let ts = self.inner.scan_jsx_identifier(start);
+        self.capture(ts);
+        ts
     }
 
     fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan {
-        self.inner.scan_jsx_attribute_value()
+        let ts = self.inner.scan_jsx_attribute_value();
+        self.capture(ts);
+        ts
     }
 
     fn rescan_template_token(
@@ -206,7 +217,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
         start: swc_common::BytePos,
         start_with_back_tick: bool,
     ) -> TokenAndSpan {
-        self.inner
-            .rescan_template_token(start, start_with_back_tick)
+        let ts = self
+            .inner
+            .rescan_template_token(start, start_with_back_tick);
+        self.capture(ts);
+        ts
     }
 }
