@@ -209,61 +209,35 @@ impl Resolver {
         self.references.add_reference(id, dummy_var);
     }
 
-    fn visit_pat_with_binding(&mut self, pat: &mut Pat, is_var: bool) {
-        match pat {
-            Pat::Ident(n) => {
-                if is_var {
-                    self.hoist_decl_var_kind(n);
-                } else {
-                    self.add_binding_for_ident(n);
-                }
-            }
+    fn visit_pat_with_reference(&mut self, node: &mut Pat) {
+        match node {
+            Pat::Ident(_) => {}
             Pat::Array(n) => {
                 for elem in n.elems.iter_mut().flatten() {
-                    self.visit_pat_with_binding(elem, is_var);
+                    self.visit_pat_with_reference(elem);
                 }
             }
             Pat::Rest(n) => {
-                self.visit_pat_with_binding(&mut n.arg, is_var);
+                self.visit_pat_with_reference(&mut n.arg);
             }
             Pat::Object(n) => {
                 for prop in n.props.iter_mut() {
                     match prop {
                         ObjectPatProp::KeyValue(p) => {
-                            if let PropName::Computed(key) = &mut p.key {
-                                struct BindingIdent<'r> {
-                                    r: &'r mut Resolver,
-                                }
-                                impl<'r> VisitMut for BindingIdent<'r> {
-                                    noop_visit_mut_type!();
-
-                                    fn visit_mut_ident(&mut self, ident: &mut Ident) {
-                                        self.r.add_binding_for_ident(ident);
-                                    }
-                                }
-                                let mut v = BindingIdent { r: self };
-                                key.visit_mut_children_with(&mut v);
-                            };
-                            self.visit_pat_with_binding(&mut p.value, is_var);
+                            self.visit_pat_with_reference(&mut p.value);
                         }
                         ObjectPatProp::Assign(p) => {
-                            if is_var {
-                                self.hoist_decl_var_kind(&mut p.key);
-                            } else {
-                                self.add_binding_for_ident(&mut p.key.id);
-                            }
                             p.value.visit_mut_children_with(self);
                         }
                         ObjectPatProp::Rest(p) => {
-                            self.visit_pat_with_binding(&mut p.arg, is_var);
+                            self.visit_pat_with_reference(&mut p.arg);
                         }
                     }
                 }
             }
             Pat::Assign(n) => {
                 // TODO:
-                self.visit_pat_with_binding(&mut n.left, is_var);
-                n.right.visit_mut_children_with(self);
+                n.right.visit_mut_with(self);
             }
             Pat::Invalid(_) => {
                 // TODO:
@@ -393,8 +367,9 @@ impl VisitMut for Resolver {
         });
     }
 
-    fn visit_mut_param(&mut self, _: &mut Param) {
+    fn visit_mut_param(&mut self, node: &mut Param) {
         // `node.pat` had been defined in `LookaheadResolver`
+        self.visit_pat_with_reference(&mut node.pat);
     }
 
     fn visit_mut_fn_decl(&mut self, node: &mut FnDecl) {
@@ -556,19 +531,83 @@ impl<'r> LookaheadResolver<'r> {
             f(this);
         });
     }
+
+    fn visit_pat_with_binding(&mut self, pat: &mut Pat, is_var: bool) {
+        match pat {
+            Pat::Ident(n) => {
+                if is_var {
+                    self.r.hoist_decl_var_kind(n);
+                } else {
+                    self.r.add_binding_for_ident(n);
+                }
+            }
+            Pat::Array(n) => {
+                for elem in n.elems.iter_mut().flatten() {
+                    self.visit_pat_with_binding(elem, is_var);
+                }
+            }
+            Pat::Rest(n) => {
+                self.visit_pat_with_binding(&mut n.arg, is_var);
+            }
+            Pat::Object(n) => {
+                for prop in n.props.iter_mut() {
+                    match prop {
+                        ObjectPatProp::KeyValue(p) => {
+                            if let PropName::Computed(key) = &mut p.key {
+                                struct BindingIdent<'r> {
+                                    r: &'r mut Resolver,
+                                }
+                                impl<'r> VisitMut for BindingIdent<'r> {
+                                    noop_visit_mut_type!();
+
+                                    fn visit_mut_ident(&mut self, ident: &mut Ident) {
+                                        self.r.add_binding_for_ident(ident);
+                                    }
+                                }
+                                let mut v = BindingIdent { r: self.r };
+                                key.visit_mut_children_with(&mut v);
+                            };
+                            self.visit_pat_with_binding(&mut p.value, is_var);
+                        }
+                        ObjectPatProp::Assign(p) => {
+                            if is_var {
+                                self.r.hoist_decl_var_kind(&mut p.key);
+                            } else {
+                                self.r.add_binding_for_ident(&mut p.key.id);
+                            }
+                            p.value.visit_mut_children_with(self);
+                        }
+                        ObjectPatProp::Rest(p) => {
+                            self.visit_pat_with_binding(&mut p.arg, is_var);
+                        }
+                    }
+                }
+            }
+            Pat::Assign(n) => {
+                // TODO:
+                self.visit_pat_with_binding(&mut n.left, is_var);
+                n.right.visit_mut_with(self);
+            }
+            Pat::Invalid(_) => {
+                // TODO:
+            }
+            Pat::Expr(_) => {
+                // TODO:
+            }
+        }
+    }
 }
 
 impl<'r> VisitMut for LookaheadResolver<'r> {
     noop_visit_mut_type!();
 
     fn visit_mut_param(&mut self, node: &mut Param) {
-        self.r.visit_pat_with_binding(&mut node.pat, false);
+        self.visit_pat_with_binding(&mut node.pat, false);
     }
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
         for decl in &mut node.decls {
-            self.r
-                .visit_pat_with_binding(&mut decl.name, node.kind == VarDeclKind::Var);
+            self.visit_pat_with_binding(&mut decl.name, node.kind == VarDeclKind::Var);
             decl.init.visit_mut_with(self);
         }
     }
@@ -632,7 +671,7 @@ impl<'r> VisitMut for LookaheadResolver<'r> {
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         self.with_new_scope(ScopeKind::Fn, |this| {
             for param in &mut node.params {
-                this.r.visit_pat_with_binding(param, false);
+                this.visit_pat_with_binding(param, false);
             }
 
             match node.body.as_mut() {
@@ -718,7 +757,7 @@ impl<'r> VisitMut for LookaheadResolver<'r> {
         if let Some(handler) = node.handler.as_mut() {
             self.with_new_scope(ScopeKind::Block, |this| {
                 if let Some(param) = &mut handler.param {
-                    this.r.visit_pat_with_binding(param, false);
+                    this.visit_pat_with_binding(param, false);
                 }
                 handler.body.visit_mut_with(this);
             });
@@ -739,7 +778,7 @@ impl<'r> VisitMut for LookaheadResolver<'r> {
     fn visit_mut_setter_prop(&mut self, node: &mut SetterProp) {
         node.key.visit_mut_with(self);
         self.with_new_scope(ScopeKind::Fn, |this| {
-            this.r.visit_pat_with_binding(&mut node.param, false);
+            this.visit_pat_with_binding(&mut node.param, false);
             node.body.visit_mut_with(this)
         });
     }

@@ -826,9 +826,6 @@ impl Optimizer<'_> {
                                     if let (Some(a_id), Some(b_id)) =
                                         (a_exp.left.as_ident(), b.name.as_ident())
                                     {
-                                        debug_assert!(!self
-                                            .r
-                                            .is_ref_to_unresolved(a_id.id.node_id));
                                         let a_node_id = self.r.find_binding_by_ident(&a_id.id);
                                         if a_id.id.eq_ignore_span(&b_id.id)
                                             && a_exp.op == op!("=")

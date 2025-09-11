@@ -861,8 +861,9 @@ impl Optimizer<'_> {
                         class: c.class,
                     }
                     .into(),
-                    Decl::Fn(f) => FnExpr {
+                    Decl::Fn(mut f) => FnExpr {
                         ident: if usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
+                            f.ident.node_id = self.r.find_binding_by_ident(&f.ident);
                             Some(f.ident)
                         } else {
                             None
