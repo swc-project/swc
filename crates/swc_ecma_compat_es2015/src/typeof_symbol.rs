@@ -1,3 +1,4 @@
+use serde::Deserialize;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
@@ -5,8 +6,18 @@ use swc_ecma_utils::{quote_str, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
-pub fn typeof_symbol() -> impl Pass {
-    visit_mut_pass(TypeOfSymbol)
+pub fn typeof_symbol(c: Config) -> impl Pass {
+    if c.loose {
+        None
+    } else {
+        Some(visit_mut_pass(TypeOfSymbol))
+    }
+}
+
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    pub loose: bool,
 }
 
 #[derive(Clone, Copy)]
@@ -158,21 +169,21 @@ mod tests {
 
     test!(
         Syntax::default(),
-        |_| typeof_symbol(),
+        |_| typeof_symbol(Config::default()),
         dont_touch_non_symbol_comparison,
         "typeof window !== 'undefined'"
     );
 
     test!(
         Syntax::default(),
-        |_| typeof_symbol(),
+        |_| typeof_symbol(Config::default()),
         dont_touch_non_symbol_comparison_02,
         "'undefined' !== typeof window"
     );
 
     test!(
         Syntax::default(),
-        |_| typeof_symbol(),
+        |_| typeof_symbol(Config::default()),
         issue_1843_1,
         "
         function isUndef(type) {
@@ -186,5 +197,12 @@ mod tests {
         var isWeex = !isUndef(typeof WXEnvironment) && WXEnvironment.platform !== 'Web';
         exports.isWeex = isWeex;
         "
+    );
+
+    test!(
+        Syntax::default(),
+        |_| typeof_symbol(Config { loose: true }),
+        dont_touch_in_loose_mode,
+        "typeof sym;"
     );
 }
