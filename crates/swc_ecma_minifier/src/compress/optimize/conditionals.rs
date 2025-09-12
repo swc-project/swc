@@ -404,7 +404,7 @@ impl Optimizer<'_> {
                 let side_effect_free = self
                     .data
                     .vars
-                    .get(&cons_callee.to_id())
+                    .get(cons_callee.ctxt, &cons_callee.sym)
                     .map(|v| {
                         v.flags.contains(
                             VarUsageInfoFlags::IS_FN_LOCAL.union(VarUsageInfoFlags::DECLARED),

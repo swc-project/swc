@@ -38,7 +38,7 @@ impl Optimizer<'_> {
 
             // If a variable is initialized multiple time, we currently don't do anything
             // smart.
-            let usage = self.data.vars.get(&name.to_id())?;
+            let usage = self.data.vars.get(name.ctxt, &name.sym)?;
             if usage.mutated()
                 || usage.flags.intersects(
                     VarUsageInfoFlags::USED_ABOVE_DECL
@@ -73,7 +73,7 @@ impl Optimizer<'_> {
             let mut unknown_used_props = self
                 .data
                 .vars
-                .get(&name.to_id())
+                .get(name.ctxt, &name.sym)
                 .map(|v| v.accessed_props.clone())
                 .unwrap_or_default();
 
@@ -124,7 +124,7 @@ impl Optimizer<'_> {
             }
 
             if let Some(init) = n.init.as_deref() {
-                self.mode.store(name.to_id(), init);
+                self.mode.store(name.ctxt, &name.sym, init);
             }
 
             let mut new_vars = Vec::new();

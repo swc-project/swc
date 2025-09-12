@@ -18,6 +18,8 @@ use swc_ecma_usage_analyzer::{
 use swc_ecma_utils::{Merge, Type, Value};
 use swc_ecma_visit::VisitWith;
 
+use crate::VarMap;
+
 pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>, collect_property_atoms: bool) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer<ProgramData>>,
@@ -36,7 +38,7 @@ where
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
-    pub(crate) vars: FxHashMap<Id, Box<VarUsageInfo>>,
+    pub(crate) vars: VarMap<Box<VarUsageInfo>>,
 
     pub(crate) top: ScopeData,
 
@@ -211,7 +213,7 @@ impl Storage for ProgramData {
     }
 
     fn var_or_default(&mut self, id: Id) -> &mut Self::VarData {
-        self.vars.entry(id).or_default()
+        self.vars.entry(id.1, id.0).or_default()
     }
 
     fn merge(&mut self, kind: ScopeKind, child: Self) {
@@ -224,131 +226,132 @@ impl Storage for ProgramData {
             to.merge(scope, false);
         }
 
-        self.vars.reserve(child.vars.len());
-
-        for (id, mut var_info) in child.vars {
-            // trace!("merge({:?},{}{:?})", kind, id.0, id.1);
-            let inited = self.initialized_vars.contains(&id);
-            match self.vars.entry(id) {
-                Entry::Occupied(mut e) => {
-                    if var_info.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
-                        e.get_mut()
-                            .flags
-                            .insert(VarUsageInfoFlags::INLINE_PREVENTED);
-                    }
-                    let var_assigned = var_info.assign_count > 0
-                        || (var_info.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
-                            && !e.get().flags.contains(VarUsageInfoFlags::VAR_INITIALIZED));
-
-                    if var_info.assign_count > 0 {
-                        if e.get().initialized() {
-                            e.get_mut().flags.insert(VarUsageInfoFlags::REASSIGNED);
+        for (ctxt, map) in child.vars.map {
+            for (atom, mut var_info) in map {
+                let id = (atom, ctxt);
+                let inited = self.initialized_vars.contains(&id);
+                match self.vars.entry(id.1, id.0) {
+                    Entry::Occupied(mut e) => {
+                        if var_info.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
+                            e.get_mut()
+                                .flags
+                                .insert(VarUsageInfoFlags::INLINE_PREVENTED);
                         }
-                    }
+                        let var_assigned = var_info.assign_count > 0
+                            || (var_info.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
+                                && !e.get().flags.contains(VarUsageInfoFlags::VAR_INITIALIZED));
 
-                    if var_info.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) {
-                        // If it is inited in some other child scope and also inited in current
-                        // scope
-                        if e.get().flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
-                            || e.get().ref_count > 0
-                        {
-                            e.get_mut().flags.insert(VarUsageInfoFlags::REASSIGNED);
+                        if var_info.assign_count > 0 {
+                            if e.get().initialized() {
+                                e.get_mut().flags.insert(VarUsageInfoFlags::REASSIGNED);
+                            }
+                        }
+
+                        if var_info.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) {
+                            // If it is inited in some other child scope and also inited in current
+                            // scope
+                            if e.get().flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
+                                || e.get().ref_count > 0
+                            {
+                                e.get_mut().flags.insert(VarUsageInfoFlags::REASSIGNED);
+                            } else {
+                                // If it is referred outside child scope, it will
+                                // be marked as var_initialized false
+                                e.get_mut().flags.insert(VarUsageInfoFlags::VAR_INITIALIZED);
+                            }
                         } else {
-                            // If it is referred outside child scope, it will
-                            // be marked as var_initialized false
-                            e.get_mut().flags.insert(VarUsageInfoFlags::VAR_INITIALIZED);
+                            // If it is inited in some other child scope, but referenced in
+                            // current child scope
+                            if !inited
+                                && e.get().flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
+                                && var_info.ref_count > 0
+                            {
+                                e.get_mut().flags.remove(VarUsageInfoFlags::VAR_INITIALIZED);
+                                e.get_mut().flags.insert(VarUsageInfoFlags::REASSIGNED);
+                            }
                         }
-                    } else {
-                        // If it is inited in some other child scope, but referenced in
-                        // current child scope
-                        if !inited
-                            && e.get().flags.contains(VarUsageInfoFlags::VAR_INITIALIZED)
-                            && var_info.ref_count > 0
+
+                        e.get_mut().merged_var_type.merge(var_info.merged_var_type);
+
+                        e.get_mut().ref_count += var_info.ref_count;
+                        e.get_mut().property_mutation_count |= var_info.property_mutation_count;
+                        e.get_mut().declared_count += var_info.declared_count;
+                        e.get_mut().assign_count += var_info.assign_count;
+                        e.get_mut().usage_count += var_info.usage_count;
+                        e.get_mut().infects_to.extend(var_info.infects_to);
+                        e.get_mut().callee_count += var_info.callee_count;
+
+                        for (k, v) in var_info.accessed_props {
+                            *e.get_mut().accessed_props.entry(k).or_default() += v;
+                        }
+
+                        let var_info_flags = var_info.flags;
+                        let e_flags = &mut e.get_mut().flags;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::REASSIGNED;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::HAS_PROPERTY_ACCESS;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::EXPORTED;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_PARAM;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_DECL;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_EXPR;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::USED_IN_COND;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::USED_AS_ARG;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::USED_AS_REF;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::PURE_FN;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::USED_RECURSIVELY;
+                        *e_flags |= var_info_flags & VarUsageInfoFlags::USED_IN_NON_CHILD_FN;
+
+                        // If a var is registered at a parent scope, it means that it's delcared
+                        // before usages.
+                        //
+                        // e.get_mut().used_above_decl |= var_info.used_above_decl;
+
+                        if !var_info_flags
+                            .contains(VarUsageInfoFlags::NO_SIDE_EFFECT_FOR_MEMBER_ACCESS)
                         {
-                            e.get_mut().flags.remove(VarUsageInfoFlags::VAR_INITIALIZED);
-                            e.get_mut().flags.insert(VarUsageInfoFlags::REASSIGNED);
+                            e_flags.remove(VarUsageInfoFlags::NO_SIDE_EFFECT_FOR_MEMBER_ACCESS);
                         }
-                    }
-
-                    e.get_mut().merged_var_type.merge(var_info.merged_var_type);
-
-                    e.get_mut().ref_count += var_info.ref_count;
-                    e.get_mut().property_mutation_count |= var_info.property_mutation_count;
-                    e.get_mut().declared_count += var_info.declared_count;
-                    e.get_mut().assign_count += var_info.assign_count;
-                    e.get_mut().usage_count += var_info.usage_count;
-                    e.get_mut().infects_to.extend(var_info.infects_to);
-                    e.get_mut().callee_count += var_info.callee_count;
-
-                    for (k, v) in var_info.accessed_props {
-                        *e.get_mut().accessed_props.entry(k).or_default() += v;
-                    }
-
-                    let var_info_flags = var_info.flags;
-                    let e_flags = &mut e.get_mut().flags;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::REASSIGNED;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::HAS_PROPERTY_ACCESS;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::EXPORTED;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_PARAM;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_DECL;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_FN_EXPR;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::EXECUTED_MULTIPLE_TIME;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_IN_COND;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_AS_ARG;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_AS_REF;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::PURE_FN;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_RECURSIVELY;
-                    *e_flags |= var_info_flags & VarUsageInfoFlags::USED_IN_NON_CHILD_FN;
-
-                    // If a var is registered at a parent scope, it means that it's delcared before
-                    // usages.
-                    //
-                    // e.get_mut().used_above_decl |= var_info.used_above_decl;
-
-                    if !var_info_flags.contains(VarUsageInfoFlags::NO_SIDE_EFFECT_FOR_MEMBER_ACCESS)
-                    {
-                        e_flags.remove(VarUsageInfoFlags::NO_SIDE_EFFECT_FOR_MEMBER_ACCESS);
-                    }
-                    if !var_info_flags.contains(VarUsageInfoFlags::IS_FN_LOCAL) {
-                        e_flags.remove(VarUsageInfoFlags::IS_FN_LOCAL);
-                    }
-                    if !var_info_flags.contains(VarUsageInfoFlags::ASSIGNED_FN_LOCAL) {
-                        e_flags.remove(VarUsageInfoFlags::ASSIGNED_FN_LOCAL);
-                    }
-
-                    match kind {
-                        ScopeKind::Fn => {
+                        if !var_info_flags.contains(VarUsageInfoFlags::IS_FN_LOCAL) {
                             e_flags.remove(VarUsageInfoFlags::IS_FN_LOCAL);
-                            if !var_info_flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
-                                e_flags.insert(VarUsageInfoFlags::USED_IN_NON_CHILD_FN);
-                            }
-                            if var_assigned {
-                                e_flags.remove(VarUsageInfoFlags::ASSIGNED_FN_LOCAL);
-                            }
                         }
-                        ScopeKind::Block => {
-                            if e_flags.contains(VarUsageInfoFlags::USED_IN_NON_CHILD_FN) {
+                        if !var_info_flags.contains(VarUsageInfoFlags::ASSIGNED_FN_LOCAL) {
+                            e_flags.remove(VarUsageInfoFlags::ASSIGNED_FN_LOCAL);
+                        }
+
+                        match kind {
+                            ScopeKind::Fn => {
                                 e_flags.remove(VarUsageInfoFlags::IS_FN_LOCAL);
-                                e_flags.insert(VarUsageInfoFlags::USED_IN_NON_CHILD_FN);
+                                if !var_info_flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
+                                    e_flags.insert(VarUsageInfoFlags::USED_IN_NON_CHILD_FN);
+                                }
+                                if var_assigned {
+                                    e_flags.remove(VarUsageInfoFlags::ASSIGNED_FN_LOCAL);
+                                }
+                            }
+                            ScopeKind::Block => {
+                                if e_flags.contains(VarUsageInfoFlags::USED_IN_NON_CHILD_FN) {
+                                    e_flags.remove(VarUsageInfoFlags::IS_FN_LOCAL);
+                                    e_flags.insert(VarUsageInfoFlags::USED_IN_NON_CHILD_FN);
+                                }
                             }
                         }
                     }
-                }
-                Entry::Vacant(e) => {
-                    match kind {
-                        ScopeKind::Fn => {
-                            if !var_info.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
-                                var_info
-                                    .flags
-                                    .insert(VarUsageInfoFlags::USED_IN_NON_CHILD_FN);
+                    Entry::Vacant(e) => {
+                        match kind {
+                            ScopeKind::Fn => {
+                                if !var_info.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
+                                    var_info
+                                        .flags
+                                        .insert(VarUsageInfoFlags::USED_IN_NON_CHILD_FN);
+                                }
                             }
+                            ScopeKind::Block => {}
                         }
-                        ScopeKind::Block => {}
+                        e.insert(var_info);
                     }
-                    e.insert(var_info);
                 }
             }
         }
@@ -361,7 +364,7 @@ impl Storage for ProgramData {
     fn report_usage(&mut self, ctx: Ctx, i: Id) {
         let inited = self.initialized_vars.contains(&i);
 
-        let e = self.vars.entry(i).or_insert_with(|| {
+        let e = self.vars.entry(i.1, i.0).or_insert_with(|| {
             let mut default = VarUsageInfo::default();
             default.flags.insert(VarUsageInfoFlags::USED_ABOVE_DECL);
             Box::new(default)
@@ -389,9 +392,8 @@ impl Storage for ProgramData {
     }
 
     fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>) {
-        let e = self.vars.entry(i.clone()).or_default();
-
         let inited = self.initialized_vars.contains(&i);
+        let e = self.vars.entry(i.1, i.0.clone()).or_default();
 
         if e.assign_count > 0 || e.initialized() {
             e.flags.insert(VarUsageInfoFlags::REASSIGNED);
@@ -401,7 +403,7 @@ impl Storage for ProgramData {
         e.assign_count += 1;
 
         if !is_op {
-            self.initialized_vars.insert(i.clone());
+            self.initialized_vars.insert(i);
             if e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const) && !inited {
                 e.flags.insert(VarUsageInfoFlags::VAR_INITIALIZED);
             } else {
@@ -423,7 +425,7 @@ impl Storage for ProgramData {
         while idx < to_visit.len() {
             let curr = &to_visit[idx];
 
-            if let Some(usage) = self.vars.get_mut(curr) {
+            if let Some(usage) = self.vars.get_mut(curr.1, &curr.0) {
                 if ctx.inline_prevented() {
                     usage.flags.insert(VarUsageInfoFlags::INLINE_PREVENTED);
                 }
@@ -458,7 +460,7 @@ impl Storage for ProgramData {
         //     debug!(has_init = has_init, "declare_decl(`{}`)", i);
         // }
 
-        let v = self.vars.entry(i.to_id()).or_default();
+        let v = self.vars.entry(i.ctxt, i.sym.clone()).or_default();
         if ctx.is_top_level() {
             v.flags |= VarUsageInfoFlags::IS_TOP_LEVEL;
         }
@@ -528,7 +530,7 @@ impl Storage for ProgramData {
     }
 
     fn mark_property_mutation(&mut self, id: Id) {
-        let e = self.vars.entry(id).or_default();
+        let e = self.vars.entry(id.1, id.0).or_default();
         e.property_mutation_count += 1;
 
         let to_mark_mutate = e
@@ -539,7 +541,7 @@ impl Storage for ProgramData {
             .collect::<Vec<_>>();
 
         for other in to_mark_mutate {
-            let other = self.vars.entry(other).or_default();
+            let other = self.vars.entry(other.1, other.0).or_default();
 
             other.property_mutation_count += 1;
         }
@@ -551,8 +553,8 @@ impl Storage for ProgramData {
         }
     }
 
-    fn get_var_data(&self, id: Id) -> Option<&Self::VarData> {
-        self.vars.get(&id).map(|v| v.as_ref())
+    fn get_var_data(&self, ctxt: SyntaxContext, atom: &Atom) -> Option<&Self::VarData> {
+        self.vars.get(ctxt, atom).map(|v| v.as_ref())
     }
 }
 
@@ -749,7 +751,7 @@ impl ProgramData {
             return false;
         }
 
-        if let Some(v) = self.vars.get(&i.to_id()) {
+        if let Some(v) = self.vars.get(i.ctxt, &i.sym) {
             return !v.flags.contains(VarUsageInfoFlags::DECLARED);
         }
 

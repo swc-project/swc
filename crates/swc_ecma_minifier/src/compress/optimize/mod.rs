@@ -3,7 +3,7 @@
 use std::iter::once;
 
 use bitflags::bitflags;
-use rustc_hash::{FxHashMap, FxHashSet};
+use rustc_hash::FxHashMap;
 use swc_atoms::Atom;
 use swc_common::{pass::Repeated, util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -34,6 +34,7 @@ use crate::{
     option::{CompressOptions, MangleOptions},
     program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
     util::{contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt},
+    VarMap, VarSet,
 };
 
 mod arguments;
@@ -90,7 +91,7 @@ pub(super) fn optimizer<'a>(
         data,
         ctx,
         mode,
-        functions: Default::default(),
+        functions: Box::new(VarMap::new()),
     }
 }
 
@@ -229,7 +230,7 @@ struct Optimizer<'a> {
 
     vars: Vars,
 
-    typeofs: Box<FxHashMap<Id, Atom>>,
+    typeofs: Box<VarMap<Atom>>,
     /// This information is created by analyzing identifier usages.
     ///
     /// This is calculated multiple time, but only once per one
@@ -239,7 +240,7 @@ struct Optimizer<'a> {
 
     mode: &'a dyn Mode,
 
-    functions: Box<FxHashMap<Id, FnMetadata>>,
+    functions: Box<VarMap<FnMetadata>>,
 }
 
 #[derive(Default)]
@@ -247,7 +248,7 @@ struct Vars {
     /// Cheap to clone.
     ///
     /// Used for inlining.
-    lits: FxHashMap<Id, Box<Expr>>,
+    lits: VarMap<Box<Expr>>,
 
     /// Used for `hoist_props`.
     hoisted_props: Box<FxHashMap<(Id, Atom), Ident>>,
@@ -256,25 +257,25 @@ struct Vars {
     /// making output bigger.
     ///
     /// https://github.com/swc-project/swc/issues/4415
-    lits_for_cmp: FxHashMap<Id, Box<Expr>>,
+    lits_for_cmp: VarMap<Box<Expr>>,
 
     /// This stores [Expr::Array] if all elements are literals.
-    lits_for_array_access: FxHashMap<Id, Box<Expr>>,
+    lits_for_array_access: VarMap<Box<Expr>>,
 
     /// Used for copying functions.
     ///
     /// We use this to distinguish [Callee::Expr] from other [Expr]s.
-    simple_functions: FxHashMap<Id, Box<Expr>>,
-    vars_for_inlining: FxHashMap<Id, Box<Expr>>,
+    simple_functions: VarMap<Box<Expr>>,
+    vars_for_inlining: VarMap<Box<Expr>>,
 
     /// Variables which should be removed by [Finalizer] because of the order of
     /// visit.
-    removed: FxHashSet<Id>,
+    removed: VarSet,
 }
 
 impl Vars {
-    fn has_pending_inline_for(&self, id: &Id) -> bool {
-        self.lits.contains_key(id) || self.vars_for_inlining.contains_key(id)
+    fn has_pending_inline_for(&self, ctxt: SyntaxContext, sym: &Atom) -> bool {
+        self.lits.contains_key(ctxt, sym) || self.vars_for_inlining.contains_key(ctxt, sym)
     }
 
     /// Returns true if something is changed.
@@ -346,7 +347,7 @@ impl Optimizer<'_> {
         if self
             .data
             .vars
-            .get(&id.to_id())
+            .get(id.ctxt, &id.sym)
             .is_some_and(|v| v.flags.contains(VarUsageInfoFlags::EXPORTED))
         {
             return false;
@@ -834,7 +835,7 @@ impl Optimizer<'_> {
 
                 if let Expr::Ident(callee) = &**callee {
                     if self.options.reduce_vars && self.options.side_effects {
-                        if let Some(usage) = self.data.vars.get(&callee.to_id()) {
+                        if let Some(usage) = self.data.vars.get(callee.ctxt, &callee.sym) {
                             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                 && usage.flags.contains(VarUsageInfoFlags::PURE_FN)
                             {
@@ -901,12 +902,13 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                let old = i.id.to_id();
+                let old_ctxt = i.id.ctxt;
+                let old_sym = i.id.sym.clone();
                 self.store_var_for_inlining(&mut i.id, right, true);
 
                 if i.is_dummy() && self.options.unused {
-                    report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
-                    self.vars.removed.insert(old);
+                    report_change!("inline: Removed variable ({}{:?})", old_ctxt, old_sym);
+                    self.vars.removed.insert(old_ctxt, &old_sym);
                 }
 
                 if right.is_invalid() {
@@ -1827,21 +1829,22 @@ impl VisitMut for Optimizer<'_> {
                 ..
             }) => {
                 if let Some(i) = left.as_ident_mut() {
-                    let old = i.to_id();
+                    let old_ctxt = i.ctxt;
+                    let old_sym = i.sym.clone();
 
                     self.store_var_for_inlining(i, right, false);
 
                     if i.is_dummy() && self.options.unused {
-                        report_change!("inline: Removed variable ({}, {:?})", old.0, old.1);
-                        self.vars.removed.insert(old.clone());
+                        report_change!("inline: Removed variable ({}, {:?})", old_ctxt, old_sym);
+                        self.vars.removed.insert(old_ctxt, &old_sym);
                     }
 
                     if right.is_invalid() {
                         if let Some(lit) = self
                             .vars
                             .lits
-                            .get(&old)
-                            .or_else(|| self.vars.vars_for_inlining.get(&old))
+                            .get(old_ctxt, &old_sym)
+                            .or_else(|| self.vars.vars_for_inlining.get(old_ctxt, &old_sym))
                         {
                             *e = (**lit).clone();
                         }
@@ -2063,7 +2066,7 @@ impl VisitMut for Optimizer<'_> {
         .entered();
 
         self.functions
-            .entry(f.ident.to_id())
+            .entry(f.ident.ctxt, f.ident.sym.clone())
             .or_insert_with(|| FnMetadata::from(&*f.function));
 
         self.drop_unused_params(&mut f.function.params);
@@ -2082,7 +2085,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_fn_expr(&mut self, e: &mut FnExpr) {
         if let Some(ident) = &e.ident {
             self.functions
-                .entry(ident.to_id())
+                .entry(ident.ctxt, ident.sym.clone())
                 .or_insert_with(|| FnMetadata::from(&*e.function));
         }
 
@@ -2854,8 +2857,8 @@ impl VisitMut for Optimizer<'_> {
                 // If a const variable is reassigned, we should not convert it to `let`
                 let no_reassignment = n.decls.iter().all(|var| {
                     let ids = get_ids_of_pat(&var.name);
-                    for id in ids {
-                        if let Some(usage) = self.data.vars.get(&id) {
+                    for (ctxt, sym) in ids {
+                        if let Some(usage) = self.data.vars.get(ctxt, sym) {
                             if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                 return false;
                             }
@@ -3062,7 +3065,7 @@ impl VisitMut for Optimizer<'_> {
 
                 if let Some(Expr::Invalid(..)) = var.init.as_deref() {
                     if let Pat::Ident(i) = &var.name {
-                        if let Some(usage) = self.data.vars.get(&i.id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(i.id.ctxt, &i.id.sym) {
                             if usage
                                 .flags
                                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)

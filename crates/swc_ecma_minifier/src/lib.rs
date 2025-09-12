@@ -40,11 +40,13 @@
 
 use once_cell::sync::Lazy;
 use pass::mangle_names::mangle_names;
+use rustc_hash::{FxHashMap, FxHashSet};
+use swc_atoms::Atom;
 use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::marks::Marks;
-use swc_ecma_visit::VisitMutWith;
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_timer::timer;
 
 pub use crate::pass::global_defs::globals_defs;
@@ -275,4 +277,105 @@ fn perform_dce(m: &mut Program, options: &CompressOptions, extra: Marks) {
     }
 
     debug_assert_valid(&*m);
+}
+
+#[derive(Default, Debug)]
+struct VarMap<V> {
+    map: FxHashMap<SyntaxContext, FxHashMap<Atom, V>>,
+}
+
+impl<V> VarMap<V> {
+    fn new() -> Self {
+        Self {
+            map: FxHashMap::default(),
+        }
+    }
+
+    fn contains_key(&self, ctxt: SyntaxContext, sym: &Atom) -> bool {
+        self.map
+            .get(&ctxt)
+            .map(|m| m.contains_key(sym))
+            .unwrap_or(false)
+    }
+
+    fn get(&self, ctxt: SyntaxContext, sym: &Atom) -> Option<&V> {
+        self.map.get(&ctxt).and_then(|m| m.get(sym))
+    }
+
+    fn get_mut(&mut self, ctxt: SyntaxContext, sym: &Atom) -> Option<&mut V> {
+        self.map.get_mut(&ctxt).and_then(|m| m.get_mut(sym))
+    }
+
+    #[inline]
+    fn is_empty(&self) -> bool {
+        self.map.is_empty()
+    }
+
+    fn remove(&mut self, ctxt: SyntaxContext, sym: &Atom) -> Option<V> {
+        self.map.get_mut(&ctxt).and_then(|m| m.remove(sym))
+    }
+
+    fn insert(&mut self, ctxt: SyntaxContext, sym: Atom, value: V) {
+        let map = self.map.entry(ctxt).or_default();
+        map.insert(sym, value);
+    }
+
+    fn entry(
+        &mut self,
+        ctxt: SyntaxContext,
+        sym: Atom,
+    ) -> std::collections::hash_map::Entry<'_, Atom, V> {
+        let map = self.map.entry(ctxt).or_default();
+        map.entry(sym)
+    }
+}
+
+#[derive(Default)]
+struct VarSet {
+    map: FxHashMap<SyntaxContext, FxHashSet<Atom>>,
+}
+
+impl VarSet {
+    #[inline]
+    fn is_empty(&self) -> bool {
+        self.map.is_empty()
+    }
+
+    fn contains(&self, ctxt: SyntaxContext, sym: &Atom) -> bool {
+        self.map
+            .get(&ctxt)
+            .map(|s| s.contains(sym))
+            .unwrap_or(false)
+    }
+
+    fn insert(&mut self, ctxt: SyntaxContext, sym: &Atom) {
+        let set = self.map.entry(ctxt).or_default();
+        if !set.contains(sym) {
+            set.insert(sym.clone());
+        }
+    }
+}
+
+/// Variable remapper
+///
+/// This visitor modifies [SyntaxContext] while preserving the symbol of
+/// [Ident]s.
+pub struct Remapper<'a> {
+    vars: &'a VarMap<SyntaxContext>,
+}
+
+impl<'a> Remapper<'a> {
+    fn new(vars: &'a VarMap<SyntaxContext>) -> Self {
+        Self { vars }
+    }
+}
+
+impl VisitMut for Remapper<'_> {
+    noop_visit_mut_type!(fail);
+
+    fn visit_mut_ident(&mut self, i: &mut Ident) {
+        if let Some(new_ctxt) = self.vars.get(i.ctxt, &i.sym).copied() {
+            i.ctxt = new_ctxt;
+        }
+    }
 }

@@ -6,7 +6,7 @@ use swc_common::{util::take::Take, EqIgnoreSpan, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
 use swc_ecma_utils::{
-    class_has_side_effect, collect_decls, contains_this_expr, find_pat_ids, ExprExt, Remapper,
+    class_has_side_effect, collect_decls, contains_this_expr, find_pat_ids, ExprExt,
 };
 use swc_ecma_visit::VisitMutWith;
 
@@ -20,6 +20,7 @@ use crate::{
     util::{
         idents_captured_by, idents_used_by, idents_used_by_ignoring_nested, size::SizeWithCtxt,
     },
+    VarMap,
 };
 
 /// Methods related to option `inline`.
@@ -58,7 +59,7 @@ impl Optimizer<'_> {
             }
         }
 
-        if let Some(usage) = self.data.vars.get(&ident.to_id()) {
+        if let Some(usage) = self.data.vars.get(ident.ctxt, &ident.sym) {
             let ref_count = usage.ref_count - u32::from(can_drop && usage.ref_count > 1);
             if !usage.flags.contains(VarUsageInfoFlags::VAR_INITIALIZED) {
                 return;
@@ -98,7 +99,7 @@ impl Optimizer<'_> {
 
             // No use => dropped
             if ref_count == 0 {
-                self.mode.store(ident.to_id(), &*init);
+                self.mode.store(ident.ctxt, &ident.sym, &*init);
 
                 if init.may_have_side_effects(self.ctx.expr_ctx) {
                     // TODO: Inline partially
@@ -114,7 +115,8 @@ impl Optimizer<'_> {
 
             let mut inlined_into_init = false;
 
-            let id = ident.to_id();
+            let ctxt = ident.ctxt;
+            let sym = ident.sym.clone();
 
             // We inline arrays partially if it's pure (all elements are literal), and not
             // modified.
@@ -149,9 +151,11 @@ impl Optimizer<'_> {
                             ident.sym,
                             ident.ctxt
                         );
-                        self.vars
-                            .lits_for_array_access
-                            .insert(ident.to_id(), Box::new(init.clone()));
+                        self.vars.lits_for_array_access.insert(
+                            ident.ctxt,
+                            ident.sym.clone(),
+                            Box::new(init.clone()),
+                        );
                     }
                 }
             }
@@ -185,17 +189,19 @@ impl Optimizer<'_> {
             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                 match init {
                     Expr::Fn(..) | Expr::Arrow(..) | Expr::Class(..) => {
-                        self.typeofs.insert(ident.to_id(), atom!("function"));
+                        self.typeofs
+                            .insert(ident.ctxt, ident.sym.clone(), atom!("function"));
                     }
                     Expr::Array(..) | Expr::Object(..) => {
-                        self.typeofs.insert(ident.to_id(), atom!("object"));
+                        self.typeofs
+                            .insert(ident.ctxt, ident.sym.clone(), atom!("object"));
                     }
                     _ => {}
                 }
             }
 
             if !usage.mutated() {
-                self.mode.store(ident.to_id(), &*init);
+                self.mode.store(ident.ctxt, &ident.sym, &*init);
             }
 
             if usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
@@ -216,7 +222,7 @@ impl Optimizer<'_> {
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
                         if !usage.flags.contains(VarUsageInfoFlags::ASSIGNED_FN_LOCAL) {
                             false
-                        } else if let Some(u) = self.data.vars.get(&id.to_id()) {
+                        } else if let Some(u) = self.data.vars.get(ctxt, &sym) {
                             let mut should_inline =
                                 !u.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                     && u.flags.contains(VarUsageInfoFlags::DECLARED);
@@ -276,9 +282,11 @@ impl Optimizer<'_> {
                             {
                                 true
                             } else {
-                                self.vars
-                                    .lits_for_cmp
-                                    .insert(ident.to_id(), init.clone().into());
+                                self.vars.lits_for_cmp.insert(
+                                    ident.ctxt,
+                                    ident.sym.clone(),
+                                    init.clone().into(),
+                                );
                                 false
                             }
                         }
@@ -308,7 +316,7 @@ impl Optimizer<'_> {
                     self.vars.inline_with_multi_replacer(init);
                 }
 
-                self.mode.store(id.clone(), &*init);
+                self.mode.store(ctxt, &sym, &*init);
 
                 let VarUsageInfo {
                     usage_count,
@@ -318,7 +326,7 @@ impl Optimizer<'_> {
                 } = **usage;
                 let mut inc_usage = || {
                     if let Expr::Ident(i) = &*init {
-                        if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
+                        if let Some(u) = self.data.vars.get_mut(i.ctxt, &i.sym) {
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_ARG;
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_REF;
                             u.flags |= flags & VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY;
@@ -358,7 +366,7 @@ impl Optimizer<'_> {
 
                     inc_usage();
 
-                    self.vars.lits.insert(id.clone(), init.take().into());
+                    self.vars.lits.insert(ctxt, sym.clone(), init.take().into());
 
                     ident.take();
                 } else if self.options.inline != 0 || self.options.reduce_vars {
@@ -368,15 +376,17 @@ impl Optimizer<'_> {
                         ident.ctxt
                     );
 
-                    self.mode.store(id.clone(), &*init);
+                    self.mode.store(ctxt, &sym, &*init);
 
                     inc_usage();
 
-                    self.vars.lits.insert(id.clone(), init.clone().into());
+                    self.vars
+                        .lits
+                        .insert(ctxt, sym.clone(), init.clone().into());
                 }
             }
 
-            let usage = self.data.vars.get(&id).unwrap();
+            let usage = self.data.vars.get(ctxt, &sym).unwrap();
 
             // Single use => inlined
             if !self.ctx.bit_ctx.contains(BitCtx::IsExported)
@@ -438,7 +448,7 @@ impl Optimizer<'_> {
                             if excluded.contains(&id) {
                                 continue;
                             }
-                            if let Some(v_usage) = self.data.vars.get(&id) {
+                            if let Some(v_usage) = self.data.vars.get(id.1, &id.0) {
                                 if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                     return;
                                 }
@@ -455,7 +465,7 @@ impl Optimizer<'_> {
                             if excluded.contains(&id) {
                                 continue;
                             }
-                            if let Some(v_usage) = self.data.vars.get(&id) {
+                            if let Some(v_usage) = self.data.vars.get(id.1, &id.0) {
                                 if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                     return;
                                 }
@@ -467,7 +477,7 @@ impl Optimizer<'_> {
 
                     Expr::Object(..) if self.options.pristine_globals => {
                         for id in idents_used_by_ignoring_nested(init) {
-                            if let Some(v_usage) = self.data.vars.get(&id) {
+                            if let Some(v_usage) = self.data.vars.get(id.1, &id.0) {
                                 if v_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                     return;
                                 }
@@ -480,7 +490,7 @@ impl Optimizer<'_> {
                             return;
                         }
 
-                        if let Some(init_usage) = self.data.vars.get(&id.to_id()) {
+                        if let Some(init_usage) = self.data.vars.get(id.ctxt, &id.sym) {
                             if init_usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                 || !init_usage.flags.contains(VarUsageInfoFlags::DECLARED)
                             {
@@ -513,7 +523,7 @@ impl Optimizer<'_> {
 
                     _ => {
                         for id in idents_used_by(init) {
-                            if let Some(v_usage) = self.data.vars.get(&id) {
+                            if let Some(v_usage) = self.data.vars.get(id.1, &id.0) {
                                 if v_usage.property_mutation_count > usage.property_mutation_count
                                     || v_usage.flags.intersects(
                                         VarUsageInfoFlags::HAS_PROPERTY_ACCESS
@@ -578,9 +588,11 @@ impl Optimizer<'_> {
                 );
                 self.changed = true;
 
+                let ident = ident.take();
+
                 self.vars
                     .vars_for_inlining
-                    .insert(ident.take().to_id(), init.take().into());
+                    .insert(ident.ctxt, ident.sym, init.take().into());
             }
         }
     }
@@ -631,20 +643,21 @@ impl Optimizer<'_> {
     /// Stores `typeof` of [ClassDecl] and [FnDecl].
     pub(super) fn store_typeofs(&mut self, decl: &mut Decl) {
         let i = match &*decl {
-            Decl::Class(v) => v.ident.clone(),
-            Decl::Fn(f) => f.ident.clone(),
+            Decl::Class(v) => &v.ident,
+            Decl::Fn(f) => &f.ident,
             _ => return,
         };
         if i.sym == *"arguments" {
             return;
         }
 
-        if let Some(usage) = self.data.vars.get(&i.to_id()) {
+        if let Some(usage) = self.data.vars.get(i.ctxt, &i.sym) {
             if !usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                 trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.ctxt);
                 match &*decl {
                     Decl::Fn(..) | Decl::Class(..) => {
-                        self.typeofs.insert(i.to_id(), atom!("function"));
+                        self.typeofs
+                            .insert(i.ctxt, i.sym.clone(), atom!("function"));
                     }
                     _ => {}
                 }
@@ -698,9 +711,7 @@ impl Optimizer<'_> {
             return;
         }
 
-        let id = i.to_id();
-
-        if let Some(usage) = self.data.vars.get(&id) {
+        if let Some(usage) = self.data.vars.get(i.ctxt, &i.sym) {
             if usage
                 .flags
                 .contains(VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM)
@@ -725,6 +736,8 @@ impl Optimizer<'_> {
                 return;
             }
 
+            let ctxt = i.ctxt;
+            let sym = i.sym.clone();
             // Inline very simple functions.
             self.vars.inline_with_multi_replacer(decl);
             match decl {
@@ -750,29 +763,28 @@ impl Optimizer<'_> {
                             }
                             report_change!(
                                 "inline: Decided to inline function `{}{:?}` as it's very simple",
-                                id.0,
-                                id.1
+                                sym,
+                                ctxt,
                             );
 
-                            for i in collect_infects_from(
+                            for (id, _) in collect_infects_from(
                                 &f.function,
                                 AliasConfig::default()
                                     .marks(Some(self.marks))
                                     .need_all(true),
                             ) {
-                                if let Some(usage) = self.data.vars.get_mut(&i.0) {
+                                if let Some(usage) = self.data.vars.get_mut(id.1, &id.0) {
                                     usage.ref_count += 1;
                                 }
                             }
 
-                            self.vars.simple_functions.insert(
-                                id,
+                            self.vars.simple_functions.insert(ctxt, sym, {
                                 FnExpr {
                                     ident: None,
                                     function: f.function.clone(),
                                 }
-                                .into(),
-                            );
+                                .into()
+                            });
 
                             return;
                         }
@@ -800,7 +812,7 @@ impl Optimizer<'_> {
                     _ => false,
                 })
             {
-                if let Decl::Class(ClassDecl { class, .. }) = decl {
+                if let Decl::Class(ClassDecl { class, .. }) = &decl {
                     if class_has_side_effect(self.ctx.expr_ctx, class) {
                         return;
                     }
@@ -841,27 +853,29 @@ impl Optimizer<'_> {
                     _ => {}
                 }
 
-                let e = match decl.take() {
-                    Decl::Class(c) => ClassExpr {
-                        ident: Some(c.ident),
-                        class: c.class,
-                    }
-                    .into(),
-                    Decl::Fn(f) => FnExpr {
-                        ident: if usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
-                            Some(f.ident)
-                        } else {
-                            None
-                        },
-                        function: f.function,
-                    }
-                    .into(),
-                    _ => {
-                        unreachable!()
-                    }
-                };
-
-                self.vars.vars_for_inlining.insert(id, e);
+                self.vars.vars_for_inlining.insert(
+                    ctxt,
+                    sym,
+                    match decl.take() {
+                        Decl::Class(c) => ClassExpr {
+                            ident: Some(c.ident),
+                            class: c.class,
+                        }
+                        .into(),
+                        Decl::Fn(f) => FnExpr {
+                            ident: if usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY) {
+                                Some(f.ident)
+                            } else {
+                                None
+                            },
+                            function: f.function,
+                        }
+                        .into(),
+                        _ => {
+                            unreachable!()
+                        }
+                    },
+                );
             } else {
                 log_abort!("inline: [x] Usage: {:?}", usage);
             }
@@ -879,7 +893,7 @@ impl Optimizer<'_> {
                 if let MemberProp::Computed(prop) = &mut me.prop {
                     if let Expr::Lit(Lit::Num(..)) = &*prop.expr {
                         if let Expr::Ident(obj) = &*me.obj {
-                            let new = self.vars.lits_for_array_access.get(&obj.to_id());
+                            let new = self.vars.lits_for_array_access.get(obj.ctxt, &obj.sym);
 
                             if let Some(new) = new {
                                 report_change!("inline: Inlined array access");
@@ -892,14 +906,13 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Ident(i) => {
-                let id = i.to_id();
                 if let Some(mut value) = self
                     .vars
                     .lits
-                    .get(&id)
+                    .get(i.ctxt, &i.sym)
                     .or_else(|| {
                         if self.ctx.bit_ctx.contains(BitCtx::IsCallee) {
-                            self.vars.simple_functions.get(&i.to_id())
+                            self.vars.simple_functions.get(i.ctxt, &i.sym)
                         } else {
                             None
                         }
@@ -917,7 +930,7 @@ impl Optimizer<'_> {
                     let bindings: FxHashSet<Id> = collect_decls(&*value);
                     let new_mark = Mark::new();
                     let mut cache = FxHashMap::default();
-                    let mut remap = FxHashMap::default();
+                    let mut remap = VarMap::default();
 
                     for id in bindings {
                         let new_ctxt = cache
@@ -926,16 +939,15 @@ impl Optimizer<'_> {
 
                         let new_ctxt = *new_ctxt;
 
-                        if let Some(usage) = self.data.vars.get(&id).cloned() {
-                            let new_id = (id.0.clone(), new_ctxt);
-                            self.data.vars.insert(new_id, usage);
+                        if let Some(usage) = self.data.vars.get(id.1, &id.0).cloned() {
+                            self.data.vars.insert(new_ctxt, id.0.clone(), usage);
                         }
 
-                        remap.insert(id, new_ctxt);
+                        remap.insert(id.1, id.0, new_ctxt);
                     }
 
                     if !remap.is_empty() {
-                        let mut remapper = Remapper::new(&remap);
+                        let mut remapper = crate::Remapper::new(&remap);
                         value.visit_mut_with(&mut remapper);
                     }
 
@@ -947,7 +959,7 @@ impl Optimizer<'_> {
                 }
 
                 // Check without cloning
-                if let Some(value) = self.vars.vars_for_inlining.get(&i.to_id()) {
+                if let Some(value) = self.vars.vars_for_inlining.get(i.ctxt, &i.sym) {
                     if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign)
                         && !is_valid_for_lhs(value)
                     {
@@ -961,7 +973,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if let Some(value) = self.vars.vars_for_inlining.remove(&i.to_id()) {
+                if let Some(value) = self.vars.vars_for_inlining.remove(i.ctxt, &i.sym) {
                     self.changed = true;
                     report_change!("inline: Replacing '{}' with an expression", i);
 
