@@ -341,7 +341,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "38.0.0"
+version = "39.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -4819,7 +4819,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc"
-version = "38.0.0"
+version = "39.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4961,7 +4961,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "39.0.0"
+version = "40.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -5071,7 +5071,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "39.0.3"
+version = "40.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5372,7 +5372,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_bugfixes"
-version = "27.0.0"
+version = "28.0.0"
 dependencies = [
  "rustc-hash 2.1.1",
  "swc_atoms",
@@ -5400,7 +5400,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "27.0.0"
+version = "28.0.0"
 dependencies = [
  "arrayvec",
  "indexmap 2.7.1",
@@ -5688,7 +5688,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "24.0.0"
+version = "24.0.1"
 dependencies = [
  "codspeed-criterion-compat",
  "either",
@@ -5710,7 +5710,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "33.0.0"
+version = "34.0.0"
 dependencies = [
  "anyhow",
  "codspeed-criterion-compat",
@@ -5827,7 +5827,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "32.0.0"
+version = "33.0.0"
 dependencies = [
  "par-core",
  "swc_common",
@@ -5847,7 +5847,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "26.0.0"
+version = "26.0.1"
 dependencies = [
  "better_scoped_tls",
  "codspeed-criterion-compat",
@@ -5884,7 +5884,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "28.0.0"
+version = "29.0.0"
 dependencies = [
  "indexmap 2.7.1",
  "par-core",
@@ -5925,7 +5925,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "28.0.0"
+version = "29.0.0"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -6126,7 +6126,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "37.0.0"
+version = "38.0.0"
 dependencies = [
  "par-core",
  "swc_ecma_ast",
@@ -6343,7 +6343,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "39.0.0"
+version = "40.0.0"
 dependencies = [
  "anyhow",
  "rustc-hash 2.1.1",
