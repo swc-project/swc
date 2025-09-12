@@ -553,13 +553,11 @@ impl Lexer<'_> {
                     continue;
                 }
                 self.bump(); // bump 'u'
-                let Ok(chars) = self.read_unicode_escape() else {
+                let Ok(code_point) = self.read_unicode_escape() else {
                     self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
                     break;
                 };
-                for c in chars {
-                    v.extend(c);
-                }
+                v.extend(code_point);
                 self.token_flags |= swc_ecma_lexer::lexer::TokenFlags::UNICODE;
             } else {
                 break;

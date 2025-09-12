@@ -122,11 +122,6 @@ impl IntoIterator for CodePoint {
 
     #[allow(unsafe_code)]
     fn into_iter(self) -> Self::IntoIter {
-        //        // TODO: Check if this is correct
-        //        fn to_char(v: u8) -> char {
-        //            char::from_digit(v as _, 16).unwrap_or('0')
-        //        }
-
         CharIter(match char::from_u32(self.value) {
             Some(c) => {
                 let mut buf = ArrayVec::new();

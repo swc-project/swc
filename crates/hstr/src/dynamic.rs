@@ -70,7 +70,12 @@ impl Default for AtomStore {
 impl AtomStore {
     #[inline(always)]
     pub fn atom<'a>(&mut self, text: impl Into<Cow<'a, str>>) -> Atom {
-        atom_in(self, &text.into())
+        self.atom_raw(text.into().as_bytes())
+    }
+
+    #[inline(always)]
+    pub fn atom_raw(&mut self, text: &[u8]) -> Atom {
+        atom_in(self, text)
     }
 
     fn gc(&mut self) {
@@ -94,7 +99,7 @@ pub fn global_atom_store_gc() {
     });
 }
 
-pub(crate) fn global_atom(text: &str) -> Atom {
+pub(crate) fn global_atom(text: &[u8]) -> Atom {
     GLOBAL_DATA.with(|global| {
         let mut store = global.borrow_mut();
 
@@ -104,7 +109,7 @@ pub(crate) fn global_atom(text: &str) -> Atom {
 
 /// This can create any kind of [Atom], although this lives in the `dynamic`
 /// module.
-fn atom_in<S>(storage: S, text: &str) -> Atom
+fn atom_in<S>(storage: S, text: &[u8]) -> Atom
 where
     S: Storage,
 {
@@ -115,7 +120,7 @@ where
         let tag = INLINE_TAG_INIT | ((len as u8) << LEN_OFFSET);
         let mut unsafe_data = TaggedValue::new_tag(tag);
         unsafe {
-            unsafe_data.data_mut()[..len].copy_from_slice(text.as_bytes());
+            unsafe_data.data_mut()[..len].copy_from_slice(text);
         }
         return Atom { unsafe_data };
     }
@@ -159,31 +164,25 @@ pub(crate) const fn inline_atom(text: &str) -> Option<Atom> {
 }
 
 trait Storage {
-    fn insert_entry(self, text: &str, hash: u64) -> Item;
+    fn insert_entry(self, text: &[u8], hash: u64) -> Item;
 }
 
 impl Storage for &'_ mut AtomStore {
-    fn insert_entry(self, text: &str, hash: u64) -> Item {
+    fn insert_entry(self, text: &[u8], hash: u64) -> Item {
         // If the text is too long, interning is not worth it.
         if text.len() > 512 {
-            return Item(ThinArc::from_header_and_slice(
-                Metadata { hash },
-                text.as_bytes(),
-            ));
+            return Item(ThinArc::from_header_and_slice(Metadata { hash }, text));
         }
 
         let (entry, _) = self
             .data
             .raw_entry_mut()
             .from_hash(hash, |key| {
-                key.header.header.hash == hash && key.slice.eq(text.as_bytes())
+                key.header.header.hash == hash && key.slice.eq(text)
             })
             .or_insert_with(move || {
                 (
-                    Item(ThinArc::from_header_and_slice(
-                        Metadata { hash },
-                        text.as_bytes(),
-                    )),
+                    Item(ThinArc::from_header_and_slice(Metadata { hash }, text)),
                     (),
                 )
             });
@@ -192,7 +191,7 @@ impl Storage for &'_ mut AtomStore {
 }
 
 #[inline(always)]
-fn calc_hash(text: &str) -> u64 {
+fn calc_hash(text: &[u8]) -> u64 {
     let mut hasher = FxHasher::default();
     text.hash(&mut hasher);
     hasher.finish()
