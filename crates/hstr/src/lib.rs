@@ -22,6 +22,7 @@ mod global_store;
 mod tagged_value;
 #[cfg(test)]
 mod tests;
+pub mod wtf8;
 
 /// An immutable string which is cheap to clone, compare, hash, and has small
 /// size.
