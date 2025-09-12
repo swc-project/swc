@@ -539,6 +539,11 @@ impl Wtf8 {
         unsafe { transmute(value.as_bytes()) }
     }
 
+    #[inline]
+    pub fn from_bytes(value: &[u8]) -> &Wtf8 {
+        unsafe { transmute(value) }
+    }
+
     /// Return the length, in WTF-8 bytes.
     #[inline]
     pub fn len(&self) -> usize {
