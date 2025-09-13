@@ -47,7 +47,7 @@ jobs:
     name: Check if build is required
     runs-on: ubuntu-latest
     # Run only on main branch
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     outputs:
       need-build: ${{ steps.check.outputs.need-build }}
     steps:
