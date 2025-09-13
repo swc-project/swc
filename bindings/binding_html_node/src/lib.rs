@@ -34,7 +34,7 @@ use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::{tag_omission::TagOmission, util::try_with};
 
-#[napi::module_init]
+#[napi_derive::module_init]
 fn init() {
     if cfg!(debug_assertions) || env::var("SWC_DEBUG").unwrap_or_default() == "1" {
         set_hook(Box::new(|panic_info| {

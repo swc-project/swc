@@ -17,10 +17,10 @@ use swc_core::{
 
 use crate::{get_fresh_compiler, util::try_with};
 
-#[napi(object)]
+#[napi(object, object_to_js = false)]
 pub struct NapiMinifyExtra {
     #[napi(ts_type = "object")]
-    pub mangle_name_cache: Option<NameMangleCache>,
+    pub mangle_name_cache: Option<&'static NameMangleCache>,
 }
 
 struct MinifyTask {
@@ -100,7 +100,7 @@ fn minify(
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
     let extras = JsMinifyExtras::default()
-        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().cloned());
+        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().map(|s| (*s).clone()));
 
     let c = get_fresh_compiler();
 
@@ -134,7 +134,7 @@ pub fn minify_sync(
     };
     let opts = get_deserialized(opts)?;
     let extras = JsMinifyExtras::default()
-        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().cloned());
+        .with_mangle_name_cache(extras.mangle_name_cache.as_deref().map(|s| (*s).clone()));
 
     let c = get_fresh_compiler();
 

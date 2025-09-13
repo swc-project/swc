@@ -1,6 +1,6 @@
 {
     "name": "@swc/workspace",
-    "packageManager": "yarn@4.0.2",
+    "packageManager": "yarn@4.9.4",
     "private": true,
     "workspaces": [
         "./.github/bot",

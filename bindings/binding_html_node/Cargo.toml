@@ -32,9 +32,9 @@ swc_css_codegen = { workspace = true }
 swc_css_minifier = { workspace = true }
 swc_css_parser = { workspace = true }
 swc_error_reporters = { workspace = true }
-swc_html = { workspace = true, default-features = false }
+swc_html = { workspace = true }
 swc_html_ast = { workspace = true, features = ["serde"] }
-swc_html_minifier = { workspace = true, default-features = false, features = [
+swc_html_minifier = { workspace = true, features = [
   "custom-css-minifier",
 ] }
 swc_nodejs_common = { workspace = true }
