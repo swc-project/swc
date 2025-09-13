@@ -18,7 +18,7 @@ static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
     Arc::new(Compiler::new(cm))
 });
 
-#[napi::module_init]
+#[napi_derive::module_init]
 fn init() {
     if cfg!(debug_assertions) || env::var("SWC_DEBUG").unwrap_or_default() == "1" {
         set_hook(Box::new(|panic_info| {
