@@ -44,7 +44,7 @@
     "types": "./index.d.ts",
     "scripts": {
         "artifacts": "napi artifacts --npm-dir scripts/npm",
-        "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm",
+        "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
         "pack": "wasm-pack",
         "build:ts": "tsc -d",
         "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../bindings/Cargo.toml -p binding_react_compiler_node --output-dir . --release",
@@ -61,7 +61,7 @@
         "@swc/types": "workspace:^"
     },
     "devDependencies": {
-        "@napi-rs/cli": "^3.1.5",
+        "@napi-rs/cli": "^3.2.0",
         "@types/node": "^20.7.1",
         "cross-env": "^7.0.3",
         "typescript": "^5.2.2"
