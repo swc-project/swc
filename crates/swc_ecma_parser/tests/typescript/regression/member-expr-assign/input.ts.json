@@ -37,6 +37,7 @@
                 "end": 4
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "obj",
               "optional": false
             },
@@ -70,7 +71,8 @@
                 "end": 13
               },
               "value": "foo",
-              "raw": "'foo'"
+              "raw": "'foo'",
+              "loneSurrogates": false
             }
           }
         },

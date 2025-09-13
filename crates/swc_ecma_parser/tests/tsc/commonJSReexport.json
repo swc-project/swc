@@ -28,6 +28,7 @@
               "end": 113
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "hardline",
             "optional": false,
             "typeAnnotation": null
@@ -56,7 +57,8 @@
                     "end": 130
                   },
                   "value": "hard",
-                  "raw": "\"hard\""
+                  "raw": "\"hard\"",
+                  "loneSurrogates": false
                 }
               }
             ]
@@ -91,6 +93,7 @@
               "end": 139
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -117,6 +120,7 @@
                 "end": 162
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "hardline",
               "optional": false
             }
@@ -150,6 +154,7 @@
               "end": 197
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -193,6 +198,7 @@
                     "end": 227
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "require",
                   "optional": false
                 },
@@ -206,7 +212,8 @@
                         "end": 237
                       },
                       "value": "./first",
-                      "raw": "'./first'"
+                      "raw": "'./first'",
+                      "loneSurrogates": false
                     }
                   }
                 ],
@@ -253,6 +260,7 @@
                     "end": 281
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "hardline",
                   "optional": false,
                   "typeAnnotation": null
@@ -283,6 +291,7 @@
                   "end": 293
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "require",
                 "optional": false
               },
@@ -296,7 +305,8 @@
                       "end": 304
                     },
                     "value": "./second",
-                    "raw": "'./second'"
+                    "raw": "'./second'",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -328,6 +338,7 @@
           "end": 322
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "hardline",
         "optional": false
       }

@@ -26,6 +26,7 @@
               "end": 5
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "div",
             "optional": false
           },
@@ -55,7 +56,8 @@
                   "end": 19
                 },
                 "value": "leading",
-                "raw": "\"leading\""
+                "raw": "\"leading\"",
+                "loneSurrogates": false
               }
             },
             {
@@ -79,7 +81,8 @@
                   "end": 36
                 },
                 "value": "attribute",
-                "raw": "\"attribute\""
+                "raw": "\"attribute\"",
+                "loneSurrogates": false
               }
             },
             {
@@ -95,6 +98,7 @@
                   "end": 46
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "props",
                 "optional": false
               }
@@ -117,6 +121,7 @@
               "end": 53
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "div",
             "optional": false
           }

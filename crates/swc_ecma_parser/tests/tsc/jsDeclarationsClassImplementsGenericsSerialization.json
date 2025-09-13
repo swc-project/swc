@@ -24,6 +24,7 @@
             "end": 144
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Encoder",
           "optional": false
         },
@@ -48,6 +49,7 @@
                   "end": 146
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "T",
                 "optional": false
               },
@@ -80,6 +82,7 @@
                   "end": 160
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "encode",
                 "optional": false
               },
@@ -93,6 +96,7 @@
                     "end": 166
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "value",
                   "optional": false,
                   "typeAnnotation": {
@@ -114,6 +118,7 @@
                           "end": 169
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "T",
                         "optional": false
                       },
@@ -141,6 +146,7 @@
                       "end": 182
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Uint8Array",
                     "optional": false
                   },
@@ -168,6 +174,7 @@
             "end": 278
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Encoder",
           "optional": false
         },
@@ -209,6 +216,7 @@
                       "end": 338
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "value",
                     "optional": false,
                     "typeAnnotation": null
@@ -249,6 +257,7 @@
                           "end": 371
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Uint8Array",
                         "optional": false
                       },

@@ -14,6 +14,7 @@
           "end": 8
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -74,7 +75,8 @@
               "end": 27
             },
             "value": "0",
-            "raw": "\"0\""
+            "raw": "\"0\"",
+            "loneSurrogates": false
           },
           "function": {
             "params": [],

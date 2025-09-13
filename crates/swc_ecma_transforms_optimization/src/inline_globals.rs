@@ -101,6 +101,7 @@ impl VisitMut for InlineGlobals {
                         *expr = Lit::Str(Str {
                             span: *span,
                             raw: None,
+                            lone_surrogates: false,
                             value,
                         })
                         .into();

@@ -28,6 +28,7 @@
               "end": 161
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "arr",
             "optional": false,
             "typeAnnotation": null
@@ -57,7 +58,8 @@
                           "end": 174
                         },
                         "value": "a",
-                        "raw": "'a'"
+                        "raw": "'a'",
+                        "loneSurrogates": false
                       }
                     },
                     {
@@ -113,7 +115,8 @@
                           "end": 195
                         },
                         "value": "b",
-                        "raw": "'b'"
+                        "raw": "'b'",
+                        "loneSurrogates": false
                       }
                     },
                     {
@@ -166,6 +169,7 @@
           "end": 278
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "f",
         "optional": false
       },
@@ -216,7 +220,8 @@
                             "end": 308
                           },
                           "value": "a",
-                          "raw": "'a'"
+                          "raw": "'a'",
+                          "loneSurrogates": false
                         }
                       },
                       {
@@ -272,7 +277,8 @@
                             "end": 333
                           },
                           "value": "b",
-                          "raw": "'b'"
+                          "raw": "'b'",
+                          "loneSurrogates": false
                         }
                       },
                       {
@@ -329,6 +335,7 @@
           "end": 362
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -370,6 +377,7 @@
                     "end": 446
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "value",
                   "optional": false,
                   "typeAnnotation": null
@@ -464,7 +472,8 @@
                                   "end": 499
                                 },
                                 "value": "a",
-                                "raw": "'a'"
+                                "raw": "'a'",
+                                "loneSurrogates": false
                               }
                             },
                             {
@@ -520,7 +529,8 @@
                                   "end": 528
                                 },
                                 "value": "b",
-                                "raw": "'b'"
+                                "raw": "'b'",
+                                "loneSurrogates": false
                               }
                             },
                             {

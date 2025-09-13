@@ -14,6 +14,7 @@
           "end": 29
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "foo",
         "optional": false
       },
@@ -56,6 +57,7 @@
                     "end": 45
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "obj",
                   "optional": false,
                   "typeAnnotation": null

@@ -14,6 +14,7 @@
           "end": 78
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -98,6 +99,7 @@
                         "end": 123
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "console",
                       "optional": false
                     },
@@ -126,6 +128,7 @@
                             "end": 129
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "C",
                           "optional": false
                         },
@@ -195,6 +198,7 @@
                         "end": 162
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "C",
                       "optional": false
                     },

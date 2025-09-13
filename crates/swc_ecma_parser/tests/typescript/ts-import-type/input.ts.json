@@ -19,6 +19,7 @@
           "end": 10
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Vite",
         "optional": false
       },
@@ -42,7 +43,8 @@
               "end": 33
             },
             "value": "vite",
-            "raw": "\"vite\""
+            "raw": "\"vite\"",
+            "loneSurrogates": false
           },
           "qualifier": null,
           "typeArguments": null,
@@ -68,7 +70,8 @@
                       "end": 70
                     },
                     "value": "resolution-mode",
-                    "raw": "\"resolution-mode\""
+                    "raw": "\"resolution-mode\"",
+                    "loneSurrogates": false
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -77,7 +80,8 @@
                       "end": 80
                     },
                     "value": "import",
-                    "raw": "\"import\""
+                    "raw": "\"import\"",
+                    "loneSurrogates": false
                   }
                 }
               ]
@@ -101,6 +105,7 @@
           "end": 99
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Vite2",
         "optional": false
       },
@@ -124,7 +129,8 @@
               "end": 122
             },
             "value": "vite",
-            "raw": "\"vite\""
+            "raw": "\"vite\"",
+            "loneSurrogates": false
           },
           "qualifier": null,
           "typeArguments": null,
@@ -147,6 +153,7 @@
           "end": 136
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Vite3",
         "optional": false
       },
@@ -170,7 +177,8 @@
               "end": 159
             },
             "value": "vite",
-            "raw": "\"vite\""
+            "raw": "\"vite\"",
+            "loneSurrogates": false
           },
           "qualifier": null,
           "typeArguments": null,

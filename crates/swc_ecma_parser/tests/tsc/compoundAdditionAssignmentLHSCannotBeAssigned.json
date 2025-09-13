@@ -20,6 +20,7 @@
           "end": 89
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "E",
         "optional": false
       },
@@ -37,6 +38,7 @@
               "end": 93
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "a",
             "optional": false
           },
@@ -55,6 +57,7 @@
               "end": 96
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "b",
             "optional": false
           },
@@ -73,6 +76,7 @@
               "end": 99
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "c",
             "optional": false
           },
@@ -103,6 +107,7 @@
               "end": 109
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x1",
             "optional": false,
             "typeAnnotation": {
@@ -146,6 +151,7 @@
             "end": 122
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "x1",
           "optional": false,
           "typeAnnotation": null
@@ -157,7 +163,8 @@
             "end": 128
           },
           "value": "",
-          "raw": "''"
+          "raw": "''",
+          "loneSurrogates": false
         }
       }
     },
@@ -184,6 +191,7 @@
               "end": 137
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x2",
             "optional": false,
             "typeAnnotation": {
@@ -227,6 +235,7 @@
             "end": 149
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "x2",
           "optional": false,
           "typeAnnotation": null
@@ -238,7 +247,8 @@
             "end": 155
           },
           "value": "",
-          "raw": "''"
+          "raw": "''",
+          "loneSurrogates": false
         }
       }
     },
@@ -265,6 +275,7 @@
               "end": 164
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x3",
             "optional": false,
             "typeAnnotation": {
@@ -286,6 +297,7 @@
                     "end": 167
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "E",
                   "optional": false
                 },
@@ -318,6 +330,7 @@
             "end": 171
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "x3",
           "optional": false,
           "typeAnnotation": null
@@ -329,7 +342,8 @@
             "end": 177
           },
           "value": "",
-          "raw": "''"
+          "raw": "''",
+          "loneSurrogates": false
         }
       }
     },
@@ -356,6 +370,7 @@
               "end": 186
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x4",
             "optional": false,
             "typeAnnotation": {
@@ -385,6 +400,7 @@
                         "end": 190
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "a",
                       "optional": false
                     },
@@ -435,6 +451,7 @@
             "end": 203
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "x4",
           "optional": false,
           "typeAnnotation": null
@@ -446,7 +463,8 @@
             "end": 209
           },
           "value": "",
-          "raw": "''"
+          "raw": "''",
+          "loneSurrogates": false
         }
       }
     },
@@ -473,6 +491,7 @@
               "end": 218
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x5",
             "optional": false,
             "typeAnnotation": {
@@ -516,6 +535,7 @@
             "end": 228
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "x5",
           "optional": false,
           "typeAnnotation": null
@@ -527,7 +547,8 @@
             "end": 234
           },
           "value": "",
-          "raw": "''"
+          "raw": "''",
+          "loneSurrogates": false
         }
       }
     }

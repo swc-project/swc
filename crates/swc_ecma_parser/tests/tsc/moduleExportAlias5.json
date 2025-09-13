@@ -28,6 +28,7 @@
               "end": 103
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "webpack",
             "optional": false,
             "typeAnnotation": null
@@ -80,6 +81,7 @@
             "end": 128
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "exports",
           "optional": false,
           "typeAnnotation": null
@@ -104,6 +106,7 @@
                 "end": 137
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "module",
               "optional": false
             },
@@ -123,6 +126,7 @@
               "end": 155
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "webpack",
             "optional": false
           }
@@ -155,6 +159,7 @@
               "end": 164
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "exports",
             "optional": false
           },
@@ -204,6 +209,7 @@
               "end": 189
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "webpack",
             "optional": false
           },

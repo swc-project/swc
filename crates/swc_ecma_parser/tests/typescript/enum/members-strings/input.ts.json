@@ -20,6 +20,7 @@
           "end": 7
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "E",
         "optional": false
       },
@@ -37,7 +38,8 @@
               "end": 19
             },
             "value": "foo",
-            "raw": "\"foo\""
+            "raw": "\"foo\"",
+            "loneSurrogates": false
           },
           "init": null
         },
@@ -54,7 +56,8 @@
               "end": 30
             },
             "value": "bar",
-            "raw": "\"bar\""
+            "raw": "\"bar\"",
+            "loneSurrogates": false
           },
           "init": {
             "type": "NumericLiteral",

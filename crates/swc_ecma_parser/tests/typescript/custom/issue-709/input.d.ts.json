@@ -21,6 +21,7 @@
           "end": 26
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "__event",
         "optional": false
       },
@@ -46,6 +47,7 @@
                   "end": 55
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "EventInit",
                 "optional": false
               },
@@ -100,6 +102,7 @@
                                 "end": 111
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "bubbles",
                               "optional": false,
                               "typeAnnotation": null
@@ -119,6 +122,7 @@
                                 "end": 147
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "cancelable",
                               "optional": false,
                               "typeAnnotation": null
@@ -138,6 +142,7 @@
                                 "end": 181
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "composed",
                               "optional": false,
                               "typeAnnotation": null
@@ -173,6 +178,7 @@
                                     "end": 227
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "bubbles",
                                   "optional": false
                                 },
@@ -225,6 +231,7 @@
                                     "end": 273
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "cancelable",
                                   "optional": false
                                 },
@@ -277,6 +284,7 @@
                                     "end": 317
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "composed",
                                   "optional": false
                                 },

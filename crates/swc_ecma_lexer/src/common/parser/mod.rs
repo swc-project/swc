@@ -322,13 +322,13 @@ pub trait Parser<'a>: Sized + Clone {
     fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         let start = self.cur_pos();
         let cur = self.input().cur();
-        let (raw, cooked) = if cur.is_template() {
-            let (cooked, raw) = self.input_mut().expect_template_token_and_bump();
+        let (raw, cooked, lone_surrogates) = if cur.is_template() {
+            let (cooked, raw, lone_surrogates) = self.input_mut().expect_template_token_and_bump();
             match cooked {
-                Ok(cooked) => (raw, Some(cooked)),
+                Ok(cooked) => (raw, Some(cooked), lone_surrogates),
                 Err(err) => {
                     if is_tagged_tpl {
-                        (raw, None)
+                        (raw, None, lone_surrogates)
                     } else {
                         return Err(err);
                     }
@@ -343,6 +343,7 @@ pub trait Parser<'a>: Sized + Clone {
             raw,
             tail,
             cooked,
+            lone_surrogates,
         })
     }
 

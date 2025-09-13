@@ -28,6 +28,7 @@
               "end": 100
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false,
             "typeAnnotation": {
@@ -57,6 +58,7 @@
                         "end": 111
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "exports",
                       "optional": false
                     },
@@ -96,6 +98,7 @@
           "end": 144
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "require",
         "optional": false
       },
@@ -115,6 +118,7 @@
               "end": 149
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "name",
             "optional": false,
             "typeAnnotation": {
@@ -193,6 +197,7 @@
                 "end": 234
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "module",
               "optional": false
             },
@@ -221,7 +226,8 @@
             "end": 264
           },
           "value": "string",
-          "raw": "'string'"
+          "raw": "'string'",
+          "loneSurrogates": false
         }
       }
     },
@@ -251,6 +257,7 @@
               "end": 271
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -366,6 +373,7 @@
                 "end": 348
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "module",
               "optional": false
             },
@@ -394,7 +402,8 @@
             "end": 377
           },
           "value": "string",
-          "raw": "'string'"
+          "raw": "'string'",
+          "loneSurrogates": false
         }
       }
     },
@@ -430,6 +439,7 @@
                 "end": 384
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "module",
               "optional": false
             },
@@ -458,7 +468,8 @@
             "end": 416
           },
           "value": "string",
-          "raw": "'string'"
+          "raw": "'string'",
+          "loneSurrogates": false
         }
       }
     },
@@ -485,6 +496,7 @@
               "end": 486
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "mod1",
             "optional": false,
             "typeAnnotation": null
@@ -503,6 +515,7 @@
                 "end": 496
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "require",
               "optional": false
             },
@@ -516,7 +529,8 @@
                     "end": 505
                   },
                   "value": "./mod1",
-                  "raw": "'./mod1'"
+                  "raw": "'./mod1'",
+                  "loneSurrogates": false
                 }
               }
             ],
@@ -558,6 +572,7 @@
                 "end": 511
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "mod1",
               "optional": false
             },
@@ -615,6 +630,7 @@
                 "end": 537
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "mod1",
               "optional": false
             },
@@ -672,6 +688,7 @@
                 "end": 608
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "mod1",
               "optional": false
             },
@@ -722,6 +739,7 @@
               "end": 678
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "mod1",
             "optional": false
           },

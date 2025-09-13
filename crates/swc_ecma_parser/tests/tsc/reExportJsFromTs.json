@@ -31,6 +31,7 @@
               "end": 74
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -67,7 +68,8 @@
                   "end": 97
                 },
                 "value": "x",
-                "raw": "'x'"
+                "raw": "'x'",
+                "loneSurrogates": false
               }
             }
           ]
@@ -94,6 +96,7 @@
               "end": 158
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "tsConstants",
             "optional": false
           }
@@ -106,7 +109,8 @@
           "end": 182
         },
         "value": "../lib/constants",
-        "raw": "\"../lib/constants\""
+        "raw": "\"../lib/constants\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -132,6 +136,7 @@
               "end": 204
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "tsConstants",
             "optional": false
           },

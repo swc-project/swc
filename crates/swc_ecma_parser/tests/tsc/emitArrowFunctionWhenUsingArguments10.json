@@ -14,6 +14,7 @@
           "end": 28
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "f",
         "optional": false
       },
@@ -56,6 +57,7 @@
                     "end": 51
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "_arguments",
                   "optional": false,
                   "typeAnnotation": null
@@ -96,6 +98,7 @@
                     "end": 67
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "a",
                   "optional": false,
                   "typeAnnotation": null
@@ -123,6 +126,7 @@
                         "end": 91
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "arguments",
                       "optional": false
                     },

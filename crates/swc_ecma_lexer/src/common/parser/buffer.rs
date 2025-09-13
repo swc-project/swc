@@ -55,10 +55,10 @@ pub trait Buffer<'a> {
     fn bump(&mut self);
     fn expect_word_token_and_bump(&mut self) -> Atom;
     fn expect_number_token_and_bump(&mut self) -> (f64, Atom);
-    fn expect_string_token_and_bump(&mut self) -> (Atom, Atom);
+    fn expect_string_token_and_bump(&mut self) -> (Atom, Atom, bool);
     fn expect_bigint_token_and_bump(&mut self) -> (Box<num_bigint::BigInt>, Atom);
     fn expect_regex_token_and_bump(&mut self) -> (Atom, Atom);
-    fn expect_template_token_and_bump(&mut self) -> (LexResult<Atom>, Atom);
+    fn expect_template_token_and_bump(&mut self) -> (LexResult<Atom>, Atom, bool);
     fn expect_error_token_and_bump(&mut self) -> crate::error::Error;
     fn expect_jsx_name_token_and_bump(&mut self) -> Atom;
     fn expect_jsx_text_token_and_bump(&mut self) -> (Atom, Atom);

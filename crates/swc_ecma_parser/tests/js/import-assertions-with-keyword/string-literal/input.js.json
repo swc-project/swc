@@ -25,6 +25,7 @@
               "end": 11
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false
           }
@@ -37,7 +38,8 @@
           "end": 27
         },
         "value": "foo.json",
-        "raw": "\"foo.json\""
+        "raw": "\"foo.json\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": {
@@ -64,7 +66,8 @@
                 "end": 45
               },
               "value": "for",
-              "raw": "\"for\""
+              "raw": "\"for\"",
+              "loneSurrogates": false
             }
           }
         ]
@@ -91,6 +94,7 @@
               "end": 60
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false
           },
@@ -105,7 +109,8 @@
           "end": 78
         },
         "value": "foo.json",
-        "raw": "\"foo.json\""
+        "raw": "\"foo.json\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": {
@@ -132,7 +137,8 @@
                 "end": 96
               },
               "value": "for",
-              "raw": "\"for\""
+              "raw": "\"for\"",
+              "loneSurrogates": false
             }
           }
         ]

@@ -14,6 +14,7 @@
           "end": 28
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A",
         "optional": false
       },
@@ -47,7 +48,8 @@
               "end": 59
             },
             "value": "hello world",
-            "raw": "\"hello world\""
+            "raw": "\"hello world\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -108,6 +110,7 @@
                         "end": 96
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "console",
                       "optional": false
                     },

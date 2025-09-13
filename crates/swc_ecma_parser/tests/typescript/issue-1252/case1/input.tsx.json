@@ -34,6 +34,7 @@
                 "end": 18
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "then",
               "optional": false,
               "typeAnnotation": null
@@ -53,6 +54,7 @@
                     "end": 67
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "callback",
                   "optional": false,
                   "typeAnnotation": {
@@ -85,6 +87,7 @@
                               "end": 43
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "args",
                             "optional": false,
                             "typeAnnotation": null
@@ -108,6 +111,7 @@
                                   "end": 57
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "TupleReturns",
                                 "optional": false
                               },
@@ -131,6 +135,7 @@
                                         "end": 60
                                       },
                                       "ctxt": 0,
+                                      "nodeId": 4294967295,
                                       "value": "Ws",
                                       "optional": false
                                     },
@@ -162,6 +167,7 @@
                               "end": 67
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "R",
                             "optional": false
                           },
@@ -203,6 +209,7 @@
                             "end": 89
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "returns",
                           "optional": false,
                           "typeAnnotation": {
@@ -224,6 +231,7 @@
                                   "end": 92
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "R",
                                 "optional": false
                               },
@@ -259,6 +267,7 @@
                             "end": 107
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "called",
                           "optional": false,
                           "typeAnnotation": {
@@ -306,6 +315,7 @@
                         "end": 23
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "R",
                       "optional": false
                     },

@@ -37,6 +37,7 @@
                 "end": 180
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Event",
               "optional": false
             },
@@ -118,7 +119,8 @@
                       "end": 272
                     },
                     "value": "nope, not going to happen",
-                    "raw": "'nope, not going to happen'"
+                    "raw": "'nope, not going to happen'",
+                    "loneSurrogates": false
                   }
                 }
               }

@@ -14,6 +14,7 @@
           "end": 21
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "distinguish",
         "optional": false
       },
@@ -33,6 +34,7 @@
               "end": 27
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "thing",
             "optional": false,
             "typeAnnotation": {
@@ -77,6 +79,7 @@
                         "end": 51
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Date",
                       "optional": false
                     },
@@ -122,6 +125,7 @@
                   "end": 68
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "thing",
                 "optional": false
               },
@@ -132,6 +136,7 @@
                   "end": 86
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Object",
                 "optional": false
               }
@@ -170,6 +175,7 @@
                           "end": 105
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "console",
                         "optional": false
                       },
@@ -199,7 +205,8 @@
                               "end": 133
                             },
                             "value": "Aha!! It's a Date in ",
-                            "raw": "\"Aha!! It's a Date in \""
+                            "raw": "\"Aha!! It's a Date in \"",
+                            "loneSurrogates": false
                           },
                           "right": {
                             "type": "CallExpression",
@@ -221,6 +228,7 @@
                                   "end": 141
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "thing",
                                 "optional": false
                               },
@@ -271,6 +279,7 @@
                       "end": 185
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "thing",
                     "optional": false
                   }
@@ -282,7 +291,8 @@
                     "end": 198
                   },
                   "value": "string",
-                  "raw": "'string'"
+                  "raw": "'string'",
+                  "loneSurrogates": false
                 }
               },
               "consequent": {
@@ -319,6 +329,7 @@
                             "end": 217
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "console",
                           "optional": false
                         },
@@ -348,7 +359,8 @@
                                 "end": 254
                               },
                               "value": "Aha!! It's a string of length ",
-                              "raw": "\"Aha!! It's a string of length \""
+                              "raw": "\"Aha!! It's a string of length \"",
+                              "loneSurrogates": false
                             },
                             "right": {
                               "type": "MemberExpression",
@@ -363,6 +375,7 @@
                                   "end": 262
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "thing",
                                 "optional": false
                               },
@@ -417,6 +430,7 @@
                             "end": 300
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "console",
                           "optional": false
                         },
@@ -446,7 +460,8 @@
                                 "end": 329
                               },
                               "value": "Aha!! It's the number ",
-                              "raw": "\"Aha!! It's the number \""
+                              "raw": "\"Aha!! It's the number \"",
+                              "loneSurrogates": false
                             },
                             "right": {
                               "type": "CallExpression",
@@ -468,6 +483,7 @@
                                     "end": 337
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "thing",
                                   "optional": false
                                 },
@@ -533,6 +549,7 @@
             "end": 375
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "distinguish",
           "optional": false
         },
@@ -553,6 +570,7 @@
                   "end": 384
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Date",
                 "optional": false
               },
@@ -584,6 +602,7 @@
             "end": 400
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "distinguish",
           "optional": false
         },
@@ -597,7 +616,8 @@
                 "end": 407
               },
               "value": "beef",
-              "raw": "\"beef\""
+              "raw": "\"beef\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -624,6 +644,7 @@
             "end": 421
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "distinguish",
           "optional": false
         },

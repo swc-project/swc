@@ -14,6 +14,7 @@
           "end": 143
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Multimap4",
         "optional": false
       },
@@ -118,6 +119,7 @@
               "end": 179
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Multimap4",
             "optional": false
           },
@@ -134,7 +136,8 @@
                 "end": 191
               },
               "value": "prototype",
-              "raw": "\"prototype\""
+              "raw": "\"prototype\"",
+              "loneSurrogates": false
             }
           }
         },
@@ -170,6 +173,7 @@
                       "end": 279
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "key",
                     "optional": false,
                     "typeAnnotation": null
@@ -244,6 +248,7 @@
                               "end": 307
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "key",
                             "optional": false
                           },
@@ -254,7 +259,8 @@
                               "end": 312
                             },
                             "value": "",
-                            "raw": "''"
+                            "raw": "''",
+                            "loneSurrogates": false
                           }
                         }
                       }
@@ -303,6 +309,7 @@
                 "end": 332
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Multimap4",
               "optional": false
             },
@@ -319,7 +326,8 @@
                   "end": 344
                 },
                 "value": "prototype",
-                "raw": "\"prototype\""
+                "raw": "\"prototype\"",
+                "loneSurrogates": false
               }
             }
           },
@@ -336,7 +344,8 @@
                 "end": 354
               },
               "value": "add-on",
-              "raw": "\"add-on\""
+              "raw": "\"add-on\"",
+              "loneSurrogates": false
             }
           }
         },
@@ -398,6 +407,7 @@
                 "end": 382
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Multimap4",
               "optional": false
             },
@@ -414,7 +424,8 @@
                   "end": 394
                 },
                 "value": "prototype",
-                "raw": "\"prototype\""
+                "raw": "\"prototype\"",
+                "loneSurrogates": false
               }
             }
           },
@@ -431,7 +442,8 @@
                 "end": 403
               },
               "value": "addon",
-              "raw": "\"addon\""
+              "raw": "\"addon\"",
+              "loneSurrogates": false
             }
           }
         },
@@ -493,6 +505,7 @@
                 "end": 431
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Multimap4",
               "optional": false
             },
@@ -509,7 +522,8 @@
                   "end": 443
                 },
                 "value": "prototype",
-                "raw": "\"prototype\""
+                "raw": "\"prototype\"",
+                "loneSurrogates": false
               }
             }
           },
@@ -526,7 +540,8 @@
                 "end": 462
               },
               "value": "__underscores__",
-              "raw": "\"__underscores__\""
+              "raw": "\"__underscores__\"",
+              "loneSurrogates": false
             }
           }
         },
@@ -579,6 +594,7 @@
               "end": 492
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "map4",
             "optional": false,
             "typeAnnotation": null
@@ -597,6 +613,7 @@
                 "end": 508
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Multimap4",
               "optional": false
             },
@@ -633,6 +650,7 @@
               "end": 516
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "map4",
             "optional": false
           },
@@ -655,7 +673,8 @@
                 "end": 523
               },
               "value": "",
-              "raw": "\"\""
+              "raw": "\"\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -688,6 +707,7 @@
               "end": 530
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "map4",
             "optional": false
           },
@@ -704,7 +724,8 @@
                 "end": 539
               },
               "value": "add-on",
-              "raw": "\"add-on\""
+              "raw": "\"add-on\"",
+              "loneSurrogates": false
             }
           }
         },
@@ -738,6 +759,7 @@
               "end": 548
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "map4",
             "optional": false
           },
@@ -780,6 +802,7 @@
               "end": 562
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "map4",
             "optional": false
           },

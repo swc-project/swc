@@ -20,6 +20,7 @@
             "end": 115
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "foo",
           "optional": false
         },
@@ -52,7 +53,8 @@
                   "end": 133
                 },
                 "value": "",
-                "raw": "\"\""
+                "raw": "\"\"",
+                "loneSurrogates": false
               }
             }
           ]
@@ -83,6 +85,7 @@
               "end": 234
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false
           },
@@ -97,7 +100,8 @@
           "end": 249
         },
         "value": "./foo",
-        "raw": "\"./foo\""
+        "raw": "\"./foo\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

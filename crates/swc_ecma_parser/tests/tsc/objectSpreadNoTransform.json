@@ -28,6 +28,7 @@
               "end": 27
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "y",
             "optional": false,
             "typeAnnotation": null
@@ -56,7 +57,8 @@
                     "end": 40
                   },
                   "value": "yes",
-                  "raw": "'yes'"
+                  "raw": "'yes'",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -76,7 +78,8 @@
                     "end": 49
                   },
                   "value": "no",
-                  "raw": "'no'"
+                  "raw": "'no'",
+                  "loneSurrogates": false
                 }
               }
             ]
@@ -108,6 +111,7 @@
               "end": 60
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "o",
             "optional": false,
             "typeAnnotation": null
@@ -152,6 +156,7 @@
                     "end": 75
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "y",
                   "optional": false
                 }
@@ -185,6 +190,7 @@
               "end": 84
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "b",
             "optional": false,
             "typeAnnotation": null
@@ -217,6 +223,7 @@
               "end": 94
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "rest",
             "optional": false,
             "typeAnnotation": {
@@ -279,6 +286,7 @@
                     "end": 105
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "b",
                   "optional": false,
                   "typeAnnotation": null
@@ -302,6 +310,7 @@
                     "end": 114
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "rest",
                   "optional": false,
                   "typeAnnotation": null
@@ -319,6 +328,7 @@
               "end": 120
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "o",
             "optional": false
           }

@@ -34,6 +34,7 @@
                 "end": 89
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "FOO",
               "optional": false,
               "typeAnnotation": null
@@ -45,7 +46,8 @@
                 "end": 97
               },
               "value": "foo",
-              "raw": "\"foo\""
+              "raw": "\"foo\"",
+              "loneSurrogates": false
             },
             "definite": false
           }
@@ -75,6 +77,7 @@
               "end": 157
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": null

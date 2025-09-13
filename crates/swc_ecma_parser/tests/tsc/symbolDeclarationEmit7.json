@@ -28,6 +28,7 @@
               "end": 44
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "obj",
             "optional": false,
             "typeAnnotation": {
@@ -63,6 +64,7 @@
                           "end": 59
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Symbol",
                         "optional": false
                       },

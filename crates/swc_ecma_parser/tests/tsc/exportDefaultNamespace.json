@@ -20,6 +20,7 @@
             "end": 56
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "someFunc",
           "optional": false
         },
@@ -51,7 +52,8 @@
                   "end": 80
                 },
                 "value": "hello!",
-                "raw": "'hello!'"
+                "raw": "'hello!'",
+                "loneSurrogates": false
               }
             }
           ]
@@ -88,6 +90,7 @@
               "end": 93
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "someFunc",
             "optional": false
           },
@@ -107,7 +110,8 @@
             "end": 109
           },
           "value": "yo",
-          "raw": "'yo'"
+          "raw": "'yo'",
+          "loneSurrogates": false
         }
       }
     }

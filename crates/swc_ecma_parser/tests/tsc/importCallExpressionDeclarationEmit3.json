@@ -20,6 +20,7 @@
             "end": 100
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "foo",
           "optional": false
         },
@@ -52,7 +53,8 @@
                   "end": 117
                 },
                 "value": "foo",
-                "raw": "\"foo\""
+                "raw": "\"foo\"",
+                "loneSurrogates": false
               }
             }
           ]
@@ -72,6 +74,7 @@
           "end": 165
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "getPath",
         "optional": false
       },
@@ -123,6 +126,7 @@
               "end": 193
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Zero",
             "optional": false
           }
@@ -135,7 +139,8 @@
           "end": 204
         },
         "value": "./0",
-        "raw": "\"./0\""
+        "raw": "\"./0\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -172,7 +177,8 @@
                 "end": 218
               },
               "value": "./0",
-              "raw": "\"./0\""
+              "raw": "\"./0\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -208,6 +214,7 @@
                 "end": 235
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "p0",
               "optional": false,
               "typeAnnotation": {
@@ -229,6 +236,7 @@
                       "end": 244
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Promise",
                     "optional": false
                   },
@@ -252,6 +260,7 @@
                             "end": 256
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Zero",
                           "optional": false
                         },
@@ -294,6 +303,7 @@
                         "end": 274
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "getPath",
                       "optional": false
                     },
@@ -338,6 +348,7 @@
                 "end": 292
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "p1",
               "optional": false,
               "typeAnnotation": {
@@ -359,6 +370,7 @@
                       "end": 301
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Promise",
                     "optional": false
                   },
@@ -382,6 +394,7 @@
                             "end": 313
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Zero",
                           "optional": false
                         },
@@ -417,7 +430,8 @@
                       "end": 329
                     },
                     "value": "./0",
-                    "raw": "\"./0\""
+                    "raw": "\"./0\"",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -457,6 +471,7 @@
                 "end": 345
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "p2",
               "optional": false,
               "typeAnnotation": {
@@ -478,6 +493,7 @@
                       "end": 354
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Promise",
                     "optional": false
                   },
@@ -526,7 +542,8 @@
                       "end": 374
                     },
                     "value": "./0",
-                    "raw": "\"./0\""
+                    "raw": "\"./0\"",
+                    "loneSurrogates": false
                   }
                 }
               ],

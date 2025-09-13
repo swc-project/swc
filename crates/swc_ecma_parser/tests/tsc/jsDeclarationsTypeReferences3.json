@@ -21,7 +21,8 @@
           "end": 203
         },
         "value": "fs",
-        "raw": "\"fs\""
+        "raw": "\"fs\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -45,6 +46,7 @@
                   "end": 232
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Something",
                 "optional": false
               },
@@ -89,6 +91,7 @@
               "end": 308
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Something",
             "optional": false,
             "typeAnnotation": null
@@ -113,6 +116,7 @@
                   "end": 318
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "require",
                 "optional": false
               },
@@ -126,7 +130,8 @@
                       "end": 323
                     },
                     "value": "fs",
-                    "raw": "\"fs\""
+                    "raw": "\"fs\"",
+                    "loneSurrogates": false
                   }
                 }
               ],
@@ -177,6 +182,7 @@
                 "end": 342
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "module",
               "optional": false
             },
@@ -246,6 +252,7 @@
                   "end": 364
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "module",
                 "optional": false
               },
@@ -307,6 +314,7 @@
                     "end": 405
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Something",
                   "optional": false
                 },

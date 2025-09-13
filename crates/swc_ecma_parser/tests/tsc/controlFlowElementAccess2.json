@@ -28,6 +28,7 @@
               "end": 38
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "config",
             "optional": false,
             "typeAnnotation": {
@@ -53,6 +54,7 @@
                           "end": 58
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "key",
                         "optional": false,
                         "typeAnnotation": {
@@ -114,6 +116,7 @@
                                     "end": 77
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "prop",
                                   "optional": false
                                 },
@@ -189,6 +192,7 @@
                 "end": 110
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "config",
               "optional": false
             },
@@ -205,7 +209,8 @@
                   "end": 118
                 },
                 "value": "works",
-                "raw": "'works'"
+                "raw": "'works'",
+                "loneSurrogates": false
               }
             }
           }
@@ -217,7 +222,8 @@
             "end": 133
           },
           "value": "boolean",
-          "raw": "'boolean'"
+          "raw": "'boolean'",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -260,6 +266,7 @@
                       "end": 147
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "config",
                     "optional": false
                   },
@@ -288,7 +295,8 @@
                   "end": 167
                 },
                 "value": "test",
-                "raw": "'test'"
+                "raw": "'test'",
+                "loneSurrogates": false
               }
             }
           },
@@ -324,6 +332,7 @@
                       "end": 185
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "config",
                     "optional": false
                   },
@@ -340,7 +349,8 @@
                         "end": 193
                       },
                       "value": "works",
-                      "raw": "'works'"
+                      "raw": "'works'",
+                      "loneSurrogates": false
                     }
                   }
                 },
@@ -360,7 +370,8 @@
                   "end": 208
                 },
                 "value": "test",
-                "raw": "'test'"
+                "raw": "'test'",
+                "loneSurrogates": false
               }
             }
           }
@@ -401,6 +412,7 @@
                 "end": 285
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "config",
               "optional": false
             },
@@ -421,7 +433,8 @@
             "end": 305
           },
           "value": "boolean",
-          "raw": "'boolean'"
+          "raw": "'boolean'",
+          "loneSurrogates": false
         }
       },
       "consequent": {
@@ -464,6 +477,7 @@
                       "end": 319
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "config",
                     "optional": false
                   },
@@ -480,7 +494,8 @@
                         "end": 327
                       },
                       "value": "works",
-                      "raw": "'works'"
+                      "raw": "'works'",
+                      "loneSurrogates": false
                     }
                   }
                 },
@@ -500,7 +515,8 @@
                   "end": 342
                 },
                 "value": "test",
-                "raw": "'test'"
+                "raw": "'test'",
+                "loneSurrogates": false
               }
             }
           },
@@ -536,6 +552,7 @@
                       "end": 410
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "config",
                     "optional": false
                   },
@@ -564,7 +581,8 @@
                   "end": 430
                 },
                 "value": "test",
-                "raw": "'test'"
+                "raw": "'test'",
+                "loneSurrogates": false
               }
             }
           }

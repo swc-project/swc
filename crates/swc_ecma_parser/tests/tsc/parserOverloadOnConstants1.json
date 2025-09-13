@@ -18,6 +18,7 @@
           "end": 19
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Document",
         "optional": false
       },
@@ -44,6 +45,7 @@
                 "end": 39
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "createElement",
               "optional": false
             },
@@ -57,6 +59,7 @@
                   "end": 47
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "tagName",
                 "optional": false,
                 "typeAnnotation": {
@@ -95,6 +98,7 @@
                     "end": 69
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "HTMLElement",
                   "optional": false
                 },
@@ -116,6 +120,7 @@
                 "end": 88
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "createElement",
               "optional": false
             },
@@ -129,6 +134,7 @@
                   "end": 96
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "tagName",
                 "optional": false,
                 "typeAnnotation": {
@@ -150,7 +156,8 @@
                         "end": 106
                       },
                       "value": "canvas",
-                      "raw": "'canvas'"
+                      "raw": "'canvas'",
+                      "loneSurrogates": false
                     }
                   }
                 }
@@ -175,6 +182,7 @@
                     "end": 126
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "HTMLCanvasElement",
                   "optional": false
                 },
@@ -196,6 +204,7 @@
                 "end": 145
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "createElement",
               "optional": false
             },
@@ -209,6 +218,7 @@
                   "end": 153
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "tagName",
                 "optional": false,
                 "typeAnnotation": {
@@ -230,7 +240,8 @@
                         "end": 160
                       },
                       "value": "div",
-                      "raw": "'div'"
+                      "raw": "'div'",
+                      "loneSurrogates": false
                     }
                   }
                 }
@@ -255,6 +266,7 @@
                     "end": 177
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "HTMLDivElement",
                   "optional": false
                 },
@@ -276,6 +288,7 @@
                 "end": 196
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "createElement",
               "optional": false
             },
@@ -289,6 +302,7 @@
                   "end": 204
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "tagName",
                 "optional": false,
                 "typeAnnotation": {
@@ -310,7 +324,8 @@
                         "end": 212
                       },
                       "value": "span",
-                      "raw": "'span'"
+                      "raw": "'span'",
+                      "loneSurrogates": false
                     }
                   }
                 }
@@ -335,6 +350,7 @@
                     "end": 230
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "HTMLSpanElement",
                   "optional": false
                 },
