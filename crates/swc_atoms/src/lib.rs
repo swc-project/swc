@@ -18,6 +18,7 @@ use std::{
     rc::Rc,
 };
 
+pub use hstr::wtf8;
 use once_cell::sync::Lazy;
 use serde::Serializer;
 
@@ -264,11 +265,16 @@ impl AtomStoreCell {
     pub fn atom<'a>(&self, s: impl Into<Cow<'a, str>>) -> Atom {
         // evaluate the into before borrowing (see #8362)
         let s: Cow<'a, str> = s.into();
+        self.atom_raw(s.as_bytes())
+    }
+
+    #[inline]
+    pub fn atom_raw(&self, s: &[u8]) -> Atom {
         // SAFETY: We can skip the borrow check of RefCell because
         // this API enforces a safe contract. It is slightly faster
         // to use an UnsafeCell. Note the borrow here is short lived
         // only to this block.
-        unsafe { (*self.0.get()).atom(s) }
+        unsafe { Atom((*self.0.get()).0.atom_raw(s)) }
     }
 }
 

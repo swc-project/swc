@@ -110,8 +110,8 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
-    fn atom<'b>(&self, s: impl Into<std::borrow::Cow<'b, str>>) -> swc_atoms::Atom {
-        self.atoms.atom(s)
+    fn atom_raw(&self, s: &[u8]) -> swc_atoms::Atom {
+        self.atoms.atom_raw(s)
     }
 }
 
