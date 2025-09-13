@@ -1465,7 +1465,7 @@ impl ModuleConfig {
         unresolved_mark: Mark,
         resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
         rewrite_relative_import_extensions: bool,
-        caniuse: impl (Fn(Feature) -> bool),
+        caniuse: impl Fn(Feature) -> bool,
     ) -> Box<dyn Pass + 'cmt> {
         let resolver = if let Some((base, resolver)) = resolver {
             Resolver::Real { base, resolver }

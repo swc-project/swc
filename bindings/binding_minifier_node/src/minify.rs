@@ -31,10 +31,10 @@ use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::util::try_with;
 
-#[napi(object)]
+#[napi(object, object_to_js = false)]
 pub struct NapiMinifyExtra {
     #[napi(ts_type = "object")]
-    pub mangle_name_cache: Option<NameMangleCache>,
+    pub mangle_name_cache: Option<&'static NameMangleCache>,
 }
 
 struct MinifyTask {
@@ -166,7 +166,7 @@ fn do_work(
                 &swc_core::ecma::minifier::option::ExtraOptions {
                     unresolved_mark,
                     top_level_mark,
-                    mangle_name_cache: extras.mangle_name_cache.as_deref().cloned(),
+                    mangle_name_cache: extras.mangle_name_cache.as_deref().map(|s| (*s).clone()),
                 },
             );
 
