@@ -3240,6 +3240,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "nohash-hasher"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2bf50223579dc7cdcfb3bfcacf7069ff68243f8c363f62ffa99cf000a6b9c451"
+
+[[package]]
 name = "nom"
 version = "5.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4993,6 +4999,7 @@ dependencies = [
  "either",
  "from_variant",
  "new_debug_unreachable",
+ "nohash-hasher",
  "num-bigint",
  "once_cell",
  "par-iter",
@@ -5654,6 +5661,7 @@ dependencies = [
  "flate2",
  "humansize",
  "indexmap 2.7.1",
+ "nohash-hasher",
  "num-bigint",
  "num_cpus",
  "once_cell",

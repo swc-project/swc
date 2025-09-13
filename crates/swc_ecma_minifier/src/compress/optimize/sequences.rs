@@ -391,7 +391,7 @@ impl Optimizer<'_> {
                     ..
                 })) => {
                     if let Some(id) = obj.as_ident() {
-                        if let Some(usage) = self.data.vars.get(&id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(id.ctxt, &id.sym) {
                             id.ctxt != self.ctx.expr_ctx.unresolved_ctxt
                                 && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                         } else {
@@ -831,7 +831,7 @@ impl Optimizer<'_> {
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&a_id.id.to_id())
+                                                .get(a_id.id.ctxt, &a_id.id.sym)
                                                 .map(|u| {
                                                     !u.flags.intersects(
                                                         VarUsageInfoFlags::INLINE_PREVENTED.union(VarUsageInfoFlags::DECLARED_AS_FN_EXPR)
@@ -1438,7 +1438,7 @@ impl Optimizer<'_> {
     }
 
     fn assignee_skippable_for_seq(&self, a: &Mergable, assignee: &Ident) -> bool {
-        let usgae = if let Some(usage) = self.data.vars.get(&assignee.to_id()) {
+        let usgae = if let Some(usage) = self.data.vars.get(assignee.ctxt, &assignee.sym) {
             usage
         } else {
             return false;
@@ -1726,7 +1726,9 @@ impl Optimizer<'_> {
                             };
 
                             if let Some(left_obj) = b_left.obj.as_ident() {
-                                if let Some(usage) = self.data.vars.get(&left_obj.to_id()) {
+                                if let Some(usage) =
+                                    self.data.vars.get(left_obj.ctxt, &left_obj.sym)
+                                {
                                     if left_obj.ctxt != self.ctx.expr_ctx.unresolved_ctxt
                                         && !usage
                                             .flags
@@ -2083,7 +2085,7 @@ impl Optimizer<'_> {
                     ..
                 }) => {
                     if let Expr::Ident(a_id) = &**arg {
-                        if let Some(usage) = self.data.vars.get(&a_id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(a_id.ctxt, &a_id.sym) {
                             if let Some(VarDeclKind::Const) = usage.var_kind {
                                 return Err(());
                             }
@@ -2158,7 +2160,7 @@ impl Optimizer<'_> {
                     ..
                 }) => {
                     if let Expr::Ident(a_id) = &**arg {
-                        if let Some(usage) = self.data.vars.get(&a_id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(a_id.ctxt, &a_id.sym) {
                             if let Some(VarDeclKind::Const) = usage.var_kind {
                                 return Err(());
                             }
@@ -2258,7 +2260,7 @@ impl Optimizer<'_> {
                             }
                         };
 
-                        if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(left_id.ctxt, &left_id.sym) {
                             if usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
                                 return Ok(false);
                             }
@@ -2303,7 +2305,7 @@ impl Optimizer<'_> {
                     _ => return Ok(false),
                 };
 
-                if let Some(usage) = self.data.vars.get(&left.to_id()) {
+                if let Some(usage) = self.data.vars.get(left.ctxt, &left.sym) {
                     let is_lit = match a.init.as_deref() {
                         Some(e) => is_trivial_lit(e),
                         _ => false,
@@ -2346,7 +2348,7 @@ impl Optimizer<'_> {
             }
 
             Mergable::FnDecl(a) => {
-                if let Some(usage) = self.data.vars.get(&a.ident.to_id()) {
+                if let Some(usage) = self.data.vars.get(a.ident.ctxt, &a.ident.sym) {
                     if usage.ref_count != 1
                         || usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                         || !usage.flags.contains(VarUsageInfoFlags::IS_FN_LOCAL)
@@ -2386,7 +2388,7 @@ impl Optimizer<'_> {
             match a {
                 Mergable::Var(a) => {
                     if self.options.unused {
-                        if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(left_id.ctxt, &left_id.sym) {
                             // We are eliminating one usage, so we use 1 instead of
                             // 0
                             if !force_drop
@@ -2402,7 +2404,7 @@ impl Optimizer<'_> {
                     if can_take_init || force_drop {
                         let init = a.init.take();
 
-                        if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                        if let Some(usage) = self.data.vars.get(left_id.ctxt, &left_id.sym) {
                             if usage.var_kind == Some(VarDeclKind::Const) {
                                 a.init = Some(Expr::undefined(DUMMY_SP));
                             }
@@ -2482,7 +2484,7 @@ impl Optimizer<'_> {
                     let var_type = self
                         .data
                         .vars
-                        .get(&left_id.to_id())
+                        .get(left_id.ctxt, &left_id.sym)
                         .and_then(|info| info.merged_var_type);
                     let Some(a_type) = a_type else {
                         return Ok(false);
@@ -2551,11 +2553,11 @@ impl Optimizer<'_> {
 
         let to = take_a(a, false, false);
 
-        replace_id_with_expr(b, left_id.to_id(), to);
+        replace_id_with_expr(b, (&left_id.sym, left_id.ctxt), to);
 
         if can_remove {
             report_change!("sequences: Removed variable ({})", left_id);
-            self.vars.removed.insert(left_id.to_id());
+            self.vars.removed.insert(left_id.ctxt, &left_id.sym);
         }
 
         dump_change_detail!("sequences: {}", dump(&*b, false));

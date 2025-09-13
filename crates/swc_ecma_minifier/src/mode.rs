@@ -1,7 +1,9 @@
+use swc_atoms::Atom;
+use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 
 pub(crate) trait Mode: Send + Sync {
-    fn store(&self, id: Id, value: &Expr);
+    fn store(&self, ctxt: SyntaxContext, atom: &Atom, value: &Expr);
 
     fn preserve_vars(&self) -> bool;
 
@@ -15,7 +17,7 @@ pub(crate) trait Mode: Send + Sync {
 pub struct Minification;
 
 impl Mode for Minification {
-    fn store(&self, _: Id, _: &Expr) {}
+    fn store(&self, _: SyntaxContext, _: &Atom, _: &Expr) {}
 
     fn preserve_vars(&self) -> bool {
         false

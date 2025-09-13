@@ -60,7 +60,7 @@ impl Hoister<'_> {
                         if ids.iter().any(|id| {
                             self.data
                                 .vars
-                                .get(id)
+                                .get(id.1, &id.0)
                                 .map(|v| !v.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL))
                                 .unwrap_or(false)
                         }) {
@@ -129,7 +129,7 @@ impl Hoister<'_> {
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&id.to_id())
+                                                .get(id.ctxt, &id.sym)
                                                 .map(|v| {
                                                     v.flags.contains(
                                                         VarUsageInfoFlags::DECLARED_AS_FN_PARAM,
@@ -215,7 +215,7 @@ impl Hoister<'_> {
                                             && self
                                                 .data
                                                 .vars
-                                                .get(&name.to_id())
+                                                .get(name.ctxt, &name.sym)
                                                 .map(|v| {
                                                     v.flags.contains(
                                                         VarUsageInfoFlags::DECLARED_AS_FN_PARAM,

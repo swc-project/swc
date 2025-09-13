@@ -53,6 +53,7 @@ bytecheck             = { workspace = true, optional = true }
 bytes-str             = { workspace = true, features = ["serde"] }
 either                = { workspace = true }
 new_debug_unreachable = { workspace = true }
+nohash-hasher         = { workspace = true }
 num-bigint            = { workspace = true }
 once_cell             = { workspace = true }
 parking_lot           = { workspace = true, optional = true }
@@ -77,5 +78,5 @@ swc_visit            = { version = "2.0.1", path = "../swc_visit" }
 
 
 [dev-dependencies]
-par-iter                  = { workspace = true }
-serde_json                = { workspace = true }
+par-iter   = { workspace = true }
+serde_json = { workspace = true }

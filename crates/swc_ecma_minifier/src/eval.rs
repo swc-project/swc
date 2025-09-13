@@ -60,9 +60,10 @@ pub enum EvalResult {
 }
 
 impl Mode for Eval {
-    fn store(&self, id: Id, value: &Expr) {
+    fn store(&self, ctxt: SyntaxContext, atom: &swc_atoms::Atom, value: &Expr) {
         let mut w = self.store.lock();
-        w.cache.insert(id, Box::new(value.clone()));
+        w.cache
+            .insert((atom.clone(), ctxt), Box::new(value.clone()));
     }
 
     fn preserve_vars(&self) -> bool {

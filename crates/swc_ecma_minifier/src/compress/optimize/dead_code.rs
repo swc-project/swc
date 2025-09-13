@@ -58,7 +58,7 @@ impl Optimizer<'_> {
                 if self
                     .data
                     .vars
-                    .get(&lhs.to_id())
+                    .get(lhs.ctxt, &lhs.sym)
                     .map(|var| {
                         var.flags.contains(
                             VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL),
@@ -97,7 +97,7 @@ impl Optimizer<'_> {
                     if self
                         .data
                         .vars
-                        .get(&lhs.to_id())
+                        .get(lhs.ctxt, &lhs.sym)
                         .map(|var| {
                             var.flags.contains(
                                 VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL),

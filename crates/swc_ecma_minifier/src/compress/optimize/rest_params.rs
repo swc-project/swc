@@ -41,12 +41,12 @@ impl Optimizer<'_> {
 
         // Get the identifier of the rest parameter
         let rest_id = match &*rest_pat.arg {
-            Pat::Ident(BindingIdent { id, .. }) => id.to_id(),
+            Pat::Ident(BindingIdent { id, .. }) => id,
             _ => return,
         };
 
         // Check if the rest parameter is used using ProgramData
-        if let Some(usage) = self.data.vars.get(&rest_id) {
+        if let Some(usage) = self.data.vars.get(rest_id.ctxt, &rest_id.sym) {
             // If the parameter is not referenced, we can remove it
             if usage.ref_count == 0 {
                 self.changed = true;

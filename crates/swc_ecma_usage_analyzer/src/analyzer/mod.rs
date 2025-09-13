@@ -1043,7 +1043,7 @@ where
             match &*member_expr.obj {
                 Expr::Member(member_expr) => is_root_of_member_expr_declared(member_expr, data),
                 Expr::Ident(ident) => data
-                    .get_var_data(ident.to_id())
+                    .get_var_data(ident.ctxt, &ident.sym)
                     .map(|var| var.is_declared())
                     .unwrap_or(false),
 

@@ -1,6 +1,5 @@
-use std::{collections::HashMap, mem::swap};
+use std::mem::swap;
 
-use rustc_hash::FxHashMap;
 use swc_common::{pass::Either, util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
@@ -10,6 +9,7 @@ use super::{util::NormalMultiReplacer, BitCtx, Optimizer};
 #[cfg(feature = "debug")]
 use crate::debug::dump;
 use crate::{
+    compress::optimize::VarMap,
     program_data::{ProgramData, ScopeData, VarUsageInfoFlags},
     util::{idents_captured_by, make_number},
 };
@@ -183,7 +183,7 @@ impl Optimizer<'_> {
             if self
                 .data
                 .vars
-                .get(&ident.to_id())
+                .get(ident.ctxt, &ident.sym)
                 .filter(|usage| usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY))
                 .is_some()
             {
@@ -194,7 +194,7 @@ impl Optimizer<'_> {
 
         let params = find_params(callee);
         if let Some(mut params) = params {
-            let mut vars = HashMap::default();
+            let mut vars = VarMap::default();
             // We check for parameter and argument
             for (idx, param) in params.iter_mut().enumerate() {
                 match &mut **param {
@@ -202,7 +202,7 @@ impl Optimizer<'_> {
                         if param.sym == "arguments" {
                             continue;
                         }
-                        if let Some(usage) = self.data.vars.get(&param.to_id()) {
+                        if let Some(usage) = self.data.vars.get(param.ctxt, &param.sym) {
                             if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                                 continue;
                             }
@@ -225,7 +225,7 @@ impl Optimizer<'_> {
                                     param.id.sym,
                                     param.id.ctxt
                                 );
-                                vars.insert(param.to_id(), arg.clone());
+                                vars.insert(param.ctxt, param.sym.clone(), arg.clone());
                             } else {
                                 trace_op!(
                                     "iife: Trying to inline argument ({}{:?}) (not inlinable)",
@@ -240,13 +240,17 @@ impl Optimizer<'_> {
                                 param.id.ctxt
                             );
 
-                            vars.insert(param.to_id(), Expr::undefined(param.span()));
+                            vars.insert(
+                                param.ctxt,
+                                param.sym.clone(),
+                                Expr::undefined(param.span()),
+                            );
                         }
                     }
 
                     Pat::Rest(rest_pat) => {
                         if let Pat::Ident(param_id) = &*rest_pat.arg {
-                            if let Some(usage) = self.data.vars.get(&param_id.to_id()) {
+                            if let Some(usage) = self.data.vars.get(param_id.ctxt, &param_id.sym) {
                                 if usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                                     || usage.ref_count != 1
                                     || !usage.flags.contains(VarUsageInfoFlags::HAS_PROPERTY_ACCESS)
@@ -269,7 +273,8 @@ impl Optimizer<'_> {
                                 }
 
                                 vars.insert(
-                                    param_id.to_id(),
+                                    param_id.ctxt,
+                                    param_id.sym.clone(),
                                     ArrayLit {
                                         span: param_id.span,
                                         elems: e
@@ -353,7 +358,7 @@ impl Optimizer<'_> {
             if self
                 .data
                 .vars
-                .get(&ident.to_id())
+                .get(ident.ctxt, &ident.sym)
                 .filter(|usage| usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY))
                 .is_some()
             {
@@ -367,7 +372,7 @@ impl Optimizer<'_> {
             // We check for parameter and argument
             for (idx, param) in params.iter_mut().enumerate() {
                 if let Pat::Ident(param) = &mut **param {
-                    if let Some(usage) = self.data.vars.get(&param.to_id()) {
+                    if let Some(usage) = self.data.vars.get(param.ctxt, &param.sym) {
                         if usage.ref_count == 0 {
                             removed.push(idx);
                         }
@@ -410,7 +415,7 @@ impl Optimizer<'_> {
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]
-    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: FxHashMap<Id, Box<Expr>>)
+    pub(super) fn inline_vars_in_node<N>(&mut self, n: &mut N, mut vars: VarMap<Box<Expr>>)
     where
         N: for<'aa> VisitMutWith<NormalMultiReplacer<'aa>>,
     {
@@ -506,7 +511,7 @@ impl Optimizer<'_> {
                     if self
                         .data
                         .vars
-                        .get(&i.to_id())
+                        .get(i.ctxt, &i.sym)
                         .filter(|usage| usage.flags.contains(VarUsageInfoFlags::USED_RECURSIVELY))
                         .is_some()
                     {
@@ -756,7 +761,7 @@ impl Optimizer<'_> {
         // Don't create top-level variables.
         if !self.may_add_ident() {
             for pid in param_ids.clone() {
-                if let Some(usage) = self.data.vars.get(&pid.to_id()) {
+                if let Some(usage) = self.data.vars.get(pid.ctxt, &pid.sym) {
                     if usage.ref_count > 1
                         || usage.assign_count > 0
                         || usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED)
@@ -804,7 +809,7 @@ impl Optimizer<'_> {
                         match &decl.name {
                             Pat::Ident(id) if id.sym == "arguments" => return false,
                             Pat::Ident(id) => {
-                                if self.vars.has_pending_inline_for(&id.to_id()) {
+                                if self.vars.has_pending_inline_for(id.ctxt, &id.sym) {
                                     log_abort!(
                                         "iife: [x] Cannot inline because pending inline of `{}`",
                                         id.id
@@ -948,7 +953,7 @@ impl Optimizer<'_> {
             let no_arg = arg.is_none();
 
             if let Some(arg) = arg {
-                if let Some(usage) = self.data.vars.get_mut(&param.to_id()) {
+                if let Some(usage) = self.data.vars.get_mut(param.ctxt, &param.sym) {
                     if usage.ref_count == 1
                         && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                         && usage.property_mutation_count == 0
@@ -960,7 +965,9 @@ impl Optimizer<'_> {
                         )
                     {
                         // We don't need to create a variable in this case
-                        self.vars.vars_for_inlining.insert(param.to_id(), arg);
+                        self.vars
+                            .vars_for_inlining
+                            .insert(param.ctxt, param.sym.clone(), arg);
                         continue;
                     }
 
@@ -1005,7 +1012,7 @@ impl Optimizer<'_> {
             let mut arg = args.get_mut(idx).map(|arg| arg.expr.take());
 
             if let Some(arg) = &mut arg {
-                if let Some(usage) = self.data.vars.get_mut(&param.to_id()) {
+                if let Some(usage) = self.data.vars.get_mut(param.ctxt, &param.sym) {
                     if usage.ref_count == 1
                         && !usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
                         && usage.property_mutation_count == 0
@@ -1017,9 +1024,11 @@ impl Optimizer<'_> {
                         )
                     {
                         // We don't need to create a variable in this case
-                        self.vars
-                            .vars_for_inlining
-                            .insert(param.to_id(), arg.take());
+                        self.vars.vars_for_inlining.insert(
+                            param.ctxt,
+                            param.sym.clone(),
+                            arg.take(),
+                        );
                         continue;
                     }
 
@@ -1086,10 +1095,10 @@ impl Optimizer<'_> {
                 Stmt::Decl(Decl::Var(ref mut var)) => {
                     for decl in &mut var.decls {
                         if decl.init.is_some() {
-                            let ids = find_pat_ids(decl);
+                            let ids: Vec<Id> = find_pat_ids(decl);
 
                             for id in ids {
-                                if let Some(usage) = self.data.vars.get_mut(&id) {
+                                if let Some(usage) = self.data.vars.get_mut(id.1, &id.0) {
                                     // as we turn var declaration into assignment
                                     // we need to maintain correct var usage
                                     usage.ref_count += 1;
@@ -1588,10 +1597,10 @@ impl Optimizer<'_> {
 
                 if can_inline {
                     // Create a simple substitution for the parameters
-                    let mut substitutions = FxHashMap::default();
+                    let mut substitutions = VarMap::default();
                     for (param, arg) in arrow.params.iter().zip(&call.args) {
                         if let Pat::Ident(ident) = param {
-                            substitutions.insert(ident.to_id(), arg.expr.clone());
+                            substitutions.insert(ident.ctxt, ident.sym.clone(), arg.expr.clone());
                         }
                     }
 
