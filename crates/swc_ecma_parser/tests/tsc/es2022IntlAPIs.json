@@ -28,6 +28,7 @@
               "end": 178
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "timezoneNames",
             "optional": false,
             "typeAnnotation": null
@@ -154,6 +155,7 @@
                 "end": 288
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "zoneName",
               "optional": false,
               "typeAnnotation": null
@@ -170,6 +172,7 @@
           "end": 305
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "timezoneNames",
         "optional": false
       },
@@ -204,6 +207,7 @@
                     "end": 324
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "formatter",
                   "optional": false,
                   "typeAnnotation": null
@@ -228,6 +232,7 @@
                         "end": 335
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Intl",
                       "optional": false
                     },
@@ -299,6 +304,7 @@
                                 "end": 425
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "zoneName",
                               "optional": false
                             }
@@ -339,6 +345,7 @@
               "end": 457
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "enumerationKeys",
             "optional": false,
             "typeAnnotation": null
@@ -465,6 +472,7 @@
                 "end": 561
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "key",
               "optional": false,
               "typeAnnotation": null
@@ -481,6 +489,7 @@
           "end": 580
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "enumerationKeys",
         "optional": false
       },
@@ -515,6 +524,7 @@
                     "end": 599
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "supported",
                   "optional": false,
                   "typeAnnotation": null
@@ -539,6 +549,7 @@
                         "end": 606
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Intl",
                       "optional": false
                     },
@@ -561,6 +572,7 @@
                           "end": 628
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "key",
                         "optional": false
                       }

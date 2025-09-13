@@ -20,6 +20,7 @@
             "end": 121
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Preferences",
           "optional": false
         },
@@ -124,6 +125,7 @@
               "end": 326
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ooscope2",
             "optional": false,
             "typeAnnotation": null
@@ -143,6 +145,7 @@
                   "end": 330
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "s",
                 "optional": false,
                 "typeAnnotation": null
@@ -168,6 +171,7 @@
                     "end": 335
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "s",
                   "optional": false
                 },

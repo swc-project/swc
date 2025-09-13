@@ -38,6 +38,7 @@
                   "end": 8
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "widget",
                 "optional": false
               },
@@ -98,6 +99,7 @@
                 "end": 36
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "widget",
               "optional": false
             },
@@ -149,6 +151,7 @@
                     "end": 53
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Foo",
                   "optional": false
                 },
@@ -201,6 +204,7 @@
                 "end": 75
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "widget",
               "optional": false
             },
@@ -321,6 +325,7 @@
                 "end": 124
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "a-b",
               "optional": false
             },
@@ -372,6 +377,7 @@
                 "end": 141
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "a-type",
               "optional": false
             },
@@ -423,6 +429,7 @@
                 "end": 155
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "a-type",
               "optional": false
             },
@@ -474,6 +481,7 @@
                 "end": 175
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "type-type",
               "optional": false
             },
@@ -525,6 +533,7 @@
                 "end": 192
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "type-b",
               "optional": false
             },
@@ -576,6 +585,7 @@
                 "end": 212
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "type-type",
               "optional": false
             },

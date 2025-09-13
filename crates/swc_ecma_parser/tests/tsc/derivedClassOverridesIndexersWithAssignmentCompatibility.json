@@ -14,6 +14,7 @@
           "end": 11
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Base",
         "optional": false
       },
@@ -35,6 +36,7 @@
                 "end": 28
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "x",
               "optional": false,
               "typeAnnotation": {
@@ -73,6 +75,7 @@
                   "end": 37
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Object",
                 "optional": false
               },
@@ -102,6 +105,7 @@
           "end": 91
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Derived",
         "optional": false
       },
@@ -123,6 +127,7 @@
                 "end": 121
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "x",
               "optional": false,
               "typeAnnotation": {
@@ -172,6 +177,7 @@
           "end": 104
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Base",
         "optional": false
       },
@@ -189,6 +195,7 @@
           "end": 143
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Base2",
         "optional": false
       },
@@ -210,6 +217,7 @@
                 "end": 160
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "x",
               "optional": false,
               "typeAnnotation": {
@@ -248,6 +256,7 @@
                   "end": 169
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Object",
                 "optional": false
               },
@@ -277,6 +286,7 @@
           "end": 224
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Derived2",
         "optional": false
       },
@@ -298,6 +308,7 @@
                 "end": 255
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "x",
               "optional": false,
               "typeAnnotation": {
@@ -347,6 +358,7 @@
           "end": 238
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Base2",
         "optional": false
       },

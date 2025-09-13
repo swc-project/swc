@@ -3,8 +3,9 @@ use std::sync::Arc;
 use parking_lot::Mutex;
 use rustc_hash::FxHashMap;
 use swc_atoms::atom;
-use swc_common::{SyntaxContext, DUMMY_SP};
+use swc_common::{NodeId, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::Resolver;
 use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::{ExprCtx, ExprExt};
 use swc_ecma_visit::VisitMutWith;
@@ -15,7 +16,7 @@ use crate::{
     option::{CompressOptions, TopLevelOptions},
 };
 
-pub struct Evaluator {
+pub struct Evaluator<'r> {
     expr_ctx: ExprCtx,
 
     program: Program,
@@ -23,10 +24,12 @@ pub struct Evaluator {
     data: Eval,
     /// We run minification only once.
     done: bool,
+
+    r: &'r mut Resolver,
 }
 
-impl Evaluator {
-    pub fn new(module: Module, marks: Marks) -> Self {
+impl<'r> Evaluator<'r> {
+    pub fn new(module: Module, marks: Marks, r: &'r mut Resolver) -> Self {
         Evaluator {
             expr_ctx: ExprCtx {
                 unresolved_ctxt: SyntaxContext::empty().apply_mark(marks.unresolved_mark),
@@ -39,6 +42,7 @@ impl Evaluator {
             marks,
             data: Default::default(),
             done: Default::default(),
+            r,
         }
     }
 }
@@ -50,7 +54,7 @@ struct Eval {
 
 #[derive(Default)]
 struct EvalStore {
-    cache: FxHashMap<Id, Box<Expr>>,
+    cache: FxHashMap<NodeId, Box<Expr>>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -60,7 +64,7 @@ pub enum EvalResult {
 }
 
 impl Mode for Eval {
-    fn store(&self, id: Id, value: &Expr) {
+    fn store(&self, id: NodeId, value: &Expr) {
         let mut w = self.store.lock();
         w.cache.insert(id, Box::new(value.clone()));
     }
@@ -78,7 +82,7 @@ impl Mode for Eval {
     }
 }
 
-impl Evaluator {
+impl<'r> Evaluator<'r> {
     #[tracing::instrument(name = "Evaluator::run", level = "debug", skip_all)]
     fn run(&mut self) {
         if !self.done {
@@ -97,6 +101,7 @@ impl Evaluator {
                 },
                 None,
                 &data,
+                self.r,
             ));
         }
     }
@@ -192,7 +197,8 @@ impl Evaluator {
                 self.run();
 
                 let lock = self.data.store.lock();
-                let val = lock.cache.get(&i.to_id())?;
+                let node_id = self.r.find_binding_by_ident(i);
+                let val = lock.cache.get(&node_id)?;
 
                 return Some(val.clone());
             }
@@ -211,6 +217,7 @@ impl Evaluator {
 
                 e.visit_mut_with(&mut pure_optimizer(
                     &Default::default(),
+                    self.r,
                     self.marks,
                     PureOptimizerConfig {
                         enable_join_vars: false,
@@ -248,6 +255,7 @@ impl Evaluator {
         {
             e.visit_mut_with(&mut pure_optimizer(
                 &Default::default(),
+                self.r,
                 self.marks,
                 PureOptimizerConfig {
                     enable_join_vars: false,

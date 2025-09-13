@@ -28,6 +28,7 @@
               "end": 100
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false,
             "typeAnnotation": {
@@ -57,6 +58,7 @@
                         "end": 111
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "exports",
                       "optional": false
                     },
@@ -96,6 +98,7 @@
           "end": 144
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "require",
         "optional": false
       },
@@ -115,6 +118,7 @@
               "end": 149
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "name",
             "optional": false,
             "typeAnnotation": {
@@ -187,6 +191,7 @@
               "end": 234
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -242,6 +247,7 @@
                 "end": 253
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "module",
               "optional": false
             },
@@ -312,6 +318,7 @@
               "end": 351
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "mod1",
             "optional": false,
             "typeAnnotation": null
@@ -330,6 +337,7 @@
                 "end": 361
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "require",
               "optional": false
             },
@@ -379,6 +387,7 @@
               "end": 376
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "mod1",
             "optional": false
           },
@@ -434,6 +443,7 @@
               "end": 393
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "mod1",
             "optional": false
           },

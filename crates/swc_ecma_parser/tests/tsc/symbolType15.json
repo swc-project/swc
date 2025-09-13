@@ -28,6 +28,7 @@
               "end": 23
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "sym",
             "optional": false,
             "typeAnnotation": {
@@ -74,6 +75,7 @@
               "end": 43
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "symObj",
             "optional": false,
             "typeAnnotation": {
@@ -95,6 +97,7 @@
                     "end": 51
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Symbol",
                   "optional": false
                 },
@@ -127,6 +130,7 @@
             "end": 60
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "symObj",
           "optional": false,
           "typeAnnotation": null
@@ -138,6 +142,7 @@
             "end": 66
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "sym",
           "optional": false
         }
@@ -163,6 +168,7 @@
             "end": 71
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "sym",
           "optional": false,
           "typeAnnotation": null
@@ -174,6 +180,7 @@
             "end": 80
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "symObj",
           "optional": false
         }

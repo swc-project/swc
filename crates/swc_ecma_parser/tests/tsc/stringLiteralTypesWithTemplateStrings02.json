@@ -28,6 +28,7 @@
               "end": 31
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "abc",
             "optional": false,
             "typeAnnotation": {
@@ -101,6 +102,7 @@
               "end": 69
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "de_NEWLINE_f",
             "optional": false,
             "typeAnnotation": {

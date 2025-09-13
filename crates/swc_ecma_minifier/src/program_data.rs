@@ -3,8 +3,9 @@ use std::collections::hash_map::Entry;
 use indexmap::IndexSet;
 use rustc_hash::{FxBuildHasher, FxHashMap};
 use swc_atoms::Atom;
-use swc_common::SyntaxContext;
+use swc_common::{NodeId, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::Resolver;
 use swc_ecma_usage_analyzer::{
     alias::{Access, AccessKind},
     analyzer::{
@@ -18,9 +19,14 @@ use swc_ecma_usage_analyzer::{
 use swc_ecma_utils::{Merge, Type, Value};
 use swc_ecma_visit::VisitWith;
 
-pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>, collect_property_atoms: bool) -> ProgramData
+pub(crate) fn analyze<'r, N>(
+    n: &N,
+    marks: Option<Marks>,
+    collect_property_atoms: bool,
+    r: &'r Resolver,
+) -> ProgramData
 where
-    N: VisitWith<UsageAnalyzer<ProgramData>>,
+    N: VisitWith<UsageAnalyzer<'r, ProgramData>>,
 {
     let data = if collect_property_atoms {
         ProgramData {
@@ -30,19 +36,19 @@ where
     } else {
         ProgramData::default()
     };
-    analyze_with_custom_storage(data, n, marks)
+    analyze_with_custom_storage(data, n, marks, r)
 }
 
 /// Analyzed info of a whole program we are working on.
 #[derive(Debug, Default)]
 pub(crate) struct ProgramData {
-    pub(crate) vars: FxHashMap<Id, Box<VarUsageInfo>>,
+    pub(crate) vars: FxHashMap<NodeId, Box<VarUsageInfo>>,
 
     pub(crate) top: ScopeData,
 
     pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
 
-    initialized_vars: IndexSet<Id, FxBuildHasher>,
+    initialized_vars: IndexSet<NodeId, FxBuildHasher>,
 
     pub(crate) property_atoms: Option<Vec<Atom>>,
 }
@@ -210,7 +216,8 @@ impl Storage for ProgramData {
         &mut self.top
     }
 
-    fn var_or_default(&mut self, id: Id) -> &mut Self::VarData {
+    fn var_or_default(&mut self, id: NodeId) -> &mut Self::VarData {
+        debug_assert!(id != NodeId::DUMMY);
         self.vars.entry(id).or_default()
     }
 
@@ -229,6 +236,7 @@ impl Storage for ProgramData {
         for (id, mut var_info) in child.vars {
             // trace!("merge({:?},{}{:?})", kind, id.0, id.1);
             let inited = self.initialized_vars.contains(&id);
+            debug_assert!(id != NodeId::DUMMY);
             match self.vars.entry(id) {
                 Entry::Occupied(mut e) => {
                     if var_info.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED) {
@@ -358,7 +366,9 @@ impl Storage for ProgramData {
         }
     }
 
-    fn report_usage(&mut self, ctx: Ctx, i: Id) {
+    fn report_usage(&mut self, ctx: Ctx, i: NodeId) {
+        debug_assert!(i != NodeId::DUMMY);
+
         let inited = self.initialized_vars.contains(&i);
 
         let e = self.vars.entry(i).or_insert_with(|| {
@@ -388,8 +398,9 @@ impl Storage for ProgramData {
         }
     }
 
-    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool, ty: Value<Type>) {
-        let e = self.vars.entry(i.clone()).or_default();
+    fn report_assign(&mut self, ctx: Ctx, i: NodeId, is_op: bool, ty: Value<Type>) {
+        debug_assert!(i != NodeId::DUMMY);
+        let e = self.vars.entry(i).or_default();
 
         let inited = self.initialized_vars.contains(&i);
 
@@ -401,7 +412,7 @@ impl Storage for ProgramData {
         e.assign_count += 1;
 
         if !is_op {
-            self.initialized_vars.insert(i.clone());
+            self.initialized_vars.insert(i);
             if e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const) && !inited {
                 e.flags.insert(VarUsageInfoFlags::VAR_INITIALIZED);
             } else {
@@ -415,8 +426,8 @@ impl Storage for ProgramData {
             e.usage_count = e.usage_count.saturating_sub(1);
         }
 
-        let mut to_visit: IndexSet<Id, FxBuildHasher> =
-            IndexSet::from_iter(e.infects_to.iter().cloned().map(|i| i.0));
+        let mut to_visit: IndexSet<NodeId, FxBuildHasher> =
+            IndexSet::from_iter(e.infects_to.iter().map(|i| i.0));
 
         let mut idx = 0;
 
@@ -453,12 +464,16 @@ impl Storage for ProgramData {
         i: &Ident,
         init_type: Option<Value<Type>>,
         kind: Option<VarDeclKind>,
+        r: &Resolver,
     ) -> &mut VarUsageInfo {
         // if cfg!(feature = "debug") {
         //     debug!(has_init = has_init, "declare_decl(`{}`)", i);
         // }
 
-        let v = self.vars.entry(i.to_id()).or_default();
+        debug_assert!(!r.is_ref_to_unresolved(i.node_id), "ident: {i:#?}");
+        let node_id = r.find_binding_by_ident(i);
+
+        let v = self.vars.entry(node_id).or_default();
         if ctx.is_top_level() {
             v.flags |= VarUsageInfoFlags::IS_TOP_LEVEL;
         }
@@ -510,7 +525,7 @@ impl Storage for ProgramData {
         v.flags |= VarUsageInfoFlags::DECLARED;
         // not a VarDecl, thus always inited
         if init_type.is_some() || kind.is_none() {
-            self.initialized_vars.insert(i.to_id());
+            self.initialized_vars.insert(node_id);
         }
         if ctx.in_catch_param() {
             v.flags |= VarUsageInfoFlags::DECLARED_AS_CATCH_PARAM;
@@ -527,7 +542,7 @@ impl Storage for ProgramData {
         self.initialized_vars.truncate(len)
     }
 
-    fn mark_property_mutation(&mut self, id: Id) {
+    fn mark_property_mutation(&mut self, id: NodeId) {
         let e = self.vars.entry(id).or_default();
         e.property_mutation_count += 1;
 
@@ -535,10 +550,11 @@ impl Storage for ProgramData {
             .infects_to
             .iter()
             .filter(|(_, kind)| *kind == AccessKind::Reference)
-            .map(|(id, _)| id.clone())
+            .map(|(id, _)| *id)
             .collect::<Vec<_>>();
 
         for other in to_mark_mutate {
+            debug_assert!(other != NodeId::DUMMY);
             let other = self.vars.entry(other).or_default();
 
             other.property_mutation_count += 1;
@@ -551,7 +567,7 @@ impl Storage for ProgramData {
         }
     }
 
-    fn get_var_data(&self, id: Id) -> Option<&Self::VarData> {
+    fn get_var_data(&self, id: NodeId) -> Option<&Self::VarData> {
         self.vars.get(&id).map(|v| v.as_ref())
     }
 }
@@ -665,17 +681,17 @@ impl VarDataLike for VarUsageInfo {
 
 impl ProgramData {
     /// This should be used only for conditionals pass.
-    pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
+    pub(crate) fn contains_unresolved(&self, e: &Expr, r: &Resolver) -> bool {
         match e {
-            Expr::Ident(i) => self.ident_is_unresolved(i),
+            Expr::Ident(i) => self.ident_is_unresolved(i, r),
 
             Expr::Member(MemberExpr { obj, prop, .. }) => {
-                if self.contains_unresolved(obj) {
+                if self.contains_unresolved(obj, r) {
                     return true;
                 }
 
                 if let MemberProp::Computed(prop) = prop {
-                    if self.contains_unresolved(&prop.expr) {
+                    if self.contains_unresolved(&prop.expr, r) {
                         return true;
                     }
                 }
@@ -683,39 +699,41 @@ impl ProgramData {
                 false
             }
             Expr::Bin(BinExpr { left, right, .. }) => {
-                self.contains_unresolved(left) || self.contains_unresolved(right)
+                self.contains_unresolved(left, r) || self.contains_unresolved(right, r)
             }
-            Expr::Unary(UnaryExpr { arg, .. }) => self.contains_unresolved(arg),
-            Expr::Update(UpdateExpr { arg, .. }) => self.contains_unresolved(arg),
-            Expr::Seq(SeqExpr { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
+            Expr::Unary(UnaryExpr { arg, .. }) => self.contains_unresolved(arg, r),
+            Expr::Update(UpdateExpr { arg, .. }) => self.contains_unresolved(arg, r),
+            Expr::Seq(SeqExpr { exprs, .. }) => {
+                exprs.iter().any(|e| self.contains_unresolved(e, r))
+            }
             Expr::Assign(AssignExpr { left, right, .. }) => {
                 // TODO
                 (match left {
                     AssignTarget::Simple(left) => {
-                        self.simple_assign_target_contains_unresolved(left)
+                        self.simple_assign_target_contains_unresolved(left, r)
                     }
                     AssignTarget::Pat(_) => false,
-                }) || self.contains_unresolved(right)
+                }) || self.contains_unresolved(right, r)
             }
             Expr::Cond(CondExpr {
                 test, cons, alt, ..
             }) => {
-                self.contains_unresolved(test)
-                    || self.contains_unresolved(cons)
-                    || self.contains_unresolved(alt)
+                self.contains_unresolved(test, r)
+                    || self.contains_unresolved(cons, r)
+                    || self.contains_unresolved(alt, r)
             }
             Expr::New(NewExpr { args, .. }) => args.iter().flatten().any(|arg| match arg.spread {
-                Some(..) => self.contains_unresolved(&arg.expr),
+                Some(..) => self.contains_unresolved(&arg.expr, r),
                 None => false,
             }),
             Expr::Yield(YieldExpr { arg, .. }) => {
-                matches!(arg, Some(arg) if self.contains_unresolved(arg))
+                matches!(arg, Some(arg) if self.contains_unresolved(arg, r))
             }
-            Expr::Tpl(Tpl { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
-            Expr::Paren(ParenExpr { expr, .. }) => self.contains_unresolved(expr),
-            Expr::Await(AwaitExpr { arg, .. }) => self.contains_unresolved(arg),
+            Expr::Tpl(Tpl { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e, r)),
+            Expr::Paren(ParenExpr { expr, .. }) => self.contains_unresolved(expr, r),
+            Expr::Await(AwaitExpr { arg, .. }) => self.contains_unresolved(arg, r),
             Expr::Array(ArrayLit { elems, .. }) => elems.iter().any(|elem| match elem {
-                Some(elem) => self.contains_unresolved(&elem.expr),
+                Some(elem) => self.contains_unresolved(&elem.expr, r),
                 None => false,
             }),
 
@@ -724,24 +742,27 @@ impl ProgramData {
                 args,
                 ..
             }) => {
-                if self.contains_unresolved(callee) {
+                if self.contains_unresolved(callee, r) {
                     return true;
                 }
 
-                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
+                if args
+                    .iter()
+                    .any(|arg| self.contains_unresolved(&arg.expr, r))
+                {
                     return true;
                 }
 
                 false
             }
 
-            Expr::OptChain(o) => self.opt_chain_expr_contains_unresolved(o),
+            Expr::OptChain(o) => self.opt_chain_expr_contains_unresolved(o, r),
 
             _ => false,
         }
     }
 
-    pub(crate) fn ident_is_unresolved(&self, i: &Ident) -> bool {
+    pub(crate) fn ident_is_unresolved(&self, i: &Ident, r: &Resolver) -> bool {
         // We treat `window` and `global` as resolved
         if is_global_var_with_pure_property_access(&i.sym)
             || matches!(&*i.sym, "arguments" | "window" | "global")
@@ -749,22 +770,27 @@ impl ProgramData {
             return false;
         }
 
-        if let Some(v) = self.vars.get(&i.to_id()) {
+        let node_id = r.find_binding_by_ident(i);
+
+        if let Some(v) = self.vars.get(&node_id) {
             return !v.flags.contains(VarUsageInfoFlags::DECLARED);
         }
 
         true
     }
 
-    fn opt_chain_expr_contains_unresolved(&self, o: &OptChainExpr) -> bool {
+    fn opt_chain_expr_contains_unresolved(&self, o: &OptChainExpr, r: &Resolver) -> bool {
         match &*o.base {
-            OptChainBase::Member(me) => self.member_expr_contains_unresolved(me),
+            OptChainBase::Member(me) => self.member_expr_contains_unresolved(me, r),
             OptChainBase::Call(OptCall { callee, args, .. }) => {
-                if self.contains_unresolved(callee) {
+                if self.contains_unresolved(callee, r) {
                     return true;
                 }
 
-                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
+                if args
+                    .iter()
+                    .any(|arg| self.contains_unresolved(&arg.expr, r))
+                {
                     return true;
                 }
 
@@ -773,13 +799,13 @@ impl ProgramData {
         }
     }
 
-    fn member_expr_contains_unresolved(&self, n: &MemberExpr) -> bool {
-        if self.contains_unresolved(&n.obj) {
+    fn member_expr_contains_unresolved(&self, n: &MemberExpr, r: &Resolver) -> bool {
+        if self.contains_unresolved(&n.obj, r) {
             return true;
         }
 
         if let MemberProp::Computed(prop) = &n.prop {
-            if self.contains_unresolved(&prop.expr) {
+            if self.contains_unresolved(&prop.expr, r) {
                 return true;
             }
         }
@@ -787,21 +813,25 @@ impl ProgramData {
         false
     }
 
-    fn simple_assign_target_contains_unresolved(&self, n: &SimpleAssignTarget) -> bool {
+    fn simple_assign_target_contains_unresolved(
+        &self,
+        n: &SimpleAssignTarget,
+        r: &Resolver,
+    ) -> bool {
         match n {
-            SimpleAssignTarget::Ident(i) => self.ident_is_unresolved(&i.id),
-            SimpleAssignTarget::Member(me) => self.member_expr_contains_unresolved(me),
+            SimpleAssignTarget::Ident(i) => self.ident_is_unresolved(&i.id, r),
+            SimpleAssignTarget::Member(me) => self.member_expr_contains_unresolved(me, r),
             SimpleAssignTarget::SuperProp(n) => {
                 if let SuperProp::Computed(prop) = &n.prop {
-                    if self.contains_unresolved(&prop.expr) {
+                    if self.contains_unresolved(&prop.expr, r) {
                         return true;
                     }
                 }
 
                 false
             }
-            SimpleAssignTarget::Paren(n) => self.contains_unresolved(&n.expr),
-            SimpleAssignTarget::OptChain(n) => self.opt_chain_expr_contains_unresolved(n),
+            SimpleAssignTarget::Paren(n) => self.contains_unresolved(&n.expr, r),
+            SimpleAssignTarget::OptChain(n) => self.opt_chain_expr_contains_unresolved(n, r),
             SimpleAssignTarget::TsAs(..)
             | SimpleAssignTarget::TsSatisfies(..)
             | SimpleAssignTarget::TsNonNull(..)

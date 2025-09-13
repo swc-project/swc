@@ -21,6 +21,7 @@
           "end": 16
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "enumdule",
         "optional": false
       },
@@ -46,6 +47,7 @@
                   "end": 42
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Point",
                 "optional": false
               },
@@ -90,6 +92,7 @@
                           "end": 73
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "x",
                         "optional": false,
                         "typeAnnotation": {
@@ -126,6 +129,7 @@
                           "end": 91
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "y",
                         "optional": false,
                         "typeAnnotation": {
@@ -184,6 +188,7 @@
           "end": 127
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "enumdule",
         "optional": false
       },
@@ -201,6 +206,7 @@
               "end": 137
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Red",
             "optional": false
           },
@@ -219,6 +225,7 @@
               "end": 143
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Blue",
             "optional": false
           },
@@ -249,6 +256,7 @@
               "end": 152
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
@@ -270,6 +278,7 @@
                     "end": 162
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "enumdule",
                   "optional": false
                 },
@@ -305,6 +314,7 @@
               "end": 169
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -322,6 +332,7 @@
                 "end": 180
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "enumdule",
               "optional": false
             },
@@ -361,6 +372,7 @@
               "end": 192
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "y",
             "optional": false,
             "typeAnnotation": {
@@ -390,6 +402,7 @@
                         "end": 197
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "x",
                       "optional": false
                     },
@@ -425,6 +438,7 @@
                         "end": 208
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "y",
                       "optional": false
                     },
@@ -478,6 +492,7 @@
               "end": 225
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "y",
             "optional": false,
             "typeAnnotation": null
@@ -502,6 +517,7 @@
                   "end": 240
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "enumdule",
                 "optional": false
               },

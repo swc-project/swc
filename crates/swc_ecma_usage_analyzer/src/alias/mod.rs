@@ -1,8 +1,9 @@
 #![allow(clippy::needless_update)]
 
 use rustc_hash::FxHashSet;
-use swc_common::SyntaxContext;
+use swc_common::{NodeId, SyntaxContext};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::Resolver;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use self::ctx::Ctx;
@@ -81,11 +82,15 @@ pub enum AccessKind {
     Call,
 }
 
-pub type Access = (Id, AccessKind);
+pub type Access = (NodeId, AccessKind);
 
-pub fn collect_infects_from<N>(node: &N, config: AliasConfig) -> FxHashSet<Access>
+pub fn collect_infects_from<'r, N>(
+    node: &N,
+    config: AliasConfig,
+    r: &'r Resolver,
+) -> FxHashSet<Access>
 where
-    N: InfectableNode + VisitWith<InfectionCollector>,
+    N: InfectableNode + VisitWith<InfectionCollector<'r>>,
 {
     if config.ignore_nested && node.is_fn_or_arrow_expr() {
         return Default::default();
@@ -105,6 +110,8 @@ where
         accesses: FxHashSet::default(),
 
         max_entries: None,
+
+        r,
     };
 
     node.visit_with(&mut visitor);
@@ -116,13 +123,14 @@ where
 pub struct TooManyAccesses;
 
 /// If the number of accesses exceeds `max_entries`, it returns `Err(())`.
-pub fn try_collect_infects_from<N>(
+pub fn try_collect_infects_from<'r, N>(
     node: &N,
     config: AliasConfig,
     max_entries: usize,
+    r: &'r Resolver,
 ) -> Result<FxHashSet<Access>, TooManyAccesses>
 where
-    N: InfectableNode + VisitWith<InfectionCollector>,
+    N: InfectableNode + VisitWith<InfectionCollector<'r>>,
 {
     if config.ignore_nested && node.is_fn_or_arrow_expr() {
         return Ok(Default::default());
@@ -142,6 +150,7 @@ where
         accesses: FxHashSet::default(),
 
         max_entries: Some(max_entries),
+        r,
     };
 
     node.visit_with(&mut visitor);
@@ -153,38 +162,42 @@ where
     Ok(visitor.accesses)
 }
 
-pub struct InfectionCollector {
+pub struct InfectionCollector<'r> {
     config: AliasConfig,
     unresolved_ctxt: Option<SyntaxContext>,
 
-    bindings: FxHashSet<Id>,
+    bindings: FxHashSet<NodeId>,
 
     ctx: Ctx,
 
     accesses: FxHashSet<Access>,
 
     max_entries: Option<usize>,
+
+    r: &'r Resolver,
 }
 
-impl InfectionCollector {
+impl<'r> InfectionCollector<'r> {
     fn add_binding(&mut self, e: &Ident) {
-        if self.bindings.insert(e.to_id()) {
-            self.accesses.remove(&(e.to_id(), AccessKind::Reference));
-            self.accesses.remove(&(e.to_id(), AccessKind::Call));
+        let node_id = self.r.find_binding_by_ident(e);
+        if self.bindings.insert(node_id) {
+            self.accesses.remove(&(node_id, AccessKind::Reference));
+            self.accesses.remove(&(node_id, AccessKind::Call));
         }
     }
 
-    fn add_usage(&mut self, e: Id) {
-        if self.bindings.contains(&e) {
+    fn add_usage(&mut self, e: &Ident) {
+        let node_id = self.r.find_binding_by_ident(e);
+        if self.bindings.contains(&node_id) {
             return;
         }
 
-        if self.unresolved_ctxt == Some(e.1) && is_global_var_with_pure_property_access(&e.0) {
+        if self.unresolved_ctxt == Some(e.ctxt) && is_global_var_with_pure_property_access(&e.sym) {
             return;
         }
 
         self.accesses.insert((
-            e,
+            node_id,
             if self.ctx.contains(Ctx::IsCallee) {
                 AccessKind::Call
             } else {
@@ -194,7 +207,7 @@ impl InfectionCollector {
     }
 }
 
-impl Visit for InfectionCollector {
+impl<'r> Visit for InfectionCollector<'r> {
     noop_visit_type!();
 
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
@@ -296,7 +309,7 @@ impl Visit for InfectionCollector {
         match e {
             Expr::Ident(i) => {
                 if self.ctx.contains(Ctx::TrackExprIdent) {
-                    self.add_usage(i.to_id());
+                    self.add_usage(i);
                 }
             }
 
@@ -335,7 +348,7 @@ impl Visit for InfectionCollector {
     }
 
     fn visit_ident(&mut self, n: &Ident) {
-        self.add_usage(n.to_id());
+        self.add_usage(n);
     }
 
     fn visit_member_expr(&mut self, n: &MemberExpr) {

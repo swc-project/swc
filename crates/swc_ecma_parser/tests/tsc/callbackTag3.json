@@ -28,6 +28,7 @@
               "end": 183
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "sid",
             "optional": false,
             "typeAnnotation": null

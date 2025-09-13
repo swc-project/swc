@@ -28,6 +28,7 @@
               "end": 9
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "s1",
             "optional": false,
             "typeAnnotation": {
@@ -120,6 +121,7 @@
               "end": 56
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "s2",
             "optional": false,
             "typeAnnotation": {
@@ -212,6 +214,7 @@
               "end": 94
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "s3",
             "optional": false,
             "typeAnnotation": {
@@ -322,6 +325,7 @@
               "end": 152
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "s4",
             "optional": false,
             "typeAnnotation": {

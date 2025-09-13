@@ -26,6 +26,7 @@
             "end": 79
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "AppType",
           "optional": false
         },
@@ -43,6 +44,7 @@
                 "end": 98
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "HeaderDetail",
               "optional": false
             },
@@ -69,6 +71,7 @@
                 "end": 138
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "HeaderMultiDetail",
               "optional": false
             },
@@ -95,6 +98,7 @@
                 "end": 178
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "AdvancedList",
               "optional": false
             },
@@ -121,6 +125,7 @@
                 "end": 209
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Standard",
               "optional": false
             },
@@ -147,6 +152,7 @@
                 "end": 240
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Relationship",
               "optional": false
             },
@@ -173,6 +179,7 @@
                 "end": 269
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Report",
               "optional": false
             },
@@ -199,6 +206,7 @@
                 "end": 295
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Composite",
               "optional": false
             },
@@ -225,6 +233,7 @@
                 "end": 323
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "ListOnly",
               "optional": false
             },
@@ -251,6 +260,7 @@
                 "end": 356
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "ModuleSettings",
               "optional": false
             },
@@ -288,6 +298,7 @@
             "end": 399
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "AppStyle",
           "optional": false
         },
@@ -305,6 +316,7 @@
                 "end": 410
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Tree",
               "optional": false
             },
@@ -323,6 +335,7 @@
                 "end": 426
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "TreeEntity",
               "optional": false
             },
@@ -341,6 +354,7 @@
                 "end": 440
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Standard",
               "optional": false
             },
@@ -359,6 +373,7 @@
                 "end": 453
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "MiniApp",
               "optional": false
             },
@@ -377,6 +392,7 @@
                 "end": 469
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "PivotTable",
               "optional": false
             },
@@ -408,6 +424,7 @@
               "end": 501
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "appTypeStylesWithError",
             "optional": false,
             "typeAnnotation": {
@@ -429,6 +446,7 @@
                     "end": 506
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Map",
                   "optional": false
                 },
@@ -452,6 +470,7 @@
                           "end": 514
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "AppType",
                         "optional": false
                       },
@@ -470,6 +489,7 @@
                           "end": 521
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Array",
                         "optional": false
                       },
@@ -493,6 +513,7 @@
                                 "end": 530
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "AppStyle",
                               "optional": false
                             },
@@ -520,6 +541,7 @@
                 "end": 542
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Map",
               "optional": false
             },
@@ -557,6 +579,7 @@
                                   "end": 557
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "AppType",
                                 "optional": false
                               },
@@ -594,6 +617,7 @@
                                         "end": 577
                                       },
                                       "ctxt": 0,
+                                      "nodeId": 4294967295,
                                       "value": "AppStyle",
                                       "optional": false
                                     },
@@ -622,6 +646,7 @@
                                         "end": 596
                                       },
                                       "ctxt": 0,
+                                      "nodeId": 4294967295,
                                       "value": "AppStyle",
                                       "optional": false
                                     },
@@ -665,6 +690,7 @@
                                   "end": 620
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "AppType",
                                 "optional": false
                               },
@@ -702,6 +728,7 @@
                                         "end": 644
                                       },
                                       "ctxt": 0,
+                                      "nodeId": 4294967295,
                                       "value": "AppStyle",
                                       "optional": false
                                     },
@@ -730,6 +757,7 @@
                                         "end": 663
                                       },
                                       "ctxt": 0,
+                                      "nodeId": 4294967295,
                                       "value": "AppStyle",
                                       "optional": false
                                     },
@@ -758,6 +786,7 @@
                                         "end": 678
                                       },
                                       "ctxt": 0,
+                                      "nodeId": 4294967295,
                                       "value": "AppStyle",
                                       "optional": false
                                     },
@@ -801,6 +830,7 @@
                                   "end": 705
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "AppType",
                                 "optional": false
                               },
@@ -838,6 +868,7 @@
                                         "end": 729
                                       },
                                       "ctxt": 0,
+                                      "nodeId": 4294967295,
                                       "value": "AppStyle",
                                       "optional": false
                                     },
@@ -866,6 +897,7 @@
                                         "end": 748
                                       },
                                       "ctxt": 0,
+                                      "nodeId": 4294967295,
                                       "value": "AppStyle",
                                       "optional": false
                                     },
@@ -904,6 +936,7 @@
           "end": 806
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "foo",
         "optional": false
       },
@@ -933,6 +966,7 @@
                 "end": 817
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "args",
               "optional": false,
               "typeAnnotation": null
@@ -962,6 +996,7 @@
                       "end": 820
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "T",
                     "optional": false
                   },
@@ -1001,6 +1036,7 @@
                 "end": 808
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "T",
               "optional": false
             },
@@ -1037,6 +1073,7 @@
                 "end": 826
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "T",
               "optional": false
             },
@@ -1068,6 +1105,7 @@
               "end": 836
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "b1",
             "optional": false,
             "typeAnnotation": {
@@ -1103,6 +1141,7 @@
                           "end": 841
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "x",
                         "optional": false
                       },
@@ -1143,6 +1182,7 @@
                 "end": 860
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "foo",
               "optional": false
             },
@@ -1239,6 +1279,7 @@
               "end": 895
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "b2",
             "optional": false,
             "typeAnnotation": {
@@ -1285,6 +1326,7 @@
                 "end": 914
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "foo",
               "optional": false
             },

@@ -21,6 +21,7 @@
           "end": 33
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A",
         "optional": false
       },
@@ -53,6 +54,7 @@
                   "end": 59
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Point",
                 "optional": false
               },
@@ -92,6 +94,7 @@
                               "end": 87
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "Origin",
                             "optional": false,
                             "typeAnnotation": null
@@ -173,6 +176,7 @@
           "end": 149
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A",
         "optional": false
       },
@@ -198,6 +202,7 @@
                   "end": 211
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Point",
                 "optional": false
               },
@@ -300,6 +305,7 @@
           "end": 288
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "B",
         "optional": false
       },
@@ -332,6 +338,7 @@
                   "end": 315
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Point",
                 "optional": false
               },
@@ -371,6 +378,7 @@
                               "end": 343
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "Origin",
                             "optional": false,
                             "typeAnnotation": null
@@ -448,6 +456,7 @@
                   "end": 428
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Point",
                 "optional": false
               },

@@ -20,6 +20,7 @@
             "end": 28
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Foo",
           "optional": false
         },

@@ -19,6 +19,7 @@
           "end": 10
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Keys",
         "optional": false
       },
@@ -120,6 +121,7 @@
               "end": 44
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "p",
             "optional": false,
             "typeAnnotation": null
@@ -212,6 +214,7 @@
                   "end": 139
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Record",
                 "optional": false
               },
@@ -235,6 +238,7 @@
                         "end": 144
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Keys",
                       "optional": false
                     },
@@ -279,6 +283,7 @@
               "end": 226
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "a",
             "optional": false,
             "typeAnnotation": null
@@ -309,6 +314,7 @@
                     "end": 230
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "p",
                   "optional": false
                 },
@@ -360,6 +366,7 @@
               "end": 249
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "b",
             "optional": false,
             "typeAnnotation": null
@@ -390,6 +397,7 @@
                     "end": 253
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "p",
                   "optional": false
                 },
@@ -454,6 +462,7 @@
               "end": 320
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "d",
             "optional": false,
             "typeAnnotation": null
@@ -471,6 +480,7 @@
                 "end": 324
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "p",
               "optional": false
             },

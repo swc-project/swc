@@ -14,6 +14,7 @@
           "end": 57
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StaticName",
         "optional": false
       },
@@ -121,6 +122,7 @@
           "end": 144
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StaticNameFn",
         "optional": false
       },
@@ -246,6 +248,7 @@
           "end": 245
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StaticLength",
         "optional": false
       },
@@ -353,6 +356,7 @@
           "end": 338
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StaticLengthFn",
         "optional": false
       },
@@ -478,6 +482,7 @@
           "end": 449
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StaticPrototype",
         "optional": false
       },
@@ -585,6 +590,7 @@
           "end": 551
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StaticPrototypeFn",
         "optional": false
       },
@@ -701,6 +707,7 @@
           "end": 654
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StaticCaller",
         "optional": false
       },
@@ -808,6 +815,7 @@
           "end": 747
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StaticCallerFn",
         "optional": false
       },
@@ -933,6 +941,7 @@
           "end": 852
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StaticArguments",
         "optional": false
       },
@@ -1040,6 +1049,7 @@
           "end": 954
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StaticArgumentsFn",
         "optional": false
       },

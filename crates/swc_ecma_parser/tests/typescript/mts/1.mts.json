@@ -25,6 +25,7 @@
               "end": 12
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "path",
             "optional": false
           }
@@ -69,6 +70,7 @@
               "end": 39
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "console",
             "optional": false
           },

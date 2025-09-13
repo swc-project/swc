@@ -28,6 +28,7 @@
               "end": 31
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "abc",
             "optional": false,
             "typeAnnotation": {
@@ -90,6 +91,7 @@
               "end": 55
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "xyz",
             "optional": false,
             "typeAnnotation": {
@@ -152,6 +154,7 @@
               "end": 84
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "abcOrXyz",
             "optional": false,
             "typeAnnotation": {
@@ -217,6 +220,7 @@
                 "end": 105
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abc",
               "optional": false
             },
@@ -227,6 +231,7 @@
                 "end": 112
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "xyz",
               "optional": false
             }
@@ -258,6 +263,7 @@
               "end": 134
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "abcOrXyzOrNumber",
             "optional": false,
             "typeAnnotation": {
@@ -331,6 +337,7 @@
                 "end": 169
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abcOrXyz",
               "optional": false
             },
@@ -371,6 +378,7 @@
               "end": 184
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "a",
             "optional": false,
             "typeAnnotation": null
@@ -389,6 +397,7 @@
                 "end": 203
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abcOrXyzOrNumber",
               "optional": false
             },
@@ -429,6 +438,7 @@
               "end": 216
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "b",
             "optional": false,
             "typeAnnotation": null
@@ -456,6 +466,7 @@
                 "end": 241
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abcOrXyzOrNumber",
               "optional": false
             }
@@ -487,6 +498,7 @@
               "end": 248
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "c",
             "optional": false,
             "typeAnnotation": null
@@ -505,6 +517,7 @@
                 "end": 267
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abcOrXyzOrNumber",
               "optional": false
             },
@@ -515,6 +528,7 @@
                 "end": 286
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abcOrXyzOrNumber",
               "optional": false
             }
@@ -546,6 +560,7 @@
               "end": 293
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "d",
             "optional": false,
             "typeAnnotation": null
@@ -564,6 +579,7 @@
                 "end": 312
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abcOrXyzOrNumber",
               "optional": false
             },
@@ -603,6 +619,7 @@
               "end": 326
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "e",
             "optional": false,
             "typeAnnotation": null
@@ -629,6 +646,7 @@
                 "end": 353
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abcOrXyzOrNumber",
               "optional": false
             }
@@ -660,6 +678,7 @@
               "end": 360
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false,
             "typeAnnotation": null
@@ -679,6 +698,7 @@
                 "end": 379
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abcOrXyzOrNumber",
               "optional": false
             }
@@ -710,6 +730,7 @@
               "end": 388
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "g",
             "optional": false,
             "typeAnnotation": null
@@ -729,6 +750,7 @@
                 "end": 409
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abcOrXyzOrNumber",
               "optional": false
             }
@@ -760,6 +782,7 @@
               "end": 416
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "h",
             "optional": false,
             "typeAnnotation": null
@@ -778,6 +801,7 @@
                 "end": 435
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abcOrXyzOrNumber",
               "optional": false
             },
@@ -818,6 +842,7 @@
               "end": 447
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "i",
             "optional": false,
             "typeAnnotation": null
@@ -836,6 +861,7 @@
                 "end": 466
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abcOrXyzOrNumber",
               "optional": false
             },
@@ -876,6 +902,7 @@
               "end": 478
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "j",
             "optional": false,
             "typeAnnotation": null
@@ -894,6 +921,7 @@
                 "end": 484
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abc",
               "optional": false
             },
@@ -904,6 +932,7 @@
                 "end": 490
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "xyz",
               "optional": false
             }
@@ -935,6 +964,7 @@
               "end": 497
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "k",
             "optional": false,
             "typeAnnotation": null
@@ -953,6 +983,7 @@
                 "end": 503
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abc",
               "optional": false
             },
@@ -963,6 +994,7 @@
                 "end": 511
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "xyz",
               "optional": false
             }
@@ -994,6 +1026,7 @@
               "end": 518
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "l",
             "optional": false,
             "typeAnnotation": null
@@ -1012,6 +1045,7 @@
                 "end": 524
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "abc",
               "optional": false
             },
@@ -1022,6 +1056,7 @@
                 "end": 531
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "xyz",
               "optional": false
             }

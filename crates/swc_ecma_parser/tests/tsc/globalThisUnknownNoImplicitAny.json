@@ -28,6 +28,7 @@
               "end": 40
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "win",
             "optional": false,
             "typeAnnotation": {
@@ -56,6 +57,7 @@
                         "end": 48
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Window",
                       "optional": false
                     },
@@ -74,6 +76,7 @@
                         "end": 68
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "globalThis",
                       "optional": false
                     },
@@ -107,6 +110,7 @@
             "end": 107
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "win",
           "optional": false
         },
@@ -168,6 +172,7 @@
             "end": 129
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "globalThis",
           "optional": false
         },
@@ -200,6 +205,7 @@
             "end": 137
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "win",
           "optional": false
         },
@@ -277,6 +283,7 @@
             "end": 165
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "globalThis",
           "optional": false
         },

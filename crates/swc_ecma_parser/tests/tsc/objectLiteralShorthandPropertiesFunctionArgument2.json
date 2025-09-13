@@ -28,6 +28,7 @@
               "end": 20
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "id",
             "optional": false,
             "typeAnnotation": {
@@ -82,6 +83,7 @@
               "end": 46
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "name",
             "optional": false,
             "typeAnnotation": {
@@ -136,6 +138,7 @@
               "end": 79
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "person",
             "optional": false,
             "typeAnnotation": null
@@ -154,6 +157,7 @@
                   "end": 88
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "name",
                 "optional": false
               },
@@ -164,6 +168,7 @@
                   "end": 92
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "id",
                 "optional": false
               }
@@ -182,6 +187,7 @@
           "end": 109
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "foo",
         "optional": false
       },
@@ -201,6 +207,7 @@
               "end": 111
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "p",
             "optional": false,
             "typeAnnotation": {
@@ -230,6 +237,7 @@
                         "end": 116
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "a",
                       "optional": false
                     },
@@ -265,6 +273,7 @@
                         "end": 128
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "id",
                       "optional": false
                     },
@@ -332,6 +341,7 @@
             "end": 147
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "foo",
           "optional": false
         },
@@ -345,6 +355,7 @@
                 "end": 154
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "person",
               "optional": false
             }

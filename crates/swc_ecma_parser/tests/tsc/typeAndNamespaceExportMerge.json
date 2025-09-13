@@ -34,6 +34,7 @@
                 "end": 59
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "COFFEE",
               "optional": false,
               "typeAnnotation": null
@@ -81,6 +82,7 @@
                 "end": 81
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "TEA",
               "optional": false,
               "typeAnnotation": null
@@ -119,6 +121,7 @@
             "end": 129
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Drink",
           "optional": false
         },
@@ -186,6 +189,7 @@
               "end": 156
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Drink",
             "optional": false
           }
@@ -223,6 +227,7 @@
               "end": 216
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Drink",
             "optional": false
           },
@@ -266,6 +271,7 @@
               "end": 310
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
@@ -287,6 +293,7 @@
                     "end": 317
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Drink",
                   "optional": false
                 },
@@ -307,6 +314,7 @@
                 "end": 325
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Drink",
               "optional": false
             },

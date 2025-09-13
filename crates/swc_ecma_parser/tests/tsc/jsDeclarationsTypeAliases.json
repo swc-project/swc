@@ -25,6 +25,7 @@
           "end": 634
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "doTheThing",
         "optional": false
       },
@@ -44,6 +45,7 @@
               "end": 636
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -110,6 +112,7 @@
                         "end": 659
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "x",
                       "optional": false
                     }
@@ -134,6 +137,7 @@
           "end": 683
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ExportedThing",
         "optional": false
       },
@@ -212,6 +216,7 @@
               "end": 707
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -238,6 +243,7 @@
                 "end": 734
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "doTheThing",
               "optional": false
             },
@@ -248,6 +254,7 @@
                 "end": 753
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "ExportedThing",
               "optional": false
             }
@@ -264,6 +271,7 @@
           "end": 774
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "LocalThing",
         "optional": false
       },

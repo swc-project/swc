@@ -2,7 +2,7 @@ use core::f64;
 
 use rustc_hash::FxHashMap;
 use swc_atoms::{atom, Atom};
-use swc_common::{Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{NodeId, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{
     BinExpr, BinaryOp, Expr, Ident, Lit, Number, Str, TsEnumDecl, TsEnumMemberId, UnaryExpr,
     UnaryOp,
@@ -53,6 +53,7 @@ impl FastDts {
                                 sym: atom!("Infinity"),
                                 ctxt: SyntaxContext::empty(),
                                 optional: false,
+                                node_id: NodeId::DUMMY,
                             })
                         } else {
                             Expr::Lit(Lit::Num(Number {

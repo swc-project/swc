@@ -30,6 +30,7 @@
               "end": 7
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "async",
             "optional": false
           },
@@ -75,6 +76,7 @@
                 "end": 23
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "async",
               "optional": false
             },
@@ -91,6 +93,7 @@
                   "end": 32
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "async",
                 "optional": false
               },
@@ -110,6 +113,7 @@
                 "end": 41
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "async",
               "optional": false
             },
@@ -137,6 +141,7 @@
             "end": 49
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "async",
           "optional": false
         },
@@ -175,6 +180,7 @@
               "end": 63
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "async",
             "optional": false
           },
@@ -191,6 +197,7 @@
                 "end": 72
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "async",
               "optional": false
             },
@@ -210,6 +217,7 @@
               "end": 81
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "async",
             "optional": false
           },
@@ -244,6 +252,7 @@
                 "end": 93
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "as",
               "optional": false,
               "typeAnnotation": null
@@ -286,6 +295,7 @@
               "end": 110
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "as",
             "optional": false,
             "typeAnnotation": null

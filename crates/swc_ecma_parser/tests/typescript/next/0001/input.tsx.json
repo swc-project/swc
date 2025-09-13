@@ -25,6 +25,7 @@
               "end": 13
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "React",
             "optional": false
           }
@@ -66,6 +67,7 @@
               "end": 38
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "comp",
             "optional": false,
             "typeAnnotation": null
@@ -93,6 +95,7 @@
                     "end": 61
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "amp-something",
                   "optional": false
                 },

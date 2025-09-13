@@ -44,7 +44,8 @@ impl Optimizer<'_> {
             if let Expr::Ident(obj) = &**obj {
                 let metadata = *self.functions.get(&obj.to_id())?;
 
-                let usage = self.data.vars.get(&obj.to_id())?;
+                let node_id = self.r.find_binding_by_ident(obj);
+                let usage = self.data.vars.get(&node_id)?;
 
                 if usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
                     return None;
@@ -98,10 +99,11 @@ impl Optimizer<'_> {
 
         // We should not convert used-defined `undefined` to `void 0`.
         if let Expr::Ident(i) = e {
+            let node_id = self.r.find_binding_by_ident(i);
             if self
                 .data
                 .vars
-                .get(&i.to_id())
+                .get(&node_id)
                 .map(|var| var.flags.contains(VarUsageInfoFlags::DECLARED))
                 .unwrap_or(false)
             {
@@ -164,35 +166,38 @@ impl Optimizer<'_> {
                     "NaN" => {
                         report_change!("evaluate: `Number.NaN` -> `NaN`");
                         self.changed = true;
-                        *e = Ident::new(
+                        let mut ident = Ident::new(
                             atom!("NaN"),
                             *span,
                             SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                        )
-                        .into();
+                        );
+                        self.r.add_unresolved(&mut ident);
+                        *e = ident.into();
                     }
                     "POSITIVE_INFINITY" => {
                         report_change!("evaluate: `Number.POSITIVE_INFINITY` -> `Infinity`");
                         self.changed = true;
-                        *e = Ident::new(
+                        let mut ident = Ident::new(
                             atom!("Infinity"),
                             *span,
                             SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                        )
-                        .into();
+                        );
+                        self.r.add_unresolved(&mut ident);
+                        *e = ident.into();
                     }
                     "NEGATIVE_INFINITY" => {
                         report_change!("evaluate: `Number.NEGATIVE_INFINITY` -> `-Infinity`");
                         self.changed = true;
+                        let mut ident = Ident::new(
+                            atom!("Infinity"),
+                            *span,
+                            SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
+                        );
+                        self.r.add_unresolved(&mut ident);
                         *e = UnaryExpr {
                             span: *span,
                             op: op!(unary, "-"),
-                            arg: Ident::new(
-                                atom!("Infinity"),
-                                *span,
-                                SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                            )
-                            .into(),
+                            arg: ident.into(),
                         }
                         .into();
                     }
@@ -420,12 +425,13 @@ impl Optimizer<'_> {
                 report_change!("evaluate: Evaluated an expression as `{}`", value);
 
                 if value.is_nan() {
-                    *e = Ident::new(
+                    let mut ident = Ident::new(
                         atom!("NaN"),
                         e.span(),
                         SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                    )
-                    .into();
+                    );
+                    self.r.add_unresolved(&mut ident);
+                    *e = ident.into();
                     return;
                 }
 
@@ -450,12 +456,13 @@ impl Optimizer<'_> {
                         report_change!("evaluate: Evaluated `{:?} ** {:?}`", l, r);
 
                         if l.is_nan() || r.is_nan() {
-                            *e = Ident::new(
+                            let mut ident = Ident::new(
                                 atom!("NaN"),
                                 bin.span,
                                 SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                            )
-                            .into();
+                            );
+                            self.r.add_unresolved(&mut ident);
+                            *e = ident.into();
                         } else {
                             *e = Lit::Num(Number {
                                 span: bin.span,
@@ -488,13 +495,15 @@ impl Optimizer<'_> {
                         report_change!("evaluate: `{} / 0` => `Infinity`", ln);
 
                         // Sign does not matter for NaN
+                        let mut ident = Ident::new_no_ctxt(atom!("Infinity"), bin.span);
+                        self.r.add_unresolved(&mut ident);
                         *e = if ln.is_sign_positive() == rn.is_sign_positive() {
-                            Ident::new_no_ctxt(atom!("Infinity"), bin.span).into()
+                            ident.into()
                         } else {
                             UnaryExpr {
                                 span: bin.span,
                                 op: op!(unary, "-"),
-                                arg: Ident::new_no_ctxt(atom!("Infinity"), bin.span).into(),
+                                arg: ident.into(),
                             }
                             .into()
                         };

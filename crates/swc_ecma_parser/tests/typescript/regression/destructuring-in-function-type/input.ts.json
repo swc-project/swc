@@ -19,6 +19,7 @@
           "end": 12
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "MyType",
         "optional": false
       },
@@ -50,6 +51,7 @@
                     "end": 23
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "theme",
                   "optional": false,
                   "typeAnnotation": null

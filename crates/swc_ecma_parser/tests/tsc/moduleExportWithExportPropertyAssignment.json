@@ -28,6 +28,7 @@
               "end": 100
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false,
             "typeAnnotation": {
@@ -57,6 +58,7 @@
                         "end": 111
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "exports",
                       "optional": false
                     },
@@ -96,6 +98,7 @@
           "end": 144
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "require",
         "optional": false
       },
@@ -115,6 +118,7 @@
               "end": 149
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "name",
             "optional": false,
             "typeAnnotation": {
@@ -187,6 +191,7 @@
               "end": 234
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -257,6 +262,7 @@
                 "end": 292
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "module",
               "optional": false
             },
@@ -296,6 +302,7 @@
                   "end": 316
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "a",
                 "optional": false,
                 "typeAnnotation": null
@@ -347,6 +354,7 @@
               "end": 391
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "mod1",
             "optional": false,
             "typeAnnotation": null
@@ -365,6 +373,7 @@
                 "end": 401
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "require",
               "optional": false
             },
@@ -408,6 +417,7 @@
             "end": 416
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "mod1",
           "optional": false
         },
@@ -441,6 +451,7 @@
               "end": 423
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "mod1",
             "optional": false
           },

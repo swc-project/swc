@@ -28,6 +28,7 @@
               "end": 146
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "TopLevelSym",
             "optional": false,
             "typeAnnotation": null
@@ -46,6 +47,7 @@
                 "end": 155
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Symbol",
               "optional": false
             },
@@ -79,6 +81,7 @@
               "end": 173
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "InnerSym",
             "optional": false,
             "typeAnnotation": null
@@ -97,6 +100,7 @@
                 "end": 182
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Symbol",
               "optional": false
             },
@@ -133,6 +137,7 @@
               "end": 192
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -167,6 +172,7 @@
                     "end": 221
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "TopLevelSym",
                   "optional": false
                 }
@@ -192,6 +198,7 @@
                         "end": 224
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "x",
                       "optional": false,
                       "typeAnnotation": null
@@ -235,6 +242,7 @@
                         "end": 249
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "x",
                       "optional": false
                     }
@@ -278,6 +286,7 @@
                           "end": 288
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "InnerSym",
                         "optional": false
                       }
@@ -303,6 +312,7 @@
                               "end": 295
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "arg",
                             "optional": false,
                             "typeAnnotation": null
@@ -351,6 +361,7 @@
                             "end": 313
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "arg",
                           "optional": false
                         },
@@ -399,6 +410,7 @@
               "end": 366
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "TopLevelSym",
             "optional": false,
             "typeAnnotation": null
@@ -417,6 +429,7 @@
                 "end": 375
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Symbol",
               "optional": false
             },
@@ -450,6 +463,7 @@
               "end": 393
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "InnerSym",
             "optional": false,
             "typeAnnotation": null
@@ -468,6 +482,7 @@
                 "end": 402
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Symbol",
               "optional": false
             },
@@ -493,6 +508,7 @@
             "end": 427
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "MyClass",
           "optional": false
         },
@@ -523,6 +539,7 @@
                   "end": 453
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "TopLevelSym",
                 "optional": false
               }
@@ -566,6 +583,7 @@
                   "end": 474
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "InnerSym",
                 "optional": false
               }
@@ -626,6 +644,7 @@
                       "end": 574
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "_p",
                     "optional": false,
                     "typeAnnotation": null
@@ -637,6 +656,7 @@
                       "end": 585
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "InnerSym",
                     "optional": false
                   }
