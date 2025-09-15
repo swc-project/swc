@@ -12,25 +12,61 @@ pub struct TokenAndSpan {
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub struct AttributeToken {
     pub span: Span,
     pub name: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw_name: Option<Atom>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<Atom>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw_value: Option<Atom>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum Token {
     Doctype {
         // Name
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "cbor4ii::core::types::Maybe")
+        )]
         name: Option<Atom>,
         // Public identifier
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "cbor4ii::core::types::Maybe")
+        )]
         public_id: Option<Atom>,
         // System identifier
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "cbor4ii::core::types::Maybe")
+        )]
         system_id: Option<Atom>,
         // Raw value
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "cbor4ii::core::types::Maybe")
+        )]
         raw: Option<Atom>,
     },
     StartTag {
@@ -50,7 +86,15 @@ pub enum Token {
         raw: Atom,
     },
     Character {
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "swc_common::serializer::WithChar")
+        )]
         value: char,
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "cbor4ii::core::types::Maybe")
+        )]
         raw: Option<Atom>,
     },
     ProcessingInstruction {
