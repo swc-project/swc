@@ -30,6 +30,7 @@ pub struct Module {
     pub body: Vec<ModuleItem>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "interpreter"))]
+    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
     pub shebang: Option<Atom>,
 }
 
@@ -66,6 +67,7 @@ pub struct Script {
     pub body: Vec<Stmt>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "interpreter"))]
+    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
     pub shebang: Option<Atom>,
 }
 
