@@ -250,6 +250,21 @@ impl Atom {
         }
         self.clone()
     }
+
+    pub fn as_wtf8_str(&self) -> &wtf8::Wtf8 {
+        match self.tag() {
+            DYNAMIC_TAG => unsafe {
+                let item = crate::dynamic::deref_from(self.unsafe_data);
+                wtf8::Wtf8::from_bytes(transmute::<&[u8], &'static [u8]>(&item.slice))
+            },
+            INLINE_TAG => {
+                let len = (self.unsafe_data.tag() & LEN_MASK) >> LEN_OFFSET;
+                let src = self.unsafe_data.data();
+                wtf8::Wtf8::from_bytes(&src[..(len as usize)])
+            }
+            _ => unsafe { debug_unreachable!() },
+        }
+    }
 }
 
 impl Atom {
@@ -280,21 +295,6 @@ impl Atom {
                 let len = (self.unsafe_data.tag() & LEN_MASK) >> LEN_OFFSET;
                 let src = self.unsafe_data.data();
                 unsafe { std::str::from_utf8_unchecked(&src[..(len as usize)]) }
-            }
-            _ => unsafe { debug_unreachable!() },
-        }
-    }
-
-    fn as_wtf8_str(&self) -> &wtf8::Wtf8 {
-        match self.tag() {
-            DYNAMIC_TAG => unsafe {
-                let item = crate::dynamic::deref_from(self.unsafe_data);
-                wtf8::Wtf8::from_bytes(transmute::<&[u8], &'static [u8]>(&item.slice))
-            },
-            INLINE_TAG => {
-                let len = (self.unsafe_data.tag() & LEN_MASK) >> LEN_OFFSET;
-                let src = self.unsafe_data.data();
-                wtf8::Wtf8::from_bytes(&src[..(len as usize)])
             }
             _ => unsafe { debug_unreachable!() },
         }

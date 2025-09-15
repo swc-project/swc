@@ -78,8 +78,7 @@ impl MacroNode for Str {
 
                 if es5_safe
                     && (!emitter.cfg.ascii_only || raw.is_ascii())
-                    && (!emitter.cfg.inline_script
-                        || !self.raw.as_ref().unwrap().contains("script"))
+                    && (!emitter.cfg.inline_script || !raw.contains("script"))
                 {
                     emitter.wr.write_str_lit(DUMMY_SP, raw)?;
                     return Ok(());

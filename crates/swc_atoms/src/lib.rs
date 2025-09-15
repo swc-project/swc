@@ -76,6 +76,11 @@ impl Atom {
     pub fn as_str(&self) -> &str {
         &self.0
     }
+
+    #[inline]
+    pub fn as_wtf8_str(&self) -> &wtf8::Wtf8 {
+        self.0.as_wtf8_str()
+    }
 }
 
 impl Deref for Atom {
