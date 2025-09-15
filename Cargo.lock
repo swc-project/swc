@@ -341,7 +341,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "39.0.0"
+version = "40.0.0"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -4851,7 +4851,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 
 [[package]]
 name = "swc"
-version = "39.0.0"
+version = "40.0.0"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4993,7 +4993,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "41.0.0"
+version = "42.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -5048,7 +5048,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "34.0.0"
+version = "35.0.0"
 dependencies = [
  "anyhow",
  "base64 0.22.1",
@@ -5103,7 +5103,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "41.0.0"
+version = "42.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6375,7 +6375,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "40.0.0"
+version = "41.0.0"
 dependencies = [
  "anyhow",
  "rustc-hash 2.1.1",
