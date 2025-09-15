@@ -4993,7 +4993,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "40.0.0"
+version = "41.0.0"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -5103,7 +5103,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "40.0.0"
+version = "41.0.0"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5676,7 +5676,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "32.0.3"
+version = "32.0.4"
 dependencies = [
  "ansi_term",
  "anyhow",
