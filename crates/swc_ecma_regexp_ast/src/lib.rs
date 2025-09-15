@@ -85,6 +85,10 @@ pub struct BoundaryAssertion {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum BoundaryAssertionKind {
     Start = 0,
     End = 1,
@@ -104,6 +108,10 @@ pub struct LookAroundAssertion {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum LookAroundAssertionKind {
     Lookahead = 0,
     NegativeLookahead = 1,
@@ -119,6 +127,10 @@ pub struct Quantifier {
     pub span: Span,
     pub min: u64,
     /// `None` means no upper bound.
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub max: Option<u64>,
     pub greedy: bool,
     pub body: Term,
@@ -138,6 +150,10 @@ pub struct Character {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum CharacterKind {
     ControlLetter = 0,
     HexadecimalEscape = 1,
@@ -163,6 +179,10 @@ pub struct CharacterClassEscape {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum CharacterClassEscapeKind {
     D = 0,
     NegativeD = 1,
@@ -183,6 +203,10 @@ pub struct UnicodePropertyEscape {
     /// strings.
     pub strings: bool,
     pub name: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<Atom>,
 }
 
@@ -211,6 +235,10 @@ pub struct CharacterClass {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum CharacterClassContentsKind {
     Union = 0,
     /// `UnicodeSetsMode` only.
@@ -281,6 +309,10 @@ pub struct ClassString {
 pub struct CapturingGroup {
     pub span: Span,
     /// Group name to be referenced by [`NamedReference`].
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub name: Option<Atom>,
     pub body: Disjunction,
 }
@@ -291,6 +323,10 @@ pub struct CapturingGroup {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct IgnoreGroup {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub modifiers: Option<Modifiers>,
     pub body: Disjunction,
 }
@@ -336,6 +372,29 @@ pub struct IndexedReference {
 pub struct NamedReference {
     pub span: Span,
     pub name: Atom,
+}
+
+#[cfg(feature = "encoding-impl")]
+impl cbor4ii::core::enc::Encode for Modifier {
+    fn encode<W: cbor4ii::core::enc::Write>(
+        &self,
+        writer: &mut W,
+    ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+        self.bits().encode(writer)
+    }
+}
+
+#[cfg(feature = "encoding-impl")]
+impl<'de> cbor4ii::core::dec::Decode<'de> for Modifier {
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(
+        reader: &mut R,
+    ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+        let n = u8::decode(reader)?;
+        Modifier::from_bits(n).ok_or_else(|| cbor4ii::core::dec::Error::Mismatch {
+            name: &"Modifier",
+            found: 0,
+        })
+    }
 }
 
 #[cfg(target_pointer_width = "64")]

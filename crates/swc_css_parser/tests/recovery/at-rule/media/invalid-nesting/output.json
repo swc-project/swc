@@ -152,11 +152,13 @@
                 },
                 "token": {
                   "Dimension": {
-                    "value": 1024.0,
-                    "raw_value": "1024",
-                    "unit": "px",
-                    "type": "integer",
-                    "raw_unit": "px"
+                    "dimension": {
+                      "value": 1024.0,
+                      "raw_value": "1024",
+                      "unit": "px",
+                      "type": "integer",
+                      "raw_unit": "px"
+                    }
                   }
                 }
               },
