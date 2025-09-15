@@ -462,7 +462,7 @@ impl VisitMut for Compressor {
                 Token::BadUrl { raw: value, .. } if !contains_only_ascii_characters(value) => {
                     self.need_utf8_at_rule = true;
                 }
-                Token::Dimension(dimension_token)
+                Token::Dimension { dimension: dimension_token }
                     if !contains_only_ascii_characters(&dimension_token.unit) =>
                 {
                     self.need_utf8_at_rule = true;

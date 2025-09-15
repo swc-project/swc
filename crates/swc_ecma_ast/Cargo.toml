@@ -31,6 +31,7 @@ rkyv-impl = [
   "swc_common/rkyv-impl",
 ]
 serde-impl = ["serde"]
+encoding-impl = ["cbor4ii", "swc_atoms/encoding-impl", "swc_common/encoding-impl"]
 shrink-to-fit = [
   "dep:shrink-to-fit",
   "swc_atoms/shrink-to-fit",
@@ -56,6 +57,8 @@ string_enum = { version = "1.0.2", path = "../string_enum" }
 swc_atoms   = { version = "8.0.2", path = "../swc_atoms" }
 swc_common  = { version = "16.0.0", path = "../swc_common" }
 swc_visit   = { version = "2.0.1", path = "../swc_visit" }
+
+cbor4ii = { workspace = true, features = [ "use_std" ], optional = true }
 
 [dev-dependencies]
 serde_json = { workspace = true }

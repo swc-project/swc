@@ -24,12 +24,14 @@ rkyv-impl = [
   "bytecheck",
 ]
 serde-impl = ["serde"]
+encoding-impl = ["cbor4ii", "swc_atoms/encoding-impl", "swc_common/encoding-impl"]
 
 [dependencies]
 bytecheck = { workspace = true, optional = true }
 is-macro  = { workspace = true }
 rkyv      = { workspace = true, optional = true }
 serde     = { workspace = true, features = ["derive"], optional = true }
+cbor4ii = { workspace = true, features = [ "use_std" ], optional = true }
 
 string_enum = { version = "1.0.2", path = "../string_enum/" }
 swc_atoms   = { version = "8.0.2", path = "../swc_atoms" }

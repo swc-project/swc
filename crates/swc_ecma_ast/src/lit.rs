@@ -73,6 +73,8 @@ impl Lit {
             Lit::BigInt(n) => n.span = span,
             Lit::Regex(n) => n.span = span,
             Lit::JSXText(n) => n.span = span,
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown!(),
         }
     }
 }
@@ -82,10 +84,15 @@ impl Lit {
 pub struct BigInt {
     pub span: Span,
     #[cfg_attr(any(feature = "rkyv-impl"), rkyv(with = EncodeBigInt))]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "EncodeBigInt2"))]
     pub value: Box<BigIntValue>,
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in big integer
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -98,6 +105,33 @@ impl shrink_to_fit::ShrinkToFit for BigInt {
 impl EqIgnoreSpan for BigInt {
     fn eq_ignore_span(&self, other: &Self) -> bool {
         self.value == other.value
+    }
+}
+
+#[cfg(feature = "encoding-impl")]
+struct EncodeBigInt2<T>(T);
+
+#[cfg(feature = "encoding-impl")]
+impl cbor4ii::core::enc::Encode for EncodeBigInt2<&'_ Box<BigIntValue>> {
+    #[inline]
+    fn encode<W: cbor4ii::core::enc::Write>(
+        &self,
+        writer: &mut W,
+    ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+        cbor4ii::core::types::Bytes(self.0.to_signed_bytes_le().as_slice()).encode(writer)
+    }
+}
+
+#[cfg(feature = "encoding-impl")]
+impl<'de> cbor4ii::core::dec::Decode<'de> for EncodeBigInt2<Box<BigIntValue>> {
+    #[inline]
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(
+        reader: &mut R,
+    ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+        let buf = <cbor4ii::core::types::Bytes<&'de [u8]>>::decode(reader)?;
+        Ok(EncodeBigInt2(Box::new(BigIntValue::from_signed_bytes_le(
+            buf.0,
+        ))))
     }
 }
 
@@ -190,6 +224,10 @@ pub struct Str {
 
     /// Use `None` value only for transformations to avoid recalculate escaped
     /// characters in strings
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -412,6 +450,10 @@ pub struct Number {
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in number literal
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 

@@ -22,6 +22,7 @@ rkyv-impl = [
   "bytecheck",
 ]
 serde-impl = ["serde"]
+encoding-impl = ["cbor4ii", "swc_atoms/encoding-impl", "swc_common/encoding-impl"]
 
 [dependencies]
 bytecheck   = { workspace = true, optional = true }
@@ -33,3 +34,4 @@ swc_atoms  = { version = "8.0.2", path = "../swc_atoms" }
 swc_common = { version = "16.0.0", path = "../swc_common" }
 
 rkyv = { workspace = true, optional = true }
+cbor4ii = { workspace = true, features = [ "use_std" ], optional = true }

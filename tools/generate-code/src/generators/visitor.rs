@@ -1467,11 +1467,19 @@ fn define_fields(crate_name: &Ident, node_types: &[&Item]) -> Vec<Item> {
                                     ty = inner;
                                 }
 
-                                arms.push(parse_quote!(
-                                    #type_name::#variant_name(v0) => {
-                                        Box::new(::std::iter::once(NodeRef::#ty(v0)))
-                                    },
-                                ));
+                                if let Some(value) = f.ident.as_ref() {
+                                    arms.push(parse_quote!(
+                                        #type_name::#variant_name { #value: v0 } => {
+                                            Box::new(::std::iter::once(NodeRef::#ty(v0)))
+                                        },
+                                    ));
+                                } else {
+                                    arms.push(parse_quote!(
+                                        #type_name::#variant_name(v0) => {
+                                            Box::new(::std::iter::once(NodeRef::#ty(v0)))
+                                        },
+                                    ));
+                                }
                             }
                         }
 

@@ -180,7 +180,7 @@
    :                      ^^^^^^
  3 | }
    `----
-  x Dimension(DimensionToken { value: 1024.0, raw_value: "1024", unit: "px", type_flag: Integer, raw_unit: "px" })
+  x Dimension { dimension: DimensionToken { value: 1024.0, raw_value: "1024", unit: "px", type_flag: Integer, raw_unit: "px" } }
    ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:1]
  1 | @media (min-width: 480px) {
  2 |     max-inline-size: 1024px;

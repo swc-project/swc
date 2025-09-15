@@ -289,11 +289,13 @@
                 },
                 "token": {
                   "Dimension": {
-                    "value": 12.0,
-                    "raw_value": "12",
-                    "unit": "em",
-                    "type": "integer",
-                    "raw_unit": "em"
+                    "dimension": {
+                      "value": 12.0,
+                      "raw_value": "12",
+                      "unit": "em",
+                      "type": "integer",
+                      "raw_unit": "em"
+                    }
                   }
                 }
               }
@@ -324,11 +326,13 @@
                 },
                 "token": {
                   "Dimension": {
-                    "value": 75.0,
-                    "raw_value": "75",
-                    "unit": "ms",
-                    "type": "integer",
-                    "raw_unit": "ms"
+                    "dimension": {
+                      "value": 75.0,
+                      "raw_value": "75",
+                      "unit": "ms",
+                      "type": "integer",
+                      "raw_unit": "ms"
+                    }
                   }
                 }
               }

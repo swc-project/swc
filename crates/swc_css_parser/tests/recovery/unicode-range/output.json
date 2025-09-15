@@ -108,11 +108,13 @@
                 },
                 "token": {
                   "Dimension": {
-                    "value": 1.0,
-                    "raw_value": "+1",
-                    "unit": "Z1ee1-FFFFFF",
-                    "type": "integer",
-                    "raw_unit": "Z1ee1-FFFFFF"
+                    "dimension": {
+                      "value": 1.0,
+                      "raw_value": "+1",
+                      "unit": "Z1ee1-FFFFFF",
+                      "type": "integer",
+                      "raw_unit": "Z1ee1-FFFFFF"
+                    }
                   }
                 }
               }
@@ -156,11 +158,13 @@
                 },
                 "token": {
                   "Dimension": {
-                    "value": 10.0,
-                    "raw_value": "+1e1",
-                    "unit": "ee1-FFZFFF",
-                    "type": "number",
-                    "raw_unit": "ee1-FFZFFF"
+                    "dimension": {
+                      "value": 10.0,
+                      "raw_value": "+1e1",
+                      "unit": "ee1-FFZFFF",
+                      "type": "number",
+                      "raw_unit": "ee1-FFZFFF"
+                    }
                   }
                 }
               }

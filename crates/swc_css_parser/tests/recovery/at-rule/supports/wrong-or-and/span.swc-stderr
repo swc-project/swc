@@ -268,7 +268,7 @@
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                        ^^^^^
    `----
-  x Dimension(DimensionToken { value: 10.0, raw_value: "10", unit: "deg", type_flag: Integer, raw_unit: "deg" })
+  x Dimension { dimension: DimensionToken { value: 10.0, raw_value: "10", unit: "deg", type_flag: Integer, raw_unit: "deg" } }
    ,-[$DIR/tests/recovery/at-rule/supports/wrong-or-and/input.css:1:1]
  1 | @supports (transition-property: color) or (animation-name: foo) and (transform: rotate(10deg)) {}
    :                                                                                        ^^^^^

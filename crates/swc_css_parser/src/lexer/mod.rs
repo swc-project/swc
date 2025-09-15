@@ -586,13 +586,14 @@ where
             let ident_sequence = self.read_ident_sequence()?;
             // Create a <dimension-token> with the same value and type flag as number, and a
             // unit set initially to the empty string.
-            let token = Token::Dimension(Box::new(DimensionToken {
+            let token = Box::new(DimensionToken {
                 value: number.0,
                 raw_value: number.1,
                 unit: ident_sequence.0,
                 raw_unit: ident_sequence.1,
                 type_flag: number.2,
-            }));
+            });
+            let token = Token::Dimension { dimension: token };
 
             // Return the <dimension-token>.
             return Ok(token);
