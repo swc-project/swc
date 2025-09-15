@@ -42,6 +42,9 @@ swc_common     = { version = "14.0.4", path = "../swc_common" }
 swc_ecma_ast   = { version = "15.0.0", path = "../swc_ecma_ast" }
 swc_ecma_visit = { version = "15.0.0", path = "../swc_ecma_visit", optional = true }
 
+cbor4ii = { workspace = true, features = [ "use_std" ] }
+cbor4ii-derive = { workspace = true }
+
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
 stacker = { version = "0.1.15", optional = true }
 

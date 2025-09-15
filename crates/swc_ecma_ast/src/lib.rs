@@ -15,6 +15,7 @@ use serde::{Deserialize, Serialize};
 use swc_common::{ast_node, pass::Either, util::take::Take, EqIgnoreSpan, Span};
 
 pub use self::{
+    utils::Unknown,
     class::{
         AutoAccessor, Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, Key,
         MethodKind, PrivateMethod, PrivateProp, StaticBlock,
@@ -76,6 +77,7 @@ pub use self::{
 
 #[macro_use]
 mod macros;
+mod utils;
 mod class;
 mod decl;
 mod expr;

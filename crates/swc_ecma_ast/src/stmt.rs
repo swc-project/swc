@@ -256,6 +256,7 @@ pub struct WithStmt {
 pub struct ReturnStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "argument"))]
+    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
     pub arg: Option<Box<Expr>>,
 }
 
@@ -276,6 +277,7 @@ pub struct LabeledStmt {
 pub struct BreakStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
     pub label: Option<Ident>,
 }
 
@@ -286,6 +288,7 @@ pub struct BreakStmt {
 pub struct ContinueStmt {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
     pub label: Option<Ident>,
 }
 
@@ -301,6 +304,7 @@ pub struct IfStmt {
     pub cons: Box<Stmt>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "alternate"))]
+    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
     pub alt: Option<Box<Stmt>>,
 }
 
@@ -334,9 +338,11 @@ pub struct TryStmt {
     pub block: BlockStmt,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
     pub handler: Option<CatchClause>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
     pub finalizer: Option<BlockStmt>,
 }
 
@@ -368,12 +374,15 @@ pub struct ForStmt {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
     pub init: Option<VarDeclOrExpr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
     pub test: Option<Box<Expr>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
     pub update: Option<Box<Expr>>,
 
     pub body: Box<Stmt>,
@@ -423,6 +432,7 @@ pub struct SwitchCase {
 
     /// None for `default:`
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
     pub test: Option<Box<Expr>>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "consequent"))]
@@ -450,6 +460,7 @@ pub struct CatchClause {
     /// The param is null if the catch binding is omitted. E.g., try { foo() }
     /// catch { bar() }
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
     pub param: Option<Pat>,
 
     pub body: BlockStmt,

@@ -55,5 +55,8 @@ swc_atoms   = { version = "7.0.0", path = "../swc_atoms" }
 swc_common  = { version = "14.0.4", path = "../swc_common" }
 swc_visit   = { version = "2.0.1", path = "../swc_visit" }
 
+cbor4ii = { workspace = true, features = [ "use_std" ] }
+cbor4ii-derive = { workspace = true }
+
 [dev-dependencies]
 serde_json = { workspace = true }

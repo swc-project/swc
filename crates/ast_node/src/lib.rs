@@ -157,7 +157,7 @@ pub fn ast_node(
     // we should use call_site
     let mut item = TokenStream::new();
     match input.data {
-        Data::Enum(..) => {
+        Data::Enum(data) => {
             struct EnumArgs {
                 clone: bool,
             }
@@ -181,6 +181,25 @@ pub fn ast_node(
             } else {
                 None
             };
+
+            let unknown: syn::Variant = if data.variants.iter().all(|variant| variant.fields.len() == 0) {
+                syn::parse_quote!{
+                    #[cfg_attr(feature = "serde-impl", serde(skip))]
+                    #[cbor4ii(unknown)]
+                    Unknown(u32)
+                }
+            } else {
+                syn::parse_quote!{
+                    #[cfg_attr(feature = "serde-impl", serde(skip))]
+                    #[cbor4ii(unknown)]
+                    Unknown(u32, ::crate::Unknown)
+                }
+            };
+
+            // insert unknown member
+            let mut data = data;
+            data.variants.insert(0, unknown);
+            input.data = Data::Enum(data);
 
             item.extend(quote!(
                 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -223,6 +242,7 @@ pub fn ast_node(
                     feature = "serde-impl",
                     serde(untagged)
                 )]
+                #[derive(::cbor4ii_derive::Encode, ::cbor4ii_derive::Decode)]
                 #input
             ));
         }
@@ -297,6 +317,7 @@ pub fn ast_node(
                     serde(rename_all = "camelCase")
                 )]
                 #serde_rename
+                #[derive(::cbor4ii_derive::Encode, ::cbor4ii_derive::Decode)]
                 #input
             ));
 
