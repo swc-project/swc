@@ -51,7 +51,7 @@ jobs:
     outputs:
       need-build: ${{ steps.check.outputs.need-build }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       # TODO: Check for existing artifacts
       - id: check
         if: ${{ !inputs.skipBuild }}
@@ -210,7 +210,7 @@ jobs:
     name: "Build ${{ inputs.package }} - ${{ matrix.settings.target }} - node@20"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
@@ -218,7 +218,7 @@ jobs:
         shell: bash
         run: corepack enable
       - name: Setup node x64
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 20
           cache: yarn
@@ -233,17 +233,17 @@ jobs:
         with:
           targets: ${{ matrix.settings.target }}
           toolchain: ${{ steps.toolchain.outputs.version }}
-      - uses: goto-bus-stop/setup-zig@v2
+      - uses: mlugg/setup-zig@v2
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
         with:
-          version: 0.12.0
+          version: 0.15.1
       - name: Cache cargo registry
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cargo/registry
           key: ${{ matrix.settings.target }}-node@20-cargo-registry-trimmed
       - name: Cache cargo index
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cargo/git
           key: ${{ matrix.settings.target }}-node@20-cargo-index-trimmed
@@ -267,7 +267,7 @@ jobs:
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
           echo '/usr/local/cargo/bin' >> $GITHUB_PATH
       - name: Setup node x86
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
           node-version: 20
@@ -315,14 +315,14 @@ jobs:
           - "22"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
       - run: corepack enable
         shell: bash
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -330,7 +330,7 @@ jobs:
       - name: Install dependencies
         run: corepack enable && yarn install --network-timeout 300000
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
           path: ./packages/${{ inputs.package }}
@@ -355,21 +355,21 @@ jobs:
           - "22"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
       - name: Corepack
         run: corepack enable
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
       - name: Install dependencies
         run: corepack enable && yarn install
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-gnu
           path: ./packages/${{ inputs.package }}
@@ -392,14 +392,14 @@ jobs:
           - "22"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
       - run: corepack enable
         shell: bash
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
@@ -409,7 +409,7 @@ jobs:
           yarn config set supportedArchitectures.libc "musl"
           yarn install
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           name: bindings-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-musl
           path: ./packages/${{ inputs.package }}
@@ -426,13 +426,13 @@ jobs:
   #     - build
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - uses: actions/checkout@v4
+  #     - uses: actions/checkout@v5
   # with:
   #   ref: "v${{ inputs.version }}"
   #     - name: Corepack
   #       run: corepack enable
   #     - name: Download artifacts
-  #       uses: actions/download-artifact@v4
+  #       uses: actions/download-artifact@v5
   #       with:
   #         name: bindings-${{ inputs.package }}-${{ inputs.version}}-aarch64-unknown-linux-musl
   #         path: ./packages/${{ inputs.package }}
@@ -475,13 +475,13 @@ jobs:
   #         - "22"
   #   runs-on: ubuntu-latest
   #   steps:
-  #     - uses: actions/checkout@v4
+  #     - uses: actions/checkout@v5
   # with:
   #   ref: "v${{ inputs.version }}"
   #     - name: Corepack
   #       run: corepack enable
   #     - name: Download artifacts
-  #       uses: actions/download-artifact@v4
+  #       uses: actions/download-artifact@v5
   #       with:
   #         name: bindings-${{ inputs.package }}-${{ inputs.version}}-armv7-unknown-linux-gnueabihf
   #         path: ./packages/${{ inputs.package }}
@@ -522,7 +522,7 @@ jobs:
       - test-macOS-windows-binding
       # - test-linux-aarch64-musl-binding
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
@@ -546,7 +546,7 @@ jobs:
         run: corepack enable && yarn install
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v5
         with:
           pattern: "bindings-${{ inputs.package }}-${{ inputs.version}}-*"
           path: ./packages/${{ inputs.package }}/artifacts
@@ -618,7 +618,7 @@ jobs:
             out: "esm"
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           ref: "v${{ inputs.version }}"
 
@@ -634,12 +634,12 @@ jobs:
           fi
 
       - name: Setup node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 20
 
       - name: Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/
