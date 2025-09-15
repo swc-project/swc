@@ -20,6 +20,7 @@
             "end": 129
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Component",
           "optional": false
         },
@@ -65,6 +66,7 @@
             "end": 166
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "ComponentProps",
           "optional": false
         },
@@ -101,6 +103,7 @@
               "end": 213
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Component",
             "optional": false
           },
@@ -120,6 +123,7 @@
               "end": 229
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ComponentProps",
             "optional": false
           },
@@ -160,6 +164,7 @@
               "end": 302
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Component",
             "optional": false
           },
@@ -179,6 +184,7 @@
               "end": 323
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ComponentProps",
             "optional": false
           },

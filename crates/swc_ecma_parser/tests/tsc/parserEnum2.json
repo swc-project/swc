@@ -26,6 +26,7 @@
             "end": 33
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "SignatureFlags",
           "optional": false
         },
@@ -43,6 +44,7 @@
                 "end": 48
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "None",
               "optional": false
             },
@@ -69,6 +71,7 @@
                 "end": 71
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "IsIndexer",
               "optional": false
             },
@@ -95,6 +98,7 @@
                 "end": 100
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "IsStringIndexer",
               "optional": false
             },
@@ -138,6 +142,7 @@
                 "end": 134
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "IsNumberIndexer",
               "optional": false
             },

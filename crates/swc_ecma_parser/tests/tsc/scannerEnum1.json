@@ -26,6 +26,7 @@
             "end": 30
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "CodeGenTarget",
           "optional": false
         },
@@ -43,6 +44,7 @@
                 "end": 44
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "ES3",
               "optional": false
             },
@@ -69,6 +71,7 @@
                 "end": 61
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "ES5",
               "optional": false
             },

@@ -18,6 +18,7 @@
           "end": 29
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "IConnectedAppProps",
         "optional": false
       },
@@ -37,6 +38,7 @@
               "end": 52
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ReturnType",
             "optional": false
           },
@@ -60,6 +62,7 @@
                     "end": 75
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "mapStateToProps",
                   "optional": false
                 },
@@ -81,6 +84,7 @@
               "end": 96
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ReturnType",
             "optional": false
           },
@@ -104,6 +108,7 @@
                     "end": 122
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "mapDispatchToProps",
                   "optional": false
                 },

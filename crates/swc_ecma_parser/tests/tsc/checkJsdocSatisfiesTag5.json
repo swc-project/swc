@@ -28,6 +28,7 @@
               "end": 144
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "car",
             "optional": false,
             "typeAnnotation": null
@@ -101,6 +102,7 @@
                           "end": 231
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "d",
                         "optional": false,
                         "typeAnnotation": null

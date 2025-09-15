@@ -26,6 +26,7 @@
               "end": 7
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "await",
             "optional": false
           },
@@ -68,6 +69,7 @@
                 "end": 18
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "await",
               "optional": false
             },

@@ -20,6 +20,7 @@
             "end": 52
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "DirectiveIserviceIdPrefixController",
           "optional": false
         },
@@ -39,6 +40,7 @@
                 "end": 57
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "this",
               "optional": false,
               "typeAnnotation": {
@@ -72,6 +74,7 @@
                 "end": 70
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "$scope",
               "optional": false,
               "typeAnnotation": {
@@ -99,6 +102,7 @@
                         "end": 79
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "angular",
                       "optional": false
                     },
@@ -130,6 +134,7 @@
                 "end": 94
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "$attrs",
               "optional": false,
               "typeAnnotation": {
@@ -157,6 +162,7 @@
                         "end": 103
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "angular",
                       "optional": false
                     },
@@ -231,6 +237,7 @@
                     "end": 143
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "$scope",
                   "optional": false
                 }
@@ -278,6 +285,7 @@
                     "end": 169
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "$attrs",
                   "optional": false
                 }

@@ -20,6 +20,7 @@
             "end": 28
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "removeClass",
           "optional": false
         },
@@ -39,6 +40,7 @@
                 "end": 34
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "node",
               "optional": false,
               "typeAnnotation": {
@@ -60,6 +62,7 @@
                       "end": 46
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "HTMLElement",
                     "optional": false
                   },
@@ -82,6 +85,7 @@
                 "end": 57
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "className",
               "optional": false,
               "typeAnnotation": {
@@ -142,6 +146,7 @@
                       "end": 73
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "node",
                     "optional": false
                   },
@@ -180,6 +185,7 @@
                           "end": 90
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "node",
                         "optional": false
                       },
@@ -218,6 +224,7 @@
                             "end": 125
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "_classNameRegexp",
                           "optional": false
                         },
@@ -231,6 +238,7 @@
                                 "end": 135
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "className",
                               "optional": false
                             }
@@ -259,6 +267,7 @@
                                 "end": 158
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "everything",
                               "optional": false,
                               "typeAnnotation": null
@@ -278,6 +287,7 @@
                                 "end": 173
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "leftDelimiter",
                               "optional": false,
                               "typeAnnotation": null
@@ -297,6 +307,7 @@
                                 "end": 179
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "name",
                               "optional": false,
                               "typeAnnotation": null
@@ -316,6 +327,7 @@
                                 "end": 195
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "rightDelimiter",
                               "optional": false,
                               "typeAnnotation": null
@@ -375,6 +387,7 @@
                                           "end": 221
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "leftDelimiter",
                                         "optional": false
                                       },
@@ -400,6 +413,7 @@
                                           "end": 245
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "rightDelimiter",
                                         "optional": false
                                       },

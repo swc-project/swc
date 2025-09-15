@@ -21,6 +21,7 @@
           "end": 109
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "NS",
         "optional": false
       },
@@ -45,6 +46,7 @@
                 "end": 122
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "R",
               "optional": false
             },
@@ -70,6 +72,7 @@
           "end": 479
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "computeCommonSourceDirectoryOfFilenames",
         "optional": false
       },
@@ -89,6 +92,7 @@
               "end": 487
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "integer",
             "optional": false,
             "typeAnnotation": null
@@ -129,6 +133,7 @@
                   "end": 509
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "integer",
                 "optional": false
               },
@@ -173,6 +178,7 @@
               "end": 568
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "see3",
             "optional": false,
             "typeAnnotation": null

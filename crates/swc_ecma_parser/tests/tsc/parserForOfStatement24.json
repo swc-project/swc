@@ -28,6 +28,7 @@
               "end": 30
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "async",
             "optional": false,
             "typeAnnotation": null
@@ -57,6 +58,7 @@
             "end": 43
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "async",
           "optional": false
         }

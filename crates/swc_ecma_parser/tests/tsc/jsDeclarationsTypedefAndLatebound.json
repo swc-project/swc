@@ -28,6 +28,7 @@
               "end": 154
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "LazySet",
             "optional": false,
             "typeAnnotation": null
@@ -46,6 +47,7 @@
                 "end": 164
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "require",
               "optional": false
             },
@@ -92,6 +94,7 @@
               "end": 218
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "stringSet",
             "optional": false,
             "typeAnnotation": null
@@ -103,6 +106,7 @@
               "end": 230
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "undefined",
             "optional": false
           },
@@ -136,6 +140,7 @@
               "end": 241
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "stringSet",
             "optional": false
           },
@@ -158,6 +163,7 @@
                 "end": 258
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "stringSet",
               "optional": false
             }
@@ -175,6 +181,7 @@
           "end": 411
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "LazySet",
         "optional": false
       },
@@ -216,6 +223,7 @@
                     "end": 482
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "iterable",
                   "optional": false,
                   "typeAnnotation": null
@@ -274,6 +282,7 @@
                   "end": 498
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Symbol",
                 "optional": false
               },
@@ -349,6 +358,7 @@
               "end": 523
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -368,6 +378,7 @@
             "end": 541
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "LazySet",
           "optional": false
         }

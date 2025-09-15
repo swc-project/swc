@@ -14,6 +14,7 @@
           "end": 28
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "f",
         "optional": false
       },
@@ -56,6 +57,7 @@
                     "end": 50
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "arguments",
                   "optional": false,
                   "typeAnnotation": null
@@ -99,6 +101,7 @@
                     "end": 74
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Math",
                   "optional": false
                 },
@@ -145,6 +148,7 @@
                           "end": 110
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "arguments",
                         "optional": false,
                         "typeAnnotation": null
@@ -183,6 +187,7 @@
                         "end": 148
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "arguments",
                       "optional": false
                     },

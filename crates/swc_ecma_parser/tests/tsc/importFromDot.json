@@ -34,6 +34,7 @@
                 "end": 60
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "rootA",
               "optional": false,
               "typeAnnotation": null
@@ -81,6 +82,7 @@
                 "end": 113
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "indexInA",
               "optional": false,
               "typeAnnotation": null
@@ -119,6 +121,7 @@
               "end": 158
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "indexInA",
             "optional": false
           },
@@ -138,6 +141,7 @@
               "end": 165
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "rootA",
             "optional": false
           },

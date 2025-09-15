@@ -25,6 +25,7 @@
               "end": 64
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "classMap",
             "optional": false
           },
@@ -74,6 +75,7 @@
                 "end": 97
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "c",
               "optional": false,
               "typeAnnotation": null
@@ -92,6 +94,7 @@
                   "end": 108
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "classMap",
                 "optional": false
               },
@@ -112,6 +115,7 @@
           "end": 157
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ClassMapDirective",
         "optional": false
       },
@@ -149,6 +153,7 @@
               "end": 192
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ClassMapDirective",
             "optional": false
           },
@@ -189,6 +194,7 @@
                 "end": 218
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "directive",
               "optional": false,
               "typeAnnotation": null
@@ -208,6 +214,7 @@
                     "end": 236
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "class_",
                   "optional": false,
                   "typeAnnotation": {
@@ -229,6 +236,7 @@
                           "end": 236
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "C",
                         "optional": false
                       },
@@ -275,6 +283,7 @@
                             "end": 273
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "class_",
                           "optional": false
                         }
@@ -309,6 +318,7 @@
                         "end": 225
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "C",
                       "optional": false
                     },
@@ -356,6 +366,7 @@
                 "end": 303
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "classMap",
               "optional": false,
               "typeAnnotation": null
@@ -374,6 +385,7 @@
                   "end": 315
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "directive",
                 "optional": false
               },
@@ -387,6 +399,7 @@
                       "end": 333
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "ClassMapDirective",
                     "optional": false
                   }

@@ -14,6 +14,7 @@
           "end": 76
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -78,6 +79,7 @@
                           "end": 105
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "fn",
                         "optional": false,
                         "typeAnnotation": null

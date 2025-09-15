@@ -28,6 +28,7 @@
               "end": 384
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "taskGroups",
             "optional": false,
             "typeAnnotation": null
@@ -188,6 +189,7 @@
               "end": 622
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "taskNameToGroup",
             "optional": false,
             "typeAnnotation": null
@@ -230,6 +232,7 @@
               "end": 636
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -256,6 +259,7 @@
                 "end": 663
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "taskGroups",
               "optional": false
             },
@@ -266,6 +270,7 @@
                 "end": 684
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "taskNameToGroup",
               "optional": false
             }
@@ -309,6 +314,7 @@
                     "end": 729
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "taskGroups",
                   "optional": false,
                   "typeAnnotation": null
@@ -328,6 +334,7 @@
                     "end": 746
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "taskNameToGroup",
                   "optional": false,
                   "typeAnnotation": null
@@ -352,6 +359,7 @@
                 "end": 757
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "require",
               "optional": false
             },
@@ -384,6 +392,7 @@
           "end": 1046
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "MainThreadTasks",
         "optional": false
       },
@@ -425,6 +434,7 @@
                   "end": 1137
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "x",
                 "optional": false,
                 "typeAnnotation": null
@@ -444,6 +454,7 @@
                   "end": 1140
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "y",
                 "optional": false,
                 "typeAnnotation": null
@@ -495,6 +506,7 @@
               "end": 1153
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -514,6 +526,7 @@
             "end": 1179
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "MainThreadTasks",
           "optional": false
         }

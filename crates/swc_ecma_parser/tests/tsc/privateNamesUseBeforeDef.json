@@ -14,6 +14,7 @@
           "end": 28
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A",
         "optional": false
       },
@@ -120,6 +121,7 @@
           "end": 87
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A2",
         "optional": false
       },
@@ -270,6 +272,7 @@
           "end": 162
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "A3",
         "optional": false
       },
@@ -410,6 +413,7 @@
           "end": 238
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "B",
         "optional": false
       },

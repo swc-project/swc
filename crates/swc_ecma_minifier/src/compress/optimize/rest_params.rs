@@ -41,9 +41,10 @@ impl Optimizer<'_> {
 
         // Get the identifier of the rest parameter
         let rest_id = match &*rest_pat.arg {
-            Pat::Ident(BindingIdent { id, .. }) => id.to_id(),
+            Pat::Ident(BindingIdent { id, .. }) => id.node_id,
             _ => return,
         };
+        debug_assert!(self.r.is_ref_to_itself(rest_id));
 
         // Check if the rest parameter is used using ProgramData
         if let Some(usage) = self.data.vars.get(&rest_id) {

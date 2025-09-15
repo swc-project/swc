@@ -20,6 +20,7 @@
             "end": 54
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "AbstractProviderDeliveryService",
           "optional": false
         },
@@ -76,6 +77,7 @@
                       "end": 137
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Promise",
                     "optional": false
                   },

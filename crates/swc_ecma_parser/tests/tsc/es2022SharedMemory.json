@@ -28,6 +28,7 @@
               "end": 80
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "sab",
             "optional": false,
             "typeAnnotation": null
@@ -46,6 +47,7 @@
                 "end": 104
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "SharedArrayBuffer",
               "optional": false
             },
@@ -72,6 +74,7 @@
                         "end": 115
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Int32Array",
                       "optional": false
                     },
@@ -125,6 +128,7 @@
               "end": 154
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "int32",
             "optional": false,
             "typeAnnotation": null
@@ -143,6 +147,7 @@
                 "end": 171
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Int32Array",
               "optional": false
             },
@@ -156,6 +161,7 @@
                     "end": 175
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "sab",
                   "optional": false
                 }
@@ -190,6 +196,7 @@
               "end": 189
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "sab64",
             "optional": false,
             "typeAnnotation": null
@@ -208,6 +215,7 @@
                 "end": 213
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "SharedArrayBuffer",
               "optional": false
             },
@@ -234,6 +242,7 @@
                         "end": 227
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "BigInt64Array",
                       "optional": false
                     },
@@ -287,6 +296,7 @@
               "end": 266
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "int64",
             "optional": false,
             "typeAnnotation": null
@@ -305,6 +315,7 @@
                 "end": 286
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "BigInt64Array",
               "optional": false
             },
@@ -318,6 +329,7 @@
                     "end": 292
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "sab64",
                   "optional": false
                 }
@@ -352,6 +364,7 @@
               "end": 310
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "waitValue",
             "optional": false,
             "typeAnnotation": null
@@ -376,6 +389,7 @@
                   "end": 320
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Atomics",
                 "optional": false
               },
@@ -398,6 +412,7 @@
                     "end": 331
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "int32",
                   "optional": false
                 }
@@ -469,6 +484,7 @@
                     "end": 353
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "async",
                   "optional": false,
                   "typeAnnotation": null
@@ -488,6 +504,7 @@
                     "end": 360
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "value",
                   "optional": false,
                   "typeAnnotation": null
@@ -518,6 +535,7 @@
                   "end": 372
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Atomics",
                 "optional": false
               },
@@ -540,6 +558,7 @@
                     "end": 388
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "int32",
                   "optional": false
                 }
@@ -615,6 +634,7 @@
                     "end": 419
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "async64",
                   "optional": false,
                   "typeAnnotation": null
@@ -637,6 +657,7 @@
                     "end": 435
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "value64",
                   "optional": false,
                   "typeAnnotation": null
@@ -666,6 +687,7 @@
                   "end": 447
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Atomics",
                 "optional": false
               },
@@ -688,6 +710,7 @@
                     "end": 463
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "int64",
                   "optional": false
                 }
@@ -720,6 +743,7 @@
                       "end": 474
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "BigInt",
                     "optional": false
                   },
@@ -770,6 +794,7 @@
               "end": 491
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "main",
             "optional": false,
             "typeAnnotation": null
@@ -803,6 +828,7 @@
                       "end": 521
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "async",
                     "optional": false
                   },
@@ -833,6 +859,7 @@
                               "end": 544
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "value",
                             "optional": false
                           }
@@ -855,6 +882,7 @@
                       "end": 567
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "async64",
                     "optional": false
                   },
@@ -885,6 +913,7 @@
                               "end": 592
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "value64",
                             "optional": false
                           }
@@ -925,6 +954,7 @@
             "end": 606
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "main",
           "optional": false
         },

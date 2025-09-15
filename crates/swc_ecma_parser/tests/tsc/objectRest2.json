@@ -14,6 +14,7 @@
           "end": 91
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "connectionFromArray",
         "optional": false
       },
@@ -33,6 +34,7 @@
               "end": 99
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "objects",
             "optional": false,
             "typeAnnotation": {
@@ -66,6 +68,7 @@
               "end": 113
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "args",
             "optional": false,
             "typeAnnotation": {
@@ -121,6 +124,7 @@
           "end": 148
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "rootConnection",
         "optional": false
       },
@@ -140,6 +144,7 @@
               "end": 153
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "name",
             "optional": false,
             "typeAnnotation": {
@@ -212,6 +217,7 @@
                           "end": 203
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "context",
                         "optional": false,
                         "typeAnnotation": null
@@ -223,6 +229,7 @@
                           "end": 209
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "args",
                         "optional": false,
                         "typeAnnotation": null
@@ -272,6 +279,7 @@
                                         "end": 239
                                       },
                                       "ctxt": 0,
+                                      "nodeId": 4294967295,
                                       "value": "objects",
                                       "optional": false,
                                       "typeAnnotation": null
@@ -355,6 +363,7 @@
                                       "end": 312
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "connectionFromArray",
                                     "optional": false
                                   },
@@ -368,6 +377,7 @@
                                           "end": 320
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "objects",
                                         "optional": false
                                       }
@@ -381,6 +391,7 @@
                                           "end": 326
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "args",
                                         "optional": false
                                       }
@@ -430,6 +441,7 @@
             "end": 364
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "rootConnection",
           "optional": false
         },

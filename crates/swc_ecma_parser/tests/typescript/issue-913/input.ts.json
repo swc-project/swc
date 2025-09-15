@@ -25,6 +25,7 @@
               "end": 14
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Rhum",
             "optional": false
           },
@@ -65,6 +66,7 @@
               "end": 53
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "members",
             "optional": false
           }
@@ -103,6 +105,7 @@
               "end": 93
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Drash",
             "optional": false
           },
@@ -149,6 +152,7 @@
               "end": 125
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Rhum",
             "optional": false
           },
@@ -218,6 +222,7 @@
                             "end": 184
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Rhum",
                           "optional": false
                         },
@@ -287,6 +292,7 @@
                                           "end": 252
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "Rhum",
                                         "optional": false
                                       },
@@ -353,6 +359,7 @@
                                                         "end": 324
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "server",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -383,6 +390,7 @@
                                                               "end": 336
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "Drash",
                                                             "optional": false
                                                           },
@@ -440,6 +448,7 @@
                                                                           "end": 412
                                                                         },
                                                                         "ctxt": 0,
+                                                                        "nodeId": 4294967295,
                                                                         "value": "ResourceWithMiddlewareBeforeClass",
                                                                         "optional": false
                                                                       }
@@ -480,6 +489,7 @@
                                                         "end": 456
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "request",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -504,6 +514,7 @@
                                                             "end": 466
                                                           },
                                                           "ctxt": 0,
+                                                          "nodeId": 4294967295,
                                                           "value": "members",
                                                           "optional": false
                                                         },
@@ -559,6 +570,7 @@
                                                         "end": 518
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "response",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -589,6 +601,7 @@
                                                               "end": 533
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "server",
                                                             "optional": false
                                                           },
@@ -611,6 +624,7 @@
                                                                 "end": 559
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "request",
                                                               "optional": false
                                                             }
@@ -649,6 +663,7 @@
                                                         "end": 581
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "members",
                                                       "optional": false
                                                     },
@@ -684,6 +699,7 @@
                                                               "end": 631
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "members",
                                                             "optional": false
                                                           },
@@ -706,6 +722,7 @@
                                                                 "end": 653
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "response",
                                                               "optional": false
                                                             }
@@ -768,6 +785,7 @@
                                           "end": 738
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "Rhum",
                                         "optional": false
                                       },
@@ -834,6 +852,7 @@
                                                         "end": 795
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "server",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -864,6 +883,7 @@
                                                               "end": 807
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "Drash",
                                                             "optional": false
                                                           },
@@ -921,6 +941,7 @@
                                                                           "end": 883
                                                                         },
                                                                         "ctxt": 0,
+                                                                        "nodeId": 4294967295,
                                                                         "value": "ResourceWithMiddlewareBeforeClass",
                                                                         "optional": false
                                                                       }
@@ -961,6 +982,7 @@
                                                         "end": 927
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "request",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -985,6 +1007,7 @@
                                                             "end": 937
                                                           },
                                                           "ctxt": 0,
+                                                          "nodeId": 4294967295,
                                                           "value": "members",
                                                           "optional": false
                                                         },
@@ -1104,6 +1127,7 @@
                                                         "end": 1108
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "response",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -1134,6 +1158,7 @@
                                                               "end": 1123
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "server",
                                                             "optional": false
                                                           },
@@ -1156,6 +1181,7 @@
                                                                 "end": 1149
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "request",
                                                               "optional": false
                                                             }
@@ -1194,6 +1220,7 @@
                                                         "end": 1171
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "members",
                                                       "optional": false
                                                     },
@@ -1229,6 +1256,7 @@
                                                               "end": 1221
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "members",
                                                             "optional": false
                                                           },
@@ -1251,6 +1279,7 @@
                                                                 "end": 1243
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "response",
                                                               "optional": false
                                                             }
@@ -1345,6 +1374,7 @@
                             "end": 1324
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Rhum",
                           "optional": false
                         },
@@ -1414,6 +1444,7 @@
                                           "end": 1400
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "Rhum",
                                         "optional": false
                                       },
@@ -1480,6 +1511,7 @@
                                                         "end": 1493
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "server",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -1510,6 +1542,7 @@
                                                               "end": 1505
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "Drash",
                                                             "optional": false
                                                           },
@@ -1567,6 +1600,7 @@
                                                                           "end": 1589
                                                                         },
                                                                         "ctxt": 0,
+                                                                        "nodeId": 4294967295,
                                                                         "value": "ResourceWithMultipleMiddlewareBeforeClass",
                                                                         "optional": false
                                                                       }
@@ -1607,6 +1641,7 @@
                                                         "end": 1633
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "request",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -1631,6 +1666,7 @@
                                                             "end": 1643
                                                           },
                                                           "ctxt": 0,
+                                                          "nodeId": 4294967295,
                                                           "value": "members",
                                                           "optional": false
                                                         },
@@ -1750,6 +1786,7 @@
                                                         "end": 1814
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "response",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -1780,6 +1817,7 @@
                                                               "end": 1829
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "server",
                                                             "optional": false
                                                           },
@@ -1802,6 +1840,7 @@
                                                                 "end": 1855
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "request",
                                                               "optional": false
                                                             }
@@ -1840,6 +1879,7 @@
                                                         "end": 1877
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "members",
                                                       "optional": false
                                                     },
@@ -1875,6 +1915,7 @@
                                                               "end": 1927
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "members",
                                                             "optional": false
                                                           },
@@ -1897,6 +1938,7 @@
                                                                 "end": 1949
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "response",
                                                               "optional": false
                                                             }
@@ -1973,6 +2015,7 @@
                                                           "end": 2017
                                                         },
                                                         "ctxt": 0,
+                                                        "nodeId": 4294967295,
                                                         "value": "Rhum",
                                                         "optional": false
                                                       },
@@ -2029,6 +2072,7 @@
                                                                   "end": 2047
                                                                 },
                                                                 "ctxt": 0,
+                                                                "nodeId": 4294967295,
                                                                 "value": "response",
                                                                 "optional": false
                                                               },
@@ -2134,6 +2178,7 @@
                             "end": 2111
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Rhum",
                           "optional": false
                         },
@@ -2203,6 +2248,7 @@
                                           "end": 2186
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "Rhum",
                                         "optional": false
                                       },
@@ -2269,6 +2315,7 @@
                                                         "end": 2279
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "server",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -2299,6 +2346,7 @@
                                                               "end": 2291
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "Drash",
                                                             "optional": false
                                                           },
@@ -2356,6 +2404,7 @@
                                                                           "end": 2374
                                                                         },
                                                                         "ctxt": 0,
+                                                                        "nodeId": 4294967295,
                                                                         "value": "ResourceWithMultipleMiddlewareAfterClass",
                                                                         "optional": false
                                                                       }
@@ -2396,6 +2445,7 @@
                                                         "end": 2418
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "request",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -2420,6 +2470,7 @@
                                                             "end": 2428
                                                           },
                                                           "ctxt": 0,
+                                                          "nodeId": 4294967295,
                                                           "value": "members",
                                                           "optional": false
                                                         },
@@ -2539,6 +2590,7 @@
                                                         "end": 2599
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "response",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -2569,6 +2621,7 @@
                                                               "end": 2614
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "server",
                                                             "optional": false
                                                           },
@@ -2591,6 +2644,7 @@
                                                                 "end": 2640
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "request",
                                                               "optional": false
                                                             }
@@ -2635,6 +2689,7 @@
                                                           "end": 2659
                                                         },
                                                         "ctxt": 0,
+                                                        "nodeId": 4294967295,
                                                         "value": "Rhum",
                                                         "optional": false
                                                       },
@@ -2679,6 +2734,7 @@
                                                               "end": 2688
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "members",
                                                             "optional": false
                                                           },
@@ -2701,6 +2757,7 @@
                                                                 "end": 2710
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "response",
                                                               "optional": false
                                                             }
@@ -2757,6 +2814,7 @@
                                                           "end": 2746
                                                         },
                                                         "ctxt": 0,
+                                                        "nodeId": 4294967295,
                                                         "value": "Rhum",
                                                         "optional": false
                                                       },
@@ -2813,6 +2871,7 @@
                                                                   "end": 2793
                                                                 },
                                                                 "ctxt": 0,
+                                                                "nodeId": 4294967295,
                                                                 "value": "response",
                                                                 "optional": false
                                                               },
@@ -2900,6 +2959,7 @@
                                                           "end": 2884
                                                         },
                                                         "ctxt": 0,
+                                                        "nodeId": 4294967295,
                                                         "value": "Rhum",
                                                         "optional": false
                                                       },
@@ -2956,6 +3016,7 @@
                                                                   "end": 2914
                                                                 },
                                                                 "ctxt": 0,
+                                                                "nodeId": 4294967295,
                                                                 "value": "response",
                                                                 "optional": false
                                                               },
@@ -3061,6 +3122,7 @@
                             "end": 2978
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Rhum",
                           "optional": false
                         },
@@ -3130,6 +3192,7 @@
                                           "end": 3040
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "Rhum",
                                         "optional": false
                                       },
@@ -3196,6 +3259,7 @@
                                                         "end": 3122
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "server",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -3226,6 +3290,7 @@
                                                               "end": 3134
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "Drash",
                                                             "optional": false
                                                           },
@@ -3283,6 +3348,7 @@
                                                                           "end": 3204
                                                                         },
                                                                         "ctxt": 0,
+                                                                        "nodeId": 4294967295,
                                                                         "value": "ResourceWithMiddlewareClass",
                                                                         "optional": false
                                                                       }
@@ -3323,6 +3389,7 @@
                                                         "end": 3248
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "request",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -3347,6 +3414,7 @@
                                                             "end": 3258
                                                           },
                                                           "ctxt": 0,
+                                                          "nodeId": 4294967295,
                                                           "value": "members",
                                                           "optional": false
                                                         },
@@ -3466,6 +3534,7 @@
                                                         "end": 3429
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "response",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -3496,6 +3565,7 @@
                                                               "end": 3444
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "server",
                                                             "optional": false
                                                           },
@@ -3518,6 +3588,7 @@
                                                                 "end": 3470
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "request",
                                                               "optional": false
                                                             }
@@ -3562,6 +3633,7 @@
                                                           "end": 3489
                                                         },
                                                         "ctxt": 0,
+                                                        "nodeId": 4294967295,
                                                         "value": "Rhum",
                                                         "optional": false
                                                       },
@@ -3606,6 +3678,7 @@
                                                               "end": 3518
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "members",
                                                             "optional": false
                                                           },
@@ -3628,6 +3701,7 @@
                                                                 "end": 3540
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "response",
                                                               "optional": false
                                                             }
@@ -3684,6 +3758,7 @@
                                                           "end": 3576
                                                         },
                                                         "ctxt": 0,
+                                                        "nodeId": 4294967295,
                                                         "value": "Rhum",
                                                         "optional": false
                                                       },
@@ -3740,6 +3815,7 @@
                                                                   "end": 3623
                                                                 },
                                                                 "ctxt": 0,
+                                                                "nodeId": 4294967295,
                                                                 "value": "response",
                                                                 "optional": false
                                                               },
@@ -3827,6 +3903,7 @@
                                                           "end": 3714
                                                         },
                                                         "ctxt": 0,
+                                                        "nodeId": 4294967295,
                                                         "value": "Rhum",
                                                         "optional": false
                                                       },
@@ -3883,6 +3960,7 @@
                                                                   "end": 3744
                                                                 },
                                                                 "ctxt": 0,
+                                                                "nodeId": 4294967295,
                                                                 "value": "response",
                                                                 "optional": false
                                                               },
@@ -3988,6 +4066,7 @@
                             "end": 3808
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Rhum",
                           "optional": false
                         },
@@ -4057,6 +4136,7 @@
                                           "end": 3877
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "Rhum",
                                         "optional": false
                                       },
@@ -4123,6 +4203,7 @@
                                                         "end": 3942
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "server",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -4153,6 +4234,7 @@
                                                               "end": 3954
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "Drash",
                                                             "optional": false
                                                           },
@@ -4210,6 +4292,7 @@
                                                                           "end": 4031
                                                                         },
                                                                         "ctxt": 0,
+                                                                        "nodeId": 4294967295,
                                                                         "value": "ResourceWithMiddlewareBeforeMethod",
                                                                         "optional": false
                                                                       }
@@ -4250,6 +4333,7 @@
                                                         "end": 4075
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "request",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -4274,6 +4358,7 @@
                                                             "end": 4085
                                                           },
                                                           "ctxt": 0,
+                                                          "nodeId": 4294967295,
                                                           "value": "members",
                                                           "optional": false
                                                         },
@@ -4393,6 +4478,7 @@
                                                         "end": 4256
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "response",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -4423,6 +4509,7 @@
                                                               "end": 4271
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "server",
                                                             "optional": false
                                                           },
@@ -4445,6 +4532,7 @@
                                                                 "end": 4297
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "request",
                                                               "optional": false
                                                             }
@@ -4483,6 +4571,7 @@
                                                         "end": 4319
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "members",
                                                       "optional": false
                                                     },
@@ -4518,6 +4607,7 @@
                                                               "end": 4369
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "members",
                                                             "optional": false
                                                           },
@@ -4540,6 +4630,7 @@
                                                                 "end": 4391
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "response",
                                                               "optional": false
                                                             }
@@ -4634,6 +4725,7 @@
                             "end": 4472
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Rhum",
                           "optional": false
                         },
@@ -4703,6 +4795,7 @@
                                           "end": 4549
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "Rhum",
                                         "optional": false
                                       },
@@ -4769,6 +4862,7 @@
                                                         "end": 4614
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "server",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -4799,6 +4893,7 @@
                                                               "end": 4626
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "Drash",
                                                             "optional": false
                                                           },
@@ -4856,6 +4951,7 @@
                                                                           "end": 4711
                                                                         },
                                                                         "ctxt": 0,
+                                                                        "nodeId": 4294967295,
                                                                         "value": "ResourceWithMultipleMiddlewareBeforeMethod",
                                                                         "optional": false
                                                                       }
@@ -4896,6 +4992,7 @@
                                                         "end": 4755
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "request",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -4920,6 +5017,7 @@
                                                             "end": 4765
                                                           },
                                                           "ctxt": 0,
+                                                          "nodeId": 4294967295,
                                                           "value": "members",
                                                           "optional": false
                                                         },
@@ -5039,6 +5137,7 @@
                                                         "end": 4936
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "response",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -5069,6 +5168,7 @@
                                                               "end": 4951
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "server",
                                                             "optional": false
                                                           },
@@ -5091,6 +5191,7 @@
                                                                 "end": 4977
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "request",
                                                               "optional": false
                                                             }
@@ -5129,6 +5230,7 @@
                                                         "end": 4999
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "members",
                                                       "optional": false
                                                     },
@@ -5164,6 +5266,7 @@
                                                               "end": 5049
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "members",
                                                             "optional": false
                                                           },
@@ -5186,6 +5289,7 @@
                                                                 "end": 5071
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "response",
                                                               "optional": false
                                                             }
@@ -5262,6 +5366,7 @@
                                                           "end": 5139
                                                         },
                                                         "ctxt": 0,
+                                                        "nodeId": 4294967295,
                                                         "value": "Rhum",
                                                         "optional": false
                                                       },
@@ -5318,6 +5423,7 @@
                                                                   "end": 5169
                                                                 },
                                                                 "ctxt": 0,
+                                                                "nodeId": 4294967295,
                                                                 "value": "response",
                                                                 "optional": false
                                                               },
@@ -5423,6 +5529,7 @@
                             "end": 5233
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Rhum",
                           "optional": false
                         },
@@ -5492,6 +5599,7 @@
                                           "end": 5301
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "Rhum",
                                         "optional": false
                                       },
@@ -5558,6 +5666,7 @@
                                                         "end": 5365
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "server",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -5588,6 +5697,7 @@
                                                               "end": 5377
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "Drash",
                                                             "optional": false
                                                           },
@@ -5645,6 +5755,7 @@
                                                                           "end": 5453
                                                                         },
                                                                         "ctxt": 0,
+                                                                        "nodeId": 4294967295,
                                                                         "value": "ResourceWithMiddlewareAfterMethod",
                                                                         "optional": false
                                                                       }
@@ -5685,6 +5796,7 @@
                                                         "end": 5497
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "request",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -5709,6 +5821,7 @@
                                                             "end": 5507
                                                           },
                                                           "ctxt": 0,
+                                                          "nodeId": 4294967295,
                                                           "value": "members",
                                                           "optional": false
                                                         },
@@ -5828,6 +5941,7 @@
                                                         "end": 5678
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "response",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -5858,6 +5972,7 @@
                                                               "end": 5693
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "server",
                                                             "optional": false
                                                           },
@@ -5880,6 +5995,7 @@
                                                                 "end": 5719
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "request",
                                                               "optional": false
                                                             }
@@ -5924,6 +6040,7 @@
                                                           "end": 5738
                                                         },
                                                         "ctxt": 0,
+                                                        "nodeId": 4294967295,
                                                         "value": "Rhum",
                                                         "optional": false
                                                       },
@@ -5968,6 +6085,7 @@
                                                               "end": 5767
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "members",
                                                             "optional": false
                                                           },
@@ -5990,6 +6108,7 @@
                                                                 "end": 5789
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "response",
                                                               "optional": false
                                                             }
@@ -6046,6 +6165,7 @@
                                                           "end": 5825
                                                         },
                                                         "ctxt": 0,
+                                                        "nodeId": 4294967295,
                                                         "value": "Rhum",
                                                         "optional": false
                                                       },
@@ -6102,6 +6222,7 @@
                                                                   "end": 5872
                                                                 },
                                                                 "ctxt": 0,
+                                                                "nodeId": 4294967295,
                                                                 "value": "response",
                                                                 "optional": false
                                                               },
@@ -6207,6 +6328,7 @@
                             "end": 5976
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Rhum",
                           "optional": false
                         },
@@ -6276,6 +6398,7 @@
                                           "end": 6052
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "Rhum",
                                         "optional": false
                                       },
@@ -6342,6 +6465,7 @@
                                                         "end": 6134
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "server",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -6372,6 +6496,7 @@
                                                               "end": 6146
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "Drash",
                                                             "optional": false
                                                           },
@@ -6429,6 +6554,7 @@
                                                                           "end": 6230
                                                                         },
                                                                         "ctxt": 0,
+                                                                        "nodeId": 4294967295,
                                                                         "value": "ResourceWithMultipleMiddlewareAfterMethod",
                                                                         "optional": false
                                                                       }
@@ -6469,6 +6595,7 @@
                                                         "end": 6274
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "request",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -6493,6 +6620,7 @@
                                                             "end": 6284
                                                           },
                                                           "ctxt": 0,
+                                                          "nodeId": 4294967295,
                                                           "value": "members",
                                                           "optional": false
                                                         },
@@ -6612,6 +6740,7 @@
                                                         "end": 6455
                                                       },
                                                       "ctxt": 0,
+                                                      "nodeId": 4294967295,
                                                       "value": "response",
                                                       "optional": false,
                                                       "typeAnnotation": null
@@ -6642,6 +6771,7 @@
                                                               "end": 6470
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "server",
                                                             "optional": false
                                                           },
@@ -6664,6 +6794,7 @@
                                                                 "end": 6496
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "request",
                                                               "optional": false
                                                             }
@@ -6708,6 +6839,7 @@
                                                           "end": 6515
                                                         },
                                                         "ctxt": 0,
+                                                        "nodeId": 4294967295,
                                                         "value": "Rhum",
                                                         "optional": false
                                                       },
@@ -6752,6 +6884,7 @@
                                                               "end": 6544
                                                             },
                                                             "ctxt": 0,
+                                                            "nodeId": 4294967295,
                                                             "value": "members",
                                                             "optional": false
                                                           },
@@ -6774,6 +6907,7 @@
                                                                 "end": 6566
                                                               },
                                                               "ctxt": 0,
+                                                              "nodeId": 4294967295,
                                                               "value": "response",
                                                               "optional": false
                                                             }
@@ -6830,6 +6964,7 @@
                                                           "end": 6602
                                                         },
                                                         "ctxt": 0,
+                                                        "nodeId": 4294967295,
                                                         "value": "Rhum",
                                                         "optional": false
                                                       },
@@ -6886,6 +7021,7 @@
                                                                   "end": 6649
                                                                 },
                                                                 "ctxt": 0,
+                                                                "nodeId": 4294967295,
                                                                 "value": "response",
                                                                 "optional": false
                                                               },
@@ -6973,6 +7109,7 @@
                                                           "end": 6740
                                                         },
                                                         "ctxt": 0,
+                                                        "nodeId": 4294967295,
                                                         "value": "Rhum",
                                                         "optional": false
                                                       },
@@ -7029,6 +7166,7 @@
                                                                   "end": 6770
                                                                 },
                                                                 "ctxt": 0,
+                                                                "nodeId": 4294967295,
                                                                 "value": "response",
                                                                 "optional": false
                                                               },
@@ -7146,6 +7284,7 @@
               "end": 6834
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Rhum",
             "optional": false
           },
@@ -7175,6 +7314,7 @@
           "end": 7102
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "IUser",
         "optional": false
       },
@@ -7202,6 +7342,7 @@
                 "end": 7113
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "name",
               "optional": false
             },
@@ -7235,6 +7376,7 @@
           "end": 7147
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "CustomHeader",
         "optional": false
       },
@@ -7254,6 +7396,7 @@
               "end": 7160
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "request",
             "optional": false,
             "typeAnnotation": {
@@ -7287,6 +7430,7 @@
                         "end": 7167
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Drash",
                       "optional": false
                     },
@@ -7327,6 +7471,7 @@
               "end": 7194
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "response",
             "optional": false,
             "typeAnnotation": {
@@ -7360,6 +7505,7 @@
                         "end": 7201
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Drash",
                       "optional": false
                     },
@@ -7434,6 +7580,7 @@
                       "end": 7236
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "request",
                     "optional": false
                   },
@@ -7510,6 +7657,7 @@
                             "end": 7300
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Drash",
                           "optional": false
                         },
@@ -7580,6 +7728,7 @@
           "end": 7439
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "SwapResponseToHtml",
         "optional": false
       },
@@ -7599,6 +7748,7 @@
               "end": 7452
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "request",
             "optional": false,
             "typeAnnotation": {
@@ -7632,6 +7782,7 @@
                         "end": 7459
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Drash",
                       "optional": false
                     },
@@ -7672,6 +7823,7 @@
               "end": 7486
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "response",
             "optional": false,
             "typeAnnotation": {
@@ -7705,6 +7857,7 @@
                         "end": 7493
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Drash",
                       "optional": false
                     },
@@ -7778,6 +7931,7 @@
                       "end": 7525
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "response",
                     "optional": false
                   },
@@ -7854,6 +8008,7 @@
                     "end": 7580
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "response",
                   "optional": false
                 },
@@ -7893,6 +8048,7 @@
           "end": 7640
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ResponseCustomHeaderAdded",
         "optional": false
       },
@@ -7912,6 +8068,7 @@
               "end": 7653
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "request",
             "optional": false,
             "typeAnnotation": {
@@ -7945,6 +8102,7 @@
                         "end": 7660
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Drash",
                       "optional": false
                     },
@@ -7985,6 +8143,7 @@
               "end": 7687
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "response",
             "optional": false,
             "typeAnnotation": {
@@ -8018,6 +8177,7 @@
                         "end": 7694
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Drash",
                       "optional": false
                     },
@@ -8091,6 +8251,7 @@
                       "end": 7726
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "response",
                     "optional": false
                   },
@@ -8157,6 +8318,7 @@
           "end": 7860
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ResourceWithMiddlewareBeforeClass",
         "optional": false
       },
@@ -8199,6 +8361,7 @@
                     "end": 7768
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Drash",
                   "optional": false
                 },
@@ -8256,6 +8419,7 @@
                                 "end": 7816
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "CustomHeader",
                               "optional": false
                             }
@@ -8358,6 +8522,7 @@
                 "end": 7967
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Map",
               "optional": false
             },
@@ -8515,6 +8680,7 @@
                       "end": 7981
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "IUser",
                     "optional": false
                   },
@@ -8587,6 +8753,7 @@
                           "end": 8093
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "param",
                         "optional": false,
                         "typeAnnotation": null
@@ -8668,6 +8835,7 @@
                       "end": 8146
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "param",
                     "optional": false
                   },
@@ -8790,6 +8958,7 @@
                                       "end": 8223
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "parseInt",
                                     "optional": false
                                   },
@@ -8803,6 +8972,7 @@
                                           "end": 8229
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "param",
                                         "optional": false
                                       }
@@ -8883,6 +9053,7 @@
               "end": 7874
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Drash",
             "optional": false
           },
@@ -8918,6 +9089,7 @@
           "end": 8436
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ResourceWithMultipleMiddlewareBeforeClass",
         "optional": false
       },
@@ -8960,6 +9132,7 @@
                     "end": 8302
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Drash",
                   "optional": false
                 },
@@ -9017,6 +9190,7 @@
                                 "end": 8368
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "ResponseCustomHeaderAdded",
                               "optional": false
                             }
@@ -9030,6 +9204,7 @@
                                 "end": 8382
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "CustomHeader",
                               "optional": false
                             }
@@ -9132,6 +9307,7 @@
                 "end": 8543
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Map",
               "optional": false
             },
@@ -9289,6 +9465,7 @@
                       "end": 8557
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "IUser",
                     "optional": false
                   },
@@ -9361,6 +9538,7 @@
                           "end": 8669
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "param",
                         "optional": false,
                         "typeAnnotation": null
@@ -9442,6 +9620,7 @@
                       "end": 8722
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "param",
                     "optional": false
                   },
@@ -9564,6 +9743,7 @@
                                       "end": 8799
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "parseInt",
                                     "optional": false
                                   },
@@ -9577,6 +9757,7 @@
                                           "end": 8805
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "param",
                                         "optional": false
                                       }
@@ -9657,6 +9838,7 @@
               "end": 8450
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Drash",
             "optional": false
           },
@@ -9692,6 +9874,7 @@
           "end": 9016
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ResourceWithMultipleMiddlewareAfterClass",
         "optional": false
       },
@@ -9734,6 +9917,7 @@
                     "end": 8878
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Drash",
                   "optional": false
                 },
@@ -9791,6 +9975,7 @@
                                 "end": 8936
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "SwapResponseToHtml",
                               "optional": false
                             }
@@ -9804,6 +9989,7 @@
                                 "end": 8963
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "ResponseCustomHeaderAdded",
                               "optional": false
                             }
@@ -9906,6 +10092,7 @@
                 "end": 9123
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Map",
               "optional": false
             },
@@ -10063,6 +10250,7 @@
                       "end": 9137
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "IUser",
                     "optional": false
                   },
@@ -10175,6 +10363,7 @@
               "end": 9030
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Drash",
             "optional": false
           },
@@ -10210,6 +10399,7 @@
           "end": 9439
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ResourceWithMiddlewareClass",
         "optional": false
       },
@@ -10252,6 +10442,7 @@
                     "end": 9275
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Drash",
                   "optional": false
                 },
@@ -10309,6 +10500,7 @@
                                 "end": 9342
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "SwapResponseToHtml",
                               "optional": false
                             }
@@ -10342,6 +10534,7 @@
                                 "end": 9394
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "ResponseCustomHeaderAdded",
                               "optional": false
                             }
@@ -10444,6 +10637,7 @@
                 "end": 9546
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Map",
               "optional": false
             },
@@ -10601,6 +10795,7 @@
                       "end": 9560
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "IUser",
                     "optional": false
                   },
@@ -10713,6 +10908,7 @@
               "end": 9453
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Drash",
             "optional": false
           },
@@ -10748,6 +10944,7 @@
           "end": 9732
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ResourceWithMiddlewareBeforeMethod",
         "optional": false
       },
@@ -10845,6 +11042,7 @@
                 "end": 9839
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Map",
               "optional": false
             },
@@ -11002,6 +11200,7 @@
                       "end": 9853
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "IUser",
                     "optional": false
                   },
@@ -11070,6 +11269,7 @@
                           "end": 9937
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Drash",
                         "optional": false
                       },
@@ -11127,6 +11327,7 @@
                                       "end": 9985
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "CustomHeader",
                                     "optional": false
                                   }
@@ -11178,6 +11379,7 @@
                           "end": 10028
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "param",
                         "optional": false,
                         "typeAnnotation": null
@@ -11259,6 +11461,7 @@
                       "end": 10081
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "param",
                     "optional": false
                   },
@@ -11381,6 +11584,7 @@
                                       "end": 10158
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "parseInt",
                                     "optional": false
                                   },
@@ -11394,6 +11598,7 @@
                                           "end": 10164
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "param",
                                         "optional": false
                                       }
@@ -11474,6 +11679,7 @@
               "end": 9746
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Drash",
             "optional": false
           },
@@ -11509,6 +11715,7 @@
           "end": 10270
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ResourceWithMiddlewareAfterMethod",
         "optional": false
       },
@@ -11606,6 +11813,7 @@
                 "end": 10377
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Map",
               "optional": false
             },
@@ -11763,6 +11971,7 @@
                       "end": 10391
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "IUser",
                     "optional": false
                   },
@@ -11831,6 +12040,7 @@
                           "end": 10475
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Drash",
                         "optional": false
                       },
@@ -11888,6 +12098,7 @@
                                       "end": 10528
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "SwapResponseToHtml",
                                     "optional": false
                                   }
@@ -11979,6 +12190,7 @@
               "end": 10284
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Drash",
             "optional": false
           },
@@ -12014,6 +12226,7 @@
           "end": 10639
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ResourceWithMultipleMiddlewareBeforeMethod",
         "optional": false
       },
@@ -12111,6 +12324,7 @@
                 "end": 10746
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Map",
               "optional": false
             },
@@ -12268,6 +12482,7 @@
                       "end": 10760
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "IUser",
                     "optional": false
                   },
@@ -12336,6 +12551,7 @@
                           "end": 10844
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Drash",
                         "optional": false
                       },
@@ -12393,6 +12609,7 @@
                                       "end": 10914
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "ResponseCustomHeaderAdded",
                                     "optional": false
                                   }
@@ -12406,6 +12623,7 @@
                                       "end": 10928
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "CustomHeader",
                                     "optional": false
                                   }
@@ -12457,6 +12675,7 @@
                           "end": 10977
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "param",
                         "optional": false,
                         "typeAnnotation": null
@@ -12538,6 +12757,7 @@
                       "end": 11030
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "param",
                     "optional": false
                   },
@@ -12660,6 +12880,7 @@
                                       "end": 11107
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "parseInt",
                                     "optional": false
                                   },
@@ -12673,6 +12894,7 @@
                                           "end": 11113
                                         },
                                         "ctxt": 0,
+                                        "nodeId": 4294967295,
                                         "value": "param",
                                         "optional": false
                                       }
@@ -12753,6 +12975,7 @@
               "end": 10653
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Drash",
             "optional": false
           },
@@ -12788,6 +13011,7 @@
           "end": 11227
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ResourceWithMultipleMiddlewareAfterMethod",
         "optional": false
       },
@@ -12885,6 +13109,7 @@
                 "end": 11334
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Map",
               "optional": false
             },
@@ -13042,6 +13267,7 @@
                       "end": 11348
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "IUser",
                     "optional": false
                   },
@@ -13110,6 +13336,7 @@
                           "end": 11432
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Drash",
                         "optional": false
                       },
@@ -13167,6 +13394,7 @@
                                       "end": 11494
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "SwapResponseToHtml",
                                     "optional": false
                                   }
@@ -13180,6 +13408,7 @@
                                       "end": 11521
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "ResponseCustomHeaderAdded",
                                     "optional": false
                                   }
@@ -13271,6 +13500,7 @@
               "end": 11241
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Drash",
             "optional": false
           },

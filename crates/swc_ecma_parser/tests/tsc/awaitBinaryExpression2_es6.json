@@ -28,6 +28,7 @@
               "end": 54
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "a",
             "optional": false,
             "typeAnnotation": {
@@ -74,6 +75,7 @@
               "end": 78
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "p",
             "optional": false,
             "typeAnnotation": {
@@ -95,6 +97,7 @@
                     "end": 87
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Promise",
                   "optional": false
                 },
@@ -132,6 +135,7 @@
           "end": 121
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "before",
         "optional": false
       },
@@ -172,6 +176,7 @@
           "end": 153
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "after",
         "optional": false
       },
@@ -212,6 +217,7 @@
           "end": 182
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "func",
         "optional": false
       },
@@ -251,6 +257,7 @@
                   "end": 212
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "before",
                 "optional": false
               },
@@ -281,6 +288,7 @@
                     "end": 225
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "b",
                   "optional": false,
                   "typeAnnotation": null
@@ -305,6 +313,7 @@
                         "end": 235
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "p",
                       "optional": false
                     }
@@ -316,6 +325,7 @@
                       "end": 240
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "a",
                     "optional": false
                   }
@@ -344,6 +354,7 @@
                   "end": 251
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "after",
                 "optional": false
               },
@@ -375,6 +386,7 @@
               "end": 193
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Promise",
             "optional": false
           },

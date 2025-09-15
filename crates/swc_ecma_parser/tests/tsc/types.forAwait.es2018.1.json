@@ -28,6 +28,7 @@
               "end": 80
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "asyncIterable",
             "optional": false,
             "typeAnnotation": {
@@ -49,6 +50,7 @@
                     "end": 95
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "AsyncIterable",
                   "optional": false
                 },
@@ -100,6 +102,7 @@
               "end": 127
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "iterable",
             "optional": false,
             "typeAnnotation": {
@@ -121,6 +124,7 @@
                     "end": 137
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Iterable",
                   "optional": false
                 },
@@ -172,6 +176,7 @@
               "end": 178
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "iterableOfPromise",
             "optional": false,
             "typeAnnotation": {
@@ -193,6 +198,7 @@
                     "end": 188
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Iterable",
                   "optional": false
                 },
@@ -216,6 +222,7 @@
                           "end": 196
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Promise",
                         "optional": false
                       },
@@ -256,6 +263,7 @@
           "end": 224
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "f1",
         "optional": false
       },
@@ -298,6 +306,7 @@
                     "end": 238
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "y",
                   "optional": false,
                   "typeAnnotation": {
@@ -351,6 +360,7 @@
                       "end": 270
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "x",
                     "optional": false,
                     "typeAnnotation": null
@@ -367,6 +377,7 @@
                 "end": 287
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "asyncIterable",
               "optional": false
             },
@@ -410,6 +421,7 @@
                       "end": 319
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "x",
                     "optional": false,
                     "typeAnnotation": null
@@ -426,6 +438,7 @@
                 "end": 331
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "iterable",
               "optional": false
             },
@@ -469,6 +482,7 @@
                       "end": 363
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "x",
                     "optional": false,
                     "typeAnnotation": null
@@ -485,6 +499,7 @@
                 "end": 384
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "iterableOfPromise",
               "optional": false
             },
@@ -512,6 +527,7 @@
                 "end": 410
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "y",
               "optional": false,
               "typeAnnotation": null
@@ -523,6 +539,7 @@
                 "end": 427
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "asyncIterable",
               "optional": false
             },
@@ -550,6 +567,7 @@
                 "end": 453
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "y",
               "optional": false,
               "typeAnnotation": null
@@ -561,6 +579,7 @@
                 "end": 465
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "iterable",
               "optional": false
             },
@@ -588,6 +607,7 @@
                 "end": 491
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "y",
               "optional": false,
               "typeAnnotation": null
@@ -599,6 +619,7 @@
                 "end": 512
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "iterableOfPromise",
               "optional": false
             },
@@ -628,6 +649,7 @@
           "end": 543
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "f2",
         "optional": false
       },
@@ -670,6 +692,7 @@
                     "end": 557
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "y",
                   "optional": false,
                   "typeAnnotation": {
@@ -723,6 +746,7 @@
                       "end": 589
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "x",
                     "optional": false,
                     "typeAnnotation": null
@@ -739,6 +763,7 @@
                 "end": 606
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "asyncIterable",
               "optional": false
             },
@@ -782,6 +807,7 @@
                       "end": 638
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "x",
                     "optional": false,
                     "typeAnnotation": null
@@ -798,6 +824,7 @@
                 "end": 650
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "iterable",
               "optional": false
             },
@@ -841,6 +868,7 @@
                       "end": 682
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "x",
                     "optional": false,
                     "typeAnnotation": null
@@ -857,6 +885,7 @@
                 "end": 703
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "iterableOfPromise",
               "optional": false
             },
@@ -884,6 +913,7 @@
                 "end": 729
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "y",
               "optional": false,
               "typeAnnotation": null
@@ -895,6 +925,7 @@
                 "end": 746
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "asyncIterable",
               "optional": false
             },
@@ -922,6 +953,7 @@
                 "end": 772
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "y",
               "optional": false,
               "typeAnnotation": null
@@ -933,6 +965,7 @@
                 "end": 784
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "iterable",
               "optional": false
             },
@@ -960,6 +993,7 @@
                 "end": 810
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "y",
               "optional": false,
               "typeAnnotation": null
@@ -971,6 +1005,7 @@
                 "end": 831
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "iterableOfPromise",
               "optional": false
             },

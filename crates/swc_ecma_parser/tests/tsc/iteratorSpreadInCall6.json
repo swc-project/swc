@@ -14,6 +14,7 @@
           "end": 28
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "foo",
         "optional": false
       },
@@ -43,6 +44,7 @@
                 "end": 33
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "s",
               "optional": false,
               "typeAnnotation": null
@@ -125,6 +127,7 @@
           "end": 80
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "SymbolIterator",
         "optional": false
       },
@@ -203,6 +206,7 @@
                               "end": 138
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "Symbol",
                             "optional": false
                           },
@@ -271,6 +275,7 @@
                   "end": 195
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Symbol",
                 "optional": false
               },
@@ -344,6 +349,7 @@
           "end": 261
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "_StringIterator",
         "optional": false
       },
@@ -479,6 +485,7 @@
                   "end": 370
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Symbol",
                 "optional": false
               },
@@ -563,6 +570,7 @@
             "end": 418
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "foo",
           "optional": false
         },
@@ -586,6 +594,7 @@
                   "end": 440
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "SymbolIterator",
                 "optional": false
               },
@@ -612,6 +621,7 @@
                   "end": 464
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "_StringIterator",
                 "optional": false
               },

@@ -22,7 +22,8 @@ impl Optimizer<'_> {
                 ) if &**l_v == "undefined" => {
                     // TODO?
                     if let Expr::Ident(arg) = &**arg {
-                        if let Some(usage) = o.data.vars.get(&arg.to_id()) {
+                        let node_id = o.r.find_binding_by_ident(arg);
+                        if let Some(usage) = o.data.vars.get(&node_id) {
                             if !usage.flags.contains(VarUsageInfoFlags::DECLARED) {
                                 return false;
                             }

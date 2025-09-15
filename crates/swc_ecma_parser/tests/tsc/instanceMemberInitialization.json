@@ -14,6 +14,7 @@
           "end": 8
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -89,6 +90,7 @@
               "end": 30
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "c",
             "optional": false,
             "typeAnnotation": null
@@ -107,6 +109,7 @@
                 "end": 38
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "C",
               "optional": false
             },
@@ -143,6 +146,7 @@
               "end": 43
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "c",
             "optional": false
           },
@@ -189,6 +193,7 @@
               "end": 57
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "c2",
             "optional": false,
             "typeAnnotation": null
@@ -207,6 +212,7 @@
                 "end": 65
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "C",
               "optional": false
             },
@@ -240,6 +246,7 @@
               "end": 74
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "r",
             "optional": false,
             "typeAnnotation": null
@@ -264,6 +271,7 @@
                   "end": 78
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "c",
                 "optional": false
               },
@@ -289,6 +297,7 @@
                   "end": 87
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "c2",
                 "optional": false
               },
@@ -315,6 +324,7 @@
           "end": 116
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "MyMap",
         "optional": false
       },
@@ -359,6 +369,7 @@
                   "end": 162
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Map_",
                 "optional": false,
                 "typeAnnotation": {
@@ -416,6 +427,7 @@
                                   "end": 171
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "K",
                                 "optional": false
                               },
@@ -438,6 +450,7 @@
                                   "end": 174
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "V",
                                 "optional": false
                               },
@@ -532,6 +545,7 @@
                       "end": 233
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "K",
                     "optional": false
                   },
@@ -550,6 +564,7 @@
                       "end": 236
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "V",
                     "optional": false
                   },
@@ -592,6 +607,7 @@
                 "end": 118
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "K",
               "optional": false
             },
@@ -614,6 +630,7 @@
                 "end": 121
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "V",
               "optional": false
             },

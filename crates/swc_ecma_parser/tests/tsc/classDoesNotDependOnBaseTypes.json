@@ -19,6 +19,7 @@
           "end": 16
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StringTree",
         "optional": false
       },
@@ -51,6 +52,7 @@
                 "end": 48
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "StringTreeCollection",
               "optional": false
             },
@@ -68,6 +70,7 @@
           "end": 80
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StringTreeCollectionBase",
         "optional": false
       },
@@ -89,6 +92,7 @@
                 "end": 97
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "n",
               "optional": false,
               "typeAnnotation": {
@@ -127,6 +131,7 @@
                   "end": 110
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "StringTree",
                 "optional": false
               },
@@ -156,6 +161,7 @@
           "end": 141
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StringTreeCollection",
         "optional": false
       },
@@ -174,6 +180,7 @@
           "end": 174
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "StringTreeCollectionBase",
         "optional": false
       },
@@ -205,6 +212,7 @@
               "end": 185
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
@@ -226,6 +234,7 @@
                     "end": 197
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "StringTree",
                   "optional": false
                 },
@@ -265,6 +274,7 @@
               "end": 211
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false
           }
@@ -313,6 +323,7 @@
                     "end": 233
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false
                 },
@@ -370,6 +381,7 @@
                     "end": 248
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false
                 },
@@ -404,6 +416,7 @@
                     "end": 278
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "StringTreeCollection",
                   "optional": false
                 },

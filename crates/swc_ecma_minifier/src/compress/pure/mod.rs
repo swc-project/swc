@@ -2,12 +2,10 @@
 
 use swc_common::{pass::Repeated, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::resolve::Resolver;
 use swc_ecma_transforms_optimization::{debug_assert_valid, simplify};
 use swc_ecma_usage_analyzer::marks::Marks;
-use swc_ecma_utils::{
-    parallel::{cpu_count, Parallel, ParallelExt},
-    ExprCtx,
-};
+use swc_ecma_utils::ExprCtx;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
 use tracing::Level;
@@ -45,6 +43,7 @@ pub(crate) struct PureOptimizerConfig {
 #[allow(clippy::needless_lifetimes)]
 pub(crate) fn pure_optimizer<'a>(
     options: &'a CompressOptions,
+    r: &'a mut Resolver,
     marks: Marks,
     config: PureOptimizerConfig,
 ) -> impl 'a + VisitMut + Repeated {
@@ -60,11 +59,13 @@ pub(crate) fn pure_optimizer<'a>(
         },
         ctx: Default::default(),
         changed: Default::default(),
+        r,
     }
 }
 
 struct Pure<'a> {
     options: &'a CompressOptions,
+    r: &'a mut Resolver,
     config: PureOptimizerConfig,
     marks: Marks,
     expr_ctx: ExprCtx,
@@ -73,17 +74,17 @@ struct Pure<'a> {
     changed: bool,
 }
 
-impl Parallel for Pure<'_> {
-    fn create(&self) -> Self {
-        Self { ..*self }
-    }
+// impl Parallel for Pure<'_> {
+//     fn create(&self) -> Self {
+//         Self { ..*self }
+//     }
 
-    fn merge(&mut self, other: Self) {
-        if other.changed {
-            self.changed = true;
-        }
-    }
-}
+//     fn merge(&mut self, other: Self) {
+//         if other.changed {
+//             self.changed = true;
+//         }
+//     }
+// }
 
 impl Repeated for Pure<'_> {
     fn changed(&self) -> bool {
@@ -173,24 +174,24 @@ impl Pure<'_> {
         }
     }
 
-    /// Visit `nodes`, maybe in parallel.
-    fn visit_par<N>(&mut self, threshold_multiplier: usize, nodes: &mut Vec<N>)
-    where
-        N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
-    {
-        self.maybe_par(cpu_count() * threshold_multiplier, nodes, |v, node| {
-            node.visit_mut_with(v);
-        });
-    }
+    // /// Visit `nodes`, maybe in parallel.
+    // fn visit_par<N>(&mut self, threshold_multiplier: usize, nodes: &mut Vec<N>)
+    // where
+    //     N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
+    // {
+    //     self.maybe_par(cpu_count() * threshold_multiplier, nodes, |v, node| {
+    //         node.visit_mut_with(v);
+    //     });
+    // }
 
-    fn visit_par_ref<N>(&mut self, nodes: &mut [&mut N])
-    where
-        N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
-    {
-        self.maybe_par(0, nodes, |v, node| {
-            node.visit_mut_with(v);
-        });
-    }
+    // fn visit_par_ref<N>(&mut self, nodes: &mut [&mut N])
+    // where
+    //     N: for<'aa> VisitMutWith<Pure<'aa>> + Send + Sync,
+    // {
+    //     self.maybe_par(0, nodes, |v, node| {
+    //         node.visit_mut_with(v);
+    //     });
+    // }
 }
 
 impl VisitMut for Pure<'_> {
@@ -293,7 +294,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_class_members(&mut self, m: &mut Vec<ClassMember>) {
-        self.visit_par(2, m);
+        m.visit_mut_children_with(self);
 
         m.retain(|m| {
             if let ClassMember::Empty(..) = m {
@@ -360,7 +361,7 @@ impl VisitMut for Pure<'_> {
 
             Expr::Bin(..) => {
                 let mut changed = false;
-                simplify::expr::optimize_bin_expr(self.expr_ctx, e, &mut changed);
+                simplify::expr::optimize_bin_expr(self.expr_ctx, e, &mut changed, Some(self.r));
 
                 if changed {
                     report_change!("expression simplifier simplified a binary expression");
@@ -639,7 +640,7 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_expr_or_spreads(&mut self, nodes: &mut Vec<ExprOrSpread>) {
-        self.visit_par(8, nodes);
+        nodes.visit_mut_children_with(self);
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
@@ -664,7 +665,8 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_exprs(&mut self, nodes: &mut Vec<Box<Expr>>) {
-        self.visit_par(16, nodes);
+        // self.visit_par(16, nodes);
+        nodes.visit_mut_children_with(self);
     }
 
     fn visit_mut_fn_decl(&mut self, n: &mut FnDecl) {
@@ -747,7 +749,9 @@ impl VisitMut for Pure<'_> {
         match &mut s.alt {
             Some(alt) => {
                 self.do_outside_of_context(Ctx::PRESERVE_BLOCK, |this| {
-                    this.visit_par_ref(&mut [&mut *s.cons, &mut **alt]);
+                    // this.visit_par_ref(&mut [&mut *s.cons, &mut **alt]);
+                    s.cons.visit_mut_children_with(this);
+                    alt.visit_mut_children_with(this);
                 });
             }
             None => {
@@ -806,7 +810,8 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        self.visit_par(1, items);
+        // self.visit_par(1, items);
+        items.visit_mut_children_with(self);
 
         self.handle_stmt_likes(items);
     }
@@ -872,7 +877,8 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_opt_vec_expr_or_spreads(&mut self, nodes: &mut Vec<Option<ExprOrSpread>>) {
-        self.visit_par(4, nodes);
+        // self.visit_par(4, nodes);
+        nodes.visit_mut_children_with(self);
 
         self.eval_spread_array_in_array(nodes);
     }
@@ -903,7 +909,8 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_prop_or_spreads(&mut self, exprs: &mut Vec<PropOrSpread>) {
         // Many bundlers use this pattern
-        self.visit_par(2, exprs);
+        // self.visit_par(2, exprs);
+        exprs.visit_mut_children_with(self);
     }
 
     fn visit_mut_return_stmt(&mut self, s: &mut ReturnStmt) {
@@ -1125,7 +1132,8 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        self.visit_par(1, items);
+        // self.visit_par(1, items);
+        items.visit_mut_children_with(self);
 
         self.handle_stmt_likes(items);
 
@@ -1151,7 +1159,8 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_switch_cases(&mut self, n: &mut Vec<SwitchCase>) {
-        self.visit_par(4, n);
+        // self.visit_par(4, n);
+        n.visit_mut_children_with(self);
 
         self.optimize_switch_cases(n);
     }
@@ -1244,7 +1253,8 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_var_declarators(&mut self, nodes: &mut Vec<VarDeclarator>) {
-        self.visit_par(8, nodes);
+        // self.visit_par(8, nodes);
+        nodes.visit_mut_children_with(self);
     }
 
     fn visit_mut_while_stmt(&mut self, s: &mut WhileStmt) {

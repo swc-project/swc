@@ -3392,8 +3392,7 @@ fn is_pure_callee(expr: &Expr, ctx: ExprCtx) -> bool {
 
         Expr::Fn(FnExpr { function: f, .. })
             if f.params.iter().all(|p| p.pat.is_ident())
-                && f.body.is_some()
-                && f.body.as_ref().unwrap().stmts.is_empty() =>
+                && f.body.as_ref().is_some_and(|body| body.stmts.is_empty()) =>
         {
             true
         }

@@ -28,6 +28,7 @@
               "end": 10
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "union",
             "optional": false,
             "typeAnnotation": {
@@ -99,6 +100,7 @@
               "end": 55
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "intersection",
             "optional": false,
             "typeAnnotation": {
@@ -162,6 +164,7 @@
               "end": 89
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "precedence1",
             "optional": false,
             "typeAnnotation": {
@@ -242,6 +245,7 @@
               "end": 133
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "precedence2",
             "optional": false,
             "typeAnnotation": {
@@ -313,6 +317,7 @@
           "end": 179
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "LeadingUnion",
         "optional": false
       },
@@ -357,6 +362,7 @@
           "end": 233
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "LeadingIntersection",
         "optional": false
       },

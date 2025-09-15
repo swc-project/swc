@@ -55,16 +55,18 @@ impl Optimizer<'_> {
                     .map(|s| s.contains(ScopeData::USED_ARGUMENTS))
                     .unwrap_or(false);
 
+                let node_id = self.r.find_binding_by_ident(lhs);
+
                 if self
                     .data
                     .vars
-                    .get(&lhs.to_id())
+                    .get(&node_id)
                     .map(|var| {
                         var.flags.contains(
                             VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL),
                         ) && !(used_arguments
                             && var.flags.contains(VarUsageInfoFlags::DECLARED_AS_FN_PARAM))
-                            && !var.flags.intersects(VarUsageInfoFlags::EXPORTED)
+                            && !var.flags.contains(VarUsageInfoFlags::EXPORTED)
                     })
                     .unwrap_or(false)
                 {
@@ -94,10 +96,12 @@ impl Optimizer<'_> {
                         .map(|s| s.contains(ScopeData::USED_ARGUMENTS))
                         .unwrap_or(false);
 
+                    let node_id = self.r.find_binding_by_ident(lhs);
+
                     if self
                         .data
                         .vars
-                        .get(&lhs.to_id())
+                        .get(&node_id)
                         .map(|var| {
                             var.flags.contains(
                                 VarUsageInfoFlags::DECLARED.union(VarUsageInfoFlags::IS_FN_LOCAL),

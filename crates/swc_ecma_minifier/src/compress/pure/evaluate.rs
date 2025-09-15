@@ -880,7 +880,10 @@ impl Pure<'_> {
                             report_change!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
                             );
-                            *e = Ident::new(atom!("NaN"), e.span(), SyntaxContext::empty()).into()
+                            let mut ident =
+                                Ident::new(atom!("NaN"), e.span(), SyntaxContext::empty());
+                            self.r.add_unresolved(&mut ident);
+                            *e = ident.into()
                         }
                     }
                 }
@@ -916,12 +919,13 @@ impl Pure<'_> {
                             report_change!(
                                 "evaluate: Evaluated `codePointAt` of a string literal as `NaN`",
                             );
-                            *e = Ident::new(
+                            let mut ident = Ident::new(
                                 atom!("NaN"),
                                 e.span(),
                                 SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
-                            )
-                            .into()
+                            );
+                            self.r.add_unresolved(&mut ident);
+                            *e = ident.into()
                         }
                     }
                 }
