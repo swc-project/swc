@@ -277,7 +277,7 @@ impl Wtf8Buf {
     /// # Example
     ///
     /// ```
-    /// let mut s = Wtf8Buf::new();
+    /// let mut s = hstr::wtf8::Wtf8Buf::new();
     /// s.reserve(10);
     /// assert!(s.capacity() >= 10);
     /// ```
@@ -292,7 +292,7 @@ impl Wtf8Buf {
     /// # Example
     ///
     /// ```
-    /// let s = Wtf8Buf::with_capacity(10);
+    /// let s = hstr::wtf8::Wtf8Buf::with_capacity(10);
     /// assert!(s.capacity() >= 10);
     /// ```
     #[inline]
