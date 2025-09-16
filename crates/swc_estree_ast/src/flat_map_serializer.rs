@@ -3,23 +3,23 @@
 
 use serde::ser::{self, Serialize, SerializeMap, Serializer};
 
-/// A serializer that delegates to a `SerializeMap` for serializing struct fields.
-/// This allows flattening struct fields into a parent map structure.
+/// A serializer that delegates to a `SerializeMap` for serializing struct
+/// fields. This allows flattening struct fields into a parent map structure.
 pub struct FlatMapSerializer<'a, M: 'a>(pub &'a mut M);
 
 impl<'a, M> Serializer for FlatMapSerializer<'a, M>
 where
     M: SerializeMap + 'a,
 {
-    type Ok = ();
     type Error = M::Error;
+    type Ok = ();
+    type SerializeMap = FlatMapSerializeMap<'a, M>;
     type SerializeSeq = FlatMapSerializeSeq<'a, M>;
+    type SerializeStruct = FlatMapSerializeStruct<'a, M>;
+    type SerializeStructVariant = FlatMapSerializeStructVariant<'a, M>;
     type SerializeTuple = FlatMapSerializeTuple<'a, M>;
     type SerializeTupleStruct = FlatMapSerializeTupleStruct<'a, M>;
     type SerializeTupleVariant = FlatMapSerializeTupleVariant<'a, M>;
-    type SerializeMap = FlatMapSerializeMap<'a, M>;
-    type SerializeStruct = FlatMapSerializeStruct<'a, M>;
-    type SerializeStructVariant = FlatMapSerializeStructVariant<'a, M>;
 
     fn serialize_bool(self, _v: bool) -> Result<Self::Ok, Self::Error> {
         Err(ser::Error::custom("cannot flatten bool"))
@@ -103,8 +103,7 @@ where
         variant: &'static str,
     ) -> Result<Self::Ok, Self::Error> {
         Err(ser::Error::custom(format_args!(
-            "cannot flatten enum variant `{}`",
-            variant
+            "cannot flatten enum variant `{variant}`"
         )))
     }
 
@@ -130,8 +129,7 @@ where
         T: ?Sized + Serialize,
     {
         Err(ser::Error::custom(format_args!(
-            "cannot flatten enum variant `{}`",
-            variant
+            "cannot flatten enum variant `{variant}`"
         )))
     }
 
@@ -159,8 +157,7 @@ where
         _len: usize,
     ) -> Result<Self::SerializeTupleVariant, Self::Error> {
         Err(ser::Error::custom(format_args!(
-            "cannot flatten enum variant `{}`",
-            variant
+            "cannot flatten enum variant `{variant}`",
         )))
     }
 
@@ -197,8 +194,8 @@ impl<'a, M> ser::SerializeSeq for FlatMapSerializeSeq<'a, M>
 where
     M: SerializeMap + 'a,
 {
-    type Ok = ();
     type Error = M::Error;
+    type Ok = ();
 
     fn serialize_element<T>(&mut self, _value: &T) -> Result<(), Self::Error>
     where
@@ -219,8 +216,8 @@ impl<'a, M> ser::SerializeTuple for FlatMapSerializeTuple<'a, M>
 where
     M: SerializeMap + 'a,
 {
-    type Ok = ();
     type Error = M::Error;
+    type Ok = ();
 
     fn serialize_element<T>(&mut self, _value: &T) -> Result<(), Self::Error>
     where
@@ -241,8 +238,8 @@ impl<'a, M> ser::SerializeTupleStruct for FlatMapSerializeTupleStruct<'a, M>
 where
     M: SerializeMap + 'a,
 {
-    type Ok = ();
     type Error = M::Error;
+    type Ok = ();
 
     fn serialize_field<T>(&mut self, _value: &T) -> Result<(), Self::Error>
     where
@@ -263,8 +260,8 @@ impl<'a, M> ser::SerializeTupleVariant for FlatMapSerializeTupleVariant<'a, M>
 where
     M: SerializeMap + 'a,
 {
-    type Ok = ();
     type Error = M::Error;
+    type Ok = ();
 
     fn serialize_field<T>(&mut self, _value: &T) -> Result<(), Self::Error>
     where
@@ -284,8 +281,8 @@ impl<'a, M> ser::SerializeMap for FlatMapSerializeMap<'a, M>
 where
     M: SerializeMap + 'a,
 {
-    type Ok = ();
     type Error = M::Error;
+    type Ok = ();
 
     fn serialize_key<T>(&mut self, _key: &T) -> Result<(), Self::Error>
     where
@@ -320,8 +317,8 @@ impl<'a, M> ser::SerializeStruct for FlatMapSerializeStruct<'a, M>
 where
     M: SerializeMap + 'a,
 {
-    type Ok = ();
     type Error = M::Error;
+    type Ok = ();
 
     fn serialize_field<T>(&mut self, key: &'static str, value: &T) -> Result<(), Self::Error>
     where
@@ -342,8 +339,8 @@ impl<'a, M> ser::SerializeStructVariant for FlatMapSerializeStructVariant<'a, M>
 where
     M: SerializeMap + 'a,
 {
-    type Ok = ();
     type Error = M::Error;
+    type Ok = ();
 
     fn serialize_field<T>(&mut self, _key: &'static str, _value: &T) -> Result<(), Self::Error>
     where
