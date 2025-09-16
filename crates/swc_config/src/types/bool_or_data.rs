@@ -116,15 +116,15 @@ where
     {
         // Try to deserialize as JSON Value first, then match on it
         let value = Value::deserialize(deserializer)?;
-        
+
         match value {
             Value::Bool(b) => Ok(BoolOr::Bool(b)),
             Value::Object(map) if map.is_empty() => Ok(BoolOr::Bool(true)),
             other => {
                 // Try to deserialize the value as T
-                T::deserialize(other).map(BoolOr::Data).map_err(|_| {
-                    serde::de::Error::custom("expected boolean or object")
-                })
+                T::deserialize(other)
+                    .map(BoolOr::Data)
+                    .map_err(|_| serde::de::Error::custom("expected boolean or object"))
             }
         }
     }
