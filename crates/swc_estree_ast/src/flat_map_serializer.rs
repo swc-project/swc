@@ -181,8 +181,7 @@ where
         _len: usize,
     ) -> Result<Self::SerializeStructVariant, Self::Error> {
         Err(ser::Error::custom(format_args!(
-            "cannot flatten enum variant `{}`",
-            variant
+            "cannot flatten enum variant `{variant}`"
         )))
     }
 }
