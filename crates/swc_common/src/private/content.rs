@@ -1,8 +1,10 @@
 //! Custom Content enum implementation for AST node deserialization.
-//! This replaces the use of serde's private Content enum which is not stable API.
+//! This replaces the use of serde's private Content enum which is not stable
+//! API.
 
-use std::{fmt, marker::PhantomData, str::FromStr};
-use serde::{de::{self, IntoDeserializer, VariantAccess}, Deserialize, Deserializer};
+use std::{fmt, marker::PhantomData};
+
+use serde::de::{self, IntoDeserializer, VariantAccess};
 
 /// Content holds a buffered representation of any serde data type.
 /// This is used for deserializing tagged enums where we need to buffer
@@ -72,15 +74,14 @@ impl<'de> Content<'de> {
 }
 
 /// A visitor for deserializing `Content`.
+#[derive(Default)]
 pub struct ContentVisitor<'de> {
     marker: PhantomData<Content<'de>>,
 }
 
 impl<'de> ContentVisitor<'de> {
     pub fn new() -> Self {
-        ContentVisitor {
-            marker: PhantomData,
-        }
+        ContentVisitor::default()
     }
 }
 
@@ -263,7 +264,9 @@ impl<'de> de::Visitor<'de> for ContentVisitor<'de> {
         V: de::MapAccess<'de>,
     {
         let mut vec = Vec::with_capacity(map.size_hint().unwrap_or(0));
-        while let Some((key, value)) = map.next_entry_seed(ContentSeed::new(), ContentSeed::new())? {
+        while let Some((key, value)) =
+            map.next_entry_seed(ContentSeed::new(), ContentSeed::new())?
+        {
             vec.push((key, value));
         }
         Ok(Content::Map(vec))
@@ -577,11 +580,7 @@ where
         self.deserialize_unit(visitor)
     }
 
-    fn deserialize_newtype_struct<V>(
-        self,
-        _name: &'static str,
-        visitor: V,
-    ) -> Result<V::Value, E>
+    fn deserialize_newtype_struct<V>(self, _name: &'static str, visitor: V) -> Result<V::Value, E>
     where
         V: de::Visitor<'de>,
     {
@@ -710,6 +709,13 @@ where
 {
     type Error = E;
 
+    // Forward other methods to deserialize_any
+    serde::forward_to_deserialize_any! {
+        bool i8 i16 i32 i64 u8 u16 u32 u64 f32 f64 char str string
+        bytes byte_buf option unit unit_struct newtype_struct seq tuple
+        tuple_struct map struct enum identifier ignored_any
+    }
+
     fn deserialize_any<V>(self, visitor: V) -> Result<V::Value, E>
     where
         V: de::Visitor<'de>,
@@ -744,13 +750,6 @@ where
                 visitor.visit_map(map)
             }
         }
-    }
-
-    // Forward other methods to deserialize_any
-    serde::forward_to_deserialize_any! {
-        bool i8 i16 i32 i64 u8 u16 u32 u64 f32 f64 char str string
-        bytes byte_buf option unit unit_struct newtype_struct seq tuple
-        tuple_struct map struct enum identifier ignored_any
     }
 
     fn is_human_readable(&self) -> bool {
@@ -870,7 +869,9 @@ where
         T: de::DeserializeSeed<'de>,
     {
         match self.iter.next() {
-            Some(value) => seed.deserialize(ContentRefDeserializer::new(value)).map(Some),
+            Some(value) => seed
+                .deserialize(ContentRefDeserializer::new(value))
+                .map(Some),
             None => Ok(None),
         }
     }
@@ -956,7 +957,12 @@ where
         V: de::DeserializeSeed<'de>,
     {
         let variant = seed.deserialize(self.value.into_deserializer())?;
-        Ok((variant, UnitVariant { marker: PhantomData }))
+        Ok((
+            variant,
+            UnitVariant {
+                marker: PhantomData,
+            },
+        ))
     }
 }
 
@@ -986,7 +992,12 @@ where
         V: de::DeserializeSeed<'de>,
     {
         let variant = seed.deserialize(self.value.into_deserializer())?;
-        Ok((variant, UnitVariant { marker: PhantomData }))
+        Ok((
+            variant,
+            UnitVariant {
+                marker: PhantomData,
+            },
+        ))
     }
 }
 
@@ -1008,21 +1019,30 @@ where
     where
         T: de::DeserializeSeed<'de>,
     {
-        Err(de::Error::invalid_type(de::Unexpected::UnitVariant, &"newtype variant"))
+        Err(de::Error::invalid_type(
+            de::Unexpected::UnitVariant,
+            &"newtype variant",
+        ))
     }
 
     fn tuple_variant<V>(self, _len: usize, _visitor: V) -> Result<V::Value, E>
     where
         V: de::Visitor<'de>,
     {
-        Err(de::Error::invalid_type(de::Unexpected::UnitVariant, &"tuple variant"))
+        Err(de::Error::invalid_type(
+            de::Unexpected::UnitVariant,
+            &"tuple variant",
+        ))
     }
 
     fn struct_variant<V>(self, _fields: &'static [&'static str], _visitor: V) -> Result<V::Value, E>
     where
         V: de::Visitor<'de>,
     {
-        Err(de::Error::invalid_type(de::Unexpected::UnitVariant, &"struct variant"))
+        Err(de::Error::invalid_type(
+            de::Unexpected::UnitVariant,
+            &"struct variant",
+        ))
     }
 }
 
