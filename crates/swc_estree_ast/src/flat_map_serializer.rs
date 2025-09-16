@@ -190,6 +190,7 @@ where
     }
 }
 
+#[allow(dead_code)]
 pub struct FlatMapSerializeSeq<'a, M: 'a>(&'a mut M);
 
 impl<'a, M> ser::SerializeSeq for FlatMapSerializeSeq<'a, M>
@@ -211,6 +212,7 @@ where
     }
 }
 
+#[allow(dead_code)]
 pub struct FlatMapSerializeTuple<'a, M: 'a>(&'a mut M);
 
 impl<'a, M> ser::SerializeTuple for FlatMapSerializeTuple<'a, M>
@@ -232,6 +234,7 @@ where
     }
 }
 
+#[allow(dead_code)]
 pub struct FlatMapSerializeTupleStruct<'a, M: 'a>(&'a mut M);
 
 impl<'a, M> ser::SerializeTupleStruct for FlatMapSerializeTupleStruct<'a, M>
@@ -253,6 +256,7 @@ where
     }
 }
 
+#[allow(dead_code)]
 pub struct FlatMapSerializeTupleVariant<'a, M: 'a>(&'a mut M);
 
 impl<'a, M> ser::SerializeTupleVariant for FlatMapSerializeTupleVariant<'a, M>
@@ -331,6 +335,7 @@ where
     }
 }
 
+#[allow(dead_code)]
 pub struct FlatMapSerializeStructVariant<'a, M: 'a>(&'a mut M);
 
 impl<'a, M> ser::SerializeStructVariant for FlatMapSerializeStructVariant<'a, M>
