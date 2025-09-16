@@ -22,6 +22,7 @@ mod common;
 mod decl;
 mod expr;
 pub mod flavor;
+mod flat_map_serializer;
 mod flow;
 mod jsx;
 mod lit;

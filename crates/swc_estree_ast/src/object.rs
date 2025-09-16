@@ -118,7 +118,7 @@ impl Serialize for ObjectMethod {
                 {
                     // TODO(kdy1): This is bad.
                     self.base
-                        .serialize(serde::__private::ser::FlatMapSerializer(&mut s))?;
+                        .serialize(crate::flat_map_serializer::FlatMapSerializer(&mut s))?;
                 }
 
                 s.serialize_entry("type", "Property")?;
@@ -256,7 +256,7 @@ impl Serialize for ObjectProperty {
                 {
                     // TODO(kdy1): This is bad.
                     self.base
-                        .serialize(serde::__private::ser::FlatMapSerializer(&mut s))?;
+                        .serialize(crate::flat_map_serializer::FlatMapSerializer(&mut s))?;
                 }
 
                 s.serialize_entry("type", "Property")?;
