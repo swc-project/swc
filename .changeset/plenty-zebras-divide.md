@@ -1,6 +1,7 @@
 ---
 ast_node: patch
 swc_common: patch
+swc_estree_ast: patch
 swc_config: patch
 swc_core: patch
 ---
