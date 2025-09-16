@@ -21,7 +21,7 @@ serde_json    = { workspace = true }
 sha2          = { workspace = true }
 swc_sourcemap = { workspace = true }
 tempfile      = { workspace = true }
-swc_common = { version = "14.0.3", path = "../swc_common", features = [
+swc_common = { version = "14.0.4", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "15.0.0", path = "../swc_ecma_ast" }

@@ -6,7 +6,7 @@ edition       = { workspace = true }
 license       = { workspace = true }
 name          = "swc_core"
 repository    = { workspace = true }
-version       = "42.0.0"
+version       = "42.0.1"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
@@ -348,8 +348,8 @@ swc                              = { optional = true, version = "40.0.0", path =
 swc_allocator                    = { version = "4.0.1", path = "../swc_allocator", default-features = false }
 swc_atoms                        = { optional = true, version = "7.0.0", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "31.0.0", path = "../swc_bundler" }
-swc_common                       = { optional = true, version = "14.0.3", path = "../swc_common" }
-swc_config                       = { optional = true, version = "3.1.1", path = "../swc_config" }
+swc_common                       = { optional = true, version = "14.0.4", path = "../swc_common" }
+swc_config                       = { optional = true, version = "3.1.2", path = "../swc_config" }
 swc_css_ast                      = { optional = true, version = "14.0.0", path = "../swc_css_ast" }
 swc_css_codegen                  = { optional = true, version = "14.0.0", path = "../swc_css_codegen" }
 swc_css_compat                   = { optional = true, version = "14.0.0", path = "../swc_css_compat" }

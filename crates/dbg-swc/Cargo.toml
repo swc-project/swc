@@ -25,7 +25,7 @@ sha1               = { workspace = true }
 tempfile           = { workspace = true }
 tracing            = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"] }
-swc_common = { version = "14.0.3", features = [
+swc_common = { version = "14.0.4", features = [
   "concurrent",
   "tty-emitter",
 ], path = "../swc_common" }

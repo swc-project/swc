@@ -78,12 +78,12 @@ url           = { workspace = true }
 
 
 swc_atoms = { version = "7.0.0", path = "../swc_atoms" }
-swc_common = { version = "14.0.3", path = "../swc_common", features = [
+swc_common = { version = "14.0.4", path = "../swc_common", features = [
   "sourcemap",
   "parking_lot",
 ] }
 swc_compiler_base = { version = "35.0.0", path = "../swc_compiler_base" }
-swc_config = { version = "3.1.1", path = "../swc_config" }
+swc_config = { version = "3.1.2", path = "../swc_config" }
 swc_ecma_ast = { version = "15.0.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "17.0.2", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "21.0.0", path = "../swc_ecma_ext_transforms" }

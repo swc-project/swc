@@ -220,7 +220,7 @@ dependencies = [
 
 [[package]]
 name = "ast_node"
-version = "3.0.3"
+version = "3.0.4"
 dependencies = [
  "quote",
  "swc_macros_common",
@@ -5024,7 +5024,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "14.0.3"
+version = "14.0.4"
 dependencies = [
  "anyhow",
  "arbitrary",
@@ -5084,7 +5084,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "3.1.1"
+version = "3.1.2"
 dependencies = [
  "anyhow",
  "bytes-str",
@@ -5113,7 +5113,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "42.0.0"
+version = "42.0.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6204,7 +6204,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_ast"
-version = "14.0.0"
+version = "14.0.1"
 dependencies = [
  "better_scoped_tls",
  "serde",

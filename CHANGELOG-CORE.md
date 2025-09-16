@@ -1,4 +1,15 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(ci)** Test chanages ([d4396c1](https://github.com/swc-project/swc/commit/d4396c158a6d9ebedc7116f6228035e504a197fe))
+
+
+- **(swc_common)** Fix compatibility with serde 1.0.220+ ([#11094](https://github.com/swc-project/swc/issues/11094)) ([45f17ed](https://github.com/swc-project/swc/commit/45f17edccc1c3b83e75d42e3459b16c08fd6d76f))
+
 ## [swc_core@v41.0.0] - 2025-09-15
 
 ### Bug Fixes
@@ -2683,12 +2694,6 @@
 
 
 - **(es/minifier)** Make `minify-all` example ignore parsing errors ([#10045](https://github.com/swc-project/swc/issues/10045)) ([6c7ec46](https://github.com/swc-project/swc/commit/6c7ec46ee423d745305204460f15450c897a90a9))
-
-### Testing
-
-
-
-- **(ts/fast-strip)** Add tests for `declare module` error cases ([#10040](https://github.com/swc-project/swc/issues/10040)) ([37672e0](https://github.com/swc-project/swc/commit/37672e024e340b1509f4d8f70414bc132a8337bf))
 
 ### Build
 
