@@ -4,7 +4,10 @@
 
 use std::{fmt, marker::PhantomData};
 
-use serde::de::{self, IntoDeserializer, VariantAccess};
+use serde::{
+    de::{self, IntoDeserializer, VariantAccess},
+    Deserializer,
+};
 
 /// Content holds a buffered representation of any serde data type.
 /// This is used for deserializing tagged enums where we need to buffer
