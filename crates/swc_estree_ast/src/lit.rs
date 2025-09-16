@@ -76,7 +76,7 @@ impl Serialize for Literal {
                         {
                             // TODO(kdy1): This is bad.
                             l.base
-                                .serialize(serde::__private::ser::FlatMapSerializer(&mut s))?;
+                                .serialize(crate::flat_map_serializer::FlatMapSerializer(&mut s))?;
                         }
                         s.serialize_entry("type", "Literal")?;
 
