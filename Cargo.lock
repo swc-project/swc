@@ -5113,7 +5113,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "42.0.1"
+version = "42.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6419,7 +6419,7 @@ dependencies = [
 
 [[package]]
 name = "swc_nodejs_common"
-version = "1.0.2"
+version = "1.0.3"
 dependencies = [
  "anyhow",
  "napi",
