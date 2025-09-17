@@ -235,7 +235,7 @@ dependencies = [
  "bitflags 2.9.1",
  "cexpr",
  "clang-sys",
- "itertools 0.10.5",
+ "itertools 0.13.0",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -252,9 +252,9 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "backtrace",
- "napi 3.3.0",
+ "napi",
  "napi-build",
- "napi-derive 3.2.5",
+ "napi-derive",
  "node_macro_deps",
  "par-core",
  "path-clean 1.0.1",
@@ -271,7 +271,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.13.7-nightly-20250917.1"
+version = "1.13.7-nightly-20250917.2"
 dependencies = [
  "anyhow",
  "getrandom 0.3.3",
@@ -288,9 +288,9 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "lightningcss",
- "napi 3.3.0",
+ "napi",
  "napi-build",
- "napi-derive 3.2.5",
+ "napi-derive",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -336,9 +336,9 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "backtrace",
- "napi 3.3.0",
+ "napi",
  "napi-build",
- "napi-derive 3.2.5",
+ "napi-derive",
  "node_macro_deps",
  "par-core",
  "path-clean 1.0.1",
@@ -360,7 +360,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.13.7-nightly-20250917.1"
+version = "1.13.7-nightly-20250917.2"
 dependencies = [
  "anyhow",
  "getrandom 0.3.3",
@@ -377,9 +377,9 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "backtrace",
- "napi 3.3.0",
+ "napi",
  "napi-build",
- "napi-derive 3.2.5",
+ "napi-derive",
  "node_macro_deps",
  "path-clean 1.0.1",
  "rustc-hash 2.1.1",
@@ -400,7 +400,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.13.7-nightly-20250917.1"
+version = "1.13.7-nightly-20250917.2"
 dependencies = [
  "anyhow",
  "getrandom 0.3.3",
@@ -1084,16 +1084,6 @@ name = "cssparser-macros"
 version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "13b588ba4ac1a99f7f2964d24b3d896ddc6bf847ee3855dbd4366f058cfcd331"
-dependencies = [
- "quote",
- "syn 2.0.104",
-]
-
-[[package]]
-name = "ctor"
-version = "0.2.9"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "32a2785755761f3ddc1492979ce1e48d2c00d09311c39e4466429188f3dd6501"
 dependencies = [
  "quote",
  "syn 2.0.104",
@@ -2574,29 +2564,14 @@ dependencies = [
 
 [[package]]
 name = "napi"
-version = "2.16.17"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "55740c4ae1d8696773c78fdafd5d0e5fe9bc9f1b071c7ba493ba5c413a9184f3"
-dependencies = [
- "bitflags 2.9.1",
- "ctor 0.2.9",
- "napi-derive 2.16.13",
- "napi-sys 2.4.0",
- "once_cell",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "napi"
 version = "3.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f1b74e3dce5230795bb4d2821b941706dee733c7308752507254b0497f39cad7"
 dependencies = [
  "bitflags 2.9.1",
- "ctor 0.5.0",
+ "ctor",
  "napi-build",
- "napi-sys 3.0.0",
+ "napi-sys",
  "nohash-hasher",
  "rustc-hash 2.1.1",
  "serde",
@@ -2611,40 +2586,13 @@ checksum = "dcae8ad5609d14afb3a3b91dee88c757016261b151e9dcecabf1b2a31a6cab14"
 
 [[package]]
 name = "napi-derive"
-version = "2.16.13"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7cbe2585d8ac223f7d34f13701434b9d5f4eb9c332cccce8dee57ea18ab8ab0c"
-dependencies = [
- "cfg-if",
- "convert_case 0.6.0",
- "napi-derive-backend 1.0.75",
- "proc-macro2",
- "quote",
- "syn 2.0.104",
-]
-
-[[package]]
-name = "napi-derive"
 version = "3.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7552d5a579b834614bbd496db5109f1b9f1c758f08224b0dee1e408333adf0d0"
 dependencies = [
  "convert_case 0.8.0",
- "ctor 0.5.0",
- "napi-derive-backend 2.2.0",
- "proc-macro2",
- "quote",
- "syn 2.0.104",
-]
-
-[[package]]
-name = "napi-derive-backend"
-version = "1.0.75"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1639aaa9eeb76e91c6ae66da8ce3e89e921cd3885e99ec85f4abacae72fc91bf"
-dependencies = [
- "convert_case 0.6.0",
- "once_cell",
+ "ctor",
+ "napi-derive-backend",
  "proc-macro2",
  "quote",
  "syn 2.0.104",
@@ -2661,15 +2609,6 @@ dependencies = [
  "quote",
  "semver",
  "syn 2.0.104",
-]
-
-[[package]]
-name = "napi-sys"
-version = "2.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "427802e8ec3a734331fec1035594a210ce1ff4dc5bc1950530920ab717964ea3"
-dependencies = [
- "libloading",
 ]
 
 [[package]]
@@ -4004,8 +3943,8 @@ dependencies = [
  "either",
  "indexmap 2.9.0",
  "jsonc-parser",
- "napi 3.3.0",
- "napi-derive 3.2.5",
+ "napi",
+ "napi-derive",
  "once_cell",
  "par-core",
  "par-iter",
@@ -4106,7 +4045,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.605"
+version = "0.91.606"
 dependencies = [
  "anyhow",
  "par-core",
@@ -4174,8 +4113,8 @@ dependencies = [
  "anyhow",
  "base64",
  "bytes-str",
- "napi 3.3.0",
- "napi-derive 3.2.5",
+ "napi",
+ "napi-derive",
  "once_cell",
  "pathdiff",
  "rustc-hash 2.1.1",
@@ -4228,9 +4167,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "42.0.1"
+version = "42.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4550ea5e1093af7b0ae7c4fc39e37d44996bbfc601b9abd477e68c0071f8d57a"
+checksum = "5f326a55e516515372de76edf16a264c608051e494b710e91594448a356cca08"
 dependencies = [
  "binding_macros",
  "swc",
@@ -5254,12 +5193,12 @@ dependencies = [
 
 [[package]]
 name = "swc_nodejs_common"
-version = "1.0.2"
+version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "30df4c0c5fbc9b7934c90bf270b21688b1137257b263e976412f650f52487d51"
+checksum = "1d48ec32365dba9a371950ce298483c3b714bd441878acea233711d66698863e"
 dependencies = [
  "anyhow",
- "napi 2.16.17",
+ "napi",
  "serde",
  "serde_json",
  "tracing",
