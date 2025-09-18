@@ -32,7 +32,7 @@
 
 use std::fmt::Debug;
 
-pub use ast_node::{ast_node, ast_serde, DeserializeEnum, Spanned};
+pub use ast_node::{ast_node, ast_serde, DeserializeEnum, Spanned, Encode, Decode};
 pub use from_variant::FromVariant;
 pub use swc_eq_ignore_macros::{EqIgnoreSpan, TypeEq};
 

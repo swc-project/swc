@@ -40,7 +40,7 @@ use crate::{typescript::TsTypeAnn, Expr};
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-#[derive(::cbor4ii_derive::Encode, ::cbor4ii_derive::Decode)]
+#[derive(::swc_common::Encode, ::swc_common::Decode)]
 pub struct BindingIdent {
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
@@ -48,7 +48,7 @@ pub struct BindingIdent {
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
-    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
+    #[encoding(with = "cbor4ii::core::types::Maybe")]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 

@@ -10,6 +10,7 @@ use syn::{visit_mut::VisitMut, *};
 mod ast_node_macro;
 mod enum_deserialize;
 mod spanned;
+mod encoding;
 
 /// Derives [`swc_common::Spanned`]. See [`swc_common::Spanned`] for
 /// documentation.
@@ -23,13 +24,29 @@ pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 }
 
 /// Derives `serde::Deserialize` which is aware of `tag` based deserialization.
-#[proc_macro_derive(DeserializeEnum, attributes(tag))]
+#[proc_macro_derive(DeserializeEnum, attributes(tag, encoding))]
 pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
 
     let item = enum_deserialize::expand(input);
 
     print("derive(DeserializeEnum)", item.into_token_stream())
+}
+
+#[proc_macro_derive(Encode, attributes(encoding))]
+pub fn derive_encode(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let input = syn::parse::<syn::DeriveInput>(input).expect("failed to parse input as DeriveInput");
+
+    let item = encoding::encode::expand(input);
+    print("derive(Encode)", item.into_token_stream())
+}
+
+#[proc_macro_derive(Decode, attributes(encoding))]
+pub fn derive_decode(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let input = syn::parse::<syn::DeriveInput>(input).expect("failed to parse input as DeriveInput");
+
+    let item = encoding::decode::expand(input);
+    print("derive(Decode)", item.into_token_stream())
 }
 
 /// Derives `serde::Serialize` and `serde::Deserialize`.
@@ -184,15 +201,19 @@ pub fn ast_node(
 
             let unknown: syn::Variant = if data.variants.iter().all(|variant| variant.fields.len() == 0) {
                 syn::parse_quote!{
-                    #[cfg_attr(feature = "serde-impl", serde(skip))]
-                    #[cbor4ii(unknown)]
+                    #[cfg(feature = "unknown")]
+                    #[from_variant(ignore)]
+                    #[span(unknown)]
+                    #[encoding(unknown)]
                     Unknown(u32)
                 }
             } else {
                 syn::parse_quote!{
-                    #[cfg_attr(feature = "serde-impl", serde(skip))]
-                    #[cbor4ii(unknown)]
-                    Unknown(u32, ::crate::Unknown)
+                    #[cfg(feature = "unknown")]
+                    #[from_variant(ignore)]
+                    #[span(unknown)]
+                    #[encoding(unknown)]
+                    Unknown(u32, #[not_spanned] crate::Unknown)
                 }
             };
 
@@ -242,7 +263,7 @@ pub fn ast_node(
                     feature = "serde-impl",
                     serde(untagged)
                 )]
-                #[derive(::cbor4ii_derive::Encode, ::cbor4ii_derive::Decode)]
+                #[derive(::swc_common::Encode, ::swc_common::Decode)]
                 #input
             ));
         }
@@ -317,7 +338,7 @@ pub fn ast_node(
                     serde(rename_all = "camelCase")
                 )]
                 #serde_rename
-                #[derive(::cbor4ii_derive::Encode, ::cbor4ii_derive::Decode)]
+                #[derive(::swc_common::Encode, ::swc_common::Decode)]
                 #input
             ));
 

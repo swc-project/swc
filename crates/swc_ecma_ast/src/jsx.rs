@@ -126,7 +126,7 @@ pub struct JSXOpeningElement {
     /// Note: This field's name is different from one from babel because it is
     /// misleading
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
-    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
+    #[encoding(with = "cbor4ii::core::types::Maybe")]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
@@ -171,7 +171,7 @@ pub struct JSXAttr {
     pub span: Span,
     pub name: JSXAttrName,
     /// Babel uses Expr instead of JSXAttrValue
-    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
+    #[encoding(with = "cbor4ii::core::types::Maybe")]
     pub value: Option<JSXAttrValue>,
 }
 
@@ -238,7 +238,7 @@ pub struct JSXElement {
     pub span: Span,
     pub opening: JSXOpeningElement,
     pub children: Vec<JSXElementChild>,
-    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
+    #[encoding(with = "cbor4ii::core::types::Maybe")]
     pub closing: Option<JSXClosingElement>,
 }
 

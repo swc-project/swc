@@ -11,6 +11,9 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::jsx::JSXText;
 
+#[cfg(feature = "unknown")]
+use crate::utils::unknown;
+
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -72,6 +75,8 @@ impl Lit {
             Lit::BigInt(n) => n.span = span,
             Lit::Regex(n) => n.span = span,
             Lit::JSXText(n) => n.span = span,
+            #[cfg(feature = "unknown")]
+            Lit::Unknown(..) => unknown()
         }
     }
 }
@@ -81,12 +86,12 @@ impl Lit {
 pub struct BigInt {
     pub span: Span,
     #[cfg_attr(any(feature = "rkyv-impl"), rkyv(with = EncodeBigInt))]
-    #[cbor4ii(with = "EncodeBigInt2")]
+    #[encoding(with = "EncodeBigInt2")]
     pub value: Box<BigIntValue>,
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in big integer
-    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
+    #[encoding(with = "cbor4ii::core::types::Maybe")]
     pub raw: Option<Atom>,
 }
 
@@ -208,7 +213,7 @@ pub struct Str {
 
     /// Use `None` value only for transformations to avoid recalculate escaped
     /// characters in strings
-    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
+    #[encoding(with = "cbor4ii::core::types::Maybe")]
     pub raw: Option<Atom>,
 }
 
@@ -418,7 +423,7 @@ pub struct Number {
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in number literal
-    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
+    #[encoding(with = "cbor4ii::core::types::Maybe")]
     pub raw: Option<Atom>,
 }
 

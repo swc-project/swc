@@ -27,6 +27,9 @@ use crate::{
     utils::ArrayOption,
 };
 
+#[cfg(feature = "unknown")]
+use crate::utils::unknown;
+
 #[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -377,6 +380,8 @@ impl Expr {
             Expr::PrivateName(e) => e.span = span,
             Expr::OptChain(e) => e.span = span,
             Expr::Lit(e) => e.set_span(span),
+            #[cfg(feature = "unknown")]
+            Expr::Unknown(..) => unknown(),
         }
     }
 }
@@ -387,6 +392,8 @@ impl Clone for Expr {
     fn clone(&self) -> Self {
         use Expr::*;
         match self {
+            #[cfg(feature = "unknown")]
+            Unknown(tag, v) => Unknown(*tag, v.clone()),
             This(e) => This(e.clone()),
             Array(e) => Array(e.clone()),
             Object(e) => Object(e.clone()),
@@ -514,7 +521,7 @@ pub struct ArrayLit {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "elements"))]
-    #[cbor4ii(with = "ArrayOption")]
+    #[encoding(with = "ArrayOption")]
     pub elems: Vec<Option<ExprOrSpread>>,
 }
 
@@ -566,6 +573,8 @@ impl ObjectLit {
                     }
                     _ => return None,
                 },
+                #[cfg(feature = "unknown")]
+                PropOrSpread::Unknown(..) => continue,
             }
         }
 
@@ -762,7 +771,7 @@ impl Take for BinExpr {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct FnExpr {
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "identifier"))]
-    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
+    #[encoding(with = "cbor4ii::core::types::Maybe")]
     pub ident: Option<Ident>,
 
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
@@ -798,7 +807,7 @@ bridge_expr_from!(FnExpr, Box<Function>);
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub struct ClassExpr {
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "identifier"))]
-    #[cbor4ii(with = "::cbor4ii::core::types::Maybe")]
+    #[encoding(with = "::cbor4ii::core::types::Maybe")]
     pub ident: Option<Ident>,
 
     #[cfg_attr(feature = "serde-impl", serde(flatten))]
@@ -988,7 +997,7 @@ pub struct CallExpr {
     pub args: Vec<ExprOrSpread>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
-    #[cbor4ii(with = "::cbor4ii::core::types::Maybe")]
+    #[encoding(with = "::cbor4ii::core::types::Maybe")]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
@@ -1011,11 +1020,11 @@ pub struct NewExpr {
     pub callee: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "arguments"))]
-    #[cbor4ii(with = "::cbor4ii::core::types::Maybe")]
+    #[encoding(with = "::cbor4ii::core::types::Maybe")]
     pub args: Option<Vec<ExprOrSpread>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
-    #[cbor4ii(with = "::cbor4ii::core::types::Maybe")]
+    #[encoding(with = "::cbor4ii::core::types::Maybe")]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
@@ -1067,11 +1076,11 @@ pub struct ArrowExpr {
     pub is_generator: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeParameters"))]
-    #[cbor4ii(with = "::cbor4ii::core::types::Maybe")]
+    #[encoding(with = "::cbor4ii::core::types::Maybe")]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cbor4ii(with = "::cbor4ii::core::types::Maybe")]
+    #[encoding(with = "::cbor4ii::core::types::Maybe")]
     pub return_type: Option<Box<TsTypeAnn>>,
 }
 
@@ -1091,7 +1100,7 @@ pub struct YieldExpr {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "argument"))]
-    #[cbor4ii(with = "::cbor4ii::core::types::Maybe")]
+    #[encoding(with = "::cbor4ii::core::types::Maybe")]
     pub arg: Option<Box<Expr>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -1126,7 +1135,7 @@ pub struct MetaPropExpr {
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-#[derive(::cbor4ii_derive::Encode, ::cbor4ii_derive::Decode)]
+#[derive(::swc_common::Encode, ::swc_common::Decode)]
 pub enum MetaPropKind {
     /// `new.target`
     NewTarget,
@@ -1180,7 +1189,7 @@ pub struct TaggedTpl {
     pub tag: Box<Expr>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeParameters"))]
-    #[cbor4ii(with = "::cbor4ii::core::types::Maybe")]
+    #[encoding(with = "::cbor4ii::core::types::Maybe")]
     pub type_params: Option<Box<TsTypeParamInstantiation>>,
 
     /// This is boxed to reduce the type size of [Expr].
@@ -1206,7 +1215,7 @@ pub struct TplElement {
     ///
     /// If you are going to use codegen right after creating a [TplElement], you
     /// don't have to worry about this value.
-    #[cbor4ii(with = "::cbor4ii::core::types::Maybe")]
+    #[encoding(with = "::cbor4ii::core::types::Maybe")]
     pub cooked: Option<Atom>,
 
     /// You may need to perform. `.replace("\r\n", "\n").replace('\r', "\n")` on
@@ -1346,11 +1355,11 @@ impl Take for Import {
                 )]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
-#[derive(::cbor4ii_derive::Encode, ::cbor4ii_derive::Decode)]
+#[derive(::swc_common::Encode, ::swc_common::Decode)]
 pub struct ExprOrSpread {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]
-    #[cbor4ii(with = "::cbor4ii::core::types::Maybe")]
+    #[encoding(with = "::cbor4ii::core::types::Maybe")]
     pub spread: Option<Span>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
@@ -1511,6 +1520,8 @@ impl From<AssignTargetPat> for Pat {
             AssignTargetPat::Array(a) => a.into(),
             AssignTargetPat::Object(o) => o.into(),
             AssignTargetPat::Invalid(i) => i.into(),
+            #[cfg(feature = "unknown")]
+            AssignTargetPat::Unknown(..) => unknown(),
         }
     }
 }
@@ -1632,6 +1643,8 @@ impl From<SimpleAssignTarget> for Box<Expr> {
             SimpleAssignTarget::TsTypeAssertion(a) => a.into(),
             SimpleAssignTarget::TsInstantiation(a) => a.into(),
             SimpleAssignTarget::Invalid(i) => i.into(),
+            #[cfg(feature = "unknown")]
+            SimpleAssignTarget::Unknown(..) => unknown()
         }
     }
 }
@@ -1701,7 +1714,7 @@ pub struct OptCall {
     pub args: Vec<ExprOrSpread>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
-    #[cbor4ii(with = "::cbor4ii::core::types::Maybe")]
+    #[encoding(with = "::cbor4ii::core::types::Maybe")]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
     // pub type_params: Option<TsTypeParamInstantiation>,
 }
@@ -1733,6 +1746,8 @@ impl From<OptChainBase> for Expr {
                 ctxt,
             }),
             OptChainBase::Member(member) => Self::Member(member),
+            #[cfg(feature = "unknown")]
+            OptChainBase::Unknown(..) => unknown(),
         }
     }
 }

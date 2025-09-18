@@ -14,8 +14,10 @@ pub use num_bigint::BigInt as BigIntValue;
 use serde::{Deserialize, Serialize};
 use swc_common::{ast_node, pass::Either, util::take::Take, EqIgnoreSpan, Span};
 
+#[cfg(feature = "unknown")]
+pub use utils::Unknown;
+
 pub use self::{
-    utils::Unknown,
     class::{
         AutoAccessor, Class, ClassMember, ClassMethod, ClassProp, Constructor, Decorator, Key,
         MethodKind, PrivateMethod, PrivateProp, StaticBlock,

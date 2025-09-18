@@ -658,16 +658,7 @@ dependencies = [
 [[package]]
 name = "cbor4ii"
 version = "1.1.1"
-source = "git+https://github.com/quininer/cbor4ii?branch=f%2Fderive#e26f97be30663697c9d69cbbc9efaecb8483d7d4"
-
-[[package]]
-name = "cbor4ii-derive"
-version = "0.1.0"
-source = "git+https://github.com/quininer/cbor4ii?branch=f%2Fderive#e26f97be30663697c9d69cbbc9efaecb8483d7d4"
-dependencies = [
- "quote",
- "syn 2.0.106",
-]
+source = "git+https://github.com/quininer/cbor4ii?branch=f%2Fderive#5c683a8e2035193a7872c8f49b6bdc45f9f47c2d"
 
 [[package]]
 name = "cc"
@@ -1387,8 +1378,6 @@ checksum = "67773048316103656a637612c4a62477603b777d91d9c62ff2290f9cde178fdb"
 dependencies = [
  "ctor-proc-macro",
  "dtor",
- "quote",
- "syn 2.0.106",
 ]
 
 [[package]]
@@ -4968,7 +4957,6 @@ dependencies = [
  "arbitrary",
  "bytecheck 0.8.1",
  "cbor4ii",
- "cbor4ii-derive",
  "hstr",
  "once_cell",
  "rancor",
@@ -5051,7 +5039,6 @@ dependencies = [
  "bytecheck 0.8.1",
  "bytes-str",
  "cbor4ii",
- "cbor4ii-derive",
  "either",
  "from_variant",
  "new_debug_unreachable",
@@ -5378,7 +5365,6 @@ dependencies = [
  "bitflags 2.6.0",
  "bytecheck 0.8.1",
  "cbor4ii",
- "cbor4ii-derive",
  "is-macro",
  "num-bigint",
  "once_cell",
@@ -5643,7 +5629,6 @@ dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
  "cbor4ii",
- "cbor4ii-derive",
  "codspeed-criterion-compat",
  "either",
  "num-bigint",
