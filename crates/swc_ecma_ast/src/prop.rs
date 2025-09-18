@@ -11,6 +11,9 @@ use crate::{
     Id, IdentName, MemberProp, Pat,
 };
 
+#[cfg(feature = "unknown")]
+use crate::utils::unknown;
+
 #[ast_node]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
@@ -70,10 +73,10 @@ pub struct GetterProp {
     pub span: Span,
     pub key: PropName,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
+    #[encoding(with = "cbor4ii::core::types::Maybe")]
     pub type_ann: Option<Box<TsTypeAnn>>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
+    #[encoding(with = "cbor4ii::core::types::Maybe")]
     pub body: Option<BlockStmt>,
 }
 #[ast_node("SetterProperty")]
@@ -83,11 +86,11 @@ pub struct GetterProp {
 pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
-    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
+    #[encoding(with = "cbor4ii::core::types::Maybe")]
     pub this_param: Option<Pat>,
     pub param: Box<Pat>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cbor4ii(with = "cbor4ii::core::types::Maybe")]
+    #[encoding(with = "cbor4ii::core::types::Maybe")]
     pub body: Option<BlockStmt>,
 }
 #[ast_node("MethodProperty")]
@@ -153,6 +156,8 @@ impl From<PropName> for MemberProp {
                 span: DUMMY_SP,
                 expr: p.into(),
             }),
+            #[cfg(feature = "unknown")]
+            PropName::Unknown(..) => unknown()
         }
     }
 }

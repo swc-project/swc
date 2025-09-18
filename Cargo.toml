@@ -130,7 +130,6 @@ resolver = "2"
   foldhash        = "0.1"
   precomputed-map = "0.2"
   cbor4ii         = { git = "https://github.com/quininer/cbor4ii", branch = "f/derive" }
-  cbor4ii-derive  = { git = "https://github.com/quininer/cbor4ii", branch = "f/derive" }
 
   [workspace.metadata.cargo-shear]
   # `serde` is used when #[ast_node] is expanded

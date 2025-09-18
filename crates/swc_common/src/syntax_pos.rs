@@ -36,7 +36,7 @@ pub mod hygiene;
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-#[derive(::cbor4ii_derive::Encode, ::cbor4ii_derive::Decode)]
+#[derive(::ast_node::Encode, ::ast_node::Decode)]
 pub struct Span {
     #[serde(rename = "start")]
     #[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))]

@@ -76,7 +76,6 @@ swc_eq_ignore_macros = { version = "1.0.1", path = "../swc_eq_ignore_macros" }
 swc_visit            = { version = "2.0.1", path = "../swc_visit" }
 
 cbor4ii = { workspace = true, features = [ "use_std" ] }
-cbor4ii-derive = { workspace = true }
 
 [dev-dependencies]
 par-iter                  = { workspace = true }

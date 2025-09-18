@@ -25,6 +25,7 @@ macro_rules! impl_enum_body {
                     )
                 },
             )*
+            $E::Unknown(..) => panic!("unknown node")
         }
     };
 }

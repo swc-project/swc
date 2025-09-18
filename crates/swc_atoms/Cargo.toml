@@ -29,4 +29,3 @@ shrink-to-fit = { workspace = true, optional = true }
 hstr = { version = "2.0.1", path = "../hstr" }
 
 cbor4ii = { workspace = true, features = [ "use_std" ] }
-cbor4ii-derive = { workspace = true }
