@@ -86,12 +86,12 @@ impl Lit {
 pub struct BigInt {
     pub span: Span,
     #[cfg_attr(any(feature = "rkyv-impl"), rkyv(with = EncodeBigInt))]
-    #[encoding(with = "EncodeBigInt2")]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "EncodeBigInt2"))]
     pub value: Box<BigIntValue>,
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in big integer
-    #[encoding(with = "cbor4ii::core::types::Maybe")]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
     pub raw: Option<Atom>,
 }
 
@@ -107,8 +107,10 @@ impl EqIgnoreSpan for BigInt {
     }
 }
 
+#[cfg(feature = "encoding-impl")]
 struct EncodeBigInt2<T>(T);
 
+#[cfg(feature = "encoding-impl")]
 impl cbor4ii::core::enc::Encode for EncodeBigInt2<&'_ Box<BigIntValue>> {
     #[inline]
     fn encode<W: cbor4ii::core::enc::Write>(&self, writer: &mut W) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
@@ -116,6 +118,7 @@ impl cbor4ii::core::enc::Encode for EncodeBigInt2<&'_ Box<BigIntValue>> {
     }
 }
 
+#[cfg(feature = "encoding-impl")]
 impl<'de> cbor4ii::core::dec::Decode<'de> for EncodeBigInt2<Box<BigIntValue>> {
     #[inline]
     fn decode<R: cbor4ii::core::dec::Read<'de>>(reader: &mut R) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
@@ -213,7 +216,7 @@ pub struct Str {
 
     /// Use `None` value only for transformations to avoid recalculate escaped
     /// characters in strings
-    #[encoding(with = "cbor4ii::core::types::Maybe")]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
     pub raw: Option<Atom>,
 }
 
@@ -423,7 +426,7 @@ pub struct Number {
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in number literal
-    #[encoding(with = "cbor4ii::core::types::Maybe")]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
     pub raw: Option<Atom>,
 }
 

@@ -26,7 +26,7 @@ pub fn expand(
                             let #name = #value;
                         },
                         None => {
-                            let name = format!("unit{}", idx);
+                            let name = format!("unit{idx}");
                             syn::parse_quote!{
                                 let #name = #value;
                             }
@@ -39,7 +39,7 @@ pub fn expand(
                     match field.ident.as_ref() {
                         Some(name) => syn::parse_quote!(#name),
                         None => {
-                            let name = format!("unit{}", idx);
+                            let name = format!("unit{idx}");
                             syn::parse_quote!(#name)
                         }
                     }
@@ -119,11 +119,11 @@ pub fn expand(
             let fields = iter
                 .enumerate()
                 .map(|(idx, field)| -> syn::Arm {
-                    let idx: u32 = idx.try_into().expect("enum tag max 32bit");
                     let idx = idx + 1; // skip zero
+                    let idx: u32 = idx.try_into().expect("enum tags must not exceed 32 bits");
                     let name = &field.ident;
 
-                    assert!(field.discriminant.is_none(), "custom discriminant unsupport");
+                    assert!(field.discriminant.is_none(), "custom discriminant is not allowed");
                     assert!(!is_unknown(&field.attrs), "unknown member must be first");
 
                     match &field.fields {
@@ -132,8 +132,8 @@ pub fn expand(
                                 panic!("enum member only allows one field");
                             }
 
-                            if *is_unit.get_or_insert(false) != false {
-                                panic!("The number of fields in member must be consistent");
+                            if *is_unit.get_or_insert(false) {
+                                panic!("the number of fields in member must be consistent");
                             }
                             let val_ty = &fields.unnamed[0].ty;
                             let value: syn::Expr = match is_with(&field.attrs) {
@@ -149,8 +149,8 @@ pub fn expand(
                             }
                         },
                         syn::Fields::Unit => {
-                            if *is_unit.get_or_insert(true) != true {
-                                panic!("The number of fields in member must be consistent");
+                            if !*is_unit.get_or_insert(true) {
+                                panic!("the number of fields in member must be consistent");
                             }
                             assert!(is_with(&field.attrs).is_none(), "unit member is not allowed with type");
 

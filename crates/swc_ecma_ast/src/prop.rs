@@ -73,10 +73,10 @@ pub struct GetterProp {
     pub span: Span,
     pub key: PropName,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[encoding(with = "cbor4ii::core::types::Maybe")]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[encoding(with = "cbor4ii::core::types::Maybe")]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
     pub body: Option<BlockStmt>,
 }
 #[ast_node("SetterProperty")]
@@ -86,11 +86,11 @@ pub struct GetterProp {
 pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
-    #[encoding(with = "cbor4ii::core::types::Maybe")]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
     pub this_param: Option<Pat>,
     pub param: Box<Pat>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[encoding(with = "cbor4ii::core::types::Maybe")]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
     pub body: Option<BlockStmt>,
 }
 #[ast_node("MethodProperty")]

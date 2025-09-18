@@ -55,7 +55,7 @@ pub fn expand(
                 iter.next_if(|variant| is_unknown(&variant.attrs))
             {
                 let name = &unknown.ident;
-                assert!(unknown.discriminant.is_none(), "custom discriminant unsupport");
+                assert!(unknown.discriminant.is_none(), "custom discriminant is not allowed");
                 assert!(is_with(&unknown.attrs).is_none(), "unknown member is not allowed with type");
                 
                 match &unknown.fields {
@@ -94,12 +94,12 @@ pub fn expand(
             let fields = iter
                 .enumerate()
                 .map(|(idx, field)| -> syn::Arm {
-                    let idx: u32 = idx.try_into().expect("max 32bit");
                     let idx = idx + 1; // skip zero
+                    let idx: u32 = idx.try_into().expect("enum tags must not exceed 32 bits");
                     let name = &field.ident;
 
+                    assert!(field.discriminant.is_none(), "custom discriminant is not allowed");
                     assert!(!is_unknown(&field.attrs), "unknown member must be first: {:?}", field.attrs.len());
-                    assert!(field.discriminant.is_none(), "custom discriminant unsupport");
 
                     match &field.fields {
                         syn::Fields::Unnamed(fields) => {
@@ -107,8 +107,8 @@ pub fn expand(
                                 panic!("enum member only allows one field");
                             }
 
-                            if *is_unit.get_or_insert(false) != false {
-                                panic!("The number of fields in member must be consistent");
+                            if *is_unit.get_or_insert(false) {
+                                panic!("the number of fields in member must be consistent");
                             }
 
                             let value: syn::Stmt = match is_with(&field.attrs) {
@@ -129,8 +129,8 @@ pub fn expand(
                             }
                         },
                         syn::Fields::Unit => {
-                            if *is_unit.get_or_insert(true) != true {
-                                panic!("The number of fields in member must be consistent");
+                            if !*is_unit.get_or_insert(true) {
+                                panic!("the number of fields in member must be consistent");
                             }
                             assert!(is_with(&field.attrs).is_none(), "unit member is not allowed with type");
 

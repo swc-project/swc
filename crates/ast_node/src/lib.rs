@@ -199,7 +199,7 @@ pub fn ast_node(
                 None
             };
 
-            let unknown: syn::Variant = if data.variants.iter().all(|variant| variant.fields.len() == 0) {
+            let unknown: syn::Variant = if data.variants.iter().all(|variant| variant.fields.is_empty()) {
                 syn::parse_quote!{
                     #[cfg(feature = "unknown")]
                     #[from_variant(ignore)]
@@ -263,7 +263,10 @@ pub fn ast_node(
                     feature = "serde-impl",
                     serde(untagged)
                 )]
-                #[derive(::swc_common::Encode, ::swc_common::Decode)]
+                #[cfg_attr(
+                    feature = "encoding-impl",
+                    derive(::swc_common::Encode, ::swc_common::Decode)
+                )]
                 #input
             ));
         }
@@ -338,7 +341,10 @@ pub fn ast_node(
                     serde(rename_all = "camelCase")
                 )]
                 #serde_rename
-                #[derive(::swc_common::Encode, ::swc_common::Decode)]
+                #[cfg_attr(
+                    feature = "encoding-impl",
+                    derive(::swc_common::Encode, ::swc_common::Decode)
+                )]
                 #input
             ));
 

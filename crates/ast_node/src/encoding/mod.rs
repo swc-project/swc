@@ -4,7 +4,7 @@ pub(crate) mod decode;
 pub(crate) fn is_unknown(attrs: &[syn::Attribute]) -> bool {
     attrs.iter()
         .filter(|attr| attr.path().is_ident("encoding"))
-        .find(|attr| {
+        .any(|attr| {
             let mut is_unknown = false;
             attr.parse_nested_meta(|meta| {
                 is_unknown |= meta.path.is_ident("unknown");
@@ -12,7 +12,6 @@ pub(crate) fn is_unknown(attrs: &[syn::Attribute]) -> bool {
             }).unwrap();
             is_unknown
         })
-        .is_some()
 }
 
 fn is_with(attrs: &[syn::Attribute]) -> Option<syn::Path> {
