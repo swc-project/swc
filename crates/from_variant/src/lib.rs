@@ -22,7 +22,7 @@ pub fn derive_from_variant(input: proc_macro::TokenStream) -> proc_macro::TokenS
 fn is_ignored(attrs: &[syn::Attribute]) -> bool {
     attrs.iter()
         .filter(|attr| attr.path().is_ident("from_variant"))
-        .find(|attr| {
+        .any(|attr| {
             let mut is_unknown = false;
             attr.parse_nested_meta(|meta| {
                 is_unknown |= meta.path.is_ident("ignore");
@@ -30,7 +30,6 @@ fn is_ignored(attrs: &[syn::Attribute]) -> bool {
             }).unwrap();
             is_unknown
         })
-        .is_some()
 }
 
 fn derive(

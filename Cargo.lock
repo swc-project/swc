@@ -5628,7 +5628,6 @@ version = "23.0.1"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
- "cbor4ii",
  "codspeed-criterion-compat",
  "either",
  "num-bigint",

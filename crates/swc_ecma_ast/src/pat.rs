@@ -6,9 +6,11 @@ use crate::{
     ident::{BindingIdent, Ident},
     prop::PropName,
     typescript::TsTypeAnn,
-    utils::ArrayOption,
     Id, IdentName, Invalid,
 };
+
+#[cfg(feature = "encoding-impl")]
+use crate::utils::ArrayOption;
 
 #[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -94,7 +96,7 @@ pub struct ArrayPat {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "elements"))]
-    #[encoding(with = "ArrayOption")]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "ArrayOption"))]
     pub elems: Vec<Option<Pat>>,
 
     /// Only in an ambient context
@@ -102,7 +104,7 @@ pub struct ArrayPat {
     pub optional: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[encoding(with = "cbor4ii::core::types::Maybe")]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -121,7 +123,7 @@ pub struct ObjectPat {
     pub optional: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[encoding(with = "cbor4ii::core::types::Maybe")]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -152,7 +154,7 @@ pub struct RestPat {
     pub arg: Box<Pat>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[encoding(with = "cbor4ii::core::types::Maybe")]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -195,6 +197,6 @@ pub struct AssignPatProp {
     pub key: BindingIdent,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[encoding(with = "cbor4ii::core::types::Maybe")]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
     pub value: Option<Box<Expr>>,
 }

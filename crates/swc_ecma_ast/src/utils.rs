@@ -1,7 +1,10 @@
+#[cfg(feature = "encoding-impl")]
 use cbor4ii::core::{ dec, enc, error, types };
 
+#[cfg(feature = "encoding-impl")]
 pub(crate) struct ArrayOption<T>(pub T);
 
+#[cfg(feature = "encoding-impl")]
 impl<T: enc::Encode> enc::Encode for ArrayOption<&'_ Vec<Option<T>>> {
     fn encode<W: enc::Write>(&self, writer: &mut W) -> Result<(), enc::Error<W::Error>> {
         <types::Array<()>>::bounded(self.0.len(), writer)?;
@@ -12,6 +15,7 @@ impl<T: enc::Encode> enc::Encode for ArrayOption<&'_ Vec<Option<T>>> {
     }
 }
 
+#[cfg(feature = "encoding-impl")]
 impl<'de, T: dec::Decode<'de>> dec::Decode<'de> for ArrayOption<Vec<Option<T>>> {
     fn decode<R: dec::Read<'de>>(reader: &mut R) -> Result<Self, dec::Error<R::Error>> {
         let len = <types::Array<()>>::len(reader)?;
@@ -126,6 +130,7 @@ impl std::fmt::Debug for Unknown {
     }
 }
 
+#[cfg(feature = "serde-impl")]
 #[cfg(feature = "unknown")]
 impl serde::Serialize for Unknown {
     fn serialize<S>(&self, _serializer: S) -> Result<S::Ok, S::Error>
@@ -137,6 +142,7 @@ impl serde::Serialize for Unknown {
     }
 }
 
+#[cfg(feature = "serde-impl")]
 #[cfg(feature = "unknown")]
 impl<'de> serde::Deserialize<'de> for Unknown {
     fn deserialize<D>(_deserializer: D) -> Result<Self, D::Error>
