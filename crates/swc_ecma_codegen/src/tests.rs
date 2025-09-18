@@ -776,6 +776,14 @@ module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u
     );
 }
 
+#[test]
+fn issue_11098() {
+    assert_min(
+        r#"JSON.parse('{"bug": " \\"\\\\uD83D\\\\uDC49\\""}')"#,
+        r#"JSON.parse('{"bug": " \\"\\\\uD83D\\\\uDC49\\""}')"#,
+    );
+}
+
 fn test_all(src: &str, expected: &str, expected_minified: &str, config: Config) {
     {
         let out = parse_then_emit(

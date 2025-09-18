@@ -381,6 +381,7 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
     let capacity = v.len() + escape_count;
     let mut buf = CompactString::with_capacity(capacity);
 
+    let mut backslash_for_escape = true;
     let mut iter = v.chars().peekable();
     while let Some(c) = iter.next() {
         match c {
@@ -400,7 +401,7 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
             '\\' => {
                 let next = iter.peek();
                 match next {
-                    Some('u') => {
+                    Some('u') if backslash_for_escape => {
                         let mut inner_iter = iter.clone();
                         inner_iter.next();
 
@@ -476,8 +477,12 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
                         } else {
                             buf.push('\\');
                         }
+                        backslash_for_escape = true;
                     }
-                    _ => buf.push_str("\\\\"),
+                    _ => {
+                        buf.push_str("\\\\");
+                        backslash_for_escape = !backslash_for_escape;
+                    }
                 }
             }
             c if c == escape_char => {
@@ -523,6 +528,11 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
                     buf.push(c);
                 }
             }
+        }
+
+        // If c is not a backslash, then next backslash can be used for escape.
+        if c != '\\' {
+            backslash_for_escape = true;
         }
     }
 
