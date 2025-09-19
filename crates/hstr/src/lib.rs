@@ -538,7 +538,7 @@ impl serde::ser::Serialize for Wtf8Atom {
     where
         S: serde::ser::Serializer,
     {
-        serializer.serialize_str(self)
+        serializer.serialize_bytes(self.as_bytes())
     }
 }
 
