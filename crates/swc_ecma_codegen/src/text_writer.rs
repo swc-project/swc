@@ -33,7 +33,12 @@ pub trait WriteJs {
 
     fn write_symbol(&mut self, span: Span, s: &str) -> Result;
 
-    fn write_punct(&mut self, span: Option<Span>, s: &'static str) -> Result;
+    fn write_punct(
+        &mut self,
+        span: Option<Span>,
+        s: &'static str,
+        should_commit_semi: bool,
+    ) -> Result;
 
     fn care_about_srcmap(&self) -> bool;
 
