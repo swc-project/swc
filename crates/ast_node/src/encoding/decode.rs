@@ -1,4 +1,4 @@
-use syn::{Data, DeriveInput};
+use syn::{spanned::Spanned, Data, DeriveInput};
 
 use super::{is_unknown, is_with};
 
@@ -22,6 +22,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                         },
                         None => {
                             let name = format!("unit{idx}");
+                            let name = syn::Ident::new(&name, field.span());
                             syn::parse_quote!{
                                 let #name = #value;
                             }
@@ -37,18 +38,19 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                         Some(name) => syn::parse_quote!(#name),
                         None => {
                             let name = format!("unit{idx}");
+                            let name = syn::Ident::new(&name, field.span());
                             syn::parse_quote!(#name)
                         }
                     }
                 })
                 .collect::<syn::punctuated::Punctuated<_, syn::Token![,]>>();
-            let build_struct: syn::ExprStruct = if is_named {
+            let build_struct: syn::Expr = if is_named {
                 syn::parse_quote! {
                     #ident { #build_struct }
                 }
             } else {
                 syn::parse_quote! {
-                    #ident(#build_struct)
+                    #ident ( #build_struct )
                 }
             };
 
