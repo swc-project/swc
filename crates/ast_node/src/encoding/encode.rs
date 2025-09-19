@@ -16,7 +16,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                             let name = format!("{idx}");
                             let name = syn::LitInt::new(&name, field.span());
                             syn::parse_quote!(self.#name)
-                        },
+                        }
                     };
 
                     match is_with(&field.attrs) {

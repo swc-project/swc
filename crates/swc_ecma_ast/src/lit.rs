@@ -7,11 +7,11 @@ use std::{
 use is_macro::Is;
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{atom, Atom};
+#[cfg(feature = "unknown")]
+use swc_common::unknown::unknown;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::jsx::JSXText;
-#[cfg(feature = "unknown")]
-use swc_common::unknown::unknown;
 
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]

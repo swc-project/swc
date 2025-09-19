@@ -12,10 +12,10 @@ use serde::{
 };
 use string_enum::StringEnum;
 use swc_atoms::Atom;
-use swc_common::{ast_node, EqIgnoreSpan, Span};
-
 #[cfg(feature = "unknown")]
 use swc_common::unknown::unknown;
+use swc_common::{ast_node, EqIgnoreSpan, Span};
+
 use crate::{
     class::Decorator,
     expr::{Expr, ObjectLit},
