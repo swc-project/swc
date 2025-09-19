@@ -14,7 +14,8 @@ use triomphe::ThinArc;
 
 use crate::{
     tagged_value::{TaggedValue, MAX_INLINE_LEN},
-    Atom, INLINE_TAG, INLINE_TAG_INIT, LEN_OFFSET, TAG_MASK,
+    wtf8::Wtf8,
+    Atom, Wtf8Atom, INLINE_TAG, INLINE_TAG_INIT, LEN_OFFSET, TAG_MASK,
 };
 
 #[derive(PartialEq, Eq)]
@@ -73,6 +74,11 @@ impl AtomStore {
         atom_in(self, &text.into())
     }
 
+    #[inline(always)]
+    pub fn wtf8_atom<'a>(&mut self, text: impl Into<Cow<'a, Wtf8>>) -> Wtf8Atom {
+        wtf8_atom_in(self, text.into().as_bytes())
+    }
+
     fn gc(&mut self) {
         self.data.retain(|item, _| {
             let count = ThinArc::strong_count(&item.0);
@@ -94,6 +100,14 @@ pub fn global_atom_store_gc() {
     });
 }
 
+pub(crate) fn global_wtf8_atom(text: &[u8]) -> Wtf8Atom {
+    GLOBAL_DATA.with(|global| {
+        let mut store = global.borrow_mut();
+
+        wtf8_atom_in(&mut *store, text)
+    })
+}
+
 pub(crate) fn global_atom(text: &str) -> Atom {
     GLOBAL_DATA.with(|global| {
         let mut store = global.borrow_mut();
@@ -102,9 +116,7 @@ pub(crate) fn global_atom(text: &str) -> Atom {
     })
 }
 
-/// This can create any kind of [Atom], although this lives in the `dynamic`
-/// module.
-fn atom_in<S>(storage: S, text: &str) -> Atom
+fn wtf8_atom_in<S>(storage: S, text: &[u8]) -> Wtf8Atom
 where
     S: Storage,
 {
@@ -115,9 +127,9 @@ where
         let tag = INLINE_TAG_INIT | ((len as u8) << LEN_OFFSET);
         let mut unsafe_data = TaggedValue::new_tag(tag);
         unsafe {
-            unsafe_data.data_mut()[..len].copy_from_slice(text.as_bytes());
+            unsafe_data.data_mut()[..len].copy_from_slice(text);
         }
-        return Atom { unsafe_data };
+        return Wtf8Atom { unsafe_data };
     }
 
     let hash = calc_hash(text);
@@ -129,12 +141,22 @@ where
         NonNull::new_unchecked(entry)
     };
     debug_assert!(0 == ptr.as_ptr() as u8 & TAG_MASK);
-    Atom {
+    Wtf8Atom {
         unsafe_data: TaggedValue::new_ptr(ptr),
     }
 }
 
-/// Attempts to construct an Atom but only if it can be constructed inline.
+/// This can create any kind of [Atom], although this lives in the `dynamic`
+/// module.
+fn atom_in<S>(storage: S, text: &str) -> Atom
+where
+    S: Storage,
+{
+    // SAFETY: `text` is valid UTF-8
+    unsafe { Atom::from_wtf8_unchecked(wtf8_atom_in(storage, text.as_bytes())) }
+}
+
+/// Attempts to construct an [Atom] but only if it can be constructed inline.
 /// This is primarily useful in constant contexts.
 pub(crate) const fn inline_atom(text: &str) -> Option<Atom> {
     let len = text.len();
@@ -159,31 +181,25 @@ pub(crate) const fn inline_atom(text: &str) -> Option<Atom> {
 }
 
 trait Storage {
-    fn insert_entry(self, text: &str, hash: u64) -> Item;
+    fn insert_entry(self, text: &[u8], hash: u64) -> Item;
 }
 
 impl Storage for &'_ mut AtomStore {
-    fn insert_entry(self, text: &str, hash: u64) -> Item {
+    fn insert_entry(self, text: &[u8], hash: u64) -> Item {
         // If the text is too long, interning is not worth it.
         if text.len() > 512 {
-            return Item(ThinArc::from_header_and_slice(
-                Metadata { hash },
-                text.as_bytes(),
-            ));
+            return Item(ThinArc::from_header_and_slice(Metadata { hash }, text));
         }
 
         let (entry, _) = self
             .data
             .raw_entry_mut()
             .from_hash(hash, |key| {
-                key.header.header.hash == hash && key.slice.eq(text.as_bytes())
+                key.header.header.hash == hash && key.slice.eq(text)
             })
             .or_insert_with(move || {
                 (
-                    Item(ThinArc::from_header_and_slice(
-                        Metadata { hash },
-                        text.as_bytes(),
-                    )),
+                    Item(ThinArc::from_header_and_slice(Metadata { hash }, text)),
                     (),
                 )
             });
@@ -192,7 +208,7 @@ impl Storage for &'_ mut AtomStore {
 }
 
 #[inline(always)]
-fn calc_hash(text: &str) -> u64 {
+fn calc_hash(text: &[u8]) -> u64 {
     let mut hasher = FxHasher::default();
     text.hash(&mut hasher);
     hasher.finish()

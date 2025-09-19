@@ -5,7 +5,7 @@ use core::str;
 use std::{
     fmt::{Debug, Display},
     hash::Hash,
-    mem::{self, forget, transmute},
+    mem::{self, forget, transmute, ManuallyDrop},
     num::NonZeroU8,
     ops::Deref,
     str::from_utf8_unchecked,
@@ -13,6 +13,7 @@ use std::{
 
 use debug_unreachable::debug_unreachable;
 use once_cell::sync::Lazy;
+use wtf8::Wtf8;
 
 pub use crate::dynamic::{global_atom_store_gc, AtomStore};
 use crate::tagged_value::TaggedValue;
@@ -22,6 +23,7 @@ mod global_store;
 mod tagged_value;
 #[cfg(test)]
 mod tests;
+pub mod wtf8;
 
 /// An immutable string which is cheap to clone, compare, hash, and has small
 /// size.
@@ -251,11 +253,11 @@ impl Atom {
     }
 }
 
-impl Atom {
-    fn get_hash(&self) -> u64 {
-        match self.tag() {
+macro_rules! get_hash {
+    ($self:expr) => {
+        match $self.tag() {
             DYNAMIC_TAG => {
-                unsafe { crate::dynamic::deref_from(self.unsafe_data) }
+                unsafe { crate::dynamic::deref_from($self.unsafe_data) }
                     .header
                     .header
                     .hash
@@ -263,10 +265,16 @@ impl Atom {
             INLINE_TAG => {
                 // This is passed as input to the caller's `Hasher` implementation, so it's okay
                 // that this isn't really a hash
-                self.unsafe_data.hash()
+                $self.unsafe_data.hash()
             }
             _ => unsafe { debug_unreachable!() },
         }
+    };
+}
+
+impl Atom {
+    fn get_hash(&self) -> u64 {
+        get_hash!(self)
     }
 
     fn as_str(&self) -> &str {
@@ -299,22 +307,21 @@ impl Atom {
     }
 }
 
-impl PartialEq for Atom {
-    #[inline(never)]
-    fn eq(&self, other: &Self) -> bool {
-        if self.unsafe_data == other.unsafe_data {
+macro_rules! partial_eq {
+    ($self:expr, $other:expr) => {
+        if $self.unsafe_data == $other.unsafe_data {
             return true;
         }
 
         // If one is inline and the other is not, the length is different.
         // If one is static and the other is not, it's different.
-        if self.tag() != other.tag() {
+        if $self.tag() != $other.tag() {
             return false;
         }
 
-        if self.is_dynamic() && other.is_dynamic() {
-            let te = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
-            let oe = unsafe { crate::dynamic::deref_from(other.unsafe_data) };
+        if $self.is_dynamic() && $other.is_dynamic() {
+            let te = unsafe { crate::dynamic::deref_from($self.unsafe_data) };
+            let oe = unsafe { crate::dynamic::deref_from($other.unsafe_data) };
 
             if te.header.header.hash != oe.header.header.hash {
                 return false;
@@ -323,9 +330,16 @@ impl PartialEq for Atom {
             return te.slice == oe.slice;
         }
 
-        if self.get_hash() != other.get_hash() {
+        if $self.get_hash() != $other.get_hash() {
             return false;
         }
+    };
+}
+
+impl PartialEq for Atom {
+    #[inline(never)]
+    fn eq(&self, other: &Self) -> bool {
+        partial_eq!(self, other);
 
         // If the store is different, the string may be the same, even though the
         // `unsafe_data` is different
@@ -358,20 +372,26 @@ impl Clone for Atom {
     }
 }
 
-impl Atom {
-    #[inline]
-    pub(crate) fn from_alias(alias: TaggedValue) -> Self {
-        if alias.tag() & TAG_MASK == DYNAMIC_TAG {
-            unsafe {
-                let arc = crate::dynamic::restore_arc(alias);
-                forget(arc.clone());
-                forget(arc);
+macro_rules! impl_from_alias {
+    ($ty:ty) => {
+        impl $ty {
+            #[inline]
+            pub(crate) fn from_alias(alias: TaggedValue) -> Self {
+                if alias.tag() & TAG_MASK == DYNAMIC_TAG {
+                    unsafe {
+                        let arc = crate::dynamic::restore_arc(alias);
+                        forget(arc.clone());
+                        forget(arc);
+                    }
+                }
+
+                Self { unsafe_data: alias }
             }
         }
-
-        Self { unsafe_data: alias }
-    }
+    };
 }
+
+impl_from_alias!(Atom);
 
 impl Deref for Atom {
     type Target = str;
@@ -440,6 +460,212 @@ where
         let s: String = self.deserialize(deserializer)?;
 
         Ok(Atom::new(s))
+    }
+}
+
+impl Atom {
+    /// Converts a WTF-8 encoded [Wtf8Atom] to a regular UTF-8 [Atom] without
+    /// validation.
+    ///
+    /// # Safety
+    ///
+    /// The caller must ensure that the WTF-8 atom contains only valid UTF-8
+    /// data (no unpaired surrogates). This function performs no validation
+    /// and will create an invalid `Atom` if the input contains unpaired
+    /// surrogates.
+    ///
+    /// This is a zero-cost conversion that preserves all internal optimizations
+    /// (inline storage, precomputed hashes, etc.) since both types have
+    /// identical internal representation.
+    pub unsafe fn from_wtf8_unchecked(s: Wtf8Atom) -> Self {
+        let s = ManuallyDrop::new(s);
+        Atom {
+            unsafe_data: s.unsafe_data,
+        }
+    }
+}
+
+/// A WTF-8 encoded atom. This is like [Atom], but can contain unpaired
+/// surrogates.
+pub struct Wtf8Atom {
+    unsafe_data: TaggedValue,
+}
+
+impl Wtf8Atom {
+    #[inline(always)]
+    pub fn new<S>(s: S) -> Self
+    where
+        Self: From<S>,
+    {
+        Self::from(s)
+    }
+
+    #[inline(always)]
+    fn tag(&self) -> u8 {
+        self.unsafe_data.tag() & TAG_MASK
+    }
+
+    /// Return true if this is a dynamic Atom.
+    #[inline(always)]
+    fn is_dynamic(&self) -> bool {
+        self.tag() == DYNAMIC_TAG
+    }
+}
+
+impl Default for Wtf8Atom {
+    #[inline(never)]
+    fn default() -> Self {
+        Wtf8Atom::new("")
+    }
+}
+
+/// Immutable, so it's safe to be shared between threads
+unsafe impl Send for Wtf8Atom {}
+
+/// Immutable, so it's safe to be shared between threads
+unsafe impl Sync for Wtf8Atom {}
+
+impl Debug for Wtf8Atom {
+    #[inline]
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        Debug::fmt(&self.to_string_lossy(), f)
+    }
+}
+
+#[cfg(feature = "serde")]
+impl serde::ser::Serialize for Wtf8Atom {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::ser::Serializer,
+    {
+        serializer.serialize_str(self)
+    }
+}
+
+#[cfg(feature = "serde")]
+impl<'de> serde::de::Deserialize<'de> for Wtf8Atom {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        String::deserialize(deserializer).map(Self::new)
+    }
+}
+
+impl PartialEq for Wtf8Atom {
+    #[inline(never)]
+    fn eq(&self, other: &Self) -> bool {
+        partial_eq!(self, other);
+
+        // If the store is different, the string may be the same, even though the
+        // `unsafe_data` is different
+        self.as_wtf8() == other.as_wtf8()
+    }
+}
+
+impl Eq for Wtf8Atom {}
+
+impl Hash for Wtf8Atom {
+    #[inline(always)]
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        state.write_u64(self.get_hash());
+    }
+}
+
+impl Drop for Wtf8Atom {
+    #[inline(always)]
+    fn drop(&mut self) {
+        if self.is_dynamic() {
+            unsafe { drop(crate::dynamic::restore_arc(self.unsafe_data)) }
+        }
+    }
+}
+
+impl Clone for Wtf8Atom {
+    #[inline(always)]
+    fn clone(&self) -> Self {
+        Self::from_alias(self.unsafe_data)
+    }
+}
+
+impl Deref for Wtf8Atom {
+    type Target = Wtf8;
+
+    #[inline(always)]
+    fn deref(&self) -> &Self::Target {
+        self.as_wtf8()
+    }
+}
+
+impl AsRef<Wtf8> for Wtf8Atom {
+    #[inline(always)]
+    fn as_ref(&self) -> &Wtf8 {
+        self.as_wtf8()
+    }
+}
+
+impl PartialEq<Wtf8> for Wtf8Atom {
+    #[inline]
+    fn eq(&self, other: &Wtf8) -> bool {
+        self.as_wtf8() == other
+    }
+}
+
+impl PartialEq<Atom> for Wtf8Atom {
+    #[inline]
+    fn eq(&self, other: &Atom) -> bool {
+        self.as_str() == Some(other.as_str())
+    }
+}
+
+impl PartialEq<&'_ Wtf8> for Wtf8Atom {
+    #[inline]
+    fn eq(&self, other: &&Wtf8) -> bool {
+        self.as_wtf8() == *other
+    }
+}
+
+impl PartialEq<Wtf8Atom> for Wtf8 {
+    #[inline]
+    fn eq(&self, other: &Wtf8Atom) -> bool {
+        self == other.as_wtf8()
+    }
+}
+
+impl Wtf8Atom {
+    fn get_hash(&self) -> u64 {
+        get_hash!(self)
+    }
+
+    fn as_wtf8(&self) -> &Wtf8 {
+        match self.tag() {
+            DYNAMIC_TAG => unsafe {
+                let item = crate::dynamic::deref_from(self.unsafe_data);
+                Wtf8::from_bytes(transmute::<&[u8], &'static [u8]>(&item.slice))
+            },
+            INLINE_TAG => {
+                let len = (self.unsafe_data.tag() & LEN_MASK) >> LEN_OFFSET;
+                let src = self.unsafe_data.data();
+                Wtf8::from_bytes(&src[..(len as usize)])
+            }
+            _ => unsafe { debug_unreachable!() },
+        }
+    }
+}
+
+impl_from_alias!(Wtf8Atom);
+
+#[cfg(test)]
+impl Wtf8Atom {
+    pub(crate) fn ref_count(&self) -> usize {
+        match self.tag() {
+            DYNAMIC_TAG => {
+                let ptr = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
+
+                triomphe::ThinArc::strong_count(&ptr.0)
+            }
+            _ => 1,
+        }
     }
 }
 
