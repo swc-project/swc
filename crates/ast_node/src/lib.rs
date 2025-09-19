@@ -175,58 +175,60 @@ pub fn ast_node(
 
     // we should use call_site
     let mut item = TokenStream::new();
-    match input.data {
+    match &input.data {
         Data::Enum(data) => {
-            struct EnumArgs {
-                clone: bool,
-            }
-            impl parse::Parse for EnumArgs {
-                fn parse(i: parse::ParseStream<'_>) -> syn::Result<Self> {
-                    let name: Ident = i.parse()?;
-                    if name != "no_clone" {
-                        return Err(i.error("unknown attribute"));
-                    }
-                    Ok(EnumArgs { clone: false })
+            use syn::parse::Parser;
+            
+            let attrs = <syn::punctuated::Punctuated<syn::Ident, syn::Token![,]>>::parse_terminated
+                .parse(args)
+                .expect("failed to parse #[ast_node]");
+
+            let mut has_no_clone = false;
+            let mut has_no_unknown = false;
+            for attr in &attrs {
+                if attr == "no_clone" {
+                    has_no_clone = true;
+                } else if attr == "no_unknown" {
+                    has_no_unknown = true;
+                } else {
+                    panic!("unknown attribute: {:?}", attr)
                 }
             }
-            let args = if args.is_empty() {
-                EnumArgs { clone: true }
-            } else {
-                parse(args).expect("failed to parse args of #[ast_node]")
-            };
 
-            let clone = if args.clone {
+            let clone = if !has_no_clone {
                 Some(quote!(#[derive(Clone)]))
             } else {
                 None
             };
 
-            let unknown: syn::Variant = if data
-                .variants
-                .iter()
-                .all(|variant| variant.fields.is_empty())
-            {
-                syn::parse_quote! {
-                    #[cfg(feature = "unknown")]
-                    #[from_variant(ignore)]
-                    #[span(unknown)]
-                    #[encoding(unknown)]
-                    Unknown(u32)
-                }
-            } else {
-                syn::parse_quote! {
-                    #[cfg(feature = "unknown")]
-                    #[from_variant(ignore)]
-                    #[span(unknown)]
-                    #[encoding(unknown)]
-                    Unknown(u32, #[not_spanned] swc_common::unknown::Unknown)
-                }
-            };
+            let mut data = data.clone();
+            if !has_no_unknown {
+                let unknown: syn::Variant = if data
+                    .variants
+                    .iter()
+                    .all(|variant| variant.fields.is_empty())
+                {
+                    syn::parse_quote! {
+                        #[cfg(feature = "unknown")]
+                        #[from_variant(ignore)]
+                        #[span(unknown)]
+                        #[encoding(unknown)]
+                        Unknown(u32)
+                    }
+                } else {
+                    syn::parse_quote! {
+                        #[cfg(feature = "unknown")]
+                        #[from_variant(ignore)]
+                        #[span(unknown)]
+                        #[encoding(unknown)]
+                        Unknown(u32, swc_common::unknown::Unknown)
+                    }
+                };
 
-            // insert unknown member
-            let mut data = data;
-            data.variants.insert(0, unknown);
-            input.data = Data::Enum(data);
+                // insert unknown member
+                data.variants.insert(0, unknown);
+                input.data = Data::Enum(data);
+            }
 
             item.extend(quote!(
                 #[allow(clippy::derive_partial_eq_without_eq)]

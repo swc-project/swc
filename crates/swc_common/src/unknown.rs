@@ -1,4 +1,5 @@
 use cbor4ii::core::{dec, enc};
+use crate::eq::EqIgnoreSpan;
 
 #[derive(Clone)]
 pub struct Unknown(cbor4ii::core::BoxedRawValue);
@@ -22,6 +23,12 @@ impl PartialEq for Unknown {
 }
 
 impl Eq for Unknown {}
+
+impl EqIgnoreSpan for Unknown {
+    fn eq_ignore_span(&self, other: &Self) -> bool {
+        self.0.as_bytes() == other.0.as_bytes()
+    }
+}
 
 impl std::hash::Hash for Unknown {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
