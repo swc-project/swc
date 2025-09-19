@@ -6646,6 +6646,7 @@ dependencies = [
 name = "swc_xml_ast"
 version = "14.0.0"
 dependencies = [
+ "cbor4ii",
  "is-macro",
  "serde",
  "string_enum",
