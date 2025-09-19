@@ -658,7 +658,7 @@ dependencies = [
 [[package]]
 name = "cbor4ii"
 version = "1.1.1"
-source = "git+https://github.com/quininer/cbor4ii?branch=f%2Fderive#5c683a8e2035193a7872c8f49b6bdc45f9f47c2d"
+source = "git+https://github.com/quininer/cbor4ii?branch=f%2Fderive#134829f81f463d8e908186888d16535c71a06edf"
 
 [[package]]
 name = "cc"
@@ -6272,6 +6272,7 @@ name = "swc_html_ast"
 version = "14.0.0"
 dependencies = [
  "bytecheck 0.8.1",
+ "cbor4ii",
  "is-macro",
  "rkyv",
  "serde",
