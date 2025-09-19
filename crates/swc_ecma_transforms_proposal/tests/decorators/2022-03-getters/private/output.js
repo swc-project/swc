@@ -3,6 +3,7 @@ const dec = ()=>{};
 class Foo {
     static{
         ({ e: [_call_a, _initProto] } = _apply_decs_2203_r(this, [
+        [_call_a, _initProto] = _apply_decs_2203_r(this, [
             [
                 dec,
                 3,
@@ -11,7 +12,7 @@ class Foo {
                     return this.value;
                 }
             ]
-        ], []));
+        ], []).e;
     }
     value = (_initProto(this), 1);
     get #a() {
