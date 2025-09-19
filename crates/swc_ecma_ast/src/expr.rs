@@ -9,7 +9,7 @@ use swc_common::{
 };
 
 #[cfg(feature = "unknown")]
-use crate::utils::unknown;
+use swc_common::unknown::unknown;
 #[cfg(feature = "encoding-impl")]
 use crate::utils::ArrayOption;
 use crate::{

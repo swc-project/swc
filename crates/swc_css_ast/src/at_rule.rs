@@ -41,6 +41,8 @@ impl PartialEq<str> for AtRuleName {
         match self {
             AtRuleName::DashedIdent(v) => *v == *other,
             AtRuleName::Ident(v) => *v == *other,
+            #[cfg(feature = "unknown")]
+            AtRuleName::Unknown(..) => false,
         }
     }
 }
@@ -50,6 +52,8 @@ impl PartialEq<Atom> for AtRuleName {
         match self {
             AtRuleName::DashedIdent(v) => v.value == *other,
             AtRuleName::Ident(v) => v.value == *other,
+            #[cfg(feature = "unknown")]
+            AtRuleName::Unknown(..) => false,
         }
     }
 }

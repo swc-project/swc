@@ -11,7 +11,7 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::jsx::JSXText;
 #[cfg(feature = "unknown")]
-use crate::utils::unknown;
+use swc_common::unknown::unknown;
 
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]

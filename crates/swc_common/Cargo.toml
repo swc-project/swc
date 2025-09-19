@@ -43,6 +43,7 @@ rkyv-impl = [
   "rancor",
 ]
 encoding-impl = ["cbor4ii", "swc_atoms/encoding-impl"]
+unknown = ["encoding-impl"]
 
 shrink-to-fit = ["dep:shrink-to-fit", "swc_atoms/shrink-to-fit"]
 
