@@ -6,14 +6,15 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
     match data {
         Data::Struct(data) => {
             let is_named = data.fields.iter().any(|field| field.ident.is_some());
-            let names = data.fields.iter()
+            let names = data
+                .fields
+                .iter()
                 .enumerate()
                 .map(|(idx, field)| match field.ident.as_ref() {
                     Some(name) => name.clone(),
                     None => {
                         let name = format!("unit{idx}");
-                        let name = syn::Ident::new(&name, field.span());
-                        name
+                        syn::Ident::new(&name, field.span())
                     }
                 })
                 .collect::<Vec<_>>();
@@ -31,13 +32,11 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                         let #field_name = #value;
                     }
                 });
-            let build_struct: syn::Expr = is_named
-                .then(|| syn::parse_quote! {
-                    #ident { #(#names),* }
-                })
-                .unwrap_or_else(|| syn::parse_quote! {
-                    #ident ( #(#names),* )
-                });
+            let build_struct: syn::Expr = if is_named {
+                syn::parse_quote! { #ident { #(#names),* } }
+            } else {
+                syn::parse_quote! { #ident ( #(#names),* ) }
+            };
 
             let count = data.fields.len();
             let head: Option<syn::Expr> = (count != 1).then(|| {
@@ -61,28 +60,30 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
             }
         }
         Data::Enum(data) => {
-            let enum_type = data.variants.iter()
-                .filter(|v| !is_unknown(&v.attrs))
-                .fold(None, |mut sum, next| {
+            let enum_type = data.variants.iter().filter(|v| !is_unknown(&v.attrs)).fold(
+                None,
+                |mut sum, next| {
                     let ty = match &next.fields {
                         syn::Fields::Named(_) => EnumType::Struct,
                         syn::Fields::Unnamed(fields) if fields.unnamed.len() == 1 => EnumType::One,
                         syn::Fields::Unit => EnumType::Unit,
-                        syn::Fields::Unnamed(_) => panic!("more than 1 unnamed member field are not allowed")
+                        syn::Fields::Unnamed(_) => {
+                            panic!("more than 1 unnamed member field are not allowed")
+                        }
                     };
                     match (*sum.get_or_insert(ty), ty) {
                         (EnumType::Struct, EnumType::Struct)
-                            | (EnumType::Struct, EnumType::Unit)
-                            | (EnumType::Unit, EnumType::Unit)
-                            | (EnumType::One, EnumType::One)
-                            => (),
+                        | (EnumType::Struct, EnumType::Unit)
+                        | (EnumType::Unit, EnumType::Unit)
+                        | (EnumType::One, EnumType::One) => (),
                         (EnumType::Unit, EnumType::One)
                         | (EnumType::One, EnumType::Unit)
                         | (_, EnumType::Struct) => sum = Some(EnumType::Struct),
-                        _ => panic!("enum member types must be consistent: {:?} {:?}", sum, ty),
+                        _ => panic!("enum member types must be consistent: {:?}", (sum, ty)),
                     }
                     sum
-                });
+                },
+            );
             let enum_type = enum_type.expect("enum cannot be empty");
             let mut iter = data.variants.iter().peekable();
 
@@ -126,7 +127,10 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                 });
 
             if matches!(enum_type, EnumType::Struct) {
-                assert!(unknown_arm.is_none(), "struct enum does not allow unknown variants");
+                assert!(
+                    unknown_arm.is_none(),
+                    "struct enum does not allow unknown variants"
+                );
             }
 
             let fields = iter
@@ -167,8 +171,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                                     Some(name) => name.clone(),
                                     None => {
                                         let name = format!("unit{idx}");
-                                        let name = syn::Ident::new(&name, field.span());
-                                        name
+                                        syn::Ident::new(&name, field.span())
                                     }
                                 })
                                 .collect::<Vec<_>>();
@@ -187,14 +190,12 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                                         }
                                     }
                                 });
-                            let build_struct: syn::Expr = is_named
-                                .then(|| syn::parse_quote! {
-                                    #ident::#name { #(#names),* }
-                                })
-                                .unwrap_or_else(|| syn::parse_quote! {
-                                    #ident::#name ( #(#names),* )
-                                });
-                                
+                            let build_struct: syn::Expr = if is_named {
+                                syn::parse_quote! { #ident::#name { #(#names),* } }
+                            } else {
+                                syn::parse_quote! { #ident::#name ( #(#names),* ) }
+                            };
+
                             syn::parse_quote!{
                                 #idx => {
                                     let len = cbor4ii::core::types::Array::len(reader)?;
@@ -202,7 +203,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                                     #(#stmt)*
                                     #build_struct
                                 },
-                            }                            
+                            }
                         }
                     }
                 });

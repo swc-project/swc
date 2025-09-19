@@ -49,28 +49,30 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
             }
         }
         Data::Enum(data) => {
-            let enum_type = data.variants.iter()
-                .filter(|v| !is_unknown(&v.attrs))
-                .fold(None, |mut sum, next| {
+            let enum_type = data.variants.iter().filter(|v| !is_unknown(&v.attrs)).fold(
+                None,
+                |mut sum, next| {
                     let ty = match &next.fields {
                         syn::Fields::Named(_) => EnumType::Struct,
                         syn::Fields::Unnamed(fields) if fields.unnamed.len() == 1 => EnumType::One,
                         syn::Fields::Unit => EnumType::Unit,
-                        syn::Fields::Unnamed(_) => panic!("more than 1 unnamed member field are not allowed")
+                        syn::Fields::Unnamed(_) => {
+                            panic!("more than 1 unnamed member field are not allowed")
+                        }
                     };
                     match (*sum.get_or_insert(ty), ty) {
                         (EnumType::Struct, EnumType::Struct)
-                            | (EnumType::Struct, EnumType::Unit)
-                            | (EnumType::Unit, EnumType::Unit)
-                            | (EnumType::One, EnumType::One)
-                            => (),
+                        | (EnumType::Struct, EnumType::Unit)
+                        | (EnumType::Unit, EnumType::Unit)
+                        | (EnumType::One, EnumType::One) => (),
                         (EnumType::Unit, EnumType::One)
                         | (EnumType::One, EnumType::Unit)
                         | (_, EnumType::Struct) => sum = Some(EnumType::Struct),
-                        _ => panic!("enum member types must be consistent: {:?} {:?}", sum, ty),
+                        _ => panic!("enum member types must be consistent: {:?}", (sum, ty)),
                     }
                     sum
-                });
+                },
+            );
             let enum_type = enum_type.expect("enum cannot be empty");
             let mut iter = data.variants.iter().peekable();
 
@@ -109,7 +111,10 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                 });
 
             if matches!(enum_type, EnumType::Struct) {
-                assert!(unknown_arm.is_none(), "struct enum does not allow unknown variants");
+                assert!(
+                    unknown_arm.is_none(),
+                    "struct enum does not allow unknown variants"
+                );
             }
 
             let fields = iter.enumerate().map(|(idx, field)| -> syn::Arm {
@@ -165,8 +170,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                                 Some(name) => name.clone(),
                                 None => {
                                     let name = format!("unit{idx}");
-                                    let name = syn::Ident::new(&name, field.span());
-                                    name
+                                    syn::Ident::new(&name, field.span())
                                 }
                             })
                             .collect::<Vec<_>>();
