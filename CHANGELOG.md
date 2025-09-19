@@ -2100,19 +2100,10 @@
 - **(es/ast)** Add import attributes to `TsImportType` ([#9796](https://github.com/swc-project/swc/issues/9796)) ([7d297be](https://github.com/swc-project/swc/commit/7d297bedf5518797776f18b70ea304981419368b))
 
 
-- **(es/minifier)** Inline across side-effect-free member exprs, ([#10056](https://github.com/swc-project/swc/issues/10056)) ([19d01d7](https://github.com/swc-project/swc/commit/19d01d718aeb7a211384944dd2d9858cc4f04da2))
-
-
 - **(es/minifier)** Make seq inliner inline into var without init ([#10077](https://github.com/swc-project/swc/issues/10077)) ([c4a839b](https://github.com/swc-project/swc/commit/c4a839b6bd16627415500cb3eab4857f08e156b6))
-
-
-- **(swc_allocator)** Provide allocators ([#10061](https://github.com/swc-project/swc/issues/10061)) ([d4362f7](https://github.com/swc-project/swc/commit/d4362f7183ed716fafcce5ffbe7d81f16de16bad))
 
 ### Miscellaneous Tasks
 
-
-
-- **(swc_allocator)** Remove `nightly` from default feature ([#10058](https://github.com/swc-project/swc/issues/10058)) ([e78b9d1](https://github.com/swc-project/swc/commit/e78b9d11d820fb9a775077ef1caf9067657ef2d3))
 
 
 - **(swc_allocator)** Add `#[inline]` to allocator methods ([#10066](https://github.com/swc-project/swc/issues/10066)) ([853eb53](https://github.com/swc-project/swc/commit/853eb53d62b8c5684b846dd095b93a73f8d9a7b4))
