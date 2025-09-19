@@ -1,13 +1,8 @@
-use syn::{ DeriveInput, Data };
-use super::{ is_unknown, is_with };
+use syn::{Data, DeriveInput};
 
-pub fn expand(
-    DeriveInput {
-        ident,
-        data,
-        ..
-    }: DeriveInput,
-) -> syn::ItemImpl {
+use super::{is_unknown, is_with};
+
+pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
     match data {
         Data::Struct(data) => {
             let is_named = data.fields.iter().any(|field| field.ident.is_some());
@@ -20,7 +15,7 @@ pub fn expand(
                         Some(with_type) => syn::parse_quote!(<#with_type<#ty> as cbor4ii::core::dec::Decode<'_>>::decode(reader)?.0),
                         None => syn::parse_quote!(<#ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?)
                     };
-                    
+
                     match field.ident.as_ref() {
                         Some(name) => syn::parse_quote!{
                             let #name = #value;
@@ -33,7 +28,9 @@ pub fn expand(
                         }
                     }
                 });
-            let build_struct = data.fields.iter()
+            let build_struct = data
+                .fields
+                .iter()
                 .enumerate()
                 .map(|(idx, field)| -> syn::FieldValue {
                     match field.ident.as_ref() {
@@ -46,21 +43,23 @@ pub fn expand(
                 })
                 .collect::<syn::punctuated::Punctuated<_, syn::Token![,]>>();
             let build_struct: syn::ExprStruct = if is_named {
-                syn::parse_quote!{
+                syn::parse_quote! {
                     #ident { #build_struct }
                 }
             } else {
-                syn::parse_quote!{
+                syn::parse_quote! {
                     #ident(#build_struct)
                 }
             };
 
             let count = data.fields.len();
-            let head: Option<syn::Expr> = (count != 1).then(|| syn::parse_quote!{{
-                let n = <cbor4ii::core::types::Array<()>>::len(reader)?;
-                debug_assert_eq!(n, Some(#count));
-            }});
-            
+            let head: Option<syn::Expr> = (count != 1).then(|| {
+                syn::parse_quote! {{
+                    let n = <cbor4ii::core::types::Array<()>>::len(reader)?;
+                    debug_assert_eq!(n, Some(#count));
+                }}
+            });
+
             syn::parse_quote! {
                 impl<'de> cbor4ii::core::dec::Decode<'de> for #ident {
                     #[inline]
@@ -73,7 +72,7 @@ pub fn expand(
                     }
                 }
             }
-        },
+        }
         Data::Enum(data) => {
             let mut iter = data.variants.iter().peekable();
             let mut is_unit = None;
@@ -84,38 +83,42 @@ pub fn expand(
                 iter.next_if(|variant| is_unknown(&variant.attrs))
             {
                 let name = &unknown.ident;
-                assert!(unknown.discriminant.is_none(), "custom discriminant unsupport");
-                assert!(is_with(&unknown.attrs).is_none(), "unknown member is not allowed with type");
-                
+                assert!(
+                    unknown.discriminant.is_none(),
+                    "custom discriminant unsupport"
+                );
+                assert!(
+                    is_with(&unknown.attrs).is_none(),
+                    "unknown member is not allowed with type"
+                );
+
                 Some(match &unknown.fields {
-                    syn::Fields::Unnamed(fields) => {
-                        match fields.unnamed.len() {
-                            1 => {
-                                is_unit = Some(true);
-                                syn::parse_quote!{
-                                    tag => #ident::#name(tag),
-                                }
-                            },
-                            2 => {
-                                is_unit = Some(false);
-                                let val_ty = &fields.unnamed[1].ty;
-                
-                                syn::parse_quote!{
-                                    tag => {
-                                        let val = <#val_ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?;
-                                        #ident::#name(tag, val)
-                                    },
-                                }
-                            },
-                            _ => panic!("unknown member must be a tag and a value")
+                    syn::Fields::Unnamed(fields) => match fields.unnamed.len() {
+                        1 => {
+                            is_unit = Some(true);
+                            syn::parse_quote! {
+                                tag => #ident::#name(tag),
+                            }
                         }
+                        2 => {
+                            is_unit = Some(false);
+                            let val_ty = &fields.unnamed[1].ty;
+
+                            syn::parse_quote! {
+                                tag => {
+                                    let val = <#val_ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?;
+                                    #ident::#name(tag, val)
+                                },
+                            }
+                        }
+                        _ => panic!("unknown member must be a tag and a value"),
                     },
-                    _ => panic!("named enum unsupported")
+                    _ => panic!("named enum unsupported"),
                 })
             } else {
                 None
             };
-            
+
             let fields = iter
                 .enumerate()
                 .map(|(idx, field)| -> syn::Arm {
@@ -139,7 +142,7 @@ pub fn expand(
                             let value: syn::Expr = match is_with(&field.attrs) {
                                 Some(with_type) => syn::parse_quote!(<#with_type<#val_ty> as cbor4ii::core::dec::Decode<'_>>::decode(reader)?.0),
                                 None => syn::parse_quote!(<#val_ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?)
-                            };                            
+                            };
 
                             syn::parse_quote!{
                                 #idx => {
@@ -166,7 +169,7 @@ pub fn expand(
             let unknown_arm = match unknown_arm {
                 Some(arm) => arm,
                 None => {
-                    syn::parse_quote!{
+                    syn::parse_quote! {
                         _ => {
                             let err = cbor4ii::core::error::DecodeError::Mismatch {
                                  name: &stringify!(#ident),
@@ -174,7 +177,7 @@ pub fn expand(
                             };
                             return Err(err);
                         }
-                    }                    
+                    }
                 }
             };
 
@@ -182,15 +185,15 @@ pub fn expand(
                 let count: usize = match is_unit {
                     Some(true) => 1,
                     Some(false) => 2,
-                    None => panic!()
+                    None => panic!(),
                 };
-                syn::parse_quote!{{
+                syn::parse_quote! {{
                     let n = <cbor4ii::core::types::Array<()>>::len(reader)?;
                     debug_assert_eq!(n, Some(#count));
                 }}
             };
-            
-            syn::parse_quote!{
+
+            syn::parse_quote! {
                 impl<'de> cbor4ii::core::dec::Decode<'de> for #ident {
                     #[inline]
                     fn decode<R: cbor4ii::core::dec::Read<'de>>(reader: &mut R)
@@ -206,7 +209,7 @@ pub fn expand(
                     }
                 }
             }
-        },
-        Data::Union(_) => panic!("union unsupported")
+        }
+        Data::Union(_) => panic!("union unsupported"),
     }
 }

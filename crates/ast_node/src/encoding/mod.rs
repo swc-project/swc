@@ -1,21 +1,24 @@
-pub(crate) mod encode;
 pub(crate) mod decode;
+pub(crate) mod encode;
 
 pub(crate) fn is_unknown(attrs: &[syn::Attribute]) -> bool {
-    attrs.iter()
+    attrs
+        .iter()
         .filter(|attr| attr.path().is_ident("encoding"))
         .any(|attr| {
             let mut is_unknown = false;
             attr.parse_nested_meta(|meta| {
                 is_unknown |= meta.path.is_ident("unknown");
                 Ok(())
-            }).unwrap();
+            })
+            .unwrap();
             is_unknown
         })
 }
 
 fn is_with(attrs: &[syn::Attribute]) -> Option<syn::Path> {
-    attrs.iter()
+    attrs
+        .iter()
         .filter(|attr| attr.path().is_ident("encoding"))
         .find_map(|attr| {
             let mut with_type = None;
@@ -28,7 +31,8 @@ fn is_with(attrs: &[syn::Attribute]) -> Option<syn::Path> {
                 }
 
                 Ok(())
-            }).ok()?;
+            })
+            .ok()?;
             with_type
         })
 }

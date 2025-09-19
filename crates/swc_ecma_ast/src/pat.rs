@@ -1,6 +1,8 @@
 use is_macro::Is;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
+#[cfg(feature = "encoding-impl")]
+use crate::utils::ArrayOption;
 use crate::{
     expr::Expr,
     ident::{BindingIdent, Ident},
@@ -8,9 +10,6 @@ use crate::{
     typescript::TsTypeAnn,
     Id, IdentName, Invalid,
 };
-
-#[cfg(feature = "encoding-impl")]
-use crate::utils::ArrayOption;
 
 #[ast_node(no_clone)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
@@ -104,7 +103,10 @@ pub struct ArrayPat {
     pub optional: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -123,7 +125,10 @@ pub struct ObjectPat {
     pub optional: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -154,7 +159,10 @@ pub struct RestPat {
     pub arg: Box<Pat>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -197,6 +205,9 @@ pub struct AssignPatProp {
     pub key: BindingIdent,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<Box<Expr>>,
 }

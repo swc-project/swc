@@ -43,7 +43,10 @@ pub struct SyntaxContext(#[cfg_attr(feature = "__rkyv", rkyv(omit_bounds))] u32)
 #[cfg(feature = "encoding-impl")]
 impl cbor4ii::core::enc::Encode for SyntaxContext {
     #[inline]
-    fn encode<W: cbor4ii::core::enc::Write>(&self, writer: &mut W) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+    fn encode<W: cbor4ii::core::enc::Write>(
+        &self,
+        writer: &mut W,
+    ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
         self.0.encode(writer)
     }
 }
@@ -51,7 +54,9 @@ impl cbor4ii::core::enc::Encode for SyntaxContext {
 #[cfg(feature = "encoding-impl")]
 impl<'de> cbor4ii::core::dec::Decode<'de> for SyntaxContext {
     #[inline]
-    fn decode<R: cbor4ii::core::dec::Read<'de>>(reader: &mut R) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(
+        reader: &mut R,
+    ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
         u32::decode(reader).map(SyntaxContext)
     }
 }

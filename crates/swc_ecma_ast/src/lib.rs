@@ -13,7 +13,6 @@ pub use num_bigint::BigInt as BigIntValue;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 use swc_common::{ast_node, pass::Either, util::take::Take, EqIgnoreSpan, Span};
-
 #[cfg(feature = "unknown")]
 pub use utils::Unknown;
 
@@ -79,7 +78,6 @@ pub use self::{
 
 #[macro_use]
 mod macros;
-mod utils;
 mod class;
 mod decl;
 mod expr;
@@ -96,6 +94,7 @@ mod prop;
 mod source_map;
 mod stmt;
 mod typescript;
+mod utils;
 
 /// A map from the [Program] to the [Program].
 ///

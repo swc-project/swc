@@ -30,7 +30,10 @@ pub struct Module {
     pub body: Vec<ModuleItem>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "interpreter"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub shebang: Option<Atom>,
 }
 
@@ -67,7 +70,10 @@ pub struct Script {
     pub body: Vec<Stmt>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "interpreter"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub shebang: Option<Atom>,
 }
 
