@@ -2738,6 +2738,7 @@ dependencies = [
 name = "jsdoc"
 version = "14.0.0"
 dependencies = [
+ "cbor4ii",
  "dashmap 5.5.3",
  "nom 7.1.3",
  "serde",
