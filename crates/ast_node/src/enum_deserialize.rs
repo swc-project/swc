@@ -119,9 +119,9 @@ pub fn expand(
 
             for variant in &data.variants {
                 if crate::encoding::is_unknown(&variant.attrs) {
-                    continue
+                    continue;
                 }
-                
+
                 let tags = variant
                     .attrs
                     .iter()

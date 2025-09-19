@@ -1,5 +1,5 @@
 #[cfg(feature = "encoding-impl")]
-use cbor4ii::core::{ dec, enc, error, types };
+use cbor4ii::core::{dec, enc, error, types};
 
 #[cfg(feature = "encoding-impl")]
 pub(crate) struct ArrayOption<T>(pub T);
@@ -19,13 +19,12 @@ impl<T: enc::Encode> enc::Encode for ArrayOption<&'_ Vec<Option<T>>> {
 impl<'de, T: dec::Decode<'de>> dec::Decode<'de> for ArrayOption<Vec<Option<T>>> {
     fn decode<R: dec::Read<'de>>(reader: &mut R) -> Result<Self, dec::Error<R::Error>> {
         let len = <types::Array<()>>::len(reader)?;
-        let Some(len) = len
-            else {
-                return Err(error::DecodeError::RequireLength {
-                    name: &"array-option",
-                    found: len.map(error::Len::new).unwrap_or(error::Len::Indefinite)
-                });
-            };
+        let Some(len) = len else {
+            return Err(error::DecodeError::RequireLength {
+                name: &"array-option",
+                found: len.map(error::Len::new).unwrap_or(error::Len::Indefinite),
+            });
+        };
         let mut q = Vec::with_capacity(std::cmp::min(len, 128));
         for _ in 0..len {
             q.push(<types::Maybe<Option<T>>>::decode(reader)?.0);
@@ -118,7 +117,10 @@ where
     D: ?Sized + rancor::Fallible,
     D::Error: rancor::Source,
 {
-    fn deserialize(&self, _deserializer: &mut D) -> Result<Unknown, <D as rancor::Fallible>::Error> {
+    fn deserialize(
+        &self,
+        _deserializer: &mut D,
+    ) -> Result<Unknown, <D as rancor::Fallible>::Error> {
         Err(<D::Error as rancor::Source>::new(UnknownType))
     }
 }
@@ -126,7 +128,7 @@ where
 #[cfg(feature = "unknown")]
 impl std::fmt::Debug for Unknown {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-       write!(f, "Unknown") 
+        write!(f, "Unknown")
     }
 }
 
@@ -134,11 +136,12 @@ impl std::fmt::Debug for Unknown {
 #[cfg(feature = "unknown")]
 impl serde::Serialize for Unknown {
     fn serialize<S>(&self, _serializer: S) -> Result<S::Ok, S::Error>
-    where S: serde::Serializer
+    where
+        S: serde::Serializer,
     {
         use serde::ser::Error;
 
-        Err(S::Error::custom("cannot serialize unknown type"))    
+        Err(S::Error::custom("cannot serialize unknown type"))
     }
 }
 
@@ -146,7 +149,8 @@ impl serde::Serialize for Unknown {
 #[cfg(feature = "unknown")]
 impl<'de> serde::Deserialize<'de> for Unknown {
     fn deserialize<D>(_deserializer: D) -> Result<Self, D::Error>
-    where D: serde::Deserializer<'de>
+    where
+        D: serde::Deserializer<'de>,
     {
         use serde::de::Error;
 

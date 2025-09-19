@@ -8,9 +8,9 @@ use swc_macros_common::prelude::*;
 use syn::{visit_mut::VisitMut, *};
 
 mod ast_node_macro;
+mod encoding;
 mod enum_deserialize;
 mod spanned;
-mod encoding;
 
 /// Derives [`swc_common::Spanned`]. See [`swc_common::Spanned`] for
 /// documentation.
@@ -35,7 +35,8 @@ pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::To
 
 #[proc_macro_derive(Encode, attributes(encoding))]
 pub fn derive_encode(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
-    let input = syn::parse::<syn::DeriveInput>(input).expect("failed to parse input as DeriveInput");
+    let input =
+        syn::parse::<syn::DeriveInput>(input).expect("failed to parse input as DeriveInput");
 
     let item = encoding::encode::expand(input);
     print("derive(Encode)", item.into_token_stream())
@@ -43,7 +44,8 @@ pub fn derive_encode(input: proc_macro::TokenStream) -> proc_macro::TokenStream 
 
 #[proc_macro_derive(Decode, attributes(encoding))]
 pub fn derive_decode(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
-    let input = syn::parse::<syn::DeriveInput>(input).expect("failed to parse input as DeriveInput");
+    let input =
+        syn::parse::<syn::DeriveInput>(input).expect("failed to parse input as DeriveInput");
 
     let item = encoding::decode::expand(input);
     print("derive(Decode)", item.into_token_stream())
@@ -199,8 +201,12 @@ pub fn ast_node(
                 None
             };
 
-            let unknown: syn::Variant = if data.variants.iter().all(|variant| variant.fields.is_empty()) {
-                syn::parse_quote!{
+            let unknown: syn::Variant = if data
+                .variants
+                .iter()
+                .all(|variant| variant.fields.is_empty())
+            {
+                syn::parse_quote! {
                     #[cfg(feature = "unknown")]
                     #[from_variant(ignore)]
                     #[span(unknown)]
@@ -208,7 +214,7 @@ pub fn ast_node(
                     Unknown(u32)
                 }
             } else {
-                syn::parse_quote!{
+                syn::parse_quote! {
                     #[cfg(feature = "unknown")]
                     #[from_variant(ignore)]
                     #[span(unknown)]

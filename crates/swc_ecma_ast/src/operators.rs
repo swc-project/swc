@@ -10,7 +10,10 @@ use swc_common::EqIgnoreSpan;
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(feature = "encoding-impl", derive(::swc_common::Encode, ::swc_common::Decode))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum BinaryOp {
     /// `==`
     #[default]
@@ -124,7 +127,10 @@ impl BinaryOp {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(feature = "encoding-impl", derive(::swc_common::Encode, ::swc_common::Decode))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum AssignOp {
     /// `=`
     #[default]
@@ -202,7 +208,10 @@ impl AssignOp {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(feature = "encoding-impl", derive(::swc_common::Encode, ::swc_common::Decode))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum UpdateOp {
     /// `++`
     #[default]
@@ -220,7 +229,10 @@ pub enum UpdateOp {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(feature = "encoding-impl", derive(::swc_common::Encode, ::swc_common::Decode))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum UnaryOp {
     /// `-`
     Minus,

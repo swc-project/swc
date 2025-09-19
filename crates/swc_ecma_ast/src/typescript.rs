@@ -14,6 +14,8 @@ use string_enum::StringEnum;
 use swc_atoms::Atom;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
+#[cfg(feature = "unknown")]
+use crate::utils::unknown;
 use crate::{
     class::Decorator,
     expr::{Expr, ObjectLit},
@@ -23,9 +25,6 @@ use crate::{
     pat::{ArrayPat, AssignPat, ObjectPat, Pat, RestPat},
     BigInt, BindingIdent, IdentName, TplElement,
 };
-
-#[cfg(feature = "unknown")]
-use crate::utils::unknown;
 
 #[ast_node("TsTypeAnnotation")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
@@ -65,11 +64,17 @@ pub struct TsTypeParam {
     pub is_const: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub constraint: Option<Box<TsType>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub default: Option<Box<TsType>>,
 }
 
@@ -92,7 +97,10 @@ pub struct TsParamProp {
     pub decorators: Vec<Decorator>,
     /// At least one of `accessibility` or `readonly` must be set.
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub accessibility: Option<Accessibility>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "override"))]
     pub is_override: bool,
@@ -174,10 +182,16 @@ pub struct TsCallSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -189,10 +203,16 @@ pub struct TsConstructSignatureDecl {
     pub span: Span,
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -207,7 +227,10 @@ pub struct TsPropertySignature {
     pub computed: bool,
     pub optional: bool,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -220,7 +243,10 @@ pub struct TsGetterSignature {
     pub key: Box<Expr>,
     pub computed: bool,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -246,10 +272,16 @@ pub struct TsMethodSignature {
     pub optional: bool,
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
@@ -260,7 +292,10 @@ pub struct TsMethodSignature {
 pub struct TsIndexSignature {
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
 
     pub readonly: bool,
@@ -427,7 +462,10 @@ pub struct TsKeywordType {
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
-#[cfg_attr(feature = "encoding-impl", derive(::swc_common::Encode, ::swc_common::Decode))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum TsKeywordTypeKind {
     #[cfg_attr(feature = "serde-impl", serde(rename = "any"))]
     TsAnyKeyword,
@@ -504,7 +542,10 @@ pub struct TsFnType {
     pub params: Vec<TsFnParam>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsTypeAnn>,
@@ -518,7 +559,10 @@ pub struct TsConstructorType {
     pub span: Span,
     pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsTypeAnn>,
@@ -533,7 +577,10 @@ pub struct TsTypeRef {
     pub span: Span,
     pub type_name: TsEntityName,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_params: Option<Box<TsTypeParamInstantiation>>,
 }
 
@@ -546,7 +593,10 @@ pub struct TsTypePredicate {
     pub asserts: bool,
     pub param_name: TsThisTypeOrIdent,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -572,7 +622,10 @@ pub struct TsTypeQuery {
     pub span: Span,
     pub expr_name: TsTypeQueryExpr,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
@@ -606,13 +659,22 @@ pub struct TsImportType {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "argument"))]
     pub arg: Str,
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub qualifier: Option<TsEntityName>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeArguments"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub attributes: Option<TsImportCallOptions>,
 }
 
@@ -650,7 +712,10 @@ pub struct TsTupleType {
 pub struct TsTupleElement {
     pub span: Span,
     /// `Ident` or `RestPat { arg: Ident }`
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub label: Option<Pat>,
     pub ty: Box<TsType>,
 }
@@ -756,7 +821,10 @@ pub struct TsTypeOperator {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(feature = "encoding-impl", derive(::swc_common::Encode, ::swc_common::Decode))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum TsTypeOperatorOp {
     /// `keyof`
     KeyOf,
@@ -787,7 +855,10 @@ pub struct TsIndexedAccessType {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(feature = "encoding-impl", derive(::swc_common::Encode, ::swc_common::Decode))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum TruePlusMinus {
     True,
     Plus,
@@ -858,17 +929,29 @@ impl<'de> Deserialize<'de> for TruePlusMinus {
 pub struct TsMappedType {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub readonly: Option<TruePlusMinus>,
     pub type_param: TsTypeParam,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "nameType"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub name_type: Option<Box<TsType>>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub optional: Option<TruePlusMinus>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsType>>,
 }
 
@@ -928,7 +1011,10 @@ pub struct TsInterfaceDecl {
     pub id: Ident,
     pub declare: bool,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     pub extends: Vec<TsExprWithTypeArgs>,
     pub body: TsInterfaceBody,
@@ -952,7 +1038,10 @@ pub struct TsExprWithTypeArgs {
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
     pub expr: Box<Expr>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeArguments"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_args: Option<Box<TsTypeParamInstantiation>>,
 }
 
@@ -965,7 +1054,10 @@ pub struct TsTypeAliasDecl {
     pub declare: bool,
     pub id: Ident,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_params: Option<Box<TsTypeParamDecl>>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeAnnotation"))]
     pub type_ann: Box<TsType>,
@@ -991,7 +1083,10 @@ pub struct TsEnumMember {
     pub span: Span,
     pub id: TsEnumMemberId,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub init: Option<Box<Expr>>,
 }
 
@@ -1015,7 +1110,7 @@ impl AsRef<Atom> for TsEnumMemberId {
             TsEnumMemberId::Str(Str { value: ref sym, .. })
             | TsEnumMemberId::Ident(Ident { ref sym, .. }) => sym,
             #[cfg(feature = "unknown")]
-            | TsEnumMemberId::Unknown(..) => unknown()
+            TsEnumMemberId::Unknown(..) => unknown(),
         }
     }
 }
@@ -1033,7 +1128,10 @@ pub struct TsModuleDecl {
 
     pub id: TsModuleName,
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub body: Option<TsNamespaceBody>,
 }
 
@@ -1202,7 +1300,10 @@ pub struct TsSatisfiesExpr {
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-#[cfg_attr(feature = "encoding-impl", derive(::swc_common::Encode, ::swc_common::Decode))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum Accessibility {
     #[cfg_attr(feature = "serde-impl", serde(rename = "public"))]
     Public,

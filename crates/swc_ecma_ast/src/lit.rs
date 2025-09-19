@@ -10,7 +10,6 @@ use swc_atoms::{atom, Atom};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::jsx::JSXText;
-
 #[cfg(feature = "unknown")]
 use crate::utils::unknown;
 
@@ -76,7 +75,7 @@ impl Lit {
             Lit::Regex(n) => n.span = span,
             Lit::JSXText(n) => n.span = span,
             #[cfg(feature = "unknown")]
-            Lit::Unknown(..) => unknown()
+            Lit::Unknown(..) => unknown(),
         }
     }
 }
@@ -91,7 +90,10 @@ pub struct BigInt {
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in big integer
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -113,7 +115,10 @@ struct EncodeBigInt2<T>(T);
 #[cfg(feature = "encoding-impl")]
 impl cbor4ii::core::enc::Encode for EncodeBigInt2<&'_ Box<BigIntValue>> {
     #[inline]
-    fn encode<W: cbor4ii::core::enc::Write>(&self, writer: &mut W) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+    fn encode<W: cbor4ii::core::enc::Write>(
+        &self,
+        writer: &mut W,
+    ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
         cbor4ii::core::types::Bytes(self.0.to_signed_bytes_le().as_slice()).encode(writer)
     }
 }
@@ -121,9 +126,13 @@ impl cbor4ii::core::enc::Encode for EncodeBigInt2<&'_ Box<BigIntValue>> {
 #[cfg(feature = "encoding-impl")]
 impl<'de> cbor4ii::core::dec::Decode<'de> for EncodeBigInt2<Box<BigIntValue>> {
     #[inline]
-    fn decode<R: cbor4ii::core::dec::Read<'de>>(reader: &mut R) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(
+        reader: &mut R,
+    ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
         let buf = <cbor4ii::core::types::Bytes<&'de [u8]>>::decode(reader)?;
-        Ok(EncodeBigInt2(Box::new(BigIntValue::from_signed_bytes_le(buf.0))))
+        Ok(EncodeBigInt2(Box::new(BigIntValue::from_signed_bytes_le(
+            buf.0,
+        ))))
     }
 }
 
@@ -216,7 +225,10 @@ pub struct Str {
 
     /// Use `None` value only for transformations to avoid recalculate escaped
     /// characters in strings
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -426,7 +438,10 @@ pub struct Number {
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in number literal
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 

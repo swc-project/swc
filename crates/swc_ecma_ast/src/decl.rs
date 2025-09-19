@@ -179,7 +179,10 @@ impl Take for VarDecl {
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-#[cfg_attr(feature = "encoding-impl", derive(::swc_common::Encode, ::swc_common::Decode))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum VarDeclKind {
     /// `var`
     #[default]
@@ -201,7 +204,10 @@ pub struct VarDeclarator {
 
     /// Initialization expression.
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "cbor4ii::core::types::Maybe"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub init: Option<Box<Expr>>,
 
     /// Typescript only
