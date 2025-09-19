@@ -155,7 +155,7 @@ pub enum Token {
         raw: Atom,
     },
     Dimension {
-        dimension: Box<DimensionToken>
+        dimension: Box<DimensionToken>,
     },
     /// One or more whitespace.
     WhiteSpace {

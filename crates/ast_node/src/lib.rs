@@ -178,7 +178,7 @@ pub fn ast_node(
     match &input.data {
         Data::Enum(data) => {
             use syn::parse::Parser;
-            
+
             let attrs = <syn::punctuated::Punctuated<syn::Ident, syn::Token![,]>>::parse_terminated
                 .parse(args)
                 .expect("failed to parse #[ast_node]");
@@ -191,7 +191,7 @@ pub fn ast_node(
                 } else if attr == "no_unknown" {
                     has_no_unknown = true;
                 } else {
-                    panic!("unknown attribute: {:?}", attr)
+                    panic!("unknown attribute: {attr:?}")
                 }
             }
 

@@ -1,4 +1,5 @@
 use cbor4ii::core::{dec, enc};
+
 use crate::eq::EqIgnoreSpan;
 
 #[derive(Clone)]
