@@ -30,6 +30,10 @@ impl Take for TokenAndSpan {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub struct UrlKeyValue(pub Atom, pub Atom);
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Is, EqIgnoreSpan)]
@@ -45,6 +49,10 @@ pub struct UrlKeyValue(pub Atom, pub Atom);
         __S::Error: rkyv::rancor::Source))
 )]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum NumberType {
     #[cfg_attr(feature = "serde-impl", serde(rename = "integer"))]
     Integer,
@@ -60,6 +68,10 @@ pub enum NumberType {
 #[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv", repr(C))]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub struct DimensionToken {
     pub value: f64,
     pub raw_value: Atom,
@@ -84,6 +96,10 @@ pub struct DimensionToken {
         __S::Error: rkyv::rancor::Source))
 )]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum Token {
     Ident {
         value: Atom,
@@ -122,6 +138,10 @@ pub enum Token {
         raw: Atom,
     },
     Delim {
+        #[cfg_attr(
+            feature = "encoding-impl",
+            encoding(with = "::swc_common::serializer::WithChar")
+        )]
         value: char,
     },
     Number {
@@ -134,7 +154,9 @@ pub enum Token {
         value: f64,
         raw: Atom,
     },
-    Dimension(Box<DimensionToken>),
+    Dimension {
+        dimension: Box<DimensionToken>,
+    },
     /// One or more whitespace.
     WhiteSpace {
         value: Atom,
@@ -235,7 +257,7 @@ impl Hash for Token {
                 integer_decode(*value).hash(state);
                 raw.hash(state);
             }
-            Token::Dimension(dimension) => {
+            Token::Dimension { dimension } => {
                 integer_decode(dimension.value).hash(state);
                 dimension.unit.hash(state);
                 dimension.type_flag.hash(state);

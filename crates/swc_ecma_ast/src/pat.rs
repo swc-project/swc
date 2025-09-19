@@ -1,6 +1,8 @@
 use is_macro::Is;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
+#[cfg(feature = "encoding-impl")]
+use crate::utils::ArrayOption;
 use crate::{
     expr::Expr,
     ident::{BindingIdent, Ident},
@@ -43,6 +45,8 @@ impl Clone for Pat {
     fn clone(&self) -> Self {
         use Pat::*;
         match self {
+            #[cfg(feature = "unknown")]
+            Unknown(tag, v) => Unknown(*tag, v.clone()),
             Ident(p) => Ident(p.clone()),
             Array(p) => Array(p.clone()),
             Rest(p) => Rest(p.clone()),
@@ -91,6 +95,7 @@ pub struct ArrayPat {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "elements"))]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "ArrayOption"))]
     pub elems: Vec<Option<Pat>>,
 
     /// Only in an ambient context
@@ -98,6 +103,10 @@ pub struct ArrayPat {
     pub optional: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -116,6 +125,10 @@ pub struct ObjectPat {
     pub optional: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -146,6 +159,10 @@ pub struct RestPat {
     pub arg: Box<Pat>,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
@@ -188,5 +205,9 @@ pub struct AssignPatProp {
     pub key: BindingIdent,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<Box<Expr>>,
 }
