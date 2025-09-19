@@ -276,9 +276,12 @@ impl Eq for Token {}
 
 #[cfg(feature = "encoding-impl")]
 impl cbor4ii::core::enc::Encode for Token {
-    fn encode<W: cbor4ii::core::enc::Write>(&self, writer: &mut W) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+    fn encode<W: cbor4ii::core::enc::Write>(
+        &self,
+        writer: &mut W,
+    ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
         <cbor4ii::core::types::Array<()>>::bounded(2, writer)?;
-        
+
         match self {
             Token::Ident { value, raw } => {
                 1u32.encode(writer)?;
@@ -374,11 +377,13 @@ impl cbor4ii::core::enc::Encode for Token {
 
 #[cfg(feature = "encoding-impl")]
 impl<'de> cbor4ii::core::dec::Decode<'de> for Token {
-    fn decode<R: cbor4ii::core::dec::Read<'de>>(reader: &mut R) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(
+        reader: &mut R,
+    ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
         let len = <cbor4ii::core::types::Array<()>>::len(reader)?;
         debug_assert_eq!(len, Some(2));
         let tag = u32::decode(reader)?;
-        
+
         match tag {
             1 => {
                 let len = <cbor4ii::core::types::Array<()>>::len(reader)?;
@@ -429,14 +434,14 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for Token {
             }
             8 => {
                 let raw = Atom::decode(reader)?;
-                Ok(Token::BadUrl { raw })                
+                Ok(Token::BadUrl { raw })
             }
             9 => {
                 let n = u32::decode(reader)?;
-                let value = char::from_u32(n)
-                    .ok_or_else(|| cbor4ii::core::dec::Error::Mismatch {
+                let value =
+                    char::from_u32(n).ok_or_else(|| cbor4ii::core::dec::Error::Mismatch {
                         name: &"Token::Delim",
-                        found: 0
+                        found: 0,
                     })?;
                 Ok(Token::Delim { value })
             }
@@ -446,7 +451,11 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for Token {
                 let value = f64::decode(reader)?;
                 let raw = Atom::decode(reader)?;
                 let type_flag = NumberType::decode(reader)?;
-                Ok(Token::Number { value, raw, type_flag })
+                Ok(Token::Number {
+                    value,
+                    raw,
+                    type_flag,
+                })
             }
             11 => {
                 let len = <cbor4ii::core::types::Array<()>>::len(reader)?;
@@ -476,8 +485,8 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for Token {
             24 => Ok(Token::RBrace),
             _ => Err(cbor4ii::core::dec::Error::Mismatch {
                 name: &"Token",
-                found: 0
-            })
-        }        
+                found: 0,
+            }),
+        }
     }
 }

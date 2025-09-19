@@ -69,9 +69,9 @@ pub mod serializer;
 pub mod source_map;
 pub mod sync;
 mod syntax_pos;
-pub mod util;
 #[cfg(feature = "unknown")]
 pub mod unknown;
+pub mod util;
 
 #[cfg(all(not(debug_assertions), feature = "plugin-rt", feature = "plugin-mode"))]
 compile_error!("You can't enable `plugin-rt` and `plugin-mode` at the same time");

@@ -4,12 +4,12 @@ use std::mem::transmute;
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::Atom;
+#[cfg(feature = "unknown")]
+use swc_common::unknown::unknown;
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 
-#[cfg(feature = "unknown")]
-use swc_common::unknown::unknown;
 #[cfg(feature = "encoding-impl")]
 use crate::utils::ArrayOption;
 use crate::{
