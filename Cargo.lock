@@ -5194,6 +5194,7 @@ name = "swc_css_ast"
 version = "14.0.0"
 dependencies = [
  "bytecheck 0.8.1",
+ "cbor4ii",
  "is-macro",
  "rkyv",
  "serde",

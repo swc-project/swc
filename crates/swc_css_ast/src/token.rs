@@ -45,6 +45,10 @@ pub struct UrlKeyValue(pub Atom, pub Atom);
         __S::Error: rkyv::rancor::Source))
 )]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum NumberType {
     #[cfg_attr(feature = "serde-impl", serde(rename = "integer"))]
     Integer,
@@ -60,6 +64,10 @@ pub enum NumberType {
 #[cfg_attr(feature = "rkyv", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv", repr(C))]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub struct DimensionToken {
     pub value: f64,
     pub raw_value: Atom,
@@ -261,3 +269,17 @@ impl Hash for Token {
 }
 
 impl Eq for Token {}
+
+#[cfg(feature = "encoding-impl")]
+impl cbor4ii::core::enc::Encode for Token {
+    fn encode<W: cbor4ii::core::enc::Write>(&self, writer: &mut W) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+        todo!()
+    }
+}
+
+#[cfg(feature = "encoding-impl")]
+impl<'de> cbor4ii::core::dec::Decode<'de> for Token {
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(reader: &mut R) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+        todo!()
+    }
+}
