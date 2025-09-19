@@ -130,6 +130,8 @@ pub trait RenamedVariable:
     /// consumer cares about the syntax context after the renaming.
     fn new_private(sym: Atom) -> Self;
     fn to_id(&self) -> Id;
+    fn atom(&self) -> &Atom;
+    fn ctxt(&self) -> SyntaxContext;
 }
 impl RenamedVariable for Atom {
     fn new_private(sym: Atom) -> Self {
@@ -139,6 +141,14 @@ impl RenamedVariable for Atom {
     fn to_id(&self) -> Id {
         (self.clone(), Default::default())
     }
+
+    fn atom(&self) -> &Atom {
+        self
+    }
+
+    fn ctxt(&self) -> SyntaxContext {
+        Default::default()
+    }
 }
 impl RenamedVariable for Id {
     fn new_private(sym: Atom) -> Self {
@@ -147,6 +157,14 @@ impl RenamedVariable for Id {
 
     fn to_id(&self) -> Id {
         self.clone()
+    }
+
+    fn atom(&self) -> &Atom {
+        &self.0
+    }
+
+    fn ctxt(&self) -> SyntaxContext {
+        self.1
     }
 }
 
