@@ -28,6 +28,7 @@
               "end": 10
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "obj",
             "optional": false,
             "typeAnnotation": null
@@ -87,6 +88,7 @@
                         "end": 55
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterableIterator",
                       "optional": false
                     },
@@ -110,6 +112,7 @@
                               "end": 64
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "DirEntry",
                             "optional": false
                           },

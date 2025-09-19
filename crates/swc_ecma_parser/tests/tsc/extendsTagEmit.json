@@ -20,6 +20,7 @@
             "end": 109
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "B",
           "optional": false
         },
@@ -58,6 +59,7 @@
               "end": 147
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "B",
             "optional": false
           },
@@ -72,7 +74,8 @@
           "end": 164
         },
         "value": "./super",
-        "raw": "'./super'"
+        "raw": "'./super'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -87,6 +90,7 @@
           "end": 199
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -105,6 +109,7 @@
           "end": 209
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "B",
         "optional": false
       },

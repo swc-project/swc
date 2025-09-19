@@ -20,6 +20,7 @@
             "end": 148
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Service",
           "optional": false
         },
@@ -58,6 +59,7 @@
               "end": 201
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Service",
             "optional": false
           },
@@ -72,7 +74,8 @@
           "end": 220
         },
         "value": "./service",
-        "raw": "\"./service\""
+        "raw": "\"./service\"",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null,
@@ -101,6 +104,7 @@
               "end": 244
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "decorator",
             "optional": false,
             "typeAnnotation": {
@@ -133,6 +137,7 @@
           "end": 280
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "MyComponent",
         "optional": false
       },
@@ -156,6 +161,7 @@
               "end": 262
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "decorator",
             "optional": false
           }
@@ -195,6 +201,7 @@
                   "end": 313
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "Service",
                 "optional": false,
                 "typeAnnotation": {
@@ -216,6 +223,7 @@
                         "end": 322
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Service",
                       "optional": false
                     },
@@ -267,6 +275,7 @@
                     "end": 360
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": {
@@ -300,6 +309,7 @@
                     "end": 347
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "decorator",
                   "optional": false
                 }

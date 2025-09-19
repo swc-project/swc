@@ -28,6 +28,7 @@
               "end": 79
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "wat",
             "optional": false,
             "typeAnnotation": null
@@ -46,6 +47,7 @@
                 "end": 89
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "require",
               "optional": false
             },
@@ -59,7 +61,8 @@
                     "end": 102
                   },
                   "value": "./bug24024",
-                  "raw": "'./bug24024'"
+                  "raw": "'./bug24024'",
+                  "loneSurrogates": false
                 }
               }
             ],
@@ -95,6 +98,7 @@
               "end": 110
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "module",
             "optional": false
           },
@@ -116,6 +120,7 @@
               "end": 128
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "C",
             "optional": false
           },
@@ -166,6 +171,7 @@
                 "end": 138
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "module",
               "optional": false
             },
@@ -196,6 +202,7 @@
               "end": 158
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "D",
             "optional": false
           },

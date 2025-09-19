@@ -14,6 +14,7 @@
           "end": 115
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "B",
         "optional": false
       },
@@ -219,6 +220,7 @@
           "end": 203
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -257,6 +259,7 @@
                 "end": 245
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "undefined",
               "optional": false
             }
@@ -516,7 +519,8 @@
                       "end": 350
                     },
                     "value": "x",
-                    "raw": "\"x\""
+                    "raw": "\"x\"",
+                    "loneSurrogates": false
                   }
                 }
               }
@@ -602,7 +606,8 @@
                           "end": 383
                         },
                         "value": "x",
-                        "raw": "\"x\""
+                        "raw": "\"x\"",
+                        "loneSurrogates": false
                       }
                     }
                   }
@@ -710,7 +715,8 @@
                   "end": 439
                 },
                 "value": "a",
-                "raw": "\"a\""
+                "raw": "\"a\"",
+                "loneSurrogates": false
               }
             }
           },
@@ -829,7 +835,8 @@
                     "end": 494
                   },
                   "value": "f",
-                  "raw": "\"f\""
+                  "raw": "\"f\"",
+                  "loneSurrogates": false
                 }
               }
             },
@@ -1876,7 +1883,8 @@
                       "end": 930
                     },
                     "value": "a",
-                    "raw": "\"a\""
+                    "raw": "\"a\"",
+                    "loneSurrogates": false
                   }
                 }
               }
@@ -2009,7 +2017,8 @@
                   },
                   "tail": true,
                   "cooked": "",
-                  "raw": ""
+                  "raw": "",
+                  "loneSurrogates": false
                 }
               ]
             }
@@ -2171,6 +2180,7 @@
           "end": 213
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "B",
         "optional": false
       },

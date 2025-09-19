@@ -18,6 +18,7 @@
           "end": 28
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "I",
         "optional": false
       },
@@ -45,6 +46,7 @@
                   "end": 47
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "stringParts",
                 "optional": false,
                 "typeAnnotation": {
@@ -66,6 +68,7 @@
                         "end": 69
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "TemplateStringsArray",
                       "optional": false
                     },
@@ -90,6 +93,7 @@
                     "end": 78
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "rest",
                   "optional": false,
                   "typeAnnotation": null
@@ -137,6 +141,7 @@
                     "end": 92
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "I",
                   "optional": false
                 },
@@ -159,6 +164,7 @@
                 "end": 99
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "g",
               "optional": false
             },
@@ -183,6 +189,7 @@
                     "end": 102
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "I",
                   "optional": false
                 },
@@ -204,6 +211,7 @@
                 "end": 109
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "h",
               "optional": false
             },
@@ -228,6 +236,7 @@
                     "end": 112
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "I",
                   "optional": false
                 },
@@ -249,6 +258,7 @@
                 "end": 124
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "member",
               "optional": false
             },
@@ -273,6 +283,7 @@
                     "end": 127
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "I",
                   "optional": false
                 },
@@ -293,6 +304,7 @@
                 "end": 146
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "thisIsNotATag",
               "optional": false
             },
@@ -306,6 +318,7 @@
                   "end": 148
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "x",
                 "optional": false,
                 "typeAnnotation": {
@@ -352,6 +365,7 @@
                   "end": 178
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "x",
                 "optional": false,
                 "typeAnnotation": {
@@ -390,6 +404,7 @@
                     "end": 182
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "I",
                   "optional": false
                 },
@@ -429,6 +444,7 @@
               "end": 192
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false,
             "typeAnnotation": {
@@ -450,6 +466,7 @@
                     "end": 195
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "I",
                   "optional": false
                 },
@@ -482,6 +499,7 @@
             "end": 199
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "f",
           "optional": false
         },
@@ -502,7 +520,8 @@
               },
               "tail": true,
               "cooked": "abc",
-              "raw": "abc"
+              "raw": "abc",
+              "loneSurrogates": false
             }
           ]
         }
@@ -528,6 +547,7 @@
             "end": 208
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "f",
           "optional": false
         },
@@ -567,7 +587,8 @@
               },
               "tail": false,
               "cooked": "abc",
-              "raw": "abc"
+              "raw": "abc",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -577,7 +598,8 @@
               },
               "tail": false,
               "cooked": "def",
-              "raw": "def"
+              "raw": "def",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -587,7 +609,8 @@
               },
               "tail": true,
               "cooked": "ghi",
-              "raw": "ghi"
+              "raw": "ghi",
+              "loneSurrogates": false
             }
           ]
         }
@@ -619,6 +642,7 @@
               "end": 232
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false
           },
@@ -639,7 +663,8 @@
                 },
                 "tail": true,
                 "cooked": "abc",
-                "raw": "abc"
+                "raw": "abc",
+                "loneSurrogates": false
               }
             ]
           }
@@ -680,6 +705,7 @@
               "end": 248
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false
           },
@@ -719,7 +745,8 @@
                 },
                 "tail": false,
                 "cooked": "abc",
-                "raw": "abc"
+                "raw": "abc",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -729,7 +756,8 @@
                 },
                 "tail": false,
                 "cooked": "def",
-                "raw": "def"
+                "raw": "def",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -739,7 +767,8 @@
                 },
                 "tail": true,
                 "cooked": "ghi",
-                "raw": "ghi"
+                "raw": "ghi",
+                "loneSurrogates": false
               }
             ]
           }
@@ -780,6 +809,7 @@
               "end": 279
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false
           },
@@ -800,7 +830,8 @@
                 },
                 "tail": true,
                 "cooked": "abc",
-                "raw": "abc"
+                "raw": "abc",
+                "loneSurrogates": false
               }
             ]
           }
@@ -818,7 +849,8 @@
               "end": 294
             },
             "value": "member",
-            "raw": "\"member\""
+            "raw": "\"member\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -849,6 +881,7 @@
               "end": 299
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false
           },
@@ -888,7 +921,8 @@
                 },
                 "tail": false,
                 "cooked": "abc",
-                "raw": "abc"
+                "raw": "abc",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -898,7 +932,8 @@
                 },
                 "tail": false,
                 "cooked": "def",
-                "raw": "def"
+                "raw": "def",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -908,7 +943,8 @@
                 },
                 "tail": true,
                 "cooked": "ghi",
-                "raw": "ghi"
+                "raw": "ghi",
+                "loneSurrogates": false
               }
             ]
           }
@@ -926,7 +962,8 @@
               "end": 328
             },
             "value": "member",
-            "raw": "\"member\""
+            "raw": "\"member\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -970,6 +1007,7 @@
                   "end": 333
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "f",
                 "optional": false
               },
@@ -990,7 +1028,8 @@
                     },
                     "tail": true,
                     "cooked": "abc",
-                    "raw": "abc"
+                    "raw": "abc",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -1057,7 +1096,8 @@
               },
               "tail": false,
               "cooked": "abc",
-              "raw": "abc"
+              "raw": "abc",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -1067,7 +1107,8 @@
               },
               "tail": false,
               "cooked": "def",
-              "raw": "def"
+              "raw": "def",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -1077,7 +1118,8 @@
               },
               "tail": true,
               "cooked": "ghi",
-              "raw": "ghi"
+              "raw": "ghi",
+              "loneSurrogates": false
             }
           ]
         }
@@ -1122,6 +1164,7 @@
                   "end": 373
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "f",
                 "optional": false
               },
@@ -1161,7 +1204,8 @@
                     },
                     "tail": false,
                     "cooked": "abc",
-                    "raw": "abc"
+                    "raw": "abc",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -1171,7 +1215,8 @@
                     },
                     "tail": false,
                     "cooked": "def",
-                    "raw": "def"
+                    "raw": "def",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -1181,7 +1226,8 @@
                     },
                     "tail": true,
                     "cooked": "ghi",
-                    "raw": "ghi"
+                    "raw": "ghi",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -1199,7 +1245,8 @@
                   "end": 402
                 },
                 "value": "member",
-                "raw": "\"member\""
+                "raw": "\"member\"",
+                "loneSurrogates": false
               }
             }
           },
@@ -1248,7 +1295,8 @@
               },
               "tail": false,
               "cooked": "abc",
-              "raw": "abc"
+              "raw": "abc",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -1258,7 +1306,8 @@
               },
               "tail": false,
               "cooked": "def",
-              "raw": "def"
+              "raw": "def",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -1268,7 +1317,8 @@
               },
               "tail": true,
               "cooked": "ghi",
-              "raw": "ghi"
+              "raw": "ghi",
+              "loneSurrogates": false
             }
           ]
         }
@@ -1300,6 +1350,7 @@
               "end": 434
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false
           },
@@ -1331,7 +1382,8 @@
                   },
                   "tail": true,
                   "cooked": "abc",
-                  "raw": "abc"
+                  "raw": "abc",
+                  "loneSurrogates": false
                 }
               ]
             }
@@ -1366,6 +1418,7 @@
               "end": 459
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false
           },
@@ -1416,7 +1469,8 @@
                   },
                   "tail": false,
                   "cooked": "abc",
-                  "raw": "abc"
+                  "raw": "abc",
+                  "loneSurrogates": false
                 },
                 {
                   "type": "TemplateElement",
@@ -1426,7 +1480,8 @@
                   },
                   "tail": false,
                   "cooked": "def",
-                  "raw": "def"
+                  "raw": "def",
+                  "loneSurrogates": false
                 },
                 {
                   "type": "TemplateElement",
@@ -1436,7 +1491,8 @@
                   },
                   "tail": true,
                   "cooked": "ghi",
-                  "raw": "ghi"
+                  "raw": "ghi",
+                  "loneSurrogates": false
                 }
               ]
             }

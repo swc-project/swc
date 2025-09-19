@@ -28,6 +28,7 @@
               "end": 74
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "invalidCommentedFancySingle",
             "optional": false,
             "typeAnnotation": {
@@ -53,7 +54,8 @@
               "end": 91
             },
             "value": "nope",
-            "raw": "'nope'"
+            "raw": "'nope'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -82,6 +84,7 @@
               "end": 170
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "invalidCommentedFancyMulti",
             "optional": false,
             "typeAnnotation": {
@@ -107,7 +110,8 @@
               "end": 187
             },
             "value": "nope",
-            "raw": "'nope'"
+            "raw": "'nope'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -136,6 +140,7 @@
               "end": 261
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "validCommentedFancySingle",
             "optional": false,
             "typeAnnotation": {
@@ -161,7 +166,8 @@
               "end": 278
             },
             "value": "nope",
-            "raw": "'nope'"
+            "raw": "'nope'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -190,6 +196,7 @@
               "end": 354
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "validCommentedFancyMulti",
             "optional": false,
             "typeAnnotation": {
@@ -215,7 +222,8 @@
               "end": 371
             },
             "value": "nope",
-            "raw": "'nope'"
+            "raw": "'nope'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -244,6 +252,7 @@
               "end": 425
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "invalidCommentedPlainSingle",
             "optional": false,
             "typeAnnotation": {
@@ -269,7 +278,8 @@
               "end": 442
             },
             "value": "nope",
-            "raw": "'nope'"
+            "raw": "'nope'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -298,6 +308,7 @@
               "end": 499
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "invalidCommentedPlainMulti",
             "optional": false,
             "typeAnnotation": {
@@ -323,7 +334,8 @@
               "end": 516
             },
             "value": "nope",
-            "raw": "'nope'"
+            "raw": "'nope'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -352,6 +364,7 @@
               "end": 568
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "validCommentedPlainSingle",
             "optional": false,
             "typeAnnotation": {
@@ -377,7 +390,8 @@
               "end": 585
             },
             "value": "nope",
-            "raw": "'nope'"
+            "raw": "'nope'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -406,6 +420,7 @@
               "end": 640
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "validCommentedPlainMulti1",
             "optional": false,
             "typeAnnotation": {
@@ -431,7 +446,8 @@
               "end": 657
             },
             "value": "nope",
-            "raw": "'nope'"
+            "raw": "'nope'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -460,6 +476,7 @@
               "end": 712
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "validCommentedPlainMulti2",
             "optional": false,
             "typeAnnotation": {
@@ -485,7 +502,8 @@
               "end": 729
             },
             "value": "nope",
-            "raw": "'nope'"
+            "raw": "'nope'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -514,6 +532,7 @@
               "end": 748
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "invalidPlain",
             "optional": false,
             "typeAnnotation": {
@@ -539,7 +558,8 @@
               "end": 765
             },
             "value": "nope",
-            "raw": "'nope'"
+            "raw": "'nope'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -568,6 +588,7 @@
               "end": 782
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "validPlain",
             "optional": false,
             "typeAnnotation": {
@@ -593,7 +614,8 @@
               "end": 799
             },
             "value": "nope",
-            "raw": "'nope'"
+            "raw": "'nope'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -970,6 +992,7 @@
               "end": 1145
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "invalidCommentedFancySingle",
             "optional": false,
             "typeAnnotation": {
@@ -995,7 +1018,8 @@
               "end": 1162
             },
             "value": "nope",
-            "raw": "'nope'"
+            "raw": "'nope'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -1024,6 +1048,7 @@
               "end": 1261
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "invalidCommentedFancyMulti",
             "optional": false,
             "typeAnnotation": {
@@ -1049,7 +1074,8 @@
               "end": 1278
             },
             "value": "nope",
-            "raw": "'nope'"
+            "raw": "'nope'",
+            "loneSurrogates": false
           },
           "definite": false
         }

@@ -48,7 +48,8 @@
                       },
                       "tail": true,
                       "cooked": "TAG",
-                      "raw": "TAG"
+                      "raw": "TAG",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -62,7 +63,8 @@
                   },
                   "tail": false,
                   "cooked": "",
-                  "raw": ""
+                  "raw": "",
+                  "loneSurrogates": false
                 },
                 {
                   "type": "TemplateElement",
@@ -72,7 +74,8 @@
                   },
                   "tail": true,
                   "cooked": " ",
-                  "raw": " "
+                  "raw": " ",
+                  "loneSurrogates": false
                 }
               ]
             }
@@ -86,7 +89,8 @@
               },
               "tail": false,
               "cooked": "I AM THE ",
-              "raw": "I AM THE "
+              "raw": "I AM THE ",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -96,7 +100,8 @@
               },
               "tail": true,
               "cooked": " PORTION",
-              "raw": " PORTION"
+              "raw": " PORTION",
+              "loneSurrogates": false
             }
           ]
         },
@@ -115,7 +120,8 @@
                 "end": 52
               },
               "value": "AM",
-              "raw": "\"AM\""
+              "raw": "\"AM\"",
+              "loneSurrogates": false
             }
           ],
           "quasis": [
@@ -127,7 +133,8 @@
               },
               "tail": false,
               "cooked": "I ",
-              "raw": "I "
+              "raw": "I ",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -137,7 +144,8 @@
               },
               "tail": true,
               "cooked": " THE TEMPLATE PORTION",
-              "raw": " THE TEMPLATE PORTION"
+              "raw": " THE TEMPLATE PORTION",
+              "loneSurrogates": false
             }
           ]
         }

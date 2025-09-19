@@ -31,6 +31,7 @@
               "end": 93
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "exports",
             "optional": false
           },
@@ -50,7 +51,8 @@
             "end": 105
           },
           "value": "foo",
-          "raw": "\"foo\""
+          "raw": "\"foo\"",
+          "loneSurrogates": false
         }
       }
     },
@@ -74,6 +76,7 @@
               "end": 137
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false
           }
@@ -86,7 +89,8 @@
           "end": 154
         },
         "value": "./foo.cjs",
-        "raw": "\"./foo.cjs\""
+        "raw": "\"./foo.cjs\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -111,6 +115,7 @@
             "end": 158
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "foo",
           "optional": false
         },

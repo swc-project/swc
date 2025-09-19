@@ -20,6 +20,7 @@
             "end": 153
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Foo",
           "optional": false
         },
@@ -97,7 +98,8 @@
                         "end": 202
                       },
                       "value": "Hello",
-                      "raw": "\"Hello\""
+                      "raw": "\"Hello\"",
+                      "loneSurrogates": false
                     }
                   }
                 }
@@ -324,6 +326,7 @@
           "end": 328
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },

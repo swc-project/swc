@@ -20,6 +20,7 @@
             "end": 137
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Clazz",
           "optional": false
         },
@@ -61,6 +62,7 @@
                       "end": 244
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "functionDeclaration",
                     "optional": false,
                     "typeAnnotation": null

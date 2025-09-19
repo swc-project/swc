@@ -20,6 +20,7 @@
             "end": 74
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "foo",
           "optional": false
         },
@@ -52,7 +53,8 @@
                   "end": 91
                 },
                 "value": "foo",
-                "raw": "\"foo\""
+                "raw": "\"foo\"",
+                "loneSurrogates": false
               }
             }
           ]
@@ -72,6 +74,7 @@
           "end": 191
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "func",
         "optional": false
       },
@@ -114,6 +117,7 @@
                     "end": 217
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "packageName",
                   "optional": false,
                   "typeAnnotation": null
@@ -125,7 +129,8 @@
                     "end": 223
                   },
                   "value": ".",
-                  "raw": "'.'"
+                  "raw": "'.'",
+                  "loneSurrogates": false
                 },
                 "definite": false
               }
@@ -154,6 +159,7 @@
                     "end": 246
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "packageJson",
                   "optional": false,
                   "typeAnnotation": null
@@ -196,6 +202,7 @@
                               "end": 273
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "packageName",
                             "optional": false
                           },
@@ -206,7 +213,8 @@
                               "end": 291
                             },
                             "value": "/package.json",
-                            "raw": "'/package.json'"
+                            "raw": "'/package.json'",
+                            "loneSurrogates": false
                           }
                         }
                       }

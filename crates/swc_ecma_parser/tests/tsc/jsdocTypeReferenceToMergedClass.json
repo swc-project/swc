@@ -28,6 +28,7 @@
               "end": 173
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Workspace",
             "optional": false,
             "typeAnnotation": null
@@ -67,6 +68,7 @@
               "end": 217
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "p",
             "optional": false,
             "typeAnnotation": null
@@ -102,6 +104,7 @@
               "end": 220
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "p",
             "optional": false
           },
@@ -144,6 +147,7 @@
               "end": 250
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Workspace",
             "optional": false
           },
@@ -165,6 +169,7 @@
               "end": 272
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "wp",
             "optional": false
           },
@@ -223,6 +228,7 @@
                 "end": 288
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Workspace",
               "optional": false
             },

@@ -21,6 +21,7 @@
           "end": 9
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "M",
         "optional": false
       },
@@ -53,7 +54,8 @@
                   "end": 41
                 },
                 "value": "M",
-                "raw": "\"M\""
+                "raw": "\"M\"",
+                "loneSurrogates": false
               },
               "body": {
                 "type": "TsModuleBlock",

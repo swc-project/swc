@@ -14,6 +14,7 @@
           "end": 71
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "C",
         "optional": false
       },
@@ -113,7 +114,8 @@
               "end": 115
             },
             "value": "hello",
-            "raw": "\"hello\""
+            "raw": "\"hello\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -207,6 +209,7 @@
                           "end": 155
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "console",
                         "optional": false
                       },
@@ -291,7 +294,8 @@
                         "end": 195
                       },
                       "value": "hello",
-                      "raw": "\"hello\""
+                      "raw": "\"hello\"",
+                      "loneSurrogates": false
                     }
                   }
                 },
@@ -321,6 +325,7 @@
                           "end": 212
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "console",
                         "optional": false
                       },
@@ -399,7 +404,8 @@
               "end": 255
             },
             "value": "test",
-            "raw": "\"test\""
+            "raw": "\"test\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": true,
@@ -491,6 +497,7 @@
                           "end": 307
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "console",
                         "optional": false
                       },
@@ -559,6 +566,7 @@
                           "end": 337
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "console",
                         "optional": false
                       },
@@ -610,7 +618,8 @@
                               "end": 358
                             },
                             "value": "test",
-                            "raw": "\"test\""
+                            "raw": "\"test\"",
+                            "loneSurrogates": false
                           }
                         }
                       }
