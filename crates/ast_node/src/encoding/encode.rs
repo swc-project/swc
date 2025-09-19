@@ -1,4 +1,4 @@
-use syn::{Data, DeriveInput};
+use syn::{spanned::Spanned, Data, DeriveInput};
 
 use super::{is_unknown, is_with};
 
@@ -12,7 +12,11 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                 .map(|(idx, field)| -> syn::Stmt {
                     let fieldpath: syn::ExprField = match field.ident.as_ref() {
                         Some(name) => syn::parse_quote!(self.#name),
-                        None => syn::parse_quote!(self.#idx),
+                        None => {
+                            let name = format!("{idx}");
+                            let name = syn::LitInt::new(&name, field.span());
+                            syn::parse_quote!(self.#name)
+                        },
                     };
 
                     match is_with(&field.attrs) {
