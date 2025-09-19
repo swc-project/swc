@@ -219,7 +219,7 @@ pub fn ast_node(
                     #[from_variant(ignore)]
                     #[span(unknown)]
                     #[encoding(unknown)]
-                    Unknown(u32, #[not_spanned] crate::Unknown)
+                    Unknown(u32, #[not_spanned] swc_common::unknown::Unknown)
                 }
             };
 

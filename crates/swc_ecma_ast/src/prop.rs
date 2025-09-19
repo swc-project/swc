@@ -2,7 +2,7 @@ use is_macro::Is;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 #[cfg(feature = "unknown")]
-use crate::utils::unknown;
+use swc_common::unknown::unknown;
 use crate::{
     expr::Expr,
     function::Function,

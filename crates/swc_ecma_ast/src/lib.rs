@@ -13,8 +13,6 @@ pub use num_bigint::BigInt as BigIntValue;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 use swc_common::{ast_node, pass::Either, util::take::Take, EqIgnoreSpan, Span};
-#[cfg(feature = "unknown")]
-pub use utils::Unknown;
 
 pub use self::{
     class::{

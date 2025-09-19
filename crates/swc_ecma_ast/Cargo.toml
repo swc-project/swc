@@ -29,12 +29,12 @@ rkyv-impl = [
 ]
 serde-impl = ["serde"]
 encoding-impl = ["cbor4ii", "swc_atoms/encoding-impl", "swc_common/encoding-impl"]
+unknown = ["encoding-impl", "swc_common/unknown"]
 shrink-to-fit = [
   "dep:shrink-to-fit",
   "swc_atoms/shrink-to-fit",
   "swc_common/shrink-to-fit",
 ]
-unknown = ["encoding-impl"]
 
 
 [dependencies]
