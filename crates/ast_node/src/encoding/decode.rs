@@ -1,58 +1,43 @@
 use syn::{spanned::Spanned, Data, DeriveInput};
 
-use super::{is_unknown, is_with};
+use super::{is_unknown, is_with, EnumType};
 
 pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
     match data {
         Data::Struct(data) => {
             let is_named = data.fields.iter().any(|field| field.ident.is_some());
+            let names = data.fields.iter()
+                .enumerate()
+                .map(|(idx, field)| match field.ident.as_ref() {
+                    Some(name) => name.clone(),
+                    None => {
+                        let name = format!("unit{idx}");
+                        let name = syn::Ident::new(&name, field.span());
+                        name
+                    }
+                })
+                .collect::<Vec<_>>();
 
             let fields = data.fields.iter()
-                .enumerate()
-                .map(|(idx, field)| -> syn::Stmt {
+                .zip(names.iter())
+                .map(|(field, field_name)| -> syn::Stmt {
                     let ty = &field.ty;
                     let value: syn::Expr = match is_with(&field.attrs) {
                         Some(with_type) => syn::parse_quote!(<#with_type<#ty> as cbor4ii::core::dec::Decode<'_>>::decode(reader)?.0),
                         None => syn::parse_quote!(<#ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?)
                     };
 
-                    match field.ident.as_ref() {
-                        Some(name) => syn::parse_quote!{
-                            let #name = #value;
-                        },
-                        None => {
-                            let name = format!("unit{idx}");
-                            let name = syn::Ident::new(&name, field.span());
-                            syn::parse_quote!{
-                                let #name = #value;
-                            }
-                        }
+                    syn::parse_quote!{
+                        let #field_name = #value;
                     }
                 });
-            let build_struct = data
-                .fields
-                .iter()
-                .enumerate()
-                .map(|(idx, field)| -> syn::FieldValue {
-                    match field.ident.as_ref() {
-                        Some(name) => syn::parse_quote!(#name),
-                        None => {
-                            let name = format!("unit{idx}");
-                            let name = syn::Ident::new(&name, field.span());
-                            syn::parse_quote!(#name)
-                        }
-                    }
+            let build_struct: syn::Expr = is_named
+                .then(|| syn::parse_quote! {
+                    #ident { #(#names),* }
                 })
-                .collect::<syn::punctuated::Punctuated<_, syn::Token![,]>>();
-            let build_struct: syn::Expr = if is_named {
-                syn::parse_quote! {
-                    #ident { #build_struct }
-                }
-            } else {
-                syn::parse_quote! {
-                    #ident ( #build_struct )
-                }
-            };
+                .unwrap_or_else(|| syn::parse_quote! {
+                    #ident ( #(#names),* )
+                });
 
             let count = data.fields.len();
             let head: Option<syn::Expr> = (count != 1).then(|| {
@@ -76,97 +61,151 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
             }
         }
         Data::Enum(data) => {
+            let enum_type = data.variants.iter()
+                .filter(|v| !is_unknown(&v.attrs))
+                .fold(None, |mut sum, next| {
+                    let ty = match &next.fields {
+                        syn::Fields::Named(_) => EnumType::Struct,
+                        syn::Fields::Unnamed(fields) if fields.unnamed.len() == 1 => EnumType::One,
+                        syn::Fields::Unit => EnumType::Unit,
+                        syn::Fields::Unnamed(_) => panic!("more than 1 unnamed member field are not allowed")
+                    };
+                    match (*sum.get_or_insert(ty), ty) {
+                        (EnumType::Struct, EnumType::Struct)
+                            | (EnumType::Struct, EnumType::Unit)
+                            | (EnumType::Unit, EnumType::Unit)
+                            | (EnumType::One, EnumType::One)
+                            => (),
+                        (EnumType::Unit, EnumType::One)
+                        | (EnumType::One, EnumType::Unit)
+                        | (_, EnumType::Struct) => sum = Some(EnumType::Struct),
+                        _ => panic!("enum member types must be consistent: {:?} {:?}", sum, ty),
+                    }
+                    sum
+                });
+            let enum_type = enum_type.expect("enum cannot be empty");
             let mut iter = data.variants.iter().peekable();
-            let mut is_unit = None;
 
-            assert!(!data.variants.is_empty(), "empty enums are not allowed");
+            let unknown_arm: Option<syn::Arm> = iter.next_if(|variant| is_unknown(&variant.attrs))
+                .map(|unknown| {
+                    let name = &unknown.ident;
+                    assert!(
+                        unknown.discriminant.is_none(),
+                        "custom discriminant unsupport"
+                    );
+                    assert!(
+                        is_with(&unknown.attrs).is_none(),
+                        "unknown member is not allowed with type"
+                    );
 
-            let unknown_arm: Option<syn::Arm> = if let Some(unknown) =
-                iter.next_if(|variant| is_unknown(&variant.attrs))
-            {
-                let name = &unknown.ident;
-                assert!(
-                    unknown.discriminant.is_none(),
-                    "custom discriminant unsupport"
-                );
-                assert!(
-                    is_with(&unknown.attrs).is_none(),
-                    "unknown member is not allowed with type"
-                );
-
-                Some(match &unknown.fields {
-                    syn::Fields::Unnamed(fields) => match fields.unnamed.len() {
-                        1 => {
-                            is_unit = Some(true);
-                            syn::parse_quote! {
-                                tag => #ident::#name(tag),
+                    match &unknown.fields {
+                        syn::Fields::Unnamed(fields) => match fields.unnamed.len() {
+                            1 => {
+                                assert_eq!(enum_type, EnumType::Unit);
+                                syn::parse_quote! {
+                                    tag => #ident::#name(tag),
+                                }
                             }
-                        }
-                        2 => {
-                            is_unit = Some(false);
-                            let val_ty = &fields.unnamed[1].ty;
-
-                            syn::parse_quote! {
-                                tag => {
-                                    let val = <#val_ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?;
-                                    #ident::#name(tag, val)
-                                },
+                            2 => {
+                                assert_eq!(enum_type, EnumType::One);
+                                let val_ty = &fields.unnamed[1].ty;
+                                syn::parse_quote! {
+                                    tag => {
+                                        let tag: u32 = tag.try_into().map_err(|_| cbor4ii::core::error::DecodeError::CastOverflow {
+                                             name: &"tag",
+                                        })?;
+                                        let val = <#val_ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?;
+                                        #ident::#name(tag, val)
+                                    },
+                                }
                             }
-                        }
-                        _ => panic!("unknown member must be a tag and a value"),
-                    },
-                    _ => panic!("named enum unsupported"),
-                })
-            } else {
-                None
-            };
+                            _ => panic!("unknown member must be a tag and a value"),
+                        },
+                        _ => panic!("named enum unsupported"),
+                    }
+                });
+
+            if matches!(enum_type, EnumType::Struct) {
+                assert!(unknown_arm.is_none(), "struct enum does not allow unknown variants");
+            }
 
             let fields = iter
                 .enumerate()
                 .map(|(idx, field)| -> syn::Arm {
                     let idx = idx + 1; // skip zero
                     let idx: u32 = idx.try_into().expect("enum tags must not exceed 32 bits");
+                    let idx = idx as u64;
                     let name = &field.ident;
 
                     assert!(field.discriminant.is_none(), "custom discriminant is not allowed");
                     assert!(!is_unknown(&field.attrs), "unknown member must be first");
 
-                    match &field.fields {
-                        syn::Fields::Unnamed(fields) => {
-                            if fields.unnamed.len() != 1 {
-                                panic!("enum member only allows one field");
-                            }
-
-                            if *is_unit.get_or_insert(false) {
-                                panic!("the number of fields in member must be consistent");
-                            }
-                            let val_ty = &fields.unnamed[0].ty;
-                            let value: syn::Expr = match is_with(&field.attrs) {
-                                Some(with_type) => syn::parse_quote!(<#with_type<#val_ty> as cbor4ii::core::dec::Decode<'_>>::decode(reader)?.0),
-                                None => syn::parse_quote!(<#val_ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?)
-                            };
-
-                            syn::parse_quote!{
-                                #idx => {
-                                    let val = #value;
-                                    #ident::#name(val)
-                                },
-                            }
-                        },
-                        syn::Fields::Unit => {
-                            if !*is_unit.get_or_insert(true) {
-                                panic!("the number of fields in member must be consistent");
-                            }
+                    match enum_type {
+                        EnumType::Unit => {
                             assert!(is_with(&field.attrs).is_none(), "unit member is not allowed with type");
-
                             syn::parse_quote!{
                                 #idx => #ident::#name,
                             }
                         },
-                        syn::Fields::Named(_) => panic!("named enum unsupported")
+                        EnumType::One => {
+                            let val_ty = &field.fields.iter().next().unwrap().ty;
+                            let value: syn::Expr = match is_with(&field.attrs) {
+                                Some(with_type)
+                                    => syn::parse_quote!(<#with_type<#val_ty> as cbor4ii::core::dec::Decode<'_>>::decode(reader)?.0),
+                                None => syn::parse_quote!(<#val_ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?)
+                            };
+
+                            syn::parse_quote!{
+                                #idx => #ident::#name(#value),
+                            }
+                        },
+                        EnumType::Struct => {
+                            let is_named = field.fields.iter().all(|field| field.ident.is_some());
+                            let names = field.fields.iter()
+                                .enumerate()
+                                .map(|(idx, field)| match field.ident.as_ref() {
+                                    Some(name) => name.clone(),
+                                    None => {
+                                        let name = format!("unit{idx}");
+                                        let name = syn::Ident::new(&name, field.span());
+                                        name
+                                    }
+                                })
+                                .collect::<Vec<_>>();
+                            let num = field.fields.len();
+
+                            let stmt = field.fields.iter()
+                                .zip(names.iter())
+                                .map(|(field, field_name)| -> syn::Stmt {
+                                    let val_ty = &field.ty;
+                                    match is_with(&field.attrs) {
+                                        Some(with_type) => syn::parse_quote!{
+                                            let #field_name = <#with_type<#val_ty> as cbor4ii::core::dec::Decode<'_>>::decode(reader)?.0;
+                                        },
+                                        None => syn::parse_quote!{
+                                            let #field_name = <#val_ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?;
+                                        }
+                                    }
+                                });
+                            let build_struct: syn::Expr = is_named
+                                .then(|| syn::parse_quote! {
+                                    #ident::#name { #(#names),* }
+                                })
+                                .unwrap_or_else(|| syn::parse_quote! {
+                                    #ident::#name ( #(#names),* )
+                                });
+                                
+                            syn::parse_quote!{
+                                #idx => {
+                                    let len = cbor4ii::core::types::Array::len(reader)?;
+                                    debug_assert_eq!(len, Some(#num));
+                                    #(#stmt)*
+                                    #build_struct
+                                },
+                            }                            
+                        }
                     }
-                })
-                .collect::<Vec<_>>();
+                });
 
             let unknown_arm = match unknown_arm {
                 Some(arm) => arm,
@@ -183,26 +222,13 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                 }
             };
 
-            let head: syn::Expr = {
-                let count: usize = match is_unit {
-                    Some(true) => 1,
-                    Some(false) => 2,
-                    None => panic!(),
-                };
-                syn::parse_quote! {{
-                    let n = <cbor4ii::core::types::Array<()>>::len(reader)?;
-                    debug_assert_eq!(n, Some(#count));
-                }}
-            };
-
             syn::parse_quote! {
                 impl<'de> cbor4ii::core::dec::Decode<'de> for #ident {
                     #[inline]
                     fn decode<R: cbor4ii::core::dec::Read<'de>>(reader: &mut R)
                         -> Result<Self, cbor4ii::core::error::DecodeError<R::Error>>
                     {
-                        #head;
-                        let tag = <u32 as cbor4ii::core::dec::Decode<'_>>::decode(reader)?;
+                        let tag = <cbor4ii::core::types::Tag<()>>::tag(reader)?;
                         let value = match tag {
                             #(#fields)*
                             #unknown_arm

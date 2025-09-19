@@ -1,6 +1,13 @@
 pub(crate) mod decode;
 pub(crate) mod encode;
 
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+enum EnumType {
+    Unit,
+    One,
+    Struct,
+}
+
 pub(crate) fn is_unknown(attrs: &[syn::Attribute]) -> bool {
     attrs
         .iter()
