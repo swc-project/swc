@@ -69,40 +69,40 @@ jobs:
           version: ${{ needs.determine-nightly-version.outputs.version }}
           ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
 
-  # publish-npm-nightly:
-  #   name: "Publish ${{ matrix.package }}@${{ needs.determine-nightly-version.outputs.version }}"
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       package:
-  #         - core
-  #         - html
-  #         - minifier
-  #         - react-compiler
-  #   needs:
-  #     - git-tag-nightly
-  #     - determine-nightly-version
-  #   uses: ./.github/workflows/publish-npm-package.yml
-  #   secrets: inherit
-  #   with:
-  #     package: ${{ matrix.package }}
-  #     version: ${{ needs.determine-nightly-version.outputs.version }}
-  #     buildCli: true
-  #     skipBuild: ${{ inputs.skipBuild || false }}
-  #     skipPublishing: ${{ github.event_name == 'pull_request' }}
+  publish-npm-nightly:
+    name: "Publish ${{ matrix.package }}@${{ needs.determine-nightly-version.outputs.version }}"
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - core
+          - html
+          - minifier
+          - react-compiler
+    needs:
+      - git-tag-nightly
+      - determine-nightly-version
+    uses: ./.github/workflows/publish-npm-package.yml
+    secrets: inherit
+    with:
+      package: ${{ matrix.package }}
+      version: ${{ needs.determine-nightly-version.outputs.version }}
+      buildCli: true
+      skipBuild: ${{ inputs.skipBuild || false }}
+      skipPublishing: ${{ github.event_name == 'pull_request' }}
 
-  # run-ecosystem-ci-with-nightly:
-  #   name: "Test nightly using ecosystem CI"
+  run-ecosystem-ci-with-nightly:
+    name: "Test nightly using ecosystem CI"
 
-  #   needs:
-  #     - determine-nightly-version
-  #     - publish-npm-nightly
-  #   uses: ./.github/workflows/ecosystem-ci.yml
-  #   with:
-  #     version: ${{ needs.determine-nightly-version.outputs.version }}
-  #     mode: "passing"
-  #     suites: '["_"]'
-  #     allowBreakingWasm: ${{ inputs.allowBreakingWasm || false }}
+    needs:
+      - determine-nightly-version
+      - publish-npm-nightly
+    uses: ./.github/workflows/ecosystem-ci.yml
+    with:
+      version: ${{ needs.determine-nightly-version.outputs.version }}
+      mode: "passing"
+      suites: '["_"]'
+      allowBreakingWasm: ${{ inputs.allowBreakingWasm || false }}
 
   git-tag-stable:
     name: "Git tag stable"
@@ -110,7 +110,7 @@ jobs:
     if: inputs.onlyNightly == false
     needs:
       - git-tag-nightly
-      # - run-ecosystem-ci-with-nightly
+      - run-ecosystem-ci-with-nightly
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/tag-git-release
@@ -146,7 +146,7 @@ jobs:
           - minifier
           - react-compiler
     needs:
-      # - run-ecosystem-ci-with-nightly
+      - run-ecosystem-ci-with-nightly
       - git-tag-stable
 
     uses: ./.github/workflows/publish-npm-package.yml
