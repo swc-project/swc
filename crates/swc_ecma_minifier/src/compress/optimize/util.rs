@@ -482,13 +482,15 @@ impl VisitMut for Finalizer<'_> {
 pub(crate) struct NormalMultiReplacer<'a> {
     pub vars: &'a mut FxHashMap<Id, Box<Expr>>,
     pub changed: bool,
+    should_consume: bool,
 }
 
 impl<'a> NormalMultiReplacer<'a> {
     /// `worked` will be changed to `true` if any replacement is done
-    pub fn new(vars: &'a mut FxHashMap<Id, Box<Expr>>) -> Self {
+    pub fn new(vars: &'a mut FxHashMap<Id, Box<Expr>>, should_consume: bool) -> Self {
         NormalMultiReplacer {
             vars,
+            should_consume,
             changed: false,
         }
     }
@@ -497,6 +499,15 @@ impl<'a> NormalMultiReplacer<'a> {
         let mut e = self.vars.remove(i)?;
 
         e.visit_mut_children_with(self);
+
+        let e = if self.should_consume {
+            e
+        } else {
+            let new_e = e.clone();
+            self.vars.insert(i.clone(), e);
+
+            new_e
+        };
 
         match &*e {
             Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => Some(

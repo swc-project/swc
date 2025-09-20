@@ -9436,7 +9436,7 @@
                     if (null !== lastEffect) {
                         var firstEffect = lastEffect.next, effect = firstEffect;
                         do {
-                            if ((3 & effect.tag) === tag) {
+                            if ((3 & effect.tag) == 3) {
                                 // Unmount
                                 var destroy = effect.destroy;
                                 effect.destroy = void 0, void 0 !== destroy && destroy();
@@ -10562,7 +10562,7 @@
                             if (null !== lastEffect) {
                                 var firstEffect = lastEffect.next, effect = firstEffect;
                                 do {
-                                    if ((3 & effect.tag) === tag) {
+                                    if ((3 & effect.tag) == 3) {
                                         // Mount
                                         var create = effect.create;
                                         effect.destroy = create();

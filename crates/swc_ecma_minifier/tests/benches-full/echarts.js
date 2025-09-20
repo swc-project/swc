@@ -12647,7 +12647,7 @@
                                 outPt.set(rect.x - 0, rect.y + height / 2), outDir.set(-1, 0);
                                 break;
                             case 'right':
-                                outPt.set(rect.x + width + distance, rect.y + height / 2), outDir.set(1, 0);
+                                outPt.set(rect.x + width + 0, rect.y + height / 2), outDir.set(1, 0);
                         }
                     }(searchSpace[i], 0, labelRect, pt0, dir), Point.scaleAndAdd(pt1, pt0, dir, len), pt1.transform(targetInversedTransform);
                     var boundingRect = target.getBoundingRect(), dist = anchorPoint ? anchorPoint.distance(pt1) : target instanceof Path ? /**
@@ -27195,19 +27195,19 @@
                                 ],
                                 [
                                     x + itemWidth,
-                                    y + itemHeight
+                                    0 + itemHeight
                                 ],
                                 [
                                     head ? x : x - 5,
-                                    y + itemHeight
+                                    0 + itemHeight
                                 ]
                             ];
                             return tail || points.splice(2, 0, [
                                 x + itemWidth + 5,
-                                y + itemHeight / 2
+                                0 + itemHeight / 2
                             ]), head || points.push([
                                 x,
-                                y + itemHeight / 2
+                                0 + itemHeight / 2
                             ]), points;
                         } // Package custom mouse event.
                         (lastX, 0, itemWidth, height, i === renderList.length - 1, 0 === i)
