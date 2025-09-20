@@ -64,17 +64,5 @@
     "@types/node": "^20.7.1",
     "cross-env": "^7.0.3",
     "typescript": "^5.2.2"
-  },
-  "optionalDependencies": {
-    "@swc/react-compiler-darwin-x64": "1.13.11",
-    "@swc/react-compiler-win32-x64-msvc": "1.13.11",
-    "@swc/react-compiler-linux-x64-gnu": "1.13.11",
-    "@swc/react-compiler-linux-x64-musl": "1.13.11",
-    "@swc/react-compiler-win32-ia32-msvc": "1.13.11",
-    "@swc/react-compiler-linux-arm-gnueabihf": "1.13.11",
-    "@swc/react-compiler-linux-arm64-gnu": "1.13.11",
-    "@swc/react-compiler-darwin-arm64": "1.13.11",
-    "@swc/react-compiler-linux-arm64-musl": "1.13.11",
-    "@swc/react-compiler-win32-arm64-msvc": "1.13.11"
   }
 }
