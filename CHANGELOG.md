@@ -2078,9 +2078,6 @@
 
 - **(es/types)** Add `transform.verbatimModuleSyntax` ([#10079](https://github.com/swc-project/swc/issues/10079)) ([a883cdc](https://github.com/swc-project/swc/commit/a883cdc3900fa210aa0e6132ffb6c761497594c6))
 
-
-- **(swc_common)** Fix build with `swc_allocator/nightly` ([#10067](https://github.com/swc-project/swc/issues/10067)) ([6a90b1f](https://github.com/swc-project/swc/commit/6a90b1fd431601e904b7ce5f18b60d36b94a5aec))
-
 ### Documentation
 
 
@@ -2104,9 +2101,6 @@
 
 ### Refactor
 
-
-
-- **(atoms)** Rename `FastAtom` to `UnsafeAtom` ([#10070](https://github.com/swc-project/swc/issues/10070)) ([1771222](https://github.com/swc-project/swc/commit/1771222440773376351ab89cdda4c14cfc50f462))
 
 
 - **(atoms)** Remove `JsWord` alias ([#10071](https://github.com/swc-project/swc/issues/10071)) ([f33b0bc](https://github.com/swc-project/swc/commit/f33b0bc2d1474232f608847a6a26eaa068f2c106))
