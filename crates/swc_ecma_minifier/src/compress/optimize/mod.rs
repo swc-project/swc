@@ -305,7 +305,7 @@ impl Vars {
         }
 
         if !self.vars_for_inlining.is_empty() {
-            let mut v = NormalMultiReplacer::new(&mut self.vars_for_inlining);
+            let mut v = NormalMultiReplacer::new(&mut self.vars_for_inlining, true);
             n.visit_mut_with(&mut v);
             changed |= v.changed;
         }
