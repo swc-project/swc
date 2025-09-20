@@ -124,6 +124,7 @@ jobs:
     if: inputs.onlyNightly == false
     needs:
       - git-tag-stable
+      - publish-npm-stable
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node
