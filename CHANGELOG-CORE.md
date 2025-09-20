@@ -2593,9 +2593,6 @@
 
 
 
-- **(error-reporters)** Store diagnostics in `TransformOutput` ([#10027](https://github.com/swc-project/swc/issues/10027)) ([52caf23](https://github.com/swc-project/swc/commit/52caf23fbda680d35a6939a8fbb3baced982ac51))
-
-
 - **(es/loader)** Fix the absolute path check when resolving modules ([#10080](https://github.com/swc-project/swc/issues/10080)) ([a3894ae](https://github.com/swc-project/swc/commit/a3894aebe5a080ed99b209af11d5740759411e7d))
 
 
@@ -2614,19 +2611,7 @@
 
 
 
-- **(es/ast)** Add explicit `namespace` field to distinguish namespace and module declarations ([#10023](https://github.com/swc-project/swc/issues/10023)) ([76c2cba](https://github.com/swc-project/swc/commit/76c2cba9486370e3aaf66097d0b387ce94163f56))
-
-
-- **(es/ast)** Add import attributes to `TsImportType` ([#9796](https://github.com/swc-project/swc/issues/9796)) ([7d297be](https://github.com/swc-project/swc/commit/7d297bedf5518797776f18b70ea304981419368b))
-
-
 - **(es/minifier)** Make seq inliner inline into var without init ([#10077](https://github.com/swc-project/swc/issues/10077)) ([c4a839b](https://github.com/swc-project/swc/commit/c4a839b6bd16627415500cb3eab4857f08e156b6))
-
-### Miscellaneous Tasks
-
-
-
-- **(swc_allocator)** Add `#[inline]` to allocator methods ([#10066](https://github.com/swc-project/swc/issues/10066)) ([853eb53](https://github.com/swc-project/swc/commit/853eb53d62b8c5684b846dd095b93a73f8d9a7b4))
 
 ### Performance
 
