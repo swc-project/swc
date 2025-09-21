@@ -216,7 +216,7 @@ where
     pub fn emit_num_lit_internal(
         &mut self,
         num: &Number,
-        mut detect_dot: bool,
+        is_member_obj: bool,
     ) -> std::result::Result<bool, io::Error> {
         self.wr.commit_pending_semi()?;
 
@@ -229,6 +229,8 @@ where
             return Ok(false);
         }
 
+        let mut detect_dot = is_member_obj;
+
         let mut striped_raw = None;
         let mut value = String::default();
 
@@ -238,7 +240,7 @@ where
             if num.value.is_infinite() && num.raw.is_some() {
                 self.wr.write_str_lit(DUMMY_SP, num.raw.as_ref().unwrap())?;
             } else {
-                value = minify_number(num.value, &mut detect_dot);
+                value = minify_number(num.value, is_member_obj, &mut detect_dot);
                 self.wr.write_str_lit(DUMMY_SP, &value)?;
             }
         } else {
@@ -265,7 +267,7 @@ where
                     } else {
                         self.wr.write_str_lit(DUMMY_SP, raw)?;
 
-                        if !detect_dot {
+                        if !is_member_obj {
                             return Ok(false);
                         }
 
@@ -529,12 +531,17 @@ pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiC
     (quote_char, CowStr::Owned(buf))
 }
 
-pub fn minify_number(num: f64, detect_dot: &mut bool) -> String {
+pub fn minify_number(num: f64, is_member_obj: bool, detect_dot: &mut bool) -> String {
     'hex: {
         if num.fract() == 0.0 && num.abs() <= u64::MAX as f64 {
             let int = num.abs() as u64;
 
-            if int < 1_000_000_000_000 {
+            let threshhold = if is_member_obj {
+                100_000
+            } else {
+                100_000_000_000
+            };
+            if int < threshhold {
                 break 'hex;
             }
 
