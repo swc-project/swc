@@ -577,7 +577,6 @@ jobs:
       - name: Publish
         if: ${{ !inputs.skipPublishing }}
         run: |
-          npm config set provenance true
           (cd packages/${{ inputs.package }} && yarn workspaces foreach -Rt npm publish --tolerate-republish --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
