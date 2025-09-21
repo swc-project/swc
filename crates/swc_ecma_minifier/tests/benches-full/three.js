@@ -2356,7 +2356,7 @@ function(global, factory) {
         }, _proto.convertLinearToSRGB = function() {
             return this.copyLinearToSRGB(this), this;
         }, _proto.getHex = function() {
-            return 255 * this.r << 16 ^ 255 * this.g << 8 ^ (255 * this.b | 0);
+            return 255 * this.r << 16 ^ 255 * this.g << 8 ^ 255 * this.b;
         }, _proto.getHexString = function() {
             return ('000000' + this.getHex().toString(16)).slice(-6);
         }, _proto.getHSL = function(target) {
@@ -6328,7 +6328,7 @@ function(global, factory) {
         ]), 3));
         var fullScreenMesh = new Mesh(fullScreenTri, shadowMaterialVertical), scope = this;
         function getDepthMaterialVariant(useMorphing, useSkinning, useInstancing) {
-            var index = 0 | useMorphing | useSkinning << 1 | useInstancing << 2, material = _depthMaterials[index];
+            var index = useMorphing | useSkinning << 1 | useInstancing << 2, material = _depthMaterials[index];
             return void 0 === material && (material = new MeshDepthMaterial({
                 depthPacking: 3201,
                 morphTargets: useMorphing,
@@ -6336,7 +6336,7 @@ function(global, factory) {
             }), _depthMaterials[index] = material), material;
         }
         function getDistanceMaterialVariant(useMorphing, useSkinning, useInstancing) {
-            var index = 0 | useMorphing | useSkinning << 1 | useInstancing << 2, material = _distanceMaterials[index];
+            var index = useMorphing | useSkinning << 1 | useInstancing << 2, material = _distanceMaterials[index];
             return void 0 === material && (material = new MeshDistanceMaterial({
                 morphTargets: useMorphing,
                 skinning: useSkinning

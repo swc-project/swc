@@ -466,7 +466,7 @@
                     });
                 };
                 var getModifierHash = function(e) {
-                    return 0 | !!e.ctrlKey | 2 * !!e.altKey | 4 * !!e.shiftKey | 8 * !!e.metaKey;
+                    return !!e.ctrlKey | 2 * !!e.altKey | 4 * !!e.shiftKey | 8 * !!e.metaKey;
                 };
                 function normalizeCommandKeys(callback, e, keyCode) {
                     var hashId = getModifierHash(e);
