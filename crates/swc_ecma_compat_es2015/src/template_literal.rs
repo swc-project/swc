@@ -83,6 +83,10 @@ impl VisitMut for TemplateLiteral {
                 for i in 0..len {
                     if i == 0 {
                         quasis.next();
+
+                        if len == 1 {
+                            obj.set_span(*span);
+                        }
                         continue;
                     }
                     let last = i == len - 1;
