@@ -1865,7 +1865,7 @@ where
 
                 write_raw!(self, span, &percentage);
             }
-            Token::Dimension(token) => {
+            Token::Dimension { dimension: token } => {
                 let mut dimension =
                     String::with_capacity(token.raw_value.len() + token.raw_unit.len());
 
