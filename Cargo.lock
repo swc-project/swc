@@ -658,7 +658,7 @@ dependencies = [
 [[package]]
 name = "cbor4ii"
 version = "1.1.1"
-source = "git+https://github.com/quininer/cbor4ii?branch=f%2Fderive#134829f81f463d8e908186888d16535c71a06edf"
+source = "git+https://github.com/quininer/cbor4ii?branch=f%2Fderive#1084f6edc73a98b975533b81b6f570aca73550f2"
 
 [[package]]
 name = "cc"

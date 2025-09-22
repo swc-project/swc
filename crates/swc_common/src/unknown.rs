@@ -116,6 +116,28 @@ impl<'de> serde::Deserialize<'de> for Unknown {
     }
 }
 
+#[cfg(feature = "arbitrary")]
+impl<'a> arbitrary::Arbitrary<'a> for Unknown {
+    fn arbitrary(u: &mut arbitrary::Unstructured<'a>) -> arbitrary::Result<Self> {
+        use cbor4ii::core::{ Value, BoxedRawValue };
+        
+        let mut list = Vec::new();
+        for _ in 0..u.arbitrary_len::<u64>()? {
+            let n = u.int_in_range::<u64>(0..=102410241024)?;
+            list.push(Value::Integer(n.into()));
+        }
+        let value = Value::Array(list);
+        let value = BoxedRawValue::from_value(&value)
+            .map_err(|_| arbitrary::Error::IncorrectFormat)?;
+        Ok(Unknown(value))
+    }
+}
+
+#[cfg(feature = "shrink-to-fit")]
+impl shrink_to_fit::ShrinkToFit for Unknown {
+    fn shrink_to_fit(&mut self) {}
+}
+
 #[track_caller]
 pub fn unknown() -> ! {
     panic!("unknown node")
