@@ -24,6 +24,7 @@ tracing-spans = []
 typescript    = []
 unstable      = []
 verify        = ["swc_ecma_visit", "swc_ecma_lexer/verify"]
+unknown       = ["swc_ecma_ast/unknown"]
 
 [dependencies]
 either         = { workspace = true }
