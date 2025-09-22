@@ -33,7 +33,7 @@ shrink-to-fit = [
   "swc_atoms/shrink-to-fit",
   "swc_common/shrink-to-fit",
 ]
-
+unknown = []
 
 [dependencies]
 arbitrary        = { workspace = true, features = ["derive"], optional = true }

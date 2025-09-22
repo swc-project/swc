@@ -141,7 +141,7 @@ pub struct Delimiter {
 
 // TODO small AST improve for `CurrentColorOrSystemColor` and
 // `NamedColorOrTransparent`
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Color {
     #[tag("AbsoluteColorBase")]
@@ -153,7 +153,7 @@ pub enum Color {
     Function(Function),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AbsoluteColorBase {
     #[tag("HexColor")]
@@ -175,7 +175,7 @@ pub struct HexColor {
     pub raw: Option<Atom>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AlphaValue {
     #[tag("Number")]
@@ -184,7 +184,7 @@ pub enum AlphaValue {
     Percentage(Percentage),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Hue {
     #[tag("Number")]
@@ -193,7 +193,7 @@ pub enum Hue {
     Angle(Angle),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CmykComponent {
     #[tag("Number")]
@@ -204,7 +204,7 @@ pub enum CmykComponent {
     Function(Function),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Dimension {
     #[tag("Length")]
@@ -292,7 +292,7 @@ pub struct Percentage {
     pub value: Number,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum LengthPercentage {
     #[tag("Length")]
@@ -301,7 +301,7 @@ pub enum LengthPercentage {
     Percentage(Percentage),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum FrequencyPercentage {
     #[tag("Frequency")]
@@ -310,7 +310,7 @@ pub enum FrequencyPercentage {
     Percentage(Percentage),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AnglePercentage {
     #[tag("Angle")]
@@ -319,7 +319,7 @@ pub enum AnglePercentage {
     Percentage(Percentage),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum TimePercentage {
     #[tag("Time")]
@@ -420,7 +420,7 @@ pub struct Url {
     pub modifiers: Option<Vec<UrlModifier>>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum UrlValue {
     #[tag("Str")]
@@ -438,7 +438,7 @@ pub struct UrlValueRaw {
     pub raw: Option<Atom>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum UrlModifier {
     #[tag("Ident")]
@@ -472,7 +472,7 @@ pub struct CalcSum {
     pub expressions: Vec<CalcProductOrOperator>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CalcProductOrOperator {
     #[tag("CalcProduct")]
@@ -518,7 +518,7 @@ pub enum CalcOperatorType {
     Div,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CalcValueOrOperator {
     #[tag("CalcValue")]
@@ -527,7 +527,7 @@ pub enum CalcValueOrOperator {
     Operator(CalcOperator),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum CalcValue {
     #[tag("Number")]
@@ -544,7 +544,7 @@ pub enum CalcValue {
     Function(Function),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum FamilyName {
     #[tag("Str")]

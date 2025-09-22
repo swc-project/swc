@@ -23,6 +23,7 @@ default       = ["typescript", "stacker"]
 tracing-spans = []
 typescript    = []
 verify        = ["swc_ecma_visit"]
+unknown       = ["swc_ecma_ast/unknown"]
 
 [dependencies]
 arrayvec    = { workspace = true }

@@ -28,7 +28,7 @@ pub struct ForgivingSelectorList {
     pub children: Vec<ForgivingComplexSelector>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ForgivingComplexSelector {
     #[tag("ComplexSelector")]
@@ -58,7 +58,7 @@ pub struct ForgivingRelativeSelectorList {
     pub children: Vec<ForgivingRelativeSelector>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ForgivingRelativeSelector {
     #[tag("RelativeSelector")]
@@ -83,7 +83,7 @@ impl Take for ComplexSelector {
     }
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum ComplexSelectorChildren {
     #[tag("CompoundSelector")]
@@ -153,7 +153,7 @@ pub struct NestingSelector {
     pub span: Span,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum TypeSelector {
     #[tag("TagNameSelector")]
@@ -183,7 +183,7 @@ pub struct NamespacePrefix {
     pub namespace: Option<Namespace>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Namespace {
     #[tag("NamedNamespace")]
@@ -213,7 +213,7 @@ pub struct WqName {
     pub value: Ident,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum SubclassSelector {
     #[tag("IdSelector")]
@@ -297,7 +297,7 @@ pub struct AttributeSelectorMatcher {
     pub value: AttributeSelectorMatcherValue,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AttributeSelectorValue {
     #[tag("String")]
@@ -322,7 +322,7 @@ pub struct PseudoClassSelector {
     pub children: Option<Vec<PseudoClassSelectorChildren>>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum PseudoClassSelectorChildren {
     #[tag("TokenAndSpan")]
@@ -362,7 +362,7 @@ pub enum PseudoClassSelectorChildren {
     CompoundSelector(CompoundSelector),
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum AnPlusB {
     #[tag("Ident")]
@@ -389,7 +389,7 @@ pub struct PseudoElementSelector {
     pub children: Option<Vec<PseudoElementSelectorChildren>>,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum PseudoElementSelectorChildren {
     #[tag("TokenAndSpan")]
