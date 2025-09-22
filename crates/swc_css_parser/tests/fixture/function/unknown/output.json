@@ -179,11 +179,13 @@
                     },
                     "token": {
                       "Dimension": {
-                        "value": 100.0,
-                        "raw_value": "100",
-                        "unit": "px",
-                        "type": "integer",
-                        "raw_unit": "px"
+                        "dimension": {
+                          "value": 100.0,
+                          "raw_value": "100",
+                          "unit": "px",
+                          "type": "integer",
+                          "raw_unit": "px"
+                        }
                       }
                     }
                   }
@@ -232,11 +234,13 @@
                     },
                     "token": {
                       "Dimension": {
-                        "value": 100.0,
-                        "raw_value": "100",
-                        "unit": "px",
-                        "type": "integer",
-                        "raw_unit": "px"
+                        "dimension": {
+                          "value": 100.0,
+                          "raw_value": "100",
+                          "unit": "px",
+                          "type": "integer",
+                          "raw_unit": "px"
+                        }
                       }
                     }
                   }
