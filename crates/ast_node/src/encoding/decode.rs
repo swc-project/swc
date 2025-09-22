@@ -92,7 +92,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                     let name = &unknown.ident;
                     assert!(
                         unknown.discriminant.is_none(),
-                        "custom discriminant unsupport"
+                        "unknown member is not allowed custom discriminant"
                     );
                     assert!(
                         is_with(&unknown.attrs).is_none(),
@@ -133,15 +133,20 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                 );
             }
 
+            let mut discriminant: u32 = 0;
             let fields = iter
-                .enumerate()
-                .map(|(idx, field)| -> syn::Arm {
-                    let idx = idx + 1; // skip zero
-                    let idx: u32 = idx.try_into().expect("enum tags must not exceed 32 bits");
-                    let idx = idx as u64;
+                .map(|field| -> syn::Arm {
+                    match field.discriminant.as_ref() {
+                        Some((_, syn::Expr::Lit(syn::ExprLit { lit: syn::Lit::Int(lit), .. }))) => {
+                            discriminant = lit.base10_parse::<u32>().unwrap();
+                        },
+                        Some(_) => panic!("unsupported discriminant type"),
+                        None => (),
+                    };
+                    discriminant += 1;
+                    let idx = discriminant as u64;
                     let name = &field.ident;
 
-                    assert!(field.discriminant.is_none(), "custom discriminant is not allowed");
                     assert!(!is_unknown(&field.attrs), "unknown member must be first");
 
                     match enum_type {

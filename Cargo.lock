@@ -5844,6 +5844,7 @@ name = "swc_ecma_regexp_ast"
 version = "0.3.0"
 dependencies = [
  "bitflags 2.6.0",
+ "cbor4ii",
  "is-macro",
  "serde",
  "swc_atoms",

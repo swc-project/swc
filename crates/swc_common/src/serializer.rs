@@ -37,7 +37,7 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for WithChar<char> {
     ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
         let n = u32::decode(reader)?;
         let value = char::from_u32(n).ok_or_else(|| cbor4ii::core::dec::Error::Mismatch {
-            name: &"Token::Delim",
+            name: &"WithChar",
             found: 0,
         })?;
         Ok(WithChar(value))
