@@ -74,6 +74,9 @@ pub trait ExprExt {
             Expr::TsConstAssertion(..) => false,
 
             Expr::Invalid(..) => false,
+
+            #[cfg(feature = "unknown")]
+            _ => false,
         }
     }
 }

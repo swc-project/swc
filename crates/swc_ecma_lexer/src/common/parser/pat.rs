@@ -51,11 +51,15 @@ fn pat_is_valid_argument_in_strict<'a>(p: &mut impl Parser<'a>, pat: &Pat) {
                             p.emit_strict_mode_err(key.span, SyntaxError::EvalAndArgumentsInStrict)
                         }
                     }
+                    #[cfg(feature = "unknown")]
+                    _ => ()
                 }
             }
         }
         Pat::Assign(a) => pat_is_valid_argument_in_strict(p, &a.left),
         Pat::Invalid(_) | Pat::Expr(_) => (),
+        #[cfg(feature = "unknown")]
+        _ => (),
     }
 }
 
@@ -175,6 +179,8 @@ fn reparse_expr_as_pat_inner<'a>(
                         Box::new(reparse_expr_as_pat(p, pat_ty, left.into())?)
                     }
                     AssignTarget::Pat(pat) => pat.into(),
+                    #[cfg(feature = "unknown")]
+                    _ => unreachable!()
                 },
                 right,
             }
@@ -250,6 +256,9 @@ fn reparse_expr_as_pat_inner<'a>(
                                     type_ann: None,
                                 }))
                             }
+
+                            #[cfg(feature = "unknown")]
+                            _ => unreachable!()
                         }
                     })
                     .collect::<PResult<_>>()?,
