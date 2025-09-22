@@ -22,8 +22,8 @@ export default function(r, t, e) {
                         var v = f[_ - 15], d = (v << 25 | v >>> 7) ^ (v << 14 | v >>> 18) ^ v >>> 3, H = f[_ - 2], p = (H << 15 | H >>> 17) ^ (H << 13 | H >>> 19) ^ H >>> 10;
                         f[_] = d + f[_ - 7] + p + f[_ - 16];
                     }
-                    var w = h & c ^ ~h & l, x = a & n ^ a & o ^ n & o, A = (a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22), g = u + ((h << 26 | h >>> 6) ^ (h << 21 | h >>> 11) ^ (h << 7 | h >>> 25)) + w + i[_] + f[_], y = A + x;
-                    u = l, l = c, c = h, h = s + g | 0, s = o, o = n, n = a, a = g + y | 0;
+                    var w = h & c ^ ~h & l, A = a & n ^ a & o ^ n & o, g = (a << 30 | a >>> 2) ^ (a << 19 | a >>> 13) ^ (a << 10 | a >>> 22), y = u + ((h << 26 | h >>> 6) ^ (h << 21 | h >>> 11) ^ (h << 7 | h >>> 25)) + w + i[_] + f[_], B = g + A;
+                    u = l, l = c, c = h, h = s + y | 0, s = o, o = n, n = a, a = y + B | 0;
                 }
                 // Intermediate hash value
                 e[0] = e[0] + a | 0, e[1] = e[1] + n | 0, e[2] = e[2] + o | 0, e[3] = e[3] + s | 0, e[4] = e[4] + h | 0, e[5] = e[5] + c | 0, e[6] = e[6] + l | 0, e[7] = e[7] + u | 0;

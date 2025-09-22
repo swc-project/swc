@@ -1,8 +1,8 @@
-!(function(c) {
+!(function(n) {
     try {
         throw 0;
-    } catch (n) {
-        c = 123456789 / 0;
+    } catch (o) {
+        n = 123456789 / 0;
     }
-    console.log(c);
+    console.log(n);
 })();
