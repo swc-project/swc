@@ -295,6 +295,8 @@ impl<I: Tokens> Parser<I> {
                 .map(|item| match item {
                     ModuleItem::ModuleDecl(_) => unreachable!("Module is handled above"),
                     ModuleItem::Stmt(stmt) => stmt,
+                    #[cfg(feature = "unknown")]
+                    _ => unreachable!()
                 })
                 .collect();
             Program::Script(Script {

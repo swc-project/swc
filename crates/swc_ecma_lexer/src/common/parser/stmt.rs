@@ -783,6 +783,8 @@ fn parse_catch_param<'a, P: Parser<'a>>(p: &mut P) -> PResult<Option<Pat>> {
                 Pat::Assign(..) => {}
                 Pat::Invalid(_) => {}
                 Pat::Expr(_) => {}
+                #[cfg(feature = "unknown")]
+                _ => {}
             }
         }
         expect!(p, &P::Token::RPAREN);
