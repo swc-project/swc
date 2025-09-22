@@ -39,13 +39,13 @@ impl std::hash::Hash for Unknown {
 
 #[cfg(feature = "rkyv-impl")]
 #[derive(Debug)]
-struct UnknownType;
+struct UnknownError;
 
 #[cfg(feature = "rkyv-impl")]
-impl std::error::Error for UnknownType {}
+impl std::error::Error for UnknownError {}
 
 #[cfg(feature = "rkyv-impl")]
-impl std::fmt::Display for UnknownType {
+impl std::fmt::Display for UnknownError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "cannot access unknown type")
     }
@@ -69,7 +69,7 @@ where
     S::Error: rancor::Source,
 {
     fn serialize(&self, _serializer: &mut S) -> Result<Self::Resolver, S::Error> {
-        Err(<S::Error as rancor::Source>::new(UnknownType))
+        Err(<S::Error as rancor::Source>::new(UnknownError))
     }
 }
 
@@ -84,7 +84,7 @@ where
         &self,
         _deserializer: &mut D,
     ) -> Result<Unknown, <D as rancor::Fallible>::Error> {
-        Err(<D::Error as rancor::Source>::new(UnknownType))
+        Err(<D::Error as rancor::Source>::new(UnknownError))
     }
 }
 

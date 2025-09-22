@@ -92,7 +92,6 @@ mod prop;
 mod source_map;
 mod stmt;
 mod typescript;
-mod utils;
 
 /// A map from the [Program] to the [Program].
 ///

@@ -223,13 +223,23 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                 }
             };
 
+            let tag: syn::Stmt = if matches!(enum_type, EnumType::Unit) {
+                syn::parse_quote!{
+                    let tag = <u64 as cbor4ii::core::dec::Decode<'_>>::decode(reader)?;
+                }
+            } else {
+                syn::parse_quote!{
+                    let tag = <cbor4ii::core::types::Tag<()>>::tag(reader)?;
+                }
+            };
+
             syn::parse_quote! {
                 impl<'de> cbor4ii::core::dec::Decode<'de> for #ident {
                     #[inline]
                     fn decode<R: cbor4ii::core::dec::Read<'de>>(reader: &mut R)
                         -> Result<Self, cbor4ii::core::error::DecodeError<R::Error>>
                     {
-                        let tag = <cbor4ii::core::types::Tag<()>>::tag(reader)?;
+                        #tag
                         let value = match tag {
                             #(#fields)*
                             #unknown_arm

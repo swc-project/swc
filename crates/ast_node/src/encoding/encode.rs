@@ -94,7 +94,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                                 assert_eq!(enum_type, EnumType::Unit);
                                 syn::parse_quote! {
                                     #ident::#name(tag)
-                                        => cbor4ii::core::types::Tag((*tag).into(), cbor4ii::core::types::Nothing).encode(writer)?,
+                                        => tag.encode(writer)?,
                                 }
                             }
                             2 => {
@@ -120,7 +120,6 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
             let fields = iter.enumerate().map(|(idx, field)| -> syn::Arm {
                 let idx = idx + 1; // skip zero
                 let idx: u32 = idx.try_into().expect("enum tags must not exceed 32 bits");
-                let idx = idx as u64;
                 let name = &field.ident;
 
                 assert!(
@@ -141,8 +140,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                         );
 
                         syn::parse_quote! {
-                            #ident::#name
-                                => cbor4ii::core::types::Tag(#idx, cbor4ii::core::types::Nothing).encode(writer)?,
+                            #ident::#name => #idx.encode(writer)?,
                         }
                     },
                     EnumType::One => {
@@ -157,7 +155,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
 
                         syn::parse_quote! {
                             #ident::#name(value) => {
-                                cbor4ii::core::types::Tag(#idx, cbor4ii::core::types::Nothing).encode(writer)?;
+                                cbor4ii::core::types::Tag(#idx.into(), cbor4ii::core::types::Nothing).encode(writer)?;
                                 #value
                             },
                         }
@@ -188,10 +186,10 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                             });
                         let head: syn::Expr = match field.fields.len() {
                             0 | 1 => syn::parse_quote!{{
-                                cbor4ii::core::types::Tag(#idx, cbor4ii::core::types::Nothing).encode(writer)?;
+                                cbor4ii::core::types::Tag(#idx.into(), cbor4ii::core::types::Nothing).encode(writer)?;
                             }},
                             n => syn::parse_quote!{{
-                                cbor4ii::core::types::Tag(#idx, cbor4ii::core::types::Nothing).encode(writer)?;
+                                cbor4ii::core::types::Tag(#idx.into(), cbor4ii::core::types::Nothing).encode(writer)?;
                                 cbor4ii::core::types::Array::bounded(#n, writer)?;
                             }}
                         };

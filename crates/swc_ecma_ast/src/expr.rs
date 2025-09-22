@@ -10,8 +10,6 @@ use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 
-#[cfg(feature = "encoding-impl")]
-use crate::utils::ArrayOption;
 use crate::{
     class::Class,
     function::Function,
@@ -521,7 +519,7 @@ pub struct ArrayLit {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "elements"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "ArrayOption"))]
+    #[cfg_attr(feature = "encoding-impl", encoding(with = "swc_common::serializer::ArrayOption"))]
     pub elems: Vec<Option<ExprOrSpread>>,
 }
 
