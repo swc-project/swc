@@ -416,7 +416,7 @@ impl Optimizer<'_> {
     {
         trace_op!("inline: inline_vars_in_node");
 
-        let mut v = NormalMultiReplacer::new(&mut vars);
+        let mut v = NormalMultiReplacer::new(&mut vars, false);
         n.visit_mut_with(&mut v);
         self.changed |= v.changed;
     }
@@ -1612,7 +1612,7 @@ impl Optimizer<'_> {
                     // Apply substitutions to the body
                     let mut new_body = (**body).clone();
                     if !substitutions.is_empty() {
-                        let mut replacer = NormalMultiReplacer::new(&mut substitutions);
+                        let mut replacer = NormalMultiReplacer::new(&mut substitutions, false);
                         new_body.visit_mut_with(&mut replacer);
                     }
 

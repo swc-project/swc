@@ -26502,7 +26502,7 @@
                             }
                         }
                         return _arr;
-                    }(_ref, 2) || function() {
+                    }(_ref, 0) || function() {
                         throw TypeError("Invalid attempt to destructure non-iterable instance");
                     }(), target = _ref2[0], eventsArray = _ref2[1];
                     return eventsArray = eventsArray.filter(Boolean), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(eventsArray) ? null : {
@@ -31890,7 +31890,7 @@
                                     }
                                 }
                                 return _arr;
-                            }(arr, 2) || function() {
+                            }(arr, 0) || function() {
                                 throw TypeError("Invalid attempt to destructure non-iterable instance");
                             }(), sharedEvents = _ref2[0], prevCacheValues = _ref2[1];
                             if (sharedEvents && react_fast_compare__WEBPACK_IMPORTED_MODULE_10___default()(cacheValues, prevCacheValues)) return sharedEvents;
