@@ -235,7 +235,7 @@ dependencies = [
  "bitflags 2.9.1",
  "cexpr",
  "clang-sys",
- "itertools 0.13.0",
+ "itertools 0.10.5",
  "log",
  "prettyplease",
  "proc-macro2",
@@ -271,7 +271,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.13.12-nightly-20250920.1"
+version = "1.13.13-nightly-20250923.1"
 dependencies = [
  "anyhow",
  "getrandom 0.3.3",
@@ -360,7 +360,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.13.12-nightly-20250920.1"
+version = "1.13.13-nightly-20250923.1"
 dependencies = [
  "anyhow",
  "getrandom 0.3.3",
@@ -400,7 +400,7 @@ dependencies = [
 
 [[package]]
 name = "binding_typescript_wasm"
-version = "1.13.12-nightly-20250920.1"
+version = "1.13.13-nightly-20250923.1"
 dependencies = [
  "anyhow",
  "getrandom 0.3.3",
@@ -4045,7 +4045,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.614"
+version = "0.91.615"
 dependencies = [
  "anyhow",
  "par-core",
@@ -4167,9 +4167,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "42.0.2"
+version = "42.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5f326a55e516515372de76edf16a264c608051e494b710e91594448a356cca08"
+checksum = "c98f91fddc54be8e3f6bf50b8e184a831628c1b0772158acedeace817ed2eee0"
 dependencies = [
  "binding_macros",
  "swc",
@@ -4378,9 +4378,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "28.0.0"
+version = "28.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ac21b198899532dd001092cf59884a11187dd655f66dedeb6226224901e3793b"
+checksum = "463a43bb2350ec3e68692d7e5f786ecf07382d057972dd5cc4fe02c9239fc5f3"
 dependencies = [
  "arrayvec",
  "indexmap 2.9.0",
@@ -4632,9 +4632,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "32.0.4"
+version = "32.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "542307ff72ff381de86b815f1cceb69f6a98ee683b0635658a8ce1e07baaa703"
+checksum = "135c816e7ec58952af60a2180b97d779a9c7d7b8ec4c5aea83b5776b96c303eb"
 dependencies = [
  "arrayvec",
  "bitflags 2.9.1",

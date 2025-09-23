@@ -6,7 +6,7 @@ license     = { workspace = true }
 name        = "binding_minifier_wasm"
 publish     = false
 repository  = { workspace = true }
-version     = "1.13.12-nightly-20250920.1"
+version     = "1.13.13-nightly-20250923.1"
 
 [lib]
 bench      = false
