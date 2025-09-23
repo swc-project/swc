@@ -39,11 +39,18 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
             };
 
             let count = data.fields.len();
-            let head: Option<syn::Expr> = (count != 1).then(|| {
-                syn::parse_quote! {{
-                    let n = <cbor4ii::core::types::Array<()>>::len(reader)?;
-                    debug_assert_eq!(n, Some(#count));
-                }}
+            let head: Option<syn::Stmt> = (count != 1).then(|| {
+                syn::parse_quote! {
+                    let len = <cbor4ii::core::types::Array<()>>::len(reader)?.unwrap();
+                }
+            });
+            let tail: Option<syn::Stmt> = head.is_some().then(|| {
+                syn::parse_quote! {
+                    // ignore unknown field
+                    for _ in 0..(len - #count) {
+                        cbor4ii::core::dec::IgnoredAny::decode(reader)?;
+                    }
+                }
             });
 
             syn::parse_quote! {
@@ -53,8 +60,12 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                         -> Result<Self, cbor4ii::core::error::DecodeError<R::Error>>
                     {
                         #head;
-                        #(#fields)*
-                        Ok(#build_struct)
+                        let value = {
+                            #(#fields)*
+                            #build_struct
+                        };
+                        #tail
+                        Ok(value)
                     }
                 }
             }
@@ -180,7 +191,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                                     }
                                 })
                                 .collect::<Vec<_>>();
-                            let num = field.fields.len();
+                            let count = field.fields.len();
 
                             let stmt = field.fields.iter()
                                 .zip(names.iter())
@@ -203,10 +214,18 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
 
                             syn::parse_quote!{
                                 #idx => {
-                                    let len = cbor4ii::core::types::Array::len(reader)?;
-                                    debug_assert_eq!(len, Some(#num));
-                                    #(#stmt)*
-                                    #build_struct
+                                    let len = cbor4ii::core::types::Array::len(reader)?.unwrap();
+                                    let value = {
+                                        #(#stmt)*
+                                        #build_struct
+                                    };
+
+                                    // ignore unknown field
+                                    for _ in 0..(len - #count) {
+                                        cbor4ii::core::dec::IgnoredAny::decode(reader)?;
+                                    }
+
+                                    value
                                 },
                             }
                         }
