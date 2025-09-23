@@ -139,8 +139,7 @@ pub fn push_code_point(string: &mut Wtf8Buf, code_point: CodePoint) {
     unsafe {
         // Attempt to not use an intermediate buffer by just pushing bytes
         // directly onto this string.
-        let slice =
-            slice::from_raw_parts_mut(string.bytes.as_mut_ptr().add(cur_len), 4);
+        let slice = slice::from_raw_parts_mut(string.bytes.as_mut_ptr().add(cur_len), 4);
         let used = encode_utf8_raw(code_point.to_u32(), slice).unwrap_or(0);
         string.bytes.set_len(cur_len + used);
     }
@@ -171,9 +170,7 @@ pub unsafe fn slice_unchecked(s: &Wtf8, begin: usize, end: usize) -> &Wtf8 {
 #[inline(never)]
 pub fn slice_error_fail(s: &Wtf8, begin: usize, end: usize) -> ! {
     assert!(begin <= end);
-    panic!(
-        "index {begin} and/or {end} in {s:?} do not lie on character boundary"
-    );
+    panic!("index {begin} and/or {end} in {s:?} do not lie on character boundary");
 }
 
 /// Copied from core::str::Utf16CodeUnits::next
