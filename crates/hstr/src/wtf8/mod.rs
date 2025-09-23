@@ -462,12 +462,6 @@ impl Wtf8 {
         unsafe { transmute(value.as_bytes()) }
     }
 
-    /// Create a WTF-8 slice from a byte slice.
-    #[inline]
-    pub const fn from_bytes(value: &[u8]) -> &Wtf8 {
-        unsafe { transmute(value) }
-    }
-
     /// Return the length, in WTF-8 bytes.
     #[inline]
     pub const fn len(&self) -> usize {
@@ -618,6 +612,26 @@ impl Wtf8 {
             code_points: self.code_points(),
             extra: 0,
         }
+    }
+
+    /// Create a WTF-8 from a WTF-8 encoded byte slice.
+    ///
+    /// # Safety
+    ///
+    /// The caller must ensure that `bytes` is a well-formed WTF-8 byte
+    /// sequence.
+    ///
+    /// This means that:
+    /// - All bytes must form valid UTF-8 sequences OR valid surrogate code
+    ///   point encodings
+    /// - Surrogate code points may appear unpaired and be encoded separately,
+    ///   but if they are paired, it should be encoded as a single 4-byte UTF-8
+    ///   sequence.  For example, the byte sequence `[0xED, 0xA0, 0x80, 0xED,
+    ///   0xB0, 0x80]` is not valid WTF-8 because WTF-8 forbids encoding a
+    ///   surrogate pair as two separate 3-byte sequences.
+    #[inline]
+    pub const unsafe fn from_bytes_unchecked(bytes: &[u8]) -> &Wtf8 {
+        unsafe { transmute(bytes) }
     }
 
     #[inline]
@@ -1140,14 +1154,14 @@ mod tests {
     }
 
     #[test]
-    fn wtf8_from_bytes() {
-        assert_eq!(&Wtf8::from_bytes(b"").bytes, b"");
+    fn wtf8_from_bytes_unchecked() {
+        assert_eq!(unsafe { &Wtf8::from_bytes_unchecked(b"").bytes }, b"");
         assert_eq!(
-            &Wtf8::from_bytes(b"a\xC3\xA9 \xF0\x9F\x92\xA9").bytes,
+            unsafe { &Wtf8::from_bytes_unchecked(b"a\xC3\xA9 \xF0\x9F\x92\xA9").bytes },
             b"a\xC3\xA9 \xF0\x9F\x92\xA9"
         );
         assert_eq!(
-            Wtf8::from_bytes(b"a\xC3\xA9 \xF0\x9F\x92\xA9"),
+            unsafe { Wtf8::from_bytes_unchecked(b"a\xC3\xA9 \xF0\x9F\x92\xA9") },
             Wtf8::from_str("aé 💩")
         )
     }
