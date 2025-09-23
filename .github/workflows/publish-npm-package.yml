@@ -580,7 +580,6 @@ jobs:
           (cd packages/${{ inputs.package }} && yarn workspaces foreach -Rt npm publish --tolerate-republish --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Upload CLI binaries to gh release
         if: ${{ !inputs.skipPublishing && inputs.package == 'core' }}
@@ -668,8 +667,6 @@ jobs:
         if: ${{ !inputs.skipBuild }}
         run: |
           npm config set provenance true
-          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
           (cd bindings/${{ matrix.settings.crate }}/${{ matrix.settings.out }} && npm publish --access public --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
