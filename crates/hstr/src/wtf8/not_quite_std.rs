@@ -140,7 +140,7 @@ pub fn push_code_point(string: &mut Wtf8Buf, code_point: CodePoint) {
         // Attempt to not use an intermediate buffer by just pushing bytes
         // directly onto this string.
         let slice =
-            slice::from_raw_parts_mut(string.bytes.as_mut_ptr().offset(cur_len as isize), 4);
+            slice::from_raw_parts_mut(string.bytes.as_mut_ptr().add(cur_len), 4);
         let used = encode_utf8_raw(code_point.to_u32(), slice).unwrap_or(0);
         string.bytes.set_len(cur_len + used);
     }
@@ -154,7 +154,7 @@ pub fn is_code_point_boundary(slice: &Wtf8, index: usize) -> bool {
     }
     match slice.bytes.get(index) {
         None => false,
-        Some(&b) => b < 128u8 || b >= 192u8,
+        Some(&b) => !(128u8..192u8).contains(&b),
     }
 }
 
@@ -162,7 +162,7 @@ pub fn is_code_point_boundary(slice: &Wtf8, index: usize) -> bool {
 #[inline]
 pub unsafe fn slice_unchecked(s: &Wtf8, begin: usize, end: usize) -> &Wtf8 {
     mem::transmute(slice::from_raw_parts(
-        s.bytes.as_ptr().offset(begin as isize),
+        s.bytes.as_ptr().add(begin),
         end - begin,
     ))
 }
@@ -172,8 +172,7 @@ pub unsafe fn slice_unchecked(s: &Wtf8, begin: usize, end: usize) -> &Wtf8 {
 pub fn slice_error_fail(s: &Wtf8, begin: usize, end: usize) -> ! {
     assert!(begin <= end);
     panic!(
-        "index {} and/or {} in {:?} do not lie on character boundary",
-        begin, end, s
+        "index {begin} and/or {end} in {s:?} do not lie on character boundary"
     );
 }
 
@@ -220,13 +219,10 @@ impl<I: Iterator<Item = u16>> Iterator for DecodeUtf16<I> {
     fn next(&mut self) -> Option<Result<char, u16>> {
         let u = match self.buf.take() {
             Some(buf) => buf,
-            None => match self.iter.next() {
-                Some(u) => u,
-                None => return None,
-            },
+            None => self.iter.next()?,
         };
 
-        if u < 0xd800 || 0xdfff < u {
+        if !(0xd800..=0xdfff).contains(&u) {
             // not a surrogate
             Some(Ok(unsafe { char::from_u32_unchecked(u as u32) }))
         } else if u >= 0xdc00 {
@@ -238,7 +234,7 @@ impl<I: Iterator<Item = u16>> Iterator for DecodeUtf16<I> {
                 // eof
                 None => return Some(Err(u)),
             };
-            if u2 < 0xdc00 || u2 > 0xdfff {
+            if !(0xdc00..=0xdfff).contains(&u2) {
                 // not a trailing surrogate so we're not a valid
                 // surrogate pair, so rewind to redecode u2 next time.
                 self.buf = Some(u2);

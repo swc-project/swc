@@ -33,6 +33,7 @@ use core::{
     mem::transmute,
     ops::Deref,
     slice, str,
+    str::FromStr,
 };
 
 mod not_quite_std;
@@ -62,6 +63,8 @@ impl fmt::Debug for CodePoint {
 
 impl CodePoint {
     /// Unsafely create a new `CodePoint` without checking the value.
+    ///
+    /// # Safety
     ///
     /// Only use when `value` is known to be less than or equal to 0x10FFFF.
     #[inline]
@@ -103,7 +106,7 @@ impl CodePoint {
     pub fn to_char(&self) -> Option<char> {
         match self.value {
             0xd800..=0xdfff => None,
-            _ => Some(unsafe { transmute(self.value) }),
+            _ => Some(unsafe { char::from_u32_unchecked(self.value) }),
         }
     }
 
@@ -144,6 +147,24 @@ impl fmt::Debug for Wtf8Buf {
     }
 }
 
+impl Default for Wtf8Buf {
+    #[inline]
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl FromStr for Wtf8Buf {
+    type Err = core::convert::Infallible;
+
+    #[inline]
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Ok(Wtf8Buf {
+            bytes: s.as_bytes().to_vec(),
+        })
+    }
+}
+
 impl Wtf8Buf {
     /// Create an new, empty WTF-8 string.
     #[inline]
@@ -178,9 +199,10 @@ impl Wtf8Buf {
     ///
     /// Since WTF-8 is a superset of UTF-8, this always succeeds.
     #[inline]
-    pub fn from_str(str: &str) -> Wtf8Buf {
+    #[allow(clippy::should_implement_trait)]
+    pub fn from_str(s: &str) -> Wtf8Buf {
         Wtf8Buf {
-            bytes: str.as_bytes().to_vec(),
+            bytes: s.as_bytes().to_vec(),
         }
     }
 
@@ -238,10 +260,7 @@ impl Wtf8Buf {
     /// like concatenating ill-formed UTF-16 strings effectively would.
     #[inline]
     pub fn push_wtf8(&mut self, other: &Wtf8) {
-        match (
-            (&*self).final_lead_surrogate(),
-            other.initial_trail_surrogate(),
-        ) {
+        match (self.final_lead_surrogate(), other.initial_trail_surrogate()) {
             // Replace newly paired surrogates by a supplementary code point.
             (Some(lead), Some(trail)) => {
                 let len_without_lead_surrogate = self.len() - 3;
@@ -269,17 +288,13 @@ impl Wtf8Buf {
     /// like concatenating ill-formed UTF-16 strings effectively would.
     #[inline]
     pub fn push(&mut self, code_point: CodePoint) {
-        match code_point.to_u32() {
-            trail @ 0xdc00..=0xdfff => match (&*self).final_lead_surrogate() {
-                Some(lead) => {
-                    let len_without_lead_surrogate = self.len() - 3;
-                    self.bytes.truncate(len_without_lead_surrogate);
-                    self.push_char(decode_surrogate_pair(lead, trail as u16));
-                    return;
-                }
-                _ => {}
-            },
-            _ => {}
+        if let trail @ 0xdc00..=0xdfff = code_point.to_u32() {
+            if let Some(lead) = self.final_lead_surrogate() {
+                let len_without_lead_surrogate = self.len() - 3;
+                self.bytes.truncate(len_without_lead_surrogate);
+                self.push_char(decode_surrogate_pair(lead, trail as u16));
+                return;
+            }
         }
 
         // No newly paired surrogates at the boundary.
@@ -382,7 +397,7 @@ impl Eq for Wtf8 {}
 impl PartialOrd for Wtf8 {
     #[inline]
     fn partial_cmp(&self, other: &Wtf8) -> Option<Ordering> {
-        self.bytes.partial_cmp(&other.bytes)
+        Some(self.bytes.cmp(&other.bytes))
     }
 
     #[inline]
@@ -428,7 +443,7 @@ impl fmt::Debug for Wtf8 {
                     formatter.write_str(unsafe {
                         str::from_utf8_unchecked(&self.bytes[pos..surrogate_pos])
                     })?;
-                    write!(formatter, "\\u{{{:X}}}", surrogate)?;
+                    write!(formatter, "\\u{{{surrogate:X}}}")?;
                     pos = surrogate_pos + 3;
                 }
             }
@@ -676,7 +691,7 @@ fn decode_surrogate(second_byte: u8, third_byte: u8) -> u16 {
 #[inline]
 fn decode_surrogate_pair(lead: u16, trail: u16) -> char {
     let code_point = 0x10000 + (((lead as u32 - 0xd800) << 10) | (trail as u32 - 0xdc00));
-    unsafe { transmute(code_point) }
+    unsafe { char::from_u32_unchecked(code_point) }
 }
 
 /// Iterator for the code points of a WTF-8 string.
@@ -828,8 +843,10 @@ mod tests {
 
     #[test]
     fn code_point_to_string() {
-        assert_eq!(format!("{:?}", CodePoint::from_char('a')), "U+0061");
-        assert_eq!(format!("{:?}", CodePoint::from_char('💩')), "U+1F4A9");
+        let cp_a = CodePoint::from_char('a');
+        assert_eq!(format!("{cp_a:?}"), "U+0061");
+        let cp_poop = CodePoint::from_char('💩');
+        assert_eq!(format!("{cp_poop:?}"), "U+1F4A9");
     }
 
     #[test]
@@ -1088,7 +1105,7 @@ mod tests {
     fn wtf8buf_debug() {
         let mut string = Wtf8Buf::from_str("aé 💩");
         string.push(CodePoint::from_u32(0xd800).unwrap());
-        assert_eq!(format!("{:?}", string), r#""aé 💩\u{D800}""#);
+        assert_eq!(format!("{string:?}"), r#""aé 💩\u{D800}""#);
     }
 
     #[test]
@@ -1100,7 +1117,8 @@ mod tests {
     fn wtf8_debug() {
         let mut string = Wtf8Buf::from_str("aé 💩");
         string.push(CodePoint::from_u32(0xd800).unwrap());
-        assert_eq!(format!("{:?}", &*string), r#""aé 💩\u{D800}""#);
+        let string_ref = &*string;
+        assert_eq!(format!("{string_ref:?}"), r#""aé 💩\u{D800}""#);
     }
 
     #[test]
