@@ -1,6 +1,20 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/minifier)** Optimize (a | 0) ^ b ([#11110](https://github.com/swc-project/swc/issues/11110)) ([7af1474](https://github.com/swc-project/swc/commit/7af1474488d483b2fac9eb86afe7036411f59cb5))
+
+### Testing
+
+
+
+- **(core)** Fix CI ([#11117](https://github.com/swc-project/swc/issues/11117)) ([52dca39](https://github.com/swc-project/swc/commit/52dca391c9b496b7cf3d516d1c7c80a998f39d65))
+
+## [swc_core@v42.0.3] - 2025-09-22
+
 ### Bug Fixes
 
 
