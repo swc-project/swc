@@ -39,8 +39,7 @@
               "end": 86
             },
             "value": "zh-CN",
-            "raw": "\"zh-CN\"",
-            "loneSurrogates": false
+            "raw": "\"zh-CN\""
           },
           "definite": false
         }
@@ -110,8 +109,7 @@
                       },
                       "tail": false,
                       "cooked": "./locales/",
-                      "raw": "./locales/",
-                      "loneSurrogates": false
+                      "raw": "./locales/"
                     },
                     {
                       "type": "TemplateElement",
@@ -121,8 +119,7 @@
                       },
                       "tail": true,
                       "cooked": ".js",
-                      "raw": ".js",
-                      "loneSurrogates": false
+                      "raw": ".js"
                     }
                   ]
                 }
@@ -281,8 +278,7 @@
                         "end": 180
                       },
                       "value": "./locales/",
-                      "raw": "\"./locales/\"",
-                      "loneSurrogates": false
+                      "raw": "\"./locales/\""
                     },
                     "right": {
                       "type": "Identifier",
@@ -302,8 +298,7 @@
                       "end": 201
                     },
                     "value": ".js",
-                    "raw": "\".js\"",
-                    "loneSurrogates": false
+                    "raw": "\".js\""
                   }
                 }
               }

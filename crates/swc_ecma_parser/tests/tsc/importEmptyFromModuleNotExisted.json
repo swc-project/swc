@@ -19,8 +19,7 @@
           "end": 36
         },
         "value": "module-not-existed",
-        "raw": "'module-not-existed'",
-        "loneSurrogates": false
+        "raw": "'module-not-existed'"
       },
       "typeOnly": false,
       "with": null,

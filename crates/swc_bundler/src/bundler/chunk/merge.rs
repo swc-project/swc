@@ -456,7 +456,8 @@ where
         entry.retain_mut(|_, item| {
             match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportAll(export)) => {
-                    if self.config.external_modules.contains(&export.src.value) {
+                    let src_atom = export.src.value.to_atom_lossy().into_owned();
+                    if self.config.external_modules.contains(&src_atom) {
                         return true;
                     }
 
@@ -465,7 +466,8 @@ where
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(export)) => {
                     if let Some(src) = &export.src {
-                        if self.config.external_modules.contains(&src.value) {
+                        let src_atom = src.value.to_atom_lossy().into_owned();
+                        if self.config.external_modules.contains(&src_atom) {
                             return true;
                         }
                     }
@@ -478,7 +480,8 @@ where
                 }
 
                 ModuleItem::ModuleDecl(ModuleDecl::Import(import)) => {
-                    if self.config.external_modules.contains(&import.src.value) {
+                    let src_atom = import.src.value.to_atom_lossy().into_owned();
+                    if self.config.external_modules.contains(&src_atom) {
                         return true;
                     }
 
@@ -597,8 +600,9 @@ where
             for item in items {
                 match item {
                     ModuleItem::ModuleDecl(ModuleDecl::Import(mut import)) => {
+                        let src_atom = import.src.value.to_atom_lossy().into_owned();
                         // Preserve imports from node.js builtin modules.
-                        if self.config.external_modules.contains(&import.src.value) {
+                        if self.config.external_modules.contains(&src_atom) {
                             new.push(import.into());
                             continue;
                         }
@@ -1276,7 +1280,8 @@ where
 
             for stmt in stmts {
                 if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = &stmt {
-                    if self.config.external_modules.contains(&import.src.value) {
+                    let src_atom = import.src.value.to_atom_lossy().into_owned();
+                    if self.config.external_modules.contains(&src_atom) {
                         new.push(stmt);
                         continue;
                     }

@@ -74,8 +74,7 @@
                         "end": 106
                       },
                       "value": "I am B",
-                      "raw": "\"I am B\"",
-                      "loneSurrogates": false
+                      "raw": "\"I am B\""
                     }
                   }
                 ]
@@ -191,8 +190,7 @@
                             "end": 192
                           },
                           "value": "./0",
-                          "raw": "\"./0\"",
-                          "loneSurrogates": false
+                          "raw": "\"./0\""
                         }
                       }
                     ],

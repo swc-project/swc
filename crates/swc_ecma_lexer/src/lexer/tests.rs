@@ -2,7 +2,11 @@ extern crate test;
 
 use std::{ops::Range, str};
 
-use swc_atoms::{atom, Atom};
+use swc_atoms::{
+    atom,
+    wtf8::{CodePoint, Wtf8Buf},
+    Atom,
+};
 use swc_common::{BytePos, Span};
 use swc_ecma_ast::{AssignOp, AssignOp::*};
 use test::{black_box, Bencher};
@@ -199,9 +203,8 @@ fn test262_lexer_error_0002() {
         lex(Syntax::default(), r"'use\x20strict';"),
         vec![
             Token::Str {
-                value: atom!("use strict"),
+                value: atom!("use strict").into(),
                 raw: atom!("'use\\x20strict'"),
-                lone_surrogates: false,
             }
             .span(0..15)
             .lb(),
@@ -253,9 +256,8 @@ multiline`"
         vec![
             tok!('`'),
             Token::Template {
-                cooked: Ok(atom!("this\nis\nmultiline")),
+                cooked: Ok(atom!("this\nis\nmultiline").into()),
                 raw: atom!("this\nis\nmultiline"),
-                lone_surrogates: false,
             },
             tok!('`'),
         ]
@@ -271,7 +273,6 @@ fn tpl_raw_unicode_escape() {
             Token::Template {
                 cooked: Ok(format!("{}", '\u{0010}').into()),
                 raw: atom!("\\u{0010}"),
-                lone_surrogates: false,
             },
             tok!('`'),
         ]
@@ -295,7 +296,6 @@ fn tpl_invalid_unicode_escape() {
                     }
                 )),
                 raw: atom!("\\unicode"),
-                lone_surrogates: false,
             },
             tok!('`'),
         ]
@@ -315,7 +315,6 @@ fn tpl_invalid_unicode_escape() {
                     }
                 )),
                 raw: atom!("\\u{"),
-                lone_surrogates: false,
             },
             tok!('`'),
         ]
@@ -335,7 +334,6 @@ fn tpl_invalid_unicode_escape() {
                     }
                 )),
                 raw: atom!("\\xhex"),
-                lone_surrogates: false,
             },
             tok!('`'),
         ]
@@ -347,9 +345,8 @@ fn str_escape() {
     assert_eq!(
         lex_tokens(Syntax::default(), r"'\n'"),
         vec![Token::Str {
-            value: atom!("\n"),
+            value: atom!("\n").into(),
             raw: atom!("'\\n'"),
-            lone_surrogates: false,
         }]
     );
 }
@@ -359,9 +356,8 @@ fn str_escape_2() {
     assert_eq!(
         lex_tokens(Syntax::default(), r"'\\n'"),
         vec![Token::Str {
-            value: atom!("\\n"),
+            value: atom!("\\n").into(),
             raw: atom!("'\\\\n'"),
-            lone_surrogates: false,
         }]
     );
 }
@@ -371,9 +367,8 @@ fn str_escape_3() {
     assert_eq!(
         lex_tokens(Syntax::default(), r"'\x00'"),
         vec![Token::Str {
-            value: atom!("\x00"),
+            value: atom!("\x00").into(),
             raw: atom!("'\\x00'"),
-            lone_surrogates: false,
         }]
     );
 }
@@ -383,9 +378,8 @@ fn str_escape_hex() {
     assert_eq!(
         lex(Syntax::default(), r"'\x61'"),
         vec![Token::Str {
-            value: atom!("a"),
+            value: atom!("a").into(),
             raw: atom!("'\\x61'"),
-            lone_surrogates: false,
         }
         .span(0..6)
         .lb(),]
@@ -397,9 +391,8 @@ fn str_escape_octal() {
     assert_eq!(
         lex(Syntax::default(), r"'Hello\012World'"),
         vec![Token::Str {
-            value: atom!("Hello\nWorld"),
+            value: atom!("Hello\nWorld").into(),
             raw: atom!("'Hello\\012World'"),
-            lone_surrogates: false,
         }
         .span(0..16)
         .lb(),]
@@ -411,9 +404,8 @@ fn str_escape_unicode_long() {
     assert_eq!(
         lex(Syntax::default(), r"'\u{00000000034}'"),
         vec![Token::Str {
-            value: atom!("4"),
+            value: atom!("4").into(),
             raw: atom!("'\\u{00000000034}'"),
-            lone_surrogates: false,
         }
         .span(0..17)
         .lb(),]
@@ -769,153 +761,134 @@ fn str_lit() {
     assert_eq!(
         lex_tokens(Syntax::default(), "'abcde'"),
         vec![Token::Str {
-            value: atom!("abcde"),
+            value: atom!("abcde").into(),
             raw: atom!("'abcde'"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "\"abcde\""),
         vec![Token::Str {
-            value: atom!("abcde"),
+            value: atom!("abcde").into(),
             raw: atom!("\"abcde\""),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'русский'"),
         vec![Token::Str {
-            value: atom!("русский"),
+            value: atom!("русский").into(),
             raw: atom!("'русский'"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\x32'"),
         vec![Token::Str {
-            value: atom!("2"),
+            value: atom!("2").into(),
             raw: atom!("'\\x32'"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\u1111'"),
         vec![Token::Str {
-            value: atom!("ᄑ"),
+            value: atom!("ᄑ").into(),
             raw: atom!("'\\u1111'"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\u{1111}'"),
         vec![Token::Str {
-            value: atom!("ᄑ"),
+            value: atom!("ᄑ").into(),
             raw: atom!("'\\u{1111}'"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\t'"),
         vec![Token::Str {
-            value: atom!("\t"),
+            value: atom!("\t").into(),
             raw: atom!("'\t'"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\n'"),
         vec![Token::Str {
-            value: atom!("\n"),
+            value: atom!("\n").into(),
             raw: atom!("'\\n'"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\\nabc'"),
         vec![Token::Str {
-            value: atom!("abc"),
+            value: atom!("abc").into(),
             raw: atom!("'\\\nabc'"),
-            lone_surrogates: false,
         }]
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "''"),
         vec![Token::Str {
-            value: atom!(""),
+            value: atom!("").into(),
             raw: atom!("''"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\''"),
         vec![Token::Str {
-            value: atom!("'"),
+            value: atom!("'").into(),
             raw: atom!("'\\''"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "\"\""),
         vec![Token::Str {
-            value: atom!(""),
+            value: atom!("").into(),
             raw: atom!("\"\""),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "\"\\\"\""),
         vec![Token::Str {
-            value: atom!("\""),
+            value: atom!("\"").into(),
             raw: atom!("\"\\\"\""),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\0'"),
         vec![Token::Str {
-            value: atom!("\u{0000}"),
+            value: atom!("\u{0000}").into(),
             raw: atom!("'\\0'"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\n'"),
         vec![Token::Str {
-            value: atom!("\n"),
+            value: atom!("\n").into(),
             raw: atom!("'\\n'"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\r'"),
         vec![Token::Str {
-            value: atom!("\r"),
+            value: atom!("\r").into(),
             raw: atom!("'\\r'"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\012'"),
         vec![Token::Str {
-            value: atom!("\n"),
+            value: atom!("\n").into(),
             raw: atom!("'\\012'"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\07'"),
         vec![Token::Str {
-            value: atom!("\u{0007}"),
+            value: atom!("\u{0007}").into(),
             raw: atom!("'\\07'"),
-            lone_surrogates: false,
         }],
     );
     assert_eq!(
         lex_tokens(Syntax::default(), "'\\08'"),
         vec![Token::Str {
-            value: atom!("\u{0000}8"),
+            value: atom!("\u{0000}8").into(),
             raw: atom!("'\\08'"),
-            lone_surrogates: false,
         }],
     );
 }
@@ -928,8 +901,7 @@ fn tpl_empty() {
             tok!('`'),
             Template {
                 raw: atom!(""),
-                cooked: Ok(atom!("")),
-                lone_surrogates: false,
+                cooked: Ok(atom!("").into()),
             },
             tok!('`')
         ]
@@ -944,16 +916,14 @@ fn tpl() {
             tok!('`'),
             Template {
                 raw: atom!(""),
-                cooked: Ok(atom!("")),
-                lone_surrogates: false,
+                cooked: Ok(atom!("").into()),
             },
             tok!("${"),
             Word(Word::Ident("a".into())),
             tok!('}'),
             Template {
                 raw: atom!(""),
-                cooked: Ok(atom!("")),
-                lone_surrogates: false,
+                cooked: Ok(atom!("").into()),
             },
             tok!('`'),
         ]
@@ -965,29 +935,28 @@ fn tpl() {
             tok!('`'),
             Template {
                 raw: atom!("te\\nst"),
-                cooked: Ok(atom!("te\nst")),
-                lone_surrogates: false,
+                cooked: Ok(atom!("te\nst").into()),
             },
             tok!("${"),
             Word(Word::Ident("a".into())),
             tok!('}'),
             Template {
                 raw: atom!("test"),
-                cooked: Ok(atom!("test")),
-                lone_surrogates: false,
+                cooked: Ok(atom!("test").into()),
             },
             tok!('`'),
         ]
     );
 
+    let mut buf = Wtf8Buf::new();
+    buf.push(unsafe { CodePoint::from_u32_unchecked(0xd800) });
     assert_eq!(
         lex_tokens(Syntax::default(), r"`\uD800`"),
         vec![
             tok!('`'),
             Template {
                 raw: atom!("\\uD800"),
-                cooked: Ok(atom!("\u{FFFD}d800")),
-                lone_surrogates: true
+                cooked: Ok(buf.into()),
             },
             tok!('`'),
         ]
@@ -1158,16 +1127,14 @@ fn issue_191() {
             tok!('`'),
             Token::Template {
                 raw: atom!(""),
-                cooked: Ok(atom!("")),
-                lone_surrogates: false,
+                cooked: Ok(atom!("").into()),
             },
             tok!("${"),
             Token::Word(Word::Ident("foo".into())),
             tok!('}'),
             Token::Template {
                 raw: atom!("<bar>"),
-                cooked: Ok(atom!("<bar>")),
-                lone_surrogates: false,
+                cooked: Ok(atom!("<bar>").into()),
             },
             tok!('`')
         ]
@@ -1182,8 +1149,7 @@ fn issue_5722() {
             tok!('`'),
             Template {
                 raw: atom!(""),
-                cooked: Ok(atom!("")),
-                lone_surrogates: false,
+                cooked: Ok(atom!("").into()),
             },
             tok!("${"),
             tok!('{'),
@@ -1197,8 +1163,7 @@ fn issue_5722() {
             tok!('}'),
             Template {
                 raw: atom!(""),
-                cooked: Ok(atom!("")),
-                lone_surrogates: false,
+                cooked: Ok(atom!("").into()),
             },
             tok!('`'),
         ]
@@ -1249,9 +1214,8 @@ fn issue_299_01() {
             Token::JSXName { name: atom!("num") },
             tok!('='),
             Token::Str {
-                value: atom!("\\ "),
+                value: atom!("\\ ").into(),
                 raw: atom!("'\\ '"),
-                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1287,9 +1251,8 @@ fn issue_299_02() {
             Token::JSXName { name: atom!("num") },
             tok!('='),
             Token::Str {
-                value: atom!("\\\\"),
+                value: atom!("\\\\").into(),
                 raw: atom!("'\\\\'"),
-                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1325,9 +1288,8 @@ fn jsx_string_1() {
             Token::JSXName { name: atom!("num") },
             tok!('='),
             Token::Str {
-                value: atom!("abc"),
+                value: atom!("abc").into(),
                 raw: atom!("'abc'"),
-                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1363,9 +1325,8 @@ fn jsx_string_2() {
             Token::JSXName { name: atom!("num") },
             tok!('='),
             Token::Str {
-                value: atom!("abc"),
+                value: atom!("abc").into(),
                 raw: atom!("\"abc\""),
-                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1401,9 +1362,8 @@ fn jsx_string_3() {
             Token::JSXName { name: atom!("num") },
             tok!('='),
             Token::Str {
-                value: atom!("\n"),
+                value: atom!("\n").into(),
                 raw: atom!("'\n'"),
-                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1439,9 +1399,8 @@ fn jsx_string_4() {
             Token::JSXName { name: atom!("num") },
             tok!('='),
             Token::Str {
-                value: atom!("³"),
+                value: atom!("³").into(),
                 raw: atom!("'&sup3;'"),
-                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1477,9 +1436,8 @@ fn jsx_string_5() {
             Token::JSXName { name: atom!("num") },
             tok!('='),
             Token::Str {
-                value: atom!("*"),
+                value: atom!("*").into(),
                 raw: atom!("'&#42;'"),
-                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1515,9 +1473,8 @@ fn jsx_string_6() {
             Token::JSXName { name: atom!("num") },
             tok!('='),
             Token::Str {
-                value: atom!("#"),
+                value: atom!("#").into(),
                 raw: atom!("'&#x23;'"),
-                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1553,9 +1510,8 @@ fn jsx_string_7() {
             Token::JSXName { name: atom!("num") },
             tok!('='),
             Token::Str {
-                value: atom!("&"),
+                value: atom!("&").into(),
                 raw: atom!("'&'"),
-                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1591,9 +1547,8 @@ fn jsx_string_8() {
             Token::JSXName { name: atom!("num") },
             tok!('='),
             Token::Str {
-                value: atom!("&;"),
+                value: atom!("&;").into(),
                 raw: atom!("'&;'"),
-                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1629,9 +1584,8 @@ fn jsx_string_9() {
             Token::JSXName { name: atom!("num") },
             tok!('='),
             Token::Str {
-                value: atom!("&&"),
+                value: atom!("&&").into(),
                 raw: atom!("'&&'"),
-                lone_surrogates: false,
             },
             Token::JSXTagEnd,
             JSXText {
@@ -1654,9 +1608,8 @@ fn issue_316() {
     assert_eq!(
         lex_tokens(Default::default(), "'Hi\\r\\n..'"),
         vec![Token::Str {
-            value: atom!("Hi\r\n.."),
+            value: atom!("Hi\r\n..").into(),
             raw: atom!("'Hi\\r\\n..'"),
-            lone_surrogates: false,
         }]
     );
 }
@@ -1667,9 +1620,8 @@ fn issue_401() {
         lex_tokens(Default::default(), "'17' as const"),
         vec![
             Token::Str {
-                value: atom!("17"),
+                value: atom!("17").into(),
                 raw: atom!("'17'"),
-                lone_surrogates: false,
             },
             tok!("as"),
             tok!("const")
@@ -1718,9 +1670,8 @@ fn issue_915_1() {
             Word(Word::Ident("encode".into())),
             LParen,
             Token::Str {
-                value: atom!("\r\n"),
+                value: atom!("\r\n").into(),
                 raw: atom!("\"\\r\\n\""),
-                lone_surrogates: false,
             },
             RParen
         ]
@@ -1952,9 +1903,8 @@ fn issue_2853_1_js() {
             Word(Word::Ident("a".into())),
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
-                value: atom!("\u{0000}a"),
+                value: atom!("\u{0000}a").into(),
                 raw: atom!("\"\\0a\""),
-                lone_surrogates: false,
             }
         ],
     );
@@ -1975,9 +1925,8 @@ fn issue_2853_2_ts() {
             Word(Word::Ident("a".into())),
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
-                value: atom!("\u{0000}a"),
+                value: atom!("\u{0000}a").into(),
                 raw: atom!("\"\\0a\""),
-                lone_surrogates: false,
             }
         ],
     );
@@ -1998,9 +1947,8 @@ fn issue_2853_3_js() {
             Word(Word::Ident("a".into())),
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
-                value: atom!("\u{0000}a"),
+                value: atom!("\u{0000}a").into(),
                 raw: atom!("\"\u{0000}a\""),
-                lone_surrogates: false,
             }
         ],
     );
@@ -2021,9 +1969,8 @@ fn issue_2853_4_ts() {
             Word(Word::Ident("a".into())),
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
-                value: atom!("\u{0000}a"),
+                value: atom!("\u{0000}a").into(),
                 raw: atom!("\"\u{0000}a\""),
-                lone_surrogates: false,
             }
         ],
     );
@@ -2047,9 +1994,8 @@ fn issue_2853_5_jsx() {
             Word(Word::Ident("a".into())),
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
-                value: atom!("\u{0000}a"),
+                value: atom!("\u{0000}a").into(),
                 raw: atom!("\"\\0a\""),
-                lone_surrogates: false,
             }
         ]
     );
@@ -2073,9 +2019,8 @@ fn issue_2853_6_tsx() {
             Word(Word::Ident("a".into())),
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
-                value: atom!("\u{0000}a"),
+                value: atom!("\u{0000}a").into(),
                 raw: atom!("\"\\0a\""),
-                lone_surrogates: false,
             }
         ]
     );
@@ -2099,9 +2044,8 @@ fn issue_2853_7_jsx() {
             Word(Word::Ident("a".into())),
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
-                value: atom!("\u{0000}a"),
+                value: atom!("\u{0000}a").into(),
                 raw: atom!("\"\u{0000}a\""),
-                lone_surrogates: false,
             }
         ]
     );
@@ -2125,9 +2069,8 @@ fn issue_2853_8_tsx() {
             Word(Word::Ident("a".into())),
             Token::AssignOp(AssignOp::Assign),
             Token::Str {
-                value: atom!("\u{0000}a"),
+                value: atom!("\u{0000}a").into(),
                 raw: atom!("\"\u{0000}a\""),
-                lone_surrogates: false,
             }
         ]
     );

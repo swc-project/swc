@@ -173,8 +173,7 @@
                     "end": 58
                   },
                   "value": "toString",
-                  "raw": "'toString'",
-                  "loneSurrogates": false
+                  "raw": "'toString'"
                 }
               }
             },

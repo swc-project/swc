@@ -21,8 +21,7 @@
           "end": 43
         },
         "value": "foo",
-        "raw": "\"foo\"",
-        "loneSurrogates": false
+        "raw": "\"foo\""
       },
       "body": null
     }

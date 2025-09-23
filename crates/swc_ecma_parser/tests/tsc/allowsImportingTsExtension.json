@@ -105,8 +105,7 @@
           "end": 206
         },
         "value": "./a.ts",
-        "raw": "\"./a.ts\"",
-        "loneSurrogates": false
+        "raw": "\"./a.ts\""
       },
       "typeOnly": true,
       "with": null,
@@ -126,8 +125,7 @@
           "end": 237
         },
         "value": "./a.ts",
-        "raw": "\"./a.ts\"",
-        "loneSurrogates": false
+        "raw": "\"./a.ts\""
       },
       "typeOnly": false,
       "with": null,
@@ -176,8 +174,7 @@
           "end": 285
         },
         "value": "./a.ts",
-        "raw": "\"./a.ts\"",
-        "loneSurrogates": false
+        "raw": "\"./a.ts\""
       },
       "typeOnly": false,
       "with": null,
@@ -214,8 +211,7 @@
             "end": 322
           },
           "value": "./a.ts",
-          "raw": "\"./a.ts\"",
-          "loneSurrogates": false
+          "raw": "\"./a.ts\""
         },
         "qualifier": {
           "type": "Identifier",
@@ -283,8 +279,7 @@
                     "end": 365
                   },
                   "value": "./a.ts",
-                  "raw": "\"./a.ts\"",
-                  "loneSurrogates": false
+                  "raw": "\"./a.ts\""
                 }
               }
             ],
@@ -328,8 +323,7 @@
           "end": 430
         },
         "value": "./a.d.ts",
-        "raw": "\"./a.d.ts\"",
-        "loneSurrogates": false
+        "raw": "\"./a.d.ts\""
       },
       "typeOnly": true,
       "with": null,
@@ -349,8 +343,7 @@
           "end": 463
         },
         "value": "./a.d.ts",
-        "raw": "\"./a.d.ts\"",
-        "loneSurrogates": false
+        "raw": "\"./a.d.ts\""
       },
       "typeOnly": false,
       "with": null,
@@ -399,8 +392,7 @@
           "end": 513
         },
         "value": "./a.d.ts",
-        "raw": "\"./a.d.ts\"",
-        "loneSurrogates": false
+        "raw": "\"./a.d.ts\""
       },
       "typeOnly": false,
       "with": null,
@@ -437,8 +429,7 @@
             "end": 552
           },
           "value": "./a.d.ts",
-          "raw": "\"./a.d.ts\"",
-          "loneSurrogates": false
+          "raw": "\"./a.d.ts\""
         },
         "qualifier": {
           "type": "Identifier",
@@ -506,8 +497,7 @@
                     "end": 597
                   },
                   "value": "./a.d.ts",
-                  "raw": "\"./a.d.ts\"",
-                  "loneSurrogates": false
+                  "raw": "\"./a.d.ts\""
                 }
               }
             ],

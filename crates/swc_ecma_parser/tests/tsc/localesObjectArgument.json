@@ -74,8 +74,7 @@
                     "end": 57
                   },
                   "value": "en-US",
-                  "raw": "\"en-US\"",
-                  "loneSurrogates": false
+                  "raw": "\"en-US\""
                 }
               }
             ],
@@ -154,8 +153,7 @@
                     "end": 96
                   },
                   "value": "de-DE",
-                  "raw": "\"de-DE\"",
-                  "loneSurrogates": false
+                  "raw": "\"de-DE\""
                 }
               }
             ],
@@ -234,8 +232,7 @@
                     "end": 135
                   },
                   "value": "ja-JP",
-                  "raw": "\"ja-JP\"",
-                  "loneSurrogates": false
+                  "raw": "\"ja-JP\""
                 }
               }
             ],
@@ -416,8 +413,7 @@
               "end": 231
             },
             "value": "",
-            "raw": "\"\"",
-            "loneSurrogates": false
+            "raw": "\"\""
           },
           "definite": false
         }
@@ -513,8 +509,7 @@
                     "end": 286
                   },
                   "value": "de-DE",
-                  "raw": "'de-DE'",
-                  "loneSurrogates": false
+                  "raw": "'de-DE'"
                 }
               },
               {
@@ -526,8 +521,7 @@
                     "end": 295
                   },
                   "value": "ja-JP",
-                  "raw": "'ja-JP'",
-                  "loneSurrogates": false
+                  "raw": "'ja-JP'"
                 }
               }
             ]

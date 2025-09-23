@@ -22,6 +22,16 @@ use crate::{
     utils::{assign_value_to_this_private_prop, assign_value_to_this_prop, Factory},
 };
 
+#[inline]
+fn enum_member_id_atom(id: &TsEnumMemberId) -> Atom {
+    match id {
+        TsEnumMemberId::Ident(ident) => ident.sym.clone(),
+        TsEnumMemberId::Str(s) => s.value.to_atom_lossy().into_owned(),
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
+    }
+}
+
 /// ## This Module will transform all TypeScript specific synatx
 ///
 /// - ### [namespace]/[modules]/[enums]
@@ -126,9 +136,10 @@ impl Visit for Transform {
 
             default_init = value.inc();
 
+            let member_name = enum_member_id_atom(&m.id);
             let key = TsEnumRecordKey {
                 enum_id: id.to_id(),
-                member_name: m.id.as_ref().clone(),
+                member_name: member_name.clone(),
             };
 
             self.enum_record.insert(key, value);
@@ -700,7 +711,7 @@ impl Transform {
             .into_iter()
             .map(|m| {
                 let span = m.span;
-                let name = m.id.as_ref().clone();
+                let name = enum_member_id_atom(&m.id);
 
                 let key = TsEnumRecordKey {
                     enum_id: id.to_id(),
@@ -1552,9 +1563,13 @@ fn get_member_key(prop: &MemberProp) -> Option<Atom> {
     match prop {
         MemberProp::Ident(ident) => Some(ident.sym.clone()),
         MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
-            Expr::Lit(Lit::Str(Str { value, .. })) => Some(value.clone()),
+            Expr::Lit(Lit::Str(Str { value, .. })) => Some(value.to_atom_lossy().into_owned()),
             Expr::Tpl(Tpl { exprs, quasis, .. }) => match (exprs.len(), quasis.len()) {
-                (0, 1) => quasis[0].cooked.as_ref().map(|v| Atom::from(&**v)),
+                (0, 1) => quasis[0]
+                    .cooked
+                    .as_ref()
+                    .map(|cooked| cooked.to_atom_lossy().into_owned())
+                    .or_else(|| Some(quasis[0].raw.clone())),
                 _ => None,
             },
             _ => None,

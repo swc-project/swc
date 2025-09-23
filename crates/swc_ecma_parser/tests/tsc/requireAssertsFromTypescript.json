@@ -392,8 +392,7 @@
                     "end": 349
                   },
                   "value": "./ex",
-                  "raw": "'./ex'",
-                  "loneSurrogates": false
+                  "raw": "'./ex'"
                 }
               }
             ],
@@ -457,8 +456,7 @@
                     "end": 380
                   },
                   "value": "./ex2",
-                  "raw": "'./ex2'",
-                  "loneSurrogates": false
+                  "raw": "'./ex2'"
                 }
               }
             ],

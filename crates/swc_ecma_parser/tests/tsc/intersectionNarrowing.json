@@ -650,8 +650,7 @@
                   "end": 419
                 },
                 "value": "string",
-                "raw": "\"string\"",
-                "loneSurrogates": false
+                "raw": "\"string\""
               }
             },
             "consequent": {
@@ -1204,8 +1203,7 @@
                       "end": 799
                     },
                     "value": "hello",
-                    "raw": "\"hello\"",
-                    "loneSurrogates": false
+                    "raw": "\"hello\""
                   }
                 },
                 "definite": false

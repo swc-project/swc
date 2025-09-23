@@ -48,8 +48,7 @@
                 },
                 "tail": true,
                 "cooked": "helloworld",
-                "raw": "hello\\world",
-                "loneSurrogates": false
+                "raw": "hello\\world"
               }
             ]
           },
@@ -100,8 +99,7 @@
                 },
                 "tail": true,
                 "cooked": "hello\\world",
-                "raw": "hello\\\\world",
-                "loneSurrogates": false
+                "raw": "hello\\\\world"
               }
             ]
           },
@@ -152,8 +150,7 @@
                 },
                 "tail": true,
                 "cooked": "hello\\world",
-                "raw": "hello\\\\\\world",
-                "loneSurrogates": false
+                "raw": "hello\\\\\\world"
               }
             ]
           },
@@ -204,8 +201,7 @@
                 },
                 "tail": true,
                 "cooked": "hello\\\\world",
-                "raw": "hello\\\\\\\\world",
-                "loneSurrogates": false
+                "raw": "hello\\\\\\\\world"
               }
             ]
           },

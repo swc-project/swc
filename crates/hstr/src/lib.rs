@@ -3,6 +3,7 @@
 
 use core::str;
 use std::{
+    borrow::Borrow,
     fmt::{Debug, Display},
     hash::Hash,
     mem::{self, forget, transmute, ManuallyDrop},
@@ -104,6 +105,7 @@ pub use wtf8_atom::Wtf8Atom;
 /// - Atoms created via the `atom!` macro or `String::into` are stored in the
 ///   global atom store. By default, these atoms are never deallocated. To clean
 ///   up unused atoms, call [global_atom_store_gc].
+#[repr(transparent)]
 pub struct Atom {
     // If this Atom is a dynamic one, this is *const Entry
     unsafe_data: TaggedValue,
@@ -366,6 +368,19 @@ impl PartialEq<Atom> for str {
     #[inline]
     fn eq(&self, other: &Atom) -> bool {
         self == other.as_str()
+    }
+}
+
+impl Borrow<Wtf8Atom> for Atom {
+    #[inline(always)]
+    fn borrow(&self) -> &Wtf8Atom {
+        // SAFETY:
+        // 1. Wtf8Atom is #[repr(transparent)] over TaggedValue
+        // 2. Atom is #[repr(transparent)] over TaggedValue
+        // 3. hstr::Atom and hstr::Wtf8Atom share the same TaggedValue
+        const _: () = assert!(std::mem::size_of::<Atom>() == std::mem::size_of::<Wtf8Atom>());
+        const _: () = assert!(std::mem::align_of::<Atom>() == std::mem::align_of::<Wtf8Atom>());
+        unsafe { transmute::<&Atom, &Wtf8Atom>(self) }
     }
 }
 

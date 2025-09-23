@@ -53,8 +53,7 @@
                 "end": 115
               },
               "value": "HeaderDetail",
-              "raw": "'HeaderDetail'",
-              "loneSurrogates": false
+              "raw": "'HeaderDetail'"
             }
           },
           {
@@ -80,8 +79,7 @@
                 "end": 160
               },
               "value": "HeaderMultiDetail",
-              "raw": "'HeaderMultiDetail'",
-              "loneSurrogates": false
+              "raw": "'HeaderMultiDetail'"
             }
           },
           {
@@ -107,8 +105,7 @@
                 "end": 195
               },
               "value": "AdvancedList",
-              "raw": "'AdvancedList'",
-              "loneSurrogates": false
+              "raw": "'AdvancedList'"
             }
           },
           {
@@ -134,8 +131,7 @@
                 "end": 222
               },
               "value": "Standard",
-              "raw": "'Standard'",
-              "loneSurrogates": false
+              "raw": "'Standard'"
             }
           },
           {
@@ -161,8 +157,7 @@
                 "end": 257
               },
               "value": "Relationship",
-              "raw": "'Relationship'",
-              "loneSurrogates": false
+              "raw": "'Relationship'"
             }
           },
           {
@@ -188,8 +183,7 @@
                 "end": 280
               },
               "value": "Report",
-              "raw": "'Report'",
-              "loneSurrogates": false
+              "raw": "'Report'"
             }
           },
           {
@@ -215,8 +209,7 @@
                 "end": 309
               },
               "value": "Composite",
-              "raw": "'Composite'",
-              "loneSurrogates": false
+              "raw": "'Composite'"
             }
           },
           {
@@ -242,8 +235,7 @@
                 "end": 336
               },
               "value": "ListOnly",
-              "raw": "'ListOnly'",
-              "loneSurrogates": false
+              "raw": "'ListOnly'"
             }
           },
           {
@@ -269,8 +261,7 @@
                 "end": 375
               },
               "value": "ModuleSettings",
-              "raw": "'ModuleSettings'",
-              "loneSurrogates": false
+              "raw": "'ModuleSettings'"
             }
           }
         ]

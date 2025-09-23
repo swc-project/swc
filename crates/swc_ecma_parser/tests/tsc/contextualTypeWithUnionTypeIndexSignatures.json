@@ -1026,8 +1026,7 @@
                     "end": 1962
                   },
                   "value": "hello",
-                  "raw": "\"hello\"",
-                  "loneSurrogates": false
+                  "raw": "\"hello\""
                 }
               }
             ]
@@ -1714,8 +1713,7 @@
                     "end": 2742
                   },
                   "value": "hello",
-                  "raw": "\"hello\"",
-                  "loneSurrogates": false
+                  "raw": "\"hello\""
                 }
               }
             ]

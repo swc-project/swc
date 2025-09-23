@@ -106,15 +106,13 @@ impl Fold for Normalizer {
         match n {
             PropName::Ident(IdentName { span, sym, .. }) => PropName::Str(Str {
                 span,
-                value: sym,
+                value: sym.into(),
                 raw: None,
-                lone_surrogates: false,
             }),
             PropName::Num(num) => PropName::Str(Str {
                 span: num.span,
                 value: num.to_string().into(),
                 raw: None,
-                lone_surrogates: false,
             }),
             _ => n,
         }
@@ -136,7 +134,6 @@ impl Fold for Normalizer {
                 span,
                 value: s.value,
                 raw: None,
-                lone_surrogates: false,
             }
         } else {
             Str { span, ..s }

@@ -53,8 +53,7 @@
                 "end": 98
               },
               "value": "used",
-              "raw": "\"used\"",
-              "loneSurrogates": false
+              "raw": "\"used\""
             },
             "typeAnnotation": null,
             "isStatic": false,
@@ -87,8 +86,7 @@
                 "end": 122
               },
               "value": "unused",
-              "raw": "\"unused\"",
-              "loneSurrogates": false
+              "raw": "\"unused\""
             },
             "typeAnnotation": null,
             "isStatic": false,

@@ -1,4 +1,4 @@
-use swc_atoms::{atom, Atom};
+use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
@@ -69,7 +69,6 @@ impl Optimizer<'_> {
             *n = Lit::Str(Str {
                 span,
                 raw: None,
-                lone_surrogates: false,
                 value: value.into(),
             })
             .into();
@@ -90,7 +89,6 @@ impl Optimizer<'_> {
                 *n = Lit::Str(Str {
                     span: v.span,
                     raw: None,
-                    lone_surrogates: false,
                     value: value.into(),
                 })
                 .into();
@@ -112,7 +110,6 @@ impl Optimizer<'_> {
                 *n = Lit::Str(Str {
                     span: v.span,
                     raw: None,
-                    lone_surrogates: false,
                     value: value.into(),
                 })
                 .into();
@@ -152,7 +149,7 @@ impl Optimizer<'_> {
         }
 
         if let Expr::Lit(Lit::Str(s)) = expr {
-            if s.value.contains('\n') {
+            if s.value.contains_char('\n') {
                 *expr = Expr::Tpl(Tpl {
                     span: s.span,
                     exprs: Default::default(),
@@ -161,7 +158,6 @@ impl Optimizer<'_> {
                         cooked: Some(s.value.clone()),
                         raw: convert_str_value_to_tpl_raw(&s.value),
                         tail: true,
-                        lone_surrogates: s.lone_surrogates,
                     }],
                 });
                 self.changed = true;
@@ -171,11 +167,28 @@ impl Optimizer<'_> {
     }
 }
 
-pub(super) fn convert_str_value_to_tpl_raw(value: &Atom) -> Atom {
-    value
-        .replace('\\', "\\\\")
-        .replace('`', "\\`")
-        .replace("${", "\\${")
-        .replace('\r', "\\r")
-        .into()
+pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8Atom) -> Atom {
+    let mut result = String::with_capacity(value.len());
+    let mut code_points = value.code_points().peekable();
+
+    while let Some(code_point) = code_points.next() {
+        if let Some(ch) = code_point.to_char() {
+            // Valid Unicode character
+            match ch {
+                '\\' => result.push_str("\\\\"),
+                '`' => result.push_str("\\`"),
+                '\r' => result.push_str("\\r"),
+                '$' if code_points.peek().and_then(|cp| cp.to_char()) == Some('{') => {
+                    result.push_str("\\${");
+                    code_points.next(); // Consume the '{'
+                }
+                _ => result.push(ch),
+            }
+        } else {
+            // Unparied surrogate, escape as \\uXXXX (two backslashes)
+            result.push_str(&format!("\\\\u{:04X}", code_point.to_u32()));
+        }
+    }
+
+    Atom::new(result)
 }

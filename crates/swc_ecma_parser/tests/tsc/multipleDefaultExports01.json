@@ -166,8 +166,7 @@
           "end": 202
         },
         "value": "./m1",
-        "raw": "\"./m1\"",
-        "loneSurrogates": false
+        "raw": "\"./m1\""
       },
       "typeOnly": false,
       "with": null,

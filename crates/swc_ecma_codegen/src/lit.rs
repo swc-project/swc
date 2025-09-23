@@ -2,6 +2,7 @@ use std::{fmt::Write, io, str};
 
 use ascii::AsciiChar;
 use compact_str::CompactString;
+use swc_atoms::wtf8::{CodePoint, Wtf8};
 use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
@@ -59,7 +60,6 @@ impl MacroNode for Str {
             && self.raw.is_some()
             && self.raw.as_ref().unwrap().contains('\\')
             && (!emitter.cfg.inline_script || !self.raw.as_ref().unwrap().contains("script"))
-            && !self.lone_surrogates
         {
             emitter
                 .wr
@@ -72,7 +72,7 @@ impl MacroNode for Str {
 
         let target = emitter.cfg.target;
 
-        if !emitter.cfg.minify && !self.lone_surrogates {
+        if !emitter.cfg.minify {
             if let Some(raw) = &self.raw {
                 let es5_safe = match emitter.cfg.target {
                     EsVersion::Es3 | EsVersion::Es5 => {
@@ -94,12 +94,7 @@ impl MacroNode for Str {
             }
         }
 
-        let (quote_char, mut value) = get_quoted_utf16(
-            &self.value,
-            self.lone_surrogates,
-            emitter.cfg.ascii_only,
-            target,
-        );
+        let (quote_char, mut value) = get_quoted_utf16(&self.value, emitter.cfg.ascii_only, target);
 
         if emitter.cfg.inline_script {
             value = CowStr::Owned(
@@ -371,13 +366,39 @@ pub fn encode_regex_for_ascii(pattern: &str, ascii_only: bool) -> CowStr {
     CowStr::Owned(buf)
 }
 
+macro_rules! cp {
+    ($c:expr) => {
+        unsafe { CodePoint::from_u32_unchecked($c as u32) }
+    };
+}
+
+const DOUBLE_QUOTE: CodePoint = cp!('"');
+const SINGLE_QUOTE: CodePoint = cp!('\'');
+const NULL_CHAR: CodePoint = cp!('\x00');
+const BACKSPACE: CodePoint = cp!('\u{0008}');
+const FORM_FEED: CodePoint = cp!('\u{000c}');
+const LINE_FEED: CodePoint = cp!('\n');
+const CARRIAGE_RETURN: CodePoint = cp!('\r');
+const VERTICAL_TAB: CodePoint = cp!('\u{000b}');
+const TAB: CodePoint = cp!('\t');
+const BACKSLASH: CodePoint = cp!('\\');
+const CTRL_START_1: CodePoint = cp!('\x01');
+const CTRL_END_1: CodePoint = cp!('\x0f');
+const CTRL_START_2: CodePoint = cp!('\x10');
+const CTRL_END_2: CodePoint = cp!('\x1f');
+const PRINTABLE_START: CodePoint = cp!('\x20');
+const PRINTABLE_END: CodePoint = cp!('\x7e');
+const DEL_START: CodePoint = cp!('\u{7f}');
+const DEL_END: CodePoint = cp!('\u{ff}');
+const LINE_SEPARATOR: CodePoint = cp!('\u{2028}');
+const PARAGRAPH_SEPARATOR: CodePoint = cp!('\u{2029}');
+const ZERO_WIDTH_NO_BREAK_SPACE: CodePoint = cp!('\u{FEFF}');
+
+const SURROGATE_START: CodePoint = cp!(0xd800);
+const SURROGATE_END: CodePoint = cp!(0xdfff);
+
 /// Returns `(quote_char, value)`
-pub fn get_quoted_utf16(
-    v: &str,
-    lone_surrogates: bool,
-    ascii_only: bool,
-    target: EsVersion,
-) -> (AsciiChar, CowStr) {
+pub fn get_quoted_utf16(v: &Wtf8, ascii_only: bool, target: EsVersion) -> (AsciiChar, CowStr) {
     // Fast path: If the string is ASCII and doesn't need escaping, we can avoid
     // allocation
     if v.is_ascii() {
@@ -409,7 +430,12 @@ pub fn get_quoted_utf16(
             if (quote_char == AsciiChar::Apostrophe && single_quote_count == 0)
                 || (quote_char == AsciiChar::Quotation && double_quote_count == 0)
             {
-                return (quote_char, CowStr::Borrowed(v));
+                return (
+                    quote_char,
+                    // SAFETY: We have checked that the string is ASCII. So it does not contain any
+                    // unpaired surrogate.
+                    CowStr::Borrowed(v.as_str().unwrap()),
+                );
             }
         }
     }
@@ -417,10 +443,10 @@ pub fn get_quoted_utf16(
     // Slow path: Original implementation for strings that need processing
     // Count quotes first to determine which quote character to use
     let (mut single_quote_count, mut double_quote_count) = (0, 0);
-    for c in v.chars() {
+    for c in v.code_points() {
         match c {
-            '\'' => single_quote_count += 1,
-            '"' => double_quote_count += 1,
+            SINGLE_QUOTE => single_quote_count += 1,
+            DOUBLE_QUOTE => double_quote_count += 1,
             _ => {}
         }
     }
@@ -446,79 +472,80 @@ pub fn get_quoted_utf16(
     let capacity = v.len() + escape_count;
     let mut buf = CompactString::with_capacity(capacity);
 
-    let mut iter = v.chars().peekable();
+    let mut iter = v.code_points().peekable();
     while let Some(c) = iter.next() {
         match c {
-            '\x00' => {
-                if target < EsVersion::Es5 || matches!(iter.peek(), Some('0'..='9')) {
+            NULL_CHAR => {
+                if target < EsVersion::Es5
+                    || matches!(iter.peek(), Some(x) if *x >= cp!('0') && *x <= cp!('9'))
+                {
                     buf.push_str("\\x00");
                 } else {
                     buf.push_str("\\0");
                 }
             }
-            '\u{0008}' => buf.push_str("\\b"),
-            '\u{000c}' => buf.push_str("\\f"),
-            '\n' => buf.push_str("\\n"),
-            '\r' => buf.push_str("\\r"),
-            '\u{000b}' => buf.push_str("\\v"),
-            '\t' => buf.push('\t'),
-            '\\' => buf.push_str("\\\\"),
-            '\u{FFFD}' if lone_surrogates => {
-                // If the string contains any lone surrogate,
-                // then '\u{FFFD}' is used to escape the lone surrogate.
-                // For example `\uD800` is escaped to `\u{FFFD}D800`.
-
-                // Restore 4 hex characters
-                // SAFETY: `\u{FFFD}` should always have 4 trailing hex
-                // characters if the string contains any lone surrogate.
-                let hex1 = iter.next().unwrap();
-                let hex2 = iter.next().unwrap();
-                let hex3 = iter.next().unwrap();
-                let hex4 = iter.next().unwrap();
-
-                buf.extend(['\\', 'u', hex1, hex2, hex3, hex4]);
-            }
-            c if c == escape_char => {
+            BACKSPACE => buf.push_str("\\b"),
+            FORM_FEED => buf.push_str("\\f"),
+            LINE_FEED => buf.push_str("\\n"),
+            CARRIAGE_RETURN => buf.push_str("\\r"),
+            VERTICAL_TAB => buf.push_str("\\v"),
+            TAB => buf.push('\t'),
+            BACKSLASH => buf.push_str("\\\\"),
+            c if matches!(c.to_char(), Some(c) if c == escape_char) => {
                 buf.push('\\');
-                buf.push(c);
+                // SAFETY: `escape_char` is a valid ASCII character.
+                buf.push(c.to_char().unwrap());
             }
-            '\x01'..='\x0f' => {
+            c if c >= CTRL_START_1 && c <= CTRL_END_1 => {
                 buf.push_str("\\x0");
-                write!(&mut buf, "{:x}", c as u8).unwrap();
+                write!(&mut buf, "{:x}", c.to_u32() as u8).unwrap();
             }
-            '\x10'..='\x1f' => {
+            c if c >= CTRL_START_2 && c <= CTRL_END_2 => {
                 buf.push_str("\\x");
-                write!(&mut buf, "{:x}", c as u8).unwrap();
+                write!(&mut buf, "{:x}", c.to_u32() as u8).unwrap();
             }
-            '\x20'..='\x7e' => buf.push(c),
-            '\u{7f}'..='\u{ff}' => {
+            c if c >= PRINTABLE_START && c <= PRINTABLE_END => {
+                // SAFETY: c is a valid ASCII character.
+                buf.push(c.to_char().unwrap())
+            }
+            c if c >= DEL_START && c <= DEL_END => {
                 if ascii_only || target <= EsVersion::Es5 {
                     buf.push_str("\\x");
-                    write!(&mut buf, "{:x}", c as u8).unwrap();
+                    write!(&mut buf, "{:x}", c.to_u32() as u8).unwrap();
                 } else {
-                    buf.push(c);
+                    // SAFETY: c is a valid Rust char.
+                    buf.push(c.to_char().unwrap());
                 }
             }
-            '\u{2028}' => buf.push_str("\\u2028"),
-            '\u{2029}' => buf.push_str("\\u2029"),
-            '\u{FEFF}' => buf.push_str("\\uFEFF"),
+            LINE_SEPARATOR => buf.push_str("\\u2028"),
+            PARAGRAPH_SEPARATOR => buf.push_str("\\u2029"),
+            ZERO_WIDTH_NO_BREAK_SPACE => buf.push_str("\\uFEFF"),
             c => {
                 if c.is_ascii() {
-                    buf.push(c);
-                } else if c > '\u{FFFF}' {
+                    // SAFETY: c is a valid ASCII character.
+                    buf.push(c.to_char().unwrap());
+                } else if c > cp!('\u{FFFF}') {
                     if target <= EsVersion::Es5 {
-                        let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
-                        let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
+                        let h = ((c.to_u32() - 0x10000) / 0x400) + 0xd800;
+                        let l = (c.to_u32() - 0x10000) % 0x400 + 0xdc00;
                         write!(&mut buf, "\\u{h:04X}\\u{l:04X}").unwrap();
                     } else if ascii_only {
-                        write!(&mut buf, "\\u{{{:04X}}}", c as u32).unwrap();
+                        write!(&mut buf, "\\u{{{:04X}}}", c.to_u32()).unwrap();
                     } else {
-                        buf.push(c);
+                        // SAFETY: c is a valid Rust char. (> U+FFFF && <= U+10FFFF)
+                        // The latter condition is guaranteed by CodePoint.
+                        buf.push(c.to_char().unwrap());
                     }
+                } else if c >= SURROGATE_START && c <= SURROGATE_END {
+                    // Unparied Surrogate
+                    // Escape as \uXXXX
+                    write!(&mut buf, "\\u{:04X}", c.to_u32()).unwrap();
                 } else if ascii_only {
-                    write!(&mut buf, "\\u{:04X}", c as u16).unwrap();
+                    write!(&mut buf, "\\u{:04X}", c.to_u32() as u16).unwrap();
                 } else {
-                    buf.push(c);
+                    // SAFETY: c is a valid Rust char. (>= U+0080 && <= U+FFFF, excluding
+                    // surrogates)
+                    buf.push(c.to_char().unwrap());
                 }
             }
         }

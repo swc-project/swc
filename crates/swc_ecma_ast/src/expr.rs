@@ -3,7 +3,7 @@ use std::mem::transmute;
 
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -550,7 +550,10 @@ impl ObjectLit {
                     Prop::KeyValue(kv) => {
                         let key = match &kv.key {
                             PropName::Ident(i) => i.clone(),
-                            PropName::Str(s) => IdentName::new(s.value.clone(), s.span),
+                            PropName::Str(s) => {
+                                let name = s.value.as_str()?;
+                                IdentName::new(name.to_string().into(), s.span)
+                            }
                             _ => return None,
                         };
 
@@ -1195,20 +1198,11 @@ pub struct TplElement {
     ///
     /// If you are going to use codegen right after creating a [TplElement], you
     /// don't have to worry about this value.
-    pub cooked: Option<Atom>,
+    pub cooked: Option<Wtf8Atom>,
 
     /// You may need to perform. `.replace("\r\n", "\n").replace('\r', "\n")` on
     /// this value.
     pub raw: Atom,
-
-    /// The string value contains lone surrogates.
-    ///
-    /// `cooked` is encoded with `\u{FFFD}` to mark the lone surrogate as an
-    /// escaped value.
-    ///
-    /// For example, a "\uD808" is a lone surrogate, and it's encoded as
-    /// `\u{FFFD}D808`.
-    pub lone_surrogates: bool,
 }
 
 impl Take for TplElement {
@@ -1218,7 +1212,6 @@ impl Take for TplElement {
             tail: Default::default(),
             cooked: None,
             raw: Default::default(),
-            lone_surrogates: false,
         }
     }
 }
@@ -1228,16 +1221,14 @@ impl Take for TplElement {
 impl<'a> arbitrary::Arbitrary<'a> for TplElement {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
-        let cooked = Some(u.arbitrary::<String>()?.into());
+        let cooked = Some(u.arbitrary::<Wtf8Atom>()?.into());
         let raw = u.arbitrary::<String>()?.into();
-        let lone_surrogates = u.arbitrary::<bool>()?.into();
 
         Ok(Self {
             span,
             tail: false,
             cooked,
             raw,
-            lone_surrogates,
         })
     }
 }

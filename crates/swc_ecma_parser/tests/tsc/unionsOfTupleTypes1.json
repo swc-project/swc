@@ -3521,8 +3521,7 @@
                       "end": 1989
                     },
                     "value": "hi",
-                    "raw": "\"hi\"",
-                    "loneSurrogates": false
+                    "raw": "\"hi\""
                   }
                 }
               ]

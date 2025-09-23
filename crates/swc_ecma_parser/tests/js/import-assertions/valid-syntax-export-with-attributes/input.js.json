@@ -48,8 +48,7 @@
           "end": 42
         },
         "value": "foo.json",
-        "raw": "\"foo.json\"",
-        "loneSurrogates": false
+        "raw": "\"foo.json\""
       },
       "typeOnly": false,
       "with": {
@@ -76,8 +75,7 @@
                 "end": 64
               },
               "value": "json",
-              "raw": "\"json\"",
-              "loneSurrogates": false
+              "raw": "\"json\""
             }
           }
         ]

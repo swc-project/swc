@@ -36,8 +36,7 @@
             "end": 71
           },
           "value": "./foo_1",
-          "raw": "'./foo_1'",
-          "loneSurrogates": false
+          "raw": "'./foo_1'"
         }
       }
     },
@@ -181,8 +180,7 @@
             "end": 182
           },
           "value": "./foo_2",
-          "raw": "\"./foo_2\"",
-          "loneSurrogates": false
+          "raw": "\"./foo_2\""
         }
       }
     },
@@ -326,8 +324,7 @@
             "end": 293
           },
           "value": "./foo_0",
-          "raw": "\"./foo_0\"",
-          "loneSurrogates": false
+          "raw": "\"./foo_0\""
         }
       }
     },

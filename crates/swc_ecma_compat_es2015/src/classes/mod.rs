@@ -2,7 +2,7 @@ use std::iter;
 
 use rustc_hash::FxBuildHasher;
 use serde::Deserialize;
-use swc_atoms::atom;
+use swc_atoms::{atom, Atom};
 use swc_common::{util::take::Take, BytePos, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
@@ -290,14 +290,18 @@ impl VisitMut for Classes {
                     c.ident = Some(Ident::from(ident.clone()).into_private());
                 }
                 PropName::Str(Str { value, span, .. }) => {
-                    if is_valid_prop_ident(value) {
-                        c.ident = Some(private_ident!(*span, value.clone()));
+                    if let Some(value_str) = value.as_str() {
+                        if is_valid_prop_ident(value_str) {
+                            c.ident = Some(private_ident!(*span, value_str));
+                        }
                     }
                 }
                 PropName::Computed(ComputedPropName { expr, .. }) => {
                     if let Expr::Lit(Lit::Str(Str { value, span, .. })) = &**expr {
-                        if is_valid_prop_ident(value) {
-                            c.ident = Some(private_ident!(*span, value.clone()));
+                        if let Some(value_str) = value.as_str() {
+                            if is_valid_prop_ident(value_str) {
+                                c.ident = Some(private_ident!(*span, value_str));
+                            }
                         }
                     }
                 }
@@ -568,9 +572,8 @@ impl Classes {
                 &mut stmts,
                 Lit::Str(Str {
                     span: DUMMY_SP,
-                    value: atom!("use strict"),
+                    value: atom!("use strict").into(),
                     raw: Some(atom!("\"use strict\"")),
-                    lone_surrogates: false,
                 })
                 .into_stmt(),
             );
@@ -632,7 +635,6 @@ impl Classes {
                     PropName::BigInt(b) => Str {
                         span: b.span,
                         raw: None,
-                        lone_surrogates: false,
                         value: b.value.to_string().into(),
                     }
                     .into(),
@@ -659,7 +661,6 @@ impl Classes {
                     expr: Str {
                         span: b.span,
                         raw: None,
-                        lone_surrogates: false,
                         value: b.value.to_string().into(),
                     }
                     .into(),
@@ -805,12 +806,18 @@ impl Classes {
                 ident: if m.kind == MethodKind::Method && !computed {
                     match prop_name {
                         Expr::Ident(ident) => Some(private_ident!(ident.span, ident.sym)),
-                        Expr::Lit(Lit::Str(Str { span, value, .. })) if is_valid_ident(&value) => {
-                            Some(Ident::new(
-                                value,
-                                span,
-                                SyntaxContext::empty().apply_mark(Mark::new()),
-                            ))
+                        Expr::Lit(Lit::Str(Str { span, value, .. })) => {
+                            value.as_str().and_then(|value_str| {
+                                if is_valid_ident(value_str) {
+                                    Some(Ident::new(
+                                        Atom::from(value_str),
+                                        span,
+                                        SyntaxContext::empty().apply_mark(Mark::new()),
+                                    ))
+                                } else {
+                                    None
+                                }
+                            })
                         }
                         _ => None,
                     }

@@ -71,8 +71,7 @@
                       "end": 44
                     },
                     "value": "hello world",
-                    "raw": "'hello world'",
-                    "loneSurrogates": false
+                    "raw": "'hello world'"
                   },
                   "definite": false
                 }

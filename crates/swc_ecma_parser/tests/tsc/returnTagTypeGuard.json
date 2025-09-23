@@ -272,8 +272,7 @@
                       "end": 323
                     },
                     "value": "no",
-                    "raw": "'no'",
-                    "loneSurrogates": false
+                    "raw": "'no'"
                   }
                 }
               }
@@ -663,8 +662,7 @@
                   "end": 685
                 },
                 "value": "boolean",
-                "raw": "\"boolean\"",
-                "loneSurrogates": false
+                "raw": "\"boolean\""
               }
             }
           }
@@ -885,8 +883,7 @@
                   "end": 936
                 },
                 "value": "number",
-                "raw": "\"number\"",
-                "loneSurrogates": false
+                "raw": "\"number\""
               }
             }
           }

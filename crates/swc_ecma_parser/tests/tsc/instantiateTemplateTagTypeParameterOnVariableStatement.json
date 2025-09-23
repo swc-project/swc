@@ -130,8 +130,7 @@
               "end": 273
             },
             "value": "hello",
-            "raw": "\"hello\"",
-            "loneSurrogates": false
+            "raw": "\"hello\""
           },
           "definite": false
         }
@@ -171,8 +170,7 @@
               "end": 296
             },
             "value": "world",
-            "raw": "\"world\"",
-            "loneSurrogates": false
+            "raw": "\"world\""
           },
           "definite": false
         }

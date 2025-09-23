@@ -505,9 +505,8 @@ mod tests {
                         name: JSXAttrName::Ident(IdentName::new(atom!("id"), span)),
                         value: Some(JSXAttrValue::Lit(Lit::Str(Str {
                             span,
-                            value: atom!("w < w"),
+                            value: atom!("w < w").into(),
                             raw: Some(atom!("\"w &lt; w\"")),
-                            lone_surrogates: false,
                         }))),
                     })],
                     name: JSXElementName::Ident(Ident::new_no_ctxt(atom!("div"), span)),

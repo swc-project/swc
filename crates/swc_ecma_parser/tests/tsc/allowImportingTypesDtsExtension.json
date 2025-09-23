@@ -109,8 +109,7 @@
           "end": 279
         },
         "value": "./types.d.ts",
-        "raw": "\"./types.d.ts\"",
-        "loneSurrogates": false
+        "raw": "\"./types.d.ts\""
       },
       "typeOnly": true,
       "with": null,
@@ -150,8 +149,7 @@
           "end": 321
         },
         "value": "./types.d.ts",
-        "raw": "\"./types.d.ts\"",
-        "loneSurrogates": false
+        "raw": "\"./types.d.ts\""
       },
       "typeOnly": true,
       "with": null
@@ -237,8 +235,7 @@
                       "end": 364
                     },
                     "value": "John",
-                    "raw": "\"John\"",
-                    "loneSurrogates": false
+                    "raw": "\"John\""
                   }
                 }
               ]
@@ -323,8 +320,7 @@
                 "end": 417
               },
               "value": "./types.d.ts",
-              "raw": "\"./types.d.ts\"",
-              "loneSurrogates": false
+              "raw": "\"./types.d.ts\""
             },
             "qualifier": {
               "type": "Identifier",

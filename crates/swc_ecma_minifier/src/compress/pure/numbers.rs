@@ -8,6 +8,9 @@ impl Pure<'_> {
     pub(super) fn optimize_expr_in_num_ctx(&mut self, e: &mut Expr) {
         match e {
             Expr::Lit(Lit::Str(Str { span, value, .. })) => {
+                let Some(value) = value.as_str() else {
+                    return;
+                };
                 let value = if value.is_empty() {
                     0f64
                 } else {

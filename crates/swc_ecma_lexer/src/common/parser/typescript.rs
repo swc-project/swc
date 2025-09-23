@@ -1,7 +1,7 @@
 use std::fmt::Write;
 
 use either::Either;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
@@ -968,7 +968,6 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
             span,
             value: value.to_string().into(),
             raw: Some(new_raw.into()),
-            lone_surrogates: false,
         })
     } else if cur.is_lbracket() {
         p.assert_and_bump(&P::Token::LBRACKET);
@@ -2201,9 +2200,8 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
         p.emit_err(arg_span, SyntaxError::TS1141);
         Str {
             span: arg_span,
-            value: atom!(""),
+            value: Wtf8Atom::default(),
             raw: Some(atom!("\"\"")),
-            lone_surrogates: false,
         }
     };
 

@@ -503,8 +503,7 @@
                     "end": 416
                   },
                   "value": "./semver",
-                  "raw": "\"./semver\"",
-                  "loneSurrogates": false
+                  "raw": "\"./semver\""
                 }
               }
             ],

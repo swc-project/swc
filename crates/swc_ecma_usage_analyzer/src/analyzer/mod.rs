@@ -369,11 +369,17 @@ where
                     var.mark_used_as_ref();
 
                     match &*e.left {
-                        Expr::Lit(Lit::Str(prop)) if prop.value.parse::<f64>().is_err() => {
-                            var.add_accessed_property(prop.value.clone());
+                        Expr::Lit(Lit::Str(prop)) => {
+                            if prop
+                                .value
+                                .as_str()
+                                .map_or(true, |value| value.parse::<f64>().is_err())
+                            {
+                                var.add_accessed_property(prop.value.clone());
+                            }
                         }
 
-                        Expr::Lit(Lit::Str(_) | Lit::Num(_)) => {}
+                        Expr::Lit(Lit::Num(_)) => {}
                         _ => {
                             var.mark_indexed_with_dynamic_key();
                         }
@@ -1031,11 +1037,16 @@ where
 
             if let MemberProp::Computed(prop) = &e.prop {
                 match &*prop.expr {
-                    Expr::Lit(Lit::Str(s)) if s.value.parse::<f64>().is_err() => {
-                        v.add_accessed_property(s.value.clone());
+                    Expr::Lit(Lit::Str(s)) => {
+                        if s.value
+                            .as_str()
+                            .map_or(true, |value| value.parse::<f64>().is_err())
+                        {
+                            v.add_accessed_property(s.value.clone());
+                        }
                     }
 
-                    Expr::Lit(Lit::Str(_) | Lit::Num(_)) => {}
+                    Expr::Lit(Lit::Num(_)) => {}
                     _ => {
                         v.mark_indexed_with_dynamic_key();
                     }
@@ -1043,7 +1054,7 @@ where
             }
 
             if let MemberProp::Ident(prop) = &e.prop {
-                v.add_accessed_property(prop.sym.clone());
+                v.add_accessed_property(prop.sym.clone().into());
             }
         });
 
@@ -1061,7 +1072,7 @@ where
 
         if is_root_of_member_expr_declared(e, &self.data) {
             if let MemberProp::Ident(ident) = &e.prop {
-                self.data.add_property_atom(ident.sym.clone());
+                self.data.add_property_atom(ident.sym.clone().into());
             }
         }
     }
@@ -1191,7 +1202,7 @@ where
         if let Prop::Shorthand(i) = n {
             let ctx = self.ctx.with(BitContext::IsIdRef, true);
             self.with_ctx(ctx).report_usage(i);
-            self.data.add_property_atom(i.sym.clone());
+            self.data.add_property_atom(i.sym.clone().into());
         } else {
             let ctx = self.ctx.with(BitContext::IsIdRef, true);
             n.visit_children_with(&mut *self.with_ctx(ctx));
@@ -1203,7 +1214,7 @@ where
 
         match node {
             PropName::Ident(ident) => {
-                self.data.add_property_atom(ident.sym.clone());
+                self.data.add_property_atom(ident.sym.clone().into());
             }
             PropName::Str(s) => {
                 self.data.add_property_atom(s.value.clone());

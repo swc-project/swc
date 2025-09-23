@@ -1371,8 +1371,7 @@
                           "end": 652
                         },
                         "value": "length",
-                        "raw": "\"length\"",
-                        "loneSurrogates": false
+                        "raw": "\"length\""
                       }
                     }
                   }
@@ -1752,8 +1751,7 @@
                           "end": 797
                         },
                         "value": "length",
-                        "raw": "\"length\"",
-                        "loneSurrogates": false
+                        "raw": "\"length\""
                       }
                     }
                   }

@@ -520,8 +520,7 @@
                 "end": 240
               },
               "value": "a",
-              "raw": "'a'",
-              "loneSurrogates": false
+              "raw": "'a'"
             }
           }
         },
@@ -579,8 +578,7 @@
                 "end": 258
               },
               "value": "a",
-              "raw": "'a'",
-              "loneSurrogates": false
+              "raw": "'a'"
             }
           }
         },
@@ -995,8 +993,7 @@
                   "end": 466
                 },
                 "value": "a",
-                "raw": "'a'",
-                "loneSurrogates": false
+                "raw": "'a'"
               }
             }
           }
@@ -1061,8 +1058,7 @@
                   "end": 486
                 },
                 "value": "a",
-                "raw": "'a'",
-                "loneSurrogates": false
+                "raw": "'a'"
               }
             }
           }

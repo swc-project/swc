@@ -1,5 +1,6 @@
 use std::mem::take;
 
+use swc_atoms::wtf8::CodePoint;
 use swc_common::BytePos;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::{
@@ -8,7 +9,7 @@ use swc_ecma_lexer::{
             char::CharExt,
             comments_buffer::{BufferedCommentKind, CommentsBufferTrait},
             state::State as StateTrait,
-            LexResult, UnicodeEscape,
+            LexResult,
         },
         syntax::SyntaxFlags,
     },
@@ -523,8 +524,7 @@ impl Lexer<'_> {
 
         self.state.set_token_value(TokenValue::Str {
             raw,
-            value,
-            lone_surrogates: false,
+            value: value.into(),
         });
 
         self.state.start = start;
@@ -561,11 +561,10 @@ impl Lexer<'_> {
                     self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
                     break;
                 };
-                match value {
-                    UnicodeEscape::CodePoint(ch) => v.push(ch),
-                    UnicodeEscape::SurrogatePair(_) | UnicodeEscape::LoneSurrogate(_) => {
-                        self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
-                    }
+                if let Some(c) = CodePoint::from(value).to_char() {
+                    v.push(c);
+                } else {
+                    self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
                 }
                 self.token_flags |= swc_ecma_lexer::lexer::TokenFlags::UNICODE;
             } else {

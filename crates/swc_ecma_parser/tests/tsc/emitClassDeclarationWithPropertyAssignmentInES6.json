@@ -46,8 +46,7 @@
               "end": 55
             },
             "value": "Hello world",
-            "raw": "\"Hello world\"",
-            "loneSurrogates": false
+            "raw": "\"Hello world\""
           },
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
@@ -122,8 +121,7 @@
               "end": 99
             },
             "value": "Hello world",
-            "raw": "\"Hello world\"",
-            "loneSurrogates": false
+            "raw": "\"Hello world\""
           },
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
@@ -552,8 +550,7 @@
                       "end": 326
                     },
                     "value": "HI",
-                    "raw": "\"HI\"",
-                    "loneSurrogates": false
+                    "raw": "\"HI\""
                   }
                 }
               }

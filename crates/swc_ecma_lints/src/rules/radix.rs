@@ -190,7 +190,7 @@ impl Radix {
             MemberProp::Ident(IdentName { sym, .. }) => Some(sym.clone()),
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                 if let Expr::Lit(Lit::Str(Str { value, .. })) = expr.as_ref() {
-                    return Some(value.clone());
+                    return value.as_atom().cloned();
                 }
 
                 None

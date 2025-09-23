@@ -18,8 +18,7 @@
           "end": 67
         },
         "value": "  function f() {}",
-        "raw": "\"  function f() {}\"",
-        "loneSurrogates": false
+        "raw": "\"  function f() {}\""
       }
     },
     {
@@ -35,8 +34,7 @@
           "end": 135
         },
         "value": "  function f() {}",
-        "raw": "\"  function f() {}\"",
-        "loneSurrogates": false
+        "raw": "\"  function f() {}\""
       }
     }
   ],

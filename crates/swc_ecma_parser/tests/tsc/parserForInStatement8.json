@@ -65,8 +65,7 @@
                         "end": 86
                       },
                       "value": "a",
-                      "raw": "'a'",
-                      "loneSurrogates": false
+                      "raw": "'a'"
                     },
                     "right": {
                       "type": "ObjectExpression",
@@ -103,8 +102,7 @@
                 "end": 101
               },
               "value": "",
-              "raw": "''",
-              "loneSurrogates": false
+              "raw": "''"
             },
             "value": {
               "type": "NumericLiteral",
@@ -235,8 +233,7 @@
                         "end": 140
                       },
                       "value": "a",
-                      "raw": "'a'",
-                      "loneSurrogates": false
+                      "raw": "'a'"
                     },
                     "right": {
                       "type": "ObjectExpression",
@@ -273,8 +270,7 @@
                 "end": 155
               },
               "value": "",
-              "raw": "''",
-              "loneSurrogates": false
+              "raw": "''"
             },
             "value": {
               "type": "NumericLiteral",

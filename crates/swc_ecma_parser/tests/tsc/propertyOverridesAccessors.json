@@ -68,8 +68,7 @@
                       "end": 92
                     },
                     "value": "oh no",
-                    "raw": "'oh no'",
-                    "loneSurrogates": false
+                    "raw": "'oh no'"
                   }
                 }
               ]
@@ -134,8 +133,7 @@
               "end": 130
             },
             "value": "yep",
-            "raw": "'yep'",
-            "loneSurrogates": false
+            "raw": "'yep'"
           },
           "typeAnnotation": null,
           "isStatic": false,

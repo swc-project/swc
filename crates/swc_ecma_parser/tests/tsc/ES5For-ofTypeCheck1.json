@@ -51,8 +51,7 @@
           "end": 32
         },
         "value": "",
-        "raw": "\"\"",
-        "loneSurrogates": false
+        "raw": "\"\""
       },
       "body": {
         "type": "BlockStatement",

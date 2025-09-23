@@ -64,8 +64,7 @@
                 "end": 41
               },
               "value": "Hello",
-              "raw": "\"Hello\"",
-              "loneSurrogates": false
+              "raw": "\"Hello\""
             }
           }
         },
@@ -160,8 +159,7 @@
                   },
                   "tail": false,
                   "cooked": "",
-                  "raw": "",
-                  "loneSurrogates": false
+                  "raw": ""
                 },
                 {
                   "type": "TemplateElement",
@@ -171,8 +169,7 @@
                   },
                   "tail": false,
                   "cooked": " ",
-                  "raw": " ",
-                  "loneSurrogates": false
+                  "raw": " "
                 },
                 {
                   "type": "TemplateElement",
@@ -182,8 +179,7 @@
                   },
                   "tail": true,
                   "cooked": "!",
-                  "raw": "!",
-                  "loneSurrogates": false
+                  "raw": "!"
                 }
               ]
             }

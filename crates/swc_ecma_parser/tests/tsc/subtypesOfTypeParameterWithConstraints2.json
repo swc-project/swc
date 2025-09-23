@@ -2987,8 +2987,7 @@
                       "end": 1323
                     },
                     "value": "",
-                    "raw": "''",
-                    "loneSurrogates": false
+                    "raw": "''"
                   },
                   "alternate": {
                     "type": "Identifier",
@@ -3063,8 +3062,7 @@
                       "end": 1361
                     },
                     "value": "",
-                    "raw": "''",
-                    "loneSurrogates": false
+                    "raw": "''"
                   }
                 },
                 "definite": false

@@ -303,8 +303,7 @@
                         },
                         "tail": true,
                         "cooked": "x",
-                        "raw": "x",
-                        "loneSurrogates": false
+                        "raw": "x"
                       }
                     ]
                   },

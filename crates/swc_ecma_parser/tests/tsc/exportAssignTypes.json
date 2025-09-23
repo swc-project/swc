@@ -39,8 +39,7 @@
               "end": 42
             },
             "value": "test",
-            "raw": "\"test\"",
-            "loneSurrogates": false
+            "raw": "\"test\""
           },
           "definite": false
         }
@@ -577,8 +576,7 @@
             "end": 476
           },
           "value": "./expString",
-          "raw": "'./expString'",
-          "loneSurrogates": false
+          "raw": "'./expString'"
         }
       }
     },
@@ -668,8 +666,7 @@
             "end": 544
           },
           "value": "./expNumber",
-          "raw": "'./expNumber'",
-          "loneSurrogates": false
+          "raw": "'./expNumber'"
         }
       }
     },
@@ -759,8 +756,7 @@
             "end": 614
           },
           "value": "./expBoolean",
-          "raw": "'./expBoolean'",
-          "loneSurrogates": false
+          "raw": "'./expBoolean'"
         }
       }
     },
@@ -850,8 +846,7 @@
             "end": 682
           },
           "value": "./expArray",
-          "raw": "'./expArray'",
-          "loneSurrogates": false
+          "raw": "'./expArray'"
         }
       }
     },
@@ -967,8 +962,7 @@
             "end": 756
           },
           "value": "./expObject",
-          "raw": "'./expObject'",
-          "loneSurrogates": false
+          "raw": "'./expObject'"
         }
       }
     },
@@ -1068,8 +1062,7 @@
             "end": 818
           },
           "value": "./expAny",
-          "raw": "'./expAny'",
-          "loneSurrogates": false
+          "raw": "'./expAny'"
         }
       }
     },
@@ -1145,8 +1138,7 @@
             "end": 877
           },
           "value": "./expGeneric",
-          "raw": "'./expGeneric'",
-          "loneSurrogates": false
+          "raw": "'./expGeneric'"
         }
       }
     },

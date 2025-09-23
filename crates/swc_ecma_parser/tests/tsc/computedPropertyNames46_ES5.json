@@ -61,8 +61,7 @@
                         "end": 34
                       },
                       "value": "",
-                      "raw": "\"\"",
-                      "loneSurrogates": false
+                      "raw": "\"\""
                     },
                     "right": {
                       "type": "NumericLiteral",

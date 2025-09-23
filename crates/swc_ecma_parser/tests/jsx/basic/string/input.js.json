@@ -98,9 +98,8 @@
                               "start": 30,
                               "end": 38
                             },
-                            "value": "�d800",
-                            "raw": "\"\\uD800\"",
-                            "loneSurrogates": true
+                            "value": "\\uD800",
+                            "raw": "\"\\uD800\""
                           }
                         }
                       ]
@@ -227,9 +226,8 @@
                               "start": 79,
                               "end": 89
                             },
-                            "value": "�d800",
-                            "raw": "\"\\u{D800}\"",
-                            "loneSurrogates": true
+                            "value": "\\uD800",
+                            "raw": "\"\\u{D800}\""
                           }
                         }
                       ]

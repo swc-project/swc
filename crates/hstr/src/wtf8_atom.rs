@@ -1,7 +1,7 @@
 use std::{
     fmt::Debug,
     hash::Hash,
-    mem::{forget, transmute},
+    mem::{forget, transmute, ManuallyDrop},
     ops::Deref,
 };
 
@@ -10,14 +10,15 @@ use debug_unreachable::debug_unreachable;
 use crate::{
     macros::{get_hash, impl_from_alias, partial_eq},
     tagged_value::TaggedValue,
-    wtf8::Wtf8,
-    DYNAMIC_TAG, INLINE_TAG, LEN_MASK, LEN_OFFSET, TAG_MASK,
+    wtf8::{CodePoint, Wtf8, Wtf8Buf},
+    Atom, DYNAMIC_TAG, INLINE_TAG, LEN_MASK, LEN_OFFSET, TAG_MASK,
 };
 
 /// A WTF-8 encoded atom. This is like [Atom], but can contain unpaired
 /// surrogates.
 ///
 /// [Atom]: crate::Atom
+#[repr(transparent)]
 pub struct Wtf8Atom {
     pub(crate) unsafe_data: TaggedValue,
 }
@@ -29,6 +30,21 @@ impl Wtf8Atom {
         Self: From<S>,
     {
         Self::from(s)
+    }
+
+    /// Try to convert this to a UTF-8 [Atom].
+    ///
+    /// Returns [Atom] if the string is valid UTF-8, otherwise returns
+    /// the original [Wtf8Atom].
+    pub fn try_into_atom(self) -> Result<Atom, Wtf8Atom> {
+        if self.as_str().is_some() {
+            let atom = ManuallyDrop::new(self);
+            Ok(Atom {
+                unsafe_data: atom.unsafe_data,
+            })
+        } else {
+            Err(self)
+        }
     }
 
     #[inline(always)]
@@ -59,7 +75,7 @@ unsafe impl Sync for Wtf8Atom {}
 impl Debug for Wtf8Atom {
     #[inline]
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        Debug::fmt(&self.to_string_lossy(), f)
+        Debug::fmt(&**self, f)
     }
 }
 
@@ -69,7 +85,27 @@ impl serde::ser::Serialize for Wtf8Atom {
     where
         S: serde::ser::Serializer,
     {
-        serializer.serialize_bytes(self.as_bytes())
+        fn convert_wtf8_to_raw(s: &Wtf8) -> String {
+            let mut result = String::new();
+            let mut iter = s.code_points().peekable();
+
+            while let Some(code_point) = iter.next() {
+                if let Some(c) = code_point.to_char() {
+                    if c == '\\' && iter.peek().map(|cp| cp.to_u32()) == Some('u' as u32) {
+                        iter.next(); // skip 'u'
+                        result.push_str("\\\\u");
+                    } else {
+                        result.push(c)
+                    }
+                } else {
+                    result.push_str(format!("\\u{:04X}", code_point.to_u32()).as_str());
+                }
+            }
+
+            result
+        }
+
+        serializer.serialize_str(&convert_wtf8_to_raw(self))
     }
 }
 
@@ -79,7 +115,73 @@ impl<'de> serde::de::Deserialize<'de> for Wtf8Atom {
     where
         D: serde::Deserializer<'de>,
     {
-        String::deserialize(deserializer).map(Self::new)
+        fn convert_wtf8_string_to_wtf8(s: String) -> Wtf8Buf {
+            let mut iter = s.chars().peekable();
+            let mut result = Wtf8Buf::with_capacity(s.len());
+            while let Some(c) = iter.next() {
+                if c == '\\' {
+                    if iter.peek() == Some(&'u') {
+                        // skip 'u'
+                        let _ = iter.next();
+
+                        // read 4 hex digits encoded in `Serialize`
+                        let d1 = iter.next();
+                        let d2 = iter.next();
+                        let d3 = iter.next();
+                        let d4 = iter.next();
+
+                        if d1.is_some() && d2.is_some() && d3.is_some() && d4.is_some() {
+                            let hex = format!(
+                                "{}{}{}{}",
+                                d1.unwrap(),
+                                d2.unwrap(),
+                                d3.unwrap(),
+                                d4.unwrap()
+                            );
+                            if let Ok(code_point) = u16::from_str_radix(&hex, 16) {
+                                result.push(unsafe {
+                                    CodePoint::from_u32_unchecked(code_point as u32)
+                                });
+                                continue;
+                            }
+                        }
+
+                        result.push_char('\\');
+                        result.push_char('u');
+
+                        macro_rules! push_if_some {
+                            ($expr:expr) => {
+                                if let Some(c) = $expr {
+                                    result.push_char(c);
+                                }
+                            };
+                        }
+
+                        push_if_some!(d1);
+                        push_if_some!(d2);
+                        push_if_some!(d3);
+                        push_if_some!(d4);
+                    } else if iter.peek() == Some(&'\\') {
+                        // skip '\\'
+                        let _ = iter.next();
+                        if iter.peek() == Some(&'u') {
+                            let _ = iter.next();
+                            result.push_char('\\');
+                            result.push_char('u');
+                        } else {
+                            result.push_str("\\\\");
+                        }
+                    } else {
+                        result.push_char(c);
+                    }
+                } else {
+                    result.push_char(c);
+                }
+            }
+            result
+        }
+
+        String::deserialize(deserializer).map(|v| convert_wtf8_string_to_wtf8(v).into())
     }
 }
 
@@ -160,6 +262,20 @@ impl PartialEq<Wtf8Atom> for Wtf8 {
     #[inline]
     fn eq(&self, other: &Wtf8Atom) -> bool {
         self == other.as_wtf8()
+    }
+}
+
+impl PartialEq<str> for Wtf8Atom {
+    #[inline]
+    fn eq(&self, other: &str) -> bool {
+        matches!(self.as_str(), Some(s) if s == other)
+    }
+}
+
+impl PartialEq<&str> for Wtf8Atom {
+    #[inline]
+    fn eq(&self, other: &&str) -> bool {
+        matches!(self.as_str(), Some(s) if s == *other)
     }
 }
 

@@ -1,5 +1,5 @@
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::sync::Lrc;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{ParVisitMut, Parallel};
@@ -22,6 +22,12 @@ pub fn inline_globals(
     global_exprs: GlobalExprMap,
     typeofs: Lrc<FxHashMap<Atom, Atom>>,
 ) -> impl Pass {
+    let envs = Lrc::new(
+        envs.iter()
+            .map(|(k, v)| (k.clone().into(), v.clone()))
+            .collect(),
+    );
+
     visit_mut_pass(InlineGlobals {
         envs,
         globals,
@@ -33,7 +39,7 @@ pub fn inline_globals(
 
 #[derive(Clone)]
 struct InlineGlobals {
-    envs: Lrc<FxHashMap<Atom, Expr>>,
+    envs: Lrc<FxHashMap<Wtf8Atom, Expr>>,
     globals: Lrc<FxHashMap<Atom, Expr>>,
     global_exprs: Lrc<FxHashMap<NodeIgnoringSpan<'static, Expr>, Expr>>,
 
@@ -101,8 +107,7 @@ impl VisitMut for InlineGlobals {
                         *expr = Lit::Str(Str {
                             span: *span,
                             raw: None,
-                            lone_surrogates: false,
-                            value,
+                            value: value.into(),
                         })
                         .into();
                     }
@@ -126,7 +131,8 @@ impl VisitMut for InlineGlobals {
                             }
 
                             MemberProp::Ident(IdentName { sym, .. }) => {
-                                if let Some(env) = self.envs.get(sym) {
+                                let sym_wtf8: Wtf8Atom = sym.clone().into();
+                                if let Some(env) = self.envs.get(&sym_wtf8) {
                                     *expr = env.clone();
                                 }
                             }

@@ -1,3 +1,5 @@
+use std::borrow::Borrow;
+
 use rustc_hash::FxHashSet;
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, DUMMY_SP};
@@ -986,22 +988,22 @@ impl Optimizer<'_> {
                         }
                     }
                     PropName::Ident(i) => {
-                        if !can_remove_property(&i.sym) {
+                        if !can_remove_property(i.sym.borrow()) {
                             return None;
                         }
 
-                        if let Some(v) = unknown_used_props.get_mut(&i.sym) {
+                        if let Some(v) = unknown_used_props.get_mut(i.sym.borrow()) {
                             *v = 0;
                         }
                     }
                     _ => return None,
                 },
                 Prop::Shorthand(p) => {
-                    if !can_remove_property(&p.sym) {
+                    if !can_remove_property(p.sym.borrow()) {
                         return None;
                     }
 
-                    if let Some(v) = unknown_used_props.get_mut(&p.sym) {
+                    if let Some(v) = unknown_used_props.get_mut(p.sym.borrow()) {
                         *v = 0;
                     }
                 }
@@ -1014,19 +1016,21 @@ impl Optimizer<'_> {
             return None;
         }
 
-        let should_preserve_property = |sym: &Atom| {
-            if let "toString" = &**sym {
-                return true;
-            }
+        let should_preserve_property = |sym: &swc_atoms::Wtf8Atom| {
+            if let Some(s) = sym.as_str() {
+                if s == "toString" {
+                    return true;
+                }
 
-            if sym.parse::<f64>().is_ok() || sym.parse::<i32>().is_ok() {
-                return true;
+                if s.parse::<f64>().is_ok() || s.parse::<i32>().is_ok() {
+                    return true;
+                }
             }
 
             usage.accessed_props.contains_key(sym) || properties_used_via_this.contains(sym)
         };
         let should_preserve = |key: &PropName| match key {
-            PropName::Ident(k) => should_preserve_property(&k.sym),
+            PropName::Ident(k) => should_preserve_property(k.sym.borrow()),
             PropName::Str(k) => should_preserve_property(&k.value),
             PropName::Num(..) => true,
             PropName::Computed(..) => true,
@@ -1041,7 +1045,7 @@ impl Optimizer<'_> {
                 unreachable!()
             }
             PropOrSpread::Prop(p) => match &**p {
-                Prop::Shorthand(p) => should_preserve_property(&p.sym),
+                Prop::Shorthand(p) => should_preserve_property(p.sym.borrow()),
                 Prop::KeyValue(p) => should_preserve(&p.key),
                 Prop::Assign(..) => {
                     unreachable!()
@@ -1065,8 +1069,9 @@ impl Optimizer<'_> {
     }
 }
 
-fn can_remove_property(sym: &str) -> bool {
-    !matches!(sym, "toString" | "valueOf")
+fn can_remove_property(sym: &swc_atoms::Wtf8Atom) -> bool {
+    sym.as_str()
+        .map_or(true, |s| !matches!(s, "toString" | "valueOf"))
 }
 
 #[derive(Default)]

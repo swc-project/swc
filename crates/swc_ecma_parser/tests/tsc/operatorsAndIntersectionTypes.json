@@ -184,8 +184,7 @@
                   "end": 201
                 },
                 "value": "21EC2020-3AEA-4069-A2DD-08002B30309D",
-                "raw": "\"21EC2020-3AEA-4069-A2DD-08002B30309D\"",
-                "loneSurrogates": false
+                "raw": "\"21EC2020-3AEA-4069-A2DD-08002B30309D\""
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
@@ -714,8 +713,7 @@
             "end": 483
           },
           "value": "hello",
-          "raw": "\"hello\"",
-          "loneSurrogates": false
+          "raw": "\"hello\""
         }
       }
     },
@@ -767,8 +765,7 @@
                   "end": 533
                 },
                 "value": "{",
-                "raw": "\"{\"",
-                "loneSurrogates": false
+                "raw": "\"{\""
               },
               "right": {
                 "type": "Identifier",
@@ -788,8 +785,7 @@
                 "end": 546
               },
               "value": "}",
-              "raw": "\"}\"",
-              "loneSurrogates": false
+              "raw": "\"}\""
             }
           },
           "definite": false
@@ -1227,8 +1223,7 @@
                 "end": 746
               },
               "value": "",
-              "raw": "\"\"",
-              "loneSurrogates": false
+              "raw": "\"\""
             }
           },
           "definite": false

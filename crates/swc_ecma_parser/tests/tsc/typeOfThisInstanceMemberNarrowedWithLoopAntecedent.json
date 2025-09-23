@@ -75,8 +75,7 @@
                         "end": 51
                       },
                       "value": "numberVariant",
-                      "raw": "\"numberVariant\"",
-                      "loneSurrogates": false
+                      "raw": "\"numberVariant\""
                     }
                   }
                 }
@@ -163,8 +162,7 @@
                         "end": 102
                       },
                       "value": "stringVariant",
-                      "raw": "\"stringVariant\"",
-                      "loneSurrogates": false
+                      "raw": "\"stringVariant\""
                     }
                   }
                 }
@@ -435,8 +433,7 @@
                         "end": 272
                       },
                       "value": "stringVariant",
-                      "raw": "\"stringVariant\"",
-                      "loneSurrogates": false
+                      "raw": "\"stringVariant\""
                     }
                   },
                   "consequent": {
@@ -776,8 +773,7 @@
                         "end": 489
                       },
                       "value": "numberVariant",
-                      "raw": "\"numberVariant\"",
-                      "loneSurrogates": false
+                      "raw": "\"numberVariant\""
                     }
                   },
                   "consequent": {

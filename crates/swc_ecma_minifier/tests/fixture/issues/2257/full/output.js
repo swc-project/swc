@@ -6650,7 +6650,7 @@
             var prev = string.charAt(offset - 1), next = string.charAt(offset + 1);
             return low.test(match) && !hi.test(next) || hi.test(match) && !low.test(prev) ? "\\u" + match.charCodeAt(0).toString(16) : match;
         }, FORCED = fails(function() {
-            return '"\\udf06\\ud834"' !== $stringify("\udf06\ud834") || '"\\udead"' !== $stringify("\udead");
+            return '"\\udf06\\ud834"' !== $stringify("\uDF06\uD834") || '"\\udead"' !== $stringify("\uDEAD");
         });
         $stringify && // `JSON.stringify` method
         // https://tc39.es/ecma262/#sec-json.stringify
@@ -8319,7 +8319,7 @@
             target: "String",
             proto: !0,
             forced: __webpack_require__(60232)(function() {
-                return "\ud842" !== "𠮷".at(0);
+                return "\uD842" !== "𠮷".at(0);
             })
         }, {
             at: function(index) {
@@ -10961,8 +10961,8 @@
                 return function(input) {
                     for(// Keep track of all the replacements and prefill the map with the `BOM`
                     var replaceMap = {
-                        "%FE%FF": "\ufffd\ufffd",
-                        "%FF%FE": "\ufffd\ufffd"
+                        "%FE%FF": "\uFFFD\uFFFD",
+                        "%FF%FE": "\uFFFD\uFFFD"
                     }, match = multiMatcher.exec(input); match;){
                         try {
                             // Decode as big chunks as possible
@@ -10993,7 +10993,7 @@
                         match = multiMatcher.exec(input);
                     }
                     // Add `%C2` at the end of the map to make sure it does not replace the combinator before everything else
-                    replaceMap["%C2"] = "\ufffd";
+                    replaceMap["%C2"] = "\uFFFD";
                     for(var entries = Object.keys(replaceMap), i = 0; i < entries.length; i++){
                         // Replace all decoded components
                         var key = entries[i];

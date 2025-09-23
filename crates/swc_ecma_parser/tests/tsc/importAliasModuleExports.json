@@ -174,8 +174,7 @@
           "end": 210
         },
         "value": "./mod1",
-        "raw": "'./mod1'",
-        "loneSurrogates": false
+        "raw": "'./mod1'"
       },
       "typeOnly": false,
       "with": null,
@@ -447,8 +446,7 @@
                 "end": 321
               },
               "value": "def",
-              "raw": "\"def\"",
-              "loneSurrogates": false
+              "raw": "\"def\""
             }
           },
           {

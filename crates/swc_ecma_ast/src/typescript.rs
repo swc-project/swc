@@ -11,7 +11,6 @@ use serde::{
     Deserialize, Deserializer, Serialize,
 };
 use string_enum::StringEnum;
-use swc_atoms::Atom;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 use crate::{
@@ -975,14 +974,14 @@ pub enum TsEnumMemberId {
     Str(Str),
 }
 
-impl AsRef<Atom> for TsEnumMemberId {
-    fn as_ref(&self) -> &Atom {
-        match &self {
-            TsEnumMemberId::Str(Str { value: ref sym, .. })
-            | TsEnumMemberId::Ident(Ident { ref sym, .. }) => sym,
-        }
-    }
-}
+// impl AsRef<Atom> for TsEnumMemberId {
+//     fn as_ref(&self) -> &Atom {
+//         match &self {
+//             TsEnumMemberId::Str(Str { value: ref sym, .. })
+//             | TsEnumMemberId::Ident(Ident { ref sym, .. }) => sym,
+//         }
+//     }
+// }
 
 #[ast_node("TsModuleDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]

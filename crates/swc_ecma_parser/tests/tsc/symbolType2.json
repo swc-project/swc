@@ -73,8 +73,7 @@
             "end": 51
           },
           "value": "",
-          "raw": "\"\"",
-          "loneSurrogates": false
+          "raw": "\"\""
         },
         "right": {
           "type": "MemberExpression",

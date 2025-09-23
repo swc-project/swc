@@ -74,8 +74,7 @@
                         "end": 104
                       },
                       "value": "I am B",
-                      "raw": "\"I am B\"",
-                      "loneSurrogates": false
+                      "raw": "\"I am B\""
                     }
                   }
                 ]
@@ -147,8 +146,7 @@
                   "end": 145
                 },
                 "value": "foo",
-                "raw": "\"foo\"",
-                "loneSurrogates": false
+                "raw": "\"foo\""
               }
             }
           ]
@@ -206,8 +204,7 @@
                   "end": 210
                 },
                 "value": "backup",
-                "raw": "\"backup\"",
-                "loneSurrogates": false
+                "raw": "\"backup\""
               }
             }
           ]
@@ -318,8 +315,7 @@
                 "end": 296
               },
               "value": "./0",
-              "raw": "\"./0\"",
-              "loneSurrogates": false
+              "raw": "\"./0\""
             },
             "alternate": {
               "type": "Identifier",
@@ -540,8 +536,7 @@
                       "end": 413
                     },
                     "value": "./1",
-                    "raw": "\"./1\"",
-                    "loneSurrogates": false
+                    "raw": "\"./1\""
                   },
                   "alternate": {
                     "type": "NullLiteral",

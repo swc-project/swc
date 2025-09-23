@@ -39,8 +39,7 @@
               "end": 42
             },
             "value": "method",
-            "raw": "\"method\"",
-            "loneSurrogates": false
+            "raw": "\"method\""
           },
           "definite": false
         }
@@ -80,8 +79,7 @@
               "end": 73
             },
             "value": "accessor",
-            "raw": "\"accessor\"",
-            "loneSurrogates": false
+            "raw": "\"accessor\""
           },
           "definite": false
         }

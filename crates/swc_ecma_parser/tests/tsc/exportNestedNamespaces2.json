@@ -104,8 +104,7 @@
                   "end": 182
                 },
                 "value": "./mod",
-                "raw": "'./mod'",
-                "loneSurrogates": false
+                "raw": "'./mod'"
               }
             }
           ],
@@ -281,8 +280,7 @@
                   "end": 286
                 },
                 "value": "./mod",
-                "raw": "'./mod'",
-                "loneSurrogates": false
+                "raw": "'./mod'"
               }
             }
           ],
@@ -439,8 +437,7 @@
           "end": 393
         },
         "value": "./mod",
-        "raw": "'./mod'",
-        "loneSurrogates": false
+        "raw": "'./mod'"
       },
       "typeOnly": false,
       "with": null,

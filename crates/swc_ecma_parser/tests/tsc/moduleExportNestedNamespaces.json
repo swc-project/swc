@@ -397,8 +397,7 @@
           "end": 282
         },
         "value": "./mod",
-        "raw": "'./mod'",
-        "loneSurrogates": false
+        "raw": "'./mod'"
       },
       "typeOnly": false,
       "with": null,

@@ -223,8 +223,7 @@
             "end": 268
           },
           "value": "../foo_0",
-          "raw": "'../foo_0'",
-          "loneSurrogates": false
+          "raw": "'../foo_0'"
         }
       }
     },
@@ -259,8 +258,7 @@
             "end": 307
           },
           "value": "./test/foo_1",
-          "raw": "'./test/foo_1'",
-          "loneSurrogates": false
+          "raw": "'./test/foo_1'"
         }
       }
     },
@@ -295,8 +293,7 @@
             "end": 351
           },
           "value": "./.././test/foo_2",
-          "raw": "'./.././test/foo_2'",
-          "loneSurrogates": false
+          "raw": "'./.././test/foo_2'"
         }
       }
     },

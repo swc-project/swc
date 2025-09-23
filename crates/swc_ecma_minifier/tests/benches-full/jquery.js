@@ -284,7 +284,7 @@
         // https://drafts.csswg.org/cssom/#common-serializing-idioms
         rcssescape = /([\0-\x1f\x7f]|^-?\d)|^-$|[^\0-\x1f\x7f-\uFFFF\w-]/g, fcssescape = function(ch, asCodePoint) {
             return asCodePoint ? // U+0000 NULL becomes U+FFFD REPLACEMENT CHARACTER
-            "\0" === ch ? "\ufffd" : ch.slice(0, -1) + "\\" + ch.charCodeAt(ch.length - 1).toString(16) + " " : "\\" + ch;
+            "\0" === ch ? "\uFFFD" : ch.slice(0, -1) + "\\" + ch.charCodeAt(ch.length - 1).toString(16) + " " : "\\" + ch;
         }, // Used for iframes
         // See setDocument()
         // Removing the function wrapper causes a "Permission Denied"

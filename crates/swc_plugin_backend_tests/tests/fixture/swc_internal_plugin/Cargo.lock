@@ -58,7 +58,7 @@ checksum = "d92bec98840b8f03a5ff5413de5293bfcd8bf96467cf5452609f939ec6f5de16"
 
 [[package]]
 name = "ast_node"
-version = "3.0.3"
+version = "3.0.4"
 dependencies = [
  "quote",
  "swc_macros_common",
@@ -508,7 +508,7 @@ checksum = "7f24254aa9a54b5c858eaee2f5bccdb46aaf0e486a595ed5fd8f86ba55232a70"
 
 [[package]]
 name = "hstr"
-version = "2.0.1"
+version = "2.1.0"
 dependencies = [
  "hashbrown 0.14.5",
  "new_debug_unreachable",
@@ -1347,7 +1347,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "14.0.3"
+version = "14.0.4"
 dependencies = [
  "anyhow",
  "ast_node",
@@ -1377,7 +1377,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "42.0.0"
+version = "42.1.0"
 dependencies = [
  "swc_allocator",
  "swc_atoms",

@@ -22539,10 +22539,10 @@
             // It is also done this way as a slight performance increase instead of using a
             // loop.
             function utf8CheckExtraBytes(self1, buf, p) {
-                if ((0xC0 & buf[0]) != 0x80) return self1.lastNeed = 0, "\ufffd";
+                if ((0xC0 & buf[0]) != 0x80) return self1.lastNeed = 0, '\ufffd';
                 if (self1.lastNeed > 1 && buf.length > 1) {
-                    if ((0xC0 & buf[1]) != 0x80) return self1.lastNeed = 1, "\ufffd";
-                    if (self1.lastNeed > 2 && buf.length > 2 && (0xC0 & buf[2]) != 0x80) return self1.lastNeed = 2, "\ufffd";
+                    if ((0xC0 & buf[1]) != 0x80) return self1.lastNeed = 1, '\ufffd';
+                    if (self1.lastNeed > 2 && buf.length > 2 && (0xC0 & buf[2]) != 0x80) return self1.lastNeed = 2, '\ufffd';
                 }
             }
             // Attempts to complete a multi-byte UTF-8 character using bytes from a Buffer.
@@ -22564,7 +22564,7 @@
             // character.
             function utf8End(buf) {
                 var r = buf && buf.length ? this.write(buf) : '';
-                return this.lastNeed ? r + "\ufffd" : r;
+                return this.lastNeed ? r + '\ufffd' : r;
             }
             // UTF-16LE typically needs two bytes per character, but even if we have an even
             // number of bytes available, we need to check if we end on a leading/high

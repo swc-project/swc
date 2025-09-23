@@ -107,9 +107,8 @@
                                   "end": 37
                                 },
                                 "tail": true,
-                                "cooked": "�d800",
-                                "raw": "\\uD800",
-                                "loneSurrogates": true
+                                "cooked": "\\uD800",
+                                "raw": "\\uD800"
                               }
                             ]
                           }
@@ -247,9 +246,8 @@
                                   "end": 88
                                 },
                                 "tail": true,
-                                "cooked": "�d800",
-                                "raw": "\\u{D800}",
-                                "loneSurrogates": true
+                                "cooked": "\\uD800",
+                                "raw": "\\u{D800}"
                               }
                             ]
                           }

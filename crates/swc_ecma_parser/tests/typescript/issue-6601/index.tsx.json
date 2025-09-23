@@ -154,8 +154,7 @@
                               "end": 156
                             },
                             "value": "this line causes a syntax error",
-                            "raw": "'this line causes a syntax error'",
-                            "loneSurrogates": false
+                            "raw": "'this line causes a syntax error'"
                           }
                         }
                       ],
@@ -190,8 +189,7 @@
                     },
                     "tail": false,
                     "cooked": "<button\n        @click=\"",
-                    "raw": "<button\n        @click=\"",
-                    "loneSurrogates": false
+                    "raw": "<button\n        @click=\""
                   },
                   {
                     "type": "TemplateElement",
@@ -201,8 +199,7 @@
                     },
                     "tail": true,
                     "cooked": "\"\n      ></button>",
-                    "raw": "\"\n      ></button>",
-                    "loneSurrogates": false
+                    "raw": "\"\n      ></button>"
                   }
                 ]
               },
@@ -263,8 +260,7 @@
                               "end": 281
                             },
                             "value": "this line does NOT causes a syntax error",
-                            "raw": "'this line does NOT causes a syntax error'",
-                            "loneSurrogates": false
+                            "raw": "'this line does NOT causes a syntax error'"
                           }
                         }
                       ],
@@ -299,8 +295,7 @@
                     },
                     "tail": false,
                     "cooked": "<button\n        @click=\"",
-                    "raw": "<button\n        @click=\"",
-                    "loneSurrogates": false
+                    "raw": "<button\n        @click=\""
                   },
                   {
                     "type": "TemplateElement",
@@ -310,8 +305,7 @@
                     },
                     "tail": true,
                     "cooked": "\"\n      ></button>",
-                    "raw": "\"\n      ></button>",
-                    "loneSurrogates": false
+                    "raw": "\"\n      ></button>"
                   }
                 ]
               }
@@ -439,8 +433,7 @@
                       },
                       "tail": true,
                       "cooked": "<bar></bar>",
-                      "raw": "<bar></bar>",
-                      "loneSurrogates": false
+                      "raw": "<bar></bar>"
                     }
                   ]
                 },
@@ -501,8 +494,7 @@
                                 "end": 478
                               },
                               "value": "this line causes a syntax error",
-                              "raw": "'this line causes a syntax error'",
-                              "loneSurrogates": false
+                              "raw": "'this line causes a syntax error'"
                             }
                           }
                         ],
@@ -537,8 +529,7 @@
                       },
                       "tail": false,
                       "cooked": "<button\n        @click=\"",
-                      "raw": "<button\n        @click=\"",
-                      "loneSurrogates": false
+                      "raw": "<button\n        @click=\""
                     },
                     {
                       "type": "TemplateElement",
@@ -548,8 +539,7 @@
                       },
                       "tail": true,
                       "cooked": "\"\n      ></button>",
-                      "raw": "\"\n      ></button>",
-                      "loneSurrogates": false
+                      "raw": "\"\n      ></button>"
                     }
                   ]
                 }
@@ -577,8 +567,7 @@
                       },
                       "tail": true,
                       "cooked": "<bar></bar>",
-                      "raw": "<bar></bar>",
-                      "loneSurrogates": false
+                      "raw": "<bar></bar>"
                     }
                   ]
                 },
@@ -639,8 +628,7 @@
                                 "end": 619
                               },
                               "value": "this line does NOT causes a syntax error",
-                              "raw": "'this line does NOT causes a syntax error'",
-                              "loneSurrogates": false
+                              "raw": "'this line does NOT causes a syntax error'"
                             }
                           }
                         ],
@@ -675,8 +663,7 @@
                       },
                       "tail": false,
                       "cooked": "<button\n        @click=\"",
-                      "raw": "<button\n        @click=\"",
-                      "loneSurrogates": false
+                      "raw": "<button\n        @click=\""
                     },
                     {
                       "type": "TemplateElement",
@@ -686,8 +673,7 @@
                       },
                       "tail": true,
                       "cooked": "\"\n      ></button>",
-                      "raw": "\"\n      ></button>",
-                      "loneSurrogates": false
+                      "raw": "\"\n      ></button>"
                     }
                   ]
                 }
@@ -843,8 +829,7 @@
                           "end": 773
                         },
                         "value": "this line causes a syntax error",
-                        "raw": "'this line causes a syntax error'",
-                        "loneSurrogates": false
+                        "raw": "'this line causes a syntax error'"
                       }
                     }
                   ],
@@ -919,8 +904,7 @@
                           "end": 851
                         },
                         "value": "this line does NOT causes a syntax error",
-                        "raw": "'this line does NOT causes a syntax error'",
-                        "loneSurrogates": false
+                        "raw": "'this line does NOT causes a syntax error'"
                       }
                     }
                   ],
@@ -1112,8 +1096,7 @@
                                 "end": 993
                               },
                               "value": "this line causes a syntax error",
-                              "raw": "'this line causes a syntax error'",
-                              "loneSurrogates": false
+                              "raw": "'this line causes a syntax error'"
                             }
                           }
                         ],
@@ -1207,8 +1190,7 @@
                                 "end": 1081
                               },
                               "value": "this line does NOT causes a syntax error",
-                              "raw": "'this line does NOT causes a syntax error'",
-                              "loneSurrogates": false
+                              "raw": "'this line does NOT causes a syntax error'"
                             }
                           }
                         ],
@@ -1409,8 +1391,7 @@
                                   "end": 1226
                                 },
                                 "value": "this line causes a syntax error",
-                                "raw": "'this line causes a syntax error'",
-                                "loneSurrogates": false
+                                "raw": "'this line causes a syntax error'"
                               }
                             }
                           ],
@@ -1511,8 +1492,7 @@
                                   "end": 1316
                                 },
                                 "value": "this line does NOT causes a syntax error",
-                                "raw": "'this line does NOT causes a syntax error'",
-                                "loneSurrogates": false
+                                "raw": "'this line does NOT causes a syntax error'"
                               }
                             }
                           ],
@@ -1662,8 +1642,7 @@
                       "end": 1402
                     },
                     "value": "test",
-                    "raw": "\"test\"",
-                    "loneSurrogates": false
+                    "raw": "\"test\""
                   },
                   "right": {
                     "type": "StringLiteral",
@@ -1672,8 +1651,7 @@
                       "end": 1412
                     },
                     "value": "test",
-                    "raw": "\"test\"",
-                    "loneSurrogates": false
+                    "raw": "\"test\""
                   }
                 },
                 "consequent": {
@@ -1733,8 +1711,7 @@
                                 "end": 1503
                               },
                               "value": "this line causes a syntax error",
-                              "raw": "'this line causes a syntax error'",
-                              "loneSurrogates": false
+                              "raw": "'this line causes a syntax error'"
                             }
                           }
                         ],
@@ -1769,8 +1746,7 @@
                       },
                       "tail": false,
                       "cooked": "<button @click=\"",
-                      "raw": "<button @click=\"",
-                      "loneSurrogates": false
+                      "raw": "<button @click=\""
                     },
                     {
                       "type": "TemplateElement",
@@ -1780,8 +1756,7 @@
                       },
                       "tail": true,
                       "cooked": "\"></button>",
-                      "raw": "\"></button>",
-                      "loneSurrogates": false
+                      "raw": "\"></button>"
                     }
                   ]
                 },
@@ -1792,8 +1767,7 @@
                     "end": 1537
                   },
                   "value": "bar",
-                  "raw": "\"bar\"",
-                  "loneSurrogates": false
+                  "raw": "\"bar\""
                 }
               },
               "alternate": {
@@ -1853,8 +1827,7 @@
                               "end": 1641
                             },
                             "value": "this line does NOT causes a syntax error",
-                            "raw": "'this line does NOT causes a syntax error'",
-                            "loneSurrogates": false
+                            "raw": "'this line does NOT causes a syntax error'"
                           }
                         }
                       ],
@@ -1889,8 +1862,7 @@
                     },
                     "tail": false,
                     "cooked": "<button\n        @click=\"",
-                    "raw": "<button\n        @click=\"",
-                    "loneSurrogates": false
+                    "raw": "<button\n        @click=\""
                   },
                   {
                     "type": "TemplateElement",
@@ -1900,8 +1872,7 @@
                     },
                     "tail": true,
                     "cooked": "\"\n      ></button>",
-                    "raw": "\"\n      ></button>",
-                    "loneSurrogates": false
+                    "raw": "\"\n      ></button>"
                   }
                 ]
               }
@@ -2063,8 +2034,7 @@
                               "end": 1815
                             },
                             "value": "this line causes a syntax error",
-                            "raw": "'this line causes a syntax error'",
-                            "loneSurrogates": false
+                            "raw": "'this line causes a syntax error'"
                           }
                         }
                       ],
@@ -2099,8 +2069,7 @@
                     },
                     "tail": false,
                     "cooked": "<button @click=\"",
-                    "raw": "<button @click=\"",
-                    "loneSurrogates": false
+                    "raw": "<button @click=\""
                   },
                   {
                     "type": "TemplateElement",
@@ -2110,8 +2079,7 @@
                     },
                     "tail": true,
                     "cooked": "\"></button>",
-                    "raw": "\"></button>",
-                    "loneSurrogates": false
+                    "raw": "\"></button>"
                   }
                 ]
               },
@@ -2135,8 +2103,7 @@
                       "end": 1846
                     },
                     "value": "test",
-                    "raw": "\"test\"",
-                    "loneSurrogates": false
+                    "raw": "\"test\""
                   },
                   "right": {
                     "type": "StringLiteral",
@@ -2145,8 +2112,7 @@
                       "end": 1856
                     },
                     "value": "test",
-                    "raw": "\"test\"",
-                    "loneSurrogates": false
+                    "raw": "\"test\""
                   }
                 },
                 "consequent": {
@@ -2206,8 +2172,7 @@
                                 "end": 1947
                               },
                               "value": "this line causes a syntax error",
-                              "raw": "'this line causes a syntax error'",
-                              "loneSurrogates": false
+                              "raw": "'this line causes a syntax error'"
                             }
                           }
                         ],
@@ -2242,8 +2207,7 @@
                       },
                       "tail": false,
                       "cooked": "<button @click=\"",
-                      "raw": "<button @click=\"",
-                      "loneSurrogates": false
+                      "raw": "<button @click=\""
                     },
                     {
                       "type": "TemplateElement",
@@ -2253,8 +2217,7 @@
                       },
                       "tail": true,
                       "cooked": "\"></button>",
-                      "raw": "\"></button>",
-                      "loneSurrogates": false
+                      "raw": "\"></button>"
                     }
                   ]
                 },
@@ -2265,8 +2228,7 @@
                     "end": 1981
                   },
                   "value": "bar",
-                  "raw": "\"bar\"",
-                  "loneSurrogates": false
+                  "raw": "\"bar\""
                 }
               }
             }
@@ -2445,8 +2407,7 @@
                                 "end": 2136
                               },
                               "value": "this line causes a syntax error",
-                              "raw": "'this line causes a syntax error'",
-                              "loneSurrogates": false
+                              "raw": "'this line causes a syntax error'"
                             }
                           }
                         ],
@@ -2481,8 +2442,7 @@
                       },
                       "tail": false,
                       "cooked": "<button @click=\"",
-                      "raw": "<button @click=\"",
-                      "loneSurrogates": false
+                      "raw": "<button @click=\""
                     },
                     {
                       "type": "TemplateElement",
@@ -2492,8 +2452,7 @@
                       },
                       "tail": true,
                       "cooked": "\"></button>",
-                      "raw": "\"></button>",
-                      "loneSurrogates": false
+                      "raw": "\"></button>"
                     }
                   ]
                 }
@@ -2573,8 +2532,7 @@
                                 "end": 2249
                               },
                               "value": "this line does NOT causes a syntax error",
-                              "raw": "'this line does NOT causes a syntax error'",
-                              "loneSurrogates": false
+                              "raw": "'this line does NOT causes a syntax error'"
                             }
                           }
                         ],
@@ -2609,8 +2567,7 @@
                       },
                       "tail": false,
                       "cooked": "<button @click=\"",
-                      "raw": "<button @click=\"",
-                      "loneSurrogates": false
+                      "raw": "<button @click=\""
                     },
                     {
                       "type": "TemplateElement",
@@ -2620,8 +2577,7 @@
                       },
                       "tail": true,
                       "cooked": "\"></button>",
-                      "raw": "\"></button>",
-                      "loneSurrogates": false
+                      "raw": "\"></button>"
                     }
                   ]
                 }
@@ -2783,8 +2739,7 @@
                             "end": 2397
                           },
                           "value": "this line causes a syntax error",
-                          "raw": "'this line causes a syntax error'",
-                          "loneSurrogates": false
+                          "raw": "'this line causes a syntax error'"
                         }
                       }
                     ],
@@ -2866,8 +2821,7 @@
                             "end": 2477
                           },
                           "value": "this line does NOT causes a syntax error",
-                          "raw": "'this line does NOT causes a syntax error'",
-                          "loneSurrogates": false
+                          "raw": "'this line does NOT causes a syntax error'"
                         }
                       }
                     ],
@@ -3044,8 +2998,7 @@
                           "end": 2627
                         },
                         "value": "this line causes a syntax error",
-                        "raw": "'this line causes a syntax error'",
-                        "loneSurrogates": false
+                        "raw": "'this line causes a syntax error'"
                       }
                     }
                   ],
@@ -3146,8 +3099,7 @@
                           "end": 2711
                         },
                         "value": "this line causes a syntax error",
-                        "raw": "'this line causes a syntax error'",
-                        "loneSurrogates": false
+                        "raw": "'this line causes a syntax error'"
                       }
                     }
                   ],
@@ -3269,8 +3221,7 @@
                     "end": 2773
                   },
                   "value": "Oranges",
-                  "raw": "\"Oranges\"",
-                  "loneSurrogates": false
+                  "raw": "\"Oranges\""
                 },
                 "definite": false
               }
@@ -3306,8 +3257,7 @@
                     "end": 2817
                   },
                   "value": "Oranges",
-                  "raw": "'Oranges'",
-                  "loneSurrogates": false
+                  "raw": "'Oranges'"
                 },
                 "consequent": [
                   {
@@ -3381,8 +3331,7 @@
                                         "end": 2916
                                       },
                                       "value": "this line causes a syntax error",
-                                      "raw": "'this line causes a syntax error'",
-                                      "loneSurrogates": false
+                                      "raw": "'this line causes a syntax error'"
                                     }
                                   }
                                 ],
@@ -3417,8 +3366,7 @@
                               },
                               "tail": false,
                               "cooked": "<button @click=\"",
-                              "raw": "<button @click=\"",
-                              "loneSurrogates": false
+                              "raw": "<button @click=\""
                             },
                             {
                               "type": "TemplateElement",
@@ -3428,8 +3376,7 @@
                               },
                               "tail": true,
                               "cooked": "\" ></button>",
-                              "raw": "\" ></button>",
-                              "loneSurrogates": false
+                              "raw": "\" ></button>"
                             }
                           ]
                         }
@@ -3503,8 +3450,7 @@
                                 },
                                 "tail": true,
                                 "cooked": "Sorry, we are out of test.",
-                                "raw": "Sorry, we are out of test.",
-                                "loneSurrogates": false
+                                "raw": "Sorry, we are out of test."
                               }
                             ]
                           }
@@ -3682,8 +3628,7 @@
                                   "end": 3164
                                 },
                                 "value": "This shape is a square.",
-                                "raw": "'This shape is a square.'",
-                                "loneSurrogates": false
+                                "raw": "'This shape is a square.'"
                               }
                             }
                           ],
@@ -3913,8 +3858,7 @@
                                   "end": 3364
                                 },
                                 "value": "This shape is a square.",
-                                "raw": "'This shape is a square.'",
-                                "loneSurrogates": false
+                                "raw": "'This shape is a square.'"
                               }
                             }
                           ],

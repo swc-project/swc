@@ -42,8 +42,7 @@
                 "end": 67
               },
               "value": "Foo",
-              "raw": "\"Foo\"",
-              "loneSurrogates": false
+              "raw": "\"Foo\""
             },
             "typeAnnotation": {
               "type": "TsTypeAnnotation",

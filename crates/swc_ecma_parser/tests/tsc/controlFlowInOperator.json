@@ -39,8 +39,7 @@
               "end": 14
             },
             "value": "a",
-            "raw": "'a'",
-            "loneSurrogates": false
+            "raw": "'a'"
           },
           "definite": false
         }
@@ -80,8 +79,7 @@
               "end": 29
             },
             "value": "b",
-            "raw": "'b'",
-            "loneSurrogates": false
+            "raw": "'b'"
           },
           "definite": false
         }
@@ -121,8 +119,7 @@
               "end": 44
             },
             "value": "d",
-            "raw": "'d'",
-            "loneSurrogates": false
+            "raw": "'d'"
           },
           "definite": false
         }
@@ -357,8 +354,7 @@
             "end": 134
           },
           "value": "a",
-          "raw": "'a'",
-          "loneSurrogates": false
+          "raw": "'a'"
         },
         "right": {
           "type": "Identifier",
@@ -431,8 +427,7 @@
                     "end": 169
                   },
                   "value": "a",
-                  "raw": "'a'",
-                  "loneSurrogates": false
+                  "raw": "'a'"
                 }
               }
             }
@@ -461,8 +456,7 @@
             "end": 193
           },
           "value": "d",
-          "raw": "'d'",
-          "loneSurrogates": false
+          "raw": "'d'"
         },
         "right": {
           "type": "Identifier",
@@ -908,8 +902,7 @@
                         "end": 513
                       },
                       "value": "1",
-                      "raw": "\"1\"",
-                      "loneSurrogates": false
+                      "raw": "\"1\""
                     }
                   }
                 }
@@ -1175,8 +1168,7 @@
                             },
                             "tail": false,
                             "cooked": "",
-                            "raw": "",
-                            "loneSurrogates": false
+                            "raw": ""
                           },
                           {
                             "type": "TemplateElement",
@@ -1186,8 +1178,7 @@
                             },
                             "tail": false,
                             "cooked": "-",
-                            "raw": "-",
-                            "loneSurrogates": false
+                            "raw": "-"
                           },
                           {
                             "type": "TemplateElement",
@@ -1197,8 +1188,7 @@
                             },
                             "tail": true,
                             "cooked": "",
-                            "raw": "",
-                            "loneSurrogates": false
+                            "raw": ""
                           }
                         ]
                       },
@@ -1320,8 +1310,7 @@
                       "end": 746
                     },
                     "value": "heat death of the universe",
-                    "raw": "\"heat death of the universe\"",
-                    "loneSurrogates": false
+                    "raw": "\"heat death of the universe\""
                   }
                 }
               ],
@@ -1492,8 +1481,7 @@
                   "end": 828
                 },
                 "value": "a",
-                "raw": "\"a\"",
-                "loneSurrogates": false
+                "raw": "\"a\""
               }
             }
           },
@@ -1651,8 +1639,7 @@
                             },
                             "tail": false,
                             "cooked": "",
-                            "raw": "",
-                            "loneSurrogates": false
+                            "raw": ""
                           },
                           {
                             "type": "TemplateElement",
@@ -1662,8 +1649,7 @@
                             },
                             "tail": true,
                             "cooked": "",
-                            "raw": "",
-                            "loneSurrogates": false
+                            "raw": ""
                           }
                         ]
                       },
@@ -1869,8 +1855,7 @@
                   "end": 1006
                 },
                 "value": "a",
-                "raw": "\"a\"",
-                "loneSurrogates": false
+                "raw": "\"a\""
               }
             }
           },

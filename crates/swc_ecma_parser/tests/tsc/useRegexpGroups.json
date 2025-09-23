@@ -114,8 +114,7 @@
                     "end": 129
                   },
                   "value": "2015-01-02",
-                  "raw": "\"2015-01-02\"",
-                  "loneSurrogates": false
+                  "raw": "\"2015-01-02\""
                 }
               }
             ],
@@ -659,8 +658,7 @@
                         "end": 339
                       },
                       "value": "foo",
-                      "raw": "\"foo\"",
-                      "loneSurrogates": false
+                      "raw": "\"foo\""
                     },
                     "property": {
                       "type": "Identifier",

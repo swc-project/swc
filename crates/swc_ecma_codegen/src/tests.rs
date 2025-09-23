@@ -596,7 +596,7 @@ fn test_get_quoted_utf16() {
     #[track_caller]
     fn es2020(src: &str, expected: &str) {
         assert_eq!(
-            combine(get_quoted_utf16(src, false, true, EsVersion::Es2020)),
+            combine(get_quoted_utf16(src.into(), true, EsVersion::Es2020)),
             expected
         )
     }
@@ -604,7 +604,7 @@ fn test_get_quoted_utf16() {
     #[track_caller]
     fn es2020_nonascii(src: &str, expected: &str) {
         assert_eq!(
-            combine(get_quoted_utf16(src, false, true, EsVersion::Es2020)),
+            combine(get_quoted_utf16(src.into(), true, EsVersion::Es2020)),
             expected
         )
     }
@@ -612,7 +612,7 @@ fn test_get_quoted_utf16() {
     #[track_caller]
     fn es5(src: &str, expected: &str) {
         assert_eq!(
-            combine(get_quoted_utf16(src, false, true, EsVersion::Es5)),
+            combine(get_quoted_utf16(src.into(), true, EsVersion::Es5)),
             expected
         )
     }
@@ -681,7 +681,7 @@ fn issue_1619_2() {
 #[test]
 fn issue_1619_3() {
     assert_eq!(
-        &*get_quoted_utf16("\x00\x31", false, true, EsVersion::Es3).1,
+        &*get_quoted_utf16("\x00\x31".into(), true, EsVersion::Es3).1,
         "\\x001"
     );
 }
@@ -701,15 +701,15 @@ fn check_latest(src: &str, expected: &str) {
 
 #[test]
 fn invalid_unicode_in_ident() {
-    check_latest("\\ud83d;", "\u{FFFD}d83d;");
+    check_latest("\\ud83d;", "\\uD83D;");
 }
 
 #[test]
 fn test_escape_with_source_str() {
-    check_latest("'\\ud83d'", "\"\\ud83d\";");
+    check_latest("'\\ud83d'", "'\\ud83d';");
     check_latest(
         "'\\ud83d\\ud83d\\ud83d\\ud83d\\ud83d'",
-        "\"\\ud83d\\ud83d\\ud83d\\ud83d\\ud83d\";",
+        "'\\ud83d\\ud83d\\ud83d\\ud83d\\ud83d';",
     );
 }
 

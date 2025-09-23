@@ -263,8 +263,7 @@
                   "end": 328
                 },
                 "value": "",
-                "raw": "\"\"",
-                "loneSurrogates": false
+                "raw": "\"\""
               },
               "right": {
                 "type": "NumericLiteral",
@@ -322,8 +321,7 @@
                 "end": 345
               },
               "value": "",
-              "raw": "\"\"",
-              "loneSurrogates": false
+              "raw": "\"\""
             },
             "right": {
               "type": "ParenthesisExpression",
@@ -755,8 +753,7 @@
                   "end": 685
                 },
                 "value": "bar",
-                "raw": "\"bar\"",
-                "loneSurrogates": false
+                "raw": "\"bar\""
               }
             }
           }

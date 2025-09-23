@@ -103,8 +103,7 @@
           "end": 225
         },
         "value": "./defaultPath",
-        "raw": "\"./defaultPath\"",
-        "loneSurrogates": false
+        "raw": "\"./defaultPath\""
       },
       "typeOnly": false,
       "with": null,
@@ -142,8 +141,7 @@
           "end": 275
         },
         "value": "./anotherModule",
-        "raw": "\"./anotherModule\"",
-        "loneSurrogates": false
+        "raw": "\"./anotherModule\""
       },
       "typeOnly": false,
       "with": null,
@@ -251,8 +249,7 @@
                     "end": 340
                   },
                   "value": "./defaultPath",
-                  "raw": "\"./defaultPath\"",
-                  "loneSurrogates": false
+                  "raw": "\"./defaultPath\""
                 }
               }
             ],
@@ -320,8 +317,7 @@
                       "end": 374
                     },
                     "value": "./defaultPath",
-                    "raw": "\"./defaultPath\"",
-                    "loneSurrogates": false
+                    "raw": "\"./defaultPath\""
                   }
                 }
               ],
@@ -468,8 +464,7 @@
                     "end": 455
                   },
                   "value": "./defaultPath",
-                  "raw": "\"./defaultPath\"",
-                  "loneSurrogates": false
+                  "raw": "\"./defaultPath\""
                 }
               }
             ],

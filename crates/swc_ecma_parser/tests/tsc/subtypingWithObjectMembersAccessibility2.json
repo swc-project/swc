@@ -535,8 +535,7 @@
                     "end": 438
                   },
                   "value": "1",
-                  "raw": "'1'",
-                  "loneSurrogates": false
+                  "raw": "'1'"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -614,8 +613,7 @@
                     "end": 497
                   },
                   "value": "1",
-                  "raw": "'1'",
-                  "loneSurrogates": false
+                  "raw": "'1'"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1059,8 +1057,7 @@
                     "end": 803
                   },
                   "value": "1",
-                  "raw": "'1'",
-                  "loneSurrogates": false
+                  "raw": "'1'"
                 },
                 "value": null,
                 "typeAnnotation": {
@@ -1138,8 +1135,7 @@
                     "end": 855
                   },
                   "value": "1",
-                  "raw": "'1'",
-                  "loneSurrogates": false
+                  "raw": "'1'"
                 },
                 "value": null,
                 "typeAnnotation": {

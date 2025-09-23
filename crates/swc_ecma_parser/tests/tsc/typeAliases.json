@@ -2540,8 +2540,7 @@
                     "end": 1037
                   },
                   "value": "click",
-                  "raw": "\"click\"",
-                  "loneSurrogates": false
+                  "raw": "\"click\""
                 }
               }
             }
@@ -3302,8 +3301,7 @@
                     "end": 1394
                   },
                   "value": "1",
-                  "raw": "\"1\"",
-                  "loneSurrogates": false
+                  "raw": "\"1\""
                 }
               },
               {

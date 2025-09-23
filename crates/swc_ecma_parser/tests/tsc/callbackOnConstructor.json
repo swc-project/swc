@@ -52,8 +52,7 @@
                 "end": 146
               },
               "value": "no",
-              "raw": "\"no\"",
-              "loneSurrogates": false
+              "raw": "\"no\""
             },
             "typeAnnotation": null,
             "isStatic": false,

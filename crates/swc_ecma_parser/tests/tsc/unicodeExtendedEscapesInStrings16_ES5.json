@@ -39,8 +39,7 @@
               "end": 60
             },
             "value": "ꯍ㑖碐",
-            "raw": "\"\\u{ABCD}\\u{EF12}\\u{3456}\\u{7890}\"",
-            "loneSurrogates": false
+            "raw": "\"\\u{ABCD}\\u{EF12}\\u{3456}\\u{7890}\""
           },
           "definite": false
         }

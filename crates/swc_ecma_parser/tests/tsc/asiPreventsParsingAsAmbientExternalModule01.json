@@ -144,8 +144,7 @@
           "end": 181
         },
         "value": "my external module",
-        "raw": "\"my external module\"",
-        "loneSurrogates": false
+        "raw": "\"my external module\""
       }
     },
     {

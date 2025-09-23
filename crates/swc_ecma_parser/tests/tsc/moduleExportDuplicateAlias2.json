@@ -364,8 +364,7 @@
                     "end": 333
                   },
                   "value": "./moduleExportAliasDuplicateAlias",
-                  "raw": "'./moduleExportAliasDuplicateAlias'",
-                  "loneSurrogates": false
+                  "raw": "'./moduleExportAliasDuplicateAlias'"
                 }
               }
             ],

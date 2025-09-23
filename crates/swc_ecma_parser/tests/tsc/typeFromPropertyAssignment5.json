@@ -174,8 +174,7 @@
           "end": 205
         },
         "value": "./a",
-        "raw": "'./a'",
-        "loneSurrogates": false
+        "raw": "'./a'"
       },
       "typeOnly": false,
       "with": null,

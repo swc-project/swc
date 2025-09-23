@@ -6,7 +6,7 @@ use std::{
 
 use is_macro::Is;
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::jsx::JSXText;
@@ -55,6 +55,7 @@ bridge_expr_from!(Lit, JSXText);
 
 bridge_lit_from!(Str, &'_ str);
 bridge_lit_from!(Str, Atom);
+bridge_lit_from!(Str, Wtf8Atom);
 bridge_lit_from!(Str, Cow<'_, str>);
 bridge_lit_from!(Str, String);
 bridge_lit_from!(Bool, bool);
@@ -185,29 +186,19 @@ impl From<BigIntValue> for BigInt {
 pub struct Str {
     pub span: Span,
 
-    pub value: Atom,
+    pub value: Wtf8Atom,
 
     /// Use `None` value only for transformations to avoid recalculate escaped
     /// characters in strings
     pub raw: Option<Atom>,
-
-    /// The string value contains lone surrogates.
-    ///
-    /// `value` is encoded with `\u{FFFD}` to mark the lone surrogate as an
-    /// escaped value.
-    ///
-    /// For example, a "\uD808" is a lone surrogate, and it's encoded as
-    /// `\u{FFFD}D808`.
-    pub lone_surrogates: bool,
 }
 
 impl Take for Str {
     fn dummy() -> Self {
         Str {
             span: DUMMY_SP,
-            value: atom!(""),
+            value: Wtf8Atom::default(),
             raw: None,
-            lone_surrogates: false,
         }
     }
 }
@@ -217,16 +208,10 @@ impl Take for Str {
 impl<'a> arbitrary::Arbitrary<'a> for Str {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
-        let value = u.arbitrary::<String>()?.into();
+        let value = u.arbitrary::<Wtf8Atom>()?.into();
         let raw = Some(u.arbitrary::<String>()?.into());
-        let lone_surrogates = u.arbitrary()?;
 
-        Ok(Self {
-            span,
-            value,
-            raw,
-            lone_surrogates,
-        })
+        Ok(Self { span, value, raw })
     }
 }
 
@@ -296,9 +281,19 @@ impl From<Atom> for Str {
     fn from(value: Atom) -> Self {
         Str {
             span: DUMMY_SP,
+            value: value.into(),
+            raw: None,
+        }
+    }
+}
+
+impl From<Wtf8Atom> for Str {
+    #[inline]
+    fn from(value: Wtf8Atom) -> Self {
+        Str {
+            span: DUMMY_SP,
             value,
             raw: None,
-            lone_surrogates: false,
         }
     }
 }
@@ -385,6 +380,8 @@ impl Take for Regex {
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
 impl<'a> arbitrary::Arbitrary<'a> for Regex {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
+        use swc_atoms::atom;
+
         let span = u.arbitrary()?;
         let exp = u.arbitrary::<String>()?.into();
         let flags = atom!(""); // TODO

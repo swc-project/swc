@@ -172,8 +172,7 @@
                     "end": 168
                   },
                   "value": "hello",
-                  "raw": "'hello'",
-                  "loneSurrogates": false
+                  "raw": "'hello'"
                 }
               }
             ],

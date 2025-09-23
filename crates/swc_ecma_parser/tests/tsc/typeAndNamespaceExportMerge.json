@@ -198,8 +198,7 @@
           "end": 175
         },
         "value": "./constants",
-        "raw": "\"./constants\"",
-        "loneSurrogates": false
+        "raw": "\"./constants\""
       },
       "typeOnly": false,
       "with": null
@@ -238,8 +237,7 @@
           "end": 233
         },
         "value": "./drink",
-        "raw": "\"./drink\"",
-        "loneSurrogates": false
+        "raw": "\"./drink\""
       },
       "typeOnly": false,
       "with": null,

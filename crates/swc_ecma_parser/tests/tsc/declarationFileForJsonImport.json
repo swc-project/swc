@@ -37,8 +37,7 @@
           "end": 122
         },
         "value": "./data.json",
-        "raw": "\"./data.json\"",
-        "loneSurrogates": false
+        "raw": "\"./data.json\""
       },
       "typeOnly": false,
       "with": null,

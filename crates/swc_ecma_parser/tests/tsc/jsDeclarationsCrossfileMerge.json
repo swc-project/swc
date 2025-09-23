@@ -59,8 +59,7 @@
                     "end": 159
                   },
                   "value": "./exporter",
-                  "raw": "\"./exporter\"",
-                  "loneSurrogates": false
+                  "raw": "\"./exporter\""
                 }
               }
             ],
@@ -195,8 +194,7 @@
             "end": 226
           },
           "value": "thing",
-          "raw": "\"thing\"",
-          "loneSurrogates": false
+          "raw": "\"thing\""
         }
       }
     },

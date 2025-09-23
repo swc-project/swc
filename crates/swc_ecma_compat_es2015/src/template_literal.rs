@@ -1,7 +1,7 @@
 use std::{iter, mem};
 
 use serde_derive::Deserialize;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{atom, wtf8::Wtf8Buf};
 use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
@@ -63,14 +63,12 @@ impl VisitMut for TemplateLiteral {
                         let s = quasis[0]
                             .cooked
                             .clone()
-                            .unwrap_or_else(|| quasis[0].raw.clone());
-                        let ls = quasis[0].lone_surrogates;
+                            .unwrap_or_else(|| quasis[0].raw.clone().into());
 
                         Str {
                             span: quasis[0].span,
-                            value: Atom::from(&*s),
+                            value: s,
                             raw: None,
-                            lone_surrogates: ls,
                         }
                     })
                     .into(),
@@ -97,20 +95,15 @@ impl VisitMut for TemplateLiteral {
                         // Quasis
                         match quasis.next() {
                             Some(TplElement {
-                                span,
-                                cooked,
-                                raw,
-                                lone_surrogates,
-                                ..
+                                span, cooked, raw, ..
                             }) => {
-                                let s = cooked.clone().unwrap_or_else(|| raw.clone());
+                                let s = cooked.clone().unwrap_or_else(|| raw.clone().into());
 
                                 Box::new(
                                     Lit::Str(Str {
                                         span: *span,
-                                        value: (&*s).into(),
+                                        value: s,
                                         raw: None,
-                                        lone_surrogates: *lone_surrogates,
                                     })
                                     .into(),
                                 )
@@ -134,37 +127,26 @@ impl VisitMut for TemplateLiteral {
                         };
 
                         if !is_empty && args.is_empty() {
-                            if let Expr::Lit(Lit::Str(Str {
-                                span,
-                                value,
-                                raw,
-                                lone_surrogates,
-                            })) = *obj
-                            {
+                            if let Expr::Lit(Lit::Str(Str { span, value, raw })) = *obj {
                                 match *expr {
                                     Expr::Lit(Lit::Str(Str {
                                         span: r_span,
                                         value: r_value,
-                                        lone_surrogates: r_ls,
                                         ..
                                     })) => {
+                                        let mut value_buf: Wtf8Buf = (&value).into();
+                                        value_buf.push_wtf8(&r_value);
+                                        let value = value_buf.into();
                                         obj = Lit::Str(Str {
                                             span: span.with_hi(r_span.hi()),
                                             raw: None,
-                                            value: format!("{value}{r_value}").into(),
-                                            lone_surrogates: lone_surrogates || r_ls,
+                                            value,
                                         })
                                         .into();
                                         continue;
                                     }
                                     _ => {
-                                        obj = Lit::Str(Str {
-                                            span,
-                                            raw,
-                                            value,
-                                            lone_surrogates,
-                                        })
-                                        .into();
+                                        obj = Lit::Str(Str { span, raw, value }).into();
                                     }
                                 }
                             }

@@ -254,8 +254,7 @@
                       "end": 570
                     },
                     "value": "abc",
-                    "raw": "'abc'",
-                    "loneSurrogates": false
+                    "raw": "'abc'"
                   }
                 }
               ]
@@ -434,8 +433,7 @@
                             "end": 793
                           },
                           "value": "world",
-                          "raw": "\"world\"",
-                          "loneSurrogates": false
+                          "raw": "\"world\""
                         }
                       }
                     ]
@@ -585,8 +583,7 @@
                       "end": 911
                     },
                     "value": "abc",
-                    "raw": "'abc'",
-                    "loneSurrogates": false
+                    "raw": "'abc'"
                   }
                 }
               ]
@@ -765,8 +762,7 @@
                             "end": 1134
                           },
                           "value": "hi",
-                          "raw": "'hi'",
-                          "loneSurrogates": false
+                          "raw": "'hi'"
                         }
                       }
                     ]
@@ -1056,8 +1052,7 @@
                             "end": 1848
                           },
                           "value": "help",
-                          "raw": "\"help\"",
-                          "loneSurrogates": false
+                          "raw": "\"help\""
                         }
                       },
                       {
@@ -1094,8 +1089,7 @@
                                   "end": 1864
                                 },
                                 "value": "a",
-                                "raw": "'a'",
-                                "loneSurrogates": false
+                                "raw": "'a'"
                               }
                             },
                             {
@@ -1141,8 +1135,7 @@
                                               "end": 1886
                                             },
                                             "value": "idea",
-                                            "raw": "'idea'",
-                                            "loneSurrogates": false
+                                            "raw": "'idea'"
                                           }
                                         },
                                         {

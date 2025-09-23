@@ -237,7 +237,7 @@ where
                     self.run(|| {
                         let info = match src {
                             Some(src) => {
-                                let name = self.resolve(base, &src.value)?;
+                                let name = self.resolve(base, &src.value.to_string_lossy())?;
                                 let (id, local_mark, export_mark) =
                                     self.scope.module_id_gen.gen(&name);
                                 Some((id, local_mark, export_mark, name, src))
@@ -314,7 +314,7 @@ where
                 .map(|(decl, dynamic, unconditional)| -> Result<_, Error> {
                     self.run(|| {
                         //
-                        let file_name = self.resolve(base, &decl.src.value)?;
+                        let file_name = self.resolve(base, &decl.src.value.to_string_lossy())?;
                         let (id, local_mark, export_mark) =
                             self.scope.module_id_gen.gen(&file_name);
 

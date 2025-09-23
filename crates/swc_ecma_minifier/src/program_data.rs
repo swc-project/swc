@@ -2,7 +2,7 @@ use std::collections::hash_map::Entry;
 
 use indexmap::IndexSet;
 use rustc_hash::{FxBuildHasher, FxHashMap};
-use swc_atoms::Atom;
+use swc_atoms::Wtf8Atom;
 use swc_common::SyntaxContext;
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
@@ -44,7 +44,7 @@ pub(crate) struct ProgramData {
 
     initialized_vars: IndexSet<Id, FxBuildHasher>,
 
-    pub(crate) property_atoms: Option<Vec<Atom>>,
+    pub(crate) property_atoms: Option<Vec<Wtf8Atom>>,
 }
 
 bitflags::bitflags! {
@@ -127,7 +127,7 @@ pub(crate) struct VarUsageInfo {
     /// PR. (because it's hard to review)
     infects_to: Vec<Access>,
     /// Only **string** properties.
-    pub(crate) accessed_props: FxHashMap<Atom, u32>,
+    pub(crate) accessed_props: FxHashMap<Wtf8Atom, u32>,
 }
 
 impl Default for VarUsageInfo {
@@ -545,7 +545,7 @@ impl Storage for ProgramData {
         }
     }
 
-    fn add_property_atom(&mut self, atom: Atom) {
+    fn add_property_atom(&mut self, atom: Wtf8Atom) {
         if let Some(atoms) = self.property_atoms.as_mut() {
             atoms.push(atom);
         }
@@ -617,7 +617,7 @@ impl VarDataLike for VarUsageInfo {
             .insert(VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY);
     }
 
-    fn add_accessed_property(&mut self, name: swc_atoms::Atom) {
+    fn add_accessed_property(&mut self, name: swc_atoms::Wtf8Atom) {
         *self.accessed_props.entry(name).or_default() += 1;
     }
 

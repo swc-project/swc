@@ -620,8 +620,7 @@
                     },
                     "tail": false,
                     "cooked": "\n    hello\n    ",
-                    "raw": "\n    hello\n    ",
-                    "loneSurrogates": false
+                    "raw": "\n    hello\n    "
                   },
                   {
                     "type": "TemplateElement",
@@ -631,8 +630,7 @@
                     },
                     "tail": false,
                     "cooked": "\n    brave\n    ",
-                    "raw": "\n    brave\n    ",
-                    "loneSurrogates": false
+                    "raw": "\n    brave\n    "
                   },
                   {
                     "type": "TemplateElement",
@@ -642,8 +640,7 @@
                     },
                     "tail": false,
                     "cooked": "\n    world\n    ",
-                    "raw": "\n    world\n    ",
-                    "loneSurrogates": false
+                    "raw": "\n    world\n    "
                   },
                   {
                     "type": "TemplateElement",
@@ -653,8 +650,7 @@
                     },
                     "tail": true,
                     "cooked": "\n",
-                    "raw": "\n",
-                    "loneSurrogates": false
+                    "raw": "\n"
                   }
                 ]
               }
@@ -1452,8 +1448,7 @@
                     },
                     "tail": false,
                     "cooked": "\n    hello\n    ",
-                    "raw": "\n    hello\n    ",
-                    "loneSurrogates": false
+                    "raw": "\n    hello\n    "
                   },
                   {
                     "type": "TemplateElement",
@@ -1463,8 +1458,7 @@
                     },
                     "tail": false,
                     "cooked": "\n    brave\n    ",
-                    "raw": "\n    brave\n    ",
-                    "loneSurrogates": false
+                    "raw": "\n    brave\n    "
                   },
                   {
                     "type": "TemplateElement",
@@ -1474,8 +1468,7 @@
                     },
                     "tail": false,
                     "cooked": "\n    world\n    ",
-                    "raw": "\n    world\n    ",
-                    "loneSurrogates": false
+                    "raw": "\n    world\n    "
                   },
                   {
                     "type": "TemplateElement",
@@ -1485,8 +1478,7 @@
                     },
                     "tail": true,
                     "cooked": "\n",
-                    "raw": "\n",
-                    "loneSurrogates": false
+                    "raw": "\n"
                   }
                 ]
               }
@@ -1862,8 +1854,7 @@
                       "end": 767
                     },
                     "value": "prop",
-                    "raw": "\"prop\"",
-                    "loneSurrogates": false
+                    "raw": "\"prop\""
                   }
                 }
               },
@@ -1969,8 +1960,7 @@
                     },
                     "tail": false,
                     "cooked": "",
-                    "raw": "",
-                    "loneSurrogates": false
+                    "raw": ""
                   },
                   {
                     "type": "TemplateElement",
@@ -1980,8 +1970,7 @@
                     },
                     "tail": true,
                     "cooked": "",
-                    "raw": "",
-                    "loneSurrogates": false
+                    "raw": ""
                   }
                 ]
               }
@@ -2290,8 +2279,7 @@
                 },
                 "tail": false,
                 "cooked": "",
-                "raw": "",
-                "loneSurrogates": false
+                "raw": ""
               },
               {
                 "type": "TemplateElement",
@@ -2301,8 +2289,7 @@
                 },
                 "tail": true,
                 "cooked": "",
-                "raw": "",
-                "loneSurrogates": false
+                "raw": ""
               }
             ]
           }

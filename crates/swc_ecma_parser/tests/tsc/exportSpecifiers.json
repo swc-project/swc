@@ -115,8 +115,7 @@
           "end": 129
         },
         "value": "./exports.js",
-        "raw": "\"./exports.js\"",
-        "loneSurrogates": false
+        "raw": "\"./exports.js\""
       },
       "typeOnly": false,
       "with": null,

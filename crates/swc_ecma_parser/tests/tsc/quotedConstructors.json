@@ -39,8 +39,7 @@
               "end": 28
             },
             "value": "constructor",
-            "raw": "\"constructor\"",
-            "loneSurrogates": false
+            "raw": "\"constructor\""
           },
           "params": [],
           "body": {
@@ -150,8 +149,7 @@
               "end": 96
             },
             "value": "constructor",
-            "raw": "'constructor'",
-            "loneSurrogates": false
+            "raw": "'constructor'"
           },
           "params": [],
           "body": {
@@ -266,8 +264,7 @@
                 "end": 165
               },
               "value": "constructor",
-              "raw": "'constructor'",
-              "loneSurrogates": false
+              "raw": "'constructor'"
             }
           },
           "function": {
@@ -397,8 +394,7 @@
                   "end": 236
                 },
                 "value": "constructor",
-                "raw": "\"constructor\"",
-                "loneSurrogates": false
+                "raw": "\"constructor\""
               },
               "params": [],
               "body": {
@@ -521,8 +517,7 @@
                     "end": 301
                   },
                   "value": "constructor",
-                  "raw": "\"constructor\"",
-                  "loneSurrogates": false
+                  "raw": "\"constructor\""
                 },
                 "params": [],
                 "decorators": [],
@@ -585,8 +580,7 @@
               "end": 341
             },
             "value": "constructor",
-            "raw": "\"\\x63onstructor\"",
-            "loneSurrogates": false
+            "raw": "\"\\x63onstructor\""
           },
           "params": [],
           "body": {

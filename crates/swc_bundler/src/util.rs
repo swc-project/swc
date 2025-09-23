@@ -33,7 +33,6 @@ pub(crate) trait VarDeclaratorExt: Into<VarDeclarator> {
                         span: DUMMY_SP,
                         raw: None,
                         value: name.into(),
-                        lone_surrogates: false,
                     }
                     .assign_to(Ident::new_no_ctxt(atom!("INJECTED_FROM"), DUMMY_SP)),
                 ]
@@ -194,7 +193,6 @@ fn metadata(key: &str, value: &str) -> PropOrSpread {
             span: DUMMY_SP,
             value: value.into(),
             raw: None,
-            lone_surrogates: false,
         })
         .into(),
     })))
@@ -263,8 +261,10 @@ impl ExportMetadata {
                             }
                         } else if *sym == "__swc_bundler__export_ctxt__" {
                             if let Expr::Lit(Lit::Str(Str { value, .. })) = &**value {
-                                if let Ok(v) = value.parse() {
-                                    data.export_ctxt = Some(SyntaxContext::from_u32(v));
+                                if let Some(value) = value.as_str() {
+                                    if let Ok(v) = value.parse() {
+                                        data.export_ctxt = Some(SyntaxContext::from_u32(v));
+                                    }
                                 }
                             }
                         }

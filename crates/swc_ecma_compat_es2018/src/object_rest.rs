@@ -724,7 +724,18 @@ impl ObjectRest {
                             ref value, span, ..
                         }) => {
                             let value = value.clone();
-                            (key, MemberProp::Ident(IdentName::new(value, span)))
+                            (
+                                key,
+                                MemberProp::Computed(ComputedPropName {
+                                    span,
+                                    expr: Lit::Str(Str {
+                                        span,
+                                        raw: None,
+                                        value: value.clone(),
+                                    })
+                                    .into(),
+                                }),
+                            )
                         }
                         PropName::Num(Number { span, value, .. }) => (
                             key,
@@ -735,7 +746,6 @@ impl ObjectRest {
                                     raw: None,
 
                                     value: format!("{value}").into(),
-                                    lone_surrogates: false,
                                 })
                                 .into(),
                             }),
@@ -752,7 +762,6 @@ impl ObjectRest {
                                         span,
                                         raw: None,
                                         value: format!("{value}").into(),
-                                        lone_surrogates: false,
                                     })
                                     .into(),
                                 }),
@@ -903,7 +912,6 @@ fn object_without_properties(
                         span,
                         raw: None,
                         value: value.to_string().into(),
-                        lone_surrogates: false,
                     })
                     .into(),
                     ..v
@@ -957,8 +965,7 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                 PropName::Ident(ident) => Lit::Str(Str {
                     span: ident.span,
                     raw: None,
-                    lone_surrogates: false,
-                    value: ident.sym.clone(),
+                    value: ident.sym.clone().into(),
                 })
                 .as_arg(),
                 PropName::Str(s) => Lit::Str(s.clone()).as_arg(),
@@ -967,7 +974,6 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                     raw: None,
 
                     value: format!("{value}").into(),
-                    lone_surrogates: false,
                 })
                 .as_arg(),
                 PropName::BigInt(BigInt { span, value, .. }) => Lit::Str(Str {
@@ -975,7 +981,6 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                     raw: None,
 
                     value: format!("{value}").into(),
-                    lone_surrogates: false,
                 })
                 .as_arg(),
                 PropName::Computed(c) => c.expr.clone().as_arg(),
@@ -985,8 +990,7 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
             ObjectPatProp::Assign(AssignPatProp { key, .. }) => Lit::Str(Str {
                 span: key.span,
                 raw: None,
-                lone_surrogates: false,
-                value: key.sym.clone(),
+                value: key.sym.clone().into(),
             })
             .as_arg(),
             ObjectPatProp::Rest(..) => unreachable!("invalid syntax (multiple rest element)"),

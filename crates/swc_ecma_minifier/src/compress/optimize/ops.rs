@@ -1,4 +1,3 @@
-use swc_atoms::atom;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
@@ -257,8 +256,7 @@ impl Optimizer<'_> {
                         *e = Lit::Str(Str {
                             span: *span,
                             raw: None,
-                            lone_surrogates: false,
-                            value,
+                            value: value.into(),
                         })
                         .into();
                     }
@@ -270,8 +268,7 @@ impl Optimizer<'_> {
                     *e = Lit::Str(Str {
                         span: *span,
                         raw: None,
-                        lone_surrogates: false,
-                        value: atom!("function"),
+                        value: "function".into(),
                     })
                     .into();
                 }
@@ -282,8 +279,7 @@ impl Optimizer<'_> {
                     *e = Lit::Str(Str {
                         span: *span,
                         raw: None,
-                        lone_surrogates: false,
-                        value: atom!("object"),
+                        value: "object".into(),
                     })
                     .into();
                 }

@@ -21,8 +21,7 @@
           "end": 56
         },
         "value": "jquery",
-        "raw": "\"jquery\"",
-        "loneSurrogates": false
+        "raw": "\"jquery\""
       },
       "body": null
     },
@@ -60,8 +59,7 @@
           "end": 110
         },
         "value": "jquery",
-        "raw": "\"jquery\"",
-        "loneSurrogates": false
+        "raw": "\"jquery\""
       },
       "typeOnly": false,
       "with": null
@@ -79,8 +77,7 @@
           "end": 164
         },
         "value": "jquery",
-        "raw": "\"jquery\"",
-        "loneSurrogates": false
+        "raw": "\"jquery\""
       },
       "typeOnly": false,
       "with": null
@@ -119,8 +116,7 @@
           "end": 226
         },
         "value": "./reExportX",
-        "raw": "\"./reExportX\"",
-        "loneSurrogates": false
+        "raw": "\"./reExportX\""
       },
       "typeOnly": false,
       "with": null,
@@ -158,8 +154,7 @@
           "end": 262
         },
         "value": "./reExportAll",
-        "raw": "\"./reExportAll\"",
-        "loneSurrogates": false
+        "raw": "\"./reExportAll\""
       },
       "typeOnly": false,
       "with": null,

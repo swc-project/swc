@@ -296,8 +296,7 @@
                     "end": 302
                   },
                   "value": "./moduleExportAliasDuplicateAlias",
-                  "raw": "'./moduleExportAliasDuplicateAlias'",
-                  "loneSurrogates": false
+                  "raw": "'./moduleExportAliasDuplicateAlias'"
                 }
               }
             ],

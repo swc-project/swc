@@ -37,8 +37,7 @@
           "end": 84
         },
         "value": "./nonexistent",
-        "raw": "'./nonexistent'",
-        "loneSurrogates": false
+        "raw": "'./nonexistent'"
       },
       "typeOnly": false,
       "with": null

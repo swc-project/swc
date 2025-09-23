@@ -48,8 +48,7 @@
                     "end": 16
                   },
                   "value": "foo",
-                  "raw": "\"foo\"",
-                  "loneSurrogates": false
+                  "raw": "\"foo\""
                 },
                 "params": [],
                 "decorators": [],

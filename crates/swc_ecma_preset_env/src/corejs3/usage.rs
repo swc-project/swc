@@ -187,7 +187,8 @@ impl Visit for UsageVisitor {
             // 'entries' in Object
             // 'entries' in [1, 2, 3]
             if let Expr::Lit(Lit::Str(s)) = &*e.left {
-                self.add_property_deps(&e.right, &s.value);
+                let prop_atom = s.value.to_atom_lossy();
+                self.add_property_deps(&e.right, prop_atom.as_ref());
             }
         }
     }
@@ -237,7 +238,8 @@ impl Visit for UsageVisitor {
         e.obj.visit_with(self);
         if let MemberProp::Computed(c) = &e.prop {
             if let Expr::Lit(Lit::Str(s)) = &*c.expr {
-                self.add_property_deps(&e.obj, &s.value);
+                let prop_atom = s.value.to_atom_lossy();
+                self.add_property_deps(&e.obj, prop_atom.as_ref());
             }
             c.visit_with(self);
         }

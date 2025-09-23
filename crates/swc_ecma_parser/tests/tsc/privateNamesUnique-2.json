@@ -107,8 +107,7 @@
                             "end": 94
                           },
                           "value": "./b",
-                          "raw": "\"./b\"",
-                          "loneSurrogates": false
+                          "raw": "\"./b\""
                         },
                         "qualifier": {
                           "type": "Identifier",
@@ -297,8 +296,7 @@
           "end": 244
         },
         "value": "./a",
-        "raw": "\"./a\"",
-        "loneSurrogates": false
+        "raw": "\"./a\""
       },
       "typeOnly": false,
       "with": null,
@@ -347,8 +345,7 @@
           "end": 276
         },
         "value": "./b",
-        "raw": "\"./b\"",
-        "loneSurrogates": false
+        "raw": "\"./b\""
       },
       "typeOnly": false,
       "with": null,

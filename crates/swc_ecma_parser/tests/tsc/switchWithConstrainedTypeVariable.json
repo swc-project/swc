@@ -107,8 +107,7 @@
                     "end": 120
                   },
                   "value": "a",
-                  "raw": "'a'",
-                  "loneSurrogates": false
+                  "raw": "'a'"
                 },
                 "consequent": [
                   {
@@ -275,8 +274,7 @@
                       "end": 73
                     },
                     "value": "a",
-                    "raw": "'a'",
-                    "loneSurrogates": false
+                    "raw": "'a'"
                   }
                 },
                 {
@@ -292,8 +290,7 @@
                       "end": 79
                     },
                     "value": "b",
-                    "raw": "'b'",
-                    "loneSurrogates": false
+                    "raw": "'b'"
                   }
                 }
               ]

@@ -256,8 +256,7 @@
             "end": 199
           },
           "value": "cat",
-          "raw": "\"cat\"",
-          "loneSurrogates": false
+          "raw": "\"cat\""
         }
       }
     },

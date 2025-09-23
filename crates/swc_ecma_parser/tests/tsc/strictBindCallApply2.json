@@ -303,8 +303,7 @@
                           "end": 221
                         },
                         "value": "blub",
-                        "raw": "\"blub\"",
-                        "loneSurrogates": false
+                        "raw": "\"blub\""
                       }
                     }
                   ]

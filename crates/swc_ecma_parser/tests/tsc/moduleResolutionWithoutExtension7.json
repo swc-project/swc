@@ -36,8 +36,7 @@
             "end": 163
           },
           "value": "./foo",
-          "raw": "\"./foo\"",
-          "loneSurrogates": false
+          "raw": "\"./foo\""
         }
       }
     }

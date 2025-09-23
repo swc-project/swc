@@ -35,6 +35,7 @@ use core::{
     slice, str,
     str::FromStr,
 };
+use std::ops::Add;
 
 mod not_quite_std;
 
@@ -68,7 +69,7 @@ impl CodePoint {
     ///
     /// Only use when `value` is known to be less than or equal to 0x10FFFF.
     #[inline]
-    pub unsafe fn from_u32_unchecked(value: u32) -> CodePoint {
+    pub const unsafe fn from_u32_unchecked(value: u32) -> CodePoint {
         CodePoint { value }
     }
 
@@ -76,7 +77,7 @@ impl CodePoint {
     ///
     /// Return `None` if `value` is above 0x10FFFF.
     #[inline]
-    pub fn from_u32(value: u32) -> Option<CodePoint> {
+    pub const fn from_u32(value: u32) -> Option<CodePoint> {
         match value {
             0..=0x10ffff => Some(CodePoint { value }),
             _ => None,
@@ -87,7 +88,7 @@ impl CodePoint {
     ///
     /// Since all Unicode scalar values are code points, this always succeds.
     #[inline]
-    pub fn from_char(value: char) -> CodePoint {
+    pub const fn from_char(value: char) -> CodePoint {
         CodePoint {
             value: value as u32,
         }
@@ -117,6 +118,18 @@ impl CodePoint {
     #[inline]
     pub fn to_char_lossy(&self) -> char {
         self.to_char().unwrap_or('\u{FFFD}')
+    }
+
+    /// Return `true` if the code point is in the ASCII range.
+    #[inline]
+    pub fn is_ascii(&self) -> bool {
+        self.value <= 0x7f
+    }
+}
+
+impl PartialEq<char> for CodePoint {
+    fn eq(&self, other: &char) -> bool {
+        self.value == *other as u32
     }
 }
 
@@ -162,6 +175,23 @@ impl FromStr for Wtf8Buf {
         Ok(Wtf8Buf {
             bytes: s.as_bytes().to_vec(),
         })
+    }
+}
+
+impl fmt::Write for Wtf8Buf {
+    fn write_str(&mut self, s: &str) -> std::fmt::Result {
+        self.push_str(s);
+        Ok(())
+    }
+}
+
+impl Add<&Wtf8> for Wtf8Buf {
+    type Output = Wtf8Buf;
+
+    fn add(self, rhs: &Wtf8) -> Self::Output {
+        let mut result = self;
+        result.push_wtf8(rhs);
+        result
     }
 }
 
@@ -313,6 +343,12 @@ impl Wtf8Buf {
         self.bytes.truncate(new_len)
     }
 
+    /// Clear the WTF-8 vector, removing all contents.
+    #[inline]
+    pub fn clear(&mut self) {
+        self.bytes.clear();
+    }
+
     /// Consume the WTF-8 string and try to convert it to UTF-8.
     ///
     /// This does not copy the data.
@@ -344,6 +380,26 @@ impl Wtf8Buf {
                 None => return unsafe { String::from_utf8_unchecked(self.bytes) },
             }
         }
+    }
+
+    /// Create a [Wtf8Buf] from a WTF-8 encoded byte vector.
+    ///
+    /// # Safety
+    ///
+    /// The caller must ensure that `bytes` is a well-formed WTF-8 byte
+    /// sequence.
+    ///
+    /// This means that:
+    /// - All bytes must form valid UTF-8 sequences OR valid surrogate code
+    ///   point encodings
+    /// - Surrogate code points may appear unpaired and be encoded separately,
+    ///   but if they are paired, it should be encoded as a single 4-byte UTF-8
+    ///   sequence.  For example, the byte sequence `[0xED, 0xA0, 0x80, 0xED,
+    ///   0xB0, 0x80]` is not valid WTF-8 because WTF-8 forbids encoding a
+    ///   surrogate pair as two separate 3-byte sequences.
+    #[inline]
+    pub unsafe fn from_bytes_unchecked(bytes: Vec<u8>) -> Self {
+        Self { bytes }
     }
 }
 
@@ -474,6 +530,12 @@ impl Wtf8 {
         self.bytes.is_empty()
     }
 
+    /// Return `true` if the string contains only ASCII characters.
+    #[inline]
+    pub const fn is_ascii(&self) -> bool {
+        self.bytes.is_ascii()
+    }
+
     /// Return a slice of the given string for the byte range [`begin`..`end`).
     ///
     /// # Failure
@@ -547,6 +609,34 @@ impl Wtf8 {
         }
     }
 
+    /// Returns `true` if this WTF-8 string contains the given character.
+    #[inline]
+    pub fn contains_char(&self, ch: char) -> bool {
+        let target = CodePoint::from_char(ch);
+        self.contains(target)
+    }
+
+    /// Returns `true` if this WTF-8 string contains the given code point.
+    #[inline]
+    pub fn contains(&self, code_point: CodePoint) -> bool {
+        self.code_points().any(|cp| cp == code_point)
+    }
+
+    /// Returns `true` if this WTF-8 string starts with the given UTF-8 string.
+    #[inline]
+    pub fn starts_with(&self, pattern: &str) -> bool {
+        if pattern.len() > self.len() {
+            return false;
+        }
+
+        let pattern_wtf8 = self.slice_to(pattern.len());
+        if let Some(pattern_str) = pattern_wtf8.as_str() {
+            pattern_str == pattern
+        } else {
+            false
+        }
+    }
+
     /// Try to convert the string to UTF-8 and return a `&str` slice.
     ///
     /// Return `None` if the string contains surrogates.
@@ -612,6 +702,46 @@ impl Wtf8 {
             code_points: self.code_points(),
             extra: 0,
         }
+    }
+
+    /// Returns the uppercase equivalent of this wtf8 slice, as a new [Wtf8Buf].
+    #[inline]
+    pub fn to_uppercase(&self) -> Wtf8Buf {
+        let mut result = Wtf8Buf::with_capacity(self.len());
+        for cp in self.code_points() {
+            if let Some(ch) = cp.to_char() {
+                for upper_ch in ch.to_uppercase() {
+                    result.push_char(upper_ch);
+                }
+            } else {
+                // Surrogates are known to be in the code point range.
+                let code_point = unsafe { CodePoint::from_u32_unchecked(cp.to_u32()) };
+                // Skip the WTF-8 concatenation check,
+                // surrogate pairs are already decoded by utf16_items
+                not_quite_std::push_code_point(&mut result, code_point)
+            }
+        }
+        result
+    }
+
+    /// Returns the lowercase equivalent of this wtf8 slice, as a new [Wtf8Buf].
+    #[inline]
+    pub fn to_lowercase(&self) -> Wtf8Buf {
+        let mut result = Wtf8Buf::with_capacity(self.len());
+        for cp in self.code_points() {
+            if let Some(ch) = cp.to_char() {
+                for lower_ch in ch.to_lowercase() {
+                    result.push_char(lower_ch);
+                }
+            } else {
+                // Surrogates are known to be in the code point range.
+                let code_point = unsafe { CodePoint::from_u32_unchecked(cp.to_u32()) };
+                // Skip the WTF-8 concatenation check,
+                // surrogate pairs are already decoded by utf16_items
+                not_quite_std::push_code_point(&mut result, code_point)
+            }
+        }
+        result
     }
 
     /// Create a WTF-8 from a WTF-8 encoded byte slice.
@@ -770,6 +900,24 @@ impl PartialEq<Wtf8Buf> for &Wtf8 {
     }
 }
 
+impl PartialEq<str> for &Wtf8 {
+    fn eq(&self, other: &str) -> bool {
+        match self.as_str() {
+            Some(s) => s == other,
+            None => false,
+        }
+    }
+}
+
+impl PartialEq<&str> for &Wtf8 {
+    fn eq(&self, other: &&str) -> bool {
+        match self.as_str() {
+            Some(s) => s == *other,
+            None => false,
+        }
+    }
+}
+
 impl hash::Hash for CodePoint {
     #[inline]
     fn hash<H: hash::Hasher>(&self, state: &mut H) {
@@ -821,6 +969,13 @@ impl<'a> From<&'a str> for &'a Wtf8 {
     #[inline]
     fn from(s: &'a str) -> &'a Wtf8 {
         Wtf8::from_str(s)
+    }
+}
+
+impl<'a> From<Wtf8Buf> for Cow<'a, Wtf8> {
+    #[inline]
+    fn from(s: Wtf8Buf) -> Cow<'a, Wtf8> {
+        Cow::Owned(s)
     }
 }
 

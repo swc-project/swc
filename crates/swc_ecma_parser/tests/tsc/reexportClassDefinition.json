@@ -79,8 +79,7 @@
             "end": 120
           },
           "value": "./foo1",
-          "raw": "'./foo1'",
-          "loneSurrogates": false
+          "raw": "'./foo1'"
         }
       }
     },
@@ -152,8 +151,7 @@
             "end": 202
           },
           "value": "./foo2",
-          "raw": "'./foo2'",
-          "loneSurrogates": false
+          "raw": "'./foo2'"
         }
       }
     },

@@ -133,8 +133,7 @@
           "end": 244
         },
         "value": "./source",
-        "raw": "\"./source\"",
-        "loneSurrogates": false
+        "raw": "\"./source\""
       },
       "typeOnly": false,
       "with": null

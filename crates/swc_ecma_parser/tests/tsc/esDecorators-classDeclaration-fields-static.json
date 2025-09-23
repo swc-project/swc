@@ -85,8 +85,7 @@
               "end": 171
             },
             "value": "field3",
-            "raw": "\"field3\"",
-            "loneSurrogates": false
+            "raw": "\"field3\""
           },
           "definite": false
         }
@@ -206,8 +205,7 @@
                 "end": 243
               },
               "value": "field2",
-              "raw": "\"field2\"",
-              "loneSurrogates": false
+              "raw": "\"field2\""
             }
           },
           "value": {

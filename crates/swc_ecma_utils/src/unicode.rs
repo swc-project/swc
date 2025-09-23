@@ -5,7 +5,7 @@
 /// returns `None`
 #[inline]
 pub const fn code_point_to_pair(code_point: u32) -> Option<(u32, u32)> {
-    if code_point < 0x10000 {
+    if code_point < 0x10000 || code_point > 0x10_ffff {
         None
     } else {
         let adjusted = code_point - 0x10000;
@@ -17,9 +17,26 @@ pub const fn code_point_to_pair(code_point: u32) -> Option<(u32, u32)> {
 
 /// Converts UTF-16 surrogate pair to Unicode code point.
 /// `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
+///
+/// # Panics
+///
+/// Panics if `high` is not in the range 0xD800..=0xDBFF or `low` is not in the
+/// range 0xDC00..=0xDFFF.
 #[inline]
 pub const fn pair_to_code_point(high: u32, low: u32) -> u32 {
     (high - 0xd800) * 0x400 + low - 0xdc00 + 0x10000
+}
+
+/// Returns true if `u` is a high surrogate (in the range 0xD800..=0xDBFF).
+#[inline]
+pub fn is_high_surrogate(u: u32) -> bool {
+    (0xd800..=0xdbff).contains(&u)
+}
+
+/// Returns true if `u` is a low surrogate (in the range 0xDC00..=0xDFFF).
+#[inline]
+pub fn is_low_surrogate(u: u32) -> bool {
+    (0xdc00..=0xdfff).contains(&u)
 }
 
 #[cfg(test)]

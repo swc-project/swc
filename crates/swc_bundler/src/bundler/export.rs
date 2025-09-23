@@ -201,11 +201,10 @@ where
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(named)) => {
-                let ctxt = named
-                    .src
-                    .as_ref()
-                    .map(|s| &s.value)
-                    .and_then(|src| self.ctxt_for(src));
+                let ctxt = named.src.as_ref().and_then(|s| {
+                    let src_atom = s.value.to_atom_lossy();
+                    self.ctxt_for(src_atom.as_ref())
+                });
                 let mut need_wrapping = false;
 
                 let v = self
@@ -292,12 +291,16 @@ where
                 }
 
                 if need_wrapping {
-                    self.mark_as_wrapping_required(&named.src.as_ref().unwrap().value);
+                    let wrap_atom = named.src.as_ref().unwrap().value.to_atom_lossy();
+                    self.mark_as_wrapping_required(wrap_atom.as_ref());
                 }
             }
 
             ModuleItem::ModuleDecl(ModuleDecl::ExportAll(all)) => {
-                let ctxt = self.ctxt_for(&all.src.value);
+                let ctxt = {
+                    let src_atom = all.src.value.to_atom_lossy();
+                    self.ctxt_for(src_atom.as_ref())
+                };
                 if let Some((_, export_ctxt)) = ctxt {
                     ExportMetadata {
                         export_ctxt: Some(export_ctxt),

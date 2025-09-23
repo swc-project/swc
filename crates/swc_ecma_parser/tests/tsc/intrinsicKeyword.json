@@ -728,8 +728,7 @@
                     "end": 459
                   },
                   "value": "ok",
-                  "raw": "'ok'",
-                  "loneSurrogates": false
+                  "raw": "'ok'"
                 },
                 "definite": false
               }

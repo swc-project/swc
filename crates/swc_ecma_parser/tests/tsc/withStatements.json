@@ -100,8 +100,7 @@
                   "end": 43
                 },
                 "value": "twelve",
-                "raw": "'twelve'",
-                "loneSurrogates": false
+                "raw": "'twelve'"
               }
             }
           },

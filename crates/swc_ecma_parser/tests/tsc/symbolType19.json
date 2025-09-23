@@ -153,8 +153,7 @@
             "end": 75
           },
           "value": "number",
-          "raw": "\"number\"",
-          "loneSurrogates": false
+          "raw": "\"number\""
         }
       },
       "consequent": {

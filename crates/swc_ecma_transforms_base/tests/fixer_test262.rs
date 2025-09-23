@@ -320,8 +320,7 @@ impl Fold for Normalizer {
         match name {
             PropName::Ident(i) => PropName::Str(Str {
                 raw: None,
-                lone_surrogates: false,
-                value: i.sym,
+                value: i.sym.into(),
                 span: i.span,
             }),
             PropName::Num(n) => {
@@ -336,8 +335,7 @@ impl Fold for Normalizer {
                 };
                 PropName::Str(Str {
                     raw: None,
-                    lone_surrogates: false,
-                    value,
+                    value: value.into(),
                     span: n.span,
                 })
             }
@@ -377,7 +375,6 @@ impl Fold for Normalizer {
             span: s.span,
             value: s.value,
             raw: None,
-            lone_surrogates: false,
         }
     }
 }

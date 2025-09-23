@@ -61,8 +61,7 @@
                 "end": 30
               },
               "value": "./foo.json",
-              "raw": "\"./foo.json\"",
-              "loneSurrogates": false
+              "raw": "\"./foo.json\""
             }
           },
           {
@@ -108,8 +107,7 @@
                             "end": 56
                           },
                           "value": "json",
-                          "raw": "\"json\"",
-                          "loneSurrogates": false
+                          "raw": "\"json\""
                         }
                       }
                     ]
@@ -127,8 +125,7 @@
                 "end": 74
               },
               "value": "unsupported",
-              "raw": "\"unsupported\"",
-              "loneSurrogates": false
+              "raw": "\"unsupported\""
             }
           }
         ],

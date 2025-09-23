@@ -840,8 +840,7 @@
             "end": 356
           },
           "value": "",
-          "raw": "''",
-          "loneSurrogates": false
+          "raw": "''"
         },
         "consequent": {
           "type": "Identifier",

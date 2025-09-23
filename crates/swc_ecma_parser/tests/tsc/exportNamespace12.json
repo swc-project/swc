@@ -39,8 +39,7 @@
           "end": 50
         },
         "value": "./types",
-        "raw": "'./types'",
-        "loneSurrogates": false
+        "raw": "'./types'"
       },
       "typeOnly": false,
       "with": null,
@@ -78,8 +77,7 @@
           "end": 83
         },
         "value": "./types",
-        "raw": "'./types'",
-        "loneSurrogates": false
+        "raw": "'./types'"
       },
       "typeOnly": false,
       "with": null,
@@ -225,8 +223,7 @@
           "end": 254
         },
         "value": "./values",
-        "raw": "'./values'",
-        "loneSurrogates": false
+        "raw": "'./values'"
       },
       "typeOnly": true,
       "with": null

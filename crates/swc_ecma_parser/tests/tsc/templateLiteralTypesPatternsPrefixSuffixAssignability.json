@@ -67,8 +67,7 @@
                       },
                       "tail": false,
                       "cooked": ":",
-                      "raw": ":",
-                      "loneSurrogates": false
+                      "raw": ":"
                     },
                     {
                       "type": "TemplateElement",
@@ -78,8 +77,7 @@
                       },
                       "tail": true,
                       "cooked": ":",
-                      "raw": ":",
-                      "loneSurrogates": false
+                      "raw": ":"
                     }
                   ]
                 }
@@ -93,8 +91,7 @@
               "end": 30
             },
             "value": ":",
-            "raw": "\":\"",
-            "loneSurrogates": false
+            "raw": "\":\""
           },
           "definite": false
         }
@@ -162,8 +159,7 @@
                       },
                       "tail": false,
                       "cooked": ":",
-                      "raw": ":",
-                      "loneSurrogates": false
+                      "raw": ":"
                     },
                     {
                       "type": "TemplateElement",
@@ -173,8 +169,7 @@
                       },
                       "tail": true,
                       "cooked": ":",
-                      "raw": ":",
-                      "loneSurrogates": false
+                      "raw": ":"
                     }
                   ]
                 }
@@ -188,8 +183,7 @@
               "end": 78
             },
             "value": "::",
-            "raw": "\"::\"",
-            "loneSurrogates": false
+            "raw": "\"::\""
           },
           "definite": false
         }
@@ -265,8 +259,7 @@
                       },
                       "tail": false,
                       "cooked": ":",
-                      "raw": ":",
-                      "loneSurrogates": false
+                      "raw": ":"
                     },
                     {
                       "type": "TemplateElement",
@@ -276,8 +269,7 @@
                       },
                       "tail": false,
                       "cooked": ":",
-                      "raw": ":",
-                      "loneSurrogates": false
+                      "raw": ":"
                     },
                     {
                       "type": "TemplateElement",
@@ -287,8 +279,7 @@
                       },
                       "tail": true,
                       "cooked": ":",
-                      "raw": ":",
-                      "loneSurrogates": false
+                      "raw": ":"
                     }
                   ]
                 }
@@ -302,8 +293,7 @@
               "end": 126
             },
             "value": "::",
-            "raw": "\"::\"",
-            "loneSurrogates": false
+            "raw": "\"::\""
           },
           "definite": false
         }
@@ -379,8 +369,7 @@
                       },
                       "tail": false,
                       "cooked": ":",
-                      "raw": ":",
-                      "loneSurrogates": false
+                      "raw": ":"
                     },
                     {
                       "type": "TemplateElement",
@@ -390,8 +379,7 @@
                       },
                       "tail": false,
                       "cooked": ":",
-                      "raw": ":",
-                      "loneSurrogates": false
+                      "raw": ":"
                     },
                     {
                       "type": "TemplateElement",
@@ -401,8 +389,7 @@
                       },
                       "tail": true,
                       "cooked": ":",
-                      "raw": ":",
-                      "loneSurrogates": false
+                      "raw": ":"
                     }
                   ]
                 }
@@ -416,8 +403,7 @@
               "end": 185
             },
             "value": ":::",
-            "raw": "\":::\"",
-            "loneSurrogates": false
+            "raw": "\":::\""
           },
           "definite": false
         }

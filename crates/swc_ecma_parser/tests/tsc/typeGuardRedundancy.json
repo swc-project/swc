@@ -140,8 +140,7 @@
                     "end": 54
                   },
                   "value": "string",
-                  "raw": "\"string\"",
-                  "loneSurrogates": false
+                  "raw": "\"string\""
                 }
               },
               "right": {
@@ -176,8 +175,7 @@
                     "end": 79
                   },
                   "value": "string",
-                  "raw": "\"string\"",
-                  "loneSurrogates": false
+                  "raw": "\"string\""
                 }
               }
             },
@@ -321,8 +319,7 @@
                         "end": 137
                       },
                       "value": "string",
-                      "raw": "\"string\"",
-                      "loneSurrogates": false
+                      "raw": "\"string\""
                     }
                   },
                   "right": {
@@ -357,8 +354,7 @@
                         "end": 162
                       },
                       "value": "string",
-                      "raw": "\"string\"",
-                      "loneSurrogates": false
+                      "raw": "\"string\""
                     }
                   }
                 }
@@ -491,8 +487,7 @@
                     "end": 219
                   },
                   "value": "string",
-                  "raw": "\"string\"",
-                  "loneSurrogates": false
+                  "raw": "\"string\""
                 }
               },
               "right": {
@@ -527,8 +522,7 @@
                     "end": 244
                   },
                   "value": "string",
-                  "raw": "\"string\"",
-                  "loneSurrogates": false
+                  "raw": "\"string\""
                 }
               }
             },
@@ -672,8 +666,7 @@
                         "end": 302
                       },
                       "value": "string",
-                      "raw": "\"string\"",
-                      "loneSurrogates": false
+                      "raw": "\"string\""
                     }
                   },
                   "right": {
@@ -708,8 +701,7 @@
                         "end": 327
                       },
                       "value": "string",
-                      "raw": "\"string\"",
-                      "loneSurrogates": false
+                      "raw": "\"string\""
                     }
                   }
                 }

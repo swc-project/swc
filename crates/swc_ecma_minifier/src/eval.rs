@@ -2,7 +2,6 @@ use std::sync::Arc;
 
 use parking_lot::Mutex;
 use rustc_hash::FxHashMap;
-use swc_atoms::atom;
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::marks::Marks;
@@ -263,7 +262,7 @@ impl Evaluator {
 fn is_truthy(lit: &EvalResult) -> Option<bool> {
     match lit {
         EvalResult::Lit(v) => match v {
-            Lit::Str(v) => Some(v.value != atom!("")),
+            Lit::Str(v) => Some(!v.value.is_empty()),
             Lit::Bool(v) => Some(v.value),
             Lit::Null(_) => Some(false),
             Lit::Num(v) => Some(v.value != 0.0 && v.value != -0.0),

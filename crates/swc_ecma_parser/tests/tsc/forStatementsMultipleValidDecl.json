@@ -269,8 +269,7 @@
                       "end": 275
                     },
                     "value": "this is a string",
-                    "raw": "'this is a string'",
-                    "loneSurrogates": false
+                    "raw": "'this is a string'"
                   },
                   "definite": false
                 }
@@ -1994,8 +1993,7 @@
                       "end": 972
                     },
                     "value": "a",
-                    "raw": "'a'",
-                    "loneSurrogates": false
+                    "raw": "'a'"
                   }
                 },
                 {
@@ -2007,8 +2005,7 @@
                       "end": 977
                     },
                     "value": "b",
-                    "raw": "'b'",
-                    "loneSurrogates": false
+                    "raw": "'b'"
                   }
                 }
               ]

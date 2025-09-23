@@ -42,8 +42,7 @@
               "end": 33
             },
             "value": "vite",
-            "raw": "\"vite\"",
-            "loneSurrogates": false
+            "raw": "\"vite\""
           },
           "qualifier": null,
           "typeArguments": null,
@@ -69,8 +68,7 @@
                       "end": 70
                     },
                     "value": "resolution-mode",
-                    "raw": "\"resolution-mode\"",
-                    "loneSurrogates": false
+                    "raw": "\"resolution-mode\""
                   },
                   "value": {
                     "type": "StringLiteral",
@@ -79,8 +77,7 @@
                       "end": 80
                     },
                     "value": "import",
-                    "raw": "\"import\"",
-                    "loneSurrogates": false
+                    "raw": "\"import\""
                   }
                 }
               ]
@@ -127,8 +124,7 @@
               "end": 122
             },
             "value": "vite",
-            "raw": "\"vite\"",
-            "loneSurrogates": false
+            "raw": "\"vite\""
           },
           "qualifier": null,
           "typeArguments": null,
@@ -174,8 +170,7 @@
               "end": 159
             },
             "value": "vite",
-            "raw": "\"vite\"",
-            "loneSurrogates": false
+            "raw": "\"vite\""
           },
           "qualifier": null,
           "typeArguments": null,

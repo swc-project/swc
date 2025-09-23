@@ -179,8 +179,7 @@
                     "end": 87
                   },
                   "value": "test",
-                  "raw": "\"test\"",
-                  "loneSurrogates": false
+                  "raw": "\"test\""
                 }
               },
               {

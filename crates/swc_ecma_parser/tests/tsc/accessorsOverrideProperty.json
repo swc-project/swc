@@ -46,8 +46,7 @@
               "end": 77
             },
             "value": "yep",
-            "raw": "'yep'",
-            "loneSurrogates": false
+            "raw": "'yep'"
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -130,8 +129,7 @@
                       "end": 128
                     },
                     "value": "oh no",
-                    "raw": "'oh no'",
-                    "loneSurrogates": false
+                    "raw": "'oh no'"
                   }
                 }
               ]

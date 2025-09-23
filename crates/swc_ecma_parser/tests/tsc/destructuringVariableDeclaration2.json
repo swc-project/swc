@@ -527,8 +527,7 @@
                     "end": 585
                   },
                   "value": "false",
-                  "raw": "\"false\"",
-                  "loneSurrogates": false
+                  "raw": "\"false\""
                 }
               }
             ]
@@ -1019,8 +1018,7 @@
                                 "end": 1326
                               },
                               "value": "string",
-                              "raw": "\"string\"",
-                              "loneSurrogates": false
+                              "raw": "\"string\""
                             }
                           },
                           {

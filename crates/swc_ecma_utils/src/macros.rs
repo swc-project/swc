@@ -55,7 +55,6 @@ macro_rules! quote_str {
         $crate::swc_ecma_ast::Str {
             span: $span,
             raw: None,
-            lone_surrogates: false,
             value: $s.into(),
         }
     }};

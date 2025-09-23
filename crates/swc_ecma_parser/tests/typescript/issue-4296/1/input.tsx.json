@@ -37,8 +37,7 @@
           "end": 26
         },
         "value": "react",
-        "raw": "\"react\"",
-        "loneSurrogates": false
+        "raw": "\"react\""
       },
       "typeOnly": false,
       "with": null,
@@ -601,8 +600,7 @@
                                                             "end": 411
                                                           },
                                                           "value": "do something",
-                                                          "raw": "\"do something\"",
-                                                          "loneSurrogates": false
+                                                          "raw": "\"do something\""
                                                         }
                                                       }
                                                     ],

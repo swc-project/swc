@@ -39,8 +39,7 @@
           "end": 34
         },
         "value": "./foo.js.js",
-        "raw": "'./foo.js.js'",
-        "loneSurrogates": false
+        "raw": "'./foo.js.js'"
       },
       "typeOnly": false,
       "with": {
@@ -67,8 +66,7 @@
                 "end": 62
               },
               "value": "javascript",
-              "raw": "\"javascript\"",
-              "loneSurrogates": false
+              "raw": "\"javascript\""
             }
           }
         ]

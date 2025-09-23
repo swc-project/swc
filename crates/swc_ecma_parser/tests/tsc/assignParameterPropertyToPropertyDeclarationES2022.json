@@ -902,8 +902,7 @@
               "end": 595
             },
             "value": "",
-            "raw": "''",
-            "loneSurrogates": false
+            "raw": "''"
           },
           "typeAnnotation": null,
           "isStatic": false,

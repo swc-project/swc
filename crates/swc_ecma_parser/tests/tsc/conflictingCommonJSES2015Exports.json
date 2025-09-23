@@ -214,8 +214,7 @@
           "end": 202
         },
         "value": "./bug24934",
-        "raw": "'./bug24934'",
-        "loneSurrogates": false
+        "raw": "'./bug24934'"
       },
       "typeOnly": false,
       "with": null,

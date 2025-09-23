@@ -55,8 +55,7 @@
                   "end": 19
                 },
                 "value": "leading",
-                "raw": "\"leading\"",
-                "loneSurrogates": false
+                "raw": "\"leading\""
               }
             },
             {
@@ -80,8 +79,7 @@
                   "end": 36
                 },
                 "value": "attribute",
-                "raw": "\"attribute\"",
-                "loneSurrogates": false
+                "raw": "\"attribute\""
               }
             },
             {
