@@ -17729,7 +17729,7 @@
                     return _this2 = _Component2.apply(this, arguments) || this, _this2.state = {
                         value: _this2.getValue()
                     }, _this2.onUpdate = function(newValue, changedBits) {
-                        ((0 | _this2.observedBits) & changedBits) != 0 && _this2.setState({
+                        (_this2.observedBits & changedBits) != 0 && _this2.setState({
                             value: _this2.getValue()
                         });
                     }, _this2;
