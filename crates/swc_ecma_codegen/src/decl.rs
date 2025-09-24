@@ -5,6 +5,9 @@ use swc_ecma_codegen_macros::node_impl;
 use super::{Emitter, Result};
 use crate::text_writer::WriteJs;
 
+#[cfg(feature = "unknown")]
+use crate::unknown_error;
+
 impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
     W: WriteJs,
@@ -98,6 +101,8 @@ impl MacroNode for Decl {
             Decl::TsInterface(n) => emit!(n),
             Decl::TsModule(n) => emit!(n),
             Decl::TsTypeAlias(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())

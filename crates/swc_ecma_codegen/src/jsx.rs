@@ -5,6 +5,9 @@ use swc_ecma_codegen_macros::node_impl;
 use super::Emitter;
 use crate::text_writer::WriteJs;
 
+#[cfg(feature = "unknown")]
+use crate::unknown_error;
+
 impl<W, S: SourceMapper> Emitter<'_, W, S>
 where
     W: WriteJs,
@@ -63,6 +66,8 @@ impl MacroNode for JSXElementName {
             JSXElementName::Ident(ref n) => emit!(n),
             JSXElementName::JSXMemberExpr(ref n) => emit!(n),
             JSXElementName::JSXNamespacedName(ref n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -89,6 +94,8 @@ impl MacroNode for JSXAttrValue {
             JSXAttrValue::JSXExprContainer(ref n) => emit!(n),
             JSXAttrValue::JSXElement(ref n) => emit!(n),
             JSXAttrValue::JSXFragment(ref n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -100,6 +107,8 @@ impl MacroNode for JSXAttrName {
         match *self {
             JSXAttrName::Ident(ref n) => emit!(n),
             JSXAttrName::JSXNamespacedName(ref n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -115,6 +124,8 @@ impl MacroNode for JSXAttrOrSpread {
                 emit!(n);
                 punct!(emitter, "}");
             }
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -129,6 +140,8 @@ impl MacroNode for JSXElementChild {
             JSXElementChild::JSXFragment(ref n) => emit!(n),
             JSXElementChild::JSXSpreadChild(ref n) => emit!(n),
             JSXElementChild::JSXText(ref n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -162,6 +175,8 @@ impl MacroNode for JSXExpr {
         match *self {
             JSXExpr::Expr(ref n) => emit!(n),
             JSXExpr::JSXEmptyExpr(ref n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -250,6 +265,8 @@ impl MacroNode for JSXObject {
         match *self {
             JSXObject::Ident(ref n) => emit!(n),
             JSXObject::JSXMemberExpr(ref n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }

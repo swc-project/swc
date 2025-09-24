@@ -8,6 +8,9 @@ use swc_ecma_codegen_macros::node_impl;
 
 use crate::{text_writer::WriteJs, CowStr, Emitter, SourceMapperExt};
 
+#[cfg(feature = "unknown")]
+use crate::unknown_error;
+
 #[node_impl]
 impl MacroNode for Lit {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
@@ -34,6 +37,8 @@ impl MacroNode for Lit {
                 emitter.wr.write_str(&n.flags)?;
             }
             Lit::JSXText(ref n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
