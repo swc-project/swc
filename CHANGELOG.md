@@ -19,6 +19,9 @@
 
 - **(es/minifier)** Optimize (a | 0) ^ b ([#11110](https://github.com/swc-project/swc/issues/11110)) ([7af1474](https://github.com/swc-project/swc/commit/7af1474488d483b2fac9eb86afe7036411f59cb5))
 
+
+- **(hstr)** Introduce `Wtf8Atom` ([#11104](https://github.com/swc-project/swc/issues/11104)) ([8cfd47b](https://github.com/swc-project/swc/commit/8cfd47b95a6bc100598dbec2829850be12d7fda1))
+
 ### Testing
 
 
@@ -2074,9 +2077,6 @@
 
 
 - **(es/minifier)** Improve arrow function inlining cost analysis ([#10093](https://github.com/swc-project/swc/issues/10093)) ([e74929c](https://github.com/swc-project/swc/commit/e74929c01d2d8b9001bbc056f20ca8e1cb1c9a63))
-
-
-- **(es/resolver)** Remove some vector allocations ([#10101](https://github.com/swc-project/swc/issues/10101)) ([b65387a](https://github.com/swc-project/swc/commit/b65387ac570c4bbb3b776a69bda810be862b434e))
 
 
 - Use `mimalloc` on linux ([#10113](https://github.com/swc-project/swc/issues/10113)) ([3334932](https://github.com/swc-project/swc/commit/333493245d04fb5f43dff9f9306f7ec659613cd6))
