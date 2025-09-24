@@ -4,9 +4,8 @@ use std::path::{Path, PathBuf};
 
 use anyhow::{bail, Context, Result};
 use clap::Parser;
-use proc_macro2::Span;
 use swc_config::regex::CachedRegex;
-use syn::{Ident, Item};
+use syn::Item;
 
 use crate::types::qualify_types;
 
@@ -41,10 +40,7 @@ fn main() -> Result<()> {
 }
 
 fn run_visitor_codegen(input_dir: &Path, output: &Path, excluded_types: &[String]) -> Result<()> {
-    let crate_name = Ident::new(
-        input_dir.file_name().unwrap().to_str().unwrap(),
-        Span::call_site(),
-    );
+    let crate_name = input_dir.file_name().unwrap().to_str().unwrap();
 
     let input_dir = input_dir
         .canonicalize()
@@ -89,7 +85,7 @@ fn run_visitor_codegen(input_dir: &Path, output: &Path, excluded_types: &[String
         _ => None,
     });
 
-    let file = generators::visitor::generate(&crate_name, &all_type_defs, excluded_types);
+    let file = generators::visitor::generate(crate_name, &all_type_defs, excluded_types);
 
     let output_content = quote::quote!(#file).to_string();
 
