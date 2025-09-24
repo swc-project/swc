@@ -2049,9 +2049,6 @@
 - **(es/decorators)** Support negative numbers ([#10114](https://github.com/swc-project/swc/issues/10114)) ([5044580](https://github.com/swc-project/swc/commit/5044580f441949c4e7c6456bcc61bbb835fecd42))
 
 
-- **(es/minifier)** Remove needless `println` ([b1e5b2d](https://github.com/swc-project/swc/commit/b1e5b2da1963aea75729a05a4fb0eb0e7df200b3))
-
-
 - **(es/resolver)** Analyze variable declarations with `declare` ([#10102](https://github.com/swc-project/swc/issues/10102)) ([cff6a64](https://github.com/swc-project/swc/commit/cff6a64a18af26c73afd3b42cffea3c7300b369b))
 
 
@@ -2071,9 +2068,6 @@
 
 ### Performance
 
-
-
-- **(es/minifier)** Improve arrow function inlining cost analysis ([#10093](https://github.com/swc-project/swc/issues/10093)) ([e74929c](https://github.com/swc-project/swc/commit/e74929c01d2d8b9001bbc056f20ca8e1cb1c9a63))
 
 
 - Use `mimalloc` on linux ([#10113](https://github.com/swc-project/swc/issues/10113)) ([3334932](https://github.com/swc-project/swc/commit/333493245d04fb5f43dff9f9306f7ec659613cd6))
