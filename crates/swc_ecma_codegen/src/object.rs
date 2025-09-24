@@ -4,6 +4,9 @@ use swc_ecma_codegen_macros::node_impl;
 
 use crate::{is_empty_comments, ListFormat};
 
+#[cfg(feature = "unknown")]
+use crate::unknown_error;
+
 #[node_impl]
 impl MacroNode for ObjectLit {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
@@ -50,6 +53,8 @@ impl MacroNode for Prop {
             Prop::Getter(ref n) => emit!(n),
             Prop::Setter(ref n) => emit!(n),
             Prop::Method(ref n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -227,6 +232,8 @@ impl MacroNode for PropName {
             PropName::Num(ref n) => emit!(n),
             PropName::BigInt(ref n) => emit!(n),
             PropName::Computed(ref n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())

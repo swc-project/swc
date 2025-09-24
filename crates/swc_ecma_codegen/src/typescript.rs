@@ -2,12 +2,17 @@ use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
+#[cfg(feature = "unknown")]
+use crate::unknown_error;
+
 #[node_impl]
 impl MacroNode for ParamOrTsParamProp {
     fn emit(&mut self, emitter: &mut Macro) -> Result {
         match self {
             ParamOrTsParamProp::Param(n) => emit!(n),
             ParamOrTsParamProp::TsParamProp(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -170,6 +175,8 @@ impl MacroNode for TsEntityName {
                 emit!(n);
             }
             TsEntityName::Ident(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -228,6 +235,8 @@ impl MacroNode for TsEnumMemberId {
         match self {
             TsEnumMemberId::Ident(n) => emit!(n),
             TsEnumMemberId::Str(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -280,6 +289,8 @@ impl MacroNode for TsFnOrConstructorType {
         match self {
             TsFnOrConstructorType::TsFnType(n) => emit!(n),
             TsFnOrConstructorType::TsConstructorType(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -293,6 +304,8 @@ impl MacroNode for TsFnParam {
             TsFnParam::Array(n) => emit!(n),
             TsFnParam::Rest(n) => emit!(n),
             TsFnParam::Object(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -499,6 +512,8 @@ impl MacroNode for TsLit {
             TsLit::Str(n) => emit!(n),
             TsLit::Bool(n) => emit!(n),
             TsLit::Tpl(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -689,6 +704,8 @@ impl MacroNode for TsModuleDecl {
                 // deprecate the module keyword in this context
                 TsModuleName::Ident(_) => keyword!(emitter, "namespace"),
                 TsModuleName::Str(_) => keyword!(emitter, "module"),
+                #[cfg(feature = "unknown")]
+                _ => return Err(unknown_error()),
             }
             space!(emitter);
             emit!(self.id);
@@ -713,6 +730,8 @@ impl MacroNode for TsModuleName {
         match self {
             TsModuleName::Ident(n) => emit!(n),
             TsModuleName::Str(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -726,6 +745,8 @@ impl MacroNode for TsModuleRef {
         match self {
             TsModuleRef::TsEntityName(n) => emit!(n),
             TsModuleRef::TsExternalModuleRef(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -741,6 +762,8 @@ impl MacroNode for TsNamespaceBody {
         match self {
             TsNamespaceBody::TsModuleBlock(n) => emit!(n),
             TsNamespaceBody::TsNamespaceDecl(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         emitter.wr.decrease_indent()?;
         punct!(emitter, "}");
@@ -843,6 +866,8 @@ impl MacroNode for TsParamPropParam {
         match self {
             TsParamPropParam::Ident(n) => emit!(n),
             TsParamPropParam::Assign(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -932,6 +957,8 @@ impl MacroNode for TsThisTypeOrIdent {
         match self {
             TsThisTypeOrIdent::TsThisType(n) => emit!(n),
             TsThisTypeOrIdent::Ident(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -993,6 +1020,8 @@ impl MacroNode for TsType {
             TsType::TsLitType(n) => emit!(n),
             TsType::TsTypePredicate(n) => emit!(n),
             TsType::TsImportType(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -1130,6 +1159,8 @@ impl MacroNode for TsTypeElement {
             TsTypeElement::TsSetterSignature(n) => {
                 emit!(n)
             }
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         formatting_semi!(emitter);
         Ok(())
@@ -1323,6 +1354,8 @@ impl MacroNode for TsTypeQueryExpr {
         match self {
             TsTypeQueryExpr::TsEntityName(n) => emit!(n),
             TsTypeQueryExpr::Import(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -1350,6 +1383,8 @@ impl MacroNode for TsUnionOrIntersectionType {
         match self {
             TsUnionOrIntersectionType::TsUnionType(n) => emit!(n),
             TsUnionOrIntersectionType::TsIntersectionType(n) => emit!(n),
+            #[cfg(feature = "unknown")]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
