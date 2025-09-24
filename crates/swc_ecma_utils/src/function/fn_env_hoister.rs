@@ -393,6 +393,8 @@ impl VisitMut for FnEnvHoister {
                         e.visit_mut_children_with(self);
                         return;
                     }
+                    #[cfg(feature = "unknown")]
+                    _ => return,
                 };
                 if !self.super_disabled {
                     if let SimpleAssignTarget::SuperProp(super_prop) = &mut *expr {
@@ -462,7 +464,9 @@ impl VisitMut for FnEnvHoister {
                                     ..Default::default()
                                 }
                                 .into();
-                            }
+                            },
+                            #[cfg(feature = "unknown")]
+                            _ => ()
                         }
                     }
                 }
@@ -508,6 +512,8 @@ impl VisitMut for FnEnvHoister {
 
                                 *e = call.call_fn(*span, new_args);
                             }
+                            #[cfg(feature = "unknown")]
+                            _ => ()
                         }
                     };
                 }
@@ -559,6 +565,8 @@ impl VisitMut for FnEnvHoister {
                         .into()
                     };
                 }
+                #[cfg(feature = "unknown")]
+                _ => ()
             },
             _ => e.visit_mut_children_with(self),
         }
