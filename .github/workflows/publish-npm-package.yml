@@ -665,9 +665,13 @@ jobs:
         run: |
           ${{ matrix.settings.build }}
 
+      # Ensure npm 11.5.1 or later is installed
+      - name: Update npm
+        run: npm install -g npm@latest
+
       - name: Publish
         if: ${{ !inputs.skipBuild }}
         run: |
-          (cd bindings/${{ matrix.settings.crate }}/${{ matrix.settings.out }} && yarn publish --access public --tag $NPM_TAG)
+          (cd bindings/${{ matrix.settings.crate }}/${{ matrix.settings.out }} && npm publish --access public --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
