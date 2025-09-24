@@ -668,7 +668,6 @@ jobs:
       - name: Publish
         if: ${{ !inputs.skipBuild }}
         run: |
-          npm config set provenance true
-          (cd bindings/${{ matrix.settings.crate }}/${{ matrix.settings.out }} && npm publish --access public --tag $NPM_TAG)
+          (cd bindings/${{ matrix.settings.crate }}/${{ matrix.settings.out }} && yarn publish --access public --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
