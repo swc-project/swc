@@ -12,6 +12,7 @@ version       = "17.0.2"
 [features]
 # This does not enable serde for ast nodes.
 serde-impl = ["swc_ecma_ast/serde"]
+unknown = ["swc_ecma_ast/unknown"]
 
 [lib]
 bench = false
