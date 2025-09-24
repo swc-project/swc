@@ -628,6 +628,8 @@ impl Visit for CriticalRules {
         let orig = match &s.orig {
             ModuleExportName::Ident(ident) => ident,
             ModuleExportName::Str(..) => return,
+            #[cfg(feature = "unknown")]
+            _ => return,
         };
         self.add_export(exported.as_ref().unwrap_or(&orig));
     }
@@ -635,7 +637,9 @@ impl Visit for CriticalRules {
     fn visit_export_namespace_specifier(&mut self, s: &ExportNamespaceSpecifier) {
         match &s.name {
             ModuleExportName::Ident(name) => self.add_export(name),
-            ModuleExportName::Str(..) => {}
+            ModuleExportName::Str(..) => {},
+            #[cfg(feature = "unknown")]
+            _ => (),
         };
     }
 
@@ -688,7 +692,9 @@ impl Visit for ConstCollector<'_> {
             | ImportSpecifier::Default(ImportDefaultSpecifier { local, .. })
             | ImportSpecifier::Namespace(ImportStarAsSpecifier { local, .. }) => {
                 self.import_binding.insert(local.to_id(), local.span);
-            }
+            },
+            #[cfg(feature = "unknown")]
+            _ => (),
         }
     }
 
