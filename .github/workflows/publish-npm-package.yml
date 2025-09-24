@@ -609,9 +609,11 @@ jobs:
             target: web
             out: "pkg"
           - crate: "binding_typescript_wasm"
+            npm: "@swc\\/wasm-typescript"
             build: "./scripts/build.sh"
             out: "pkg"
           - crate: "binding_typescript_wasm"
+            npm: "@swc\\/wasm-typescript-esm"
             build: "./scripts/esm.sh"
             out: "esm"
 
