@@ -20,6 +20,7 @@ debug      = []
 default    = []
 path       = []
 serde-impl = ["serde"]
+unknown    = ["swc_ecma_ast/unknown"]
 
 [dependencies]
 new_debug_unreachable = { workspace = true }
