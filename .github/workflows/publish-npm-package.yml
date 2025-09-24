@@ -577,7 +577,7 @@ jobs:
       - name: Publish
         if: ${{ !inputs.skipPublishing }}
         run: |
-          (cd packages/${{ inputs.package }} && yarn workspaces foreach -Rt npm publish --tolerate-republish --tag $NPM_TAG)
+          (cd packages/${{ inputs.package }} && yarn prepack && yarn workspaces foreach -Rt npm publish --tolerate-republish --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
