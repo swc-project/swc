@@ -168,6 +168,8 @@ where
                         }
                     }
                     ModuleExportName::Str(_) => {}
+                    #[cfg(feature = "unknown")]
+                    _ => {}
                 }
 
                 s.exported = Some(exported);

@@ -156,6 +156,8 @@ impl VisitMut for Fixer<'_> {
         let lhs_expr = match &mut expr.left {
             AssignTarget::Simple(e) => Some(e),
             AssignTarget::Pat(..) => None,
+            #[cfg(feature = "unknown")]
+            _ => None
         };
 
         if let Some(e) = lhs_expr
@@ -203,6 +205,8 @@ impl VisitMut for Fixer<'_> {
                     }));
                 }
             }
+            #[cfg(feature = "unknown")]
+            _ => ()
         }
     }
 

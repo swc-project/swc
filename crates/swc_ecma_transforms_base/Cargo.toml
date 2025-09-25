@@ -17,6 +17,7 @@ concurrent         = ["concurrent-renamer", "par-iter", "swc_ecma_utils/concurre
 concurrent-renamer = ["par-iter"]
 # Allow helpers to be inlined. If this feature is disabled, the helpers will always be imported.
 inline-helpers = []
+unknown = ["swc_ecma_utils/unknown", "swc_ecma_parser/unknown"]
 
 [dependencies]
 better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls" }
