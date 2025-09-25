@@ -9,6 +9,9 @@ name          = "swc_ecma_compiler"
 repository    = { workspace = true }
 version       = "5.0.0"
 
+[features]
+unknown = ["swc_ecma_visit/unknown"]
+
 [dependencies]
 bitflags   = { workspace = true }
 rustc-hash = { workspace = true }
