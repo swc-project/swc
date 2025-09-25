@@ -590,10 +590,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
                 } else {
                     PropName::Ident(IdentName::new(i.sym.clone(), i.span))
                 };
-                *p = Prop::KeyValue(KeyValueProp {
-                    key,
-                    value,
-                });
+                *p = Prop::KeyValue(KeyValueProp { key, value });
             }
         }
     }
@@ -678,10 +675,7 @@ impl VisitMut for ExprReplacer {
                 } else {
                     PropName::Ident(i.clone().into())
                 };
-                *p = Prop::KeyValue(KeyValueProp {
-                    key,
-                    value,
-                });
+                *p = Prop::KeyValue(KeyValueProp { key, value });
             }
         }
     }
