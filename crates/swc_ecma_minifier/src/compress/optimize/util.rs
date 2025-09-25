@@ -469,18 +469,7 @@ impl VisitMut for Finalizer<'_> {
 
         if let Prop::Shorthand(i) = n {
             if let Some(expr) = self.lits.get(&i.to_id()) {
-                let key = if i.sym == "__proto__" {
-                    PropName::Computed(ComputedPropName {
-                        span: i.span,
-                        expr: Box::new(Expr::Lit(Lit::Str(Str {
-                            span: i.span,
-                            value: i.sym.clone(),
-                            raw: None,
-                        }))),
-                    })
-                } else {
-                    i.take().into()
-                };
+                let key = prop_name_from_ident(i.take());
                 *n = Prop::KeyValue(KeyValueProp {
                     key,
                     value: expr.clone(),
@@ -578,18 +567,7 @@ impl VisitMut for NormalMultiReplacer<'_> {
                 debug!("multi-replacer: Replaced `{}` as shorthand", i);
                 self.changed = true;
 
-                let key = if i.sym == "__proto__" {
-                    PropName::Computed(ComputedPropName {
-                        span: i.span,
-                        expr: Box::new(Expr::Lit(Lit::Str(Str {
-                            span: i.span,
-                            value: i.sym.clone(),
-                            raw: None,
-                        }))),
-                    })
-                } else {
-                    PropName::Ident(IdentName::new(i.sym.clone(), i.span))
-                };
+                let key = prop_name_from_ident(i.take());
                 *p = Prop::KeyValue(KeyValueProp { key, value });
             }
         }
@@ -663,18 +641,7 @@ impl VisitMut for ExprReplacer {
                 } else {
                     unreachable!("`{}` is already taken", i)
                 };
-                let key = if i.sym == "__proto__" {
-                    PropName::Computed(ComputedPropName {
-                        span: i.span,
-                        expr: Box::new(Expr::Lit(Lit::Str(Str {
-                            span: i.span,
-                            value: i.sym.clone(),
-                            raw: None,
-                        }))),
-                    })
-                } else {
-                    PropName::Ident(i.clone().into())
-                };
+                let key = prop_name_from_ident(i.take());
                 *p = Prop::KeyValue(KeyValueProp { key, value });
             }
         }
@@ -849,4 +816,22 @@ pub fn get_ids_of_pat(pat: &Pat) -> Vec<Id> {
     let mut idents = vec![];
     append(pat, &mut idents);
     idents
+}
+
+/// Creates a PropName for a shorthand property, handling the special case of
+/// `__proto__`. When the property name is `__proto__`, it must be converted to
+/// a computed property to preserve JavaScript semantics.
+fn prop_name_from_ident(ident: Ident) -> PropName {
+    if ident.sym == "__proto__" {
+        PropName::Computed(ComputedPropName {
+            span: ident.span,
+            expr: Box::new(Expr::Lit(Lit::Str(Str {
+                span: ident.span,
+                value: ident.sym.clone(),
+                raw: None,
+            }))),
+        })
+    } else {
+        ident.into()
+    }
 }
