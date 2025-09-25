@@ -271,7 +271,7 @@ impl Spread {
             for arg in args.flatten() {
                 let expr = arg.expr;
                 match arg.spread {
-                    Some(_) => {
+                    Some(span) => {
                         if !current_elems.is_empty() {
                             arg_list.push(
                                 ArrayLit {
@@ -282,6 +282,25 @@ impl Spread {
                             );
                             current_elems = Vec::new();
                         }
+                        // Special handling for `arguments` to call Array.prototype.slice
+                        // https://github.com/babel/babel/blob/61ad8555b875cb0c0996f18f803b6bf1d2150173/packages/babel-plugin-transform-spread/src/index.ts#L43-L47
+                        let expr = match *expr {
+                            Expr::Ident(Ident { ref sym, .. }) if &**sym == "arguments" => {
+                                CallExpr {
+                                    span,
+                                    callee: member_expr!(
+                                        Default::default(),
+                                        DUMMY_SP,
+                                        Array.prototype.slice.call
+                                    )
+                                    .as_callee(),
+                                    args: vec![expr.as_arg()],
+                                    ..Default::default()
+                                }
+                                .into()
+                            }
+                            _ => *expr,
+                        };
                         arg_list.push(expr.as_arg());
                     }
                     None => {
