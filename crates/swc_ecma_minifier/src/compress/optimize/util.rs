@@ -469,8 +469,20 @@ impl VisitMut for Finalizer<'_> {
 
         if let Prop::Shorthand(i) = n {
             if let Some(expr) = self.lits.get(&i.to_id()) {
+                let key = if i.sym == "__proto__" {
+                    PropName::Computed(ComputedPropName {
+                        span: i.span,
+                        expr: Box::new(Expr::Lit(Lit::Str(Str {
+                            span: i.span,
+                            value: i.sym.clone(),
+                            raw: None,
+                        }))),
+                    })
+                } else {
+                    i.take().into()
+                };
                 *n = Prop::KeyValue(KeyValueProp {
-                    key: i.take().into(),
+                    key,
                     value: expr.clone(),
                 });
                 self.changed = true;
@@ -566,8 +578,20 @@ impl VisitMut for NormalMultiReplacer<'_> {
                 debug!("multi-replacer: Replaced `{}` as shorthand", i);
                 self.changed = true;
 
+                let key = if i.sym == "__proto__" {
+                    PropName::Computed(ComputedPropName {
+                        span: i.span,
+                        expr: Box::new(Expr::Lit(Lit::Str(Str {
+                            span: i.span,
+                            value: i.sym.clone(),
+                            raw: None,
+                        }))),
+                    })
+                } else {
+                    PropName::Ident(IdentName::new(i.sym.clone(), i.span))
+                };
                 *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(IdentName::new(i.sym.clone(), i.span)),
+                    key,
                     value,
                 });
             }
@@ -642,8 +666,20 @@ impl VisitMut for ExprReplacer {
                 } else {
                     unreachable!("`{}` is already taken", i)
                 };
+                let key = if i.sym == "__proto__" {
+                    PropName::Computed(ComputedPropName {
+                        span: i.span,
+                        expr: Box::new(Expr::Lit(Lit::Str(Str {
+                            span: i.span,
+                            value: i.sym.clone(),
+                            raw: None,
+                        }))),
+                    })
+                } else {
+                    PropName::Ident(i.clone().into())
+                };
                 *p = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(i.clone().into()),
+                    key,
                     value,
                 });
             }
