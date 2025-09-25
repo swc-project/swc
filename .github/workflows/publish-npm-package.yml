@@ -591,6 +591,7 @@ jobs:
           ./scripts/cli_upload_gh_release.sh
 
   publish-wasm:
+    environment: publish
     name: Build - wasm (${{ matrix.settings.npm }})
     if: ${{ inputs.package == 'core' }}
     runs-on: ubuntu-latest
