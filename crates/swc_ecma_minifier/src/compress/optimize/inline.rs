@@ -893,20 +893,14 @@ impl Optimizer<'_> {
             }
             Expr::Ident(i) => {
                 let id = i.to_id();
-                if let Some(mut value) = self
-                    .vars
-                    .lits
-                    .get(&id)
-                    .or_else(|| {
-                        if self.ctx.bit_ctx.contains(BitCtx::IsCallee) {
-                            self.vars.simple_functions.get(&i.to_id())
-                        } else {
-                            None
-                        }
-                    })
-                    .cloned()
-                {
-                    if !matches!(&*value, Expr::Ident(..) | Expr::Member(..))
+                if let Some(value) = self.vars.lits.get(&id).or_else(|| {
+                    if self.ctx.bit_ctx.contains(BitCtx::IsCallee) {
+                        self.vars.simple_functions.get(&id)
+                    } else {
+                        None
+                    }
+                }) {
+                    if !matches!(**value, Expr::Ident(..) | Expr::Member(..))
                         && self.ctx.bit_ctx.contains(BitCtx::IsUpdateArg)
                     {
                         return;
@@ -914,7 +908,7 @@ impl Optimizer<'_> {
 
                     // currently renamer relies on the fact no distinct var has same ctxt, we need
                     // to remap all new bindings.
-                    let bindings: FxHashSet<Id> = collect_decls(&*value);
+                    let bindings: FxHashSet<Id> = collect_decls(value);
                     let new_mark = Mark::new();
                     let mut cache = FxHashMap::default();
                     let mut remap = FxHashMap::default();
@@ -934,6 +928,7 @@ impl Optimizer<'_> {
                         remap.insert(id, new_ctxt);
                     }
 
+                    let mut value = value.clone();
                     if !remap.is_empty() {
                         let mut remapper = Remapper::new(&remap);
                         value.visit_mut_with(&mut remapper);
@@ -947,7 +942,7 @@ impl Optimizer<'_> {
                 }
 
                 // Check without cloning
-                if let Some(value) = self.vars.vars_for_inlining.get(&i.to_id()) {
+                if let Some(value) = self.vars.vars_for_inlining.get(&id) {
                     if self.ctx.bit_ctx.contains(BitCtx::IsExactLhsOfAssign)
                         && !is_valid_for_lhs(value)
                     {
@@ -961,7 +956,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                if let Some(value) = self.vars.vars_for_inlining.remove(&i.to_id()) {
+                if let Some(value) = self.vars.vars_for_inlining.remove(&id) {
                     self.changed = true;
                     report_change!("inline: Replacing '{}' with an expression", i);
 
