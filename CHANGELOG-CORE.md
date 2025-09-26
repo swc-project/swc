@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [swc_core@v43.0.0] - 2025-09-26
 
 ### Bug Fixes
 
