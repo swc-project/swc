@@ -1171,7 +1171,10 @@ fn skip_ts_parameter_start<'a, P: Parser<'a>>(p: &mut P) -> PResult<bool> {
     let _ = eat_any_ts_modifier(p)?;
 
     let cur = p.input().cur();
-    if cur.is_word() || cur.is_this() {
+
+    if cur.is_void() {
+        Ok(false)
+    } else if cur.is_word() || cur.is_this() {
         p.bump();
         Ok(true)
     } else if (cur.is_lbrace() || cur.is_lbracket()) && parse_binding_pat_or_ident(p, false).is_ok()
