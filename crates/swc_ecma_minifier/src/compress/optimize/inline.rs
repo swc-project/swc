@@ -908,7 +908,7 @@ impl Optimizer<'_> {
 
                     // currently renamer relies on the fact no distinct var has same ctxt, we need
                     // to remap all new bindings.
-                    let bindings: FxHashSet<Id> = collect_decls(&*value);
+                    let bindings: FxHashSet<Id> = collect_decls(value);
                     let new_mark = Mark::new();
                     let mut cache = FxHashMap::default();
                     let mut remap = FxHashMap::default();
