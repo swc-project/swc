@@ -2,7 +2,7 @@ use std::mem;
 
 use serde::Deserialize;
 use swc_atoms::atom;
-use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
@@ -14,9 +14,11 @@ use swc_ecma_visit::{
 };
 use swc_trace_macro::swc_trace;
 
-pub fn spread(c: Config) -> impl Pass {
+pub fn spread(c: Config, unresolved_mark: Mark) -> impl Pass {
+    let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
     visit_mut_pass(Spread {
         c,
+        unresolved_ctxt,
         vars: Default::default(),
     })
 }
@@ -28,9 +30,9 @@ pub struct Config {
 }
 
 /// es2015 - `SpreadElement`
-#[derive(Default)]
 struct Spread {
     c: Config,
+    unresolved_ctxt: SyntaxContext,
     vars: Vec<VarDeclarator>,
 }
 
@@ -285,7 +287,11 @@ impl Spread {
                         // Special handling for `arguments` to call Array.prototype.slice
                         // https://github.com/babel/babel/blob/61ad8555b875cb0c0996f18f803b6bf1d2150173/packages/babel-plugin-transform-spread/src/index.ts#L43-L47
                         let expr = match *expr {
-                            Expr::Ident(Ident { ref sym, .. }) if &**sym == "arguments" => {
+                            Expr::Ident(Ident { ref sym, ctxt, .. })
+                                if &**sym == "arguments"
+                                    && (ctxt == self.unresolved_ctxt
+                                        || ctxt == SyntaxContext::empty()) =>
+                            {
                                 CallExpr {
                                     span,
                                     callee: member_expr!(
