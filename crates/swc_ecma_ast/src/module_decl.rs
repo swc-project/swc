@@ -1,5 +1,7 @@
 use is_macro::Is;
 use swc_atoms::Atom;
+#[cfg(feature = "unknown")]
+use swc_common::unknown::unknown;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{
@@ -130,6 +132,10 @@ pub struct ImportDecl {
     pub type_only: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub with: Option<Box<ObjectLit>>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -146,6 +152,10 @@ pub struct ImportDecl {
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum ImportPhase {
     #[default]
     #[cfg_attr(feature = "serde-impl", serde(rename = "evaluation"))]
@@ -184,6 +194,10 @@ pub struct ExportAll {
     pub type_only: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub with: Option<Box<ObjectLit>>,
 }
 
@@ -210,12 +224,20 @@ pub struct NamedExport {
     pub specifiers: Vec<ExportSpecifier>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "source"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub src: Option<Box<Str>>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "typeOnly"))]
     pub type_only: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub with: Option<Box<ObjectLit>>,
 }
 
@@ -275,6 +297,8 @@ impl ImportSpecifier {
         match self {
             ImportSpecifier::Named(named) => named.is_type_only,
             ImportSpecifier::Default(..) | ImportSpecifier::Namespace(..) => false,
+            #[cfg(feature = "unknown")]
+            ImportSpecifier::Unknown(..) => unknown(),
         }
     }
 
@@ -283,6 +307,8 @@ impl ImportSpecifier {
             ImportSpecifier::Named(named) => &named.local,
             ImportSpecifier::Default(default) => &default.local,
             ImportSpecifier::Namespace(ns) => &ns.local,
+            #[cfg(feature = "unknown")]
+            ImportSpecifier::Unknown(..) => unknown(),
         }
     }
 
@@ -291,6 +317,8 @@ impl ImportSpecifier {
             ImportSpecifier::Named(named) => &mut named.local,
             ImportSpecifier::Default(default) => &mut default.local,
             ImportSpecifier::Namespace(ns) => &mut ns.local,
+            #[cfg(feature = "unknown")]
+            ImportSpecifier::Unknown(..) => unknown(),
         }
     }
 }
@@ -328,6 +356,10 @@ pub struct ImportNamedSpecifier {
     pub local: Ident,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub imported: Option<ModuleExportName>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -380,6 +412,10 @@ pub struct ExportNamedSpecifier {
     pub orig: ModuleExportName,
     /// `Some(bar)` in `export { foo as bar }`
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub exported: Option<ModuleExportName>,
     /// `type` in `export { type foo as bar }`
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -408,6 +444,8 @@ impl ModuleExportName {
         match self {
             ModuleExportName::Ident(i) => &i.sym,
             ModuleExportName::Str(s) => &s.value,
+            #[cfg(feature = "unknown")]
+            ModuleExportName::Unknown(..) => unknown(),
         }
     }
 }

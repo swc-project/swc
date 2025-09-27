@@ -1281,7 +1281,7 @@ where
                     }
                     tok!("dimension") => {
                         let dimension = match bump!(self) {
-                            Token::Dimension(dimension) => {
+                            Token::Dimension { dimension } => {
                                 let DimensionToken { value, raw_value, unit, .. } = *dimension;
 
                              (value, raw_value, unit)

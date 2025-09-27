@@ -32,7 +32,7 @@
 
 use std::fmt::Debug;
 
-pub use ast_node::{ast_node, ast_serde, DeserializeEnum, Spanned};
+pub use ast_node::{ast_node, ast_serde, Decode, DeserializeEnum, Encode, Spanned};
 pub use from_variant::FromVariant;
 pub use swc_eq_ignore_macros::{EqIgnoreSpan, TypeEq};
 
@@ -69,6 +69,8 @@ pub mod serializer;
 pub mod source_map;
 pub mod sync;
 mod syntax_pos;
+#[cfg(feature = "unknown")]
+pub mod unknown;
 pub mod util;
 
 #[cfg(all(not(debug_assertions), feature = "plugin-rt", feature = "plugin-mode"))]
