@@ -152,6 +152,7 @@ jobs:
           - binding_core_wasm
           - binding_minifier_wasm
           - binding_typescript_wasm
+          - binding_es_ast_viewer
     steps:
       - uses: actions/checkout@v4
 

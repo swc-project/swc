@@ -139,7 +139,10 @@ pub mod unstable {
     //! the performance.
     //!
     //! Also see the dicussion https://github.com/swc-project/swc/discussions/10683
-    pub use swc_ecma_lexer::common::lexer::token::TokenFactory;
+    pub use swc_ecma_lexer::common::{
+        lexer::token::TokenFactory,
+        parser::{buffer::Buffer, Parser as ParserTrait},
+    };
 
     pub use crate::lexer::{
         capturing::Capturing,
