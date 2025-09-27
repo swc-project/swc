@@ -20,6 +20,7 @@
           "end": 18
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "async",
         "optional": false
       },
@@ -36,7 +37,8 @@
             "end": 34
           },
           "value": "foo",
-          "raw": "\"foo\""
+          "raw": "\"foo\"",
+          "loneSurrogates": false
         }
       }
     }

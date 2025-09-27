@@ -26,6 +26,7 @@
               "end": 11
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "日本語",
             "optional": false
           },
@@ -51,6 +52,7 @@
               "end": 23
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "日本語",
             "optional": false
           }

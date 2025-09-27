@@ -28,6 +28,7 @@
               "end": 6
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": {
@@ -57,6 +58,7 @@
                         "end": 11
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "o",
                       "optional": false
                     },
@@ -140,6 +142,7 @@
               "end": 43
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false
           },
@@ -156,7 +159,8 @@
                 "end": 47
               },
               "value": "o",
-              "raw": "'o'"
+              "raw": "'o'",
+              "loneSurrogates": false
             }
           }
         },
@@ -203,6 +207,7 @@
                     "end": 67
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false
                 },
@@ -219,7 +224,8 @@
                       "end": 71
                     },
                     "value": "o",
-                    "raw": "'o'"
+                    "raw": "'o'",
+                    "loneSurrogates": false
                   }
                 }
               },
@@ -260,6 +266,7 @@
               "end": 90
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "y",
             "optional": false,
             "typeAnnotation": {
@@ -374,6 +381,7 @@
               "end": 124
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "y",
             "optional": false
           },
@@ -438,6 +446,7 @@
                     "end": 142
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "y",
                   "optional": false
                 },

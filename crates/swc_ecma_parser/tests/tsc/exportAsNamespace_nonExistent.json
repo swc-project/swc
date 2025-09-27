@@ -25,6 +25,7 @@
               "end": 63
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ns",
             "optional": false
           }
@@ -37,7 +38,8 @@
           "end": 84
         },
         "value": "./nonexistent",
-        "raw": "'./nonexistent'"
+        "raw": "'./nonexistent'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null

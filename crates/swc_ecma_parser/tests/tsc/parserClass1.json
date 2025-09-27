@@ -20,6 +20,7 @@
             "end": 28
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "NullLogger",
           "optional": false
         },
@@ -426,6 +427,7 @@
                       "end": 328
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "s",
                     "optional": false,
                     "typeAnnotation": {
@@ -506,6 +508,7 @@
                 "end": 47
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "ILogger",
               "optional": false
             },

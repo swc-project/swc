@@ -20,6 +20,7 @@
             "end": 61
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "foo",
           "optional": false
         },
@@ -66,6 +67,7 @@
               "end": 101
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false
           },
@@ -80,7 +82,8 @@
           "end": 116
         },
         "value": "./foo",
-        "raw": "'./foo'"
+        "raw": "'./foo'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -105,6 +108,7 @@
             "end": 160
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "foo",
           "optional": false
         },
@@ -143,6 +147,7 @@
               "end": 166
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false
           },

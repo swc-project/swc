@@ -14,6 +14,7 @@
           "end": 33
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Box",
         "optional": false
       },
@@ -59,6 +60,7 @@
                   "end": 51
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "P",
                 "optional": false
               },
@@ -98,6 +100,7 @@
                 "end": 35
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "P",
               "optional": false
             },
@@ -126,6 +129,7 @@
           "end": 69
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Boxified",
         "optional": false
       },
@@ -149,6 +153,7 @@
                 "end": 71
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "T",
               "optional": false
             },
@@ -180,6 +185,7 @@
               "end": 83
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "K",
             "optional": false
           },
@@ -206,6 +212,7 @@
                   "end": 94
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "T",
                 "optional": false
               },
@@ -229,6 +236,7 @@
               "end": 100
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Box",
             "optional": false
           },
@@ -259,6 +267,7 @@
                       "end": 102
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "T",
                     "optional": false
                   },
@@ -277,6 +286,7 @@
                       "end": 104
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "K",
                     "optional": false
                   },
@@ -297,6 +307,7 @@
           "end": 134
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "boxify",
         "optional": false
       },
@@ -316,6 +327,7 @@
               "end": 141
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "obj",
             "optional": false,
             "typeAnnotation": {
@@ -337,6 +349,7 @@
                     "end": 144
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "T",
                   "optional": false
                 },
@@ -375,6 +388,7 @@
                 "end": 136
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "T",
               "optional": false
             },
@@ -405,6 +419,7 @@
               "end": 155
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Boxified",
             "optional": false
           },
@@ -428,6 +443,7 @@
                     "end": 157
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "T",
                   "optional": false
                 },
@@ -447,6 +463,7 @@
           "end": 185
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "unboxify",
         "optional": false
       },
@@ -466,6 +483,7 @@
               "end": 192
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "obj",
             "optional": false,
             "typeAnnotation": {
@@ -487,6 +505,7 @@
                     "end": 202
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Boxified",
                   "optional": false
                 },
@@ -510,6 +529,7 @@
                           "end": 204
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "T",
                         "optional": false
                       },
@@ -551,6 +571,7 @@
                 "end": 187
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "T",
               "optional": false
             },
@@ -581,6 +602,7 @@
               "end": 209
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "T",
             "optional": false
           },
@@ -601,6 +623,7 @@
           "end": 227
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Bacon",
         "optional": false
       },
@@ -628,6 +651,7 @@
                 "end": 243
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "isPerfect",
               "optional": false
             },
@@ -663,6 +687,7 @@
                 "end": 264
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "weight",
               "optional": false
             },
@@ -700,6 +725,7 @@
           "end": 300
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "BoxifiedBacon",
         "optional": false
       },
@@ -727,6 +753,7 @@
                 "end": 316
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "isPerfect",
               "optional": false
             },
@@ -751,6 +778,7 @@
                     "end": 321
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Box",
                   "optional": false
                 },
@@ -788,6 +816,7 @@
                 "end": 342
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "weight",
               "optional": false
             },
@@ -812,6 +841,7 @@
                     "end": 347
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Box",
                   "optional": false
                 },
@@ -847,6 +877,7 @@
           "end": 371
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "f1",
         "optional": false
       },
@@ -866,6 +897,7 @@
               "end": 373
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "b",
             "optional": false,
             "typeAnnotation": {
@@ -887,6 +919,7 @@
                     "end": 380
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Bacon",
                   "optional": false
                 },
@@ -933,6 +966,7 @@
                     "end": 394
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "bb",
                   "optional": false,
                   "typeAnnotation": null
@@ -951,6 +985,7 @@
                       "end": 403
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "boxify",
                     "optional": false
                   },
@@ -964,6 +999,7 @@
                           "end": 405
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "b",
                         "optional": false
                       }
@@ -998,6 +1034,7 @@
                     "end": 425
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "isPerfect",
                   "optional": false,
                   "typeAnnotation": null
@@ -1021,6 +1058,7 @@
                         "end": 430
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "bb",
                       "optional": false
                     },
@@ -1069,6 +1107,7 @@
                     "end": 462
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "weight",
                   "optional": false,
                   "typeAnnotation": null
@@ -1092,6 +1131,7 @@
                         "end": 467
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "bb",
                       "optional": false
                     },
@@ -1133,6 +1173,7 @@
           "end": 496
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "f2",
         "optional": false
       },
@@ -1152,6 +1193,7 @@
               "end": 499
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "bb",
             "optional": false,
             "typeAnnotation": {
@@ -1173,6 +1215,7 @@
                     "end": 509
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Boxified",
                   "optional": false
                 },
@@ -1196,6 +1239,7 @@
                           "end": 515
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Bacon",
                         "optional": false
                       },
@@ -1245,6 +1289,7 @@
                     "end": 529
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "b",
                   "optional": false,
                   "typeAnnotation": null
@@ -1263,6 +1308,7 @@
                       "end": 540
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "unboxify",
                     "optional": false
                   },
@@ -1276,6 +1322,7 @@
                           "end": 543
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "bb",
                         "optional": false
                       }
@@ -1310,6 +1357,7 @@
                     "end": 580
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "bool",
                   "optional": false,
                   "typeAnnotation": null
@@ -1327,6 +1375,7 @@
                       "end": 584
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "b",
                     "optional": false
                   },
@@ -1366,6 +1415,7 @@
                     "end": 610
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "weight",
                   "optional": false,
                   "typeAnnotation": null
@@ -1383,6 +1433,7 @@
                       "end": 614
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "b",
                     "optional": false
                   },
@@ -1415,6 +1466,7 @@
           "end": 637
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "f3",
         "optional": false
       },
@@ -1434,6 +1486,7 @@
               "end": 640
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "bb",
             "optional": false,
             "typeAnnotation": {
@@ -1455,6 +1508,7 @@
                     "end": 655
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "BoxifiedBacon",
                   "optional": false
                 },
@@ -1501,6 +1555,7 @@
                     "end": 668
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "b",
                   "optional": false,
                   "typeAnnotation": null
@@ -1519,6 +1574,7 @@
                       "end": 679
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "unboxify",
                     "optional": false
                   },
@@ -1532,6 +1588,7 @@
                           "end": 689
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "bb",
                         "optional": false
                       }
@@ -1557,6 +1614,7 @@
                             "end": 685
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Bacon",
                           "optional": false
                         },
@@ -1592,6 +1650,7 @@
                     "end": 741
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "bool",
                   "optional": false,
                   "typeAnnotation": null
@@ -1609,6 +1668,7 @@
                       "end": 745
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "b",
                     "optional": false
                   },
@@ -1648,6 +1708,7 @@
                     "end": 771
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "weight",
                   "optional": false,
                   "typeAnnotation": null
@@ -1665,6 +1726,7 @@
                       "end": 776
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "bb",
                     "optional": false
                   },

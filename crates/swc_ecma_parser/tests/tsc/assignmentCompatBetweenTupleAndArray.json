@@ -28,6 +28,7 @@
               "end": 16
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "numStrTuple",
             "optional": false,
             "typeAnnotation": {
@@ -107,6 +108,7 @@
               "end": 51
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "numNumTuple",
             "optional": false,
             "typeAnnotation": {
@@ -186,6 +188,7 @@
               "end": 91
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "numEmptyObjTuple",
             "optional": false,
             "typeAnnotation": {
@@ -265,6 +268,7 @@
               "end": 124
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "emptyObjTuple",
             "optional": false,
             "typeAnnotation": {
@@ -328,6 +332,7 @@
               "end": 145
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "numArray",
             "optional": false,
             "typeAnnotation": {
@@ -381,6 +386,7 @@
               "end": 174
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "emptyObjArray",
             "optional": false,
             "typeAnnotation": {
@@ -431,6 +437,7 @@
             "end": 203
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "numArray",
           "optional": false,
           "typeAnnotation": null
@@ -442,6 +449,7 @@
             "end": 217
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "numNumTuple",
           "optional": false
         }
@@ -467,6 +475,7 @@
             "end": 232
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "emptyObjArray",
           "optional": false,
           "typeAnnotation": null
@@ -478,6 +487,7 @@
             "end": 248
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "emptyObjTuple",
           "optional": false
         }
@@ -503,6 +513,7 @@
             "end": 263
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "emptyObjArray",
           "optional": false,
           "typeAnnotation": null
@@ -514,6 +525,7 @@
             "end": 277
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "numStrTuple",
           "optional": false
         }
@@ -539,6 +551,7 @@
             "end": 292
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "emptyObjArray",
           "optional": false,
           "typeAnnotation": null
@@ -550,6 +563,7 @@
             "end": 306
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "numNumTuple",
           "optional": false
         }
@@ -575,6 +589,7 @@
             "end": 321
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "emptyObjArray",
           "optional": false,
           "typeAnnotation": null
@@ -586,6 +601,7 @@
             "end": 340
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "numEmptyObjTuple",
           "optional": false
         }
@@ -611,6 +627,7 @@
             "end": 360
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "numArray",
           "optional": false,
           "typeAnnotation": null
@@ -622,6 +639,7 @@
             "end": 374
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "numStrTuple",
           "optional": false
         }
@@ -647,6 +665,7 @@
             "end": 389
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "emptyObjTuple",
           "optional": false,
           "typeAnnotation": null
@@ -658,6 +677,7 @@
             "end": 405
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "emptyObjArray",
           "optional": false
         }

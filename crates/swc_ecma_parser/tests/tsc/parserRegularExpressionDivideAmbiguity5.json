@@ -31,6 +31,7 @@
               "end": 6
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "model",
             "optional": false
           },
@@ -79,6 +80,7 @@
                     "end": 24
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "rotateY",
                   "optional": false
                 },
@@ -95,6 +97,7 @@
                       "end": 31
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Math",
                     "optional": false
                   },
@@ -142,6 +145,7 @@
                     "end": 49
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "rotateZ",
                   "optional": false
                 },
@@ -158,6 +162,7 @@
                       "end": 56
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Math",
                     "optional": false
                   },

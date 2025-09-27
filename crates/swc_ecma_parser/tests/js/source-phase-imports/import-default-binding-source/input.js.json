@@ -25,6 +25,7 @@
               "end": 14
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "source",
             "optional": false
           }
@@ -37,7 +38,8 @@
           "end": 23
         },
         "value": "x",
-        "raw": "\"x\""
+        "raw": "\"x\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,

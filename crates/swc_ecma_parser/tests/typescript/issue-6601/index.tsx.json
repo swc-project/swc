@@ -14,6 +14,7 @@
           "end": 26
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "exampleFunction1",
         "optional": false
       },
@@ -72,6 +73,7 @@
                         "end": 46
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Math",
                       "optional": false
                     },
@@ -132,6 +134,7 @@
                             "end": 118
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "console",
                           "optional": false
                         },
@@ -154,7 +157,8 @@
                               "end": 156
                             },
                             "value": "this line causes a syntax error",
-                            "raw": "'this line causes a syntax error'"
+                            "raw": "'this line causes a syntax error'",
+                            "loneSurrogates": false
                           }
                         }
                       ],
@@ -189,7 +193,8 @@
                     },
                     "tail": false,
                     "cooked": "<button\n        @click=\"",
-                    "raw": "<button\n        @click=\""
+                    "raw": "<button\n        @click=\"",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -199,7 +204,8 @@
                     },
                     "tail": true,
                     "cooked": "\"\n      ></button>",
-                    "raw": "\"\n      ></button>"
+                    "raw": "\"\n      ></button>",
+                    "loneSurrogates": false
                   }
                 ]
               },
@@ -238,6 +244,7 @@
                             "end": 234
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "console",
                           "optional": false
                         },
@@ -260,7 +267,8 @@
                               "end": 281
                             },
                             "value": "this line does NOT causes a syntax error",
-                            "raw": "'this line does NOT causes a syntax error'"
+                            "raw": "'this line does NOT causes a syntax error'",
+                            "loneSurrogates": false
                           }
                         }
                       ],
@@ -295,7 +303,8 @@
                     },
                     "tail": false,
                     "cooked": "<button\n        @click=\"",
-                    "raw": "<button\n        @click=\""
+                    "raw": "<button\n        @click=\"",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -305,7 +314,8 @@
                     },
                     "tail": true,
                     "cooked": "\"\n      ></button>",
-                    "raw": "\"\n      ></button>"
+                    "raw": "\"\n      ></button>",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -327,6 +337,7 @@
           "end": 332
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "exampleFunction2",
         "optional": false
       },
@@ -385,6 +396,7 @@
                         "end": 352
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Math",
                       "optional": false
                     },
@@ -433,7 +445,8 @@
                       },
                       "tail": true,
                       "cooked": "<bar></bar>",
-                      "raw": "<bar></bar>"
+                      "raw": "<bar></bar>",
+                      "loneSurrogates": false
                     }
                   ]
                 },
@@ -472,6 +485,7 @@
                               "end": 440
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "console",
                             "optional": false
                           },
@@ -494,7 +508,8 @@
                                 "end": 478
                               },
                               "value": "this line causes a syntax error",
-                              "raw": "'this line causes a syntax error'"
+                              "raw": "'this line causes a syntax error'",
+                              "loneSurrogates": false
                             }
                           }
                         ],
@@ -529,7 +544,8 @@
                       },
                       "tail": false,
                       "cooked": "<button\n        @click=\"",
-                      "raw": "<button\n        @click=\""
+                      "raw": "<button\n        @click=\"",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -539,7 +555,8 @@
                       },
                       "tail": true,
                       "cooked": "\"\n      ></button>",
-                      "raw": "\"\n      ></button>"
+                      "raw": "\"\n      ></button>",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -567,7 +584,8 @@
                       },
                       "tail": true,
                       "cooked": "<bar></bar>",
-                      "raw": "<bar></bar>"
+                      "raw": "<bar></bar>",
+                      "loneSurrogates": false
                     }
                   ]
                 },
@@ -606,6 +624,7 @@
                               "end": 572
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "console",
                             "optional": false
                           },
@@ -628,7 +647,8 @@
                                 "end": 619
                               },
                               "value": "this line does NOT causes a syntax error",
-                              "raw": "'this line does NOT causes a syntax error'"
+                              "raw": "'this line does NOT causes a syntax error'",
+                              "loneSurrogates": false
                             }
                           }
                         ],
@@ -663,7 +683,8 @@
                       },
                       "tail": false,
                       "cooked": "<button\n        @click=\"",
-                      "raw": "<button\n        @click=\""
+                      "raw": "<button\n        @click=\"",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -673,7 +694,8 @@
                       },
                       "tail": true,
                       "cooked": "\"\n      ></button>",
-                      "raw": "\"\n      ></button>"
+                      "raw": "\"\n      ></button>",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -696,6 +718,7 @@
           "end": 670
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "exampleFunction3",
         "optional": false
       },
@@ -754,6 +777,7 @@
                         "end": 690
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Math",
                       "optional": false
                     },
@@ -807,6 +831,7 @@
                         "end": 735
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "console",
                       "optional": false
                     },
@@ -829,7 +854,8 @@
                           "end": 773
                         },
                         "value": "this line causes a syntax error",
-                        "raw": "'this line causes a syntax error'"
+                        "raw": "'this line causes a syntax error'",
+                        "loneSurrogates": false
                       }
                     }
                   ],
@@ -882,6 +908,7 @@
                         "end": 804
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "console",
                       "optional": false
                     },
@@ -904,7 +931,8 @@
                           "end": 851
                         },
                         "value": "this line does NOT causes a syntax error",
-                        "raw": "'this line does NOT causes a syntax error'"
+                        "raw": "'this line does NOT causes a syntax error'",
+                        "loneSurrogates": false
                       }
                     }
                   ],
@@ -947,6 +975,7 @@
           "end": 882
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "exampleFunction4",
         "optional": false
       },
@@ -1005,6 +1034,7 @@
                         "end": 902
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Math",
                       "optional": false
                     },
@@ -1074,6 +1104,7 @@
                               "end": 955
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "console",
                             "optional": false
                           },
@@ -1096,7 +1127,8 @@
                                 "end": 993
                               },
                               "value": "this line causes a syntax error",
-                              "raw": "'this line causes a syntax error'"
+                              "raw": "'this line causes a syntax error'",
+                              "loneSurrogates": false
                             }
                           }
                         ],
@@ -1168,6 +1200,7 @@
                               "end": 1034
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "console",
                             "optional": false
                           },
@@ -1190,7 +1223,8 @@
                                 "end": 1081
                               },
                               "value": "this line does NOT causes a syntax error",
-                              "raw": "'this line does NOT causes a syntax error'"
+                              "raw": "'this line does NOT causes a syntax error'",
+                              "loneSurrogates": false
                             }
                           }
                         ],
@@ -1236,6 +1270,7 @@
           "end": 1114
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "exampleFunction5",
         "optional": false
       },
@@ -1294,6 +1329,7 @@
                         "end": 1134
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Math",
                       "optional": false
                     },
@@ -1369,6 +1405,7 @@
                                 "end": 1188
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "console",
                               "optional": false
                             },
@@ -1391,7 +1428,8 @@
                                   "end": 1226
                                 },
                                 "value": "this line causes a syntax error",
-                                "raw": "'this line causes a syntax error'"
+                                "raw": "'this line causes a syntax error'",
+                                "loneSurrogates": false
                               }
                             }
                           ],
@@ -1470,6 +1508,7 @@
                                 "end": 1269
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "console",
                               "optional": false
                             },
@@ -1492,7 +1531,8 @@
                                   "end": 1316
                                 },
                                 "value": "this line does NOT causes a syntax error",
-                                "raw": "'this line does NOT causes a syntax error'"
+                                "raw": "'this line does NOT causes a syntax error'",
+                                "loneSurrogates": false
                               }
                             }
                           ],
@@ -1539,6 +1579,7 @@
           "end": 1350
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "exampleFunction6",
         "optional": false
       },
@@ -1597,6 +1638,7 @@
                         "end": 1370
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Math",
                       "optional": false
                     },
@@ -1642,7 +1684,8 @@
                       "end": 1402
                     },
                     "value": "test",
-                    "raw": "\"test\""
+                    "raw": "\"test\"",
+                    "loneSurrogates": false
                   },
                   "right": {
                     "type": "StringLiteral",
@@ -1651,7 +1694,8 @@
                       "end": 1412
                     },
                     "value": "test",
-                    "raw": "\"test\""
+                    "raw": "\"test\"",
+                    "loneSurrogates": false
                   }
                 },
                 "consequent": {
@@ -1689,6 +1733,7 @@
                               "end": 1465
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "console",
                             "optional": false
                           },
@@ -1711,7 +1756,8 @@
                                 "end": 1503
                               },
                               "value": "this line causes a syntax error",
-                              "raw": "'this line causes a syntax error'"
+                              "raw": "'this line causes a syntax error'",
+                              "loneSurrogates": false
                             }
                           }
                         ],
@@ -1746,7 +1792,8 @@
                       },
                       "tail": false,
                       "cooked": "<button @click=\"",
-                      "raw": "<button @click=\""
+                      "raw": "<button @click=\"",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -1756,7 +1803,8 @@
                       },
                       "tail": true,
                       "cooked": "\"></button>",
-                      "raw": "\"></button>"
+                      "raw": "\"></button>",
+                      "loneSurrogates": false
                     }
                   ]
                 },
@@ -1767,7 +1815,8 @@
                     "end": 1537
                   },
                   "value": "bar",
-                  "raw": "\"bar\""
+                  "raw": "\"bar\"",
+                  "loneSurrogates": false
                 }
               },
               "alternate": {
@@ -1805,6 +1854,7 @@
                             "end": 1594
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "console",
                           "optional": false
                         },
@@ -1827,7 +1877,8 @@
                               "end": 1641
                             },
                             "value": "this line does NOT causes a syntax error",
-                            "raw": "'this line does NOT causes a syntax error'"
+                            "raw": "'this line does NOT causes a syntax error'",
+                            "loneSurrogates": false
                           }
                         }
                       ],
@@ -1862,7 +1913,8 @@
                     },
                     "tail": false,
                     "cooked": "<button\n        @click=\"",
-                    "raw": "<button\n        @click=\""
+                    "raw": "<button\n        @click=\"",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -1872,7 +1924,8 @@
                     },
                     "tail": true,
                     "cooked": "\"\n      ></button>",
-                    "raw": "\"\n      ></button>"
+                    "raw": "\"\n      ></button>",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -1894,6 +1947,7 @@
           "end": 1693
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "exampleFunction6",
         "optional": false
       },
@@ -1952,6 +2006,7 @@
                         "end": 1713
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Math",
                       "optional": false
                     },
@@ -2012,6 +2067,7 @@
                             "end": 1777
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "console",
                           "optional": false
                         },
@@ -2034,7 +2090,8 @@
                               "end": 1815
                             },
                             "value": "this line causes a syntax error",
-                            "raw": "'this line causes a syntax error'"
+                            "raw": "'this line causes a syntax error'",
+                            "loneSurrogates": false
                           }
                         }
                       ],
@@ -2069,7 +2126,8 @@
                     },
                     "tail": false,
                     "cooked": "<button @click=\"",
-                    "raw": "<button @click=\""
+                    "raw": "<button @click=\"",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -2079,7 +2137,8 @@
                     },
                     "tail": true,
                     "cooked": "\"></button>",
-                    "raw": "\"></button>"
+                    "raw": "\"></button>",
+                    "loneSurrogates": false
                   }
                 ]
               },
@@ -2103,7 +2162,8 @@
                       "end": 1846
                     },
                     "value": "test",
-                    "raw": "\"test\""
+                    "raw": "\"test\"",
+                    "loneSurrogates": false
                   },
                   "right": {
                     "type": "StringLiteral",
@@ -2112,7 +2172,8 @@
                       "end": 1856
                     },
                     "value": "test",
-                    "raw": "\"test\""
+                    "raw": "\"test\"",
+                    "loneSurrogates": false
                   }
                 },
                 "consequent": {
@@ -2150,6 +2211,7 @@
                               "end": 1909
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "console",
                             "optional": false
                           },
@@ -2172,7 +2234,8 @@
                                 "end": 1947
                               },
                               "value": "this line causes a syntax error",
-                              "raw": "'this line causes a syntax error'"
+                              "raw": "'this line causes a syntax error'",
+                              "loneSurrogates": false
                             }
                           }
                         ],
@@ -2207,7 +2270,8 @@
                       },
                       "tail": false,
                       "cooked": "<button @click=\"",
-                      "raw": "<button @click=\""
+                      "raw": "<button @click=\"",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -2217,7 +2281,8 @@
                       },
                       "tail": true,
                       "cooked": "\"></button>",
-                      "raw": "\"></button>"
+                      "raw": "\"></button>",
+                      "loneSurrogates": false
                     }
                   ]
                 },
@@ -2228,7 +2293,8 @@
                     "end": 1981
                   },
                   "value": "bar",
-                  "raw": "\"bar\""
+                  "raw": "\"bar\"",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -2249,6 +2315,7 @@
           "end": 2011
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "exampleFunction7",
         "optional": false
       },
@@ -2307,6 +2374,7 @@
                         "end": 2031
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Math",
                       "optional": false
                     },
@@ -2346,6 +2414,7 @@
                     "end": 2060
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "foo",
                   "optional": false
                 },
@@ -2385,6 +2454,7 @@
                               "end": 2098
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "console",
                             "optional": false
                           },
@@ -2407,7 +2477,8 @@
                                 "end": 2136
                               },
                               "value": "this line causes a syntax error",
-                              "raw": "'this line causes a syntax error'"
+                              "raw": "'this line causes a syntax error'",
+                              "loneSurrogates": false
                             }
                           }
                         ],
@@ -2442,7 +2513,8 @@
                       },
                       "tail": false,
                       "cooked": "<button @click=\"",
-                      "raw": "<button @click=\""
+                      "raw": "<button @click=\"",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -2452,7 +2524,8 @@
                       },
                       "tail": true,
                       "cooked": "\"></button>",
-                      "raw": "\"></button>"
+                      "raw": "\"></button>",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -2471,6 +2544,7 @@
                     "end": 2164
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "bar",
                   "optional": false
                 },
@@ -2510,6 +2584,7 @@
                               "end": 2202
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "console",
                             "optional": false
                           },
@@ -2532,7 +2607,8 @@
                                 "end": 2249
                               },
                               "value": "this line does NOT causes a syntax error",
-                              "raw": "'this line does NOT causes a syntax error'"
+                              "raw": "'this line does NOT causes a syntax error'",
+                              "loneSurrogates": false
                             }
                           }
                         ],
@@ -2567,7 +2643,8 @@
                       },
                       "tail": false,
                       "cooked": "<button @click=\"",
-                      "raw": "<button @click=\""
+                      "raw": "<button @click=\"",
+                      "loneSurrogates": false
                     },
                     {
                       "type": "TemplateElement",
@@ -2577,7 +2654,8 @@
                       },
                       "tail": true,
                       "cooked": "\"></button>",
-                      "raw": "\"></button>"
+                      "raw": "\"></button>",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -2600,6 +2678,7 @@
           "end": 2293
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "exampleFunction8",
         "optional": false
       },
@@ -2658,6 +2737,7 @@
                         "end": 2313
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Math",
                       "optional": false
                     },
@@ -2717,6 +2797,7 @@
                           "end": 2359
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "console",
                         "optional": false
                       },
@@ -2739,7 +2820,8 @@
                             "end": 2397
                           },
                           "value": "this line causes a syntax error",
-                          "raw": "'this line causes a syntax error'"
+                          "raw": "'this line causes a syntax error'",
+                          "loneSurrogates": false
                         }
                       }
                     ],
@@ -2799,6 +2881,7 @@
                           "end": 2430
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "console",
                         "optional": false
                       },
@@ -2821,7 +2904,8 @@
                             "end": 2477
                           },
                           "value": "this line does NOT causes a syntax error",
-                          "raw": "'this line does NOT causes a syntax error'"
+                          "raw": "'this line does NOT causes a syntax error'",
+                          "loneSurrogates": false
                         }
                       }
                     ],
@@ -2865,6 +2949,7 @@
           "end": 2509
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "exampleFunction9",
         "optional": false
       },
@@ -2923,6 +3008,7 @@
                         "end": 2529
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Math",
                       "optional": false
                     },
@@ -2976,6 +3062,7 @@
                         "end": 2589
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "console",
                       "optional": false
                     },
@@ -2998,7 +3085,8 @@
                           "end": 2627
                         },
                         "value": "this line causes a syntax error",
-                        "raw": "'this line causes a syntax error'"
+                        "raw": "'this line causes a syntax error'",
+                        "loneSurrogates": false
                       }
                     }
                   ],
@@ -3026,6 +3114,7 @@
                         "end": 2572
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Promise",
                       "optional": false
                     },
@@ -3077,6 +3166,7 @@
                         "end": 2673
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "console",
                       "optional": false
                     },
@@ -3099,7 +3189,8 @@
                           "end": 2711
                         },
                         "value": "this line causes a syntax error",
-                        "raw": "'this line causes a syntax error'"
+                        "raw": "'this line causes a syntax error'",
+                        "loneSurrogates": false
                       }
                     }
                   ],
@@ -3127,6 +3218,7 @@
                         "end": 2656
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Promise",
                       "optional": false
                     },
@@ -3168,6 +3260,7 @@
           "end": 2743
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "exampleFunction10",
         "optional": false
       },
@@ -3210,6 +3303,7 @@
                     "end": 2761
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "foo",
                   "optional": false,
                   "typeAnnotation": null
@@ -3221,7 +3315,8 @@
                     "end": 2773
                   },
                   "value": "Oranges",
-                  "raw": "\"Oranges\""
+                  "raw": "\"Oranges\"",
+                  "loneSurrogates": false
                 },
                 "definite": false
               }
@@ -3240,6 +3335,7 @@
                 "end": 2791
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "foo",
               "optional": false
             },
@@ -3257,7 +3353,8 @@
                     "end": 2817
                   },
                   "value": "Oranges",
-                  "raw": "'Oranges'"
+                  "raw": "'Oranges'",
+                  "loneSurrogates": false
                 },
                 "consequent": [
                   {
@@ -3309,6 +3406,7 @@
                                       "end": 2878
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "console",
                                     "optional": false
                                   },
@@ -3331,7 +3429,8 @@
                                         "end": 2916
                                       },
                                       "value": "this line causes a syntax error",
-                                      "raw": "'this line causes a syntax error'"
+                                      "raw": "'this line causes a syntax error'",
+                                      "loneSurrogates": false
                                     }
                                   }
                                 ],
@@ -3366,7 +3465,8 @@
                               },
                               "tail": false,
                               "cooked": "<button @click=\"",
-                              "raw": "<button @click=\""
+                              "raw": "<button @click=\"",
+                              "loneSurrogates": false
                             },
                             {
                               "type": "TemplateElement",
@@ -3376,7 +3476,8 @@
                               },
                               "tail": true,
                               "cooked": "\" ></button>",
-                              "raw": "\" ></button>"
+                              "raw": "\" ></button>",
+                              "loneSurrogates": false
                             }
                           ]
                         }
@@ -3419,6 +3520,7 @@
                             "end": 2979
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "console",
                           "optional": false
                         },
@@ -3450,7 +3552,8 @@
                                 },
                                 "tail": true,
                                 "cooked": "Sorry, we are out of test.",
-                                "raw": "Sorry, we are out of test."
+                                "raw": "Sorry, we are out of test.",
+                                "loneSurrogates": false
                               }
                             ]
                           }
@@ -3479,6 +3582,7 @@
           "end": 3050
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "exampleFunction11",
         "optional": false
       },
@@ -3606,6 +3710,7 @@
                                 "end": 3134
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "console",
                               "optional": false
                             },
@@ -3628,7 +3733,8 @@
                                   "end": 3164
                                 },
                                 "value": "This shape is a square.",
-                                "raw": "'This shape is a square.'"
+                                "raw": "'This shape is a square.'",
+                                "loneSurrogates": false
                               }
                             }
                           ],
@@ -3665,6 +3771,7 @@
           "end": 3231
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "exampleFunction12",
         "optional": false
       },
@@ -3836,6 +3943,7 @@
                                 "end": 3334
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "console",
                               "optional": false
                             },
@@ -3858,7 +3966,8 @@
                                   "end": 3364
                                 },
                                 "value": "This shape is a square.",
-                                "raw": "'This shape is a square.'"
+                                "raw": "'This shape is a square.'",
+                                "loneSurrogates": false
                               }
                             }
                           ],

@@ -28,6 +28,7 @@
               "end": 170
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "stringContainingUnescapedLineSeparator1",
             "optional": false,
             "typeAnnotation": null
@@ -39,7 +40,8 @@
               "end": 195
             },
             "value": " STRING_CONTENT ",
-            "raw": "\" STRING_CONTENT \""
+            "raw": "\" STRING_CONTENT \"",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -68,6 +70,7 @@
               "end": 245
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "stringContainingUnescapedParagraphSeparator1",
             "optional": false,
             "typeAnnotation": null
@@ -79,7 +82,8 @@
               "end": 270
             },
             "value": " STRING_CONTENT ",
-            "raw": "\" STRING_CONTENT \""
+            "raw": "\" STRING_CONTENT \"",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -108,6 +112,7 @@
               "end": 317
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "stringContainingUnescapedLineSeparator2",
             "optional": false,
             "typeAnnotation": null
@@ -119,7 +124,8 @@
               "end": 342
             },
             "value": " STRING_CONTENT ",
-            "raw": "' STRING_CONTENT '"
+            "raw": "' STRING_CONTENT '",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -148,6 +154,7 @@
               "end": 392
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "stringContainingUnescapedParagraphSeparator2",
             "optional": false,
             "typeAnnotation": null
@@ -159,7 +166,8 @@
               "end": 417
             },
             "value": " STRING_CONTENT ",
-            "raw": "' STRING_CONTENT '"
+            "raw": "' STRING_CONTENT '",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -188,6 +196,7 @@
               "end": 464
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "stringContainingUnescapedLineSeparator3",
             "optional": false,
             "typeAnnotation": null
@@ -208,7 +217,8 @@
                 },
                 "tail": true,
                 "cooked": " STRING_CONTENT ",
-                "raw": " STRING_CONTENT "
+                "raw": " STRING_CONTENT ",
+                "loneSurrogates": false
               }
             ]
           },
@@ -239,6 +249,7 @@
               "end": 539
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "stringContainingUnescapedParagraphSeparator3",
             "optional": false,
             "typeAnnotation": null
@@ -259,7 +270,8 @@
                 },
                 "tail": true,
                 "cooked": " STRING_CONTENT ",
-                "raw": " STRING_CONTENT "
+                "raw": " STRING_CONTENT ",
+                "loneSurrogates": false
               }
             ]
           },
@@ -290,6 +302,7 @@
               "end": 625
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "arr",
             "optional": false,
             "typeAnnotation": null
@@ -310,7 +323,8 @@
                     "end": 662
                   },
                   "value": "  STRING_CONTENT  ",
-                  "raw": "\"  STRING_CONTENT  \""
+                  "raw": "\"  STRING_CONTENT  \"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -322,7 +336,8 @@
                     "end": 702
                   },
                   "value": "   STRING_CONTENT   ",
-                  "raw": "\"   STRING_CONTENT   \""
+                  "raw": "\"   STRING_CONTENT   \"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -334,7 +349,8 @@
                     "end": 727
                   },
                   "value": "STRING_CONTENT ",
-                  "raw": "\"STRING_CONTENT \""
+                  "raw": "\"STRING_CONTENT \"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -346,7 +362,8 @@
                     "end": 752
                   },
                   "value": " STRING_CONTENT",
-                  "raw": "\" STRING_CONTENT\""
+                  "raw": "\" STRING_CONTENT\"",
+                  "loneSurrogates": false
                 }
               },
               {
@@ -367,7 +384,8 @@
                       },
                       "tail": true,
                       "cooked": "",
-                      "raw": "\\ "
+                      "raw": "\\ ",
+                      "loneSurrogates": false
                     }
                   ]
                 }
@@ -381,7 +399,8 @@
                     "end": 775
                   },
                   "value": " ",
-                  "raw": "' '"
+                  "raw": "' '",
+                  "loneSurrogates": false
                 }
               }
             ]

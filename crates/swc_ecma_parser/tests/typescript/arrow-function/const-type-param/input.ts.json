@@ -34,6 +34,7 @@
                 "end": 16
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "fn",
               "optional": false,
               "typeAnnotation": null
@@ -53,6 +54,7 @@
                     "end": 58
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "payload",
                   "optional": false,
                   "typeAnnotation": {
@@ -74,6 +76,7 @@
                           "end": 58
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Data",
                         "optional": false
                       },
@@ -89,6 +92,7 @@
                   "end": 70
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "payload",
                 "optional": false
               },
@@ -114,6 +118,7 @@
                         "end": 30
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "Data",
                       "optional": false
                     },
@@ -133,6 +138,7 @@
                           "end": 43
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Type",
                         "optional": false
                       },

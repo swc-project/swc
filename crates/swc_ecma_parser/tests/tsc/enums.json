@@ -20,6 +20,7 @@
           "end": 36
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "SyntaxKind",
         "optional": false
       },
@@ -37,6 +38,7 @@
               "end": 53
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ImportClause",
             "optional": false
           },
@@ -55,6 +57,7 @@
               "end": 74
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ExportDeclaration",
             "optional": false
           },
@@ -77,6 +80,7 @@
           "end": 100
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "SymbolFlags",
         "optional": false
       },
@@ -94,6 +98,7 @@
               "end": 109
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Type",
             "optional": false
           },
@@ -104,7 +109,8 @@
               "end": 118
             },
             "value": "Type",
-            "raw": "\"Type\""
+            "raw": "\"Type\"",
+            "loneSurrogates": false
           }
         },
         {
@@ -120,6 +126,7 @@
               "end": 127
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Value",
             "optional": false
           },
@@ -130,7 +137,8 @@
               "end": 137
             },
             "value": "Value",
-            "raw": "\"Value\""
+            "raw": "\"Value\"",
+            "loneSurrogates": false
           }
         }
       ]
@@ -155,6 +163,7 @@
               "end": 165
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "SyntaxKind",
             "optional": false
           },
@@ -186,6 +195,7 @@
               "end": 189
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "SymbolFlags",
             "optional": false
           },
@@ -217,6 +227,7 @@
               "end": 238
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "SyntaxKind",
             "optional": false
           },
@@ -236,6 +247,7 @@
               "end": 251
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "SymbolFlags",
             "optional": false
           },
@@ -250,7 +262,8 @@
           "end": 264
         },
         "value": "./a",
-        "raw": "'./a'"
+        "raw": "'./a'",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null,
@@ -275,6 +288,7 @@
             "end": 277
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "SyntaxKind",
           "optional": false
         },
@@ -307,6 +321,7 @@
             "end": 303
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "SymbolFlags",
           "optional": false
         },
@@ -343,6 +358,7 @@
               "end": 318
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "kind",
             "optional": false,
             "typeAnnotation": {
@@ -370,6 +386,7 @@
                       "end": 330
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "SyntaxKind",
                     "optional": false
                   },
@@ -414,6 +431,7 @@
               "end": 354
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "flags",
             "optional": false,
             "typeAnnotation": {
@@ -435,6 +453,7 @@
                     "end": 367
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "SymbolFlags",
                   "optional": false
                 },
@@ -461,6 +480,7 @@
           "end": 383
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "TypeFlag",
         "optional": false
       },
@@ -484,6 +504,7 @@
               "end": 397
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "SymbolFlags",
             "optional": false
           },
@@ -519,6 +540,7 @@
               "end": 426
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "TypeFlag",
             "optional": false
           },
@@ -550,6 +572,7 @@
               "end": 471
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "SymbolFlags",
             "optional": false
           },
@@ -564,7 +587,8 @@
           "end": 484
         },
         "value": "./a",
-        "raw": "'./a'"
+        "raw": "'./a'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -590,6 +614,7 @@
               "end": 508
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "TypeFlag",
             "optional": false
           },
@@ -604,7 +629,8 @@
           "end": 521
         },
         "value": "./b",
-        "raw": "'./b'"
+        "raw": "'./b'",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null,
@@ -633,6 +659,7 @@
               "end": 534
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "flags",
             "optional": false,
             "typeAnnotation": {
@@ -654,6 +681,7 @@
                     "end": 544
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "TypeFlag",
                   "optional": false
                 },
@@ -674,6 +702,7 @@
                 "end": 558
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "SymbolFlags",
               "optional": false
             },
