@@ -146,6 +146,7 @@ pub struct ImportDecl {
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "unknown", non_exhaustive)]
 pub enum ImportPhase {
     #[default]
     #[cfg_attr(feature = "serde-impl", serde(rename = "evaluation"))]

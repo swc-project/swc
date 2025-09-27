@@ -586,6 +586,8 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     )
                 }
                 Callee::Expr(expr) => expr,
+                #[cfg(feature = "unknown")]
+                _ => unreachable!()
             };
             return Ok((
                 TsNonNullExpr {
@@ -808,6 +810,8 @@ fn parse_subscript<'a, P: Parser<'a>>(
                         expr
                     }
                 }
+                #[cfg(feature = "unknown")]
+                _ => unreachable!()
             }),
             true,
         ));
@@ -853,6 +857,8 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     .into(),
                     true,
                 )),
+                #[cfg(feature = "unknown")]
+                _ => unreachable!()
             }
         } else {
             Ok((
@@ -944,6 +950,8 @@ fn parse_subscript<'a, P: Parser<'a>>(
                                 )
                             }
                             MemberProp::Computed(..) => unreachable!(),
+                            #[cfg(feature = "unknown")]
+                            _ => unreachable!()
                         }
                     }
                 }
@@ -972,6 +980,8 @@ fn parse_subscript<'a, P: Parser<'a>>(
                         expr
                     }
                 }
+                #[cfg(feature = "unknown")]
+                _ => unreachable!()
             }),
             true,
         ));
@@ -1013,6 +1023,8 @@ fn parse_subscript<'a, P: Parser<'a>>(
         Callee::Import(..) => {
             syntax_error!(p, p.input().cur_span(), SyntaxError::InvalidImport);
         }
+        #[cfg(feature = "unknown")]
+        _ => unreachable!()
     }
 }
 
@@ -1962,6 +1974,8 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                     // creating `Invalid`, we don't have to emit a new
                     // error.
                 }
+                #[cfg(feature = "unknown")]
+                _ => ()
             }
 
             if p.input_mut().eat(&P::Token::EQUAL) {

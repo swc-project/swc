@@ -581,7 +581,9 @@ where
                 kind,
             }
             .into())
-        }
+        },
+        #[cfg(feature = "unknown")]
+        _ => unreachable!()
     }
 }
 
@@ -817,6 +819,8 @@ fn make_property<'a, P: Parser<'a>>(
                 }
                 .into()
             }
+            #[cfg(feature = "unknown")]
+            _ => unreachable!()
         })
     })
 }

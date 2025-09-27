@@ -1770,6 +1770,8 @@ fn parse_ts_type_operator<'a, P: Parser<'a>>(
         TsTypeOperatorOp::Unique => expect!(p, &P::Token::UNIQUE),
         TsTypeOperatorOp::KeyOf => expect!(p, &P::Token::KEYOF),
         TsTypeOperatorOp::ReadOnly => expect!(p, &P::Token::READONLY),
+        #[cfg(feature = "unknown")]
+        _ => unreachable!(),
     }
 
     let type_ann = parse_ts_type_operator_or_higher(p)?;
