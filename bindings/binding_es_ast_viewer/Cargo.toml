@@ -40,3 +40,5 @@ opt-level     = "s"
 panic         = "abort"   # Let it crash and force ourselves to write safe Rust.
 strip         = "symbols" # set to `false` for debug information
 
+    [package.metadata.wasm-pack.profile.release]
+    wasm-opt = false
