@@ -6,7 +6,10 @@ use swc_core::{
     common::{errors::ColorConfig, FileName, Globals, Mark, SourceMap, GLOBALS},
     ecma::{
         ast::*,
-        parser::{unstable::Capturing, EsSyntax, Lexer, Parser, StringInput, Syntax, TsSyntax},
+        parser::{
+            unstable::{Buffer, Capturing, ParserTrait},
+            EsSyntax, Lexer, Parser, StringInput, Syntax, TsSyntax,
+        },
         transforms::base::resolver,
         visit::VisitMutWith,
     },
@@ -70,7 +73,6 @@ pub fn parse(input: &str, file_name: Option<String>) -> Result<Vec<String>, Stri
     let target = EsVersion::latest();
 
     let lexer = Capturing::new(Lexer::new(syntax, target, StringInput::from(&*fm), None));
-    let tokens = lexer.tokens().clone();
 
     let mut parser = Parser::new_from(lexer);
 
@@ -101,7 +103,7 @@ pub fn parse(input: &str, file_name: Option<String>) -> Result<Vec<String>, Stri
     )
     .map_err(|err| err.to_pretty_string())?;
 
-    let tokens = tokens.take();
+    let tokens = parser.input_mut().iter_mut().take();
 
     GLOBALS.set(&Globals::default(), || {
         let unresolved_mark = Mark::new();
