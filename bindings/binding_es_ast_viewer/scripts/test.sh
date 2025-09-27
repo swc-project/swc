@@ -2,7 +2,7 @@
 
 set -eu
 
-export NODE_OPTIONS="--experimental-require-module --experimental-vm-modules";
-
 ./scripts/build.sh
+
+export NODE_OPTIONS="--experimental-require-module --experimental-vm-modules";
 npx jest $@
