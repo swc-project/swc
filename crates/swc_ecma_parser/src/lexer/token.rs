@@ -903,10 +903,14 @@ impl std::fmt::Debug for Token {
             Token::Num => "<number literal>",
             Token::BigInt => "<bigint literal>",
             Token::Regex => "<regexp literal>",
-            Token::Template => "<template literal>",
+            Token::Template | Token::NoSubstitutionTemplateLiteral => "<template literal>",
+            Token::TemplateHead => "<template head `...${ >",
+            Token::TemplateMiddle => "<template middle ...${ >",
+            Token::TemplateTail => "<template tail ` >",
             Token::JSXName => "<jsx name>",
             Token::JSXText => "<jsx text>",
             Token::Ident => "<identifier>",
+            Token::Error => "<error>",
             _ => &self.to_string(None),
         };
         f.write_str(s)

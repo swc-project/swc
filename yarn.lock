@@ -6596,6 +6596,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"binding_es_ast_viewer-a99f73@workspace:bindings/binding_es_ast_viewer":
+  version: 0.0.0-use.local
+  resolution: "binding_es_ast_viewer-a99f73@workspace:bindings/binding_es_ast_viewer"
+  dependencies:
+    jest: "npm:^29.7.0"
+  languageName: unknown
+  linkType: soft
+
 "binding_minifier_wasm-5059cc@workspace:bindings/binding_minifier_wasm":
   version: 0.0.0-use.local
   resolution: "binding_minifier_wasm-5059cc@workspace:bindings/binding_minifier_wasm"
