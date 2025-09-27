@@ -15,7 +15,7 @@ fn tr() -> impl Pass {
     (
         resolver(unresolved_mark, top_level_mark, false),
         parameters(Default::default(), unresolved_mark),
-        spread(Default::default()),
+        spread(Default::default(), unresolved_mark),
     )
 }
 
@@ -470,7 +470,7 @@ test!(
         (
             resolver(unresolved_mark, top_level_mark, false),
             parameters(Default::default(), unresolved_mark),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             block_scoping(unresolved_mark),
         )
     },
