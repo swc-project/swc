@@ -15,3 +15,13 @@ class A extends B {
         "method"
     ]
 ], []));
+var __ = {
+    writable: true,
+    value: [_initProto] = _apply_decs_2203_r(A, [
+        [
+            deco,
+            2,
+            "method"
+        ]
+    ], []).e
+};
