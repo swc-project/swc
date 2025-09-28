@@ -725,7 +725,7 @@ test!(
     |_| (
         tr(Default::default()),
         classes(Default::default()),
-        spread(Default::default())
+        spread(Default::default(), Mark::new())
     ),
     rest_nested_iife,
     r#"function broken(x, ...foo) {

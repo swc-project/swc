@@ -74,7 +74,7 @@ where
             template_literal(c.template_literal),
             classes(c.classes),
             new_target(),
-            spread(c.spread),
+            spread(c.spread, unresolved_mark),
         ),
         // https://github.com/Microsoft/TypeScript/issues/5441
         if !c.typescript {

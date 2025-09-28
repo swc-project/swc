@@ -253,7 +253,7 @@ where
     let pass = add!(
         pass,
         Spread,
-        es2015::spread(es2015::spread::Config { loose }),
+        es2015::spread(es2015::spread::Config { loose }, unresolved_mark),
         true
     );
     let pass = add!(pass, ObjectSuper, es2015::object_super());
