@@ -1770,7 +1770,7 @@ fn parse_ts_type_operator<'a, P: Parser<'a>>(
         TsTypeOperatorOp::Unique => expect!(p, &P::Token::UNIQUE),
         TsTypeOperatorOp::KeyOf => expect!(p, &P::Token::KEYOF),
         TsTypeOperatorOp::ReadOnly => expect!(p, &P::Token::READONLY),
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => unreachable!(),
     }
 

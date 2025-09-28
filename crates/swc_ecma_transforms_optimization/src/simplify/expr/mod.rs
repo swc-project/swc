@@ -163,7 +163,7 @@ impl VisitMut for SimplifyExpr {
                     }
                 }
             }
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
 
@@ -332,7 +332,7 @@ impl VisitMut for SimplifyExpr {
                                         &**p,
                                         Prop::Shorthand(_) | Prop::KeyValue(_) | Prop::Method(_)
                                     ),
-                                    #[cfg(feature = "unknown")]
+                                    #[cfg(swc_ast_unknown)]
                                     _ => panic!("unable to access unknown nodes"),
                                 }) {
                                     ps.push(PropOrSpread::Spread(SpreadElement {
@@ -636,7 +636,7 @@ fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Box<Expr>> 
         let prop = match prop {
             PropOrSpread::Prop(x) => &mut **x,
             PropOrSpread::Spread(_) => unreachable!(),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         };
 

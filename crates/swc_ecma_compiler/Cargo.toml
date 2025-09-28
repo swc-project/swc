@@ -9,8 +9,8 @@ name          = "swc_ecma_compiler"
 repository    = { workspace = true }
 version       = "5.0.0"
 
-[features]
-unknown = ["swc_ecma_visit/unknown"]
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
 bitflags   = { workspace = true }

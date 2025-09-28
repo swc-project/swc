@@ -75,7 +75,7 @@ pub trait ExprExt {
 
             Expr::Invalid(..) => false,
 
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => false,
         }
     }

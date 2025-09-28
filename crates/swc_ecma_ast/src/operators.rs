@@ -10,7 +10,7 @@ use swc_common::EqIgnoreSpan;
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(feature = "unknown", non_exhaustive)]
+#[cfg_attr(swc_ast_unknown, non_exhaustive)]
 pub enum BinaryOp {
     /// `==`
     #[default]
@@ -124,7 +124,7 @@ impl BinaryOp {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(feature = "unknown", non_exhaustive)]
+#[cfg_attr(swc_ast_unknown, non_exhaustive)]
 pub enum AssignOp {
     /// `=`
     #[default]
@@ -202,7 +202,7 @@ impl AssignOp {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(feature = "unknown", non_exhaustive)]
+#[cfg_attr(swc_ast_unknown, non_exhaustive)]
 pub enum UpdateOp {
     /// `++`
     #[default]
@@ -220,7 +220,7 @@ pub enum UpdateOp {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(feature = "unknown", non_exhaustive)]
+#[cfg_attr(swc_ast_unknown, non_exhaustive)]
 pub enum UnaryOp {
     /// `-`
     Minus,

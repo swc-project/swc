@@ -623,7 +623,7 @@ impl VisitMut for Generator {
                                     expr: prop.into(),
                                 });
                             }
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         }
                         // [source]
@@ -737,7 +737,7 @@ impl VisitMut for Generator {
                                     props.push(CompiledProp::Prop(p));
                                 }
                             },
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         }
 
@@ -1305,7 +1305,7 @@ impl Generator {
                     right: p.function.into(),
                 }
                 .into(),
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             },
             CompiledProp::Accessor(getter, setter) => {
@@ -1740,7 +1740,7 @@ impl Generator {
                             .into(),
                         );
                     }
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 }
             }
@@ -1869,7 +1869,7 @@ impl Generator {
                     unreachable!("using declaration must be removed by previous pass")
                 }
 
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             };
             self.emit_assignment(

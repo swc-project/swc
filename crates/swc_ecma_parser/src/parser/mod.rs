@@ -295,7 +295,7 @@ impl<I: Tokens> Parser<I> {
                 .map(|item| match item {
                     ModuleItem::ModuleDecl(_) => unreachable!("Module is handled above"),
                     ModuleItem::Stmt(stmt) => stmt,
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => unreachable!()
                 })
                 .collect();

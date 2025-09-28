@@ -12,22 +12,13 @@ version       = "31.0.0"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 concurrent = [
   "swc_ecma_transforms_base/concurrent",
   "swc_ecma_utils/concurrent",
-]
-unknown = [
-  "swc_ecma_transforms_base/unknown",
-  "swc_ecma_compat_es2015/unknown",
-  "swc_ecma_compat_es2016/unknown",
-  "swc_ecma_compat_es2017/unknown",
-  "swc_ecma_compat_es2018/unknown",
-  "swc_ecma_compat_es2019/unknown",
-  "swc_ecma_compat_es2020/unknown",
-  "swc_ecma_compat_es2021/unknown",
-  "swc_ecma_compat_es2022/unknown",
-  "swc_ecma_compat_es3/unknown",
 ]
 
 [dependencies]

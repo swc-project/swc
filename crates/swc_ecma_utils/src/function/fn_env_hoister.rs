@@ -393,7 +393,7 @@ impl VisitMut for FnEnvHoister {
                         e.visit_mut_children_with(self);
                         return;
                     }
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => return,
                 };
                 if !self.super_disabled {
@@ -465,7 +465,7 @@ impl VisitMut for FnEnvHoister {
                                 }
                                 .into();
                             },
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => ()
                         }
                     }
@@ -512,7 +512,7 @@ impl VisitMut for FnEnvHoister {
 
                                 *e = call.call_fn(*span, new_args);
                             }
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => ()
                         }
                     };
@@ -565,7 +565,7 @@ impl VisitMut for FnEnvHoister {
                         .into()
                     };
                 }
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => ()
             },
             _ => e.visit_mut_children_with(self),

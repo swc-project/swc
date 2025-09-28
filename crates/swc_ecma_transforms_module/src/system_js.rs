@@ -142,7 +142,7 @@ impl SystemJs {
                     _ => assign_expr.into(),
                 }
             }
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
     }
@@ -707,7 +707,7 @@ impl Fold for SystemJs {
                                         .into_stmt(),
                                     );
                                 }
-                                #[cfg(feature = "unknown")]
+                                #[cfg(swc_ast_unknown)]
                                 _ => panic!("unable to access unknown nodes"),
                             }
                         }
@@ -769,7 +769,7 @@ impl Fold for SystemJs {
                                         export_values
                                             .push(quote_ident!(source_alias.clone()).into());
                                     }
-                                    #[cfg(feature = "unknown")]
+                                    #[cfg(swc_ast_unknown)]
                                     _ => panic!("unable to access unknown nodes"),
                                 }
 
@@ -956,7 +956,7 @@ impl Fold for SystemJs {
                     },
                     _ => execute_stmts.push(stmt),
                 },
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             }
         }
@@ -1137,7 +1137,7 @@ fn get_module_export_name(module_export_name: &ModuleExportName) -> Id {
     match &module_export_name {
         ModuleExportName::Ident(ident) => ident.to_id(),
         ModuleExportName::Str(s) => (s.value.clone(), SyntaxContext::empty()),
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
 }
@@ -1147,7 +1147,7 @@ fn get_module_export_expr(module_export_name: &ModuleExportName) -> Expr {
     match &module_export_name {
         ModuleExportName::Ident(ident) => ident.clone().into(),
         ModuleExportName::Str(s) => Lit::Str(quote_str!(s.value.clone())).into(),
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
 }
@@ -1160,7 +1160,7 @@ fn get_module_export_member_prop(module_export_name: &ModuleExportName) -> Membe
             span: s.span,
             expr: Lit::Str(quote_str!(s.value.clone())).into(),
         }),
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
 }

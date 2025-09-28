@@ -249,11 +249,11 @@ impl VisitMut for ComputedProps {
                             }
                             .into(),
                         ),
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
                     },
                     PropOrSpread::Spread(..) => unimplemented!("computed spread property"),
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 };
 
@@ -429,7 +429,7 @@ fn prop_name_to_expr(p: PropName, loose: bool) -> (Expr, bool) {
         PropName::Num(n) => (Lit::Num(n).into(), true),
         PropName::BigInt(b) => (Lit::BigInt(b).into(), true),
         PropName::Computed(c) => (*c.expr, true),
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
 }

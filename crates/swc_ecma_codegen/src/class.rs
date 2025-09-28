@@ -6,7 +6,7 @@ use crate::{
     text_writer::WriteJs, util::StartsWithAlphaNum, Emitter, ListFormat, Result, SourceMapperExt,
 };
 
-#[cfg(feature = "unknown")]
+#[cfg(swc_ast_unknown)]
 use crate::unknown_error;
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>
@@ -149,7 +149,7 @@ impl MacroNode for ClassMember {
             ClassMember::Empty(ref n) => emit!(n),
             ClassMember::StaticBlock(ref n) => emit!(n),
             ClassMember::AutoAccessor(ref n) => emit!(n),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -212,7 +212,7 @@ impl MacroNode for Key {
         match self {
             Key::Private(n) => emit!(n),
             Key::Public(n) => emit!(n),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 

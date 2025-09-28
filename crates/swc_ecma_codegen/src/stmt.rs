@@ -4,7 +4,7 @@ use swc_ecma_codegen_macros::node_impl;
 
 use crate::util::{EndsWithAlphaNum, StartsWithAlphaNum};
 
-#[cfg(feature = "unknown")]
+#[cfg(swc_ast_unknown)]
 use crate::unknown_error;
 
 #[node_impl]
@@ -41,7 +41,7 @@ impl MacroNode for Stmt {
                 semi!(emitter);
             }
             Stmt::Decl(ref e) => emit!(e),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
         if emitter.comments.is_some() {
@@ -587,7 +587,7 @@ impl MacroNode for ModuleExportName {
         match self {
             ModuleExportName::Ident(ident) => emit!(ident),
             ModuleExportName::Str(s) => emit!(s),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -601,7 +601,7 @@ impl MacroNode for VarDeclOrExpr {
         match self {
             VarDeclOrExpr::Expr(node) => emit!(node),
             VarDeclOrExpr::VarDecl(node) => emit!(node),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 

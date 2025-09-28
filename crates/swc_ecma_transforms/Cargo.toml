@@ -16,6 +16,9 @@ version       = "35.0.0"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 compat = ["swc_ecma_transforms_compat"]
 concurrent = [
@@ -31,15 +34,6 @@ proposal = ["swc_ecma_transforms_proposal"]
 react = ["swc_ecma_transforms_react"]
 stacker = ["swc_ecma_utils/stacker"]
 typescript = ["swc_ecma_transforms_typescript"]
-unknown = [
-  "swc_ecma_transforms_base/unknown",
-  "swc_ecma_transforms_typescript?/unknown",
-  "swc_ecma_transforms_react?/unknown",
-  "swc_ecma_transforms_proposal?/unknown",
-  "swc_ecma_transforms_optimization?/unknown",
-  "swc_ecma_transforms_module?/unknown",
-  "swc_ecma_transforms_compat?/unknown",
-]
 
 [dependencies]
 par-core                         = { workspace = true }

@@ -231,7 +231,7 @@ where
         match program {
             Program::Module(m) => self.0.lint_module(m),
             Program::Script(s) => self.0.lint_script(s),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => (),
         }
     }

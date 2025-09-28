@@ -158,7 +158,7 @@ impl VisitMut for Arrow {
                             })],
                             ..Default::default()
                         },
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
                     }),
                     ..Default::default()

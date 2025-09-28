@@ -368,7 +368,7 @@ fn collect_hooks_arrow(body: &mut BlockStmtOrExpr, cm: &SourceMap) -> Option<Hoo
                 None
             }
         },
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => None,
     }
 }

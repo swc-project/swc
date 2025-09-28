@@ -787,7 +787,7 @@ where
                                         Prop::KeyValue(KeyValueProp { key, value }),
                                     )));
                                 }
-                                #[cfg(feature = "unknown")]
+                                #[cfg(swc_ast_unknown)]
                                 _ => panic!("unable to access unknown nodes"),
                             }
                         }
@@ -799,7 +799,7 @@ where
                                 props_obj.props.push(PropOrSpread::Spread(attr));
                             }
                         },
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
                     }
                 }
@@ -957,7 +957,7 @@ where
                 spread: Some(span),
                 expr,
             },
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         })
     }
@@ -984,7 +984,7 @@ where
                         _ => props.push(PropOrSpread::Spread(spread)),
                     }
                 }
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             }
         }
@@ -1023,7 +1023,7 @@ where
                     span: _,
                     expr: JSXExpr::JSXEmptyExpr(_),
                 }) => unreachable!("attr_to_prop(JSXEmptyExpr)"),
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             })
             .unwrap_or_else(|| {
@@ -1340,7 +1340,7 @@ where
                             prop: MemberProp::Ident(e.prop),
                         }
                         .into(),
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
                     })
                     .into()
@@ -1352,7 +1352,7 @@ where
                 }
                 .into()
             }
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
     }
@@ -1382,7 +1382,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
                 value: value.into(),
             })
         }
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
 }
@@ -1504,12 +1504,12 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
         JSXAttrValue::JSXExprContainer(e) => match e.expr {
             JSXExpr::JSXEmptyExpr(_) => None?,
             JSXExpr::Expr(e) => e,
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         },
         JSXAttrValue::JSXElement(e) => e.into(),
         JSXAttrValue::JSXFragment(f) => f.into(),
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     })
 }

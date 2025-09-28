@@ -794,7 +794,7 @@ where
                     Callee::Super(callee) => span_has_leading_comment(cmt, callee.span),
                     Callee::Import(callee) => span_has_leading_comment(cmt, callee.span),
                     Callee::Expr(callee) => self.has_leading_comment(callee),
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => false,
                 };
 
@@ -849,10 +849,10 @@ where
                         AssignTargetPat::Array(a) => span_has_leading_comment(cmt, a.span),
                         AssignTargetPat::Object(o) => span_has_leading_comment(cmt, o.span),
                         AssignTargetPat::Invalid(..) => false,
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => false,
                     },
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => false,
                 };
 
@@ -872,7 +872,7 @@ where
                         return true;
                     }
                 }
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => (),
             },
 
@@ -1417,7 +1417,7 @@ impl MacroNode for Program {
         match self {
             Program::Module(m) => emit!(m),
             Program::Script(s) => emit!(s),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
             // TODO: reenable once experimental_metadata breaking change is merged
             // _ => unreachable!(),
@@ -1490,7 +1490,7 @@ impl MacroNode for ModuleItem {
         match self {
             ModuleItem::Stmt(stmt) => emit!(stmt),
             ModuleItem::ModuleDecl(decl) => emit!(decl),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
@@ -1512,7 +1512,7 @@ impl MacroNode for Callee {
             }
             Callee::Super(n) => emit!(n),
             Callee::Import(n) => emit!(n),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -1595,7 +1595,7 @@ impl MacroNode for Expr {
             Expr::TsSatisfies(n) => {
                 emit!(n)
             }
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -1629,7 +1629,7 @@ impl MacroNode for OptChainExpr {
                     MemberProp::Computed(computed) => emit!(computed),
                     MemberProp::Ident(i) => emit!(i),
                     MemberProp::PrivateName(p) => emit!(p),
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => return Err(unknown_error()),
                 }
             }
@@ -1649,7 +1649,7 @@ impl MacroNode for OptChainExpr {
                 )?;
                 punct!(emitter, ")");
             }
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -1755,7 +1755,7 @@ impl MacroNode for MemberExpr {
                 punct!(emitter, ".");
                 emit!(private);
             }
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -1783,7 +1783,7 @@ impl MacroNode for SuperPropExpr {
                 punct!(emitter, ".");
                 emit!(i);
             }
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -2026,7 +2026,7 @@ impl MacroNode for BlockStmtOrExpr {
                 emit!(expr);
                 emitter.wr.decrease_indent()?;
             }
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -2354,7 +2354,7 @@ impl MacroNode for IdentName {
     }
 }
 
-#[cfg(feature = "unknown")]
+#[cfg(swc_ast_unknown)]
 fn unknown_error() -> io::Error {
     io::Error::new(
         io::ErrorKind::Unsupported,

@@ -79,7 +79,7 @@ impl VisitMut for ModuleDeclStrip {
                                 list.extend(fn_expr.as_fn_decl().map(From::from))
                             }
                             DefaultDecl::TsInterfaceDecl(_) => continue,
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         },
                         ModuleDecl::ExportDefaultExpr(..) => {
@@ -89,11 +89,11 @@ impl VisitMut for ModuleDeclStrip {
                         ModuleDecl::TsImportEquals(..) => continue,
                         ModuleDecl::TsExportAssignment(..) => continue,
                         ModuleDecl::TsNamespaceExport(..) => continue,
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
                     };
                 }
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             };
         }
@@ -186,7 +186,7 @@ impl VisitMut for ModuleDeclStrip {
                         ModuleExportName::Str(_) => {
                             unreachable!(r#"`export {{ "foo" }}` without src is invalid"#)
                         }
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
                     };
 
@@ -198,7 +198,7 @@ impl VisitMut for ModuleDeclStrip {
                             ModuleExportName::Str(Str { span, value, .. }) => {
                                 (value, (span, Default::default()))
                             }
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         };
 
@@ -210,7 +210,7 @@ impl VisitMut for ModuleDeclStrip {
                         )
                     }
                 }
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             }))
         }
@@ -254,7 +254,7 @@ impl VisitMut for ModuleDeclStrip {
                 );
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
     }
@@ -441,7 +441,7 @@ impl From<ImportSpecifier> for LinkSpecifier {
                 let imported = imported.map(|e| match e {
                     ModuleExportName::Ident(Ident { sym, .. }) => sym,
                     ModuleExportName::Str(Str { value, .. }) => value,
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 });
 
@@ -487,7 +487,7 @@ impl From<ExportSpecifier> for LinkSpecifier {
                     | ModuleExportName::Str(Str {
                         span, value: sym, ..
                     }) => (sym, (span, SyntaxContext::empty().apply_mark(Mark::new()))),
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 };
 
@@ -496,7 +496,7 @@ impl From<ExportSpecifier> for LinkSpecifier {
                     | ModuleExportName::Str(Str {
                         span, value: sym, ..
                     }) => (sym, (span, SyntaxContext::empty().apply_mark(Mark::new()))),
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 });
 

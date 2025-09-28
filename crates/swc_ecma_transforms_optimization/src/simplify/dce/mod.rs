@@ -859,7 +859,7 @@ impl VisitMut for TreeShaker {
                         | ClassMember::Empty(_)
                         | ClassMember::Constructor(_)
                         | ClassMember::PrivateMethod(_) => true,
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
                     })
                 {
@@ -930,7 +930,7 @@ impl VisitMut for TreeShaker {
                                             Prop::KeyValue(p) => p.value.is_ident(),
                                             _ => false,
                                         },
-                                        #[cfg(feature = "unknown")]
+                                        #[cfg(swc_ast_unknown)]
                                         _ => panic!("unable to access unknown nodes"),
                                     }) {
                                         self.changed = true;
@@ -951,7 +951,7 @@ impl VisitMut for TreeShaker {
             if match &a.left {
                 AssignTarget::Simple(l) => l.is_invalid(),
                 AssignTarget::Pat(l) => l.is_invalid(),
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             } {
                 *n = *a.right.take();
@@ -977,7 +977,7 @@ impl VisitMut for TreeShaker {
             ForHead::Pat(v) => {
                 v.visit_mut_with(self);
             }
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
     }
@@ -995,7 +995,7 @@ impl VisitMut for TreeShaker {
                 ImportSpecifier::Named(l) => &l.local,
                 ImportSpecifier::Default(l) => &l.local,
                 ImportSpecifier::Namespace(l) => &l.local,
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             };
 
@@ -1200,7 +1200,7 @@ impl VisitMut for TreeShaker {
             VarDeclOrExpr::Expr(v) => {
                 v.visit_mut_with(self);
             }
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
     }

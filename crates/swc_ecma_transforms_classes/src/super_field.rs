@@ -323,7 +323,7 @@ impl SuperFieldAccessFolder<'_> {
                 prop: match prop {
                     SuperProp::Ident(i) => MemberProp::Ident(i),
                     SuperProp::Computed(c) => MemberProp::Computed(c),
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 },
             }
@@ -371,7 +371,7 @@ impl SuperFieldAccessFolder<'_> {
                 prop: match prop {
                     SuperProp::Ident(i) => MemberProp::Ident(i),
                     SuperProp::Computed(c) => MemberProp::Computed(c),
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 },
             };
@@ -500,7 +500,7 @@ fn prop_arg(prop: SuperProp) -> Expr {
         })
         .into(),
         SuperProp::Computed(c) => *c.expr,
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
 }

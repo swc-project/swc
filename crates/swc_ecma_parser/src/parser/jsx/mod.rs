@@ -82,7 +82,7 @@ impl<I: Tokens> Parser<I> {
         let mut node = match self.parse_jsx_tag_name()? {
             JSXAttrName::Ident(i) => JSXElementName::Ident(i.into()),
             JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => unreachable!()
         };
         while self.input_mut().eat(&Token::Dot) {

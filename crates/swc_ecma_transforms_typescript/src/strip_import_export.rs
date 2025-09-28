@@ -139,7 +139,7 @@ fn get_module_ident(ts_entity_name: &TsEntityName) -> &Ident {
             get_module_ident(&ts_qualified_name.left)
         }
         TsEntityName::Ident(ident) => ident,
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
 }
@@ -242,7 +242,7 @@ impl Visit for DeclareCollect {
                         self.id_type.insert(namespace.local.to_id());
                     }
                 }
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => (),
             });
     }
@@ -345,7 +345,7 @@ impl VisitMut for StripImportExport {
 
                         self.usage_info.has_usage(&id)
                     }
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 });
 
@@ -374,7 +374,7 @@ impl VisitMut for StripImportExport {
                     ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => {
                         !is_type_only
                     }
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 });
 

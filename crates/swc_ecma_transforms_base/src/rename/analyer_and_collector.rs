@@ -100,7 +100,7 @@ impl Visit for AnalyzerAndCollector {
         match node.body.as_ref() {
             BlockStmtOrExpr::BlockStmt(n) => n.visit_children_with(self),
             BlockStmtOrExpr::Expr(n) => n.visit_with(self),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => ()
         }
 
@@ -231,7 +231,7 @@ impl Visit for AnalyzerAndCollector {
                 f.visit_with(self);
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => {}
         }
     }

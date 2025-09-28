@@ -12,8 +12,8 @@ version       = "30.0.0"
 [lib]
 bench = false
 
-[features]
-unknown = ["swc_ecma_transforms_base/unknown"]
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
 Inflector  = { workspace = true }

@@ -11,8 +11,8 @@ version       = "24.0.0"
 [lib]
 bench = false
 
-[features]
-unknown = ["swc_ecma_ast/unknown"]
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
 swc_common            = { version = "14.0.4", path = "../swc_common" }

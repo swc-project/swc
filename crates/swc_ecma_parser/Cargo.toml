@@ -16,6 +16,9 @@ version       = "24.0.3"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 # Used for debugging
 debug         = ["tracing-spans"]
@@ -24,7 +27,6 @@ tracing-spans = []
 typescript    = []
 unstable      = []
 verify        = ["swc_ecma_visit", "swc_ecma_lexer/verify"]
-unknown       = ["swc_ecma_ast/unknown", "swc_ecma_lexer/unknown"]
 
 [dependencies]
 either         = { workspace = true }

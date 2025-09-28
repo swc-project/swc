@@ -13,10 +13,12 @@ version       = "29.0.0"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 concurrent = ["swc_common/concurrent", "swc_ecma_transforms_base/concurrent"]
 debug      = []
-unknown    = ["swc_ecma_transforms_base/unknown"]
 
 [dependencies]
 bytes-str  = { workspace = true }

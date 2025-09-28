@@ -207,7 +207,7 @@ impl VisitMut for AsyncToGenerator {
                 .into()],
                 ..Default::default()
             },
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         };
 
@@ -574,7 +574,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 unreachable!("using declaration must be removed by previous pass")
             }
 
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
 
