@@ -288,9 +288,7 @@ impl Spread {
                         // https://github.com/babel/babel/blob/61ad8555b875cb0c0996f18f803b6bf1d2150173/packages/babel-plugin-transform-spread/src/index.ts#L43-L47
                         let expr = match *expr {
                             Expr::Ident(Ident { ref sym, ctxt, .. })
-                                if &**sym == "arguments"
-                                    && (ctxt == self.unresolved_ctxt
-                                        || ctxt == SyntaxContext::empty()) =>
+                                if &**sym == "arguments" && ctxt == self.unresolved_ctxt =>
                             {
                                 CallExpr {
                                     span,
