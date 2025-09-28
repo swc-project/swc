@@ -298,6 +298,8 @@ where
                         _ => return,
                     },
                     MemberProp::PrivateName(..) => return,
+                    #[cfg(feature = "unknown")]
+                    _ => panic!("unable to access unknown nodes"),
                 };
                 self.found_import_meta = true;
 
@@ -324,6 +326,8 @@ where
                                 }
                             }
                             MemberProp::PrivateName(..) => unreachable!(),
+                            #[cfg(feature = "unknown")]
+                            _ => panic!("unable to access unknown nodes"),
                         }
                     }
                     // module.uri.split("/").pop()
@@ -348,6 +352,8 @@ where
                                 }
                             }
                             MemberProp::PrivateName(..) => unreachable!(),
+                            #[cfg(feature = "unknown")]
+                            _ => panic!("unable to access unknown nodes"),
                         }
 
                         *n = n.take().as_call(n.span(), vec![quote_str!(".").as_arg()]);

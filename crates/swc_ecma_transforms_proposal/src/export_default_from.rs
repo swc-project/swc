@@ -70,7 +70,9 @@ impl VisitMut for ExportDefaultFrom {
                                 } else {
                                     export_specifiers.push(s);
                                 }
-                            }
+                            },
+                            #[cfg(feature = "unknown")]
+                            _ => (),
                         }
                     }
 

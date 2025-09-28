@@ -925,12 +925,16 @@ impl VisitMut for DecoratorPass {
                                     MethodKind::Method => 7,
                                     MethodKind::Setter => 9,
                                     MethodKind::Getter => 8,
+                                    #[cfg(feature = "unknown")]
+                                    _ => panic!("unable to access unknown nodes"),
                                 }
                             } else {
                                 match p.kind {
                                     MethodKind::Method => 2,
                                     MethodKind::Setter => 4,
                                     MethodKind::Getter => 3,
+                                    #[cfg(feature = "unknown")]
+                                    _ => panic!("unable to access unknown nodes"),
                                 }
                             }
                             .as_arg(),
@@ -1014,6 +1018,8 @@ impl VisitMut for DecoratorPass {
                         ..Default::default()
                     });
                 }
+                #[cfg(feature = "unknown")]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
     }
@@ -1068,6 +1074,8 @@ impl VisitMut for DecoratorPass {
                                     .into(),
                                 }
                             }
+                            #[cfg(feature = "unknown")]
+                            _ => panic!("unable to access unknown nodes"),
                         },
                         value: if accessor.decorators.is_empty() {
                             accessor.value
@@ -1170,6 +1178,8 @@ impl VisitMut for DecoratorPass {
                                 Some(private_ident!(format!("_set_{}", field_name_like))),
                             ),
                             Key::Public(_) => Default::default(),
+                            #[cfg(feature = "unknown")]
+                            _ => panic!("unable to access unknown nodes"),
                         };
 
                         let initialize_init = {
@@ -1287,6 +1297,8 @@ impl VisitMut for DecoratorPass {
                                             Some(name.as_arg()),
                                         ]
                                     }
+                                    #[cfg(feature = "unknown")]
+                                    _ => panic!("unable to access unknown nodes"),
                                 },
                             }
                             .as_arg()
@@ -1374,6 +1386,8 @@ impl VisitMut for DecoratorPass {
                             new.push(ClassMember::Method(getter));
                             new.push(ClassMember::Method(setter));
                         }
+                        #[cfg(feature = "unknown")]
+                        _ => panic!("unable to access unknown nodes"),
                     }
 
                     continue;
@@ -1448,6 +1462,8 @@ impl VisitMut for DecoratorPass {
                             (false, MethodKind::Setter) => 4,
                             (true, MethodKind::Getter) => 8,
                             (false, MethodKind::Getter) => 3,
+                            #[cfg(feature = "unknown")]
+                            _ => panic!("unable to access unknown nodes"),
                         }
                         .as_arg(),
                     ),
@@ -1630,6 +1646,8 @@ impl VisitMut for DecoratorPass {
                 .position(|module_item| match module_item {
                     ModuleItem::Stmt(stmt) => !is_maybe_branch_directive(stmt),
                     ModuleItem::ModuleDecl(_) => true,
+                    #[cfg(feature = "unknown")]
+                    _ => panic!("unable to access unknown nodes"),
                 })
                 .unwrap_or(0);
             insert_builder.push_front(

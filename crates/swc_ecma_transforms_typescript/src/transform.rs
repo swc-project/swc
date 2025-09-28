@@ -331,6 +331,8 @@ impl VisitMut for Transform {
                                 id,
                             )
                         }
+                        #[cfg(feature = "unknown")]
+                        _ => panic!("unable to access unknown nodes")
                     };
 
                     self.in_class_prop.push(id);
@@ -344,6 +346,8 @@ impl VisitMut for Transform {
                     .into();
                 }
                 ParamOrTsParamProp::Param(..) => {}
+                #[cfg(feature = "unknown")]
+                _ => panic!("unable to access unknown nodes")
             });
 
         node.params.visit_mut_children_with(self);
@@ -863,6 +867,8 @@ impl Transform {
                 return Self::transform_ts_module_block(id, ts_module_block);
             }
             TsNamespaceBody::TsNamespaceDecl(ts_namespace_decl) => ts_namespace_decl,
+            #[cfg(feature = "unknown")]
+            _ => panic!("unable to access unknown nodes")
         };
 
         debug_assert!(!declare);
@@ -1017,6 +1023,8 @@ impl Transform {
                                 .emit();
                             });
                         }
+                        #[cfg(feature = "unknown")]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
                 item => {
@@ -1186,7 +1194,9 @@ impl Transform {
                     prop: MemberProp::Ident(right),
                 }
                 .into()
-            }
+            },
+            #[cfg(feature = "unknown")]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -1328,6 +1338,8 @@ impl Transform {
                                 }
                             }
                         }
+                        #[cfg(feature = "unknown")]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
                 ModuleItem::ModuleDecl(ModuleDecl::TsExportAssignment(..)) => {
@@ -1540,5 +1552,7 @@ fn get_member_key(prop: &MemberProp) -> Option<Atom> {
             _ => None,
         },
         MemberProp::PrivateName(_) => None,
+        #[cfg(feature = "unknown")]
+        _ => panic!("unable to access unknown nodes"),
     }
 }

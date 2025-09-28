@@ -85,19 +85,23 @@ impl VisitMut for DisplayName {
         prop.visit_mut_children_with(self);
 
         if let Prop::KeyValue(KeyValueProp { key, value }) = prop {
+            let name = match key {
+                PropName::Ident(ref i) => Lit::Str(Str {
+                    span: i.span,
+                    raw: None,
+                    value: i.sym.clone(),
+                })
+                .into(),
+                PropName::Str(ref s) => Lit::Str(s.clone()).into(),
+                PropName::Num(ref n) => Lit::Num(n.clone()).into(),
+                PropName::BigInt(ref b) => Lit::BigInt(b.clone()).into(),
+                PropName::Computed(ref c) => c.expr.clone(),
+                #[cfg(feature = "unknown")]
+                _ => panic!("unable to access unknown nodes"),
+            };
+            
             value.visit_mut_with(&mut Folder {
-                name: Some(match key {
-                    PropName::Ident(ref i) => Lit::Str(Str {
-                        span: i.span,
-                        raw: None,
-                        value: i.sym.clone(),
-                    })
-                    .into(),
-                    PropName::Str(ref s) => Lit::Str(s.clone()).into(),
-                    PropName::Num(ref n) => Lit::Num(n.clone()).into(),
-                    PropName::BigInt(ref b) => Lit::BigInt(b.clone()).into(),
-                    PropName::Computed(ref c) => c.expr.clone(),
-                }),
+                name: Some(name),
             });
         }
     }
@@ -148,6 +152,8 @@ fn is_create_class_call(call: &CallExpr) -> bool {
     let callee = match &call.callee {
         Callee::Super(_) | Callee::Import(_) => return false,
         Callee::Expr(callee) => &**callee,
+        #[cfg(feature = "unknown")]
+        _ => panic!("unable to access unknown nodes"),
     };
 
     match callee {
@@ -198,8 +204,12 @@ fn is_key_display_name(prop: &PropOrSpread) -> bool {
                 PropName::Num(..) => false,
                 PropName::BigInt(..) => false,
                 PropName::Computed(..) => false,
+                #[cfg(feature = "unknown")]
+                _ => panic!("unable to access unknown nodes"),
             },
             Prop::Assign(..) => unreachable!("invalid syntax"),
+            #[cfg(feature = "unknown")]
+            _ => panic!("unable to access unknown nodes"),
         },
         _ => false,
         // TODO(kdy1): maybe.. handle spread

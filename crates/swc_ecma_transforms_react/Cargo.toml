@@ -16,6 +16,7 @@ bench = false
 concurrent = ["swc_common/concurrent"]
 default    = ["serde-impl"]
 serde-impl = ["serde"]
+unknown = ["swc_ecma_transforms_base/unknown"]
 
 [dependencies]
 base64     = { workspace = true }
