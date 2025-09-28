@@ -158,6 +158,8 @@ impl VisitMut for Arrow {
                             })],
                             ..Default::default()
                         },
+                        #[cfg(feature = "unknown")]
+                        _ => panic!("unable to access unknown nodes"),
                     }),
                     ..Default::default()
                 }

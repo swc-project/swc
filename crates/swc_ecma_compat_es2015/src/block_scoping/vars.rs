@@ -252,6 +252,8 @@ impl VisitMut for BlockScopedVars {
                 BlockStmtOrExpr::Expr(b) => {
                     b.visit_mut_with(v);
                 }
+                #[cfg(feature = "unknown")]
+                _ => panic!("unable to access unknown nodes"),
             }
         });
     }

@@ -519,7 +519,10 @@ impl Classes {
                 | ClassMember::TsIndexSignature(..)
                 | ClassMember::StaticBlock(..)
                 | ClassMember::AutoAccessor(..) => {}
-                ClassMember::Empty(..) => {}
+                ClassMember::Empty(..) => {},
+
+                #[cfg(feature = "unknown")]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
@@ -632,6 +635,8 @@ impl Classes {
                     }
                     .into(),
                     PropName::Computed(c) => c.expr,
+                    #[cfg(feature = "unknown")]
+                    _ => panic!("unable to access unknown nodes"),
                 },
             }))
         }
@@ -657,6 +662,8 @@ impl Classes {
                     .into(),
                 }),
                 PropName::Computed(c) => MemberProp::Computed(c),
+                #[cfg(feature = "unknown")]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
@@ -832,6 +839,8 @@ impl Classes {
                     data.set = None;
                     data.method = Some(value)
                 }
+                #[cfg(feature = "unknown")]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 

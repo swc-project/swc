@@ -217,6 +217,9 @@ impl OptionalChaining {
                         Gathering::Call(c.take().into())
                     });
                 }
+
+                #[cfg(feature = "unknown")]
+                _ => panic!("unable to access unknown nodes"),
             }
 
             match *next {

@@ -12,6 +12,12 @@ version       = "27.0.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
+[features]
+unknown = [
+  "swc_ecma_transforms_base/unknown",
+  "swc_ecma_compiler/unknown",
+]
+
 [dependencies]
 tracing = { workspace = true }
 

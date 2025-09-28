@@ -448,6 +448,8 @@ impl ClassProperties {
                                         MethodKind::Getter => kind.has_getter = true,
                                         MethodKind::Setter => kind.has_setter = true,
                                         MethodKind::Method => unreachable!(),
+                                        #[cfg(feature = "unknown")]
+                                        _ => panic!("unable to access unknown nodes"),
                                     }
                                 }
                             } else {
@@ -524,6 +526,9 @@ impl ClassProperties {
             | ClassMember::AutoAccessor(_)
             | ClassMember::PrivateProp(_)
             | ClassMember::StaticBlock(_) => true,
+
+            #[cfg(feature = "unknown")]
+            _ => panic!("unable to access unknown nodes"),
         });
 
         for member in class.body {
@@ -791,6 +796,8 @@ impl ClassProperties {
                                     method.key.name.clone()
                                 }
                             }
+                            #[cfg(feature = "unknown")]
+                            _ => panic!("unable to access unknown nodes"),
                         },
                         method.span,
                         SyntaxContext::empty().apply_mark(self.private.cur_mark()),
@@ -879,6 +886,8 @@ impl ClassProperties {
                                 None
                             }
                         }
+                        #[cfg(feature = "unknown")]
+                        _ => panic!("unable to access unknown nodes"),
                     };
 
                     if let Some(extra) = extra_collect {
@@ -937,6 +946,9 @@ impl ClassProperties {
                 ClassMember::AutoAccessor(..) => {
                     unreachable!("auto_accessor pass should remove this")
                 }
+
+                #[cfg(feature = "unknown")]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
