@@ -4,7 +4,7 @@ use swc_ecma_codegen_macros::node_impl;
 
 use crate::{util::StartsWithAlphaNum, ListFormat};
 
-#[cfg(feature = "unknown")]
+#[cfg(swc_ast_unknown)]
 use crate::unknown_error;
 
 #[node_impl]
@@ -22,7 +22,7 @@ impl MacroNode for ModuleDecl {
             ModuleDecl::TsExportAssignment(ref n) => emit!(n),
             ModuleDecl::TsImportEquals(ref n) => emit!(n),
             ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -106,7 +106,7 @@ impl MacroNode for ExportDefaultDecl {
             DefaultDecl::Class(ref n) => emit!(n),
             DefaultDecl::Fn(ref n) => emit!(n),
             DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -178,7 +178,7 @@ impl MacroNode for ImportDecl {
                     space!(emitter);
                     emit!(ns.local);
                 }
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => return Err(unknown_error()),
             }
         }
@@ -263,7 +263,7 @@ impl MacroNode for ExportSpecifier {
             }
             ExportSpecifier::Namespace(ref node) => emit!(node),
             ExportSpecifier::Named(ref node) => emit!(node),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 

@@ -410,7 +410,7 @@ pub struct TsKeywordType {
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
-#[cfg_attr(feature = "unknown", non_exhaustive)]
+#[cfg_attr(swc_ast_unknown, non_exhaustive)]
 pub enum TsKeywordTypeKind {
     #[cfg_attr(feature = "serde-impl", serde(rename = "any"))]
     TsAnyKeyword,
@@ -730,7 +730,7 @@ pub struct TsTypeOperator {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(feature = "unknown", non_exhaustive)]
+#[cfg_attr(swc_ast_unknown, non_exhaustive)]
 pub enum TsTypeOperatorOp {
     /// `keyof`
     KeyOf,
@@ -761,7 +761,7 @@ pub struct TsIndexedAccessType {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
-#[cfg_attr(feature = "unknown", non_exhaustive)]
+#[cfg_attr(swc_ast_unknown, non_exhaustive)]
 pub enum TruePlusMinus {
     True,
     Plus,
@@ -1165,7 +1165,7 @@ pub struct TsSatisfiesExpr {
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-#[cfg_attr(feature = "unknown", non_exhaustive)]
+#[cfg_attr(swc_ast_unknown, non_exhaustive)]
 pub enum Accessibility {
     #[cfg_attr(feature = "serde-impl", serde(rename = "public"))]
     Public,

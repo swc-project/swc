@@ -182,7 +182,7 @@ pub fn ast_node(
                 None
             };
             let non_exhaustive = if !has_no_unknown {
-                Some(quote!(#[cfg_attr(feature = "unknown", non_exhaustive)]))
+                Some(quote!(#[cfg_attr(swc_ast_unknown, non_exhaustive)]))
             } else {
                 None
             };

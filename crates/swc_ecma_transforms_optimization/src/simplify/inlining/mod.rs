@@ -138,7 +138,7 @@ impl VisitMut for Inlining<'_> {
                     AssignTarget::Pat(p) => {
                         p.visit_mut_with(self);
                     }
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 }
             }

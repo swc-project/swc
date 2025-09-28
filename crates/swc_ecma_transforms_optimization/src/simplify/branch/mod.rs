@@ -1615,7 +1615,7 @@ fn ignore_result(e: Box<Expr>, drop_str_lit: bool, ctx: ExprCtx) -> Option<Box<E
                         Some(v)
                     }
                 }
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             });
 

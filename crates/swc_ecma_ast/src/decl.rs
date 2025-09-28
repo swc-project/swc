@@ -179,7 +179,7 @@ impl Take for VarDecl {
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-#[cfg_attr(feature = "unknown", non_exhaustive)]
+#[cfg_attr(swc_ast_unknown, non_exhaustive)]
 pub enum VarDeclKind {
     /// `var`
     #[default]

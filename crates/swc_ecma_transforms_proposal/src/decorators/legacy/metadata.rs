@@ -39,7 +39,7 @@ impl VisitMut for ParamMetadata {
                                 decorators.push(new_dec);
                             }
                         }
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
                     }
                 }
@@ -172,7 +172,7 @@ impl VisitMut for Metadata<'_> {
                                 let ann = match &p.param {
                                     TsParamPropParam::Ident(i) => i.type_ann.as_deref(),
                                     TsParamPropParam::Assign(a) => get_type_ann_of_pat(&a.left),
-                                    #[cfg(feature = "unknown")]
+                                    #[cfg(swc_ast_unknown)]
                                     _ => panic!("unable to access unknown nodes"),
                                 };
                                 Some(serialize_type(self.class_name, ann).as_arg())
@@ -181,7 +181,7 @@ impl VisitMut for Metadata<'_> {
                                 serialize_type(self.class_name, get_type_ann_of_pat(&p.pat))
                                     .as_arg(),
                             ),
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         })
                         .collect(),
@@ -214,7 +214,7 @@ impl VisitMut for Metadata<'_> {
                     get_type_ann_of_pat(&m.function.params[0].pat),
                 )
                 .as_arg(),
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             };
 
@@ -550,7 +550,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 TsUnionOrIntersectionType::TsIntersectionType(ty) => {
                     serialize_type_list(class_name, &ty.types)
                 }
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             },
 
@@ -585,7 +585,7 @@ fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
             .into()
         }
         TsEntityName::Ident(i) => i.clone().with_pos(BytePos::DUMMY, BytePos::DUMMY).into(),
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
 }
@@ -599,7 +599,7 @@ fn get_type_ann_of_pat(p: &Pat) -> Option<&TsTypeAnn> {
         Pat::Assign(p) => get_type_ann_of_pat(&p.left),
         Pat::Invalid(_) => None,
         Pat::Expr(_) => None,
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
 }

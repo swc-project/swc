@@ -15,12 +15,14 @@ version       = "15.0.0"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 debug      = []
 default    = []
 path       = []
 serde-impl = ["serde"]
-unknown    = ["swc_ecma_ast/unknown"]
 
 [dependencies]
 new_debug_unreachable = { workspace = true }

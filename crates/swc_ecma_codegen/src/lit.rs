@@ -8,7 +8,7 @@ use swc_ecma_codegen_macros::node_impl;
 
 use crate::{text_writer::WriteJs, CowStr, Emitter, SourceMapperExt};
 
-#[cfg(feature = "unknown")]
+#[cfg(swc_ast_unknown)]
 use crate::unknown_error;
 
 #[node_impl]
@@ -37,7 +37,7 @@ impl MacroNode for Lit {
                 emitter.wr.write_str(&n.flags)?;
             }
             Lit::JSXText(ref n) => emit!(n),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 

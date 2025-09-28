@@ -298,7 +298,7 @@ where
                         _ => return,
                     },
                     MemberProp::PrivateName(..) => return,
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => panic!("unable to access unknown nodes"),
                 };
                 self.found_import_meta = true;
@@ -326,7 +326,7 @@ where
                                 }
                             }
                             MemberProp::PrivateName(..) => unreachable!(),
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         }
                     }
@@ -352,7 +352,7 @@ where
                                 }
                             }
                             MemberProp::PrivateName(..) => unreachable!(),
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         }
 

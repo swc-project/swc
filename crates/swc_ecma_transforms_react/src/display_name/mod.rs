@@ -96,7 +96,7 @@ impl VisitMut for DisplayName {
                 PropName::Num(ref n) => Lit::Num(n.clone()).into(),
                 PropName::BigInt(ref b) => Lit::BigInt(b.clone()).into(),
                 PropName::Computed(ref c) => c.expr.clone(),
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             };
             
@@ -152,7 +152,7 @@ fn is_create_class_call(call: &CallExpr) -> bool {
     let callee = match &call.callee {
         Callee::Super(_) | Callee::Import(_) => return false,
         Callee::Expr(callee) => &**callee,
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     };
 
@@ -204,11 +204,11 @@ fn is_key_display_name(prop: &PropOrSpread) -> bool {
                 PropName::Num(..) => false,
                 PropName::BigInt(..) => false,
                 PropName::Computed(..) => false,
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             },
             Prop::Assign(..) => unreachable!("invalid syntax"),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         },
         _ => false,

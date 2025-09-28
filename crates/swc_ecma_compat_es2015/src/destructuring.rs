@@ -125,7 +125,7 @@ macro_rules! impl_for_for_stmt {
                     unreachable!("using declaration must be removed by previous pass")
                 }
 
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             };
 
@@ -423,7 +423,7 @@ impl AssignFolder {
                             "Object rest pattern should be removed by es2018::object_rest_spread \
                              pass"
                         ),
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
                     }
                 }
@@ -525,7 +525,7 @@ impl Destructuring {
                 }
                 Pat::Rest(..) | Pat::Expr(..) => params.push(param),
                 Pat::Invalid(..) => {}
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             }
         }
@@ -1011,7 +1011,7 @@ impl VisitMut for AssignFolder {
                                 "object rest pattern should be removed by \
                                  es2018::object_rest_spread pass"
                             ),
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         }
                     }
@@ -1027,7 +1027,7 @@ impl VisitMut for AssignFolder {
                 }
 
                 AssignTargetPat::Invalid(..) => unreachable!(),
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             }
         };
@@ -1306,7 +1306,7 @@ fn can_be_null(e: &Expr) -> bool {
         | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => can_be_null(expr),
 
         Expr::Invalid(..) => unreachable!(),
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
 }

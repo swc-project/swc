@@ -366,7 +366,7 @@ impl Decorators {
                                         MethodKind::Method => "method",
                                         MethodKind::Getter => "get",
                                         MethodKind::Setter => "set",
-                                        #[cfg(feature = "unknown")]
+                                        #[cfg(swc_ast_unknown)]
                                         _ => panic!("unable to access unknown nodes"),
                                     }
                                 )))),

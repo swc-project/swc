@@ -15,10 +15,12 @@ version       = "21.0.0"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 # Process in parallel.
 concurrent = ["swc_common/concurrent", "par-core/parallel"]
-unknown = ["swc_ecma_ast/unknown", "swc_ecma_visit/unknown"]
 
 [dependencies]
 indexmap   = { workspace = true }

@@ -186,7 +186,7 @@ impl ForOf {
                     unreachable!("using declaration must be removed by previous pass")
                 }
 
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),                
             }
 
@@ -290,7 +290,7 @@ impl ForOf {
                     unreachable!("using declaration must be removed by previous pass")
                 }
 
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             }
 
@@ -383,7 +383,7 @@ impl ForOf {
                 ForHead::UsingDecl(..) => {
                     unreachable!("using declaration must be removed by previous pass")
                 }
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             },
         );

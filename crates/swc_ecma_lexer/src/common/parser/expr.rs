@@ -586,7 +586,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     )
                 }
                 Callee::Expr(expr) => expr,
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => unreachable!()
             };
             return Ok((
@@ -810,7 +810,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                         expr
                     }
                 }
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => unreachable!()
             }),
             true,
@@ -857,7 +857,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     .into(),
                     true,
                 )),
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => unreachable!()
             }
         } else {
@@ -950,7 +950,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                                 )
                             }
                             MemberProp::Computed(..) => unreachable!(),
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => unreachable!()
                         }
                     }
@@ -980,7 +980,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                         expr
                     }
                 }
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => unreachable!()
             }),
             true,
@@ -1023,7 +1023,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
         Callee::Import(..) => {
             syntax_error!(p, p.input().cur_span(), SyntaxError::InvalidImport);
         }
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => unreachable!()
     }
 }
@@ -1974,7 +1974,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                     // creating `Invalid`, we don't have to emit a new
                     // error.
                 }
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => ()
             }
 

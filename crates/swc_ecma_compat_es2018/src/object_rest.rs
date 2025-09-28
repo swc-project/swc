@@ -110,7 +110,7 @@ macro_rules! impl_for_for_stmt {
                     unreachable!("using declaration must be removed by previous pass")
                 }
 
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             };
             for_stmt.left = left;
@@ -782,7 +782,7 @@ impl ObjectRest {
                                 }),
                             )
                         }
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
                     };
 
@@ -970,7 +970,7 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
                 })
                 .as_arg(),
                 PropName::Computed(c) => c.expr.clone().as_arg(),
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             },
             ObjectPatProp::Assign(AssignPatProp { key, .. }) => Lit::Str(Str {
@@ -980,7 +980,7 @@ fn excluded_props(props: &[ObjectPatProp]) -> Vec<Option<ExprOrSpread>> {
             })
             .as_arg(),
             ObjectPatProp::Rest(..) => unreachable!("invalid syntax (multiple rest element)"),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         })
         .map(Some)

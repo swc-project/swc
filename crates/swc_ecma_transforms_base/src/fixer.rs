@@ -156,7 +156,7 @@ impl VisitMut for Fixer<'_> {
         let lhs_expr = match &mut expr.left {
             AssignTarget::Simple(e) => Some(e),
             AssignTarget::Pat(..) => None,
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => None
         };
 
@@ -205,7 +205,7 @@ impl VisitMut for Fixer<'_> {
                     }));
                 }
             }
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => ()
         }
     }

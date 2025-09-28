@@ -168,7 +168,7 @@ where
                         }
                     }
                     ModuleExportName::Str(_) => {}
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => {}
                 }
 

@@ -382,7 +382,7 @@ where
             DefaultDecl::TsInterfaceDecl(n) => {
                 n.visit_mut_children_with(self);
             }
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => ()
         }
     }

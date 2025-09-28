@@ -332,7 +332,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
             }
         }
 
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => unreachable!()
     }
 }
@@ -688,7 +688,7 @@ fn parse_export<'a, P: Parser<'a>>(
                         let export_name = match &namespace.name {
                             ModuleExportName::Ident(i) => i.sym.clone(),
                             ModuleExportName::Str(s) => s.value.clone(),
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => unreachable!()
                         };
                         p.emit_err(namespace.span, SyntaxError::ExportExpectFrom(export_name));
@@ -702,7 +702,7 @@ fn parse_export<'a, P: Parser<'a>>(
                         }
                         _ => {}
                     },
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => ()
                 }
             }

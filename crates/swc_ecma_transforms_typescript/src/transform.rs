@@ -331,7 +331,7 @@ impl VisitMut for Transform {
                                 id,
                             )
                         }
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes")
                     };
 
@@ -346,7 +346,7 @@ impl VisitMut for Transform {
                     .into();
                 }
                 ParamOrTsParamProp::Param(..) => {}
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes")
             });
 
@@ -867,7 +867,7 @@ impl Transform {
                 return Self::transform_ts_module_block(id, ts_module_block);
             }
             TsNamespaceBody::TsNamespaceDecl(ts_namespace_decl) => ts_namespace_decl,
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes")
         };
 
@@ -1023,7 +1023,7 @@ impl Transform {
                                 .emit();
                             });
                         }
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
                     }
                 }
@@ -1195,7 +1195,7 @@ impl Transform {
                 }
                 .into()
             },
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
     }
@@ -1338,7 +1338,7 @@ impl Transform {
                                 }
                             }
                         }
-                        #[cfg(feature = "unknown")]
+                        #[cfg(swc_ast_unknown)]
                         _ => panic!("unable to access unknown nodes"),
                     }
                 }
@@ -1552,7 +1552,7 @@ fn get_member_key(prop: &MemberProp) -> Option<Atom> {
             _ => None,
         },
         MemberProp::PrivateName(_) => None,
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
 }

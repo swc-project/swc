@@ -271,7 +271,7 @@ pub struct Decorator {
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
-#[cfg_attr(feature = "unknown", non_exhaustive)]
+#[cfg_attr(swc_ast_unknown, non_exhaustive)]
 pub enum MethodKind {
     #[default]
     #[cfg_attr(feature = "serde-impl", serde(rename = "method"))]

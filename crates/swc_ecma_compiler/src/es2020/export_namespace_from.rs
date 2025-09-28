@@ -62,7 +62,7 @@ impl<'a> CompilerImpl<'a> {
                             ExportSpecifier::Default(..) | ExportSpecifier::Named(..) => {
                                 origin_specifiers.push(s);
                             }
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         }
                     }
@@ -117,7 +117,7 @@ fn normalize_name(module_export_name: &ModuleExportName) -> &Atom {
     match module_export_name {
         ModuleExportName::Ident(Ident { sym: name, .. })
         | ModuleExportName::Str(Str { value: name, .. }) => name,
-        #[cfg(feature = "unknown")]
+        #[cfg(swc_ast_unknown)]
         _ => panic!("unable to access unknown nodes"),
     }
 }

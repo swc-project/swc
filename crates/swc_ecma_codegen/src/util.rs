@@ -10,7 +10,7 @@ impl EndsWithAlphaNum for ForHead {
             ForHead::VarDecl(n) => n.ends_with_alpha_num(),
             ForHead::Pat(n) => n.ends_with_alpha_num(),
             ForHead::UsingDecl(n) => n.ends_with_alpha_num(),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => false,
         }
     }
@@ -74,7 +74,7 @@ impl EndsWithAlphaNum for Expr {
             Expr::OptChain(n) => match n.base.as_ref() {
                 OptChainBase::Member(base) => !base.prop.is_computed(),
                 OptChainBase::Call(_) => false,
-                #[cfg(feature = "unknown")]
+                #[cfg(swc_ast_unknown)]
                 _ => false,
             },
 
@@ -103,7 +103,7 @@ macro_rules! alpha_num_enum {
                     $(
                         Self::$name(ref n) => n.starts_with_alpha_num(),
                     )*
-                    #[cfg(feature = "unknown")]
+                    #[cfg(swc_ast_unknown)]
                     _ => false,
                 }
             }
@@ -168,7 +168,7 @@ impl StartsWithAlphaNum for PropName {
         match self {
             PropName::Str(_) | PropName::Computed(_) => false,
             PropName::Ident(_) | PropName::Num(_) | PropName::BigInt(_) => true,
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => false,
         }
     }
@@ -254,7 +254,7 @@ impl StartsWithAlphaNum for Expr {
             Expr::OptChain(e) => e.starts_with_alpha_num(),
 
             Expr::Invalid(..) => true,
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => false,
         }
     }
@@ -265,7 +265,7 @@ impl StartsWithAlphaNum for OptChainExpr {
         match &*self.base {
             OptChainBase::Member(base) => base.obj.starts_with_alpha_num(),
             OptChainBase::Call(base) => base.callee.starts_with_alpha_num(),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => false,
         }
     }
@@ -279,7 +279,7 @@ impl StartsWithAlphaNum for Pat {
             Pat::Object(..) | Pat::Array(..) | Pat::Rest(..) => false,
             Pat::Expr(ref expr) => expr.starts_with_alpha_num(),
             Pat::Invalid(..) => true,
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => false,
         }
     }
@@ -322,7 +322,7 @@ impl StartsWithAlphaNum for Callee {
         match *self {
             Callee::Super(_) | Callee::Import(_) => true,
             Callee::Expr(ref e) => e.starts_with_alpha_num(),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => false,
         }
     }
@@ -348,7 +348,7 @@ impl StartsWithAlphaNum for Stmt {
             | Stmt::ForOf(..)
             | Stmt::If(..) => true,
             Stmt::Block(..) | Stmt::Empty(..) => false,
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => false,
         }
     }
@@ -365,7 +365,7 @@ impl StartsWithAlphaNum for Decl {
             | Decl::TsModule(..)
             | Decl::TsTypeAlias(..)
             | Decl::Using(..) => true,
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => false,
         }
     }

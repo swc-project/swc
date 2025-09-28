@@ -12,8 +12,8 @@ version       = "22.0.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[features]
-unknown = ["swc_ecma_ast/unknown", "swc_ecma_visit/unknown"]
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [dependencies]
 tracing = { workspace = true }

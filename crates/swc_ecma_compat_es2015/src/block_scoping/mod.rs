@@ -700,7 +700,7 @@ impl VisitMut for FlowHelper<'_> {
                     self.check(id);
                 }
             }
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }
 

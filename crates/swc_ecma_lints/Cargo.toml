@@ -12,6 +12,9 @@ version     = "22.0.0"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [dependencies]
 auto_impl   = { workspace = true }
 dashmap     = { workspace = true }
@@ -41,8 +44,6 @@ testing                   = { version = "15.0.0", path = "../testing" }
 
 [features]
 non_critical_lints = []
-unknown = ["swc_ecma_ast/unknown", "swc_ecma_visit/unknown", "swc_ecma_utils/unknown"]
-
 
 [[bench]]
 harness = false

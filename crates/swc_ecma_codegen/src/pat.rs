@@ -2,7 +2,7 @@ use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
-#[cfg(feature = "unknown")]
+#[cfg(swc_ast_unknown)]
 use crate::unknown_error;
 
 #[node_impl]
@@ -33,7 +33,7 @@ impl MacroNode for Pat {
             Pat::Object(ref n) => emit!(n),
             Pat::Rest(ref n) => emit!(n),
             Pat::Invalid(n) => emit!(n),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -69,7 +69,7 @@ impl MacroNode for PropOrSpread {
         match self {
             PropOrSpread::Prop(ref n) => emit!(n),
             PropOrSpread::Spread(ref n) => emit!(n),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -101,7 +101,7 @@ impl MacroNode for AssignTarget {
         match self {
             AssignTarget::Simple(ref n) => emit!(n),
             AssignTarget::Pat(ref n) => emit!(n),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -124,7 +124,7 @@ impl MacroNode for SimpleAssignTarget {
             SimpleAssignTarget::TsSatisfies(n) => emit!(n),
             SimpleAssignTarget::TsTypeAssertion(n) => emit!(n),
             SimpleAssignTarget::TsInstantiation(n) => emit!(n),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -139,7 +139,7 @@ impl MacroNode for AssignTargetPat {
             AssignTargetPat::Array(n) => emit!(n),
             AssignTargetPat::Object(n) => emit!(n),
             AssignTargetPat::Invalid(n) => emit!(n),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -238,7 +238,7 @@ impl MacroNode for ObjectPatProp {
             ObjectPatProp::KeyValue(ref node) => emit!(node),
             ObjectPatProp::Assign(ref node) => emit!(node),
             ObjectPatProp::Rest(ref node) => emit!(node),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
@@ -292,7 +292,7 @@ impl MacroNode for ForHead {
             ForHead::Pat(n) => emit!(n),
             ForHead::VarDecl(n) => emit!(n),
             ForHead::UsingDecl(n) => emit!(n),
-            #[cfg(feature = "unknown")]
+            #[cfg(swc_ast_unknown)]
             _ => return Err(unknown_error()),
         }
 
