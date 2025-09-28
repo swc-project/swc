@@ -48,14 +48,33 @@ const validateBinary = async () => {
         binding = require("./binding.js");
 
         // Check if binding binary actually works.
-        // For the latest version, checks target triple. If it's old version doesn't have target triple, use parseSync instead.
-        const triple = binding.getTargetTriple
-            ? binding.getTargetTriple()
-            : binding.parseSync(
-                  "console.log()",
-                  Buffer.from(JSON.stringify({ syntax: "ecmascript" }))
-              );
-        assert.ok(triple, "Failed to read target triple from native binary.");
+        // Use a separate process to test the binding to avoid SIGSEGV crashes in the main process
+        // This is especially important for Alpine Linux (musl) where native bindings might crash
+        try {
+            const testResult = child_process.execSync(
+                `node -e "
+                try {
+                    const binding = require('./binding.js');
+                    const triple = binding.getTargetTriple ? binding.getTargetTriple() : binding.parseSync('console.log()', Buffer.from(JSON.stringify({syntax:'ecmascript'})));
+                    console.log(triple || 'OK');
+                } catch (e) {
+                    process.exit(1);
+                }
+                "`,
+                {
+                    cwd: path.dirname(require.resolve("@swc/core")),
+                    stdio: "pipe",
+                    timeout: 5000,
+                    encoding: "utf8",
+                }
+            );
+            if (!testResult.trim()) {
+                throw new Error("Empty result from binding test");
+            }
+        } catch (testError) {
+            // If the binding test process crashes or fails, treat binding as non-working
+            binding = null;
+        }
     } catch (error: any) {
         // if error is unsupported architecture, ignore to display.
         if (!error.message?.includes("Unsupported architecture")) {
