@@ -207,6 +207,8 @@ impl VisitMut for AsyncToGenerator {
                 .into()],
                 ..Default::default()
             },
+            #[cfg(feature = "unknown")]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         let expr = make_fn_ref(&fn_state, vec![], body);
@@ -571,6 +573,9 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             ForHead::UsingDecl(..) => {
                 unreachable!("using declaration must be removed by previous pass")
             }
+
+            #[cfg(feature = "unknown")]
+            _ => panic!("unable to access unknown nodes"),
         }
 
         for_loop_body.extend(orig_body);

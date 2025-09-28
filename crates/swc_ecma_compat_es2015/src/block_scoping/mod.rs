@@ -700,6 +700,8 @@ impl VisitMut for FlowHelper<'_> {
                     self.check(id);
                 }
             }
+            #[cfg(feature = "unknown")]
+            _ => panic!("unable to access unknown nodes"),
         }
 
         n.visit_mut_children_with(self);
