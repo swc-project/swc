@@ -138,6 +138,8 @@ impl VisitMut for Inlining<'_> {
                     AssignTarget::Pat(p) => {
                         p.visit_mut_with(self);
                     }
+                    #[cfg(feature = "unknown")]
+                    _ => panic!("unable to access unknown nodes"),
                 }
             }
 

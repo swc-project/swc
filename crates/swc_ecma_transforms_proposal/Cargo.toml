@@ -15,6 +15,7 @@ bench = false
 [features]
 default      = []
 multi-module = []
+unknown = ["swc_ecma_transforms_base/unknown", "swc_ecma_transforms_classes/unknown"]
 
 [dependencies]
 either     = { workspace = true }

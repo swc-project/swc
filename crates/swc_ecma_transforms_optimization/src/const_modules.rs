@@ -109,6 +109,8 @@ impl VisitMut for ConstModules {
                                     .map(|m| match m {
                                         ModuleExportName::Ident(id) => &id.sym,
                                         ModuleExportName::Str(s) => &s.value,
+                                        #[cfg(feature = "unknown")]
+                                        _ => panic!("unable to access unknown nodes"),
                                     })
                                     .unwrap_or(&s.local.sym);
                                 let value = entry.get(imported).cloned().unwrap_or_else(|| {
@@ -136,6 +138,8 @@ impl VisitMut for ConstModules {
                                     });
                                 self.scope.imported.insert(imported.clone(), value);
                             }
+                            #[cfg(feature = "unknown")]
+                            _ => panic!("unable to access unknown nodes"),
                         };
                     }
 
@@ -181,6 +185,8 @@ impl VisitMut for ConstModules {
                             _ => return,
                         },
                         MemberProp::PrivateName(..) => return,
+                        #[cfg(feature = "unknown")]
+                        _ => panic!("unable to access unknown nodes"),
                     };
 
                     let value = self

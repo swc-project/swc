@@ -12,6 +12,9 @@ version       = "30.0.0"
 [lib]
 bench = false
 
+[features]
+unknown = ["swc_ecma_transforms_base/unknown"]
+
 [dependencies]
 Inflector  = { workspace = true }
 anyhow     = { workspace = true }

@@ -16,6 +16,7 @@ bench = false
 [features]
 concurrent = ["swc_common/concurrent", "swc_ecma_transforms_base/concurrent"]
 debug      = []
+unknown    = ["swc_ecma_transforms_base/unknown"]
 
 [dependencies]
 bytes-str  = { workspace = true }
