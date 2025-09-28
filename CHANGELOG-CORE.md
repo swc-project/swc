@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(bindings)** Introduce AST Viewer to improve debugging experience ([#10963](https://github.com/swc-project/swc/issues/10963)) ([fa3aacc](https://github.com/swc-project/swc/commit/fa3aacc8425af7075d5af8596c0347de08d3f816))
+
 ## [swc_core@v43.0.0] - 2025-09-26
 
 ### Bug Fixes
@@ -2530,16 +2538,10 @@
 
 
 
-- **(es/minifier)** Skip inlining if the referential identity of a function matters ([#10123](https://github.com/swc-project/swc/issues/10123)) ([c08fe8d](https://github.com/swc-project/swc/commit/c08fe8dc13ae512cf669eb25356edcd22cc36351))
-
-
 - **(es/minifier)** Fix regression due to #10056 ([#10134](https://github.com/swc-project/swc/issues/10134)) ([b145275](https://github.com/swc-project/swc/commit/b1452757f3ff0b05330578b4e7607db3ee874bd5))
 
 
 - **(es/typescript)** Remove empty statements that const enum decls are folded into ([#10128](https://github.com/swc-project/swc/issues/10128)) ([7bea830](https://github.com/swc-project/swc/commit/7bea830a0e6f73ab0ba5032d13d5e58e4674bc72))
-
-
-- **(ts/fast-strip)** Throw object consistently ([#10122](https://github.com/swc-project/swc/issues/10122)) ([010ff2a](https://github.com/swc-project/swc/commit/010ff2af0db625f7a118b4121aff6d709ed10dc9))
 
 ### Miscellaneous Tasks
 
