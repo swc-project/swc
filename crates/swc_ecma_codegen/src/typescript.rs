@@ -498,6 +498,8 @@ impl MacroNode for TsKeywordType {
             TsKeywordTypeKind::TsNullKeyword => keyword!(emitter, self.span, "null"),
             TsKeywordTypeKind::TsNeverKeyword => keyword!(emitter, self.span, "never"),
             TsKeywordTypeKind::TsIntrinsicKeyword => keyword!(emitter, self.span, "intrinsic"),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
         Ok(())
     }
@@ -577,6 +579,8 @@ impl MacroNode for TsMappedType {
                     keyword!(emitter, "readonly");
                     space!(emitter);
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => return Err(unknown_error()),
             },
         }
 
@@ -621,6 +625,8 @@ impl MacroNode for TsMappedType {
                     punct!(emitter, "-");
                     punct!(emitter, "?");
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => return Err(unknown_error()),
             },
         }
 
@@ -839,6 +845,8 @@ impl MacroNode for TsParamProp {
                 Accessibility::Public => keyword!(emitter, "public"),
                 Accessibility::Protected => keyword!(emitter, "protected"),
                 Accessibility::Private => keyword!(emitter, "private"),
+                #[cfg(swc_ast_unknown)]
+                _ => return Err(unknown_error()),
             }
             space!(emitter);
         }
@@ -1240,6 +1248,8 @@ impl MacroNode for TsTypeOperator {
             TsTypeOperatorOp::KeyOf => keyword!(emitter, "keyof"),
             TsTypeOperatorOp::Unique => keyword!(emitter, "unique"),
             TsTypeOperatorOp::ReadOnly => keyword!(emitter, "readonly"),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
         space!(emitter);
         emit!(self.type_ann);

@@ -138,6 +138,8 @@ impl MacroNode for ImportDecl {
                 space!(emitter);
                 keyword!(emitter, "defer");
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         let starts_with_ident = !self.specifiers.is_empty()
