@@ -144,7 +144,7 @@ fn es2020(b: &mut Bencher) {
 fn es2020_nullish_coalescing(b: &mut Bencher) {
     run(b, |_| {
         swc_ecma_compat_es2020::nullish_coalescing(
-            swc_ecma_compat_es2020::es2020::nullish_coalescing::Config {
+            swc_ecma_compat_es2020::nullish_coalescing::Config {
                 no_document_all: false,
             },
         )
