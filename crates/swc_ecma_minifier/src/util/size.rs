@@ -18,6 +18,8 @@ impl Size for Lit {
             Lit::BigInt(i) => i.value.size(),
             Lit::Regex(r) => r.exp.len(),
             Lit::JSXText(s) => s.value.len(),
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }
@@ -30,6 +32,8 @@ impl Size for UnaryOp {
             TypeOf => 7,
             Void => 5,
             Delete => 7,
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }
@@ -50,6 +54,8 @@ impl Size for BinaryOp {
 
             In => 4,
             InstanceOf => 12,
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }
@@ -169,6 +175,8 @@ impl SizeWithCtxt for Expr {
 
                     p + a + 2 + e.size(unresolved)
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => TODO,
             },
             Expr::Fn(_) => TODO,
             Expr::Class(_) => TODO,
@@ -176,6 +184,8 @@ impl SizeWithCtxt for Expr {
             Expr::MetaProp(m) => match m.kind {
                 MetaPropKind::NewTarget => 10,
                 MetaPropKind::ImportMeta => 11,
+                #[cfg(swc_ast_unknown)]
+                _ => TODO,
             },
             Expr::PrivateName(p) => p.size(),
             Expr::OptChain(p) => match &*p.base {
@@ -183,6 +193,8 @@ impl SizeWithCtxt for Expr {
                 OptChainBase::Call(c) => {
                     1 + c.callee.size(unresolved) + c.args.size(unresolved) + 2
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => TODO,
             },
 
             Expr::Paren(p) => 2 + p.expr.size(unresolved),
@@ -199,6 +211,8 @@ impl SizeWithCtxt for Expr {
             Expr::TsAs(_) => TODO,
             Expr::TsInstantiation(_) => TODO,
             Expr::TsSatisfies(_) => TODO,
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }
@@ -219,6 +233,8 @@ impl SizeWithCtxt for Callee {
             Callee::Super(_) => 5,
             Callee::Import(_) => 6,
             Callee::Expr(e) => e.size(unresolved),
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }
@@ -243,6 +259,8 @@ impl SizeWithCtxt for MemberProp {
             MemberProp::Ident(id) => 1 + id.sym.len(),
             MemberProp::PrivateName(priv_name) => 1 + priv_name.size(),
             MemberProp::Computed(c) => 2 + c.expr.size(unresolved),
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }
@@ -252,6 +270,8 @@ impl SizeWithCtxt for SuperProp {
         match self {
             SuperProp::Ident(id) => 1 + id.sym.len(),
             SuperProp::Computed(c) => 2 + c.expr.size(unresolved),
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }
@@ -266,6 +286,8 @@ impl SizeWithCtxt for Pat {
             Pat::Assign(a) => a.left.size(unresolved) + 1 + a.right.size(unresolved),
             Pat::Invalid(_) => 0,
             Pat::Expr(e) => e.size(unresolved),
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }
@@ -275,6 +297,8 @@ impl SizeWithCtxt for AssignTarget {
         match self {
             AssignTarget::Simple(e) => e.size(unresolved),
             AssignTarget::Pat(p) => p.size(unresolved),
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }
@@ -297,6 +321,8 @@ impl SizeWithCtxt for SimpleAssignTarget {
                 OptChainBase::Call(c) => {
                     1 + c.callee.size(unresolved) + c.args.size(unresolved) + 2
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => TODO,
             },
             SimpleAssignTarget::TsAs(_)
             | SimpleAssignTarget::TsSatisfies(_)
@@ -304,6 +330,8 @@ impl SizeWithCtxt for SimpleAssignTarget {
             | SimpleAssignTarget::TsTypeAssertion(_)
             | SimpleAssignTarget::TsInstantiation(_)
             | SimpleAssignTarget::Invalid(_) => TODO,
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }
@@ -314,6 +342,8 @@ impl SizeWithCtxt for AssignTargetPat {
             AssignTargetPat::Array(a) => 2 + a.elems.size(unresolved),
             AssignTargetPat::Object(o) => 2 + o.props.size(unresolved),
             AssignTargetPat::Invalid(_) => unreachable!(),
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }
@@ -326,6 +356,8 @@ impl SizeWithCtxt for PropName {
             PropName::Num(n) => n.value.size(),
             PropName::Computed(c) => 2 + c.expr.size(unresolved),
             PropName::BigInt(n) => n.value.size(),
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }
@@ -338,6 +370,8 @@ impl SizeWithCtxt for ObjectPatProp {
                 a.key.sym.len() + a.value.as_ref().map_or(0, |v| v.size(unresolved) + 1)
             }
             ObjectPatProp::Rest(r) => 3 + r.arg.size(unresolved),
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }
@@ -356,7 +390,11 @@ impl SizeWithCtxt for PropOrSpread {
                 Prop::Getter(_) => TODO,
                 Prop::Setter(_) => TODO,
                 Prop::Method(_) => TODO,
+                #[cfg(swc_ast_unknown)]
+                _ => TODO,
             },
+            #[cfg(swc_ast_unknown)]
+            _ => TODO,
         }
     }
 }

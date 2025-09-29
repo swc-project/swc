@@ -210,6 +210,8 @@ impl Pure<'_> {
         let callee = match &mut call.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         if let Expr::Member(MemberExpr {
@@ -367,6 +369,8 @@ impl Pure<'_> {
         let callee = match &mut call.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         if let Expr::Member(MemberExpr {
@@ -443,6 +447,8 @@ impl Pure<'_> {
                     }
                 }
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -734,6 +740,8 @@ impl Pure<'_> {
                     *e = *Expr::undefined(*span);
                 }
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -840,6 +848,8 @@ impl Pure<'_> {
                 },
                 _ => return,
             },
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         let new_val = match &*method {

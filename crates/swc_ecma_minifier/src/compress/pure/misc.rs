@@ -188,6 +188,8 @@ impl Pure<'_> {
             BinaryOp::NullishCoalescing => {
                 op!("??=")
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         e.op = op;
@@ -278,6 +280,8 @@ impl Pure<'_> {
                     }
                     _ => false,
                 },
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
@@ -458,6 +462,8 @@ impl Pure<'_> {
         let callee = match &mut call.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(callee) => &mut **callee,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         let separator = if call.args.is_empty() {
@@ -2029,6 +2035,8 @@ impl Pure<'_> {
 
                             _ => {}
                         },
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 
@@ -2143,6 +2151,8 @@ impl Pure<'_> {
                                 return;
                             }
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     },
                     _ => {}
                 }
@@ -2290,6 +2300,8 @@ impl Pure<'_> {
                                 Prop::Getter(..) | Prop::Setter(..) => false,
                                 _ => true,
                             },
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         }) {
                             let mut exprs = collect_exprs_from_object(object);
                             exprs.push(prop.expr.take());
