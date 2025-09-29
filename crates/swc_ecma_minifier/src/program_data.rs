@@ -695,6 +695,8 @@ impl ProgramData {
                         self.simple_assign_target_contains_unresolved(left)
                     }
                     AssignTarget::Pat(_) => false,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 }) || self.contains_unresolved(right)
             }
             Expr::Cond(CondExpr {
@@ -770,6 +772,8 @@ impl ProgramData {
 
                 false
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -808,6 +812,8 @@ impl ProgramData {
             | SimpleAssignTarget::TsTypeAssertion(..)
             | SimpleAssignTarget::TsInstantiation(..) => false,
             SimpleAssignTarget::Invalid(..) => true,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

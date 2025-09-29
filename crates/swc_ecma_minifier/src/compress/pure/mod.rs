@@ -259,6 +259,8 @@ impl VisitMut for Pure<'_> {
         match body {
             BlockStmtOrExpr::BlockStmt(b) => self.optimize_fn_stmts(&mut b.stmts),
             BlockStmtOrExpr::Expr(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
 
         self.optimize_arrow_body(body);

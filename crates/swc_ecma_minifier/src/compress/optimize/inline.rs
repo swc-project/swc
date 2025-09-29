@@ -978,6 +978,8 @@ fn is_arrow_simple_enough_for_copy(e: &ArrowExpr) -> Option<u8> {
     match &*e.body {
         BlockStmtOrExpr::BlockStmt(s) => is_block_stmt_of_fn_simple_enough_for_copy(s),
         BlockStmtOrExpr::Expr(e) => is_arrow_body_simple_enough_for_copy(e),
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 

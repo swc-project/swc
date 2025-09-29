@@ -1015,6 +1015,8 @@ impl Optimizer<'_> {
                                 return false;
                             }
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 
@@ -1022,6 +1024,8 @@ impl Optimizer<'_> {
             }
             Pat::Assign(..) => false,
             Pat::Expr(e) => self.is_skippable_for_seq(a, e),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -1304,6 +1308,8 @@ impl Optimizer<'_> {
                                 return false;
                             }
                         },
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 
@@ -1419,6 +1425,8 @@ impl Optimizer<'_> {
 
                     false
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
 
             Expr::Invalid(_) => true,
@@ -1434,6 +1442,9 @@ impl Optimizer<'_> {
             | Expr::TsAs(_)
             | Expr::TsInstantiation(_)
             | Expr::TsSatisfies(_) => false,
+
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -1968,6 +1979,8 @@ impl Optimizer<'_> {
                                 Prop::Getter(prop) => prop.key.as_mut_computed(),
                                 Prop::Setter(prop) => prop.key.as_mut_computed(),
                                 Prop::Method(prop) => prop.key.as_mut_computed(),
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             };
 
                             if let Some(computed) = computed {
@@ -2013,6 +2026,8 @@ impl Optimizer<'_> {
                                 _ => {}
                             }
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 

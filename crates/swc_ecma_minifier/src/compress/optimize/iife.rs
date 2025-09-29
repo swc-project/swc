@@ -35,6 +35,8 @@ impl Optimizer<'_> {
         let callee = match &mut expr.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         if let Expr::Fn(..) = callee {
@@ -66,6 +68,8 @@ impl Optimizer<'_> {
         let callee = match &mut test_call.callee {
             Callee::Super(_) | Callee::Import(_) => return false,
             Callee::Expr(e) => &mut **e,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         match callee {
@@ -153,6 +157,8 @@ impl Optimizer<'_> {
         let callee = match &mut e.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         if let Some(scope) = find_scope(self.data, callee) {
@@ -328,6 +334,8 @@ impl Optimizer<'_> {
         let callee = match &mut e.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         match find_body(callee) {
@@ -441,6 +449,8 @@ impl Optimizer<'_> {
         let callee = match &call.callee {
             Callee::Super(_) | Callee::Import(_) => return false,
             Callee::Expr(e) => &**e,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         if self.ctx.bit_ctx.contains(BitCtx::DontInvokeIife) {
@@ -560,6 +570,8 @@ impl Optimizer<'_> {
         let callee = match &mut call.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         match callee {
@@ -627,6 +639,8 @@ impl Optimizer<'_> {
                         *e = *Expr::from_exprs(exprs);
                         e.visit_mut_with(self);
                     }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 }
             }
             Expr::Fn(f) => {
@@ -691,6 +705,8 @@ impl Optimizer<'_> {
         let callee = match &mut call.callee {
             Callee::Super(_) | Callee::Import(_) => return None,
             Callee::Expr(e) => &mut **e,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         match callee {
@@ -709,6 +725,8 @@ impl Optimizer<'_> {
                             call.span,
                         )
                     }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 }
             }
             Expr::Fn(f) => {
@@ -1311,6 +1329,8 @@ impl Optimizer<'_> {
                             }
                             _ => return false,
                         },
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 
@@ -1360,6 +1380,8 @@ fn find_body(callee: &mut Expr) -> Option<Either<&mut BlockStmt, &mut Expr>> {
         Expr::Arrow(e) => match &mut *e.body {
             BlockStmtOrExpr::BlockStmt(b) => Some(Either::Left(b)),
             BlockStmtOrExpr::Expr(b) => Some(Either::Right(&mut **b)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         },
         Expr::Fn(e) => Some(Either::Left(e.function.body.as_mut().unwrap())),
         _ => None,
@@ -1453,6 +1475,8 @@ impl Visit for DeclVisitor {
             Decl::Var(var_decl) => var_decl.decls.len(),
             Decl::Using(using_decl) => using_decl.decls.len(),
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => 0,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
     }
 

@@ -56,6 +56,8 @@ impl Pure<'_> {
                 }
             }
             BlockStmtOrExpr::Expr(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
