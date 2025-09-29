@@ -340,14 +340,16 @@ impl JsxDirectives {
                             Some("automatic") => res.runtime = Some(Runtime::Automatic),
                             None => {}
                             _ => {
-                                HANDLER.with(|handler| {
-                                    handler
-                                        .struct_span_err(
-                                            cmt.span,
-                                            "Runtime must be either `classic` or `automatic`.",
-                                        )
-                                        .emit()
-                                });
+                                if HANDLER.is_set() {
+                                    HANDLER.with(|handler| {
+                                        handler
+                                            .struct_span_err(
+                                                cmt.span,
+                                                "Runtime must be either `classic` or `automatic`.",
+                                            )
+                                            .emit()
+                                    });
+                                }
                             }
                         },
                         Some("@jsxImportSource") => {
@@ -692,15 +694,17 @@ where
                                             .map(|expr| expr.as_arg());
 
                                         if key.is_none() {
-                                            HANDLER.with(|handler| {
-                                                handler
-                                                    .struct_span_err(
-                                                        i.span,
-                                                        "The value of property 'key' should not \
-                                                         be empty",
-                                                    )
-                                                    .emit();
-                                            });
+                                            if HANDLER.is_set() {
+                                                HANDLER.with(|handler| {
+                                                    handler
+                                                        .struct_span_err(
+                                                            i.span,
+                                                            "The value of property 'key' should \
+                                                             not be empty",
+                                                        )
+                                                        .emit();
+                                                });
+                                            }
                                         }
                                         continue;
                                     }
@@ -767,17 +771,20 @@ where
                                     ..
                                 }) => {
                                     if self.throw_if_namespace {
-                                        HANDLER.with(|handler| {
-                                            handler
-                                                .struct_span_err(
-                                                    span,
-                                                    "JSX Namespace is disabled by default because \
-                                                     react does not support it yet. You can \
-                                                     specify jsc.transform.react.throwIfNamespace \
-                                                     to false to override default behavior",
-                                                )
-                                                .emit()
-                                        });
+                                        if HANDLER.is_set() {
+                                            HANDLER.with(|handler| {
+                                                handler
+                                                    .struct_span_err(
+                                                        span,
+                                                        "JSX Namespace is disabled by default \
+                                                         because react does not support it yet. \
+                                                         You can specify \
+                                                         jsc.transform.react.throwIfNamespace to \
+                                                         false to override default behavior",
+                                                    )
+                                                    .emit()
+                                            });
+                                        }
                                     }
 
                                     let value = match attr.value {
@@ -1069,14 +1076,16 @@ where
 
         if let Some(pragma) = pragma {
             if let Runtime::Automatic = self.runtime {
-                HANDLER.with(|handler| {
-                    handler
-                        .struct_span_err(
-                            pragma.span(),
-                            "pragma cannot be set when runtime is automatic",
-                        )
-                        .emit()
-                });
+                if HANDLER.is_set() {
+                    HANDLER.with(|handler| {
+                        handler
+                            .struct_span_err(
+                                pragma.span(),
+                                "pragma cannot be set when runtime is automatic",
+                            )
+                            .emit()
+                    });
+                }
             }
 
             found = true;
@@ -1085,14 +1094,16 @@ where
 
         if let Some(pragma_frag) = pragma_frag {
             if let Runtime::Automatic = self.runtime {
-                HANDLER.with(|handler| {
-                    handler
-                        .struct_span_err(
-                            pragma_frag.span(),
-                            "pragmaFrag cannot be set when runtime is automatic",
-                        )
-                        .emit()
-                });
+                if HANDLER.is_set() {
+                    HANDLER.with(|handler| {
+                        handler
+                            .struct_span_err(
+                                pragma_frag.span(),
+                                "pragmaFrag cannot be set when runtime is automatic",
+                            )
+                            .emit()
+                    });
+                }
             }
 
             found = true;
@@ -1297,17 +1308,19 @@ where
                 ref ns, ref name, ..
             }) => {
                 if self.throw_if_namespace {
-                    HANDLER.with(|handler| {
-                        handler
-                            .struct_span_err(
-                                span,
-                                "JSX Namespace is disabled by default because react does not \
-                                 support it yet. You can specify \
-                                 jsc.transform.react.throwIfNamespace to false to override \
-                                 default behavior",
-                            )
-                            .emit()
-                    });
+                    if HANDLER.is_set() {
+                        HANDLER.with(|handler| {
+                            handler
+                                .struct_span_err(
+                                    span,
+                                    "JSX Namespace is disabled by default because react does not \
+                                     support it yet. You can specify \
+                                     jsc.transform.react.throwIfNamespace to false to override \
+                                     default behavior",
+                                )
+                                .emit()
+                        });
+                    }
                 }
 
                 let value = format!("{}:{}", ns.sym, name.sym);

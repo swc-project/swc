@@ -1,0 +1,6 @@
+---
+swc_ecma_transforms_react: patch
+swc_ts_fast_strip: patch
+---
+
+fix(es/transforms): Check errors::HANDLER.is_set() before failing
