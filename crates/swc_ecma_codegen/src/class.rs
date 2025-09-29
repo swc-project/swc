@@ -255,6 +255,8 @@ impl MacroNode for PrivateMethod {
 
                 emit!(self.key);
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         emitter.emit_fn_trailing(&self.function)?;
@@ -293,6 +295,8 @@ impl MacroNode for ClassMethod {
                 }
                 MethodKind::Getter => true,
                 MethodKind::Setter => true,
+                #[cfg(swc_ast_unknown)]
+                _ => return Err(unknown_error()),
             };
 
             if starts_with_alpha_num {
@@ -346,6 +350,8 @@ impl MacroNode for ClassMethod {
 
                 emit!(self.key);
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         if self.is_optional {
@@ -570,6 +576,8 @@ where
                 Accessibility::Public => keyword!(self, "public"),
                 Accessibility::Protected => keyword!(self, "protected"),
                 Accessibility::Private => keyword!(self, "private"),
+                #[cfg(swc_ast_unknown)]
+                _ => return Err(unknown_error()),
             }
             space!(self);
         }

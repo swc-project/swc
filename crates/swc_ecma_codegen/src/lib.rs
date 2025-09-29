@@ -1860,6 +1860,9 @@ impl MacroNode for MetaPropExpr {
             MetaPropKind::ImportMeta => keyword!(emitter, "import.meta"),
 
             MetaPropKind::NewTarget => keyword!(emitter, "new.target"),
+
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -2158,6 +2161,8 @@ impl MacroNode for UnaryExpr {
                 punct!(emitter, self.op.as_str());
                 false
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         };
 
         if should_emit_whitespace_before_operand(self) {
