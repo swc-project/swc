@@ -101,7 +101,7 @@ impl Visit for AnalyzerAndCollector {
             BlockStmtOrExpr::BlockStmt(n) => n.visit_children_with(self),
             BlockStmtOrExpr::Expr(n) => n.visit_with(self),
             #[cfg(swc_ast_unknown)]
-            _ => ()
+            _ => (),
         }
 
         self.analyzer.is_pat_decl = old_analyzer_is_pat_decl;

@@ -464,9 +464,9 @@ impl VisitMut for FnEnvHoister {
                                     ..Default::default()
                                 }
                                 .into();
-                            },
+                            }
                             #[cfg(swc_ast_unknown)]
-                            _ => ()
+                            _ => (),
                         }
                     }
                 }
@@ -513,7 +513,7 @@ impl VisitMut for FnEnvHoister {
                                 *e = call.call_fn(*span, new_args);
                             }
                             #[cfg(swc_ast_unknown)]
-                            _ => ()
+                            _ => (),
                         }
                     };
                 }
@@ -566,7 +566,7 @@ impl VisitMut for FnEnvHoister {
                     };
                 }
                 #[cfg(swc_ast_unknown)]
-                _ => ()
+                _ => (),
             },
             _ => e.visit_mut_children_with(self),
         }

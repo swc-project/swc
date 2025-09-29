@@ -2,10 +2,9 @@ use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
-use crate::util::{EndsWithAlphaNum, StartsWithAlphaNum};
-
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
+use crate::util::{EndsWithAlphaNum, StartsWithAlphaNum};
 
 #[node_impl]
 impl MacroNode for Stmt {

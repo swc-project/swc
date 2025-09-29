@@ -6,10 +6,9 @@ use swc_common::{Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
-use crate::{text_writer::WriteJs, CowStr, Emitter, SourceMapperExt};
-
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
+use crate::{text_writer::WriteJs, CowStr, Emitter, SourceMapperExt};
 
 #[node_impl]
 impl MacroNode for Lit {

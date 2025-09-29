@@ -383,7 +383,7 @@ where
                 n.visit_mut_children_with(self);
             }
             #[cfg(swc_ast_unknown)]
-            _ => ()
+            _ => (),
         }
     }
 

@@ -637,7 +637,7 @@ impl Visit for CriticalRules {
     fn visit_export_namespace_specifier(&mut self, s: &ExportNamespaceSpecifier) {
         match &s.name {
             ModuleExportName::Ident(name) => self.add_export(name),
-            ModuleExportName::Str(..) => {},
+            ModuleExportName::Str(..) => {}
             #[cfg(swc_ast_unknown)]
             _ => (),
         };
@@ -692,7 +692,7 @@ impl Visit for ConstCollector<'_> {
             | ImportSpecifier::Default(ImportDefaultSpecifier { local, .. })
             | ImportSpecifier::Namespace(ImportStarAsSpecifier { local, .. }) => {
                 self.import_binding.insert(local.to_id(), local.span);
-            },
+            }
             #[cfg(swc_ast_unknown)]
             _ => (),
         }

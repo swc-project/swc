@@ -2,12 +2,11 @@ use swc_common::{SourceMapper, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
+#[cfg(swc_ast_unknown)]
+use crate::unknown_error;
 use crate::{
     text_writer::WriteJs, util::StartsWithAlphaNum, Emitter, ListFormat, Result, SourceMapperExt,
 };
-
-#[cfg(swc_ast_unknown)]
-use crate::unknown_error;
 
 impl<W, S: SourceMapper> Emitter<'_, W, S>
 where

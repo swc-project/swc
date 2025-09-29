@@ -242,7 +242,13 @@ impl Babelify for DefaultDecl {
         match self {
             DefaultDecl::Class(c) => ExportDefaultDeclType::Class(c.babelify(ctx).into()),
             DefaultDecl::Fn(f) => ExportDefaultDeclType::Func(f.babelify(ctx).into()),
-            DefaultDecl::TsInterfaceDecl(_) => panic!("unimplemented"), /* TODO(dwoznicki): Babel expects a TSDeclareFunction here, which does not map cleanly to TsInterfaceDecl expected by swc */
+            DefaultDecl::TsInterfaceDecl(_) => panic!("unimplemented"), /* TODO(dwoznicki): */
+            // Babel expects a
+            // TSDeclareFunction
+            // here, which does not
+            // map cleanly to
+            // TsInterfaceDecl
+            // expected by swc
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }

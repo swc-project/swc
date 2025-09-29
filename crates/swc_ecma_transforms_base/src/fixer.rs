@@ -157,7 +157,7 @@ impl VisitMut for Fixer<'_> {
             AssignTarget::Simple(e) => Some(e),
             AssignTarget::Pat(..) => None,
             #[cfg(swc_ast_unknown)]
-            _ => None
+            _ => None,
         };
 
         if let Some(e) = lhs_expr
@@ -206,7 +206,7 @@ impl VisitMut for Fixer<'_> {
                 }
             }
             #[cfg(swc_ast_unknown)]
-            _ => ()
+            _ => (),
         }
     }
 

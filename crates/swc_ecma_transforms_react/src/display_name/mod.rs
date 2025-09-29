@@ -99,10 +99,8 @@ impl VisitMut for DisplayName {
                 #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),
             };
-            
-            value.visit_mut_with(&mut Folder {
-                name: Some(name),
-            });
+
+            value.visit_mut_with(&mut Folder { name: Some(name) });
         }
     }
 

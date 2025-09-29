@@ -296,7 +296,7 @@ impl<I: Tokens> Parser<I> {
                     ModuleItem::ModuleDecl(_) => unreachable!("Module is handled above"),
                     ModuleItem::Stmt(stmt) => stmt,
                     #[cfg(swc_ast_unknown)]
-                    _ => unreachable!()
+                    _ => unreachable!(),
                 })
                 .collect();
             Program::Script(Script {

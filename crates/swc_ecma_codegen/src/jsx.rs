@@ -4,7 +4,6 @@ use swc_ecma_codegen_macros::node_impl;
 
 use super::Emitter;
 use crate::text_writer::WriteJs;
-
 #[cfg(swc_ast_unknown)]
 use crate::unknown_error;
 

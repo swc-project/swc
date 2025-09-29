@@ -238,7 +238,7 @@ impl StmtOrModuleItem for ModuleItem {
             ModuleItem::ModuleDecl(v) => Err(v),
             ModuleItem::Stmt(v) => Ok(v),
             #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes")
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -248,7 +248,7 @@ impl StmtOrModuleItem for ModuleItem {
             ModuleItem::ModuleDecl(v) => Err(v),
             ModuleItem::Stmt(v) => Ok(v),
             #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes")
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -258,7 +258,7 @@ impl StmtOrModuleItem for ModuleItem {
             ModuleItem::ModuleDecl(v) => Err(v),
             ModuleItem::Stmt(v) => Ok(v),
             #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes")
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -1269,7 +1269,7 @@ pub fn is_simple_pure_member_expr(m: &MemberExpr, pure_getters: bool) -> bool {
             is_simple_pure_expr(&c.expr, pure_getters) && is_simple_pure_expr(&m.obj, pure_getters)
         }
         #[cfg(swc_ast_unknown)]
-        _ => false
+        _ => false,
     }
 }
 
@@ -1434,7 +1434,7 @@ pub fn prop_name_to_expr(p: PropName) -> Expr {
         PropName::BigInt(b) => Lit::BigInt(b).into(),
         PropName::Computed(c) => *c.expr,
         #[cfg(swc_ast_unknown)]
-        _ => panic!("unable to access unknown nodes")
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 /// Similar to `prop_name_to_expr`, but used for value position.
@@ -1453,7 +1453,7 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
         PropName::BigInt(b) => Lit::BigInt(b).into(),
         PropName::Computed(c) => *c.expr,
         #[cfg(swc_ast_unknown)]
-        _ => panic!("unable to access unknown nodes")
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 
@@ -1474,7 +1474,7 @@ pub fn prop_name_to_member_prop(prop_name: PropName) -> MemberProp {
             expr: b.into(),
         }),
         #[cfg(swc_ast_unknown)]
-        _ => panic!("unable to access unknown nodes")
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 
@@ -1952,7 +1952,7 @@ impl ExprCtx {
                     PropOrSpread::Spread(SpreadElement { .. }) => {
                         has_spread = true;
                         true
-                    },
+                    }
                     #[cfg(swc_ast_unknown)]
                     _ => true,
                 });
@@ -1983,7 +1983,7 @@ impl ExprCtx {
                                 )
                             }
                             #[cfg(swc_ast_unknown)]
-                            _ => panic!("unable to access unknown nodes")
+                            _ => panic!("unable to access unknown nodes"),
                         },
                         _ => unreachable!(),
                     })
@@ -2391,7 +2391,7 @@ impl VisitMut for IdentRenamer<'_> {
             }
             ModuleExportName::Str(_) => {}
             #[cfg(swc_ast_unknown)]
-            _ => {},
+            _ => {}
         }
     }
 

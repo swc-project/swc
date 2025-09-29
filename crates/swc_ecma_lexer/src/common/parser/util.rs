@@ -60,7 +60,7 @@ pub fn get_qualified_jsx_name(name: &JSXElementName) -> Atom {
             )
             .into(),
             #[cfg(swc_ast_unknown)]
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
     match *name {
@@ -72,7 +72,7 @@ pub fn get_qualified_jsx_name(name: &JSXElementName) -> Atom {
             ref obj, ref prop, ..
         }) => format!("{}.{}", get_qualified_obj_name(obj), prop.sym).into(),
         #[cfg(swc_ast_unknown)]
-        _ => unreachable!()
+        _ => unreachable!(),
     }
 }
 
@@ -88,7 +88,7 @@ pub fn make_decl_declare(mut decl: Decl) -> Decl {
         Decl::TsModule(ref mut m) => m.declare = true,
         Decl::Using(..) => unreachable!("Using is not a valid declaration for `declare` keyword"),
         #[cfg(swc_ast_unknown)]
-        _ => unreachable!()
+        _ => unreachable!(),
     }
     decl
 }

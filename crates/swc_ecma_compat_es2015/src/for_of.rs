@@ -187,7 +187,7 @@ impl ForOf {
                 }
 
                 #[cfg(swc_ast_unknown)]
-                _ => panic!("unable to access unknown nodes"),                
+                _ => panic!("unable to access unknown nodes"),
             }
 
             let stmt = ForStmt {
