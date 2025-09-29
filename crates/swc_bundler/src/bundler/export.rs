@@ -229,6 +229,8 @@ where
                                 ModuleExportName::Str(..) => {
                                     unimplemented!("module string names unimplemented")
                                 }
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             };
                         }
                         ExportSpecifier::Default(d) => {
@@ -243,6 +245,8 @@ where
                                 ModuleExportName::Str(..) => {
                                     unimplemented!("module string names unimplemented")
                                 }
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             };
                             if let Some((_, export_ctxt)) = ctxt {
                                 orig.ctxt = export_ctxt;
@@ -255,6 +259,8 @@ where
                                 Some(ModuleExportName::Str(..)) => {
                                     unimplemented!("module string names unimplemented")
                                 }
+                                #[cfg(swc_ast_unknown)]
+                                Some(_) => panic!("unable to access unknown nodes"),
                                 None => {
                                     let mut exported: Ident = orig.clone();
                                     exported.ctxt = self.export_ctxt;
@@ -280,6 +286,8 @@ where
                                 }
                             }
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 

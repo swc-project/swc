@@ -85,6 +85,8 @@ impl Babelify for TsFnParam {
             TsFnParam::Array(a) => TsFnParamOutput::Array(a.babelify(ctx)),
             TsFnParam::Rest(r) => TsFnParamOutput::Rest(r.babelify(ctx)),
             TsFnParam::Object(o) => TsFnParamOutput::Object(o.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -166,6 +168,8 @@ impl Babelify for TsParamPropParam {
         match self {
             TsParamPropParam::Ident(i) => TSParamPropParam::Id(i.babelify(ctx)),
             TsParamPropParam::Assign(a) => TSParamPropParam::Assignment(a.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -189,6 +193,8 @@ impl Babelify for TsEntityName {
         match self {
             TsEntityName::TsQualifiedName(n) => TSEntityName::Qualified(n.babelify(ctx)),
             TsEntityName::Ident(i) => TSEntityName::Id(i.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -209,6 +215,8 @@ impl Babelify for TsTypeElement {
             TsTypeElement::TsIndexSignature(t) => TSTypeElement::IndexSignature(t.babelify(ctx)),
             TsTypeElement::TsGetterSignature(_) => panic!("unimplemented"),
             TsTypeElement::TsSetterSignature(_) => panic!("unimplemented"),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -354,6 +362,8 @@ impl Babelify for TsType {
             TsType::TsLitType(l) => TSType::Literal(l.babelify(ctx)),
             TsType::TsTypePredicate(p) => TSType::TypePredicate(p.babelify(ctx)),
             TsType::TsImportType(i) => TSType::Import(i.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -375,6 +385,8 @@ impl Babelify for TsFnOrConstructorType {
             TsFnOrConstructorType::TsConstructorType(t) => {
                 TsFnOrConstructorTypeOutput::Constructor(t.babelify(ctx))
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -444,6 +456,8 @@ impl Babelify for TsKeywordType {
                     base: ctx.base(self.span),
                 })
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -510,6 +524,8 @@ impl Babelify for TsThisTypeOrIdent {
         match self {
             TsThisTypeOrIdent::Ident(i) => TSTypePredicateParamName::Id(i.babelify(ctx)),
             TsThisTypeOrIdent::TsThisType(t) => TSTypePredicateParamName::This(t.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -532,6 +548,8 @@ impl Babelify for TsTypeQueryExpr {
         match self {
             TsTypeQueryExpr::TsEntityName(n) => TSTypeQueryExprName::EntityName(n.babelify(ctx)),
             TsTypeQueryExpr::Import(i) => TSTypeQueryExprName::ImportType(i.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -650,6 +668,8 @@ impl Babelify for TsUnionOrIntersectionType {
             TsUnionOrIntersectionType::TsIntersectionType(i) => {
                 TsUnionOrIntersectionTypeOutput::Intersection(i.babelify(ctx))
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -732,6 +752,8 @@ impl Babelify for TsTypeOperatorOp {
             TsTypeOperatorOp::KeyOf => "keyof".into(),
             TsTypeOperatorOp::Unique => "unique".into(),
             TsTypeOperatorOp::ReadOnly => "readonly".into(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -905,6 +927,8 @@ impl Babelify for TsEnumMemberId {
         match self {
             TsEnumMemberId::Ident(i) => IdOrString::Id(i.babelify(ctx)),
             TsEnumMemberId::Str(s) => IdOrString::String(s.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -930,6 +954,8 @@ impl Babelify for TsNamespaceBody {
         match self {
             TsNamespaceBody::TsModuleBlock(b) => TSModuleDeclBody::Block(b.babelify(ctx)),
             TsNamespaceBody::TsNamespaceDecl(d) => TSModuleDeclBody::Decl(d.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -970,6 +996,8 @@ impl Babelify for TsModuleName {
         match self {
             TsModuleName::Ident(i) => IdOrString::Id(i.babelify(ctx)),
             TsModuleName::Str(s) => IdOrString::String(s.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -996,6 +1024,8 @@ impl Babelify for TsModuleRef {
             TsModuleRef::TsExternalModuleRef(e) => {
                 TSImportEqualsDeclModuleRef::External(e.babelify(ctx))
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -1076,6 +1106,8 @@ impl Babelify for Accessibility {
             Accessibility::Public => Access::Public,
             Accessibility::Protected => Access::Protected,
             Accessibility::Private => Access::Private,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

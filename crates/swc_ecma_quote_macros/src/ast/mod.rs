@@ -25,6 +25,8 @@ macro_rules! impl_enum_body {
                     )
                 },
             )*
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     };
 }

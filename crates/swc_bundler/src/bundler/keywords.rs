@@ -61,6 +61,8 @@ impl VisitMut for KeywordRenamer {
         let orig = match &n.orig {
             ModuleExportName::Ident(ident) => ident,
             ModuleExportName::Str(..) => unimplemented!("module string names unimplemented"),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
         if let Some(renamed) = self.renamed(orig) {
             n.orig = ModuleExportName::Ident(renamed);

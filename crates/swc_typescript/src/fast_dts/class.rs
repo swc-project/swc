@@ -165,6 +165,8 @@ impl FastDts {
                                 }
                             }
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
 
                     // Transform return
@@ -189,6 +191,8 @@ impl FastDts {
                             }
                         }
                         MethodKind::Setter => method.function.return_type = None,
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
 
                     method.function.body = None;
@@ -246,6 +250,8 @@ impl FastDts {
                     class.body.push(member);
                 }
                 ClassMember::Empty(_) | ClassMember::StaticBlock(_) => {}
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
@@ -286,6 +292,8 @@ impl FastDts {
                     is_required |= match &ts_param_prop.param {
                         TsParamPropParam::Ident(binding_ident) => !binding_ident.optional,
                         TsParamPropParam::Assign(_) => false,
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     };
                     if let Some(private_prop) =
                         self.transform_constructor_ts_param(ts_param_prop, is_required)
@@ -306,8 +314,12 @@ impl FastDts {
                         Pat::Array(array_pat) => !array_pat.optional,
                         Pat::Object(object_pat) => !object_pat.optional,
                         Pat::Assign(_) | Pat::Invalid(_) | Pat::Expr(_) | Pat::Rest(_) => false,
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
         private_properties.reverse();
@@ -359,9 +371,13 @@ impl FastDts {
                         Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => {
                             return None
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     },
                 )
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         // 3. Add undefined type if needed: only when explicit '?' is present
@@ -386,6 +402,8 @@ impl FastDts {
                 .left
                 .as_ident()
                 .map(|binding_ident| binding_ident.id.clone()),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         })?;
 
         let type_ann = if ts_param_prop
@@ -401,7 +419,11 @@ impl FastDts {
                     Pat::Array(array_pat) => array_pat.type_ann.clone(),
                     Pat::Object(object_pat) => object_pat.type_ann.clone(),
                     Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => None,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 },
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         };
 
