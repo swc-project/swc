@@ -12,6 +12,7 @@ version       = "1.0.0"
 [dependencies]
 bitflags   = { workspace = true }
 rustc-hash = { workspace = true }
+serde      = { workspace = true }
 tracing    = { workspace = true }
 
 swc_atoms       = { version = "7.0.0", path = "../swc_atoms" }
