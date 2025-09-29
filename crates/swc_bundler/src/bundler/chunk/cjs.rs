@@ -140,6 +140,8 @@ fn wrap_module(
                             unreachable!("module item found but is_es6 is false: {:?}", i)
                         }
                         ModuleItem::Stmt(s) => s,
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     })
                     .collect(),
                 ..Default::default()
@@ -318,6 +320,8 @@ where
                         .into();
                         return;
                     }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 }
             }
 

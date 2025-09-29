@@ -30,7 +30,6 @@ pub struct TagItem {
 }
 
 #[ast_node]
-#[non_exhaustive]
 pub enum Tag {
     #[tag("Yield")]
     Yield(YieldTag),

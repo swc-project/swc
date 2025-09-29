@@ -694,12 +694,12 @@ impl Generator<'_> {
                         }),
                         (true, TraitKind::Visit | TraitKind::VisitMut) => parse_quote!(match self {
                             #(#match_arms)*
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => ()
                         }),
                         (true, TraitKind::Fold) => parse_quote!(match self {
                             #(#match_arms)*
-                            #[cfg(feature = "unknown")]
+                            #[cfg(swc_ast_unknown)]
                             _ => self
                         }),
                     }

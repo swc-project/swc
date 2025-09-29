@@ -8,6 +8,9 @@ name          = "swc_typescript"
 repository    = { workspace = true }
 version       = "20.0.0"
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [dependencies]
 bitflags = {workspace = true }
 petgraph   = { workspace = true }

@@ -61,8 +61,12 @@ impl Babelify for Stmt {
                 Decl::TsTypeAlias(d) => Statement::TSTypeAliasDecl(d.babelify(ctx)),
                 Decl::TsEnum(d) => Statement::TSEnumDecl(d.babelify(ctx)),
                 Decl::TsModule(d) => Statement::TSModuleDecl(d.babelify(ctx)),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
             Stmt::Expr(s) => Statement::Expr(s.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -322,6 +326,8 @@ impl Babelify for VarDeclOrExpr {
         match self {
             VarDeclOrExpr::VarDecl(v) => ForStmtInit::VarDecl(v.babelify(ctx)),
             VarDeclOrExpr::Expr(e) => ForStmtInit::Expr(Box::alloc().init(e.babelify(ctx).into())),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
