@@ -581,9 +581,9 @@ where
                 kind,
             }
             .into())
-        },
+        }
         #[cfg(swc_ast_unknown)]
-        _ => unreachable!()
+        _ => unreachable!(),
     }
 }
 
@@ -820,7 +820,7 @@ fn make_property<'a, P: Parser<'a>>(
                 .into()
             }
             #[cfg(swc_ast_unknown)]
-            _ => unreachable!()
+            _ => unreachable!(),
         })
     })
 }

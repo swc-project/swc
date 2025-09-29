@@ -587,7 +587,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                 }
                 Callee::Expr(expr) => expr,
                 #[cfg(swc_ast_unknown)]
-                _ => unreachable!()
+                _ => unreachable!(),
             };
             return Ok((
                 TsNonNullExpr {
@@ -811,7 +811,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     }
                 }
                 #[cfg(swc_ast_unknown)]
-                _ => unreachable!()
+                _ => unreachable!(),
             }),
             true,
         ));
@@ -858,7 +858,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     true,
                 )),
                 #[cfg(swc_ast_unknown)]
-                _ => unreachable!()
+                _ => unreachable!(),
             }
         } else {
             Ok((
@@ -951,7 +951,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                             }
                             MemberProp::Computed(..) => unreachable!(),
                             #[cfg(swc_ast_unknown)]
-                            _ => unreachable!()
+                            _ => unreachable!(),
                         }
                     }
                 }
@@ -981,7 +981,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
                     }
                 }
                 #[cfg(swc_ast_unknown)]
-                _ => unreachable!()
+                _ => unreachable!(),
             }),
             true,
         ));
@@ -1024,7 +1024,7 @@ fn parse_subscript<'a, P: Parser<'a>>(
             syntax_error!(p, p.input().cur_span(), SyntaxError::InvalidImport);
         }
         #[cfg(swc_ast_unknown)]
-        _ => unreachable!()
+        _ => unreachable!(),
     }
 }
 
@@ -1975,7 +1975,7 @@ fn parse_args_or_pats_inner<'a, P: Parser<'a>>(
                     // error.
                 }
                 #[cfg(swc_ast_unknown)]
-                _ => ()
+                _ => (),
             }
 
             if p.input_mut().eat(&P::Token::EQUAL) {

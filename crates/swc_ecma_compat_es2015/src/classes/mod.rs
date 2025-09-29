@@ -519,7 +519,7 @@ impl Classes {
                 | ClassMember::TsIndexSignature(..)
                 | ClassMember::StaticBlock(..)
                 | ClassMember::AutoAccessor(..) => {}
-                ClassMember::Empty(..) => {},
+                ClassMember::Empty(..) => {}
 
                 #[cfg(swc_ast_unknown)]
                 _ => panic!("unable to access unknown nodes"),

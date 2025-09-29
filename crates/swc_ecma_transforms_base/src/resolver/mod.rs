@@ -794,7 +794,7 @@ impl VisitMut for Resolver<'_> {
                 }
                 ModuleExportName::Str(_) => {}
                 #[cfg(swc_ast_unknown)]
-                _ => {},
+                _ => {}
             }
         }
     }

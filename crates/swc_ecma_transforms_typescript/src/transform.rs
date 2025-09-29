@@ -332,7 +332,7 @@ impl VisitMut for Transform {
                             )
                         }
                         #[cfg(swc_ast_unknown)]
-                        _ => panic!("unable to access unknown nodes")
+                        _ => panic!("unable to access unknown nodes"),
                     };
 
                     self.in_class_prop.push(id);
@@ -347,7 +347,7 @@ impl VisitMut for Transform {
                 }
                 ParamOrTsParamProp::Param(..) => {}
                 #[cfg(swc_ast_unknown)]
-                _ => panic!("unable to access unknown nodes")
+                _ => panic!("unable to access unknown nodes"),
             });
 
         node.params.visit_mut_children_with(self);
@@ -868,7 +868,7 @@ impl Transform {
             }
             TsNamespaceBody::TsNamespaceDecl(ts_namespace_decl) => ts_namespace_decl,
             #[cfg(swc_ast_unknown)]
-            _ => panic!("unable to access unknown nodes")
+            _ => panic!("unable to access unknown nodes"),
         };
 
         debug_assert!(!declare);
@@ -1198,7 +1198,7 @@ impl Transform {
                     prop: MemberProp::Ident(right),
                 }
                 .into()
-            },
+            }
             #[cfg(swc_ast_unknown)]
             _ => panic!("unable to access unknown nodes"),
         }

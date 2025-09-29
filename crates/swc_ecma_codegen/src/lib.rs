@@ -2363,6 +2363,6 @@ impl MacroNode for IdentName {
 fn unknown_error() -> io::Error {
     io::Error::new(
         io::ErrorKind::Unsupported,
-        "emit unknown variant is not supported"
+        "emit unknown variant is not supported",
     )
 }

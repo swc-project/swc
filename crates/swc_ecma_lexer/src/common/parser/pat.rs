@@ -52,7 +52,7 @@ fn pat_is_valid_argument_in_strict<'a>(p: &mut impl Parser<'a>, pat: &Pat) {
                         }
                     }
                     #[cfg(swc_ast_unknown)]
-                    _ => ()
+                    _ => (),
                 }
             }
         }
@@ -180,7 +180,7 @@ fn reparse_expr_as_pat_inner<'a>(
                     }
                     AssignTarget::Pat(pat) => pat.into(),
                     #[cfg(swc_ast_unknown)]
-                    _ => unreachable!()
+                    _ => unreachable!(),
                 },
                 right,
             }
@@ -258,7 +258,7 @@ fn reparse_expr_as_pat_inner<'a>(
                             }
 
                             #[cfg(swc_ast_unknown)]
-                            _ => unreachable!()
+                            _ => unreachable!(),
                         }
                     })
                     .collect::<PResult<_>>()?,

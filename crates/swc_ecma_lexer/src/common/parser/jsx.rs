@@ -102,7 +102,7 @@ fn parse_jsx_element_name<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXElementNam
         JSXAttrName::Ident(i) => JSXElementName::Ident(i.into()),
         JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
         #[cfg(swc_ast_unknown)]
-        _ => unreachable!()
+        _ => unreachable!(),
     };
     while p.input_mut().eat(&P::Token::DOT) {
         let prop = parse_jsx_ident(p).map(IdentName::from)?;
@@ -152,7 +152,7 @@ pub fn jsx_expr_container_to_jsx_attr_value<'a, P: Parser<'a>>(
         }
         JSXExpr::Expr(..) => Ok(node.into()),
         #[cfg(swc_ast_unknown)]
-        _ => unreachable!()
+        _ => unreachable!(),
     }
 }
 

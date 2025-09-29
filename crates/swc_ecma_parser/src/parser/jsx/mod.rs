@@ -83,7 +83,7 @@ impl<I: Tokens> Parser<I> {
             JSXAttrName::Ident(i) => JSXElementName::Ident(i.into()),
             JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
             #[cfg(swc_ast_unknown)]
-            _ => unreachable!()
+            _ => unreachable!(),
         };
         while self.input_mut().eat(&Token::Dot) {
             self.input_mut().scan_jsx_identifier();
