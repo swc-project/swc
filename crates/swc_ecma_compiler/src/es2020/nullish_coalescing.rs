@@ -245,4 +245,3 @@ impl<'a> CompilerImpl<'a> {
         .into()
     }
 }
-
