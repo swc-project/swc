@@ -698,8 +698,8 @@ where
                                                 handler
                                                     .struct_span_err(
                                                         i.span,
-                                                        "The value of property 'key' should \
-                                                            not be empty",
+                                                        "The value of property 'key' should not \
+                                                         be empty",
                                                     )
                                                     .emit();
                                             });
@@ -773,11 +773,10 @@ where
                                             handler
                                                 .struct_span_err(
                                                     span,
-                                                    "JSX Namespace is disabled by default \
-                                                        because react does not support it yet. \
-                                                        You can specify \
-                                                        jsc.transform.react.throwIfNamespace to \
-                                                        false to override default behavior",
+                                                    "JSX Namespace is disabled by default because \
+                                                     react does not support it yet. You can \
+                                                     specify jsc.transform.react.throwIfNamespace \
+                                                     to false to override default behavior",
                                                 )
                                                 .emit()
                                         });
@@ -1303,15 +1302,15 @@ where
             JSXElementName::JSXNamespacedName(JSXNamespacedName {
                 ref ns, ref name, ..
             }) => {
-                if self.throw_if_namespace && if HANDLER.is_set() {
+                if self.throw_if_namespace && HANDLER.is_set() {
                     HANDLER.with(|handler| {
                         handler
                             .struct_span_err(
                                 span,
                                 "JSX Namespace is disabled by default because react does not \
-                                    support it yet. You can specify \
-                                    jsc.transform.react.throwIfNamespace to false to override \
-                                    default behavior",
+                                 support it yet. You can specify \
+                                 jsc.transform.react.throwIfNamespace to false to override \
+                                 default behavior",
                             )
                             .emit()
                     });
