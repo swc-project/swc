@@ -354,6 +354,11 @@ jobs:
         run: |
           ./scripts/github/run-cargo-hack.sh ${{ matrix.settings.crate }}
 
+      - name: Check unknown variant with transforms
+        if: matrix.settings.crate == 'swc_ecma_transforms'
+        run: |
+          env RUSTFLAGS="--cfg swc_ast_unknown" cargo check -p ${{ matrix.settings.crate }} --features typescript,react,proposal,optimization,module,compat
+
   node-test:
     name: Test node bindings - ${{ matrix.os }}
     if: >-
