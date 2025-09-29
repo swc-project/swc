@@ -255,6 +255,8 @@ where
                 BlockStmtOrExpr::Expr(body) => {
                     body.visit_with(child);
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         })
     }
@@ -297,12 +299,16 @@ where
                 );
                 self.mark_mutation_if_member(e.as_member())
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         if n.op == op!("=") {
             let left = match &n.left {
                 AssignTarget::Simple(left) => left.leftmost().map(Ident::to_id),
                 AssignTarget::Pat(..) => None,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             };
 
             if let Some(left) = left {
@@ -712,6 +718,8 @@ where
                 v.mark_used_as_ref();
             }
             ModuleExportName::Str(..) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
     }
 
@@ -1562,7 +1570,11 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
                     Prop::Method(p) => {
                         for_each_id_ref_in_fn(&p.function, op);
                     }
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 },
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             });
         }
         _ => {}
@@ -1580,6 +1592,8 @@ fn for_each_id_ref_in_class(c: &Class, op: &mut impl FnMut(&Ident)) {
                 ParamOrTsParamProp::Param(p) => {
                     for_each_id_ref_in_pat(&p.pat, op);
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             });
         }
 
@@ -1618,6 +1632,8 @@ fn for_each_id_ref_in_class(c: &Class, op: &mut impl FnMut(&Ident)) {
         ClassMember::Empty(..)
         | ClassMember::StaticBlock(..)
         | ClassMember::TsIndexSignature(..) => {}
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     });
 }
 fn for_each_id_ref_in_prop_name(p: &PropName, op: &mut impl FnMut(&Ident)) {
@@ -1655,6 +1671,8 @@ fn for_each_id_ref_in_pat(p: &Pat, op: &mut impl FnMut(&Ident)) {
                 ObjectPatProp::Rest(p) => {
                     for_each_id_ref_in_pat(&p.arg, op);
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             });
         }
         Pat::Assign(p) => {
@@ -1665,6 +1683,8 @@ fn for_each_id_ref_in_pat(p: &Pat, op: &mut impl FnMut(&Ident)) {
         Pat::Expr(p) => {
             for_each_id_ref_in_expr(p, op);
         }
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 
