@@ -1,4 +1,4 @@
-use std::{cell::RefCell, mem, rc::Rc};
+use std::mem;
 
 use swc_ecma_lexer::common::syntax::SyntaxFlags;
 
@@ -7,7 +7,12 @@ use crate::{input::Tokens, lexer::token::TokenAndSpan};
 #[derive(Debug)]
 pub struct Capturing<I> {
     inner: I,
-    captured: Rc<RefCell<Vec<TokenAndSpan>>>,
+    captured: Vec<TokenAndSpan>,
+}
+
+pub struct CapturingCheckpoint<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>> {
+    pos: usize,
+    inner: I::Checkpoint,
 }
 
 impl<I: Clone> Clone for Capturing<I> {
@@ -27,13 +32,28 @@ impl<I> Capturing<I> {
         }
     }
 
-    pub fn tokens(&self) -> Rc<RefCell<Vec<TokenAndSpan>>> {
-        self.captured.clone()
+    pub fn tokens(&self) -> &[TokenAndSpan] {
+        &self.captured
     }
 
     /// Take captured tokens
     pub fn take(&mut self) -> Vec<TokenAndSpan> {
-        mem::take(&mut *self.captured.borrow_mut())
+        mem::take(&mut self.captured)
+    }
+
+    fn capture(&mut self, ts: TokenAndSpan) {
+        let v = &mut self.captured;
+
+        // remove tokens that could change due to backtracing
+        while let Some(last) = v.last() {
+            if last.span.lo >= ts.span.lo {
+                v.pop();
+            } else {
+                break;
+            }
+        }
+
+        v.push(ts);
     }
 }
 
@@ -45,19 +65,7 @@ impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
 
         match next {
             Some(ts) => {
-                let mut v = self.captured.borrow_mut();
-
-                // remove tokens that could change due to backtracing
-                while let Some(last) = v.last() {
-                    if last.span.lo >= ts.span.lo {
-                        v.pop();
-                    } else {
-                        break;
-                    }
-                }
-
-                v.push(ts);
-
+                self.capture(ts);
                 Some(ts)
             }
             None => None,
@@ -68,6 +76,20 @@ impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
 impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
     swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Capturing<I>
 {
+    type Checkpoint = CapturingCheckpoint<I>;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        Self::Checkpoint {
+            pos: self.captured.len(),
+            inner: self.inner.checkpoint_save(),
+        }
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        self.captured.truncate(checkpoint.pos);
+        self.inner.checkpoint_load(checkpoint.inner);
+    }
+
     fn set_ctx(&mut self, ctx: swc_ecma_lexer::common::context::Context) {
         self.inner.set_ctx(ctx);
     }
@@ -108,11 +130,11 @@ impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
         self.inner.set_token_context(c);
     }
 
-    fn add_error(&self, error: swc_ecma_lexer::error::Error) {
+    fn add_error(&mut self, error: swc_ecma_lexer::error::Error) {
         self.inner.add_error(error);
     }
 
-    fn add_module_mode_error(&self, error: swc_ecma_lexer::error::Error) {
+    fn add_module_mode_error(&mut self, error: swc_ecma_lexer::error::Error) {
         self.inner.add_module_mode_error(error);
     }
 
@@ -163,7 +185,9 @@ impl<I: Tokens> Tokens for Capturing<I> {
     }
 
     fn rescan_jsx_open_el_terminal_token(&mut self, reset: swc_common::BytePos) -> TokenAndSpan {
-        self.inner.rescan_jsx_open_el_terminal_token(reset)
+        let ts = self.inner.rescan_jsx_open_el_terminal_token(reset);
+        self.capture(ts);
+        ts
     }
 
     fn rescan_jsx_token(
@@ -171,15 +195,21 @@ impl<I: Tokens> Tokens for Capturing<I> {
         allow_multiline_jsx_text: bool,
         reset: swc_common::BytePos,
     ) -> TokenAndSpan {
-        self.inner.rescan_jsx_token(allow_multiline_jsx_text, reset)
+        let ts = self.inner.rescan_jsx_token(allow_multiline_jsx_text, reset);
+        self.capture(ts);
+        ts
     }
 
     fn scan_jsx_identifier(&mut self, start: swc_common::BytePos) -> TokenAndSpan {
-        self.inner.scan_jsx_identifier(start)
+        let ts = self.inner.scan_jsx_identifier(start);
+        self.capture(ts);
+        ts
     }
 
     fn scan_jsx_attribute_value(&mut self) -> TokenAndSpan {
-        self.inner.scan_jsx_attribute_value()
+        let ts = self.inner.scan_jsx_attribute_value();
+        self.capture(ts);
+        ts
     }
 
     fn rescan_template_token(
@@ -187,7 +217,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
         start: swc_common::BytePos,
         start_with_back_tick: bool,
     ) -> TokenAndSpan {
-        self.inner
-            .rescan_template_token(start, start_with_back_tick)
+        let ts = self
+            .inner
+            .rescan_template_token(start, start_with_back_tick);
+        self.capture(ts);
+        ts
     }
 }

@@ -74,11 +74,7 @@ impl Pure<'_> {
         } else {
             self.ignore_return_value(
                 &mut cond.test,
-                DropOpts {
-                    drop_number: true,
-                    drop_str_lit: true,
-                    ..Default::default()
-                },
+                DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
             );
 
             self.changed = true;
@@ -111,8 +107,7 @@ impl Pure<'_> {
 
         let Expr::Cond(cond) = e else { return };
 
-        let lt = cond.cons.get_type(self.expr_ctx);
-        if let Value::Known(Type::Bool) = lt {
+        if let Value::Known(Type::Bool) = cond.cons.get_type(self.expr_ctx) {
             let lb = cond.cons.as_pure_bool(self.expr_ctx);
             if let Value::Known(true) = lb {
                 report_change!("conditionals: `foo ? true : bar` => `!!foo || bar`");

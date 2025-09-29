@@ -352,11 +352,17 @@ if (!nativeBinding || process.env.NAPI_RS_FORCE_WASI) {
 
 if (!nativeBinding) {
   if (loadErrors.length > 0) {
-    // TODO Link to documentation with potential fixes
-    //  - The package owner could build/publish bindings for this arch
-    //  - The user may need to bundle the correct files
-    //  - The user may need to re-install node_modules to get new packages
-    throw new Error('Failed to load native binding', { cause: loadErrors })
+    // Provide actionable guidance and a documentation link for troubleshooting.
+    // Keep message construction simple to avoid any runtime overhead unless an error occurs.
+    const help = [
+      `Failed to load native binding for @swc/minifier on ${process.platform}-${process.arch}.`,
+      `See https://swc.rs/docs/installation for troubleshooting and potential fixes:`,
+      ` - Package owner may need to publish prebuilt bindings for this platform/arch`,
+      ` - Ensure the correct optional @swc/minifier-* binary package is installed/bundled`,
+      ` - Reinstall dependencies (for example, remove lockfile and node_modules, then reinstall)`,
+      `If the issue persists, please open an issue: https://github.com/swc-project/swc/issues`
+    ].join("\n")
+    throw new Error(help, { cause: loadErrors })
   }
   throw new Error(`Failed to load native binding`)
 }

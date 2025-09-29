@@ -1,4 +1,4 @@
-use std::{cell::RefCell, fmt::Display, rc::Rc};
+use std::fmt::Display;
 
 use anyhow::Context;
 use bytes_str::BytesStr;
@@ -21,6 +21,7 @@ use swc_ecma_ast::{
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
     TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
 };
+use swc_ecma_lexer::common::parser::{buffer::Buffer, Parser as _};
 use swc_ecma_parser::{
     lexer::Lexer,
     unstable::{Capturing, Token, TokenAndSpan, TokenFactory},
@@ -251,8 +252,6 @@ pub fn operate(
         StringInput::from(&*fm),
         Some(&comments),
     ));
-    let tokens = lexer.tokens().clone();
-
     let mut parser = Parser::new_from(lexer);
 
     let program = match options.module {
@@ -261,6 +260,7 @@ pub fn operate(
         None => parser.parse_program(),
     };
     let errors = parser.take_errors();
+    let mut tokens = parser.input_mut().iter_mut().take();
 
     let mut program = match program {
         Ok(program) => program,
@@ -301,8 +301,6 @@ pub fn operate(
 
     match options.mode {
         Mode::StripOnly => {
-            let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
-
             tokens.sort_by_key(|t| t.span);
 
             if deprecated_ts_module_as_error {
@@ -418,8 +416,6 @@ pub fn operate(
                 program.mutate(&mut resolver(unresolved_mark, top_level_mark, true));
 
                 if deprecated_ts_module_as_error {
-                    let mut tokens = RefCell::into_inner(Rc::try_unwrap(tokens).unwrap());
-
                     tokens.sort_by_key(|t| t.span);
 
                     program.visit_with(&mut ErrorOnTsModule {
@@ -688,7 +684,7 @@ impl TsStrip {
             | Token::NoSubstitutionTemplateLiteral
             | Token::Plus
             | Token::Minus
-            | Token::Slash => {
+            | Token::Regex => {
                 if prev_token == &Token::Semi {
                     self.add_overwrite(prev_span.lo, b';');
                     return;

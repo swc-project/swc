@@ -409,6 +409,20 @@ pub(crate) fn is_pure_undefined_or_null(expr_ctx: ExprCtx, e: &Expr) -> bool {
     is_pure_undefined(expr_ctx, e) || matches!(e, Expr::Lit(Lit::Null(..)))
 }
 
+pub(crate) fn eval_to_undefined(expr_ctx: ExprCtx, e: &Expr) -> bool {
+    match e {
+        Expr::Unary(UnaryExpr {
+            op: UnaryOp::Void, ..
+        }) => true,
+        Expr::Seq(s) => eval_to_undefined(expr_ctx, s.exprs.last().as_ref().unwrap()),
+        Expr::Cond(c) => {
+            eval_to_undefined(expr_ctx, &c.cons) && eval_to_undefined(expr_ctx, &c.alt)
+        }
+
+        _ => e.is_undefined(expr_ctx),
+    }
+}
+
 /// This method does **not** modifies `e`.
 ///
 /// This method is used to test if a whole call can be replaced, while

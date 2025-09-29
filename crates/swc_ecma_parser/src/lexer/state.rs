@@ -6,7 +6,7 @@ use swc_ecma_lexer::{
     common::{
         lexer::{
             char::CharExt,
-            comments_buffer::{BufferedComment, BufferedCommentKind},
+            comments_buffer::{BufferedCommentKind, CommentsBufferTrait},
             state::State as StateTrait,
             LexResult,
         },
@@ -20,7 +20,10 @@ use super::{Context, Input, Lexer, LexerTrait};
 use crate::{
     error::Error,
     input::Tokens,
-    lexer::token::{Token, TokenAndSpan, TokenValue},
+    lexer::{
+        comments_buffer::CommentsBufferCheckpoint,
+        token::{Token, TokenAndSpan, TokenValue},
+    },
 };
 
 /// State of lexer.
@@ -42,12 +45,42 @@ pub struct State {
     token_type: Option<Token>,
 }
 
-impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
+pub struct LexerCheckpoint {
+    comments_buffer: CommentsBufferCheckpoint,
+    state: State,
+    ctx: Context,
+    input_last_pos: BytePos,
+}
+
+impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
+    type Checkpoint = LexerCheckpoint;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint {
+        Self::Checkpoint {
+            state: self.state.clone(),
+            ctx: self.ctx,
+            input_last_pos: self.input.last_pos(),
+            comments_buffer: self
+                .comments_buffer
+                .as_ref()
+                .map(|cb| cb.checkpoint_save())
+                .unwrap_or_default(),
+        }
+    }
+
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+        self.state = checkpoint.state;
+        self.ctx = checkpoint.ctx;
+        unsafe { self.input.reset_to(checkpoint.input_last_pos) };
+        if let Some(comments_buffer) = self.comments_buffer.as_mut() {
+            comments_buffer.checkpoint_load(checkpoint.comments_buffer);
+        }
+    }
+
     #[inline]
     fn set_ctx(&mut self, ctx: Context) {
-        if ctx.contains(Context::Module) && !self.module_errors.borrow().is_empty() {
-            let mut module_errors = self.module_errors.borrow_mut();
-            self.errors.borrow_mut().append(&mut *module_errors);
+        if ctx.contains(Context::Module) && !self.module_errors.is_empty() {
+            self.errors.append(&mut self.module_errors);
         }
         self.ctx = ctx
     }
@@ -100,26 +133,26 @@ impl swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'_> {
         unreachable!();
     }
 
-    fn add_error(&self, error: Error) {
-        self.errors.borrow_mut().push(error);
+    fn add_error(&mut self, error: Error) {
+        self.errors.push(error);
     }
 
-    fn add_module_mode_error(&self, error: Error) {
+    fn add_module_mode_error(&mut self, error: Error) {
         if self.ctx.contains(Context::Module) {
             self.add_error(error);
             return;
         }
-        self.module_errors.borrow_mut().push(error);
+        self.module_errors.push(error);
     }
 
     #[inline]
     fn take_errors(&mut self) -> Vec<Error> {
-        take(&mut self.errors.borrow_mut())
+        take(&mut self.errors)
     }
 
     #[inline]
     fn take_script_module_errors(&mut self) -> Vec<Error> {
-        take(&mut self.module_errors.borrow_mut())
+        take(&mut self.module_errors)
     }
 
     #[inline]
@@ -185,13 +218,7 @@ impl crate::input::Tokens for Lexer<'_> {
         let span = self.span(start);
         if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                for comment in comments.take_pending_leading() {
-                    comments.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
-                }
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
             }
 
             self.state.set_token_type(token);
@@ -223,13 +250,7 @@ impl crate::input::Tokens for Lexer<'_> {
         let span = self.span(start);
         if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                for comment in comments.take_pending_leading() {
-                    comments.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
-                }
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
             }
 
             self.state.set_token_type(token);
@@ -353,13 +374,7 @@ impl crate::input::Tokens for Lexer<'_> {
 
         if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                for comment in comments.take_pending_leading() {
-                    comments.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
-                }
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
             }
 
             self.state.set_token_type(token);
@@ -377,8 +392,9 @@ impl crate::input::Tokens for Lexer<'_> {
 
 impl Lexer<'_> {
     fn next_token(&mut self, start: &mut BytePos) -> Result<Token, Error> {
-        if let Some(start) = self.state.next_regexp {
-            return self.read_regexp(start);
+        if let Some(next_regexp) = self.state.next_regexp {
+            *start = next_regexp;
+            return self.read_regexp(next_regexp);
         }
 
         if self.state.is_first {
@@ -570,13 +586,7 @@ impl Iterator for Lexer<'_> {
         let span = self.span(start);
         if token != Token::Eof {
             if let Some(comments) = self.comments_buffer.as_mut() {
-                for comment in comments.take_pending_leading() {
-                    comments.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: start,
-                        comment,
-                    });
-                }
+                comments.pending_to_comment(BufferedCommentKind::Leading, start);
             }
 
             self.state.set_token_type(token);

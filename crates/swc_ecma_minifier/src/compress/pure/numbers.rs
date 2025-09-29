@@ -173,6 +173,33 @@ impl Pure<'_> {
                 }
 
                 (
+                    op!("<<") | op!(">>") | op!(">>>") | op!("|") | op!("^") | op!("&"),
+                    e @ Expr::Bin(BinExpr { op: op!("|"), .. }),
+                    _,
+                )
+                | (
+                    op!("<<") | op!(">>") | op!(">>>") | op!("|") | op!("^") | op!("&"),
+                    _,
+                    e @ Expr::Bin(BinExpr { op: op!("|"), .. }),
+                ) => {
+                    if let Expr::Bin(bin) = e {
+                        match (&mut *bin.left, &mut *bin.right) {
+                            (Expr::Lit(Lit::Num(n)), inner) | (inner, Expr::Lit(Lit::Num(n)))
+                                if n.value == 0.0 =>
+                            {
+                                report_change!("numbers: Turn '(a | 0) ^ b' into 'a ^ b'");
+                                self.changed = true;
+
+                                let new_expr = inner.take();
+
+                                *e = new_expr
+                            }
+                            _ => {}
+                        }
+                    }
+                }
+
+                (
                     op!("|"),
                     Expr::Unary(u @ UnaryExpr { op: op!("~"), .. }),
                     Expr::Lit(Lit::Num(Number { value: 0.0, .. })),

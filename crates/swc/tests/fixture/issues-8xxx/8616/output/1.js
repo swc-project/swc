@@ -1,4 +1,4 @@
-var _type_of = require("@swc/helpers/_/_type_of");
+import { _ as _type_of } from "@swc/helpers/_/_type_of";
 var Module = (function() {
     var _scriptDir = typeof document !== 'undefined' && document.currentScript ? document.currentScript.src : undefined;
     if (typeof __filename !== 'undefined') _scriptDir || (_scriptDir = __filename);
@@ -14,7 +14,7 @@ var Module = (function() {
         return moduleArg;
     };
 })()();
-if ((typeof exports === "undefined" ? "undefined" : _type_of._(exports)) === 'object' && (typeof module === "undefined" ? "undefined" : _type_of._(module)) === 'object') module.exports = Module;
+if ((typeof exports === "undefined" ? "undefined" : _type_of(exports)) === 'object' && (typeof module === "undefined" ? "undefined" : _type_of(module)) === 'object') module.exports = Module;
 else if (typeof define === 'function' && define['amd']) define([], function() {
     return Module;
 });

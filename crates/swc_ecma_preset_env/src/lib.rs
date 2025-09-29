@@ -253,7 +253,7 @@ where
     let pass = add!(
         pass,
         Spread,
-        es2015::spread(es2015::spread::Config { loose }),
+        es2015::spread(es2015::spread::Config { loose }, unresolved_mark),
         true
     );
     let pass = add!(pass, ObjectSuper, es2015::object_super());
@@ -282,7 +282,11 @@ where
     let pass = add!(pass, DuplicateKeys, es2015::duplicate_keys());
     let pass = add!(pass, StickyRegex, es2015::sticky_regex());
     let pass = add!(pass, TypeOfSymbol, es2015::instance_of());
-    let pass = add!(pass, TypeOfSymbol, es2015::typeof_symbol());
+    let pass = add!(
+        pass,
+        TypeOfSymbol,
+        es2015::typeof_symbol(es2015::typeof_symbol::Config { loose })
+    );
     let pass = add!(
         pass,
         ComputedProperties,

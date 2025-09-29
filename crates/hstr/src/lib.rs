@@ -5,7 +5,7 @@ use core::str;
 use std::{
     fmt::{Debug, Display},
     hash::Hash,
-    mem::{self, forget, transmute},
+    mem::{self, forget, transmute, ManuallyDrop},
     num::NonZeroU8,
     ops::Deref,
     str::from_utf8_unchecked,
@@ -15,13 +15,21 @@ use debug_unreachable::debug_unreachable;
 use once_cell::sync::Lazy;
 
 pub use crate::dynamic::{global_atom_store_gc, AtomStore};
-use crate::tagged_value::TaggedValue;
+use crate::{
+    macros::{get_hash, impl_from_alias, partial_eq},
+    tagged_value::TaggedValue,
+};
 
 mod dynamic;
 mod global_store;
+mod macros;
 mod tagged_value;
 #[cfg(test)]
 mod tests;
+pub mod wtf8;
+mod wtf8_atom;
+
+pub use wtf8_atom::Wtf8Atom;
 
 /// An immutable string which is cheap to clone, compare, hash, and has small
 /// size.
@@ -253,20 +261,7 @@ impl Atom {
 
 impl Atom {
     fn get_hash(&self) -> u64 {
-        match self.tag() {
-            DYNAMIC_TAG => {
-                unsafe { crate::dynamic::deref_from(self.unsafe_data) }
-                    .header
-                    .header
-                    .hash
-            }
-            INLINE_TAG => {
-                // This is passed as input to the caller's `Hasher` implementation, so it's okay
-                // that this isn't really a hash
-                self.unsafe_data.hash()
-            }
-            _ => unsafe { debug_unreachable!() },
-        }
+        get_hash!(self)
     }
 
     fn as_str(&self) -> &str {
@@ -302,30 +297,7 @@ impl Atom {
 impl PartialEq for Atom {
     #[inline(never)]
     fn eq(&self, other: &Self) -> bool {
-        if self.unsafe_data == other.unsafe_data {
-            return true;
-        }
-
-        // If one is inline and the other is not, the length is different.
-        // If one is static and the other is not, it's different.
-        if self.tag() != other.tag() {
-            return false;
-        }
-
-        if self.is_dynamic() && other.is_dynamic() {
-            let te = unsafe { crate::dynamic::deref_from(self.unsafe_data) };
-            let oe = unsafe { crate::dynamic::deref_from(other.unsafe_data) };
-
-            if te.header.header.hash != oe.header.header.hash {
-                return false;
-            }
-
-            return te.slice == oe.slice;
-        }
-
-        if self.get_hash() != other.get_hash() {
-            return false;
-        }
+        partial_eq!(self, other);
 
         // If the store is different, the string may be the same, even though the
         // `unsafe_data` is different
@@ -358,20 +330,7 @@ impl Clone for Atom {
     }
 }
 
-impl Atom {
-    #[inline]
-    pub(crate) fn from_alias(alias: TaggedValue) -> Self {
-        if alias.tag() & TAG_MASK == DYNAMIC_TAG {
-            unsafe {
-                let arc = crate::dynamic::restore_arc(alias);
-                forget(arc.clone());
-                forget(arc);
-            }
-        }
-
-        Self { unsafe_data: alias }
-    }
-}
+impl_from_alias!(Atom);
 
 impl Deref for Atom {
     type Target = str;
@@ -440,6 +399,28 @@ where
         let s: String = self.deserialize(deserializer)?;
 
         Ok(Atom::new(s))
+    }
+}
+
+impl Atom {
+    /// Converts a WTF-8 encoded [Wtf8Atom] to a regular UTF-8 [Atom] without
+    /// validation.
+    ///
+    /// # Safety
+    ///
+    /// The caller must ensure that the WTF-8 atom contains only valid UTF-8
+    /// data (no unpaired surrogates). This function performs no validation
+    /// and will create an invalid `Atom` if the input contains unpaired
+    /// surrogates.
+    ///
+    /// This is a zero-cost conversion that preserves all internal optimizations
+    /// (inline storage, precomputed hashes, etc.) since both types have
+    /// identical internal representation.
+    pub unsafe fn from_wtf8_unchecked(s: Wtf8Atom) -> Self {
+        let s = ManuallyDrop::new(s);
+        Atom {
+            unsafe_data: s.unsafe_data,
+        }
     }
 }
 

@@ -69,9 +69,9 @@ impl UsageVisitor {
             ..
         } = self;
 
-        self.required.extend(features.filter(|f| {
+        for f in features {
             if !*shipped_proposals && f.starts_with("esnext.") {
-                return false;
+                continue;
             }
 
             let feature = CORE_JS_COMPAT_DATA.get(f);
@@ -79,17 +79,28 @@ impl UsageVisitor {
             if !*is_any_target {
                 if let Some(feature) = feature {
                     if !should_enable(target, feature, true) {
-                        return false;
+                        continue;
                     }
                 }
             }
 
             if let Some(version) = data::modules_by_version(f) {
-                return version <= *corejs_version;
+                if version > *corejs_version {
+                    if *shipped_proposals {
+                        if let Some(esnext_module) = data::esnext_fallback(f) {
+                            if let Some(esnext_version) = data::modules_by_version(esnext_module) {
+                                if esnext_version <= *corejs_version {
+                                    self.required.insert(esnext_module);
+                                }
+                            }
+                        }
+                    }
+                    continue;
+                }
             }
 
-            true
-        }));
+            self.required.insert(f);
+        }
     }
 
     fn add_builtin(&mut self, built_in: &str) {

@@ -183,11 +183,8 @@ impl VisitMut for AsyncToGenerator {
             out_fn_state.use_super |= fn_state.use_super;
         }
 
-        let should_handle_super =
-            fn_state.use_super && self.fn_state.as_ref().is_some_and(|s| !s.is_async);
-
         let mut stmts = vec![];
-        if should_handle_super {
+        if fn_state.use_super {
             // slow path
             let mut fn_env_hoister = FnEnvHoister::new(self.unresolved_ctxt);
             fn_env_hoister.disable_this();
@@ -214,7 +211,7 @@ impl VisitMut for AsyncToGenerator {
 
         let expr = make_fn_ref(&fn_state, vec![], body);
 
-        arrow_expr.body = if should_handle_super {
+        arrow_expr.body = if fn_state.use_super {
             stmts.push(expr.into_stmt());
             BlockStmtOrExpr::BlockStmt(BlockStmt {
                 stmts,

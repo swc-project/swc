@@ -458,8 +458,6 @@ fn parse_export<'a, P: Parser<'a>>(
                 if cur.is_error() {
                     let err = p.input_mut().expect_error_token_and_bump();
                     return Err(err);
-                } else if cur.is_eof() {
-                    return Err(eof_error(p));
                 }
 
                 return parse_default_class(p, start, class_start, decorators, true)
@@ -660,7 +658,7 @@ fn parse_export<'a, P: Parser<'a>>(
 
         expect!(p, &P::Token::LBRACE);
 
-        while !eof!(p) && !p.input().is(&P::Token::RBRACE) {
+        while !p.input().is(&P::Token::RBRACE) {
             let specifier = parse_named_export_specifier(p, type_only)?;
             specifiers.push(ExportSpecifier::Named(specifier));
 
@@ -871,7 +869,7 @@ fn parse_import<'a, P: Parser<'a>>(p: &mut P) -> PResult<ModuleItem> {
             }));
             // Named imports are only allowed in evaluation phase.
         } else if phase == ImportPhase::Evaluation && p.input_mut().eat(&P::Token::LBRACE) {
-            while !eof!(p) && !p.input().is(&P::Token::RBRACE) {
+            while !p.input().is(&P::Token::RBRACE) {
                 specifiers.push(parse_import_specifier(p, type_only)?);
 
                 if p.input().is(&P::Token::RBRACE) {

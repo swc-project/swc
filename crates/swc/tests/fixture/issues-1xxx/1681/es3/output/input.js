@@ -1,6 +1,6 @@
-var _tagged_template_literal = require("@swc/helpers/_/_tagged_template_literal");
+import { _ as _tagged_template_literal } from "@swc/helpers/_/_tagged_template_literal";
 function _templateObject() {
-    var data = _tagged_template_literal._([
+    var data = _tagged_template_literal([
         "a\nb\nc\n"
     ]);
     _templateObject = function _templateObject() {
@@ -9,7 +9,7 @@ function _templateObject() {
     return data;
 }
 function _templateObject1() {
-    var data = _tagged_template_literal._([
+    var data = _tagged_template_literal([
         "a\nb\nc\n"
     ], [
         "a\\nb\\nc\\n"

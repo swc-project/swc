@@ -6,10 +6,7 @@ use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
-use swc_ecma_utils::{
-    ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type,
-    Value::{self, Known},
-};
+use swc_ecma_utils::{ExprCtx, ExprExt, ExprFactory, IdentUsageFinder, Type, Value};
 
 use super::Pure;
 use crate::compress::{
@@ -563,8 +560,7 @@ impl Pure<'_> {
                 .any(|v| match &*v.expr {
                     e if is_pure_undefined(self.expr_ctx, e) => false,
                     Expr::Lit(lit) => !matches!(lit, Lit::Str(..) | Lit::Num(..) | Lit::Null(..)),
-                    // This can change behavior if the value is `undefined` or `null`.
-                    Expr::Ident(..) => false,
+                    // All other expressions can potentially be null/undefined
                     _ => true,
                 })
             {
@@ -598,8 +594,16 @@ impl Pure<'_> {
             for (last, elem) in arr.elems.take().into_iter().identify_last() {
                 if let Some(ExprOrSpread { spread: None, expr }) = elem {
                     match &*expr {
-                        e if is_pure_undefined(self.expr_ctx, e) => {}
-                        Expr::Lit(Lit::Null(..)) => {}
+                        e if is_pure_undefined(self.expr_ctx, e) => {
+                            // null and undefined should become empty strings in
+                            // join
+                            // Don't add anything for empty string join
+                        }
+                        Expr::Lit(Lit::Null(..)) => {
+                            // null and undefined should become empty strings in
+                            // join
+                            // Don't add anything for empty string join
+                        }
                         _ => {
                             add(&mut res, expr);
                         }
@@ -1318,12 +1322,9 @@ impl Pure<'_> {
             {
                 self.ignore_return_value(
                     arg.as_deref_mut().unwrap(),
-                    DropOpts {
-                        drop_global_refs_if_unused: true,
-                        drop_number: true,
-                        drop_str_lit: true,
-                        ..Default::default()
-                    },
+                    DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                        .union(DropOpts::DROP_NUMBER)
+                        .union(DropOpts::DROP_STR_LIT),
                 );
 
                 if let Some(Expr::Invalid(..)) = arg.as_deref() {
@@ -1487,11 +1488,9 @@ impl Pure<'_> {
             .filter_map(|mut e| {
                 self.ignore_return_value(
                     &mut e,
-                    DropOpts {
-                        drop_global_refs_if_unused: true,
-                        drop_str_lit: true,
-                        drop_number: true,
-                    },
+                    DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                        .union(DropOpts::DROP_NUMBER)
+                        .union(DropOpts::DROP_STR_LIT),
                 );
 
                 if let Expr::Invalid(..) = &*e {
@@ -1738,7 +1737,7 @@ impl Pure<'_> {
             }
         }
 
-        if opts.drop_number {
+        if opts.contains(DropOpts::DROP_NUMBER) {
             if let Expr::Lit(Lit::Num(n)) = e {
                 // Skip 0
                 if n.value != 0.0 && n.value.classify() == FpCategory::Normal {
@@ -1753,7 +1752,7 @@ impl Pure<'_> {
             // If it's not a top level, it's a reference to a declared variable.
             if i.ctxt.outer() == self.marks.unresolved_mark {
                 if self.options.side_effects
-                    || (self.options.unused && opts.drop_global_refs_if_unused)
+                    || (self.options.unused && opts.contains(DropOpts::DROP_GLOBAL_REFS_IF_UNUSED))
                 {
                     if is_global_var_with_pure_property_access(&i.sym) {
                         report_change!("Dropping a reference to a global variable");
@@ -1779,12 +1778,9 @@ impl Pure<'_> {
                 }) => {
                     self.ignore_return_value(
                         arg,
-                        DropOpts {
-                            drop_str_lit: true,
-                            drop_global_refs_if_unused: true,
-                            drop_number: true,
-                            ..opts
-                        },
+                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                            .union(DropOpts::DROP_NUMBER)
+                            .union(DropOpts::DROP_STR_LIT),
                     );
 
                     if arg.is_invalid() {
@@ -1801,12 +1797,9 @@ impl Pure<'_> {
                 }) => {
                     self.ignore_return_value(
                         arg,
-                        DropOpts {
-                            drop_str_lit: true,
-                            drop_global_refs_if_unused: true,
-                            drop_number: true,
-                            ..opts
-                        },
+                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                            .union(DropOpts::DROP_NUMBER)
+                            .union(DropOpts::DROP_STR_LIT),
                     );
 
                     if arg.is_invalid() {
@@ -1880,7 +1873,7 @@ impl Pure<'_> {
 
         match e {
             Expr::Lit(Lit::Num(n)) => {
-                if n.value == 0.0 && opts.drop_number {
+                if n.value == 0.0 && opts.contains(DropOpts::DROP_NUMBER) {
                     report_change!("Dropping a zero number");
                     *e = Invalid { span: DUMMY_SP }.into();
                     return;
@@ -1933,23 +1926,16 @@ impl Pure<'_> {
             ) => {
                 self.ignore_return_value(
                     &mut bin.left,
-                    DropOpts {
-                        drop_number: true,
-                        drop_global_refs_if_unused: true,
-                        drop_str_lit: true,
-                        ..opts
-                    },
+                    DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                        .union(DropOpts::DROP_NUMBER)
+                        .union(DropOpts::DROP_STR_LIT),
                 );
                 self.ignore_return_value(
                     &mut bin.right,
-                    DropOpts {
-                        drop_number: true,
-                        drop_global_refs_if_unused: true,
-                        drop_str_lit: true,
-                        ..opts
-                    },
+                    DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                        .union(DropOpts::DROP_NUMBER)
+                        .union(DropOpts::DROP_STR_LIT),
                 );
-                let span = bin.span;
 
                 if bin.left.is_invalid() && bin.right.is_invalid() {
                     *e = Invalid { span: DUMMY_SP }.into();
@@ -1966,7 +1952,7 @@ impl Pure<'_> {
                     self.changed = true;
                     report_change!("ignore_return_value: Compressing binary as seq");
                     *e = SeqExpr {
-                        span,
+                        span: bin.span,
                         exprs: vec![bin.left.take(), bin.right.take()],
                     }
                     .into();
@@ -1994,11 +1980,7 @@ impl Pure<'_> {
                     if elem.spread.is_none() {
                         self.ignore_return_value(
                             &mut elem.expr,
-                            DropOpts {
-                                drop_number: true,
-                                drop_str_lit: true,
-                                ..Default::default()
-                            },
+                            DropOpts::DROP_NUMBER.union(DropOpts::DROP_STR_LIT),
                         );
                     }
                 }
@@ -2074,7 +2056,7 @@ impl Pure<'_> {
         match e {
             Expr::Lit(Lit::Str(s)) => {
                 if (self.options.directives && !matches!(&*s.value, "use strict" | "use asm"))
-                    || opts.drop_str_lit
+                    || opts.contains(DropOpts::DROP_STR_LIT)
                     || (s.value.starts_with("@swc/helpers")
                         || s.value.starts_with("@babel/helpers"))
                 {
@@ -2241,12 +2223,9 @@ impl Pure<'_> {
 
                                     self.ignore_return_value(
                                         &mut e.expr,
-                                        DropOpts {
-                                            drop_global_refs_if_unused: true,
-                                            drop_number: true,
-                                            drop_str_lit: true,
-                                            ..opts
-                                        },
+                                        DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                                            .union(DropOpts::DROP_NUMBER)
+                                            .union(DropOpts::DROP_STR_LIT),
                                     );
                                     if e.expr.is_invalid() {
                                         return None;
@@ -2272,12 +2251,9 @@ impl Pure<'_> {
                     for ExprOrSpread { mut expr, .. } in arr.elems.take().into_iter().flatten() {
                         self.ignore_return_value(
                             &mut expr,
-                            DropOpts {
-                                drop_str_lit: true,
-                                drop_number: true,
-                                drop_global_refs_if_unused: true,
-                                ..opts
-                            },
+                            DropOpts::DROP_GLOBAL_REFS_IF_UNUSED
+                                .union(DropOpts::DROP_NUMBER)
+                                .union(DropOpts::DROP_STR_LIT),
                         );
                         if !expr.is_invalid() {
                             exprs.push(expr);
@@ -2443,11 +2419,10 @@ impl Pure<'_> {
             _ => return,
         };
 
-        let lt = cond.cons.get_type(self.expr_ctx);
-        let rt = cond.alt.get_type(self.expr_ctx);
-        match (lt, rt) {
-            (Known(Type::Bool), Known(Type::Bool)) => {}
-            _ => return,
+        if (cond.cons.get_type(self.expr_ctx) != Value::Known(Type::Bool))
+            || (cond.alt.get_type(self.expr_ctx) != Value::Known(Type::Bool))
+        {
+            return;
         }
 
         let lb = cond.cons.as_pure_bool(self.expr_ctx);
@@ -2512,13 +2487,15 @@ impl Pure<'_> {
     }
 }
 
-#[derive(Debug, Default, Clone, Copy)]
-pub(super) struct DropOpts {
-    /// If true and `unused` option is enabled, references to global variables
-    /// will be dropped, even if `side_effects` is false.
-    pub drop_global_refs_if_unused: bool,
-    pub drop_number: bool,
-    pub drop_str_lit: bool,
+bitflags::bitflags! {
+    #[derive(Debug, Default, Clone, Copy)]
+    pub(super) struct DropOpts: u8 {
+        /// If true and `unused` option is enabled, references to global variables
+        /// will be dropped, even if `side_effects` is false.
+        const DROP_GLOBAL_REFS_IF_UNUSED = 1 << 0;
+        const DROP_NUMBER = 1 << 1;
+        const DROP_STR_LIT = 1 << 2;
+    }
 }
 
 /// `obj` should have top level syntax context.

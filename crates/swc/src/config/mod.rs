@@ -50,7 +50,7 @@ use swc_ecma_transforms::{
     modules::{
         self,
         path::{ImportResolver, NodeImportResolver, Resolver},
-        rewriter::import_rewriter,
+        rewriter::{import_rewriter, typescript_import_rewriter},
         util, EsModuleConfig,
     },
     optimization::{const_modules, json_parse, simplifier},
@@ -299,6 +299,7 @@ impl Options {
             #[cfg(feature = "lint")]
             lints,
             preserve_all_comments,
+            rewrite_relative_import_extensions,
             ..
         } = cfg.jsc;
         let loose = loose.into_bool();
@@ -535,7 +536,7 @@ impl Options {
         let optimization = {
             optimizer
                 .and_then(|o| o.globals)
-                .map(|opts| opts.build(cm, handler, unresolved_mark))
+                .map(|opts| opts.build(cm, handler))
         };
 
         let pass = (
@@ -661,6 +662,7 @@ impl Options {
                 cfg.module,
                 unresolved_mark,
                 resolver.clone(),
+                rewrite_relative_import_extensions.into_bool(),
                 |f| {
                     feature_config
                         .as_ref()
@@ -763,6 +765,9 @@ impl Options {
         {
             plugin_transforms.unwrap()
         } else {
+            let jsx_enabled =
+                syntax.jsx() && transform.react.runtime != Some(react::Runtime::Preserve);
+
             let decorator_pass: Box<dyn Pass> =
                 match transform.decorator_version.unwrap_or_default() {
                     DecoratorVersion::V202112 => Box::new(decorators(decorators::Config {
@@ -831,7 +836,7 @@ impl Options {
                         (
                             Optional::new(
                                 typescript::typescript(ts_config, unresolved_mark, top_level_mark),
-                                syntax.typescript() && !syntax.jsx(),
+                                syntax.typescript() && !jsx_enabled,
                             ),
                             Optional::new(
                                 typescript::tsx::<Option<&dyn Comments>>(
@@ -857,7 +862,7 @@ impl Options {
                                     unresolved_mark,
                                     top_level_mark,
                                 ),
-                                syntax.typescript() && syntax.jsx(),
+                                syntax.typescript() && jsx_enabled,
                             ),
                         )
                     },
@@ -874,7 +879,7 @@ impl Options {
                             top_level_mark,
                             unresolved_mark,
                         ),
-                        syntax.jsx(),
+                        jsx_enabled,
                     ),
                     built_pass,
                     Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
@@ -1319,6 +1324,10 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub output: JscOutputConfig,
+
+    /// https://www.typescriptlang.org/tsconfig/#rewriteRelativeImportExtensions
+    #[serde(default)]
+    pub rewrite_relative_import_extensions: BoolConfig<false>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
@@ -1455,7 +1464,8 @@ impl ModuleConfig {
         config: Option<ModuleConfig>,
         unresolved_mark: Mark,
         resolver: Option<(FileName, Arc<dyn ImportResolver>)>,
-        caniuse: impl (Fn(Feature) -> bool),
+        rewrite_relative_import_extensions: bool,
+        caniuse: impl Fn(Feature) -> bool,
     ) -> Box<dyn Pass + 'cmt> {
         let resolver = if let Some((base, resolver)) = resolver {
             Resolver::Real { base, resolver }
@@ -1466,11 +1476,15 @@ impl ModuleConfig {
         let support_block_scoping = caniuse(Feature::BlockScoping);
         let support_arrow = caniuse(Feature::ArrowFunctions);
 
-        match config {
+        let rewrite_relative_import_pass =
+            rewrite_relative_import_extensions.then(|| Box::new(typescript_import_rewriter()));
+        let transform_pass = match config {
             None | Some(ModuleConfig::Es6(..)) | Some(ModuleConfig::NodeNext(..)) => match resolver
             {
-                Resolver::Default => Box::new(noop_pass()),
-                Resolver::Real { base, resolver } => Box::new(import_rewriter(base, resolver)),
+                Resolver::Default => Box::new(noop_pass()) as Box<dyn Pass>,
+                Resolver::Real { base, resolver } => {
+                    Box::new(import_rewriter(base, resolver)) as Box<dyn Pass>
+                }
             },
             Some(ModuleConfig::CommonJs(config)) => Box::new(modules::common_js::common_js(
                 resolver,
@@ -1505,7 +1519,9 @@ impl ModuleConfig {
                 unresolved_mark,
                 config,
             )),
-        }
+        };
+
+        Box::new((rewrite_relative_import_pass, transform_pass))
     }
 
     pub fn get_resolver(
@@ -1705,12 +1721,7 @@ impl Default for GlobalInliningPassEnvs {
 }
 
 impl GlobalPassOption {
-    pub fn build(
-        self,
-        cm: &SourceMap,
-        handler: &Handler,
-        unresolved_mark: Mark,
-    ) -> impl 'static + Pass {
+    pub fn build(self, cm: &SourceMap, handler: &Handler) -> impl 'static + Pass {
         type ValuesMap = Arc<FxHashMap<Atom, Expr>>;
 
         fn expr(cm: &SourceMap, handler: &Handler, src: String) -> Box<Expr> {
@@ -1864,13 +1875,7 @@ impl GlobalPassOption {
             }
         };
 
-        inline_globals(
-            unresolved_mark,
-            env_map,
-            global_map,
-            global_exprs,
-            Arc::new(self.typeofs),
-        )
+        inline_globals(env_map, global_map, global_exprs, Arc::new(self.typeofs))
     }
 }
 

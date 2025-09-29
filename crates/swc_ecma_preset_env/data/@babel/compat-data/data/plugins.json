@@ -1,10 +1,27 @@
 {
+  "transform-explicit-resource-management": {
+    "chrome": "134",
+    "edge": "134",
+    "node": "24",
+    "electron": "35.0"
+  },
   "transform-duplicate-named-capturing-groups-regex": {
     "chrome": "126",
     "opera": "112",
     "edge": "126",
     "firefox": "129",
     "safari": "17.4",
+    "node": "23",
+    "ios": "17.4",
+    "electron": "31.0"
+  },
+  "transform-regexp-modifiers": {
+    "chrome": "125",
+    "opera": "111",
+    "edge": "125",
+    "firefox": "132",
+    "node": "23",
+    "samsung": "27",
     "electron": "31.0"
   },
   "transform-unicode-sets-regex": {
@@ -16,6 +33,7 @@
     "node": "20",
     "deno": "1.32",
     "ios": "17",
+    "samsung": "23",
     "opera_mobile": "75",
     "electron": "24.0"
   },
@@ -36,6 +54,7 @@
     "chrome": "74",
     "opera": "62",
     "edge": "79",
+    "firefox": "126",
     "safari": "16",
     "node": "12",
     "deno": "1",
@@ -225,6 +244,7 @@
     "deno": "1",
     "ios": "13.4",
     "samsung": "13",
+    "rhino": "1.8",
     "opera_mobile": "57",
     "electron": "8.0"
   },
@@ -238,6 +258,7 @@
     "deno": "1",
     "ios": "13.4",
     "samsung": "13",
+    "rhino": "1.8",
     "opera_mobile": "57",
     "electron": "8.0"
   },
@@ -325,7 +346,7 @@
     "chrome": "49",
     "opera": "36",
     "edge": "18",
-    "firefox": "53",
+    "firefox": "52",
     "safari": "16.3",
     "node": "6",
     "deno": "1",
@@ -597,6 +618,7 @@
     "deno": "1",
     "ios": "8",
     "samsung": "4",
+    "rhino": "1.8",
     "opera_mobile": "32",
     "electron": "0.30"
   },
@@ -694,18 +716,18 @@
     "electron": "1.1"
   },
   "transform-typeof-symbol": {
-    "chrome": "38",
-    "opera": "25",
+    "chrome": "48",
+    "opera": "35",
     "edge": "12",
     "firefox": "36",
     "safari": "9",
-    "node": "0.12",
+    "node": "6",
     "deno": "1",
     "ios": "9",
-    "samsung": "3",
-    "rhino": "1.7.13",
-    "opera_mobile": "25",
-    "electron": "0.20"
+    "samsung": "5",
+    "rhino": "1.8",
+    "opera_mobile": "35",
+    "electron": "0.37"
   },
   "transform-new-target": {
     "chrome": "46",
@@ -789,7 +811,7 @@
     "deno": "1.0",
     "edge": "79",
     "firefox": "80",
-    "node": "13.2",
+    "node": "13.2.0",
     "opera": "60",
     "opera_mobile": "51",
     "safari": "14.1",
@@ -803,7 +825,7 @@
     "deno": "1.0",
     "edge": "79",
     "firefox": "80",
-    "node": "13.2",
+    "node": "13.2.0",
     "opera": "60",
     "opera_mobile": "51",
     "safari": "14.1",

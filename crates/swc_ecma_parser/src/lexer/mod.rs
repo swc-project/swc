@@ -1,6 +1,6 @@
 //! ECMAScript lexer.
 
-use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
+use std::{char, iter::FusedIterator, rc::Rc};
 
 use swc_atoms::AtomStoreCell;
 use swc_common::{
@@ -11,10 +11,7 @@ use swc_common::{
 use swc_ecma_ast::EsVersion;
 use swc_ecma_lexer::{
     common::{
-        lexer::{
-            char::CharExt, comments_buffer::CommentsBuffer, fixed_len_span, pos_span, LexResult,
-            Lexer as LexerTrait,
-        },
+        lexer::{char::CharExt, fixed_len_span, pos_span, LexResult, Lexer as LexerTrait},
         syntax::SyntaxFlags,
     },
     lexer::TokenFlags,
@@ -24,11 +21,13 @@ use self::table::{ByteHandler, BYTE_HANDLERS};
 use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
+    lexer::comments_buffer::CommentsBuffer,
     Context, Syntax,
 };
 
 #[cfg(feature = "unstable")]
 pub(crate) mod capturing;
+mod comments_buffer;
 mod state;
 mod table;
 pub(crate) mod token;
@@ -50,8 +49,8 @@ pub struct Lexer<'a> {
     pub(crate) syntax: SyntaxFlags,
     pub(crate) target: EsVersion,
 
-    errors: Rc<RefCell<Vec<Error>>>,
-    module_errors: Rc<RefCell<Vec<Error>>>,
+    errors: Vec<Error>,
+    module_errors: Vec<Error>,
 
     atoms: Rc<AtomStoreCell>,
 }
@@ -59,6 +58,7 @@ pub struct Lexer<'a> {
 impl FusedIterator for Lexer<'_> {}
 
 impl<'a> swc_ecma_lexer::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
+    type CommentsBuffer = CommentsBuffer;
     type State = self::state::State;
     type Token = self::Token;
 
@@ -73,8 +73,8 @@ impl<'a> swc_ecma_lexer::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
-    fn push_error(&self, error: Error) {
-        self.errors.borrow_mut().push(error);
+    fn push_error(&mut self, error: Error) {
+        self.errors.push(error);
     }
 
     #[inline(always)]
@@ -93,16 +93,12 @@ impl<'a> swc_ecma_lexer::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
-    fn comments_buffer(
-        &self,
-    ) -> Option<&swc_ecma_lexer::common::lexer::comments_buffer::CommentsBuffer> {
+    fn comments_buffer(&self) -> Option<&Self::CommentsBuffer> {
         self.comments_buffer.as_ref()
     }
 
     #[inline(always)]
-    fn comments_buffer_mut(
-        &mut self,
-    ) -> Option<&mut swc_ecma_lexer::common::lexer::comments_buffer::CommentsBuffer> {
+    fn comments_buffer_mut(&mut self) -> Option<&mut Self::CommentsBuffer> {
         self.comments_buffer.as_mut()
     }
 

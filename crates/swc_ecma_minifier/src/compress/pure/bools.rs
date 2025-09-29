@@ -261,11 +261,17 @@ impl Pure<'_> {
 
         let should_optimize = is_typeof_unaray(&e.left, &e.right)
             || is_typeof_unaray(&e.right, &e.left)
-            || (self.options.comparisons
-                && matches!(
-                    (e.left.get_type(self.expr_ctx), e.right.get_type(self.expr_ctx)),
-                    (Value::Known(l), Value::Known(r)) if l == r
-                ));
+            || (self.options.comparisons && {
+                if let Value::Known(l) = e.left.get_type(self.expr_ctx) {
+                    if let Value::Known(r) = e.right.get_type(self.expr_ctx) {
+                        l == r
+                    } else {
+                        false
+                    }
+                } else {
+                    false
+                }
+            });
 
         if should_optimize {
             report_change!("bools: Compressing comparison of `typeof` with literal");

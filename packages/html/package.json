@@ -1,6 +1,6 @@
 {
     "name": "@swc/html",
-    "version": "1.13.3",
+    "version": "1.13.20",
     "description": "Super-fast HTML minifier",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -41,7 +41,7 @@
     },
     "scripts": {
         "artifacts": "napi artifacts --npm-dir scripts/npm",
-        "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm",
+        "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm --skip-optional-publish",
         "build:ts": "tsc -d",
         "build": "(tsc -d || true) && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts --release -o .",
         "build:dev": "(tsc -d || true) && napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_html_node --js ./binding.js --dts ./binding.d.ts -o .",
@@ -49,7 +49,7 @@
         "version": "napi version --npm-dir scripts/npm"
     },
     "devDependencies": {
-        "@napi-rs/cli": "^3.0.0-alpha.43",
+        "@napi-rs/cli": "^3.2.0",
         "typescript": "^5.1.6"
     },
     "dependencies": {

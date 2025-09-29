@@ -1,1 +1,1 @@
-let a={aób:"\xf3"};console.log(a);
+const a={aób:"\xf3"};console.log(a);

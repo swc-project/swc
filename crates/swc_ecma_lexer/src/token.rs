@@ -35,7 +35,6 @@ macro_rules! define_known_ident {
             ),*
         }
 
-        #[allow(unused)]
         #[macro_export]
         macro_rules! known_ident_token {
             $(
@@ -47,7 +46,6 @@ macro_rules! define_known_ident {
             )*
         }
 
-        #[allow(unused)]
         #[macro_export]
         macro_rules! known_ident {
             $(
@@ -56,7 +54,6 @@ macro_rules! define_known_ident {
                 };
             )*
         }
-        #[allow(unused)]
         #[macro_export]
         macro_rules! ident_like {
             $(
@@ -573,7 +570,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     const LESS_EQ: Self = Token::BinOp(BinOpToken::LtEq);
     const LET: Self = Token::Word(Word::Keyword(Keyword::Let));
     const LOGICAL_AND: Self = tok!("&&");
-    const LOGICAL_AND_EQ: Self = Token::AssignOp(AssignOp::AddAssign);
+    const LOGICAL_AND_EQ: Self = Token::AssignOp(AssignOp::AndAssign);
     const LOGICAL_OR: Self = tok!("||");
     const LOGICAL_OR_EQ: Self = Token::AssignOp(AssignOp::OrAssign);
     const LPAREN: Self = Self::LParen;

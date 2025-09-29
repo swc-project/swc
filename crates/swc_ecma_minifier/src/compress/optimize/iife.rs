@@ -416,7 +416,7 @@ impl Optimizer<'_> {
     {
         trace_op!("inline: inline_vars_in_node");
 
-        let mut v = NormalMultiReplacer::new(&mut vars);
+        let mut v = NormalMultiReplacer::new(&mut vars, false);
         n.visit_mut_with(&mut v);
         self.changed |= v.changed;
     }
@@ -646,11 +646,17 @@ impl Optimizer<'_> {
                     .iter()
                     .map(|p| &p.pat.as_ident().unwrap().id);
 
+                #[cfg(feature = "debug")]
+                let param_ids_for_debug = param_ids.clone();
+
                 let new =
                     self.inline_fn_like(param_ids, f.function.params.len(), body, &mut call.args);
                 if let Some(new) = new {
                     self.changed = true;
-                    report_change!("inline: Inlining a function call (params = {param_ids:?})");
+                    report_change!(
+                        "inline: Inlining a function call (params = {:?})",
+                        param_ids_for_debug
+                    );
 
                     dump_change_detail!("{}", dump(&new, false));
 
@@ -881,7 +887,7 @@ impl Optimizer<'_> {
             return false;
         }
 
-        if !self.may_add_ident() || self.at_class_field() {
+        if !self.may_add_ident() {
             let has_decl = if for_stmt {
                 // we check it later
                 false
@@ -1036,6 +1042,69 @@ impl Optimizer<'_> {
         vars
     }
 
+    fn inline_into_expr(&mut self, stmts: Vec<Stmt>, exprs: &mut Vec<Box<Expr>>) -> Option<Expr> {
+        for mut stmt in stmts {
+            match stmt {
+                Stmt::Decl(Decl::Var(ref mut var)) => {
+                    for decl in &mut var.decls {
+                        if decl.init.is_some() {
+                            let ids = find_pat_ids(decl);
+
+                            for id in ids {
+                                if let Some(usage) = self.data.vars.get_mut(&id) {
+                                    // as we turn var declaration into assignment
+                                    // we need to maintain correct var usage
+                                    usage.ref_count += 1;
+                                }
+                            }
+
+                            exprs.push(
+                                AssignExpr {
+                                    span: DUMMY_SP,
+                                    op: op!("="),
+                                    left: decl.name.clone().try_into().unwrap(),
+                                    right: decl.init.take().unwrap(),
+                                }
+                                .into(),
+                            )
+                        }
+                    }
+
+                    self.prepend_stmts.push(stmt);
+                }
+
+                Stmt::Expr(stmt) => {
+                    exprs.push(stmt.expr);
+                }
+
+                Stmt::Block(stmt) => {
+                    if let Some(e) = self.inline_into_expr(stmt.stmts, exprs) {
+                        return Some(e);
+                    }
+                }
+
+                Stmt::Return(stmt) => {
+                    let span = stmt.span;
+                    let val = *stmt.arg.unwrap_or_else(|| Expr::undefined(span));
+                    exprs.push(Box::new(val));
+
+                    let mut e = SeqExpr {
+                        span: DUMMY_SP,
+                        exprs: exprs.take(),
+                    };
+                    self.merge_sequences_in_seq_expr(&mut e);
+
+                    let mut e = e.into();
+                    self.normalize_expr(&mut e);
+                    return Some(e);
+                }
+                _ => {}
+            }
+        }
+
+        None
+    }
+
     fn inline_fn_like<'a>(
         &mut self,
         params: impl Iterator<Item = &'a Ident> + Clone,
@@ -1075,57 +1144,8 @@ impl Optimizer<'_> {
             );
         }
 
-        for mut stmt in body.stmts.take() {
-            match stmt {
-                Stmt::Decl(Decl::Var(ref mut var)) => {
-                    for decl in &mut var.decls {
-                        if decl.init.is_some() {
-                            let ids = find_pat_ids(decl);
-
-                            for id in ids {
-                                if let Some(usage) = self.data.vars.get_mut(&id) {
-                                    // as we turn var declaration into assignment
-                                    // we need to maintain correct var usage
-                                    usage.ref_count += 1;
-                                }
-                            }
-
-                            exprs.push(
-                                AssignExpr {
-                                    span: DUMMY_SP,
-                                    op: op!("="),
-                                    left: decl.name.clone().try_into().unwrap(),
-                                    right: decl.init.take().unwrap(),
-                                }
-                                .into(),
-                            )
-                        }
-                    }
-
-                    self.prepend_stmts.push(stmt);
-                }
-
-                Stmt::Expr(stmt) => {
-                    exprs.push(stmt.expr);
-                }
-
-                Stmt::Return(stmt) => {
-                    let span = stmt.span;
-                    let val = *stmt.arg.unwrap_or_else(|| Expr::undefined(span));
-                    exprs.push(Box::new(val));
-
-                    let mut e = SeqExpr {
-                        span: DUMMY_SP,
-                        exprs,
-                    };
-                    self.merge_sequences_in_seq_expr(&mut e);
-
-                    let mut e = e.into();
-                    self.normalize_expr(&mut e);
-                    return Some(e);
-                }
-                _ => {}
-            }
+        if let Some(e) = self.inline_into_expr(body.stmts.take(), &mut exprs) {
+            return Some(e);
         }
 
         if let Some(last) = exprs.last_mut() {
@@ -1152,7 +1172,7 @@ impl Optimizer<'_> {
 
     fn inline_fn_like_stmt<'a>(
         &mut self,
-        params: impl Iterator<Item = &'a Ident> + Clone,
+        params: impl Iterator<Item = &'a Ident> + Clone + std::fmt::Debug,
         params_len: usize,
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
@@ -1592,7 +1612,7 @@ impl Optimizer<'_> {
                     // Apply substitutions to the body
                     let mut new_body = (**body).clone();
                     if !substitutions.is_empty() {
-                        let mut replacer = NormalMultiReplacer::new(&mut substitutions);
+                        let mut replacer = NormalMultiReplacer::new(&mut substitutions, false);
                         new_body.visit_mut_with(&mut replacer);
                     }
 

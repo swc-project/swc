@@ -174,13 +174,7 @@ where
         }
 
         if let Pat::Expr(e) = p {
-            match &**e {
-                Expr::Ident(i) => {
-                    self.data
-                        .report_assign(self.ctx, i.to_id(), is_read_modify, Value::Unknown)
-                }
-                _ => self.mark_mutation_if_member(e.as_member()),
-            }
+            self.mark_mutation_if_member(e.as_member());
         }
     }
 
@@ -307,7 +301,7 @@ where
 
         if n.op == op!("=") {
             let left = match &n.left {
-                AssignTarget::Simple(left) => left.leftmost().as_deref().map(Ident::to_id),
+                AssignTarget::Simple(left) => left.leftmost().map(Ident::to_id),
                 AssignTarget::Pat(..) => None,
             };
 

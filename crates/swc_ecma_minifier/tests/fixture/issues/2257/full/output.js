@@ -1085,8 +1085,7 @@
                 try {
                     var result = gen[key](arg), value = result.value, wrappedAwait = value instanceof _AwaitValue;
                     Promise.resolve(wrappedAwait ? value.wrapped : value).then(function(arg) {
-                        if (wrappedAwait) return void resume("next", arg);
-                        settle(result.done ? "return" : "normal", arg);
+                        wrappedAwait ? resume("next", arg) : settle(result.done ? "return" : "normal", arg);
                     }, function(err) {
                         resume("throw", err);
                     });
@@ -2044,7 +2043,7 @@
                 request.timeout = config.timeout, "onloadend" in request ? // Use onloadend if available
                 request.onloadend = onloadend : // Listen for ready state to emulate onloadend
                 request.onreadystatechange = function() {
-                    request && 4 === request.readyState && (0 !== request.status || request.responseURL && 0 === request.responseURL.indexOf("file:")) && // readystate handler is calling before onerror or ontimeout handlers,
+                    !request || 4 !== request.readyState || (0 !== request.status || request.responseURL && 0 === request.responseURL.indexOf("file:")) && // readystate handler is calling before onerror or ontimeout handlers,
                     // so we should call onloadend on the next 'tick'
                     setTimeout(onloadend);
                 }, // Handle browser request cancellation (as opposed to a manual cancellation)
@@ -5247,8 +5246,7 @@
         var global = __webpack_require__(19514), isCallable = __webpack_require__(67106), has = __webpack_require__(1521), createNonEnumerableProperty = __webpack_require__(48181), setGlobal = __webpack_require__(65933), inspectSource = __webpack_require__(71975), InternalStateModule = __webpack_require__(44670), CONFIGURABLE_FUNCTION_NAME = __webpack_require__(25160).CONFIGURABLE, getInternalState = InternalStateModule.get, enforceInternalState = InternalStateModule.enforce, TEMPLATE = String(String).split("String");
         (module.exports = function(O, key, value, options) {
             var state, unsafe = !!options && !!options.unsafe, simple = !!options && !!options.enumerable, noTargetGet = !!options && !!options.noTargetGet, name = options && void 0 !== options.name ? options.name : key;
-            if (isCallable(value) && ("Symbol(" === String(name).slice(0, 7) && (name = "[" + String(name).replace(/^Symbol\(([^)]*)\)/, "$1") + "]"), (!has(value, "name") || CONFIGURABLE_FUNCTION_NAME && value.name !== name) && createNonEnumerableProperty(value, "name", name), (state = enforceInternalState(value)).source || (state.source = TEMPLATE.join("string" == typeof name ? name : ""))), O === global) return void (simple ? O[key] = value : setGlobal(key, value));
-            unsafe ? !noTargetGet && O[key] && (simple = !0) : delete O[key], simple ? O[key] = value : createNonEnumerableProperty(O, key, value);
+            (isCallable(value) && ("Symbol(" === String(name).slice(0, 7) && (name = "[" + String(name).replace(/^Symbol\(([^)]*)\)/, "$1") + "]"), (!has(value, "name") || CONFIGURABLE_FUNCTION_NAME && value.name !== name) && createNonEnumerableProperty(value, "name", name), (state = enforceInternalState(value)).source || (state.source = TEMPLATE.join("string" == typeof name ? name : ""))), O === global) ? simple ? O[key] = value : setGlobal(key, value) : (unsafe ? !noTargetGet && O[key] && (simple = !0) : delete O[key], simple ? O[key] = value : createNonEnumerableProperty(O, key, value));
         // add fake Function#toString for correct work wrapped methods / constructors with methods like LoDash isNative
         })(Function.prototype, "toString", function() {
             return isCallable(this) && getInternalState(this).source || inspectSource(this);
@@ -11954,7 +11952,7 @@
     /***/ },
     /***/ 20386: /***/ function(__unused_webpack_module, exports, __webpack_require__) {
         "use strict";
-        const strictUriEncode = __webpack_require__(76487), decodeComponent = __webpack_require__(74677), splitOnFirst = __webpack_require__(97044), filterObject = __webpack_require__(47560);
+        let strictUriEncode = __webpack_require__(76487), decodeComponent = __webpack_require__(74677), splitOnFirst = __webpack_require__(97044), filterObject = __webpack_require__(47560);
         function validateArrayFormatSeparator(value) {
             if ("string" != typeof value || 1 !== value.length) throw TypeError("arrayFormatSeparator must be single character string");
         }
@@ -11965,11 +11963,11 @@
             return options.decode ? decodeComponent(value) : value;
         }
         function removeHash(input) {
-            const hashStart = input.indexOf("#");
+            let hashStart = input.indexOf("#");
             return -1 !== hashStart && (input = input.slice(0, hashStart)), input;
         }
         function extract(input) {
-            const queryStart = (input = removeHash(input)).indexOf("?");
+            let queryStart = (input = removeHash(input)).indexOf("?");
             return -1 === queryStart ? "" : input.slice(queryStart + 1);
         }
         function parseValue(value, options) {
@@ -11984,7 +11982,7 @@
                 parseNumbers: !1,
                 parseBooleans: !1
             }, options)).arrayFormatSeparator);
-            const formatter = function(options) {
+            let formatter = function(options) {
                 let result;
                 switch(options.arrayFormat){
                     case "index":
@@ -12012,9 +12010,9 @@
                     case "comma":
                     case "separator":
                         return (key, value, accumulator)=>{
-                            const isArray = "string" == typeof value && value.includes(options.arrayFormatSeparator), isEncodedArray = "string" == typeof value && !isArray && decode(value, options).includes(options.arrayFormatSeparator);
+                            let isArray = "string" == typeof value && value.includes(options.arrayFormatSeparator), isEncodedArray = "string" == typeof value && !isArray && decode(value, options).includes(options.arrayFormatSeparator);
                             value = isEncodedArray ? decode(value, options) : value;
-                            const newValue = isArray || isEncodedArray ? value.split(options.arrayFormatSeparator).map((item)=>decode(item, options)) : null === value ? value : decode(value, options);
+                            let newValue = isArray || isEncodedArray ? value.split(options.arrayFormatSeparator).map((item)=>decode(item, options)) : null === value ? value : decode(value, options);
                             accumulator[key] = newValue;
                         };
                     default:
@@ -12028,7 +12026,7 @@
                 }
             }(options), ret = Object.create(null);
             if ("string" != typeof query || !(query = query.trim().replace(/^[?#&]/, ""))) return ret;
-            for (const param of query.split("&")){
+            for (let param of query.split("&")){
                 if ("" === param) continue;
                 let [key, value] = splitOnFirst(options.decode ? param.replace(/\+/g, " ") : param, "=");
                 // Missing `=` should be `null`:
@@ -12038,13 +12036,13 @@
                     "separator"
                 ].includes(options.arrayFormat) ? value : decode(value, options), formatter(decode(key, options), value, ret);
             }
-            for (const key of Object.keys(ret)){
-                const value = ret[key];
-                if ("object" == typeof value && null !== value) for (const k of Object.keys(value))value[k] = parseValue(value[k], options);
+            for (let key of Object.keys(ret)){
+                let value = ret[key];
+                if ("object" == typeof value && null !== value) for (let k of Object.keys(value))value[k] = parseValue(value[k], options);
                 else ret[key] = parseValue(value, options);
             }
             return !1 === options.sort ? ret : (!0 === options.sort ? Object.keys(ret).sort() : Object.keys(ret).sort(options.sort)).reduce((result, key)=>{
-                const value = ret[key];
+                let value = ret[key];
                 return value && "object" == typeof value && !Array.isArray(value) ? // Sort object keys, not values
                 result[key] = function keysSorter(input) {
                     return Array.isArray(input) ? input.sort() : "object" == typeof input ? keysSorter(Object.keys(input)).sort((a, b)=>Number(a) - Number(b)).map((key)=>input[key]) : input;
@@ -12059,11 +12057,11 @@
                 arrayFormat: "none",
                 arrayFormatSeparator: ","
             }, options)).arrayFormatSeparator);
-            const shouldFilter = (key)=>options.skipNull && null == object[key] || options.skipEmptyString && "" === object[key], formatter = function(options) {
+            let shouldFilter = (key)=>options.skipNull && null == object[key] || options.skipEmptyString && "" === object[key], formatter = function(options) {
                 switch(options.arrayFormat){
                     case "index":
                         return (key)=>(result, value)=>{
-                                const index = result.length;
+                                let index = result.length;
                                 return void 0 === value || options.skipNull && null === value || options.skipEmptyString && "" === value ? result : null === value ? [
                                     ...result,
                                     encode(key, options) + "[" + index + "]"
@@ -12100,17 +12098,17 @@
                                 ];
                 }
             }(options), objectCopy = {};
-            for (const key of Object.keys(object))shouldFilter(key) || (objectCopy[key] = object[key]);
-            const keys = Object.keys(objectCopy);
+            for (let key of Object.keys(object))shouldFilter(key) || (objectCopy[key] = object[key]);
+            let keys = Object.keys(objectCopy);
             return !1 !== options.sort && keys.sort(options.sort), keys.map((key)=>{
-                const value = object[key];
+                let value = object[key];
                 return void 0 === value ? "" : null === value ? encode(key, options) : Array.isArray(value) ? value.reduce(formatter(key), []).join("&") : encode(key, options) + "=" + encode(value, options);
             }).filter((x)=>x.length > 0).join("&");
         }, exports.parseUrl = (url, options)=>{
             options = Object.assign({
                 decode: !0
             }, options);
-            const [url_, hash] = splitOnFirst(url, "#");
+            let [url_, hash] = splitOnFirst(url, "#");
             return Object.assign({
                 url: url_.split("?")[0] || "",
                 query: parse(extract(url), options)
@@ -12118,33 +12116,30 @@
                 fragmentIdentifier: decode(hash, options)
             } : {});
         }, exports.stringifyUrl = (object, options)=>{
+            var url;
+            let hash, hashStart;
             options = Object.assign({
                 encode: !0,
                 strict: !0
             }, options);
-            const url = removeHash(object.url).split("?")[0] || "", queryFromUrl = exports.extract(object.url), query = Object.assign(exports.parse(queryFromUrl, {
+            let url1 = removeHash(object.url).split("?")[0] || "", queryFromUrl = exports.extract(object.url), query = Object.assign(exports.parse(queryFromUrl, {
                 sort: !1
-            }), object.query);
-            let queryString = exports.stringify(query, options);
+            }), object.query), queryString = exports.stringify(query, options);
             queryString && (queryString = `?${queryString}`);
-            let hash = function(url) {
-                let hash = "";
-                const hashStart = url.indexOf("#");
-                return -1 !== hashStart && (hash = url.slice(hashStart)), hash;
-            }(object.url);
-            return object.fragmentIdentifier && (hash = `#${encode(object.fragmentIdentifier, options)}`), `${url}${queryString}${hash}`;
+            let hash1 = (url = object.url, hash = "", -1 !== (hashStart = url.indexOf("#")) && (hash = url.slice(hashStart)), hash);
+            return object.fragmentIdentifier && (hash1 = `#${encode(object.fragmentIdentifier, options)}`), `${url1}${queryString}${hash1}`;
         }, exports.pick = (input, filter, options)=>{
             options = Object.assign({
                 parseFragmentIdentifier: !0
             }, options);
-            const { url, query, fragmentIdentifier } = exports.parseUrl(input, options);
+            let { url, query, fragmentIdentifier } = exports.parseUrl(input, options);
             return exports.stringifyUrl({
                 url,
                 query: filterObject(query, filter),
                 fragmentIdentifier
             }, options);
         }, exports.exclude = (input, filter, options)=>{
-            const exclusionFilter = Array.isArray(filter) ? (key)=>!filter.includes(key) : (key, value)=>!filter(key, value);
+            let exclusionFilter = Array.isArray(filter) ? (key)=>!filter.includes(key) : (key, value)=>!filter(key, value);
             return exports.pick(input, exclusionFilter, options);
         };
     /***/ },
@@ -17734,7 +17729,7 @@
                     return _this2 = _Component2.apply(this, arguments) || this, _this2.state = {
                         value: _this2.getValue()
                     }, _this2.onUpdate = function(newValue, changedBits) {
-                        ((0 | _this2.observedBits) & changedBits) != 0 && _this2.setState({
+                        (_this2.observedBits & changedBits) != 0 && _this2.setState({
                             value: _this2.getValue()
                         });
                     }, _this2;
@@ -19029,7 +19024,7 @@
             if ("" === separator) return [
                 string
             ];
-            const separatorIndex = string.indexOf(separator);
+            let separatorIndex = string.indexOf(separator);
             return -1 === separatorIndex ? [
                 string
             ] : [
@@ -19057,7 +19052,7 @@
         exports.__esModule = !0;
         var _env = __webpack_require__(76332);
         Object.keys(_env).forEach(function(key) {
-            "default" !== key && "__esModule" !== key && (key in exports && exports[key] === _env[key] || (exports[key] = _env[key]));
+            "default" === key || "__esModule" === key || key in exports && exports[key] === _env[key] || (exports[key] = _env[key]);
         });
     /***/ }
 }, __webpack_module_cache__ = {};

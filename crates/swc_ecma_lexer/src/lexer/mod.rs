@@ -14,18 +14,17 @@ pub use self::state::{TokenContext, TokenContexts, TokenFlags, TokenType};
 use self::table::{ByteHandler, BYTE_HANDLERS};
 use crate::{
     common::{
-        lexer::{
-            char::CharExt, comments_buffer::CommentsBuffer, fixed_len_span, pos_span, LexResult,
-            Lexer as LexerTrait,
-        },
+        lexer::{char::CharExt, fixed_len_span, pos_span, LexResult, Lexer as LexerTrait},
         syntax::{Syntax, SyntaxFlags},
     },
     error::{Error, SyntaxError},
+    lexer::comments_buffer::CommentsBuffer,
     tok,
     token::{BinOpToken, Token, TokenAndSpan},
     Context,
 };
 
+mod comments_buffer;
 mod jsx;
 mod number;
 mod state;
@@ -56,6 +55,7 @@ pub struct Lexer<'a> {
 impl FusedIterator for Lexer<'_> {}
 
 impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
+    type CommentsBuffer = CommentsBuffer;
     type State = self::state::State;
     type Token = self::Token;
 
@@ -70,7 +70,7 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
-    fn push_error(&self, error: crate::error::Error) {
+    fn push_error(&mut self, error: crate::error::Error) {
         self.errors.borrow_mut().push(error);
     }
 
@@ -90,14 +90,12 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline(always)]
-    fn comments_buffer(&self) -> Option<&crate::common::lexer::comments_buffer::CommentsBuffer> {
+    fn comments_buffer(&self) -> Option<&Self::CommentsBuffer> {
         self.comments_buffer.as_ref()
     }
 
     #[inline(always)]
-    fn comments_buffer_mut(
-        &mut self,
-    ) -> Option<&mut crate::common::lexer::comments_buffer::CommentsBuffer> {
+    fn comments_buffer_mut(&mut self) -> Option<&mut Self::CommentsBuffer> {
         self.comments_buffer.as_mut()
     }
 

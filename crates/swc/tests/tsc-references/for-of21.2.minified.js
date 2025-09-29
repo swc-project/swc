@@ -12,4 +12,4 @@ class FooIterator {
         return this;
     }
 }
-for (const v of new FooIterator);
+for (let v of new FooIterator);

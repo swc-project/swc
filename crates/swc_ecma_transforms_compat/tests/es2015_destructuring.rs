@@ -93,7 +93,7 @@ test!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -650,12 +650,15 @@ function isBetween(x, a, b) {
 // destructuring_for_of
 test!(
     syntax(),
-    |_| (
-        spread(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(Mark::new()),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        (
+            spread(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(unresolved_mark),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_for_of,
     r#"
 for (var [ name, before, after ] of test.expectation.registers) {
@@ -678,7 +681,7 @@ test!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -702,7 +705,7 @@ test!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -725,7 +728,7 @@ test_exec!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -756,7 +759,7 @@ test_exec!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -781,7 +784,7 @@ test_exec!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -810,7 +813,7 @@ test_exec!(
         (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -865,7 +868,7 @@ test_exec!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -896,7 +899,7 @@ test_exec!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -985,7 +988,7 @@ test!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -1022,7 +1025,7 @@ test!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -1063,7 +1066,7 @@ test!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -1088,7 +1091,7 @@ test!(
         (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -1133,7 +1136,7 @@ test!(
         (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -1157,7 +1160,7 @@ test!(
         (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -1182,7 +1185,7 @@ test!(
         (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -1209,7 +1212,7 @@ test!(
         (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -1228,7 +1231,7 @@ test!(
     syntax(),
     |_| (
         destructuring(Default::default()),
-        spread(Default::default()),
+        spread(Default::default(), Mark::new()),
         block_scoping(Mark::new()),
         object_rest_spread(Default::default())
     ),
@@ -1241,12 +1244,15 @@ test!(
 // destructuring_assignment_statement_loose
 test!(
     syntax(),
-    |_| (
-        destructuring(Config { loose: true }),
-        spread(Default::default()),
-        block_scoping(Mark::new()),
-        object_rest_spread(Default::default())
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        (
+            destructuring(Config { loose: true }),
+            spread(Default::default(), unresolved_mark),
+            block_scoping(unresolved_mark),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_assignment_statement,
     r#"
 [a, b] = f();
@@ -1262,7 +1268,7 @@ test!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -1286,7 +1292,7 @@ test!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -1310,7 +1316,7 @@ test!(
         (
             resolver(unresolved_mark, top_level_mark, false),
             object_rest_spread(Default::default()),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -1359,12 +1365,15 @@ expect(rest).toEqual({ 2: "b", 3: "c" });
 // destructuring_for_in
 test!(
     syntax(),
-    |_| (
-        spread(Default::default()),
-        destructuring(Default::default()),
-        block_scoping(Mark::new()),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        (
+            spread(Default::default(), unresolved_mark),
+            destructuring(Default::default()),
+            block_scoping(unresolved_mark),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_for_in,
     r#"
 for (var [name, value] in obj) {
@@ -1381,12 +1390,15 @@ for ([name, value] in obj) {
 // destructuring_for_in_loose
 test!(
     syntax(),
-    |_| (
-        spread(Default::default()),
-        destructuring(Config { loose: true }),
-        block_scoping(Mark::new()),
-        object_rest_spread(Default::default()),
-    ),
+    |_| {
+        let unresolved_mark = Mark::new();
+        (
+            spread(Default::default(), unresolved_mark),
+            destructuring(Config { loose: true }),
+            block_scoping(unresolved_mark),
+            object_rest_spread(Default::default()),
+        )
+    },
     destructuring_for_in_loose,
     r#"
 for (var [name, value] in obj) {
@@ -1409,7 +1421,7 @@ test!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),
@@ -1432,7 +1444,7 @@ test_exec!(
 
         (
             resolver(unresolved_mark, top_level_mark, false),
-            spread(Default::default()),
+            spread(Default::default(), unresolved_mark),
             parameters(Default::default(), unresolved_mark),
             destructuring(Default::default()),
             block_scoping(unresolved_mark),

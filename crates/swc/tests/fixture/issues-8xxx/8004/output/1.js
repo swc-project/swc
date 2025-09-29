@@ -1,3 +1,4 @@
+"use strict";
 const string1 = {
     errorCode: 'test'
 };

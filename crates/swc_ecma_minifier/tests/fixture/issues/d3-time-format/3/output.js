@@ -200,7 +200,7 @@
                 return date.getUTCFullYear();
             });
             function ticker(year, month, week, day, hour, minute) {
-                const tickIntervals = [
+                let tickIntervals = [
                     [
                         second,
                         1,
@@ -293,20 +293,20 @@
                     ]
                 ];
                 function tickInterval(start, stop, count) {
-                    const target = Math.abs(stop - start) / count, i = (0, bisector /* default */ .Z)(([, , step])=>step).right(tickIntervals, target);
+                    let target = Math.abs(stop - start) / count, i = (0, bisector /* default */ .Z)(([, , step])=>step).right(tickIntervals, target);
                     if (i === tickIntervals.length) return year.every((0, src_ticks /* tickStep */ .ly)(start / 31536000000, stop / 31536000000, count));
                     if (0 === i) return millisecond.every(Math.max((0, src_ticks /* tickStep */ .ly)(start, stop, count), 1));
-                    const [t, step] = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i];
+                    let [t, step] = tickIntervals[target / tickIntervals[i - 1][2] < tickIntervals[i][2] / target ? i - 1 : i];
                     return t.every(step);
                 }
                 return [
                     function(start, stop, count) {
-                        const reverse = stop < start;
+                        let reverse = stop < start;
                         reverse && ([start, stop] = [
                             stop,
                             start
                         ]);
-                        const interval = count && "function" == typeof count.range ? count : tickInterval(start, stop, count), ticks = interval ? interval.range(start, +stop + 1) : [];
+                        let interval = count && "function" == typeof count.range ? count : tickInterval(start, stop, count), ticks = interval ? interval.range(start, +stop + 1) : [];
                         return reverse ? ticks.reverse() : ticks;
                     },
                     tickInterval
@@ -320,7 +320,7 @@
                     date.setUTCFullYear(date.getUTCFullYear() + step * k);
                 }) : null;
             }, utcYear.range;
-            const [utcTicks, utcTickInterval] = ticker(utcYear, utcMonth, utcSunday, utcDay, utcHour, utcMinute), [timeTicks, timeTickInterval] = ticker(year, month, sunday, day, hour, minute);
+            let [utcTicks, utcTickInterval] = ticker(utcYear, utcMonth, utcSunday, utcDay, utcHour, utcMinute), [timeTicks, timeTickInterval] = ticker(year, month, sunday, day, hour, minute);
             function localDate(d) {
                 if (0 <= d.y && d.y < 100) {
                     var date = new Date(-1, d.m, d.d, d.H, d.M, d.S, d.L);

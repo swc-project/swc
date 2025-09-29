@@ -378,9 +378,7 @@ pub fn expand(
                         #variants,
                     }
 
-                    let __content = <swc_common::private::serde::de::Content as serde::Deserialize>::deserialize(
-                                __deserializer,
-                            )?;
+                    let __content = swc_common::private::content::deserialize_content(__deserializer)?;
 
                     let __tagged = #tag_expr;
 

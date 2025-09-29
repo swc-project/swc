@@ -61,8 +61,8 @@ resolver = "2"
   lru                       = "0.10.0"
   memchr                    = "2.6.1"
   miette                    = "7.2.0"
-  napi                      = { version = "2.0.0", default-features = false }
-  napi-derive               = { version = "2.0.0", default-features = false }
+  napi                      = { version = "3", default-features = false }
+  napi-derive               = { version = "3", default-features = false }
   new_debug_unreachable     = "1.0.6"
   nom                       = "7.1.3"
   ntest                     = "0.7.2"
@@ -91,9 +91,9 @@ resolver = "2"
   scoped-tls                = "1.0.1"
   semver                    = "1.0.20"
   seq-macro                 = "0.3"
-  serde                     = "1.0.197"
+  serde                     = "1.0.225"
   serde-wasm-bindgen        = "0.4.5"
-  serde_derive              = "1.0.197"
+  serde_derive              = "1.0.225"
   serde_json                = "1.0.115"
   sha1                      = "0.10.6"
   sha2                      = "0.10.8"
@@ -113,7 +113,7 @@ resolver = "2"
   toml                      = "0.8.2"
   tracing                   = "0.1.40"
   tracing-chrome            = "0.5.0"
-  tracing-subscriber        = "0.3.18"
+  tracing-subscriber        = "0.3.20"
   triomphe                  = "0.1.13"
   unicode-id-start          = "1.2.0"
   unicode-width             = "0.1.4"
@@ -124,6 +124,8 @@ resolver = "2"
   wasm-bindgen-futures      = "0.4.41"
   wasmer                    = { version = "6.1.0-rc.2", default-features = false }
   wasmer-wasix              = { version = "0.601.0-rc.2", default-features = false }
+  wasmtime                  = { version = "35", default-features = false }
+  wasi-common               = { version = "35", default-features = false }
 
   foldhash        = "0.1"
   precomputed-map = "0.2"

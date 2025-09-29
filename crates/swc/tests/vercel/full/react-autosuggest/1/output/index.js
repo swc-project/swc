@@ -1,4 +1,7 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: !0
+});
 var _instanceof = require("@swc/helpers/_/_instanceof");
 Object.defineProperty(exports, "__esModule", {
     value: !0

@@ -781,15 +781,15 @@ fn should_visit() {
 #[testing::fixture("tests/fixture/**/input/")]
 #[testing::fixture("tests/vercel/**/input/")]
 fn fixture(input_dir: PathBuf) {
-    tests(input_dir, Some(IsModule::Unknown));
+    tests(input_dir);
 }
 
 #[testing::fixture("tests/typescript/**/input/")]
 fn ts_id(input_dir: PathBuf) {
-    tests(input_dir, Some(IsModule::Bool(true)));
+    tests(input_dir);
 }
 
-fn tests(input_dir: PathBuf, is_module: Option<IsModule>) {
+fn tests(input_dir: PathBuf) {
     let output_dir = input_dir.parent().unwrap().join("output");
 
     for entry in WalkDir::new(&input_dir) {
@@ -828,7 +828,6 @@ fn tests(input_dir: PathBuf, is_module: Option<IsModule>) {
                             external_helpers: true.into(),
                             ..Default::default()
                         },
-                        is_module,
                         ..Default::default()
                     },
 

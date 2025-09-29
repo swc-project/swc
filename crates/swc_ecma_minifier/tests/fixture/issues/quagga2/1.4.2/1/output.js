@@ -9360,25 +9360,22 @@
                     quagga_context.stopped = !0;
                 },
                 onDetected: function(callback) {
-                    if (!callback || "function" != typeof callback && ("object" !== typeof_default()(callback) || !callback.callback)) return void console.trace("* warning: Quagga.onDetected called with invalid callback, ignoring");
-                    events.subscribe("detected", callback);
+                    callback && ("function" == typeof callback || "object" === typeof_default()(callback) && callback.callback) ? events.subscribe("detected", callback) : console.trace("* warning: Quagga.onDetected called with invalid callback, ignoring");
                 },
                 offDetected: function(callback) {
                     events.unsubscribe("detected", callback);
                 },
                 onProcessed: function(callback) {
-                    if (!callback || "function" != typeof callback && ("object" !== typeof_default()(callback) || !callback.callback)) return void console.trace("* warning: Quagga.onProcessed called with invalid callback, ignoring");
-                    events.subscribe("processed", callback);
+                    callback && ("function" == typeof callback || "object" === typeof_default()(callback) && callback.callback) ? events.subscribe("processed", callback) : console.trace("* warning: Quagga.onProcessed called with invalid callback, ignoring");
                 },
                 offProcessed: function(callback) {
                     events.unsubscribe("processed", callback);
                 },
                 setReaders: function(readers) {
-                    if (!readers) return void console.trace("* warning: Quagga.setReaders called with no readers, ignoring");
-                    instance.setReaders(readers);
+                    readers ? instance.setReaders(readers) : console.trace("* warning: Quagga.setReaders called with no readers, ignoring");
                 },
                 registerReader: function(name, reader) {
-                    return name ? reader ? void instance.registerReader(name, reader) : void console.trace("* warning: Quagga.registerReader called with no reader, ignoring") : void console.trace("* warning: Quagga.registerReader called with no name, ignoring");
+                    name ? reader ? instance.registerReader(name, reader) : console.trace("* warning: Quagga.registerReader called with no reader, ignoring") : console.trace("* warning: Quagga.registerReader called with no name, ignoring");
                 },
                 registerResultCollector: function(resultCollector) {
                     resultCollector && "function" == typeof resultCollector.addResult && (quagga_context.resultCollector = resultCollector);

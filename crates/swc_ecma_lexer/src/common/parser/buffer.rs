@@ -19,7 +19,6 @@ pub trait NextTokenAndSpan {
 
 pub trait Buffer<'a> {
     type Token: std::fmt::Debug + PartialEq + Clone + TokenFactory<'a, Self::TokenAndSpan, Self::I>;
-    type Lexer: super::super::lexer::Lexer<'a, Self::TokenAndSpan>;
     type Next: NextTokenAndSpan<Token = Self::Token>;
     type TokenAndSpan: TokenAndSpanTrait<Token = Self::Token>;
     type I: Tokens<Self::TokenAndSpan>;
@@ -35,10 +34,8 @@ pub trait Buffer<'a> {
 
     fn cur(&self) -> &Self::Token;
     fn get_cur(&self) -> &Self::TokenAndSpan;
-    fn get_cur_mut(&mut self) -> &mut Self::TokenAndSpan;
 
     fn prev_span(&self) -> Span;
-    fn set_prev_span(&mut self, span: Span);
 
     fn peek<'b>(&'b mut self) -> Option<&'b Self::Token>
     where
@@ -66,11 +63,6 @@ pub trait Buffer<'a> {
     fn expect_jsx_name_token_and_bump(&mut self) -> Atom;
     fn expect_jsx_text_token_and_bump(&mut self) -> (Atom, Atom);
     fn expect_shebang_token_and_bump(&mut self) -> Atom;
-
-    #[inline]
-    fn knows_cur(&self) -> bool {
-        !self.cur().is_eof()
-    }
 
     fn had_line_break_before_cur(&self) -> bool {
         self.get_cur().had_line_break()

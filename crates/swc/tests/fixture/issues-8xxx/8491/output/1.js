@@ -1,4 +1,3 @@
-var a = {
+console.log({
     "a\xf3b": "\xf3"
-};
-console.log(a);
+});

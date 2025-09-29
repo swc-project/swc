@@ -3068,7 +3068,7 @@
                     return /* binding */ o;
                 }
             });
-            const n = "G", i = "SVG", o = "VIEW", a = "TEXT", u = "LINK", l = "PAGE", s = "NOTE", c = "PATH", f = "RECT", p = "LINE", d = "STOP", h = "DEFS", y = "IMAGE", g = "TSPAN", v = "CANVAS", b = "CIRCLE", m = "ELLIPSE", D = "POLYGON", w = "DOCUMENT", E = "POLYLINE", _ = "CLIP_PATH", x = "TEXT_INSTANCE", S = "LINEAR_GRADIENT", A = "RADIAL_GRADIENT";
+            let n = "G", i = "SVG", o = "VIEW", a = "TEXT", u = "LINK", l = "PAGE", s = "NOTE", c = "PATH", f = "RECT", p = "LINE", d = "STOP", h = "DEFS", y = "IMAGE", g = "TSPAN", v = "CANVAS", b = "CIRCLE", m = "ELLIPSE", D = "POLYGON", w = "DOCUMENT", E = "POLYLINE", _ = "CLIP_PATH", x = "TEXT_INSTANCE", S = "LINEAR_GRADIENT", A = "RADIAL_GRADIENT";
         /***/ },
         /***/ 2837: /***/ function(e, t, r) {
             "use strict";
@@ -21354,7 +21354,7 @@
                 },
                 833: function(e) {
                     "use strict";
-                    const t = {};
+                    let t = {};
                     function r(e, r, n) {
                         n || (n = Error);
                         class i extends n {
@@ -21367,7 +21367,7 @@
                     function n(e, t) {
                         if (!Array.isArray(e)) return `of ${t} ${String(e)}`;
                         {
-                            const r = e.length;
+                            let r = e.length;
                             return (e = e.map((e)=>String(e)), r > 2) ? `one of ${t} ${e.slice(0, r - 1).join(", ")}, or ` + e[r - 1] : 2 === r ? `one of ${t} ${e[0]} or ${e[1]}` : `of ${t} ${e[0]}`;
                         }
                     }
@@ -21378,7 +21378,7 @@
                         let l, s;
                         if ("string" == typeof t && (i = "not ", t.substr(0, i.length) === i) ? (l = "must not be", t = t.replace(/^not /, "")) : l = "must be", o = " argument", (void 0 === a || a > e.length) && (a = e.length), e.substring(a - o.length, a) === o) s = `The ${e} ${l} ${n(t, "type")}`;
                         else {
-                            const r = ("number" != typeof u && (u = 0), u + 1 > e.length || -1 === e.indexOf(".", u)) ? "argument" : "property";
+                            let r = ("number" != typeof u && (u = 0), u + 1 > e.length || -1 === e.indexOf(".", u)) ? "argument" : "property";
                             s = `The "${e}" ${r} ${l} ${n(t, "type")}`;
                         }
                         return s + `. Received type ${typeof r}`;
@@ -21686,7 +21686,7 @@
                             }
                             t.push(null);
                         }), e.on("data", function(i) {
-                            a("wrapped data"), r.decoder && (i = r.decoder.write(i)), (!r.objectMode || null != i) && (r.objectMode || i && i.length) && (t.push(i) || (n = !0, e.pause()));
+                            a("wrapped data"), r.decoder && (i = r.decoder.write(i)), r.objectMode && null == i || (r.objectMode || i && i.length) && (t.push(i) || (n = !0, e.pause()));
                         }), e)void 0 === this[i] && "function" == typeof e[i] && (this[i] = function(t) {
                             return function() {
                                 return e[t].apply(e, arguments);
@@ -21994,8 +21994,7 @@
                             var o = this[f];
                             if (o) t = new Promise((e = this, function(t, r) {
                                 o.then(function() {
-                                    if (e[c]) return void t(h(void 0, !0));
-                                    e[p](t, r);
+                                    e[c] ? t(h(void 0, !0)) : e[p](t, r);
                                 }, r);
                             }));
                             else {
@@ -22011,8 +22010,7 @@
                         var e = this;
                         return new Promise(function(t, r) {
                             e[d].destroy(null, function(e) {
-                                if (e) return void r(e);
-                                t(h(void 0, !0));
+                                e ? r(e) : t(h(void 0, !0));
                             });
                         });
                     }), o), v);
@@ -22203,7 +22201,7 @@
                         i(e, t), r(e);
                     }
                     function r(e) {
-                        (!e._writableState || e._writableState.emitClose) && (!e._readableState || e._readableState.emitClose) && e.emit("close");
+                        e._writableState && !e._writableState.emitClose || (!e._readableState || e._readableState.emitClose) && e.emit("close");
                     }
                     function i(e, t) {
                         e.emit("error", t);

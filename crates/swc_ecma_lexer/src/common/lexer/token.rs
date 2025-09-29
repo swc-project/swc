@@ -11,7 +11,6 @@ pub trait TokenFactory<'a, TokenAndSpan, I: Tokens<TokenAndSpan>>: Sized + Parti
         'a,
         I = I,
         Token = Self,
-        Lexer = Self::Lexer,
         TokenAndSpan = TokenAndSpan,
     >;
 

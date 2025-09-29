@@ -1,12 +1,16 @@
-var _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource");
-var _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources");
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+const _ts_add_disposable_resource = require("@swc/helpers/_/_ts_add_disposable_resource");
+const _ts_dispose_resources = require("@swc/helpers/_/_ts_dispose_resources");
 const env = {
     stack: [],
     error: void 0,
     hasError: false
 };
 try {
-    const x = _ts_add_disposable_resource._(env, {
+    var x = _ts_add_disposable_resource._(env, {
         [Symbol.dispose] () {
             console.log("disposed");
         }

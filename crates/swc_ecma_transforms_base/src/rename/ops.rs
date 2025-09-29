@@ -650,14 +650,14 @@ where
     /// Returns `Ok(renamed_ident)` if ident should be renamed.
     fn rename_ident(&mut self, ident: &mut Ident) -> Result<(), ()> {
         if let Some(new_id) = self.rename.get(&ident.to_id()) {
-            let (new_sym, new_ctxt) = new_id.to_id();
+            let new_sym = new_id.atom();
 
-            if new_sym == ident.sym {
+            if ident.sym.eq(new_sym) {
                 return Err(());
             }
 
-            ident.ctxt = new_ctxt;
-            ident.sym = new_sym;
+            ident.ctxt = new_id.ctxt();
+            ident.sym = new_sym.clone();
             return Ok(());
         }
 

@@ -1,6 +1,7 @@
 #[macro_use]
 extern crate napi_derive;
 
+mod tag_omission;
 mod util;
 
 use std::{backtrace::Backtrace, borrow::Cow, env, panic::set_hook};
@@ -31,9 +32,9 @@ use swc_html_minifier::{
 };
 use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
-use crate::util::try_with;
+use crate::{tag_omission::TagOmission, util::try_with};
 
-#[napi::module_init]
+#[napi_derive::module_init]
 fn init() {
     if cfg!(debug_assertions) || env::var("SWC_DEBUG").unwrap_or_default() == "1" {
         set_hook(Box::new(|panic_info| {
@@ -154,7 +155,7 @@ pub struct MinifyOptions {
 
     // Codegen options
     #[serde(default)]
-    tag_omission: Option<bool>,
+    tag_omission: Option<TagOmission>,
     #[serde(default)]
     self_closing_void_elements: Option<bool>,
     #[serde(default)]
@@ -657,13 +658,19 @@ fn minify_inner(
                             ..Default::default()
                         },
                     );
+                    let (tag_omission, keep_head_and_body) = match opts.tag_omission {
+                        Some(TagOmission::Bool(v)) => (Some(v), Some(false)),
+                        Some(TagOmission::KeepHeadAndBody) => (Some(true), Some(true)),
+                        None => (None, None),
+                    };
                     let mut gen = CodeGenerator::new(
                         &mut wr,
                         CodegenConfig {
                             minify: true,
                             scripting_enabled,
                             context_element: context_element.as_ref(),
-                            tag_omission: opts.tag_omission,
+                            tag_omission,
+                            keep_head_and_body,
                             self_closing_void_elements: opts.self_closing_void_elements,
                             quotes: opts.quotes,
                         },

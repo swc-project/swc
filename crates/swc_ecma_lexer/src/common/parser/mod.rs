@@ -52,22 +52,23 @@ pub trait Parser<'a>: Sized + Clone {
     type Token: std::fmt::Debug
         + Clone
         + TokenFactory<'a, Self::TokenAndSpan, Self::I, Buffer = Self::Buffer>;
-    type Lexer: super::lexer::Lexer<'a, Self::TokenAndSpan>;
     type Next: NextTokenAndSpan<Token = Self::Token>;
     type TokenAndSpan: TokenAndSpan<Token = Self::Token>;
     type I: Tokens<Self::TokenAndSpan>;
     type Buffer: self::buffer::Buffer<
         'a,
-        Lexer = Self::Lexer,
         Token = Self::Token,
         TokenAndSpan = Self::TokenAndSpan,
         I = Self::I,
     >;
+    type Checkpoint;
 
     fn input(&self) -> &Self::Buffer;
     fn input_mut(&mut self) -> &mut Self::Buffer;
     fn state(&self) -> &State;
     fn state_mut(&mut self) -> &mut State;
+    fn checkpoint_save(&self) -> Self::Checkpoint;
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint);
 
     #[inline(always)]
     fn with_state<'w>(&'w mut self, state: State) -> WithState<'a, 'w, Self> {
@@ -158,21 +159,21 @@ pub trait Parser<'a>: Sized + Clone {
         let cur = self.input().cur();
         if cur.is_error() {
             let err = self.input_mut().expect_error_token_and_bump();
-            self.input().iter().add_error(err);
+            self.input_mut().iter_mut().add_error(err);
         }
-        self.input().iter().add_error(error);
+        self.input_mut().iter_mut().add_error(error);
     }
 
     #[cold]
-    fn emit_strict_mode_err(&self, span: Span, error: SyntaxError) {
+    fn emit_strict_mode_err(&mut self, span: Span, error: SyntaxError) {
         if self.ctx().contains(Context::IgnoreError) {
             return;
         }
         let error = crate::error::Error::new(span, error);
         if self.ctx().contains(Context::Strict) {
-            self.input().iter().add_error(error);
+            self.input_mut().iter_mut().add_error(error);
         } else {
-            self.input().iter().add_module_mode_error(error);
+            self.input_mut().iter_mut().add_module_mode_error(error);
         }
     }
 
@@ -253,7 +254,7 @@ pub trait Parser<'a>: Sized + Clone {
     #[inline(always)]
     fn bump(&mut self) {
         debug_assert!(
-            self.input().knows_cur(),
+            !self.input().cur().is_eof(),
             "parser should not call bump() without knowing current token"
         );
         self.input_mut().bump()

@@ -356,13 +356,15 @@ impl Optimizer<'_> {
 
             if !has_pure_ann {
                 if let Some(init) = init.as_mut() {
-                    if self.should_preserve_property_access(
-                        init,
-                        PropertyAccessOpts {
-                            allow_getter: false,
-                            only_ident: false,
-                        },
-                    ) {
+                    if !matches!(init, Expr::Ident(_))
+                        && self.should_preserve_property_access(
+                            init,
+                            PropertyAccessOpts {
+                                allow_getter: false,
+                                only_ident: false,
+                            },
+                        )
+                    {
                         return;
                     }
                 }
@@ -521,34 +523,41 @@ impl Optimizer<'_> {
                     .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
                     .unwrap_or(false)
                 {
+                    let Some(side_effects) = extract_class_side_effect(self.ctx.expr_ctx, class)
+                    else {
+                        return;
+                    };
+
                     self.changed = true;
                     report_change!(
                         "unused: Dropping a decl '{}{:?}' because it is not used",
                         ident.sym,
                         ident.ctxt
                     );
-                    // This will remove the declaration.
-                    let class = decl.take().class().unwrap();
-                    let mut side_effects =
-                        extract_class_side_effect(self.ctx.expr_ctx, *class.class);
 
-                    if !side_effects.is_empty() {
-                        self.prepend_stmts.push(
-                            ExprStmt {
-                                span: DUMMY_SP,
-                                expr: if side_effects.len() > 1 {
-                                    SeqExpr {
-                                        span: DUMMY_SP,
-                                        exprs: side_effects,
-                                    }
-                                    .into()
-                                } else {
-                                    side_effects.remove(0)
-                                },
-                            }
-                            .into(),
-                        )
+                    let mut side_effects: Vec<_> =
+                        side_effects.into_iter().map(|expr| expr.take()).collect();
+                    decl.take();
+
+                    if side_effects.is_empty() {
+                        return;
                     }
+
+                    self.prepend_stmts.push(
+                        ExprStmt {
+                            span: DUMMY_SP,
+                            expr: if side_effects.len() > 1 {
+                                SeqExpr {
+                                    span: DUMMY_SP,
+                                    exprs: side_effects,
+                                }
+                                .into()
+                            } else {
+                                side_effects.remove(0)
+                            },
+                        }
+                        .into(),
+                    );
                 }
             }
             Decl::Fn(FnDecl { ident, .. }) => {

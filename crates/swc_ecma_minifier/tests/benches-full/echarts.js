@@ -2485,8 +2485,7 @@
         }, Track;
     }(), Animator = function() {
         function Animator(target, loop, additiveTo) {
-            if (this._tracks = {}, this._trackKeys = [], this._delay = 0, this._maxTime = 0, this._paused = !1, this._started = 0, this._clip = null, this._target = target, this._loop = loop, loop && additiveTo) return void logError('Can\' use additive animation on looped animation.');
-            this._additiveAnimators = additiveTo;
+            (this._tracks = {}, this._trackKeys = [], this._delay = 0, this._maxTime = 0, this._paused = !1, this._started = 0, this._clip = null, this._target = target, this._loop = loop, loop && additiveTo) ? logError('Can\' use additive animation on looped animation.') : this._additiveAnimators = additiveTo;
         }
         return Animator.prototype.getTarget = function() {
             return this._target;
@@ -3301,7 +3300,7 @@
                     var start1 = runStart[i], length1 = runLength[i], start2 = runStart[i + 1], length2 = runLength[i + 1];
                     runLength[i] = length1 + length2, i === stackSize - 3 && (runStart[i + 1] = runStart[i + 2], runLength[i + 1] = runLength[i + 2]), stackSize--;
                     var k = gallopRight(array[start2], array, start1, length1, 0, compare);
-                    start1 += k, 0 != (length1 -= k) && 0 !== (length2 = gallopLeft(array[start1 + length1 - 1], array, start2, length2, length2 - 1, compare)) && (length1 <= length2 ? function(start1, length1, start2, length2) {
+                    start1 += k, 0 == (length1 -= k) || 0 !== (length2 = gallopLeft(array[start1 + length1 - 1], array, start2, length2, length2 - 1, compare)) && (length1 <= length2 ? function(start1, length1, start2, length2) {
                         var count1, count2, exit, i = 0;
                         for(i = 0; i < length1; i++)tmp[i] = array[start1 + i];
                         var cursor1 = 0, cursor2 = start2, dest = start1;
@@ -12648,7 +12647,7 @@
                                 outPt.set(rect.x - 0, rect.y + height / 2), outDir.set(-1, 0);
                                 break;
                             case 'right':
-                                outPt.set(rect.x + width + distance, rect.y + height / 2), outDir.set(1, 0);
+                                outPt.set(rect.x + width + 0, rect.y + height / 2), outDir.set(1, 0);
                         }
                     }(searchSpace[i], 0, labelRect, pt0, dir), Point.scaleAndAdd(pt1, pt0, dir, len), pt1.transform(targetInversedTransform);
                     var boundingRect = target.getBoundingRect(), dist = anchorPoint ? anchorPoint.distance(pt1) : target instanceof Path ? /**
@@ -15299,8 +15298,7 @@
         }, ECharts.prototype.isDisposed = function() {
             return this._disposed;
         }, ECharts.prototype.clear = function() {
-            if (this._disposed) return void disposedWarning(this.id);
-            this.setOption({
+            this._disposed ? disposedWarning(this.id) : this.setOption({
                 series: []
             }, !0);
         }, ECharts.prototype.dispose = function() {
@@ -15336,8 +15334,7 @@
         }, /**
              * Hide loading effect
              */ ECharts.prototype.hideLoading = function() {
-            if (this._disposed) return void disposedWarning(this.id);
-            this._loadingFX && this._zr.remove(this._loadingFX), this._loadingFX = null;
+            this._disposed ? disposedWarning(this.id) : (this._loadingFX && this._zr.remove(this._loadingFX), this._loadingFX = null);
         }, ECharts.prototype.makeActionFromEvent = function(eventObj) {
             var payload = extend({}, eventObj);
             return payload.type = eventActionMap[eventObj.type], payload;
@@ -16320,11 +16317,10 @@
         }
     };
     function use(ext) {
-        if (isArray(ext)) return void // use([ChartLine, ChartBar]);
+        isArray(ext) ? // use([ChartLine, ChartBar]);
         each(ext, function(singleExt) {
             use(singleExt);
-        });
-        indexOf(extensions, ext) >= 0 || (extensions.push(ext), isFunction(ext) && (ext = {
+        }) : indexOf(extensions, ext) >= 0 || (extensions.push(ext), isFunction(ext) && (ext = {
             install: ext
         }), ext.install(extensionRegisters));
     }
@@ -27199,19 +27195,19 @@
                                 ],
                                 [
                                     x + itemWidth,
-                                    y + itemHeight
+                                    0 + itemHeight
                                 ],
                                 [
                                     head ? x : x - 5,
-                                    y + itemHeight
+                                    0 + itemHeight
                                 ]
                             ];
                             return tail || points.splice(2, 0, [
                                 x + itemWidth + 5,
-                                y + itemHeight / 2
+                                0 + itemHeight / 2
                             ]), head || points.push([
                                 x,
-                                y + itemHeight / 2
+                                0 + itemHeight / 2
                             ]), points;
                         } // Package custom mouse event.
                         (lastX, 0, itemWidth, height, i === renderList.length - 1, 0 === i)
@@ -29241,8 +29237,7 @@
             }
         }, LineDraw.prototype._doUpdate = function(oldLineData, newLineData, oldIdx, newIdx, seriesScope) {
             var itemEl = oldLineData.getItemGraphicEl(oldIdx);
-            if (!lineNeedsDraw(newLineData.getItemLayout(newIdx))) return void this.group.remove(itemEl);
-            itemEl ? itemEl.updateData(newLineData, newIdx, seriesScope) : itemEl = new this._LineCtor(newLineData, newIdx, seriesScope), newLineData.setItemGraphicEl(newIdx, itemEl), this.group.add(itemEl);
+            lineNeedsDraw(newLineData.getItemLayout(newIdx)) ? (itemEl ? itemEl.updateData(newLineData, newIdx, seriesScope) : itemEl = new this._LineCtor(newLineData, newIdx, seriesScope), newLineData.setItemGraphicEl(newIdx, itemEl), this.group.add(itemEl)) : this.group.remove(itemEl);
         }, LineDraw;
     }();
     function makeSeriesScope$1(lineData) {
@@ -29434,11 +29429,10 @@
             }();
         }, GraphView.prototype._updateController = function(seriesModel, ecModel, api) {
             var _this = this, controller = this._controller, controllerHost = this._controllerHost, group = this.group;
-            if (controller.setPointerChecker(function(e, x, y) {
+            (controller.setPointerChecker(function(e, x, y) {
                 var rect = group.getBoundingRect();
                 return rect.applyTransform(group.transform), rect.contain(x, y) && !onIrrelevantElement(e, api, seriesModel);
-            }), !isViewCoordSys(seriesModel.coordinateSystem)) return void controller.disable();
-            controller.enable(seriesModel.get('roam')), controllerHost.zoomLimit = seriesModel.get('scaleLimit'), controllerHost.zoom = seriesModel.coordinateSystem.getZoom(), controller.off('pan').off('zoom').on('pan', function(e) {
+            }), isViewCoordSys(seriesModel.coordinateSystem)) ? (controller.enable(seriesModel.get('roam')), controllerHost.zoomLimit = seriesModel.get('scaleLimit'), controllerHost.zoom = seriesModel.coordinateSystem.getZoom(), controller.off('pan').off('zoom').on('pan', function(e) {
                 updateViewOnPan(controllerHost, e.dx, e.dy), api.dispatchAction({
                     seriesId: seriesModel.id,
                     type: 'graphRoam',
@@ -29453,7 +29447,7 @@
                     originX: e.originX,
                     originY: e.originY
                 }), _this._updateNodeAndLinkScale(), adjustEdge(seriesModel.getGraph(), getNodeGlobalScale(seriesModel)), _this._lineDraw.updateLayout(), api.updateLabelLayout();
-            });
+            })) : controller.disable();
         }, GraphView.prototype._updateNodeAndLinkScale = function() {
             var seriesModel = this._model, data = seriesModel.getData(), nodeScale = getNodeGlobalScale(seriesModel);
             data.eachItemGraphicEl(function(el, idx) {
@@ -32994,12 +32988,11 @@
                 var el = oldData.getItemGraphicEl(oldIdx); // Empty data
                 if (!data.hasValue(newIdx)) return void group.remove(el);
                 var itemLayout = data.getItemLayout(newIdx);
-                if (needsClip && isNormalBoxClipped(clipArea, itemLayout)) return void group.remove(el);
-                el ? updateProps(el, {
+                needsClip && isNormalBoxClipped(clipArea, itemLayout) ? group.remove(el) : (el ? updateProps(el, {
                     shape: {
                         points: itemLayout.ends
                     }
-                }, seriesModel, newIdx) : el = createNormalBox$1(itemLayout), setBoxCommon(el, data, newIdx, isSimpleBox), group.add(el), data.setItemGraphicEl(newIdx, el);
+                }, seriesModel, newIdx) : el = createNormalBox$1(itemLayout), setBoxCommon(el, data, newIdx, isSimpleBox), group.add(el), data.setItemGraphicEl(newIdx, el));
             }).remove(function(oldIdx) {
                 var el = oldData.getItemGraphicEl(oldIdx);
                 el && group.remove(el);
@@ -35454,7 +35447,7 @@
     function morphPath(fromPath, toPath, animationOpts) {
         if (!fromPath || !toPath) return toPath;
         fromPath.path || fromPath.createPathProxy(), (fromPathProxy = fromPath.path).beginPath(), fromPath.buildPath(fromPathProxy, fromPath.shape), toPath.path || toPath.createPathProxy(), (toPathProxy = toPath.path) === fromPathProxy && (toPathProxy = new PathProxy(!1)), toPathProxy.beginPath(), isIndividualMorphingPath(toPath) ? toPath.__oldBuildPath(toPathProxy, toPath.shape) : toPath.buildPath(toPathProxy, toPath.shape);
-        var fromPathProxy, toPathProxy, _a = function(array1, array2) {
+        var morphingData, fromPathProxy, toPathProxy, _a = function(array1, array2) {
             for(var _a, lastSubpath1, lastSubpath2, newArray1 = [], newArray2 = [], i = 0; i < Math.max(array1.length, array2.length); i++){
                 var subpath1 = array1[i], subpath2 = array2[i], newSubpath1 = void 0, newSubpath2 = void 0;
                 subpath1 ? subpath2 ? (newSubpath1 = (_a = function(subpath1, subpath2) {
@@ -35492,10 +35485,7 @@
                 newArray2
             ];
         }(pathToBezierCurves(fromPathProxy), pathToBezierCurves(toPathProxy));
-        !function(path, morphingData, morphT) {
-            if (isIndividualMorphingPath(path)) return updateIndividualMorphingPath(path, morphingData, 0);
-            path.__oldBuildPath = path.buildPath, path.buildPath = morphingPathBuildPath, updateIndividualMorphingPath(path, morphingData, 0);
-        }(toPath, function(fromArr, toArr, searchAngleIteration, searchAngleRange) {
+        morphingData = function(fromArr, toArr, searchAngleIteration, searchAngleRange) {
             for(var fromNeedsReverse, result = [], i = 0; i < fromArr.length; i++){
                 var fromSubpathBezier = fromArr[i], toSubpathBezier = toArr[i], fromCp = centroid(fromSubpathBezier), toCp = centroid(toSubpathBezier);
                 null == fromNeedsReverse && (fromNeedsReverse = fromCp[2] < 0 != toCp[2] < 0);
@@ -35539,7 +35529,9 @@
                 });
             }
             return result;
-        }(_a[0], _a[1], 0, Math.PI), 0);
+        }(_a[0], _a[1], 0, Math.PI), isIndividualMorphingPath(toPath) || (toPath.__oldBuildPath = toPath.buildPath, toPath.buildPath = morphingPathBuildPath), function(morphingPath, morphingData, morphT) {
+            morphingPath.__morphingData = morphingData, morphingPath.__morphT = morphT;
+        }(toPath, morphingData, 0);
         var oldDone = animationOpts && animationOpts.done, oldAborted = animationOpts && animationOpts.aborted, oldDuring = animationOpts && animationOpts.during;
         return toPath.animateTo({
             __morphT: 1
@@ -35565,9 +35557,6 @@
             }
             for(var m = 0; m < from.length;)0 === m && path.moveTo(tmpArr$1[m++], tmpArr$1[m++]), path.bezierCurveTo(tmpArr$1[m++], tmpArr$1[m++], tmpArr$1[m++], tmpArr$1[m++], tmpArr$1[m++], tmpArr$1[m++]);
         }
-    }
-    function updateIndividualMorphingPath(morphingPath, morphingData, morphT) {
-        morphingPath.__morphingData = morphingData, morphingPath.__morphT = morphT;
     }
     function isIndividualMorphingPath(path) {
         return null != path.__oldBuildPath;
@@ -35600,10 +35589,7 @@
                 var from = fromIndividuals[i], to = toPathSplittedList[i];
                 copyPropsIfDivided && copyPropsIfDivided(toPath, to, !0), morphPath(from, to, morphAnimationOpts);
             }
-            return function(path, combiningSubList) {
-                if (isCombiningPath(path)) return updateCombiningPathSubList(path, combiningSubList);
-                updateCombiningPathSubList(path, combiningSubList), path.__oldAddSelfToZr = path.addSelfToZr, path.__oldRemoveSelfFromZr = path.removeSelfFromZr, path.addSelfToZr = combiningAddSelfToZr, path.removeSelfFromZr = combiningRemoveSelfFromZr, path.__oldBuildPath = path.buildPath, path.buildPath = noop, path.childrenRef = combiningChildrenRef;
-            }(toPath, toPathSplittedList), {
+            return isCombiningPath(toPath) ? updateCombiningPathSubList(toPath, toPathSplittedList) : (updateCombiningPathSubList(toPath, toPathSplittedList), toPath.__oldAddSelfToZr = toPath.addSelfToZr, toPath.__oldRemoveSelfFromZr = toPath.removeSelfFromZr, toPath.addSelfToZr = combiningAddSelfToZr, toPath.removeSelfFromZr = combiningRemoveSelfFromZr, toPath.__oldBuildPath = toPath.buildPath, toPath.buildPath = noop, toPath.childrenRef = combiningChildrenRef), {
                 fromIndividuals: fromIndividuals,
                 toIndividuals: toPathSplittedList,
                 count: separateCount
@@ -45185,8 +45171,7 @@
         }
         return __extends(InsideZoomView, _super), InsideZoomView.prototype.render = function(dataZoomModel, ecModel, api) {
             var getRange;
-            if (_super.prototype.render.apply(this, arguments), dataZoomModel.noTarget()) return void this._clear(); // Hence the `throttle` util ensures to preserve command order,
-            // here simply updating range all the time will not cause missing
+            (_super.prototype.render.apply(this, arguments), dataZoomModel.noTarget()) ? this._clear() : (// here simply updating range all the time will not cause missing
             // any of the the roam change.
             this.range = dataZoomModel.getPercentRange(), getRange = {
                 pan: bind(getRangeHandlers.pan, this),
@@ -45195,7 +45180,8 @@
             }, inner$k(api).coordSysRecordMap.each(function(coordSysRecord) {
                 var dzInfo = coordSysRecord.dataZoomInfoMap.get(dataZoomModel.uid);
                 dzInfo && (dzInfo.getRange = getRange);
-            });
+            })) // Hence the `throttle` util ensures to preserve command order,
+            ;
         }, InsideZoomView.prototype.dispose = function() {
             this._clear(), _super.prototype.dispose.apply(this, arguments);
         }, InsideZoomView.prototype._clear = function() {
@@ -46440,8 +46426,7 @@
              * @protected
              */ VisualMapView.prototype.render = function(visualMapModel, ecModel, api, payload // TODO: TYPE
         ) {
-            if (this.visualMapModel = visualMapModel, !1 === visualMapModel.get('show')) return void this.group.removeAll();
-            this.doRender(visualMapModel, ecModel, api, payload);
+            (this.visualMapModel = visualMapModel, !1 === visualMapModel.get('show')) ? this.group.removeAll() : this.doRender(visualMapModel, ecModel, api, payload);
         }, /**
              * @protected
              */ VisualMapView.prototype.renderBackground = function(group) {
