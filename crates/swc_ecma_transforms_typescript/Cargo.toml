@@ -17,7 +17,8 @@ concurrent = ["swc_common/concurrent"]
 
 [dependencies]
 bytes-str  = { workspace = true }
-rustc-hash = { workspace = true } serde      = { workspace = true, features = ["derive"] }
+rustc-hash = { workspace = true }
+serde      = { workspace = true, features = ["derive"] }
 swc_atoms                 = { version = "7.0.0", path = "../swc_atoms" }
 swc_common                = { version = "14.0.4", path = "../swc_common" }
 swc_ecma_ast              = { version = "15.0.0", path = "../swc_ecma_ast" }
