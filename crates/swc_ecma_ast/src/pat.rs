@@ -43,7 +43,7 @@ impl Clone for Pat {
     fn clone(&self) -> Self {
         use Pat::*;
         match self {
-            #[cfg(feature = "unknown")]
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
             Unknown(tag, v) => Unknown(*tag, v.clone()),
             Ident(p) => Ident(p.clone()),
             Array(p) => Array(p.clone()),

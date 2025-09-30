@@ -15,6 +15,9 @@ version       = "14.0.4"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 __plugin         = []
 __plugin_mode    = []
@@ -43,7 +46,6 @@ rkyv-impl = [
   "rancor",
 ]
 encoding-impl = ["cbor4ii", "swc_atoms/encoding-impl"]
-unknown = ["encoding-impl"]
 
 shrink-to-fit = ["dep:shrink-to-fit", "swc_atoms/shrink-to-fit"]
 

@@ -1,7 +1,5 @@
 use is_macro::Is;
 use swc_atoms::Atom;
-#[cfg(feature = "unknown")]
-use swc_common::unknown::unknown;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{
@@ -298,8 +296,8 @@ impl ImportSpecifier {
         match self {
             ImportSpecifier::Named(named) => named.is_type_only,
             ImportSpecifier::Default(..) | ImportSpecifier::Namespace(..) => false,
-            #[cfg(feature = "unknown")]
-            ImportSpecifier::Unknown(..) => unknown(),
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown(),
         }
     }
 
@@ -308,8 +306,8 @@ impl ImportSpecifier {
             ImportSpecifier::Named(named) => &named.local,
             ImportSpecifier::Default(default) => &default.local,
             ImportSpecifier::Namespace(ns) => &ns.local,
-            #[cfg(feature = "unknown")]
-            ImportSpecifier::Unknown(..) => unknown(),
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown(),
         }
     }
 
@@ -318,8 +316,8 @@ impl ImportSpecifier {
             ImportSpecifier::Named(named) => &mut named.local,
             ImportSpecifier::Default(default) => &mut default.local,
             ImportSpecifier::Namespace(ns) => &mut ns.local,
-            #[cfg(feature = "unknown")]
-            ImportSpecifier::Unknown(..) => unknown(),
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown(),
         }
     }
 }
@@ -445,8 +443,8 @@ impl ModuleExportName {
         match self {
             ModuleExportName::Ident(i) => &i.sym,
             ModuleExportName::Str(s) => &s.value,
-            #[cfg(feature = "unknown")]
-            ModuleExportName::Unknown(..) => unknown(),
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown(),
         }
     }
 }

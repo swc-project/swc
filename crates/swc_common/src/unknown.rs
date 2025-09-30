@@ -137,8 +137,3 @@ impl<'a> arbitrary::Arbitrary<'a> for Unknown {
 impl shrink_to_fit::ShrinkToFit for Unknown {
     fn shrink_to_fit(&mut self) {}
 }
-
-#[track_caller]
-pub fn unknown() -> ! {
-    panic!("unknown node")
-}

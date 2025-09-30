@@ -69,7 +69,7 @@ pub mod serializer;
 pub mod source_map;
 pub mod sync;
 mod syntax_pos;
-#[cfg(feature = "unknown")]
+#[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
 pub mod unknown;
 pub mod util;
 
@@ -87,3 +87,9 @@ pub use self::syntax_pos::{
     ArchivedBytePos, ArchivedCharPos, ArchivedFileName, ArchivedMultiSpan, ArchivedSourceFile,
     ArchivedSourceFileAndBytePos, ArchivedSpan, ArchivedSpanLinesError, ArchivedSpanSnippetError,
 };
+
+#[cfg(swc_ast_unknown)]
+#[track_caller]
+pub fn unknown() -> ! {
+    panic!("unknown node")
+}

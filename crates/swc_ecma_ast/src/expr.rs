@@ -4,8 +4,6 @@ use std::mem::transmute;
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::Atom;
-#[cfg(feature = "unknown")]
-use swc_common::unknown::unknown;
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -378,8 +376,8 @@ impl Expr {
             Expr::PrivateName(e) => e.span = span,
             Expr::OptChain(e) => e.span = span,
             Expr::Lit(e) => e.set_span(span),
-            #[cfg(feature = "unknown")]
-            Expr::Unknown(..) => unknown(),
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown(),
         }
     }
 }
@@ -390,7 +388,7 @@ impl Clone for Expr {
     fn clone(&self) -> Self {
         use Expr::*;
         match self {
-            #[cfg(feature = "unknown")]
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
             Unknown(tag, v) => Unknown(*tag, v.clone()),
             This(e) => This(e.clone()),
             Array(e) => Array(e.clone()),
@@ -571,8 +569,8 @@ impl ObjectLit {
                     }
                     _ => return None,
                 },
-                #[cfg(feature = "unknown")]
-                PropOrSpread::Unknown(..) => continue,
+                #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+                _ => swc_common::unknown(),
             }
         }
 
@@ -1558,8 +1556,8 @@ impl From<AssignTargetPat> for Pat {
             AssignTargetPat::Array(a) => a.into(),
             AssignTargetPat::Object(o) => o.into(),
             AssignTargetPat::Invalid(i) => i.into(),
-            #[cfg(feature = "unknown")]
-            AssignTargetPat::Unknown(..) => unknown(),
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown(),
         }
     }
 }
@@ -1681,8 +1679,8 @@ impl From<SimpleAssignTarget> for Box<Expr> {
             SimpleAssignTarget::TsTypeAssertion(a) => a.into(),
             SimpleAssignTarget::TsInstantiation(a) => a.into(),
             SimpleAssignTarget::Invalid(i) => i.into(),
-            #[cfg(feature = "unknown")]
-            SimpleAssignTarget::Unknown(..) => unknown(),
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown(),
         }
     }
 }
@@ -1787,8 +1785,8 @@ impl From<OptChainBase> for Expr {
                 ctxt,
             }),
             OptChainBase::Member(member) => Self::Member(member),
-            #[cfg(feature = "unknown")]
-            OptChainBase::Unknown(..) => unknown(),
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown(),
         }
     }
 }

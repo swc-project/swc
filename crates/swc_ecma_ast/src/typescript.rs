@@ -12,8 +12,6 @@ use serde::{
 };
 use string_enum::StringEnum;
 use swc_atoms::Atom;
-#[cfg(feature = "unknown")]
-use swc_common::unknown::unknown;
 use swc_common::{ast_node, EqIgnoreSpan, Span};
 
 use crate::{
@@ -382,7 +380,7 @@ impl Clone for TsType {
     fn clone(&self) -> Self {
         use TsType::*;
         match self {
-            #[cfg(feature = "unknown")]
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
             Unknown(tag, v) => Unknown(*tag, v.clone()),
             TsKeywordType(t) => TsKeywordType(t.clone()),
             TsThisType(t) => TsThisType(t.clone()),
@@ -1112,8 +1110,8 @@ impl AsRef<Atom> for TsEnumMemberId {
         match &self {
             TsEnumMemberId::Str(Str { value: ref sym, .. })
             | TsEnumMemberId::Ident(Ident { ref sym, .. }) => sym,
-            #[cfg(feature = "unknown")]
-            TsEnumMemberId::Unknown(..) => unknown(),
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown(),
         }
     }
 }

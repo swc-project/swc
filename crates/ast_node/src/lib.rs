@@ -214,7 +214,7 @@ pub fn ast_node(
                     .all(|variant| variant.fields.is_empty())
                 {
                     syn::parse_quote! {
-                        #[cfg(feature = "unknown")]
+                        #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
                         #[from_variant(ignore)]
                         #[span(unknown)]
                         #[encoding(unknown)]
@@ -222,7 +222,7 @@ pub fn ast_node(
                     }
                 } else {
                     syn::parse_quote! {
-                        #[cfg(feature = "unknown")]
+                        #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
                         #[from_variant(ignore)]
                         #[span(unknown)]
                         #[encoding(unknown)]

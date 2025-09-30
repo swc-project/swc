@@ -1,6 +1,4 @@
 use is_macro::Is;
-#[cfg(feature = "unknown")]
-use swc_common::unknown::unknown;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{
@@ -167,8 +165,8 @@ impl From<PropName> for MemberProp {
                 span: DUMMY_SP,
                 expr: p.into(),
             }),
-            #[cfg(feature = "unknown")]
-            PropName::Unknown(..) => unknown(),
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown(),
         }
     }
 }

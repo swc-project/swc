@@ -115,8 +115,6 @@ impl PartialEq<str> for FunctionName {
         match self {
             FunctionName::DashedIdent(v) => *v == *other,
             FunctionName::Ident(v) => *v == *other,
-            #[cfg(feature = "unknown")]
-            FunctionName::Unknown(..) => false,
         }
     }
 }
@@ -126,8 +124,6 @@ impl PartialEq<&'_ str> for FunctionName {
         match self {
             FunctionName::DashedIdent(v) => *v == **other,
             FunctionName::Ident(v) => *v == **other,
-            #[cfg(feature = "unknown")]
-            FunctionName::Unknown(..) => false,
         }
     }
 }
@@ -137,8 +133,6 @@ impl PartialEq<Atom> for FunctionName {
         match self {
             FunctionName::DashedIdent(v) => v.value == *other,
             FunctionName::Ident(v) => v.value == *other,
-            #[cfg(feature = "unknown")]
-            FunctionName::Unknown(..) => false,
         }
     }
 }
@@ -148,8 +142,6 @@ impl FunctionName {
         match self {
             FunctionName::DashedIdent(v) => &v.value,
             FunctionName::Ident(v) => &v.value,
-            #[cfg(feature = "unknown")]
-            FunctionName::Unknown(..) => "",
         }
     }
 }
@@ -260,8 +252,6 @@ impl From<StyleBlock> for ComponentValue {
             StyleBlock::ListOfComponentValues(list_of_component_values) => {
                 ComponentValue::ListOfComponentValues(list_of_component_values)
             }
-            #[cfg(feature = "unknown")]
-            StyleBlock::Unknown(..) => swc_common::unknown::unknown(),
         }
     }
 }
@@ -277,8 +267,6 @@ impl From<DeclarationOrAtRule> for ComponentValue {
             DeclarationOrAtRule::ListOfComponentValues(list_of_component_values) => {
                 ComponentValue::ListOfComponentValues(list_of_component_values)
             }
-            #[cfg(feature = "unknown")]
-            DeclarationOrAtRule::Unknown(..) => swc_common::unknown::unknown(),
         }
     }
 }
@@ -292,8 +280,6 @@ impl From<Rule> for ComponentValue {
             Rule::ListOfComponentValues(list_of_component_values) => {
                 ComponentValue::ListOfComponentValues(list_of_component_values)
             }
-            #[cfg(feature = "unknown")]
-            Rule::Unknown(..) => swc_common::unknown::unknown(),
         }
     }
 }
@@ -338,8 +324,6 @@ impl PartialEq<str> for DeclarationName {
         match self {
             DeclarationName::DashedIdent(v) => *v == *other,
             DeclarationName::Ident(v) => *v == *other,
-            #[cfg(feature = "unknown")]
-            DeclarationName::Unknown(..) => false,
         }
     }
 }
@@ -349,8 +333,6 @@ impl PartialEq<Atom> for DeclarationName {
         match self {
             DeclarationName::DashedIdent(v) => v.value == *other,
             DeclarationName::Ident(v) => v.value == *other,
-            #[cfg(feature = "unknown")]
-            DeclarationName::Unknown(..) => false,
         }
     }
 }

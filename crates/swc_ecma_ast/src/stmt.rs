@@ -176,7 +176,7 @@ impl Clone for Stmt {
     fn clone(&self) -> Self {
         use Stmt::*;
         match self {
-            #[cfg(feature = "unknown")]
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
             Unknown(tag, v) => Unknown(*tag, v.clone()),
             Block(s) => Block(s.clone()),
             Empty(s) => Empty(s.clone()),

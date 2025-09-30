@@ -7,8 +7,6 @@ use std::{
 use is_macro::Is;
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{atom, Atom};
-#[cfg(feature = "unknown")]
-use swc_common::unknown::unknown;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::jsx::JSXText;
@@ -74,8 +72,8 @@ impl Lit {
             Lit::BigInt(n) => n.span = span,
             Lit::Regex(n) => n.span = span,
             Lit::JSXText(n) => n.span = span,
-            #[cfg(feature = "unknown")]
-            Lit::Unknown(..) => unknown(),
+            #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+            _ => swc_common::unknown(),
         }
     }
 }
