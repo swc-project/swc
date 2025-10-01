@@ -285,6 +285,10 @@ pub struct CompressOptions {
     #[cfg_attr(feature = "extra-serde", serde(default))]
     pub module: bool,
 
+    #[cfg_attr(feature = "extra-serde", serde(default))]
+    #[cfg_attr(feature = "extra-serde", serde(alias = "merge_duplicate_imports"))]
+    pub merge_duplicate_imports: bool,
+
     #[cfg_attr(feature = "extra-serde", serde(default = "true_by_default"))]
     #[cfg_attr(feature = "extra-serde", serde(alias = "negate_iife"))]
     pub negate_iife: bool,
@@ -452,6 +456,7 @@ impl Default for CompressOptions {
             keep_infinity: false,
             loops: true,
             module: false,
+            merge_duplicate_imports: false,
             negate_iife: true,
             passes: default_passes(),
             props: true,
