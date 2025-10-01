@@ -121,7 +121,7 @@ interface TransformConfig {
      * Don't create `export {}`.
      * By default, strip creates `export {}` for modules to preserve module
      * context.
-     * 
+     *
      * @see https://github.com/swc-project/swc/issues/1698
      */
     noEmptyExport?: boolean;
@@ -130,7 +130,7 @@ interface TransformConfig {
      * Disables an optimization that inlines TS enum member values
      * within the same module that assumes the enum member values
      * are never modified.
-     * 
+     *
      * Defaults to false.
      */
     tsEnumIsMutable?: boolean;
@@ -144,7 +144,7 @@ interface TransformConfig {
 interface JsxConfig {
     /**
      * How to transform JSX.
-     * 
+     *
      * @default "react-jsx"
      */
     transform?: "react-jsx" | "react-jsxdev";
@@ -575,15 +575,17 @@ impl Visit for ErrorOnTsModule<'_> {
             return;
         }
 
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    span(pos, n.id.span().hi),
-                    "`module` keyword is not supported. Use `namespace` instead.",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        span(pos, n.id.span().hi),
+                        "`module` keyword is not supported. Use `namespace` instead.",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
     }
 }
 
@@ -1338,15 +1340,17 @@ impl Visit for TsStrip {
     }
 
     fn visit_ts_export_assignment(&mut self, n: &TsExportAssignment) {
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    n.span,
-                    "TypeScript export assignment is not supported in strip-only mode",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        n.span,
+                        "TypeScript export assignment is not supported in strip-only mode",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
     }
 
     fn visit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) {
@@ -1356,15 +1360,17 @@ impl Visit for TsStrip {
             return;
         }
 
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    n.span,
-                    "TypeScript import equals declaration is not supported in strip-only mode",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        n.span,
+                        "TypeScript import equals declaration is not supported in strip-only mode",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
     }
 
     fn visit_ts_index_signature(&mut self, n: &TsIndexSignature) {
@@ -1378,27 +1384,31 @@ impl Visit for TsStrip {
     }
 
     fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    e.span,
-                    "TypeScript enum is not supported in strip-only mode",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        e.span,
+                        "TypeScript enum is not supported in strip-only mode",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
     }
 
     fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    n.span(),
-                    "TypeScript namespace declaration is not supported in strip-only mode",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        n.span(),
+                        "TypeScript namespace declaration is not supported in strip-only mode",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
     }
 
     fn visit_ts_non_null_expr(&mut self, n: &TsNonNullExpr) {
@@ -1408,15 +1418,17 @@ impl Visit for TsStrip {
     }
 
     fn visit_ts_param_prop_param(&mut self, n: &TsParamPropParam) {
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    n.span(),
-                    "TypeScript parameter property is not supported in strip-only mode",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        n.span(),
+                        "TypeScript parameter property is not supported in strip-only mode",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
     }
 
     fn visit_ts_satisfies_expr(&mut self, n: &TsSatisfiesExpr) {
@@ -1446,16 +1458,18 @@ impl Visit for TsStrip {
     ///
     /// See https://github.com/swc-project/swc/issues/9295
     fn visit_ts_type_assertion(&mut self, n: &TsTypeAssertion) {
-        HANDLER.with(|handler| {
-            handler
-                .struct_span_err(
-                    n.span,
-                    "The angle-bracket syntax for type assertions, `<T>expr`, is not supported in \
-                     type strip mode. Instead, use the 'as' syntax: `expr as T`.",
-                )
-                .code(DiagnosticId::Error("UnsupportedSyntax".into()))
-                .emit();
-        });
+        if HANDLER.is_set() {
+            HANDLER.with(|handler| {
+                handler
+                    .struct_span_err(
+                        n.span,
+                        "The angle-bracket syntax for type assertions, `<T>expr`, is not \
+                         supported in type strip mode. Instead, use the 'as' syntax: `expr as T`.",
+                    )
+                    .code(DiagnosticId::Error("UnsupportedSyntax".into()))
+                    .emit();
+            });
+        }
 
         n.expr.visit_children_with(self);
     }

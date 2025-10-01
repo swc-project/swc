@@ -1008,26 +1008,30 @@ impl Transform {
                         }
                         TsModuleRef::TsExternalModuleRef(..) => {
                             // TS1147
-                            HANDLER.with(|handler| {
-                                handler
-                                .struct_span_err(
-                                    decl.span,
-                                    r#"Import declarations in a namespace cannot reference a module."#,
-                                )
-                                .emit();
-                            });
+                            if HANDLER.is_set() {
+                                HANDLER.with(|handler| {
+                                    handler
+                                    .struct_span_err(
+                                        decl.span,
+                                        r#"Import declarations in a namespace cannot reference a module."#,
+                                    )
+                                    .emit();
+                                });
+                            }
                         }
                     }
                 }
                 item => {
-                    HANDLER.with(|handler| {
-                        handler
-                            .struct_span_err(
-                                item.span(),
-                                r#"ESM-style module declarations are not permitted in a namespace."#,
-                            )
-                            .emit();
-                    });
+                    if HANDLER.is_set() {
+                        HANDLER.with(|handler| {
+                            handler
+                                .struct_span_err(
+                                    item.span(),
+                                    r#"ESM-style module declarations are not permitted in a namespace."#,
+                                )
+                                .emit();
+                        });
+                    }
                 }
             }
         }
@@ -1318,13 +1322,15 @@ impl Transform {
                                 }
                                 TsImportExportAssignConfig::EsNext => {
                                     // TS1202
-                                    HANDLER.with(|handler| {
-                                        handler.struct_span_err(
-                                            decl.span,
-                                            r#"Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead."#,
-                                        )
-                                        .emit();
-                                    });
+                                    if HANDLER.is_set() {
+                                        HANDLER.with(|handler| {
+                                            handler.struct_span_err(
+                                                decl.span,
+                                                r#"Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead."#,
+                                            )
+                                            .emit();
+                                        });
+                                    }
                                 }
                             }
                         }
@@ -1411,14 +1417,16 @@ impl Transform {
                 }
                 TsImportExportAssignConfig::NodeNext | TsImportExportAssignConfig::EsNext => {
                     // TS1203
-                    HANDLER.with(|handler| {
-                        handler
-                            .struct_span_err(
-                                cjs_export_assign.span,
-                                r#"Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead."#,
-                            )
-                            .emit()
-                    });
+                    if HANDLER.is_set() {
+                        HANDLER.with(|handler| {
+                            handler
+                                .struct_span_err(
+                                    cjs_export_assign.span,
+                                    r#"Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead."#,
+                                )
+                                .emit()
+                        });
+                    }
                 }
             }
         }

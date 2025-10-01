@@ -340,14 +340,16 @@ impl JsxDirectives {
                             Some("automatic") => res.runtime = Some(Runtime::Automatic),
                             None => {}
                             _ => {
-                                HANDLER.with(|handler| {
-                                    handler
-                                        .struct_span_err(
-                                            cmt.span,
-                                            "Runtime must be either `classic` or `automatic`.",
-                                        )
-                                        .emit()
-                                });
+                                if HANDLER.is_set() {
+                                    HANDLER.with(|handler| {
+                                        handler
+                                            .struct_span_err(
+                                                cmt.span,
+                                                "Runtime must be either `classic` or `automatic`.",
+                                            )
+                                            .emit()
+                                    });
+                                }
                             }
                         },
                         Some("@jsxImportSource") => {
@@ -691,7 +693,7 @@ where
                                             .and_then(jsx_attr_value_to_expr)
                                             .map(|expr| expr.as_arg());
 
-                                        if key.is_none() {
+                                        if key.is_none() && HANDLER.is_set() {
                                             HANDLER.with(|handler| {
                                                 handler
                                                     .struct_span_err(
@@ -766,7 +768,7 @@ where
                                     name,
                                     ..
                                 }) => {
-                                    if self.throw_if_namespace {
+                                    if self.throw_if_namespace && HANDLER.is_set() {
                                         HANDLER.with(|handler| {
                                             handler
                                                 .struct_span_err(
@@ -1069,14 +1071,16 @@ where
 
         if let Some(pragma) = pragma {
             if let Runtime::Automatic = self.runtime {
-                HANDLER.with(|handler| {
-                    handler
-                        .struct_span_err(
-                            pragma.span(),
-                            "pragma cannot be set when runtime is automatic",
-                        )
-                        .emit()
-                });
+                if HANDLER.is_set() {
+                    HANDLER.with(|handler| {
+                        handler
+                            .struct_span_err(
+                                pragma.span(),
+                                "pragma cannot be set when runtime is automatic",
+                            )
+                            .emit()
+                    });
+                }
             }
 
             found = true;
@@ -1085,14 +1089,16 @@ where
 
         if let Some(pragma_frag) = pragma_frag {
             if let Runtime::Automatic = self.runtime {
-                HANDLER.with(|handler| {
-                    handler
-                        .struct_span_err(
-                            pragma_frag.span(),
-                            "pragmaFrag cannot be set when runtime is automatic",
-                        )
-                        .emit()
-                });
+                if HANDLER.is_set() {
+                    HANDLER.with(|handler| {
+                        handler
+                            .struct_span_err(
+                                pragma_frag.span(),
+                                "pragmaFrag cannot be set when runtime is automatic",
+                            )
+                            .emit()
+                    });
+                }
             }
 
             found = true;
@@ -1296,7 +1302,7 @@ where
             JSXElementName::JSXNamespacedName(JSXNamespacedName {
                 ref ns, ref name, ..
             }) => {
-                if self.throw_if_namespace {
+                if self.throw_if_namespace && HANDLER.is_set() {
                     HANDLER.with(|handler| {
                         handler
                             .struct_span_err(
