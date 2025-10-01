@@ -1112,7 +1112,7 @@ impl Generator {
             );
         }
 
-        let expressions = elements
+        let mut expressions = elements
             .iter_mut()
             .skip(num_initial_elements)
             .map(|v| v.take())
@@ -1128,7 +1128,17 @@ impl Generator {
                     spread: None,
                     expr: Box::new(Expr::Array(ArrayLit {
                         span: DUMMY_SP,
-                        elems: expressions,
+                        elems: expressions
+                            .take()
+                            .into_iter()
+                            .map(|expr| match expr {
+                                Some(expr_or_spread) => match &*expr_or_spread.expr {
+                                    Expr::Invalid(_) => None,
+                                    _ => Some(expr_or_spread),
+                                },
+                                None => None,
+                            })
+                            .collect(),
                     })),
                 }],
                 ..Default::default()
@@ -1141,7 +1151,13 @@ impl Generator {
                     .take()
                     .into_iter()
                     .map(Some)
-                    .chain(expressions)
+                    .chain(expressions.take().into_iter().map(|expr| match expr {
+                        Some(expr_or_spread) => match &*expr_or_spread.expr {
+                            Expr::Invalid(_) => None,
+                            _ => Some(expr_or_spread),
+                        },
+                        None => None,
+                    }))
                     .collect(),
             }
             .into()
@@ -1173,7 +1189,17 @@ impl Generator {
                             .as_callee(),
                         args: vec![Box::new(Expr::Array(ArrayLit {
                             span: DUMMY_SP,
-                            elems: expressions.take(),
+                            elems: expressions
+                                .take()
+                                .into_iter()
+                                .map(|expr| match expr {
+                                    Some(expr_or_spread) => match &*expr_or_spread.expr {
+                                        Expr::Invalid(_) => None,
+                                        _ => Some(expr_or_spread),
+                                    },
+                                    None => None,
+                                })
+                                .collect(),
                         }))
                         .as_arg()],
                         ..Default::default()
@@ -1187,7 +1213,13 @@ impl Generator {
                                 .take()
                                 .into_iter()
                                 .map(Some)
-                                .chain(expressions.take())
+                                .chain(expressions.take().into_iter().map(|expr| match expr {
+                                    Some(expr_or_spread) => match &*expr_or_spread.expr {
+                                        Expr::Invalid(_) => None,
+                                        _ => Some(expr_or_spread),
+                                    },
+                                    None => None,
+                                }))
                                 .collect(),
                         }
                         .into(),
@@ -1199,9 +1231,7 @@ impl Generator {
         }
 
         element.visit_mut_with(self);
-        if element.is_some() {
-            expressions.push(element);
-        }
+        expressions.push(element);
         expressions
     }
 
