@@ -97,6 +97,121 @@ impl Repeated for Pure<'_> {
 }
 
 impl Pure<'_> {
+    fn merge_duplicate_imports(&mut self, items: &mut Vec<ModuleItem>) {
+        use std::collections::HashMap;
+
+        let mut import_map: HashMap<String, Vec<usize>> = HashMap::new();
+
+        // First pass: group imports by source
+        for (idx, item) in items.iter().enumerate() {
+            if let ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) = item {
+                let src = import_decl.src.value.to_string();
+                import_map.entry(src).or_default().push(idx);
+            }
+        }
+
+        let mut indices_to_remove = Vec::new();
+
+        // Second pass: merge imports for each source
+        for (_, mut indices) in import_map {
+            if indices.len() > 1 {
+                // Sort indices to keep the first one and merge others into it
+                indices.sort();
+                let first_idx = indices[0];
+
+                let mut merged_specifiers = Vec::new();
+
+                // Collect all specifiers from all imports with this source
+                for &idx in &indices {
+                    if let ModuleItem::ModuleDecl(ModuleDecl::Import(import_decl)) = &items[idx] {
+                        for spec in &import_decl.specifiers {
+                            // Check if we already have this specifier
+                            let mut should_add = true;
+
+                            match spec {
+                                ImportSpecifier::Named(named) => {
+                                    // Check for duplicates based on imported name
+                                    for existing_spec in &merged_specifiers {
+                                        if let ImportSpecifier::Named(existing_named) =
+                                            existing_spec
+                                        {
+                                            let named_imported = match &named.imported {
+                                                Some(ModuleExportName::Ident(ident)) => &ident.sym,
+                                                None => &named.local.sym,
+                                                _ => continue,
+                                            };
+                                            let existing_imported = match &existing_named.imported {
+                                                Some(ModuleExportName::Ident(ident)) => &ident.sym,
+                                                None => &existing_named.local.sym,
+                                                _ => continue,
+                                            };
+                                            if named_imported == existing_imported {
+                                                should_add = false;
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                ImportSpecifier::Default(_) => {
+                                    // Check if we already have a default import
+                                    for existing_spec in &merged_specifiers {
+                                        if matches!(existing_spec, ImportSpecifier::Default(_)) {
+                                            should_add = false;
+                                            break;
+                                        }
+                                    }
+                                }
+                                ImportSpecifier::Namespace(_) => {
+                                    // Don't merge namespace imports with others if other types
+                                    // exist
+                                    for existing_spec in &merged_specifiers {
+                                        if !matches!(existing_spec, ImportSpecifier::Namespace(_)) {
+                                            should_add = false;
+                                            break;
+                                        }
+                                    }
+                                    // Also don't add other types if namespace exists
+                                    if !merged_specifiers.is_empty()
+                                        && !matches!(
+                                            merged_specifiers[0],
+                                            ImportSpecifier::Namespace(_)
+                                        )
+                                    {
+                                        should_add = false;
+                                    }
+                                }
+                            }
+
+                            if should_add {
+                                merged_specifiers.push(spec.clone());
+                            }
+                        }
+                    }
+                }
+
+                // Update the first import with merged specifiers
+                if let ModuleItem::ModuleDecl(ModuleDecl::Import(ref mut import_decl)) =
+                    &mut items[first_idx]
+                {
+                    import_decl.specifiers = merged_specifiers;
+                }
+
+                // Mark other imports for removal
+                for &idx in &indices[1..] {
+                    indices_to_remove.push(idx);
+                }
+
+                self.changed = true;
+            }
+        }
+
+        // Third pass: remove duplicate imports (in reverse order to maintain indices)
+        indices_to_remove.sort_by(|a, b| b.cmp(a));
+        for idx in indices_to_remove {
+            items.remove(idx);
+        }
+    }
+
     fn handle_stmt_likes<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: ModuleItemExt + Take,
@@ -807,6 +922,10 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         self.visit_par(1, items);
+
+        if self.options.merge_duplicate_imports {
+            self.merge_duplicate_imports(items);
+        }
 
         self.handle_stmt_likes(items);
     }

@@ -415,6 +415,7 @@ impl TerserCompressorOptions {
                     )
                 })
                 .unwrap_or(CompressExperimentalOptions::from_defaults(self.defaults)),
+            merge_duplicate_imports: false,
         }
     }
 }
