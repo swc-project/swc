@@ -1,0 +1,123 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 60
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 60
+      },
+      "expression": {
+        "type": "JSXElement",
+        "span": {
+          "start": 1,
+          "end": 60
+        },
+        "opening": {
+          "type": "JSXOpeningElement",
+          "name": {
+            "type": "Identifier",
+            "span": {
+              "start": 2,
+              "end": 11
+            },
+            "ctxt": 0,
+            "value": "Component",
+            "optional": false
+          },
+          "span": {
+            "start": 1,
+            "end": 60
+          },
+          "attributes": [
+            {
+              "type": "JSXAttribute",
+              "span": {
+                "start": 12,
+                "end": 43
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 12,
+                  "end": 15
+                },
+                "value": "mod"
+              },
+              "value": {
+                "type": "JSXExpressionContainer",
+                "span": {
+                  "start": 16,
+                  "end": 43
+                },
+                "expression": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 17,
+                    "end": 42
+                  },
+                  "properties": [
+                    {
+                      "type": "KeyValueProperty",
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 19,
+                          "end": 29
+                        },
+                        "value": "helloworld"
+                      },
+                      "value": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 31,
+                          "end": 40
+                        },
+                        "ctxt": 0,
+                        "value": "undefined",
+                        "optional": false
+                      }
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "type": "JSXAttribute",
+              "span": {
+                "start": 44,
+                "end": 57
+              },
+              "name": {
+                "type": "Identifier",
+                "span": {
+                  "start": 44,
+                  "end": 50
+                },
+                "value": "if-abc"
+              },
+              "value": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 51,
+                  "end": 57
+                },
+                "value": "test",
+                "raw": "\"test\""
+              }
+            }
+          ],
+          "selfClosing": true,
+          "typeArguments": null
+        },
+        "children": [],
+        "closing": null
+      }
+    }
+  ],
+  "interpreter": null
+}
