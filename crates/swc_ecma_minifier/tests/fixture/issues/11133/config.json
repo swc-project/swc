@@ -1,0 +1,4 @@
+{
+    "merge_duplicate_imports": true,
+    "passes": 1
+}

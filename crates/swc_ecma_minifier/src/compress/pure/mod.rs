@@ -23,6 +23,7 @@ mod dead_code;
 mod drop_console;
 mod evaluate;
 mod if_return;
+mod imports;
 mod loops;
 mod member_expr;
 mod misc;
@@ -806,6 +807,12 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_module_items(&mut self, items: &mut Vec<ModuleItem>) {
+        // Merge duplicate imports if enabled
+        if self.options.merge_duplicate_imports {
+            let mut merger = imports::merge_duplicate_imports();
+            items.visit_mut_with(&mut merger);
+        }
+
         self.visit_par(1, items);
 
         self.handle_stmt_likes(items);
