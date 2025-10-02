@@ -386,9 +386,6 @@ pub struct CompressOptions {
     #[cfg_attr(feature = "extra-serde", serde(default))]
     pub experimental: CompressExperimentalOptions,
 
-    #[cfg_attr(feature = "extra-serde", serde(default))]
-    #[cfg_attr(feature = "extra-serde", serde(alias = "merge_duplicate_imports"))]
-    pub merge_duplicate_imports: bool,
 }
 
 impl CompressOptions {
@@ -483,7 +480,6 @@ impl Default for CompressOptions {
             const_to_let: true,
             pristine_globals: true,
             experimental: Default::default(),
-            merge_duplicate_imports: false,
         }
     }
 }

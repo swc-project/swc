@@ -1,5 +1,3 @@
 {
-  "compress": {
-    "mergeDuplicateImports": true
-  }
+  "compress": {}
 }
