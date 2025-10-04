@@ -33,6 +33,30 @@ var _a = {
     ], []));
     _initStatic(Foo);
 })();
+var __ = {
+    writable: true,
+    value: (()=>{
+        [_call_a, _call_a1, _initStatic] = _apply_decs_2203_r(Foo, [
+            [
+                dec,
+                8,
+                "a",
+                function() {
+                    return this.value;
+                }
+            ],
+            [
+                dec,
+                9,
+                "a",
+                function(v) {
+                    this.value = v;
+                }
+            ]
+        ], []).e;
+        _initStatic(Foo);
+    })()
+};
 _define_property(Foo, "value", 1);
 function get_a() {
     return _call_a(this);

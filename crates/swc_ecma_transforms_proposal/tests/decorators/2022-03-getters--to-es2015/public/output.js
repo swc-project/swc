@@ -1,12 +1,10 @@
-var _computedKey, _initProto;
+var _initProto;
 const dec = ()=>{};
-_computedKey = 'b';
-let _computedKey1 = _computedKey;
 class Foo {
     get a() {
         return this.value;
     }
-    get [_computedKey1]() {
+    get ['b']() {
         return this.value;
     }
     constructor(){
@@ -25,3 +23,18 @@ class Foo {
         _computedKey
     ]
 ], []));
+var __ = {
+    writable: true,
+    value: [_initProto] = _apply_decs_2203_r(Foo, [
+        [
+            dec,
+            3,
+            "a"
+        ],
+        [
+            dec,
+            3,
+            'b'
+        ]
+    ], []).e
+};

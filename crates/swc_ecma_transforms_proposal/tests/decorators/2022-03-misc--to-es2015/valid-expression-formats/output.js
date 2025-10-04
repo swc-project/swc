@@ -20,6 +20,16 @@ class Foo {
                 "bar"
             ]
         ], []), _Nested;
+        }, __ = {
+            writable: true,
+            value: [_init_bar] = _apply_decs_2203_r(_Nested, [
+                [
+                    _dec,
+                    0,
+                    "bar"
+                ]
+            ], []).e
+        }, _Nested;
     }
     constructor(){
         _class_private_field_init(this, _a, {
