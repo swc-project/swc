@@ -15,6 +15,9 @@ version       = "15.0.0"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 __rkyv = []
 default = []
@@ -28,12 +31,12 @@ rkyv-impl = [
   "swc_common/rkyv-impl",
 ]
 serde-impl = ["serde"]
+encoding-impl = ["cbor4ii", "swc_atoms/encoding-impl", "swc_common/encoding-impl"]
 shrink-to-fit = [
   "dep:shrink-to-fit",
   "swc_atoms/shrink-to-fit",
   "swc_common/shrink-to-fit",
 ]
-
 
 [dependencies]
 arbitrary        = { workspace = true, features = ["derive"], optional = true }
@@ -54,6 +57,8 @@ string_enum = { version = "1.0.2", path = "../string_enum" }
 swc_atoms   = { version = "7.0.0", path = "../swc_atoms" }
 swc_common  = { version = "14.0.4", path = "../swc_common" }
 swc_visit   = { version = "2.0.1", path = "../swc_visit" }
+
+cbor4ii = { workspace = true, features = [ "use_std" ], optional = true }
 
 [dev-dependencies]
 serde_json = { workspace = true }

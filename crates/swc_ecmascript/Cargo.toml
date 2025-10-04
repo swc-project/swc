@@ -15,6 +15,9 @@ version       = "40.0.0"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 codegen    = ["swc_ecma_codegen"]
 concurrent = ["swc_ecma_minifier/concurrent"]

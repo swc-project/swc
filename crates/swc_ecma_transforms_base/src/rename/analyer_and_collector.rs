@@ -100,6 +100,8 @@ impl Visit for AnalyzerAndCollector {
         match node.body.as_ref() {
             BlockStmtOrExpr::BlockStmt(n) => n.visit_children_with(self),
             BlockStmtOrExpr::Expr(n) => n.visit_with(self),
+            #[cfg(swc_ast_unknown)]
+            _ => (),
         }
 
         self.analyzer.is_pat_decl = old_analyzer_is_pat_decl;
@@ -229,6 +231,8 @@ impl Visit for AnalyzerAndCollector {
                 f.visit_with(self);
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => {}
         }
     }
 

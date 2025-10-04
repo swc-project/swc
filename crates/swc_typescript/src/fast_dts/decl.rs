@@ -123,6 +123,8 @@ impl FastDts {
                     }
                 }
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -196,6 +198,8 @@ impl FastDts {
                 );
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
     }
 
@@ -213,6 +217,8 @@ impl FastDts {
             TsNamespaceBody::TsNamespaceDecl(ts_ns) => {
                 self.transform_ts_namespace_decl(&mut ts_ns.body, ts_ns.global)
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
         self.is_top_level = original_is_top_level;
     }

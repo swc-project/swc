@@ -8,6 +8,7 @@ use swc_macros_common::prelude::*;
 use syn::{visit_mut::VisitMut, *};
 
 mod ast_node_macro;
+mod encoding;
 mod enum_deserialize;
 mod spanned;
 
@@ -23,13 +24,31 @@ pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 }
 
 /// Derives `serde::Deserialize` which is aware of `tag` based deserialization.
-#[proc_macro_derive(DeserializeEnum, attributes(tag))]
+#[proc_macro_derive(DeserializeEnum, attributes(tag, encoding))]
 pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = parse::<DeriveInput>(input).expect("failed to parse input as DeriveInput");
 
     let item = enum_deserialize::expand(input);
 
     print("derive(DeserializeEnum)", item.into_token_stream())
+}
+
+#[proc_macro_derive(Encode, attributes(encoding))]
+pub fn derive_encode(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let input =
+        syn::parse::<syn::DeriveInput>(input).expect("failed to parse input as DeriveInput");
+
+    let item = encoding::encode::expand(input);
+    print("derive(Encode)", item.into_token_stream())
+}
+
+#[proc_macro_derive(Decode, attributes(encoding))]
+pub fn derive_decode(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let input =
+        syn::parse::<syn::DeriveInput>(input).expect("failed to parse input as DeriveInput");
+
+    let item = encoding::decode::expand(input);
+    print("derive(Decode)", item.into_token_stream())
 }
 
 /// Derives `serde::Serialize` and `serde::Deserialize`.
@@ -156,31 +175,65 @@ pub fn ast_node(
 
     // we should use call_site
     let mut item = TokenStream::new();
-    match input.data {
-        Data::Enum(..) => {
-            struct EnumArgs {
-                clone: bool,
-            }
-            impl parse::Parse for EnumArgs {
-                fn parse(i: parse::ParseStream<'_>) -> syn::Result<Self> {
-                    let name: Ident = i.parse()?;
-                    if name != "no_clone" {
-                        return Err(i.error("unknown attribute"));
-                    }
-                    Ok(EnumArgs { clone: false })
+    match &input.data {
+        Data::Enum(data) => {
+            use syn::parse::Parser;
+
+            let attrs = <syn::punctuated::Punctuated<syn::Ident, syn::Token![,]>>::parse_terminated
+                .parse(args)
+                .expect("failed to parse #[ast_node]");
+
+            let mut has_no_clone = false;
+            let mut has_no_unknown = false;
+            for attr in &attrs {
+                if attr == "no_clone" {
+                    has_no_clone = true;
+                } else if attr == "no_unknown" {
+                    has_no_unknown = true;
+                } else {
+                    panic!("unknown attribute: {attr:?}")
                 }
             }
-            let args = if args.is_empty() {
-                EnumArgs { clone: true }
-            } else {
-                parse(args).expect("failed to parse args of #[ast_node]")
-            };
 
-            let clone = if args.clone {
+            let clone = if !has_no_clone {
                 Some(quote!(#[derive(Clone)]))
             } else {
                 None
             };
+            let non_exhaustive = if !has_no_unknown {
+                Some(quote!(#[cfg_attr(swc_ast_unknown, non_exhaustive)]))
+            } else {
+                None
+            };
+
+            let mut data = data.clone();
+            if !has_no_unknown {
+                let unknown: syn::Variant = if data
+                    .variants
+                    .iter()
+                    .all(|variant| variant.fields.is_empty())
+                {
+                    syn::parse_quote! {
+                        #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+                        #[from_variant(ignore)]
+                        #[span(unknown)]
+                        #[encoding(unknown)]
+                        Unknown(u32)
+                    }
+                } else {
+                    syn::parse_quote! {
+                        #[cfg(all(swc_ast_unknown, feature = "encoding-impl"))]
+                        #[from_variant(ignore)]
+                        #[span(unknown)]
+                        #[encoding(unknown)]
+                        Unknown(u32, swc_common::unknown::Unknown)
+                    }
+                };
+
+                // insert unknown member
+                data.variants.insert(0, unknown);
+                input.data = Data::Enum(data);
+            }
 
             item.extend(quote!(
                 #[allow(clippy::derive_partial_eq_without_eq)]
@@ -198,6 +251,7 @@ pub fn ast_node(
                     ::swc_common::DeserializeEnum,
                 )]
                 #clone
+                #non_exhaustive
                 #[cfg_attr(
                     feature = "rkyv-impl",
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -222,6 +276,10 @@ pub fn ast_node(
                 #[cfg_attr(
                     feature = "serde-impl",
                     serde(untagged)
+                )]
+                #[cfg_attr(
+                    feature = "encoding-impl",
+                    derive(::swc_common::Encode, ::swc_common::Decode)
                 )]
                 #input
             ));
@@ -297,6 +355,10 @@ pub fn ast_node(
                     serde(rename_all = "camelCase")
                 )]
                 #serde_rename
+                #[cfg_attr(
+                    feature = "encoding-impl",
+                    derive(::swc_common::Encode, ::swc_common::Decode)
+                )]
                 #input
             ));
 

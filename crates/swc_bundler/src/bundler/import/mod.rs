@@ -368,6 +368,8 @@ where
         let orig = match &s.orig {
             ModuleExportName::Ident(ident) => ident,
             ModuleExportName::Str(..) => unimplemented!("module string names unimplemented"),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         self.add_forced_ns_for(orig.to_id());
@@ -378,6 +380,8 @@ where
                 exported.ctxt = self.module_ctxt;
             }
             Some(ModuleExportName::Str(..)) => unimplemented!("module string names unimplemented"),
+            #[cfg(swc_ast_unknown)]
+            Some(_) => panic!("unable to access unknown nodes"),
             None => {
                 let exported = Ident::new(orig.sym.clone(), orig.span, self.module_ctxt);
                 s.exported = Some(ModuleExportName::Ident(exported));
@@ -438,6 +442,8 @@ where
                                 Some(ModuleExportName::Str(..)) => {
                                     unimplemented!("module string names unimplemented")
                                 }
+                                #[cfg(swc_ast_unknown)]
+                                Some(_) => panic!("unable to access unknown nodes"),
                                 None => {
                                     let mut imported: Ident = n.local.clone();
                                     imported.ctxt = export_ctxt;
@@ -451,6 +457,8 @@ where
                         ImportSpecifier::Namespace(n) => {
                             self.imported_idents.insert(n.local.to_id(), export_ctxt);
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
             }

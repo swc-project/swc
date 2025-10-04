@@ -64,6 +64,8 @@ impl Babelify for Param {
                 "illegal conversion: Cannot convert {:?} to BabelParam",
                 &self.pat
             ),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -75,6 +77,8 @@ impl Babelify for ParamOrTsParamProp {
         match self {
             ParamOrTsParamProp::TsParamProp(p) => BabelParam::TSProp(p.babelify(ctx)),
             ParamOrTsParamProp::Param(p) => p.babelify(ctx),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

@@ -48,6 +48,8 @@ impl VisitMut for ConstPropagation<'_> {
         let id = match &n.orig {
             ModuleExportName::Ident(ident) => ident.to_id(),
             ModuleExportName::Str(..) => return,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
         if let Some(expr) = self.scope.find_var(&id) {
             if let Expr::Ident(v) = &**expr {
@@ -68,8 +70,12 @@ impl VisitMut for ConstPropagation<'_> {
                     }
                 }
                 ModuleExportName::Str(..) => {}
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
             Some(ModuleExportName::Str(..)) => {}
+            #[cfg(swc_ast_unknown)]
+            Some(_) => panic!("unable to access unknown nodes"),
             None => {}
         }
     }

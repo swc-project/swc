@@ -27,6 +27,8 @@ impl AsOptExpr for Callee {
         match self {
             Callee::Super(_) | Callee::Import(_) => None,
             Callee::Expr(e) => Some(e),
+            #[cfg(swc_ast_unknown)]
+            _ => None,
         }
     }
 
@@ -34,6 +36,8 @@ impl AsOptExpr for Callee {
         match self {
             Callee::Super(_) | Callee::Import(_) => None,
             Callee::Expr(e) => Some(e),
+            #[cfg(swc_ast_unknown)]
+            _ => None,
         }
     }
 }

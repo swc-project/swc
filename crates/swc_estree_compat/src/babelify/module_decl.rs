@@ -49,6 +49,8 @@ impl Babelify for ModuleDecl {
             ModuleDecl::TsNamespaceExport(e) => {
                 ModuleDeclOutput::TsNamespaceExport(e.babelify(ctx))
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -180,6 +182,8 @@ impl Babelify for swc_ecma_ast::ImportPhase {
             Self::Evaluation => None,
             Self::Source => Some(swc_estree_ast::ImportPhase::Source),
             Self::Defer => Some(swc_estree_ast::ImportPhase::Defer),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -238,7 +242,15 @@ impl Babelify for DefaultDecl {
         match self {
             DefaultDecl::Class(c) => ExportDefaultDeclType::Class(c.babelify(ctx).into()),
             DefaultDecl::Fn(f) => ExportDefaultDeclType::Func(f.babelify(ctx).into()),
-            DefaultDecl::TsInterfaceDecl(_) => panic!("unimplemented"), /* TODO(dwoznicki): Babel expects a TSDeclareFunction here, which does not map cleanly to TsInterfaceDecl expected by swc */
+            DefaultDecl::TsInterfaceDecl(_) => panic!("unimplemented"), /* TODO(dwoznicki): */
+            // Babel expects a
+            // TSDeclareFunction
+            // here, which does not
+            // map cleanly to
+            // TsInterfaceDecl
+            // expected by swc
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -251,6 +263,8 @@ impl Babelify for ImportSpecifier {
             ImportSpecifier::Named(s) => ImportSpecifierType::Import(s.babelify(ctx)),
             ImportSpecifier::Default(s) => ImportSpecifierType::Default(s.babelify(ctx)),
             ImportSpecifier::Namespace(s) => ImportSpecifierType::Namespace(s.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -305,6 +319,8 @@ impl Babelify for ExportSpecifier {
             ExportSpecifier::Named(s) => ExportSpecifierType::Export(s.babelify(ctx)),
             ExportSpecifier::Default(s) => ExportSpecifierType::Default(s.babelify(ctx)),
             ExportSpecifier::Namespace(s) => ExportSpecifierType::Namespace(s.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -356,6 +372,8 @@ impl Babelify for ModuleExportName {
         match self {
             ModuleExportName::Ident(ident) => ModuleExportNameType::Ident(ident.babelify(ctx)),
             ModuleExportName::Str(..) => unimplemented!("module string names unimplemented"),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

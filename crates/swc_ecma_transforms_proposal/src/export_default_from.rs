@@ -71,6 +71,8 @@ impl VisitMut for ExportDefaultFrom {
                                     export_specifiers.push(s);
                                 }
                             }
+                            #[cfg(swc_ast_unknown)]
+                            _ => (),
                         }
                     }
 

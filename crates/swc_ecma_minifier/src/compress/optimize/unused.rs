@@ -302,7 +302,11 @@ impl Optimizer<'_> {
 
                         Prop::Setter(_) => true,
                         Prop::Method(_) => false,
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     },
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 });
             }
 
@@ -448,6 +452,8 @@ impl Optimizer<'_> {
                             }
                         }
                         ObjectPatProp::Rest(_) => {}
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
 
                     true
@@ -604,6 +610,9 @@ impl Optimizer<'_> {
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::TsEnum(_) | Decl::TsModule(_) => {
                 // Nothing to do. We might change this to unreachable!()
             }
+
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -894,7 +903,11 @@ impl Optimizer<'_> {
                 Prop::Getter(p) => p.key.is_computed(),
                 Prop::Setter(p) => p.key.is_computed(),
                 Prop::Method(p) => p.key.is_computed(),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }) {
             return None;
         }
@@ -921,6 +934,8 @@ impl Optimizer<'_> {
             let prop = match prop {
                 PropOrSpread::Spread(_) => return None,
                 PropOrSpread::Prop(prop) => prop,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             };
 
             match &**prop {
@@ -1016,6 +1031,8 @@ impl Optimizer<'_> {
             PropName::Num(..) => true,
             PropName::Computed(..) => true,
             PropName::BigInt(..) => true,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         let len = obj.props.len();
@@ -1032,7 +1049,11 @@ impl Optimizer<'_> {
                 Prop::Getter(p) => should_preserve(&p.key),
                 Prop::Setter(p) => should_preserve(&p.key),
                 Prop::Method(p) => should_preserve(&p.key),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         });
 
         if obj.props.len() != len {

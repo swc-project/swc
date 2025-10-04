@@ -13,6 +13,9 @@ version       = "17.0.2"
 # This does not enable serde for ast nodes.
 serde-impl = ["swc_ecma_ast/serde"]
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [lib]
 bench = false
 

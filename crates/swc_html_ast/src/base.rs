@@ -30,6 +30,10 @@ pub struct DocumentFragment {
 // rkyv::ser::Serializer"))
 //)]
 #[cfg_attr(feature = "rkyv", repr(u32))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum DocumentMode {
     /// `no-quirks`
     NoQuirks,
@@ -39,7 +43,7 @@ pub enum DocumentMode {
     Quirks,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Child {
     #[tag("DocumentType")]
@@ -57,11 +61,27 @@ pub enum Child {
 pub struct DocumentType {
     pub span: Span,
 
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub name: Option<Atom>,
 
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub public_id: Option<Atom>,
 
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub system_id: Option<Atom>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -85,6 +105,10 @@ impl EqIgnoreSpan for DocumentType {
 // rkyv::ser::Serializer"))
 //)]
 #[cfg_attr(feature = "rkyv", repr(u32))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub enum Namespace {
     /// `http://www.w3.org/1999/xhtml`
     HTML,
@@ -110,6 +134,10 @@ pub struct Element {
     pub attributes: Vec<Attribute>,
     pub children: Vec<Child>,
     /// For child nodes in `<template>`
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub content: Option<DocumentFragment>,
     pub is_self_closing: bool,
 }
@@ -118,14 +146,34 @@ pub struct Element {
 #[derive(Eq, Hash)]
 pub struct Attribute {
     pub span: Span,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub namespace: Option<Namespace>,
 
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub prefix: Option<Atom>,
 
     pub name: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw_name: Option<Atom>,
 
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub value: Option<Atom>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw_value: Option<Atom>,
 }
 
@@ -144,6 +192,10 @@ pub struct Text {
     pub span: Span,
 
     pub data: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 
@@ -159,6 +211,10 @@ pub struct Comment {
     pub span: Span,
 
     pub data: Atom,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "cbor4ii::core::types::Maybe")
+    )]
     pub raw: Option<Atom>,
 }
 

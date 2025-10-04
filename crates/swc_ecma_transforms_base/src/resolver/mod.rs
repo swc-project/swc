@@ -563,6 +563,8 @@ impl VisitMut for Resolver<'_> {
                     child.strict_mode = old_strict_mode;
                 }
                 BlockStmtOrExpr::Expr(e) => e.visit_mut_with(child),
+                #[cfg(swc_ast_unknown)]
+                _ => (),
             }
 
             e.return_type.visit_mut_with(child);
@@ -710,6 +712,8 @@ impl VisitMut for Resolver<'_> {
                 ParamOrTsParamProp::Param(p) => {
                     p.decorators.visit_mut_with(self);
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => (),
             }
         }
 
@@ -723,6 +727,8 @@ impl VisitMut for Resolver<'_> {
                     .filter(|p| match p {
                         ParamOrTsParamProp::TsParamProp(_) => false,
                         ParamOrTsParamProp::Param(p) => !p.pat.is_rest(),
+                        #[cfg(swc_ast_unknown)]
+                        _ => false,
                     })
                     .flat_map(find_pat_ids::<_, Id>);
 
@@ -787,6 +793,8 @@ impl VisitMut for Resolver<'_> {
                     self.try_resolving_as_type(orig);
                 }
                 ModuleExportName::Str(_) => {}
+                #[cfg(swc_ast_unknown)]
+                _ => {}
             }
         }
     }
@@ -1018,6 +1026,8 @@ impl VisitMut for Resolver<'_> {
             | ImportSpecifier::Namespace(..)
             | ImportSpecifier::Default(..) => s.visit_mut_children_with(self),
             ImportSpecifier::Named(s) => s.local.visit_mut_with(self),
+            #[cfg(swc_ast_unknown)]
+            _ => (),
         }
 
         self.ident_type = old;
@@ -1253,6 +1263,8 @@ impl VisitMut for Resolver<'_> {
             let member_names = decl.members.iter().filter_map(|m| match &m.id {
                 TsEnumMemberId::Ident(id) => Some((id.sym.clone(), DeclKind::Lexical)),
                 TsEnumMemberId::Str(_) => None,
+                #[cfg(swc_ast_unknown)]
+                _ => None,
             });
             child.current.declared_symbols.extend(member_names);
 
@@ -1384,6 +1396,8 @@ impl VisitMut for Resolver<'_> {
                 self.modify(i, DeclKind::Lexical);
             }
             TsModuleName::Str(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => {}
         }
 
         self.with_child(ScopeKind::Block, |child| {
