@@ -237,6 +237,8 @@ impl StmtOrModuleItem for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(v) => Err(v),
             ModuleItem::Stmt(v) => Ok(v),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -245,6 +247,8 @@ impl StmtOrModuleItem for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(v) => Err(v),
             ModuleItem::Stmt(v) => Ok(v),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -253,6 +257,8 @@ impl StmtOrModuleItem for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(v) => Err(v),
             ModuleItem::Stmt(v) => Ok(v),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -1199,6 +1205,8 @@ impl Visit for LiteralVisitor {
             }
             PropName::BigInt(_) => self.is_lit = false,
             PropName::Computed(..) => self.is_lit = false,
+            #[cfg(swc_ast_unknown)]
+            _ => (),
         }
     }
 
@@ -1260,6 +1268,8 @@ pub fn is_simple_pure_member_expr(m: &MemberExpr, pure_getters: bool) -> bool {
         MemberProp::Computed(c) => {
             is_simple_pure_expr(&c.expr, pure_getters) && is_simple_pure_expr(&m.obj, pure_getters)
         }
+        #[cfg(swc_ast_unknown)]
+        _ => false,
     }
 }
 
@@ -1423,6 +1433,8 @@ pub fn prop_name_to_expr(p: PropName) -> Expr {
         PropName::Num(n) => Lit::Num(n).into(),
         PropName::BigInt(b) => Lit::BigInt(b).into(),
         PropName::Computed(c) => *c.expr,
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 /// Similar to `prop_name_to_expr`, but used for value position.
@@ -1440,6 +1452,8 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
         PropName::Num(n) => Lit::Num(n).into(),
         PropName::BigInt(b) => Lit::BigInt(b).into(),
         PropName::Computed(c) => *c.expr,
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 
@@ -1459,6 +1473,8 @@ pub fn prop_name_to_member_prop(prop_name: PropName) -> MemberProp {
             span: DUMMY_SP,
             expr: b.into(),
         }),
+        #[cfg(swc_ast_unknown)]
+        _ => panic!("unable to access unknown nodes"),
     }
 }
 
@@ -1930,11 +1946,15 @@ impl ExprCtx {
                         Prop::Assign(..) => {
                             unreachable!("assign property in object literal is not a valid syntax")
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => true,
                     },
                     PropOrSpread::Spread(SpreadElement { .. }) => {
                         has_spread = true;
                         true
                     }
+                    #[cfg(swc_ast_unknown)]
+                    _ => true,
                 });
 
                 if has_spread {
@@ -1962,6 +1982,8 @@ impl ExprCtx {
                                     "assign property in object literal is not a valid syntax"
                                 )
                             }
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         },
                         _ => unreachable!(),
                     })
@@ -2007,6 +2029,8 @@ impl ExprCtx {
             Expr::OptChain(..) => to.push(Box::new(expr)),
 
             Expr::Invalid(..) => unreachable!(),
+            #[cfg(swc_ast_unknown)]
+            _ => to.push(Box::new(expr)),
         }
     }
 }
@@ -2021,6 +2045,8 @@ pub fn prop_name_eq(p: &PropName, key: &str) -> bool {
             Expr::Lit(Lit::Str(Str { value, .. })) => *value == *key,
             _ => false,
         },
+        #[cfg(swc_ast_unknown)]
+        _ => false,
     }
 }
 
@@ -2364,6 +2390,8 @@ impl VisitMut for IdentRenamer<'_> {
                 }
             }
             ModuleExportName::Str(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => {}
         }
     }
 
@@ -2515,6 +2543,8 @@ where
                     JSXElementName::Ident(ident) => ident.into(),
                     JSXElementName::JSXMemberExpr(expr) => Box::new(expr).into(),
                     JSXElementName::JSXNamespacedName(..) => unimplemented!(),
+                    #[cfg(swc_ast_unknown)]
+                    _ => return,
                 }
             }
         }
@@ -2949,6 +2979,8 @@ fn cast_to_bool(expr: &Expr, ctx: ExprCtx) -> (Purity, BoolValue) {
                     Lit::Null(..) => false,
                     Lit::Regex(..) => true,
                     Lit::JSXText(..) => unreachable!("as_bool() for JSXText"),
+                    #[cfg(swc_ast_unknown)]
+                    _ => return (Pure, Unknown),
                 }),
             );
         }
@@ -3506,6 +3538,8 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                             }) => true,
                             _ => false,
                         },
+                        #[cfg(swc_ast_unknown)]
+                        _ => true,
                     };
                     if obj.props.iter().any(can_have_side_effect) {
                         return true;
@@ -3517,6 +3551,8 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
             match prop {
                 MemberProp::Computed(c) => c.expr.may_have_side_effects(ctx),
                 MemberProp::Ident(_) | MemberProp::PrivateName(_) => false,
+                #[cfg(swc_ast_unknown)]
+                _ => true,
             }
         }
 
@@ -3590,9 +3626,13 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                     _ => false,
                 },
                 Prop::Assign(_) => true,
+                #[cfg(swc_ast_unknown)]
+                _ => true,
             },
             // may trigger getter
             PropOrSpread::Spread(_) => true,
+            #[cfg(swc_ast_unknown)]
+            _ => true,
         }),
 
         Expr::JSXMember(..)
@@ -3608,6 +3648,8 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
         | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => expr.may_have_side_effects(ctx),
 
         Expr::Invalid(..) => true,
+        #[cfg(swc_ast_unknown)]
+        _ => true,
     }
 }
 

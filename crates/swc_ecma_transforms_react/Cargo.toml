@@ -12,6 +12,9 @@ version       = "30.0.2"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 concurrent = ["swc_common/concurrent"]
 default    = ["serde-impl"]

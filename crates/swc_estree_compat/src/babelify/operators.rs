@@ -64,6 +64,8 @@ impl Babelify for BinaryOp {
             BinaryOp::InstanceOf => BinaryOpOutput::BinOp(BinaryExprOp::Instanceof),
             BinaryOp::Exp => BinaryOpOutput::BinOp(BinaryExprOp::Exponentiation),
             BinaryOp::NullishCoalescing => BinaryOpOutput::LogicOp(LogicalExprOp::Nullish),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -92,6 +94,8 @@ impl Babelify for AssignOp {
             AssignOp::AndAssign => "&&=".into(),
             AssignOp::OrAssign => "||=".into(),
             AssignOp::NullishAssign => "??=".into(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -103,6 +107,8 @@ impl Babelify for UpdateOp {
         match self {
             UpdateOp::PlusPlus => UpdateExprOp::Increment,
             UpdateOp::MinusMinus => UpdateExprOp::Decrement,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -120,6 +126,8 @@ impl Babelify for UnaryOp {
             UnaryOp::TypeOf => UnaryExprOp::Typeof,
             UnaryOp::Void => UnaryExprOp::Void,
             UnaryOp::Delete => UnaryExprOp::Delete,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

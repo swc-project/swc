@@ -168,6 +168,8 @@ where
                         }
                     }
                     ModuleExportName::Str(_) => {}
+                    #[cfg(swc_ast_unknown)]
+                    _ => {}
                 }
 
                 s.exported = Some(exported);

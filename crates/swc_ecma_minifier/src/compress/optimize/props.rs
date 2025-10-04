@@ -82,6 +82,8 @@ impl Optimizer<'_> {
                     let prop = match prop {
                         PropOrSpread::Spread(_) => return None,
                         PropOrSpread::Prop(prop) => prop,
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     };
 
                     match &**prop {
@@ -141,6 +143,8 @@ impl Optimizer<'_> {
                 let prop = match prop {
                     PropOrSpread::Spread(_) => unreachable!(),
                     PropOrSpread::Prop(prop) => prop,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 };
 
                 let value = match &mut **prop {
@@ -244,6 +248,8 @@ fn is_expr_fine_for_hoist_props(value: &Expr) -> bool {
                 Prop::KeyValue(p) => is_expr_fine_for_hoist_props(&p.value),
                 _ => false,
             },
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }),
 
         _ => false,
@@ -292,7 +298,11 @@ impl Optimizer<'_> {
                     Prop::Getter(p) => prop_name_eq(&p.key, &key.sym),
                     Prop::Setter(p) => prop_name_eq(&p.key, &key.sym),
                     Prop::Method(p) => prop_name_eq(&p.key, &key.sym),
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 },
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             })
             .count()
             != 1;
@@ -322,7 +332,11 @@ impl Optimizer<'_> {
                 Prop::Getter(p) => p.key.is_computed(),
                 Prop::Setter(p) => p.key.is_computed(),
                 Prop::Method(p) => p.key.is_computed(),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }) {
             log_abort!("Property accesses should not be inlined to preserve side effects");
             return;
@@ -348,7 +362,11 @@ impl Optimizer<'_> {
                     Prop::Getter(_) => {}
                     Prop::Setter(_) => {}
                     Prop::Method(_) => {}
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 },
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
     }

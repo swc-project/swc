@@ -373,6 +373,8 @@ where
                                 all: forced_ns.contains(&src.src.value),
                             });
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 
@@ -438,6 +440,8 @@ impl Visit for Es6ModuleDetector {
                 }
             }
             Callee::Super(_) | Callee::Import(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -480,6 +484,8 @@ impl Visit for Es6ModuleDetector {
             ModuleDecl::TsImportEquals(_) => {}
             ModuleDecl::TsExportAssignment(_) => {}
             ModuleDecl::TsNamespaceExport(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

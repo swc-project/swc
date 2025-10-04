@@ -13,6 +13,8 @@ pub(super) fn should_use_create_element(attrs: &[JSXAttrOrSpread]) -> bool {
                 JSXAttrOrSpread::JSXAttr(attr) => match &attr.name {
                     JSXAttrName::Ident(i) => i.sym == "key",
                     JSXAttrName::JSXNamespacedName(_) => false,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 },
                 _ => false,
             }

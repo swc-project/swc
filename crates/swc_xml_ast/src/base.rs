@@ -20,7 +20,7 @@ pub enum DocumentMode {
     Quirks,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, Is, EqIgnoreSpan)]
 pub enum Child {
     #[tag("DocumentType")]

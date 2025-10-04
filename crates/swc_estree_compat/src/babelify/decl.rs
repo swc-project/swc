@@ -20,6 +20,8 @@ impl Babelify for Decl {
             Decl::TsTypeAlias(d) => Declaration::TSTypeAliasDecl(d.babelify(ctx)),
             Decl::TsEnum(d) => Declaration::TSEnumDecl(d.babelify(ctx)),
             Decl::TsModule(d) => Declaration::TSModuleDecl(d.babelify(ctx)),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -108,6 +110,8 @@ impl Babelify for VarDeclKind {
             VarDeclKind::Var => VariableDeclarationKind::Var,
             VarDeclKind::Let => VariableDeclarationKind::Let,
             VarDeclKind::Const => VariableDeclarationKind::Const,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

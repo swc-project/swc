@@ -1604,6 +1604,8 @@ impl IsTsDecl for DefaultDecl {
             Self::Class(..) => false,
             Self::Fn(r#fn) => r#fn.function.body.is_none(),
             Self::TsInterfaceDecl(..) => true,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -1619,6 +1621,8 @@ impl IsUninstantiated for TsNamespaceBody {
                 block.body.iter().all(IsUninstantiated::is_uninstantiated)
             }
             Self::TsNamespaceDecl(decl) => decl.body.is_uninstantiated(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

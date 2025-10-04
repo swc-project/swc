@@ -16,6 +16,8 @@ impl Pure<'_> {
                 Expr::Ident(Ident { sym, .. }) if &**sym == "Symbol" => {}
                 _ => return,
             },
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
 
         e.args
