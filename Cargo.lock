@@ -5113,7 +5113,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "44.0.1"
+version = "44.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -6046,7 +6046,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "30.0.1"
+version = "30.0.2"
 dependencies = [
  "base64 0.22.1",
  "bytes-str",

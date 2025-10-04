@@ -14,6 +14,9 @@
 - **(es/parser)** Handle JSX attributes with keyword prefixes correctly ([#11136](https://github.com/swc-project/swc/issues/11136)) ([d3cd97f](https://github.com/swc-project/swc/commit/d3cd97fef10518507249d4b0b82983320483ee1c))
 
 
+- **(es/react)** Use correct span for `@jsxFrag` as null literal ([#11139](https://github.com/swc-project/swc/issues/11139)) ([9353763](https://github.com/swc-project/swc/commit/9353763e4d7f880ac3175bbdc058a3c3b3bea3bb))
+
+
 - **(es/transforms)** Check errors::HANDLER.is_set() before failing ([#11130](https://github.com/swc-project/swc/issues/11130)) ([1c9ab27](https://github.com/swc-project/swc/commit/1c9ab2719ca21e4fcc4598c7877648d44f22311c))
 
 ### Features
