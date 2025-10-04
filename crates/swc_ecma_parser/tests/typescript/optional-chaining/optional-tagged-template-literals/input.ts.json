@@ -38,6 +38,7 @@
                 "end": 2
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "a",
               "optional": false
             },
@@ -68,7 +69,8 @@
               },
               "tail": true,
               "cooked": "foo",
-              "raw": "foo"
+              "raw": "foo",
+              "loneSurrogates": false
             }
           ]
         }

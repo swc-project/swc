@@ -19,6 +19,7 @@
           "end": 44
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "T00",
         "optional": false
       },
@@ -43,7 +44,8 @@
                 "end": 53
               },
               "value": "prop",
-              "raw": "\"prop\""
+              "raw": "\"prop\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -72,6 +74,7 @@
                       "end": 69
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Lowercase",
                     "optional": false
                   },
@@ -103,7 +106,8 @@
                   },
                   "tail": false,
                   "cooked": "p",
-                  "raw": "p"
+                  "raw": "p",
+                  "loneSurrogates": false
                 },
                 {
                   "type": "TemplateElement",
@@ -113,7 +117,8 @@
                   },
                   "tail": true,
                   "cooked": "p",
-                  "raw": "p"
+                  "raw": "p",
+                  "loneSurrogates": false
                 }
               ]
             }
@@ -135,6 +140,7 @@
           "end": 119
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "T01",
         "optional": false
       },
@@ -159,7 +165,8 @@
                 "end": 128
               },
               "value": "prop",
-              "raw": "\"prop\""
+              "raw": "\"prop\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -175,6 +182,7 @@
                 "end": 140
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Lowercase",
               "optional": false
             },
@@ -213,6 +221,7 @@
           "end": 180
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "T02",
         "optional": false
       },
@@ -237,7 +246,8 @@
                 "end": 189
               },
               "value": "PROP",
-              "raw": "\"PROP\""
+              "raw": "\"PROP\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -253,6 +263,7 @@
                 "end": 201
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Lowercase",
               "optional": false
             },
@@ -291,6 +302,7 @@
           "end": 251
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "T10",
         "optional": false
       },
@@ -315,7 +327,8 @@
                 "end": 260
               },
               "value": "prop",
-              "raw": "\"prop\""
+              "raw": "\"prop\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -344,6 +357,7 @@
                       "end": 276
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Lowercase",
                     "optional": false
                   },
@@ -375,7 +389,8 @@
                   },
                   "tail": false,
                   "cooked": "p",
-                  "raw": "p"
+                  "raw": "p",
+                  "loneSurrogates": false
                 },
                 {
                   "type": "TemplateElement",
@@ -385,7 +400,8 @@
                   },
                   "tail": true,
                   "cooked": "p",
-                  "raw": "p"
+                  "raw": "p",
+                  "loneSurrogates": false
                 }
               ]
             }
@@ -407,6 +423,7 @@
           "end": 308
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "T11",
         "optional": false
       },
@@ -431,7 +448,8 @@
                 "end": 317
               },
               "value": "prop",
-              "raw": "\"prop\""
+              "raw": "\"prop\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -447,6 +465,7 @@
                 "end": 329
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Lowercase",
               "optional": false
             },
@@ -485,6 +504,7 @@
           "end": 358
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "T12",
         "optional": false
       },
@@ -509,7 +529,8 @@
                 "end": 367
               },
               "value": "PROP",
-              "raw": "\"PROP\""
+              "raw": "\"PROP\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -525,6 +546,7 @@
                 "end": 379
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Lowercase",
               "optional": false
             },
@@ -563,6 +585,7 @@
           "end": 408
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "T20",
         "optional": false
       },
@@ -587,7 +610,8 @@
                 "end": 417
               },
               "value": "prop",
-              "raw": "\"prop\""
+              "raw": "\"prop\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -603,6 +627,7 @@
                 "end": 430
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Capitalize",
               "optional": false
             },
@@ -641,6 +666,7 @@
           "end": 480
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "T21",
         "optional": false
       },
@@ -665,7 +691,8 @@
                 "end": 489
               },
               "value": "Prop",
-              "raw": "\"Prop\""
+              "raw": "\"Prop\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -681,6 +708,7 @@
                 "end": 502
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Capitalize",
               "optional": false
             },
@@ -719,6 +747,7 @@
           "end": 543
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "T22",
         "optional": false
       },
@@ -743,7 +772,8 @@
                 "end": 552
               },
               "value": "PROP",
-              "raw": "\"PROP\""
+              "raw": "\"PROP\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -759,6 +789,7 @@
                 "end": 565
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Capitalize",
               "optional": false
             },
@@ -797,6 +828,7 @@
           "end": 607
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "T30",
         "optional": false
       },
@@ -821,7 +853,8 @@
                 "end": 616
               },
               "value": "prop",
-              "raw": "\"prop\""
+              "raw": "\"prop\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -837,6 +870,7 @@
                 "end": 629
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Capitalize",
               "optional": false
             },
@@ -875,6 +909,7 @@
           "end": 657
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "T31",
         "optional": false
       },
@@ -899,7 +934,8 @@
                 "end": 666
               },
               "value": "Prop",
-              "raw": "\"Prop\""
+              "raw": "\"Prop\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -915,6 +951,7 @@
                 "end": 679
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Capitalize",
               "optional": false
             },
@@ -953,6 +990,7 @@
           "end": 708
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "T32",
         "optional": false
       },
@@ -977,7 +1015,8 @@
                 "end": 717
               },
               "value": "PROP",
-              "raw": "\"PROP\""
+              "raw": "\"PROP\"",
+              "loneSurrogates": false
             }
           },
           {
@@ -993,6 +1032,7 @@
                 "end": 730
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Capitalize",
               "optional": false
             },
@@ -1031,6 +1071,7 @@
           "end": 783
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "EMap",
         "optional": false
       },
@@ -1056,6 +1097,7 @@
                 "end": 793
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "event",
               "optional": false
             },
@@ -1094,6 +1136,7 @@
           "end": 809
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Keys",
         "optional": false
       },
@@ -1118,6 +1161,7 @@
               "end": 822
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "EMap",
             "optional": false
           },
@@ -1139,6 +1183,7 @@
           "end": 841
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "EPlusFallback",
         "optional": false
       },
@@ -1162,6 +1207,7 @@
                 "end": 843
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "C",
               "optional": false
             },
@@ -1192,6 +1238,7 @@
               "end": 848
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "C",
             "optional": false
           },
@@ -1210,6 +1257,7 @@
               "end": 861
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "Keys",
             "optional": false
           },
@@ -1235,6 +1283,7 @@
                 "end": 868
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "EMap",
               "optional": false
             },
@@ -1253,6 +1302,7 @@
                 "end": 870
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "C",
               "optional": false
             },
@@ -1272,7 +1322,8 @@
               "end": 894
             },
             "value": "unrecognised event",
-            "raw": "\"unrecognised event\""
+            "raw": "\"unrecognised event\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -1291,6 +1342,7 @@
           "end": 913
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "VirtualEvent",
         "optional": false
       },
@@ -1314,6 +1366,7 @@
                 "end": 915
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "T",
               "optional": false
             },
@@ -1359,6 +1412,7 @@
                   "end": 950
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "bivarianceHack",
                 "optional": false
               },
@@ -1372,6 +1426,7 @@
                     "end": 956
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "event",
                   "optional": false,
                   "typeAnnotation": {
@@ -1393,6 +1448,7 @@
                           "end": 971
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "EPlusFallback",
                         "optional": false
                       },
@@ -1416,6 +1472,7 @@
                                 "end": 981
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "Lowercase",
                               "optional": false
                             },
@@ -1439,6 +1496,7 @@
                                       "end": 983
                                     },
                                     "ctxt": 0,
+                                    "nodeId": 4294967295,
                                     "value": "T",
                                     "optional": false
                                   },
@@ -1485,7 +1543,8 @@
               "end": 1011
             },
             "value": "bivarianceHack",
-            "raw": "'bivarianceHack'"
+            "raw": "'bivarianceHack'",
+            "loneSurrogates": false
           }
         }
       }
@@ -1513,6 +1572,7 @@
               "end": 1038
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "_virtualOn",
             "optional": false,
             "typeAnnotation": {
@@ -1535,6 +1595,7 @@
                       "end": 1049
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "eventQrl",
                     "optional": false,
                     "typeAnnotation": {
@@ -1556,6 +1617,7 @@
                             "end": 1063
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "VirtualEvent",
                           "optional": false
                         },
@@ -1579,6 +1641,7 @@
                                   "end": 1068
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "Keys",
                                 "optional": false
                               },
@@ -1643,6 +1706,7 @@
                 "end": 1102
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "virtualOn",
               "optional": false,
               "typeAnnotation": null
@@ -1662,6 +1726,7 @@
                     "end": 1149
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "eventQrl",
                   "optional": false,
                   "typeAnnotation": {
@@ -1683,6 +1748,7 @@
                           "end": 1146
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "VirtualEvent",
                         "optional": false
                       },
@@ -1706,6 +1772,7 @@
                                 "end": 1148
                               },
                               "ctxt": 0,
+                              "nodeId": 4294967295,
                               "value": "T",
                               "optional": false
                             },
@@ -1745,6 +1812,7 @@
                           "end": 1170
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "_virtualOn",
                         "optional": false
                       },
@@ -1758,6 +1826,7 @@
                               "end": 1179
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "eventQrl",
                             "optional": false
                           }
@@ -1790,6 +1859,7 @@
                         "end": 1107
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "T",
                       "optional": false
                     },

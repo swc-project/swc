@@ -25,6 +25,7 @@
               "end": 17
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "default",
             "optional": false
           },
@@ -35,6 +36,7 @@
               "end": 24
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false
           },
@@ -48,7 +50,8 @@
           "end": 42
         },
         "value": "foo.json",
-        "raw": "\"foo.json\""
+        "raw": "\"foo.json\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": {
@@ -75,7 +78,8 @@
                 "end": 62
               },
               "value": "json",
-              "raw": "\"json\""
+              "raw": "\"json\"",
+              "loneSurrogates": false
             }
           }
         ]

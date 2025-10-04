@@ -28,6 +28,7 @@
               "end": 25
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "union",
             "optional": false,
             "typeAnnotation": {
@@ -121,6 +122,7 @@
                 "end": 74
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "v",
               "optional": false,
               "typeAnnotation": null
@@ -137,6 +139,7 @@
           "end": 83
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "union",
         "optional": false
       },

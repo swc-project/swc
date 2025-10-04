@@ -19,6 +19,7 @@
           "end": 20
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "EnhancedString",
         "optional": false
       },
@@ -59,6 +60,7 @@
                     "end": 46
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "enhancements",
                   "optional": false
                 },
@@ -108,6 +110,7 @@
               "end": 61
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "a",
             "optional": false,
             "typeAnnotation": null
@@ -126,7 +129,8 @@
                 "end": 69
               },
               "value": "foo",
-              "raw": "\"foo\""
+              "raw": "\"foo\"",
+              "loneSurrogates": false
             },
             "right": {
               "type": "TsAsExpression",
@@ -141,7 +145,8 @@
                   "end": 79
                 },
                 "value": "bar",
-                "raw": "\"bar\""
+                "raw": "\"bar\"",
+                "loneSurrogates": false
               },
               "typeAnnotation": {
                 "type": "TsLiteralType",
@@ -156,7 +161,8 @@
                     "end": 88
                   },
                   "value": "baz",
-                  "raw": "\"baz\""
+                  "raw": "\"baz\"",
+                  "loneSurrogates": false
                 }
               }
             }
@@ -188,6 +194,7 @@
               "end": 95
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "b",
             "optional": false,
             "typeAnnotation": null
@@ -206,7 +213,8 @@
                 "end": 103
               },
               "value": "foo",
-              "raw": "\"foo\""
+              "raw": "\"foo\"",
+              "loneSurrogates": false
             },
             "right": {
               "type": "ParenthesisExpression",
@@ -227,7 +235,8 @@
                     "end": 114
                   },
                   "value": "bar",
-                  "raw": "\"bar\""
+                  "raw": "\"bar\"",
+                  "loneSurrogates": false
                 },
                 "typeAnnotation": {
                   "type": "TsLiteralType",
@@ -242,7 +251,8 @@
                       "end": 123
                     },
                     "value": "foo",
-                    "raw": "\"foo\""
+                    "raw": "\"foo\"",
+                    "loneSurrogates": false
                   }
                 }
               }
@@ -275,6 +285,7 @@
               "end": 131
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "c",
             "optional": false,
             "typeAnnotation": null
@@ -293,7 +304,8 @@
                 "end": 139
               },
               "value": "foo",
-              "raw": "\"foo\""
+              "raw": "\"foo\"",
+              "loneSurrogates": false
             },
             "right": {
               "type": "ParenthesisExpression",
@@ -314,7 +326,8 @@
                     "end": 157
                   },
                   "value": "bar",
-                  "raw": "\"bar\""
+                  "raw": "\"bar\"",
+                  "loneSurrogates": false
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
@@ -354,6 +367,7 @@
               "end": 165
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "d",
             "optional": false,
             "typeAnnotation": null
@@ -372,7 +386,8 @@
                 "end": 173
               },
               "value": "foo",
-              "raw": "\"foo\""
+              "raw": "\"foo\"",
+              "loneSurrogates": false
             },
             "right": {
               "type": "ParenthesisExpression",
@@ -393,7 +408,8 @@
                     "end": 184
                   },
                   "value": "bar",
-                  "raw": "\"bar\""
+                  "raw": "\"bar\"",
+                  "loneSurrogates": false
                 },
                 "typeAnnotation": {
                   "type": "TsTypeReference",
@@ -408,6 +424,7 @@
                       "end": 202
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "EnhancedString",
                     "optional": false
                   },

@@ -25,6 +25,7 @@
             "end": 324
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "eval",
           "optional": false
         },
@@ -38,7 +39,8 @@
                 "end": 353
               },
               "value": " var x = 1 ",
-              "raw": "\"\\u00A0var x\\u00A0= 1\\u00A0\""
+              "raw": "\"\\u00A0var x\\u00A0= 1\\u00A0\"",
+              "loneSurrogates": false
             }
           }
         ],
@@ -65,6 +67,7 @@
             "end": 361
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "x",
           "optional": false
         },
@@ -106,6 +109,7 @@
                   "end": 379
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -126,7 +130,8 @@
                         "end": 442
                       },
                       "value": "#1: eval(\"\\u00A0var x\\u00A0= 1\\u00A0\"); x === 1. Actual: ",
-                      "raw": "'#1: eval(\"\\\\u00A0var x\\\\u00A0= 1\\\\u00A0\"); x === 1. Actual: '"
+                      "raw": "'#1: eval(\"\\\\u00A0var x\\\\u00A0= 1\\\\u00A0\"); x === 1. Actual: '",
+                      "loneSurrogates": false
                     },
                     "right": {
                       "type": "ParenthesisExpression",
@@ -141,6 +146,7 @@
                           "end": 447
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "x",
                         "optional": false
                       }
@@ -178,6 +184,7 @@
               "end": 471
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -215,6 +222,7 @@
             "end": 485
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "x",
           "optional": false
         },
@@ -256,6 +264,7 @@
                   "end": 503
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "$ERROR",
                 "optional": false
               },
@@ -276,7 +285,8 @@
                         "end": 543
                       },
                       "value": "#2:  var x = 1 ; x === 1. Actual: ",
-                      "raw": "'#2:  var x = 1 ; x === 1. Actual: '"
+                      "raw": "'#2:  var x = 1 ; x === 1. Actual: '",
+                      "loneSurrogates": false
                     },
                     "right": {
                       "type": "ParenthesisExpression",
@@ -291,6 +301,7 @@
                           "end": 548
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "x",
                         "optional": false
                       }

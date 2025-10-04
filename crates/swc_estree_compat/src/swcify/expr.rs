@@ -1,4 +1,4 @@
-use swc_common::Spanned;
+use swc_common::{NodeId, Spanned};
 use swc_ecma_ast::{
     op, ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BindingIdent,
     BlockStmtOrExpr, CallExpr, Callee, ClassExpr, ComputedPropName, CondExpr, Expr, ExprOrSpread,
@@ -321,6 +321,7 @@ impl Swcify for Identifier {
                 sym: self.name,
                 optional: self.optional.unwrap_or(false),
                 ctxt: Default::default(),
+                node_id: NodeId::DUMMY,
             },
             type_ann: self.type_annotation.swcify(ctx).flatten().map(Box::new),
         }
@@ -941,7 +942,7 @@ impl Swcify for JSXAttrVal {
         match self {
             JSXAttrVal::Element(v) => JSXAttrValue::JSXElement(Box::new(v.swcify(ctx))),
             JSXAttrVal::Fragment(v) => JSXAttrValue::JSXFragment(v.swcify(ctx)),
-            JSXAttrVal::String(v) => JSXAttrValue::Lit(Lit::Str(v.swcify(ctx))),
+            JSXAttrVal::String(v) => JSXAttrValue::Str(v.swcify(ctx)),
             JSXAttrVal::Expr(v) => JSXAttrValue::JSXExprContainer(v.swcify(ctx)),
         }
     }

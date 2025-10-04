@@ -14,6 +14,7 @@
           "end": 49
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Foo",
         "optional": false
       },
@@ -46,7 +47,8 @@
               "end": 66
             },
             "value": "test",
-            "raw": "\"test\""
+            "raw": "\"test\"",
+            "loneSurrogates": false
           },
           "typeAnnotation": null,
           "isStatic": false,
@@ -82,6 +84,7 @@
           "end": 80
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Foo",
         "optional": false
       },
@@ -121,6 +124,7 @@
                       "end": 101
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "answer",
                     "optional": false,
                     "typeAnnotation": null
@@ -155,6 +159,7 @@
           "end": 122
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "Foo",
         "optional": false
       }
@@ -174,6 +179,7 @@
           "end": 158
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "foo",
         "optional": false
       },
@@ -190,7 +196,8 @@
             "end": 178
           },
           "value": "./foo_0",
-          "raw": "\"./foo_0\""
+          "raw": "\"./foo_0\"",
+          "loneSurrogates": false
         }
       }
     },
@@ -220,6 +227,7 @@
               "end": 187
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "foo",
             "optional": false
           },
@@ -273,6 +281,7 @@
                     "end": 210
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": null
@@ -291,6 +300,7 @@
                       "end": 220
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "foo",
                     "optional": false
                   },

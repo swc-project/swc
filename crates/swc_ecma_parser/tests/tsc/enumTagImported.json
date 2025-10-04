@@ -28,6 +28,7 @@
               "end": 151
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "test",
             "optional": false,
             "typeAnnotation": null
@@ -39,7 +40,8 @@
               "end": 159
             },
             "value": "add",
-            "raw": "'add'"
+            "raw": "'add'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -68,6 +70,7 @@
               "end": 211
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "tost",
             "optional": false,
             "typeAnnotation": null
@@ -79,7 +82,8 @@
               "end": 222
             },
             "value": "remove",
-            "raw": "'remove'"
+            "raw": "'remove'",
+            "loneSurrogates": false
           },
           "definite": false
         }
@@ -105,6 +109,7 @@
               "end": 264
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "TestEnum",
             "optional": false
           },
@@ -119,7 +124,8 @@
           "end": 280
         },
         "value": "./mod1",
-        "raw": "\"./mod1\""
+        "raw": "\"./mod1\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -148,6 +154,7 @@
               "end": 315
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "tist",
             "optional": false,
             "typeAnnotation": null
@@ -165,6 +172,7 @@
                 "end": 326
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "TestEnum",
               "optional": false
             },
@@ -210,6 +218,7 @@
                 "end": 399
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "TestEnum",
               "optional": false,
               "typeAnnotation": null
@@ -238,7 +247,8 @@
                       "end": 418
                     },
                     "value": "add",
-                    "raw": "'add'"
+                    "raw": "'add'",
+                    "loneSurrogates": false
                   }
                 },
                 {
@@ -258,7 +268,8 @@
                       "end": 440
                     },
                     "value": "remove",
-                    "raw": "'remove'"
+                    "raw": "'remove'",
+                    "loneSurrogates": false
                   }
                 }
               ]

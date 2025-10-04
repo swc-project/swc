@@ -19,6 +19,7 @@
           "end": 18
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "SubtypeGuard",
         "optional": false
       },
@@ -42,6 +43,7 @@
                 "end": 23
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "P",
               "optional": false
             },
@@ -64,6 +66,7 @@
                 "end": 30
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "C",
               "optional": false
             },
@@ -83,6 +86,7 @@
                   "end": 40
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "P",
                 "optional": false
               },
@@ -106,6 +110,7 @@
               "end": 51
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "object",
             "optional": false,
             "typeAnnotation": {
@@ -127,6 +132,7 @@
                     "end": 54
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "P",
                   "optional": false
                 },
@@ -156,6 +162,7 @@
                 "end": 65
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "object",
               "optional": false
             },
@@ -178,6 +185,7 @@
                     "end": 70
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "C",
                   "optional": false
                 },
@@ -208,6 +216,7 @@
             "end": 96
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "IdTypeGuard",
           "optional": false
         },
@@ -231,6 +240,7 @@
                   "end": 102
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "T",
                 "optional": false
               },
@@ -262,6 +272,7 @@
               "end": 133
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "SubtypeGuard",
             "optional": false
           },
@@ -293,6 +304,7 @@
                     "end": 143
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "T",
                   "optional": false
                 },

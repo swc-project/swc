@@ -21,6 +21,7 @@
           "end": 24
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "M",
         "optional": false
       },
@@ -40,6 +41,7 @@
                 "end": 41
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "f",
               "optional": false
             },
@@ -59,6 +61,7 @@
                     "end": 43
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "s",
                   "optional": false,
                   "typeAnnotation": {
@@ -108,6 +111,7 @@
                     "end": 62
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Iterable",
                   "optional": false
                 },
@@ -140,6 +144,7 @@
                 "end": 83
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "f",
               "optional": false
             },
@@ -159,6 +164,7 @@
                     "end": 85
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "s",
                   "optional": false,
                   "typeAnnotation": {
@@ -208,6 +214,7 @@
                     "end": 104
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Iterable",
                   "optional": false
                 },
@@ -240,6 +247,7 @@
                 "end": 126
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "f",
               "optional": false
             },
@@ -259,6 +267,7 @@
                     "end": 128
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "s",
                   "optional": false,
                   "typeAnnotation": {
@@ -316,6 +325,7 @@
                     "end": 144
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Iterable",
                   "optional": false
                 },

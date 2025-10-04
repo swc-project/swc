@@ -21,6 +21,7 @@
           "end": 20
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "N",
         "optional": false
       },
@@ -39,6 +40,7 @@
             "end": 22
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "M",
           "optional": false
         },
@@ -68,6 +70,7 @@
           "end": 42
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "M",
         "optional": false
       },
@@ -96,7 +99,8 @@
           "end": 64
         },
         "value": "m",
-        "raw": "\"m\""
+        "raw": "\"m\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -123,6 +127,7 @@
           "end": 82
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "global",
         "optional": false
       },

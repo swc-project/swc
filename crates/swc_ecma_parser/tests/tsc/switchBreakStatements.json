@@ -18,7 +18,8 @@
           "end": 71
         },
         "value": "",
-        "raw": "''"
+        "raw": "''",
+        "loneSurrogates": false
       },
       "cases": [
         {
@@ -34,7 +35,8 @@
               "end": 87
             },
             "value": "a",
-            "raw": "'a'"
+            "raw": "'a'",
+            "loneSurrogates": false
           },
           "consequent": [
             {
@@ -62,6 +64,7 @@
           "end": 110
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "ONE",
         "optional": false
       },
@@ -78,7 +81,8 @@
             "end": 122
           },
           "value": "",
-          "raw": "''"
+          "raw": "''",
+          "loneSurrogates": false
         },
         "cases": [
           {
@@ -94,7 +98,8 @@
                 "end": 138
               },
               "value": "a",
-              "raw": "'a'"
+              "raw": "'a'",
+              "loneSurrogates": false
             },
             "consequent": [
               {
@@ -110,6 +115,7 @@
                     "end": 157
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "ONE",
                   "optional": false
                 }
@@ -132,6 +138,7 @@
           "end": 165
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "TWO",
         "optional": false
       },
@@ -148,6 +155,7 @@
             "end": 172
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "THREE",
           "optional": false
         },
@@ -164,7 +172,8 @@
               "end": 184
             },
             "value": "",
-            "raw": "''"
+            "raw": "''",
+            "loneSurrogates": false
           },
           "cases": [
             {
@@ -180,7 +189,8 @@
                   "end": 200
                 },
                 "value": "a",
-                "raw": "'a'"
+                "raw": "'a'",
+                "loneSurrogates": false
               },
               "consequent": [
                 {
@@ -196,6 +206,7 @@
                       "end": 221
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "THREE",
                     "optional": false
                   }
@@ -219,6 +230,7 @@
           "end": 230
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "FOUR",
         "optional": false
       },
@@ -235,7 +247,8 @@
             "end": 242
           },
           "value": "",
-          "raw": "''"
+          "raw": "''",
+          "loneSurrogates": false
         },
         "cases": [
           {
@@ -251,7 +264,8 @@
                 "end": 258
               },
               "value": "a",
-              "raw": "'a'"
+              "raw": "'a'",
+              "loneSurrogates": false
             },
             "consequent": [
               {
@@ -267,6 +281,7 @@
                     "end": 272
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "FIVE",
                   "optional": false
                 },
@@ -283,7 +298,8 @@
                       "end": 292
                     },
                     "value": "",
-                    "raw": "''"
+                    "raw": "''",
+                    "loneSurrogates": false
                   },
                   "cases": [
                     {
@@ -299,7 +315,8 @@
                           "end": 316
                         },
                         "value": "a",
-                        "raw": "'a'"
+                        "raw": "'a'",
+                        "loneSurrogates": false
                       },
                       "consequent": [
                         {
@@ -315,6 +332,7 @@
                               "end": 344
                             },
                             "ctxt": 0,
+                            "nodeId": 4294967295,
                             "value": "FOUR",
                             "optional": false
                           }
@@ -342,7 +360,8 @@
           "end": 369
         },
         "value": "",
-        "raw": "''"
+        "raw": "''",
+        "loneSurrogates": false
       },
       "cases": [
         {
@@ -358,7 +377,8 @@
               "end": 385
             },
             "value": "a",
-            "raw": "'a'"
+            "raw": "'a'",
+            "loneSurrogates": false
           },
           "consequent": [
             {
@@ -374,6 +394,7 @@
                   "end": 398
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "SIX",
                 "optional": false
               },
@@ -390,7 +411,8 @@
                     "end": 418
                   },
                   "value": "",
-                  "raw": "''"
+                  "raw": "''",
+                  "loneSurrogates": false
                 },
                 "cases": [
                   {
@@ -406,7 +428,8 @@
                         "end": 442
                       },
                       "value": "a",
-                      "raw": "'a'"
+                      "raw": "'a'",
+                      "loneSurrogates": false
                     },
                     "consequent": [
                       {
@@ -422,6 +445,7 @@
                             "end": 469
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "SIX",
                           "optional": false
                         }
@@ -448,6 +472,7 @@
           "end": 489
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "SEVEN",
         "optional": false
       },
@@ -464,7 +489,8 @@
             "end": 501
           },
           "value": "",
-          "raw": "''"
+          "raw": "''",
+          "loneSurrogates": false
         },
         "cases": [
           {
@@ -480,7 +506,8 @@
                 "end": 517
               },
               "value": "a",
-              "raw": "'a'"
+              "raw": "'a'",
+              "loneSurrogates": false
             },
             "consequent": [
               {
@@ -496,7 +523,8 @@
                     "end": 537
                   },
                   "value": "",
-                  "raw": "''"
+                  "raw": "''",
+                  "loneSurrogates": false
                 },
                 "cases": [
                   {
@@ -512,7 +540,8 @@
                         "end": 561
                       },
                       "value": "a",
-                      "raw": "'a'"
+                      "raw": "'a'",
+                      "loneSurrogates": false
                     },
                     "consequent": [
                       {
@@ -528,7 +557,8 @@
                             "end": 589
                           },
                           "value": "",
-                          "raw": "''"
+                          "raw": "''",
+                          "loneSurrogates": false
                         },
                         "cases": [
                           {
@@ -544,7 +574,8 @@
                                 "end": 621
                               },
                               "value": "a",
-                              "raw": "'a'"
+                              "raw": "'a'",
+                              "loneSurrogates": false
                             },
                             "consequent": [
                               {
@@ -560,6 +591,7 @@
                                     "end": 658
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "SEVEN",
                                   "optional": false
                                 }
@@ -577,6 +609,7 @@
                                     "end": 689
                                   },
                                   "ctxt": 0,
+                                  "nodeId": 4294967295,
                                   "value": "EIGHT",
                                   "optional": false
                                 },
@@ -593,7 +626,8 @@
                                       "end": 725
                                     },
                                     "value": "",
-                                    "raw": "''"
+                                    "raw": "''",
+                                    "loneSurrogates": false
                                   },
                                   "cases": [
                                     {
@@ -609,7 +643,8 @@
                                           "end": 765
                                         },
                                         "value": "a",
-                                        "raw": "'a'"
+                                        "raw": "'a'",
+                                        "loneSurrogates": false
                                       },
                                       "consequent": [
                                         {
@@ -635,6 +670,7 @@
                                                   "end": 805
                                                 },
                                                 "ctxt": 0,
+                                                "nodeId": 4294967295,
                                                 "value": "fn",
                                                 "optional": false,
                                                 "typeAnnotation": null
@@ -680,6 +716,7 @@
                                               "end": 867
                                             },
                                             "ctxt": 0,
+                                            "nodeId": 4294967295,
                                             "value": "EIGHT",
                                             "optional": false
                                           }

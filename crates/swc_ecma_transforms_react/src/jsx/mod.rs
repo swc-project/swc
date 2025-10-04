@@ -741,6 +741,7 @@ where
                                         PropName::Str(Str {
                                             span: i.span,
                                             raw: None,
+                                            lone_surrogates: false,
                                             value: i.sym,
                                         })
                                     } else {
@@ -779,6 +780,7 @@ where
                                     let key = Str {
                                         span,
                                         raw: None,
+                                        lone_surrogates: false,
                                         value: str_value.into(),
                                     };
                                     let key = PropName::Str(key);
@@ -930,6 +932,7 @@ where
                 let s = Str {
                     span: text.span,
                     raw: None,
+                    lone_surrogates: false,
                     value,
                 };
 
@@ -994,14 +997,15 @@ where
         let value = a
             .value
             .map(|v| match v {
-                JSXAttrValue::Lit(Lit::Str(s)) => {
+                JSXAttrValue::Str(s) => {
                     let value = transform_jsx_attr_str(&s.value);
 
-                    Lit::Str(Str {
+                    Str {
                         span: s.span,
                         raw: None,
+                        lone_surrogates: false,
                         value: value.into(),
-                    })
+                    }
                     .into()
                 }
                 JSXAttrValue::JSXExprContainer(JSXExprContainer {
@@ -1010,7 +1014,6 @@ where
                 }) => e,
                 JSXAttrValue::JSXElement(element) => Box::new(self.jsx_elem_to_expr(*element)),
                 JSXAttrValue::JSXFragment(fragment) => Box::new(self.jsx_frag_to_expr(fragment)),
-                JSXAttrValue::Lit(lit) => Box::new(lit.into()),
                 JSXAttrValue::JSXExprContainer(JSXExprContainer {
                     span: _,
                     expr: JSXExpr::JSXEmptyExpr(_),
@@ -1171,6 +1174,7 @@ where
                         src: Str {
                             span: DUMMY_SP,
                             raw: None,
+                            lone_surrogates: false,
                             value: src.into(),
                         }
                         .into(),
@@ -1251,6 +1255,7 @@ fn add_require(imports: Vec<(Ident, IdentName)>, src: &str, unresolved_mark: Mar
                         span: DUMMY_SP,
                         value: src.into(),
                         raw: None,
+                        lone_surrogates: false,
                     }))),
                 }],
                 ..Default::default()
@@ -1279,6 +1284,7 @@ where
                     Lit::Str(Str {
                         span,
                         raw: None,
+                        lone_surrogates: false,
                         value: i.sym,
                     })
                     .into()
@@ -1308,6 +1314,7 @@ where
                 Lit::Str(Str {
                     span,
                     raw: None,
+                    lone_surrogates: false,
                     value: value.into(),
                 })
                 .into()
@@ -1353,6 +1360,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
                 PropName::Str(Str {
                     span,
                     raw: None,
+                    lone_surrogates: false,
                     value: i.sym,
                 })
             } else {
@@ -1365,6 +1373,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
             PropName::Str(Str {
                 span,
                 raw: None,
+                lone_surrogates: false,
                 value: value.into(),
             })
         }
@@ -1474,17 +1483,17 @@ fn add_line_of_jsx_text<'a>(
 
 fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
     Some(match v {
-        JSXAttrValue::Lit(Lit::Str(s)) => {
+        JSXAttrValue::Str(s) => {
             let value = transform_jsx_attr_str(&s.value);
 
             Lit::Str(Str {
                 span: s.span,
                 raw: None,
+                lone_surrogates: false,
                 value: value.into(),
             })
             .into()
         }
-        JSXAttrValue::Lit(lit) => Box::new(lit.into()),
         JSXAttrValue::JSXExprContainer(e) => match e.expr {
             JSXExpr::JSXEmptyExpr(_) => None?,
             JSXExpr::Expr(e) => e,

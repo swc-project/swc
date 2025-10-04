@@ -25,6 +25,7 @@
               "end": 33
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "c",
             "optional": false
           },
@@ -39,7 +40,8 @@
           "end": 50
         },
         "value": "./types",
-        "raw": "'./types'"
+        "raw": "'./types'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -65,6 +67,7 @@
               "end": 68
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "types",
             "optional": false
           }
@@ -77,7 +80,8 @@
           "end": 83
         },
         "value": "./types",
-        "raw": "'./types'"
+        "raw": "'./types'",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -109,6 +113,7 @@
               "end": 91
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "console",
             "optional": false
           },
@@ -131,6 +136,7 @@
                 "end": 97
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "c",
               "optional": false
             }
@@ -165,6 +171,7 @@
               "end": 160
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "console",
             "optional": false
           },
@@ -193,6 +200,7 @@
                   "end": 170
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "types",
                 "optional": false
               },
@@ -223,7 +231,8 @@
           "end": 254
         },
         "value": "./values",
-        "raw": "'./values'"
+        "raw": "'./values'",
+        "loneSurrogates": false
       },
       "typeOnly": true,
       "with": null
@@ -257,6 +266,7 @@
                 "end": 294
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "c",
               "optional": false,
               "typeAnnotation": null

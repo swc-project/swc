@@ -28,6 +28,7 @@
               "end": 11
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "regex1",
             "optional": false,
             "typeAnnotation": null
@@ -68,6 +69,7 @@
               "end": 34
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "regex2",
             "optional": false,
             "typeAnnotation": null
@@ -108,6 +110,7 @@
               "end": 61
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "regex3",
             "optional": false,
             "typeAnnotation": null
@@ -148,6 +151,7 @@
               "end": 128
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "regex4",
             "optional": false,
             "typeAnnotation": null
@@ -205,6 +209,7 @@
               "end": 159
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "regex5",
             "optional": false,
             "typeAnnotation": null

@@ -20,6 +20,7 @@
             "end": 31
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "MenuItem",
           "optional": false
         },
@@ -38,6 +39,7 @@
             "end": 49
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Extension",
           "optional": false
         },
@@ -63,6 +65,7 @@
                   "end": 64
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "MenuItemConfig",
                 "optional": false
               },

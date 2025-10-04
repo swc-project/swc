@@ -28,6 +28,7 @@
               "end": 28
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "funcExp",
             "optional": false,
             "typeAnnotation": null
@@ -57,6 +58,7 @@
                     "end": 39
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "rest",
                   "optional": false,
                   "typeAnnotation": null
@@ -105,6 +107,7 @@
               "end": 60
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "funcExp1",
             "optional": false,
             "typeAnnotation": null
@@ -124,6 +127,7 @@
                   "end": 73
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "X",
                 "optional": false,
                 "typeAnnotation": {
@@ -159,6 +163,7 @@
                     "end": 82
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "rest",
                   "optional": false,
                   "typeAnnotation": null
@@ -207,6 +212,7 @@
               "end": 103
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "funcExp2",
             "optional": false,
             "typeAnnotation": null
@@ -239,6 +245,7 @@
                       "end": 123
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "rest",
                     "optional": false,
                     "typeAnnotation": null
@@ -294,6 +301,7 @@
               "end": 141
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "funcExp3",
             "optional": false,
             "typeAnnotation": null
@@ -339,6 +347,7 @@
                           "end": 162
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "rest",
                         "optional": false,
                         "typeAnnotation": null

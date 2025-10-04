@@ -28,6 +28,7 @@
               "end": 8
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false,
             "typeAnnotation": null
@@ -48,7 +49,8 @@
                 },
                 "tail": true,
                 "cooked": "\u0019\u0019 19",
-                "raw": "\\x19\\u0019 19"
+                "raw": "\\x19\\u0019 19",
+                "loneSurrogates": false
               }
             ]
           },

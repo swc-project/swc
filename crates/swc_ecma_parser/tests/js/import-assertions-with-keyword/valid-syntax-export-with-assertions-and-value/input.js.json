@@ -25,7 +25,8 @@
               "end": 19
             },
             "value": "default",
-            "raw": "\"default\""
+            "raw": "\"default\"",
+            "loneSurrogates": false
           },
           "exported": {
             "type": "Identifier",
@@ -34,6 +35,7 @@
               "end": 24
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "x",
             "optional": false
           },
@@ -47,7 +49,8 @@
           "end": 37
         },
         "value": "foo",
-        "raw": "\"foo\""
+        "raw": "\"foo\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": {
@@ -74,7 +77,8 @@
                 "end": 57
               },
               "value": "json",
-              "raw": "\"json\""
+              "raw": "\"json\"",
+              "loneSurrogates": false
             }
           }
         ]

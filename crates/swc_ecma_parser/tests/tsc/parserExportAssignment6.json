@@ -21,7 +21,8 @@
           "end": 19
         },
         "value": "M",
-        "raw": "\"M\""
+        "raw": "\"M\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -43,6 +44,7 @@
                 "end": 36
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "A",
               "optional": false
             }

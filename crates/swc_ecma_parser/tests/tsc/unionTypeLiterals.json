@@ -28,6 +28,7 @@
               "end": 56
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "simpleUnion",
             "optional": false,
             "typeAnnotation": {
@@ -91,6 +92,7 @@
               "end": 91
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "unionOfUnion",
             "optional": false,
             "typeAnnotation": {
@@ -162,6 +164,7 @@
               "end": 138
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "arrayOfUnions",
             "optional": false,
             "typeAnnotation": {
@@ -239,6 +242,7 @@
               "end": 178
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "arrayOfUnions",
             "optional": false,
             "typeAnnotation": {
@@ -260,6 +264,7 @@
                     "end": 185
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "Array",
                   "optional": false
                 },
@@ -328,6 +333,7 @@
               "end": 228
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "unionOfFunctionType",
             "optional": false,
             "typeAnnotation": {
@@ -437,6 +443,7 @@
               "end": 286
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "unionOfFunctionType",
             "optional": false,
             "typeAnnotation": {
@@ -550,6 +557,7 @@
               "end": 344
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "unionOfFunctionType",
             "optional": false,
             "typeAnnotation": {
@@ -629,6 +637,7 @@
               "end": 396
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "unionOfConstructorType",
             "optional": false,
             "typeAnnotation": {
@@ -740,6 +749,7 @@
               "end": 465
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "unionOfConstructorType",
             "optional": false,
             "typeAnnotation": {
@@ -853,6 +863,7 @@
               "end": 534
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "unionOfConstructorType",
             "optional": false,
             "typeAnnotation": {

@@ -21,7 +21,8 @@
           "end": 46
         },
         "value": "*.foo",
-        "raw": "\"*.foo\""
+        "raw": "\"*.foo\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -49,6 +50,7 @@
                   "end": 72
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "OhNo",
                 "optional": false
               },
@@ -76,6 +78,7 @@
                         "end": 79
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "star",
                       "optional": false
                     },
@@ -120,7 +123,8 @@
           "end": 137
         },
         "value": "a.foo",
-        "raw": "\"a.foo\""
+        "raw": "\"a.foo\"",
+        "loneSurrogates": false
       },
       "body": {
         "type": "TsModuleBlock",
@@ -148,6 +152,7 @@
                   "end": 163
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "OhNo",
                 "optional": false
               },
@@ -175,6 +180,7 @@
                         "end": 167
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "a",
                       "optional": false
                     },
@@ -223,6 +229,7 @@
               "end": 193
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "OhNo",
             "optional": false
           },
@@ -237,7 +244,8 @@
           "end": 208
         },
         "value": "b.foo",
-        "raw": "\"b.foo\""
+        "raw": "\"b.foo\"",
+        "loneSurrogates": false
       },
       "typeOnly": false,
       "with": null,
@@ -266,6 +274,7 @@
               "end": 225
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "ohno",
             "optional": false,
             "typeAnnotation": {
@@ -287,6 +296,7 @@
                     "end": 231
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "OhNo",
                   "optional": false
                 },
@@ -318,6 +328,7 @@
             "end": 237
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "ohno",
           "optional": false
         },

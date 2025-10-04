@@ -20,6 +20,7 @@
             "end": 135
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "Clazz",
           "optional": false
         },
@@ -114,6 +115,7 @@
                 "end": 170
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "Clazz",
               "optional": false
             },

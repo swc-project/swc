@@ -5,9 +5,8 @@ use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 use crate::{
     expr::{Expr, SpreadElement},
     ident::Ident,
-    lit::Lit,
     typescript::TsTypeParamInstantiation,
-    IdentName,
+    IdentName, Str,
 };
 
 /// Used for `obj` property of `JSXMemberExpr`.
@@ -190,12 +189,7 @@ pub enum JSXAttrName {
 #[cfg_attr(feature = "shrink-to-fit", derive(shrink_to_fit::ShrinkToFit))]
 pub enum JSXAttrValue {
     #[tag("StringLiteral")]
-    #[tag("BooleanLiteral")]
-    #[tag("NullLiteral")]
-    #[tag("NumericLiteral")]
-    #[tag("RegExpLiteral")]
-    #[tag("JSXText")]
-    Lit(Lit),
+    Str(Str),
 
     #[tag("JSXExpressionContainer")]
     JSXExprContainer(JSXExprContainer),

@@ -28,6 +28,7 @@
               "end": 6
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "a",
             "optional": false,
             "typeAnnotation": {
@@ -55,7 +56,8 @@
                       "end": 32
                     },
                     "value": "readline",
-                    "raw": "\"readline\""
+                    "raw": "\"readline\"",
+                    "loneSurrogates": false
                   },
                   "qualifier": null,
                   "typeArguments": null,

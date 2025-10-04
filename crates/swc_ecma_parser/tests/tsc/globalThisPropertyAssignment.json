@@ -74,6 +74,7 @@
               "end": 116
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "y",
             "optional": false,
             "typeAnnotation": null
@@ -117,6 +118,7 @@
               "end": 148
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "window",
             "optional": false
           },
@@ -166,6 +168,7 @@
               "end": 229
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "globalThis",
             "optional": false
           },

@@ -14,6 +14,7 @@
           "end": 86
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "inferReturnType1",
         "optional": false
       },
@@ -48,6 +49,7 @@
           "end": 126
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "inferReturnType2",
         "optional": false
       },
@@ -99,6 +101,7 @@
           "end": 177
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "inferReturnType3",
         "optional": false
       },
@@ -158,6 +161,7 @@
           "end": 230
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "inferReturnType4",
         "optional": false
       },
@@ -209,6 +213,7 @@
                       "end": 252
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Promise",
                     "optional": false
                   },
@@ -256,6 +261,7 @@
           "end": 300
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "inferReturnType5",
         "optional": false
       },
@@ -331,6 +337,7 @@
                       "end": 335
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Promise",
                     "optional": false
                   },
@@ -378,6 +385,7 @@
           "end": 383
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "inferReturnType6",
         "optional": false
       },
@@ -461,6 +469,7 @@
           "end": 442
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "inferReturnType7",
         "optional": false
       },
@@ -521,6 +530,7 @@
                             "end": 466
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Promise",
                           "optional": false
                         },
@@ -571,6 +581,7 @@
           "end": 515
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "inferReturnType8",
         "optional": false
       },
@@ -701,6 +712,7 @@
               "end": 591
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability1",
             "optional": false,
             "typeAnnotation": {
@@ -736,6 +748,7 @@
                         "end": 620
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterableIterator",
                       "optional": false
                     },
@@ -837,6 +850,7 @@
               "end": 689
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability2",
             "optional": false,
             "typeAnnotation": {
@@ -872,6 +886,7 @@
                         "end": 718
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterableIterator",
                       "optional": false
                     },
@@ -947,6 +962,7 @@
                             "end": 768
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Promise",
                           "optional": false
                         },
@@ -1012,6 +1028,7 @@
               "end": 804
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability3",
             "optional": false,
             "typeAnnotation": {
@@ -1047,6 +1064,7 @@
                         "end": 833
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterableIterator",
                       "optional": false
                     },
@@ -1172,6 +1190,7 @@
               "end": 908
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability4",
             "optional": false,
             "typeAnnotation": {
@@ -1207,6 +1226,7 @@
                         "end": 937
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterableIterator",
                       "optional": false
                     },
@@ -1291,6 +1311,7 @@
                                   "end": 989
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "Promise",
                                 "optional": false
                               },
@@ -1359,6 +1380,7 @@
               "end": 1026
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability5",
             "optional": false,
             "typeAnnotation": {
@@ -1394,6 +1416,7 @@
                         "end": 1055
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterableIterator",
                       "optional": false
                     },
@@ -1552,6 +1575,7 @@
               "end": 1160
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability6",
             "optional": false,
             "typeAnnotation": {
@@ -1587,6 +1611,7 @@
                         "end": 1181
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterable",
                       "optional": false
                     },
@@ -1688,6 +1713,7 @@
               "end": 1250
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability7",
             "optional": false,
             "typeAnnotation": {
@@ -1723,6 +1749,7 @@
                         "end": 1271
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterable",
                       "optional": false
                     },
@@ -1798,6 +1825,7 @@
                             "end": 1321
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Promise",
                           "optional": false
                         },
@@ -1863,6 +1891,7 @@
               "end": 1357
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability8",
             "optional": false,
             "typeAnnotation": {
@@ -1898,6 +1927,7 @@
                         "end": 1378
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterable",
                       "optional": false
                     },
@@ -2023,6 +2053,7 @@
               "end": 1453
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability9",
             "optional": false,
             "typeAnnotation": {
@@ -2058,6 +2089,7 @@
                         "end": 1474
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterable",
                       "optional": false
                     },
@@ -2142,6 +2174,7 @@
                                   "end": 1526
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "Promise",
                                 "optional": false
                               },
@@ -2210,6 +2243,7 @@
               "end": 1564
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability10",
             "optional": false,
             "typeAnnotation": {
@@ -2245,6 +2279,7 @@
                         "end": 1585
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterable",
                       "optional": false
                     },
@@ -2403,6 +2438,7 @@
               "end": 1691
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability11",
             "optional": false,
             "typeAnnotation": {
@@ -2438,6 +2474,7 @@
                         "end": 1712
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterator",
                       "optional": false
                     },
@@ -2539,6 +2576,7 @@
               "end": 1782
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability12",
             "optional": false,
             "typeAnnotation": {
@@ -2574,6 +2612,7 @@
                         "end": 1803
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterator",
                       "optional": false
                     },
@@ -2649,6 +2688,7 @@
                             "end": 1853
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Promise",
                           "optional": false
                         },
@@ -2714,6 +2754,7 @@
               "end": 1890
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability13",
             "optional": false,
             "typeAnnotation": {
@@ -2749,6 +2790,7 @@
                         "end": 1911
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterator",
                       "optional": false
                     },
@@ -2874,6 +2916,7 @@
               "end": 1987
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability14",
             "optional": false,
             "typeAnnotation": {
@@ -2909,6 +2952,7 @@
                         "end": 2008
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterator",
                       "optional": false
                     },
@@ -2993,6 +3037,7 @@
                                   "end": 2060
                                 },
                                 "ctxt": 0,
+                                "nodeId": 4294967295,
                                 "value": "Promise",
                                 "optional": false
                               },
@@ -3061,6 +3106,7 @@
               "end": 2098
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "assignability15",
             "optional": false,
             "typeAnnotation": {
@@ -3096,6 +3142,7 @@
                         "end": 2119
                       },
                       "ctxt": 0,
+                      "nodeId": 4294967295,
                       "value": "AsyncIterator",
                       "optional": false
                     },
@@ -3240,6 +3287,7 @@
           "end": 2240
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType1",
         "optional": false
       },
@@ -3307,6 +3355,7 @@
               "end": 2265
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterableIterator",
             "optional": false
           },
@@ -3339,6 +3388,7 @@
           "end": 2327
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType2",
         "optional": false
       },
@@ -3390,6 +3440,7 @@
                       "end": 2380
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Promise",
                     "optional": false
                   },
@@ -3445,6 +3496,7 @@
               "end": 2352
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterableIterator",
             "optional": false
           },
@@ -3477,6 +3529,7 @@
           "end": 2431
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType3",
         "optional": false
       },
@@ -3568,6 +3621,7 @@
               "end": 2456
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterableIterator",
             "optional": false
           },
@@ -3600,6 +3654,7 @@
           "end": 2524
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType4",
         "optional": false
       },
@@ -3660,6 +3715,7 @@
                             "end": 2579
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Promise",
                           "optional": false
                         },
@@ -3718,6 +3774,7 @@
               "end": 2549
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterableIterator",
             "optional": false
           },
@@ -3750,6 +3807,7 @@
           "end": 2631
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType5",
         "optional": false
       },
@@ -3874,6 +3932,7 @@
               "end": 2656
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterableIterator",
             "optional": false
           },
@@ -3906,6 +3965,7 @@
           "end": 2754
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType6",
         "optional": false
       },
@@ -3973,6 +4033,7 @@
               "end": 2771
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterable",
             "optional": false
           },
@@ -4005,6 +4066,7 @@
           "end": 2833
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType7",
         "optional": false
       },
@@ -4056,6 +4118,7 @@
                       "end": 2878
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Promise",
                     "optional": false
                   },
@@ -4111,6 +4174,7 @@
               "end": 2850
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterable",
             "optional": false
           },
@@ -4143,6 +4207,7 @@
           "end": 2929
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType8",
         "optional": false
       },
@@ -4234,6 +4299,7 @@
               "end": 2946
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterable",
             "optional": false
           },
@@ -4266,6 +4332,7 @@
           "end": 3014
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType9",
         "optional": false
       },
@@ -4326,6 +4393,7 @@
                             "end": 3061
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Promise",
                           "optional": false
                         },
@@ -4384,6 +4452,7 @@
               "end": 3031
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterable",
             "optional": false
           },
@@ -4416,6 +4485,7 @@
           "end": 3114
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType10",
         "optional": false
       },
@@ -4540,6 +4610,7 @@
               "end": 3131
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterable",
             "optional": false
           },
@@ -4572,6 +4643,7 @@
           "end": 3230
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType11",
         "optional": false
       },
@@ -4639,6 +4711,7 @@
               "end": 3247
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterator",
             "optional": false
           },
@@ -4671,6 +4744,7 @@
           "end": 3310
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType12",
         "optional": false
       },
@@ -4722,6 +4796,7 @@
                       "end": 3355
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "Promise",
                     "optional": false
                   },
@@ -4777,6 +4852,7 @@
               "end": 3327
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterator",
             "optional": false
           },
@@ -4809,6 +4885,7 @@
           "end": 3407
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType13",
         "optional": false
       },
@@ -4900,6 +4977,7 @@
               "end": 3424
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterator",
             "optional": false
           },
@@ -4932,6 +5010,7 @@
           "end": 3493
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType14",
         "optional": false
       },
@@ -4992,6 +5071,7 @@
                             "end": 3540
                           },
                           "ctxt": 0,
+                          "nodeId": 4294967295,
                           "value": "Promise",
                           "optional": false
                         },
@@ -5050,6 +5130,7 @@
               "end": 3510
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterator",
             "optional": false
           },
@@ -5082,6 +5163,7 @@
           "end": 3593
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType15",
         "optional": false
       },
@@ -5206,6 +5288,7 @@
               "end": 3610
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AsyncIterator",
             "optional": false
           },
@@ -5238,6 +5321,7 @@
           "end": 3709
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "explicitReturnType16",
         "optional": false
       },
@@ -5311,6 +5395,7 @@
           "end": 3762
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "awaitedType1",
         "optional": false
       },
@@ -5353,6 +5438,7 @@
                     "end": 3778
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": null
@@ -5393,6 +5479,7 @@
           "end": 3821
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "awaitedType2",
         "optional": false
       },
@@ -5435,6 +5522,7 @@
                     "end": 3837
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": null
@@ -5465,6 +5553,7 @@
                           "end": 3853
                         },
                         "ctxt": 0,
+                        "nodeId": 4294967295,
                         "value": "Promise",
                         "optional": false
                       },
@@ -5514,6 +5603,7 @@
           "end": 3894
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "nextType1",
         "optional": false
       },
@@ -5556,6 +5646,7 @@
                     "end": 3971
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "x",
                   "optional": false,
                   "typeAnnotation": null
@@ -5604,6 +5695,7 @@
                   "end": 3904
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "next",
                 "optional": false
               },
@@ -5627,6 +5719,7 @@
                       "end": 3912
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "args",
                     "optional": false,
                     "typeAnnotation": null
@@ -5694,6 +5787,7 @@
                                         "end": 3940
                                       },
                                       "ctxt": 0,
+                                      "nodeId": 4294967295,
                                       "value": "PromiseLike",
                                       "optional": false
                                     },

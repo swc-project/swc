@@ -28,6 +28,7 @@
               "end": 22
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false,
             "typeAnnotation": {
@@ -71,6 +72,7 @@
             "end": 30
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "f",
           "optional": false
         },
@@ -91,7 +93,8 @@
               },
               "tail": true,
               "cooked": "abc",
-              "raw": "abc"
+              "raw": "abc",
+              "loneSurrogates": false
             }
           ]
         }
@@ -117,6 +120,7 @@
             "end": 39
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "f",
           "optional": false
         },
@@ -156,7 +160,8 @@
               },
               "tail": false,
               "cooked": "abc",
-              "raw": "abc"
+              "raw": "abc",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -166,7 +171,8 @@
               },
               "tail": false,
               "cooked": "def",
-              "raw": "def"
+              "raw": "def",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -176,7 +182,8 @@
               },
               "tail": true,
               "cooked": "ghi",
-              "raw": "ghi"
+              "raw": "ghi",
+              "loneSurrogates": false
             }
           ]
         }
@@ -214,6 +221,7 @@
                 "end": 63
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "f",
               "optional": false
             },
@@ -252,7 +260,8 @@
               },
               "tail": true,
               "cooked": "abc",
-              "raw": "abc"
+              "raw": "abc",
+              "loneSurrogates": false
             }
           ]
         }
@@ -290,6 +299,7 @@
                 "end": 76
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "f",
               "optional": false
             },
@@ -347,7 +357,8 @@
               },
               "tail": false,
               "cooked": "abc",
-              "raw": "abc"
+              "raw": "abc",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -357,7 +368,8 @@
               },
               "tail": false,
               "cooked": "def",
-              "raw": "def"
+              "raw": "def",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -367,7 +379,8 @@
               },
               "tail": true,
               "cooked": "ghi",
-              "raw": "ghi"
+              "raw": "ghi",
+              "loneSurrogates": false
             }
           ]
         }
@@ -399,6 +412,7 @@
               "end": 104
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false
           },
@@ -419,7 +433,8 @@
                 },
                 "tail": true,
                 "cooked": "abc",
-                "raw": "abc"
+                "raw": "abc",
+                "loneSurrogates": false
               }
             ]
           }
@@ -460,6 +475,7 @@
               "end": 120
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false
           },
@@ -499,7 +515,8 @@
                 },
                 "tail": false,
                 "cooked": "abc",
-                "raw": "abc"
+                "raw": "abc",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -509,7 +526,8 @@
                 },
                 "tail": false,
                 "cooked": "def",
-                "raw": "def"
+                "raw": "def",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -519,7 +537,8 @@
                 },
                 "tail": true,
                 "cooked": "ghi",
-                "raw": "ghi"
+                "raw": "ghi",
+                "loneSurrogates": false
               }
             ]
           }
@@ -560,6 +579,7 @@
               "end": 151
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false
           },
@@ -580,7 +600,8 @@
                 },
                 "tail": true,
                 "cooked": "abc",
-                "raw": "abc"
+                "raw": "abc",
+                "loneSurrogates": false
               }
             ]
           }
@@ -598,7 +619,8 @@
               "end": 166
             },
             "value": "member",
-            "raw": "\"member\""
+            "raw": "\"member\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -629,6 +651,7 @@
               "end": 171
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false
           },
@@ -668,7 +691,8 @@
                 },
                 "tail": false,
                 "cooked": "abc",
-                "raw": "abc"
+                "raw": "abc",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -678,7 +702,8 @@
                 },
                 "tail": false,
                 "cooked": "def",
-                "raw": "def"
+                "raw": "def",
+                "loneSurrogates": false
               },
               {
                 "type": "TemplateElement",
@@ -688,7 +713,8 @@
                 },
                 "tail": true,
                 "cooked": "ghi",
-                "raw": "ghi"
+                "raw": "ghi",
+                "loneSurrogates": false
               }
             ]
           }
@@ -706,7 +732,8 @@
               "end": 200
             },
             "value": "member",
-            "raw": "\"member\""
+            "raw": "\"member\"",
+            "loneSurrogates": false
           }
         }
       }
@@ -750,6 +777,7 @@
                   "end": 205
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "f",
                 "optional": false
               },
@@ -770,7 +798,8 @@
                     },
                     "tail": true,
                     "cooked": "abc",
-                    "raw": "abc"
+                    "raw": "abc",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -788,7 +817,8 @@
                   "end": 220
                 },
                 "value": "member",
-                "raw": "\"member\""
+                "raw": "\"member\"",
+                "loneSurrogates": false
               }
             }
           },
@@ -837,7 +867,8 @@
               },
               "tail": false,
               "cooked": "abc",
-              "raw": "abc"
+              "raw": "abc",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -847,7 +878,8 @@
               },
               "tail": false,
               "cooked": "def",
-              "raw": "def"
+              "raw": "def",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -857,7 +889,8 @@
               },
               "tail": true,
               "cooked": "ghi",
-              "raw": "ghi"
+              "raw": "ghi",
+              "loneSurrogates": false
             }
           ]
         }
@@ -902,6 +935,7 @@
                   "end": 258
                 },
                 "ctxt": 0,
+                "nodeId": 4294967295,
                 "value": "f",
                 "optional": false
               },
@@ -941,7 +975,8 @@
                     },
                     "tail": false,
                     "cooked": "abc",
-                    "raw": "abc"
+                    "raw": "abc",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -951,7 +986,8 @@
                     },
                     "tail": false,
                     "cooked": "def",
-                    "raw": "def"
+                    "raw": "def",
+                    "loneSurrogates": false
                   },
                   {
                     "type": "TemplateElement",
@@ -961,7 +997,8 @@
                     },
                     "tail": true,
                     "cooked": "ghi",
-                    "raw": "ghi"
+                    "raw": "ghi",
+                    "loneSurrogates": false
                   }
                 ]
               }
@@ -979,7 +1016,8 @@
                   "end": 287
                 },
                 "value": "member",
-                "raw": "\"member\""
+                "raw": "\"member\"",
+                "loneSurrogates": false
               }
             }
           },
@@ -1028,7 +1066,8 @@
               },
               "tail": false,
               "cooked": "abc",
-              "raw": "abc"
+              "raw": "abc",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -1038,7 +1077,8 @@
               },
               "tail": false,
               "cooked": "def",
-              "raw": "def"
+              "raw": "def",
+              "loneSurrogates": false
             },
             {
               "type": "TemplateElement",
@@ -1048,7 +1088,8 @@
               },
               "tail": true,
               "cooked": "ghi",
-              "raw": "ghi"
+              "raw": "ghi",
+              "loneSurrogates": false
             }
           ]
         }
@@ -1080,6 +1121,7 @@
               "end": 325
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false
           },
@@ -1111,7 +1153,8 @@
                   },
                   "tail": true,
                   "cooked": "abc",
-                  "raw": "abc"
+                  "raw": "abc",
+                  "loneSurrogates": false
                 }
               ]
             }
@@ -1146,6 +1189,7 @@
               "end": 350
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "f",
             "optional": false
           },
@@ -1196,7 +1240,8 @@
                   },
                   "tail": false,
                   "cooked": "abc",
-                  "raw": "abc"
+                  "raw": "abc",
+                  "loneSurrogates": false
                 },
                 {
                   "type": "TemplateElement",
@@ -1206,7 +1251,8 @@
                   },
                   "tail": false,
                   "cooked": "def",
-                  "raw": "def"
+                  "raw": "def",
+                  "loneSurrogates": false
                 },
                 {
                   "type": "TemplateElement",
@@ -1216,7 +1262,8 @@
                   },
                   "tail": true,
                   "cooked": "ghi",
-                  "raw": "ghi"
+                  "raw": "ghi",
+                  "loneSurrogates": false
                 }
               ]
             }

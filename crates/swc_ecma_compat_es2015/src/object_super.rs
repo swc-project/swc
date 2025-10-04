@@ -194,6 +194,7 @@ impl SuperReplacer {
                 sym: value, span, ..
             }) => Lit::Str(Str {
                 raw: None,
+                lone_surrogates: false,
                 value,
                 span,
             })

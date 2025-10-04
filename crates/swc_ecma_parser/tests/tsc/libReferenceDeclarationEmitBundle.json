@@ -34,6 +34,7 @@
                 "end": 189
               },
               "ctxt": 0,
+              "nodeId": 4294967295,
               "value": "elem",
               "optional": false,
               "typeAnnotation": {
@@ -55,6 +56,7 @@
                       "end": 202
                     },
                     "ctxt": 0,
+                    "nodeId": 4294967295,
                     "value": "HTMLElement",
                     "optional": false
                   },
@@ -102,6 +104,7 @@
               "end": 300
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "elem",
             "optional": false,
             "typeAnnotation": {
@@ -123,6 +126,7 @@
                     "end": 313
                   },
                   "ctxt": 0,
+                  "nodeId": 4294967295,
                   "value": "HTMLElement",
                   "optional": false
                 },

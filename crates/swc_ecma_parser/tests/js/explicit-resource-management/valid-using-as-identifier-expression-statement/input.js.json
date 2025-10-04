@@ -18,6 +18,7 @@
           "end": 6
         },
         "ctxt": 0,
+        "nodeId": 4294967295,
         "value": "using",
         "optional": false
       }
@@ -42,6 +43,7 @@
             "end": 13
           },
           "ctxt": 0,
+          "nodeId": 4294967295,
           "value": "reader",
           "optional": false,
           "typeAnnotation": null
@@ -60,6 +62,7 @@
               "end": 25
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "getReader",
             "optional": false
           },

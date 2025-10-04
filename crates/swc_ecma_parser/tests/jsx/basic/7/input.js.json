@@ -26,6 +26,7 @@
               "end": 9
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AbC-def",
             "optional": false
           },
@@ -55,7 +56,8 @@
                   "end": 32
                 },
                 "value": "&&",
-                "raw": "\"&#x0026;&#38;\""
+                "raw": "\"&#x0026;&#38;\"",
+                "loneSurrogates": false
               }
             }
           ],
@@ -86,6 +88,7 @@
               "end": 51
             },
             "ctxt": 0,
+            "nodeId": 4294967295,
             "value": "AbC-def",
             "optional": false
           }

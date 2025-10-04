@@ -125,7 +125,7 @@ impl_struct!(
 );
 impl_struct!(Decorator, [span, expr]);
 
-impl_struct!(TplElement, [span, tail, cooked, raw]);
+impl_struct!(TplElement, [span, tail, cooked, raw, lone_surrogates]);
 
 impl_struct!(
     JSXOpeningElement,
@@ -145,7 +145,7 @@ impl_struct!(JSXAttr, [span, name, value]);
 
 impl_enum!(
     JSXAttrValue,
-    [Lit, JSXExprContainer, JSXElement, JSXFragment]
+    [Str, JSXExprContainer, JSXElement, JSXFragment]
 );
 
 impl_enum!(JSXAttrName, [Ident, JSXNamespacedName]);
