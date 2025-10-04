@@ -30,8 +30,13 @@ function removeRecursive(dir: string): void {
  */
 const validateBinary = async () => {
     try {
+        if (!process.env.INIT_CWD) {
+            // If INIT_CWD is not set, we can't determine the package name, so skip the check
+            // This can happen with some package managers or in certain environments
+            return;
+        }
         const { name } = require(path.resolve(
-            process.env.INIT_CWD!,
+            process.env.INIT_CWD,
             "package.json"
         ));
         if (name === "@swc/core" || name === "@swc/workspace") {
@@ -118,9 +123,12 @@ const validateBinary = async () => {
             `@swc/wasm`
         );
         // INIT_CWD is injected via npm. If it doesn't exists, can't proceed.
+        if (!process.env.INIT_CWD) {
+            throw new Error("INIT_CWD environment variable is not set. This is required for the fallback wasm installation to work properly.");
+        }
         fs.renameSync(
             installedBinPath,
-            path.resolve(process.env.INIT_CWD!, "node_modules", `@swc/wasm`)
+            path.resolve(process.env.INIT_CWD, "node_modules", `@swc/wasm`)
         );
     } catch (error) {
         console.error(error);
