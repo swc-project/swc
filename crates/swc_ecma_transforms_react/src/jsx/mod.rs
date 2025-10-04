@@ -289,19 +289,6 @@ pub struct JsxDirectives {
     pub pragma_frag: Option<Lrc<Box<Expr>>>,
 }
 
-fn respan(e: &mut Expr, span: Span) {
-    match e {
-        Expr::Ident(i) => {
-            i.span.lo = span.lo;
-            i.span.hi = span.hi;
-        }
-        Expr::Member(e) => {
-            e.span = span;
-        }
-        _ => {}
-    }
-}
-
 impl JsxDirectives {
     pub fn from_comments(
         cm: &SourceMap,
@@ -368,7 +355,7 @@ impl JsxDirectives {
                                         cache_source(src),
                                         top_level_mark,
                                     );
-                                    respan(&mut e, cmt.span);
+                                    e.set_span(cmt.span);
                                     res.pragma_frag = Some(e.into())
                                 }
                             }
@@ -383,7 +370,7 @@ impl JsxDirectives {
                                         cache_source(src),
                                         top_level_mark,
                                     );
-                                    respan(&mut e, cmt.span);
+                                    e.set_span(cmt.span);
                                     res.pragma = Some(e.into());
                                 }
                             }
