@@ -385,6 +385,7 @@ pub struct CompressOptions {
 
     #[cfg_attr(feature = "extra-serde", serde(default))]
     pub experimental: CompressExperimentalOptions,
+
 }
 
 impl CompressOptions {
