@@ -342,6 +342,11 @@ fn reparse_expr_as_pat_inner<'a>(
             .into())
         }
 
+        // TypeScript non-null assertion - delegate to inner expression
+        Expr::TsNonNull(TsNonNullExpr { expr, .. }) => {
+            reparse_expr_as_pat_inner(p, pat_ty, expr)
+        }
+
         // Invalid patterns.
         // Note that assignment expression with '=' is valid, and handled above.
         Expr::Lit(..) | Expr::Assign(..) => {
