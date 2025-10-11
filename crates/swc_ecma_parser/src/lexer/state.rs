@@ -3,28 +3,17 @@ use std::mem::take;
 use swc_atoms::wtf8::CodePoint;
 use swc_common::BytePos;
 use swc_ecma_ast::EsVersion;
-use swc_ecma_lexer::{
-    common::{
-        lexer::{
-            char::CharExt,
-            comments_buffer::{BufferedCommentKind, CommentsBufferTrait},
-            state::State as StateTrait,
-            LexResult,
-        },
-        syntax::SyntaxFlags,
-    },
-    error::SyntaxError,
-    TokenContexts,
-};
 
-use super::{Context, Input, Lexer, LexerTrait};
+use super::{Context, Input, Lexer};
 use crate::{
-    error::Error,
+    error::{Error, SyntaxError},
     input::Tokens,
     lexer::{
-        comments_buffer::CommentsBufferCheckpoint,
+        comments_buffer::{BufferedCommentKind, CommentsBufferCheckpoint},
         token::{Token, TokenAndSpan, TokenValue},
+        LexResult,
     },
+    syntax::SyntaxFlags,
 };
 
 bitflags::bitflags! {
@@ -60,11 +49,9 @@ pub struct LexerCheckpoint {
     input_last_pos: BytePos,
 }
 
-impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
-    type Checkpoint = LexerCheckpoint;
-
-    fn checkpoint_save(&self) -> Self::Checkpoint {
-        Self::Checkpoint {
+impl<'a> Lexer<'a> {
+    fn checkpoint_save(&self) -> LexerCheckpoint {
+        LexerCheckpoint {
             state: self.state.clone(),
             ctx: self.ctx,
             input_last_pos: self.input.last_pos(),
@@ -76,7 +63,7 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
         }
     }
 
-    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+    fn checkpoint_load(&mut self, checkpoint: LexerCheckpoint) {
         self.state = checkpoint.state;
         self.ctx = checkpoint.ctx;
         unsafe { self.input.reset_to(checkpoint.input_last_pos) };
@@ -126,21 +113,6 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
         self.state.next_regexp = start;
     }
 
-    #[inline]
-    fn token_context(&self) -> &TokenContexts {
-        unreachable!();
-    }
-
-    #[inline]
-    fn token_context_mut(&mut self) -> &mut TokenContexts {
-        unreachable!();
-    }
-
-    #[inline]
-    fn set_token_context(&mut self, _: TokenContexts) {
-        unreachable!();
-    }
-
     fn add_error(&mut self, error: Error) {
         self.errors.push(error);
     }
@@ -169,12 +141,12 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline]
-    fn update_token_flags(&mut self, f: impl FnOnce(&mut swc_ecma_lexer::lexer::TokenFlags)) {
+    fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags)) {
         f(&mut self.token_flags)
     }
 
     #[inline]
-    fn token_flags(&self) -> swc_ecma_lexer::lexer::TokenFlags {
+    fn token_flags(&self) -> TokenFlags {
         self.token_flags
     }
 }
@@ -573,7 +545,7 @@ impl Lexer<'_> {
                 } else {
                     self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
                 }
-                self.token_flags |= swc_ecma_lexer::lexer::TokenFlags::UNICODE;
+                self.token_flags |= TokenFlags::UNICODE;
             } else {
                 break;
             }
@@ -636,10 +608,7 @@ impl State {
     }
 }
 
-impl swc_ecma_lexer::common::lexer::state::State for State {
-    type TokenKind = Token;
-    type TokenType = Token;
-
+impl State {
     #[inline(always)]
     fn is_expr_allowed(&self) -> bool {
         unreachable!("is_expr_allowed should not be called in Parser/State")
@@ -668,16 +637,6 @@ impl swc_ecma_lexer::common::lexer::state::State for State {
     #[inline(always)]
     fn had_line_break_before_last(&self) -> bool {
         self.had_line_break_before_last
-    }
-
-    #[inline(always)]
-    fn token_contexts(&self) -> &swc_ecma_lexer::TokenContexts {
-        unreachable!();
-    }
-
-    #[inline(always)]
-    fn mut_token_contexts(&mut self) -> &mut swc_ecma_lexer::TokenContexts {
-        unreachable!();
     }
 
     #[inline(always)]
