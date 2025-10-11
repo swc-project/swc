@@ -5732,6 +5732,7 @@ dependencies = [
 name = "swc_ecma_parser"
 version = "25.0.0"
 dependencies = [
+ "bitflags 2.6.0",
  "codspeed-criterion-compat",
  "either",
  "num-bigint",
@@ -5742,7 +5743,6 @@ dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
- "swc_ecma_lexer",
  "swc_ecma_visit",
  "swc_malloc",
  "testing",
