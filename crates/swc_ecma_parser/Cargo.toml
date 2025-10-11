@@ -26,16 +26,16 @@ default       = ["typescript"]
 tracing-spans = []
 typescript    = []
 unstable      = []
-verify        = ["swc_ecma_visit", "swc_ecma_lexer/verify"]
+verify        = ["swc_ecma_visit"]
 
 [dependencies]
+bitflags       = { workspace = true }
 either         = { workspace = true }
 num-bigint     = { workspace = true }
 serde          = { workspace = true, features = ["derive"] }
 swc_atoms      = { version = "7.0.0", path = "../swc_atoms" }
 swc_common     = { version = "15.0.0", path = "../swc_common" }
 swc_ecma_ast   = { version = "16.0.0", path = "../swc_ecma_ast" }
-swc_ecma_lexer = { version = "24.0.1", path = "../swc_ecma_lexer" }
 swc_ecma_visit = { version = "16.0.0", path = "../swc_ecma_visit", optional = true }
 tracing        = { workspace = true }
 
