@@ -30,6 +30,7 @@ mod state;
 mod table;
 pub(crate) mod token;
 
+pub(crate) use state::TokenContext;
 pub(crate) use token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
 
 pub type LexResult<T> = Result<T, crate::error::Error>;

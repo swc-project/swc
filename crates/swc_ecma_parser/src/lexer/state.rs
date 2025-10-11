@@ -664,3 +664,46 @@ impl State {
         self.start
     }
 }
+
+/// The algorithm used to determine whether a regexp can appear at a
+/// given point in the program is loosely based on sweet.js' approach.
+/// See https://github.com/mozilla/sweet.js/wiki/design
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum TokenContext {
+    BraceStmt,
+    BraceExpr,
+    TplQuasi,
+    ParenStmt {
+        /// Is this `for` loop?
+        is_for_loop: bool,
+    },
+    ParenExpr,
+    Tpl,
+    FnExpr,
+    ClassExpr,
+    JSXOpeningTag,
+    JSXClosingTag,
+    JSXExpr,
+}
+
+impl TokenContext {
+    pub const fn is_expr(&self) -> bool {
+        matches!(
+            self,
+            Self::BraceExpr
+                | Self::TplQuasi
+                | Self::ParenExpr
+                | Self::Tpl
+                | Self::FnExpr
+                | Self::ClassExpr
+                | Self::JSXExpr
+        )
+    }
+
+    pub const fn preserve_space(&self) -> bool {
+        match self {
+            Self::Tpl | Self::JSXExpr => true,
+            _ => false,
+        }
+    }
+}
