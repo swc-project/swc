@@ -17,7 +17,7 @@ use self::table::{ByteHandler, BYTE_HANDLERS};
 use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
-    lexer::{comments_buffer::CommentsBuffer, state::TokenFlags},
+    lexer::{comments_buffer::CommentsBuffer, state::State},
     syntax::SyntaxFlags,
     Context, Syntax,
 };
@@ -30,7 +30,7 @@ mod state;
 mod table;
 pub(crate) mod token;
 
-pub(crate) use state::TokenContext;
+pub(crate) use state::{TokenContext, TokenFlags};
 pub(crate) use token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
 
 pub type LexResult<T> = Result<T, crate::error::Error>;
@@ -45,7 +45,7 @@ pub struct Lexer<'a> {
     input: StringInput<'a>,
     start_pos: BytePos,
 
-    state: self::state::State,
+    state: State,
     token_flags: TokenFlags,
     pub(crate) syntax: SyntaxFlags,
     pub(crate) target: EsVersion,
@@ -59,10 +59,6 @@ pub struct Lexer<'a> {
 impl FusedIterator for Lexer<'_> {}
 
 impl<'a> Lexer<'a> {
-    // type CommentsBuffer = CommentsBuffer;
-    // type State = self::state::State;
-    // type Token = self::Token;
-
     #[inline(always)]
     fn input(&self) -> &StringInput<'a> {
         &self.input
@@ -79,12 +75,12 @@ impl<'a> Lexer<'a> {
     }
 
     #[inline(always)]
-    fn state(&self) -> &Self::State {
+    fn state(&self) -> &State {
         &self.state
     }
 
     #[inline(always)]
-    fn state_mut(&mut self) -> &mut Self::State {
+    fn state_mut(&mut self) -> &mut State {
         &mut self.state
     }
 
@@ -94,12 +90,12 @@ impl<'a> Lexer<'a> {
     }
 
     #[inline(always)]
-    fn comments_buffer(&self) -> Option<&Self::CommentsBuffer> {
+    fn comments_buffer(&self) -> Option<&CommentsBuffer> {
         self.comments_buffer.as_ref()
     }
 
     #[inline(always)]
-    fn comments_buffer_mut(&mut self) -> Option<&mut Self::CommentsBuffer> {
+    fn comments_buffer_mut(&mut self) -> Option<&mut CommentsBuffer> {
         self.comments_buffer.as_mut()
     }
 
@@ -139,7 +135,7 @@ impl<'a> Lexer<'a> {
             ctx: Default::default(),
             input,
             start_pos,
-            state: self::state::State::new(start_pos),
+            state: State::new(start_pos),
             syntax: syntax.into_flags(),
             target,
             errors: Default::default(),

@@ -1,15 +1,60 @@
 use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{BytePos, Span};
-use swc_ecma_lexer::common::{
-    lexer::{token::TokenFactory, LexResult},
-    parser::{buffer::Buffer as BufferTrait, token_and_span::TokenAndSpan as TokenAndSpanTrait},
-};
+use swc_ecma_ast::EsVersion;
 
-use crate::lexer::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
+use crate::{
+    error::Error,
+    lexer::{LexResult, NextTokenAndSpan, Token, TokenAndSpan, TokenFlags, TokenValue},
+    syntax::SyntaxFlags,
+    Context,
+};
 
 /// Clone should be cheap if you are parsing typescript because typescript
 /// syntax requires backtracking.
-pub trait Tokens: swc_ecma_lexer::common::input::Tokens<TokenAndSpan> {
+pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
+    type Checkpoint;
+
+    fn set_ctx(&mut self, ctx: Context);
+    fn ctx(&self) -> Context;
+    fn ctx_mut(&mut self) -> &mut Context;
+    fn syntax(&self) -> SyntaxFlags;
+    fn target(&self) -> EsVersion;
+
+    fn checkpoint_save(&self) -> Self::Checkpoint;
+    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint);
+
+    fn start_pos(&self) -> BytePos {
+        BytePos(0)
+    }
+
+    fn set_expr_allowed(&mut self, allow: bool);
+    fn set_next_regexp(&mut self, start: Option<BytePos>);
+
+    /// Implementors should use Rc<RefCell<Vec<Error>>>.
+    ///
+    /// It is required because parser should backtrack while parsing typescript
+    /// code.
+    fn add_error(&mut self, error: Error);
+
+    /// Add an error which is valid syntax in script mode.
+    ///
+    /// This errors should be dropped if it's not a module.
+    ///
+    /// Implementor should check for if [Context].module, and buffer errors if
+    /// module is false. Also, implementors should move errors to the error
+    /// buffer on set_ctx if the parser mode become module mode.
+    fn add_module_mode_error(&mut self, error: Error);
+
+    fn end_pos(&self) -> BytePos;
+
+    fn take_errors(&mut self) -> Vec<Error>;
+
+    /// If the program was parsed as a script, this contains the module
+    /// errors should the program be identified as a module in the future.
+    fn take_script_module_errors(&mut self) -> Vec<Error>;
+    fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags));
+    fn token_flags(&self) -> TokenFlags;
+
     fn clone_token_value(&self) -> Option<TokenValue>;
     fn take_token_value(&mut self) -> Option<TokenValue>;
     fn get_token_value(&self) -> Option<&TokenValue>;
@@ -91,7 +136,7 @@ impl<I: Tokens> Buffer<I> {
         (cooked, raw)
     }
 
-    pub fn expect_error_token_value(&mut self) -> swc_ecma_lexer::error::Error {
+    pub fn expect_error_token_value(&mut self) -> Error {
         let Some(crate::lexer::TokenValue::Error(error)) = self.iter.take_token_value() else {
             unreachable!()
         };
@@ -153,12 +198,7 @@ impl<I: Tokens> Buffer<I> {
     }
 }
 
-impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffer<I> {
-    type I = I;
-    type Next = NextTokenAndSpan;
-    type Token = super::super::lexer::Token;
-    type TokenAndSpan = TokenAndSpan;
-
+impl<I: Tokens> Buffer<I> {
     fn new(lexer: I) -> Self {
         let start_pos = lexer.start_pos();
         let prev_span = Span::new_with_checked(start_pos, start_pos);
@@ -176,17 +216,17 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffe
     }
 
     #[inline(always)]
-    fn next(&self) -> Option<&Self::Next> {
+    fn next(&self) -> Option<&NextTokenAndSpan> {
         self.next.as_ref()
     }
 
     #[inline(always)]
-    fn set_next(&mut self, token: Option<Self::Next>) {
+    fn set_next(&mut self, token: Option<NextTokenAndSpan>) {
         self.next = token;
     }
 
     #[inline(always)]
-    fn next_mut(&mut self) -> &mut Option<Self::Next> {
+    fn next_mut(&mut self) -> &mut Option<NextTokenAndSpan> {
         &mut self.next
     }
 
@@ -315,7 +355,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffe
         ret
     }
 
-    fn expect_error_token_and_bump(&mut self) -> swc_ecma_lexer::error::Error {
+    fn expect_error_token_and_bump(&mut self) -> Error {
         let cur = *self.cur();
         let ret = cur.take_error(self);
         self.bump();
