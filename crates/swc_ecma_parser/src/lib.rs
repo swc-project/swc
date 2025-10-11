@@ -150,20 +150,20 @@ pub mod unstable {
     };
 }
 
+mod context;
+pub mod error;
 pub mod lexer;
 mod parser;
 
+pub use context::Context;
 pub use lexer::Lexer;
 pub use swc_common::input::{Input, StringInput};
 use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
 use swc_ecma_ast::*;
 use swc_ecma_lexer::{common::parser::Parser as ParserTrait, error::Error};
 pub use swc_ecma_lexer::{
-    common::{
-        context::Context,
-        syntax::{EsSyntax, Syntax, TsSyntax},
-    },
-    error, token,
+    common::syntax::{EsSyntax, Syntax, TsSyntax},
+    token,
 };
 
 pub use self::parser::*;
