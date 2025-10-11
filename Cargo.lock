@@ -5739,6 +5739,7 @@ dependencies = [
  "num-bigint",
  "pathdiff",
  "pretty_assertions",
+ "rustc-hash 2.1.1",
  "serde",
  "serde_json",
  "swc_atoms",

@@ -1,14 +1,13 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
-use swc_common::{comments::Comments, input::StringInput, Span};
+use rustc_hash::FxHashMap;
+use swc_atoms::Atom;
+use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::*;
-use swc_ecma_lexer::common::parser::{
-    buffer::Buffer as BufferTrait, expr::parse_lhs_expr, module_item::parse_module_item_block_body,
-    parse_shebang, stmt::parse_stmt_block_body, Parser as ParserTrait,
-};
 
 use crate::{
+    input::Buffer,
     lexer::{Token, TokenAndSpan},
     parser::input::Tokens,
     Context, Syntax,
@@ -34,7 +33,7 @@ mod tpl;
 #[cfg(feature = "typescript")]
 mod typescript;
 
-pub use swc_ecma_lexer::common::parser::PResult;
+pub type PResult<T> = Result<T, crate::error::Error>;
 
 pub struct ParserCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
@@ -46,41 +45,50 @@ pub struct ParserCheckpoint<I: Tokens> {
 /// EcmaScript parser.
 #[derive(Clone)]
 pub struct Parser<I: self::input::Tokens> {
-    state: swc_ecma_lexer::common::parser::state::State,
+    state: State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
 }
 
-impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
-    type Buffer = self::input::Buffer<I>;
-    type Checkpoint = ParserCheckpoint<I>;
-    type I = I;
-    type Next = crate::lexer::NextTokenAndSpan;
-    type Token = Token;
-    type TokenAndSpan = TokenAndSpan;
+#[derive(Clone, Default)]
+struct State {
+    pub labels: Vec<Atom>,
+    /// Start position of an assignment expression.
+    pub potential_arrow_start: Option<BytePos>,
+    /// Start position of an AST node and the span of its trailing comma.
+    pub trailing_commas: FxHashMap<BytePos, Span>,
+}
+
+impl<I: Tokens> Parser<I> {
+    // type Buffer = self::input::Buffer<I>;
+    // type Checkpoint = ParserCheckpoint<I>;
+    // type I = I;
+    // type Next = crate::lexer::NextTokenAndSpan;
+    // type Token = Token;
+    // type TokenAndSpan = TokenAndSpan;
 
     #[inline(always)]
-    fn input(&self) -> &Self::Buffer {
+    fn input(&self) -> &Buffer<I> {
         &self.input
     }
 
     #[inline(always)]
-    fn input_mut(&mut self) -> &mut Self::Buffer {
+    fn input_mut(&mut self) -> &mut Buffer<I> {
         &mut self.input
     }
 
     #[inline(always)]
-    fn state(&self) -> &swc_ecma_lexer::common::parser::state::State {
+    fn state(&self) -> &State {
         &self.state
     }
 
     #[inline(always)]
-    fn state_mut(&mut self) -> &mut swc_ecma_lexer::common::parser::state::State {
+    fn state_mut(&mut self) -> &mut State {
         &mut self.state
     }
 
-    fn checkpoint_save(&self) -> Self::Checkpoint {
-        Self::Checkpoint {
+    fn checkpoint_save(&self) -> ParserCheckpoint<I> {
+        ParserCheckpoint {
             lexer: self.input.iter.checkpoint_save(),
             buffer_cur: self.input.cur,
             buffer_next: self.input.next.clone(),
@@ -88,7 +96,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
         }
     }
 
-    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+    fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.iter.checkpoint_load(checkpoint.lexer);
         self.input.cur = checkpoint.buffer_cur;
         self.input.next = checkpoint.buffer_next;
@@ -101,56 +109,12 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     }
 
     #[inline(always)]
-    fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
-        self.parse_unary_expr()
-    }
-
-    #[inline(always)]
-    fn parse_jsx_element(
-        &mut self,
-        in_expr_context: bool,
-    ) -> PResult<either::Either<JSXFragment, JSXElement>> {
-        self.parse_jsx_element(in_expr_context)
-    }
-
-    #[inline(always)]
-    fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
-        self.parse_primary_expr()
-    }
-
-    #[inline(always)]
     fn ts_in_no_context<T>(&mut self, op: impl FnOnce(&mut Self) -> PResult<T>) -> PResult<T> {
         debug_assert!(self.input().syntax().typescript());
         trace_cur!(self, ts_in_no_context__before);
         let res = op(self);
         trace_cur!(self, ts_in_no_context__after);
         res
-    }
-
-    #[inline(always)]
-    fn parse_tagged_tpl(
-        &mut self,
-        tag: Box<Expr>,
-        type_params: Option<Box<TsTypeParamInstantiation>>,
-    ) -> PResult<TaggedTpl> {
-        self.parse_tagged_tpl(tag, type_params)
-    }
-
-    #[inline(always)]
-    fn parse_tagged_tpl_ty(&mut self) -> PResult<TsLitType> {
-        let start = self.cur_pos();
-        self.parse_tagged_tpl_ty().map(|tpl_ty| {
-            let lit = TsLit::Tpl(tpl_ty);
-            TsLitType {
-                span: self.span(start),
-                lit,
-            }
-        })
-    }
-
-    #[inline(always)]
-    fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
-        parse_lhs_expr::<Self, false>(self)
     }
 }
 
@@ -193,9 +157,9 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.cur_pos();
 
-        let shebang = parse_shebang(self)?;
+        let shebang = self.parse_shebang()?;
 
-        let ret = parse_stmt_block_body(self, true, None).map(|body| Script {
+        let ret = self.parse_stmt_block_body(true, None).map(|body| Script {
             span: self.span(start),
             body,
             shebang,
@@ -217,9 +181,9 @@ impl<I: Tokens> Parser<I> {
         self.set_ctx(ctx);
 
         let start = self.cur_pos();
-        let shebang = parse_shebang(self)?;
+        let shebang = self.parse_shebang()?;
 
-        let ret = parse_stmt_block_body(self, true, None).map(|body| Script {
+        let ret = self.parse_stmt_block_body(true, None).map(|body| Script {
             span: self.span(start),
             body,
             shebang,
@@ -242,13 +206,15 @@ impl<I: Tokens> Parser<I> {
         self.set_ctx(ctx);
 
         let start = self.cur_pos();
-        let shebang = parse_shebang(self)?;
+        let shebang = self.parse_shebang()?;
 
-        let ret = parse_module_item_block_body(self, true, None).map(|body| Module {
-            span: self.span(start),
-            body,
-            shebang,
-        })?;
+        let ret = self
+            .parse_module_item_block_body(true, None)
+            .map(|body| Module {
+                span: self.span(start),
+                body,
+                shebang,
+            })?;
 
         debug_assert!(self.input().cur() == &Token::Eof);
         self.input_mut().bump();
@@ -263,11 +229,11 @@ impl<I: Tokens> Parser<I> {
     /// not be reported even if the method returns [Module].
     pub fn parse_program(&mut self) -> PResult<Program> {
         let start = self.cur_pos();
-        let shebang = parse_shebang(self)?;
+        let shebang = self.parse_shebang()?;
 
         let body: Vec<ModuleItem> = self
             .do_inside_of_context(Context::CanBeModule.union(Context::TopLevel), |p| {
-                parse_module_item_block_body(p, true, None)
+                p.parse_module_item_block_body(true, None)
             })?;
         let has_module_item = self.found_module_item
             || body
@@ -322,13 +288,15 @@ impl<I: Tokens> Parser<I> {
         self.set_ctx(ctx);
 
         let start = self.cur_pos();
-        let shebang = parse_shebang(self)?;
+        let shebang = self.parse_shebang()?;
 
-        let ret = parse_module_item_block_body(self, true, None).map(|body| Module {
-            span: self.span(start),
-            body,
-            shebang,
-        })?;
+        let ret = self
+            .parse_module_item_block_body(true, None)
+            .map(|body| Module {
+                span: self.span(start),
+                body,
+                shebang,
+            })?;
 
         debug_assert!(self.input().cur() == &Token::Eof);
         self.input_mut().bump();

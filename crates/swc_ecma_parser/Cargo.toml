@@ -33,6 +33,7 @@ arrayvec       = { workspace = true }
 bitflags       = { workspace = true }
 either         = { workspace = true }
 num-bigint     = { workspace = true }
+rustc-hash     = { workspace = true }
 serde          = { workspace = true, features = ["derive"] }
 swc_atoms      = { version = "7.0.0", path = "../swc_atoms" }
 swc_common     = { version = "15.0.0", path = "../swc_common" }
