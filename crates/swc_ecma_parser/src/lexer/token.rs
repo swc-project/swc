@@ -2,10 +2,9 @@ use num_bigint::BigInt;
 use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::Span;
 use swc_ecma_ast::AssignOp;
-use swc_ecma_lexer::common::context::Context;
 
 use super::LexResult;
-use crate::input::Tokens;
+use crate::{error::Error, input::Tokens, Context};
 
 #[derive(Debug, Clone)]
 pub enum TokenValue {
@@ -33,7 +32,7 @@ pub enum TokenValue {
         value: Box<num_bigint::BigInt>,
         raw: Atom,
     },
-    Error(swc_ecma_lexer::error::Error),
+    Error(crate::error::Error),
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -286,7 +285,7 @@ pub enum Token {
     Eof,
 }
 
-impl swc_ecma_lexer::common::lexer::state::TokenKind for Token {
+impl Token {
     #[inline(always)]
     fn is_dot(self) -> bool {
         self == Token::Dot
@@ -463,7 +462,7 @@ impl swc_ecma_lexer::common::lexer::state::TokenKind for Token {
     }
 }
 
-impl swc_ecma_lexer::common::lexer::state::TokenType for Token {
+impl Token {
     fn is_other_and_before_expr_is_false(self) -> bool {
         !self.is_keyword()
             && !self.is_bin_op()
@@ -499,12 +498,7 @@ impl swc_ecma_lexer::common::lexer::state::TokenType for Token {
     }
 }
 
-impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, TokenAndSpan, I>
-    for Token
-{
-    type Buffer = crate::input::Buffer<I>;
-    type Lexer = crate::Lexer<'a>;
-
+impl<'a> Token {
     const ABSTRACT: Self = Token::Abstract;
     const ACCESSOR: Self = Token::Accessor;
     const ANY: Self = Token::Any;
@@ -698,7 +692,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
-    fn is_reserved(&self, ctx: swc_ecma_lexer::common::context::Context) -> bool {
+    fn is_reserved(&self, ctx: Context) -> bool {
         self.is_reserved(ctx)
     }
 
@@ -714,7 +708,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::lexer::token::TokenFactory<'a, Token
     }
 
     #[inline(always)]
-    fn take_error(self, buffer: &mut Self::Buffer) -> swc_ecma_lexer::error::Error {
+    fn take_error(self, buffer: &mut Self::Buffer) -> Error {
         buffer.expect_error_token_value()
     }
 
@@ -1518,9 +1512,7 @@ pub struct TokenAndSpan {
     pub span: Span,
 }
 
-impl swc_ecma_lexer::common::parser::token_and_span::TokenAndSpan for TokenAndSpan {
-    type Token = Token;
-
+impl TokenAndSpan {
     #[inline(always)]
     fn new(token: Token, span: Span, had_line_break: bool) -> Self {
         Self {
@@ -1557,11 +1549,9 @@ pub struct NextTokenAndSpan {
     pub value: Option<TokenValue>,
 }
 
-impl swc_ecma_lexer::common::parser::buffer::NextTokenAndSpan for NextTokenAndSpan {
-    type Token = Token;
-
+impl NextTokenAndSpan {
     #[inline(always)]
-    fn token(&self) -> &Self::Token {
+    fn token(&self) -> &Token {
         &self.token_and_span.token
     }
 
