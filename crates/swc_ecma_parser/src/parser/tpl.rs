@@ -1,15 +1,8 @@
 use swc_common::{source_map::SmallPos, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_lexer::{
-    common::{
-        lexer::token::TokenFactory,
-        parser::{buffer::Buffer, typescript::parse_ts_type, PResult, Parser as ParserTrait},
-    },
-    error::SyntaxError,
-};
 
 use super::{input::Tokens, Parser};
-use crate::lexer::Token;
+use crate::{error::SyntaxError, lexer::Token, PResult};
 
 impl<I: Tokens> Parser<I> {
     pub(super) fn parse_no_substitution_template_literal(
@@ -229,7 +222,7 @@ impl<I: Tokens> Parser<I> {
         let mut quasis = vec![cur_elem];
 
         while !is_tail {
-            tys.push(parse_ts_type(self)?);
+            tys.push(self.parse_ts_type()?);
             let elem = self.parse_tpl_element(false)?;
             is_tail = elem.tail;
             quasis.push(elem);
