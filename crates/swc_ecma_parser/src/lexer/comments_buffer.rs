@@ -1,7 +1,17 @@
 use swc_common::{comments::Comment, BytePos};
-use swc_ecma_lexer::common::lexer::comments_buffer::{
-    BufferedComment, BufferedCommentKind, CommentsBufferTrait,
-};
+
+#[derive(Debug, Clone)]
+pub struct BufferedComment {
+    pub kind: BufferedCommentKind,
+    pub pos: BytePos,
+    pub comment: Comment,
+}
+
+#[derive(Debug, Clone, Copy)]
+pub enum BufferedCommentKind {
+    Leading,
+    Trailing,
+}
 
 #[derive(Default, Clone)]
 pub struct CommentsBuffer {
@@ -33,7 +43,7 @@ impl CommentsBuffer {
     }
 }
 
-impl CommentsBufferTrait for CommentsBuffer {
+impl CommentsBuffer {
     #[inline(always)]
     fn push_comment(&mut self, comment: BufferedComment) {
         self.comments.push(comment);
