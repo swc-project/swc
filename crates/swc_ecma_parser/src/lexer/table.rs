@@ -6,9 +6,8 @@
 
 use either::Either;
 use swc_common::input::Input;
-use swc_ecma_lexer::common::lexer::char::CharExt;
 
-use super::{pos_span, LexResult, Lexer, LexerTrait};
+use super::{pos_span, LexResult, Lexer};
 use crate::{
     error::SyntaxError,
     lexer::token::{Token, TokenValue},

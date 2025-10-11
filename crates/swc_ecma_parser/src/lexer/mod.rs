@@ -431,6 +431,10 @@ impl Lexer<'_> {
     }
 }
 
+fn pos_span(p: BytePos) -> Span {
+    Span::new(p, p)
+}
+
 fn fixed_len_span(p: BytePos, len: u32) -> Span {
     Span::new(p, p + BytePos(len))
 }
