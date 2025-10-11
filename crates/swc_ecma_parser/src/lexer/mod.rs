@@ -9,33 +9,30 @@ use swc_atoms::{
 use swc_common::{
     comments::Comments,
     input::{Input, StringInput},
-    BytePos,
+    BytePos, Span,
 };
 use swc_ecma_ast::EsVersion;
-use swc_ecma_lexer::{
-    common::{
-        lexer::{char::CharExt, fixed_len_span, pos_span, LexResult, Lexer as LexerTrait},
-        syntax::SyntaxFlags,
-    },
-    lexer::TokenFlags,
-};
 
 use self::table::{ByteHandler, BYTE_HANDLERS};
 use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
-    lexer::comments_buffer::CommentsBuffer,
+    lexer::{comments_buffer::CommentsBuffer, state::TokenFlags},
+    syntax::SyntaxFlags,
     Context, Syntax,
 };
 
 #[cfg(feature = "unstable")]
 pub(crate) mod capturing;
+mod char_ext;
 mod comments_buffer;
 mod state;
 mod table;
 pub(crate) mod token;
 
 pub(crate) use token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
+
+pub type LexResult<T> = Result<T, crate::error::Error>;
 
 #[derive(Clone)]
 pub struct Lexer<'a> {
@@ -60,10 +57,10 @@ pub struct Lexer<'a> {
 
 impl FusedIterator for Lexer<'_> {}
 
-impl<'a> swc_ecma_lexer::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
-    type CommentsBuffer = CommentsBuffer;
-    type State = self::state::State;
-    type Token = self::Token;
+impl<'a> Lexer<'a> {
+    // type CommentsBuffer = CommentsBuffer;
+    // type State = self::state::State;
+    // type Token = self::Token;
 
     #[inline(always)]
     fn input(&self) -> &StringInput<'a> {
@@ -432,4 +429,8 @@ impl Lexer<'_> {
 
         self.error(start, SyntaxError::UnterminatedTpl)?
     }
+}
+
+fn fixed_len_span(p: BytePos, len: u32) -> Span {
+    Span::new(p, p + BytePos(len))
 }

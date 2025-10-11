@@ -27,6 +27,13 @@ use crate::{
     },
 };
 
+bitflags::bitflags! {
+    #[derive(Debug, Default, Clone, Copy)]
+    pub struct TokenFlags: u8 {
+        const UNICODE = 1 << 0;
+    }
+}
+
 /// State of lexer.
 ///
 /// Ported from babylon.
