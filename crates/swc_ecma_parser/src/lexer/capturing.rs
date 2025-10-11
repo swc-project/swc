@@ -1,8 +1,12 @@
 use std::mem;
 
-use swc_ecma_lexer::common::syntax::SyntaxFlags;
-
-use crate::{input::Tokens, lexer::token::TokenAndSpan};
+use crate::{
+    error::Error,
+    input::Tokens,
+    lexer::{token::TokenAndSpan, TokenFlags},
+    syntax::SyntaxFlags,
+    Context,
+};
 
 #[derive(Debug)]
 pub struct Capturing<I> {
@@ -10,7 +14,7 @@ pub struct Capturing<I> {
     captured: Vec<TokenAndSpan>,
 }
 
-pub struct CapturingCheckpoint<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>> {
+pub struct CapturingCheckpoint<I: Tokens> {
     pos: usize,
     inner: I::Checkpoint,
 }
@@ -73,9 +77,7 @@ impl<I: Iterator<Item = TokenAndSpan>> Iterator for Capturing<I> {
     }
 }
 
-impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
-    swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Capturing<I>
-{
+impl<I: Tokens> Tokens for Capturing<I> {
     type Checkpoint = CapturingCheckpoint<I>;
 
     fn checkpoint_save(&self) -> Self::Checkpoint {
@@ -90,15 +92,15 @@ impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
         self.inner.checkpoint_load(checkpoint.inner);
     }
 
-    fn set_ctx(&mut self, ctx: swc_ecma_lexer::common::context::Context) {
+    fn set_ctx(&mut self, ctx: Context) {
         self.inner.set_ctx(ctx);
     }
 
-    fn ctx(&self) -> swc_ecma_lexer::common::context::Context {
+    fn ctx(&self) -> Context {
         self.inner.ctx()
     }
 
-    fn ctx_mut(&mut self) -> &mut swc_ecma_lexer::common::context::Context {
+    fn ctx_mut(&mut self) -> &mut Context {
         self.inner.ctx_mut()
     }
 
@@ -118,23 +120,11 @@ impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
         self.inner.set_next_regexp(start);
     }
 
-    fn token_context(&self) -> &swc_ecma_lexer::lexer::TokenContexts {
-        self.inner.token_context()
-    }
-
-    fn token_context_mut(&mut self) -> &mut swc_ecma_lexer::lexer::TokenContexts {
-        self.inner.token_context_mut()
-    }
-
-    fn set_token_context(&mut self, c: swc_ecma_lexer::lexer::TokenContexts) {
-        self.inner.set_token_context(c);
-    }
-
-    fn add_error(&mut self, error: swc_ecma_lexer::error::Error) {
+    fn add_error(&mut self, error: Error) {
         self.inner.add_error(error);
     }
 
-    fn add_module_mode_error(&mut self, error: swc_ecma_lexer::error::Error) {
+    fn add_module_mode_error(&mut self, error: Error) {
         self.inner.add_module_mode_error(error);
     }
 
@@ -142,24 +132,22 @@ impl<I: swc_ecma_lexer::common::input::Tokens<TokenAndSpan>>
         self.inner.end_pos()
     }
 
-    fn take_errors(&mut self) -> Vec<swc_ecma_lexer::error::Error> {
+    fn take_errors(&mut self) -> Vec<Error> {
         self.inner.take_errors()
     }
 
-    fn take_script_module_errors(&mut self) -> Vec<swc_ecma_lexer::error::Error> {
+    fn take_script_module_errors(&mut self) -> Vec<Error> {
         self.inner.take_script_module_errors()
     }
 
-    fn update_token_flags(&mut self, f: impl FnOnce(&mut swc_ecma_lexer::lexer::TokenFlags)) {
+    fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags)) {
         self.inner.update_token_flags(f);
     }
 
-    fn token_flags(&self) -> swc_ecma_lexer::lexer::TokenFlags {
+    fn token_flags(&self) -> TokenFlags {
         self.inner.token_flags()
     }
-}
 
-impl<I: Tokens> Tokens for Capturing<I> {
     fn clone_token_value(&self) -> Option<super::TokenValue> {
         self.inner.clone_token_value()
     }
