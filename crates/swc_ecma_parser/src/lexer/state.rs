@@ -49,7 +49,9 @@ pub struct LexerCheckpoint {
     input_last_pos: BytePos,
 }
 
-impl<'a> Lexer<'a> {
+impl crate::input::Tokens for Lexer<'_> {
+    type Checkpoint = LexerCheckpoint;
+
     fn checkpoint_save(&self) -> LexerCheckpoint {
         LexerCheckpoint {
             state: self.state.clone(),
@@ -149,9 +151,7 @@ impl<'a> Lexer<'a> {
     fn token_flags(&self) -> TokenFlags {
         self.token_flags
     }
-}
 
-impl crate::input::Tokens for Lexer<'_> {
     fn clone_token_value(&self) -> Option<TokenValue> {
         self.state.token_value.clone()
     }
@@ -640,12 +640,12 @@ impl State {
     }
 
     #[inline(always)]
-    fn set_token_type(&mut self, token_type: Self::TokenType) {
+    fn set_token_type(&mut self, token_type: Token) {
         self.token_type = Some(token_type);
     }
 
     #[inline(always)]
-    fn token_type(&self) -> Option<Self::TokenType> {
+    fn token_type(&self) -> Option<Token> {
         self.token_type
     }
 
