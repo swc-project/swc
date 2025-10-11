@@ -29,6 +29,7 @@ unstable      = []
 verify        = ["swc_ecma_visit"]
 
 [dependencies]
+arrayvec       = { workspace = true }
 bitflags       = { workspace = true }
 either         = { workspace = true }
 num-bigint     = { workspace = true }
