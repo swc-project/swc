@@ -4,7 +4,11 @@ use swc_common::Span;
 use swc_ecma_ast::AssignOp;
 
 use super::LexResult;
-use crate::{error::Error, input::Tokens, Context};
+use crate::{
+    error::Error,
+    input::{Buffer, Tokens},
+    Context, Lexer,
+};
 
 #[derive(Debug, Clone)]
 pub enum TokenValue {
@@ -648,7 +652,7 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn take_jsx_name(self, buffer: &mut Self::Buffer) -> Atom {
+    fn take_jsx_name(self, buffer: &mut Buffer<Lexer>) -> Atom {
         buffer.expect_word_token_value()
     }
 
@@ -708,7 +712,7 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn take_error(self, buffer: &mut Self::Buffer) -> Error {
+    fn take_error(self, buffer: &mut Buffer<Lexer>) -> Error {
         buffer.expect_error_token_value()
     }
 
@@ -718,7 +722,7 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn is_str_raw_content(&self, content: &str, buffer: &Self::Buffer) -> bool {
+    fn is_str_raw_content(&self, content: &str, buffer: &Buffer<Lexer>) -> bool {
         Self::Str.eq(self)
             && if let Some(TokenValue::Str { raw, .. }) = buffer.get_token_value() {
                 raw == content
@@ -729,6 +733,7 @@ impl<'a> Token {
 
     #[inline(always)]
     fn take_str(self, buffer: &mut Self::Buffer) -> (Wtf8Atom, Atom) {
+    fn take_str(self, buffer: &mut Buffer<Lexer>) -> (Atom, Atom) {
         buffer.expect_string_token_value()
     }
 
@@ -738,7 +743,7 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn take_num(self, buffer: &mut Self::Buffer) -> (f64, Atom) {
+    fn take_num(self, buffer: &mut Buffer<Lexer>) -> (f64, Atom) {
         buffer.expect_number_token_value()
     }
 
@@ -748,7 +753,7 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn take_bigint(self, buffer: &mut Self::Buffer) -> (Box<BigInt>, Atom) {
+    fn take_bigint(self, buffer: &mut Buffer<Lexer>) -> (Box<BigInt>, Atom) {
         buffer.expect_bigint_token_value()
     }
 
@@ -758,7 +763,7 @@ impl<'a> Token {
     }
 
     #[inline]
-    fn take_word(self, buffer: &Self::Buffer) -> Option<Atom> {
+    fn take_word(self, buffer: &Buffer<Lexer>) -> Option<Atom> {
         self.as_word_atom(buffer.get_token_value())
     }
 
@@ -768,7 +773,7 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn take_unknown_ident(self, buffer: &mut Self::Buffer) -> Atom {
+    fn take_unknown_ident(self, buffer: &mut Buffer<Lexer>) -> Atom {
         buffer.expect_word_token_value()
     }
 
@@ -793,7 +798,7 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn take_unknown_ident_ref<'b>(&'b self, buffer: &'b Self::Buffer) -> &'b Atom {
+    fn take_unknown_ident_ref<'b>(&'b self, buffer: &'b Buffer<Lexer>) -> &'b Atom {
         buffer.expect_word_token_value_ref()
     }
 
@@ -804,6 +809,7 @@ impl<'a> Token {
 
     #[inline(always)]
     fn take_template(self, buffer: &mut Self::Buffer) -> (LexResult<Wtf8Atom>, Atom) {
+    fn take_template(self, buffer: &mut Buffer<Lexer>) -> (LexResult<Atom>, Atom) {
         buffer.expect_template_token_value()
     }
 
@@ -813,6 +819,8 @@ impl<'a> Token {
             value: value.into(),
             raw,
         }));
+    fn jsx_text(value: Atom, raw: Atom, lexer: &mut Lexer) -> Self {
+        lexer.set_token_value(Some(TokenValue::Str { value, raw }));
         Token::JSXText
     }
 
@@ -826,6 +834,8 @@ impl<'a> Token {
         let (value, raw) = buffer.expect_string_token_value();
         // SAFETY: We set value as Atom in `jsx_text` method.
         (value.as_atom().cloned().unwrap(), raw)
+    fn take_jsx_text(self, buffer: &mut Buffer<Lexer>) -> (Atom, Atom) {
+        buffer.expect_string_token_value()
     }
 
     #[inline(always)]
@@ -834,7 +844,7 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn to_string(&self, buffer: &Self::Buffer) -> String {
+    fn to_string(&self, buffer: &Buffer<Lexer>) -> String {
         (*self).to_string(buffer.get_token_value())
     }
 
@@ -864,12 +874,12 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn take_regexp(self, buffer: &mut Self::Buffer) -> (Atom, Atom) {
+    fn take_regexp(self, buffer: &mut Buffer<Lexer>) -> (Atom, Atom) {
         buffer.expect_regex_token_value()
     }
 
     #[inline(always)]
-    fn shebang(value: Atom, lexer: &mut Self::Lexer) -> Self {
+    fn shebang(value: Atom, lexer: &mut Lexer) -> Self {
         lexer.set_token_value(Some(TokenValue::Word(value)));
         Token::Shebang
     }
@@ -880,7 +890,7 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn take_shebang(self, buffer: &mut Self::Buffer) -> Atom {
+    fn take_shebang(self, buffer: &mut Buffer<Lexer>) -> Atom {
         buffer.expect_word_token_value()
     }
 
