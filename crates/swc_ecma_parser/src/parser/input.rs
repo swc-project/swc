@@ -369,3 +369,166 @@ impl<I: Tokens> Buffer<I> {
         cur.to_string(self)
     }
 }
+
+impl<I: Tokens> Buffer<I> {
+    fn had_line_break_before_cur(&self) -> bool {
+        self.get_cur().had_line_break()
+    }
+
+    /// This returns true on eof.
+    fn has_linebreak_between_cur_and_peeked(&mut self) -> bool {
+        let _ = self.peek();
+        self.next().map(|item| item.had_line_break()).unwrap_or({
+            // return true on eof.
+            true
+        })
+    }
+
+    fn cut_lshift(&mut self) {
+        debug_assert!(
+            self.is(&Self::Token::LSHIFT),
+            "parser should only call cut_lshift when encountering LShift token"
+        );
+        let span = self.cur_span().with_lo(self.cur_span().lo + BytePos(1));
+        let token = Self::TokenAndSpan::new(Self::Token::LESS, span, false);
+        self.set_cur(token);
+    }
+
+    fn merge_lt_gt(&mut self) {
+        debug_assert!(
+            self.is(&Self::Token::LESS) || self.is(&Self::Token::GREATER),
+            "parser should only call merge_lt_gt when encountering Less token"
+        );
+        if self.peek().is_none() {
+            return;
+        }
+        let span = self.cur_span();
+        let next = self.next().unwrap();
+        if span.hi != next.span().lo {
+            return;
+        }
+        let next = self.next_mut().take().unwrap();
+        let cur = self.get_cur();
+        let cur_token = cur.token();
+        let token = if cur_token.is_greater() {
+            let next_token = next.token();
+            if next_token.is_greater() {
+                // >>
+                Self::Token::RSHIFT
+            } else if next_token.is_equal() {
+                // >=
+                Self::Token::GREATER_EQ
+            } else if next_token.is_rshift() {
+                // >>>
+                Self::Token::ZERO_FILL_RSHIFT
+            } else if next_token.is_greater_eq() {
+                // >>=
+                Self::Token::RSHIFT_EQ
+            } else if next_token.is_rshift_eq() {
+                // >>>=
+                Self::Token::ZERO_FILL_RSHIFT_EQ
+            } else {
+                self.set_next(Some(next));
+                return;
+            }
+        } else if cur_token.is_less() {
+            let next_token = next.token();
+            if next_token.is_less() {
+                // <<
+                Self::Token::LSHIFT
+            } else if next_token.is_equal() {
+                // <=
+                Self::Token::LESS_EQ
+            } else if next_token.is_less_eq() {
+                // <<=
+                Self::Token::LSHIFT_EQ
+            } else {
+                self.set_next(Some(next));
+                return;
+            }
+        } else {
+            self.set_next(Some(next));
+            return;
+        };
+        let span = span.with_hi(next.span().hi);
+        let token = Self::TokenAndSpan::new(token, span, cur.had_line_break());
+        self.set_cur(token);
+    }
+
+    #[inline(always)]
+    fn is(&self, expected: Token) -> bool {
+        self.cur() == expected
+    }
+
+    #[inline(always)]
+    fn eat(&mut self, expected: Token) -> bool {
+        let v = self.is(expected);
+        if v {
+            self.bump();
+        }
+        v
+    }
+
+    /// Returns start of current token.
+    #[inline]
+    fn cur_pos(&self) -> BytePos {
+        self.get_cur().span().lo
+    }
+
+    #[inline]
+    fn cur_span(&self) -> Span {
+        self.get_cur().span()
+    }
+
+    /// Returns last byte position of previous token.
+    #[inline]
+    fn last_pos(&self) -> BytePos {
+        self.prev_span().hi
+    }
+
+    #[inline]
+    fn get_ctx(&self) -> Context {
+        self.iter().ctx()
+    }
+
+    #[inline]
+    fn update_ctx(&mut self, f: impl FnOnce(&mut Context)) {
+        let ctx = self.iter_mut().ctx_mut();
+        f(ctx)
+    }
+
+    #[inline]
+    fn set_ctx(&mut self, ctx: Context) {
+        self.iter_mut().set_ctx(ctx);
+    }
+
+    #[inline]
+    fn syntax(&self) -> SyntaxFlags {
+        self.iter().syntax()
+    }
+
+    #[inline]
+    fn target(&self) -> EsVersion {
+        self.iter().target()
+    }
+
+    #[inline]
+    fn set_expr_allowed(&mut self, allow: bool) {
+        self.iter_mut().set_expr_allowed(allow)
+    }
+
+    #[inline]
+    fn set_next_regexp(&mut self, start: Option<BytePos>) {
+        self.iter_mut().set_next_regexp(start);
+    }
+
+    #[inline]
+    fn end_pos(&self) -> BytePos {
+        self.iter().end_pos()
+    }
+
+    #[inline]
+    fn token_flags(&self) -> crate::lexer::TokenFlags {
+        self.iter().token_flags()
+    }
+}
