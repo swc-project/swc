@@ -219,6 +219,8 @@ impl VisitMut for Cjs {
                         _ => return,
                     },
                     MemberProp::PrivateName(..) => return,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 };
 
                 match p {

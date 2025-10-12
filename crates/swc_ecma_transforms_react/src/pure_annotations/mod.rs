@@ -54,6 +54,8 @@ where
                                 Some(ModuleExportName::Ident(imported)) => imported.sym.clone(),
                                 Some(ModuleExportName::Str(..)) => named.local.sym.clone(),
                                 None => named.local.sym.clone(),
+                                #[cfg(swc_ast_unknown)]
+                                Some(_) => continue,
                             };
                             self.imports.insert(named.local.to_id(), (src, imported));
                         }
@@ -64,6 +66,8 @@ where
                         ImportSpecifier::Namespace(ns) => {
                             self.imports.insert(ns.local.to_id(), (src, atom!("*")));
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => (),
                     }
                 }
             }

@@ -82,6 +82,8 @@ impl VisitMut for ObjectSpread {
 
                             buf.push(expr.as_arg());
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 

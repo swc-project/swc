@@ -380,6 +380,8 @@ impl Optimizer<'_> {
                                     },
                                     _ => return,
                                 },
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             }
                         }
 

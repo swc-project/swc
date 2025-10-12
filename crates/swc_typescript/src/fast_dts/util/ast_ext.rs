@@ -82,6 +82,8 @@ impl PatExt for Pat {
             Pat::Rest(rest_pat) => &rest_pat.type_ann,
             Pat::Object(object_pat) => &object_pat.type_ann,
             Pat::Assign(_) | Pat::Invalid(_) | Pat::Expr(_) => &None,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -97,6 +99,8 @@ impl PatExt for Pat {
             Pat::Rest(rest_pat) => rest_pat.type_ann = type_anno,
             Pat::Object(object_pat) => object_pat.type_ann = type_anno,
             Pat::Assign(_) | Pat::Invalid(_) | Pat::Expr(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -117,11 +121,15 @@ impl PatExt for Pat {
                         }
                         ObjectPatProp::Assign(assign_pat_prop) => f(&assign_pat_prop.key),
                         ObjectPatProp::Rest(rest_pat) => rest_pat.arg.bound_names(f),
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
             }
             Pat::Assign(assign_pat) => assign_pat.left.bound_names(f),
             Pat::Invalid(_) | Pat::Expr(_) => todo!(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -139,6 +147,8 @@ impl PropNameExit for PropName {
             PropName::Num(number) => Some(Cow::Owned(number.value.to_string())),
             PropName::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
             PropName::Computed(computed_prop_name) => computed_prop_name.static_name(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -161,6 +171,8 @@ impl PropNameExit for ComputedPropName {
                 Lit::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
                 Lit::Regex(regex) => Some(Cow::Owned(regex.exp.to_string())),
                 Lit::JSXText(_) => None,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
             Expr::Tpl(tpl) if tpl.exprs.is_empty() => tpl
                 .quasis
@@ -184,6 +196,8 @@ impl PropNameExit for ComputedPropName {
                         c.static_name().map(Into::into).map(StaticProp::Symbol)
                     }
                     MemberProp::PrivateName(..) => None,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 }),
             _ => self.static_name().map(Into::into).map(StaticProp::Name),
         }
@@ -199,6 +213,8 @@ impl PropNameExit for Prop {
             Self::Getter(getter_prop) => getter_prop.key.static_name(),
             Self::Setter(setter_prop) => setter_prop.key.static_name(),
             Self::Method(method_prop) => method_prop.key.static_name(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -210,6 +226,8 @@ impl PropNameExit for Prop {
             Self::Getter(getter_prop) => getter_prop.key.static_prop(unresolved_mark),
             Self::Setter(setter_prop) => setter_prop.key.static_prop(unresolved_mark),
             Self::Method(method_prop) => method_prop.key.static_prop(unresolved_mark),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -230,6 +248,8 @@ impl MemberPropExt for MemberProp {
                 _ => None,
             },
             MemberProp::PrivateName(_) => None,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

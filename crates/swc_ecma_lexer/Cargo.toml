@@ -16,6 +16,9 @@ version       = "23.0.2"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 # Used for debugging
 debug         = ["tracing-spans"]

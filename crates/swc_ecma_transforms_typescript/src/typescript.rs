@@ -130,6 +130,8 @@ impl EsModuleDecl for ModuleDecl {
             ModuleDecl::TsImportEquals(..)
             | ModuleDecl::TsExportAssignment(..)
             | ModuleDecl::TsNamespaceExport(..) => false,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

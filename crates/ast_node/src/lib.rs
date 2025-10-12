@@ -158,26 +158,31 @@ pub fn ast_node(
     let mut item = TokenStream::new();
     match input.data {
         Data::Enum(..) => {
-            struct EnumArgs {
-                clone: bool,
-            }
-            impl parse::Parse for EnumArgs {
-                fn parse(i: parse::ParseStream<'_>) -> syn::Result<Self> {
-                    let name: Ident = i.parse()?;
-                    if name != "no_clone" {
-                        return Err(i.error("unknown attribute"));
-                    }
-                    Ok(EnumArgs { clone: false })
+            use syn::parse::Parser;
+
+            let attrs = <syn::punctuated::Punctuated<syn::Ident, syn::Token![,]>>::parse_terminated
+                .parse(args)
+                .expect("failed to parse #[ast_node]");
+
+            let mut has_no_clone = false;
+            let mut has_no_unknown = false;
+            for attr in &attrs {
+                if attr == "no_clone" {
+                    has_no_clone = true;
+                } else if attr == "no_unknown" {
+                    has_no_unknown = true;
+                } else {
+                    panic!("unknown attribute: {attr:?}")
                 }
             }
-            let args = if args.is_empty() {
-                EnumArgs { clone: true }
-            } else {
-                parse(args).expect("failed to parse args of #[ast_node]")
-            };
 
-            let clone = if args.clone {
+            let clone = if !has_no_clone {
                 Some(quote!(#[derive(Clone)]))
+            } else {
+                None
+            };
+            let non_exhaustive = if !has_no_unknown {
+                Some(quote!(#[cfg_attr(swc_ast_unknown, non_exhaustive)]))
             } else {
                 None
             };
@@ -198,6 +203,7 @@ pub fn ast_node(
                     ::swc_common::DeserializeEnum,
                 )]
                 #clone
+                #non_exhaustive
                 #[cfg_attr(
                     feature = "rkyv-impl",
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)

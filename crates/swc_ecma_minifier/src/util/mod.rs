@@ -66,6 +66,8 @@ impl ModuleItemExt for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(v) => Ok(v),
             ModuleItem::Stmt(v) => Err(v),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -73,6 +75,8 @@ impl ModuleItemExt for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(v) => Ok(v),
             ModuleItem::Stmt(v) => Err(v),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -84,6 +88,8 @@ impl ModuleItemExt for ModuleItem {
         match self {
             ModuleItem::ModuleDecl(v) => Ok(v),
             ModuleItem::Stmt(v) => Err(v),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }

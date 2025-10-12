@@ -9,6 +9,8 @@ name          = "swc_ts_fast_strip"
 repository    = { workspace = true }
 version       = "33.0.1"
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
 
 [features]
 default = []

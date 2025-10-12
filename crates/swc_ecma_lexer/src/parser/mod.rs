@@ -251,6 +251,8 @@ impl<I: Tokens<TokenAndSpan>> Parser<I> {
     above"
                     ),
                     ModuleItem::Stmt(stmt) => stmt,
+                    #[cfg(swc_ast_unknown)]
+                    _ => unreachable!(),
                 })
                 .collect();
             Program::Script(Script {

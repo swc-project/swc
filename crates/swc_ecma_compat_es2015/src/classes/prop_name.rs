@@ -18,6 +18,8 @@ impl From<&PropName> for HashKey {
             PropName::Num(Number { value, .. }) => HashKey::Str(value.to_string().into()),
             PropName::BigInt(BigInt { value, .. }) => HashKey::Str(value.to_string().into()),
             PropName::Computed(expr) => HashKey::Computed(expr.span()),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 }
@@ -36,6 +38,8 @@ pub fn is_pure_prop_name(p: &PropName) -> bool {
             Expr::Tpl(tpl) => tpl.exprs.is_empty(),
             _ => false,
         },
+        #[cfg(swc_ast_unknown)]
+        _ => false,
     }
 }
 

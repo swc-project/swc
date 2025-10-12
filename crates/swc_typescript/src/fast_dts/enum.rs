@@ -39,6 +39,8 @@ impl FastDts {
                 let member_name = match &member.id {
                     TsEnumMemberId::Ident(ident) => &ident.sym,
                     TsEnumMemberId::Str(s) => &s.value,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 };
                 prev_members.insert(member_name.clone(), value.clone());
             }
@@ -95,6 +97,8 @@ impl FastDts {
                 Lit::Null(_) | Lit::BigInt(_) | Lit::Bool(_) | Lit::Regex(_) | Lit::JSXText(_) => {
                     None
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             },
             Expr::Tpl(tpl) => {
                 let mut value = String::new();

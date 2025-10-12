@@ -12,6 +12,9 @@ version       = "27.0.0"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 default      = []
 multi-module = []

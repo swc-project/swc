@@ -805,11 +805,15 @@ pub fn get_ids_of_pat(pat: &Pat) -> Vec<Id> {
                             ids.push(assign_pat_prop.key.to_id())
                         }
                         ObjectPatProp::Rest(rest_pat) => append(&rest_pat.arg, ids),
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
             }
             Pat::Assign(assign_pat) => append(&assign_pat.left, ids),
             Pat::Invalid(_) | Pat::Expr(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 

@@ -224,6 +224,8 @@ impl Visit for TypeUsageAnalyzer<'_> {
                 };
                 self.add_edge(Symbol::new(ident.to_id(), flag), true);
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
     }
 
@@ -326,6 +328,8 @@ impl Visit for TypeUsageAnalyzer<'_> {
                     self.scope_entries.pop();
                 }
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -428,6 +432,8 @@ impl Visit for TypeUsageAnalyzer<'_> {
                     .is_some_and(|accessibility| accessibility == Accessibility::Private)
                     || auto_accessor.key.is_private()
             }
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         if is_private {

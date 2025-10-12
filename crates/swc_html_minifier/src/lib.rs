@@ -1924,6 +1924,8 @@ impl<C: MinifyCss> Minifier<'_, C> {
                     unreachable!();
                 }
             },
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
 
         if is_modules {

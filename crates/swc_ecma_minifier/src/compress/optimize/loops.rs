@@ -34,6 +34,8 @@ impl Optimizer<'_> {
                     expr,
                 }
                 .into(),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }));
         self.prepend_stmts.extend(f.test.take().map(|expr| {
@@ -94,6 +96,8 @@ impl Optimizer<'_> {
                                     expr,
                                 }
                                 .into(),
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             }
                         }));
                         self.prepend_stmts.push(

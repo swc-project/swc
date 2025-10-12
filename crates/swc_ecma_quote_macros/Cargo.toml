@@ -12,6 +12,9 @@ version       = "24.0.0"
 bench      = false
 proc-macro = true
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [dependencies]
 anyhow      = { workspace = true }
 proc-macro2 = { workspace = true }

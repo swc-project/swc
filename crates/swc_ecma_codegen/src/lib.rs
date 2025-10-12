@@ -794,6 +794,8 @@ where
                     Callee::Super(callee) => span_has_leading_comment(cmt, callee.span),
                     Callee::Import(callee) => span_has_leading_comment(cmt, callee.span),
                     Callee::Expr(callee) => self.has_leading_comment(callee),
+                    #[cfg(swc_ast_unknown)]
+                    _ => false,
                 };
 
                 if has_leading {
@@ -847,7 +849,11 @@ where
                         AssignTargetPat::Array(a) => span_has_leading_comment(cmt, a.span),
                         AssignTargetPat::Object(o) => span_has_leading_comment(cmt, o.span),
                         AssignTargetPat::Invalid(..) => false,
+                        #[cfg(swc_ast_unknown)]
+                        _ => false,
                     },
+                    #[cfg(swc_ast_unknown)]
+                    _ => false,
                 };
 
                 if has_leading {
@@ -866,6 +872,8 @@ where
                         return true;
                     }
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => (),
             },
 
             _ => {}
@@ -1409,6 +1417,8 @@ impl MacroNode for Program {
         match self {
             Program::Module(m) => emit!(m),
             Program::Script(s) => emit!(s),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
             // TODO: reenable once experimental_metadata breaking change is merged
             // _ => unreachable!(),
         }
@@ -1480,6 +1490,8 @@ impl MacroNode for ModuleItem {
         match self {
             ModuleItem::Stmt(stmt) => emit!(stmt),
             ModuleItem::ModuleDecl(decl) => emit!(decl),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
 
@@ -1500,6 +1512,8 @@ impl MacroNode for Callee {
             }
             Callee::Super(n) => emit!(n),
             Callee::Import(n) => emit!(n),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -1581,6 +1595,8 @@ impl MacroNode for Expr {
             Expr::TsSatisfies(n) => {
                 emit!(n)
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         if emitter.comments.is_some() {
@@ -1613,6 +1629,8 @@ impl MacroNode for OptChainExpr {
                     MemberProp::Computed(computed) => emit!(computed),
                     MemberProp::Ident(i) => emit!(i),
                     MemberProp::PrivateName(p) => emit!(p),
+                    #[cfg(swc_ast_unknown)]
+                    _ => return Err(unknown_error()),
                 }
             }
             OptChainBase::Call(e) => {
@@ -1631,6 +1649,8 @@ impl MacroNode for OptChainExpr {
                 )?;
                 punct!(emitter, ")");
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -1735,6 +1755,8 @@ impl MacroNode for MemberExpr {
                 punct!(emitter, ".");
                 emit!(private);
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         srcmap!(emitter, self, false);
@@ -1761,6 +1783,8 @@ impl MacroNode for SuperPropExpr {
                 punct!(emitter, ".");
                 emit!(i);
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -1836,6 +1860,9 @@ impl MacroNode for MetaPropExpr {
             MetaPropKind::ImportMeta => keyword!(emitter, "import.meta"),
 
             MetaPropKind::NewTarget => keyword!(emitter, "new.target"),
+
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -2002,6 +2029,8 @@ impl MacroNode for BlockStmtOrExpr {
                 emit!(expr);
                 emitter.wr.decrease_indent()?;
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -2132,6 +2161,8 @@ impl MacroNode for UnaryExpr {
                 punct!(emitter, self.op.as_str());
                 false
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         };
 
         if should_emit_whitespace_before_operand(self) {
@@ -2326,4 +2357,12 @@ impl MacroNode for IdentName {
 
         Ok(())
     }
+}
+
+#[cfg(swc_ast_unknown)]
+fn unknown_error() -> io::Error {
+    io::Error::new(
+        io::ErrorKind::Unsupported,
+        "emit unknown variant is not supported",
+    )
 }

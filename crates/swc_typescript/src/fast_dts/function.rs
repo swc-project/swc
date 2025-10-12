@@ -43,6 +43,8 @@ impl FastDts {
                 Pat::Array(array_pat) => !array_pat.optional,
                 Pat::Object(object_pat) => !object_pat.optional,
                 Pat::Assign(_) | Pat::Invalid(_) | Pat::Expr(_) | Pat::Rest(_) => false,
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             };
             self.transform_fn_param(param, is_required);
         }
@@ -89,10 +91,14 @@ impl FastDts {
                         Pat::Array(array_pat) => array_pat.type_ann.as_mut(),
                         Pat::Object(object_pat) => object_pat.type_ann.as_mut(),
                         Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => return,
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     },
                 )
             }
             Pat::Rest(_) | Pat::Expr(_) | Pat::Invalid(_) => (false, None),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         // 3. Add undefined type if needed
@@ -131,6 +137,8 @@ impl FastDts {
             }
             // These are illegal
             Pat::Assign(_) | Pat::Rest(_) | Pat::Invalid(_) | Pat::Expr(_) => return true,
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
 
         let mut has_expclicit_type = true;

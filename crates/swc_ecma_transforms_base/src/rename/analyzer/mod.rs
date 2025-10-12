@@ -167,6 +167,8 @@ impl Analyzer {
                 self.add_usage(orig.to_id());
             }
             ModuleExportName::Str(..) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => {}
         };
     }
 

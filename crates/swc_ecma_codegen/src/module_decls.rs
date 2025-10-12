@@ -2,6 +2,8 @@ use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::node_impl;
 
+#[cfg(swc_ast_unknown)]
+use crate::unknown_error;
 use crate::{util::StartsWithAlphaNum, ListFormat};
 
 #[node_impl]
@@ -19,6 +21,8 @@ impl MacroNode for ModuleDecl {
             ModuleDecl::TsExportAssignment(ref n) => emit!(n),
             ModuleDecl::TsImportEquals(ref n) => emit!(n),
             ModuleDecl::TsNamespaceExport(ref n) => emit!(n),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         emitter.emit_trailing_comments_of_pos(self.span().hi, true, true)?;
@@ -101,6 +105,8 @@ impl MacroNode for ExportDefaultDecl {
             DefaultDecl::Class(ref n) => emit!(n),
             DefaultDecl::Fn(ref n) => emit!(n),
             DefaultDecl::TsInterfaceDecl(ref n) => emit!(n),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())
@@ -131,6 +137,8 @@ impl MacroNode for ImportDecl {
                 space!(emitter);
                 keyword!(emitter, "defer");
             }
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         let starts_with_ident = !self.specifiers.is_empty()
@@ -171,6 +179,8 @@ impl MacroNode for ImportDecl {
                     space!(emitter);
                     emit!(ns.local);
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => return Err(unknown_error()),
             }
         }
 
@@ -254,6 +264,8 @@ impl MacroNode for ExportSpecifier {
             }
             ExportSpecifier::Namespace(ref node) => emit!(node),
             ExportSpecifier::Named(ref node) => emit!(node),
+            #[cfg(swc_ast_unknown)]
+            _ => return Err(unknown_error()),
         }
 
         Ok(())

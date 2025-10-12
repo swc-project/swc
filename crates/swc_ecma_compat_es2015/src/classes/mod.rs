@@ -520,6 +520,9 @@ impl Classes {
                 | ClassMember::StaticBlock(..)
                 | ClassMember::AutoAccessor(..) => {}
                 ClassMember::Empty(..) => {}
+
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
@@ -632,6 +635,8 @@ impl Classes {
                     }
                     .into(),
                     PropName::Computed(c) => c.expr,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 },
             }))
         }
@@ -657,6 +662,8 @@ impl Classes {
                     .into(),
                 }),
                 PropName::Computed(c) => MemberProp::Computed(c),
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
@@ -832,6 +839,8 @@ impl Classes {
                     data.set = None;
                     data.method = Some(value)
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 

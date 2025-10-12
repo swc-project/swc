@@ -141,6 +141,8 @@ impl VisitMut for Inliner {
                 e.expr.visit_mut_with(self);
             }
             PropName::BigInt(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 

@@ -30,7 +30,7 @@ pub struct Alternative {
 }
 
 /// Single unit of [`Alternative`], containing various kinds.
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]
 pub enum Term {
     // Assertion
@@ -219,7 +219,7 @@ pub enum CharacterClassContentsKind {
     Subtraction = 2,
 }
 
-#[ast_node]
+#[ast_node(no_unknown)]
 #[derive(Eq, Hash, EqIgnoreSpan, Is)]
 pub enum CharacterClassContents {
     #[tag("CharacterClassRange")]

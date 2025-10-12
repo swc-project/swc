@@ -264,6 +264,8 @@ where
                                             ModuleExportName::Str(..) => {
                                                 unimplemented!("module string names unimplemented")
                                             }
+                                            #[cfg(swc_ast_unknown)]
+                                            _ => panic!("unable to access unknown nodes"),
                                         };
 
                                         let id: Id = exported.into();
@@ -286,9 +288,13 @@ where
                                             ModuleExportName::Str(..) => {
                                                 unimplemented!("module string names unimplemented")
                                             }
+                                            #[cfg(swc_ast_unknown)]
+                                            _ => panic!("unable to access unknown nodes"),
                                         }
                                     }
                                 }
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             }
                         }
                     }
@@ -380,11 +386,15 @@ where
                             Expr::Call(CallExpr { callee, .. }) => match callee {
                                 Callee::Super(_) | Callee::Import(_) => continue,
                                 Callee::Expr(v) => v,
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             },
                             Expr::Await(AwaitExpr { arg, .. }) => match &mut **arg {
                                 Expr::Call(CallExpr { callee, .. }) => match callee {
                                     Callee::Super(_) | Callee::Import(_) => continue,
                                     Callee::Expr(v) => v,
+                                    #[cfg(swc_ast_unknown)]
+                                    _ => panic!("unable to access unknown nodes"),
                                 },
                                 _ => continue,
                             },
@@ -518,6 +528,8 @@ where
                             ModuleExportName::Str(..) => {
                                 unimplemented!("module string names unimplemented")
                             }
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         };
                         // Default is not exported via `export *`
                         if &*exported.sym == "default" {
@@ -613,6 +625,8 @@ where
                                             ModuleExportName::Str(..) => {
                                                 unimplemented!("module string names unimplemented")
                                             }
+                                            #[cfg(swc_ast_unknown)]
+                                            _ => panic!("unable to access unknown nodes"),
                                         };
                                         new.push(
                                             imported
@@ -665,6 +679,8 @@ where
                                         );
                                     }
                                 }
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             }
                         }
 
@@ -754,6 +770,8 @@ where
                                 }
                             }
                             DefaultDecl::TsInterfaceDecl(_) => continue,
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         }
 
                         // Create `export { local_default as default }`
@@ -926,6 +944,8 @@ where
                             | Decl::TsEnum(_)
                             | Decl::TsModule(_)
                             | Decl::Using(..) => continue,
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         };
 
                         tracing::trace!(
@@ -1023,6 +1043,8 @@ where
                                                             "module string names unimplemented"
                                                         )
                                                     }
+                                                    #[cfg(swc_ast_unknown)]
+                                                    _ => panic!("unable to access unknown nodes"),
                                                 };
                                             }
                                             ExportSpecifier::Default(s) => {
@@ -1069,6 +1091,8 @@ where
                                                     definite: Default::default(),
                                                 });
                                             }
+                                            #[cfg(swc_ast_unknown)]
+                                            _ => panic!("unable to access unknown nodes"),
                                         }
                                     }
 
@@ -1101,6 +1125,8 @@ where
                                         ModuleExportName::Str(..) => {
                                             unimplemented!("module string names unimplemented")
                                         }
+                                        #[cfg(swc_ast_unknown)]
+                                        _ => panic!("unable to access unknown nodes"),
                                     };
                                     let orig_ident = match orig {
                                         ModuleExportName::Ident(ident) => ident,
@@ -1202,6 +1228,8 @@ where
                                             ModuleExportName::Str(..) => {
                                                 unimplemented!("module string names unimplemented")
                                             }
+                                            #[cfg(swc_ast_unknown)]
+                                            _ => panic!("unable to access unknown nodes"),
                                         }
                                     }
                                 }
@@ -1262,6 +1290,8 @@ where
                                         ModuleExportName::Str(..) => {
                                             unimplemented!("module string names unimplemented")
                                         }
+                                        #[cfg(swc_ast_unknown)]
+                                        _ => panic!("unable to access unknown nodes"),
                                     };
                                     vars.push((
                                         module_id,
@@ -1317,6 +1347,8 @@ where
                                     continue;
                                 }
                             }
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         }
                     }
 

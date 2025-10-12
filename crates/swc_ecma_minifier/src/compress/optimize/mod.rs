@@ -802,6 +802,8 @@ impl Optimizer<'_> {
                 Expr::Arrow(f) => match &*f.body {
                     BlockStmtOrExpr::BlockStmt(body) => body.stmts.is_empty(),
                     BlockStmtOrExpr::Expr(_) => false,
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 },
                 _ => false,
             } && args.is_empty() =>
@@ -1078,6 +1080,8 @@ impl Optimizer<'_> {
                                         );
                                     }
                                     PropName::BigInt(_) => {}
+                                    #[cfg(swc_ast_unknown)]
+                                    _ => panic!("unable to access unknown nodes"),
                                 }
 
                                 exprs.extend(self.ignore_return_value(&mut value).map(Box::new));
@@ -1094,6 +1098,8 @@ impl Optimizer<'_> {
                                     );
                                 }
                                 PropName::BigInt(_) => {}
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
                             },
 
                             Prop::Assign(mut prop) => {
@@ -1103,7 +1109,11 @@ impl Optimizer<'_> {
                             }
 
                             Prop::Shorthand(_) => {}
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         },
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
                     }
                 }
 
@@ -1513,6 +1523,8 @@ impl VisitMut for Optimizer<'_> {
                         ..Default::default()
                     }));
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => panic!("unable to access unknown nodes"),
             }
         }
 
@@ -1602,6 +1614,8 @@ impl VisitMut for Optimizer<'_> {
                 self.drop_else_token(&mut n.stmts);
             }
             BlockStmtOrExpr::Expr(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
     }
 
@@ -1610,6 +1624,8 @@ impl VisitMut for Optimizer<'_> {
         let is_this_undefined = match &e.callee {
             Callee::Super(_) | Callee::Import(_) => false,
             Callee::Expr(e) => e.is_ident(),
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         };
         {
             let ctx = self
@@ -1622,6 +1638,8 @@ impl VisitMut for Optimizer<'_> {
                         || match &e.callee {
                             Callee::Super(_) | Callee::Import(_) => false,
                             Callee::Expr(callee) => is_callee_this_aware(callee),
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
                         },
                 )
                 .with(BitCtx::IsLhsOfAssign, false)
@@ -1762,6 +1780,8 @@ impl VisitMut for Optimizer<'_> {
                 self.drop_unused_params(&mut f.function.params);
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
+            #[cfg(swc_ast_unknown)]
+            _ => panic!("unable to access unknown nodes"),
         }
 
         n.visit_mut_children_with(self);

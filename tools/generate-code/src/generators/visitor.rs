@@ -9,7 +9,9 @@ use syn::{
     LitInt, Path, PathArguments, Stmt, TraitItem, Type,
 };
 
-pub fn generate(crate_name: &Ident, node_types: &[&Item], excluded_types: &[String]) -> File {
+pub fn generate(crate_name_str: &str, node_types: &[&Item], excluded_types: &[String]) -> File {
+    let crate_name = Ident::new(crate_name_str, Span::call_site());
+    let crate_name = &crate_name;
     let mut output = File {
         shebang: None,
         attrs: Vec::new(),
@@ -70,6 +72,7 @@ pub fn generate(crate_name: &Ident, node_types: &[&Item], excluded_types: &[Stri
     for &kind in [TraitKind::Visit, TraitKind::VisitMut, TraitKind::Fold].iter() {
         for &variant in [Variant::Normal, Variant::AstPath].iter() {
             let g = Generator {
+                has_unknown: crate_name_str == "swc_ecma_ast",
                 kind,
                 variant,
                 excluded_types,
@@ -307,6 +310,7 @@ impl Variant {
 }
 
 struct Generator<'a> {
+    has_unknown: bool,
     kind: TraitKind,
     variant: Variant,
 
@@ -684,7 +688,21 @@ impl Generator<'_> {
                         ));
                     }
 
-                    parse_quote!(match self { #(#match_arms)* })
+                    match (self.has_unknown, self.kind) {
+                        (false, _) => parse_quote!(match self {
+                            #(#match_arms)*
+                        }),
+                        (true, TraitKind::Visit | TraitKind::VisitMut) => parse_quote!(match self {
+                            #(#match_arms)*
+                            #[cfg(swc_ast_unknown)]
+                            _ => ()
+                        }),
+                        (true, TraitKind::Fold) => parse_quote!(match self {
+                            #(#match_arms)*
+                            #[cfg(swc_ast_unknown)]
+                            _ => self
+                        }),
+                    }
                 }
                 Item::Struct(data) => {
                     let name = &data.ident;

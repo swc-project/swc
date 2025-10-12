@@ -16,6 +16,9 @@ version       = "35.0.0"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 compat = ["swc_ecma_transforms_compat"]
 concurrent = [

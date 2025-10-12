@@ -11,6 +11,8 @@ macro_rules! impl_simple_enum {
                              swc_core::ecma::ast::$E::$v
                         ),
                     )*
+                    #[cfg(swc_ast_unknown)]
+                    _ => panic!("unable to access unknown nodes"),
                 }
             }
         }

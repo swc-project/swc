@@ -16,6 +16,9 @@ version       = "33.0.0"
 [lib]
 bench = false
 
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
+
 [features]
 # This enables global concurrent mode
 concurrent = [
