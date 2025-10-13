@@ -10,7 +10,10 @@ use swc_common::input::Input;
 use super::{pos_span, LexResult, Lexer};
 use crate::{
     error::SyntaxError,
-    lexer::token::{Token, TokenValue},
+    lexer::{
+        char_ext::CharExt,
+        token::{Token, TokenValue},
+    },
 };
 
 pub(super) type ByteHandler = fn(&mut Lexer<'_>) -> LexResult<Token>;

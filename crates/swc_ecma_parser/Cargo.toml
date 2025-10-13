@@ -34,7 +34,9 @@ bitflags       = { workspace = true }
 either         = { workspace = true }
 num-bigint     = { workspace = true }
 rustc-hash     = { workspace = true }
+seq-macro      = { workspace = true }
 serde          = { workspace = true, features = ["derive"] }
+smartstring    = { workspace = true }
 swc_atoms      = { version = "7.0.0", path = "../swc_atoms" }
 swc_common     = { version = "15.0.0", path = "../swc_common" }
 swc_ecma_ast   = { version = "16.0.0", path = "../swc_ecma_ast" }

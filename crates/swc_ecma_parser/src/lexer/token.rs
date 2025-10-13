@@ -452,7 +452,7 @@ impl Token {
 }
 
 impl Token {
-    fn is_other_and_before_expr_is_false(self) -> bool {
+    pub fn is_other_and_before_expr_is_false(self) -> bool {
         !self.is_keyword()
             && !self.is_bin_op()
             && !self.before_expr()
@@ -472,7 +472,7 @@ impl Token {
             )
     }
 
-    fn is_other_and_can_have_trailing_comment(self) -> bool {
+    pub fn is_other_and_can_have_trailing_comment(self) -> bool {
         matches!(
             self,
             Token::Num
