@@ -9,6 +9,7 @@ use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::{
+        char_ext::CharExt,
         comments_buffer::{BufferedCommentKind, CommentsBufferCheckpoint},
         token::{Token, TokenAndSpan, TokenValue},
         LexResult,
@@ -610,58 +611,76 @@ impl State {
 
 impl State {
     #[inline(always)]
-    fn is_expr_allowed(&self) -> bool {
+    pub fn is_expr_allowed(&self) -> bool {
         unreachable!("is_expr_allowed should not be called in Parser/State")
     }
 
     #[inline(always)]
-    fn set_is_expr_allowed(&mut self, _: bool) {
+    pub fn set_is_expr_allowed(&mut self, _: bool) {
         // noop
     }
 
     #[inline(always)]
-    fn set_next_regexp(&mut self, start: Option<BytePos>) {
+    pub fn set_next_regexp(&mut self, start: Option<BytePos>) {
         self.next_regexp = start;
     }
 
     #[inline(always)]
-    fn had_line_break(&self) -> bool {
+    pub fn had_line_break(&self) -> bool {
         self.had_line_break
     }
 
     #[inline(always)]
-    fn mark_had_line_break(&mut self) {
+    pub fn mark_had_line_break(&mut self) {
         self.had_line_break = true;
     }
 
     #[inline(always)]
-    fn had_line_break_before_last(&self) -> bool {
+    pub fn had_line_break_before_last(&self) -> bool {
         self.had_line_break_before_last
     }
 
     #[inline(always)]
-    fn set_token_type(&mut self, token_type: Token) {
+    pub fn set_token_type(&mut self, token_type: Token) {
         self.token_type = Some(token_type);
     }
 
     #[inline(always)]
-    fn token_type(&self) -> Option<Token> {
+    pub fn token_type(&self) -> Option<Token> {
         self.token_type
     }
 
     #[inline(always)]
-    fn syntax(&self) -> SyntaxFlags {
+    pub fn syntax(&self) -> SyntaxFlags {
         unreachable!("syntax is not stored in State, but in Lexer")
     }
 
     #[inline(always)]
-    fn prev_hi(&self) -> BytePos {
+    pub fn prev_hi(&self) -> BytePos {
         self.prev_hi
     }
 
     #[inline(always)]
-    fn start(&self) -> BytePos {
+    pub fn start(&self) -> BytePos {
         self.start
+    }
+
+    pub fn can_have_trailing_line_comment(&self) -> bool {
+        let Some(t) = self.token_type() else {
+            return true;
+        };
+        !t.is_bin_op()
+    }
+
+    pub fn can_have_trailing_comment(&self) -> bool {
+        self.token_type().is_some_and(|t| {
+            !t.is_keyword()
+                && (t.is_semi() || t.is_lbrace() || t.is_other_and_can_have_trailing_comment())
+        })
+    }
+
+    pub fn last_was_tpl_element(&self) -> bool {
+        self.token_type().is_some_and(|t| t.is_template())
     }
 }
 
