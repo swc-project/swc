@@ -291,178 +291,163 @@ pub enum Token {
 
 impl Token {
     #[inline(always)]
-    fn is_dot(self) -> bool {
+    pub fn is_dot(self) -> bool {
         self == Token::Dot
     }
 
     #[inline(always)]
-    fn is_bin_op(self) -> bool {
-        Token::is_bin_op(self)
-    }
-
-    #[inline(always)]
-    fn is_semi(self) -> bool {
+    pub fn is_semi(self) -> bool {
         self == Token::Semi
     }
 
     #[inline(always)]
-    fn is_template(self) -> bool {
+    pub fn is_template(self) -> bool {
         self == Token::Template
     }
 
     #[inline(always)]
-    fn is_keyword(self) -> bool {
-        Token::is_keyword(self)
-    }
-
-    #[inline(always)]
-    fn is_colon(self) -> bool {
+    pub fn is_colon(self) -> bool {
         self == Token::Colon
     }
 
     #[inline(always)]
-    fn is_lbrace(self) -> bool {
+    pub fn is_lbrace(self) -> bool {
         self == Token::LBrace
     }
 
     #[inline(always)]
-    fn is_rbrace(self) -> bool {
+    pub fn is_rbrace(self) -> bool {
         self == Token::RBrace
     }
 
     #[inline(always)]
-    fn is_lparen(self) -> bool {
+    pub fn is_lparen(self) -> bool {
         self == Token::LParen
     }
 
     #[inline(always)]
-    fn is_rparen(self) -> bool {
+    pub fn is_rparen(self) -> bool {
         self == Token::RParen
     }
 
     #[inline(always)]
-    fn is_keyword_fn(self) -> bool {
+    pub fn is_keyword_fn(self) -> bool {
         self == Token::Function
     }
 
     #[inline(always)]
-    fn is_keyword_return(self) -> bool {
+    pub fn is_keyword_return(self) -> bool {
         self == Token::Return
     }
 
     #[inline(always)]
-    fn is_keyword_yield(self) -> bool {
+    pub fn is_keyword_yield(self) -> bool {
         self == Token::Yield
     }
 
     #[inline(always)]
-    fn is_keyword_else(self) -> bool {
+    pub fn is_keyword_else(self) -> bool {
         self == Token::Else
     }
 
     #[inline(always)]
-    fn is_keyword_class(self) -> bool {
+    pub fn is_keyword_class(self) -> bool {
         self == Token::Class
     }
 
     #[inline(always)]
-    fn is_keyword_let(self) -> bool {
+    pub fn is_keyword_let(self) -> bool {
         self == Token::Let
     }
 
     #[inline(always)]
-    fn is_keyword_var(self) -> bool {
+    pub fn is_keyword_var(self) -> bool {
         self == Token::Var
     }
 
     #[inline(always)]
-    fn is_keyword_const(self) -> bool {
+    pub fn is_keyword_const(self) -> bool {
         self == Token::Const
     }
 
     #[inline(always)]
-    fn is_keyword_if(self) -> bool {
+    pub fn is_keyword_if(self) -> bool {
         self == Token::If
     }
 
     #[inline(always)]
-    fn is_keyword_while(self) -> bool {
+    pub fn is_keyword_while(self) -> bool {
         self == Token::While
     }
 
     #[inline(always)]
-    fn is_keyword_for(self) -> bool {
+    pub fn is_keyword_for(self) -> bool {
         self == Token::For
     }
 
     #[inline(always)]
-    fn is_keyword_with(self) -> bool {
+    pub fn is_keyword_with(self) -> bool {
         self == Token::With
     }
 
     #[inline(always)]
-    fn is_lt(self) -> bool {
+    pub fn is_lt(self) -> bool {
         self == Token::Lt
     }
 
     #[inline(always)]
-    fn is_gt(self) -> bool {
+    pub fn is_gt(self) -> bool {
         self == Token::Gt
     }
 
     #[inline(always)]
-    fn is_arrow(self) -> bool {
+    pub fn is_arrow(self) -> bool {
         self == Token::Arrow
     }
 
     #[inline(always)]
-    fn is_ident(self) -> bool {
+    pub fn is_ident(self) -> bool {
         self == Token::Ident || self.is_known_ident()
     }
 
     #[inline(always)]
-    fn is_known_ident_of(self) -> bool {
+    pub fn is_known_ident_of(self) -> bool {
         self == Token::Of
     }
 
     #[inline(always)]
-    fn is_slash(self) -> bool {
+    pub fn is_slash(self) -> bool {
         self == Token::Slash
     }
 
     #[inline(always)]
-    fn is_dollar_lbrace(self) -> bool {
+    pub fn is_dollar_lbrace(self) -> bool {
         self == Token::DollarLBrace
     }
 
     #[inline(always)]
-    fn is_plus_plus(self) -> bool {
+    pub fn is_plus_plus(self) -> bool {
         self == Token::PlusPlus
     }
 
     #[inline(always)]
-    fn is_minus_minus(self) -> bool {
+    pub fn is_minus_minus(self) -> bool {
         self == Token::MinusMinus
     }
 
     #[inline(always)]
-    fn is_back_quote(self) -> bool {
+    pub fn is_back_quote(self) -> bool {
         self == Token::BackQuote
     }
 
     #[inline(always)]
-    fn is_jsx_tag_start(self) -> bool {
+    pub fn is_jsx_tag_start(self) -> bool {
         self == Token::JSXTagStart
     }
 
     #[inline(always)]
-    fn is_jsx_tag_end(self) -> bool {
+    pub fn is_jsx_tag_end(self) -> bool {
         self == Token::JSXTagEnd
-    }
-
-    #[inline(always)]
-    fn before_expr(self) -> bool {
-        self.before_expr()
     }
 }
 
@@ -503,173 +488,175 @@ impl Token {
 }
 
 impl<'a> Token {
-    const ABSTRACT: Self = Token::Abstract;
-    const ACCESSOR: Self = Token::Accessor;
-    const ANY: Self = Token::Any;
-    const ARROW: Self = Token::Arrow;
-    const AS: Self = Token::As;
-    const ASSERT: Self = Token::Assert;
-    const ASSERTS: Self = Token::Asserts;
-    const ASYNC: Self = Token::Async;
-    const AT: Self = Token::At;
-    const AWAIT: Self = Token::Await;
-    const BACKQUOTE: Self = Token::BackQuote;
-    const BANG: Self = Self::Bang;
-    const BIGINT: Self = Token::Bigint;
-    const BIT_AND: Self = Self::Ampersand;
-    const BIT_AND_EQ: Self = Self::BitAndEq;
-    const BIT_OR: Self = Self::Pipe;
-    const BIT_OR_EQ: Self = Self::BitOrEq;
-    const BOOLEAN: Self = Token::Boolean;
-    const BREAK: Self = Token::Break;
-    const CASE: Self = Token::Case;
-    const CATCH: Self = Token::Catch;
-    const CLASS: Self = Self::Class;
-    const COLON: Self = Self::Colon;
-    const COMMA: Self = Token::Comma;
-    const CONST: Self = Self::Const;
-    const CONTINUE: Self = Token::Continue;
-    const DEBUGGER: Self = Token::Debugger;
-    const DECLARE: Self = Token::Declare;
-    const DEFAULT: Self = Token::Default;
-    const DELETE: Self = Self::Delete;
-    const DIV: Self = Token::Slash;
-    const DIV_EQ: Self = Token::DivEq;
-    const DO: Self = Token::Do;
-    const DOLLAR_LBRACE: Self = Token::DollarLBrace;
-    const DOT: Self = Self::Dot;
-    const DOTDOTDOT: Self = Self::DotDotDot;
-    const ELSE: Self = Self::Else;
-    const ENUM: Self = Token::Enum;
-    const EOF: Self = Token::Eof;
-    const EQUAL: Self = Token::Eq;
-    const EXP: Self = Token::Exp;
-    const EXPORT: Self = Token::Export;
-    const EXP_EQ: Self = Token::ExpEq;
-    const EXTENDS: Self = Token::Extends;
-    const FALSE: Self = Token::False;
-    const FINALLY: Self = Token::Finally;
-    const FOR: Self = Token::For;
-    const FROM: Self = Token::From;
-    const FUNCTION: Self = Self::Function;
-    const GET: Self = Token::Get;
-    const GLOBAL: Self = Token::Global;
-    const GREATER: Self = Token::Gt;
-    const GREATER_EQ: Self = Token::GtEq;
-    const HASH: Self = Self::Hash;
-    const IF: Self = Self::If;
-    const IMPLEMENTS: Self = Token::Implements;
-    const IMPORT: Self = Self::Import;
-    const IN: Self = Self::In;
-    const INFER: Self = Token::Infer;
-    const INSTANCEOF: Self = Token::InstanceOf;
-    const INTERFACE: Self = Token::Interface;
-    const INTRINSIC: Self = Token::Intrinsic;
-    const IS: Self = Token::Is;
-    const JSX_TAG_END: Self = Token::JSXTagEnd;
-    const JSX_TAG_START: Self = Token::JSXTagStart;
-    const KEYOF: Self = Token::Keyof;
-    const LBRACE: Self = Self::LBrace;
-    const LBRACKET: Self = Self::LBracket;
-    const LESS: Self = Token::Lt;
-    const LESS_EQ: Self = Token::LtEq;
-    const LET: Self = Token::Let;
-    const LOGICAL_AND: Self = Token::LogicalAnd;
-    const LOGICAL_AND_EQ: Self = Self::LogicalAndEq;
-    const LOGICAL_OR: Self = Token::LogicalOr;
-    const LOGICAL_OR_EQ: Self = Self::LogicalOrEq;
-    const LPAREN: Self = Self::LParen;
-    const LSHIFT: Self = Token::LShift;
-    const LSHIFT_EQ: Self = Token::LShiftEq;
-    const MINUS: Self = Self::Minus;
-    const MINUS_MINUS: Self = Self::MinusMinus;
-    const MOD: Self = Token::Percent;
-    const MOD_EQ: Self = Token::ModEq;
-    const MUL: Self = Token::Asterisk;
-    const MUL_EQ: Self = Token::MulEq;
-    const NAMESPACE: Self = Token::Namespace;
-    const NEVER: Self = Token::Never;
-    const NEW: Self = Self::New;
-    const NULL: Self = Token::Null;
-    const NULLISH_ASSIGN: Self = Token::NullishEq;
-    const NULLISH_COALESCING: Self = Token::NullishCoalescing;
-    const NUMBER: Self = Token::Number;
-    const OBJECT: Self = Token::Object;
-    const OF: Self = Token::Of;
-    const PACKAGE: Self = Token::Package;
-    const PLUS: Self = Self::Plus;
-    const PLUS_PLUS: Self = Self::PlusPlus;
-    const PRIVATE: Self = Token::Private;
-    const PROTECTED: Self = Token::Protected;
-    const PUBLIC: Self = Token::Public;
-    const QUESTION: Self = Token::QuestionMark;
-    const RBRACE: Self = Self::RBrace;
-    const RBRACKET: Self = Self::RBracket;
-    const READONLY: Self = Token::Readonly;
-    const REQUIRE: Self = Token::Require;
-    const RETURN: Self = Token::Return;
-    const RPAREN: Self = Self::RParen;
-    const RSHIFT: Self = Token::RShift;
-    const RSHIFT_EQ: Self = Token::RShiftEq;
-    const SATISFIES: Self = Token::Satisfies;
-    const SEMI: Self = Token::Semi;
-    const SET: Self = Token::Set;
-    const STATIC: Self = Token::Static;
-    const STRING: Self = Token::String;
-    const SUPER: Self = Self::Super;
-    const SWITCH: Self = Token::Switch;
-    const SYMBOL: Self = Token::Symbol;
-    const TARGET: Self = Token::Target;
-    const THIS: Self = Token::This;
-    const THROW: Self = Token::Throw;
-    const TILDE: Self = Self::Tilde;
-    const TRUE: Self = Token::True;
-    const TRY: Self = Token::Try;
-    const TYPE: Self = Token::Type;
-    const TYPEOF: Self = Self::TypeOf;
-    const UNDEFINED: Self = Token::Undefined;
-    const UNIQUE: Self = Token::Unique;
-    const UNKNOWN: Self = Token::Unknown;
-    const USING: Self = Self::Using;
-    const VAR: Self = Self::Var;
-    const VOID: Self = Self::Void;
-    const WHILE: Self = Token::While;
-    const WITH: Self = Token::With;
-    const YIELD: Self = Token::Yield;
-    const ZERO_FILL_RSHIFT: Self = Token::ZeroFillRShift;
-    const ZERO_FILL_RSHIFT_EQ: Self = Token::ZeroFillRShiftEq;
+    pub const ABSTRACT: Self = Token::Abstract;
+    pub const ACCESSOR: Self = Token::Accessor;
+    pub const ANY: Self = Token::Any;
+    pub const ARROW: Self = Token::Arrow;
+    pub const AS: Self = Token::As;
+    pub const ASSERT: Self = Token::Assert;
+    pub const ASSERTS: Self = Token::Asserts;
+    pub const ASYNC: Self = Token::Async;
+    pub const AT: Self = Token::At;
+    pub const AWAIT: Self = Token::Await;
+    pub const BACKQUOTE: Self = Token::BackQuote;
+    pub const BANG: Self = Self::Bang;
+    pub const BIGINT: Self = Token::Bigint;
+    pub const BIT_AND: Self = Self::Ampersand;
+    pub const BIT_AND_EQ: Self = Self::BitAndEq;
+    pub const BIT_OR: Self = Self::Pipe;
+    pub const BIT_OR_EQ: Self = Self::BitOrEq;
+    pub const BOOLEAN: Self = Token::Boolean;
+    pub const BREAK: Self = Token::Break;
+    pub const CASE: Self = Token::Case;
+    pub const CATCH: Self = Token::Catch;
+    pub const CLASS: Self = Self::Class;
+    pub const COLON: Self = Self::Colon;
+    pub const COMMA: Self = Token::Comma;
+    pub const CONST: Self = Self::Const;
+    pub const CONTINUE: Self = Token::Continue;
+    pub const DEBUGGER: Self = Token::Debugger;
+    pub const DECLARE: Self = Token::Declare;
+    pub const DEFAULT: Self = Token::Default;
+    pub const DELETE: Self = Self::Delete;
+    pub const DIV: Self = Token::Slash;
+    pub const DIV_EQ: Self = Token::DivEq;
+    pub const DO: Self = Token::Do;
+    pub const DOLLAR_LBRACE: Self = Token::DollarLBrace;
+    pub const DOT: Self = Self::Dot;
+    pub const DOTDOTDOT: Self = Self::DotDotDot;
+    pub const ELSE: Self = Self::Else;
+    pub const ENUM: Self = Token::Enum;
+    pub const EOF: Self = Token::Eof;
+    pub const EQUAL: Self = Token::Eq;
+    pub const EXP: Self = Token::Exp;
+    pub const EXPORT: Self = Token::Export;
+    pub const EXP_EQ: Self = Token::ExpEq;
+    pub const EXTENDS: Self = Token::Extends;
+    pub const FALSE: Self = Token::False;
+    pub const FINALLY: Self = Token::Finally;
+    pub const FOR: Self = Token::For;
+    pub const FROM: Self = Token::From;
+    pub const FUNCTION: Self = Self::Function;
+    pub const GET: Self = Token::Get;
+    pub const GLOBAL: Self = Token::Global;
+    pub const GREATER: Self = Token::Gt;
+    pub const GREATER_EQ: Self = Token::GtEq;
+    pub const HASH: Self = Self::Hash;
+    pub const IF: Self = Self::If;
+    pub const IMPLEMENTS: Self = Token::Implements;
+    pub const IMPORT: Self = Self::Import;
+    pub const IN: Self = Self::In;
+    pub const INFER: Self = Token::Infer;
+    pub const INSTANCEOF: Self = Token::InstanceOf;
+    pub const INTERFACE: Self = Token::Interface;
+    pub const INTRINSIC: Self = Token::Intrinsic;
+    pub const IS: Self = Token::Is;
+    pub const JSX_TAG_END: Self = Token::JSXTagEnd;
+    pub const JSX_TAG_START: Self = Token::JSXTagStart;
+    pub const KEYOF: Self = Token::Keyof;
+    pub const LBRACE: Self = Self::LBrace;
+    pub const LBRACKET: Self = Self::LBracket;
+    pub const LESS: Self = Token::Lt;
+    pub const LESS_EQ: Self = Token::LtEq;
+    pub const LET: Self = Token::Let;
+    pub const LOGICAL_AND: Self = Token::LogicalAnd;
+    pub const LOGICAL_AND_EQ: Self = Self::LogicalAndEq;
+    pub const LOGICAL_OR: Self = Token::LogicalOr;
+    pub const LOGICAL_OR_EQ: Self = Self::LogicalOrEq;
+    pub const LPAREN: Self = Self::LParen;
+    pub const LSHIFT: Self = Token::LShift;
+    pub const LSHIFT_EQ: Self = Token::LShiftEq;
+    pub const MINUS: Self = Self::Minus;
+    pub const MINUS_MINUS: Self = Self::MinusMinus;
+    pub const MOD: Self = Token::Percent;
+    pub const MOD_EQ: Self = Token::ModEq;
+    pub const MUL: Self = Token::Asterisk;
+    pub const MUL_EQ: Self = Token::MulEq;
+    pub const NAMESPACE: Self = Token::Namespace;
+    pub const NEVER: Self = Token::Never;
+    pub const NEW: Self = Self::New;
+    pub const NULL: Self = Token::Null;
+    pub const NULLISH_ASSIGN: Self = Token::NullishEq;
+    pub const NULLISH_COALESCING: Self = Token::NullishCoalescing;
+    pub const NUMBER: Self = Token::Number;
+    pub const OBJECT: Self = Token::Object;
+    pub const OF: Self = Token::Of;
+    pub const PACKAGE: Self = Token::Package;
+    pub const PLUS: Self = Self::Plus;
+    pub const PLUS_PLUS: Self = Self::PlusPlus;
+    pub const PRIVATE: Self = Token::Private;
+    pub const PROTECTED: Self = Token::Protected;
+    pub const PUBLIC: Self = Token::Public;
+    pub const QUESTION: Self = Token::QuestionMark;
+    pub const RBRACE: Self = Self::RBrace;
+    pub const RBRACKET: Self = Self::RBracket;
+    pub const READONLY: Self = Token::Readonly;
+    pub const REQUIRE: Self = Token::Require;
+    pub const RETURN: Self = Token::Return;
+    pub const RPAREN: Self = Self::RParen;
+    pub const RSHIFT: Self = Token::RShift;
+    pub const RSHIFT_EQ: Self = Token::RShiftEq;
+    pub const SATISFIES: Self = Token::Satisfies;
+    pub const SEMI: Self = Token::Semi;
+    pub const SET: Self = Token::Set;
+    pub const STATIC: Self = Token::Static;
+    pub const STRING: Self = Token::String;
+    pub const SUPER: Self = Self::Super;
+    pub const SWITCH: Self = Token::Switch;
+    pub const SYMBOL: Self = Token::Symbol;
+    pub const TARGET: Self = Token::Target;
+    pub const THIS: Self = Token::This;
+    pub const THROW: Self = Token::Throw;
+    pub const TILDE: Self = Self::Tilde;
+    pub const TRUE: Self = Token::True;
+    pub const TRY: Self = Token::Try;
+    pub const TYPE: Self = Token::Type;
+    pub const TYPEOF: Self = Self::TypeOf;
+    pub const UNDEFINED: Self = Token::Undefined;
+    pub const UNIQUE: Self = Token::Unique;
+    pub const UNKNOWN: Self = Token::Unknown;
+    pub const USING: Self = Self::Using;
+    pub const VAR: Self = Self::Var;
+    pub const VOID: Self = Self::Void;
+    pub const WHILE: Self = Token::While;
+    pub const WITH: Self = Token::With;
+    pub const YIELD: Self = Token::Yield;
+    pub const ZERO_FILL_RSHIFT: Self = Token::ZeroFillRShift;
+    pub const ZERO_FILL_RSHIFT_EQ: Self = Token::ZeroFillRShiftEq;
 
     #[inline(always)]
-    fn jsx_name(name: &str, lexer: &mut crate::Lexer) -> Self {
+    pub fn jsx_name(name: &str, lexer: &mut crate::Lexer) -> Self {
         let name = lexer.atoms.atom(name);
         lexer.set_token_value(Some(TokenValue::Word(name)));
         Token::JSXName
     }
 
     #[inline(always)]
-    fn is_jsx_name(&self) -> bool {
+    pub fn is_jsx_name(&self) -> bool {
         Token::JSXName.eq(self)
     }
 
     #[inline(always)]
-    fn take_jsx_name(self, buffer: &mut Buffer<Lexer>) -> Atom {
+    pub fn take_jsx_name<I: Tokens>(self, buffer: &mut Buffer<I>) -> Atom {
         buffer.expect_word_token_value()
     }
 
     #[inline(always)]
     fn str(value: Wtf8Atom, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+    pub fn str(value: Atom, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Str { value, raw }));
         Token::Str
     }
 
     #[inline(always)]
     fn template(cooked: LexResult<Wtf8Atom>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+    pub fn template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Template { cooked, raw }));
         Token::Template
     }
 
     #[inline(always)]
-    fn regexp(content: Atom, flags: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+    pub fn regexp(content: Atom, flags: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Regex {
             value: content,
             flags,
@@ -678,51 +665,46 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn num(value: f64, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+    pub fn num(value: f64, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Num { value, raw }));
         Self::Num
     }
 
     #[inline(always)]
-    fn bigint(value: Box<num_bigint::BigInt>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+    pub fn bigint(value: Box<num_bigint::BigInt>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::BigInt { value, raw }));
         Self::BigInt
     }
 
     #[inline(always)]
-    fn unknown_ident(value: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+    pub fn unknown_ident(value: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Word(value)));
         Token::Ident
     }
 
     #[inline(always)]
-    fn is_reserved(&self, ctx: Context) -> bool {
-        self.is_reserved(ctx)
-    }
-
-    #[inline(always)]
-    fn into_atom(self, lexer: &mut crate::Lexer<'a>) -> Option<Atom> {
+    pub fn into_atom(self, lexer: &mut crate::Lexer<'a>) -> Option<Atom> {
         let value = lexer.get_token_value();
         self.as_word_atom(value)
     }
 
     #[inline(always)]
-    fn is_error(&self) -> bool {
+    pub fn is_error(&self) -> bool {
         Token::Error.eq(self)
     }
 
     #[inline(always)]
-    fn take_error(self, buffer: &mut Buffer<Lexer>) -> Error {
+    pub fn take_error<I: Tokens>(self, buffer: &mut Buffer<I>) -> Error {
         buffer.expect_error_token_value()
     }
 
     #[inline(always)]
-    fn is_str(&self) -> bool {
+    pub fn is_str(&self) -> bool {
         Self::Str.eq(self)
     }
 
     #[inline(always)]
-    fn is_str_raw_content(&self, content: &str, buffer: &Buffer<Lexer>) -> bool {
+    pub fn is_str_raw_content<I: Tokens>(&self, content: &str, buffer: &Buffer<I>) -> bool {
         Self::Str.eq(self)
             && if let Some(TokenValue::Str { raw, .. }) = buffer.get_token_value() {
                 raw == content
@@ -734,71 +716,57 @@ impl<'a> Token {
     #[inline(always)]
     fn take_str(self, buffer: &mut Self::Buffer) -> (Wtf8Atom, Atom) {
     fn take_str(self, buffer: &mut Buffer<Lexer>) -> (Atom, Atom) {
+    pub fn take_str<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Atom, Atom) {
         buffer.expect_string_token_value()
     }
 
     #[inline(always)]
-    fn is_num(&self) -> bool {
+    pub fn is_num(&self) -> bool {
         Self::Num.eq(self)
     }
 
     #[inline(always)]
-    fn take_num(self, buffer: &mut Buffer<Lexer>) -> (f64, Atom) {
+    pub fn take_num<I: Tokens>(self, buffer: &mut Buffer<I>) -> (f64, Atom) {
         buffer.expect_number_token_value()
     }
 
     #[inline(always)]
-    fn is_bigint(&self) -> bool {
+    pub fn is_bigint(&self) -> bool {
         Self::BigInt.eq(self)
     }
 
     #[inline(always)]
-    fn take_bigint(self, buffer: &mut Buffer<Lexer>) -> (Box<BigInt>, Atom) {
+    pub fn take_bigint<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Box<BigInt>, Atom) {
         buffer.expect_bigint_token_value()
     }
 
-    #[inline(always)]
-    fn is_word(&self) -> bool {
-        (*self).is_word()
-    }
-
     #[inline]
-    fn take_word(self, buffer: &Buffer<Lexer>) -> Option<Atom> {
+    pub fn take_word<I: Tokens>(self, buffer: &Buffer<I>) -> Option<Atom> {
         self.as_word_atom(buffer.get_token_value())
     }
 
     #[inline(always)]
-    fn is_unknown_ident(&self) -> bool {
+    pub fn is_unknown_ident(&self) -> bool {
         Token::Ident.eq(self)
     }
 
     #[inline(always)]
-    fn take_unknown_ident(self, buffer: &mut Buffer<Lexer>) -> Atom {
+    pub fn take_unknown_ident<I: Tokens>(self, buffer: &mut Buffer<I>) -> Atom {
         buffer.expect_word_token_value()
     }
 
     #[inline(always)]
-    fn is_keyword(&self) -> bool {
-        Token::is_keyword(*self)
-    }
-
-    #[inline(always)]
-    fn is_known_ident(&self) -> bool {
-        Token::is_known_ident(*self)
-    }
-
-    #[inline(always)]
-    fn take_known_ident(&self) -> Atom {
+    pub fn take_known_ident(&self) -> Atom {
         self.as_known_ident_atom().unwrap()
     }
 
     #[inline(always)]
-    fn is_regexp(&self) -> bool {
+    pub fn is_regexp(&self) -> bool {
         Token::Regex.eq(self)
     }
 
     #[inline(always)]
-    fn take_unknown_ident_ref<'b>(&'b self, buffer: &'b Buffer<Lexer>) -> &'b Atom {
+    pub fn take_unknown_ident_ref<'b, I: Tokens>(&'b self, buffer: &'b Buffer<I>) -> &'b Atom {
         buffer.expect_word_token_value_ref()
     }
 
@@ -810,6 +778,7 @@ impl<'a> Token {
     #[inline(always)]
     fn take_template(self, buffer: &mut Self::Buffer) -> (LexResult<Wtf8Atom>, Atom) {
     fn take_template(self, buffer: &mut Buffer<Lexer>) -> (LexResult<Atom>, Atom) {
+    pub fn take_template<I: Tokens>(self, buffer: &mut Buffer<I>) -> (LexResult<Atom>, Atom) {
         buffer.expect_template_token_value()
     }
 
@@ -820,12 +789,13 @@ impl<'a> Token {
             raw,
         }));
     fn jsx_text(value: Atom, raw: Atom, lexer: &mut Lexer) -> Self {
+    pub fn jsx_text(value: Atom, raw: Atom, lexer: &mut Lexer) -> Self {
         lexer.set_token_value(Some(TokenValue::Str { value, raw }));
         Token::JSXText
     }
 
     #[inline(always)]
-    fn is_jsx_text(&self) -> bool {
+    pub fn is_jsx_text(&self) -> bool {
         Token::JSXText.eq(self)
     }
 
@@ -835,72 +805,38 @@ impl<'a> Token {
         // SAFETY: We set value as Atom in `jsx_text` method.
         (value.as_atom().cloned().unwrap(), raw)
     fn take_jsx_text(self, buffer: &mut Buffer<Lexer>) -> (Atom, Atom) {
+    pub fn take_jsx_text<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Atom, Atom) {
         buffer.expect_string_token_value()
     }
 
     #[inline(always)]
-    fn starts_expr(&self) -> bool {
-        (*self).starts_expr()
-    }
-
-    #[inline(always)]
-    fn to_string(&self, buffer: &Buffer<Lexer>) -> String {
-        (*self).to_string(buffer.get_token_value())
-    }
-
-    #[inline(always)]
-    fn is_bin_op(&self) -> bool {
-        (*self).is_bin_op()
-    }
-
-    #[inline(always)]
-    fn as_assign_op(&self) -> Option<AssignOp> {
-        (*self).as_assign_op()
-    }
-
-    #[inline(always)]
-    fn as_bin_op(&self) -> Option<swc_ecma_ast::BinaryOp> {
-        (*self).as_bin_op()
-    }
-
-    #[inline(always)]
-    fn follows_keyword_let(&self) -> bool {
-        (*self).follows_keyword_let()
-    }
-
-    #[inline(always)]
-    fn is_assign_op(&self) -> bool {
-        (*self).is_assign_op()
-    }
-
-    #[inline(always)]
-    fn take_regexp(self, buffer: &mut Buffer<Lexer>) -> (Atom, Atom) {
+    pub fn take_regexp<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Atom, Atom) {
         buffer.expect_regex_token_value()
     }
 
     #[inline(always)]
-    fn shebang(value: Atom, lexer: &mut Lexer) -> Self {
+    pub fn shebang(value: Atom, lexer: &mut Lexer) -> Self {
         lexer.set_token_value(Some(TokenValue::Word(value)));
         Token::Shebang
     }
 
     #[inline(always)]
-    fn is_shebang(&self) -> bool {
+    pub fn is_shebang(&self) -> bool {
         Token::Shebang.eq(self)
     }
 
     #[inline(always)]
-    fn take_shebang(self, buffer: &mut Buffer<Lexer>) -> Atom {
+    pub fn take_shebang<I: Tokens>(self, buffer: &mut Buffer<I>) -> Atom {
         buffer.expect_word_token_value()
     }
 
     #[inline(always)]
-    fn is_no_substitution_template_literal(&self) -> bool {
+    pub fn is_no_substitution_template_literal(&self) -> bool {
         Token::NoSubstitutionTemplateLiteral.eq(self)
     }
 
     #[inline(always)]
-    fn is_template_head(&self) -> bool {
+    pub fn is_template_head(&self) -> bool {
         Token::TemplateHead.eq(self)
     }
 }
@@ -1524,7 +1460,7 @@ pub struct TokenAndSpan {
 
 impl TokenAndSpan {
     #[inline(always)]
-    fn new(token: Token, span: Span, had_line_break: bool) -> Self {
+    pub fn new(token: Token, span: Span, had_line_break: bool) -> Self {
         Self {
             token,
             had_line_break,
@@ -1533,22 +1469,22 @@ impl TokenAndSpan {
     }
 
     #[inline(always)]
-    fn token(&self) -> &Token {
-        &self.token
-    }
-
-    #[inline(always)]
-    fn take_token(self) -> Token {
+    pub fn token(&self) -> Token {
         self.token
     }
 
     #[inline(always)]
-    fn had_line_break(&self) -> bool {
+    pub fn take_token(self) -> Token {
+        self.token
+    }
+
+    #[inline(always)]
+    pub fn had_line_break(&self) -> bool {
         self.had_line_break
     }
 
     #[inline]
-    fn span(&self) -> Span {
+    pub fn span(&self) -> Span {
         self.span
     }
 }
@@ -1561,17 +1497,17 @@ pub struct NextTokenAndSpan {
 
 impl NextTokenAndSpan {
     #[inline(always)]
-    fn token(&self) -> &Token {
-        &self.token_and_span.token
+    pub fn token(&self) -> Token {
+        self.token_and_span.token
     }
 
     #[inline(always)]
-    fn span(&self) -> Span {
+    pub fn span(&self) -> Span {
         self.token_and_span.span
     }
 
     #[inline(always)]
-    fn had_line_break(&self) -> bool {
+    pub fn had_line_break(&self) -> bool {
         self.token_and_span.had_line_break
     }
 }
