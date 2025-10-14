@@ -103,7 +103,7 @@ impl<I: Tokens> Parser<I> {
                 break;
             }
 
-            let (_, element) = self.parse_element()?;
+            let (_, element) = parse_element()?;
             buf.push(element);
 
             if self.input_mut().eat(Token::COMMA) {
@@ -138,11 +138,7 @@ impl<I: Tokens> Parser<I> {
     {
         debug_assert!(self.input().syntax().typescript());
         trace_cur!(self, ts_in_no_context__before);
-        let saved = std::mem::take(self.input_mut().token_context_mut());
-        self.input_mut().token_context_mut().push(saved.0[0]);
-        debug_assert_eq!(self.input().token_context().len(), 1);
         let res = op(self);
-        self.input_mut().set_token_context(saved);
         trace_cur!(self, ts_in_no_context__after);
         res
     }
