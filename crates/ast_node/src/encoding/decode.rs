@@ -248,11 +248,11 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
             };
 
             let tag: syn::Stmt = if matches!(enum_type, EnumType::Unit) {
-                syn::parse_quote!{
+                syn::parse_quote! {
                     let tag = <u64 as cbor4ii::core::dec::Decode<'_>>::decode(reader)?;
                 }
             } else {
-                syn::parse_quote!{
+                syn::parse_quote! {
                     let tag = <cbor4ii::core::types::Tag<()>>::tag(reader)?;
                 }
             };

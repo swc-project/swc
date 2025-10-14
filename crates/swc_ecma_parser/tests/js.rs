@@ -75,9 +75,11 @@ fn run_spec(file: &Path, output_json: &Path, config_path: &Path) {
 
         // cbor
         {
-            use cbor4ii::core::utils::{ BufWriter, SliceReader };
-            use cbor4ii::core::enc::Encode;
-            use cbor4ii::core::dec::Decode;
+            use cbor4ii::core::{
+                dec::Decode,
+                enc::Encode,
+                utils::{BufWriter, SliceReader},
+            };
 
             let mut buf = BufWriter::new(Vec::new());
             program.encode(&mut buf).unwrap();
