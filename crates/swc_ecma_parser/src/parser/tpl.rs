@@ -11,7 +11,7 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Tpl> {
         let start = self.input.cur_pos();
         let cur = self.input.cur();
-        debug_assert!(matches!(cur, &Token::NoSubstitutionTemplateLiteral));
+        debug_assert!(matches!(cur, Token::NoSubstitutionTemplateLiteral));
 
         let (cooked, raw) = (*cur).take_template(self.input_mut());
         let (raw, cooked) = match cooked {
@@ -52,7 +52,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_template_head(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         let start = self.cur_pos();
         let cur = self.input().cur();
-        debug_assert!(matches!(cur, &Token::TemplateHead));
+        debug_assert!(matches!(cur, Token::TemplateHead));
 
         let (cooked, raw) = (*cur).take_template(self.input_mut());
         let (raw, cooked) = match cooked {
@@ -85,7 +85,7 @@ impl<I: Tokens> Parser<I> {
 
     pub(super) fn parse_tpl(&mut self, is_tagged_tpl: bool) -> PResult<Tpl> {
         trace_cur!(self, parse_tpl);
-        debug_assert!(matches!(self.input.cur(), &Token::TemplateHead));
+        debug_assert!(matches!(self.input.cur(), Token::TemplateHead));
 
         let start = self.cur_pos();
 
@@ -119,7 +119,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
-        if self.input_mut().is(&Token::RBrace) {
+        if self.input_mut().is(Token::RBrace) {
             self.input_mut().rescan_template_token(false);
         }
         let start = self.cur_pos();
@@ -190,7 +190,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_tagged_tpl);
 
         let tpl = Box::new(
-            if self.input_mut().is(&Token::NoSubstitutionTemplateLiteral) {
+            if self.input_mut().is(Token::NoSubstitutionTemplateLiteral) {
                 self.input_mut().rescan_template_token(true);
                 self.parse_no_substitution_template_literal(true)?
             } else {
@@ -233,7 +233,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_no_substitution_template_ty(&mut self) -> PResult<TsTplLitType> {
         let start = self.input.cur_pos();
         let cur = self.input.cur();
-        debug_assert!(matches!(cur, &Token::NoSubstitutionTemplateLiteral));
+        debug_assert!(matches!(cur, Token::NoSubstitutionTemplateLiteral));
 
         let (cooked, raw) = (*cur).take_template(self.input_mut());
         let (raw, cooked) = match cooked {
@@ -267,7 +267,7 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_tpl_ty(&mut self) -> PResult<TsTplLitType> {
         trace_cur!(self, parse_tpl_ty);
-        debug_assert!(matches!(self.input.cur(), &Token::TemplateHead));
+        debug_assert!(matches!(self.input.cur(), Token::TemplateHead));
 
         let start = self.cur_pos();
 
@@ -285,7 +285,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_tagged_tpl_ty(&mut self) -> PResult<TsTplLitType> {
         debug_assert!(self.input().syntax().typescript());
         trace_cur!(self, parse_tagged_tpl);
-        if self.input_mut().is(&Token::NoSubstitutionTemplateLiteral) {
+        if self.input_mut().is(Token::NoSubstitutionTemplateLiteral) {
             self.parse_no_substitution_template_ty()
         } else {
             self.parse_tpl_ty()

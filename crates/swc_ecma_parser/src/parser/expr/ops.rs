@@ -2,13 +2,12 @@
 mod tests {
     use swc_common::DUMMY_SP as span;
     use swc_ecma_ast::*;
-    use swc_ecma_lexer::{common::parser::expr::parse_bin_expr, Syntax};
     use swc_ecma_visit::assert_eq_ignore_span;
 
-    use crate::test_parser;
+    use crate::{test_parser, Syntax};
 
     fn bin(s: &'static str) -> Box<Expr> {
-        test_parser(s, Syntax::default(), |p| parse_bin_expr(p))
+        test_parser(s, Syntax::default(), |p| p.parse_bin_expr())
     }
 
     #[test]
