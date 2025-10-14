@@ -99,5 +99,5 @@ pub fn unknown_impl() -> std::convert::Infallible {
 macro_rules! unknown {
     () => {
         match $crate::unknown_impl() {}
-    }
+    };
 }

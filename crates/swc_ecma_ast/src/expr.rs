@@ -517,7 +517,10 @@ pub struct ArrayLit {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "elements"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "swc_common::serializer::ArrayOption"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "swc_common::serializer::ArrayOption")
+    )]
     pub elems: Vec<Option<ExprOrSpread>>,
 }
 

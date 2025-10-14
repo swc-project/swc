@@ -49,7 +49,10 @@ pub struct ArrayOption<T>(pub T);
 
 #[cfg(feature = "encoding-impl")]
 impl<T: cbor4ii::core::enc::Encode> cbor4ii::core::enc::Encode for ArrayOption<&'_ Vec<Option<T>>> {
-    fn encode<W: cbor4ii::core::enc::Write>(&self, writer: &mut W) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+    fn encode<W: cbor4ii::core::enc::Write>(
+        &self,
+        writer: &mut W,
+    ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
         <cbor4ii::core::types::Array<()>>::bounded(self.0.len(), writer)?;
         for item in self.0.iter() {
             cbor4ii::core::types::Maybe(item).encode(writer)?;
@@ -59,13 +62,19 @@ impl<T: cbor4ii::core::enc::Encode> cbor4ii::core::enc::Encode for ArrayOption<&
 }
 
 #[cfg(feature = "encoding-impl")]
-impl<'de, T: cbor4ii::core::dec::Decode<'de>> cbor4ii::core::dec::Decode<'de> for ArrayOption<Vec<Option<T>>> {
-    fn decode<R: cbor4ii::core::dec::Read<'de>>(reader: &mut R) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+impl<'de, T: cbor4ii::core::dec::Decode<'de>> cbor4ii::core::dec::Decode<'de>
+    for ArrayOption<Vec<Option<T>>>
+{
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(
+        reader: &mut R,
+    ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
         let len = <cbor4ii::core::types::Array<()>>::len(reader)?;
         let Some(len) = len else {
             return Err(cbor4ii::core::error::DecodeError::RequireLength {
                 name: &"array-option",
-                found: len.map(cbor4ii::core::error::Len::new).unwrap_or(cbor4ii::core::error::Len::Indefinite),
+                found: len
+                    .map(cbor4ii::core::error::Len::new)
+                    .unwrap_or(cbor4ii::core::error::Len::Indefinite),
             });
         };
         let mut q = Vec::with_capacity(std::cmp::min(len, 128));

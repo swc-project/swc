@@ -119,16 +119,16 @@ impl<'de> serde::Deserialize<'de> for Unknown {
 #[cfg(feature = "arbitrary")]
 impl<'a> arbitrary::Arbitrary<'a> for Unknown {
     fn arbitrary(u: &mut arbitrary::Unstructured<'a>) -> arbitrary::Result<Self> {
-        use cbor4ii::core::{ Value, BoxedRawValue };
-        
+        use cbor4ii::core::{BoxedRawValue, Value};
+
         let mut list = Vec::new();
         for _ in 0..u.arbitrary_len::<u64>()? {
             let n = u.int_in_range::<u64>(0..=102410241024)?;
             list.push(Value::Integer(n.into()));
         }
         let value = Value::Array(list);
-        let value = BoxedRawValue::from_value(&value)
-            .map_err(|_| arbitrary::Error::IncorrectFormat)?;
+        let value =
+            BoxedRawValue::from_value(&value).map_err(|_| arbitrary::Error::IncorrectFormat)?;
         Ok(Unknown(value))
     }
 }

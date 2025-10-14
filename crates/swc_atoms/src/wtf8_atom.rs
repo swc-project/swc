@@ -40,7 +40,7 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for Wtf8Atom {
         // This is not sound, maybe Wtf8Buf should make bytes operations safe
         Ok(Self(hstr::Wtf8Atom::from(unsafe {
             Wtf8Buf::from_bytes_unchecked(s.0.into())
-        })))        
+        })))
     }
 }
 

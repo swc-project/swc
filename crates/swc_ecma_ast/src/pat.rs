@@ -93,7 +93,10 @@ pub struct ArrayPat {
     pub span: Span,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "elements"))]
-    #[cfg_attr(feature = "encoding-impl", encoding(with = "swc_common::serializer::ArrayOption"))]
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "swc_common::serializer::ArrayOption")
+    )]
     pub elems: Vec<Option<Pat>>,
 
     /// Only in an ambient context
