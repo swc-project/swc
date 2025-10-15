@@ -5742,6 +5742,7 @@ name = "swc_ecma_parser"
 version = "26.0.1"
 dependencies = [
  "bitflags 2.6.0",
+ "cbor4ii",
  "codspeed-criterion-compat",
  "either",
  "num-bigint",
