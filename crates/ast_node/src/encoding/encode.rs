@@ -1,6 +1,6 @@
 use syn::{spanned::Spanned, Data, DeriveInput};
 
-use super::{is_unknown, is_with, EnumType};
+use super::{is_unknown, is_with, is_ignore, EnumType};
 
 pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
     match data {
@@ -9,6 +9,7 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                 .fields
                 .iter()
                 .enumerate()
+                .filter(|(_, field)| !is_ignore(&field.attrs))
                 .map(|(idx, field)| -> syn::Stmt {
                     let fieldpath: syn::ExprField = match field.ident.as_ref() {
                         Some(name) => syn::parse_quote!(self.#name),

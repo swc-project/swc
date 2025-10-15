@@ -1,6 +1,6 @@
 use syn::{spanned::Spanned, Data, DeriveInput};
 
-use super::{is_unknown, is_with, EnumType};
+use super::{is_unknown, is_with, is_ignore, EnumType};
 
 pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
     match data {
@@ -23,9 +23,11 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                 .zip(names.iter())
                 .map(|(field, field_name)| -> syn::Stmt {
                     let ty = &field.ty;
-                    let value: syn::Expr = match is_with(&field.attrs) {
-                        Some(with_type) => syn::parse_quote!(<#with_type<#ty> as cbor4ii::core::dec::Decode<'_>>::decode(reader)?.0),
-                        None => syn::parse_quote!(<#ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?)
+                    let value: syn::Expr = match (is_with(&field.attrs), is_ignore(&field.attrs)) {
+                        (Some(with_type), false) => syn::parse_quote!(<#with_type<#ty> as cbor4ii::core::dec::Decode<'_>>::decode(reader)?.0),
+                        (None, false) => syn::parse_quote!(<#ty as cbor4ii::core::dec::Decode<'_>>::decode(reader)?),
+                        (None, true) => syn::parse_quote!(<#ty as Default>::default()),
+                        (Some(_), true) => panic!("unsupported with and ignore")
                     };
 
                     syn::parse_quote!{
@@ -236,10 +238,10 @@ pub fn expand(DeriveInput { ident, data, .. }: DeriveInput) -> syn::ItemImpl {
                 Some(arm) => arm,
                 None => {
                     syn::parse_quote! {
-                        _ => {
+                        tag => {
                             let err = cbor4ii::core::error::DecodeError::Mismatch {
                                  name: &stringify!(#ident),
-                                 found: 0
+                                 found: tag.to_le_bytes()[0]
                             };
                             return Err(err);
                         }

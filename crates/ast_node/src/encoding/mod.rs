@@ -43,3 +43,17 @@ fn is_with(attrs: &[syn::Attribute]) -> Option<syn::Path> {
             with_type
         })
 }
+
+fn is_ignore(attrs: &[syn::Attribute]) -> bool {
+    attrs
+        .iter()
+        .filter(|attr| attr.path().is_ident("encoding"))
+        .any(|attr| {
+            let mut has_ignore = false;
+            let _ = attr.parse_nested_meta(|meta| {
+                has_ignore |= meta.path.is_ident("ignore");
+                Ok(())
+            });
+            has_ignore
+        })
+}
