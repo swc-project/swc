@@ -16,6 +16,10 @@ use anyhow::Error;
 /// or plugin_macro. Plugin's transform fn itself does not allow to return
 /// error - instead it should use provided `handler` to emit corresponding error
 /// to the host.
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(crate::Encode, crate::Decode)
+)]
 pub enum PluginError {
     /// Occurs when failed to convert size passed from host / guest into usize
     /// or similar for the conversion. This is an internal error rasied via
@@ -37,7 +41,7 @@ pub enum PluginError {
 /// format struct contains: it is strict implementation detail which can
 /// change anytime.
 pub struct PluginSerializedBytes {
-    pub(crate) field: rkyv::util::AlignedVec,
+    pub(crate) field: Vec<u8>,
 }
 
 #[cfg(feature = "__plugin")]
@@ -48,8 +52,7 @@ impl PluginSerializedBytes {
      */
     #[tracing::instrument(level = "info", skip_all)]
     pub fn from_slice(bytes: &[u8]) -> PluginSerializedBytes {
-        let mut field = rkyv::util::AlignedVec::new();
-        field.extend_from_slice(bytes);
+        let field = bytes.to_vec();
         PluginSerializedBytes { field }
     }
 
@@ -82,20 +85,13 @@ impl PluginSerializedBytes {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
     where
-        W: for<'a> rkyv::Serialize<
-            rancor::Strategy<
-                rkyv::ser::Serializer<
-                    rkyv::util::AlignedVec,
-                    rkyv::ser::allocator::ArenaHandle<'a>,
-                    rkyv::ser::sharing::Share,
-                >,
-                rancor::Error,
-            >,
-        >,
+        W: cbor4ii::core::enc::Encode,
     {
-        rkyv::to_bytes::<rancor::Error>(t)
-            .map(|field| PluginSerializedBytes { field })
-            .map_err(|err| err.into())
+        let mut buf = cbor4ii::core::utils::BufWriter::new(Vec::new());
+        t.0.encode(&mut buf)?;
+        Ok(PluginSerializedBytes {
+            field: buf.into_inner()
+        })
     }
 
     /*
@@ -124,20 +120,13 @@ impl PluginSerializedBytes {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
-        W: rkyv::Archive,
-        W::Archived: rkyv::Deserialize<W, rancor::Strategy<rkyv::de::Pool, rancor::Error>>,
+        W: for<'de> cbor4ii::core::dec::Decode<'de>,
     {
         use anyhow::Context;
 
-        let archived = unsafe {
-            // Safety: We intentionally skip bytecheck because it makes Wasm plugins not
-            // backward compatible.
-            rkyv::access_unchecked::<W::Archived>(&self.field[..])
-        };
-
-        let deserialized = rkyv::deserialize(archived)
+        let mut buf = cbor4ii::core::utils::SliceReader::new(&self.field);
+        let deserialized = <W>::decode(&mut buf)
             .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))?;
-
         Ok(VersionedSerializable(deserialized))
     }
 
@@ -193,5 +182,49 @@ impl<T> VersionedSerializable<T> {
 
     pub fn into_inner(self) -> T {
         self.0
+    }
+}
+
+pub struct ResultValue<R, E>(pub Result<R, E>);
+
+#[cfg(feature = "encoding-impl")]
+impl<R, E> cbor4ii::core::enc::Encode for ResultValue<R, E>
+where
+    R: cbor4ii::core::enc::Encode,
+    E: cbor4ii::core::enc::Encode,
+{
+    #[inline]
+    fn encode<W: cbor4ii::core::enc::Write>(
+        &self,
+        writer: &mut W,
+    ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+        use cbor4ii::core::types::Tag;
+        
+        match &self.0 {
+            Ok(t) => Tag(1, t).encode(writer),
+            Err(t) => Tag(0, t).encode(writer)
+        }
+    }
+}
+
+#[cfg(feature = "encoding-impl")]
+impl<'de, T, E> cbor4ii::core::dec::Decode<'de> for ResultValue<T, E>
+where
+    T: cbor4ii::core::dec::Decode<'de>,
+    E: cbor4ii::core::dec::Decode<'de>,
+{
+    #[inline]
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(
+        reader: &mut R,
+    ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+        let tag = cbor4ii::core::types::Tag::tag(reader)?;
+        match tag {
+            0 => E::decode(reader).map(Result::Err).map(ResultValue),
+            1 => T::decode(reader).map(Result::Ok).map(ResultValue),
+            _ => Err(cbor4ii::core::error::DecodeError::Mismatch {
+                 name: &"ResultValue",
+                 found: tag.to_le_bytes()[0]
+            }),
+        }
     }
 }

@@ -48,16 +48,7 @@ impl PluginCommentsProxy {
     #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
     fn allocate_comments_buffer_to_host<T>(&self, value: T)
     where
-        T: for<'a> rkyv::Serialize<
-            rancor::Strategy<
-                rkyv::ser::Serializer<
-                    rkyv::util::AlignedVec,
-                    rkyv::ser::allocator::ArenaHandle<'a>,
-                    rkyv::ser::sharing::Share,
-                >,
-                rancor::Error,
-            >,
-        >,
+        T: cbor4ii::core::enc::Encode,
     {
         #[cfg(target_arch = "wasm32")]
         {

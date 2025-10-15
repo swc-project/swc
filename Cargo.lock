@@ -6517,6 +6517,7 @@ version = "17.0.0"
 dependencies = [
  "better_scoped_tls",
  "bytecheck 0.8.1",
+ "cbor4ii",
  "rancor",
  "rkyv",
  "rustc-hash 2.1.1",
