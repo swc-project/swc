@@ -13,12 +13,13 @@ bench = false
 [features]
 __rkyv    = []
 rkyv-impl = ["__rkyv", "rkyv", "bytecheck", "rancor"]
+encoding-impl = ["cbor4ii", "swc_common/encoding-impl"]
 
 __plugin_mode = []
 __plugin_rt   = []
 # swc/core, which runs plugin
-plugin-mode = ["__plugin_mode", "swc_common/plugin-base", "rkyv-impl"]
-plugin-rt   = ["__plugin_rt", "swc_common/plugin-base", "rkyv-impl"]
+plugin-mode = ["__plugin_mode", "swc_common/plugin-base", "rkyv-impl", "encoding-impl"]
+plugin-rt   = ["__plugin_rt", "swc_common/plugin-base", "rkyv-impl", "encoding-impl"]
 
 [dependencies]
 bytecheck  = { workspace = true, optional = true }
@@ -26,6 +27,7 @@ rancor     = { workspace = true, optional = true }
 rkyv       = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
 tracing    = { workspace = true }
+cbor4ii    = { workspace = true, features = [ "use_std" ], optional = true }
 
 better_scoped_tls = { version = "1.0.1", path = "../better_scoped_tls" }
 swc_common        = { version = "16.0.0", path = "../swc_common" }

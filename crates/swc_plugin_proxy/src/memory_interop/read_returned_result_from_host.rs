@@ -8,6 +8,10 @@ use swc_common::plugin::serialized::PluginSerializedBytes;
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "__rkyv", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::swc_common::Encode, ::swc_common::Decode)
+)]
 pub struct AllocatedBytesPtr(pub u32, pub u32);
 
 #[cfg(target_arch = "wasm32")]
@@ -90,17 +94,7 @@ pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R> {
 pub fn read_returned_result_from_host<F, R>(f: F) -> Option<R>
 where
     F: FnOnce(u32) -> u32,
-    R: rkyv::Archive,
-    R::Archived: rkyv::Deserialize<R, rancor::Strategy<rkyv::de::Pool, rancor::Error>>,
-    for<'a> R::Archived: bytecheck::CheckBytes<
-        rancor::Strategy<
-            rkyv::validation::Validator<
-                rkyv::validation::archive::ArchiveValidator<'a>,
-                rkyv::validation::shared::SharedValidator,
-            >,
-            rancor::Error,
-        >,
-    >,
+    R: for<'de> cbor4ii::core::dec::Decode<'de>
 {
     let allocated_returned_value_ptr = read_returned_result_from_host_inner(f);
 

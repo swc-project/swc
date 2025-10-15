@@ -251,7 +251,6 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for FileName {
         use cbor4ii::core::types::{Tag, Array};
 
         let tag = Tag::tag(reader)?;
-
         match tag {
             1 => {
                 let name = String::decode(reader)?;
@@ -263,22 +262,22 @@ impl<'de> cbor4ii::core::dec::Decode<'de> for FileName {
             },
             3 => {
                 let n = Array::len(reader)?;
-                assert_eq!(n, Some(0));
+                debug_assert_eq!(n, Some(0));
                 Ok(FileName::QuoteExpansion)
             },
             4 => {
                 let n = Array::len(reader)?;
-                assert_eq!(n, Some(0));
+                debug_assert_eq!(n, Some(0));
                 Ok(FileName::Anon)
             },
             5 => {
                 let n = Array::len(reader)?;
-                assert_eq!(n, Some(0));
+                debug_assert_eq!(n, Some(0));
                 Ok(FileName::MacroExpansion)
             },
             6 => {
                 let n = Array::len(reader)?;
-                assert_eq!(n, Some(0));
+                debug_assert_eq!(n, Some(0));
                 Ok(FileName::ProcMacroSourceCode)
             },
             7 => {
@@ -470,6 +469,10 @@ impl FileName {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 pub struct PrimarySpanLabel(pub Span, pub String);
 
 /// A collection of spans. Spans have two orthogonal attributes:
@@ -489,6 +492,10 @@ pub struct PrimarySpanLabel(pub Span, pub String);
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 pub struct MultiSpan {
     primary_spans: Vec<Span>,
     span_labels: Vec<PrimarySpanLabel>,
@@ -1203,8 +1210,18 @@ impl BytePos {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(crate::Encode, crate::Decode)
+)]
 #[derive(Copy, Clone, PartialEq, Eq, Hash, PartialOrd, Ord, Debug)]
-pub struct CharPos(pub usize);
+pub struct CharPos(
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "encoding_helper::Usize")
+    )]
+    pub usize
+);
 
 // FIXME: Lots of boilerplate in these impls, but so far my attempts to fix
 // have been unsuccessful
@@ -1370,8 +1387,16 @@ pub struct SourceFileAndLine {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 #[derive(Debug)]
 pub struct SourceFileAndBytePos {
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "encoding_helper::LrcHelper")
+    )]
     pub sf: Lrc<SourceFile>,
     pub pos: BytePos,
 }
@@ -1383,8 +1408,16 @@ pub struct SourceFileAndBytePos {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(crate::Encode, crate::Decode)
+)]
 pub struct LineInfo {
     /// Index of line, starting from 0.
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "encoding_helper::Usize")
+    )]
     pub line_index: usize,
 
     /// Column in line where span begins, starting from 0.
@@ -1423,7 +1456,15 @@ pub struct FileLines {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 pub struct PartialFileLines {
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "encoding_helper::LrcHelper")
+    )]
     pub file: Option<Lrc<SourceFile>>,
     pub lines: Vec<LineInfo>,
 }
@@ -1444,6 +1485,10 @@ pub type PartialFileLinesResult = Result<PartialFileLines, Box<SpanLinesError>>;
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 pub enum SpanLinesError {
     IllFormedSpan(Span),
     DistinctSources(DistinctSources),
@@ -1465,6 +1510,57 @@ pub enum SpanSnippetError {
     LookupFailed(SourceMapLookupError),
 }
 
+#[cfg(feature = "encoding-impl")]
+impl cbor4ii::core::enc::Encode for SpanSnippetError {
+    #[inline]
+    fn encode<W: cbor4ii::core::enc::Write>(
+        &self,
+        writer: &mut W,
+    ) -> Result<(), cbor4ii::core::enc::Error<W::Error>> {
+        use cbor4ii::core::types::{Tag, Nothing, Array};
+        
+        match self {
+            SpanSnippetError::DummyBytePos => {
+                Tag(1, Nothing).encode(writer)?;
+                Array::bounded(0, writer)
+            },
+            SpanSnippetError::IllFormedSpan(span) => Tag(2, span).encode(writer),
+            SpanSnippetError::DistinctSources(src) => Tag(3, src).encode(writer),
+            SpanSnippetError::MalformedForSourcemap(pos) => Tag(4, pos).encode(writer),
+            SpanSnippetError::SourceNotAvailable { filename } => Tag(5, filename).encode(writer),
+            SpanSnippetError::LookupFailed(err) => Tag(6, err).encode(writer)
+        }
+    }
+}
+
+#[cfg(feature = "encoding-impl")]
+impl<'de> cbor4ii::core::dec::Decode<'de> for SpanSnippetError {
+    #[inline]
+    fn decode<R: cbor4ii::core::dec::Read<'de>>(
+        reader: &mut R,
+    ) -> Result<Self, cbor4ii::core::dec::Error<R::Error>> {
+        use cbor4ii::core::types::{Tag, Array};
+
+        let tag = Tag::tag(reader)?;
+        match tag {
+            1 => {
+                let n = Array::len(reader)?;
+                debug_assert_eq!(n, Some(0));
+                Ok(SpanSnippetError::DummyBytePos)
+            },
+            2 => Span::decode(reader).map(SpanSnippetError::IllFormedSpan),
+            3 => DistinctSources::decode(reader).map(SpanSnippetError::DistinctSources),
+            4 => MalformedSourceMapPositions::decode(reader).map(SpanSnippetError::MalformedForSourcemap),
+            5 => FileName::decode(reader).map(|filename| SpanSnippetError::SourceNotAvailable { filename }),
+            6 => SourceMapLookupError::decode(reader).map(SpanSnippetError::LookupFailed),
+            tag => Err(cbor4ii::core::error::DecodeError::Mismatch {
+                 name: &"SpanSnippetError",
+                 found: tag.to_le_bytes()[0]
+            })
+        }
+    }
+}
+
 /// An error type for looking up source maps.
 ///
 ///
@@ -1476,6 +1572,10 @@ pub enum SpanSnippetError {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(u32))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 pub enum SourceMapLookupError {
     NoFileFor(BytePos),
 }
@@ -1487,7 +1587,18 @@ pub enum SourceMapLookupError {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct FilePos(pub Lrc<FileName>, pub BytePos);
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
+pub struct FilePos(
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "encoding_helper::LrcHelper")
+    )]
+    pub Lrc<FileName>,
+    pub BytePos
+);
 
 #[derive(Clone, PartialEq, Eq, Debug)]
 #[cfg_attr(
@@ -1496,6 +1607,10 @@ pub struct FilePos(pub Lrc<FileName>, pub BytePos);
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 pub struct DistinctSources {
     pub begin: FilePos,
     pub end: FilePos,
@@ -1508,8 +1623,20 @@ pub struct DistinctSources {
 )]
 #[cfg_attr(feature = "rkyv-impl", derive(bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
+#[cfg_attr(
+    feature = "encoding-impl",
+    derive(::ast_node::Encode, ::ast_node::Decode)
+)]
 pub struct MalformedSourceMapPositions {
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "encoding_helper::LrcHelper")
+    )]
     pub name: Lrc<FileName>,
+    #[cfg_attr(
+        feature = "encoding-impl",
+        encoding(with = "encoding_helper::Usize")
+    )]
     pub source_len: usize,
     pub begin_pos: BytePos,
     pub end_pos: BytePos,

@@ -1,5 +1,6 @@
 pub mod diagnostics;
 pub mod metadata;
+pub mod emit;
 #[cfg(feature = "__plugin")]
 #[cfg_attr(docsrs, doc(cfg(feature = "__plugin")))]
 pub mod serialized;
