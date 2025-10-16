@@ -255,10 +255,7 @@ impl<I: Tokens> Buffer<I> {
         &mut self.iter
     }
 
-    pub fn peek<'b>(&'b mut self) -> Option<&'b super::super::lexer::Token>
-    where
-        TokenAndSpan: 'b,
-    {
+    pub fn peek(&mut self) -> Option<Token> {
         debug_assert!(
             self.cur.token != Token::Eof,
             "parser should not call peek() without knowing current token"
@@ -274,7 +271,7 @@ impl<I: Tokens> Buffer<I> {
             self.iter.set_token_value(old);
         }
 
-        self.next.as_ref().map(|ts| &ts.token_and_span.token)
+        self.next.as_ref().map(|ts| ts.token_and_span.token)
     }
 
     pub fn bump(&mut self) {

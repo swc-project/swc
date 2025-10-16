@@ -77,7 +77,7 @@ macro_rules! debug_tracing {
 macro_rules! peek {
     ($p:expr) => {{
         debug_assert!(
-            !$p.input().cur().is_eof(),
+            $p.input().cur() != Token::Eof,
             "parser should not call peek() without knowing current token.
 Current token is {:?}",
             $p.input().cur(),
@@ -102,4 +102,25 @@ macro_rules! return_if_arrow {
         }
         // }
     }};
+}
+/// This macro requires macro named 'last_pos' to be in scope.
+macro_rules! span {
+    ($p:expr, $start:expr) => {{
+        let start: ::swc_common::BytePos = $start;
+        let end: ::swc_common::BytePos = last_pos!($p);
+        if cfg!(debug_assertions) && start > end {
+            unreachable!(
+                "assertion failed: (span.start <= span.end).
+ start = {}, end = {}",
+                start.0, end.0
+            )
+        }
+        ::swc_common::Span::new(start, end)
+    }};
+}
+
+macro_rules! last_pos {
+    ($p:expr) => {
+        $p.input.prev_span().hi
+    };
 }
