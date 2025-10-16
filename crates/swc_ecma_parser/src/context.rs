@@ -1,3 +1,5 @@
+use swc_atoms::Atom;
+
 bitflags::bitflags! {
   #[derive(Debug, Clone, Copy, Default)]
   pub struct Context: u32 {
@@ -68,4 +70,47 @@ bitflags::bitflags! {
 
       const TsModuleBlock = 1 << 30;
   }
+}
+
+impl Context {
+    #[cfg_attr(not(feature = "verify"), inline(always))]
+    pub fn is_reserved_word(self, word: &Atom) -> bool {
+        if !cfg!(feature = "verify") {
+            return false;
+        }
+
+        match &**word {
+            "let" => self.contains(Context::Strict),
+            // SyntaxError in the module only, not in the strict.
+            // ```JavaScript
+            // function foo() {
+            //     "use strict";
+            //     let await = 1;
+            // }
+            // ```
+            "await" => {
+                self.contains(Context::InAsync)
+                    || self.contains(Context::InStaticBlock)
+                    || self.contains(Context::Module)
+            }
+            "yield" => self.contains(Context::InGenerator) || self.contains(Context::Strict),
+
+            "null" | "true" | "false" | "break" | "case" | "catch" | "continue" | "debugger"
+            | "default" | "do" | "export" | "else" | "finally" | "for" | "function" | "if"
+            | "return" | "switch" | "throw" | "try" | "var" | "const" | "while" | "with"
+            | "new" | "this" | "super" | "class" | "extends" | "import" | "in" | "instanceof"
+            | "typeof" | "void" | "delete" => true,
+
+            // Future reserved word
+            "enum" => true,
+
+            "implements" | "package" | "protected" | "interface" | "private" | "public"
+                if self.contains(Context::Strict) =>
+            {
+                true
+            }
+
+            _ => false,
+        }
+    }
 }

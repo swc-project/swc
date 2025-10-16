@@ -1,5 +1,7 @@
 //! 13.3.3 Destructuring Binding Patterns
 
+use swc_common::Spanned;
+
 use super::*;
 use crate::parser::{expr::AssignTargetOrSpread, Parser};
 
@@ -402,9 +404,9 @@ impl<I: Tokens> Parser<I> {
         let cur = self.input().cur();
         if cur.is_word() {
             self.parse_binding_ident(disallow_let).map(Pat::from)
-        } else if cur.is_lbracket() {
+        } else if cur == Token::LBracket {
             self.parse_array_binding_pat()
-        } else if cur.is_lbrace() {
+        } else if cur == Token::LBrace {
             self.parse_object_pat()
         } else if cur.is_error() {
             let err = self.input_mut().expect_error_token_and_bump();
