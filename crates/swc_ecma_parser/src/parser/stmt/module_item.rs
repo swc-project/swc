@@ -2,37 +2,18 @@ use swc_atoms::atom;
 use swc_common::Span;
 use swc_ecma_ast::*;
 
-use crate::{error::SyntaxError, input::Tokens, lexer::Token, Context, PResult, Parser};
+use crate::{
+    error::SyntaxError, input::Tokens, lexer::Token,
+    parser::stmt::stmt_like_parser::handle_import_export, Context, PResult, Parser,
+};
 
 impl<I: Tokens> Parser<I> {
-    fn handle_import_export(&mut self, decorators: Vec<Decorator>) -> PResult<ModuleItem> {
-        if !self
-            .ctx()
-            .intersects(Context::TopLevel.union(Context::TsModuleBlock))
-        {
-            syntax_error!(self, SyntaxError::NonTopLevelImportExport);
-        }
-
-        let decl = if self.input().is(Token::IMPORT) {
-            self.parse_import()?
-        } else if self.self.input().is(Token::EXPORT) {
-            self.parse_export(decorators).map(ModuleItem::from)?
-        } else {
-            unreachable!(
-                "handle_import_export should not be called if current token isn't import nor \
-                 export"
-            )
-        };
-
-        Ok(decl)
-    }
-
     pub fn parse_module_item_block_body(
         &mut self,
         allow_directives: bool,
-        end: Option<&Token>,
+        end: Option<Token>,
     ) -> PResult<Vec<ModuleItem>> {
-        self.parse_block_body(allow_directives, end, Self::handle_import_export)
+        self.parse_block_body(allow_directives, end, handle_import_export)
     }
 
     /// Parses `from 'foo.js' with {};` or `from 'foo.js' assert {};`
@@ -305,7 +286,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_export(&mut self, mut decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
+    pub(crate) fn parse_export(&mut self, mut decorators: Vec<Decorator>) -> PResult<ModuleDecl> {
         if !self.ctx().contains(Context::Module) && self.ctx().contains(Context::TopLevel) {
             // Switch to module mode
             let ctx = self.ctx() | Context::Module | Context::Strict;
@@ -316,7 +297,7 @@ impl<I: Tokens> Parser<I> {
         self.assert_and_bump(Token::EXPORT);
 
         let cur = self.input().cur();
-        if cur.is_eof() {
+        if cur == Token::Eof {
             return Err(self.eof_error());
         }
 
@@ -352,7 +333,7 @@ impl<I: Tokens> Parser<I> {
 
             if self.input_mut().eat(Token::IMPORT) {
                 let is_type_only =
-                    self.input().is(Token::TYPE) && peek!(self).is_some_and(|p| self.is_word());
+                    self.input().is(Token::TYPE) && peek!(self).is_some_and(|p| p.is_word());
 
                 if is_type_only {
                     self.assert_and_bump(Token::TYPE);
@@ -417,7 +398,7 @@ impl<I: Tokens> Parser<I> {
 
             if self.input().syntax().typescript() {
                 if self.input().is(Token::ABSTRACT)
-                    && peek!(self).is_some_and(|cur| cur.is_class())
+                    && peek!(self).is_some_and(|cur| cur == Token::Class)
                     && !self.input_mut().has_linebreak_between_cur_and_peeked()
                 {
                     let class_start = self.cur_pos();
@@ -433,7 +414,7 @@ impl<I: Tokens> Parser<I> {
                         .map(ModuleDecl::ExportDefaultDecl);
                 }
                 if self.input().is(Token::ABSTRACT)
-                    && peek!(self).is_some_and(|cur| cur.is_interface())
+                    && peek!(self).is_some_and(|cur| cur == Token::Interface)
                 {
                     self.emit_err(self.input().cur_span(), SyntaxError::TS1242);
                     self.assert_and_bump(Token::ABSTRACT);
@@ -458,7 +439,7 @@ impl<I: Tokens> Parser<I> {
                 let decl = self.parse_default_class(start, class_start, decorators, false)?;
                 return Ok(decl.into());
             } else if self.input().is(Token::ASYNC)
-                && peek!(self).is_some_and(|cur| cur.is_function())
+                && peek!(self).is_some_and(|cur| cur == Token::Function)
                 && !self.input_mut().has_linebreak_between_cur_and_peeked()
             {
                 let decl = self.parse_default_async_fn(start, decorators)?;
@@ -469,7 +450,8 @@ impl<I: Tokens> Parser<I> {
             } else if self.input().syntax().export_default_from()
                 && ((self.input().is(Token::FROM) && peek!(self).is_some_and(|peek| peek.is_str()))
                     || (self.input().is(Token::COMMA)
-                        && (peek!(self).is_some_and(|peek| peek.is_star() || peek.is_lbrace()))))
+                        && (peek!(self)
+                            .is_some_and(|peek| matches!(peek, Token::Asterisk | Token::LBrace)))))
             {
                 export_default = Some(Ident::new_no_ctxt(
                     atom!("default"),
@@ -502,7 +484,7 @@ impl<I: Tokens> Parser<I> {
             self.parse_class_decl(start, class_start, decorators, false)?
         } else if !type_only
             && self.input().is(Token::ASYNC)
-            && peek!(self).is_some_and(|cur| cur.is_function())
+            && peek!(self).is_some_and(|cur| cur == Token::Function)
             && !self.input_mut().has_linebreak_between_cur_and_peeked()
         {
             self.parse_async_fn_decl(decorators)?
@@ -511,7 +493,7 @@ impl<I: Tokens> Parser<I> {
         } else if !type_only
             && self.input().syntax().typescript()
             && self.input().is(Token::CONST)
-            && peek!(self).is_some_and(|cur| cur.is_enum())
+            && peek!(self).is_some_and(|cur| cur == Token::Enum)
         {
             let enum_start = self.cur_pos();
             self.assert_and_bump(Token::CONST);
@@ -563,7 +545,7 @@ impl<I: Tokens> Parser<I> {
 
             if default.is_none()
                 && self.input().is(Token::MUL)
-                && !peek!(self).is_some_and(|cur| cur.is_as())
+                && !peek!(self).is_some_and(|cur| cur == Token::As)
             {
                 self.assert_and_bump(Token::MUL);
 
@@ -594,7 +576,7 @@ impl<I: Tokens> Parser<I> {
             //           ^
             if !specifiers.is_empty()
                 && self.input().is(Token::COMMA)
-                && peek!(self).is_some_and(|cur| cur.is_star())
+                && peek!(self).is_some_and(|cur| cur == Token::Asterisk)
             {
                 self.assert_and_bump(Token::COMMA);
 
@@ -710,7 +692,7 @@ impl<I: Tokens> Parser<I> {
         .into())
     }
 
-    fn parse_import(&mut self) -> PResult<ModuleItem> {
+    pub(crate) fn parse_import(&mut self) -> PResult<ModuleItem> {
         let start = self.cur_pos();
 
         if peek!(self).is_some_and(|cur| cur.is_dot()) {
@@ -783,18 +765,18 @@ impl<I: Tokens> Parser<I> {
 
                 if self.input().syntax().typescript() && local.sym == "type" {
                     let cur = self.input().cur();
-                    if cur.is_lbrace() || cur.is_star() {
+                    if cur.is_lbrace() || cur == Token::Asterisk {
                         type_only = true;
                         break 'import_maybe_ident;
                     }
 
                     if self.is_ident_ref() {
                         if !self.input().is(Token::FROM)
-                            || peek!(self).is_some_and(|cur| cur.is_from())
+                            || peek!(self).is_some_and(|cur| cur == Token::From)
                         {
                             type_only = true;
                             local = self.parse_imported_default_binding()?;
-                        } else if peek!(self).is_some_and(|cur| cur.is_equal()) {
+                        } else if peek!(self).is_some_and(|cur| cur == Token::Eq) {
                             type_only = true;
                             local = self.parse_ident_name().map(From::from)?;
                         }
@@ -816,13 +798,13 @@ impl<I: Tokens> Parser<I> {
                     };
 
                     let cur = self.input().cur();
-                    if cur.is_lbrace() || cur.is_star() {
+                    if cur == Token::LBrace || cur == Token::Asterisk {
                         phase = new_phase;
                         break 'import_maybe_ident;
                     }
 
-                    if self.is_ident_ref() && !self.input().is(Token::FROM)
-                        || peek!(self).is_some_and(|cur| cur.is_from())
+                    if self.is_ident_ref() && !self.input().is(Token::From)
+                        || peek!(self).is_some_and(|cur| cur == Token::From)
                     {
                         // For defer phase, we expect only namespace imports, so break here
                         // and let the subsequent code handle validation
@@ -906,7 +888,7 @@ impl<I: Tokens> Parser<I> {
 
     pub fn parse_module_item<'a>(&mut self) -> PResult<ModuleItem> {
         self.do_inside_of_context(Context::TopLevel, |p| {
-            self.parse_stmt_like(true, Self::handle_import_export)
+            p.parse_stmt_like(true, handle_import_export)
         })
     }
 }
