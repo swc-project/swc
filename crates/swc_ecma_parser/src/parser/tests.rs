@@ -1,8 +1,7 @@
 use swc_common::{comments::SingleThreadedComments, BytePos, Span};
-use swc_ecma_lexer::{error::SyntaxError, TsSyntax};
 
 use super::*;
-use crate::EsSyntax;
+use crate::{EsSyntax, TsSyntax};
 
 fn program(src: &'static str) -> Program {
     test_parser(src, Default::default(), |p| p.parse_program())
