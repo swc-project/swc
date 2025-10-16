@@ -553,7 +553,7 @@ impl<I: Tokens> Parser<I> {
 
     pub fn parse_stmt(&mut self) -> PResult<Stmt> {
         trace_cur!(self, parse_stmt);
-        self.parse_stmt_like(false, Self::handle_import_export)
+        self.parse_stmt_like(false, handle_import_export)
     }
 
     /// Utility function used to parse large if else statements iteratively.
@@ -984,7 +984,7 @@ impl<I: Tokens> Parser<I> {
     /// Parse a statement and maybe a declaration.
     pub fn parse_stmt_list_item(&mut self) -> PResult<Stmt> {
         trace_cur!(self, parse_stmt_list_item);
-        self.parse_stmt_like(true, Self::handle_import_export)
+        self.parse_stmt_like(true, handle_import_export)
     }
 
     /// Parse a statement, declaration or module item.
@@ -1006,7 +1006,7 @@ impl<I: Tokens> Parser<I> {
 
         let cur = self.input().cur();
         if cur == Token::Import || cur == Token::Export {
-            return self.handle_import_export(decorators);
+            return handle_import_export(self, decorators);
         }
 
         self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
@@ -1015,35 +1015,6 @@ impl<I: Tokens> Parser<I> {
             })
         })
         .map(From::from)
-    }
-
-    fn handle_import_export(&mut self, _: Vec<Decorator>) -> PResult<Stmt> {
-        let start = self.cur_pos();
-        if self.input().is(Token::IMPORT) && peek!(self).is_some_and(|peek| peek.is_lparen()) {
-            let expr = self.parse_expr()?;
-
-            self.eat_general_semi();
-
-            return Ok(ExprStmt {
-                span: self.span(start),
-                expr,
-            }
-            .into());
-        }
-
-        if self.input().is(Token::IMPORT) && peek!(self).is_some_and(|peek| peek.is_dot()) {
-            let expr = self.parse_expr()?;
-
-            self.eat_general_semi();
-
-            return Ok(ExprStmt {
-                span: self.span(start),
-                expr,
-            }
-            .into());
-        }
-
-        syntax_error!(self, SyntaxError::ImportExportInScript);
     }
 
     /// `parseStatementContent`
@@ -1254,7 +1225,7 @@ impl<I: Tokens> Parser<I> {
         // simply start parsing an expression, and afterwards, if the
         // next token is a colon and the expression was a simple
         // Identifier node, we switch to interpreting it as a label.
-        let expr = self.allow_in_expr(|p| self.parse_expr())?;
+        let expr = self.allow_in_expr(|p| p.parse_expr())?;
 
         let expr = match *expr {
             Expr::Ident(ident) => {
@@ -1335,7 +1306,7 @@ impl<I: Tokens> Parser<I> {
         allow_directives: bool,
         end: Option<Token>,
     ) -> PResult<Vec<Stmt>> {
-        self.parse_block_body(allow_directives, end, Self::handle_import_export)
+        self.parse_block_body(allow_directives, end, handle_import_export)
     }
 
     pub(super) fn parse_block_body<Type: IsDirective + From<Stmt>>(
@@ -1358,15 +1329,15 @@ impl<I: Tokens> Parser<I> {
                     .cur()
                     .is_str_raw_content("'use strict'", self.input()));
 
-        let parse_stmts = |p, stmts| -> PResult<()> {
-            let is_stmt_start = |p| {
-                let cur = self.input().cur();
+        let parse_stmts = |p: &mut Self, stmts: &mut Vec<Type>| -> PResult<()> {
+            let is_stmt_start = |p: &mut Self| {
+                let cur = p.input().cur();
                 match end {
                     Some(end) => {
                         if cur == Token::Eof {
-                            let eof_text = self.input_mut().dump_cur();
-                            self.emit_err(
-                                self.input().cur_span(),
+                            let eof_text = p.input_mut().dump_cur();
+                            p.emit_err(
+                                p.input().cur_span(),
                                 SyntaxError::Expected(format!("{end:?}"), eof_text),
                             );
                             false
@@ -1377,7 +1348,7 @@ impl<I: Tokens> Parser<I> {
                     None => cur != Token::Eof,
                 }
             };
-            while p.is_stmt_start() {
+            while is_stmt_start(p) {
                 let stmt = p.parse_stmt_like(true, &handle_import_export)?;
                 stmts.push(stmt);
             }
@@ -1396,6 +1367,35 @@ impl<I: Tokens> Parser<I> {
 
         Ok(stmts)
     }
+}
+
+fn handle_import_export<I: Tokens>(p: &mut Parser<I>, _: Vec<Decorator>) -> PResult<Stmt> {
+    let start = p.cur_pos();
+    if p.input().is(Token::Import) && peek!(p).is_some_and(|peek| peek == Token::LParen) {
+        let expr = p.parse_expr()?;
+
+        p.eat_general_semi();
+
+        return Ok(ExprStmt {
+            span: p.span(start),
+            expr,
+        }
+        .into());
+    }
+
+    if p.input().is(Token::Import) && peek!(p).is_some_and(|peek| peek == Token::Dot) {
+        let expr = p.parse_expr()?;
+
+        p.eat_general_semi();
+
+        return Ok(ExprStmt {
+            span: p.span(start),
+            expr,
+        }
+        .into());
+    }
+
+    syntax_error!(p, SyntaxError::ImportExportInScript);
 }
 
 #[cfg(test)]

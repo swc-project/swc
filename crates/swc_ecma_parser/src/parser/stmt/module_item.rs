@@ -2,12 +2,15 @@ use swc_atoms::atom;
 use swc_common::Span;
 use swc_ecma_ast::*;
 
-use crate::{
-    error::SyntaxError, input::Tokens, lexer::Token,
-    parser::stmt::stmt_like_parser::handle_import_export, Context, PResult, Parser,
-};
+use crate::{error::SyntaxError, input::Tokens, lexer::Token, Context, PResult, Parser};
 
 impl<I: Tokens> Parser<I> {
+    pub fn parse_module_item<'a>(&mut self) -> PResult<ModuleItem> {
+        self.do_inside_of_context(Context::TopLevel, |p| {
+            p.parse_stmt_like(true, handle_import_export)
+        })
+    }
+
     pub fn parse_module_item_block_body(
         &mut self,
         allow_directives: bool,
@@ -885,12 +888,30 @@ impl<I: Tokens> Parser<I> {
         }
         .into())
     }
+}
 
-    pub fn parse_module_item<'a>(&mut self) -> PResult<ModuleItem> {
-        self.do_inside_of_context(Context::TopLevel, |p| {
-            p.parse_stmt_like(true, handle_import_export)
-        })
+fn handle_import_export<I: Tokens>(
+    p: &mut Parser<I>,
+    decorators: Vec<Decorator>,
+) -> PResult<ModuleItem> {
+    if !p
+        .ctx()
+        .intersects(Context::TopLevel.union(Context::TsModuleBlock))
+    {
+        syntax_error!(p, SyntaxError::NonTopLevelImportExport);
     }
+
+    let decl = if p.input().is(Token::IMPORT) {
+        p.parse_import()?
+    } else if p.input().is(Token::EXPORT) {
+        p.parse_export(decorators).map(ModuleItem::from)?
+    } else {
+        unreachable!(
+            "handle_import_export should not be called if current token isn't import nor export"
+        )
+    };
+
+    Ok(decl)
 }
 
 #[cfg(test)]
