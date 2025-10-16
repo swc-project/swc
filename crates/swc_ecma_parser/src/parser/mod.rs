@@ -2,7 +2,8 @@
 #![deny(non_snake_case)]
 
 use rustc_hash::FxHashMap;
-use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
+use swc_atoms::Atom;
+use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 use crate::{
@@ -10,6 +11,7 @@ use crate::{
     input::Buffer,
     lexer::{Token, TokenAndSpan},
     parser::{
+        expr_ext::ExprExt,
         input::Tokens,
         state::{State, WithState},
     },
@@ -27,14 +29,16 @@ use crate::error::Error;
 mod macros;
 mod class_and_fn;
 mod expr;
+mod expr_ext;
+mod ident;
 pub mod input;
 mod jsx;
+mod object;
 mod pat;
 mod state;
 mod stmt;
 #[cfg(test)]
 mod tests;
-mod tpl;
 #[cfg(feature = "typescript")]
 mod typescript;
 
@@ -290,6 +294,16 @@ impl<I: Tokens> Parser<I> {
 
         Ok(ret)
     }
+
+    pub fn parse_shebang(&mut self) -> PResult<Option<Atom>> {
+        let cur = self.input().cur();
+        Ok(if cur.is_shebang() {
+            let ret = self.input_mut().expect_shebang_token_and_bump();
+            Some(ret)
+        } else {
+            None
+        })
+    }
 }
 
 impl<I: Tokens> Parser<I> {
@@ -433,7 +447,8 @@ impl<I: Tokens> Parser<I> {
     #[inline]
     pub fn is_general_semi(&mut self) -> bool {
         let cur = self.input().cur();
-        cur.is_semi() || cur.is_rbrace() || cur.is_eof() || self.input().had_line_break_before_cur()
+        matches!(cur, Token::Semi | Token::RBrace | Token::Eof)
+            || self.input().had_line_break_before_cur()
     }
 
     pub fn eat_general_semi(&mut self) -> bool {
@@ -445,7 +460,7 @@ impl<I: Tokens> Parser<I> {
             self.bump();
             true
         } else {
-            cur.is_rbrace() || self.input().had_line_break_before_cur() || cur.is_eof()
+            cur == Token::RBrace || cur == Token::Eof || self.input().had_line_break_before_cur()
         }
     }
 
@@ -484,7 +499,7 @@ impl<I: Tokens> Parser<I> {
     #[inline(always)]
     pub fn bump(&mut self) {
         debug_assert!(
-            !self.input().cur().is_eof(),
+            self.input().cur() != Token::Eof,
             "parser should not call bump() without knowing current token"
         );
         self.input_mut().bump()
@@ -549,33 +564,6 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
-        let start = self.cur_pos();
-        let cur = self.input().cur();
-        let (raw, cooked) = if cur.is_template() {
-            let (cooked, raw) = self.input_mut().expect_template_token_and_bump();
-            match cooked {
-                Ok(cooked) => (raw, Some(cooked)),
-                Err(err) => {
-                    if is_tagged_tpl {
-                        (raw, None)
-                    } else {
-                        return Err(err);
-                    }
-                }
-            }
-        } else {
-            unexpected!(self, "template token")
-        };
-        let tail = self.input_mut().is(&Self::Token::BACKQUOTE);
-        Ok(TplElement {
-            span: self.span(start),
-            raw,
-            tail,
-            cooked,
-        })
-    }
-
     /// spec: 'PropertyName'
     pub fn parse_prop_name(&mut self) -> PResult<PropName> {
         trace_cur!(self, parse_prop_name);
@@ -601,13 +589,13 @@ impl<I: Tokens> Parser<I> {
             } else if cur.is_word() {
                 let w = p.input_mut().expect_word_token_and_bump();
                 PropName::Ident(IdentName::new(w, p.span(start)))
-            } else if cur.is_lbracket() {
+            } else if cur == Token::LBracket {
                 p.bump();
                 let inner_start = p.input().cur_pos();
                 let mut expr = p.allow_in_expr(Self::parse_assignment_expr)?;
-                if p.syntax().typescript() && p.input().is(&Self::Token::COMMA) {
+                if p.syntax().typescript() && p.input().is(Token::Comma) {
                     let mut exprs = vec![expr];
-                    while p.input_mut().eat(&Self::Token::COMMA) {
+                    while p.input_mut().eat(Token::Comma) {
                         //
                         exprs.push(p.allow_in_expr(Self::parse_assignment_expr)?);
                     }
@@ -620,7 +608,7 @@ impl<I: Tokens> Parser<I> {
                         .into(),
                     );
                 }
-                expect!(p, &Self::Token::RBRACKET);
+                expect!(p, Token::RBracket);
                 PropName::Computed(ComputedPropName {
                     span: p.span(start),
                     expr,
@@ -655,6 +643,18 @@ impl<I: Tokens> Parser<I> {
         } else {
             false
         }
+    }
+
+    #[cold]
+    #[inline(never)]
+    pub fn eof_error(&mut self) -> Error {
+        debug_assert!(
+            self.input().cur() == Token::Eof,
+            "Parser should not call throw_eof_error() without knowing current token"
+        );
+        let pos = self.input().end_pos();
+        let last = Span { lo: pos, hi: pos };
+        Error::new(last, SyntaxError::Eof)
     }
 }
 
