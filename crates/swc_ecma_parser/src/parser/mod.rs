@@ -32,6 +32,8 @@ mod expr;
 mod expr_ext;
 mod ident;
 pub mod input;
+mod is_invalid_class_name;
+mod is_simple_param_list;
 mod jsx;
 mod object;
 mod pat;
