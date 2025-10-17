@@ -274,6 +274,14 @@ impl<I: Tokens> Buffer<I> {
         self.next.as_ref().map(|ts| ts.token_and_span.token)
     }
 
+    pub fn store(&mut self, token: Token) {
+        debug_assert!(self.next().is_none());
+        debug_assert!(self.cur() != Token::Eof);
+        let span = self.prev_span();
+        let token = TokenAndSpan::new(token, span, false);
+        self.set_cur(token);
+    }
+
     pub fn bump(&mut self) {
         let next = if let Some(next) = self.next.take() {
             self.iter.set_token_value(next.value);
