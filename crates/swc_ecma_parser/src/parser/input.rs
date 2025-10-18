@@ -395,17 +395,17 @@ impl<I: Tokens> Buffer<I> {
 
     pub fn cut_lshift(&mut self) {
         debug_assert!(
-            self.is(Token::LSHIFT),
+            self.is(Token::LShift),
             "parser should only call cut_lshift when encountering LShift token"
         );
         let span = self.cur_span().with_lo(self.cur_span().lo + BytePos(1));
-        let token = TokenAndSpan::new(Token::LESS, span, false);
+        let token = TokenAndSpan::new(Token::Lt, span, false);
         self.set_cur(token);
     }
 
     pub fn merge_lt_gt(&mut self) {
         debug_assert!(
-            self.is(Token::LESS) || self.is(Token::GREATER),
+            self.is(Token::Lt) || self.is(Token::Gt),
             "parser should only call merge_lt_gt when encountering Less token"
         );
         if self.peek().is_none() {
@@ -423,19 +423,19 @@ impl<I: Tokens> Buffer<I> {
             let next_token = next.token();
             if next_token == Token::Gt {
                 // >>
-                Token::RSHIFT
+                Token::RShift
             } else if next_token == Token::Eq {
                 // >=
-                Token::GREATER_EQ
+                Token::GtEq
             } else if next_token == Token::RShift {
                 // >>>
-                Token::ZERO_FILL_RSHIFT
+                Token::ZeroFillRShift
             } else if next_token == Token::GtEq {
                 // >>=
-                Token::RSHIFT_EQ
+                Token::RShiftEq
             } else if next_token == Token::RShiftEq {
                 // >>>=
-                Token::ZERO_FILL_RSHIFT_EQ
+                Token::ZeroFillRShiftEq
             } else {
                 self.set_next(Some(next));
                 return;
@@ -444,13 +444,13 @@ impl<I: Tokens> Buffer<I> {
             let next_token = next.token();
             if next_token == Token::Lt {
                 // <<
-                Token::LSHIFT
+                Token::LShift
             } else if next_token == Token::Eq {
                 // <=
-                Token::LESS_EQ
+                Token::LtEq
             } else if next_token == Token::LtEq {
                 // <<=
-                Token::LSHIFT_EQ
+                Token::LShiftEq
             } else {
                 self.set_next(Some(next));
                 return;

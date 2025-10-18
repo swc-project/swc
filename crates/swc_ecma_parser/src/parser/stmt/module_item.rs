@@ -21,17 +21,17 @@ impl<I: Tokens> Parser<I> {
 
     /// Parses `from 'foo.js' with {};` or `from 'foo.js' assert {};`
     fn parse_from_clause_and_semi(&mut self) -> PResult<(Box<Str>, Option<Box<ObjectLit>>)> {
-        expect!(self, Token::FROM);
+        expect!(self, Token::From);
 
         let cur = self.input().cur();
-        let src = if cur.is_str() {
+        let src = if cur == Token::Str {
             Box::new(self.parse_str_lit())
         } else {
             unexpected!(self, "a string literal")
         };
         let with = if self.input().syntax().import_attributes()
             && !self.input().had_line_break_before_cur()
-            && (self.input_mut().eat(Token::ASSERT) || self.input_mut().eat(Token::WITH))
+            && (self.input_mut().eat(Token::Assert) || self.input_mut().eat(Token::With))
         {
             match self.parse_object_expr()? {
                 Expr::Object(v) => Some(Box::new(v)),
@@ -130,7 +130,7 @@ impl<I: Tokens> Parser<I> {
             module_export_name => module_export_name,
         };
 
-        let exported = if self.input_mut().eat(Token::AS) {
+        let exported = if self.input_mut().eat(Token::As) {
             Some(self.parse_module_export_name()?)
         } else {
             None
@@ -243,7 +243,7 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                if self.input_mut().eat(Token::AS) {
+                if self.input_mut().eat(Token::As) {
                     let local: Ident = self.parse_binding_ident(false)?.into();
                     return Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new_with_checked(start, local.span.hi()),
@@ -270,7 +270,7 @@ impl<I: Tokens> Parser<I> {
                 }))
             }
             ModuleExportName::Str(orig_str) => {
-                if self.input_mut().eat(Token::AS) {
+                if self.input_mut().eat(Token::As) {
                     let local: Ident = self.parse_binding_ident(false)?.into();
                     Ok(ImportSpecifier::Named(ImportNamedSpecifier {
                         span: Span::new_with_checked(start, local.span.hi()),
@@ -297,7 +297,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let start = self.cur_pos();
-        self.assert_and_bump(Token::EXPORT);
+        self.assert_and_bump(Token::Export);
 
         let cur = self.input().cur();
         if cur == Token::Eof {
@@ -307,7 +307,7 @@ impl<I: Tokens> Parser<I> {
         let after_export_start = self.cur_pos();
 
         // "export declare" is equivalent to just "export".
-        let declare = self.input().syntax().typescript() && self.input_mut().eat(Token::DECLARE);
+        let declare = self.input().syntax().typescript() && self.input_mut().eat(Token::Declare);
 
         if declare {
             // TODO: Remove
@@ -334,12 +334,12 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            if self.input_mut().eat(Token::IMPORT) {
+            if self.input_mut().eat(Token::Import) {
                 let is_type_only =
-                    self.input().is(Token::TYPE) && peek!(self).is_some_and(|p| p.is_word());
+                    self.input().is(Token::Type) && peek!(self).is_some_and(|p| p.is_word());
 
                 if is_type_only {
-                    self.assert_and_bump(Token::TYPE);
+                    self.assert_and_bump(Token::Type);
                 }
 
                 let id = self.parse_ident_name()?;
@@ -355,7 +355,7 @@ impl<I: Tokens> Parser<I> {
                     .map(From::from);
             }
 
-            if self.input_mut().eat(Token::EQUAL) {
+            if self.input_mut().eat(Token::Eq) {
                 // `export = x;`
                 let expr = self.parse_expr()?;
                 self.expect_general_semi()?;
@@ -366,10 +366,10 @@ impl<I: Tokens> Parser<I> {
                 .into());
             }
 
-            if self.input_mut().eat(Token::AS) {
+            if self.input_mut().eat(Token::As) {
                 // `export as namespace A;`
                 // See `parseNamespaceExportDeclaration` in TypeScript's own parser
-                expect!(self, Token::NAMESPACE);
+                expect!(self, Token::Namespace);
                 let id = self.parse_ident(false, false)?;
                 self.expect_general_semi()?;
                 return Ok(TsNamespaceExportDecl {
@@ -382,13 +382,13 @@ impl<I: Tokens> Parser<I> {
 
         let ns_export_specifier_start = self.cur_pos();
 
-        let type_only = self.input().syntax().typescript() && self.input_mut().eat(Token::TYPE);
+        let type_only = self.input().syntax().typescript() && self.input_mut().eat(Token::Type);
 
         // Some("default") if default is exported from 'src'
         let mut export_default = None;
 
-        if !type_only && self.input_mut().eat(Token::DEFAULT) {
-            if self.input().is(Token::AT) {
+        if !type_only && self.input_mut().eat(Token::Default) {
+            if self.input().is(Token::At) {
                 let start = self.cur_pos();
                 let after_decorators = self.parse_decorators(false)?;
 
@@ -400,14 +400,14 @@ impl<I: Tokens> Parser<I> {
             }
 
             if self.input().syntax().typescript() {
-                if self.input().is(Token::ABSTRACT)
+                if self.input().is(Token::Abstract)
                     && peek!(self).is_some_and(|cur| cur == Token::Class)
                     && !self.input_mut().has_linebreak_between_cur_and_peeked()
                 {
                     let class_start = self.cur_pos();
-                    self.assert_and_bump(Token::ABSTRACT);
+                    self.assert_and_bump(Token::Abstract);
                     let cur = self.input().cur();
-                    if cur.is_error() {
+                    if cur == Token::Error {
                         let err = self.input_mut().expect_error_token_and_bump();
                         return Err(err);
                     }
@@ -416,16 +416,16 @@ impl<I: Tokens> Parser<I> {
                         .parse_default_class(start, class_start, decorators, true)
                         .map(ModuleDecl::ExportDefaultDecl);
                 }
-                if self.input().is(Token::ABSTRACT)
+                if self.input().is(Token::Abstract)
                     && peek!(self).is_some_and(|cur| cur == Token::Interface)
                 {
                     self.emit_err(self.input().cur_span(), SyntaxError::TS1242);
-                    self.assert_and_bump(Token::ABSTRACT);
+                    self.assert_and_bump(Token::Abstract);
                 }
 
-                if self.input().is(Token::INTERFACE) {
+                if self.input().is(Token::Interface) {
                     let interface_start = self.cur_pos();
-                    self.assert_and_bump(Token::INTERFACE);
+                    self.assert_and_bump(Token::Interface);
                     let decl = self
                         .parse_ts_interface_decl(interface_start)
                         .map(DefaultDecl::from)?;
@@ -437,22 +437,23 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            if self.input().is(Token::CLASS) {
+            if self.input().is(Token::Class) {
                 let class_start = self.cur_pos();
                 let decl = self.parse_default_class(start, class_start, decorators, false)?;
                 return Ok(decl.into());
-            } else if self.input().is(Token::ASYNC)
+            } else if self.input().is(Token::Async)
                 && peek!(self).is_some_and(|cur| cur == Token::Function)
                 && !self.input_mut().has_linebreak_between_cur_and_peeked()
             {
                 let decl = self.parse_default_async_fn(start, decorators)?;
                 return Ok(decl.into());
-            } else if self.input().is(Token::FUNCTION) {
+            } else if self.input().is(Token::Function) {
                 let decl = self.parse_default_fn(start, decorators)?;
                 return Ok(decl.into());
             } else if self.input().syntax().export_default_from()
-                && ((self.input().is(Token::FROM) && peek!(self).is_some_and(|peek| peek.is_str()))
-                    || (self.input().is(Token::COMMA)
+                && ((self.input().is(Token::From)
+                    && peek!(self).is_some_and(|peek| peek == Token::Str))
+                    || (self.input().is(Token::Comma)
                         && (peek!(self)
                             .is_some_and(|peek| matches!(peek, Token::Asterisk | Token::LBrace)))))
             {
@@ -471,7 +472,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        if self.input().is(Token::AT) {
+        if self.input().is(Token::At) {
             let start = self.cur_pos();
             let after_decorators = self.parse_decorators(false)?;
 
@@ -482,25 +483,25 @@ impl<I: Tokens> Parser<I> {
             decorators = after_decorators;
         }
 
-        let decl = if !type_only && self.input().is(Token::CLASS) {
+        let decl = if !type_only && self.input().is(Token::Class) {
             let class_start = self.cur_pos();
             self.parse_class_decl(start, class_start, decorators, false)?
         } else if !type_only
-            && self.input().is(Token::ASYNC)
+            && self.input().is(Token::Async)
             && peek!(self).is_some_and(|cur| cur == Token::Function)
             && !self.input_mut().has_linebreak_between_cur_and_peeked()
         {
             self.parse_async_fn_decl(decorators)?
-        } else if !type_only && self.input().is(Token::FUNCTION) {
+        } else if !type_only && self.input().is(Token::Function) {
             self.parse_fn_decl(decorators)?
         } else if !type_only
             && self.input().syntax().typescript()
-            && self.input().is(Token::CONST)
+            && self.input().is(Token::Const)
             && peek!(self).is_some_and(|cur| cur == Token::Enum)
         {
             let enum_start = self.cur_pos();
-            self.assert_and_bump(Token::CONST);
-            self.assert_and_bump(Token::ENUM);
+            self.assert_and_bump(Token::Const);
+            self.assert_and_bump(Token::Enum);
             return self
                 .parse_ts_enum_decl(enum_start, /* is_const */ true)
                 .map(Decl::from)
@@ -512,9 +513,9 @@ impl<I: Tokens> Parser<I> {
                     .into()
                 });
         } else if !type_only
-            && (self.input().is(Token::VAR)
-                || self.input().is(Token::CONST)
-                || (self.input().is(Token::LET))
+            && (self.input().is(Token::Var)
+                || self.input().is(Token::Const)
+                || (self.input().is(Token::Let))
                     && peek!(self)
                         .map(|t| t.follows_keyword_let())
                         .unwrap_or(false))
@@ -547,10 +548,10 @@ impl<I: Tokens> Parser<I> {
             };
 
             if default.is_none()
-                && self.input().is(Token::MUL)
+                && self.input().is(Token::Asterisk)
                 && !peek!(self).is_some_and(|cur| cur == Token::As)
             {
-                self.assert_and_bump(Token::MUL);
+                self.assert_and_bump(Token::Asterisk);
 
                 // improve error message for `export * from foo`
                 let (src, with) = self.parse_from_clause_and_semi()?;
@@ -578,22 +579,22 @@ impl<I: Tokens> Parser<I> {
             // export foo, * as bar
             //           ^
             if !specifiers.is_empty()
-                && self.input().is(Token::COMMA)
+                && self.input().is(Token::Comma)
                 && peek!(self).is_some_and(|cur| cur == Token::Asterisk)
             {
-                self.assert_and_bump(Token::COMMA);
+                self.assert_and_bump(Token::Comma);
 
                 has_ns = true;
             }
             // export     * as bar
             //            ^
-            else if specifiers.is_empty() && self.input().is(Token::MUL) {
+            else if specifiers.is_empty() && self.input().is(Token::Asterisk) {
                 has_ns = true;
             }
 
             if has_ns {
-                self.assert_and_bump(Token::MUL);
-                expect!(self, Token::AS);
+                self.assert_and_bump(Token::Asterisk);
+                expect!(self, Token::As);
                 let name = self.parse_module_export_name()?;
                 specifiers.push(ExportSpecifier::Namespace(ExportNamespaceSpecifier {
                     span: self.span(ns_export_specifier_start),
@@ -602,7 +603,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             if has_default || has_ns {
-                if self.input().is(Token::FROM) {
+                if self.input().is(Token::From) {
                     let (src, with) = self.parse_from_clause_and_semi()?;
                     return Ok(NamedExport {
                         span: self.span(start),
@@ -614,27 +615,27 @@ impl<I: Tokens> Parser<I> {
                     .into());
                 } else if !self.input().syntax().export_default_from() {
                     // emit error
-                    expect!(self, Token::FROM);
+                    expect!(self, Token::From);
                 }
 
-                expect!(self, Token::COMMA);
+                expect!(self, Token::Comma);
             }
 
-            expect!(self, Token::LBRACE);
+            expect!(self, Token::LBrace);
 
-            while !self.input().is(Token::RBRACE) {
+            while !self.input().is(Token::RBrace) {
                 let specifier = self.parse_named_export_specifier(type_only)?;
                 specifiers.push(ExportSpecifier::Named(specifier));
 
-                if self.input().is(Token::RBRACE) {
+                if self.input().is(Token::RBrace) {
                     break;
                 } else {
-                    expect!(self, Token::COMMA);
+                    expect!(self, Token::Comma);
                 }
             }
-            expect!(self, Token::RBRACE);
+            expect!(self, Token::RBrace);
 
-            let opt = if self.input().is(Token::FROM) {
+            let opt = if self.input().is(Token::From) {
                 Some(self.parse_from_clause_and_semi()?)
             } else {
                 for s in &specifiers {
@@ -698,7 +699,7 @@ impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_import(&mut self) -> PResult<ModuleItem> {
         let start = self.cur_pos();
 
-        if peek!(self).is_some_and(|cur| cur.is_dot()) {
+        if peek!(self).is_some_and(|cur| cur == Token::Dot) {
             let expr = self.parse_expr()?;
 
             self.eat_general_semi();
@@ -710,7 +711,7 @@ impl<I: Tokens> Parser<I> {
             .into());
         }
 
-        if peek!(self).is_some_and(|cur| cur.is_lparen()) {
+        if peek!(self).is_some_and(|cur| cur == Token::LParen) {
             let expr = self.parse_expr()?;
 
             self.eat_general_semi();
@@ -730,14 +731,14 @@ impl<I: Tokens> Parser<I> {
             self.set_ctx(ctx);
         }
 
-        expect!(self, Token::IMPORT);
+        expect!(self, Token::Import);
 
         // Handle import 'mod.js'
-        if self.input().cur().is_str() {
+        if self.input().cur() == Token::Str {
             let src = Box::new(self.parse_str_lit());
             let with = if self.input().syntax().import_attributes()
                 && !self.input().had_line_break_before_cur()
-                && (self.input_mut().eat(Token::ASSERT) || self.input_mut().eat(Token::WITH))
+                && (self.input_mut().eat(Token::Assert) || self.input_mut().eat(Token::With))
             {
                 match self.parse_object_expr()? {
                     Expr::Object(v) => Some(Box::new(v)),
@@ -768,13 +769,13 @@ impl<I: Tokens> Parser<I> {
 
                 if self.input().syntax().typescript() && local.sym == "type" {
                     let cur = self.input().cur();
-                    if cur.is_lbrace() || cur == Token::Asterisk {
+                    if cur == Token::LBrace || cur == Token::Asterisk {
                         type_only = true;
                         break 'import_maybe_ident;
                     }
 
                     if self.is_ident_ref() {
-                        if !self.input().is(Token::FROM)
+                        if !self.input().is(Token::From)
                             || peek!(self).is_some_and(|cur| cur == Token::From)
                         {
                             type_only = true;
@@ -786,7 +787,7 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
 
-                if self.input().syntax().typescript() && self.input().is(Token::EQUAL) {
+                if self.input().syntax().typescript() && self.input().is(Token::Eq) {
                     return self
                         .parse_ts_import_equals_decl(start, local, false, type_only)
                         .map(ModuleDecl::from)
@@ -820,8 +821,8 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 //TODO: Better error reporting
-                if !self.input().is(Token::FROM) {
-                    expect!(self, Token::COMMA);
+                if !self.input().is(Token::From) {
+                    expect!(self, Token::Comma);
                 }
                 specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
                     span: local.span,
@@ -833,31 +834,31 @@ impl<I: Tokens> Parser<I> {
         {
             let import_spec_start = self.cur_pos();
             // Namespace imports are not allowed in source phase.
-            if phase != ImportPhase::Source && self.input_mut().eat(Token::MUL) {
-                expect!(self, Token::AS);
+            if phase != ImportPhase::Source && self.input_mut().eat(Token::Asterisk) {
+                expect!(self, Token::As);
                 let local = self.parse_imported_binding()?;
                 specifiers.push(ImportSpecifier::Namespace(ImportStarAsSpecifier {
                     span: self.span(import_spec_start),
                     local,
                 }));
                 // Named imports are only allowed in evaluation phase.
-            } else if phase == ImportPhase::Evaluation && self.input_mut().eat(Token::LBRACE) {
-                while !self.input().is(Token::RBRACE) {
+            } else if phase == ImportPhase::Evaluation && self.input_mut().eat(Token::LBrace) {
+                while !self.input().is(Token::RBrace) {
                     specifiers.push(self.parse_import_specifier(type_only)?);
 
-                    if self.input().is(Token::RBRACE) {
+                    if self.input().is(Token::RBrace) {
                         break;
                     } else {
-                        expect!(self, Token::COMMA);
+                        expect!(self, Token::Comma);
                     }
                 }
-                expect!(self, Token::RBRACE);
+                expect!(self, Token::RBrace);
             }
         }
 
         let src = {
-            expect!(self, Token::FROM);
-            if self.input().cur().is_str() {
+            expect!(self, Token::From);
+            if self.input().cur() == Token::Str {
                 Box::new(self.parse_str_lit())
             } else {
                 unexpected!(self, "a string literal")
@@ -866,7 +867,7 @@ impl<I: Tokens> Parser<I> {
 
         let with = if self.input().syntax().import_attributes()
             && !self.input().had_line_break_before_cur()
-            && (self.input_mut().eat(Token::ASSERT) || self.input_mut().eat(Token::WITH))
+            && (self.input_mut().eat(Token::Assert) || self.input_mut().eat(Token::With))
         {
             match self.parse_object_expr()? {
                 Expr::Object(v) => Some(Box::new(v)),
@@ -901,9 +902,9 @@ fn handle_import_export<I: Tokens>(
         syntax_error!(p, SyntaxError::NonTopLevelImportExport);
     }
 
-    let decl = if p.input().is(Token::IMPORT) {
+    let decl = if p.input().is(Token::Import) {
         p.parse_import()?
-    } else if p.input().is(Token::EXPORT) {
+    } else if p.input().is(Token::Export) {
         p.parse_export(decorators).map(ModuleItem::from)?
     } else {
         unreachable!(

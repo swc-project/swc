@@ -26,7 +26,7 @@ impl<I: Tokens> Parser<I> {
 
                 if !p.input().is(Token::RBrace) {
                     expect!(p, Token::Comma);
-                    if p.input().is(Token::RBRACE) {
+                    if p.input().is(Token::RBrace) {
                         trailing_comma = Some(p.input().prev_span());
                     }
                 }
@@ -41,7 +41,7 @@ impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_binding_object_prop(&mut self) -> PResult<ObjectPatProp> {
         let start = self.cur_pos();
 
-        if self.input_mut().eat(Token::DOTDOTDOT) {
+        if self.input_mut().eat(Token::DotDotDot) {
             // spread element
             let dot3_token = self.span(start);
 
@@ -111,7 +111,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let optional = (self.input().syntax().dts() || self.ctx().contains(Context::InDeclare))
-            && self.input_mut().eat(Token::QUESTION);
+            && self.input_mut().eat(Token::QuestionMark);
 
         Ok(ObjectPat {
             span,
@@ -194,8 +194,8 @@ impl<I: Tokens> Parser<I> {
                     | Token::QuestionMark
                     | Token::Eq
                     | Token::Asterisk
-            ) || cur.is_str()
-                || cur.is_num()
+            ) || cur == Token::Str
+                || cur == Token::Num
                 || cur.is_word())
             && !(self.input().syntax().typescript() && self.input().is(Token::Lt))
             && !(self.input().is(Token::RBrace) && matches!(key, PropName::Ident(..)))
@@ -225,8 +225,8 @@ impl<I: Tokens> Parser<I> {
         }
 
         // Handle `a(){}` (and async(){} / get(){} / set(){})
-        if (self.input().syntax().typescript() && self.input().is(Token::LESS))
-            || self.input().is(Token::LPAREN)
+        if (self.input().syntax().typescript() && self.input().is(Token::Lt))
+            || self.input().is(Token::LParen)
         {
             return self
                 .do_inside_of_context(Context::AllowDirectSuper, |p| {
@@ -251,7 +251,7 @@ impl<I: Tokens> Parser<I> {
             _ => unexpected!(self, "identifier"),
         };
 
-        if self.input_mut().eat(Token::QUESTION) {
+        if self.input_mut().eat(Token::QuestionMark) {
             self.emit_err(self.input().prev_span(), SyntaxError::TS1162);
         }
 
@@ -263,7 +263,7 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(ident.span, SyntaxError::ReservedWordInObjShorthandOrPat);
             }
 
-            if self.input_mut().eat(Token::EQUAL) {
+            if self.input_mut().eat(Token::Eq) {
                 let value = self.allow_in_expr(Self::parse_assignment_expr)?;
                 let span = self.span(start);
                 return Ok(PropOrSpread::Prop(Box::new(Prop::Assign(AssignProp {
@@ -288,7 +288,7 @@ impl<I: Tokens> Parser<I> {
                     self.emit_err(modifiers_span, SyntaxError::TS1042);
                 }
 
-                let is_generator = ident.sym == "async" && self.input_mut().eat(Token::MUL);
+                let is_generator = ident.sym == "async" && self.input_mut().eat(Token::Asterisk);
                 let key = self.parse_prop_name()?;
                 let key_span = key.span();
                 self.do_inside_of_context(Context::AllowDirectSuper, |p| {

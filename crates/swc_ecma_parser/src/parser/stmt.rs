@@ -25,15 +25,15 @@ pub enum TempForHead {
 
 impl<I: Tokens> Parser<I> {
     fn parse_normal_for_head(&mut self, init: Option<VarDeclOrExpr>) -> PResult<TempForHead> {
-        let test = if self.input_mut().eat(Token::SEMI) {
+        let test = if self.input_mut().eat(Token::Semi) {
             None
         } else {
             let test = self.allow_in_expr(|p| p.parse_expr()).map(Some)?;
-            self.input_mut().eat(Token::SEMI);
+            self.input_mut().eat(Token::Semi);
             test
         };
 
-        let update = if self.input().is(Token::RPAREN) {
+        let update = if self.input().is(Token::RParen) {
             None
         } else {
             self.allow_in_expr(|p| p.parse_expr()).map(Some)?
@@ -60,7 +60,7 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_return_stmt(&mut self) -> PResult<Stmt> {
         let start = self.cur_pos();
 
-        self.assert_and_bump(Token::RETURN);
+        self.assert_and_bump(Token::Return);
 
         let arg = if self.is_general_semi() {
             None
@@ -96,7 +96,7 @@ impl<I: Tokens> Parser<I> {
 
         let definite = if self.input().syntax().typescript() {
             match name {
-                Pat::Ident(..) => self.input_mut().eat(Token::BANG),
+                Pat::Ident(..) => self.input_mut().eat(Token::Bang),
                 _ => false,
             }
         } else {
@@ -104,7 +104,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         // Typescript extension
-        if self.input().syntax().typescript() && self.input().is(Token::COLON) {
+        if self.input().syntax().typescript() && self.input().is(Token::Colon) {
             let type_annotation = self.try_parse_ts_type_ann()?;
             match name {
                 Pat::Array(ArrayPat {
@@ -128,7 +128,7 @@ impl<I: Tokens> Parser<I> {
         //FIXME: This is wrong. Should check in/of only on first looself.
         let cur = self.input().cur();
         let init = if !for_loop || !(cur == Token::In || cur == Token::Of) {
-            if self.input_mut().eat(Token::EQUAL) {
+            if self.input_mut().eat(Token::Eq) {
                 let expr = self.parse_assignment_expr()?;
                 let expr = self.verify_expr(expr)?;
 
@@ -191,12 +191,12 @@ impl<I: Tokens> Parser<I> {
             let res: PResult<bool> = if cur == Token::In || cur == Token::Of {
                 self.ts_look_ahead(|p| {
                     //
-                    if !p.input_mut().eat(Token::OF) && !p.input_mut().eat(Token::IN) {
+                    if !p.input_mut().eat(Token::Of) && !p.input_mut().eat(Token::In) {
                         return Ok(false);
                     }
 
                     p.parse_assignment_expr()?;
-                    expect!(p, Token::RPAREN);
+                    expect!(p, Token::RParen);
 
                     Ok(true)
                 })
@@ -229,7 +229,7 @@ impl<I: Tokens> Parser<I> {
             //      var a,;
             //
             // NewLine is ok
-            if self.input().is(Token::SEMI) {
+            if self.input().is(Token::Semi) {
                 let prev_span = self.input().prev_span();
                 let span = if prev_span == var_span {
                     Span::new_with_checked(prev_span.hi, prev_span.hi)
@@ -250,7 +250,7 @@ impl<I: Tokens> Parser<I> {
 
             decls.push(decl);
 
-            if !self.input_mut().eat(Token::COMMA) {
+            if !self.input_mut().eat(Token::Comma) {
                 break;
             }
         }
@@ -263,7 +263,7 @@ impl<I: Tokens> Parser<I> {
             while !self.eat_general_semi() {
                 self.bump();
 
-                if self.input().cur().is_error() {
+                if self.input().cur() == Token::Error {
                     break;
                 }
             }
@@ -295,7 +295,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(None);
         }
 
-        self.assert_and_bump(Token::USING);
+        self.assert_and_bump(Token::Using);
 
         let mut decls = Vec::new();
         loop {
@@ -303,14 +303,14 @@ impl<I: Tokens> Parser<I> {
             //      var a,;
             //
             // NewLine is ok
-            if self.input().is(Token::SEMI) {
+            if self.input().is(Token::Semi) {
                 let span = self.input().prev_span();
                 self.emit_err(span, SyntaxError::TS1009);
                 break;
             }
 
             decls.push(self.parse_var_declarator(false, VarDeclKind::Var)?);
-            if !self.input_mut().eat(Token::COMMA) {
+            if !self.input_mut().eat(Token::Comma) {
                 break;
             }
         }
@@ -363,7 +363,7 @@ impl<I: Tokens> Parser<I> {
                         self.emit_err(d.name.span(), SyntaxError::TooManyVarInForInHead);
                     }
                 } else {
-                    if (self.ctx().contains(Context::Strict) || self.input().is(Token::OF))
+                    if (self.ctx().contains(Context::Strict) || self.input().is(Token::Of))
                         && decl.decls[0].init.is_some()
                     {
                         self.emit_err(
@@ -392,11 +392,11 @@ impl<I: Tokens> Parser<I> {
                 return self.parse_for_each_head(ForHead::VarDecl(decl));
             }
 
-            expect!(self, Token::SEMI);
+            expect!(self, Token::Semi);
             return self.parse_normal_for_head(Some(VarDeclOrExpr::VarDecl(decl)));
         }
 
-        if self.input_mut().eat(Token::SEMI) {
+        if self.input_mut().eat(Token::Semi) {
             return self.parse_normal_for_head(None);
         }
 
@@ -423,7 +423,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             if maybe_using_decl
-                && !self.input().is(Token::OF)
+                && !self.input().is(Token::Of)
                 && (peek!(self).is_some_and(|peek| peek == Token::Of || peek == Token::In))
             {
                 is_using_decl = maybe_using_decl;
@@ -447,7 +447,7 @@ impl<I: Tokens> Parser<I> {
             });
 
             let cur = self.input().cur();
-            if cur.is_error() {
+            if cur == Token::Error {
                 let err = self.input_mut().expect_error_token_and_bump();
                 return Err(err);
             } else if cur == Token::Eof {
@@ -460,7 +460,7 @@ impl<I: Tokens> Parser<I> {
         // for (a of b)
         let cur = self.input().cur();
         if cur == Token::Of || cur == Token::In {
-            let is_in = self.input().is(Token::IN);
+            let is_in = self.input().is(Token::In);
 
             let pat = self.reparse_expr_as_pat(PatType::AssignPat, init)?;
 
@@ -476,7 +476,7 @@ impl<I: Tokens> Parser<I> {
             return self.parse_for_each_head(ForHead::Pat(Box::new(pat)));
         }
 
-        expect!(self, Token::SEMI);
+        expect!(self, Token::Semi);
 
         let init = self.verify_expr(init)?;
         self.parse_normal_for_head(Some(VarDeclOrExpr::Expr(init)))
@@ -485,14 +485,14 @@ impl<I: Tokens> Parser<I> {
     fn parse_for_stmt(&mut self) -> PResult<Stmt> {
         let start = self.cur_pos();
 
-        self.assert_and_bump(Token::FOR);
+        self.assert_and_bump(Token::For);
         let await_start = self.cur_pos();
-        let await_token = if self.input_mut().eat(Token::AWAIT) {
+        let await_token = if self.input_mut().eat(Token::Await) {
             Some(self.span(await_start))
         } else {
             None
         };
-        expect!(self, Token::LPAREN);
+        expect!(self, Token::LParen);
 
         let head = self.do_inside_of_context(Context::ForLoopInit, |p| {
             if await_token.is_some() {
@@ -502,7 +502,7 @@ impl<I: Tokens> Parser<I> {
             }
         })?;
 
-        expect!(self, Token::RPAREN);
+        expect!(self, Token::RParen);
 
         let body = self
             .do_inside_of_context(
@@ -574,10 +574,10 @@ impl<I: Tokens> Parser<I> {
     fn parse_if_stmt(&mut self) -> PResult<IfStmt> {
         let start = self.cur_pos();
 
-        self.assert_and_bump(Token::IF);
+        self.assert_and_bump(Token::If);
         let if_token = self.input().prev_span();
 
-        expect!(self, Token::LPAREN);
+        expect!(self, Token::LParen);
 
         let test = self
             .do_outside_of_context(Context::IgnoreElseClause, |p| {
@@ -594,7 +594,7 @@ impl<I: Tokens> Parser<I> {
                 )
             })?;
 
-        expect!(self, Token::RPAREN);
+        expect!(self, Token::RParen);
 
         let cons = {
             // Prevent stack overflow
@@ -620,11 +620,11 @@ impl<I: Tokens> Parser<I> {
             let mut cur = None;
 
             let last = loop {
-                if !self.input_mut().eat(Token::ELSE) {
+                if !self.input_mut().eat(Token::Else) {
                     break None;
                 }
 
-                if !self.input().is(Token::IF) {
+                if !self.input().is(Token::If) {
                     // As we eat `else` above, we need to parse statement once.
                     let last = self.do_outside_of_context(
                         Context::IgnoreElseClause.union(Context::TopLevel),
@@ -672,7 +672,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_throw_stmt(&mut self) -> PResult<Stmt> {
         let start = self.cur_pos();
 
-        self.assert_and_bump(Token::THROW);
+        self.assert_and_bump(Token::Throw);
 
         if self.input().had_line_break_before_cur() {
             // TODO: Suggest throw arg;
@@ -699,11 +699,11 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.cur_pos();
 
-        self.assert_and_bump(Token::WITH);
+        self.assert_and_bump(Token::With);
 
-        expect!(self, Token::LPAREN);
+        expect!(self, Token::LParen);
         let obj = self.allow_in_expr(|p| p.parse_expr())?;
-        expect!(self, Token::RPAREN);
+        expect!(self, Token::RParen);
 
         let body = self
             .do_inside_of_context(Context::InFunction, |p| {
@@ -718,11 +718,11 @@ impl<I: Tokens> Parser<I> {
     fn parse_while_stmt(&mut self) -> PResult<Stmt> {
         let start = self.cur_pos();
 
-        self.assert_and_bump(Token::WHILE);
+        self.assert_and_bump(Token::While);
 
-        expect!(self, Token::LPAREN);
+        expect!(self, Token::LParen);
         let test = self.allow_in_expr(|p| p.parse_expr())?;
-        expect!(self, Token::RPAREN);
+        expect!(self, Token::RParen);
 
         let body = self
             .do_inside_of_context(
@@ -737,12 +737,12 @@ impl<I: Tokens> Parser<I> {
 
     /// It's optional since es2019
     fn parse_catch_param(&mut self) -> PResult<Option<Pat>> {
-        if self.input_mut().eat(Token::LPAREN) {
+        if self.input_mut().eat(Token::LParen) {
             let mut pat = self.parse_binding_pat_or_ident(false)?;
 
             let type_ann_start = self.cur_pos();
 
-            if self.syntax().typescript() && self.input_mut().eat(Token::COLON) {
+            if self.syntax().typescript() && self.input_mut().eat(Token::Colon) {
                 let ty = self.do_inside_of_context(Context::InType, Self::parse_ts_type)?;
                 // self.emit_err(ty.span(), SyntaxError::TS1196);
 
@@ -761,7 +761,7 @@ impl<I: Tokens> Parser<I> {
                     Pat::Expr(_) => {}
                 }
             }
-            expect!(self, Token::RPAREN);
+            expect!(self, Token::RParen);
             Ok(Some(pat))
         } else {
             Ok(None)
@@ -771,7 +771,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_do_stmt(&mut self) -> PResult<Stmt> {
         let start = self.cur_pos();
 
-        self.assert_and_bump(Token::DO);
+        self.assert_and_bump(Token::Do);
 
         let body = self
             .do_inside_of_context(
@@ -780,12 +780,12 @@ impl<I: Tokens> Parser<I> {
             )
             .map(Box::new)?;
 
-        expect!(self, Token::WHILE);
-        expect!(self, Token::LPAREN);
+        expect!(self, Token::While);
+        expect!(self, Token::LParen);
 
         let test = self.allow_in_expr(|p| p.parse_expr())?;
 
-        expect!(self, Token::RPAREN);
+        expect!(self, Token::RParen);
 
         // We *may* eat semicolon.
         let _ = self.eat_general_semi();
@@ -811,7 +811,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 p.state_mut().labels.push(l.sym.clone());
 
-                let body = Box::new(if p.input().is(Token::FUNCTION) {
+                let body = Box::new(if p.input().is(Token::Function) {
                     let f = p.parse_fn_decl(Vec::new())?;
                     if let Decl::Fn(FnDecl { function, .. }) = &f {
                         if p.ctx().contains(Context::Strict) {
@@ -851,7 +851,7 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_block(&mut self, allow_directives: bool) -> PResult<BlockStmt> {
         let start = self.cur_pos();
 
-        expect!(self, Token::LBRACE);
+        expect!(self, Token::LBrace);
 
         let stmts = self.do_outside_of_context(Context::TopLevel, |p| {
             p.parse_stmt_block_body(allow_directives, Some(Token::RBrace))
@@ -866,7 +866,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn parse_finally_block(&mut self) -> PResult<Option<BlockStmt>> {
-        Ok(if self.input_mut().eat(Token::FINALLY) {
+        Ok(if self.input_mut().eat(Token::Finally) {
             self.parse_block(false).map(Some)?
         } else {
             None
@@ -875,7 +875,7 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_catch_clause(&mut self) -> PResult<Option<CatchClause>> {
         let start = self.cur_pos();
-        Ok(if self.input_mut().eat(Token::CATCH) {
+        Ok(if self.input_mut().eat(Token::Catch) {
             let param = self.parse_catch_param()?;
             self.parse_block(false)
                 .map(|body| CatchClause {
@@ -891,7 +891,7 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_try_stmt(&mut self) -> PResult<Stmt> {
         let start = self.cur_pos();
-        self.assert_and_bump(Token::TRY);
+        self.assert_and_bump(Token::Try);
 
         let block = self.parse_block(false)?;
 
@@ -919,16 +919,16 @@ impl<I: Tokens> Parser<I> {
     fn parse_switch_stmt(&mut self) -> PResult<Stmt> {
         let switch_start = self.cur_pos();
 
-        self.assert_and_bump(Token::SWITCH);
+        self.assert_and_bump(Token::Switch);
 
-        expect!(self, Token::LPAREN);
+        expect!(self, Token::LParen);
         let discriminant = self.allow_in_expr(|p| p.parse_expr())?;
-        expect!(self, Token::RPAREN);
+        expect!(self, Token::RParen);
 
         let mut cases = Vec::new();
         let mut span_of_previous_default = None;
 
-        expect!(self, Token::LBRACE);
+        expect!(self, Token::LBrace);
 
         self.do_inside_of_context(Context::IsBreakAllowed, |p| {
             while {
@@ -936,7 +936,7 @@ impl<I: Tokens> Parser<I> {
                 cur == Token::Case || cur == Token::Default
             } {
                 let mut cons = Vec::new();
-                let is_case = p.input().is(Token::CASE);
+                let is_case = p.input().is(Token::Case);
                 let case_start = p.cur_pos();
                 p.bump();
                 let test = if is_case {
@@ -949,7 +949,7 @@ impl<I: Tokens> Parser<I> {
 
                     None
                 };
-                expect!(p, Token::COLON);
+                expect!(p, Token::Colon);
 
                 while {
                     let cur = p.input().cur();
@@ -971,7 +971,7 @@ impl<I: Tokens> Parser<I> {
         })?;
 
         // eof or rbrace
-        expect!(self, Token::RBRACE);
+        expect!(self, Token::RBrace);
 
         Ok(SwitchStmt {
             span: self.span(switch_start),
@@ -998,7 +998,7 @@ impl<I: Tokens> Parser<I> {
         debug_tracing!(self, "parse_stmt_like");
 
         let start = self.cur_pos();
-        let decorators = if self.input().get_cur().token() == Token::AT {
+        let decorators = if self.input().get_cur().token() == Token::At {
             self.parse_decorators(true)?
         } else {
             vec![]
@@ -1029,11 +1029,11 @@ impl<I: Tokens> Parser<I> {
         let is_typescript = self.input().syntax().typescript();
 
         if is_typescript
-            && self.input().is(Token::CONST)
+            && self.input().is(Token::Const)
             && peek!(self).is_some_and(|peek| peek == Token::Enum)
         {
-            self.assert_and_bump(Token::CONST);
-            self.assert_and_bump(Token::ENUM);
+            self.assert_and_bump(Token::Const);
+            self.assert_and_bump(Token::Enum);
             return self
                 .parse_ts_enum_decl(start, true)
                 .map(Decl::from)
@@ -1054,7 +1054,7 @@ impl<I: Tokens> Parser<I> {
 
             if peek!(self).is_some_and(|peek| peek == Token::Using) {
                 let eaten_await = Some(self.input().cur_pos());
-                self.assert_and_bump(Token::AWAIT);
+                self.assert_and_bump(Token::Await);
                 let v = self.parse_using_decl(start, true)?;
                 if let Some(v) = v {
                     return Ok(v.into());
@@ -1068,7 +1068,7 @@ impl<I: Tokens> Parser<I> {
                 return Ok(ExprStmt { span, expr }.into());
             }
         } else if cur == Token::Break || cur == Token::Continue {
-            let is_break = self.input().is(Token::BREAK);
+            let is_break = self.input().is(Token::Break);
             self.bump();
             let label = if self.eat_general_semi() {
                 None
@@ -1200,11 +1200,11 @@ impl<I: Tokens> Parser<I> {
             let start = self.input().cur_pos();
             self.bump();
             return Ok(self.parse_ts_enum_decl(start, false)?.into());
-        } else if cur.is_lbrace() {
+        } else if cur == Token::LBrace {
             return self
                 .do_inside_of_context(Context::AllowUsingDecl, |p| p.parse_block(false))
                 .map(Stmt::Block);
-        } else if cur.is_semi() {
+        } else if cur == Token::Semi {
             self.bump();
             return Ok(EmptyStmt {
                 span: self.span(start),
@@ -1213,7 +1213,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         // Handle async function foo() {}
-        if self.input().is(Token::ASYNC)
+        if self.input().is(Token::Async)
             && peek!(self).is_some_and(|peek| peek == Token::Function)
             && !self.input_mut().has_linebreak_between_cur_and_peeked()
         {
@@ -1229,7 +1229,7 @@ impl<I: Tokens> Parser<I> {
 
         let expr = match *expr {
             Expr::Ident(ident) => {
-                if self.input_mut().eat(Token::COLON) {
+                if self.input_mut().eat(Token::Colon) {
                     return self.parse_labelled_stmt(ident);
                 }
                 ident.into()
@@ -1263,7 +1263,7 @@ impl<I: Tokens> Parser<I> {
             if let Expr::Ident(ref i) = *expr {
                 match &*i.sym {
                     "public" | "static" | "abstract" => {
-                        if self.input_mut().eat(Token::INTERFACE) {
+                        if self.input_mut().eat(Token::Interface) {
                             self.emit_err(i.span, SyntaxError::TS2427);
                             return self
                                 .parse_ts_interface_decl(start)

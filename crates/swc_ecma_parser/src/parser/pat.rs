@@ -376,7 +376,7 @@ impl<I: Tokens> Parser<I> {
         let start = self.cur_pos();
         let left = self.parse_binding_pat_or_ident(false)?;
 
-        if self.input_mut().eat(Token::EQUAL) {
+        if self.input_mut().eat(Token::Eq) {
             let right = self.allow_in_expr(Self::parse_assignment_expr)?;
 
             if self.ctx().contains(Context::InDeclare) {
@@ -404,7 +404,7 @@ impl<I: Tokens> Parser<I> {
             self.parse_array_binding_pat()
         } else if cur == Token::LBrace {
             self.parse_object_pat()
-        } else if cur.is_error() {
+        } else if cur == Token::Error {
             let err = self.input_mut().expect_error_token_and_bump();
             Err(err)
         } else {
@@ -415,14 +415,14 @@ impl<I: Tokens> Parser<I> {
     pub fn parse_array_binding_pat(&mut self) -> PResult<Pat> {
         let start = self.cur_pos();
 
-        self.assert_and_bump(Token::LBRACKET);
+        self.assert_and_bump(Token::LBracket);
 
         let mut elems = Vec::new();
 
         let mut rest_span = Span::default();
 
-        while !self.input().is(Token::RBRACKET) {
-            if self.input_mut().eat(Token::COMMA) {
+        while !self.input().is(Token::RBracket) {
+            if self.input_mut().eat(Token::Comma) {
                 elems.push(None);
                 continue;
             }
@@ -434,7 +434,7 @@ impl<I: Tokens> Parser<I> {
             let start = self.cur_pos();
 
             let mut is_rest = false;
-            if self.input_mut().eat(Token::DOTDOTDOT) {
+            if self.input_mut().eat(Token::DotDotDot) {
                 is_rest = true;
                 let dot3_token = self.span(start);
 
@@ -452,17 +452,17 @@ impl<I: Tokens> Parser<I> {
                 elems.push(self.parse_binding_element().map(Some)?);
             }
 
-            if !self.input().is(Token::RBRACKET) {
-                expect!(self, Token::COMMA);
-                if is_rest && self.input().is(Token::RBRACKET) {
+            if !self.input().is(Token::RBracket) {
+                expect!(self, Token::Comma);
+                if is_rest && self.input().is(Token::RBracket) {
                     self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
                 }
             }
         }
 
-        expect!(self, Token::RBRACKET);
+        expect!(self, Token::RBracket);
         let optional = (self.input().syntax().dts() || self.ctx().contains(Context::InDeclare))
-            && self.input_mut().eat(Token::QUESTION);
+            && self.input_mut().eat(Token::QuestionMark);
 
         Ok(ArrayPat {
             span: self.span(start),
@@ -486,7 +486,7 @@ impl<I: Tokens> Parser<I> {
         let mut opt = false;
 
         if self.input().syntax().typescript() {
-            if self.input_mut().eat(Token::QUESTION) {
+            if self.input_mut().eat(Token::QuestionMark) {
                 match pat {
                     Pat::Ident(BindingIdent {
                         id:
@@ -557,7 +557,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        let pat = if self.input_mut().eat(Token::EQUAL) {
+        let pat = if self.input_mut().eat(Token::Eq) {
             // `=` cannot follow optional parameter.
             if opt {
                 self.emit_err(pat.span(), SyntaxError::TS1015);
@@ -629,7 +629,7 @@ impl<I: Tokens> Parser<I> {
         let mut params = Vec::new();
         let mut rest_span = Span::default();
 
-        while !self.input().is(Token::RPAREN) {
+        while !self.input().is(Token::RParen) {
             if !rest_span.is_dummy() {
                 self.emit_err(rest_span, SyntaxError::TS1014);
             }
@@ -639,13 +639,13 @@ impl<I: Tokens> Parser<I> {
             let pat_start = self.cur_pos();
 
             let mut is_rest = false;
-            if self.input_mut().eat(Token::DOTDOTDOT) {
+            if self.input_mut().eat(Token::DotDotDot) {
                 is_rest = true;
                 let dot3_token = self.span(pat_start);
 
                 let pat = self.parse_binding_pat_or_ident(false)?;
                 let type_ann =
-                    if self.input().syntax().typescript() && self.input().is(Token::COLON) {
+                    if self.input().syntax().typescript() && self.input().is(Token::Colon) {
                         let cur_pos = self.cur_pos();
                         Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
                     } else {
@@ -669,9 +669,9 @@ impl<I: Tokens> Parser<I> {
                 params.push(self.parse_constructor_param(param_start, decorators)?);
             }
 
-            if !self.input().is(Token::RPAREN) {
-                expect!(self, Token::COMMA);
-                if self.input().is(Token::RPAREN) && is_rest {
+            if !self.input().is(Token::RParen) {
+                expect!(self, Token::Comma);
+                if self.input().is(Token::RParen) && is_rest {
                     self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
                 }
             }
@@ -684,7 +684,7 @@ impl<I: Tokens> Parser<I> {
         let mut params = Vec::new();
         let mut rest_span = Span::default();
 
-        while !self.input().is(Token::RPAREN) {
+        while !self.input().is(Token::RParen) {
             if !rest_span.is_dummy() {
                 self.emit_err(rest_span, SyntaxError::TS1014);
             }
@@ -693,12 +693,12 @@ impl<I: Tokens> Parser<I> {
             let decorators = self.parse_decorators(false)?;
             let pat_start = self.cur_pos();
 
-            let pat = if self.input_mut().eat(Token::DOTDOTDOT) {
+            let pat = if self.input_mut().eat(Token::DotDotDot) {
                 let dot3_token = self.span(pat_start);
 
                 let mut pat = self.parse_binding_pat_or_ident(false)?;
 
-                if self.input_mut().eat(Token::EQUAL) {
+                if self.input_mut().eat(Token::Eq) {
                     let right = self.parse_assignment_expr()?;
                     self.emit_err(pat.span(), SyntaxError::TS1048);
                     pat = AssignPat {
@@ -710,7 +710,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 let type_ann =
-                    if self.input().syntax().typescript() && self.input().is(Token::COLON) {
+                    if self.input().syntax().typescript() && self.input().is(Token::Colon) {
                         let cur_pos = self.cur_pos();
                         let ty = self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?;
                         Some(ty)
@@ -727,7 +727,7 @@ impl<I: Tokens> Parser<I> {
                 }
                 .into();
 
-                if self.syntax().typescript() && self.input_mut().eat(Token::QUESTION) {
+                if self.syntax().typescript() && self.input_mut().eat(Token::QuestionMark) {
                     self.emit_err(self.input().prev_span(), SyntaxError::TS1047);
                     //
                 }
@@ -744,9 +744,9 @@ impl<I: Tokens> Parser<I> {
                 pat,
             });
 
-            if !self.input().is(Token::RPAREN) {
-                expect!(self, Token::COMMA);
-                if is_rest && self.input().is(Token::RPAREN) {
+            if !self.input().is(Token::RParen) {
+                expect!(self, Token::Comma);
+                if is_rest && self.input().is(Token::RParen) {
                     self.emit_err(self.input().prev_span(), SyntaxError::CommaAfterRestElement);
                 }
             }

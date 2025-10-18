@@ -291,168 +291,6 @@ pub enum Token {
 
 impl Token {
     #[inline(always)]
-    pub fn is_dot(self) -> bool {
-        self == Token::Dot
-    }
-
-    #[inline(always)]
-    pub fn is_semi(self) -> bool {
-        self == Token::Semi
-    }
-
-    #[inline(always)]
-    pub fn is_template(self) -> bool {
-        self == Token::Template
-    }
-
-    #[inline(always)]
-    pub fn is_colon(self) -> bool {
-        self == Token::Colon
-    }
-
-    #[inline(always)]
-    pub fn is_lbrace(self) -> bool {
-        self == Token::LBrace
-    }
-
-    #[inline(always)]
-    pub fn is_rbrace(self) -> bool {
-        self == Token::RBrace
-    }
-
-    #[inline(always)]
-    pub fn is_lparen(self) -> bool {
-        self == Token::LParen
-    }
-
-    #[inline(always)]
-    pub fn is_rparen(self) -> bool {
-        self == Token::RParen
-    }
-
-    #[inline(always)]
-    pub fn is_keyword_fn(self) -> bool {
-        self == Token::Function
-    }
-
-    #[inline(always)]
-    pub fn is_keyword_return(self) -> bool {
-        self == Token::Return
-    }
-
-    #[inline(always)]
-    pub fn is_keyword_yield(self) -> bool {
-        self == Token::Yield
-    }
-
-    #[inline(always)]
-    pub fn is_keyword_else(self) -> bool {
-        self == Token::Else
-    }
-
-    #[inline(always)]
-    pub fn is_keyword_class(self) -> bool {
-        self == Token::Class
-    }
-
-    #[inline(always)]
-    pub fn is_keyword_let(self) -> bool {
-        self == Token::Let
-    }
-
-    #[inline(always)]
-    pub fn is_keyword_var(self) -> bool {
-        self == Token::Var
-    }
-
-    #[inline(always)]
-    pub fn is_keyword_const(self) -> bool {
-        self == Token::Const
-    }
-
-    #[inline(always)]
-    pub fn is_keyword_if(self) -> bool {
-        self == Token::If
-    }
-
-    #[inline(always)]
-    pub fn is_keyword_while(self) -> bool {
-        self == Token::While
-    }
-
-    #[inline(always)]
-    pub fn is_keyword_for(self) -> bool {
-        self == Token::For
-    }
-
-    #[inline(always)]
-    pub fn is_keyword_with(self) -> bool {
-        self == Token::With
-    }
-
-    #[inline(always)]
-    pub fn is_lt(self) -> bool {
-        self == Token::Lt
-    }
-
-    #[inline(always)]
-    pub fn is_gt(self) -> bool {
-        self == Token::Gt
-    }
-
-    #[inline(always)]
-    pub fn is_arrow(self) -> bool {
-        self == Token::Arrow
-    }
-
-    #[inline(always)]
-    pub fn is_ident(self) -> bool {
-        self == Token::Ident || self.is_known_ident()
-    }
-
-    #[inline(always)]
-    pub fn is_known_ident_of(self) -> bool {
-        self == Token::Of
-    }
-
-    #[inline(always)]
-    pub fn is_slash(self) -> bool {
-        self == Token::Slash
-    }
-
-    #[inline(always)]
-    pub fn is_dollar_lbrace(self) -> bool {
-        self == Token::DollarLBrace
-    }
-
-    #[inline(always)]
-    pub fn is_plus_plus(self) -> bool {
-        self == Token::PlusPlus
-    }
-
-    #[inline(always)]
-    pub fn is_minus_minus(self) -> bool {
-        self == Token::MinusMinus
-    }
-
-    #[inline(always)]
-    pub fn is_back_quote(self) -> bool {
-        self == Token::BackQuote
-    }
-
-    #[inline(always)]
-    pub fn is_jsx_tag_start(self) -> bool {
-        self == Token::JSXTagStart
-    }
-
-    #[inline(always)]
-    pub fn is_jsx_tag_end(self) -> bool {
-        self == Token::JSXTagEnd
-    }
-}
-
-impl Token {
-    #[inline(always)]
     pub fn is_ident_ref(&self, ctx: Context) -> bool {
         self.is_word() && !self.is_reserved(ctx)
     }
@@ -493,152 +331,11 @@ impl Token {
 }
 
 impl<'a> Token {
-    pub const ABSTRACT: Self = Token::Abstract;
-    pub const ACCESSOR: Self = Token::Accessor;
-    pub const ANY: Self = Token::Any;
-    pub const ARROW: Self = Token::Arrow;
-    pub const AS: Self = Token::As;
-    pub const ASSERT: Self = Token::Assert;
-    pub const ASSERTS: Self = Token::Asserts;
-    pub const ASYNC: Self = Token::Async;
-    pub const AT: Self = Token::At;
-    pub const AWAIT: Self = Token::Await;
-    pub const BACKQUOTE: Self = Token::BackQuote;
-    pub const BANG: Self = Self::Bang;
-    pub const BIGINT: Self = Token::Bigint;
-    pub const BIT_AND: Self = Self::Ampersand;
-    pub const BIT_AND_EQ: Self = Self::BitAndEq;
-    pub const BIT_OR: Self = Self::Pipe;
-    pub const BIT_OR_EQ: Self = Self::BitOrEq;
-    pub const BOOLEAN: Self = Token::Boolean;
-    pub const BREAK: Self = Token::Break;
-    pub const CASE: Self = Token::Case;
-    pub const CATCH: Self = Token::Catch;
-    pub const CLASS: Self = Self::Class;
-    pub const COLON: Self = Self::Colon;
-    pub const COMMA: Self = Token::Comma;
-    pub const CONST: Self = Self::Const;
-    pub const CONTINUE: Self = Token::Continue;
-    pub const DEBUGGER: Self = Token::Debugger;
-    pub const DECLARE: Self = Token::Declare;
-    pub const DEFAULT: Self = Token::Default;
-    pub const DELETE: Self = Self::Delete;
-    pub const DIV: Self = Token::Slash;
-    pub const DIV_EQ: Self = Token::DivEq;
-    pub const DO: Self = Token::Do;
-    pub const DOLLAR_LBRACE: Self = Token::DollarLBrace;
-    pub const DOT: Self = Self::Dot;
-    pub const DOTDOTDOT: Self = Self::DotDotDot;
-    pub const ELSE: Self = Self::Else;
-    pub const ENUM: Self = Token::Enum;
-    pub const EOF: Self = Token::Eof;
-    pub const EQUAL: Self = Token::Eq;
-    pub const EXP: Self = Token::Exp;
-    pub const EXPORT: Self = Token::Export;
-    pub const EXP_EQ: Self = Token::ExpEq;
-    pub const EXTENDS: Self = Token::Extends;
-    pub const FALSE: Self = Token::False;
-    pub const FINALLY: Self = Token::Finally;
-    pub const FOR: Self = Token::For;
-    pub const FROM: Self = Token::From;
-    pub const FUNCTION: Self = Self::Function;
-    pub const GET: Self = Token::Get;
-    pub const GLOBAL: Self = Token::Global;
-    pub const GREATER: Self = Token::Gt;
-    pub const GREATER_EQ: Self = Token::GtEq;
-    pub const HASH: Self = Self::Hash;
-    pub const IF: Self = Self::If;
-    pub const IMPLEMENTS: Self = Token::Implements;
-    pub const IMPORT: Self = Self::Import;
-    pub const IN: Self = Self::In;
-    pub const INFER: Self = Token::Infer;
-    pub const INSTANCEOF: Self = Token::InstanceOf;
-    pub const INTERFACE: Self = Token::Interface;
-    pub const INTRINSIC: Self = Token::Intrinsic;
-    pub const IS: Self = Token::Is;
-    pub const JSX_TAG_END: Self = Token::JSXTagEnd;
-    pub const JSX_TAG_START: Self = Token::JSXTagStart;
-    pub const KEYOF: Self = Token::Keyof;
-    pub const LBRACE: Self = Self::LBrace;
-    pub const LBRACKET: Self = Self::LBracket;
-    pub const LESS: Self = Token::Lt;
-    pub const LESS_EQ: Self = Token::LtEq;
-    pub const LET: Self = Token::Let;
-    pub const LOGICAL_AND: Self = Token::LogicalAnd;
-    pub const LOGICAL_AND_EQ: Self = Self::LogicalAndEq;
-    pub const LOGICAL_OR: Self = Token::LogicalOr;
-    pub const LOGICAL_OR_EQ: Self = Self::LogicalOrEq;
-    pub const LPAREN: Self = Self::LParen;
-    pub const LSHIFT: Self = Token::LShift;
-    pub const LSHIFT_EQ: Self = Token::LShiftEq;
-    pub const MINUS: Self = Self::Minus;
-    pub const MINUS_MINUS: Self = Self::MinusMinus;
-    pub const MOD: Self = Token::Percent;
-    pub const MOD_EQ: Self = Token::ModEq;
-    pub const MUL: Self = Token::Asterisk;
-    pub const MUL_EQ: Self = Token::MulEq;
-    pub const NAMESPACE: Self = Token::Namespace;
-    pub const NEVER: Self = Token::Never;
-    pub const NEW: Self = Self::New;
-    pub const NULL: Self = Token::Null;
-    pub const NULLISH_ASSIGN: Self = Token::NullishEq;
-    pub const NULLISH_COALESCING: Self = Token::NullishCoalescing;
-    pub const NUMBER: Self = Token::Number;
-    pub const OBJECT: Self = Token::Object;
-    pub const OF: Self = Token::Of;
-    pub const PACKAGE: Self = Token::Package;
-    pub const PLUS: Self = Self::Plus;
-    pub const PLUS_PLUS: Self = Self::PlusPlus;
-    pub const PRIVATE: Self = Token::Private;
-    pub const PROTECTED: Self = Token::Protected;
-    pub const PUBLIC: Self = Token::Public;
-    pub const QUESTION: Self = Token::QuestionMark;
-    pub const RBRACE: Self = Self::RBrace;
-    pub const RBRACKET: Self = Self::RBracket;
-    pub const READONLY: Self = Token::Readonly;
-    pub const REQUIRE: Self = Token::Require;
-    pub const RETURN: Self = Token::Return;
-    pub const RPAREN: Self = Self::RParen;
-    pub const RSHIFT: Self = Token::RShift;
-    pub const RSHIFT_EQ: Self = Token::RShiftEq;
-    pub const SATISFIES: Self = Token::Satisfies;
-    pub const SEMI: Self = Token::Semi;
-    pub const SET: Self = Token::Set;
-    pub const STATIC: Self = Token::Static;
-    pub const STRING: Self = Token::String;
-    pub const SUPER: Self = Self::Super;
-    pub const SWITCH: Self = Token::Switch;
-    pub const SYMBOL: Self = Token::Symbol;
-    pub const TARGET: Self = Token::Target;
-    pub const THIS: Self = Token::This;
-    pub const THROW: Self = Token::Throw;
-    pub const TILDE: Self = Self::Tilde;
-    pub const TRUE: Self = Token::True;
-    pub const TRY: Self = Token::Try;
-    pub const TYPE: Self = Token::Type;
-    pub const TYPEOF: Self = Self::TypeOf;
-    pub const UNDEFINED: Self = Token::Undefined;
-    pub const UNIQUE: Self = Token::Unique;
-    pub const UNKNOWN: Self = Token::Unknown;
-    pub const USING: Self = Self::Using;
-    pub const VAR: Self = Self::Var;
-    pub const VOID: Self = Self::Void;
-    pub const WHILE: Self = Token::While;
-    pub const WITH: Self = Token::With;
-    pub const YIELD: Self = Token::Yield;
-    pub const ZERO_FILL_RSHIFT: Self = Token::ZeroFillRShift;
-    pub const ZERO_FILL_RSHIFT_EQ: Self = Token::ZeroFillRShiftEq;
-
     #[inline(always)]
     pub fn jsx_name(name: &str, lexer: &mut crate::Lexer) -> Self {
         let name = lexer.atoms.atom(name);
         lexer.set_token_value(Some(TokenValue::Word(name)));
         Token::JSXName
-    }
-
-    #[inline(always)]
-    pub fn is_jsx_name(&self) -> bool {
-        Token::JSXName.eq(self)
     }
 
     #[inline(always)]
@@ -694,18 +391,8 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn is_error(&self) -> bool {
-        Token::Error.eq(self)
-    }
-
-    #[inline(always)]
     pub fn take_error<I: Tokens>(self, buffer: &mut Buffer<I>) -> Error {
         buffer.expect_error_token_value()
-    }
-
-    #[inline(always)]
-    pub fn is_str(&self) -> bool {
-        Self::Str.eq(self)
     }
 
     #[inline(always)]
@@ -726,18 +413,8 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn is_num(&self) -> bool {
-        Self::Num.eq(self)
-    }
-
-    #[inline(always)]
     pub fn take_num<I: Tokens>(self, buffer: &mut Buffer<I>) -> (f64, Atom) {
         buffer.expect_number_token_value()
-    }
-
-    #[inline(always)]
-    pub fn is_bigint(&self) -> bool {
-        Self::BigInt.eq(self)
     }
 
     #[inline(always)]
@@ -751,11 +428,6 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn is_unknown_ident(&self) -> bool {
-        Token::Ident.eq(self)
-    }
-
-    #[inline(always)]
     pub fn take_unknown_ident<I: Tokens>(self, buffer: &mut Buffer<I>) -> Atom {
         buffer.expect_word_token_value()
     }
@@ -763,11 +435,6 @@ impl<'a> Token {
     #[inline(always)]
     pub fn take_known_ident(&self) -> Atom {
         self.as_known_ident_atom().unwrap()
-    }
-
-    #[inline(always)]
-    pub fn is_regexp(&self) -> bool {
-        Token::Regex.eq(self)
     }
 
     #[inline(always)]
@@ -826,23 +493,8 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn is_shebang(&self) -> bool {
-        Token::Shebang.eq(self)
-    }
-
-    #[inline(always)]
     pub fn take_shebang<I: Tokens>(self, buffer: &mut Buffer<I>) -> Atom {
         buffer.expect_word_token_value()
-    }
-
-    #[inline(always)]
-    pub fn is_no_substitution_template_literal(&self) -> bool {
-        Token::NoSubstitutionTemplateLiteral.eq(self)
-    }
-
-    #[inline(always)]
-    pub fn is_template_head(&self) -> bool {
-        Token::TemplateHead.eq(self)
     }
 }
 

@@ -9,7 +9,7 @@ impl<I: Tokens> Parser<I> {
     // https://tc39.es/ecma262/#prod-ModuleExportName
     pub fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
         let cur = self.input().cur();
-        let module_export_name = if cur.is_str() {
+        let module_export_name = if cur == Token::Str {
             ModuleExportName::Str(self.parse_str_lit())
         } else if cur.is_word() {
             ModuleExportName::Ident(self.parse_ident_name()?.into())
@@ -27,7 +27,7 @@ impl<I: Tokens> Parser<I> {
         let cur = token_and_span.token();
         let w = if cur.is_word() {
             self.input_mut().expect_word_token_and_bump()
-        } else if cur.is_jsx_name() && self.ctx().contains(Context::InType) {
+        } else if cur == Token::JSXName && self.ctx().contains(Context::InType) {
             self.input_mut().expect_jsx_name_token_and_bump()
         } else {
             syntax_error!(self, SyntaxError::ExpectedIdent)
@@ -46,7 +46,7 @@ impl<I: Tokens> Parser<I> {
 
     pub fn parse_private_name(&mut self) -> PResult<PrivateName> {
         let start = self.cur_pos();
-        self.assert_and_bump(Token::HASH);
+        self.assert_and_bump(Token::Hash);
         let hash_end = self.input().prev_span().hi;
         if self.input().cur_pos() - hash_end != BytePos(0) {
             syntax_error!(
@@ -87,7 +87,7 @@ impl<I: Tokens> Parser<I> {
         let cur = self.input().cur();
         if disallow_let && cur == Token::Let {
             unexpected!(self, "let is reserved in const, let, class declaration")
-        } else if cur.is_unknown_ident() {
+        } else if cur == Token::Ident {
             let span = self.input().cur_span();
             let word = self.input_mut().expect_word_token_and_bump();
             if atom!("arguments") == word || atom!("eval") == word {
@@ -186,7 +186,7 @@ impl<I: Tokens> Parser<I> {
         } else if t.is_known_ident() {
             let ident = t.take_known_ident();
             word = ident
-        } else if t.is_unknown_ident() {
+        } else if t == Token::Ident {
             let word = self.input_mut().expect_word_token_and_bump();
             if self.ctx().contains(Context::InClassField) && word == atom!("arguments") {
                 self.emit_err(span, SyntaxError::ArgumentsInClassField)

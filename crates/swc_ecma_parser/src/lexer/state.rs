@@ -650,7 +650,9 @@ impl State {
     pub fn can_have_trailing_comment(&self) -> bool {
         self.token_type().is_some_and(|t| {
             !t.is_keyword()
-                && (t.is_semi() || t.is_lbrace() || t.is_other_and_can_have_trailing_comment())
+                && (t == Token::Semi
+                    || t == Token::LBrace
+                    || t.is_other_and_can_have_trailing_comment())
         })
     }
 }
