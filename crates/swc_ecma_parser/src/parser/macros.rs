@@ -14,7 +14,7 @@ macro_rules! syntax_error {
         let err = $crate::error::Error::new($span, $err);
         {
             let cur = $p.input().cur();
-            if cur.is_error() {
+            if cur == Token::Error {
                 let error = $p.input_mut().expect_error_token_and_bump();
                 $p.emit_error(error);
             }

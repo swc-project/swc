@@ -13,16 +13,16 @@ impl<I: Tokens> Parser<I> {
     /// Parses JSX expression enclosed into curly brackets.
     pub fn parse_jsx_expr_container(&mut self) -> PResult<JSXExprContainer> {
         debug_assert!(self.input().syntax().jsx());
-        debug_assert!(self.input().is(Token::LBRACE));
+        debug_assert!(self.input().is(Token::LBrace));
 
         let start = self.input().cur_pos();
         self.bump(); // bump "{"
-        let expr = if self.input().is(Token::RBRACE) {
+        let expr = if self.input().is(Token::RBrace) {
             JSXExpr::JSXEmptyExpr(self.parse_jsx_empty_expr())
         } else {
             self.parse_expr().map(JSXExpr::Expr)?
         };
-        expect!(self, Token::RBRACE);
+        expect!(self, Token::RBrace);
         Ok(JSXExprContainer {
             span: self.span(start),
             expr,

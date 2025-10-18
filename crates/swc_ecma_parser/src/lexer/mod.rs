@@ -1949,7 +1949,7 @@ impl<'a> Lexer<'a> {
             !self.input().is_at_start() || self.cur() != Some('!'),
             "#! should have already been handled by read_shebang()"
         );
-        Ok(Token::HASH)
+        Ok(Token::Hash)
     }
 
     /// Read a token given `.`.
@@ -1963,7 +1963,7 @@ impl<'a> Lexer<'a> {
             Some(next) => next,
             None => {
                 self.bump(); // '.'
-                return Ok(Token::DOT);
+                return Ok(Token::Dot);
             }
         };
         if next.is_ascii_digit() {
@@ -1979,10 +1979,10 @@ impl<'a> Lexer<'a> {
             self.bump(); // 2nd `.`
             self.bump(); // 3rd `.`
 
-            return Ok(Token::DOTDOTDOT);
+            return Ok(Token::DotDotDot);
         }
 
-        Ok(Token::DOT)
+        Ok(Token::Dot)
     }
 
     /// Read a token given `?`.
@@ -1994,12 +1994,12 @@ impl<'a> Lexer<'a> {
         self.bump();
         if self.input_mut().eat_byte(b'?') {
             if self.input_mut().eat_byte(b'=') {
-                Ok(Token::NULLISH_ASSIGN)
+                Ok(Token::NullishEq)
             } else {
-                Ok(Token::NULLISH_COALESCING)
+                Ok(Token::NullishCoalescing)
             }
         } else {
-            Ok(Token::QUESTION)
+            Ok(Token::QuestionMark)
         }
     }
 
@@ -2010,7 +2010,7 @@ impl<'a> Lexer<'a> {
     fn read_token_colon(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some_and(|c| c == ':'));
         self.bump(); // ':'
-        Ok(Token::COLON)
+        Ok(Token::Colon)
     }
 
     /// Read a token given `0`.
@@ -2054,18 +2054,18 @@ impl<'a> Lexer<'a> {
             self.input_mut().bump();
         }
         let token = if is_bit_and {
-            Token::BIT_AND
+            Token::Ampersand
         } else {
-            Token::BIT_OR
+            Token::Pipe
         };
 
         // '|=', '&='
         if self.input_mut().eat_byte(b'=') {
             return Ok(if is_bit_and {
-                Token::BIT_AND_EQ
+                Token::BitAndEq
             } else {
                 debug_assert!(token == Token::Pipe);
-                Token::BIT_OR_EQ
+                Token::BitOrEq
             });
         }
 
@@ -2083,10 +2083,10 @@ impl<'a> Lexer<'a> {
                 }
 
                 return Ok(if is_bit_and {
-                    Token::LOGICAL_AND_EQ
+                    Token::LogicalAndEq
                 } else {
                     debug_assert!(token == Token::Pipe);
-                    Token::LOGICAL_OR_EQ
+                    Token::LogicalOrEq
                 });
             }
 
@@ -2101,10 +2101,10 @@ impl<'a> Lexer<'a> {
             }
 
             return Ok(if is_bit_and {
-                Token::LOGICAL_AND
+                Token::LogicalAnd
             } else {
                 debug_assert!(token == Token::Pipe);
-                Token::LOGICAL_OR
+                Token::LogicalOr
             });
         }
 
@@ -2121,22 +2121,22 @@ impl<'a> Lexer<'a> {
         let token = if is_mul {
             if self.input_mut().eat_byte(b'*') {
                 // `**`
-                Token::EXP
+                Token::Exp
             } else {
-                Token::MUL
+                Token::Asterisk
             }
         } else {
-            Token::MOD
+            Token::Percent
         };
 
         Ok(if self.input_mut().eat_byte(b'=') {
             if token == Token::Asterisk {
-                Token::MUL_EQ
+                Token::MulEq
             } else if token == Token::Percent {
-                Token::MOD_EQ
+                Token::ModEq
             } else {
                 debug_assert!(token == Token::Exp);
-                Token::EXP_EQ
+                Token::ExpEq
             }
         } else {
             token
@@ -2148,9 +2148,9 @@ impl<'a> Lexer<'a> {
         debug_assert_eq!(self.cur(), Some('/'));
         self.bump(); // '/'
         Ok(if self.eat(b'=') {
-            Token::DIV_EQ
+            Token::DivEq
         } else {
-            Token::DIV
+            Token::Slash
         })
     }
 

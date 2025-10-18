@@ -301,7 +301,7 @@ impl<I: Tokens> Parser<I> {
 
     pub fn parse_shebang(&mut self) -> PResult<Option<Atom>> {
         let cur = self.input().cur();
-        Ok(if cur.is_shebang() {
+        Ok(if cur == Token::Shebang {
             let ret = self.input_mut().expect_shebang_token_and_bump();
             Some(ret)
         } else {
@@ -405,7 +405,7 @@ impl<I: Tokens> Parser<I> {
             return;
         }
         let cur = self.input().cur();
-        if cur.is_error() {
+        if cur == Token::Error {
             let err = self.input_mut().expect_error_token_and_bump();
             self.input_mut().iter_mut().add_error(err);
         }
@@ -460,7 +460,7 @@ impl<I: Tokens> Parser<I> {
             tracing::trace!("eat(';'): cur={:?}", self.input().cur());
         }
         let cur = self.input().cur();
-        if cur.is_semi() {
+        if cur == Token::Semi {
             self.bump();
             true
         } else {
@@ -574,16 +574,16 @@ impl<I: Tokens> Parser<I> {
         self.do_inside_of_context(Context::InPropertyName, |p| {
             let start = p.input().cur_pos();
             let cur = p.input().cur();
-            let v = if cur.is_str() {
+            let v = if cur == Token::Str {
                 PropName::Str(p.parse_str_lit())
-            } else if cur.is_num() {
+            } else if cur == Token::Num {
                 let (value, raw) = p.input_mut().expect_number_token_and_bump();
                 PropName::Num(Number {
                     span: p.span(start),
                     value,
                     raw: Some(raw),
                 })
-            } else if cur.is_bigint() {
+            } else if cur == Token::BigInt {
                 let (value, raw) = p.input_mut().expect_bigint_token_and_bump();
                 PropName::BigInt(BigInt {
                     span: p.span(start),
