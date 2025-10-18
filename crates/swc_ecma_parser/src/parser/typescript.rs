@@ -122,7 +122,7 @@ impl<I: Tokens> Parser<I> {
             if kind == ParsingContext::EnumMembers {
                 let expect = Token::COMMA;
                 let cur = self.input().cur();
-                let cur = cur.clone().to_string(self.input().get_token_value());
+                let cur = cur.to_string(self.input().get_token_value());
                 self.emit_err(
                     self.input().cur_span(),
                     SyntaxError::Expected(format!("{expect:?}"), cur),
@@ -149,7 +149,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsIsListTerminator`
-    fn is_ts_list_terminator<'a>(&mut self, kind: ParsingContext) -> bool {
+    fn is_ts_list_terminator(&mut self, kind: ParsingContext) -> bool {
         debug_assert!(self.input().syntax().typescript());
         let cur = self.input().cur();
         match kind {
@@ -163,7 +163,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsNextTokenCanFollowModifier`
-    pub(super) fn ts_next_token_can_follow_modifier<'a>(&mut self) -> bool {
+    pub(super) fn ts_next_token_can_follow_modifier(&mut self) -> bool {
         debug_assert!(self.input().syntax().typescript());
         // Note: TypeScript's implementation is much more complicated because
         // more things are considered modifiers there.
@@ -830,7 +830,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    fn is_start_of_expr<'a>(&mut self) -> bool {
+    fn is_start_of_expr(&mut self) -> bool {
         self.is_start_of_left_hand_side_expr() || {
             let cur = self.input().cur();
             matches!(
@@ -1112,7 +1112,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseHeritageClause`
-    pub fn parse_ts_heritage_clause<'a>(&mut self) -> PResult<Vec<TsExprWithTypeArgs>> {
+    pub fn parse_ts_heritage_clause(&mut self) -> PResult<Vec<TsExprWithTypeArgs>> {
         debug_assert!(self.input().syntax().typescript());
 
         self.parse_ts_delimited_list(
@@ -1300,7 +1300,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseModuleReference`
-    fn parse_ts_module_ref<'a>(&mut self) -> PResult<TsModuleRef> {
+    fn parse_ts_module_ref(&mut self) -> PResult<TsModuleRef> {
         debug_assert!(self.input().syntax().typescript());
 
         if self.is_ts_external_module_ref() {
@@ -2100,7 +2100,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeLiteral`
-    pub fn parse_ts_type_lit<'a>(&mut self) -> PResult<TsTypeLit> {
+    pub fn parse_ts_type_lit(&mut self) -> PResult<TsTypeLit> {
         debug_assert!(self.input().syntax().typescript());
 
         let start = self.cur_pos();
@@ -2723,12 +2723,7 @@ impl<I: Tokens> Parser<I> {
                     .map(make_decl_declare)
                     .map(Some);
             } else if p.input().cur().is_word() {
-                let value = p
-                    .input_mut()
-                    .cur()
-                    .clone()
-                    .take_word(p.input_mut())
-                    .unwrap();
+                let value = p.input_mut().cur().take_word(p.input_mut()).unwrap();
                 return p
                     .parse_ts_decl(start, decorators, value, /* next */ true)
                     .map(|v| v.map(make_decl_declare));

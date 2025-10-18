@@ -31,7 +31,7 @@ impl<I: Tokens> Parser<I> {
     /// argument of arrow is pattern, although idents in pattern is already
     /// checked if is a keyword, it should also be checked if is arguments or
     /// eval
-    fn pat_is_valid_argument_in_strict<'a>(&mut self, pat: &Pat) {
+    fn pat_is_valid_argument_in_strict(&mut self, pat: &Pat) {
         debug_assert!(self.ctx().contains(Context::Strict));
         match pat {
             Pat::Ident(i) => {
@@ -70,11 +70,7 @@ impl<I: Tokens> Parser<I> {
 
     /// This does not return 'rest' pattern because non-last parameter cannot be
     /// rest.
-    pub(super) fn reparse_expr_as_pat<'a>(
-        &mut self,
-        pat_ty: PatType,
-        expr: Box<Expr>,
-    ) -> PResult<Pat> {
+    pub(super) fn reparse_expr_as_pat(&mut self, pat_ty: PatType, expr: Box<Expr>) -> PResult<Pat> {
         if let Expr::Invalid(i) = *expr {
             return Ok(i.into());
         }
@@ -94,7 +90,7 @@ impl<I: Tokens> Parser<I> {
         self.reparse_expr_as_pat_inner(pat_ty, expr)
     }
 
-    fn reparse_expr_as_pat_inner<'a>(&mut self, pat_ty: PatType, expr: Box<Expr>) -> PResult<Pat> {
+    fn reparse_expr_as_pat_inner(&mut self, pat_ty: PatType, expr: Box<Expr>) -> PResult<Pat> {
         // In dts, we do not reparse.
         debug_assert!(!self.input().syntax().dts());
         let span = expr.span();
@@ -759,7 +755,7 @@ impl<I: Tokens> Parser<I> {
         Ok(params)
     }
 
-    pub fn parse_unique_formal_params<'a>(&mut self) -> PResult<Vec<Param>> {
+    pub fn parse_unique_formal_params(&mut self) -> PResult<Vec<Param>> {
         // FIXME: This is wrong
         self.parse_formal_params()
     }

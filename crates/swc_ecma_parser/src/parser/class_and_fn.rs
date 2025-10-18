@@ -29,7 +29,7 @@ struct MakeMethodArgs {
 
 impl<I: Tokens> Parser<I> {
     /// If `required` is `true`, this never returns `None`.
-    pub fn parse_maybe_opt_binding_ident<'a>(
+    pub fn parse_maybe_opt_binding_ident(
         &mut self,
         required: bool,
         disallow_let: bool,
@@ -132,7 +132,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    pub fn parse_access_modifier<'a>(&mut self) -> PResult<Option<Accessibility>> {
+    pub fn parse_access_modifier(&mut self) -> PResult<Option<Accessibility>> {
         Ok(self
             .parse_ts_modifier(&["public", "protected", "private", "in", "out"], false)?
             .and_then(|s| match s {
@@ -218,13 +218,13 @@ impl<I: Tokens> Parser<I> {
                 p.in_type(|p| {
                     trace_cur!(p, parse_fn_args_body__type_params);
 
-                    Ok(if p.input().is(Token::LESS) {
-                        Some(p.parse_ts_type_params(false, true)?)
-                    } else if p.input().is(Token::JSX_TAG_START) {
-                        Some(p.parse_ts_type_params(false, true)?)
-                    } else {
-                        None
-                    })
+                    Ok(
+                        if p.input().is(Token::LESS) || p.input().is(Token::JSX_TAG_START) {
+                            Some(p.parse_ts_type_params(false, true)?)
+                        } else {
+                            None
+                        },
+                    )
                 })?
             } else {
                 None
@@ -1492,7 +1492,7 @@ impl<I: Tokens> Parser<I> {
         Ok(elems)
     }
 
-    pub fn parse_class<'a, T>(
+    pub(crate) fn parse_class<T>(
         &mut self,
         start: BytePos,
         class_start: BytePos,
@@ -1646,7 +1646,7 @@ impl<I: Tokens> Parser<I> {
     }
 }
 
-trait OutputType: Sized {
+pub(crate) trait OutputType: Sized {
     const IS_IDENT_REQUIRED: bool;
 
     /// From babel..

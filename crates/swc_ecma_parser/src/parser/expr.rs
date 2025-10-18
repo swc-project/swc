@@ -14,7 +14,7 @@ use crate::{
 };
 
 #[ast_node]
-pub(in crate::parser) enum AssignTargetOrSpread {
+pub(crate) enum AssignTargetOrSpread {
     #[tag("ExprOrSpread")]
     ExprOrSpread(ExprOrSpread),
     #[tag("*")]
@@ -863,7 +863,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    pub fn parse_str_lit<'a>(&mut self) -> swc_ecma_ast::Str {
+    pub fn parse_str_lit(&mut self) -> swc_ecma_ast::Str {
         debug_assert!(self.input().cur().is_str());
         let token_and_span = self.input().get_cur();
         let start = token_and_span.span().lo;
@@ -1052,7 +1052,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    pub fn parse_subscripts<'a>(
+    pub fn parse_subscripts(
         &mut self,
         mut obj: Callee,
         no_call: bool,
@@ -1562,7 +1562,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    fn parse_dynamic_import_call<'a>(
+    fn parse_dynamic_import_call(
         &mut self,
         start: BytePos,
         no_call: bool,
@@ -1581,7 +1581,7 @@ impl<I: Tokens> Parser<I> {
         feature = "tracing-spans",
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub fn parse_member_expr_or_new_expr<'a>(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
+    pub fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         self.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
             p.parse_member_expr_or_new_expr_inner(is_new_expr)
         })
@@ -1774,7 +1774,7 @@ impl<I: Tokens> Parser<I> {
     /// operator that has a lower precedence than the set it is parsing.
     ///
     /// `parseExprOp`
-    pub fn parse_bin_op_recursively<'a>(
+    pub fn parse_bin_op_recursively(
         &mut self,
         mut left: Box<Expr>,
         mut min_prec: u8,
@@ -2020,7 +2020,7 @@ impl<I: Tokens> Parser<I> {
         .into())
     }
 
-    pub(super) fn parse_for_head_prefix<'a>(&mut self) -> PResult<Box<Expr>> {
+    pub(crate) fn parse_for_head_prefix(&mut self) -> PResult<Box<Expr>> {
         self.parse_expr()
     }
 
@@ -2029,7 +2029,9 @@ impl<I: Tokens> Parser<I> {
         feature = "tracing-spans",
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub fn parse_args_or_pats(&mut self) -> PResult<(Vec<AssignTargetOrSpread>, Option<Span>)> {
+    pub(crate) fn parse_args_or_pats(
+        &mut self,
+    ) -> PResult<(Vec<AssignTargetOrSpread>, Option<Span>)> {
         self.do_outside_of_context(
             Context::WillExpectColonForCond,
             Self::parse_args_or_pats_inner,
@@ -2740,7 +2742,7 @@ impl<I: Tokens> Parser<I> {
         None
     }
 
-    pub fn parse_this_expr<'a>(&mut self, start: BytePos) -> PResult<Box<Expr>> {
+    pub fn parse_this_expr(&mut self, start: BytePos) -> PResult<Box<Expr>> {
         debug_assert!(self.input().cur() == Token::This);
         self.input_mut().bump();
         Ok(ThisExpr {
