@@ -7,8 +7,8 @@ use crate::{
     input::Tokens,
     lexer::Token,
     parser::{
-        is_invalid_class_name::IsInvalidClassName, is_simple_param_list::IsSimpleParameterList,
         state::State,
+        util::{IsInvalidClassName, IsSimpleParameterList},
     },
     Context, PResult, Parser,
 };

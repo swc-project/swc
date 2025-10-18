@@ -1,10 +1,7 @@
 use swc_common::Spanned;
 
 use super::*;
-use crate::parser::{pat::PatType, stmt::is_directive::IsDirective, Parser};
-
-mod is_directive;
-mod module_item;
+use crate::parser::{pat::PatType, util::IsDirective, Parser};
 
 #[allow(clippy::enum_variant_names)]
 pub enum TempForHead {

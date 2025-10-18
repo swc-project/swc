@@ -11,9 +11,9 @@ use crate::{
     input::Buffer,
     lexer::{Token, TokenAndSpan},
     parser::{
-        expr_ext::ExprExt,
         input::Tokens,
         state::{State, WithState},
+        util::ExprExt,
     },
     syntax::SyntaxFlags,
     Context, Syntax,
@@ -29,12 +29,10 @@ use crate::error::Error;
 mod macros;
 mod class_and_fn;
 mod expr;
-mod expr_ext;
 mod ident;
 pub mod input;
-mod is_invalid_class_name;
-mod is_simple_param_list;
 mod jsx;
+mod module_item;
 mod object;
 mod pat;
 mod state;
@@ -43,6 +41,7 @@ mod stmt;
 mod tests;
 #[cfg(feature = "typescript")]
 mod typescript;
+mod util;
 #[cfg(feature = "verify")]
 mod verifier;
 

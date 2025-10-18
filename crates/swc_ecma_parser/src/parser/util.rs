@@ -1,7 +1,55 @@
-use swc_ecma_ast::{
-    EsReserved, Expr, MemberExpr, ParenExpr, TsAsExpr, TsInstantiation, TsNonNullExpr,
-    TsSatisfiesExpr, TsTypeAssertion,
-};
+use swc_common::Span;
+use swc_ecma_ast::*;
+
+pub trait IsSimpleParameterList {
+    fn is_simple_parameter_list(&self) -> bool;
+}
+
+impl IsSimpleParameterList for Vec<Param> {
+    fn is_simple_parameter_list(&self) -> bool {
+        self.iter().all(|param| matches!(param.pat, Pat::Ident(_)))
+    }
+}
+
+impl IsSimpleParameterList for Vec<Pat> {
+    fn is_simple_parameter_list(&self) -> bool {
+        self.iter().all(|pat| matches!(pat, Pat::Ident(_)))
+    }
+}
+
+impl IsSimpleParameterList for Vec<ParamOrTsParamProp> {
+    fn is_simple_parameter_list(&self) -> bool {
+        self.iter().all(|param| {
+            matches!(
+                param,
+                ParamOrTsParamProp::TsParamProp(..)
+                    | ParamOrTsParamProp::Param(Param {
+                        pat: Pat::Ident(_),
+                        ..
+                    })
+            )
+        })
+    }
+}
+
+pub trait IsInvalidClassName {
+    fn invalid_class_name(&self) -> Option<Span>;
+}
+
+impl IsInvalidClassName for Ident {
+    fn invalid_class_name(&self) -> Option<Span> {
+        match &*self.sym {
+            "string" | "null" | "number" | "object" | "any" | "unknown" | "boolean" | "bigint"
+            | "symbol" | "void" | "never" | "intrinsic" => Some(self.span),
+            _ => None,
+        }
+    }
+}
+impl IsInvalidClassName for Option<Ident> {
+    fn invalid_class_name(&self) -> Option<Span> {
+        self.as_ref().and_then(|i| i.invalid_class_name())
+    }
+}
 
 pub trait ExprExt {
     fn as_expr(&self) -> &Expr;
@@ -88,5 +136,36 @@ impl ExprExt for Expr {
     #[inline(always)]
     fn as_expr(&self) -> &Expr {
         self
+    }
+}
+
+pub trait IsDirective {
+    fn as_ref(&self) -> Option<&Stmt>;
+    fn is_use_strict(&self) -> bool {
+        self.as_ref().is_some_and(Stmt::is_use_strict)
+    }
+}
+
+impl<T> IsDirective for Box<T>
+where
+    T: IsDirective,
+{
+    fn as_ref(&self) -> Option<&Stmt> {
+        T::as_ref(&**self)
+    }
+}
+
+impl IsDirective for Stmt {
+    fn as_ref(&self) -> Option<&Stmt> {
+        Some(self)
+    }
+}
+
+impl IsDirective for ModuleItem {
+    fn as_ref(&self) -> Option<&Stmt> {
+        match *self {
+            ModuleItem::Stmt(ref s) => Some(s),
+            _ => None,
+        }
     }
 }

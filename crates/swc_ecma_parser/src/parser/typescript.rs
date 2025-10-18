@@ -6,8 +6,8 @@ use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
 use crate::{
-    error::SyntaxError, input::Tokens, lexer::Token,
-    parser::is_simple_param_list::IsSimpleParameterList, Context, PResult, Parser,
+    error::SyntaxError, input::Tokens, lexer::Token, parser::util::IsSimpleParameterList, Context,
+    PResult, Parser,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
