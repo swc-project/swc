@@ -71,12 +71,12 @@ impl<I: Tokens> Parser<I> {
     // type TokenAndSpan = TokenAndSpan;
 
     #[inline(always)]
-    fn input(&self) -> &Buffer<I> {
+    pub fn input(&self) -> &Buffer<I> {
         &self.input
     }
 
     #[inline(always)]
-    fn input_mut(&mut self) -> &mut Buffer<I> {
+    pub fn input_mut(&mut self) -> &mut Buffer<I> {
         &mut self.input
     }
 

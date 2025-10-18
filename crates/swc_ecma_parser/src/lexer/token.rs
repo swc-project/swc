@@ -520,7 +520,7 @@ impl std::fmt::Debug for Token {
 }
 
 impl Token {
-    pub(crate) fn is_reserved(&self, ctx: Context) -> bool {
+    pub fn is_reserved(&self, ctx: Context) -> bool {
         match self {
             Token::Let | Token::Static => ctx.contains(Context::Strict),
             Token::Await => {
@@ -585,7 +585,7 @@ impl Token {
     }
 
     #[cold]
-    pub(crate) fn to_string(self, value: Option<&TokenValue>) -> String {
+    pub fn to_string(self, value: Option<&TokenValue>) -> String {
         match self {
             Token::LParen => "(",
             Token::RParen => ")",
@@ -805,7 +805,7 @@ impl Token {
         .to_string()
     }
 
-    pub(crate) fn as_keyword_atom(self) -> Option<Atom> {
+    pub fn as_keyword_atom(self) -> Option<Atom> {
         let atom = match self {
             Token::Await => atom!("await"),
             Token::Break => atom!("break"),
@@ -848,12 +848,12 @@ impl Token {
         Some(atom)
     }
 
-    pub(crate) const fn is_keyword(self) -> bool {
+    pub const fn is_keyword(self) -> bool {
         let t = self as u8;
         t >= Token::Await as u8 && t <= Token::Module as u8
     }
 
-    pub(crate) fn as_known_ident_atom(self) -> Option<Atom> {
+    pub fn as_known_ident_atom(self) -> Option<Atom> {
         let atom = match self {
             Token::Abstract => atom!("abstract"),
             Token::Any => atom!("any"),
@@ -907,12 +907,12 @@ impl Token {
     }
 
     #[inline(always)]
-    pub(crate) const fn is_known_ident(self) -> bool {
+    pub const fn is_known_ident(self) -> bool {
         let t = self as u8;
         t >= Token::Abstract as u8 && t <= Token::Target as u8
     }
 
-    pub(crate) const fn is_word(self) -> bool {
+    pub const fn is_word(self) -> bool {
         matches!(
             self,
             Token::Null | Token::True | Token::False | Token::Ident
@@ -920,7 +920,7 @@ impl Token {
             || self.is_keyword()
     }
 
-    pub(crate) fn as_word_atom(self, value: Option<&TokenValue>) -> Option<Atom> {
+    pub fn as_word_atom(self, value: Option<&TokenValue>) -> Option<Atom> {
         match self {
             Token::Null => Some(atom!("null")),
             Token::True => Some(atom!("true")),
@@ -938,13 +938,13 @@ impl Token {
     }
 
     #[inline(always)]
-    pub(crate) const fn is_bin_op(self) -> bool {
+    pub const fn is_bin_op(self) -> bool {
         let t = self as u8;
         (t >= Token::EqEq as u8 && t <= Token::NullishCoalescing as u8)
             || (t >= Token::Plus as u8 && t <= Token::Ampersand as u8)
     }
 
-    pub(crate) fn as_bin_op(self) -> Option<swc_ecma_ast::BinaryOp> {
+    pub fn as_bin_op(self) -> Option<swc_ecma_ast::BinaryOp> {
         match self {
             Token::EqEq => Some(swc_ecma_ast::BinaryOp::EqEq),
             Token::NotEq => Some(swc_ecma_ast::BinaryOp::NotEq),
@@ -976,12 +976,12 @@ impl Token {
     }
 
     #[inline(always)]
-    pub(crate) const fn is_assign_op(self) -> bool {
+    pub const fn is_assign_op(self) -> bool {
         let t = self as u8;
         matches!(self, Token::Eq) || (t >= Token::PlusEq as u8 && t <= Token::NullishEq as u8)
     }
 
-    pub(crate) fn as_assign_op(self) -> Option<swc_ecma_ast::AssignOp> {
+    pub fn as_assign_op(self) -> Option<swc_ecma_ast::AssignOp> {
         match self {
             Self::Eq => Some(AssignOp::Assign),
             Self::PlusEq => Some(AssignOp::AddAssign),
@@ -1004,7 +1004,7 @@ impl Token {
     }
 
     #[inline(always)]
-    pub(crate) const fn before_expr(self) -> bool {
+    pub const fn before_expr(self) -> bool {
         match self {
             Self::Await
             | Self::Case
@@ -1041,7 +1041,7 @@ impl Token {
     }
 
     #[inline(always)]
-    pub(crate) const fn starts_expr(self) -> bool {
+    pub const fn starts_expr(self) -> bool {
         matches!(
             self,
             Self::Ident
@@ -1082,7 +1082,7 @@ impl Token {
         ) || self.is_known_ident()
     }
 
-    pub(crate) fn follows_keyword_let(self) -> bool {
+    pub fn follows_keyword_let(self) -> bool {
         match self {
             Token::Let
             | Token::LBrace
@@ -1095,7 +1095,7 @@ impl Token {
         }
     }
 
-    pub(crate) fn should_rescan_into_gt_in_jsx(self) -> bool {
+    pub fn should_rescan_into_gt_in_jsx(self) -> bool {
         matches!(
             self,
             Token::GtEq
