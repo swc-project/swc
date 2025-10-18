@@ -4,7 +4,7 @@ use super::*;
 use crate::parser::{pat::PatType, util::IsDirective, Parser};
 
 #[allow(clippy::enum_variant_names)]
-pub enum TempForHead {
+enum TempForHead {
     For {
         init: Option<VarDeclOrExpr>,
         test: Option<Box<Expr>>,
@@ -54,7 +54,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn parse_return_stmt(&mut self) -> PResult<Stmt> {
+    fn parse_return_stmt(&mut self) -> PResult<Stmt> {
         let start = self.cur_pos();
 
         self.assert_and_bump(Token::Return);
@@ -167,7 +167,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    pub fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<Box<VarDecl>> {
+    pub(crate) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<Box<VarDecl>> {
         let start = self.cur_pos();
         let t = self.input().cur();
         let kind = if t == Token::Const {
@@ -275,7 +275,7 @@ impl<I: Tokens> Parser<I> {
         }))
     }
 
-    pub fn parse_using_decl(
+    fn parse_using_decl(
         &mut self,
         start: BytePos,
         is_await: bool,
@@ -342,7 +342,7 @@ impl<I: Tokens> Parser<I> {
         })))
     }
 
-    pub fn parse_for_head(&mut self) -> PResult<TempForHead> {
+    fn parse_for_head(&mut self) -> PResult<TempForHead> {
         // let strict = self.ctx().contains(Context::Strict);
 
         let cur = self.input().cur();
@@ -845,7 +845,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    pub fn parse_block(&mut self, allow_directives: bool) -> PResult<BlockStmt> {
+    pub(crate) fn parse_block(&mut self, allow_directives: bool) -> PResult<BlockStmt> {
         let start = self.cur_pos();
 
         expect!(self, Token::LBrace);
@@ -985,7 +985,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse a statement, declaration or module item.
-    pub fn parse_stmt_like<Type: IsDirective + From<Stmt>>(
+    pub(crate) fn parse_stmt_like<Type: IsDirective + From<Stmt>>(
         &mut self,
         include_decl: bool,
         handle_import_export: impl Fn(&mut Self, Vec<Decorator>) -> PResult<Type>,
@@ -1298,7 +1298,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn parse_stmt_block_body(
+    pub(crate) fn parse_stmt_block_body(
         &mut self,
         allow_directives: bool,
         end: Option<Token>,
@@ -1306,7 +1306,7 @@ impl<I: Tokens> Parser<I> {
         self.parse_block_body(allow_directives, end, handle_import_export)
     }
 
-    pub(super) fn parse_block_body<Type: IsDirective + From<Stmt>>(
+    pub(crate) fn parse_block_body<Type: IsDirective + From<Stmt>>(
         &mut self,
         allow_directives: bool,
         end: Option<Token>,

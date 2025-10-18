@@ -11,7 +11,7 @@ use crate::{
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum ParsingContext {
+enum ParsingContext {
     EnumMembers,
     HeritageClauseElement,
     TupleElementTypes,
@@ -189,7 +189,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsTryParse`
-    pub fn try_parse_ts<T, F>(&mut self, op: F) -> Option<T>
+    pub(crate) fn try_parse_ts<T, F>(&mut self, op: F) -> Option<T>
     where
         F: FnOnce(&mut Self) -> PResult<Option<T>>,
     {
@@ -306,7 +306,7 @@ impl<I: Tokens> Parser<I> {
         Ok(ty)
     }
 
-    pub fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
+    pub(crate) fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
         if self.syntax().typescript()
             && {
                 let cur = self.input().cur();
@@ -328,7 +328,7 @@ impl<I: Tokens> Parser<I> {
     /// Parses a modifier matching one the given modifier names.
     ///
     /// `tsParseModifier`
-    pub fn parse_ts_modifier(
+    pub(crate) fn parse_ts_modifier(
         &mut self,
         allowed_modifiers: &[&'static str],
         stop_on_start_of_class_static_blocks: bool,
@@ -399,7 +399,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseThisTypeNode`
-    pub fn parse_ts_this_type_node(&mut self) -> PResult<TsThisType> {
+    fn parse_ts_this_type_node(&mut self) -> PResult<TsThisType> {
         debug_assert!(self.input().syntax().typescript());
         expect!(self, Token::This);
         Ok(TsThisType {
@@ -408,7 +408,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseEntityName`
-    pub fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<TsEntityName> {
+    fn parse_ts_entity_name(&mut self, allow_reserved_words: bool) -> PResult<TsEntityName> {
         debug_assert!(self.input().syntax().typescript());
         trace_cur!(self, parse_ts_entity_name);
         let start = self.input().cur_pos();
@@ -441,7 +441,7 @@ impl<I: Tokens> Parser<I> {
         Ok(entity)
     }
 
-    pub fn ts_look_ahead<T, F>(&mut self, op: F) -> T
+    pub(crate) fn ts_look_ahead<T, F>(&mut self, op: F) -> T
     where
         F: FnOnce(&mut Self) -> T,
     {
@@ -454,7 +454,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeArguments`
-    pub fn parse_ts_type_args(&mut self) -> PResult<Box<TsTypeParamInstantiation>> {
+    pub(crate) fn parse_ts_type_args(&mut self) -> PResult<Box<TsTypeParamInstantiation>> {
         trace_cur!(self, parse_ts_type_args);
         debug_assert!(self.input().syntax().typescript());
 
@@ -485,7 +485,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeReference`
-    pub fn parse_ts_type_ref(&mut self) -> PResult<TsTypeRef> {
+    fn parse_ts_type_ref(&mut self) -> PResult<TsTypeRef> {
         trace_cur!(self, parse_ts_type_ref);
         debug_assert!(self.input().syntax().typescript());
 
@@ -523,7 +523,7 @@ impl<I: Tokens> Parser<I> {
         feature = "tracing-spans",
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub fn parse_ts_type_ann(
+    pub(crate) fn parse_ts_type_ann(
         &mut self,
         eat_colon: bool,
         start: BytePos,
@@ -549,7 +549,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseThisTypePredicate`
-    pub fn parse_ts_this_type_predicate(
+    fn parse_ts_this_type_predicate(
         &mut self,
         start: BytePos,
         has_asserts_keyword: bool,
@@ -711,7 +711,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeParameter`
-    pub fn parse_ts_type_params(
+    pub(crate) fn parse_ts_type_params(
         &mut self,
         permit_in_out: bool,
         permit_const: bool,
@@ -742,7 +742,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsTryParseTypeParameters`
-    pub fn try_parse_ts_type_params(
+    pub(crate) fn try_parse_ts_type_params(
         &mut self,
         permit_in_out: bool,
         permit_const: bool,
@@ -761,7 +761,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeOrTypePredicateAnnotation`
-    pub fn parse_ts_type_or_type_predicate_ann(
+    pub(crate) fn parse_ts_type_or_type_predicate_ann(
         &mut self,
         return_token: Token,
     ) -> PResult<Box<TsTypeAnn>> {
@@ -909,7 +909,7 @@ impl<I: Tokens> Parser<I> {
         feature = "tracing-spans",
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub fn try_parse_ts_type_ann(&mut self) -> PResult<Option<Box<TsTypeAnn>>> {
+    pub(crate) fn try_parse_ts_type_ann(&mut self) -> PResult<Option<Box<TsTypeAnn>>> {
         if !cfg!(feature = "typescript") {
             return Ok(None);
         }
@@ -1004,7 +1004,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseEnumDeclaration`
-    pub fn parse_ts_enum_decl(
+    pub(crate) fn parse_ts_enum_decl(
         &mut self,
         start: BytePos,
         is_const: bool,
@@ -1029,7 +1029,7 @@ impl<I: Tokens> Parser<I> {
     /// `tsTryParseTypeOrTypePredicateAnnotation`
     ///
     /// Used for parsing return types.
-    pub fn try_parse_ts_type_or_type_predicate_ann(&mut self) -> PResult<Option<Box<TsTypeAnn>>> {
+    fn try_parse_ts_type_or_type_predicate_ann(&mut self) -> PResult<Option<Box<TsTypeAnn>>> {
         if !cfg!(feature = "typescript") {
             return Ok(None);
         }
@@ -1112,7 +1112,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseHeritageClause`
-    pub fn parse_ts_heritage_clause(&mut self) -> PResult<Vec<TsExprWithTypeArgs>> {
+    pub(crate) fn parse_ts_heritage_clause(&mut self) -> PResult<Vec<TsExprWithTypeArgs>> {
         debug_assert!(self.input().syntax().typescript());
 
         self.parse_ts_delimited_list(
@@ -1243,7 +1243,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsTryParseIndexSignature`
-    pub fn try_parse_ts_index_signature(
+    pub(crate) fn try_parse_ts_index_signature(
         &mut self,
         index_signature_start: BytePos,
         readonly: bool,
@@ -1334,7 +1334,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseImportEqualsDeclaration`
-    pub fn parse_ts_import_equals_decl(
+    pub(crate) fn parse_ts_import_equals_decl(
         &mut self,
         start: BytePos,
         id: Ident,
@@ -1388,7 +1388,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsIsStartOfMappedType`
-    pub fn is_ts_start_of_mapped_type(&mut self) -> bool {
+    fn is_ts_start_of_mapped_type(&mut self) -> bool {
         debug_assert!(self.input().syntax().typescript());
 
         self.bump();
@@ -1534,7 +1534,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTupleType`
-    pub fn parse_ts_tuple_type(&mut self) -> PResult<TsTupleType> {
+    fn parse_ts_tuple_type(&mut self) -> PResult<TsTupleType> {
         debug_assert!(self.input().syntax().typescript());
 
         let start = self.cur_pos();
@@ -1571,7 +1571,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseMappedType`
-    pub fn parse_ts_mapped_type(&mut self) -> PResult<TsMappedType> {
+    fn parse_ts_mapped_type(&mut self) -> PResult<TsMappedType> {
         debug_assert!(self.input().syntax().typescript());
 
         let start = self.cur_pos();
@@ -1628,7 +1628,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseParenthesizedType`
-    pub fn parse_ts_parenthesized_type(&mut self) -> PResult<TsParenthesizedType> {
+    fn parse_ts_parenthesized_type(&mut self) -> PResult<TsParenthesizedType> {
         debug_assert!(self.input().syntax().typescript());
         trace_cur!(self, parse_ts_parenthesized_type);
 
@@ -1643,7 +1643,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeAliasDeclaration`
-    pub fn parse_ts_type_alias_decl(&mut self, start: BytePos) -> PResult<Box<TsTypeAliasDecl>> {
+    pub(crate) fn parse_ts_type_alias_decl(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<Box<TsTypeAliasDecl>> {
         debug_assert!(self.input().syntax().typescript());
 
         let id = self.parse_ident_name()?;
@@ -1869,7 +1872,7 @@ impl<I: Tokens> Parser<I> {
     /// Be sure to be in a type context before calling self.
     ///
     /// `tsParseType`
-    pub fn parse_ts_type(&mut self) -> PResult<Box<TsType>> {
+    pub(crate) fn parse_ts_type(&mut self) -> PResult<Box<TsType>> {
         trace_cur!(self, parse_ts_type);
 
         debug_assert!(self.input().syntax().typescript());
@@ -2101,7 +2104,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeLiteral`
-    pub fn parse_ts_type_lit(&mut self) -> PResult<TsTypeLit> {
+    fn parse_ts_type_lit(&mut self) -> PResult<TsTypeLit> {
         debug_assert!(self.input().syntax().typescript());
 
         let start = self.cur_pos();
@@ -2113,7 +2116,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseInterfaceDeclaration`
-    pub fn parse_ts_interface_decl(&mut self, start: BytePos) -> PResult<Box<TsInterfaceDecl>> {
+    pub(crate) fn parse_ts_interface_decl(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<Box<TsInterfaceDecl>> {
         debug_assert!(self.input().syntax().typescript());
 
         let id = self.parse_ident_name()?;
@@ -2161,7 +2167,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeAssertion`
-    pub fn parse_ts_type_assertion(&mut self, start: BytePos) -> PResult<TsTypeAssertion> {
+    pub(crate) fn parse_ts_type_assertion(&mut self, start: BytePos) -> PResult<TsTypeAssertion> {
         debug_assert!(self.input().syntax().typescript());
 
         if self.input().syntax().disallow_ambiguous_jsx_like() {
@@ -2567,7 +2573,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseExpressionStatement`
-    pub fn parse_ts_expr_stmt(
+    pub(crate) fn parse_ts_expr_stmt(
         &mut self,
         decorators: Vec<Decorator>,
         expr: Ident,
@@ -2619,7 +2625,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsTryParseDeclare`
-    pub fn try_parse_ts_declare(
+    pub(crate) fn try_parse_ts_declare(
         &mut self,
         start: BytePos,
         decorators: Vec<Decorator>,
@@ -2737,7 +2743,7 @@ impl<I: Tokens> Parser<I> {
     ///
     /// Note: this won't be called unless the keyword is allowed in
     /// `shouldParseExportDeclaration`.
-    pub fn try_parse_ts_export_decl(
+    pub(crate) fn try_parse_ts_export_decl(
         &mut self,
         decorators: Vec<Decorator>,
         value: Atom,
@@ -2860,7 +2866,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsTryParseGenericAsyncArrowFunction`
-    pub fn try_parse_ts_generic_async_arrow_fn(
+    pub(crate) fn try_parse_ts_generic_async_arrow_fn(
         &mut self,
         start: BytePos,
     ) -> PResult<Option<ArrowExpr>> {

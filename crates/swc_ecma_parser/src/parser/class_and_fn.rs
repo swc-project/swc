@@ -29,7 +29,7 @@ struct MakeMethodArgs {
 
 impl<I: Tokens> Parser<I> {
     /// If `required` is `true`, this never returns `None`.
-    pub fn parse_maybe_opt_binding_ident(
+    fn parse_maybe_opt_binding_ident(
         &mut self,
         required: bool,
         disallow_let: bool,
@@ -67,7 +67,7 @@ impl<I: Tokens> Parser<I> {
         .into())
     }
 
-    pub fn parse_decorators(&mut self, allow_export: bool) -> PResult<Vec<Decorator>> {
+    pub(crate) fn parse_decorators(&mut self, allow_export: bool) -> PResult<Vec<Decorator>> {
         if !self.syntax().decorators() {
             return Ok(Vec::new());
         }
@@ -132,7 +132,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    pub fn parse_access_modifier(&mut self) -> PResult<Option<Accessibility>> {
+    pub(crate) fn parse_access_modifier(&mut self) -> PResult<Option<Accessibility>> {
         Ok(self
             .parse_ts_modifier(&["public", "protected", "private", "in", "out"], false)?
             .and_then(|s| match s {
@@ -146,9 +146,7 @@ impl<I: Tokens> Parser<I> {
             }))
     }
 
-    pub fn parse_super_class(
-        &mut self,
-    ) -> PResult<(Box<Expr>, Option<Box<TsTypeParamInstantiation>>)> {
+    fn parse_super_class(&mut self) -> PResult<(Box<Expr>, Option<Box<TsTypeParamInstantiation>>)> {
         let super_class = self.parse_lhs_expr()?;
         match *super_class {
             Expr::TsInstantiation(TsInstantiation {
@@ -170,14 +168,14 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn is_class_method(&mut self) -> bool {
+    fn is_class_method(&mut self) -> bool {
         let cur = self.input().cur();
         cur == Token::LParen
             || (self.input().syntax().typescript()
                 && (cur == Token::Lt || cur == Token::JSXTagStart))
     }
 
-    pub fn is_class_property(&mut self, asi: bool) -> bool {
+    fn is_class_property(&mut self, asi: bool) -> bool {
         let cur = self.input().cur();
         (self.input().syntax().typescript() && (cur == Token::Bang || cur == Token::Colon))
             || (cur == Token::Eq || cur == Token::RBrace)
@@ -188,7 +186,7 @@ impl<I: Tokens> Parser<I> {
             }
     }
 
-    pub fn parse_class_prop_name(&mut self) -> PResult<Key> {
+    fn parse_class_prop_name(&mut self) -> PResult<Key> {
         if self.input().is(Token::Hash) {
             let name = self.parse_private_name()?;
             if name.name == "constructor" {
@@ -201,7 +199,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `parse_args` closure should not eat '(' or ')'.
-    pub fn parse_fn_args_body<F>(
+    pub(crate) fn parse_fn_args_body<F>(
         &mut self,
         decorators: Vec<Decorator>,
         start: BytePos,
@@ -311,28 +309,28 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(crate) fn parse_async_fn_expr(&mut self) -> PResult<Box<Expr>> {
         let start = self.cur_pos();
         expect!(self, Token::Async);
         self.parse_fn(None, Some(start), Vec::new())
     }
 
     /// Parse function expression
-    pub fn parse_fn_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(crate) fn parse_fn_expr(&mut self) -> PResult<Box<Expr>> {
         self.parse_fn(None, None, Vec::new())
     }
 
-    pub fn parse_async_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<Decl> {
+    pub(crate) fn parse_async_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<Decl> {
         let start = self.cur_pos();
         expect!(self, Token::Async);
         self.parse_fn(None, Some(start), decorators)
     }
 
-    pub fn parse_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<Decl> {
+    pub(crate) fn parse_fn_decl(&mut self, decorators: Vec<Decorator>) -> PResult<Decl> {
         self.parse_fn(None, None, decorators)
     }
 
-    pub fn parse_default_async_fn(
+    pub(crate) fn parse_default_async_fn(
         &mut self,
         start: BytePos,
         decorators: Vec<Decorator>,
@@ -342,7 +340,7 @@ impl<I: Tokens> Parser<I> {
         self.parse_fn(Some(start), Some(start_of_async), decorators)
     }
 
-    pub fn parse_default_fn(
+    pub(crate) fn parse_default_fn(
         &mut self,
         start: BytePos,
         decorators: Vec<Decorator>,
@@ -439,7 +437,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn parse_class_decl(
+    pub(crate) fn parse_class_decl(
         &mut self,
         start: BytePos,
         class_start: BytePos,
@@ -449,7 +447,7 @@ impl<I: Tokens> Parser<I> {
         self.parse_class(start, class_start, decorators, is_abstract)
     }
 
-    pub fn parse_class_expr(
+    pub(crate) fn parse_class_expr(
         &mut self,
         start: BytePos,
         decorators: Vec<Decorator>,
@@ -457,7 +455,7 @@ impl<I: Tokens> Parser<I> {
         self.parse_class(start, start, decorators, false)
     }
 
-    pub fn parse_default_class(
+    pub(crate) fn parse_default_class(
         &mut self,
         start: BytePos,
         class_start: BytePos,
@@ -551,7 +549,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn parse_fn_block_or_expr_body(
+    pub(crate) fn parse_fn_block_or_expr_body(
         &mut self,
         is_async: bool,
         is_generator: bool,
@@ -1492,7 +1490,7 @@ impl<I: Tokens> Parser<I> {
         Ok(elems)
     }
 
-    pub(crate) fn parse_class<T>(
+    fn parse_class<T>(
         &mut self,
         start: BytePos,
         class_start: BytePos,
@@ -1646,7 +1644,7 @@ impl<I: Tokens> Parser<I> {
     }
 }
 
-pub(crate) trait OutputType: Sized {
+trait OutputType: Sized {
     const IS_IDENT_REQUIRED: bool;
 
     /// From babel..

@@ -6,7 +6,7 @@ use super::*;
 use crate::parser::{expr::AssignTargetOrSpread, Parser};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum PatType {
+pub(crate) enum PatType {
     BindingPat,
     BindingElement,
     /// AssignmentPattern
@@ -15,7 +15,7 @@ pub enum PatType {
 }
 
 impl PatType {
-    pub fn element(self) -> Self {
+    fn element(self) -> Self {
         match self {
             PatType::BindingPat | PatType::BindingElement => PatType::BindingElement,
             PatType::AssignPat | PatType::AssignElement => PatType::AssignElement,
@@ -394,7 +394,7 @@ impl<I: Tokens> Parser<I> {
         Ok(left)
     }
 
-    pub fn parse_binding_pat_or_ident(&mut self, disallow_let: bool) -> PResult<Pat> {
+    pub(crate) fn parse_binding_pat_or_ident(&mut self, disallow_let: bool) -> PResult<Pat> {
         trace_cur!(self, parse_binding_pat_or_ident);
 
         let cur = self.input().cur();
@@ -412,7 +412,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn parse_array_binding_pat(&mut self) -> PResult<Pat> {
+    fn parse_array_binding_pat(&mut self) -> PResult<Pat> {
         let start = self.cur_pos();
 
         self.assert_and_bump(Token::LBracket);
@@ -625,7 +625,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn parse_constructor_params(&mut self) -> PResult<Vec<ParamOrTsParamProp>> {
+    pub(crate) fn parse_constructor_params(&mut self) -> PResult<Vec<ParamOrTsParamProp>> {
         let mut params = Vec::new();
         let mut rest_span = Span::default();
 
@@ -680,7 +680,7 @@ impl<I: Tokens> Parser<I> {
         Ok(params)
     }
 
-    pub fn parse_formal_params(&mut self) -> PResult<Vec<Param>> {
+    pub(crate) fn parse_formal_params(&mut self) -> PResult<Vec<Param>> {
         let mut params = Vec::new();
         let mut rest_span = Span::default();
 
@@ -755,7 +755,7 @@ impl<I: Tokens> Parser<I> {
         Ok(params)
     }
 
-    pub fn parse_unique_formal_params(&mut self) -> PResult<Vec<Param>> {
+    pub(crate) fn parse_unique_formal_params(&mut self) -> PResult<Vec<Param>> {
         // FIXME: This is wrong
         self.parse_formal_params()
     }

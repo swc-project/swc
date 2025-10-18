@@ -11,7 +11,7 @@ use crate::{
 
 impl<I: Tokens> Parser<I> {
     /// Parses JSX expression enclosed into curly brackets.
-    pub fn parse_jsx_expr_container(&mut self) -> PResult<JSXExprContainer> {
+    fn parse_jsx_expr_container(&mut self) -> PResult<JSXExprContainer> {
         debug_assert!(self.input().syntax().jsx());
         debug_assert!(self.input().is(Token::LBrace));
 
@@ -32,7 +32,7 @@ impl<I: Tokens> Parser<I> {
     /// JSXEmptyExpression is unique type since it doesn't actually parse
     /// anything, and so it should start at the end of last read token (left
     /// brace) and finish at the beginning of the next one (right brace).
-    pub fn parse_jsx_empty_expr(&mut self) -> JSXEmptyExpr {
+    fn parse_jsx_empty_expr(&mut self) -> JSXEmptyExpr {
         debug_assert!(self.input().syntax().jsx());
         let start = self.input().cur_pos();
         JSXEmptyExpr {
@@ -40,7 +40,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn jsx_expr_container_to_jsx_attr_value(
+    fn jsx_expr_container_to_jsx_attr_value(
         &mut self,
         start: BytePos,
         node: JSXExprContainer,

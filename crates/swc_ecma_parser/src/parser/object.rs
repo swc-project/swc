@@ -429,7 +429,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn parse_object_expr(&mut self) -> PResult<Expr> {
+    pub(crate) fn parse_object_expr(&mut self) -> PResult<Expr> {
         self.parse_object(Self::parse_expr_object_prop, Self::make_expr_object)
     }
 }

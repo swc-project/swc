@@ -3,11 +3,6 @@ use swc_atoms::atom;
 use swc_common::{ast_node, source_map::SmallPos, util::take::Take, BytePos, Span, Spanned};
 
 use super::*;
-
-mod ops;
-#[cfg(test)]
-mod tests;
-
 use crate::{
     error::SyntaxError,
     parser::{pat::PatType, util::IsSimpleParameterList, Parser},
@@ -76,7 +71,7 @@ impl<I: Tokens> Parser<I> {
         feature = "tracing-spans",
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(crate) fn parse_assignment_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_assignment_expr);
 
         if self.input().syntax().typescript() && self.input().is(Token::JSXTagStart) {
@@ -166,7 +161,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[allow(dead_code)]
-    fn parse_member_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(crate) fn parse_member_expr(&mut self) -> PResult<Box<Expr>> {
         self.parse_member_expr_or_new_expr(false)
     }
 
@@ -370,7 +365,7 @@ impl<I: Tokens> Parser<I> {
         feature = "tracing-spans",
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(crate) fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_lhs_expr);
 
         let token_and_span = self.input().get_cur();
@@ -480,7 +475,7 @@ impl<I: Tokens> Parser<I> {
         feature = "tracing-spans",
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
+    fn parse_array_lit(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_array_lit);
 
         let start = self.input().cur_pos();
@@ -513,7 +508,7 @@ impl<I: Tokens> Parser<I> {
         Ok(ArrayLit { span, elems }.into())
     }
 
-    pub fn at_possible_async(&mut self, expr: &Expr) -> bool {
+    fn at_possible_async(&mut self, expr: &Expr) -> bool {
         // TODO(kdy1): !this.state.containsEsc &&
         self.state().potential_arrow_start == Some(expr.span_lo()) && expr.is_ident_ref_to("async")
     }
@@ -571,7 +566,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub(crate) fn parse_tpl_elements(
+    fn parse_tpl_elements(
         &mut self,
         is_tagged_tpl: bool,
     ) -> PResult<(Vec<Box<Expr>>, Vec<TplElement>)> {
@@ -591,7 +586,7 @@ impl<I: Tokens> Parser<I> {
         Ok((exprs, quasis))
     }
 
-    pub(crate) fn parse_tagged_tpl(
+    fn parse_tagged_tpl(
         &mut self,
         tag: Box<Expr>,
         type_params: Option<Box<TsTypeParamInstantiation>>,
@@ -866,7 +861,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    pub fn parse_str_lit(&mut self) -> swc_ecma_ast::Str {
+    pub(crate) fn parse_str_lit(&mut self) -> swc_ecma_ast::Str {
         debug_assert!(self.input().cur() == Token::Str);
         let token_and_span = self.input().get_cur();
         let start = token_and_span.span().lo;
@@ -878,7 +873,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn parse_lit(&mut self) -> PResult<Lit> {
+    pub(crate) fn parse_lit(&mut self) -> PResult<Lit> {
         let token_and_span = self.input().get_cur();
         let start = token_and_span.span().lo;
         let cur = token_and_span.token();
@@ -920,7 +915,7 @@ impl<I: Tokens> Parser<I> {
 
     /// Parse `Arguments[Yield, Await]`
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    pub fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
+    pub(crate) fn parse_args(&mut self, is_dynamic_import: bool) -> PResult<Vec<ExprOrSpread>> {
         trace_cur!(self, parse_args);
 
         self.do_outside_of_context(Context::WillExpectColonForCond, |p| {
@@ -953,11 +948,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    pub fn finish_assignment_expr(
-        &mut self,
-        start: BytePos,
-        cond: Box<Expr>,
-    ) -> PResult<Box<Expr>> {
+    fn finish_assignment_expr(&mut self, start: BytePos, cond: Box<Expr>) -> PResult<Box<Expr>> {
         trace_cur!(self, finish_assignment_expr);
 
         if let Some(op) = self.input().cur().as_assign_op() {
@@ -1055,7 +1046,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    pub fn parse_subscripts(
+    pub(crate) fn parse_subscripts(
         &mut self,
         mut obj: Callee,
         no_call: bool,
@@ -1537,7 +1528,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn parse_dynamic_import_or_import_meta(
+    fn parse_dynamic_import_or_import_meta(
         &mut self,
         start: BytePos,
         no_call: bool,
@@ -1587,7 +1578,7 @@ impl<I: Tokens> Parser<I> {
         feature = "tracing-spans",
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
+    fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
         self.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
             p.parse_member_expr_or_new_expr_inner(is_new_expr)
         })
@@ -1739,13 +1730,13 @@ impl<I: Tokens> Parser<I> {
     /// Parse `NewExpression`.
     /// This includes `MemberExpression`.
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    pub fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(crate) fn parse_new_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_new_expr);
         self.parse_member_expr_or_new_expr(true)
     }
 
     /// Name from spec: 'LogicalORExpression'
-    pub fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(crate) fn parse_bin_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_bin_expr);
 
         let left = match self.parse_unary_expr() {
@@ -1780,7 +1771,7 @@ impl<I: Tokens> Parser<I> {
     /// operator that has a lower precedence than the set it is parsing.
     ///
     /// `parseExprOp`
-    pub fn parse_bin_op_recursively(
+    pub(crate) fn parse_bin_op_recursively(
         &mut self,
         mut left: Box<Expr>,
         mut min_prec: u8,
@@ -1969,7 +1960,7 @@ impl<I: Tokens> Parser<I> {
         Ok((node, Some(min_prec)))
     }
 
-    pub fn parse_await_expr(
+    pub(crate) fn parse_await_expr(
         &mut self,
         start_of_await_token: Option<BytePos>,
     ) -> PResult<Box<Expr>> {
@@ -2035,9 +2026,7 @@ impl<I: Tokens> Parser<I> {
         feature = "tracing-spans",
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub(crate) fn parse_args_or_pats(
-        &mut self,
-    ) -> PResult<(Vec<AssignTargetOrSpread>, Option<Span>)> {
+    fn parse_args_or_pats(&mut self) -> PResult<(Vec<AssignTargetOrSpread>, Option<Span>)> {
         self.do_outside_of_context(
             Context::WillExpectColonForCond,
             Self::parse_args_or_pats_inner,
@@ -2300,7 +2289,7 @@ impl<I: Tokens> Parser<I> {
         feature = "tracing-spans",
         tracing::instrument(level = "debug", skip_all)
     )]
-    pub fn parse_paren_expr_or_arrow_fn(
+    fn parse_paren_expr_or_arrow_fn(
         &mut self,
         can_be_arrow: bool,
         async_span: Option<Span>,
@@ -2532,7 +2521,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn parse_primary_expr_rest(
+    fn parse_primary_expr_rest(
         &mut self,
         start: BytePos,
         can_be_arrow: bool,
@@ -2671,7 +2660,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn try_parse_regexp(&mut self, start: BytePos) -> Option<Box<Expr>> {
+    fn try_parse_regexp(&mut self, start: BytePos) -> Option<Box<Expr>> {
         // Regexp
         debug_assert!(self.input().cur() == Token::Slash || self.input().cur() == Token::DivEq);
 
@@ -2712,7 +2701,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn try_parse_async_start(&mut self, can_be_arrow: bool) -> Option<PResult<Box<Expr>>> {
+    fn try_parse_async_start(&mut self, can_be_arrow: bool) -> Option<PResult<Box<Expr>>> {
         if peek!(self).is_some_and(|peek| peek == Token::Function)
             && !self.input_mut().has_linebreak_between_cur_and_peeked()
         {
@@ -2748,7 +2737,7 @@ impl<I: Tokens> Parser<I> {
         None
     }
 
-    pub fn parse_this_expr(&mut self, start: BytePos) -> PResult<Box<Expr>> {
+    fn parse_this_expr(&mut self, start: BytePos) -> PResult<Box<Expr>> {
         debug_assert!(self.input().cur() == Token::This);
         self.input_mut().bump();
         Ok(ThisExpr {

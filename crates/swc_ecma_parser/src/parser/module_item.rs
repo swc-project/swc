@@ -11,7 +11,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    pub fn parse_module_item_block_body(
+    pub(crate) fn parse_module_item_block_body(
         &mut self,
         allow_directives: bool,
         end: Option<Token>,
