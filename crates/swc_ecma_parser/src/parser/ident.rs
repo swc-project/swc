@@ -7,7 +7,7 @@ use crate::{error::SyntaxError, input::Tokens, lexer::Token, Context, PResult, P
 
 impl<I: Tokens> Parser<I> {
     // https://tc39.es/ecma262/#prod-ModuleExportName
-    pub fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
+    pub(crate) fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
         let cur = self.input().cur();
         let module_export_name = if cur == Token::Str {
             ModuleExportName::Str(self.parse_str_lit())
@@ -21,7 +21,7 @@ impl<I: Tokens> Parser<I> {
 
     /// Use this when spec says "IdentifierName".
     /// This allows idents like `catch`.
-    pub fn parse_ident_name(&mut self) -> PResult<IdentName> {
+    pub(crate) fn parse_ident_name(&mut self) -> PResult<IdentName> {
         let token_and_span = self.input().get_cur();
         let start = token_and_span.span().lo;
         let cur = token_and_span.token();
@@ -35,7 +35,7 @@ impl<I: Tokens> Parser<I> {
         Ok(IdentName::new(w, self.span(start)))
     }
 
-    pub fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, IdentName>> {
+    pub(crate) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, IdentName>> {
         let is_private = self.input().is(Token::Hash);
         if is_private {
             self.parse_private_name().map(Either::Left)
@@ -44,7 +44,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    pub fn parse_private_name(&mut self) -> PResult<PrivateName> {
+    pub(crate) fn parse_private_name(&mut self) -> PResult<PrivateName> {
         let start = self.cur_pos();
         self.assert_and_bump(Token::Hash);
         let hash_end = self.input().prev_span().hi;
@@ -64,7 +64,7 @@ impl<I: Tokens> Parser<I> {
 
     /// IdentifierReference
     #[inline]
-    pub fn parse_ident_ref(&mut self) -> PResult<Ident> {
+    fn parse_ident_ref(&mut self) -> PResult<Ident> {
         let ctx = self.ctx();
         self.parse_ident(
             !ctx.contains(Context::InGenerator),
@@ -74,14 +74,14 @@ impl<I: Tokens> Parser<I> {
 
     /// LabelIdentifier
     #[inline]
-    pub fn parse_label_ident(&mut self) -> PResult<Ident> {
+    pub(crate) fn parse_label_ident(&mut self) -> PResult<Ident> {
         self.parse_ident_ref()
     }
 
     /// babel: `parseBindingIdentifier`
     ///
     /// spec: `BindingIdentifier`
-    pub fn parse_binding_ident(&mut self, disallow_let: bool) -> PResult<BindingIdent> {
+    pub(crate) fn parse_binding_ident(&mut self, disallow_let: bool) -> PResult<BindingIdent> {
         trace_cur!(self, parse_binding_ident);
 
         let cur = self.input().cur();
@@ -108,7 +108,10 @@ impl<I: Tokens> Parser<I> {
         Ok(ident.into())
     }
 
-    pub fn parse_opt_binding_ident(&mut self, disallow_let: bool) -> PResult<Option<BindingIdent>> {
+    pub(crate) fn parse_opt_binding_ident(
+        &mut self,
+        disallow_let: bool,
+    ) -> PResult<Option<BindingIdent>> {
         trace_cur!(self, parse_opt_binding_ident);
         let token_and_span = self.input().get_cur();
         let cur = token_and_span.token();
@@ -127,7 +130,7 @@ impl<I: Tokens> Parser<I> {
     /// Identifier
     ///
     /// In strict mode, "yield" is SyntaxError if matched.
-    pub fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
+    pub(crate) fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
         trace_cur!(self, parse_ident);
 
         let token_and_span = self.input().get_cur();
