@@ -452,6 +452,11 @@ impl Token {
 }
 
 impl Token {
+    #[inline(always)]
+    pub fn is_ident_ref(&self, ctx: Context) -> bool {
+        self.is_word() && !self.is_reserved(ctx)
+    }
+
     pub fn is_other_and_before_expr_is_false(self) -> bool {
         !self.is_keyword()
             && !self.is_bin_op()
