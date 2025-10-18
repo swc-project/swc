@@ -10,7 +10,7 @@ mod tests;
 
 use crate::{
     error::SyntaxError,
-    parser::{is_simple_param_list::IsSimpleParameterList, pat::PatType, Parser},
+    parser::{pat::PatType, util::IsSimpleParameterList, Parser},
 };
 
 #[ast_node]
