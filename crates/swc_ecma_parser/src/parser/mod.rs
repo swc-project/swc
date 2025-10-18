@@ -43,6 +43,8 @@ mod stmt;
 mod tests;
 #[cfg(feature = "typescript")]
 mod typescript;
+#[cfg(feature = "verify")]
+mod verifier;
 
 pub type PResult<T> = Result<T, crate::error::Error>;
 
