@@ -578,20 +578,16 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_tpl_elements);
 
         let mut exprs = Vec::new();
-
-        let cur_elem = self.parse_tpl_element(is_tagged_tpl)?;
+        let cur_elem = self.parse_template_head(is_tagged_tpl)?;
         let mut is_tail = cur_elem.tail;
         let mut quasis = vec![cur_elem];
 
         while !is_tail {
-            expect!(self, Token::DOLLAR_LBRACE);
             exprs.push(self.allow_in_expr(|p| p.parse_expr())?);
-            expect!(self, Token::RBRACE);
             let elem = self.parse_tpl_element(is_tagged_tpl)?;
             is_tail = elem.tail;
             quasis.push(elem);
         }
-
         Ok((exprs, quasis))
     }
 

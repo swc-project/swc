@@ -995,7 +995,7 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Type> {
         trace_cur!(self, parse_stmt_like);
 
-        debug_tracing!(p, "parse_stmt_like");
+        debug_tracing!(self, "parse_stmt_like");
 
         let start = self.cur_pos();
         let decorators = if self.input().get_cur().token() == Token::AT {
