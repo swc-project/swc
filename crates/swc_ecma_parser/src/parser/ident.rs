@@ -64,7 +64,7 @@ impl<I: Tokens> Parser<I> {
 
     /// IdentifierReference
     #[inline]
-    pub fn parse_ident_ref<'a>(&mut self) -> PResult<Ident> {
+    pub fn parse_ident_ref(&mut self) -> PResult<Ident> {
         let ctx = self.ctx();
         self.parse_ident(
             !ctx.contains(Context::InGenerator),
@@ -74,14 +74,14 @@ impl<I: Tokens> Parser<I> {
 
     /// LabelIdentifier
     #[inline]
-    pub fn parse_label_ident<'a>(&mut self) -> PResult<Ident> {
+    pub fn parse_label_ident(&mut self) -> PResult<Ident> {
         self.parse_ident_ref()
     }
 
     /// babel: `parseBindingIdentifier`
     ///
     /// spec: `BindingIdentifier`
-    pub fn parse_binding_ident<'a>(&mut self, disallow_let: bool) -> PResult<BindingIdent> {
+    pub fn parse_binding_ident(&mut self, disallow_let: bool) -> PResult<BindingIdent> {
         trace_cur!(self, parse_binding_ident);
 
         let cur = self.input().cur();
@@ -108,10 +108,7 @@ impl<I: Tokens> Parser<I> {
         Ok(ident.into())
     }
 
-    pub fn parse_opt_binding_ident<'a>(
-        &mut self,
-        disallow_let: bool,
-    ) -> PResult<Option<BindingIdent>> {
+    pub fn parse_opt_binding_ident(&mut self, disallow_let: bool) -> PResult<Option<BindingIdent>> {
         trace_cur!(self, parse_opt_binding_ident);
         let token_and_span = self.input().get_cur();
         let cur = token_and_span.token();
@@ -130,7 +127,7 @@ impl<I: Tokens> Parser<I> {
     /// Identifier
     ///
     /// In strict mode, "yield" is SyntaxError if matched.
-    pub fn parse_ident<'a>(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
+    pub fn parse_ident(&mut self, incl_yield: bool, incl_await: bool) -> PResult<Ident> {
         trace_cur!(self, parse_ident);
 
         let token_and_span = self.input().get_cur();

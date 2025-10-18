@@ -1042,7 +1042,7 @@ impl<I: Tokens> Parser<I> {
 
         let top_level = self.ctx().contains(Context::TopLevel);
 
-        let cur = self.input().cur().clone();
+        let cur = self.input().cur();
 
         if cur == Token::Await && (include_decl || top_level) {
             if top_level {

@@ -611,21 +611,6 @@ impl State {
 
 impl State {
     #[inline(always)]
-    pub fn is_expr_allowed(&self) -> bool {
-        unreachable!("is_expr_allowed should not be called in Parser/State")
-    }
-
-    #[inline(always)]
-    pub fn set_is_expr_allowed(&mut self, _: bool) {
-        // noop
-    }
-
-    #[inline(always)]
-    pub fn set_next_regexp(&mut self, start: Option<BytePos>) {
-        self.next_regexp = start;
-    }
-
-    #[inline(always)]
     pub fn had_line_break(&self) -> bool {
         self.had_line_break
     }
@@ -636,11 +621,6 @@ impl State {
     }
 
     #[inline(always)]
-    pub fn had_line_break_before_last(&self) -> bool {
-        self.had_line_break_before_last
-    }
-
-    #[inline(always)]
     pub fn set_token_type(&mut self, token_type: Token) {
         self.token_type = Some(token_type);
     }
@@ -648,11 +628,6 @@ impl State {
     #[inline(always)]
     pub fn token_type(&self) -> Option<Token> {
         self.token_type
-    }
-
-    #[inline(always)]
-    pub fn syntax(&self) -> SyntaxFlags {
-        unreachable!("syntax is not stored in State, but in Lexer")
     }
 
     #[inline(always)]
@@ -677,52 +652,5 @@ impl State {
             !t.is_keyword()
                 && (t.is_semi() || t.is_lbrace() || t.is_other_and_can_have_trailing_comment())
         })
-    }
-
-    pub fn last_was_tpl_element(&self) -> bool {
-        self.token_type().is_some_and(|t| t.is_template())
-    }
-}
-
-/// The algorithm used to determine whether a regexp can appear at a
-/// given point in the program is loosely based on sweet.js' approach.
-/// See https://github.com/mozilla/sweet.js/wiki/design
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum TokenContext {
-    BraceStmt,
-    BraceExpr,
-    TplQuasi,
-    ParenStmt {
-        /// Is this `for` loop?
-        is_for_loop: bool,
-    },
-    ParenExpr,
-    Tpl,
-    FnExpr,
-    ClassExpr,
-    JSXOpeningTag,
-    JSXClosingTag,
-    JSXExpr,
-}
-
-impl TokenContext {
-    pub const fn is_expr(&self) -> bool {
-        matches!(
-            self,
-            Self::BraceExpr
-                | Self::TplQuasi
-                | Self::ParenExpr
-                | Self::Tpl
-                | Self::FnExpr
-                | Self::ClassExpr
-                | Self::JSXExpr
-        )
-    }
-
-    pub const fn preserve_space(&self) -> bool {
-        match self {
-            Self::Tpl | Self::JSXExpr => true,
-            _ => false,
-        }
     }
 }

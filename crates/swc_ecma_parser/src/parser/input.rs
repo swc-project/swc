@@ -445,7 +445,7 @@ impl<I: Tokens> Buffer<I> {
             if next_token == Token::Lt {
                 // <<
                 Token::LSHIFT
-            } else if next_token == Token::LtEq {
+            } else if next_token == Token::Eq {
                 // <=
                 Token::LESS_EQ
             } else if next_token == Token::LtEq {

@@ -5,7 +5,7 @@ use swc_ecma_ast::*;
 use crate::{error::SyntaxError, input::Tokens, lexer::Token, Context, PResult, Parser};
 
 impl<I: Tokens> Parser<I> {
-    pub fn parse_module_item<'a>(&mut self) -> PResult<ModuleItem> {
+    pub fn parse_module_item(&mut self) -> PResult<ModuleItem> {
         self.do_inside_of_context(Context::TopLevel, |p| {
             p.parse_stmt_like(true, handle_import_export)
         })
@@ -144,7 +144,7 @@ impl<I: Tokens> Parser<I> {
         })
     }
 
-    fn parse_imported_binding<'a>(&mut self) -> PResult<Ident> {
+    fn parse_imported_binding(&mut self) -> PResult<Ident> {
         Ok(self
             .do_outside_of_context(Context::InAsync.union(Context::InGenerator), |p| {
                 p.parse_binding_ident(false)
@@ -152,7 +152,7 @@ impl<I: Tokens> Parser<I> {
             .into())
     }
 
-    fn parse_imported_default_binding<'a>(&mut self) -> PResult<Ident> {
+    fn parse_imported_default_binding(&mut self) -> PResult<Ident> {
         self.parse_imported_binding()
     }
 
@@ -323,7 +323,7 @@ impl<I: Tokens> Parser<I> {
         if self.input().syntax().typescript() {
             let cur = self.input().cur();
             if cur.is_word() {
-                let sym = cur.clone().take_word(self.input()).unwrap();
+                let sym = cur.take_word(self.input()).unwrap();
                 // TODO: remove clone
                 if let Some(decl) = self.try_parse_ts_export_decl(decorators.clone(), sym) {
                     return Ok(ExportDecl {

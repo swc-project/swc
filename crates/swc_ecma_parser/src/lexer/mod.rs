@@ -46,7 +46,7 @@ mod table;
 pub(crate) mod token;
 mod whitespace;
 
-pub(crate) use state::{TokenContext, TokenFlags};
+pub(crate) use state::TokenFlags;
 pub(crate) use token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue};
 
 // ===== Byte match tables for comment scanning =====
@@ -68,9 +68,6 @@ static SINGLE_QUOTE_STRING_END_TABLE: SafeByteMatchTable =
 
 static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| !(b.is_ascii_alphanumeric() || b == b'_' || b == b'$'));
-
-static TEMPLATE_LITERAL_TABLE: SafeByteMatchTable =
-    safe_byte_match_table!(|b| matches!(b, b'$' | b'`' | b'\\' | b'\r'));
 
 pub type LexResult<T> = Result<T, crate::error::Error>;
 
@@ -1296,29 +1293,6 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    /// Read a JSX identifier (valid tag or attribute name).
-    ///
-    /// Optimized version since JSX identifiers can"t contain
-    /// escape characters and so can be read as single slice.
-    /// Also assumes that first character was already checked
-    /// by isIdentifierStart in readToken.
-    fn read_jsx_word(&mut self) -> LexResult<Token> {
-        debug_assert!(self.syntax().jsx());
-        debug_assert!(self.input().cur().is_some_and(|c| c.is_ident_start()));
-
-        let mut first = true;
-        let slice = self.input_uncons_while(|c| {
-            if first {
-                first = false;
-                c.is_ident_start()
-            } else {
-                c.is_ident_part() || c == '-'
-            }
-        });
-
-        Ok(Token::jsx_name(slice, self))
-    }
-
     fn read_jsx_entity(&mut self) -> LexResult<(char, String)> {
         debug_assert!(self.syntax().jsx());
 
@@ -1610,140 +1584,6 @@ impl<'a> Lexer<'a> {
         self.bump(); // `!`
         let s = self.input_uncons_while(|c| !c.is_line_terminator());
         Ok(Some(self.atom(s)))
-    }
-
-    fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
-        let start = self.cur_pos();
-
-        let mut cooked = Ok(String::new());
-        let mut cooked_slice_start = start;
-        let raw_slice_start = start;
-
-        macro_rules! consume_cooked {
-            () => {{
-                if let Ok(cooked) = &mut cooked {
-                    let last_pos = self.cur_pos();
-                    cooked.push_str(unsafe {
-                        // Safety: Both of start and last_pos are valid position because we got them
-                        // from `self.input`
-                        self.input_slice(cooked_slice_start, last_pos)
-                    });
-                }
-            }};
-        }
-
-        // Handle edge case for immediate template end
-        if start == self.cur_pos() && self.state().last_was_tpl_element() {
-            if let Some(c) = self.cur() {
-                if c == '$' && self.peek() == Some('{') {
-                    self.bump(); // '$'
-                    self.bump(); // '{'
-                    return Ok(Token::DOLLAR_LBRACE);
-                } else if c == '`' {
-                    self.bump(); // '`'
-                    return Ok(Token::BACKQUOTE);
-                }
-            }
-        }
-
-        // Fast path: use byte_search to scan for template literal terminators
-        loop {
-            let matched_byte = byte_search! {
-                lexer: self,
-                table: TEMPLATE_LITERAL_TABLE,
-                handle_eof: {
-                    // EOF reached - unterminated template
-                    self.error(start_of_tpl, SyntaxError::UnterminatedTpl)?
-                }
-            };
-
-            match matched_byte {
-                b'$' => {
-                    // Check if this is ${
-                    if self.peek() == Some('{') {
-                        // Found template substitution
-                        let cooked = if cooked_slice_start == raw_slice_start {
-                            let last_pos = self.cur_pos();
-                            let s = unsafe {
-                                // Safety: Both of start and last_pos are valid position because we
-                                // got them from `self.input`
-                                self.input_slice(cooked_slice_start, last_pos)
-                            };
-                            Ok(self.atom(s))
-                        } else {
-                            consume_cooked!();
-                            cooked.map(|s| self.atom(s))
-                        };
-
-                        let end = self.input().cur_pos();
-                        let raw = unsafe {
-                            // Safety: Both of start and last_pos are valid position because we got
-                            // them from `self.input`
-                            self.input_slice(raw_slice_start, end)
-                        };
-                        let raw = self.atom(raw);
-                        return Ok(Token::template(cooked, raw, self));
-                    } else {
-                        // Just a regular $ character, continue scanning
-                        self.bump();
-                        continue;
-                    }
-                }
-                b'`' => {
-                    // Found template end
-                    let cooked = if cooked_slice_start == raw_slice_start {
-                        let last_pos = self.cur_pos();
-                        let s = unsafe { self.input_slice(cooked_slice_start, last_pos) };
-                        Ok(self.atom(s))
-                    } else {
-                        consume_cooked!();
-                        cooked.map(|s| self.atom(s))
-                    };
-
-                    let end = self.input().cur_pos();
-                    let raw = unsafe { self.input_slice(raw_slice_start, end) };
-                    let raw = self.atom(raw);
-                    return Ok(Token::template(cooked, raw, self));
-                }
-                b'\r' => {
-                    // Handle carriage return line terminator
-                    self.state_mut().mark_had_line_break();
-                    consume_cooked!();
-
-                    // Handle carriage return - consume \r and optionally \n, normalize to \n
-                    self.bump(); // '\r'
-                    if self.peek() == Some('\n') {
-                        self.bump(); // '\n'
-                    }
-
-                    if let Ok(ref mut cooked) = cooked {
-                        cooked.push('\n');
-                    }
-                    cooked_slice_start = self.cur_pos();
-                }
-                b'\\' => {
-                    // Handle escape sequence - fall back to slow path for this part
-                    consume_cooked!();
-
-                    match self.read_escaped_char(true) {
-                        Ok(Some(chars)) => {
-                            if let Ok(ref mut cooked) = cooked {
-                                for c in chars {
-                                    cooked.extend(c);
-                                }
-                            }
-                        }
-                        Ok(None) => {}
-                        Err(error) => {
-                            cooked = Err(error);
-                        }
-                    }
-
-                    cooked_slice_start = self.cur_pos();
-                }
-                _ => unreachable!(),
-            }
-        }
     }
 
     /// Read an escaped character for string literal.
