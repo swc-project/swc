@@ -599,7 +599,14 @@ impl<I: Tokens> Parser<I> {
         let tagged_tpl_start = tag.span_lo();
         trace_cur!(self, parse_tagged_tpl);
 
-        let tpl = Box::new(self.parse_tpl(true)?);
+        let tpl = Box::new(
+            if self.input_mut().is(Token::NoSubstitutionTemplateLiteral) {
+                self.input_mut().rescan_template_token(true);
+                self.parse_no_substitution_template_literal(true)?
+            } else {
+                self.parse_tpl(true)?
+            },
+        );
 
         let span = self.span(tagged_tpl_start);
 
