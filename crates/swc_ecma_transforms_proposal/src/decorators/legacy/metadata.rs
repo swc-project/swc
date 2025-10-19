@@ -175,12 +175,20 @@ impl VisitMut for Metadata<'_> {
                                     #[cfg(swc_ast_unknown)]
                                     _ => panic!("unable to access unknown nodes"),
                                 };
-                                Some(serialize_type(self.class_name, ann).as_arg())
+                                Some(if let Some(kind) = self.enums.get_kind_as_str(ann) {
+                                    quote_ident!(kind).as_arg()
+                                } else {
+                                    serialize_type(self.class_name, ann).as_arg()
+                                })
                             }
-                            ParamOrTsParamProp::Param(p) => Some(
-                                serialize_type(self.class_name, get_type_ann_of_pat(&p.pat))
-                                    .as_arg(),
-                            ),
+                            ParamOrTsParamProp::Param(p) => {
+                                let param_type = get_type_ann_of_pat(&p.pat);
+                                Some(if let Some(kind) = self.enums.get_kind_as_str(param_type) {
+                                    quote_ident!(kind).as_arg()
+                                } else {
+                                    serialize_type(self.class_name, param_type).as_arg()
+                                })
+                            }
                             #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
                         })
@@ -231,10 +239,12 @@ impl VisitMut for Metadata<'_> {
                         .params
                         .iter()
                         .map(|v| {
-                            Some(
-                                serialize_type(self.class_name, get_type_ann_of_pat(&v.pat))
-                                    .as_arg(),
-                            )
+                            let param_type = get_type_ann_of_pat(&v.pat);
+                            Some(if let Some(kind) = self.enums.get_kind_as_str(param_type) {
+                                quote_ident!(kind).as_arg()
+                            } else {
+                                serialize_type(self.class_name, param_type).as_arg()
+                            })
                         })
                         .collect(),
                 }
