@@ -307,6 +307,7 @@ impl<I: Tokens> Parser<I> {
         Ok(expr)
     }
 
+    #[inline(always)]
     pub(super) fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
         trace_cur!(self, parse_primary_expr);
         let start = self.input().cur_pos();
