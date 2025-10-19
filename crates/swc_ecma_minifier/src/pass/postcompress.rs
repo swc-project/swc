@@ -227,26 +227,57 @@ fn merge_import_decls(decls: &[ImportDecl], key: &ImportKey) -> Vec<ImportDecl> 
     // - namespace only
     // - named only
     // - default + named
-    // - default + namespace
+    // - default + namespace (ONLY these two, no named allowed)
     // Note: namespace + named (without default) is NOT valid - must split
+    // Note: default + namespace + named is NOT valid - must split
 
     if let Some(namespace) = namespace_spec {
         if default_spec.is_some() {
-            // default + namespace (+ maybe named)
-            let mut specs = vec![default_spec.unwrap(), namespace];
-            specs.extend(named_specs.clone());
-            result.push(ImportDecl {
-                span,
-                specifiers: specs,
-                src: Box::new(Str {
-                    span: DUMMY_SP,
-                    value: key.src.clone().into(),
-                    raw: None,
-                }),
-                type_only: key.type_only,
-                with: first_decl.with.clone(),
-                phase: key.phase,
-            });
+            if named_specs.is_empty() {
+                // default + namespace only (valid combination)
+                result.push(ImportDecl {
+                    span,
+                    specifiers: vec![default_spec.unwrap(), namespace],
+                    src: Box::new(Str {
+                        span: DUMMY_SP,
+                        value: key.src.clone().into(),
+                        raw: None,
+                    }),
+                    type_only: key.type_only,
+                    with: first_decl.with.clone(),
+                    phase: key.phase,
+                });
+            } else {
+                // default + namespace + named - MUST SPLIT
+                // Create one import for default + named
+                let mut specs = vec![default_spec.unwrap()];
+                specs.extend(named_specs);
+                result.push(ImportDecl {
+                    span,
+                    specifiers: specs,
+                    src: Box::new(Str {
+                        span: DUMMY_SP,
+                        value: key.src.clone().into(),
+                        raw: None,
+                    }),
+                    type_only: key.type_only,
+                    with: first_decl.with.clone(),
+                    phase: key.phase,
+                });
+                // Create one import for namespace
+                result.push(ImportDecl {
+                    span,
+                    specifiers: vec![namespace],
+                    src: Box::new(Str {
+                        span: DUMMY_SP,
+                        value: key.src.clone().into(),
+                        raw: None,
+                    }),
+                    type_only: key.type_only,
+                    with: first_decl.with.clone(),
+                    phase: key.phase,
+                });
+            }
         } else if named_specs.is_empty() {
             // Just namespace
             result.push(ImportDecl {
