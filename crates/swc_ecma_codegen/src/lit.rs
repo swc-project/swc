@@ -31,7 +31,9 @@ impl MacroNode for Lit {
             Lit::Num(ref n) => emit!(n),
             Lit::Regex(ref n) => {
                 punct!(emitter, "/");
-                emitter.wr.write_str(&n.exp)?;
+                // Encode non-ASCII characters in regex pattern when ascii_only is enabled
+                let encoded_exp = encode_regex_for_ascii(&n.exp, emitter.cfg.ascii_only);
+                emitter.wr.write_str(&encoded_exp)?;
                 punct!(emitter, "/");
                 emitter.wr.write_str(&n.flags)?;
             }
@@ -313,6 +315,54 @@ where
                 false
             }))
     }
+}
+
+/// Encodes non-ASCII characters in regex patterns when ascii_only is enabled.
+///
+/// This function converts non-ASCII characters to their Unicode escape
+/// sequences to ensure the regex can be safely used in ASCII-only contexts.
+///
+/// # Arguments
+/// * `pattern` - The regex pattern string to encode
+/// * `ascii_only` - Whether to encode non-ASCII characters
+///
+/// # Returns
+/// A string with non-ASCII characters encoded as Unicode escapes
+pub fn encode_regex_for_ascii(pattern: &str, ascii_only: bool) -> CowStr {
+    if !ascii_only || pattern.is_ascii() {
+        return CowStr::Borrowed(pattern);
+    }
+
+    let mut buf = CompactString::with_capacity(pattern.len());
+
+    for c in pattern.chars() {
+        match c {
+            // ASCII characters are preserved as-is
+            '\x00'..='\x7e' => buf.push(c),
+            // Characters in the \x7f to \xff range use \xHH format
+            '\u{7f}'..='\u{ff}' => {
+                buf.push_str("\\x");
+                write!(&mut buf, "{:02x}", c as u8).unwrap();
+            }
+            // Line/paragraph separators need escaping in all contexts
+            '\u{2028}' => buf.push_str("\\u2028"),
+            '\u{2029}' => buf.push_str("\\u2029"),
+            // Characters above \xff use \uHHHH format
+            _ => {
+                if c > '\u{FFFF}' {
+                    // Characters beyond BMP are encoded as surrogate pairs for compatibility
+                    let code_point = c as u32;
+                    let h = ((code_point - 0x10000) / 0x400) + 0xd800;
+                    let l = ((code_point - 0x10000) % 0x400) + 0xdc00;
+                    write!(&mut buf, "\\u{h:04x}\\u{l:04x}").unwrap();
+                } else {
+                    write!(&mut buf, "\\u{:04x}", c as u16).unwrap();
+                }
+            }
+        }
+    }
+
+    CowStr::Owned(buf)
 }
 
 /// Returns `(quote_char, value)`

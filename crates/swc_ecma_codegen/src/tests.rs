@@ -893,6 +893,71 @@ export default {
 }
 
 #[test]
+fn ascii_only_regex_1() {
+    test_all(
+        r"/[\w@Ø-ÞÀ-Öß-öø-ÿ]/",
+        r"/[\w@Ø-ÞÀ-Öß-öø-ÿ]/;",
+        r"/[\w@Ø-ÞÀ-Öß-öø-ÿ]/",
+        Config {
+            ascii_only: false,
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
+fn ascii_only_regex_2() {
+    test_all(
+        r"/[\w@Ø-ÞÀ-Öß-öø-ÿ]/",
+        r"/[\w@\xd8-\xde\xc0-\xd6\xdf-\xf6\xf8-\xff]/;",
+        r"/[\w@\xd8-\xde\xc0-\xd6\xdf-\xf6\xf8-\xff]/",
+        Config {
+            ascii_only: true,
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
+fn ascii_only_regex_3() {
+    test_all(
+        r"/[😊❤️]/g",
+        r"/[😊❤️]/g;",
+        r"/[😊❤️]/g",
+        Config {
+            ascii_only: false,
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
+fn ascii_only_regex_4() {
+    test_all(
+        r"/[😊❤️]/g",
+        r"/[\ud83d\ude0a\u2764\ufe0f]/g;",
+        r"/[\ud83d\ude0a\u2764\ufe0f]/g",
+        Config {
+            ascii_only: true,
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
+fn ascii_only_regex_5() {
+    test_all(
+        r"/test/",
+        r"/test/;",
+        r"/test/",
+        Config {
+            ascii_only: true,
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
 fn emit_type_import_statement_named() {
     let from = r#"
       import type { X } from "y";
