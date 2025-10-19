@@ -46,6 +46,7 @@ mod iife;
 mod inline;
 mod loops;
 mod ops;
+mod params;
 mod props;
 mod rest_params;
 mod sequences;
@@ -2094,6 +2095,9 @@ impl VisitMut for Optimizer<'_> {
 
         self.drop_unused_params(&mut f.function.params);
 
+        // Inline parameters that are consistently passed the same constant value
+        self.inline_function_parameters(&mut f.function, &f.ident.to_id());
+
         let ctx = self
             .ctx
             .clone()
@@ -2110,6 +2114,9 @@ impl VisitMut for Optimizer<'_> {
             self.functions
                 .entry(ident.to_id())
                 .or_insert_with(|| FnMetadata::from(&*e.function));
+
+            // Inline parameters for named function expressions
+            self.inline_function_parameters(&mut e.function, &ident.to_id());
         }
 
         if !self.options.keep_fnames {
