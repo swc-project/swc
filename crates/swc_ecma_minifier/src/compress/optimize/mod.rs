@@ -44,6 +44,7 @@ mod evaluate;
 mod if_return;
 mod iife;
 mod inline;
+mod inline_params;
 mod loops;
 mod ops;
 mod props;
