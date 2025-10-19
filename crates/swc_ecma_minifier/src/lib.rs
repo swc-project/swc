@@ -55,8 +55,7 @@ use crate::{
     option::{CompressOptions, ExtraOptions, MinifyOptions},
     pass::{
         global_defs, mangle_names::idents_to_preserve, mangle_props::mangle_properties,
-        merge_exports::merge_exports, merge_imports::merge_imports,
-        postcompress::postcompress_optimizer,
+        merge_exports::merge_exports, postcompress::postcompress_optimizer,
     },
     // program_data::ModuleInfo,
     timing::Timings,
@@ -222,12 +221,6 @@ pub fn optimize(
 
         if let Some(property_mangle_options) = &mangle.props {
             mangle_properties(&mut n, property_mangle_options, chars);
-        }
-    }
-
-    if let Some(c) = &options.compress {
-        if c.merge_imports {
-            n.visit_mut_with(&mut merge_imports());
         }
     }
 
