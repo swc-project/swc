@@ -59,7 +59,3 @@ testing = { version = "16.0.0", path = "../testing" }
 
 [[example]]
 name = "lexer"
-
-[[bench]]
-harness = false
-name    = "lexer"
