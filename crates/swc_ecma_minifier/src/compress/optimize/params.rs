@@ -106,11 +106,11 @@ impl Optimizer<'_> {
                 let arg_value = if param_idx < call_site.len() {
                     call_site[param_idx].clone()
                 } else {
-                    // Implicit undefined
+                    // Implicit undefined - use unresolved context
                     Some(Box::new(Expr::Ident(Ident::new(
                         "undefined".into(),
                         DUMMY_SP,
-                        Default::default(),
+                        self.ctx.expr_ctx.unresolved_ctxt,
                     ))))
                 };
 
@@ -160,8 +160,10 @@ impl Optimizer<'_> {
         &mut self,
         f: &mut Function,
         params_to_inline: &[(usize, Box<Expr>)],
-        _fn_id: &Id,
+        fn_id: &Id,
     ) {
+        use rustc_hash::FxHashSet;
+
         // Sort in reverse order to remove from the end first
         let mut sorted_params = params_to_inline.to_vec();
         sorted_params.sort_by(|a, b| b.0.cmp(&a.0));
@@ -169,7 +171,12 @@ impl Optimizer<'_> {
         // Collect const declarations to add at the beginning of function body
         let mut const_decls = Vec::new();
 
+        // Track which parameter indices are being inlined
+        let mut inlined_indices = FxHashSet::default();
+
         for (param_idx, value) in &sorted_params {
+            inlined_indices.insert(*param_idx);
+
             if let Some(param) = f.params.get(*param_idx) {
                 if let Pat::Ident(ident) = &param.pat {
                     // Create const declaration: const paramName = value;
@@ -201,8 +208,10 @@ impl Optimizer<'_> {
             body.stmts = const_decls;
         }
 
-        // Update call sites to remove corresponding arguments
-        // This will be done when visiting call expressions
+        // Store the inlined parameter indices for later use when visiting call
+        // sites
+        self.inlined_params.insert(fn_id.clone(), inlined_indices);
+
         self.changed = true;
         report_change!(
             "params: Inlined {} parameter(s) for function '{}{:?}'",
@@ -273,6 +282,49 @@ impl Optimizer<'_> {
             (Expr::Paren(ParenExpr { expr: a, .. }), b) => Self::expr_eq(a, b),
             (a, Expr::Paren(ParenExpr { expr: b, .. })) => Self::expr_eq(a, b),
             _ => false,
+        }
+    }
+
+    /// Remove arguments from a call expression that correspond to inlined
+    /// parameters.
+    ///
+    /// This method should be called when visiting a call expression to ensure
+    /// that arguments are removed for parameters that have been inlined.
+    pub(super) fn remove_inlined_call_args(&mut self, call: &mut CallExpr) {
+        // Get the function identifier from the callee
+        let fn_id = match &call.callee {
+            Callee::Expr(expr) => match &**expr {
+                Expr::Ident(ident) => ident.to_id(),
+                _ => return, // Not a simple identifier call
+            },
+            _ => return,
+        };
+
+        // Check if this function has inlined parameters
+        let inlined_indices = match self.inlined_params.get(&fn_id) {
+            Some(indices) if !indices.is_empty() => indices,
+            _ => return,
+        };
+
+        // Remove arguments at the inlined parameter indices
+        // We need to iterate in reverse order to avoid index shifting issues
+        let mut indices_to_remove: Vec<usize> = inlined_indices.iter().copied().collect();
+        indices_to_remove.sort_by(|a, b| b.cmp(a)); // Sort in descending order
+
+        for idx in indices_to_remove {
+            if idx < call.args.len() {
+                call.args.remove(idx);
+                self.changed = true;
+            }
+        }
+
+        if !inlined_indices.is_empty() {
+            report_change!(
+                "params: Removed {} argument(s) from call to '{}{:?}'",
+                inlined_indices.len(),
+                fn_id.0,
+                fn_id.1
+            );
         }
     }
 }
