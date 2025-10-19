@@ -5,3 +5,4 @@
 5. Write unit tests for your code.
 6. When instructed to fix tests, do not remove or modify existing tests.
 7. Write documentation for your code.
+8. Run `cargo fmt --all` before commiting files.
