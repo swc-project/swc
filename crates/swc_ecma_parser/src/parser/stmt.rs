@@ -995,7 +995,7 @@ impl<I: Tokens> Parser<I> {
         debug_tracing!(self, "parse_stmt_like");
 
         let start = self.cur_pos();
-        let decorators = if self.input().get_cur().token() == Token::At {
+        let decorators = if self.input().get_cur().token == Token::At {
             self.parse_decorators(true)?
         } else {
             vec![]
