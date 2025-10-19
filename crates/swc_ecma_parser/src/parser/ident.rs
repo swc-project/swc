@@ -23,8 +23,8 @@ impl<I: Tokens> Parser<I> {
     /// This allows idents like `catch`.
     pub(crate) fn parse_ident_name(&mut self) -> PResult<IdentName> {
         let token_and_span = self.input().get_cur();
-        let start = token_and_span.span().lo;
-        let cur = token_and_span.token();
+        let start = token_and_span.span.lo;
+        let cur = token_and_span.token;
         let w = if cur.is_word() {
             self.input_mut().expect_word_token_and_bump()
         } else if cur == Token::JSXName && self.ctx().contains(Context::InType) {
@@ -114,9 +114,9 @@ impl<I: Tokens> Parser<I> {
     ) -> PResult<Option<BindingIdent>> {
         trace_cur!(self, parse_opt_binding_ident);
         let token_and_span = self.input().get_cur();
-        let cur = token_and_span.token();
+        let cur = token_and_span.token;
         if cur == Token::This && self.input().syntax().typescript() {
-            let start = token_and_span.span().lo;
+            let start = token_and_span.span.lo;
             Ok(Some(
                 Ident::new_no_ctxt(atom!("this"), self.span(start)).into(),
             ))
@@ -134,12 +134,12 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_ident);
 
         let token_and_span = self.input().get_cur();
-        if !token_and_span.token().is_word() {
+        if !token_and_span.token.is_word() {
             syntax_error!(self, SyntaxError::ExpectedIdent)
         }
-        let span = token_and_span.span();
+        let span = token_and_span.span;
         let start = span.lo;
-        let t = token_and_span.token();
+        let t = token_and_span.token;
 
         // Spec:
         // It is a Syntax Error if this phrase is contained in strict mode code and the

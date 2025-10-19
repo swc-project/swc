@@ -1124,26 +1124,6 @@ impl TokenAndSpan {
             span,
         }
     }
-
-    #[inline(always)]
-    pub fn token(&self) -> Token {
-        self.token
-    }
-
-    #[inline(always)]
-    pub fn take_token(&self) -> Token {
-        self.token
-    }
-
-    #[inline(always)]
-    pub fn had_line_break(&self) -> bool {
-        self.had_line_break
-    }
-
-    #[inline]
-    pub fn span(&self) -> Span {
-        self.span
-    }
 }
 
 #[derive(Clone)]

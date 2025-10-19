@@ -289,11 +289,11 @@ impl<I: Tokens> Buffer<I> {
         } else if let Some(next) = self.iter.next() {
             next
         } else {
-            let eof_pos = self.cur.span().hi;
+            let eof_pos = self.cur.span.hi;
             let eof_span = Span::new_with_checked(eof_pos, eof_pos);
             TokenAndSpan::new(Token::Eof, eof_span, true)
         };
-        self.prev_span = self.cur.span();
+        self.prev_span = self.cur.span;
         self.set_cur(next);
     }
 
@@ -381,7 +381,7 @@ impl<I: Tokens> Buffer<I> {
 
 impl<I: Tokens> Buffer<I> {
     pub fn had_line_break_before_cur(&self) -> bool {
-        self.get_cur().had_line_break()
+        self.get_cur().had_line_break
     }
 
     /// This returns true on eof.
@@ -418,7 +418,7 @@ impl<I: Tokens> Buffer<I> {
         }
         let next = self.next_mut().take().unwrap();
         let cur = self.get_cur();
-        let cur_token = cur.token();
+        let cur_token = cur.token;
         let token = if cur_token == Token::Gt {
             let next_token = next.token();
             if next_token == Token::Gt {
@@ -460,7 +460,7 @@ impl<I: Tokens> Buffer<I> {
             return;
         };
         let span = span.with_hi(next.span().hi);
-        let token = TokenAndSpan::new(token, span, cur.had_line_break());
+        let token = TokenAndSpan::new(token, span, cur.had_line_break);
         self.set_cur(token);
     }
 
@@ -481,12 +481,12 @@ impl<I: Tokens> Buffer<I> {
     /// Returns start of current token.
     #[inline]
     pub fn cur_pos(&self) -> BytePos {
-        self.get_cur().span().lo
+        self.get_cur().span.lo
     }
 
     #[inline]
     pub fn cur_span(&self) -> Span {
-        self.get_cur().span()
+        self.get_cur().span
     }
 
     /// Returns last byte position of previous token.

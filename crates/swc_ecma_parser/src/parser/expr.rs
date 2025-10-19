@@ -169,8 +169,8 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_unary_expr);
 
         let token_and_span = self.input().get_cur();
-        let start = token_and_span.span().lo;
-        let cur = token_and_span.token();
+        let start = token_and_span.span.lo;
+        let cur = token_and_span.token;
 
         if cur == Token::Lt && self.input().syntax().typescript() && !self.input().syntax().jsx() {
             self.bump(); // consume `<`
@@ -369,8 +369,8 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_lhs_expr);
 
         let token_and_span = self.input().get_cur();
-        let start = token_and_span.span().lo;
-        let cur = token_and_span.token();
+        let start = token_and_span.span.lo;
+        let cur = token_and_span.token;
 
         // `super()` can't be handled from parse_new_expr()
         if cur == Token::Super {
@@ -864,7 +864,7 @@ impl<I: Tokens> Parser<I> {
     pub(crate) fn parse_str_lit(&mut self) -> swc_ecma_ast::Str {
         debug_assert!(self.input().cur() == Token::Str);
         let token_and_span = self.input().get_cur();
-        let start = token_and_span.span().lo;
+        let start = token_and_span.span.lo;
         let (value, raw) = self.input_mut().expect_string_token_and_bump();
         swc_ecma_ast::Str {
             span: self.span(start),
@@ -875,8 +875,8 @@ impl<I: Tokens> Parser<I> {
 
     pub(crate) fn parse_lit(&mut self) -> PResult<Lit> {
         let token_and_span = self.input().get_cur();
-        let start = token_and_span.span().lo;
-        let cur = token_and_span.token();
+        let start = token_and_span.span.lo;
+        let cur = token_and_span.token;
         let v = if cur == Token::Null {
             self.bump();
             let span = self.span(start);
@@ -2533,7 +2533,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         let token_and_span = self.input().get_cur();
-        let cur = token_and_span.token();
+        let cur = token_and_span.token;
 
         if cur == Token::Class {
             return self.parse_class_expr(start, decorators.unwrap_or_default());
@@ -2627,7 +2627,7 @@ impl<I: Tokens> Parser<I> {
             Ok(id.into())
         };
 
-        let token_start = token_and_span.span().lo;
+        let token_start = token_and_span.span.lo;
         if cur == Token::Let || (self.input().syntax().typescript() && cur == Token::Await) {
             let ctx = self.ctx();
             let id = self.parse_ident(
