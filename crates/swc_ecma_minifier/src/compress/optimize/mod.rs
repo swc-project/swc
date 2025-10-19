@@ -92,6 +92,7 @@ pub(super) fn optimizer<'a>(
         ctx,
         mode,
         functions: Default::default(),
+        inlined_params: Default::default(),
     }
 }
 
@@ -241,6 +242,10 @@ struct Optimizer<'a> {
     mode: &'a dyn Mode,
 
     functions: Box<FxHashMap<Id, FnMetadata>>,
+
+    /// Tracks which parameter indices have been inlined for each function.
+    /// Maps function ID to a set of parameter indices that were removed.
+    inlined_params: Box<FxHashMap<Id, FxHashSet<usize>>>,
 }
 
 #[derive(Default)]
@@ -1684,6 +1689,9 @@ impl VisitMut for Optimizer<'_> {
 
         self.ignore_unused_args_of_iife(e);
         self.inline_args_of_iife(e);
+
+        // Remove arguments for parameters that have been inlined
+        self.remove_inlined_call_args(e);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(level = "debug", skip_all))]

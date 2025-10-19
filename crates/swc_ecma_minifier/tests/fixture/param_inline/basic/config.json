@@ -1,3 +1,4 @@
 {
-  "inline": 2
+  "inline": 2,
+  "reduce_vars": true
 }
