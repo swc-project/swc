@@ -291,7 +291,7 @@ pub enum Token {
 
 impl Token {
     #[inline(always)]
-    pub fn is_ident_ref(&self, ctx: Context) -> bool {
+    pub fn is_ident_ref(self, ctx: Context) -> bool {
         self.is_word() && !self.is_reserved(ctx)
     }
 
@@ -394,8 +394,8 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn is_str_raw_content<I: Tokens>(&self, content: &str, buffer: &Buffer<I>) -> bool {
-        Self::Str.eq(self)
+    pub fn is_str_raw_content<I: Tokens>(self, content: &str, buffer: &Buffer<I>) -> bool {
+        self == Token::Str
             && if let Some(TokenValue::Str { raw, .. }) = buffer.get_token_value() {
                 raw == content
             } else {
@@ -429,7 +429,7 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    pub fn take_known_ident(&self) -> Atom {
+    pub fn take_known_ident(self) -> Atom {
         self.as_known_ident_atom().unwrap()
     }
 
@@ -493,7 +493,7 @@ impl std::fmt::Debug for Token {
 }
 
 impl Token {
-    pub fn is_reserved(&self, ctx: Context) -> bool {
+    pub fn is_reserved(self, ctx: Context) -> bool {
         match self {
             Token::Let | Token::Static => ctx.contains(Context::Strict),
             Token::Await => {
@@ -1104,7 +1104,7 @@ impl TokenAndSpan {
     }
 
     #[inline(always)]
-    pub fn take_token(self) -> Token {
+    pub fn take_token(&self) -> Token {
         self.token
     }
 
