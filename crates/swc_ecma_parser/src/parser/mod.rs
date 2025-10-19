@@ -463,7 +463,7 @@ impl<I: Tokens> Parser<I> {
             self.bump();
             true
         } else {
-            cur == Token::RBrace || cur == Token::Eof || self.input().had_line_break_before_cur()
+            cur == Token::RBrace || self.input().had_line_break_before_cur() || cur == Token::Eof
         }
     }
 
