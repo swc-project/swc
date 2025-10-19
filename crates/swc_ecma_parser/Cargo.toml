@@ -65,6 +65,11 @@ name = "typescript"
 
 [[bench]]
 harness = false
+name    = "lexer"
+
+
+[[bench]]
+harness = false
 name    = "compare"
 
 
