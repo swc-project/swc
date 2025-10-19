@@ -128,6 +128,11 @@ pub(crate) struct VarUsageInfo {
     infects_to: Vec<Access>,
     /// Only **string** properties.
     pub(crate) accessed_props: FxHashMap<Wtf8Atom, u32>,
+    pub(crate) accessed_props: FxHashMap<Atom, u32>,
+
+    /// Tracks call sites for functions. Maps parameter index to list of
+    /// argument expressions. Used for parameter inlining optimization.
+    pub(crate) call_site_args: Option<Vec<Vec<Option<Box<Expr>>>>>,
 }
 
 impl Default for VarUsageInfo {
@@ -146,6 +151,7 @@ impl Default for VarUsageInfo {
             callee_count: Default::default(),
             infects_to: Default::default(),
             accessed_props: Default::default(),
+            call_site_args: Default::default(),
         }
     }
 }
@@ -553,6 +559,20 @@ impl Storage for ProgramData {
 
     fn get_var_data(&self, id: Id) -> Option<&Self::VarData> {
         self.vars.get(&id).map(|v| v.as_ref())
+    }
+
+    fn record_call_site_args(&mut self, callee_id: Id, args: Vec<Option<Box<Expr>>>) {
+        let var = self.vars.entry(callee_id).or_default();
+
+        // Initialize the call_site_args if it doesn't exist
+        if var.call_site_args.is_none() {
+            var.call_site_args = Some(Vec::new());
+        }
+
+        // Add this call site's arguments
+        if let Some(ref mut call_sites) = var.call_site_args {
+            call_sites.push(args);
+        }
     }
 }
 
