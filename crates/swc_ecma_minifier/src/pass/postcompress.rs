@@ -72,8 +72,10 @@ struct ImportKey {
 
 impl ImportKey {
     fn from_import_decl(decl: &ImportDecl) -> Self {
-        use std::collections::hash_map::DefaultHasher;
-        use std::hash::{Hash, Hasher};
+        use std::{
+            collections::hash_map::DefaultHasher,
+            hash::{Hash, Hasher},
+        };
 
         let with_hash = decl.with.as_ref().map(|w| {
             let mut hasher = DefaultHasher::new();
@@ -130,7 +132,6 @@ impl SpecifierKey {
 /// This optimization reduces bundle size by combining multiple imports from
 /// the same source into a single import declaration.
 fn merge_imports_in_module(module: &mut Module) {
-
     // Group imports by source and metadata
     let mut import_groups: FxHashMap<ImportKey, Vec<ImportDecl>> = FxHashMap::default();
 
