@@ -80,7 +80,7 @@ impl ImportKey {
         let with_hash = decl.with.as_ref().map(|w| {
             let mut hasher = DefaultHasher::new();
             // Hash the with clause structure
-            format!("{:?}", w).hash(&mut hasher);
+            format!("{w:?}").hash(&mut hasher);
             hasher.finish()
         });
 
@@ -145,7 +145,7 @@ fn merge_imports_in_module(module: &mut Module) {
             let key = ImportKey::from_import_decl(import_decl);
             import_groups
                 .entry(key)
-                .or_insert_with(Vec::new)
+                .or_default()
                 .push(import_decl.clone());
         }
     }
@@ -210,8 +210,9 @@ fn merge_import_decls(decls: &[ImportDecl], key: &ImportKey) -> Vec<ImportDecl> 
                 }
                 ImportSpecifier::Named(_) => {
                     let spec_key = SpecifierKey::from_specifier(spec);
-                    if !seen_named.contains_key(&spec_key) {
-                        seen_named.insert(spec_key, ());
+                    if let std::collections::hash_map::Entry::Vacant(e) = seen_named.entry(spec_key)
+                    {
+                        e.insert(());
                         named_specs.push(spec.clone());
                     }
                 }
