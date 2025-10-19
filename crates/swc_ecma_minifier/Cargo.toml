@@ -83,6 +83,6 @@ swc_ecma_testing = { version = "16.0.0", path = "../swc_ecma_testing" }
 swc_malloc       = { version = "1.2.4", path = "../swc_malloc" }
 testing          = { version = "16.0.0", path = "../testing" }
 
-[[bench]]
-harness = false
-name    = "full"
+# [[bench]]
+# harness = false
+# name    = "full"
