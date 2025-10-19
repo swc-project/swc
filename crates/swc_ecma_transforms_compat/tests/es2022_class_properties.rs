@@ -4620,7 +4620,7 @@ console.log(new Foo().search())"
 );
 
 // Test for AutoAccessor transformation - basic functionality
-test_exec!(
+test!(
     Syntax::Es(swc_ecma_parser::EsSyntax {
         decorators: true,
         auto_accessors: true,
@@ -4641,7 +4641,7 @@ expect(store.count).toBe(5);
 );
 
 // Test for AutoAccessor transformation - static accessor
-test_exec!(
+test!(
     Syntax::Es(swc_ecma_parser::EsSyntax {
         decorators: true,
         auto_accessors: true,
@@ -4661,7 +4661,7 @@ expect(Store.count).toBe(100);
 );
 
 // Test for AutoAccessor transformation - with methods
-test_exec!(
+test!(
     Syntax::Es(swc_ecma_parser::EsSyntax {
         decorators: true,
         auto_accessors: true,
