@@ -4615,6 +4615,74 @@ class Foo {
     this.#priv?.()
   }
 }
-    
+
 console.log(new Foo().search())"
+);
+
+// Test for AutoAccessor transformation - basic functionality
+test_exec!(
+    Syntax::Es(swc_ecma_parser::EsSyntax {
+        decorators: true,
+        auto_accessors: true,
+        ..Default::default()
+    }),
+    |t| tr(t),
+    auto_accessor_basic,
+    r#"
+class Store {
+  accessor count = 0;
+}
+
+const store = new Store();
+expect(store.count).toBe(0);
+store.count = 5;
+expect(store.count).toBe(5);
+"#
+);
+
+// Test for AutoAccessor transformation - static accessor
+test_exec!(
+    Syntax::Es(swc_ecma_parser::EsSyntax {
+        decorators: true,
+        auto_accessors: true,
+        ..Default::default()
+    }),
+    |t| tr(t),
+    auto_accessor_static,
+    r#"
+class Store {
+  static accessor count = 42;
+}
+
+expect(Store.count).toBe(42);
+Store.count = 100;
+expect(Store.count).toBe(100);
+"#
+);
+
+// Test for AutoAccessor transformation - with methods
+test_exec!(
+    Syntax::Es(swc_ecma_parser::EsSyntax {
+        decorators: true,
+        auto_accessors: true,
+        ..Default::default()
+    }),
+    |t| tr(t),
+    auto_accessor_with_methods,
+    r#"
+class Store {
+  accessor count = 0;
+
+  increment() {
+    this.count++;
+  }
+}
+
+const store = new Store();
+expect(store.count).toBe(0);
+store.count = 5;
+expect(store.count).toBe(5);
+store.increment();
+expect(store.count).toBe(6);
+"#
 );

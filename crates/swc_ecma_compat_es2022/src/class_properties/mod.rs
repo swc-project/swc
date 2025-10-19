@@ -484,6 +484,46 @@ impl ClassProperties {
                             };
                         }
 
+                        ClassMember::AutoAccessor(accessor) => {
+                            // Register the private backing field for the auto-accessor
+                            let private_field_name = match &accessor.key {
+                                Key::Private(k) => {
+                                    format!("__private_accessor_{}", k.name)
+                                }
+                                Key::Public(k) => match k {
+                                    PropName::Ident(IdentName { sym, .. }) => {
+                                        format!("__accessor_{}", sym)
+                                    }
+                                    PropName::Str(s) => {
+                                        format!("__accessor_{}", s.value)
+                                    }
+                                    PropName::Num(n) => {
+                                        format!("__accessor_{}", n.value)
+                                    }
+                                    PropName::Computed(_) => {
+                                        "__accessor_computed".to_string()
+                                    }
+                                    PropName::BigInt(b) => {
+                                        format!("__accessor_{}", b.value)
+                                    }
+                                    #[cfg(swc_ast_unknown)]
+                                    _ => panic!("unable to access unknown nodes"),
+                                },
+                                #[cfg(swc_ast_unknown)]
+                                _ => panic!("unable to access unknown nodes"),
+                            };
+
+                            private_map.insert(
+                                private_field_name.into(),
+                                PrivateKind {
+                                    is_method: false,
+                                    is_static: accessor.is_static,
+                                    has_getter: false,
+                                    has_setter: false,
+                                },
+                            );
+                        }
+
                         _ => (),
                     };
                 }
@@ -943,8 +983,258 @@ impl ClassProperties {
                     unreachable!("static_blocks pass should remove this")
                 }
 
-                ClassMember::AutoAccessor(..) => {
-                    unreachable!("auto_accessor pass should remove this")
+                ClassMember::AutoAccessor(mut accessor) => {
+                    let accessor_span = accessor.span();
+
+                    // Generate a unique private field name for the backing storage
+                    let private_field_name = match &accessor.key {
+                        Key::Private(k) => {
+                            format!("__private_accessor_{}", k.name)
+                        }
+                        Key::Public(k) => match k {
+                            PropName::Ident(IdentName { sym, .. }) => {
+                                format!("__accessor_{}", sym)
+                            }
+                            PropName::Str(s) => {
+                                format!("__accessor_{}", s.value)
+                            }
+                            PropName::Num(n) => {
+                                format!("__accessor_{}", n.value)
+                            }
+                            PropName::Computed(_) => {
+                                "__accessor_computed".to_string()
+                            }
+                            PropName::BigInt(b) => {
+                                format!("__accessor_{}", b.value)
+                            }
+                            #[cfg(swc_ast_unknown)]
+                            _ => panic!("unable to access unknown nodes"),
+                        },
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
+                    };
+
+                    let private_key = PrivateName {
+                        span: DUMMY_SP,
+                        name: private_field_name.into(),
+                    };
+
+                    // Process the initializer value
+                    let mut value = accessor.value.take();
+
+                    if let Some(ref mut val) = value {
+                        val.visit_mut_with(&mut NewTargetInProp);
+                        vars.extend(visit_private_in_expr(
+                            val,
+                            &self.private,
+                            self.c,
+                            self.unresolved_mark,
+                        ));
+
+                        if accessor.is_static {
+                            if let (Some(super_class), None) = (&mut class.super_class, &super_ident) {
+                                let (ident, aliased) = alias_if_required(&*super_class, "_ref");
+                                super_ident = Some(ident.clone());
+
+                                if aliased {
+                                    vars.push(VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: ident.clone().into(),
+                                        init: None,
+                                        definite: false,
+                                    });
+                                    let span = super_class.span();
+                                    **super_class = AssignExpr {
+                                        span,
+                                        op: op!("="),
+                                        left: ident.into(),
+                                        right: super_class.take(),
+                                    }
+                                    .into()
+                                }
+                            }
+
+                            val.visit_mut_with(&mut SuperFieldAccessFolder {
+                                class_name: &class_ident,
+                                constructor_this_mark: None,
+                                is_static: true,
+                                folding_constructor: false,
+                                in_injected_define_property_call: false,
+                                in_nested_scope: false,
+                                this_alias_mark: None,
+                                constant_super: self.c.constant_super,
+                                super_class: &super_ident,
+                                in_pat: false,
+                            });
+                            val.visit_mut_with(&mut ThisInStaticFolder {
+                                ident: class_ident.clone(),
+                            });
+                        }
+                    }
+
+                    if !accessor.is_static {
+                        value.visit_with(&mut UsedNameCollector {
+                            used_names: &mut used_names,
+                        });
+                    }
+
+                    let init_value = value.unwrap_or_else(|| Expr::undefined(accessor_span));
+
+                    // Generate the private field identifier for the WeakMap/property
+                    let private_ident = Ident::new(
+                        private_key.name.clone(),
+                        DUMMY_SP,
+                        SyntaxContext::empty().apply_mark(self.private.cur_mark()),
+                    );
+
+                    // Add the private field initialization
+                    let span = PURE_SP;
+                    if self.c.private_as_properties {
+                        vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            definite: false,
+                            name: private_ident.clone().into(),
+                            init: Some(
+                                CallExpr {
+                                    span,
+                                    callee: helper!(class_private_field_loose_key),
+                                    args: vec![private_ident.sym.clone().as_arg()],
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
+                        });
+                    } else if !accessor.is_static {
+                        vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            definite: false,
+                            name: private_ident.clone().into(),
+                            init: Some(
+                                NewExpr {
+                                    span,
+                                    callee: Box::new(quote_ident!("WeakMap").into()),
+                                    args: Some(Default::default()),
+                                    ..Default::default()
+                                }
+                                .into(),
+                            ),
+                        });
+                    }
+
+                    // Add the private property initialization to the appropriate list
+                    let priv_init = MemberInit::PrivProp(PrivProp {
+                        span: accessor_span,
+                        name: private_ident,
+                        value: init_value,
+                    });
+
+                    if accessor.is_static {
+                        extra_inits.push(priv_init);
+                    } else {
+                        constructor_inits.push(priv_init);
+                    }
+
+                    // Convert Key to PropName for ClassMethod
+                    let prop_name = match accessor.key {
+                        Key::Private(k) => {
+                            // For private accessors, we create public methods with the same name
+                            // This shouldn't normally happen as private auto-accessors would have
+                            // private getters/setters, but we handle it for completeness
+                            PropName::Ident(IdentName {
+                                span: k.span,
+                                sym: k.name,
+                            })
+                        }
+                        Key::Public(p) => p,
+                        #[cfg(swc_ast_unknown)]
+                        _ => panic!("unable to access unknown nodes"),
+                    };
+
+                    // Create getter method
+                    let getter = ClassMethod {
+                        span: DUMMY_SP,
+                        key: prop_name.clone(),
+                        function: Box::new(Function {
+                            params: Vec::new(),
+                            decorators: Default::default(),
+                            span: DUMMY_SP,
+                            ctxt: Default::default(),
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![Stmt::Return(ReturnStmt {
+                                    span: DUMMY_SP,
+                                    arg: Some(Box::new(Expr::Member(MemberExpr {
+                                        span: DUMMY_SP,
+                                        obj: ThisExpr { span: DUMMY_SP }.into(),
+                                        prop: MemberProp::PrivateName(private_key.clone()),
+                                    }))),
+                                })],
+                                ..Default::default()
+                            }),
+                            is_generator: false,
+                            is_async: false,
+                            type_params: None,
+                            return_type: accessor.type_ann.clone(),
+                        }),
+                        kind: MethodKind::Getter,
+                        is_static: accessor.is_static,
+                        accessibility: accessor.accessibility,
+                        is_abstract: false,
+                        is_optional: false,
+                        is_override: accessor.is_override,
+                    };
+
+                    // Create setter method
+                    let param_ident = private_ident!("_v");
+                    let setter = ClassMethod {
+                        span: DUMMY_SP,
+                        key: prop_name,
+                        function: Box::new(Function {
+                            params: vec![Param {
+                                span: DUMMY_SP,
+                                decorators: Default::default(),
+                                pat: Pat::Ident(BindingIdent {
+                                    id: param_ident.clone(),
+                                    type_ann: accessor.type_ann,
+                                }),
+                            }],
+                            decorators: Default::default(),
+                            span: DUMMY_SP,
+                            ctxt: Default::default(),
+                            body: Some(BlockStmt {
+                                span: DUMMY_SP,
+                                stmts: vec![Stmt::Expr(ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: Box::new(Expr::Assign(AssignExpr {
+                                        span: DUMMY_SP,
+                                        op: op!("="),
+                                        left: MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: ThisExpr { span: DUMMY_SP }.into(),
+                                            prop: MemberProp::PrivateName(private_key),
+                                        }
+                                        .into(),
+                                        right: param_ident.into(),
+                                    })),
+                                })],
+                                ..Default::default()
+                            }),
+                            is_generator: false,
+                            is_async: false,
+                            type_params: None,
+                            return_type: None,
+                        }),
+                        kind: MethodKind::Setter,
+                        is_static: accessor.is_static,
+                        accessibility: accessor.accessibility,
+                        is_abstract: false,
+                        is_optional: false,
+                        is_override: accessor.is_override,
+                    };
+
+                    // Add getter and setter to class members
+                    members.push(ClassMember::Method(getter));
+                    members.push(ClassMember::Method(setter));
                 }
 
                 #[cfg(swc_ast_unknown)]
@@ -1080,6 +1370,10 @@ impl Visit for ShouldWork {
     }
 
     fn visit_constructor(&mut self, _: &Constructor) {
+        self.found = true;
+    }
+
+    fn visit_auto_accessor(&mut self, _: &AutoAccessor) {
         self.found = true;
     }
 }
