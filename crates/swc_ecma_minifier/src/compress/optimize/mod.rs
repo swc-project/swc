@@ -2323,6 +2323,11 @@ impl VisitMut for Optimizer<'_> {
         let ctx = self.ctx.clone().with(BitCtx::TopLevel, true);
         self.with_ctx(ctx).handle_stmt_likes(stmts, true);
 
+        // Apply parameter inlining optimization
+        if self.inline_function_params(stmts) {
+            self.changed = true;
+        }
+
         if self.vars.inline_with_multi_replacer(stmts) {
             self.changed = true;
         }
@@ -2688,6 +2693,11 @@ impl VisitMut for Optimizer<'_> {
             stmts.visit_with(&mut AssertValid);
         }
         self.handle_stmts(stmts, false);
+
+        // Apply parameter inlining optimization
+        if self.inline_function_params(stmts) {
+            self.changed = true;
+        }
 
         if stmts.len() == 1 {
             if let Stmt::Expr(ExprStmt { expr, .. }) = &stmts[0] {
