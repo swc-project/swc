@@ -354,7 +354,7 @@ pub fn encode_regex_for_ascii(pattern: &str, ascii_only: bool) -> CowStr {
                     let code_point = c as u32;
                     let h = ((code_point - 0x10000) / 0x400) + 0xd800;
                     let l = ((code_point - 0x10000) % 0x400) + 0xdc00;
-                    write!(&mut buf, "\\u{:04x}\\u{:04x}", h, l).unwrap();
+                    write!(&mut buf, "\\u{h:04x}\\u{l:04x}").unwrap();
                 } else {
                     write!(&mut buf, "\\u{:04x}", c as u16).unwrap();
                 }
