@@ -1,11 +1,11 @@
 //// [typeFromPropertyAssignment29.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-function ExpandoDecl(n) {
-    return n.toString();
+function ExpandoDecl() {
+    return "101";
 }
 ExpandoDecl.prop = 2, ExpandoDecl.m = function(n) {
     return n + 1;
-}, ExpandoDecl.prop, ExpandoDecl.m(12), ExpandoDecl(101).length;
+}, ExpandoDecl.prop, ExpandoDecl.m(12), ExpandoDecl().length;
 var Ns, ExpandoExpr = function(n) {
     return n.toString();
 };

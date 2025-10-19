@@ -1,10 +1,7 @@
 // Arrow function with inlinable parameter
-const process = (value)=>{
-    const multiplier = 2;
-    return value * multiplier;
-};
+const process = (value, multiplier)=>value * multiplier;
 // multiplier is always 2
-const result1 = process(10);
-const result2 = process(20);
-const result3 = process(30);
-console.log(result1, result2, result3);
+const result1 = 20;
+const result2 = 40;
+const result3 = 60;
+console.log(20, 40, 60);

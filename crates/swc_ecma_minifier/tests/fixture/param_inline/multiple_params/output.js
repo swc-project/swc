@@ -1,12 +1,8 @@
 // Multiple parameters that can all be inlined
-function calc() {
-  const a = 1;
-  const b = 2;
-  const c = 3;
-  return a + b + c;
+function calc(a, b, c) {
+    return a + b + c;
 }
-
 // All parameters are consistently the same
-calc();
-calc();
-calc();
+calc(1, 2, 3);
+calc(1, 2, 3);
+calc(1, 2, 3);
