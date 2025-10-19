@@ -81,6 +81,39 @@ impl Optimizer<'_> {
             return;
         }
 
+        // Skip very small functions with few call sites that are better optimized
+        // by function body inlining (reduce_fns/reduce_vars) rather than parameter
+        // inlining.
+        //
+        // Small functions (single statement, simple return) with 1-2 calls are prime
+        // candidates for function inlining, which handles parameter substitution
+        // differently:
+        //   function g(b) { return b; }
+        //   g(2)
+        // =>
+        //   (function(b) { return 2; })(0)  // function inlined, param kept
+        //
+        // vs our parameter inlining which would do:
+        //   function g() { const b = 2; return b; }
+        //   g()  // param removed
+        //
+        // However, larger functions or functions with 3+ call sites benefit more from
+        // parameter inlining as function body inlining becomes less effective.
+        if (self.options.reduce_fns || self.options.reduce_vars) && call_sites.len() <= 2 {
+            // Check if this is a small, simple function (candidate for function
+            // inlining)
+            let is_small_function = if let Some(body) = &f.body {
+                // Single statement functions are prime candidates for function inlining
+                body.stmts.len() == 1
+            } else {
+                false
+            };
+
+            if is_small_function {
+                return;
+            }
+        }
+
         // Analyze each parameter
         let mut params_to_inline: Vec<(usize, Box<Expr>)> = Vec::new();
 
