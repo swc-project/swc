@@ -488,23 +488,25 @@ impl ClassProperties {
                             // Register the private backing field for the auto-accessor
                             let private_field_name = match &accessor.key {
                                 Key::Private(k) => {
-                                    format!("__private_accessor_{}", k.name)
+                                    let name = &k.name;
+                                    format!("__private_accessor_{name}")
                                 }
                                 Key::Public(k) => match k {
                                     PropName::Ident(IdentName { sym, .. }) => {
-                                        format!("__accessor_{}", sym)
+                                        format!("__accessor_{sym}")
                                     }
                                     PropName::Str(s) => {
-                                        format!("__accessor_{}", s.value)
+                                        let value = &s.value;
+                                        format!("__accessor_{value}")
                                     }
                                     PropName::Num(n) => {
-                                        format!("__accessor_{}", n.value)
+                                        let value = n.value;
+                                        format!("__accessor_{value}")
                                     }
-                                    PropName::Computed(_) => {
-                                        "__accessor_computed".to_string()
-                                    }
+                                    PropName::Computed(_) => "__accessor_computed".to_string(),
                                     PropName::BigInt(b) => {
-                                        format!("__accessor_{}", b.value)
+                                        let value = &b.value;
+                                        format!("__accessor_{value}")
                                     }
                                     #[cfg(swc_ast_unknown)]
                                     _ => panic!("unable to access unknown nodes"),
@@ -989,23 +991,25 @@ impl ClassProperties {
                     // Generate a unique private field name for the backing storage
                     let private_field_name = match &accessor.key {
                         Key::Private(k) => {
-                            format!("__private_accessor_{}", k.name)
+                            let name = &k.name;
+                            format!("__private_accessor_{name}")
                         }
                         Key::Public(k) => match k {
                             PropName::Ident(IdentName { sym, .. }) => {
-                                format!("__accessor_{}", sym)
+                                format!("__accessor_{sym}")
                             }
                             PropName::Str(s) => {
-                                format!("__accessor_{}", s.value)
+                                let value = &s.value;
+                                format!("__accessor_{value}")
                             }
                             PropName::Num(n) => {
-                                format!("__accessor_{}", n.value)
+                                let value = n.value;
+                                format!("__accessor_{value}")
                             }
-                            PropName::Computed(_) => {
-                                "__accessor_computed".to_string()
-                            }
+                            PropName::Computed(_) => "__accessor_computed".to_string(),
                             PropName::BigInt(b) => {
-                                format!("__accessor_{}", b.value)
+                                let value = &b.value;
+                                format!("__accessor_{value}")
                             }
                             #[cfg(swc_ast_unknown)]
                             _ => panic!("unable to access unknown nodes"),
@@ -1032,7 +1036,9 @@ impl ClassProperties {
                         ));
 
                         if accessor.is_static {
-                            if let (Some(super_class), None) = (&mut class.super_class, &super_ident) {
+                            if let (Some(super_class), None) =
+                                (&mut class.super_class, &super_ident)
+                            {
                                 let (ident, aliased) = alias_if_required(&*super_class, "_ref");
                                 super_ident = Some(ident.clone());
 
@@ -1124,7 +1130,7 @@ impl ClassProperties {
                     // Add the private property initialization to the appropriate list
                     let priv_init = MemberInit::PrivProp(PrivProp {
                         span: accessor_span,
-                        name: private_ident,
+                        name: private_ident.clone(),
                         value: init_value,
                     });
 
@@ -1163,11 +1169,31 @@ impl ClassProperties {
                                 span: DUMMY_SP,
                                 stmts: vec![Stmt::Return(ReturnStmt {
                                     span: DUMMY_SP,
-                                    arg: Some(Box::new(Expr::Member(MemberExpr {
-                                        span: DUMMY_SP,
-                                        obj: ThisExpr { span: DUMMY_SP }.into(),
-                                        prop: MemberProp::PrivateName(private_key.clone()),
-                                    }))),
+                                    arg: Some(if accessor.is_static {
+                                        // For static accessors, use
+                                        // class_static_private_field_spec_get
+                                        Box::new(Expr::Call(CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: helper!(class_static_private_field_spec_get),
+                                            args: vec![
+                                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                                class_ident.clone().as_arg(),
+                                                private_ident.clone().as_arg(),
+                                            ],
+                                            ..Default::default()
+                                        }))
+                                    } else {
+                                        // For instance accessors, use class_private_field_get
+                                        Box::new(Expr::Call(CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: helper!(class_private_field_get),
+                                            args: vec![
+                                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                                private_ident.clone().as_arg(),
+                                            ],
+                                            ..Default::default()
+                                        }))
+                                    }),
                                 })],
                                 ..Default::default()
                             }),
@@ -1205,17 +1231,33 @@ impl ClassProperties {
                                 span: DUMMY_SP,
                                 stmts: vec![Stmt::Expr(ExprStmt {
                                     span: DUMMY_SP,
-                                    expr: Box::new(Expr::Assign(AssignExpr {
-                                        span: DUMMY_SP,
-                                        op: op!("="),
-                                        left: MemberExpr {
+                                    expr: if accessor.is_static {
+                                        // For static accessors, use
+                                        // class_static_private_field_spec_set
+                                        Box::new(Expr::Call(CallExpr {
                                             span: DUMMY_SP,
-                                            obj: ThisExpr { span: DUMMY_SP }.into(),
-                                            prop: MemberProp::PrivateName(private_key),
-                                        }
-                                        .into(),
-                                        right: param_ident.into(),
-                                    })),
+                                            callee: helper!(class_static_private_field_spec_set),
+                                            args: vec![
+                                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                                class_ident.clone().as_arg(),
+                                                private_ident.clone().as_arg(),
+                                                param_ident.clone().as_arg(),
+                                            ],
+                                            ..Default::default()
+                                        }))
+                                    } else {
+                                        // For instance accessors, use class_private_field_set
+                                        Box::new(Expr::Call(CallExpr {
+                                            span: DUMMY_SP,
+                                            callee: helper!(class_private_field_set),
+                                            args: vec![
+                                                ThisExpr { span: DUMMY_SP }.as_arg(),
+                                                private_ident.clone().as_arg(),
+                                                param_ident.clone().as_arg(),
+                                            ],
+                                            ..Default::default()
+                                        }))
+                                    },
                                 })],
                                 ..Default::default()
                             }),
