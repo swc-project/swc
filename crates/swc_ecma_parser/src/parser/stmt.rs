@@ -985,6 +985,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// Parse a statement, declaration or module item.
+    #[inline(always)]
     pub(crate) fn parse_stmt_like<Type: IsDirective + From<Stmt>>(
         &mut self,
         include_decl: bool,
