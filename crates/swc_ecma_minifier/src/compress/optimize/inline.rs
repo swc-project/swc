@@ -317,12 +317,31 @@ impl Optimizer<'_> {
                     ..
                 } = **usage;
                 let mut inc_usage = || {
-                    for i in match &*init {
+                    if let Some(i) = match &*init {
                         // The condition above filters `init` for literals, idents, and arrow
                         // functions.
-                        Expr::Ident(i) => Box::new(std::iter::once(i)),
-                        Expr::Arrow(arr) => arrow_simple_ident(arr),
-                        _ => Box::new(std::iter::empty()),
+                        Expr::Ident(i) => Some(i),
+                        Expr::Arrow(arr) => match &*arr.body {
+                            BlockStmtOrExpr::Expr(e) => match &**e {
+                                Expr::Call(i) => i.callee.as_expr().and_then(|e| e.as_ident()),
+                                _ => None,
+                            },
+                            BlockStmtOrExpr::BlockStmt(BlockStmt { stmts, .. }) => {
+                                if let &[Stmt::Return(ReturnStmt { arg: Some(arg), .. })] =
+                                    &&**stmts
+                                {
+                                    match &**arg {
+                                        Expr::Call(i) => {
+                                            i.callee.as_expr().and_then(|e| e.as_ident())
+                                        }
+                                        _ => None,
+                                    }
+                                } else {
+                                    None
+                                }
+                            }
+                        },
+                        _ => None,
                     } {
                         if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_ARG;
@@ -1031,48 +1050,4 @@ fn is_block_stmt_of_fn_simple_enough_for_copy(b: &BlockStmt) -> Option<u8> {
     }
 
     None
-}
-
-fn arrow_simple_ident(arr: &ArrowExpr) -> Box<dyn Iterator<Item = &Ident> + '_> {
-    if arr.is_async {
-        return Box::new(std::iter::empty());
-    }
-
-    let expr = match &*arr.body {
-        BlockStmtOrExpr::BlockStmt(s) => {
-            if let &[Stmt::Return(ReturnStmt { arg: Some(arg), .. })] = &&*s.stmts {
-                &**arg
-            } else {
-                return Box::new(std::iter::empty());
-            }
-        }
-        BlockStmtOrExpr::Expr(e) => &**e,
-        #[cfg(swc_ast_unknown)]
-        _ => panic!("unable to access unknown nodes"),
-    };
-
-    arrow_simple_body_ident(expr)
-}
-
-fn arrow_simple_body_ident(b: &Expr) -> Box<dyn Iterator<Item = &Ident> + '_> {
-    match b {
-        Expr::Ident(ident) => Box::new(std::iter::once(ident)),
-        Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
-            arrow_simple_body_ident(obj)
-        }
-        Expr::Call(c) => {
-            let callee = c.callee.as_expr().map(|e| arrow_simple_body_ident(e));
-            let args = Box::new(
-                c.args
-                    .iter()
-                    .flat_map(|arg| arrow_simple_body_ident(&arg.expr)),
-            );
-            Box::new(callee.into_iter().flatten().chain(args))
-        }
-        Expr::Unary(u) => arrow_simple_body_ident(&u.arg),
-        Expr::Bin(b) => {
-            Box::new(arrow_simple_body_ident(&b.left).chain(arrow_simple_body_ident(&b.right)))
-        }
-        _ => Box::new(std::iter::empty()),
-    }
 }
