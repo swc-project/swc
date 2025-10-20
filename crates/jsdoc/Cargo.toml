@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "jsdoc"
 repository    = { workspace = true }
-version       = "14.0.0"
+version       = "15.0.0"
 
 [lib]
 bench = false
@@ -20,9 +20,9 @@ nom   = { workspace = true }
 serde = { workspace = true, features = ["derive"], optional = true }
 
 swc_atoms  = { version = "7.0.0", path = "../swc_atoms" }
-swc_common = { version = "14.0.4", path = "../swc_common" }
+swc_common = { version = "15.0.0", path = "../swc_common" }
 
 [dev-dependencies]
 dashmap         = { workspace = true }
-swc_ecma_parser = { version = "24.0.3", path = "../swc_ecma_parser" }
-testing         = { version = "15.0.0", path = "../testing" }
+swc_ecma_parser = { version = "25.0.0", path = "../swc_ecma_parser" }
+testing         = { version = "16.0.0", path = "../testing" }

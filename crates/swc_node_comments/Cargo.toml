@@ -9,7 +9,7 @@ edition = "2021"
 license = { workspace = true }
 name = "swc_node_comments"
 repository = "https://github.com/swc-project/swc.git"
-version = "14.0.0"
+version = "15.0.0"
 
 [lib]
 bench = false
@@ -19,4 +19,4 @@ dashmap    = { workspace = true }
 rustc-hash = { workspace = true }
 
 swc_atoms  = { version = "7.0.0", path = "../swc_atoms" }
-swc_common = { version = "14.0.4", path = "../swc_common" }
+swc_common = { version = "15.0.0", path = "../swc_common" }

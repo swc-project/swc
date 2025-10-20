@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_transforms_compat"
 repository    = { workspace = true }
-version       = "31.0.0"
+version       = "32.0.0"
 
 [lib]
 bench = false
@@ -28,30 +28,30 @@ serde    = { workspace = true, features = ["derive"] }
 tracing  = { workspace = true }
 
 swc_atoms                = { version = "7.0.0", path = "../swc_atoms" }
-swc_common               = { version = "14.0.4", path = "../swc_common" }
-swc_ecma_ast             = { version = "15.0.0", path = "../swc_ecma_ast" }
-swc_ecma_compat_bugfixes = { version = "30.0.0", path = "../swc_ecma_compat_bugfixes" }
-swc_ecma_compat_common   = { version = "21.0.0", path = "../swc_ecma_compat_common" }
-swc_ecma_compat_es2015   = { version = "30.0.0", path = "../swc_ecma_compat_es2015" }
-swc_ecma_compat_es2016   = { version = "27.0.0", path = "../swc_ecma_compat_es2016" }
-swc_ecma_compat_es2017   = { version = "27.0.0", path = "../swc_ecma_compat_es2017" }
-swc_ecma_compat_es2018   = { version = "27.0.0", path = "../swc_ecma_compat_es2018" }
-swc_ecma_compat_es2019   = { version = "27.0.0", path = "../swc_ecma_compat_es2019" }
-swc_ecma_compat_es2020   = { version = "28.0.0", path = "../swc_ecma_compat_es2020" }
-swc_ecma_compat_es2021   = { version = "27.0.0", path = "../swc_ecma_compat_es2021" }
-swc_ecma_compat_es2022   = { version = "28.0.0", path = "../swc_ecma_compat_es2022" }
-swc_ecma_compat_es3      = { version = "22.0.0", path = "../swc_ecma_compat_es3" }
-swc_ecma_transforms_base = { version = "27.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils           = { version = "21.0.0", path = "../swc_ecma_utils" }
-swc_ecma_visit           = { version = "15.0.0", path = "../swc_ecma_visit" }
+swc_common               = { version = "15.0.0", path = "../swc_common" }
+swc_ecma_ast             = { version = "16.0.0", path = "../swc_ecma_ast" }
+swc_ecma_compat_bugfixes = { version = "31.0.0", path = "../swc_ecma_compat_bugfixes" }
+swc_ecma_compat_common   = { version = "22.0.0", path = "../swc_ecma_compat_common" }
+swc_ecma_compat_es2015   = { version = "31.0.0", path = "../swc_ecma_compat_es2015" }
+swc_ecma_compat_es2016   = { version = "28.0.0", path = "../swc_ecma_compat_es2016" }
+swc_ecma_compat_es2017   = { version = "28.0.0", path = "../swc_ecma_compat_es2017" }
+swc_ecma_compat_es2018   = { version = "28.0.0", path = "../swc_ecma_compat_es2018" }
+swc_ecma_compat_es2019   = { version = "28.0.0", path = "../swc_ecma_compat_es2019" }
+swc_ecma_compat_es2020   = { version = "29.0.0", path = "../swc_ecma_compat_es2020" }
+swc_ecma_compat_es2021   = { version = "28.0.0", path = "../swc_ecma_compat_es2021" }
+swc_ecma_compat_es2022   = { version = "29.0.0", path = "../swc_ecma_compat_es2022" }
+swc_ecma_compat_es3      = { version = "23.0.0", path = "../swc_ecma_compat_es3" }
+swc_ecma_transforms_base = { version = "28.0.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils           = { version = "22.0.0", path = "../swc_ecma_utils" }
+swc_ecma_visit           = { version = "16.0.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 par-core   = { workspace = true, features = ["chili"] }
 serde_json = { workspace = true }
 
-swc_ecma_parser = { version = "24.0.3", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "27.0.0", path = "../swc_ecma_transforms_base", features = [
+swc_ecma_parser = { version = "25.0.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "28.0.0", path = "../swc_ecma_transforms_base", features = [
   "inline-helpers",
 ] }
-swc_ecma_transforms_testing = { version = "30.0.0", path = "../swc_ecma_transforms_testing" }
-testing = { version = "15.0.0", path = "../testing" }
+swc_ecma_transforms_testing = { version = "31.0.0", path = "../swc_ecma_transforms_testing" }
+testing = { version = "16.0.0", path = "../testing" }
