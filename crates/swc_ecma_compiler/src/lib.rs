@@ -629,33 +629,47 @@ impl<'a> VisitMut for CompilerImpl<'a> {
             vec![]
         };
 
-        // Single recursive visit
-        ns.visit_mut_children_with(self);
-
-        // Post-processing: Handle variable hoisting
+        // Process statements one by one to insert vars before statements that need them
         if need_logical_var_hoisting || need_nullish_var_hoisting {
-            let logical_vars =
-                std::mem::replace(&mut self.es2021_logical_assignment_vars, saved_logical_vars);
-            let nullish_vars =
-                std::mem::replace(&mut self.es2020_nullish_coalescing_vars, saved_nullish_vars);
+            let mut buf = Vec::with_capacity(ns.len() + 2);
 
-            let mut all_vars = Vec::new();
-            all_vars.extend(logical_vars);
-            all_vars.extend(nullish_vars);
+            for mut item in ns.take() {
+                item.visit_mut_with(self);
 
-            if !all_vars.is_empty() {
-                prepend_stmt(
-                    ns,
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: all_vars,
-                        ..Default::default()
-                    }
-                    .into(),
-                );
+                // Collect any variables that were generated during this statement
+                let mut item_vars = Vec::new();
+                if need_logical_var_hoisting {
+                    item_vars.extend(self.es2021_logical_assignment_vars.take());
+                }
+                if need_nullish_var_hoisting {
+                    item_vars.extend(self.es2020_nullish_coalescing_vars.take());
+                }
+
+                // Insert var declaration before the statement if needed
+                if !item_vars.is_empty() {
+                    buf.push(ModuleItem::Stmt(
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: item_vars,
+                            ..Default::default()
+                        }
+                        .into(),
+                    ));
+                }
+
+                buf.push(item);
             }
+
+            *ns = buf;
+        } else {
+            // Single recursive visit
+            ns.visit_mut_children_with(self);
         }
+
+        // Restore saved vars
+        self.es2021_logical_assignment_vars = saved_logical_vars;
+        self.es2020_nullish_coalescing_vars = saved_nullish_vars;
 
         // Post-processing: Private field variables
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
@@ -699,33 +713,47 @@ impl<'a> VisitMut for CompilerImpl<'a> {
             vec![]
         };
 
-        // Single recursive visit
-        s.visit_mut_children_with(self);
-
-        // Post-processing: Handle variable hoisting
+        // Process statements one by one to insert vars before statements that need them
         if need_logical_var_hoisting || need_nullish_var_hoisting {
-            let logical_vars =
-                std::mem::replace(&mut self.es2021_logical_assignment_vars, saved_logical_vars);
-            let nullish_vars =
-                std::mem::replace(&mut self.es2020_nullish_coalescing_vars, saved_nullish_vars);
+            let mut buf = Vec::with_capacity(s.len() + 2);
 
-            let mut all_vars = Vec::new();
-            all_vars.extend(logical_vars);
-            all_vars.extend(nullish_vars);
+            for mut stmt in s.take() {
+                stmt.visit_mut_with(self);
 
-            if !all_vars.is_empty() {
-                prepend_stmt(
-                    s,
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: all_vars,
-                        ..Default::default()
-                    }
-                    .into(),
-                );
+                // Collect any variables that were generated during this statement
+                let mut stmt_vars = Vec::new();
+                if need_logical_var_hoisting {
+                    stmt_vars.extend(self.es2021_logical_assignment_vars.take());
+                }
+                if need_nullish_var_hoisting {
+                    stmt_vars.extend(self.es2020_nullish_coalescing_vars.take());
+                }
+
+                // Insert var declaration before the statement if needed
+                if !stmt_vars.is_empty() {
+                    buf.push(
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: stmt_vars,
+                            ..Default::default()
+                        }
+                        .into(),
+                    );
+                }
+
+                buf.push(stmt);
             }
+
+            *s = buf;
+        } else {
+            // Single recursive visit
+            s.visit_mut_children_with(self);
         }
+
+        // Restore saved vars
+        self.es2021_logical_assignment_vars = saved_logical_vars;
+        self.es2020_nullish_coalescing_vars = saved_nullish_vars;
 
         // Post-processing: Private field variables
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
