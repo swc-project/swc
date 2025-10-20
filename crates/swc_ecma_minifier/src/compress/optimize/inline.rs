@@ -795,8 +795,9 @@ impl Optimizer<'_> {
                 && usage.ref_count == 1
                 && usage.can_inline_fn_once()
                 && (match decl {
-                    Decl::Class(..) => !usage.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL),
-                    Decl::Fn(..) => true,
+                    Decl::Class(..) | Decl::Fn(..) => {
+                        !usage.flags.contains(VarUsageInfoFlags::USED_ABOVE_DECL)
+                    }
                     _ => false,
                 })
             {
