@@ -237,7 +237,7 @@ impl Optimizer<'_> {
         // Add const declarations to function body
         if let Some(body) = &mut f.body {
             const_decls.reverse(); // Reverse to maintain original order
-            const_decls.extend(body.stmts.drain(..));
+            const_decls.append(&mut body.stmts);
             body.stmts = const_decls;
         }
 
@@ -268,11 +268,11 @@ impl Optimizer<'_> {
             Expr::Ident(id) if id.sym == "undefined" => true,
 
             // Negated or numeric-negated literals
-            Expr::Unary(UnaryExpr { op, arg, .. })
-                if matches!(op, UnaryOp::Bang | UnaryOp::Minus) =>
-            {
-                Self::is_safe_constant_for_param_inline(arg)
-            }
+            Expr::Unary(UnaryExpr {
+                op: UnaryOp::Bang | UnaryOp::Minus,
+                arg,
+                ..
+            }) => Self::is_safe_constant_for_param_inline(arg),
 
             // Parenthesized expressions
             Expr::Paren(ParenExpr { expr, .. }) => Self::is_safe_constant_for_param_inline(expr),
