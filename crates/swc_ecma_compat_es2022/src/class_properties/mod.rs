@@ -484,6 +484,11 @@ impl ClassProperties {
                             };
                         }
 
+                        ClassMember::AutoAccessor(_) => {
+                            // AutoAccessor is preserved as-is, no private field
+                            // registration needed
+                        }
+
                         _ => (),
                     };
                 }
@@ -518,12 +523,12 @@ impl ClassProperties {
             ClassMember::Constructor(_)
             | ClassMember::PrivateMethod(_)
             | ClassMember::TsIndexSignature(_)
-            | ClassMember::Empty(_) => false,
+            | ClassMember::Empty(_)
+            | ClassMember::AutoAccessor(_) => false,
 
             ClassMember::Method(m) => contains_super(&m.key),
 
             ClassMember::ClassProp(_)
-            | ClassMember::AutoAccessor(_)
             | ClassMember::PrivateProp(_)
             | ClassMember::StaticBlock(_) => true,
 
@@ -943,8 +948,12 @@ impl ClassProperties {
                     unreachable!("static_blocks pass should remove this")
                 }
 
-                ClassMember::AutoAccessor(..) => {
-                    unreachable!("auto_accessor pass should remove this")
+                ClassMember::AutoAccessor(accessor) => {
+                    // AutoAccessor nodes should be handled by the decorator transform.
+                    // If we encounter them here, it means decorators are not enabled,
+                    // so we preserve the AutoAccessor as-is. The output environment
+                    // is expected to support auto-accessors natively.
+                    members.push(ClassMember::AutoAccessor(accessor));
                 }
 
                 #[cfg(swc_ast_unknown)]
@@ -1081,6 +1090,12 @@ impl Visit for ShouldWork {
 
     fn visit_constructor(&mut self, _: &Constructor) {
         self.found = true;
+    }
+
+    // AutoAccessor is preserved as-is, doesn't require transformation
+    fn visit_auto_accessor(&mut self, _: &AutoAccessor) {
+        // No-op: AutoAccessor is handled by decorator transform, not
+        // class_properties
     }
 }
 

@@ -4615,6 +4615,6 @@ class Foo {
     this.#priv?.()
   }
 }
-    
+
 console.log(new Foo().search())"
 );
