@@ -546,6 +546,8 @@ impl<I: Tokens> Parser<I> {
                 }
                 .into())
             }
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
         }
     }
 
@@ -779,6 +781,8 @@ impl<I: Tokens> Parser<I> {
                     }
                     .into()
                 }
+                #[cfg(swc_ast_unknown)]
+                _ => unreachable!(),
             })
         })
     }

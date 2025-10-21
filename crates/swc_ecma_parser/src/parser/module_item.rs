@@ -286,6 +286,8 @@ impl<I: Tokens> Parser<I> {
                     )
                 }
             }
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
         }
     }
 
@@ -650,6 +652,8 @@ impl<I: Tokens> Parser<I> {
                             let export_name = match &namespace.name {
                                 ModuleExportName::Ident(i) => i.sym.clone(),
                                 ModuleExportName::Str(s) => s.value.clone(),
+                                #[cfg(swc_ast_unknown)]
+                                _ => unreachable!(),
                             };
                             self.emit_err(
                                 namespace.span,
@@ -668,6 +672,8 @@ impl<I: Tokens> Parser<I> {
                             }
                             _ => {}
                         },
+                        #[cfg(swc_ast_unknown)]
+                        _ => unreachable!(),
                     }
                 }
 

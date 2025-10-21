@@ -50,6 +50,8 @@ impl<I: Tokens> Parser<I> {
                 syntax_error!(self, self.span(start), SyntaxError::EmptyJSXAttr)
             }
             JSXExpr::Expr(..) => Ok(node.into()),
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
         }
     }
 
@@ -111,6 +113,8 @@ impl<I: Tokens> Parser<I> {
         let mut node = match self.parse_jsx_tag_name()? {
             JSXAttrName::Ident(i) => JSXElementName::Ident(i.into()),
             JSXAttrName::JSXNamespacedName(i) => JSXElementName::JSXNamespacedName(i),
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
         };
         while self.input_mut().eat(Token::Dot) {
             self.input_mut().scan_jsx_identifier();
@@ -466,6 +470,8 @@ fn get_qualified_jsx_name(name: &JSXElementName) -> Atom {
                 member.prop.sym
             )
             .into(),
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
         }
     }
     match *name {
@@ -476,6 +482,8 @@ fn get_qualified_jsx_name(name: &JSXElementName) -> Atom {
         JSXElementName::JSXMemberExpr(JSXMemberExpr {
             ref obj, ref prop, ..
         }) => format!("{}.{}", get_qualified_obj_name(obj), prop.sym).into(),
+        #[cfg(swc_ast_unknown)]
+        _ => unreachable!(),
     }
 }
 
