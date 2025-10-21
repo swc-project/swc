@@ -1,4 +1,4 @@
-use std::fmt::Write;
+use std::{fmt::Write, mem};
 
 use either::Either;
 use swc_atoms::{atom, Atom};
@@ -946,8 +946,10 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
     debug_assert!(p.input().syntax().typescript());
 
     let start = p.cur_pos();
-    // Computed property names are grammar errors in an enum, so accept just string
-    // literal or identifier.
+    // TypeScript allows computed property names with literal expressions in enums.
+    // Non-literal computed properties (like ["a" + "b"]) are rejected.
+    // We normalize literal computed properties (["\t"] → "\t") to keep AST simple.
+    // See https://github.com/swc-project/swc/issues/11160
     let cur = p.input().cur();
     let id = if cur.is_str() {
         TsEnumMemberId::Str(parse_str_lit(p))
@@ -971,10 +973,35 @@ fn parse_ts_enum_member<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsEnumMember> {
         })
     } else if cur.is_lbracket() {
         p.assert_and_bump(&P::Token::LBRACKET);
-        let _ = p.parse_expr()?;
-        p.emit_err(p.span(start), SyntaxError::TS1164);
+        let expr = p.parse_expr()?;
         p.assert_and_bump(&P::Token::RBRACKET);
-        TsEnumMemberId::Ident(Ident::new_no_ctxt(atom!(""), p.span(start)))
+        let bracket_span = p.span(start);
+
+        match *expr {
+            Expr::Lit(Lit::Str(str_lit)) => {
+                // String literal: ["\t"] → "\t"
+                TsEnumMemberId::Str(str_lit)
+            }
+            Expr::Tpl(mut tpl) if tpl.exprs.is_empty() => {
+                // Template literal without substitution: [`hello`] → "hello"
+
+                let tpl = mem::take(tpl.quasis.first_mut().unwrap());
+
+                let span = tpl.span;
+                let value = tpl.cooked.unwrap();
+
+                TsEnumMemberId::Str(Str {
+                    span,
+                    value,
+                    raw: None,
+                })
+            }
+            _ => {
+                // Non-literal expression: report error
+                p.emit_err(bracket_span, SyntaxError::TS1164);
+                TsEnumMemberId::Ident(Ident::new_no_ctxt(atom!(""), bracket_span))
+            }
+        }
     } else if cur.is_error() {
         let err = p.input_mut().expect_error_token_and_bump();
         return Err(err);
