@@ -294,7 +294,6 @@ impl<'a> Lexer<'a> {
 }
 
 impl Lexer<'_> {
-    #[inline(never)]
     fn read_token_lt_gt<const C: u8>(&mut self) -> LexResult<Token> {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
@@ -1954,7 +1953,6 @@ impl<'a> Lexer<'a> {
     /// Read a token given `.`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
     fn read_token_dot(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some_and(|c| c == '.'));
         // Check for eof
@@ -1987,7 +1985,6 @@ impl<'a> Lexer<'a> {
     /// Read a token given `?`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
     fn read_token_question_mark(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some_and(|c| c == '?'));
         self.bump();
@@ -2005,7 +2002,6 @@ impl<'a> Lexer<'a> {
     /// Read a token given `:`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
     fn read_token_colon(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some_and(|c| c == ':'));
         self.bump(); // ':'
@@ -2015,7 +2011,6 @@ impl<'a> Lexer<'a> {
     /// Read a token given `0`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
     fn read_token_zero(&mut self) -> LexResult<Token> {
         debug_assert_eq!(self.cur(), Some('0'));
         let next = self.input().peek();
@@ -2041,7 +2036,6 @@ impl<'a> Lexer<'a> {
     /// Read a token given `|` or `&`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
     fn read_token_logical<const C: u8>(&mut self) -> LexResult<Token> {
         debug_assert!(C == b'|' || C == b'&');
         let is_bit_and = C == b'&';
@@ -2113,7 +2107,6 @@ impl<'a> Lexer<'a> {
     /// Read a token given `*` or `%`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
-    #[inline(never)]
     fn read_token_mul_mod(&mut self, is_mul: bool) -> LexResult<Token> {
         debug_assert!(self.cur().is_some_and(|c| c == '*' || c == '%'));
         self.bump();
@@ -2142,7 +2135,6 @@ impl<'a> Lexer<'a> {
         })
     }
 
-    #[inline(never)]
     fn read_slash(&mut self) -> LexResult<Token> {
         debug_assert_eq!(self.cur(), Some('/'));
         self.bump(); // '/'
