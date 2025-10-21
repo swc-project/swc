@@ -989,6 +989,7 @@ impl<'a> Lexer<'a> {
     /// "13612536612375123612312312312312312312312".
     ///
     /// - Returned `bool` is `true` is there was `8` or `9`.
+    #[inline(always)]
     fn read_number_no_dot_as_str<const RADIX: u8>(&mut self) -> LexResult<LazyInteger> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
