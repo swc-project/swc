@@ -2107,10 +2107,10 @@ impl<'a> Lexer<'a> {
     /// Read a token given `*` or `%`.
     ///
     /// This is extracted as a method to reduce size of `read_token`.
-    fn read_token_mul_mod(&mut self, is_mul: bool) -> LexResult<Token> {
+    fn read_token_mul_mod<const IS_MUL: bool>(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some_and(|c| c == '*' || c == '%'));
         self.bump();
-        let token = if is_mul {
+        let token = if IS_MUL {
             if self.input_mut().eat_byte(b'*') {
                 // `**`
                 Token::Exp
