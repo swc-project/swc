@@ -291,11 +291,11 @@ pub enum Token {
 
 impl Token {
     #[inline(always)]
-    pub fn is_ident_ref(self, ctx: Context) -> bool {
+    pub const fn is_ident_ref(self, ctx: Context) -> bool {
         self.is_word() && !self.is_reserved(ctx)
     }
 
-    pub fn is_other_and_before_expr_is_false(self) -> bool {
+    pub const fn is_other_and_before_expr_is_false(self) -> bool {
         !self.is_keyword()
             && !self.is_bin_op()
             && !self.before_expr()
@@ -315,7 +315,8 @@ impl Token {
             )
     }
 
-    pub fn is_other_and_can_have_trailing_comment(self) -> bool {
+    #[inline(always)]
+    pub const fn is_other_and_can_have_trailing_comment(self) -> bool {
         matches!(
             self,
             Token::Num
@@ -520,7 +521,7 @@ impl std::fmt::Debug for Token {
 }
 
 impl Token {
-    pub fn is_reserved(self, ctx: Context) -> bool {
+    pub const fn is_reserved(self, ctx: Context) -> bool {
         match self {
             Token::Let | Token::Static => ctx.contains(Context::Strict),
             Token::Await => {
@@ -848,6 +849,7 @@ impl Token {
         Some(atom)
     }
 
+    #[inline(always)]
     pub const fn is_keyword(self) -> bool {
         let t = self as u8;
         t >= Token::Await as u8 && t <= Token::Module as u8
@@ -944,7 +946,7 @@ impl Token {
             || (t >= Token::Plus as u8 && t <= Token::Ampersand as u8)
     }
 
-    pub fn as_bin_op(self) -> Option<swc_ecma_ast::BinaryOp> {
+    pub const fn as_bin_op(self) -> Option<swc_ecma_ast::BinaryOp> {
         match self {
             Token::EqEq => Some(swc_ecma_ast::BinaryOp::EqEq),
             Token::NotEq => Some(swc_ecma_ast::BinaryOp::NotEq),
@@ -1082,7 +1084,8 @@ impl Token {
         ) || self.is_known_ident()
     }
 
-    pub fn follows_keyword_let(self) -> bool {
+    #[inline(always)]
+    pub const fn follows_keyword_let(self) -> bool {
         match self {
             Token::Let
             | Token::LBrace
@@ -1095,7 +1098,8 @@ impl Token {
         }
     }
 
-    pub fn should_rescan_into_gt_in_jsx(self) -> bool {
+    #[inline(always)]
+    pub const fn should_rescan_into_gt_in_jsx(self) -> bool {
         matches!(
             self,
             Token::GtEq
