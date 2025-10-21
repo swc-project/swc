@@ -2282,6 +2282,7 @@ dependencies = [
  "rkyv",
  "rustc-hash 2.1.1",
  "serde",
+ "serde_json",
  "smartstring",
  "smol_str",
  "string_cache",
