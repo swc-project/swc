@@ -42,6 +42,8 @@ fn make_decl_declare(mut decl: Decl) -> Decl {
         Decl::TsEnum(ref mut e) => e.declare = true,
         Decl::TsModule(ref mut m) => m.declare = true,
         Decl::Using(..) => unreachable!("Using is not a valid declaration for `declare` keyword"),
+        #[cfg(swc_ast_unknown)]
+        _ => unreachable!(),
     }
 
     decl
@@ -1773,6 +1775,8 @@ impl<I: Tokens> Parser<I> {
             TsTypeOperatorOp::Unique => expect!(self, Token::Unique),
             TsTypeOperatorOp::KeyOf => expect!(self, Token::Keyof),
             TsTypeOperatorOp::ReadOnly => expect!(self, Token::Readonly),
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
         }
 
         let type_ann = self.parse_ts_type_operator_or_higher()?;

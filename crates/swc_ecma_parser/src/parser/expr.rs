@@ -1094,6 +1094,8 @@ impl<I: Tokens> Parser<I> {
                         )
                     }
                     Callee::Expr(expr) => expr,
+                    #[cfg(swc_ast_unknown)]
+                    _ => unreachable!(),
                 };
                 return Ok((
                     TsNonNullExpr {
@@ -1316,6 +1318,8 @@ impl<I: Tokens> Parser<I> {
                             expr
                         }
                     }
+                    #[cfg(swc_ast_unknown)]
+                    _ => unreachable!(),
                 }),
                 true,
             ));
@@ -1361,6 +1365,8 @@ impl<I: Tokens> Parser<I> {
                         .into(),
                         true,
                     )),
+                    #[cfg(swc_ast_unknown)]
+                    _ => unreachable!(),
                 }
             } else {
                 Ok((
@@ -1452,6 +1458,8 @@ impl<I: Tokens> Parser<I> {
                                     )
                                 }
                                 MemberProp::Computed(..) => unreachable!(),
+                                #[cfg(swc_ast_unknown)]
+                                _ => unreachable!(),
                             }
                         }
                     }
@@ -1478,6 +1486,8 @@ impl<I: Tokens> Parser<I> {
                             expr
                         }
                     }
+                    #[cfg(swc_ast_unknown)]
+                    _ => unreachable!(),
                 }),
                 true,
             ));
@@ -1519,6 +1529,8 @@ impl<I: Tokens> Parser<I> {
             Callee::Import(..) => {
                 syntax_error!(self, self.input().cur_span(), SyntaxError::InvalidImport);
             }
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
         }
     }
 
@@ -2204,6 +2216,8 @@ impl<I: Tokens> Parser<I> {
                         // creating `Invalid`, we don't have to emit a new
                         // error.
                     }
+                    #[cfg(swc_ast_unknown)]
+                    _ => unreachable!(),
                 }
 
                 if self.input_mut().eat(Token::Eq) {

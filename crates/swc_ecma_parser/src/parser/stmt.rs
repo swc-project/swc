@@ -756,6 +756,8 @@ impl<I: Tokens> Parser<I> {
                     Pat::Assign(..) => {}
                     Pat::Invalid(_) => {}
                     Pat::Expr(_) => {}
+                    #[cfg(swc_ast_unknown)]
+                    _ => unreachable!(),
                 }
             }
             expect!(self, Token::RParen);

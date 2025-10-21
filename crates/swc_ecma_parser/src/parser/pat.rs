@@ -60,11 +60,15 @@ impl<I: Tokens> Parser<I> {
                                 )
                             }
                         }
+                        #[cfg(swc_ast_unknown)]
+                        _ => unreachable!(),
                     }
                 }
             }
             Pat::Assign(a) => self.pat_is_valid_argument_in_strict(&a.left),
             Pat::Invalid(_) | Pat::Expr(_) => (),
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
         }
     }
 
@@ -177,6 +181,8 @@ impl<I: Tokens> Parser<I> {
                             Box::new(self.reparse_expr_as_pat(pat_ty, left.into())?)
                         }
                         AssignTarget::Pat(pat) => pat.into(),
+                        #[cfg(swc_ast_unknown)]
+                        _ => unreachable!(),
                     },
                     right,
                 }
@@ -256,6 +262,8 @@ impl<I: Tokens> Parser<I> {
                                         type_ann: None,
                                     }))
                                 }
+                                #[cfg(swc_ast_unknown)]
+                                _ => unreachable!(),
                             }
                         })
                         .collect::<PResult<_>>()?,
