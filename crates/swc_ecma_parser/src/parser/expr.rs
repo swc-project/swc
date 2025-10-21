@@ -1217,7 +1217,7 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
-        let type_args = if self.syntax().typescript() && self.input().is(Token::Lt) {
+        let ts_instantiation = if self.syntax().typescript() && self.input().is(Token::Lt) {
             self.try_parse_ts_type_args()
         } else {
             None
@@ -1233,21 +1233,21 @@ impl<I: Tokens> Parser<I> {
             && peek!(self).is_some_and(|peek| peek == Token::Dot)
         {
             let start = self.cur_pos();
-            expect!(self, Token::QuestionMark);
-            Some(self.span(start))
+            self.bump();
+
+            let span = Some(self.span(start));
+            self.bump();
+
+            span
         } else {
             None
         };
 
+        // If question_dot_token is Some, then `self.cur == Token::Dot`
+        let question_dot = question_dot_token.is_some();
+
         // $obj[name()]
-        if !no_computed_member
-            && ((question_dot_token.is_some()
-                && self.input().is(Token::Dot)
-                && peek!(self).is_some_and(|peek| peek == Token::LBracket)
-                && self.input_mut().eat(Token::Dot)
-                && self.input_mut().eat(Token::LBracket))
-                || self.input_mut().eat(Token::LBracket))
-        {
+        if !no_computed_member && self.input_mut().eat(Token::LBracket) {
             let bracket_lo = self.input().prev_span().lo;
             let prop = self.allow_in_expr(|p| p.parse_expr())?;
             expect!(self, Token::RBracket);
@@ -1272,7 +1272,7 @@ impl<I: Tokens> Parser<I> {
                             && !self.input().syntax().allow_super_outside_method()
                         {
                             syntax_error!(self, obj.span, SyntaxError::InvalidSuper);
-                        } else if question_dot_token.is_some() {
+                        } else if question_dot {
                             if no_call {
                                 syntax_error!(self, obj.span, SyntaxError::InvalidSuperCall);
                             } else {
@@ -1294,10 +1294,10 @@ impl<I: Tokens> Parser<I> {
                             obj,
                             prop: MemberProp::Computed(prop),
                         };
-                        let expr = if is_opt_chain || question_dot_token.is_some() {
+                        let expr = if is_opt_chain || question_dot {
                             OptChainExpr {
                                 span,
-                                optional: question_dot_token.is_some(),
+                                optional: question_dot,
                                 base: Box::new(OptChainBase::Member(expr)),
                             }
                             .into()
@@ -1321,24 +1321,19 @@ impl<I: Tokens> Parser<I> {
             ));
         }
 
-        if (question_dot_token.is_some()
-            && self.input().is(Token::Dot)
-            && (peek!(self).is_some_and(|peek| peek == Token::LParen)
-                || (self.syntax().typescript()
-                    && peek!(self).is_some_and(|peek| peek == Token::Lt)))
-            && self.input_mut().eat(Token::Dot))
-            || (!no_call && self.input().is(Token::LParen))
+        let type_args = if self.syntax().typescript() && self.input().is(Token::Lt) && question_dot
         {
-            let type_args = if self.syntax().typescript() && self.input().is(Token::Lt) {
-                let ret = self.parse_ts_type_args()?;
-                self.assert_and_bump(Token::Gt);
-                Some(ret)
-            } else {
-                None
-            };
+            let ret = self.parse_ts_type_args()?;
+            self.assert_and_bump(Token::Gt);
+            Some(ret)
+        } else {
+            None
+        };
+
+        if (self.input.is(Token::LParen) && (!no_call || question_dot)) || type_args.is_some() {
             let args = self.parse_args(obj.is_import())?;
             let span = self.span(start);
-            return if question_dot_token.is_some()
+            return if question_dot
                 || match &obj {
                     Callee::Expr(obj) => unwrap_ts_non_null(obj).is_opt_chain(),
                     _ => false,
@@ -1354,7 +1349,7 @@ impl<I: Tokens> Parser<I> {
                     Callee::Expr(callee) => Ok((
                         OptChainExpr {
                             span,
-                            optional: question_dot_token.is_some(),
+                            optional: question_dot,
                             base: Box::new(OptChainBase::Call(OptCall {
                                 span: self.span(start),
                                 callee,
@@ -1383,7 +1378,7 @@ impl<I: Tokens> Parser<I> {
 
         // member expression
         // $obj.name
-        if self.input_mut().eat(Token::Dot) {
+        if question_dot || self.input_mut().eat(Token::Dot) {
             let prop = self.parse_maybe_private_name().map(|e| match e {
                 Either::Left(p) => MemberProp::PrivateName(p),
                 Either::Right(i) => MemberProp::Ident(i),
@@ -1435,7 +1430,7 @@ impl<I: Tokens> Parser<I> {
                             && !self.input().syntax().allow_super_outside_method()
                         {
                             syntax_error!(self, obj.span, SyntaxError::InvalidSuper);
-                        } else if question_dot_token.is_some() {
+                        } else if question_dot {
                             if no_call {
                                 syntax_error!(self, obj.span, SyntaxError::InvalidSuperCall);
                             } else {
@@ -1462,12 +1457,10 @@ impl<I: Tokens> Parser<I> {
                     }
                     Callee::Expr(obj) => {
                         let expr = MemberExpr { span, obj, prop };
-                        let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain()
-                            || question_dot_token.is_some()
-                        {
+                        let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain() || question_dot {
                             OptChainExpr {
                                 span: self.span(start),
-                                optional: question_dot_token.is_some(),
+                                optional: question_dot,
                                 base: Box::new(OptChainBase::Member(expr)),
                             }
                             .into()
@@ -1492,7 +1485,7 @@ impl<I: Tokens> Parser<I> {
 
         match obj {
             Callee::Expr(expr) => {
-                let expr = if let Some(type_args) = type_args {
+                let expr = if let Some(type_args) = ts_instantiation {
                     TsInstantiation {
                         expr,
                         type_args,
