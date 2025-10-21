@@ -5620,7 +5620,6 @@ version = "24.0.0"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
- "codspeed-criterion-compat",
  "either",
  "num-bigint",
  "phf",
@@ -5634,7 +5633,6 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_visit",
- "swc_malloc",
  "testing",
  "tracing",
 ]
