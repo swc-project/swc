@@ -1056,7 +1056,7 @@ impl<'a> Lexer<'a> {
             let lazy_integer = self.read_number_no_dot_as_str::<10>()?;
             let s = unsafe {
                 // Safety: We got both start and end position from `self.input`
-                self.input_slice(lazy_integer.start, lazy_integer.end)
+                self.input_slice_to_cur(lazy_integer.start)
             };
 
             // legacy octal number is not allowed in bigint.
@@ -1230,7 +1230,7 @@ impl<'a> Lexer<'a> {
 
         let s = unsafe {
             // Safety: We got both start and end position from `self.input`
-            self.input_slice(lazy_integer.start, lazy_integer.end)
+            self.input_slice_to_cur(lazy_integer.start)
         };
         if self.eat(b'n') {
             let raw = unsafe {
