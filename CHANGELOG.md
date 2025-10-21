@@ -20,6 +20,9 @@
 - **(es/decorators)** Emit correct metadata for enum parameters ([#11154](https://github.com/swc-project/swc/issues/11154)) ([630484f](https://github.com/swc-project/swc/commit/630484f8560db3dcbc5aaa198ff89241a8aef023))
 
 
+- **(es/minifier)** Fix inlining of hoisted functions ([#11159](https://github.com/swc-project/swc/issues/11159)) ([bd55d30](https://github.com/swc-project/swc/commit/bd55d30811d5f421b43dc70fd9c05d2f2b56a049))
+
+
 - **(es/parser)** Handle JSX attributes with keyword prefixes correctly ([#11136](https://github.com/swc-project/swc/issues/11136)) ([d3cd97f](https://github.com/swc-project/swc/commit/d3cd97fef10518507249d4b0b82983320483ee1c))
 
 
@@ -2041,17 +2044,11 @@
 
 - **(es/fast-lexer)** Make whitespace skipper use SIMD properly ([#10158](https://github.com/swc-project/swc/issues/10158)) ([15ea059](https://github.com/swc-project/swc/commit/15ea059712f6726d52b6304870f337a93272bb53))
 
-
-- **(es/lexer)** Optimize comment scanning ([#10137](https://github.com/swc-project/swc/issues/10137)) ([9676c9a](https://github.com/swc-project/swc/commit/9676c9acc83cca4297f07abdc203f0ab8da36b2b))
-
 ### Refactor
 
 
 
 - **(es/lexer)** Add fast lexer implementation ([#10145](https://github.com/swc-project/swc/issues/10145)) ([b993f86](https://github.com/swc-project/swc/commit/b993f8621c41ff4752d8634e9de7ed7a48f23eb9))
-
-
-- Drop unused crates ([#10151](https://github.com/swc-project/swc/issues/10151)) ([58e4279](https://github.com/swc-project/swc/commit/58e4279fae94a9958ad4229cfa0c9b89b9d0fde4))
 
 
 - Drop unused js interop bindings ([#10161](https://github.com/swc-project/swc/issues/10161)) ([0ceefaf](https://github.com/swc-project/swc/commit/0ceefafbf3485ddfc831913114a7978e06c9ce5c))

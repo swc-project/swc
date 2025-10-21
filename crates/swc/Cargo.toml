@@ -93,7 +93,7 @@ swc_ecma_loader = { version = "15.0.0", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "34.0.0", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "34.0.1", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "25.0.0", path = "../swc_ecma_parser", default-features = false, features = ["typescript"] }
 swc_ecma_preset_env = { version = "37.0.0", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "36.0.0", path = "../swc_ecma_transforms", features = [
