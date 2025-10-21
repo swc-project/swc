@@ -55,8 +55,8 @@ impl<'a> StringInput<'a> {
     /// # Safety
     /// - start should be less than or equal to end.
     /// - start and end should be in the valid range of input.
-    pub unsafe fn fast_slice(&mut self, start: BytePos, end: BytePos) -> &'a str {
-        debug_assert!(self.last_pos == end);
+    pub unsafe fn slice_to_cur(&mut self, start: BytePos) -> &'a str {
+        let end = self.last_pos;
 
         debug_assert!(start <= end, "Cannot slice {start:?}..{end:?}");
         let s = self.orig;

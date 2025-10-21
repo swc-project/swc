@@ -466,11 +466,9 @@ impl Lexer<'_> {
             }
 
             if ch == '&' {
-                let cur_pos = self.input().cur_pos();
-
                 let s = unsafe {
                     // Safety: We already checked for the range
-                    self.input_slice(chunk_start, cur_pos)
+                    self.input_slice_to_cur(chunk_start)
                 };
                 value.push_str(s);
 
@@ -484,17 +482,16 @@ impl Lexer<'_> {
             }
         }
 
-        let end = self.input().cur_pos();
         let raw = unsafe {
             // Safety: Both of `start` and `end` are generated from `cur_pos()`
-            self.input_slice(start, end)
+            self.input_slice_to_cur(start)
         };
         let value = if value.is_empty() {
             self.atom(raw)
         } else {
             let s = unsafe {
                 // Safety: We already checked for the range
-                self.input_slice(chunk_start, end)
+                self.input_slice_to_cur(chunk_start)
             };
             value.push_str(s);
             self.atom(value)
