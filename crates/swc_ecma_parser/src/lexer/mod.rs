@@ -146,7 +146,14 @@ impl<'a> Lexer<'a> {
     }
 
     #[inline(always)]
+    /// This function should be used to replace [Lexer::input_slice_and_move] if
+    /// the `end` comes from [Lexer::cur_pos] or [Lexer::last_pos]
     unsafe fn input_slice(&mut self, start: BytePos, end: BytePos) -> &'a str {
+        self.input.fast_slice(start, end)
+    }
+
+    #[inline(always)]
+    unsafe fn input_slice_and_move(&mut self, start: BytePos, end: BytePos) -> &'a str {
         self.input.slice(start, end)
     }
 
@@ -645,7 +652,7 @@ impl<'a> Lexer<'a> {
                 let end = self.input().end_pos();
 
                 if self.comments_buffer().is_some() {
-                    let s = unsafe { self.input_slice(slice_start, end) };
+                    let s = unsafe { self.input_slice_and_move(slice_start, end) };
                     let cmt = swc_common::comments::Comment {
                         kind: swc_common::comments::CommentKind::Line,
                         span: Span::new_with_checked(start, end),
@@ -1052,7 +1059,7 @@ impl<'a> Lexer<'a> {
             let lazy_integer = self.read_number_no_dot_as_str::<10>()?;
             let s = unsafe {
                 // Safety: We got both start and end position from `self.input`
-                self.input_slice(lazy_integer.start, lazy_integer.end)
+                self.input_slice_and_move(lazy_integer.start, lazy_integer.end)
             };
 
             // legacy octal number is not allowed in bigint.
@@ -1164,7 +1171,7 @@ impl<'a> Lexer<'a> {
             let raw = remove_underscore(raw, has_underscore);
             raw.parse().expect("failed to parse float literal")
         } else {
-            let s = unsafe { self.input_slice(lazy_integer.start, lazy_integer.end) };
+            let s = unsafe { self.input_slice_and_move(lazy_integer.start, lazy_integer.end) };
             let s = remove_underscore(s, has_underscore);
             parse_integer::<10>(&s)
         };
@@ -1231,7 +1238,7 @@ impl<'a> Lexer<'a> {
 
         let s = unsafe {
             // Safety: We got both start and end position from `self.input`
-            self.input_slice(lazy_integer.start, lazy_integer.end)
+            self.input_slice_and_move(lazy_integer.start, lazy_integer.end)
         };
         if self.eat(b'n') {
             let end = self.cur_pos();
@@ -1880,7 +1887,7 @@ impl<'a> Lexer<'a> {
                         let s = unsafe {
                             // Safety: start and end are valid position because we got them from
                             // `self.input`
-                            self.input_slice(slice_start, start)
+                            self.input_slice_and_move(slice_start, start)
                         };
                         buf.push_str(s);
                         unsafe {
