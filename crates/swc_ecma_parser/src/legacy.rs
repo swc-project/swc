@@ -1,3 +1,4 @@
+/// This module should only be used by [swc_ecma_lexer] for compatibility.
 pub mod token {
     use std::{
         borrow::Cow,
