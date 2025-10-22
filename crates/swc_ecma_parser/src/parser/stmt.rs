@@ -1,7 +1,7 @@
 use swc_common::Spanned;
 
 use super::*;
-use crate::parser::{pat::PatType, util::IsDirective, Parser};
+use crate::parser::{pat::PatType, Parser};
 
 #[allow(clippy::enum_variant_names)]
 enum TempForHead {
@@ -988,7 +988,7 @@ impl<I: Tokens> Parser<I> {
 
     /// Parse a statement, declaration or module item.
     #[inline(always)]
-    pub(crate) fn parse_stmt_like<Type: IsDirective + From<Stmt>>(
+    pub(crate) fn parse_stmt_like<Type: From<Stmt>>(
         &mut self,
         include_decl: bool,
         handle_import_export: impl Fn(&mut Self, Vec<Decorator>) -> PResult<Type>,
@@ -1309,7 +1309,7 @@ impl<I: Tokens> Parser<I> {
         self.parse_block_body(allow_directives, end, handle_import_export)
     }
 
-    pub(crate) fn parse_block_body<Type: IsDirective + From<Stmt>>(
+    pub(crate) fn parse_block_body<Type: From<Stmt>>(
         &mut self,
         allow_directives: bool,
         end: Option<Token>,
