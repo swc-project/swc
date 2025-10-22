@@ -290,6 +290,7 @@ pub enum SyntaxError {
 
     ReservedTypeAssertion,
     ReservedArrowTypeParam,
+    TypeArgumentListCannotBeEmpty,
 }
 
 impl SyntaxError {
@@ -744,6 +745,9 @@ impl SyntaxError {
                                                     .mts or .cts extension. Add a trailing comma, \
                                                     as in `<T,>() => ...`."
                 .into(),
+            SyntaxError::TypeArgumentListCannotBeEmpty => {
+                "Type argument list cannot be empty.".into()
+            }
             SyntaxError::InvalidAssignTarget => "Invalid assignment target".into(),
         }
     }

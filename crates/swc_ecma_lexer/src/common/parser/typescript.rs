@@ -488,6 +488,12 @@ pub fn parse_ts_type_args<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTypePar
     p.input_mut().set_expr_allowed(false);
     p.expect_without_advance(&P::Token::GREATER)?;
     let span = Span::new_with_checked(start, p.input().cur_span().hi);
+
+    // Report grammar error for empty type argument list like `I<>`.
+    if params.is_empty() {
+        p.emit_err(span, SyntaxError::TypeArgumentListCannotBeEmpty);
+    }
+
     Ok(Box::new(TsTypeParamInstantiation { span, params }))
 }
 
