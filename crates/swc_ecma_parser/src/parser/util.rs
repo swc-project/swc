@@ -140,31 +140,3 @@ impl ExprExt for Expr {
         self
     }
 }
-
-pub trait IsDirective {
-    fn as_ref(&self) -> Option<&Stmt>;
-}
-
-impl<T> IsDirective for Box<T>
-where
-    T: IsDirective,
-{
-    fn as_ref(&self) -> Option<&Stmt> {
-        T::as_ref(&**self)
-    }
-}
-
-impl IsDirective for Stmt {
-    fn as_ref(&self) -> Option<&Stmt> {
-        Some(self)
-    }
-}
-
-impl IsDirective for ModuleItem {
-    fn as_ref(&self) -> Option<&Stmt> {
-        match *self {
-            ModuleItem::Stmt(ref s) => Some(s),
-            _ => None,
-        }
-    }
-}
