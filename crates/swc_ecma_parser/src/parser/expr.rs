@@ -1058,6 +1058,8 @@ impl<I: Tokens> Parser<I> {
             Callee::Import(import) => self.parse_subscript_import_call(start, import)?,
             Callee::Super(s) => self.parse_subscript_super(start, s, no_call)?,
             Callee::Expr(expr) => expr,
+            #[cfg(swc_ast_unknown)]
+            _ => unreachable!(),
         };
 
         loop {
