@@ -31,7 +31,6 @@ verify        = ["swc_ecma_visit"]
 bitflags    = { workspace = true }
 either      = { workspace = true }
 num-bigint  = { workspace = true }
-phf         = { workspace = true, features = ["macros"] }
 rustc-hash  = { workspace = true }
 seq-macro   = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
