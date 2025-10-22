@@ -1075,7 +1075,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_subscript(
         &mut self,
         start: BytePos,
-        mut expr: Box<Expr>,
+        mut callee: Box<Expr>,
         no_call: bool,
         no_computed_member: bool,
     ) -> PResult<(Box<Expr>, bool)> {
@@ -1088,7 +1088,7 @@ impl<I: Tokens> Parser<I> {
 
                 let expr = Box::new(Expr::TsNonNull(TsNonNullExpr {
                     span: self.span(start),
-                    expr,
+                    expr: callee,
                 }));
 
                 return Ok((expr, true));
@@ -1102,7 +1102,7 @@ impl<I: Tokens> Parser<I> {
 
                 let result = self.do_inside_of_context(Context::ShouldNotLexLtOrGtAsType, |p| {
                     p.try_parse_ts(|p| {
-                        if !no_call && p.at_possible_async(&expr) {
+                        if !no_call && p.at_possible_async(&callee) {
                             // Almost certainly this is a generic async function `async <T>() =>
                             // ... But it might be a call with a
                             // type argument `async<T>();`
@@ -1121,12 +1121,12 @@ impl<I: Tokens> Parser<I> {
                             // above. (won't be any undefined arguments)
                             let args = p.parse_args(false)?;
 
-                            let expr = if expr.is_opt_chain() {
+                            let expr = if callee.is_opt_chain() {
                                 Expr::OptChain(OptChainExpr {
                                     span: p.span(start),
                                     base: Box::new(OptChainBase::Call(OptCall {
                                         span: p.span(start),
-                                        callee: expr.take(),
+                                        callee: callee.take(),
                                         type_args: Some(type_args),
                                         args,
                                         ..Default::default()
@@ -1136,7 +1136,7 @@ impl<I: Tokens> Parser<I> {
                             } else {
                                 Expr::Call(CallExpr {
                                     span: p.span(start),
-                                    callee: Callee::Expr(expr.take()),
+                                    callee: Callee::Expr(callee.take()),
                                     type_args: Some(type_args),
                                     args,
                                     ..Default::default()
@@ -1150,13 +1150,13 @@ impl<I: Tokens> Parser<I> {
                                 | Token::TemplateHead
                                 | Token::BackQuote
                         ) {
-                            p.parse_tagged_tpl(expr.take(), Some(type_args))
+                            p.parse_tagged_tpl(callee.take(), Some(type_args))
                                 .map(|expr| (expr.into(), true))
                                 .map(Some)
                         } else if matches!(cur, Token::Eq | Token::As | Token::Satisfies) {
                             let expr = Expr::TsInstantiation(TsInstantiation {
                                 span: p.span(start),
-                                expr: expr.take(),
+                                expr: callee.take(),
                                 type_args,
                             });
                             Ok(Some((Box::new(expr), false)))
@@ -1202,8 +1202,8 @@ impl<I: Tokens> Parser<I> {
             let bracket_lo = self.input().prev_span().lo;
             let prop = self.allow_in_expr(|p| p.parse_expr())?;
             expect!(self, Token::RBracket);
-            let span = Span::new_with_checked(expr.span_lo(), self.input().last_pos());
-            debug_assert_eq!(expr.span_lo(), span.lo());
+            let span = Span::new_with_checked(callee.span_lo(), self.input().last_pos());
+            debug_assert_eq!(callee.span_lo(), span.lo());
             let prop = ComputedPropName {
                 span: Span::new_with_checked(bracket_lo, self.input().last_pos()),
                 expr: prop,
@@ -1215,10 +1215,10 @@ impl<I: Tokens> Parser<I> {
                 None
             };
 
-            let is_opt_chain = unwrap_ts_non_null(&expr).is_opt_chain();
+            let is_opt_chain = unwrap_ts_non_null(&callee).is_opt_chain();
             let expr = MemberExpr {
                 span,
-                obj: expr,
+                obj: callee,
                 prop: MemberProp::Computed(prop),
             };
             let expr = if is_opt_chain || question_dot {
@@ -1256,13 +1256,13 @@ impl<I: Tokens> Parser<I> {
         if (self.input.is(Token::LParen) && (!no_call || question_dot)) || type_args.is_some() {
             let args = self.parse_args(false)?;
             let span = self.span(start);
-            return if question_dot || unwrap_ts_non_null(&expr).is_opt_chain() {
+            return if question_dot || unwrap_ts_non_null(&callee).is_opt_chain() {
                 let expr = OptChainExpr {
                     span,
                     optional: question_dot,
                     base: Box::new(OptChainBase::Call(OptCall {
                         span: self.span(start),
-                        callee: expr,
+                        callee,
                         args,
                         type_args,
                         ..Default::default()
@@ -1272,7 +1272,7 @@ impl<I: Tokens> Parser<I> {
             } else {
                 let expr = CallExpr {
                     span: self.span(start),
-                    callee: Callee::Expr(expr),
+                    callee: Callee::Expr(callee),
                     args,
                     ..Default::default()
                 };
@@ -1287,8 +1287,8 @@ impl<I: Tokens> Parser<I> {
                 Either::Left(p) => MemberProp::PrivateName(p),
                 Either::Right(i) => MemberProp::Ident(i),
             })?;
-            let span = self.span(expr.span_lo());
-            debug_assert_eq!(expr.span_lo(), span.lo());
+            let span = self.span(callee.span_lo());
+            debug_assert_eq!(callee.span_lo(), span.lo());
             debug_assert_eq!(prop.span_hi(), span.hi());
 
             let type_args = if self.syntax().typescript() && self.input().is(Token::Lt) {
@@ -1299,7 +1299,7 @@ impl<I: Tokens> Parser<I> {
 
             let expr = MemberExpr {
                 span,
-                obj: expr,
+                obj: callee,
                 prop,
             };
             let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain() || question_dot {
@@ -1328,13 +1328,13 @@ impl<I: Tokens> Parser<I> {
 
         let expr = if let Some(type_args) = ts_instantiation {
             TsInstantiation {
-                expr,
+                expr: callee,
                 type_args,
                 span: self.span(start),
             }
             .into()
         } else {
-            expr
+            callee
         };
 
         // MemberExpression[?Yield, ?Await] TemplateLiteral[?Yield, ?Await, +Tagged]
