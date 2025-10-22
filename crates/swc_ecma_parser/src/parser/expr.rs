@@ -1049,11 +1049,18 @@ impl<I: Tokens> Parser<I> {
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(crate) fn parse_subscripts(
         &mut self,
-        mut obj: Callee,
+        obj: Callee,
         no_call: bool,
         no_computed_member: bool,
     ) -> PResult<Box<Expr>> {
         let start = obj.span().lo;
+        let mut obj = match obj {
+            Callee::Import(import) => {
+                Callee::Expr(self.parse_subscript_import_call(start, import)?)
+            }
+            _ => obj,
+        };
+
         loop {
             obj = match self.parse_subscript(start, obj, no_call, no_computed_member)? {
                 (expr, false) => return Ok(expr),
@@ -1086,14 +1093,8 @@ impl<I: Tokens> Parser<I> {
                             SyntaxError::TsNonNullAssertionNotAllowed(atom!("super"))
                         )
                     }
-                    Callee::Import(..) => {
-                        syntax_error!(
-                            self,
-                            self.input().cur_span(),
-                            SyntaxError::TsNonNullAssertionNotAllowed(atom!("import"))
-                        )
-                    }
                     Callee::Expr(expr) => expr,
+                    Callee::Import(_) => unreachable!(),
                     #[cfg(swc_ast_unknown)]
                     _ => unreachable!(),
                 };
@@ -1108,8 +1109,6 @@ impl<I: Tokens> Parser<I> {
             }
 
             if matches!(obj, Callee::Expr(..)) && self.input().is(Token::Lt) {
-                let is_dynamic_import = obj.is_import();
-
                 let mut obj_opt = Some(obj);
                 // tsTryParseAndCatch is expensive, so avoid if not necessary.
                 // There are number of things we are going to "maybe" parse, like type arguments
@@ -1141,7 +1140,7 @@ impl<I: Tokens> Parser<I> {
                         if !no_call && cur == Token::LParen {
                             // possibleAsync always false here, because we would have handled it
                             // above. (won't be any undefined arguments)
-                            let args = p.parse_args(is_dynamic_import)?;
+                            let args = p.parse_args(false)?;
 
                             let obj = mut_obj_opt.take().unwrap();
 
@@ -1225,12 +1224,6 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        let cur = self.input().cur();
-
-        if obj.is_import() && !(matches!(cur, Token::Dot | Token::LParen)) {
-            unexpected!(self, "`.` or `(`")
-        }
-
         let question_dot_token = if self.input().is(Token::QuestionMark)
             && peek!(self).is_some_and(|peek| peek == Token::Dot)
         {
@@ -1268,7 +1261,6 @@ impl<I: Tokens> Parser<I> {
 
             return Ok((
                 Box::new(match obj {
-                    Callee::Import(..) => unreachable!(),
                     Callee::Super(obj) => {
                         if !self.ctx().contains(Context::AllowDirectSuper)
                             && !self.input().syntax().allow_super_outside_method()
@@ -1318,6 +1310,7 @@ impl<I: Tokens> Parser<I> {
                             expr
                         }
                     }
+                    Callee::Import(_) => unreachable!(),
                     #[cfg(swc_ast_unknown)]
                     _ => unreachable!(),
                 }),
@@ -1335,7 +1328,7 @@ impl<I: Tokens> Parser<I> {
         };
 
         if (self.input.is(Token::LParen) && (!no_call || question_dot)) || type_args.is_some() {
-            let args = self.parse_args(obj.is_import())?;
+            let args = self.parse_args(false)?;
             let span = self.span(start);
             return if question_dot
                 || match &obj {
@@ -1526,11 +1519,28 @@ impl<I: Tokens> Parser<I> {
                 }
                 syntax_error!(self, self.input().cur_span(), SyntaxError::InvalidSuper);
             }
-            Callee::Import(..) => {
-                syntax_error!(self, self.input().cur_span(), SyntaxError::InvalidImport);
-            }
+            Callee::Import(_) => unreachable!(),
             #[cfg(swc_ast_unknown)]
             _ => unreachable!(),
+        }
+    }
+
+    /// Section 13.3 ImportCall
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
+    fn parse_subscript_import_call(&mut self, start: BytePos, lhs: Import) -> PResult<Box<Expr>> {
+        trace_cur!(self, parse_subscript_import);
+        match self.input().cur() {
+            Token::LParen => {
+                let args = self.parse_args(true)?;
+                let expr = Box::new(Expr::Call(CallExpr {
+                    span: self.span(start),
+                    callee: Callee::Import(lhs),
+                    args,
+                    ..Default::default()
+                }));
+                Ok(expr)
+            }
+            _ => syntax_error!(self, self.input().cur_span(), SyntaxError::InvalidImport),
         }
     }
 
@@ -1556,27 +1566,25 @@ impl<I: Tokens> Parser<I> {
                     };
                     self.parse_subscripts(Callee::Expr(expr.into()), no_call, false)
                 }
-                "defer" => self.parse_dynamic_import_call(start, no_call, ImportPhase::Defer),
-                "source" => self.parse_dynamic_import_call(start, no_call, ImportPhase::Source),
+                "defer" => self.parse_dynamic_import_call(start, ImportPhase::Defer),
+                "source" => self.parse_dynamic_import_call(start, ImportPhase::Source),
                 _ => unexpected!(self, "meta"),
             }
         } else {
-            self.parse_dynamic_import_call(start, no_call, ImportPhase::Evaluation)
+            self.parse_dynamic_import_call(start, ImportPhase::Evaluation)
         }
     }
 
     fn parse_dynamic_import_call(
         &mut self,
         start: BytePos,
-        no_call: bool,
         phase: ImportPhase,
     ) -> PResult<Box<Expr>> {
         let import = Callee::Import(Import {
             span: self.span(start),
             phase,
         });
-
-        self.parse_subscripts(import, no_call, false)
+        self.parse_subscripts(import, false, false)
     }
 
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
