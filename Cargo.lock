@@ -5622,7 +5622,6 @@ dependencies = [
  "bitflags 2.6.0",
  "either",
  "num-bigint",
- "phf",
  "rustc-hash 2.1.1",
  "seq-macro",
  "serde",
