@@ -789,3 +789,4 @@ impl Error {
 fn size_of_error() {
     assert_eq!(std::mem::size_of::<Error>(), 8);
 }
+pub use swc_ecma_parser::error::{Error, SyntaxError};

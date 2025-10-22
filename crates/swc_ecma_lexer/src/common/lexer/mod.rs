@@ -100,6 +100,7 @@ impl From<UnicodeEscape> for CodePoint {
 }
 
 pub type LexResult<T> = Result<T, crate::error::Error>;
+pub type LexResult<T> = swc_ecma_parser::lexer::LexResult<T>;
 
 fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
     if has_underscore {
