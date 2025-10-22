@@ -24,7 +24,7 @@ fn bench_files(c: &mut Criterion) {
         bench_module(
             b,
             Default::default(),
-            include_str!("../../swc_ecma_parser/colors.js"),
+            include_str!("../../swc_ecma_parser/benches/files/colors.js"),
         )
     });
 
