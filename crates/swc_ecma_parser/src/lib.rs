@@ -139,33 +139,29 @@ pub mod unstable {
     //! the performance.
     //!
     //! Also see the dicussion https://github.com/swc-project/swc/discussions/10683
-    // pub use swc_ecma_lexer::common::{
-    //     lexer::token::TokenFactory,
-    //     parser::{buffer::Buffer, Parser as ParserTrait},
-    // };
-
     pub use crate::lexer::{
         capturing::Capturing,
         token::{NextTokenAndSpan, Token, TokenAndSpan, TokenValue},
     };
 }
 
+use error::Error;
+use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
+use swc_ecma_ast::*;
+
 mod context;
 pub mod error;
+mod legacy;
 pub mod lexer;
 mod parser;
 mod syntax;
-// mod compat;
 
 pub use context::Context;
-use error::Error;
+pub use legacy::token;
 pub use lexer::Lexer;
+pub use parser::*;
 pub use swc_common::input::{Input, StringInput};
-use swc_common::{comments::Comments, input::SourceFileInput, SourceFile};
-use swc_ecma_ast::*;
-pub use syntax::{EsSyntax, Syntax, TsSyntax};
-
-pub use self::parser::*;
+pub use syntax::{EsSyntax, Syntax, SyntaxFlags, TsSyntax};
 
 #[cfg(test)]
 fn with_test_sess<F, Ret>(src: &str, f: F) -> Result<Ret, ::testing::StdErr>

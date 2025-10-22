@@ -62,7 +62,7 @@ static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
 static TEMPLATE_LITERAL_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| matches!(b, b'$' | b'`' | b'\\' | b'\r'));
 
-pub type LexResult<T> = Result<T, crate::error::Error>;
+pub type LexResult<T> = swc_ecma_parser::lexer::LexResult<T>;
 
 fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
     if has_underscore {
