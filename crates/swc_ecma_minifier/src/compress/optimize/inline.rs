@@ -317,33 +317,13 @@ impl Optimizer<'_> {
                     ..
                 } = **usage;
                 let mut inc_usage = || {
-                    if let Some(i) = match &*init {
-                        // The condition above filters `init` for literals, idents, and arrow
-                        // functions.
-                        Expr::Ident(i) => Some(i),
-                        Expr::Arrow(arr) => match &*arr.body {
-                            BlockStmtOrExpr::Expr(e) => match &**e {
-                                Expr::Call(i) => i.callee.as_expr().and_then(|e| e.as_ident()),
-                                _ => None,
-                            },
-                            BlockStmtOrExpr::BlockStmt(BlockStmt { stmts, .. }) => {
-                                if let &[Stmt::Return(ReturnStmt { arg: Some(arg), .. })] =
-                                    &&**stmts
-                                {
-                                    match &**arg {
-                                        Expr::Call(i) => {
-                                            i.callee.as_expr().and_then(|e| e.as_ident())
-                                        }
-                                        _ => None,
-                                    }
-                                } else {
-                                    None
-                                }
-                            }
-                        },
-                        _ => None,
-                    } {
-                        if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
+                    for (i, _) in collect_infects_from(
+                        &*init,
+                        AliasConfig::default()
+                            .marks(Some(self.marks))
+                            .need_all(true),
+                    ) {
+                        if let Some(u) = self.data.vars.get_mut(&i) {
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_ARG;
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_REF;
                             u.flags |= flags & VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY;
