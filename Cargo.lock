@@ -5113,7 +5113,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "45.0.1"
+version = "45.0.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5616,7 +5616,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lexer"
-version = "24.0.0"
+version = "24.0.1"
 dependencies = [
  "arrayvec",
  "bitflags 2.6.0",
@@ -5686,7 +5686,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "34.0.1"
+version = "34.0.2"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5889,7 +5889,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "28.0.0"
+version = "28.0.1"
 dependencies = [
  "better_scoped_tls",
  "codspeed-criterion-compat",
@@ -6377,7 +6377,7 @@ dependencies = [
 
 [[package]]
 name = "swc_malloc"
-version = "1.2.3"
+version = "1.2.4"
 dependencies = [
  "mimalloc",
  "tikv-jemallocator",
