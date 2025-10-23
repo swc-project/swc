@@ -451,7 +451,7 @@ where
                 // Only record if we have a valid argument list (no spread)
                 if !call_args.is_empty() || n.args.is_empty() {
                     self.data
-                        .record_call_site_args(callee_ident.to_id(), call_args);
+                        .record_call_site_args(callee_ident.to_id(), &call_args);
                 }
             }
 
