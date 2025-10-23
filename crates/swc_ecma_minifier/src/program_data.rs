@@ -566,7 +566,7 @@ impl Storage for ProgramData {
         self.vars.get(&id).map(|v| v.as_ref())
     }
 
-    fn record_call_site_args(&mut self, callee_id: Id, args: &[Option<Box<Expr>>]) {
+    fn record_call_site_args(&mut self, callee_id: Id, args: Vec<Option<Box<Expr>>>) {
         let var = self.vars.entry(callee_id).or_default();
 
         // Initialize the call_site_args if it doesn't exist
@@ -574,9 +574,9 @@ impl Storage for ProgramData {
             var.call_site_args = Some(Vec::new());
         }
 
-        // Add this call site's arguments (clone only when storing)
+        // Add this call site's arguments (moved, no clone needed)
         if let Some(ref mut call_sites) = var.call_site_args {
-            call_sites.push(args.to_vec());
+            call_sites.push(args);
         }
     }
 }
