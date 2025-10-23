@@ -554,8 +554,19 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        // Phase 1: Pre-processing - Check and apply transformations that replace the
-        // expression
+        // Phase 1: Setup for private field expressions
+        let prev_prepend_exprs = if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
+            Some(take(&mut self.es2022_private_field_init_exprs))
+        } else {
+            None
+        };
+
+        // Phase 2: Single recursive visit - Visit children first
+        e.visit_mut_children_with(self);
+
+        // Phase 3: Post-processing transformations
+        // Apply transformations after visiting children (this matches the original
+        // order)
         let logical_transformed = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
             && self.transform_logical_assignment(e);
 
@@ -563,17 +574,6 @@ impl<'a> VisitMut for CompilerImpl<'a> {
             && self.config.includes.contains(Features::NULLISH_COALESCING)
             && self.transform_nullish_coalescing(e);
 
-        // Phase 2: Setup for private field expressions
-        let prev_prepend_exprs = if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
-            Some(take(&mut self.es2022_private_field_init_exprs))
-        } else {
-            None
-        };
-
-        // Phase 3: Single recursive visit
-        e.visit_mut_children_with(self);
-
-        // Phase 4: Post-processing transformations
         // Handle private field expressions
         if let Some(prev_prepend_exprs) = prev_prepend_exprs {
             let mut prepend_exprs = std::mem::replace(
