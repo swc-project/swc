@@ -491,7 +491,7 @@ pub fn parse_ts_type_args<'a, P: Parser<'a>>(p: &mut P) -> PResult<Box<TsTypePar
 
     // Report grammar error for empty type argument list like `I<>`.
     if params.is_empty() {
-        p.emit_err(span, SyntaxError::TypeArgumentListCannotBeEmpty);
+        p.emit_err(span, SyntaxError::EmptyTypeArgumentList);
     }
 
     Ok(Box::new(TsTypeParamInstantiation { span, params }))
