@@ -11,7 +11,7 @@ impl Optimizer<'_> {
     ///
     /// This optimization identifies function parameters where all call sites
     /// pass the same constant value (including implicit undefined), and
-    /// transforms the function to use a const declaration instead.
+    /// transforms the function to use a variable declaration instead.
     ///
     /// Example:
     /// ```js
@@ -26,7 +26,7 @@ impl Optimizer<'_> {
     /// =>
     /// ```js
     /// function complex(foo) {
-    ///     const fn = undefined;
+    ///     const fn = undefined; // const if not reassigned, let otherwise
     ///     if (Math.random() > 0.5) throw new Error();
     ///     return fn?.(foo);
     /// }
@@ -81,41 +81,28 @@ impl Optimizer<'_> {
             return;
         }
 
-        // Skip very small functions with few call sites that are better optimized
-        // by function body inlining (reduce_fns/reduce_vars) rather than parameter
-        // inlining.
+        // Skip if this function is a candidate for function body inlining.
+        // Function body inlining can completely inline small functions which is
+        // more effective than parameter inlining. We should not interfere with
+        // that optimization by removing parameters first.
         //
-        // Small functions (single statement, simple return) with 1-2 calls are prime
-        // candidates for function inlining, which handles parameter substitution
-        // differently:
-        //   function g(b) { return b; }
-        //   g(2)
-        // =>
-        //   (function(b) { return 2; })(0)  // function inlined, param kept
+        // A function is a good candidate for body inlining when:
+        // - It has a single call site (reduce_fns typically inlines single-use functions)
+        // - It's small (single statement)
         //
-        // vs our parameter inlining which would do:
-        //   function g() { const b = 2; return b; }
-        //   g()  // param removed
-        //
-        // However, larger functions or functions with 3+ call sites benefit more from
-        // parameter inlining as function body inlining becomes less effective.
-        if (self.options.reduce_fns || self.options.reduce_vars) && call_sites.len() <= 2 {
-            // Check if this is a small, simple function (candidate for function
-            // inlining)
-            let is_small_function = if let Some(body) = &f.body {
-                // Single statement functions are prime candidates for function inlining
-                body.stmts.len() == 1
-            } else {
-                false
-            };
-
-            if is_small_function {
-                return;
+        // This check ensures parameter inlining effectively runs "after" function
+        // body inlining by skipping functions that would be inlined anyway.
+        if (self.options.reduce_fns || self.options.reduce_vars) && call_sites.len() == 1 {
+            if let Some(body) = &f.body {
+                // Single statement functions are prime candidates for function body inlining
+                if body.stmts.len() == 1 {
+                    return;
+                }
             }
         }
 
         // Analyze each parameter
-        let mut params_to_inline: Vec<(usize, Box<Expr>)> = Vec::new();
+        let mut params_to_inline: Vec<(usize, Box<Expr>, bool)> = Vec::new();
 
         for (param_idx, param) in f.params.iter().enumerate() {
             // Only handle simple identifier parameters
@@ -124,12 +111,13 @@ impl Optimizer<'_> {
                 _ => continue, // Skip destructuring, rest params, etc.
             };
 
-            // Check if parameter is mutated within the function
-            if let Some(param_usage) = self.data.vars.get(&param_id) {
-                if param_usage.flags.contains(VarUsageInfoFlags::REASSIGNED) {
-                    continue;
-                }
-            }
+            // Check if parameter is reassigned within the function
+            // If so, we'll use 'let' instead of 'const'
+            let is_reassigned = if let Some(param_usage) = self.data.vars.get(&param_id) {
+                param_usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
+            } else {
+                false
+            };
 
             // Collect argument values for this parameter across all call sites
             let mut common_value: Option<Box<Expr>> = None;
@@ -177,7 +165,7 @@ impl Optimizer<'_> {
             // If all call sites pass the same constant value, mark for inlining
             if all_same {
                 if let Some(value) = common_value {
-                    params_to_inline.push((param_idx, value));
+                    params_to_inline.push((param_idx, value, is_reassigned));
                 }
             }
         }
@@ -192,7 +180,7 @@ impl Optimizer<'_> {
     fn apply_param_inlining(
         &mut self,
         f: &mut Function,
-        params_to_inline: &[(usize, Box<Expr>)],
+        params_to_inline: &[(usize, Box<Expr>, bool)],
         fn_id: &Id,
     ) {
         use rustc_hash::FxHashSet;
@@ -201,22 +189,28 @@ impl Optimizer<'_> {
         let mut sorted_params = params_to_inline.to_vec();
         sorted_params.sort_by(|a, b| b.0.cmp(&a.0));
 
-        // Collect const declarations to add at the beginning of function body
-        let mut const_decls = Vec::new();
+        // Collect variable declarations to add at the beginning of function body
+        let mut var_decls = Vec::new();
 
         // Track which parameter indices are being inlined
         let mut inlined_indices = FxHashSet::default();
 
-        for (param_idx, value) in &sorted_params {
+        for (param_idx, value, is_reassigned) in &sorted_params {
             inlined_indices.insert(*param_idx);
 
             if let Some(param) = f.params.get(*param_idx) {
                 if let Pat::Ident(ident) = &param.pat {
-                    // Create const declaration: const paramName = value;
-                    const_decls.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                    // Create variable declaration: const/let paramName = value;
+                    // Use 'let' if the parameter is reassigned, 'const' otherwise
+                    let var_kind = if *is_reassigned {
+                        VarDeclKind::Let
+                    } else {
+                        VarDeclKind::Const
+                    };
+                    var_decls.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                         span: DUMMY_SP,
                         ctxt: Default::default(),
-                        kind: VarDeclKind::Const,
+                        kind: var_kind,
                         declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
@@ -230,15 +224,15 @@ impl Optimizer<'_> {
         }
 
         // Remove parameters (in reverse order)
-        for (param_idx, _) in &sorted_params {
+        for (param_idx, _, _) in &sorted_params {
             f.params.remove(*param_idx);
         }
 
-        // Add const declarations to function body
+        // Add variable declarations to function body
         if let Some(body) = &mut f.body {
-            const_decls.reverse(); // Reverse to maintain original order
-            const_decls.append(&mut body.stmts);
-            body.stmts = const_decls;
+            var_decls.reverse(); // Reverse to maintain original order
+            var_decls.append(&mut body.stmts);
+            body.stmts = var_decls;
         }
 
         // Store the inlined parameter indices for later use when visiting call
