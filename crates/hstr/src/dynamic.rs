@@ -158,12 +158,13 @@ where
 
 /// Attempts to construct an [Atom] but only if it can be constructed inline.
 /// This is primarily useful in constant contexts.
+#[allow(clippy::incompatible_msrv)]
 pub(crate) const fn inline_atom(text: &str) -> Option<Atom> {
     let len = text.len();
     if len <= MAX_INLINE_LEN {
         // INLINE_TAG ensures this is never zero
         let tag = INLINE_TAG | ((len as u8) << LEN_OFFSET);
-        let mut unsafe_data = TaggedValue::new_tag(NonZeroU8::new(tag).unwrap());
+        let mut unsafe_data = TaggedValue::new_tag(NonZeroU8::new(tag).expect("tag is non-zero"));
         // This odd pattern is needed because we cannot create slices from ranges or
         // ranges at all in constant context.  So we write our own copying loop.
         unsafe {

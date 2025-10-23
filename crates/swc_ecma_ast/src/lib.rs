@@ -7,6 +7,7 @@
 #![deny(clippy::all)]
 #![allow(clippy::enum_variant_names)]
 #![allow(clippy::clone_on_copy)]
+#![allow(clippy::double_parens)]
 #![recursion_limit = "1024"]
 
 pub use num_bigint::BigInt as BigIntValue;

@@ -397,7 +397,7 @@ impl Eq for Wtf8 {}
 impl PartialOrd for Wtf8 {
     #[inline]
     fn partial_cmp(&self, other: &Wtf8) -> Option<Ordering> {
-        Some(self.bytes.cmp(&other.bytes))
+        Some(self.cmp(other))
     }
 
     #[inline]
@@ -539,9 +539,9 @@ impl Wtf8 {
         }
     }
 
-    /// Return an iterator for the string’s code points.
+    /// Return an iterator for the string's code points.
     #[inline]
-    pub fn code_points(&self) -> Wtf8CodePoints {
+    pub fn code_points(&self) -> Wtf8CodePoints<'_> {
         Wtf8CodePoints {
             bytes: self.bytes.iter(),
         }
@@ -575,7 +575,7 @@ impl Wtf8 {
     /// “�”).
     ///
     /// This only copies the data if necessary (if it contains any surrogate).
-    pub fn to_string_lossy(&self) -> Cow<str> {
+    pub fn to_string_lossy(&self) -> Cow<'_, str> {
         let surrogate_pos = match self.next_surrogate(0) {
             None => return Cow::Borrowed(unsafe { str::from_utf8_unchecked(&self.bytes) }),
             Some((pos, _)) => pos,
@@ -607,7 +607,7 @@ impl Wtf8 {
     /// calling `Wtf8Buf::from_ill_formed_utf16` on the resulting code units
     /// would always return the original WTF-8 string.
     #[inline]
-    pub fn to_ill_formed_utf16(&self) -> IllFormedUtf16CodeUnits {
+    pub fn to_ill_formed_utf16(&self) -> IllFormedUtf16CodeUnits<'_> {
         IllFormedUtf16CodeUnits {
             code_points: self.code_points(),
             extra: 0,

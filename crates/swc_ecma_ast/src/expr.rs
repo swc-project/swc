@@ -1441,10 +1441,7 @@ impl TryFrom<Pat> for AssignTarget {
             Pat::Ident(i) => SimpleAssignTarget::Ident(i).into(),
             Pat::Invalid(i) => SimpleAssignTarget::Invalid(i).into(),
 
-            Pat::Expr(e) => match Self::try_from(e) {
-                Ok(v) => v,
-                Err(e) => return Err(e.into()),
-            },
+            Pat::Expr(e) => Self::try_from(e)?,
 
             _ => return Err(p),
         })
