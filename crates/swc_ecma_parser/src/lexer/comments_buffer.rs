@@ -1,7 +1,17 @@
 use swc_common::{comments::Comment, BytePos};
-use swc_ecma_lexer::common::lexer::comments_buffer::{
-    BufferedComment, BufferedCommentKind, CommentsBufferTrait,
-};
+
+#[derive(Debug, Clone)]
+pub struct BufferedComment {
+    pub kind: BufferedCommentKind,
+    pub pos: BytePos,
+    pub comment: Comment,
+}
+
+#[derive(Debug, Clone, Copy)]
+pub enum BufferedCommentKind {
+    Leading,
+    Trailing,
+}
 
 #[derive(Default, Clone)]
 pub struct CommentsBuffer {
@@ -33,19 +43,19 @@ impl CommentsBuffer {
     }
 }
 
-impl CommentsBufferTrait for CommentsBuffer {
+impl CommentsBuffer {
     #[inline(always)]
-    fn push_comment(&mut self, comment: BufferedComment) {
+    pub fn push_comment(&mut self, comment: BufferedComment) {
         self.comments.push(comment);
     }
 
     #[inline(always)]
-    fn push_pending(&mut self, comment: Comment) {
+    pub fn push_pending(&mut self, comment: Comment) {
         self.pending_leading.push(comment);
     }
 
     #[inline(always)]
-    fn pending_to_comment(&mut self, kind: BufferedCommentKind, pos: BytePos) {
+    pub fn pending_to_comment(&mut self, kind: BufferedCommentKind, pos: BytePos) {
         for comment in self.pending_leading.drain(..) {
             let comment = BufferedComment { kind, pos, comment };
             self.comments.push(comment);
@@ -53,7 +63,7 @@ impl CommentsBufferTrait for CommentsBuffer {
     }
 
     #[inline(always)]
-    fn take_comments(&mut self) -> impl Iterator<Item = BufferedComment> + '_ {
+    pub fn take_comments(&mut self) -> impl Iterator<Item = BufferedComment> + '_ {
         self.comments.drain(..)
     }
 }

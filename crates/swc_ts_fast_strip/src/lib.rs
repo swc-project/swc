@@ -21,10 +21,9 @@ use swc_ecma_ast::{
     TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
     TsTypeParamInstantiation, VarDeclarator, WhileStmt, YieldExpr,
 };
-use swc_ecma_lexer::common::parser::{buffer::Buffer, Parser as _};
 use swc_ecma_parser::{
     lexer::Lexer,
-    unstable::{Capturing, Token, TokenAndSpan, TokenFactory},
+    unstable::{Capturing, Token, TokenAndSpan},
     Parser, StringInput, Syntax, TsSyntax,
 };
 use swc_ecma_transforms_base::{
@@ -732,7 +731,7 @@ impl TsStrip {
 
             // see ts_next_token_can_follow_modifier
             // class { public public() {} }
-            if !<Token as TokenFactory<'_, TokenAndSpan, Capturing<Lexer>>>::is_word(&next.token)
+            if !next.token.is_word()
                 && !matches!(
                     next.token,
                     Token::LBracket

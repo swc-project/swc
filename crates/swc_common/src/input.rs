@@ -44,6 +44,35 @@ impl<'a> StringInput<'a> {
         self.iter.as_str()
     }
 
+    #[inline(always)]
+    /// Compared to [StringInput::slice], this function doesn't set
+    /// `self.last_pos = end` because in most cases this property has been
+    /// satisfied but the compiler cannot optimize it.
+    ///
+    /// Caution: This function should only be used internally and will be
+    /// changed in the future.
+    ///
+    /// # Safety
+    /// - start should be less than or equal to end.
+    /// - start and end should be in the valid range of input.
+    pub unsafe fn slice_to_cur(&mut self, start: BytePos) -> &'a str {
+        let end = self.last_pos;
+
+        debug_assert!(start <= end, "Cannot slice {start:?}..{end:?}");
+        let s = self.orig;
+
+        let start_idx = (start - self.orig_start).0 as usize;
+        let end_idx = (end - self.orig_start).0 as usize;
+
+        debug_assert!(end_idx <= s.len());
+
+        let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
+
+        self.iter = unsafe { s.get_unchecked(end_idx..) }.chars();
+
+        ret
+    }
+
     #[inline]
     pub fn bump_bytes(&mut self, n: usize) {
         unsafe {
