@@ -141,7 +141,11 @@ fn reparse_expr_as_pat_inner<'a>(
             | Expr::Class(..)
             | Expr::Paren(..)
             | Expr::Tpl(..)
-            | Expr::TsAs(..) => {
+            | Expr::TsAs(..)
+            | Expr::TsNonNull(..)
+            | Expr::TsTypeAssertion(..)
+            | Expr::TsInstantiation(..)
+            | Expr::TsSatisfies(..) => {
                 if !expr.is_valid_simple_assignment_target(p.ctx().contains(Context::Strict)) {
                     p.emit_err(span, SyntaxError::NotSimpleAssign)
                 }
