@@ -1165,7 +1165,7 @@ fn get_template_element_from_raw(
     buf
 }
 
-fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> CowStr {
+fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> CowStr<'_> {
     if sym.is_ascii() {
         return CowStr::Borrowed(sym);
     }
@@ -1339,7 +1339,7 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
     }
 }
 
-fn handle_invalid_unicodes(s: &str) -> Cow<str> {
+fn handle_invalid_unicodes(s: &str) -> Cow<'_, str> {
     static NEEDLE: Lazy<Finder> = Lazy::new(|| Finder::new("\\\0"));
     if NEEDLE.find(s.as_bytes()).is_none() {
         return Cow::Borrowed(s);

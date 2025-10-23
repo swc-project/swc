@@ -14,32 +14,22 @@ use crate::rules::non_critical_lints::{
     valid_typeof::ValidTypeofConfig, yoda::YodaConfig,
 };
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum LintRuleReaction {
+    #[default]
     Off,
     Warning,
     Error,
 }
 
-impl Default for LintRuleReaction {
-    fn default() -> Self {
-        Self::Off
-    }
-}
-
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
 #[serde(untagged)]
 enum LintRuleLevel {
     Str(LintRuleReaction),
     Number(u8),
+    #[default]
     Unspecified,
-}
-
-impl Default for LintRuleLevel {
-    fn default() -> Self {
-        Self::Unspecified
-    }
 }
 
 impl From<LintRuleLevel> for LintRuleReaction {

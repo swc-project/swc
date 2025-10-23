@@ -12,7 +12,7 @@ impl<S> UsageAnalyzer<S>
 where
     S: Storage,
 {
-    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<S> {
+    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_, S> {
         let orig_ctx = self.ctx;
         self.ctx = ctx;
         WithCtx {

@@ -1876,19 +1876,25 @@ fn parse_ts_array_type_or_higher<'a, P: Parser<'a>>(
 
     while !p.input().had_line_break_before_cur() && p.input_mut().eat(&P::Token::LBRACKET) {
         if p.input_mut().eat(&P::Token::RBRACKET) {
-            ty = Box::new(TsType::TsArrayType(TsArrayType {
-                span: p.span(ty.span_lo()),
-                elem_type: ty,
-            }));
+            #[allow(clippy::replace_box)]
+            {
+                ty = Box::new(TsType::TsArrayType(TsArrayType {
+                    span: p.span(ty.span_lo()),
+                    elem_type: ty,
+                }));
+            }
         } else {
             let index_type = parse_ts_type(p)?;
             expect!(p, &P::Token::RBRACKET);
-            ty = Box::new(TsType::TsIndexedAccessType(TsIndexedAccessType {
-                span: p.span(ty.span_lo()),
-                readonly,
-                obj_type: ty,
-                index_type,
-            }))
+            #[allow(clippy::replace_box)]
+            {
+                ty = Box::new(TsType::TsIndexedAccessType(TsIndexedAccessType {
+                    span: p.span(ty.span_lo()),
+                    readonly,
+                    obj_type: ty,
+                    index_type,
+                }))
+            }
         }
     }
 

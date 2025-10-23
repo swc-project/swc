@@ -382,13 +382,16 @@ pub trait Parser<'a>: Sized + Clone {
                         exprs.push(p.allow_in_expr(parse_assignment_expr)?);
                     }
                     p.emit_err(p.span(inner_start), SyntaxError::TS1171);
-                    expr = Box::new(
-                        SeqExpr {
-                            span: p.span(inner_start),
-                            exprs,
-                        }
-                        .into(),
-                    );
+                    #[allow(clippy::replace_box)]
+                    {
+                        expr = Box::new(
+                            SeqExpr {
+                                span: p.span(inner_start),
+                                exprs,
+                            }
+                            .into(),
+                        );
+                    }
                 }
                 expect!(p, &Self::Token::RBRACKET);
                 PropName::Computed(ComputedPropName {

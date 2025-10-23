@@ -5,7 +5,7 @@ use bitflags::bitflags;
 use super::InfectionCollector;
 
 impl InfectionCollector {
-    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx {
+    pub(super) fn with_ctx(&mut self, ctx: Ctx) -> WithCtx<'_> {
         let orig_ctx = self.ctx;
         self.ctx = ctx;
 

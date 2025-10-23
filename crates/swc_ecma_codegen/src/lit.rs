@@ -180,7 +180,7 @@ impl MacroNode for Bool {
     }
 }
 
-pub fn replace_close_inline_script(raw: &str) -> CowStr {
+pub fn replace_close_inline_script(raw: &str) -> CowStr<'_> {
     let chars = raw.as_bytes();
     let pattern_len = 8; // </script>
 
@@ -328,7 +328,7 @@ where
 ///
 /// # Returns
 /// A string with non-ASCII characters encoded as Unicode escapes
-pub fn encode_regex_for_ascii(pattern: &str, ascii_only: bool) -> CowStr {
+pub fn encode_regex_for_ascii(pattern: &str, ascii_only: bool) -> CowStr<'_> {
     if !ascii_only || pattern.is_ascii() {
         return CowStr::Borrowed(pattern);
     }
@@ -366,7 +366,7 @@ pub fn encode_regex_for_ascii(pattern: &str, ascii_only: bool) -> CowStr {
 }
 
 /// Returns `(quote_char, value)`
-pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar, CowStr) {
+pub fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> (AsciiChar, CowStr<'_>) {
     // Fast path: If the string is ASCII and doesn't need escaping, we can avoid
     // allocation
     if v.is_ascii() {

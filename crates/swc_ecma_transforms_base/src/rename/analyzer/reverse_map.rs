@@ -14,7 +14,7 @@ impl ReverseMap<'_> {
         self.inner.entry(key).or_default().push(id);
     }
 
-    fn iter(&self) -> Iter {
+    fn iter(&self) -> Iter<'_> {
         Iter { cur: Some(self) }
     }
 
@@ -24,7 +24,7 @@ impl ReverseMap<'_> {
             .flat_map(|v| v.iter())
     }
 
-    pub fn next(&self) -> ReverseMap {
+    pub fn next(&self) -> ReverseMap<'_> {
         ReverseMap {
             prev: Some(self),
             ..Default::default()

@@ -175,20 +175,26 @@ impl FastDts {
         if !is_maybe_undefined(&type_ann.type_ann) {
             let mut ty = type_ann.type_ann.clone();
             if ty.is_ts_fn_or_constructor_type() {
-                ty = Box::new(
-                    TsParenthesizedType {
-                        span: DUMMY_SP,
-                        type_ann: Box::new(*ty),
-                    }
-                    .into(),
-                );
+                #[allow(clippy::replace_box)]
+                {
+                    ty = Box::new(
+                        TsParenthesizedType {
+                            span: DUMMY_SP,
+                            type_ann: Box::new(*ty),
+                        }
+                        .into(),
+                    );
+                }
             }
-            type_ann.type_ann = Box::new(TsType::TsUnionOrIntersectionType(
-                TsUnionOrIntersectionType::TsUnionType(TsUnionType {
-                    span: DUMMY_SP,
-                    types: vec![ty, ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword)],
-                }),
-            ))
+            #[allow(clippy::replace_box)]
+            {
+                type_ann.type_ann = Box::new(TsType::TsUnionOrIntersectionType(
+                    TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                        span: DUMMY_SP,
+                        types: vec![ty, ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword)],
+                    }),
+                ))
+            }
         }
 
         false

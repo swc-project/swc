@@ -155,21 +155,27 @@ impl ReturnTypeInferrer {
 
         if visitor.return_expr_count > 1 {
             if expr_type.is_ts_fn_or_constructor_type() {
-                expr_type = Box::new(TsType::TsParenthesizedType(TsParenthesizedType {
-                    span: DUMMY_SP,
-                    type_ann: expr_type,
-                }));
+                #[allow(clippy::replace_box)]
+                {
+                    expr_type = Box::new(TsType::TsParenthesizedType(TsParenthesizedType {
+                        span: DUMMY_SP,
+                        type_ann: expr_type,
+                    }));
+                }
             }
 
-            expr_type = Box::new(TsType::TsUnionOrIntersectionType(
-                TsUnionOrIntersectionType::TsUnionType(TsUnionType {
-                    span: DUMMY_SP,
-                    types: vec![
-                        expr_type,
-                        ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword),
-                    ],
-                }),
-            ))
+            #[allow(clippy::replace_box)]
+            {
+                expr_type = Box::new(TsType::TsUnionOrIntersectionType(
+                    TsUnionOrIntersectionType::TsUnionType(TsUnionType {
+                        span: DUMMY_SP,
+                        types: vec![
+                            expr_type,
+                            ts_keyword_type(TsKeywordTypeKind::TsUndefinedKeyword),
+                        ],
+                    }),
+                ))
+            }
         }
 
         Some(expr_type)
