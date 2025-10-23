@@ -148,7 +148,10 @@ impl Load for Loader {
                     top_level_mark,
                     unresolved_mark,
                 ))
-                .apply(inject_helpers(unresolved_mark))
+                .apply(inject_helpers(
+                    unresolved_mark,
+                    None::<SingleThreadedComments>,
+                ))
                 .module()
                 .unwrap()
         });

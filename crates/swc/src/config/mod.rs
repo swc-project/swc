@@ -655,7 +655,10 @@ impl Options {
                 modules::import_analysis::import_analyzer(import_interop, ignore_dynamic),
                 need_analyzer,
             ),
-            Optional::new(helpers::inject_helpers(unresolved_mark), inject_helpers),
+            Optional::new(
+                helpers::inject_helpers(unresolved_mark, comments.map(|c| c as &dyn Comments)),
+                inject_helpers,
+            ),
             ModuleConfig::build(
                 cm.clone(),
                 comments.map(|v| v as &dyn Comments),

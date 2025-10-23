@@ -32,7 +32,10 @@ fn run_test(input: PathBuf) {
                 resolver(unresolved_mark, top_level_mark, true),
                 decorator_2022_03(),
                 explicit_resource_management(),
-                inject_helpers(top_level_mark),
+                inject_helpers(
+                    top_level_mark,
+                    None::<swc_common::comments::SingleThreadedComments>,
+                ),
                 typescript(
                     typescript::Config {
                         verbatim_module_syntax: false,

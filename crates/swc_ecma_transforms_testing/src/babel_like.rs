@@ -3,7 +3,11 @@ use std::{fs::read_to_string, path::Path};
 use ansi_term::Color;
 use serde::Deserialize;
 use serde_json::Value;
-use swc_common::{comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap};
+use swc_common::{
+    comments::{Comments, SingleThreadedComments},
+    sync::Lrc,
+    Mark, SourceMap,
+};
 use swc_ecma_ast::{EsVersion, Pass, Program};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{parse_file_as_program, Syntax};
@@ -168,7 +172,10 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 let code_without_helper = builder.print(&p);
 
                 if output_path.is_none() {
-                    p.mutate(inject_helpers(builder.unresolved_mark))
+                    p.mutate(inject_helpers(
+                        builder.unresolved_mark,
+                        Some(&builder.comments as &dyn Comments),
+                    ))
                 }
 
                 (code_without_helper, p)

@@ -58,9 +58,10 @@ where
                         .lock();
 
                     HELPERS.set(&Helpers::from_data(swc_helpers), || {
-                        bundle
-                            .module
-                            .visit_mut_with(&mut inject_helpers(unresolved_mark));
+                        bundle.module.visit_mut_with(&mut inject_helpers(
+                            unresolved_mark,
+                            None::<swc_common::comments::SingleThreadedComments>,
+                        ));
                     });
                 }
 

@@ -556,7 +556,10 @@ where
             .apply(fixer::fixer(Some(&tester.comments)));
 
         let src_without_helpers = tester.print(&program, &tester.comments.clone());
-        program = program.apply(inject_helpers(Mark::fresh(Mark::root())));
+        program = program.apply(inject_helpers(
+            Mark::fresh(Mark::root()),
+            Some(&tester.comments as &dyn Comments),
+        ));
 
         let transformed_src = tester.print(&program, &tester.comments.clone());
 
@@ -610,7 +613,10 @@ where
             .apply(fixer::fixer(Some(&tester.comments)));
 
         let src_without_helpers = tester.print(&program, &tester.comments.clone());
-        program = program.apply(inject_helpers(Mark::fresh(Mark::root())));
+        program = program.apply(inject_helpers(
+            Mark::fresh(Mark::root()),
+            Some(&tester.comments as &dyn Comments),
+        ));
 
         let src = tester.print(&program, &tester.comments.clone());
 

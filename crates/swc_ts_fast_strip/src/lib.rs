@@ -4,7 +4,7 @@ use anyhow::Context;
 use bytes_str::BytesStr;
 use serde::{Deserialize, Serialize};
 use swc_common::{
-    comments::SingleThreadedComments,
+    comments::{Comments, SingleThreadedComments},
     errors::{DiagnosticId, Handler, HANDLER},
     source_map::DefaultSourceMapGenConfig,
     sync::Lrc,
@@ -463,7 +463,10 @@ pub fn operate(
                     unresolved_mark,
                 ));
 
-                program.mutate(&mut inject_helpers(unresolved_mark));
+                program.mutate(&mut inject_helpers(
+                    unresolved_mark,
+                    Some(&comments as &dyn Comments),
+                ));
 
                 program.mutate(&mut hygiene());
 

@@ -1,7 +1,7 @@
 use std::cell::RefCell;
 
 use swc_atoms::atom;
-use swc_common::{Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{comments::Comments, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{prepend_stmts, quote_ident, DropSpan, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -192,7 +192,10 @@ macro_rules! define_helpers {
             }
         }
 
-        impl InjectHelpers {
+        impl<C> InjectHelpers<C>
+        where
+            C: Comments,
+        {
             fn is_helper_used(&self) -> bool{
 
                 HELPERS.with(|helpers|{
@@ -420,19 +423,30 @@ define_helpers!(Helpers {
     using_ctx: (),
 });
 
-pub fn inject_helpers(global_mark: Mark) -> impl Pass + VisitMut {
+pub fn inject_helpers<C>(global_mark: Mark, comments: Option<C>) -> impl Pass + VisitMut
+where
+    C: Comments,
+{
     visit_mut_pass(InjectHelpers {
         global_mark,
         helper_ctxt: None,
+        comments,
     })
 }
 
-struct InjectHelpers {
+struct InjectHelpers<C>
+where
+    C: Comments,
+{
     global_mark: Mark,
     helper_ctxt: Option<SyntaxContext>,
+    comments: Option<C>,
 }
 
-impl InjectHelpers {
+impl<C> InjectHelpers<C>
+where
+    C: Comments,
+{
     #[allow(unused_variables)]
     fn make_helpers_for_module(&mut self) -> Vec<ModuleItem> {
         let (helper_mark, external) = HELPERS.with(|helper| (helper.mark(), helper.external()));
@@ -519,20 +533,115 @@ impl InjectHelpers {
     }
 }
 
-impl VisitMut for InjectHelpers {
+impl<C> VisitMut for InjectHelpers<C>
+where
+    C: Comments,
+{
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, module: &mut Module) {
         let helpers = self.make_helpers_for_module();
 
-        prepend_stmts(&mut module.body, helpers.into_iter());
+        if !helpers.is_empty() && !module.body.is_empty() {
+            // Preserve leading comments on the first module item
+            if let Some(ref comments) = self.comments {
+                // Get the first non-directive item
+                let first_non_directive_idx = module.body.iter().position(|item| {
+                    !matches!(
+                        item,
+                        ModuleItem::Stmt(Stmt::Expr(expr_stmt)) if matches!(&*expr_stmt.expr, Expr::Lit(Lit::Str(..)))
+                    )
+                });
+
+                if let Some(idx) = first_non_directive_idx {
+                    if let Some(first_item) = module.body.get(idx) {
+                        let first_span_lo = first_item.span().lo();
+
+                        // Take leading comments from the first non-directive item
+                        let leading_comments = comments.take_leading(first_span_lo);
+
+                        // Save helpers length before moving
+                        let helpers_len = helpers.len();
+
+                        // Prepend helpers
+                        prepend_stmts(&mut module.body, helpers.into_iter());
+
+                        // Restore comments to the original first item (now at position idx +
+                        // helpers_len)
+                        if let Some(leading) = leading_comments {
+                            if !leading.is_empty() {
+                                if let Some(original_first) = module.body.get(idx + helpers_len) {
+                                    let new_pos = original_first.span().lo();
+                                    for comment in leading {
+                                        comments.add_leading(new_pos, comment);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // All items are directives, just prepend helpers
+                    prepend_stmts(&mut module.body, helpers.into_iter());
+                }
+            } else {
+                prepend_stmts(&mut module.body, helpers.into_iter());
+            }
+        } else {
+            prepend_stmts(&mut module.body, helpers.into_iter());
+        }
     }
 
     fn visit_mut_script(&mut self, script: &mut Script) {
         let helpers = self.make_helpers_for_script();
         let helpers_is_empty = helpers.is_empty();
 
-        prepend_stmts(&mut script.body, helpers.into_iter());
+        if !helpers_is_empty && !script.body.is_empty() {
+            // Preserve leading comments on the first script item
+            if let Some(ref comments) = self.comments {
+                // Get the first non-directive statement
+                let first_non_directive_idx = script.body.iter().position(|stmt| {
+                    !matches!(
+                        stmt,
+                        Stmt::Expr(expr_stmt) if matches!(&*expr_stmt.expr, Expr::Lit(Lit::Str(..)))
+                    )
+                });
+
+                if let Some(idx) = first_non_directive_idx {
+                    if let Some(first_stmt) = script.body.get(idx) {
+                        let first_span_lo = first_stmt.span().lo();
+
+                        // Take leading comments from the first non-directive statement
+                        let leading_comments = comments.take_leading(first_span_lo);
+
+                        // Save helpers length before moving
+                        let helpers_len = helpers.len();
+
+                        // Prepend helpers
+                        prepend_stmts(&mut script.body, helpers.into_iter());
+
+                        // Restore comments to the original first statement (now at position idx +
+                        // helpers_len)
+                        if let Some(leading) = leading_comments {
+                            if !leading.is_empty() {
+                                if let Some(original_first) = script.body.get(idx + helpers_len) {
+                                    let new_pos = original_first.span().lo();
+                                    for comment in leading {
+                                        comments.add_leading(new_pos, comment);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // All statements are directives, just prepend helpers
+                    prepend_stmts(&mut script.body, helpers.into_iter());
+                }
+            } else {
+                prepend_stmts(&mut script.body, helpers.into_iter());
+            }
+        } else {
+            prepend_stmts(&mut script.body, helpers.into_iter());
+        }
 
         if !helpers_is_empty {
             script.visit_mut_children_with(self);
@@ -659,7 +768,10 @@ _throw();",
 
                 eprintln!("----- Actual -----");
 
-                let tr = inject_helpers(Mark::new());
+                let tr = inject_helpers(
+                    Mark::new(),
+                    None::<swc_common::comments::SingleThreadedComments>,
+                );
                 let actual = tester
                     .apply_transform(tr, "input.js", Default::default(), input)?
                     .apply(crate::hygiene::hygiene())
@@ -693,7 +805,10 @@ _throw();",
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                inject_helpers(Mark::new())
+                inject_helpers(
+                    Mark::new(),
+                    None::<swc_common::comments::SingleThreadedComments>,
+                )
             },
             "'use strict'",
             "'use strict'
@@ -713,7 +828,10 @@ function _throw(e) {
             Default::default(),
             |_| {
                 enable_helper!(throw);
-                inject_helpers(Mark::new())
+                inject_helpers(
+                    Mark::new(),
+                    None::<swc_common::comments::SingleThreadedComments>,
+                )
             },
             "let _throw = null",
             "function _throw(e) {
@@ -749,7 +867,10 @@ let x = 4;",
             Default::default(),
             |_| {
                 enable_helper!(using_ctx);
-                inject_helpers(Mark::new())
+                inject_helpers(
+                    Mark::new(),
+                    None::<swc_common::comments::SingleThreadedComments>,
+                )
             },
             "let _throw = null",
             r#"
@@ -815,11 +936,257 @@ let x = 4;",
                     }
                 };
             }
-                    
+
 let _throw = null;
 "#,
             false,
             Default::default,
         )
+    }
+
+    #[test]
+    fn preserve_jsdoc_comment() {
+        crate::tests::Tester::run(|tester| {
+            HELPERS.set(&Helpers::new(true), || {
+                let input =
+                    "/** @ngInject */\nclass TestClass {\n  constructor(private testField) {}\n}";
+
+                enable_helper!(define_property);
+
+                let tr = inject_helpers(
+                    Mark::new(),
+                    Some(&tester.comments as &dyn swc_common::comments::Comments),
+                );
+                let actual = tester
+                    .apply_transform(tr, "input.js", Default::default(), input)?
+                    .apply(crate::hygiene::hygiene())
+                    .apply(crate::fixer::fixer(None));
+
+                // Check that comments are attached to the correct node
+                if let Program::Module(module) = &actual {
+                    // Should have at least 2 items: import + class
+                    assert!(module.body.len() >= 2, "Should have import and class");
+
+                    // First item should be an import
+                    assert!(
+                        matches!(
+                            module.body[0],
+                            ModuleItem::ModuleDecl(ModuleDecl::Import(..))
+                        ),
+                        "First item should be import"
+                    );
+
+                    // Check that the class (second item) has comments
+                    if let Some(class_item) = module.body.get(1) {
+                        let class_span = class_item.span();
+                        let leading = tester.comments.get_leading(class_span.lo());
+                        assert!(
+                            leading.is_some() && !leading.unwrap().is_empty(),
+                            "Class should have leading comments"
+                        );
+                    }
+                }
+
+                Ok(())
+            })
+        });
+    }
+
+    #[test]
+    fn preserve_line_comment() {
+        crate::tests::Tester::run(|tester| {
+            HELPERS.set(&Helpers::new(true), || {
+                let input = "// Important comment\nconst x = async () => {};";
+
+                enable_helper!(async_to_generator);
+
+                let tr = inject_helpers(
+                    Mark::new(),
+                    Some(&tester.comments as &dyn swc_common::comments::Comments),
+                );
+                let actual = tester
+                    .apply_transform(tr, "input.js", Default::default(), input)?
+                    .apply(crate::hygiene::hygiene())
+                    .apply(crate::fixer::fixer(None));
+
+                // Check that comments are attached to the correct node
+                if let Program::Module(module) = &actual {
+                    // Should have at least 2 items: import + const
+                    assert!(module.body.len() >= 2, "Should have import and const");
+
+                    // First item should be an import
+                    assert!(
+                        matches!(
+                            module.body[0],
+                            ModuleItem::ModuleDecl(ModuleDecl::Import(..))
+                        ),
+                        "First item should be import"
+                    );
+
+                    // Check that the const (second item) has comments
+                    if let Some(const_item) = module.body.get(1) {
+                        let const_span = const_item.span();
+                        let leading = tester.comments.get_leading(const_span.lo());
+                        assert!(
+                            leading.is_some() && !leading.unwrap().is_empty(),
+                            "Const should have leading comments"
+                        );
+                    }
+                }
+
+                Ok(())
+            })
+        });
+    }
+
+    #[test]
+    fn preserve_multiple_comments() {
+        crate::tests::Tester::run(|tester| {
+            HELPERS.set(&Helpers::new(true), || {
+                let input = "/** JSDoc comment */\n// Line comment\nclass Foo {}";
+
+                enable_helper!(class_call_check);
+
+                let tr = inject_helpers(
+                    Mark::new(),
+                    Some(&tester.comments as &dyn swc_common::comments::Comments),
+                );
+                let actual = tester
+                    .apply_transform(tr, "input.js", Default::default(), input)?
+                    .apply(crate::hygiene::hygiene())
+                    .apply(crate::fixer::fixer(None));
+
+                // Check that comments are attached to the correct node
+                if let Program::Module(module) = &actual {
+                    // Should have at least 2 items: import + class
+                    assert!(module.body.len() >= 2, "Should have import and class");
+
+                    // First item should be an import
+                    assert!(
+                        matches!(
+                            module.body[0],
+                            ModuleItem::ModuleDecl(ModuleDecl::Import(..))
+                        ),
+                        "First item should be import"
+                    );
+
+                    // Check that the class (second item) has multiple comments
+                    if let Some(class_item) = module.body.get(1) {
+                        let class_span = class_item.span();
+                        let leading = tester.comments.get_leading(class_span.lo());
+                        assert!(
+                            leading.is_some() && leading.as_ref().unwrap().len() >= 2,
+                            "Class should have at least 2 leading comments"
+                        );
+                    }
+                }
+
+                Ok(())
+            })
+        });
+    }
+
+    #[test]
+    fn use_strict_stays_before_import() {
+        crate::tests::Tester::run(|tester| {
+            HELPERS.set(&Helpers::new(true), || {
+                let input = "'use strict';\n/** @ngInject */\nclass TestClass {}";
+
+                enable_helper!(class_call_check);
+
+                let tr = inject_helpers(
+                    Mark::new(),
+                    Some(&tester.comments as &dyn swc_common::comments::Comments),
+                );
+                let actual = tester
+                    .apply_transform(tr, "input.js", Default::default(), input)?
+                    .apply(crate::hygiene::hygiene())
+                    .apply(crate::fixer::fixer(None));
+
+                // Check that comments are attached to the correct node and use strict stays
+                // first
+                if let Program::Module(module) = &actual {
+                    // Should have at least 3 items: 'use strict', import, class
+                    assert!(
+                        module.body.len() >= 3,
+                        "Should have use strict, import and class"
+                    );
+
+                    // First item should be 'use strict' directive
+                    let is_directive = matches!(
+                        &module.body[0],
+                        ModuleItem::Stmt(Stmt::Expr(expr_stmt)) if matches!(&*expr_stmt.expr, Expr::Lit(Lit::Str(..)))
+                    );
+                    assert!(is_directive, "First item should be 'use strict' directive");
+
+                    // Second item should be an import
+                    assert!(
+                        matches!(
+                            module.body[1],
+                            ModuleItem::ModuleDecl(ModuleDecl::Import(..))
+                        ),
+                        "Second item should be import"
+                    );
+
+                    // Check that the class (third item) has comments
+                    if let Some(class_item) = module.body.get(2) {
+                        let class_span = class_item.span();
+                        let leading = tester.comments.get_leading(class_span.lo());
+                        assert!(
+                            leading.is_some() && !leading.unwrap().is_empty(),
+                            "Class should have leading comments"
+                        );
+                    }
+                }
+
+                Ok(())
+            })
+        });
+    }
+
+    #[test]
+    fn no_comments_unchanged() {
+        crate::tests::Tester::run(|tester| {
+            HELPERS.set(&Helpers::new(true), || {
+                let input = "class TestClass {}";
+
+                enable_helper!(class_call_check);
+
+                let tr = inject_helpers(
+                    Mark::new(),
+                    Some(&tester.comments as &dyn swc_common::comments::Comments),
+                );
+                let actual = tester
+                    .apply_transform(tr, "input.js", Default::default(), input)?
+                    .apply(crate::hygiene::hygiene())
+                    .apply(crate::fixer::fixer(None));
+
+                // Check that AST structure is as expected
+                if let Program::Module(module) = &actual {
+                    // Should have at least 2 items: import + class
+                    assert!(module.body.len() >= 2, "Should have import and class");
+
+                    // First item should be an import
+                    assert!(
+                        matches!(
+                            module.body[0],
+                            ModuleItem::ModuleDecl(ModuleDecl::Import(..))
+                        ),
+                        "First item should be import"
+                    );
+
+                    // Second item should be a class declaration
+                    assert!(
+                        matches!(
+                            module.body[1],
+                            ModuleItem::Stmt(Stmt::Decl(Decl::Class(..)))
+                        ),
+                        "Second item should be class"
+                    );
+                }
+
+                Ok(())
+            })
+        });
     }
 }
