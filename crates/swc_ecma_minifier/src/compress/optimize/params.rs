@@ -87,7 +87,8 @@ impl Optimizer<'_> {
         // that optimization by removing parameters first.
         //
         // A function is a good candidate for body inlining when:
-        // - It has a single call site (reduce_fns typically inlines single-use functions)
+        // - It has a single call site (reduce_fns typically inlines single-use
+        //   functions)
         // - It's small (single statement)
         //
         // This check ensures parameter inlining effectively runs "after" function
