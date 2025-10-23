@@ -45,7 +45,7 @@ pub trait Storage: Sized + Default {
 
     /// Records arguments passed to a function at a call site.
     /// Used for parameter inlining optimization.
-    fn record_call_site_args(&mut self, callee_id: Id, args: Vec<Option<Box<Expr>>>);
+    fn record_call_site_args(&mut self, callee_id: Id, args: &[Option<Box<Expr>>]);
 }
 
 pub trait ScopeDataLike: Sized + Default + Clone {
