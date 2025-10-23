@@ -50,6 +50,11 @@ pub(crate) struct ProgramData {
 bitflags::bitflags! {
     #[derive(Debug, Clone, Copy)]
     pub(crate) struct VarUsageInfoFlags: u32 {
+        /// `true` if the variable cannot be safely inlined.
+        /// This is set when the variable is used in contexts that prevent
+        /// inlining optimizations, such as being passed to unknown functions,
+        /// used in complex expressions, or accessed in ways that require
+        /// preserving the original variable binding.
         const INLINE_PREVENTED          = 1 << 0;
         /// `false` if it's only used.
         const DECLARED                  = 1 << 1;
