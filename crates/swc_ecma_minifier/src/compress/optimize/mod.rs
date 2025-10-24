@@ -244,8 +244,9 @@ struct Optimizer<'a> {
     functions: Box<FxHashMap<Id, FnMetadata>>,
 
     /// Tracks which parameter indices have been inlined for each function.
-    /// Maps function ID to a set of parameter indices that were removed.
-    inlined_params: Box<FxHashMap<Id, FxHashSet<usize>>>,
+    /// Maps function ID to a sorted vector of parameter indices that were
+    /// removed.
+    inlined_params: Box<FxHashMap<Id, Vec<usize>>>,
 }
 
 #[derive(Default)]
