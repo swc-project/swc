@@ -1,0 +1,1 @@
+return a ? b : (d => d)(c)
