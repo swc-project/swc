@@ -135,9 +135,11 @@ pub(crate) struct VarUsageInfo {
     pub(crate) accessed_props: FxHashMap<Wtf8Atom, u32>,
     pub(crate) accessed_props: FxHashMap<Atom, u32>,
 
-    /// Tracks call sites for functions. Maps parameter index to list of
-    /// argument expressions. Used for parameter inlining optimization.
-    pub(crate) call_site_args: Option<Vec<Vec<Option<Box<Expr>>>>>,
+    /// Tracks call sites for functions. Each inner Vec contains the arguments
+    /// passed at that call site. Used for parameter inlining optimization.
+    /// Arguments beyond the call site's actual argument count are implicitly
+    /// undefined.
+    pub(crate) call_site_args: Option<Vec<Vec<Box<Expr>>>>,
 }
 
 impl Default for VarUsageInfo {
@@ -566,7 +568,7 @@ impl Storage for ProgramData {
         self.vars.get(&id).map(|v| v.as_ref())
     }
 
-    fn record_call_site_args(&mut self, callee_id: Id, args: Vec<Option<Box<Expr>>>) {
+    fn record_call_site_args(&mut self, callee_id: Id, args: Vec<Box<Expr>>) {
         let var = self.vars.entry(callee_id).or_default();
 
         // Initialize the call_site_args if it doesn't exist

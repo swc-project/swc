@@ -445,7 +445,7 @@ where
                         call_args.clear();
                         break;
                     }
-                    call_args.push(Some(arg.expr.clone()));
+                    call_args.push(arg.expr.clone());
                 }
 
                 // Only record if we have a valid argument list (no spread)

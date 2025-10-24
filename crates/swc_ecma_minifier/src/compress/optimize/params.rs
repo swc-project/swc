@@ -1,4 +1,3 @@
-use rustc_hash::FxHashSet;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 
@@ -104,59 +103,48 @@ impl Optimizer<'_> {
         }
 
         // Analyze each parameter
-        let mut params_to_inline: Vec<(usize, Box<Expr>, bool)> = Vec::new();
+        let mut params_to_inline: Vec<(usize, Box<Expr>)> = Vec::new();
 
         for (param_idx, param) in f.params.iter().enumerate() {
             // Only handle simple identifier parameters
-            let param_id = match &param.pat {
+            let _param_id = match &param.pat {
                 Pat::Ident(ident) => ident.id.to_id(),
                 _ => continue, // Skip destructuring, rest params, etc.
             };
 
-            // Check if parameter is reassigned within the function
-            // If so, we'll use 'let' instead of 'const'
-            let is_reassigned = if let Some(param_usage) = self.data.vars.get(&param_id) {
-                param_usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
-            } else {
-                false
-            };
-
             // Collect argument values for this parameter across all call sites
-            let mut common_value: Option<Box<Expr>> = None;
+            // Use Option<Option<Box<Expr>>> to track:
+            // - None = no common value yet established
+            // - Some(None) = all call sites have implicit undefined
+            // - Some(Some(expr)) = all call sites have the same explicit expression
+            let mut common_value: Option<Option<Box<Expr>>> = None;
             let mut inlinable = true;
 
             for call_site in call_sites {
-                let arg_value = if param_idx < call_site.len() {
-                    call_site[param_idx].clone()
+                // Get argument at this position, or None if implicit undefined
+                let arg_value: Option<Box<Expr>> = if param_idx < call_site.len() {
+                    Some(call_site[param_idx].clone())
                 } else {
-                    // Implicit undefined - use unresolved context
-                    Some(Box::new(Expr::Ident(Ident::new(
-                        "undefined".into(),
-                        DUMMY_SP,
-                        self.ctx.expr_ctx.unresolved_ctxt,
-                    ))))
-                };
-
-                let arg_value = match arg_value {
-                    Some(v) => v,
-                    None => {
-                        inlinable = false;
-                        break;
-                    }
+                    None // Implicit undefined
                 };
 
                 // Check if this is a safe, constant value to inline
-                if !self.is_safe_constant_for_param_inline(&arg_value) {
-                    inlinable = false;
-                    break;
+                if let Some(ref expr) = arg_value {
+                    if !self.is_safe_constant_for_param_inline(expr) {
+                        inlinable = false;
+                        break;
+                    }
                 }
+                // Implicit undefined (None) is always safe to inline
 
                 match &common_value {
                     None => {
+                        // First call site, establish the common value
                         common_value = Some(arg_value);
                     }
                     Some(existing) => {
-                        if !self.expr_eq(existing, &arg_value) {
+                        // Check if this call site has the same value
+                        if !self.arg_eq(existing, &arg_value) {
                             inlinable = false;
                             break;
                         }
@@ -166,8 +154,17 @@ impl Optimizer<'_> {
 
             // If all call sites pass the same constant value, mark for inlining
             if inlinable {
-                if let Some(value) = common_value {
-                    params_to_inline.push((param_idx, value, is_reassigned));
+                if let Some(Some(value)) = common_value {
+                    // Explicit value passed at all call sites
+                    params_to_inline.push((param_idx, value));
+                } else if let Some(None) = common_value {
+                    // All call sites have implicit undefined
+                    let undefined_expr = Box::new(Expr::Ident(Ident::new(
+                        "undefined".into(),
+                        DUMMY_SP,
+                        self.ctx.expr_ctx.unresolved_ctxt,
+                    )));
+                    params_to_inline.push((param_idx, undefined_expr));
                 }
             }
         }
@@ -182,7 +179,7 @@ impl Optimizer<'_> {
     fn apply_param_inlining(
         &mut self,
         f: &mut Function,
-        params_to_inline: &[(usize, Box<Expr>, bool)],
+        params_to_inline: &[(usize, Box<Expr>)],
         fn_id: &Id,
     ) {
         // Sort in reverse order to remove from the end first
@@ -192,25 +189,20 @@ impl Optimizer<'_> {
         // Collect variable declarations to add at the beginning of function body
         let mut var_decls = Vec::new();
 
-        // Track which parameter indices are being inlined
-        let mut inlined_indices = FxHashSet::default();
+        // Track which parameter indices are being inlined (will be sorted)
+        let mut inlined_indices = Vec::new();
 
-        for (param_idx, value, is_reassigned) in &sorted_params {
-            inlined_indices.insert(*param_idx);
+        for (param_idx, value) in &sorted_params {
+            inlined_indices.push(*param_idx);
 
             if let Some(param) = f.params.get(*param_idx) {
                 if let Pat::Ident(ident) = &param.pat {
-                    // Create variable declaration: const/let paramName = value;
-                    // Use 'let' if the parameter is reassigned, 'const' otherwise
-                    let var_kind = if *is_reassigned {
-                        VarDeclKind::Let
-                    } else {
-                        VarDeclKind::Const
-                    };
+                    // Create variable declaration: let paramName = value;
+                    // Always use 'let' to preserve parameter semantics (reassignable)
                     var_decls.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
                         span: DUMMY_SP,
                         ctxt: Default::default(),
-                        kind: var_kind,
+                        kind: VarDeclKind::Let,
                         declare: false,
                         decls: vec![VarDeclarator {
                             span: DUMMY_SP,
@@ -224,7 +216,7 @@ impl Optimizer<'_> {
         }
 
         // Remove parameters (in reverse order)
-        for (param_idx, _, _) in &sorted_params {
+        for (param_idx, _) in &sorted_params {
             f.params.remove(*param_idx);
         }
 
@@ -236,7 +228,8 @@ impl Optimizer<'_> {
         }
 
         // Store the inlined parameter indices for later use when visiting call
-        // sites
+        // sites. Reverse sort to get descending order for efficient removal.
+        inlined_indices.sort_by(|a, b| b.cmp(a));
         self.inlined_params.insert(fn_id.clone(), inlined_indices);
 
         self.changed = true;
@@ -283,14 +276,31 @@ impl Optimizer<'_> {
         }
     }
 
+    /// Compare two optional argument values for equality.
+    /// None represents implicit undefined.
+    fn arg_eq(&self, a: &Option<Box<Expr>>, b: &Option<Box<Expr>>) -> bool {
+        match (a, b) {
+            (None, None) => true, // Both implicit undefined
+            (Some(a_expr), Some(b_expr)) => self.expr_eq(a_expr, b_expr),
+            _ => false, // One is implicit undefined, the other is not
+        }
+    }
+
     /// Compare two expressions for equality (structural equality for simple
     /// cases).
+    ///
+    /// We cannot use the derived `Eq` trait because:
+    /// 1. NaN handling: We treat NaN as equal to NaN for parameter inlining
+    ///    purposes, whereas standard floating point comparison has NaN != NaN.
+    /// 2. Context-aware identifier comparison: We only consider unresolved
+    ///    "undefined" identifiers as safe to inline, checking the syntax
+    ///    context.
     fn expr_eq(&self, a: &Expr, b: &Expr) -> bool {
         match (a, b) {
             (Expr::Lit(Lit::Null(_)), Expr::Lit(Lit::Null(_))) => true,
             (Expr::Lit(Lit::Bool(a)), Expr::Lit(Lit::Bool(b))) => a.value == b.value,
             (Expr::Lit(Lit::Num(a)), Expr::Lit(Lit::Num(b))) => {
-                // Handle NaN specially
+                // Handle NaN specially: treat NaN as equal to NaN for parameter inlining
                 if a.value.is_nan() && b.value.is_nan() {
                     true
                 } else {
@@ -299,15 +309,9 @@ impl Optimizer<'_> {
             }
             (Expr::Lit(Lit::Str(a)), Expr::Lit(Lit::Str(b))) => a.value == b.value,
             (Expr::Lit(Lit::BigInt(a)), Expr::Lit(Lit::BigInt(b))) => a.value == b.value,
-            // Compare identifiers:
-            // Only allow unresolved "undefined" identifiers
-            (Expr::Ident(a), Expr::Ident(b)) => {
-                let a_is_unresolved = a.ctxt == self.ctx.expr_ctx.unresolved_ctxt;
-                let b_is_unresolved = b.ctxt == self.ctx.expr_ctx.unresolved_ctxt;
-
-                // Both must be unresolved "undefined"
-                a_is_unresolved && b_is_unresolved && a.sym == "undefined" && b.sym == "undefined"
-            }
+            // Compare identifiers: we can compare naively since is_safe_constant_for_param_inline
+            // already validated that only unresolved "undefined" identifiers reach here
+            (Expr::Ident(a), Expr::Ident(b)) => a.sym == b.sym && a.ctxt == b.ctxt,
             (
                 Expr::Unary(UnaryExpr {
                     op: op_a,
@@ -348,11 +352,8 @@ impl Optimizer<'_> {
         };
 
         // Remove arguments at the inlined parameter indices
-        // We need to iterate in reverse order to avoid index shifting issues
-        let mut indices_to_remove: Vec<usize> = inlined_indices.iter().copied().collect();
-        indices_to_remove.sort_by(|a, b| b.cmp(a)); // Sort in descending order
-
-        for idx in indices_to_remove {
+        // The indices are already sorted in descending order from apply_param_inlining
+        for &idx in inlined_indices {
             if idx < call.args.len() {
                 call.args.remove(idx);
                 self.changed = true;
