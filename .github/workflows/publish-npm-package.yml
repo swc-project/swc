@@ -627,10 +627,10 @@ jobs:
             npm: "@swc\\/wasm-typescript-esm"
             build: "./scripts/esm.sh"
             out: "esm"
-          - crate: "binding_es_ast_viewer"
-            npm: "@swc\\/es-ast-viewer"
-            build: "./scripts/build.sh"
-            out: "pkg"
+          # - crate: "binding_es_ast_viewer"
+          #   npm: "@swc\\/es-ast-viewer"
+          #   build: "./scripts/build.sh"
+          #   out: "pkg"
 
     steps:
       - uses: actions/checkout@v5
