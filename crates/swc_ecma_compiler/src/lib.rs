@@ -629,39 +629,66 @@ impl<'a> VisitMut for CompilerImpl<'a> {
             vec![]
         };
 
-        // Process statements one by one to insert vars before statements that need them
-        if need_logical_var_hoisting || need_nullish_var_hoisting {
+        // Process statements with different hoisting strategies
+        if need_nullish_var_hoisting {
+            // Nullish coalescing: Insert vars before each statement that generates them
             let mut buf = Vec::with_capacity(ns.len() + 2);
 
             for mut item in ns.take() {
                 item.visit_mut_with(self);
 
-                // Collect any variables that were generated during this statement
-                let mut item_vars = Vec::new();
-                if need_logical_var_hoisting {
-                    item_vars.extend(self.es2021_logical_assignment_vars.take());
-                }
-                if need_nullish_var_hoisting {
-                    item_vars.extend(self.es2020_nullish_coalescing_vars.take());
-                }
-
-                // Insert var declaration before the statement if needed
-                if !item_vars.is_empty() {
+                // Insert nullish vars before the statement
+                if !self.es2020_nullish_coalescing_vars.is_empty() {
                     buf.push(ModuleItem::Stmt(
                         VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
-                            decls: item_vars,
+                            decls: self.es2020_nullish_coalescing_vars.take(),
                             ..Default::default()
                         }
                         .into(),
                     ));
                 }
 
+                // Collect logical vars but don't insert yet
                 buf.push(item);
             }
 
             *ns = buf;
+
+            // Logical assignments: Hoist all vars to the top
+            if need_logical_var_hoisting && !self.es2021_logical_assignment_vars.is_empty() {
+                prepend_stmt(
+                    ns,
+                    ModuleItem::Stmt(
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: self.es2021_logical_assignment_vars.take(),
+                            ..Default::default()
+                        }
+                        .into(),
+                    ),
+                );
+            }
+        } else if need_logical_var_hoisting {
+            // Only logical assignments: Hoist all vars to the top
+            ns.visit_mut_children_with(self);
+
+            if !self.es2021_logical_assignment_vars.is_empty() {
+                prepend_stmt(
+                    ns,
+                    ModuleItem::Stmt(
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: self.es2021_logical_assignment_vars.take(),
+                            ..Default::default()
+                        }
+                        .into(),
+                    ),
+                );
+            }
         } else {
             // Single recursive visit
             ns.visit_mut_children_with(self);
@@ -713,39 +740,62 @@ impl<'a> VisitMut for CompilerImpl<'a> {
             vec![]
         };
 
-        // Process statements one by one to insert vars before statements that need them
-        if need_logical_var_hoisting || need_nullish_var_hoisting {
+        // Process statements with different hoisting strategies
+        if need_nullish_var_hoisting {
+            // Nullish coalescing: Insert vars before each statement that generates them
             let mut buf = Vec::with_capacity(s.len() + 2);
 
             for mut stmt in s.take() {
                 stmt.visit_mut_with(self);
 
-                // Collect any variables that were generated during this statement
-                let mut stmt_vars = Vec::new();
-                if need_logical_var_hoisting {
-                    stmt_vars.extend(self.es2021_logical_assignment_vars.take());
-                }
-                if need_nullish_var_hoisting {
-                    stmt_vars.extend(self.es2020_nullish_coalescing_vars.take());
-                }
-
-                // Insert var declaration before the statement if needed
-                if !stmt_vars.is_empty() {
+                // Insert nullish vars before the statement
+                if !self.es2020_nullish_coalescing_vars.is_empty() {
                     buf.push(
                         VarDecl {
                             span: DUMMY_SP,
                             kind: VarDeclKind::Var,
-                            decls: stmt_vars,
+                            decls: self.es2020_nullish_coalescing_vars.take(),
                             ..Default::default()
                         }
                         .into(),
                     );
                 }
 
+                // Collect logical vars but don't insert yet
                 buf.push(stmt);
             }
 
             *s = buf;
+
+            // Logical assignments: Hoist all vars to the top
+            if need_logical_var_hoisting && !self.es2021_logical_assignment_vars.is_empty() {
+                prepend_stmt(
+                    s,
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: self.es2021_logical_assignment_vars.take(),
+                        ..Default::default()
+                    }
+                    .into(),
+                );
+            }
+        } else if need_logical_var_hoisting {
+            // Only logical assignments: Hoist all vars to the top
+            s.visit_mut_children_with(self);
+
+            if !self.es2021_logical_assignment_vars.is_empty() {
+                prepend_stmt(
+                    s,
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: self.es2021_logical_assignment_vars.take(),
+                        ..Default::default()
+                    }
+                    .into(),
+                );
+            }
         } else {
             // Single recursive visit
             s.visit_mut_children_with(self);
