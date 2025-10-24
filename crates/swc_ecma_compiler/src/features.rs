@@ -8,6 +8,7 @@ bitflags! {
         const PRIVATE_IN_OBJECT = 1 << 2;
         const LOGICAL_ASSIGNMENTS = 1 << 3;
         const EXPORT_NAMESPACE_FROM = 1 << 4;
+        const NULLISH_COALESCING = 1 << 5;
     }
 }
 
