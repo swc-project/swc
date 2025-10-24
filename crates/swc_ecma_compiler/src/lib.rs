@@ -572,16 +572,22 @@ impl<'a> VisitMut for CompilerImpl<'a> {
             None
         };
 
-        // Phase 2: Single recursive visit - Visit children first
-        e.visit_mut_children_with(self);
-
-        // Phase 3: Post-processing transformations
-        // Apply transformations after visiting children (this matches the original
-        // order)
+        // Phase 2: Pre-processing transformations for optional chaining
+        // Optional chaining must be transformed BEFORE visiting children to avoid
+        // incorrect parenthesization (see issue with data?.filter(args).map(args2))
         let optional_chaining_transformed =
             self.config.includes.contains(Features::OPTIONAL_CHAINING)
                 && self.transform_optional_chaining(e);
 
+        // Phase 3: Recursive visit - Visit children (unless already transformed by
+        // optional chaining)
+        if !optional_chaining_transformed {
+            e.visit_mut_children_with(self);
+        }
+
+        // Phase 4: Post-processing transformations
+        // Apply transformations after visiting children (this matches the original
+        // order)
         let logical_transformed = !optional_chaining_transformed
             && self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
             && self.transform_logical_assignment(e);

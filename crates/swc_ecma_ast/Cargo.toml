@@ -58,3 +58,4 @@ swc_common  = { version = "15.0.0", path = "../swc_common" }
 swc_visit   = { version = "2.0.1", path = "../swc_visit" }
 
 [dev-dependencies]
+serde_json = { workspace = true }
