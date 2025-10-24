@@ -1,11 +1,11 @@
-name: "AutoDev"
-run-name: "AutoDev: ${{ inputs.task_title }}"
+name: "DevBird"
+run-name: "DevBird: ${{ inputs.task_title }}"
 
 on:
   workflow_dispatch:
     inputs:
       prompt:
-        description: "Instructions for AutoDev. Can be a direct prompt or custom template."
+        description: "Instructions for DevBird. Can be a direct prompt or custom template."
         type: string
         required: true
 
@@ -33,14 +33,14 @@ on:
         required: false
         default: ""
 
-      autodev_workflow_execution_token:
-        description: "The token to use for the AutoDev task"
+      devbird_workflow_execution_token:
+        description: "The token to use for the DevBird task"
         type: string
         required: false
         default: ""
 
-      autodev_mode:
-        description: "The AutoDev execution mode. Can be 'develop' (default) or 'plan' (for task graph planning)"
+      devbird_mode:
+        description: "The DevBird execution mode. Can be 'develop' (default) or 'plan' (for task graph planning)"
         type: choice
         default: "develop"
         options:
@@ -48,13 +48,13 @@ on:
           - plan
 
       task_title:
-        description: "The title of the AutoDev task"
+        description: "The title of the DevBird task"
         type: string
         required: false
         default: ""
 
 jobs:
-  autodev:
+  devbird:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -82,13 +82,13 @@ jobs:
           target: wasm32-wasip1
           components: rustfmt
 
-      - name: Run AutoDev
-        uses: delinoio/autodev-action@main
+      - name: Run DevBird
+        uses: delinoio/devbird-action@main
         with:
           agent: ${{ inputs.agent }}
           agent_model: ${{ inputs.agent_model }}
-          autodev_mode: ${{ inputs.autodev_mode }}
-          autodev_workflow_execution_token: ${{ inputs.autodev_workflow_execution_token }}
+          devbird_mode: ${{ inputs.devbird_mode }}
+          devbird_workflow_execution_token: ${{ inputs.devbird_workflow_execution_token }}
           prompt: ${{ inputs.prompt }}
           base_branch: ${{ inputs.base_branch }}
           delino_access_token: ${{ secrets.DELINO_ACCESS_TOKEN }}
