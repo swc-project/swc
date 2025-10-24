@@ -258,9 +258,19 @@ impl Optimizer<'_> {
             | Expr::Lit(Lit::Str(_))
             | Expr::Lit(Lit::BigInt(_)) => true,
 
-            // Top-level (unresolved) identifiers are safe to inline
-            // This includes undefined, window, document, and other globals
-            Expr::Ident(id) if id.ctxt == self.ctx.expr_ctx.unresolved_ctxt => true,
+            // Only allow:
+            // 1. Unresolved "undefined" identifier (safe global)
+            // 2. Resolved identifiers (local variables that are immutable)
+            Expr::Ident(id) => {
+                let is_unresolved = id.ctxt == self.ctx.expr_ctx.unresolved_ctxt;
+                if is_unresolved {
+                    // Only allow unresolved "undefined"
+                    id.sym == "undefined"
+                } else {
+                    // Allow resolved identifiers (local immutable variables)
+                    true
+                }
+            }
 
             // Negated or numeric-negated literals
             Expr::Unary(UnaryExpr {
