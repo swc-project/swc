@@ -5365,7 +5365,6 @@ dependencies = [
  "rkyv",
  "rustc-hash 2.1.1",
  "serde",
- "serde_json",
  "shrink-to-fit",
  "string_enum",
  "swc_atoms",
@@ -5473,7 +5472,6 @@ version = "28.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
- "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_macros",
  "swc_ecma_transforms_testing",
@@ -5519,7 +5517,6 @@ version = "28.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
- "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
@@ -5535,11 +5532,9 @@ dependencies = [
  "serde",
  "swc_common",
  "swc_ecma_ast",
- "swc_ecma_compat_es2022",
  "swc_ecma_compiler",
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
- "swc_ecma_visit",
  "tracing",
 ]
 
@@ -5579,7 +5574,6 @@ version = "23.0.0"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
- "swc_ecma_parser",
  "swc_ecma_transforms_testing",
  "swc_ecma_utils",
  "swc_ecma_visit",
