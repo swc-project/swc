@@ -85,7 +85,7 @@ impl ImportKey {
         });
 
         Self {
-            src: decl.src.value.to_string(),
+            src: decl.src.value.to_string_lossy().to_string(),
             type_only: decl.type_only,
             phase: decl.phase,
             with_hash,
@@ -113,7 +113,7 @@ impl SpecifierKey {
                     .as_ref()
                     .map(|n| match n {
                         ModuleExportName::Ident(id) => id.sym.to_string(),
-                        ModuleExportName::Str(s) => s.value.to_string(),
+                        ModuleExportName::Str(s) => s.value.to_string_lossy().to_string(),
                     })
                     .unwrap_or_else(|| named.local.sym.to_string());
 

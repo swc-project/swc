@@ -45,7 +45,7 @@ impl Fold for MemberExprLit {
                         expr: Lit::Str(Str {
                             span: i.span,
                             raw: None,
-                            value: i.sym,
+                            value: i.sym.into(),
                         })
                         .into(),
                     }),

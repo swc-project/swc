@@ -2,7 +2,11 @@ use radix_fmt::Radix;
 use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Type, Value};
+use swc_ecma_utils::{
+    number::ToJsString,
+    unicode::{is_high_surrogate, is_low_surrogate},
+    ExprExt, IsEmpty, Type, Value,
+};
 
 use super::Pure;
 #[cfg(feature = "debug")]
@@ -414,7 +418,7 @@ impl Pure<'_> {
 
                 *e = Str {
                     span: call.span,
-                    value: atom!("function(){}"),
+                    value: atom!("function(){}").into(),
                     raw: None,
                 }
                 .into();
@@ -437,13 +441,15 @@ impl Pure<'_> {
             MemberProp::PrivateName(_) => {}
             MemberProp::Computed(p) => {
                 if let Expr::Lit(Lit::Str(s)) = &*p.expr {
-                    if let Ok(value) = s.value.parse::<u32>() {
-                        p.expr = Lit::Num(Number {
-                            span: s.span,
-                            value: value as f64,
-                            raw: None,
-                        })
-                        .into();
+                    if let Some(value) = s.value.as_str() {
+                        if let Ok(value) = value.parse::<u32>() {
+                            p.expr = Lit::Num(Number {
+                                span: s.span,
+                                value: value as f64,
+                                raw: None,
+                            })
+                            .into();
+                        }
                     }
                 }
             }
@@ -865,14 +871,10 @@ impl Pure<'_> {
                     }
 
                     let idx = value.round() as i64 as usize;
-                    let c = s.value.chars().nth(idx);
+                    let c = s.value.to_ill_formed_utf16().nth(idx);
 
                     match c {
                         Some(v) => {
-                            let mut b = [0; 2];
-                            v.encode_utf16(&mut b);
-                            let v = b[0];
-
                             self.changed = true;
                             report_change!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
@@ -906,20 +908,49 @@ impl Pure<'_> {
                     }
 
                     let idx = value.round() as i64 as usize;
-                    let c = s.value.chars().nth(idx);
-                    match c {
+                    let mut c = s.value.to_ill_formed_utf16().skip(idx).peekable();
+                    match c.next() {
                         Some(v) => {
-                            self.changed = true;
-                            report_change!(
-                                "evaluate: Evaluated `codePointAt` of a string literal as `{}`",
-                                v
-                            );
-                            *e = Lit::Num(Number {
-                                span: call.span,
-                                value: v as usize as f64,
-                                raw: None,
-                            })
-                            .into()
+                            match (v, c.peek()) {
+                                (high, Some(&low))
+                                    if is_high_surrogate(high as u32)
+                                        && is_low_surrogate(low as u32) =>
+                                {
+                                    // Decode surrogate pair
+                                    let code_point = swc_ecma_utils::unicode::pair_to_code_point(
+                                        high as u32,
+                                        low as u32,
+                                    );
+                                    self.changed = true;
+                                    report_change!(
+                                        "evaluate: Evaluated `codePointAt` of a string literal as \
+                                         `{}`",
+                                        code_point
+                                    );
+                                    *e = Lit::Num(Number {
+                                        span: call.span,
+                                        value: code_point as f64,
+                                        raw: None,
+                                    })
+                                    .into();
+                                    return;
+                                }
+                                _ => {
+                                    // Not a surrogate pair
+                                    self.changed = true;
+                                    report_change!(
+                                        "evaluate: Evaluated `codePointAt` of a string literal as \
+                                         `{}`",
+                                        v
+                                    );
+                                    *e = Lit::Num(Number {
+                                        span: call.span,
+                                        value: v as usize as f64,
+                                        raw: None,
+                                    })
+                                    .into()
+                                }
+                            }
                         }
                         None => {
                             self.changed = true;

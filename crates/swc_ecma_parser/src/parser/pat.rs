@@ -304,26 +304,26 @@ mod tests {
                             prop(
                                 PropName::Str(Str {
                                     span,
-                                    value: atom!(""),
+                                    value: atom!("").into(),
                                     raw: Some(atom!("''")),
                                 }),
                                 "sym",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
-                                    value: atom!(""),
+                                    value: atom!("").into(),
                                     raw: Some(atom!("''")),
                                 }))
                             ),
                             prop(
                                 PropName::Str(Str {
                                     span,
-                                    value: atom!(" "),
+                                    value: atom!(" ").into(),
                                     raw: Some(atom!("\" \"")),
                                 }),
                                 "quote",
                                 Expr::Lit(Lit::Str(Str {
                                     span,
-                                    value: atom!(" "),
+                                    value: atom!(" ").into(),
                                     raw: Some(atom!("\" \"")),
                                 }))
                             ),

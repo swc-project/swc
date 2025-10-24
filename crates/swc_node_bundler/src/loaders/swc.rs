@@ -72,7 +72,7 @@ impl SwcLoader {
                 Lit::Str(Str {
                     span: DUMMY_SP,
                     raw: None,
-                    value: v,
+                    value: v.into(),
                 })
                 .into(),
             );

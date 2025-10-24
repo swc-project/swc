@@ -1,4 +1,6 @@
 function f() {
-    var o = { "\ud835\udc9c": true };
+    var o = {
+        𝒜: true
+    };
     return o["\ud835\udc9c"];
 }

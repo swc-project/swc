@@ -34,6 +34,7 @@ kstring      = { workspace = true }
 num_cpus     = { workspace = true }
 par-iter     = { workspace = true }
 rand         = { workspace = true }
+serde_json   = { workspace = true }
 smartstring  = { workspace = true }
 smol_str     = { workspace = true }
 string_cache = { workspace = true }

@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_utils::is_valid_ident;
+use swc_ecma_utils::{is_valid_ident, swc_atoms::Atom};
 use swc_ecma_visit::{fold_pass, standard_only_fold, Fold, FoldWith};
 use swc_trace_macro::swc_trace;
 
@@ -46,11 +46,16 @@ impl Fold for PropertyLiteral {
         match n {
             PropName::Str(Str {
                 raw, value, span, ..
-            }) => {
-                if value.is_reserved() || !is_valid_ident(&value) {
+            }) if value.as_str().is_some() => {
+                let v = value.as_str().unwrap();
+                if v.is_reserved() || !is_valid_ident(v) {
                     PropName::Str(Str { span, raw, value })
                 } else {
-                    PropName::Ident(IdentName::new(value, span))
+                    PropName::Ident(IdentName::new(
+                        // SAFETY: checked above
+                        unsafe { Atom::from_wtf8_unchecked(value.clone()) },
+                        span,
+                    ))
                 }
             }
             PropName::Ident(i) => {
@@ -59,7 +64,7 @@ impl Fold for PropertyLiteral {
                     PropName::Str(Str {
                         span,
                         raw: None,
-                        value: sym,
+                        value: sym.into(),
                     })
                 } else {
                     PropName::Ident(IdentName { span, sym })

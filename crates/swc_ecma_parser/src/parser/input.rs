@@ -1,4 +1,4 @@
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{BytePos, Span};
 use swc_ecma_lexer::common::{
     lexer::{token::TokenFactory, LexResult},
@@ -59,7 +59,7 @@ impl<I: Tokens> Buffer<I> {
         (value, raw)
     }
 
-    pub fn expect_string_token_value(&mut self) -> (Atom, Atom) {
+    pub fn expect_string_token_value(&mut self) -> (Wtf8Atom, Atom) {
         let Some(crate::lexer::TokenValue::Str { value, raw }) = self.iter.take_token_value()
         else {
             unreachable!()
@@ -83,7 +83,7 @@ impl<I: Tokens> Buffer<I> {
         (value, flags)
     }
 
-    pub fn expect_template_token_value(&mut self) -> (LexResult<Atom>, Atom) {
+    pub fn expect_template_token_value(&mut self) -> (LexResult<Wtf8Atom>, Atom) {
         let Some(crate::lexer::TokenValue::Template { cooked, raw }) = self.iter.take_token_value()
         else {
             unreachable!()
@@ -287,7 +287,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffe
         ret
     }
 
-    fn expect_string_token_and_bump(&mut self) -> (Atom, Atom) {
+    fn expect_string_token_and_bump(&mut self) -> (Wtf8Atom, Atom) {
         let cur = *self.cur();
         let ret = cur.take_str(self);
         self.bump();
@@ -308,7 +308,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::buffer::Buffer<'a> for Buffe
         ret
     }
 
-    fn expect_template_token_and_bump(&mut self) -> (LexResult<Atom>, Atom) {
+    fn expect_template_token_and_bump(&mut self) -> (LexResult<Wtf8Atom>, Atom) {
         let cur = *self.cur();
         let ret = cur.take_template(self);
         self.bump();

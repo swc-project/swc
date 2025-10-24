@@ -1,6 +1,6 @@
 use std::path::Path;
 
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -32,7 +32,7 @@ impl VisitMut for Rewriter {
 
         if let Some(ExprOrSpread { spread: None, expr }) = &mut e.args.get_mut(0) {
             if let Expr::Lit(Lit::Str(s)) = &mut **expr {
-                if let Some(src) = get_output_extension(&s.value) {
+                if let Some(src) = get_output_extension_wtf8(&s.value) {
                     s.raw = None;
                     s.value = src;
                 }
@@ -52,7 +52,7 @@ impl VisitMut for Rewriter {
     }
 
     fn visit_mut_import_decl(&mut self, i: &mut ImportDecl) {
-        if let Some(src) = get_output_extension(&i.src.value) {
+        if let Some(src) = get_output_extension_wtf8(&i.src.value) {
             i.src.value = src;
             i.src.raw = None;
         }
@@ -60,7 +60,7 @@ impl VisitMut for Rewriter {
 
     fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
         if let Some(src) = &mut e.src {
-            if let Some(new_src) = get_output_extension(&src.value) {
+            if let Some(new_src) = get_output_extension_wtf8(&src.value) {
                 src.value = new_src;
                 src.raw = None;
             }
@@ -68,7 +68,7 @@ impl VisitMut for Rewriter {
     }
 
     fn visit_mut_export_all(&mut self, n: &mut ExportAll) {
-        if let Some(new_src) = get_output_extension(&n.src.value) {
+        if let Some(new_src) = get_output_extension_wtf8(&n.src.value) {
             n.src.value = new_src;
             n.src.raw = None;
         }
@@ -102,4 +102,9 @@ fn get_output_extension(specifier: &Atom) -> Option<Atom> {
     };
 
     Some(Atom::new(path.with_extension(ext).to_str()?))
+}
+
+fn get_output_extension_wtf8(specifier: &Wtf8Atom) -> Option<Wtf8Atom> {
+    let normalized = specifier.to_atom_lossy();
+    get_output_extension(normalized.as_ref()).map(Into::into)
 }

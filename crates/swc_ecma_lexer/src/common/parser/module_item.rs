@@ -327,7 +327,7 @@ fn parse_import_specifier<'a, P: Parser<'a>>(
                 syntax_error!(
                     p,
                     orig_str.span,
-                    SyntaxError::ImportBindingIsString(orig_str.value)
+                    SyntaxError::ImportBindingIsString(orig_str.value.to_string_lossy().into())
                 )
             }
         }
@@ -687,7 +687,7 @@ fn parse_export<'a, P: Parser<'a>>(
                     ExportSpecifier::Namespace(namespace) => {
                         let export_name = match &namespace.name {
                             ModuleExportName::Ident(i) => i.sym.clone(),
-                            ModuleExportName::Str(s) => s.value.clone(),
+                            ModuleExportName::Str(s) => s.value.to_string_lossy().into(),
                             #[cfg(swc_ast_unknown)]
                             _ => unreachable!(),
                         };

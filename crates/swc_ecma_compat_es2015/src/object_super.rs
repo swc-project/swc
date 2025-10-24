@@ -196,7 +196,7 @@ impl SuperReplacer {
                 sym: value, span, ..
             }) => Lit::Str(Str {
                 raw: None,
-                value,
+                value: value.into(),
                 span,
             })
             .into(),

@@ -37,16 +37,13 @@ pub fn has_use_strict(block: &BlockStmt) -> Option<Span> {
 }
 
 pub fn is_constructor(key: &Key) -> bool {
-    matches!(
-        &key,
-        Key::Public(PropName::Ident(IdentName {
-            sym: constructor,
-            ..
-        })) | Key::Public(PropName::Str(Str {
-            value: constructor,
-            ..
-        })) if  atom!("constructor").eq(constructor)
-    )
+    if let Key::Public(PropName::Ident(IdentName { sym, .. })) = key {
+        sym.eq("constructor")
+    } else if let Key::Public(PropName::Str(Str { value, .. })) = key {
+        value.eq("constructor")
+    } else {
+        false
+    }
 }
 
 pub fn get_qualified_jsx_name(name: &JSXElementName) -> Atom {

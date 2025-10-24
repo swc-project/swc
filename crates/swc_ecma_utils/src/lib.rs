@@ -18,7 +18,10 @@ use number::ToJsString;
 use once_cell::sync::Lazy;
 use parallel::{Parallel, ParallelExt};
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::{atom, Atom};
+use swc_atoms::{
+    atom,
+    wtf8::{Wtf8, Wtf8Buf},
+};
 use swc_common::{util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
@@ -51,6 +54,8 @@ pub mod ident;
 pub mod parallel;
 mod value;
 pub mod var;
+
+pub mod unicode;
 
 mod node_ignore_span;
 pub mod number;
@@ -808,6 +813,12 @@ pub trait ExprExt {
         as_pure_string(self.as_expr(), ctx)
     }
 
+    /// Returns Known only if it's pure.
+    #[inline(always)]
+    fn as_pure_wtf8(&self, ctx: ExprCtx) -> Value<Cow<'_, Wtf8>> {
+        as_pure_wtf8(self.as_expr(), ctx)
+    }
+
     /// Apply the supplied predicate against all possible result Nodes of the
     /// expression.
     #[inline(always)]
@@ -1275,7 +1286,7 @@ pub fn is_simple_pure_member_expr(m: &MemberExpr, pure_getters: bool) -> bool {
 
 fn sym_for_expr(expr: &Expr) -> Option<String> {
     match expr {
-        Expr::Lit(Lit::Str(s)) => Some(s.value.to_string()),
+        Expr::Lit(Lit::Str(s)) => s.value.as_str().map(ToString::to_string),
         Expr::This(_) => Some("this".to_string()),
 
         Expr::Ident(ident)
@@ -1445,7 +1456,7 @@ pub fn prop_name_to_expr_value(p: PropName) -> Expr {
         PropName::Ident(i) => Lit::Str(Str {
             span: i.span,
             raw: None,
-            value: i.sym,
+            value: i.sym.into(),
         })
         .into(),
         PropName::Str(s) => Lit::Str(s).into(),
@@ -1687,7 +1698,7 @@ where
     }
 }
 
-pub fn is_valid_ident(s: &Atom) -> bool {
+pub fn is_valid_ident(s: &str) -> bool {
     if s.is_empty() {
         return false;
     }
@@ -3006,7 +3017,12 @@ fn cast_to_number(expr: &Expr, ctx: ExprCtx) -> (Purity, Value<f64>) {
             Lit::Bool(Bool { value: true, .. }) => 1.0,
             Lit::Bool(Bool { value: false, .. }) | Lit::Null(..) => 0.0,
             Lit::Num(Number { value: n, .. }) => *n,
-            Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
+            Lit::Str(Str { value, .. }) => {
+                if let Some(value) = value.as_str() {
+                    return (Pure, num_from_str(value));
+                }
+                return (Pure, Unknown);
+            }
             _ => return (Pure, Unknown),
         },
         Expr::Array(..) => {
@@ -3092,23 +3108,45 @@ fn as_pure_number(expr: &Expr, ctx: ExprCtx) -> Value<f64> {
 }
 
 fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
+    match as_pure_wtf8(expr, ctx) {
+        Known(v) => match v {
+            Cow::Borrowed(v) => {
+                if let Some(v) = v.as_str() {
+                    Known(Cow::Borrowed(v))
+                } else {
+                    Unknown
+                }
+            }
+            Cow::Owned(v) => {
+                if let Ok(v) = v.into_string() {
+                    Known(Cow::Owned(v))
+                } else {
+                    Unknown
+                }
+            }
+        },
+        Unknown => Unknown,
+    }
+}
+
+fn as_pure_wtf8(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, Wtf8>> {
     let Some(ctx) = ctx.consume_depth() else {
         return Unknown;
     };
 
     match *expr {
         Expr::Lit(ref l) => match *l {
-            Lit::Str(Str { ref value, .. }) => Known(Cow::Borrowed(value)),
+            Lit::Str(Str { ref value, .. }) => Known(Cow::Borrowed(&**value)),
             Lit::Num(ref n) => {
                 if n.value == -0.0 {
-                    return Known(Cow::Borrowed("0"));
+                    return Known(Cow::Borrowed("0".into()));
                 }
 
-                Known(Cow::Owned(n.value.to_js_string()))
+                Known(Cow::Owned(Wtf8Buf::from_string(n.value.to_js_string())))
             }
-            Lit::Bool(Bool { value: true, .. }) => Known(Cow::Borrowed("true")),
-            Lit::Bool(Bool { value: false, .. }) => Known(Cow::Borrowed("false")),
-            Lit::Null(..) => Known(Cow::Borrowed("null")),
+            Lit::Bool(Bool { value: true, .. }) => Known(Cow::Borrowed("true".into())),
+            Lit::Bool(Bool { value: false, .. }) => Known(Cow::Borrowed("false".into())),
+            Lit::Null(..) => Known(Cow::Borrowed("null".into())),
             _ => Unknown,
         },
         Expr::Tpl(_) => {
@@ -3120,13 +3158,13 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
         }
         Expr::Ident(Ident { ref sym, ctxt, .. }) => match &**sym {
             "undefined" | "Infinity" | "NaN" if ctxt == ctx.unresolved_ctxt => {
-                Known(Cow::Borrowed(&**sym))
+                Known(Cow::Borrowed(Wtf8::from_str(sym)))
             }
             _ => Unknown,
         },
         Expr::Unary(UnaryExpr {
             op: op!("void"), ..
-        }) => Known(Cow::Borrowed("undefined")),
+        }) => Known(Cow::Borrowed("undefined".into())),
         Expr::Unary(UnaryExpr {
             op: op!("!"),
             ref arg,
@@ -3134,15 +3172,15 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
         }) => Known(Cow::Borrowed(match arg.as_pure_bool(ctx) {
             Known(v) => {
                 if v {
-                    "false"
+                    "false".into()
                 } else {
-                    "true"
+                    "true".into()
                 }
             }
             Unknown => return Value::Unknown,
         })),
         Expr::Array(ArrayLit { ref elems, .. }) => {
-            let mut buf = String::new();
+            let mut buf = Wtf8Buf::new();
             let len = elems.len();
             // null, undefined is "" in array literal.
             for (idx, elem) in elems.iter().enumerate() {
@@ -3151,7 +3189,7 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
                     Some(ref elem) => {
                         let ExprOrSpread { ref expr, .. } = *elem;
                         match &**expr {
-                            Expr::Lit(Lit::Null(..)) => Cow::Borrowed(""),
+                            Expr::Lit(Lit::Null(..)) => Cow::Borrowed("".into()),
                             Expr::Unary(UnaryExpr {
                                 op: op!("void"),
                                 arg,
@@ -3160,25 +3198,25 @@ fn as_pure_string(expr: &Expr, ctx: ExprCtx) -> Value<Cow<'_, str>> {
                                 if arg.may_have_side_effects(ctx) {
                                     return Value::Unknown;
                                 }
-                                Cow::Borrowed("")
+                                Cow::Borrowed("".into())
                             }
                             Expr::Ident(Ident { sym: undefined, .. })
                                 if &**undefined == "undefined" =>
                             {
-                                Cow::Borrowed("")
+                                Cow::Borrowed("".into())
                             }
-                            _ => match expr.as_pure_string(ctx) {
+                            _ => match expr.as_pure_wtf8(ctx) {
                                 Known(v) => v,
                                 Unknown => return Value::Unknown,
                             },
                         }
                     }
-                    None => Cow::Borrowed(""),
+                    None => Cow::Borrowed("".into()),
                 };
-                buf.push_str(&e);
+                buf.push_wtf8(&e);
 
                 if !last {
-                    buf.push(',');
+                    buf.push_char(',');
                 }
             }
             Known(buf.into())
@@ -3527,9 +3565,11 @@ fn may_have_side_effects(expr: &Expr, ctx: ExprCtx) -> bool {
                             Prop::Getter(_) | Prop::Setter(_) | Prop::Method(_) => true,
                             Prop::Shorthand(Ident { sym, .. })
                             | Prop::KeyValue(KeyValueProp {
-                                key:
-                                    PropName::Ident(IdentName { sym, .. })
-                                    | PropName::Str(Str { value: sym, .. }),
+                                key: PropName::Ident(IdentName { sym, .. }),
+                                ..
+                            }) => &**sym == "__proto__",
+                            Prop::KeyValue(KeyValueProp {
+                                key: PropName::Str(Str { value: sym, .. }),
                                 ..
                             }) => &**sym == "__proto__",
                             Prop::KeyValue(KeyValueProp {

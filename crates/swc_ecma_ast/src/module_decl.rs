@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use is_macro::Is;
 use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
@@ -405,10 +407,19 @@ bridge_from!(ModuleExportName, Ident, IdentName);
 
 impl ModuleExportName {
     /// Get the atom of the export name.
-    pub fn atom(&self) -> &Atom {
+    ///
+    /// If the name is a string literal that has ill-formed UTF16, it will be
+    /// converted to a UTF-8 valid string using lossy conversion (Unpaired
+    /// surrogates are replaced with Replacement Character).  This is
+    /// a SyntaxError if it's fully complied to the spec.
+    /// See: https://tc39.es/ecma262/#sec-module-semantics-static-semantics-early-errors
+    pub fn atom(&self) -> Cow<'_, Atom> {
         match self {
-            ModuleExportName::Ident(i) => &i.sym,
-            ModuleExportName::Str(s) => &s.value,
+            ModuleExportName::Ident(i) => Cow::Borrowed(&i.sym),
+            ModuleExportName::Str(s) => match s.value.clone().try_into_atom() {
+                Ok(atom) => Cow::Owned(atom),
+                Err(original) => Cow::Owned(Atom::from(&*original.to_string_lossy())),
+            },
         }
     }
 }

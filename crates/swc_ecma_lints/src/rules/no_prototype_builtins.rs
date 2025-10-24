@@ -99,7 +99,7 @@ impl NoPrototypeBuiltins {
                 self.extract_path(exprs.last().unwrap().as_ref());
             }
             Expr::Lit(Lit::Str(lit_str)) => {
-                self.extend_chain(lit_str.span, lit_str.value.clone());
+                self.extend_chain(lit_str.span, lit_str.value.to_atom_lossy().into_owned());
             }
             Expr::Tpl(tpl) => {
                 if tpl.exprs.is_empty() && tpl.quasis.len() == 1 {

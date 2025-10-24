@@ -122,7 +122,7 @@ impl NoAlert {
             }
             MemberProp::Computed(comp) => {
                 if let Expr::Lit(Lit::Str(Str { value, .. })) = comp.expr.as_ref() {
-                    self.prop = Some(value.clone());
+                    self.prop = value.as_atom().cloned();
                 }
             }
             _ => {}

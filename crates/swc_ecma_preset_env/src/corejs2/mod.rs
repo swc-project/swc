@@ -232,7 +232,7 @@ impl Visit for UsageVisitor {
             }
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                 if let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr {
-                    if let Some(imports) = data::instance_properties_get(value) {
+                    if let Some(imports) = data::instance_properties_get(&value.to_string_lossy()) {
                         self.add(imports);
                     }
                 }
@@ -244,7 +244,9 @@ impl Visit for UsageVisitor {
                 match &node.prop {
                     MemberProp::Computed(ComputedPropName { expr, .. }) => {
                         if let Expr::Lit(Lit::Str(Str { value, .. })) = &**expr {
-                            if let Some(imports) = data::instance_properties_get(value) {
+                            if let Some(imports) =
+                                data::instance_properties_get(&value.to_string_lossy())
+                            {
                                 self.add(imports);
                             }
                         }

@@ -624,6 +624,12 @@
             "import": "./esm/_ts_param.js",
             "default": "./cjs/_ts_param.cjs"
         },
+        "./_/_ts_rewrite_relative_import_extension": {
+            "module-sync": "./esm/_ts_rewrite_relative_import_extension.js",
+            "webpack": "./esm/_ts_rewrite_relative_import_extension.js",
+            "import": "./esm/_ts_rewrite_relative_import_extension.js",
+            "default": "./cjs/_ts_rewrite_relative_import_extension.cjs"
+        },
         "./_/_ts_values": {
             "module-sync": "./esm/_ts_values.js",
             "webpack": "./esm/_ts_values.js",

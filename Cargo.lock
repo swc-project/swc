@@ -2282,6 +2282,7 @@ dependencies = [
  "rkyv",
  "rustc-hash 2.1.1",
  "serde",
+ "serde_json",
  "smartstring",
  "smol_str",
  "string_cache",
@@ -5618,7 +5619,6 @@ dependencies = [
 name = "swc_ecma_lexer"
 version = "24.0.1"
 dependencies = [
- "arrayvec",
  "bitflags 2.6.0",
  "codspeed-criterion-compat",
  "either",

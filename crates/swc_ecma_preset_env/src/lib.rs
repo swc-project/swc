@@ -533,7 +533,7 @@ impl VisitMut for Polyfills {
                         src: Str {
                             span: DUMMY_SP,
                             raw: None,
-                            value: src,
+                            value: src.into(),
                         }
                         .into(),
                         type_only: false,
@@ -553,7 +553,7 @@ impl VisitMut for Polyfills {
                         src: Str {
                             span: DUMMY_SP,
                             raw: None,
-                            value: src,
+                            value: src.into(),
                         }
                         .into(),
                         type_only: false,
@@ -565,7 +565,7 @@ impl VisitMut for Polyfills {
             );
         }
 
-        m.body.retain(|item| !matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. })) if src.span == DUMMY_SP && src.value == atom!("")));
+        m.body.retain(|item| !matches!(item, ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. })) if src.span == DUMMY_SP && src.value .is_empty()));
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
@@ -589,7 +589,7 @@ impl VisitMut for Polyfills {
                             .as_callee(),
                             args: vec![Str {
                                 span: DUMMY_SP,
-                                value: src,
+                                value: src.into(),
                                 raw: None,
                             }
                             .as_arg()],
@@ -617,7 +617,7 @@ impl VisitMut for Polyfills {
                             .as_callee(),
                             args: vec![Str {
                                 span: DUMMY_SP,
-                                value: src,
+                                value: src.into(),
                                 raw: None,
                             }
                             .as_arg()],

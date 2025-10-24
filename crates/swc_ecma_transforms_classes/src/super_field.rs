@@ -496,7 +496,7 @@ fn prop_arg(prop: SuperProp) -> Expr {
         }) => Lit::Str(Str {
             span,
             raw: None,
-            value,
+            value: value.into(),
         })
         .into(),
         SuperProp::Computed(c) => *c.expr,

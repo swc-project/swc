@@ -143,7 +143,7 @@ impl PropNameExit for PropName {
     fn static_name(&self) -> Option<Cow<str>> {
         match self {
             PropName::Ident(ident_name) => Some(Cow::Borrowed(ident_name.sym.as_str())),
-            PropName::Str(string) => Some(Cow::Borrowed(string.value.as_str())),
+            PropName::Str(string) => Some(Cow::Borrowed(string.value.as_str()?)),
             PropName::Num(number) => Some(Cow::Owned(number.value.to_string())),
             PropName::BigInt(big_int) => Some(Cow::Owned(big_int.value.to_string())),
             PropName::Computed(computed_prop_name) => computed_prop_name.static_name(),
@@ -164,7 +164,7 @@ impl PropNameExit for ComputedPropName {
     fn static_name(&self) -> Option<Cow<str>> {
         match self.expr.as_ref() {
             Expr::Lit(lit) => match lit {
-                Lit::Str(string) => Some(Cow::Borrowed(string.value.as_str())),
+                Lit::Str(string) => Some(Cow::Borrowed(string.value.as_str()?)),
                 Lit::Bool(b) => Some(Cow::Owned(b.value.to_string())),
                 Lit::Null(_) => Some(Cow::Borrowed("null")),
                 Lit::Num(number) => Some(Cow::Owned(number.value.to_string())),
@@ -178,7 +178,7 @@ impl PropNameExit for ComputedPropName {
                 .quasis
                 .first()
                 .and_then(|e| e.cooked.as_ref())
-                .map(|atom| Cow::Borrowed(atom.as_str())),
+                .and_then(|atom| atom.as_str().map(Cow::Borrowed)),
             _ => None,
         }
     }
@@ -241,7 +241,7 @@ impl MemberPropExt for MemberProp {
         match self {
             MemberProp::Ident(ident_name) => Some(&ident_name.sym),
             MemberProp::Computed(computed_prop_name) => match computed_prop_name.expr.as_ref() {
-                Expr::Lit(Lit::Str(s)) => Some(&s.value),
+                Expr::Lit(Lit::Str(s)) => s.value.as_atom(),
                 Expr::Tpl(tpl) if tpl.quasis.len() == 1 && tpl.exprs.is_empty() => {
                     Some(&tpl.quasis[0].raw)
                 }

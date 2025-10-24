@@ -1,6 +1,9 @@
 use std::{borrow::Cow, mem::take};
 
-use swc_atoms::Atom;
+use swc_atoms::{
+    wtf8::{Wtf8, Wtf8Buf},
+    Atom, Wtf8Atom,
+};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
@@ -89,7 +92,7 @@ impl Pure<'_> {
                 left: tpl.quasis[0]
                     .cooked
                     .clone()
-                    .unwrap_or_else(|| tpl.quasis[0].raw.clone())
+                    .unwrap_or_else(|| tpl.quasis[0].raw.clone().into())
                     .into(),
                 right: tpl.exprs[0].take(),
             }
@@ -121,7 +124,7 @@ impl Pure<'_> {
             quasis: Default::default(),
             exprs: Default::default(),
         };
-        let mut cur_cooked_str = String::new();
+        let mut cur_cooked_str = Wtf8Buf::new();
         let mut cur_raw_str = String::new();
 
         for idx in 0..(tpl.quasis.len() + tpl.exprs.len()) {
@@ -146,7 +149,7 @@ impl Pure<'_> {
                                 cur_cooked_str.push_str(Str::from_tpl_raw(&q.raw).as_ref());
                                 cur_raw_str.push_str(&q.raw);
                             } else {
-                                let cooked = Atom::from(&*cur_cooked_str);
+                                let cooked = Wtf8Atom::from(&*cur_cooked_str);
                                 let raw = Atom::from(&*cur_raw_str);
                                 cur_cooked_str.clear();
                                 cur_raw_str.clear();
@@ -165,7 +168,7 @@ impl Pure<'_> {
                         }
                     }
                     _ => {
-                        let cooked = Atom::from(&*cur_cooked_str);
+                        let cooked = Wtf8Atom::from(&*cur_cooked_str);
                         let raw = Atom::from(&*cur_raw_str);
                         cur_cooked_str.clear();
                         cur_raw_str.clear();
@@ -183,7 +186,7 @@ impl Pure<'_> {
             }
         }
 
-        let cooked = Atom::from(&*cur_cooked_str);
+        let cooked = Wtf8Atom::from(&*cur_cooked_str);
         let raw = Atom::from(&*cur_raw_str);
         new_tpl.quasis.push(TplElement {
             span: DUMMY_SP,
@@ -200,21 +203,23 @@ impl Pure<'_> {
         match e {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
                 if let Some(value) = &t.quasis[0].cooked {
-                    if value.chars().all(|c| match c {
-                        '\\' => false,
-                        '\u{0020}'..='\u{007e}' => true,
-                        '\n' | '\r' => self.config.force_str_for_tpl,
-                        _ => false,
-                    }) {
-                        report_change!("converting a template literal to a string literal");
+                    if let Some(value) = value.as_str() {
+                        if value.chars().all(|c| match c {
+                            '\\' => false,
+                            '\u{0020}'..='\u{007e}' => true,
+                            '\n' | '\r' => self.config.force_str_for_tpl,
+                            _ => false,
+                        }) {
+                            report_change!("converting a template literal to a string literal");
 
-                        *e = Lit::Str(Str {
-                            span: t.span,
-                            raw: None,
-                            value: value.clone(),
-                        })
-                        .into();
-                        return;
+                            *e = Lit::Str(Str {
+                                span: t.span,
+                                raw: None,
+                                value: t.quasis[0].cooked.clone().unwrap(),
+                            })
+                            .into();
+                            return;
+                        }
                     }
                 }
 
@@ -238,7 +243,7 @@ impl Pure<'_> {
                     *e = Lit::Str(Str {
                         span: t.span,
                         raw: None,
-                        value,
+                        value: value.into(),
                     })
                     .into();
                 }
@@ -267,7 +272,7 @@ impl Pure<'_> {
         let mut quasis = Vec::new();
         let mut exprs = Vec::new();
         let mut cur_raw = String::new();
-        let mut cur_cooked = Some(String::new());
+        let mut cur_cooked = Some(Wtf8Buf::new());
 
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
             if i % 2 == 0 {
@@ -298,7 +303,7 @@ impl Pure<'_> {
                         }
                     }
                     _ => {
-                        cur_cooked = Some(String::new());
+                        cur_cooked = Some(Wtf8Buf::new());
                     }
                 }
             }
@@ -314,7 +319,7 @@ impl Pure<'_> {
                 cur_raw.push_str(&q.raw);
                 if let Some(cooked) = q.cooked {
                     if let Some(cur_cooked) = &mut cur_cooked {
-                        cur_cooked.push_str(&cooked);
+                        cur_cooked.push_wtf8(&cooked);
                     }
                 } else {
                     // If cooked is None, it means that the template literal contains invalid escape
@@ -328,7 +333,7 @@ impl Pure<'_> {
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
                         if let Some(cur_cooked) = &mut cur_cooked {
-                            cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
+                            cur_cooked.push_wtf8(&convert_str_value_to_tpl_cooked(&s.value));
                         }
 
                         if let Some(raw) = &s.raw {
@@ -348,7 +353,7 @@ impl Pure<'_> {
                             cooked: cur_cooked.take().map(From::from),
                             raw: take(&mut cur_raw).into(),
                         });
-                        cur_cooked = Some(String::new());
+                        cur_cooked = Some(Wtf8Buf::new());
 
                         exprs.push(e);
                     }
@@ -391,9 +396,9 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut l_last.cooked {
-                        *cooked =
-                            format!("{}{}", cooked, convert_str_value_to_tpl_cooked(&rs.value))
-                                .into();
+                        let mut c = Wtf8Buf::from(&*cooked);
+                        c.push_wtf8(&convert_str_value_to_tpl_cooked(&rs.value));
+                        *cooked = c.into();
                     }
 
                     l_last.raw = format!(
@@ -427,9 +432,10 @@ impl Pure<'_> {
                     );
 
                     if let Some(cooked) = &mut r_first.cooked {
-                        *cooked =
-                            format!("{}{}", convert_str_value_to_tpl_cooked(&ls.value), cooked)
-                                .into()
+                        let mut c = Wtf8Buf::new();
+                        c.push_wtf8(&convert_str_value_to_tpl_cooked(&ls.value));
+                        c.push_wtf8(&*cooked);
+                        *cooked = c.into();
                     }
 
                     let new: Atom = format!(
@@ -492,10 +498,9 @@ impl Pure<'_> {
 
                 if let Value::Known(Type::Str) = type_of_second {
                     if let Value::Known(Type::Str) = type_of_third {
-                        if let Value::Known(second_str) = left.right.as_pure_string(self.expr_ctx) {
-                            if let Value::Known(third_str) = bin.right.as_pure_string(self.expr_ctx)
-                            {
-                                let new_str = format!("{second_str}{third_str}");
+                        if let Value::Known(second_str) = left.right.as_pure_wtf8(self.expr_ctx) {
+                            if let Value::Known(third_str) = bin.right.as_pure_wtf8(self.expr_ctx) {
+                                let new_str = second_str.into_owned() + &*third_str;
                                 let left_span = left.span;
 
                                 self.changed = true;
@@ -570,22 +575,83 @@ impl Pure<'_> {
     }
 }
 
-pub(super) fn convert_str_value_to_tpl_cooked(value: &Atom) -> Cow<str> {
-    value
-        .replace("\\\\", "\\")
-        .replace("\\`", "`")
-        .replace("\\$", "$")
-        .into()
+pub(super) fn convert_str_value_to_tpl_cooked(value: &Wtf8) -> Cow<Wtf8> {
+    let mut result = Wtf8Buf::default();
+    let mut need_replace = false;
+
+    let mut iter = value.code_points().peekable();
+    while let Some(code_point) = iter.next() {
+        if let Some(ch) = code_point.to_char() {
+            match ch {
+                '\\' => {
+                    if let Some(next) = iter.peek().and_then(|c| c.to_char()) {
+                        match next {
+                            '\\' => {
+                                need_replace = true;
+                                result.push_char('\\');
+                                iter.next();
+                            }
+                            '`' => {
+                                need_replace = true;
+                                result.push_char('`');
+                                iter.next();
+                            }
+                            '$' => {
+                                need_replace = true;
+                                result.push_char('$');
+                                iter.next();
+                            }
+                            _ => result.push_char(ch),
+                        }
+                    } else {
+                        result.push_char(ch);
+                    }
+                }
+                _ => result.push_char(ch),
+            }
+        } else {
+            need_replace = true;
+            result.push_str(&format!("\\u{:04X}", code_point.to_u32()));
+        }
+    }
+
+    if need_replace {
+        result.into()
+    } else {
+        Cow::Borrowed(value)
+    }
 }
 
-pub(super) fn convert_str_value_to_tpl_raw(value: &Atom) -> Cow<str> {
-    value
-        .replace('\\', "\\\\")
-        .replace('`', "\\`")
-        .replace('$', "\\$")
-        .replace('\n', "\\n")
-        .replace('\r', "\\r")
-        .into()
+pub(super) fn convert_str_value_to_tpl_raw(value: &Wtf8) -> Cow<str> {
+    let mut result = String::default();
+
+    let iter = value.code_points();
+    for code_point in iter {
+        if let Some(ch) = code_point.to_char() {
+            match ch {
+                '\\' => {
+                    result.push_str("\\\\");
+                }
+                '`' => {
+                    result.push_str("\\`");
+                }
+                '$' => {
+                    result.push_str("\\$");
+                }
+                '\n' => {
+                    result.push_str("\\n");
+                }
+                '\r' => {
+                    result.push_str("\\r");
+                }
+                _ => result.push(ch),
+            }
+        } else {
+            result.push_str(&format!("\\u{:04X}", code_point.to_u32()));
+        }
+    }
+
+    result.into()
 }
 
 pub(super) fn convert_str_raw_to_tpl_raw(value: &str) -> Atom {

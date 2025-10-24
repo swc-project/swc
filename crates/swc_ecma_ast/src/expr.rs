@@ -3,7 +3,7 @@ use std::mem::transmute;
 
 use is_macro::Is;
 use string_enum::StringEnum;
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -550,7 +550,10 @@ impl ObjectLit {
                     Prop::KeyValue(kv) => {
                         let key = match &kv.key {
                             PropName::Ident(i) => i.clone(),
-                            PropName::Str(s) => IdentName::new(s.value.clone(), s.span),
+                            PropName::Str(s) => {
+                                let name = s.value.as_str()?;
+                                IdentName::new(name.to_string().into(), s.span)
+                            }
                             _ => return None,
                         };
 
@@ -1195,7 +1198,7 @@ pub struct TplElement {
     ///
     /// If you are going to use codegen right after creating a [TplElement], you
     /// don't have to worry about this value.
-    pub cooked: Option<Atom>,
+    pub cooked: Option<Wtf8Atom>,
 
     /// You may need to perform. `.replace("\r\n", "\n").replace('\r', "\n")` on
     /// this value.
@@ -1218,7 +1221,7 @@ impl Take for TplElement {
 impl<'a> arbitrary::Arbitrary<'a> for TplElement {
     fn arbitrary(u: &mut arbitrary::Unstructured<'_>) -> arbitrary::Result<Self> {
         let span = u.arbitrary()?;
-        let cooked = Some(u.arbitrary::<String>()?.into());
+        let cooked = Some(u.arbitrary::<Wtf8Atom>()?.into());
         let raw = u.arbitrary::<String>()?.into();
 
         Ok(Self {

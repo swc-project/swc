@@ -101,11 +101,11 @@ impl Entry {
 
 impl VisitMut for Entry {
     fn visit_mut_import_decl(&mut self, i: &mut ImportDecl) {
-        let remove = i.specifiers.is_empty() && self.add(&i.src.value);
+        let remove = i.specifiers.is_empty() && self.add(&i.src.value.to_string_lossy());
 
         if remove {
             i.src.span = DUMMY_SP;
-            i.src.value = atom!("");
+            i.src.value = atom!("").into();
         }
     }
 }

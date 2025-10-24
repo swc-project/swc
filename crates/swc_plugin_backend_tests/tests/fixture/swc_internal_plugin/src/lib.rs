@@ -28,7 +28,7 @@ impl VisitMut for ConsoleOutputReplacer {
                     if ident.sym == *"console" {
                         call.args[0].expr = Lit::Str(Str {
                             span: DUMMY_SP,
-                            value: atom!("changed_via_plugin"),
+                            value: atom!("changed_via_plugin").into(),
                             raw: Some(atom!("\"changed_via_plugin\"")),
                         })
                         .into();

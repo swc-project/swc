@@ -7,7 +7,7 @@ use std::{
 };
 
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{atom, Atom, AtomStore};
+use swc_atoms::{atom, Atom, AtomStore, Wtf8Atom};
 use swc_common::{Span, Spanned};
 pub(crate) use swc_ecma_ast::{AssignOp, BinaryOp};
 
@@ -436,7 +436,7 @@ pub enum Token {
     BackQuote,
     Template {
         raw: Atom,
-        cooked: LexResult<Atom>,
+        cooked: LexResult<Wtf8Atom>,
     },
     /// ':'
     Colon,
@@ -459,7 +459,7 @@ pub enum Token {
 
     /// String literal. Span of this token contains quote.
     Str {
-        value: Atom,
+        value: Wtf8Atom,
         raw: Atom,
     },
 
@@ -654,12 +654,12 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn str(value: Atom, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
+    fn str(value: Wtf8Atom, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
         Self::Str { value, raw }
     }
 
     #[inline(always)]
-    fn template(cooked: LexResult<Atom>, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
+    fn template(cooked: LexResult<Wtf8Atom>, raw: Atom, _: &mut crate::Lexer<'a>) -> Self {
         Self::Template { cooked, raw }
     }
 
@@ -733,7 +733,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn take_str(self, _: &mut Self::Buffer) -> (Atom, Atom) {
+    fn take_str(self, _: &mut Self::Buffer) -> (Wtf8Atom, Atom) {
         match self {
             Self::Str { value, raw } => (value, raw),
             _ => unreachable!(),
@@ -824,7 +824,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::lexer::token::TokenFactory<'a, 
     }
 
     #[inline(always)]
-    fn take_template(self, _: &mut Self::Buffer) -> (LexResult<Atom>, Atom) {
+    fn take_template(self, _: &mut Self::Buffer) -> (LexResult<Wtf8Atom>, Atom) {
         match self {
             Self::Template { cooked, raw } => (cooked, raw),
             _ => unreachable!(),
@@ -1647,7 +1647,7 @@ impl Debug for Token {
             PlusPlus => write!(f, "++")?,
             MinusMinus => write!(f, "--")?,
             Tilde => write!(f, "~")?,
-            Str { value, raw } => write!(f, "string literal ({value}, {raw})")?,
+            Str { value, raw } => write!(f, "string literal ({value:?}, {raw})")?,
             Regex(exp, flags) => write!(f, "regexp literal ({exp}, {flags})")?,
             Num { value, raw, .. } => write!(f, "numeric literal ({value}, {raw})")?,
             BigInt { value, raw } => write!(f, "bigint literal ({value}, {raw})")?,

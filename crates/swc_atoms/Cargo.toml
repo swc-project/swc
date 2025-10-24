@@ -26,4 +26,4 @@ rkyv          = { workspace = true, optional = true }
 serde         = { workspace = true }
 shrink-to-fit = { workspace = true, optional = true }
 
-hstr = { version = "2.1.0", path = "../hstr" }
+hstr = { version = "2.1.0", path = "../hstr", features = ["serde"] }

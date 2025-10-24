@@ -2,7 +2,7 @@
 
 use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
-use swc_atoms::AtomStoreCell;
+use swc_atoms::{wtf8::Wtf8, AtomStoreCell};
 use swc_common::{
     comments::Comments,
     input::{Input, StringInput},
@@ -112,6 +112,11 @@ impl<'a> crate::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     #[inline(always)]
     fn atom<'b>(&self, s: impl Into<std::borrow::Cow<'b, str>>) -> swc_atoms::Atom {
         self.atoms.atom(s)
+    }
+
+    #[inline(always)]
+    fn wtf8_atom<'b>(&self, s: impl Into<std::borrow::Cow<'b, Wtf8>>) -> swc_atoms::Wtf8Atom {
+        self.atoms.wtf8_atom(s)
     }
 }
 

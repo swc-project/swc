@@ -411,10 +411,10 @@ where
     noop_fold_type!();
 
     fn fold_import_decl(&mut self, import: ImportDecl) -> ImportDecl {
-        let resolved = match self
-            .resolver
-            .resolve(&FileName::Real(self.base.clone()), &import.src.value)
-        {
+        let resolved = match self.resolver.resolve(
+            &FileName::Real(self.base.clone()),
+            &import.src.value.to_string_lossy(),
+        ) {
             Ok(v) => match v.filename {
                 FileName::Real(v) => v,
                 _ => panic!("rename_bundles called with non-path module"),

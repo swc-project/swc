@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -7,6 +7,14 @@ use swc_ecma_utils::{
     ExprFactory,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
+
+#[inline]
+fn atom_from_wtf8_atom(value: &Wtf8Atom) -> Atom {
+    value
+        .as_str()
+        .map(Atom::from)
+        .unwrap_or_else(|| Atom::from(value.to_string_lossy()))
+}
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub(crate) struct TsEnumRecordKey {
@@ -113,7 +121,7 @@ impl EnumValueComputer<'_> {
 
     fn compute_rec(&self, expr: Box<Expr>) -> TsEnumRecordValue {
         match *expr {
-            Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(s.value),
+            Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(atom_from_wtf8_atom(&s.value)),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n.value.into()),
             Expr::Ident(Ident { ctxt, sym, .. })
                 if &*sym == "NaN" && ctxt == self.unresolved_ctxt =>
@@ -263,7 +271,7 @@ impl EnumValueComputer<'_> {
                     return opaque_expr;
                 };
 
-                s.value
+                atom_from_wtf8_atom(&s.value)
             }
             _ => return opaque_expr,
         };

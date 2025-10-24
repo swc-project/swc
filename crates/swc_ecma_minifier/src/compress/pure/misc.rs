@@ -1,7 +1,11 @@
 use std::{fmt::Write, num::FpCategory};
 
 use rustc_hash::FxHashSet;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{
+    atom,
+    wtf8::{Wtf8, Wtf8Buf},
+    Atom, Wtf8Atom,
+};
 use swc_common::{iter::IdentifyLast, util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
@@ -467,18 +471,18 @@ impl Pure<'_> {
         };
 
         let separator = if call.args.is_empty() {
-            atom!(",")
+            Wtf8Atom::from(",")
         } else if call.args.len() == 1 {
             if call.args[0].spread.is_some() {
                 return;
             }
 
             if is_pure_undefined(self.expr_ctx, &call.args[0].expr) {
-                atom!(",")
+                Wtf8Atom::from(",")
             } else {
                 match &*call.args[0].expr {
                     Expr::Lit(Lit::Str(s)) => s.value.clone(),
-                    Expr::Lit(Lit::Null(..)) => atom!("null"),
+                    Expr::Lit(Lit::Null(..)) => Wtf8Atom::from("null"),
                     _ => return,
                 }
             }
@@ -520,7 +524,7 @@ impl Pure<'_> {
             *e = Lit::Str(Str {
                 span: call.span,
                 raw: None,
-                value: atom!(""),
+                value: atom!("").into(),
             })
             .into();
             return;
@@ -582,7 +586,7 @@ impl Pure<'_> {
             let mut res = Lit::Str(Str {
                 span: DUMMY_SP,
                 raw: None,
-                value: atom!(""),
+                value: atom!("").into(),
             })
             .into();
 
@@ -626,14 +630,14 @@ impl Pure<'_> {
             return;
         }
 
-        let mut res = String::new();
+        let mut res = Wtf8Buf::default();
         for (last, elem) in arr.elems.iter().identify_last() {
             if let Some(elem) = elem {
                 debug_assert_eq!(elem.spread, None);
 
                 match &*elem.expr {
                     Expr::Lit(Lit::Str(s)) => {
-                        res.push_str(&s.value);
+                        res.push_wtf8(&s.value);
                     }
                     Expr::Lit(Lit::Num(n)) => {
                         write!(res, "{}", n.value).unwrap();
@@ -650,7 +654,7 @@ impl Pure<'_> {
             }
 
             if !last {
-                res.push_str(&separator);
+                res.push_wtf8(&separator);
             }
         }
 
@@ -672,7 +676,7 @@ impl Pure<'_> {
         &mut self,
         _span: Span,
         elems: &mut Vec<Option<ExprOrSpread>>,
-        separator: &str,
+        separator: &Wtf8,
     ) -> Option<Expr> {
         if !self.options.evaluate {
             return None;
@@ -806,17 +810,17 @@ impl Pure<'_> {
                 result_parts.push(Box::new(Expr::Lit(Lit::Str(Str {
                     span: DUMMY_SP,
                     raw: None,
-                    value: atom!(""),
+                    value: atom!("").into(),
                 }))));
             }
 
             for group in groups {
                 match group {
                     GroupType::Literals(literals) => {
-                        let mut joined = String::new();
+                        let mut joined = Wtf8Buf::new();
                         for literal in literals.iter() {
                             match &*literal.expr {
-                                Expr::Lit(Lit::Str(s)) => joined.push_str(&s.value),
+                                Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
                                 Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
                                 Expr::Lit(Lit::Null(..)) => {
                                     // For string concatenation, null becomes
@@ -865,14 +869,14 @@ impl Pure<'_> {
             for group in groups {
                 match group {
                     GroupType::Literals(literals) => {
-                        let mut joined = String::new();
+                        let mut joined = Wtf8Buf::new();
                         for (idx, literal) in literals.iter().enumerate() {
                             if idx > 0 {
-                                joined.push_str(separator);
+                                joined.push_wtf8(separator);
                             }
 
                             match &*literal.expr {
-                                Expr::Lit(Lit::Str(s)) => joined.push_str(&s.value),
+                                Expr::Lit(Lit::Str(s)) => joined.push_wtf8(&s.value),
                                 Expr::Lit(Lit::Num(n)) => write!(joined, "{}", n.value).unwrap(),
                                 Expr::Lit(Lit::Null(..)) => {
                                     // null becomes empty string
@@ -962,14 +966,21 @@ impl Pure<'_> {
     fn optimize_regex(&mut self, args: &mut Vec<ExprOrSpread>, span: &mut Span) -> Option<Expr> {
         fn valid_pattern(pattern: &Expr) -> Option<Atom> {
             if let Expr::Lit(Lit::Str(s)) = pattern {
-                if s.value.contains(|c: char| {
-                    // whitelist
+                if s.value.code_points().any(|c| {
+                    let Some(c) = c.to_char() else {
+                        return true;
+                    };
+
+                    // allowlist
                     !c.is_ascii_alphanumeric()
                         && !matches!(c, '$' | '[' | ']' | '(' | ')' | '{' | '}' | '-' | '+' | '_')
                 }) {
                     None
                 } else {
-                    Some(s.value.clone())
+                    // SAFETY: We've verified that the string is valid UTF-8 in the if condition
+                    // above. For this branch, the string contains only ASCII alphanumeric
+                    // characters and a few special characters.
+                    Some(unsafe { Atom::from_wtf8_unchecked(s.value.clone()) })
                 }
             } else {
                 None
@@ -978,11 +989,11 @@ impl Pure<'_> {
         fn valid_flag(flag: &Expr, es_version: EsVersion) -> Option<Atom> {
             if let Expr::Lit(Lit::Str(s)) = flag {
                 let mut set = FxHashSet::default();
-                for c in s.value.chars() {
-                    if !(matches!(c, 'g' | 'i' | 'm')
-                        || (es_version >= EsVersion::Es2015 && matches!(c, 'u' | 'y'))
-                        || (es_version >= EsVersion::Es2018 && matches!(c, 's')))
-                        || (es_version >= EsVersion::Es2022 && matches!(c, 'd'))
+                for c in s.value.code_points() {
+                    if !(matches!(c.to_char()?, 'g' | 'i' | 'm')
+                        || (es_version >= EsVersion::Es2015 && matches!(c.to_char()?, 'u' | 'y'))
+                        || (es_version >= EsVersion::Es2018 && matches!(c.to_char()?, 's')))
+                        || (es_version >= EsVersion::Es2022 && matches!(c.to_char()?, 'd'))
                     {
                         return None;
                     }
@@ -992,7 +1003,9 @@ impl Pure<'_> {
                     }
                 }
 
-                Some(s.value.clone())
+                // SAFETY: matches above ensure that the string is valid UTF-8 ('g', 'i', 'm',
+                // 'u', 'y', 's', 'd')
+                Some(unsafe { Atom::from_wtf8_unchecked(s.value.clone()) })
             } else {
                 None
             }
@@ -1218,7 +1231,7 @@ impl Pure<'_> {
                         [] => Some(
                             Lit::Str(Str {
                                 span: *span,
-                                value: atom!(""),
+                                value: atom!("").into(),
                                 raw: None,
                             })
                             .into(),
@@ -1232,7 +1245,7 @@ impl Pure<'_> {
                                     op: op!(bin, "+"),
                                     right: Lit::Str(Str {
                                         span: *span,
-                                        value: atom!(""),
+                                        value: atom!("").into(),
                                         raw: None,
                                     })
                                     .into(),
@@ -1351,7 +1364,7 @@ impl Pure<'_> {
         &mut self,
         span: Span,
         elems: &mut Vec<Option<ExprOrSpread>>,
-        sep: &str,
+        sep: &Wtf8,
     ) -> Option<Expr> {
         if !self.options.evaluate {
             return None;
@@ -1374,15 +1387,15 @@ impl Pure<'_> {
             exprs: Vec::new(),
         };
         let mut cur_raw = String::new();
-        let mut cur_cooked = String::new();
+        let mut cur_cooked = Wtf8Buf::default();
         let mut first = true;
 
         for elem in elems.take().into_iter().flatten() {
             if first {
                 first = false;
             } else {
-                cur_raw.push_str(sep);
-                cur_cooked.push_str(sep);
+                cur_raw.push_str(&convert_str_value_to_tpl_raw(sep));
+                cur_cooked.push_wtf8(sep);
             }
 
             match *elem.expr {
@@ -1393,7 +1406,7 @@ impl Pure<'_> {
                             // quasis
                             let e = tpl.quasis[idx / 2].take();
 
-                            cur_cooked.push_str(&e.cooked.unwrap());
+                            cur_cooked.push_wtf8(&e.cooked.unwrap());
                             cur_raw.push_str(&e.raw);
                         } else {
                             new_tpl.quasis.push(TplElement {
@@ -1413,7 +1426,7 @@ impl Pure<'_> {
                     }
                 }
                 Expr::Lit(Lit::Str(s)) => {
-                    cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
+                    cur_cooked.push_wtf8(&convert_str_value_to_tpl_cooked(&s.value));
                     cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
                 }
                 _ => {
@@ -2063,7 +2076,8 @@ impl Pure<'_> {
 
         match e {
             Expr::Lit(Lit::Str(s)) => {
-                if (self.options.directives && !matches!(&*s.value, "use strict" | "use asm"))
+                if (self.options.directives
+                    && !matches!(s.value.as_str(), Some(s) if s == "use strict" || s == "use asm"))
                     || opts.contains(DropOpts::DROP_STR_LIT)
                     || (s.value.starts_with("@swc/helpers")
                         || s.value.starts_with("@babel/helpers"))

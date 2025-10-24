@@ -203,7 +203,7 @@ where
             })
             .map(|import| import.src.value.clone())
         {
-            self.info.forced_ns.insert(src);
+            self.info.forced_ns.insert(src.to_atom_lossy().into_owned());
         }
     }
 
@@ -222,12 +222,13 @@ where
                     Callee::Expr(callee)
                         if self.bundler.config.require && callee.is_ident_ref_to("require") =>
                     {
-                        if self.bundler.is_external(&src.value) {
+                        let src_atom = src.value.to_atom_lossy();
+                        if self.bundler.is_external(src_atom.as_ref()) {
                             return;
                         }
                         if let Expr::Ident(i) = &mut **callee {
-                            self.mark_as_cjs(&src.value);
-                            if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
+                            self.mark_as_cjs(src_atom.as_ref());
+                            if let Some((_, export_ctxt)) = self.ctxt_for(src_atom.as_ref()) {
                                 i.ctxt = export_ctxt;
                             }
                         }
@@ -302,7 +303,8 @@ where
                     None => return,
                 };
 
-                let mark = self.ctxt_for(&import.src.value);
+                let src_atom = import.src.value.to_atom_lossy();
+                let mark = self.ctxt_for(src_atom.as_ref());
                 let exported_ctxt = match mark {
                     None => return,
                     Some(ctxts) => ctxts.1,
@@ -416,13 +418,14 @@ where
     }
 
     fn visit_mut_import_decl(&mut self, import: &mut ImportDecl) {
+        let src_atom = import.src.value.to_atom_lossy().into_owned();
         // Ignore if it's a core module.
-        if self.bundler.is_external(&import.src.value) {
+        if self.bundler.is_external(&src_atom) {
             return;
         }
 
         if !self.deglob_phase {
-            if let Some((_, export_ctxt)) = self.ctxt_for(&import.src.value) {
+            if let Some((_, export_ctxt)) = self.ctxt_for(&src_atom) {
                 // Firstly we attach proper syntax contexts.
                 ExportMetadata {
                     export_ctxt: Some(export_ctxt),
@@ -515,7 +518,9 @@ where
                 }
 
                 // We failed to found property usage.
-                self.info.forced_ns.insert(import.src.value.clone());
+                self.info
+                    .forced_ns
+                    .insert(import.src.value.clone().to_atom_lossy().into_owned());
             }
         }
     }
@@ -551,12 +556,9 @@ where
         if self.deglob_phase {
             let mut wrapping_required = Vec::new();
             for import in self.info.imports.iter_mut() {
+                let src_atom = import.src.value.to_atom_lossy().into_owned();
                 let use_ns = self.info.forced_ns.contains(&import.src.value)
-                    || self
-                        .bundler
-                        .config
-                        .external_modules
-                        .contains(&import.src.value);
+                    || self.bundler.config.external_modules.contains(&src_atom);
 
                 if use_ns {
                     wrapping_required.push(import.src.value.clone());
@@ -569,7 +571,8 @@ where
             }
 
             for id in wrapping_required {
-                self.mark_as_wrapping_required(&id);
+                let id_atom = id.to_atom_lossy();
+                self.mark_as_wrapping_required(id_atom.as_ref());
             }
         }
     }
@@ -622,14 +625,20 @@ where
                         _ => return,
                     };
                     // Ignore core modules.
-                    if self.bundler.config.external_modules.contains(&src.value) {
+                    let src_atom = src.value.to_atom_lossy();
+                    if self
+                        .bundler
+                        .config
+                        .external_modules
+                        .contains(src_atom.as_ref())
+                    {
                         return;
                     }
 
-                    self.mark_as_cjs(&src.value);
+                    self.mark_as_cjs(src_atom.as_ref());
 
                     if let Expr::Ident(i) = &mut **callee {
-                        if let Some((_, export_ctxt)) = self.ctxt_for(&src.value) {
+                        if let Some((_, export_ctxt)) = self.ctxt_for(src_atom.as_ref()) {
                             i.ctxt = export_ctxt;
                         }
                     }
