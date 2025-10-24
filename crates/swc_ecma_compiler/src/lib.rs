@@ -3,7 +3,7 @@
 use std::mem::take;
 
 use rustc_hash::FxHashSet;
-use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::assumptions::Assumptions;
 use swc_ecma_utils::{
@@ -63,6 +63,10 @@ struct CompilerImpl<'a> {
 
     // ES2020: Nullish coalescing transformation state
     es2020_nullish_coalescing_vars: Vec<VarDeclarator>,
+
+    // ES2020: Optional chaining transformation state
+    es2020_optional_chaining_vars: Vec<VarDeclarator>,
+    es2020_optional_chaining_unresolved_ctxt: SyntaxContext,
 }
 
 #[swc_trace]
@@ -76,6 +80,8 @@ impl<'a> CompilerImpl<'a> {
             es2022_current_class_data: ClassData::default(),
             es2021_logical_assignment_vars: Vec::new(),
             es2020_nullish_coalescing_vars: Vec::new(),
+            es2020_optional_chaining_vars: Vec::new(),
+            es2020_optional_chaining_unresolved_ctxt: SyntaxContext::empty(),
         }
     }
 
@@ -569,10 +575,16 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         // Phase 3: Post-processing transformations
         // Apply transformations after visiting children (this matches the original
         // order)
-        let logical_transformed = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
+        let optional_chaining_transformed =
+            self.config.includes.contains(Features::OPTIONAL_CHAINING)
+                && self.transform_optional_chaining(e);
+
+        let logical_transformed = !optional_chaining_transformed
+            && self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
             && self.transform_logical_assignment(e);
 
-        let nullish_transformed = !logical_transformed
+        let nullish_transformed = !optional_chaining_transformed
+            && !logical_transformed
             && self.config.includes.contains(Features::NULLISH_COALESCING)
             && self.transform_nullish_coalescing(e);
 
@@ -597,7 +609,8 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                         .into();
                     }
                 }
-            } else if !logical_transformed && !nullish_transformed {
+            } else if !optional_chaining_transformed && !logical_transformed && !nullish_transformed
+            {
                 // Transform private in expressions only if no other transformation occurred
                 self.es2022_transform_private_in_to_weakset_has(e);
             }
@@ -612,6 +625,19 @@ impl<'a> VisitMut for CompilerImpl<'a> {
             .contains(Features::EXPORT_NAMESPACE_FROM)
         {
             self.transform_export_namespace_from(ns);
+        }
+
+        // Handle optional chaining first (has its own variable hoisting)
+        if self.config.includes.contains(Features::OPTIONAL_CHAINING) {
+            self.visit_mut_stmt_like_for_optional_chaining(ns);
+
+            // Post-processing: Private field variables
+            if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
+                && !self.es2022_private_field_helper_vars.is_empty()
+            {
+                self.es2022_prepend_private_field_vars_module(ns);
+            }
+            return;
         }
 
         // Setup for variable hoisting
@@ -725,6 +751,19 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
+        // Handle optional chaining first (has its own variable hoisting)
+        if self.config.includes.contains(Features::OPTIONAL_CHAINING) {
+            self.visit_mut_stmt_like_for_optional_chaining(s);
+
+            // Post-processing: Private field variables
+            if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
+                && !self.es2022_private_field_helper_vars.is_empty()
+            {
+                self.es2022_prepend_private_field_vars(s);
+            }
+            return;
+        }
+
         // Setup for variable hoisting
         let need_logical_var_hoisting =
             self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS);
@@ -816,11 +855,43 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
-        if !self.config.includes.contains(Features::NULLISH_COALESCING) {
+        let has_optional_chaining = self.config.includes.contains(Features::OPTIONAL_CHAINING);
+        let has_nullish_coalescing = self.config.includes.contains(Features::NULLISH_COALESCING);
+
+        if !has_optional_chaining && !has_nullish_coalescing {
             n.visit_mut_children_with(self);
             return;
         }
 
+        // Handle optional chaining
+        if has_optional_chaining {
+            if let BlockStmtOrExpr::Expr(e) = n {
+                let mut stmt = BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(e.take()),
+                    })],
+                    ..Default::default()
+                };
+                stmt.visit_mut_with(self);
+
+                // If there are optional chains in this expression, then the visitor will have
+                // injected a VarDecl statement and we need to transform into a
+                // block. If not, then we can keep the expression.
+                match &mut stmt.stmts[..] {
+                    [Stmt::Return(ReturnStmt { arg: Some(e), .. })] => {
+                        *n = BlockStmtOrExpr::Expr(e.take())
+                    }
+                    _ => *n = BlockStmtOrExpr::BlockStmt(stmt),
+                }
+            } else {
+                n.visit_mut_children_with(self);
+            }
+            return;
+        }
+
+        // Handle nullish coalescing
         let vars = self.es2020_nullish_coalescing_vars.take();
         n.visit_mut_children_with(self);
 
@@ -851,5 +922,13 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         }
 
         self.es2020_nullish_coalescing_vars = vars;
+    }
+
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        if self.config.includes.contains(Features::OPTIONAL_CHAINING) {
+            self.visit_mut_pat_for_optional_chaining(n);
+        } else {
+            n.visit_mut_children_with(self);
+        }
     }
 }

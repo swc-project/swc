@@ -1,17 +1,19 @@
 use serde::Deserialize;
 use swc_common::Mark;
 use swc_ecma_ast::Pass;
-use swc_ecma_compat_es2022::optional_chaining_impl::optional_chaining_impl;
-use swc_ecma_visit::visit_mut_pass;
+use swc_ecma_compiler::{Compiler, Features};
+use swc_ecma_transforms_base::assumptions::Assumptions;
 
-pub fn optional_chaining(c: Config, unresolved_mark: Mark) -> impl Pass {
-    visit_mut_pass(optional_chaining_impl(
-        swc_ecma_compat_es2022::optional_chaining_impl::Config {
-            no_document_all: c.no_document_all,
-            pure_getter: c.pure_getter,
-        },
-        unresolved_mark,
-    ))
+pub fn optional_chaining(c: Config, _unresolved_mark: Mark) -> impl Pass {
+    let mut assumptions = Assumptions::default();
+    assumptions.no_document_all = c.no_document_all;
+    assumptions.pure_getters = c.pure_getter;
+
+    Compiler::new(swc_ecma_compiler::Config {
+        includes: Features::OPTIONAL_CHAINING,
+        assumptions,
+        ..Default::default()
+    })
 }
 
 #[derive(Debug, Clone, Copy, Default, Deserialize)]
