@@ -258,18 +258,15 @@ impl Optimizer<'_> {
             | Expr::Lit(Lit::Str(_))
             | Expr::Lit(Lit::BigInt(_)) => true,
 
-            // Only allow:
-            // 1. Unresolved "undefined" identifier (safe global)
-            // 2. Resolved identifiers (local variables that are immutable)
+            // Only allow unresolved "undefined" identifier
+            // We DO NOT inline variable references because:
+            // 1. It doesn't save code (just moves a reference)
+            // 2. It can interfere with other optimizations
+            // 3. The goal is to inline actual constants, not variable names
             Expr::Ident(id) => {
                 let is_unresolved = id.ctxt == self.ctx.expr_ctx.unresolved_ctxt;
-                if is_unresolved {
-                    // Only allow unresolved "undefined"
-                    id.sym == "undefined"
-                } else {
-                    // Allow resolved identifiers (local immutable variables)
-                    true
-                }
+                // Only allow unresolved "undefined"
+                is_unresolved && id.sym == "undefined"
             }
 
             // Negated or numeric-negated literals
@@ -303,22 +300,13 @@ impl Optimizer<'_> {
             (Expr::Lit(Lit::Str(a)), Expr::Lit(Lit::Str(b))) => a.value == b.value,
             (Expr::Lit(Lit::BigInt(a)), Expr::Lit(Lit::BigInt(b))) => a.value == b.value,
             // Compare identifiers:
-            // 1. For unresolved identifiers, only allow "undefined"
-            // 2. For resolved identifiers, allow if same symbol and context
+            // Only allow unresolved "undefined" identifiers
             (Expr::Ident(a), Expr::Ident(b)) => {
                 let a_is_unresolved = a.ctxt == self.ctx.expr_ctx.unresolved_ctxt;
                 let b_is_unresolved = b.ctxt == self.ctx.expr_ctx.unresolved_ctxt;
 
-                if a_is_unresolved && b_is_unresolved {
-                    // Both unresolved: only allow "undefined"
-                    a.sym == "undefined" && b.sym == "undefined"
-                } else if !a_is_unresolved && !b_is_unresolved {
-                    // Both resolved: check same symbol and context
-                    a.sym == b.sym && a.ctxt == b.ctxt
-                } else {
-                    // One resolved, one unresolved: not equal
-                    false
-                }
+                // Both must be unresolved "undefined"
+                a_is_unresolved && b_is_unresolved && a.sym == "undefined" && b.sym == "undefined"
             }
             (
                 Expr::Unary(UnaryExpr {
