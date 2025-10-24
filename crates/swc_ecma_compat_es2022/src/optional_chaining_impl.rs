@@ -1,3 +1,5 @@
+#![allow(clippy::replace_box)]
+
 use std::mem;
 
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};

@@ -1,3 +1,5 @@
+#![allow(clippy::replace_box)]
+
 use std::mem;
 
 use arrayvec::ArrayVec;
