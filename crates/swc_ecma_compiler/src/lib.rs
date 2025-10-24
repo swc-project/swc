@@ -41,6 +41,8 @@ pub struct Config {
     pub includes: Features,
     /// Always preserve these syntaxes.
     pub excludes: Features,
+    /// Mark for unresolved references (used for optional chaining).
+    pub unresolved_mark: Mark,
 }
 
 impl Pass for Compiler {
@@ -81,7 +83,8 @@ impl<'a> CompilerImpl<'a> {
             es2021_logical_assignment_vars: Vec::new(),
             es2020_nullish_coalescing_vars: Vec::new(),
             es2020_optional_chaining_vars: Vec::new(),
-            es2020_optional_chaining_unresolved_ctxt: SyntaxContext::empty(),
+            es2020_optional_chaining_unresolved_ctxt: SyntaxContext::empty()
+                .apply_mark(config.unresolved_mark),
         }
     }
 

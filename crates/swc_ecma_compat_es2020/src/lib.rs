@@ -13,7 +13,7 @@ mod export_namespace_from;
 pub mod nullish_coalescing;
 pub mod optional_chaining;
 
-pub fn es2020(config: Config, _unresolved_mark: Mark) -> impl Pass {
+pub fn es2020(config: Config, unresolved_mark: Mark) -> impl Pass {
     let mut assumptions = Assumptions::default();
     assumptions.no_document_all = config.nullish_coalescing.no_document_all;
     assumptions.pure_getters = config.optional_chaining.pure_getter;
@@ -23,6 +23,7 @@ pub fn es2020(config: Config, _unresolved_mark: Mark) -> impl Pass {
             | Features::NULLISH_COALESCING
             | Features::OPTIONAL_CHAINING,
         assumptions,
+        unresolved_mark,
         ..Default::default()
     })
 }

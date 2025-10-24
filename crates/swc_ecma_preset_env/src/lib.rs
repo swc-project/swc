@@ -97,6 +97,7 @@ where
                 swc_ecma_compiler::Compiler::new(swc_ecma_compiler::Config {
                     includes: feature,
                     assumptions,
+                    unresolved_mark,
                     ..Default::default()
                 }),
             )

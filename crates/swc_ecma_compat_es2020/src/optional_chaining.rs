@@ -4,7 +4,7 @@ use swc_ecma_ast::Pass;
 use swc_ecma_compiler::{Compiler, Features};
 use swc_ecma_transforms_base::assumptions::Assumptions;
 
-pub fn optional_chaining(c: Config, _unresolved_mark: Mark) -> impl Pass {
+pub fn optional_chaining(c: Config, unresolved_mark: Mark) -> impl Pass {
     let mut assumptions = Assumptions::default();
     assumptions.no_document_all = c.no_document_all;
     assumptions.pure_getters = c.pure_getter;
@@ -12,6 +12,7 @@ pub fn optional_chaining(c: Config, _unresolved_mark: Mark) -> impl Pass {
     Compiler::new(swc_ecma_compiler::Config {
         includes: Features::OPTIONAL_CHAINING,
         assumptions,
+        unresolved_mark,
         ..Default::default()
     })
 }
