@@ -74,6 +74,11 @@ const validateBinary = () => __awaiter(void 0, void 0, void 0, function* () {
     catch (_) {
         return;
     }
+    // Allow users to skip validation if they encounter issues
+    if (process.env.SWC_SKIP_VALIDATION === "1" || process.env.SWC_SKIP_VALIDATION === "true") {
+        console.log("Skipping @swc/core native binary validation (SWC_SKIP_VALIDATION is set)");
+        return;
+    }
     // TODO: We do not take care of the case if user try to install with `--no-optional`.
     // For now, it is considered as deliberate decision.
     let binding;
@@ -87,9 +92,20 @@ const validateBinary = () => __awaiter(void 0, void 0, void 0, function* () {
         assert.ok(triple, "Failed to read target triple from native binary.");
     }
     catch (error) {
+        // Collect system information for better diagnostics
+        const systemInfo = {
+            platform: process.platform,
+            arch: process.arch,
+            nodeVersion: process.version,
+            libc: process.report ? process.report.getReport().header.glibcVersionRuntime : "unknown"
+        };
         // if error is unsupported architecture, ignore to display.
         if (!((_a = error.message) === null || _a === void 0 ? void 0 : _a.includes("Unsupported architecture"))) {
-            console.warn(error);
+            console.warn("Failed to load @swc/core native binding.");
+            console.warn("System information:", JSON.stringify(systemInfo, null, 2));
+            console.warn("Error details:", error.message || error);
+            console.warn("\nIf you are experiencing segmentation faults on ARM64 or Alpine Linux,");
+            console.warn("you can skip validation by setting: SWC_SKIP_VALIDATION=1");
         }
         console.warn(`@swc/core was not able to resolve native bindings installation. It'll try to use @swc/wasm as fallback instead.`);
     }
