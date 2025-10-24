@@ -1,6 +1,6 @@
 {
   "name": "@swc/core-linux-x64-gnu",
-  "version": "1.13.20",
+  "version": "1.13.21-nightly-20251024.1",
   "os": [
     "linux"
   ],

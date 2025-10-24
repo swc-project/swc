@@ -427,8 +427,8 @@ jobs:
   #   runs-on: ubuntu-latest
   #   steps:
   #     - uses: actions/checkout@v5
-  # with:
-  #   ref: "v${{ inputs.version }}"
+  #       with:
+  #         ref: "v${{ inputs.version }}"
   #     - name: Corepack
   #       run: corepack enable
   #     - name: Download artifacts
@@ -452,6 +452,16 @@ jobs:
   #       with:
   #         platforms: arm64
   #     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  #     - name: Validate binary loading (before full tests)
+  #       uses: addnab/docker-run-action@v3
+  #       with:
+  #         image: node:lts-alpine
+  #         options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
+  #         shell: bash
+  #         run: >-
+  #           set -e &&
+  #           echo "Running binary validation for ARM64 musl..." &&
+  #           node scripts/validate-binary.js packages/${{ inputs.package }}
   #     - name: Setup and run tests
   #       uses: addnab/docker-run-action@v3
   #       with:
@@ -461,7 +471,7 @@ jobs:
   #         run: >-
   #           set -e &&
   #           npm install -f -g yarn@1.22 &&
-  #           DISABLE_PLUGIN_E2E_TESTS=true yarn test
+  #           DISABLE_PLUGIN_E2E_TESTS=true yarn test:${{ inputs.package }}
 
   # test-linux-arm-gnueabihf-binding:
   #   name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}

@@ -317,8 +317,13 @@ impl Optimizer<'_> {
                     ..
                 } = **usage;
                 let mut inc_usage = || {
-                    if let Expr::Ident(i) = &*init {
-                        if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
+                    for (i, _) in collect_infects_from(
+                        &*init,
+                        AliasConfig::default()
+                            .marks(Some(self.marks))
+                            .need_all(true),
+                    ) {
+                        if let Some(u) = self.data.vars.get_mut(&i) {
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_ARG;
                             u.flags |= flags & VarUsageInfoFlags::USED_AS_REF;
                             u.flags |= flags & VarUsageInfoFlags::INDEXED_WITH_DYNAMIC_KEY;

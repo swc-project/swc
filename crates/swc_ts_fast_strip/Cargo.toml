@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ts_fast_strip"
 repository    = { workspace = true }
-version       = "33.0.1"
+version       = "34.0.0"
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(swc_ast_unknown)'] }
@@ -21,25 +21,25 @@ anyhow = { workspace = true }
 bytes-str = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 swc_atoms = { version = "7.0.0", path = "../swc_atoms" }
-swc_common = { version = "14.0.4", path = "../swc_common", features = [
+swc_common = { version = "15.0.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "15.0.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "17.0.2", path = "../swc_ecma_codegen" }
-swc_ecma_lexer = { version = "23.0.2", path = "../swc_ecma_lexer" }
-swc_ecma_parser = { version = "24.0.3", path = "../swc_ecma_parser", default-features = false, features = [
+swc_ecma_ast = { version = "16.0.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "18.0.0", path = "../swc_ecma_codegen" }
+swc_ecma_lexer = { version = "24.0.1", path = "../swc_ecma_lexer" }
+swc_ecma_parser = { version = "25.0.0", path = "../swc_ecma_parser", default-features = false, features = [
   "typescript",
   "unstable",
 ] }
-swc_ecma_transforms_base = { version = "27.0.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_react = { version = "30.0.2", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "30.0.1", path = "../swc_ecma_transforms_typescript" }
-swc_ecma_visit = { version = "15.0.0", path = "../swc_ecma_visit" }
+swc_ecma_transforms_base = { version = "28.0.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_react = { version = "31.0.0", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_typescript = { version = "31.0.0", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_visit = { version = "16.0.0", path = "../swc_ecma_visit" }
 wasm-bindgen = { workspace = true, optional = true }
 
 [dev-dependencies]
 codspeed-criterion-compat = { workspace = true }
-testing                   = { version = "15.0.0", path = "../testing" }
+testing                   = { version = "16.0.0", path = "../testing" }
 
 [[bench]]
 harness = false
