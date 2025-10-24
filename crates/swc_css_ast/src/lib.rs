@@ -1,5 +1,6 @@
 #![deny(clippy::all)]
 #![allow(clippy::large_enum_variant)]
+#![allow(clippy::double_parens)]
 
 //! AST definitions for CSS.
 pub use self::{at_rule::*, base::*, selector::*, token::*, value::*};

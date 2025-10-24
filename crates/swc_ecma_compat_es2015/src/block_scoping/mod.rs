@@ -1,3 +1,5 @@
+#![allow(clippy::replace_box)]
+
 use std::{iter::once, mem::take};
 
 use indexmap::IndexMap;

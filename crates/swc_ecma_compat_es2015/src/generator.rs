@@ -1,3 +1,6 @@
+#![allow(clippy::replace_box)]
+#![allow(clippy::double_parens)]
+
 use std::{
     cell::{RefCell, RefMut},
     iter::once,

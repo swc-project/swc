@@ -149,17 +149,12 @@ impl VisitMut for BrandCheckHandler<'_> {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default)]
 pub(super) enum PrivateAccessType {
+    #[default]
     Get,
     DestructureSet,
     Update,
-}
-
-impl Default for PrivateAccessType {
-    fn default() -> Self {
-        Self::Get
-    }
 }
 
 pub(super) struct PrivateAccessVisitor<'a> {

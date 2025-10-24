@@ -347,7 +347,7 @@ impl<'a> Input<'a> {
         }
     }
 
-    fn cur(&mut self) -> PResult<Cow<TokenAndSpan>> {
+    fn cur(&mut self) -> PResult<Cow<'_, TokenAndSpan>> {
         match self.input {
             InputType::Tokens(input) => {
                 let idx = match self.idx.last() {

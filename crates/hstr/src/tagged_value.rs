@@ -134,6 +134,7 @@ impl TaggedValue {
     /// used when setting the untagged slice part of this value. If tag is
     /// zero and the slice is zeroed out, using this `TaggedValue` will be
     /// UB!
+    #[allow(clippy::incompatible_msrv)]
     pub const unsafe fn data_mut(&mut self) -> &mut [u8] {
         let x: *mut _ = &mut self.value;
         let mut data = x as *mut u8;

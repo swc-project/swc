@@ -590,8 +590,8 @@ impl SingleThreadedComments {
     pub fn borrow_all(
         &self,
     ) -> (
-        Ref<SingleThreadedCommentsMapInner>,
-        Ref<SingleThreadedCommentsMapInner>,
+        Ref<'_, SingleThreadedCommentsMapInner>,
+        Ref<'_, SingleThreadedCommentsMapInner>,
     ) {
         (self.leading.borrow(), self.trailing.borrow())
     }
@@ -600,8 +600,8 @@ impl SingleThreadedComments {
     pub fn borrow_all_mut(
         &self,
     ) -> (
-        RefMut<SingleThreadedCommentsMapInner>,
-        RefMut<SingleThreadedCommentsMapInner>,
+        RefMut<'_, SingleThreadedCommentsMapInner>,
+        RefMut<'_, SingleThreadedCommentsMapInner>,
     ) {
         (self.leading.borrow_mut(), self.trailing.borrow_mut())
     }

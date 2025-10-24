@@ -135,12 +135,12 @@ impl PatExt for Pat {
 }
 
 pub trait PropNameExit {
-    fn static_name(&self) -> Option<Cow<str>>;
+    fn static_name(&self) -> Option<Cow<'_, str>>;
     fn static_prop(&self, unresolved_mark: Mark) -> Option<StaticProp>;
 }
 
 impl PropNameExit for PropName {
-    fn static_name(&self) -> Option<Cow<str>> {
+    fn static_name(&self) -> Option<Cow<'_, str>> {
         match self {
             PropName::Ident(ident_name) => Some(Cow::Borrowed(ident_name.sym.as_str())),
             PropName::Str(string) => Some(Cow::Borrowed(string.value.as_str())),
@@ -161,7 +161,7 @@ impl PropNameExit for PropName {
 }
 
 impl PropNameExit for ComputedPropName {
-    fn static_name(&self) -> Option<Cow<str>> {
+    fn static_name(&self) -> Option<Cow<'_, str>> {
         match self.expr.as_ref() {
             Expr::Lit(lit) => match lit {
                 Lit::Str(string) => Some(Cow::Borrowed(string.value.as_str())),
@@ -205,7 +205,7 @@ impl PropNameExit for ComputedPropName {
 }
 
 impl PropNameExit for Prop {
-    fn static_name(&self) -> Option<Cow<str>> {
+    fn static_name(&self) -> Option<Cow<'_, str>> {
         match self {
             Self::Shorthand(ident_name) => Some(Cow::Borrowed(ident_name.sym.as_str())),
             Self::KeyValue(key_value_prop) => key_value_prop.key.static_name(),
