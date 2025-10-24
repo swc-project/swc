@@ -1,0 +1,6 @@
+  x Type argument list cannot be empty.
+   ,-[$DIR/tests/typescript-errors/type-args-empty/input.ts:2:1]
+ 1 | class I<T> { }
+ 2 | var x: I<>;
+   :         ^^
+   `----
