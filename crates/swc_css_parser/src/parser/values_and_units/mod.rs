@@ -1964,7 +1964,9 @@ where
         }
 
         match cur!(self) {
-            Token::Dimension(dimension_token) => {
+            Token::Dimension {
+                dimension: dimension_token,
+            } => {
                 match &dimension_token.unit {
                     // <length>
                     unit if is_length_unit(unit)
@@ -2004,7 +2006,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(dimension_token) => {
+            Token::Dimension {
+                dimension: dimension_token,
+            } => {
                 let DimensionToken {
                     value,
                     unit,
@@ -2050,7 +2054,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(dimension_token) => {
+            Token::Dimension {
+                dimension: dimension_token,
+            } => {
                 let DimensionToken {
                     value,
                     unit,
@@ -2101,7 +2107,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(dimension_token) => {
+            Token::Dimension {
+                dimension: dimension_token,
+            } => {
                 let DimensionToken {
                     value,
                     unit,
@@ -2149,7 +2157,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(dimension_token) => {
+            Token::Dimension {
+                dimension: dimension_token,
+            } => {
                 let DimensionToken {
                     value,
                     unit,
@@ -2197,7 +2207,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(dimension_token) => {
+            Token::Dimension {
+                dimension: dimension_token,
+            } => {
                 let DimensionToken {
                     value,
                     unit,
@@ -2248,7 +2260,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(dimension_token) => {
+            Token::Dimension {
+                dimension: dimension_token,
+            } => {
                 let DimensionToken {
                     value,
                     unit,
@@ -2296,7 +2310,9 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(dimension_token) => {
+            Token::Dimension {
+                dimension: dimension_token,
+            } => {
                 let DimensionToken {
                     value,
                     unit,
@@ -2805,9 +2821,9 @@ where
                         }
                         tok!("dimension") => {
                             let raw = match bump!(self) {
-                                Token::Dimension(dimension_token) => {
-                                    (dimension_token.raw_value, dimension_token.raw_unit)
-                                }
+                                Token::Dimension {
+                                    dimension: dimension_token,
+                                } => (dimension_token.raw_value, dimension_token.raw_unit),
                                 _ => {
                                     unreachable!();
                                 }
@@ -2833,9 +2849,9 @@ where
             // u <dimension-token> '?'*
             tok!("dimension") => {
                 let raw = match bump!(self) {
-                    Token::Dimension(dimension_token) => {
-                        (dimension_token.raw_value, dimension_token.raw_unit)
-                    }
+                    Token::Dimension {
+                        dimension: dimension_token,
+                    } => (dimension_token.raw_value, dimension_token.raw_unit),
                     _ => {
                         unreachable!();
                     }
