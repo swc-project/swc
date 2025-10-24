@@ -470,17 +470,18 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     /// Prevents #1123 for nullish coalescing
     fn visit_mut_block_stmt(&mut self, s: &mut BlockStmt) {
         // Setup phase: Save nullish coalescing vars
-        let old_vars = if self.config.includes.contains(Features::NULLISH_COALESCING) {
-            Some(self.es2020_nullish_coalescing_vars.take())
-        } else {
-            None
-        };
+        let old_es2020_nullish_coalescing_vars =
+            if self.config.includes.contains(Features::NULLISH_COALESCING) {
+                Some(self.es2020_nullish_coalescing_vars.take())
+            } else {
+                None
+            };
 
         // Single recursive visit
         s.visit_mut_children_with(self);
 
         // Cleanup phase: Restore nullish coalescing vars
-        if let Some(old_vars) = old_vars {
+        if let Some(old_vars) = old_es2020_nullish_coalescing_vars {
             self.es2020_nullish_coalescing_vars = old_vars;
         }
     }
@@ -491,17 +492,18 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         s.test.visit_mut_with(self);
 
         // Setup phase: Save nullish coalescing vars
-        let old_vars = if self.config.includes.contains(Features::NULLISH_COALESCING) {
-            Some(self.es2020_nullish_coalescing_vars.take())
-        } else {
-            None
-        };
+        let old_es2020_nullish_coalescing_vars =
+            if self.config.includes.contains(Features::NULLISH_COALESCING) {
+                Some(self.es2020_nullish_coalescing_vars.take())
+            } else {
+                None
+            };
 
         // Visit consequents
         s.cons.visit_mut_with(self);
 
         // Cleanup phase: Restore nullish coalescing vars
-        if let Some(old_vars) = old_vars {
+        if let Some(old_vars) = old_es2020_nullish_coalescing_vars {
             self.es2020_nullish_coalescing_vars = old_vars;
         }
     }
