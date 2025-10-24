@@ -1,3 +1,4 @@
+use rustc_hash::FxHashSet;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 
@@ -122,7 +123,7 @@ impl Optimizer<'_> {
 
             // Collect argument values for this parameter across all call sites
             let mut common_value: Option<Box<Expr>> = None;
-            let mut all_same = true;
+            let mut inlinable = true;
 
             for call_site in call_sites {
                 let arg_value = if param_idx < call_site.len() {
@@ -139,14 +140,14 @@ impl Optimizer<'_> {
                 let arg_value = match arg_value {
                     Some(v) => v,
                     None => {
-                        all_same = false;
+                        inlinable = false;
                         break;
                     }
                 };
 
                 // Check if this is a safe, constant value to inline
-                if !Self::is_safe_constant_for_param_inline(&arg_value) {
-                    all_same = false;
+                if !self.is_safe_constant_for_param_inline(&arg_value) {
+                    inlinable = false;
                     break;
                 }
 
@@ -155,8 +156,8 @@ impl Optimizer<'_> {
                         common_value = Some(arg_value);
                     }
                     Some(existing) => {
-                        if !Self::expr_eq(existing, &arg_value) {
-                            all_same = false;
+                        if !self.expr_eq(existing, &arg_value) {
+                            inlinable = false;
                             break;
                         }
                     }
@@ -164,7 +165,7 @@ impl Optimizer<'_> {
             }
 
             // If all call sites pass the same constant value, mark for inlining
-            if all_same {
+            if inlinable {
                 if let Some(value) = common_value {
                     params_to_inline.push((param_idx, value, is_reassigned));
                 }
@@ -184,8 +185,6 @@ impl Optimizer<'_> {
         params_to_inline: &[(usize, Box<Expr>, bool)],
         fn_id: &Id,
     ) {
-        use rustc_hash::FxHashSet;
-
         // Sort in reverse order to remove from the end first
         let mut sorted_params = params_to_inline.to_vec();
         sorted_params.sort_by(|a, b| b.0.cmp(&a.0));
@@ -250,7 +249,7 @@ impl Optimizer<'_> {
     }
 
     /// Check if an expression is a safe constant value for parameter inlining.
-    fn is_safe_constant_for_param_inline(expr: &Expr) -> bool {
+    fn is_safe_constant_for_param_inline(&self, expr: &Expr) -> bool {
         match expr {
             // Literal values are always safe
             Expr::Lit(Lit::Null(_))
@@ -259,18 +258,19 @@ impl Optimizer<'_> {
             | Expr::Lit(Lit::Str(_))
             | Expr::Lit(Lit::BigInt(_)) => true,
 
-            // undefined identifier (unresolved)
-            Expr::Ident(id) if id.sym == "undefined" => true,
+            // Top-level (unresolved) identifiers are safe to inline
+            // This includes undefined, window, document, and other globals
+            Expr::Ident(id) if id.ctxt == self.ctx.expr_ctx.unresolved_ctxt => true,
 
             // Negated or numeric-negated literals
             Expr::Unary(UnaryExpr {
                 op: UnaryOp::Bang | UnaryOp::Minus,
                 arg,
                 ..
-            }) => Self::is_safe_constant_for_param_inline(arg),
+            }) => self.is_safe_constant_for_param_inline(arg),
 
             // Parenthesized expressions
-            Expr::Paren(ParenExpr { expr, .. }) => Self::is_safe_constant_for_param_inline(expr),
+            Expr::Paren(ParenExpr { expr, .. }) => self.is_safe_constant_for_param_inline(expr),
 
             _ => false,
         }
@@ -278,7 +278,7 @@ impl Optimizer<'_> {
 
     /// Compare two expressions for equality (structural equality for simple
     /// cases).
-    fn expr_eq(a: &Expr, b: &Expr) -> bool {
+    fn expr_eq(&self, a: &Expr, b: &Expr) -> bool {
         match (a, b) {
             (Expr::Lit(Lit::Null(_)), Expr::Lit(Lit::Null(_))) => true,
             (Expr::Lit(Lit::Bool(a)), Expr::Lit(Lit::Bool(b))) => a.value == b.value,
@@ -292,7 +292,12 @@ impl Optimizer<'_> {
             }
             (Expr::Lit(Lit::Str(a)), Expr::Lit(Lit::Str(b))) => a.value == b.value,
             (Expr::Lit(Lit::BigInt(a)), Expr::Lit(Lit::BigInt(b))) => a.value == b.value,
-            (Expr::Ident(a), Expr::Ident(b)) if a.sym == "undefined" && b.sym == "undefined" => {
+            // Top-level identifiers must have the same name and context
+            (Expr::Ident(a), Expr::Ident(b))
+                if a.ctxt == self.ctx.expr_ctx.unresolved_ctxt
+                    && b.ctxt == self.ctx.expr_ctx.unresolved_ctxt
+                    && a.sym == b.sym =>
+            {
                 true
             }
             (
@@ -306,9 +311,9 @@ impl Optimizer<'_> {
                     arg: arg_b,
                     ..
                 }),
-            ) if op_a == op_b => Self::expr_eq(arg_a, arg_b),
-            (Expr::Paren(ParenExpr { expr: a, .. }), b) => Self::expr_eq(a, b),
-            (a, Expr::Paren(ParenExpr { expr: b, .. })) => Self::expr_eq(a, b),
+            ) if op_a == op_b => self.expr_eq(arg_a, arg_b),
+            (Expr::Paren(ParenExpr { expr: a, .. }), b) => self.expr_eq(a, b),
+            (a, Expr::Paren(ParenExpr { expr: b, .. })) => self.expr_eq(a, b),
             _ => false,
         }
     }
