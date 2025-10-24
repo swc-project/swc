@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.13.21] - 2025-10-24
 
 ### Bug Fixes
 
@@ -51,6 +51,9 @@
 
 
 - **(es/minifier)** Add merge_imports optimization pass to reduce bundle size ([#11151](https://github.com/swc-project/swc/issues/11151)) ([a01dee1](https://github.com/swc-project/swc/commit/a01dee106c327d166e2a5fd815b69258164b2821))
+
+
+- **(es/parser)** Add an error for empty type args for generic ([#11164](https://github.com/swc-project/swc/issues/11164)) ([9a1fa84](https://github.com/swc-project/swc/commit/9a1fa847a74fd288013aeff8947b5ca331eee00f))
 
 ### Miscellaneous Tasks
 
