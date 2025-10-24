@@ -302,13 +302,23 @@ impl Optimizer<'_> {
             }
             (Expr::Lit(Lit::Str(a)), Expr::Lit(Lit::Str(b))) => a.value == b.value,
             (Expr::Lit(Lit::BigInt(a)), Expr::Lit(Lit::BigInt(b))) => a.value == b.value,
-            // Top-level identifiers must have the same name and context
-            (Expr::Ident(a), Expr::Ident(b))
-                if a.ctxt == self.ctx.expr_ctx.unresolved_ctxt
-                    && b.ctxt == self.ctx.expr_ctx.unresolved_ctxt
-                    && a.sym == b.sym =>
-            {
-                true
+            // Compare identifiers:
+            // 1. For unresolved identifiers, only allow "undefined"
+            // 2. For resolved identifiers, allow if same symbol and context
+            (Expr::Ident(a), Expr::Ident(b)) => {
+                let a_is_unresolved = a.ctxt == self.ctx.expr_ctx.unresolved_ctxt;
+                let b_is_unresolved = b.ctxt == self.ctx.expr_ctx.unresolved_ctxt;
+
+                if a_is_unresolved && b_is_unresolved {
+                    // Both unresolved: only allow "undefined"
+                    a.sym == "undefined" && b.sym == "undefined"
+                } else if !a_is_unresolved && !b_is_unresolved {
+                    // Both resolved: check same symbol and context
+                    a.sym == b.sym && a.ctxt == b.ctxt
+                } else {
+                    // One resolved, one unresolved: not equal
+                    false
+                }
             }
             (
                 Expr::Unary(UnaryExpr {
