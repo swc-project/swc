@@ -673,6 +673,10 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                     ),
                 );
             }
+
+            // Restore saved vars (nullish vars are already empty after processing)
+            self.es2021_logical_assignment_vars = saved_logical_vars;
+            self.es2020_nullish_coalescing_vars = saved_nullish_vars;
         } else if need_logical_var_hoisting {
             // Only logical assignments: Hoist all vars to the top
             ns.visit_mut_children_with(self);
@@ -691,14 +695,18 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                     ),
                 );
             }
+
+            // Restore saved vars
+            self.es2021_logical_assignment_vars = saved_logical_vars;
+            self.es2020_nullish_coalescing_vars = saved_nullish_vars;
         } else {
             // Single recursive visit
             ns.visit_mut_children_with(self);
-        }
 
-        // Restore saved vars
-        self.es2021_logical_assignment_vars = saved_logical_vars;
-        self.es2020_nullish_coalescing_vars = saved_nullish_vars;
+            // Restore saved vars
+            self.es2021_logical_assignment_vars = saved_logical_vars;
+            self.es2020_nullish_coalescing_vars = saved_nullish_vars;
+        }
 
         // Post-processing: Private field variables
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
@@ -782,6 +790,10 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                     .into(),
                 );
             }
+
+            // Restore saved vars (nullish vars are already empty after processing)
+            self.es2021_logical_assignment_vars = saved_logical_vars;
+            self.es2020_nullish_coalescing_vars = saved_nullish_vars;
         } else if need_logical_var_hoisting {
             // Only logical assignments: Hoist all vars to the top
             s.visit_mut_children_with(self);
@@ -798,14 +810,18 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                     .into(),
                 );
             }
+
+            // Restore saved vars
+            self.es2021_logical_assignment_vars = saved_logical_vars;
+            self.es2020_nullish_coalescing_vars = saved_nullish_vars;
         } else {
             // Single recursive visit
             s.visit_mut_children_with(self);
-        }
 
-        // Restore saved vars
-        self.es2021_logical_assignment_vars = saved_logical_vars;
-        self.es2020_nullish_coalescing_vars = saved_nullish_vars;
+            // Restore saved vars
+            self.es2021_logical_assignment_vars = saved_logical_vars;
+            self.es2020_nullish_coalescing_vars = saved_nullish_vars;
+        }
 
         // Post-processing: Private field variables
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
