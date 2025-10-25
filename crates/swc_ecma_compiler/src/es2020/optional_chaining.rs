@@ -87,7 +87,9 @@ impl<'a> CompilerImpl<'a> {
                     current = next;
                 }
                 mut base => {
-                    base.visit_mut_children_with(self);
+                    // Visit the base expression through the visitor to ensure proper
+                    // transformation order and avoid redundant child visitation
+                    base.visit_mut_with(self);
                     return (base, count, chain);
                 }
             }
