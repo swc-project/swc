@@ -575,9 +575,24 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         // Phase 2: Pre-processing transformations for optional chaining
         // Optional chaining must be transformed BEFORE visiting children to avoid
         // incorrect parenthesization (see issue with data?.filter(args).map(args2))
+        // Inline the pattern matching to avoid function call overhead for non-OptChain
+        // expressions
         let optional_chaining_transformed =
-            self.config.includes.contains(Features::OPTIONAL_CHAINING)
-                && self.transform_optional_chaining(e);
+            if self.config.includes.contains(Features::OPTIONAL_CHAINING) {
+                match e {
+                    Expr::OptChain(_) => self.transform_optional_chaining(e),
+                    Expr::Unary(UnaryExpr {
+                        op: op!("delete"),
+                        arg,
+                        ..
+                    }) if matches!(&**arg, Expr::OptChain(_)) => {
+                        self.transform_optional_chaining(e)
+                    }
+                    _ => false,
+                }
+            } else {
+                false
+            };
 
         // Phase 3: Recursive visit - Visit children (unless already transformed by
         // optional chaining)
