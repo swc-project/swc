@@ -16,15 +16,16 @@ pub mod optional_chaining;
 pub fn es2020(config: Config, unresolved_mark: Mark) -> impl Pass {
     let mut assumptions = Assumptions::default();
     assumptions.no_document_all = config.nullish_coalescing.no_document_all;
+    assumptions.pure_getters = config.optional_chaining.pure_getter;
 
-    (
-        optional_chaining(config.optional_chaining, unresolved_mark),
-        Compiler::new(swc_ecma_compiler::Config {
-            includes: Features::EXPORT_NAMESPACE_FROM | Features::NULLISH_COALESCING,
-            assumptions,
-            ..Default::default()
-        }),
-    )
+    Compiler::new(swc_ecma_compiler::Config {
+        includes: Features::EXPORT_NAMESPACE_FROM
+            | Features::NULLISH_COALESCING
+            | Features::OPTIONAL_CHAINING,
+        assumptions,
+        unresolved_mark,
+        ..Default::default()
+    })
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
