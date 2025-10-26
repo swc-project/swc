@@ -87,7 +87,15 @@ impl<'a> CompilerImpl<'a> {
                     current = next;
                 }
                 mut base => {
-                    base.visit_mut_children_with(self);
+                    // Visit the base expression (but not its children, as they'll be visited
+                    // naturally through the visitor pattern)
+                    // Note: We don't call visit_mut_children_with here because that would
+                    // cause double traversal - the base will be part of the transformed
+                    // expression and its children will be visited during normal traversal.
+                    // However, we do need nested optional chains within the base to be transformed,
+                    // so we call visit_mut_with on the base itself, which will handle any
+                    // optional chains it contains.
+                    base.visit_mut_with(self);
                     return (base, count, chain);
                 }
             }
