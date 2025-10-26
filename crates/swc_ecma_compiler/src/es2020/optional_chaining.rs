@@ -87,9 +87,9 @@ impl<'a> CompilerImpl<'a> {
                     current = next;
                 }
                 mut base => {
-                    // Visit only the children of the base expression to transform any nested
-                    // optional chains, but not the base itself to avoid double traversal
-                    base.visit_mut_children_with(self);
+                    // Visit the base expression to transform any nested optional chains
+                    // and route through the proper visitor pattern
+                    base.visit_mut_with(self);
                     return (base, count, chain);
                 }
             }
