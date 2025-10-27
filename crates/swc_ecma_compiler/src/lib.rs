@@ -58,8 +58,11 @@ struct CompilerImpl<'a> {
     es2022_injected_weakset_vars: FxHashSet<Id>,
     es2022_current_class_data: ClassData,
 
-    // Logical assignments transformation state
+    // ES2021: Logical assignments transformation state
     es2021_logical_assignment_vars: Vec<VarDeclarator>,
+
+    // ES2020: Nullish coalescing transformation state
+    es2020_nullish_coalescing_vars: Vec<VarDeclarator>,
 }
 
 #[swc_trace]
@@ -72,6 +75,7 @@ impl<'a> CompilerImpl<'a> {
             es2022_injected_weakset_vars: FxHashSet::default(),
             es2022_current_class_data: ClassData::default(),
             es2021_logical_assignment_vars: Vec::new(),
+            es2020_nullish_coalescing_vars: Vec::new(),
         }
     }
 
@@ -465,13 +469,43 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     /// Prevents #1123 for nullish coalescing
     fn visit_mut_block_stmt(&mut self, s: &mut BlockStmt) {
+        // Setup phase: Save nullish coalescing vars
+        let old_es2020_nullish_coalescing_vars =
+            if self.config.includes.contains(Features::NULLISH_COALESCING) {
+                Some(self.es2020_nullish_coalescing_vars.take())
+            } else {
+                None
+            };
+
         // Single recursive visit
         s.visit_mut_children_with(self);
+
+        // Cleanup phase: Restore nullish coalescing vars
+        if let Some(old_vars) = old_es2020_nullish_coalescing_vars {
+            self.es2020_nullish_coalescing_vars = old_vars;
+        }
     }
 
     /// Prevents #1123 and #6328 for nullish coalescing
     fn visit_mut_switch_case(&mut self, s: &mut SwitchCase) {
-        s.visit_mut_children_with(self);
+        // Prevents #6328
+        s.test.visit_mut_with(self);
+
+        // Setup phase: Save nullish coalescing vars
+        let old_es2020_nullish_coalescing_vars =
+            if self.config.includes.contains(Features::NULLISH_COALESCING) {
+                Some(self.es2020_nullish_coalescing_vars.take())
+            } else {
+                None
+            };
+
+        // Visit consequents
+        s.cons.visit_mut_with(self);
+
+        // Cleanup phase: Restore nullish coalescing vars
+        if let Some(old_vars) = old_es2020_nullish_coalescing_vars {
+            self.es2020_nullish_coalescing_vars = old_vars;
+        }
     }
 
     fn visit_mut_assign_pat(&mut self, p: &mut AssignPat) {
@@ -522,22 +556,26 @@ impl<'a> VisitMut for CompilerImpl<'a> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        // Phase 1: Pre-processing - Check and apply transformations that replace the
-        // expression
-        let logical_transformed = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
-            && self.transform_logical_assignment(e);
-
-        // Phase 2: Setup for private field expressions
+        // Phase 1: Setup for private field expressions
         let prev_prepend_exprs = if self.config.includes.contains(Features::PRIVATE_IN_OBJECT) {
             Some(take(&mut self.es2022_private_field_init_exprs))
         } else {
             None
         };
 
-        // Phase 3: Single recursive visit
+        // Phase 2: Single recursive visit - Visit children first
         e.visit_mut_children_with(self);
 
-        // Phase 4: Post-processing transformations
+        // Phase 3: Post-processing transformations
+        // Apply transformations after visiting children (this matches the original
+        // order)
+        let logical_transformed = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS)
+            && self.transform_logical_assignment(e);
+
+        let nullish_transformed = !logical_transformed
+            && self.config.includes.contains(Features::NULLISH_COALESCING)
+            && self.transform_nullish_coalescing(e);
+
         // Handle private field expressions
         if let Some(prev_prepend_exprs) = prev_prepend_exprs {
             let mut prepend_exprs = std::mem::replace(
@@ -559,7 +597,7 @@ impl<'a> VisitMut for CompilerImpl<'a> {
                         .into();
                     }
                 }
-            } else if !logical_transformed {
+            } else if !logical_transformed && !nullish_transformed {
                 // Transform private in expressions only if no other transformation occurred
                 self.es2022_transform_private_in_to_weakset_has(e);
             }
@@ -577,38 +615,90 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         }
 
         // Setup for variable hoisting
-        let need_var_hoisting = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS);
+        let need_logical_var_hoisting =
+            self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS);
+        let need_nullish_var_hoisting = self.config.includes.contains(Features::NULLISH_COALESCING);
 
-        let saved_logical_vars = if need_var_hoisting {
+        let saved_logical_vars = if need_logical_var_hoisting {
             self.es2021_logical_assignment_vars.take()
         } else {
             vec![]
         };
 
-        // Single recursive visit
-        ns.visit_mut_children_with(self);
+        let saved_nullish_vars = if need_nullish_var_hoisting {
+            self.es2020_nullish_coalescing_vars.take()
+        } else {
+            vec![]
+        };
 
-        // Post-processing: Handle variable hoisting
-        if need_var_hoisting {
-            let logical_vars =
-                std::mem::replace(&mut self.es2021_logical_assignment_vars, saved_logical_vars);
+        // Process statements with different hoisting strategies
+        if need_nullish_var_hoisting {
+            // Nullish coalescing: Insert vars before each statement that generates them
+            let mut buf = Vec::with_capacity(ns.len() + 2);
 
-            let mut all_vars = Vec::new();
-            all_vars.extend(logical_vars);
+            for mut item in ns.take() {
+                item.visit_mut_with(self);
 
-            if !all_vars.is_empty() {
+                // Insert nullish vars before the statement
+                if !self.es2020_nullish_coalescing_vars.is_empty() {
+                    buf.push(ModuleItem::Stmt(
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: self.es2020_nullish_coalescing_vars.take(),
+                            ..Default::default()
+                        }
+                        .into(),
+                    ));
+                }
+
+                // Collect logical vars but don't insert yet
+                buf.push(item);
+            }
+
+            *ns = buf;
+
+            // Logical assignments: Hoist all vars to the top
+            if need_logical_var_hoisting && !self.es2021_logical_assignment_vars.is_empty() {
                 prepend_stmt(
                     ns,
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: all_vars,
-                        ..Default::default()
-                    }
-                    .into(),
+                    ModuleItem::Stmt(
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: self.es2021_logical_assignment_vars.take(),
+                            ..Default::default()
+                        }
+                        .into(),
+                    ),
                 );
             }
+        } else if need_logical_var_hoisting {
+            // Only logical assignments: Hoist all vars to the top
+            ns.visit_mut_children_with(self);
+
+            if !self.es2021_logical_assignment_vars.is_empty() {
+                prepend_stmt(
+                    ns,
+                    ModuleItem::Stmt(
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: self.es2021_logical_assignment_vars.take(),
+                            ..Default::default()
+                        }
+                        .into(),
+                    ),
+                );
+            }
+        } else {
+            // Single recursive visit
+            ns.visit_mut_children_with(self);
         }
+
+        // Restore saved vars
+        self.es2021_logical_assignment_vars = saved_logical_vars;
+        self.es2020_nullish_coalescing_vars = saved_nullish_vars;
 
         // Post-processing: Private field variables
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
@@ -636,38 +726,86 @@ impl<'a> VisitMut for CompilerImpl<'a> {
 
     fn visit_mut_stmts(&mut self, s: &mut Vec<Stmt>) {
         // Setup for variable hoisting
-        let need_var_hoisting = self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS);
+        let need_logical_var_hoisting =
+            self.config.includes.contains(Features::LOGICAL_ASSIGNMENTS);
+        let need_nullish_var_hoisting = self.config.includes.contains(Features::NULLISH_COALESCING);
 
-        let saved_logical_vars = if need_var_hoisting {
+        let saved_logical_vars = if need_logical_var_hoisting {
             self.es2021_logical_assignment_vars.take()
         } else {
             vec![]
         };
 
-        // Single recursive visit
-        s.visit_mut_children_with(self);
+        let saved_nullish_vars = if need_nullish_var_hoisting {
+            self.es2020_nullish_coalescing_vars.take()
+        } else {
+            vec![]
+        };
 
-        // Post-processing: Handle variable hoisting
-        if need_var_hoisting {
-            let logical_vars =
-                std::mem::replace(&mut self.es2021_logical_assignment_vars, saved_logical_vars);
+        // Process statements with different hoisting strategies
+        if need_nullish_var_hoisting {
+            // Nullish coalescing: Insert vars before each statement that generates them
+            let mut buf = Vec::with_capacity(s.len() + 2);
 
-            let mut all_vars = Vec::new();
-            all_vars.extend(logical_vars);
+            for mut stmt in s.take() {
+                stmt.visit_mut_with(self);
 
-            if !all_vars.is_empty() {
+                // Insert nullish vars before the statement
+                if !self.es2020_nullish_coalescing_vars.is_empty() {
+                    buf.push(
+                        VarDecl {
+                            span: DUMMY_SP,
+                            kind: VarDeclKind::Var,
+                            decls: self.es2020_nullish_coalescing_vars.take(),
+                            ..Default::default()
+                        }
+                        .into(),
+                    );
+                }
+
+                // Collect logical vars but don't insert yet
+                buf.push(stmt);
+            }
+
+            *s = buf;
+
+            // Logical assignments: Hoist all vars to the top
+            if need_logical_var_hoisting && !self.es2021_logical_assignment_vars.is_empty() {
                 prepend_stmt(
                     s,
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
-                        decls: all_vars,
+                        decls: self.es2021_logical_assignment_vars.take(),
                         ..Default::default()
                     }
                     .into(),
                 );
             }
+        } else if need_logical_var_hoisting {
+            // Only logical assignments: Hoist all vars to the top
+            s.visit_mut_children_with(self);
+
+            if !self.es2021_logical_assignment_vars.is_empty() {
+                prepend_stmt(
+                    s,
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: self.es2021_logical_assignment_vars.take(),
+                        ..Default::default()
+                    }
+                    .into(),
+                );
+            }
+        } else {
+            // Single recursive visit
+            s.visit_mut_children_with(self);
         }
+
+        // Restore saved vars
+        self.es2021_logical_assignment_vars = saved_logical_vars;
+        self.es2020_nullish_coalescing_vars = saved_nullish_vars;
 
         // Post-processing: Private field variables
         if self.config.includes.contains(Features::PRIVATE_IN_OBJECT)
@@ -675,5 +813,43 @@ impl<'a> VisitMut for CompilerImpl<'a> {
         {
             self.es2022_prepend_private_field_vars(s);
         }
+    }
+
+    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+        if !self.config.includes.contains(Features::NULLISH_COALESCING) {
+            n.visit_mut_children_with(self);
+            return;
+        }
+
+        let vars = self.es2020_nullish_coalescing_vars.take();
+        n.visit_mut_children_with(self);
+
+        if !self.es2020_nullish_coalescing_vars.is_empty() {
+            if let BlockStmtOrExpr::Expr(expr) = n {
+                // expr
+                // { var decl = init; return expr; }
+                let stmts = vec![
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: self.es2020_nullish_coalescing_vars.take(),
+                        declare: false,
+                        ..Default::default()
+                    }
+                    .into(),
+                    Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(expr.take()),
+                    }),
+                ];
+                *n = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                    ..Default::default()
+                });
+            }
+        }
+
+        self.es2020_nullish_coalescing_vars = vars;
     }
 }

@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 license       = { workspace = true }
 name          = "swc_ecma_lexer"
 repository    = { workspace = true }
-version       = "24.0.0"
+version       = "24.0.1"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -54,7 +54,7 @@ swc_ecma_ast = { version = "16.0.0", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
 swc_ecma_visit = { version = "16.0.0", path = "../swc_ecma_visit" }
-swc_malloc = { version = "1.2.3", path = "../swc_malloc" }
+swc_malloc = { version = "1.2.4", path = "../swc_malloc" }
 testing = { version = "16.0.0", path = "../testing" }
 
 [[example]]

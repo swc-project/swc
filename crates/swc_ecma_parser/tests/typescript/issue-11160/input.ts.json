@@ -1,0 +1,189 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 348
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 1,
+        "end": 348
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 8,
+          "end": 348
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 13,
+            "end": 17
+          },
+          "ctxt": 0,
+          "value": "CHAR",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 24,
+              "end": 31
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 24,
+                "end": 27
+              },
+              "ctxt": 0,
+              "value": "foo",
+              "optional": false
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 30,
+                "end": 31
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 72,
+              "end": 83
+            },
+            "id": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 72,
+                "end": 76
+              },
+              "value": "\t",
+              "raw": "'\\t'"
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 79,
+                "end": 83
+              },
+              "value": 9.0,
+              "raw": "0x09"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 114,
+              "end": 125
+            },
+            "id": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 114,
+                "end": 118
+              },
+              "value": "\n",
+              "raw": "\"\\n\""
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 121,
+                "end": 125
+              },
+              "value": 10.0,
+              "raw": "0x0A"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 157,
+              "end": 170
+            },
+            "id": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 158,
+                "end": 162
+              },
+              "value": "\u000b",
+              "raw": "'\\v'"
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 166,
+                "end": 170
+              },
+              "value": 11.0,
+              "raw": "0x0B"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 215,
+              "end": 228
+            },
+            "id": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 216,
+                "end": 220
+              },
+              "value": "\f",
+              "raw": "\"\\f\""
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 224,
+                "end": 228
+              },
+              "value": 12.0,
+              "raw": "0x0C"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 273,
+              "end": 286
+            },
+            "id": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 275,
+                "end": 277
+              },
+              "value": "\r",
+              "raw": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 282,
+                "end": 286
+              },
+              "value": 13.0,
+              "raw": "0x0D"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}
