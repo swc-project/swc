@@ -63,13 +63,6 @@ pub struct Parser<I: self::input::Tokens> {
 }
 
 impl<I: Tokens> Parser<I> {
-    // type Buffer = self::input::Buffer<I>;
-    // type Checkpoint = ParserCheckpoint<I>;
-    // type I = I;
-    // type Next = crate::lexer::NextTokenAndSpan;
-    // type Token = Token;
-    // type TokenAndSpan = TokenAndSpan;
-
     #[inline(always)]
     pub fn input(&self) -> &Buffer<I> {
         &self.input
