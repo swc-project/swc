@@ -6,10 +6,7 @@ use swc_core::{
     common::{errors::ColorConfig, FileName, Globals, Mark, SourceMap, GLOBALS},
     ecma::{
         ast::*,
-        parser::{
-            unstable::{Buffer, Capturing, ParserTrait},
-            EsSyntax, Lexer, Parser, StringInput, Syntax, TsSyntax,
-        },
+        parser::{unstable::Capturing, EsSyntax, Lexer, Parser, StringInput, Syntax, TsSyntax},
         transforms::base::resolver,
         visit::VisitMutWith,
     },

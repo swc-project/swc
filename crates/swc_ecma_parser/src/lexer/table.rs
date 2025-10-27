@@ -6,12 +6,14 @@
 
 use either::Either;
 use swc_common::input::Input;
-use swc_ecma_lexer::common::lexer::char::CharExt;
 
-use super::{pos_span, LexResult, Lexer, LexerTrait};
+use super::{pos_span, LexResult, Lexer};
 use crate::{
     error::SyntaxError,
-    lexer::token::{Token, TokenValue},
+    lexer::{
+        char_ext::CharExt,
+        token::{Token, TokenValue},
+    },
 };
 
 pub(super) type ByteHandler = fn(&mut Lexer<'_>) -> LexResult<Token>;
@@ -321,10 +323,10 @@ const UNI: ByteHandler = |lexer| {
 const COL: ByteHandler = |lexer| lexer.read_token_colon();
 
 /// `%`
-const PRC: ByteHandler = |lexer| lexer.read_token_mul_mod(false);
+const PRC: ByteHandler = |lexer| lexer.read_token_mul_mod::<false>();
 
 /// `*`
-const ATR: ByteHandler = |lexer| lexer.read_token_mul_mod(true);
+const ATR: ByteHandler = |lexer| lexer.read_token_mul_mod::<true>();
 
 /// `?`
 const QST: ByteHandler = |lexer| lexer.read_token_question_mark();

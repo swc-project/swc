@@ -3,29 +3,26 @@ use std::mem::take;
 use swc_atoms::wtf8::CodePoint;
 use swc_common::BytePos;
 use swc_ecma_ast::EsVersion;
-use swc_ecma_lexer::{
-    common::{
-        lexer::{
-            char::CharExt,
-            comments_buffer::{BufferedCommentKind, CommentsBufferTrait},
-            state::State as StateTrait,
-            LexResult,
-        },
-        syntax::SyntaxFlags,
-    },
-    error::SyntaxError,
-    TokenContexts,
-};
 
-use super::{Context, Input, Lexer, LexerTrait};
+use super::{Context, Input, Lexer};
 use crate::{
-    error::Error,
+    error::{Error, SyntaxError},
     input::Tokens,
     lexer::{
-        comments_buffer::CommentsBufferCheckpoint,
+        char_ext::CharExt,
+        comments_buffer::{BufferedCommentKind, CommentsBufferCheckpoint},
         token::{Token, TokenAndSpan, TokenValue},
+        LexResult,
     },
+    syntax::SyntaxFlags,
 };
+
+bitflags::bitflags! {
+    #[derive(Debug, Default, Clone, Copy)]
+    pub struct TokenFlags: u8 {
+        const UNICODE = 1 << 0;
+    }
+}
 
 /// State of lexer.
 ///
@@ -53,11 +50,11 @@ pub struct LexerCheckpoint {
     input_last_pos: BytePos,
 }
 
-impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
+impl crate::input::Tokens for Lexer<'_> {
     type Checkpoint = LexerCheckpoint;
 
-    fn checkpoint_save(&self) -> Self::Checkpoint {
-        Self::Checkpoint {
+    fn checkpoint_save(&self) -> LexerCheckpoint {
+        LexerCheckpoint {
             state: self.state.clone(),
             ctx: self.ctx,
             input_last_pos: self.input.last_pos(),
@@ -69,7 +66,7 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
         }
     }
 
-    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+    fn checkpoint_load(&mut self, checkpoint: LexerCheckpoint) {
         self.state = checkpoint.state;
         self.ctx = checkpoint.ctx;
         unsafe { self.input.reset_to(checkpoint.input_last_pos) };
@@ -119,21 +116,6 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
         self.state.next_regexp = start;
     }
 
-    #[inline]
-    fn token_context(&self) -> &TokenContexts {
-        unreachable!();
-    }
-
-    #[inline]
-    fn token_context_mut(&mut self) -> &mut TokenContexts {
-        unreachable!();
-    }
-
-    #[inline]
-    fn set_token_context(&mut self, _: TokenContexts) {
-        unreachable!();
-    }
-
     fn add_error(&mut self, error: Error) {
         self.errors.push(error);
     }
@@ -162,17 +144,15 @@ impl<'a> swc_ecma_lexer::common::input::Tokens<TokenAndSpan> for Lexer<'a> {
     }
 
     #[inline]
-    fn update_token_flags(&mut self, f: impl FnOnce(&mut swc_ecma_lexer::lexer::TokenFlags)) {
+    fn update_token_flags(&mut self, f: impl FnOnce(&mut TokenFlags)) {
         f(&mut self.token_flags)
     }
 
     #[inline]
-    fn token_flags(&self) -> swc_ecma_lexer::lexer::TokenFlags {
+    fn token_flags(&self) -> TokenFlags {
         self.token_flags
     }
-}
 
-impl crate::input::Tokens for Lexer<'_> {
     fn clone_token_value(&self) -> Option<TokenValue> {
         self.state.token_value.clone()
     }
@@ -486,11 +466,9 @@ impl Lexer<'_> {
             }
 
             if ch == '&' {
-                let cur_pos = self.input().cur_pos();
-
                 let s = unsafe {
                     // Safety: We already checked for the range
-                    self.input_slice(chunk_start, cur_pos)
+                    self.input_slice_to_cur(chunk_start)
                 };
                 value.push_str(s);
 
@@ -504,17 +482,16 @@ impl Lexer<'_> {
             }
         }
 
-        let end = self.input().cur_pos();
         let raw = unsafe {
             // Safety: Both of `start` and `end` are generated from `cur_pos()`
-            self.input_slice(start, end)
+            self.input_slice_to_cur(start)
         };
         let value = if value.is_empty() {
             self.atom(raw)
         } else {
             let s = unsafe {
                 // Safety: We already checked for the range
-                self.input_slice(chunk_start, end)
+                self.input_slice_to_cur(chunk_start)
             };
             value.push_str(s);
             self.atom(value)
@@ -566,7 +543,7 @@ impl Lexer<'_> {
                 } else {
                     self.emit_error(self.cur_pos(), SyntaxError::InvalidUnicodeEscape);
                 }
-                self.token_flags |= swc_ecma_lexer::lexer::TokenFlags::UNICODE;
+                self.token_flags |= TokenFlags::UNICODE;
             } else {
                 break;
             }
@@ -629,72 +606,50 @@ impl State {
     }
 }
 
-impl swc_ecma_lexer::common::lexer::state::State for State {
-    type TokenKind = Token;
-    type TokenType = Token;
-
+impl State {
     #[inline(always)]
-    fn is_expr_allowed(&self) -> bool {
-        unreachable!("is_expr_allowed should not be called in Parser/State")
-    }
-
-    #[inline(always)]
-    fn set_is_expr_allowed(&mut self, _: bool) {
-        // noop
-    }
-
-    #[inline(always)]
-    fn set_next_regexp(&mut self, start: Option<BytePos>) {
-        self.next_regexp = start;
-    }
-
-    #[inline(always)]
-    fn had_line_break(&self) -> bool {
+    pub fn had_line_break(&self) -> bool {
         self.had_line_break
     }
 
     #[inline(always)]
-    fn mark_had_line_break(&mut self) {
+    pub fn mark_had_line_break(&mut self) {
         self.had_line_break = true;
     }
 
     #[inline(always)]
-    fn had_line_break_before_last(&self) -> bool {
-        self.had_line_break_before_last
-    }
-
-    #[inline(always)]
-    fn token_contexts(&self) -> &swc_ecma_lexer::TokenContexts {
-        unreachable!();
-    }
-
-    #[inline(always)]
-    fn mut_token_contexts(&mut self) -> &mut swc_ecma_lexer::TokenContexts {
-        unreachable!();
-    }
-
-    #[inline(always)]
-    fn set_token_type(&mut self, token_type: Self::TokenType) {
+    pub fn set_token_type(&mut self, token_type: Token) {
         self.token_type = Some(token_type);
     }
 
     #[inline(always)]
-    fn token_type(&self) -> Option<Self::TokenType> {
+    pub fn token_type(&self) -> Option<Token> {
         self.token_type
     }
 
     #[inline(always)]
-    fn syntax(&self) -> SyntaxFlags {
-        unreachable!("syntax is not stored in State, but in Lexer")
-    }
-
-    #[inline(always)]
-    fn prev_hi(&self) -> BytePos {
+    pub fn prev_hi(&self) -> BytePos {
         self.prev_hi
     }
 
     #[inline(always)]
-    fn start(&self) -> BytePos {
+    pub fn start(&self) -> BytePos {
         self.start
+    }
+
+    pub fn can_have_trailing_line_comment(&self) -> bool {
+        let Some(t) = self.token_type() else {
+            return true;
+        };
+        !t.is_bin_op()
+    }
+
+    pub fn can_have_trailing_comment(&self) -> bool {
+        self.token_type().is_some_and(|t| {
+            !t.is_keyword()
+                && (t == Token::Semi
+                    || t == Token::LBrace
+                    || t.is_other_and_can_have_trailing_comment())
+        })
     }
 }

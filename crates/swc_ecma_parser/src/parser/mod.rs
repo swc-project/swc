@@ -1,16 +1,21 @@
 #![allow(clippy::let_unit_value)]
 #![deny(non_snake_case)]
 
-use swc_common::{comments::Comments, input::StringInput, Span};
+use rustc_hash::FxHashMap;
+use swc_atoms::Atom;
+use swc_common::{comments::Comments, input::StringInput, BytePos, Span, Spanned};
 use swc_ecma_ast::*;
-use swc_ecma_lexer::common::parser::{
-    buffer::Buffer as BufferTrait, expr::parse_lhs_expr, module_item::parse_module_item_block_body,
-    parse_shebang, stmt::parse_stmt_block_body, Parser as ParserTrait,
-};
 
 use crate::{
+    error::SyntaxError,
+    input::Buffer,
     lexer::{Token, TokenAndSpan},
-    parser::input::Tokens,
+    parser::{
+        input::Tokens,
+        state::{State, WithState},
+        util::ExprExt,
+    },
+    syntax::SyntaxFlags,
     Context, Syntax,
 };
 #[cfg(test)]
@@ -24,17 +29,23 @@ use crate::error::Error;
 mod macros;
 mod class_and_fn;
 mod expr;
+mod ident;
 pub mod input;
 mod jsx;
+mod module_item;
+mod object;
 mod pat;
+mod state;
 mod stmt;
 #[cfg(test)]
 mod tests;
-mod tpl;
 #[cfg(feature = "typescript")]
 mod typescript;
+mod util;
+#[cfg(feature = "verify")]
+mod verifier;
 
-pub use swc_ecma_lexer::common::parser::PResult;
+pub type PResult<T> = Result<T, crate::error::Error>;
 
 pub struct ParserCheckpoint<I: Tokens> {
     lexer: I::Checkpoint,
@@ -46,41 +57,34 @@ pub struct ParserCheckpoint<I: Tokens> {
 /// EcmaScript parser.
 #[derive(Clone)]
 pub struct Parser<I: self::input::Tokens> {
-    state: swc_ecma_lexer::common::parser::state::State,
+    state: State,
     input: self::input::Buffer<I>,
     found_module_item: bool,
 }
 
-impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
-    type Buffer = self::input::Buffer<I>;
-    type Checkpoint = ParserCheckpoint<I>;
-    type I = I;
-    type Next = crate::lexer::NextTokenAndSpan;
-    type Token = Token;
-    type TokenAndSpan = TokenAndSpan;
-
+impl<I: Tokens> Parser<I> {
     #[inline(always)]
-    fn input(&self) -> &Self::Buffer {
+    pub fn input(&self) -> &Buffer<I> {
         &self.input
     }
 
     #[inline(always)]
-    fn input_mut(&mut self) -> &mut Self::Buffer {
+    pub fn input_mut(&mut self) -> &mut Buffer<I> {
         &mut self.input
     }
 
     #[inline(always)]
-    fn state(&self) -> &swc_ecma_lexer::common::parser::state::State {
+    fn state(&self) -> &State {
         &self.state
     }
 
     #[inline(always)]
-    fn state_mut(&mut self) -> &mut swc_ecma_lexer::common::parser::state::State {
+    fn state_mut(&mut self) -> &mut State {
         &mut self.state
     }
 
-    fn checkpoint_save(&self) -> Self::Checkpoint {
-        Self::Checkpoint {
+    fn checkpoint_save(&self) -> ParserCheckpoint<I> {
+        ParserCheckpoint {
             lexer: self.input.iter.checkpoint_save(),
             buffer_cur: self.input.cur,
             buffer_next: self.input.next.clone(),
@@ -88,7 +92,7 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
         }
     }
 
-    fn checkpoint_load(&mut self, checkpoint: Self::Checkpoint) {
+    fn checkpoint_load(&mut self, checkpoint: ParserCheckpoint<I>) {
         self.input.iter.checkpoint_load(checkpoint.lexer);
         self.input.cur = checkpoint.buffer_cur;
         self.input.next = checkpoint.buffer_next;
@@ -98,59 +102,6 @@ impl<'a, I: Tokens> swc_ecma_lexer::common::parser::Parser<'a> for Parser<I> {
     #[inline(always)]
     fn mark_found_module_item(&mut self) {
         self.found_module_item = true;
-    }
-
-    #[inline(always)]
-    fn parse_unary_expr(&mut self) -> PResult<Box<Expr>> {
-        self.parse_unary_expr()
-    }
-
-    #[inline(always)]
-    fn parse_jsx_element(
-        &mut self,
-        in_expr_context: bool,
-    ) -> PResult<either::Either<JSXFragment, JSXElement>> {
-        self.parse_jsx_element(in_expr_context)
-    }
-
-    #[inline(always)]
-    fn parse_primary_expr(&mut self) -> PResult<Box<Expr>> {
-        self.parse_primary_expr()
-    }
-
-    #[inline(always)]
-    fn ts_in_no_context<T>(&mut self, op: impl FnOnce(&mut Self) -> PResult<T>) -> PResult<T> {
-        debug_assert!(self.input().syntax().typescript());
-        trace_cur!(self, ts_in_no_context__before);
-        let res = op(self);
-        trace_cur!(self, ts_in_no_context__after);
-        res
-    }
-
-    #[inline(always)]
-    fn parse_tagged_tpl(
-        &mut self,
-        tag: Box<Expr>,
-        type_params: Option<Box<TsTypeParamInstantiation>>,
-    ) -> PResult<TaggedTpl> {
-        self.parse_tagged_tpl(tag, type_params)
-    }
-
-    #[inline(always)]
-    fn parse_tagged_tpl_ty(&mut self) -> PResult<TsLitType> {
-        let start = self.cur_pos();
-        self.parse_tagged_tpl_ty().map(|tpl_ty| {
-            let lit = TsLit::Tpl(tpl_ty);
-            TsLitType {
-                span: self.span(start),
-                lit,
-            }
-        })
-    }
-
-    #[inline(always)]
-    fn parse_lhs_expr(&mut self) -> PResult<Box<Expr>> {
-        parse_lhs_expr::<Self, false>(self)
     }
 }
 
@@ -193,15 +144,15 @@ impl<I: Tokens> Parser<I> {
 
         let start = self.cur_pos();
 
-        let shebang = parse_shebang(self)?;
+        let shebang = self.parse_shebang()?;
 
-        let ret = parse_stmt_block_body(self, true, None).map(|body| Script {
+        let ret = self.parse_stmt_block_body(true, None).map(|body| Script {
             span: self.span(start),
             body,
             shebang,
         })?;
 
-        debug_assert!(self.input().cur() == &Token::Eof);
+        debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
 
         Ok(ret)
@@ -217,15 +168,15 @@ impl<I: Tokens> Parser<I> {
         self.set_ctx(ctx);
 
         let start = self.cur_pos();
-        let shebang = parse_shebang(self)?;
+        let shebang = self.parse_shebang()?;
 
-        let ret = parse_stmt_block_body(self, true, None).map(|body| Script {
+        let ret = self.parse_stmt_block_body(true, None).map(|body| Script {
             span: self.span(start),
             body,
             shebang,
         })?;
 
-        debug_assert!(self.input().cur() == &Token::Eof);
+        debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
 
         Ok(ret)
@@ -242,15 +193,17 @@ impl<I: Tokens> Parser<I> {
         self.set_ctx(ctx);
 
         let start = self.cur_pos();
-        let shebang = parse_shebang(self)?;
+        let shebang = self.parse_shebang()?;
 
-        let ret = parse_module_item_block_body(self, true, None).map(|body| Module {
-            span: self.span(start),
-            body,
-            shebang,
-        })?;
+        let ret = self
+            .parse_module_item_block_body(true, None)
+            .map(|body| Module {
+                span: self.span(start),
+                body,
+                shebang,
+            })?;
 
-        debug_assert!(self.input().cur() == &Token::Eof);
+        debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
 
         Ok(ret)
@@ -263,11 +216,11 @@ impl<I: Tokens> Parser<I> {
     /// not be reported even if the method returns [Module].
     pub fn parse_program(&mut self) -> PResult<Program> {
         let start = self.cur_pos();
-        let shebang = parse_shebang(self)?;
+        let shebang = self.parse_shebang()?;
 
         let body: Vec<ModuleItem> = self
             .do_inside_of_context(Context::CanBeModule.union(Context::TopLevel), |p| {
-                parse_module_item_block_body(p, true, None)
+                p.parse_module_item_block_body(true, None)
             })?;
         let has_module_item = self.found_module_item
             || body
@@ -306,7 +259,7 @@ impl<I: Tokens> Parser<I> {
             })
         };
 
-        debug_assert!(self.input().cur() == &Token::Eof);
+        debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
 
         Ok(ret)
@@ -322,18 +275,382 @@ impl<I: Tokens> Parser<I> {
         self.set_ctx(ctx);
 
         let start = self.cur_pos();
-        let shebang = parse_shebang(self)?;
+        let shebang = self.parse_shebang()?;
 
-        let ret = parse_module_item_block_body(self, true, None).map(|body| Module {
-            span: self.span(start),
-            body,
-            shebang,
-        })?;
+        let ret = self
+            .parse_module_item_block_body(true, None)
+            .map(|body| Module {
+                span: self.span(start),
+                body,
+                shebang,
+            })?;
 
-        debug_assert!(self.input().cur() == &Token::Eof);
+        debug_assert!(self.input().cur() == Token::Eof);
         self.input_mut().bump();
 
         Ok(ret)
+    }
+
+    pub fn parse_shebang(&mut self) -> PResult<Option<Atom>> {
+        let cur = self.input().cur();
+        Ok(if cur == Token::Shebang {
+            let ret = self.input_mut().expect_shebang_token_and_bump();
+            Some(ret)
+        } else {
+            None
+        })
+    }
+}
+
+impl<I: Tokens> Parser<I> {
+    #[inline(always)]
+    pub fn with_state<'w>(&'w mut self, state: State) -> WithState<'w, I> {
+        let orig_state = std::mem::replace(self.state_mut(), state);
+        WithState {
+            orig_state,
+            inner: self,
+        }
+    }
+
+    #[inline(always)]
+    pub fn ctx(&self) -> Context {
+        self.input().get_ctx()
+    }
+
+    #[inline(always)]
+    pub fn set_ctx(&mut self, ctx: Context) {
+        self.input_mut().set_ctx(ctx);
+    }
+
+    #[inline]
+    pub fn do_inside_of_context<T>(
+        &mut self,
+        context: Context,
+        f: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        let ctx = self.ctx();
+        let inserted = ctx.complement().intersection(context);
+        if inserted.is_empty() {
+            f(self)
+        } else {
+            self.input_mut().update_ctx(|ctx| ctx.insert(inserted));
+            let result = f(self);
+            self.input_mut().update_ctx(|ctx| ctx.remove(inserted));
+            result
+        }
+    }
+
+    pub fn do_outside_of_context<T>(
+        &mut self,
+        context: Context,
+        f: impl FnOnce(&mut Self) -> T,
+    ) -> T {
+        let ctx = self.ctx();
+        let removed = ctx.intersection(context);
+        if !removed.is_empty() {
+            self.input_mut().update_ctx(|ctx| ctx.remove(removed));
+            let result = f(self);
+            self.input_mut().update_ctx(|ctx| ctx.insert(removed));
+            result
+        } else {
+            f(self)
+        }
+    }
+
+    #[inline(always)]
+    pub fn strict_mode<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
+        self.do_inside_of_context(Context::Strict, f)
+    }
+
+    /// Original context is restored when returned guard is dropped.
+    #[inline(always)]
+    pub fn in_type<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
+        self.do_inside_of_context(Context::InType, f)
+    }
+
+    #[inline(always)]
+    pub fn allow_in_expr<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
+        self.do_inside_of_context(Context::IncludeInExpr, f)
+    }
+
+    #[inline(always)]
+    pub fn disallow_in_expr<T>(&mut self, f: impl FnOnce(&mut Self) -> T) -> T {
+        self.do_outside_of_context(Context::IncludeInExpr, f)
+    }
+
+    #[inline(always)]
+    pub fn syntax(&self) -> SyntaxFlags {
+        self.input().syntax()
+    }
+
+    #[cold]
+    pub fn emit_err(&mut self, span: Span, error: SyntaxError) {
+        if self.ctx().contains(Context::IgnoreError) || !self.syntax().early_errors() {
+            return;
+        }
+        self.emit_error(crate::error::Error::new(span, error))
+    }
+
+    #[cold]
+    pub fn emit_error(&mut self, error: crate::error::Error) {
+        if self.ctx().contains(Context::IgnoreError) || !self.syntax().early_errors() {
+            return;
+        }
+        let cur = self.input().cur();
+        if cur == Token::Error {
+            let err = self.input_mut().expect_error_token_and_bump();
+            self.input_mut().iter_mut().add_error(err);
+        }
+        self.input_mut().iter_mut().add_error(error);
+    }
+
+    #[cold]
+    pub fn emit_strict_mode_err(&mut self, span: Span, error: SyntaxError) {
+        if self.ctx().contains(Context::IgnoreError) {
+            return;
+        }
+        let error = crate::error::Error::new(span, error);
+        if self.ctx().contains(Context::Strict) {
+            self.input_mut().iter_mut().add_error(error);
+        } else {
+            self.input_mut().iter_mut().add_module_mode_error(error);
+        }
+    }
+
+    pub fn verify_expr(&mut self, expr: Box<Expr>) -> PResult<Box<Expr>> {
+        #[cfg(feature = "verify")]
+        {
+            use swc_ecma_visit::Visit;
+            let mut v = self::verifier::Verifier { errors: Vec::new() };
+            v.visit_expr(&expr);
+            for (span, error) in v.errors {
+                self.emit_err(span, error);
+            }
+        }
+        Ok(expr)
+    }
+
+    #[inline(always)]
+    pub fn cur_pos(&self) -> BytePos {
+        self.input().cur_pos()
+    }
+
+    #[inline(always)]
+    pub fn last_pos(&self) -> BytePos {
+        self.input().prev_span().hi
+    }
+
+    #[inline]
+    pub fn is_general_semi(&mut self) -> bool {
+        let cur = self.input().cur();
+        matches!(cur, Token::Semi | Token::RBrace | Token::Eof)
+            || self.input().had_line_break_before_cur()
+    }
+
+    pub fn eat_general_semi(&mut self) -> bool {
+        if cfg!(feature = "debug") {
+            tracing::trace!("eat(';'): cur={:?}", self.input().cur());
+        }
+        let cur = self.input().cur();
+        if cur == Token::Semi {
+            self.bump();
+            true
+        } else {
+            cur == Token::RBrace || self.input().had_line_break_before_cur() || cur == Token::Eof
+        }
+    }
+
+    #[inline]
+    pub fn expect_general_semi(&mut self) -> PResult<()> {
+        if !self.eat_general_semi() {
+            let span = self.input().cur_span();
+            let cur = self.input_mut().dump_cur();
+            syntax_error!(self, span, SyntaxError::Expected(";".to_string(), cur))
+        }
+        Ok(())
+    }
+
+    #[inline]
+    pub fn expect(&mut self, t: Token) -> PResult<()> {
+        if !self.input_mut().eat(t) {
+            let span = self.input().cur_span();
+            let cur = self.input_mut().dump_cur();
+            syntax_error!(self, span, SyntaxError::Expected(format!("{t:?}"), cur))
+        } else {
+            Ok(())
+        }
+    }
+
+    #[inline(always)]
+    pub fn expect_without_advance(&mut self, t: Token) -> PResult<()> {
+        if !self.input_mut().is(t) {
+            let span = self.input().cur_span();
+            let cur = self.input_mut().dump_cur();
+            syntax_error!(self, span, SyntaxError::Expected(format!("{t:?}"), cur))
+        } else {
+            Ok(())
+        }
+    }
+
+    #[inline(always)]
+    pub fn bump(&mut self) {
+        debug_assert!(
+            self.input().cur() != Token::Eof,
+            "parser should not call bump() without knowing current token"
+        );
+        self.input_mut().bump()
+    }
+
+    #[inline]
+    pub fn span(&self, start: BytePos) -> Span {
+        let end = self.last_pos();
+        debug_assert!(
+            start <= end,
+            "assertion failed: (span.start <= span.end). start = {start:?}, end = {end:?}",
+        );
+        Span::new_with_checked(start, end)
+    }
+
+    #[inline(always)]
+    pub fn assert_and_bump(&mut self, token: Token) {
+        debug_assert!(
+            self.input().is(token),
+            "assertion failed: expected {token:?}, got {:?}",
+            self.input().cur()
+        );
+        self.bump();
+    }
+
+    pub fn check_assign_target(&mut self, expr: &Expr, deny_call: bool) {
+        if !expr.is_valid_simple_assignment_target(self.ctx().contains(Context::Strict)) {
+            self.emit_err(expr.span(), SyntaxError::TS2406);
+        }
+
+        // We follow behavior of tsc
+        if self.input().syntax().typescript() && self.syntax().early_errors() {
+            let is_eval_or_arguments = match expr {
+                Expr::Ident(i) => i.is_reserved_in_strict_bind(),
+                _ => false,
+            };
+
+            if is_eval_or_arguments {
+                self.emit_strict_mode_err(expr.span(), SyntaxError::TS1100);
+            }
+
+            fn should_deny(e: &Expr, deny_call: bool) -> bool {
+                match e {
+                    Expr::Lit(..) => false,
+                    Expr::Call(..) => deny_call,
+                    Expr::Bin(..) => false,
+                    Expr::Paren(ref p) => should_deny(&p.expr, deny_call),
+
+                    _ => true,
+                }
+            }
+
+            // It is an early Reference Error if LeftHandSideExpression is neither
+            // an ObjectLiteral nor an ArrayLiteral and
+            // IsValidSimpleAssignmentTarget of LeftHandSideExpression is false.
+            if !is_eval_or_arguments
+                && !expr.is_valid_simple_assignment_target(self.ctx().contains(Context::Strict))
+                && should_deny(expr, deny_call)
+            {
+                self.emit_err(expr.span(), SyntaxError::TS2406);
+            }
+        }
+    }
+
+    /// spec: 'PropertyName'
+    pub fn parse_prop_name(&mut self) -> PResult<PropName> {
+        trace_cur!(self, parse_prop_name);
+        self.do_inside_of_context(Context::InPropertyName, |p| {
+            let start = p.input().cur_pos();
+            let cur = p.input().cur();
+            let v = if cur == Token::Str {
+                PropName::Str(p.parse_str_lit())
+            } else if cur == Token::Num {
+                let (value, raw) = p.input_mut().expect_number_token_and_bump();
+                PropName::Num(Number {
+                    span: p.span(start),
+                    value,
+                    raw: Some(raw),
+                })
+            } else if cur == Token::BigInt {
+                let (value, raw) = p.input_mut().expect_bigint_token_and_bump();
+                PropName::BigInt(BigInt {
+                    span: p.span(start),
+                    value,
+                    raw: Some(raw),
+                })
+            } else if cur.is_word() {
+                let w = p.input_mut().expect_word_token_and_bump();
+                PropName::Ident(IdentName::new(w, p.span(start)))
+            } else if cur == Token::LBracket {
+                p.bump();
+                let inner_start = p.input().cur_pos();
+                let mut expr = p.allow_in_expr(Self::parse_assignment_expr)?;
+                if p.syntax().typescript() && p.input().is(Token::Comma) {
+                    let mut exprs = vec![expr];
+                    while p.input_mut().eat(Token::Comma) {
+                        //
+                        exprs.push(p.allow_in_expr(Self::parse_assignment_expr)?);
+                    }
+                    p.emit_err(p.span(inner_start), SyntaxError::TS1171);
+                    expr = Box::new(
+                        SeqExpr {
+                            span: p.span(inner_start),
+                            exprs,
+                        }
+                        .into(),
+                    );
+                }
+                expect!(p, Token::RBracket);
+                PropName::Computed(ComputedPropName {
+                    span: p.span(start),
+                    expr,
+                })
+            } else {
+                unexpected!(
+                    p,
+                    "identifier, string literal, numeric literal or [ for the computed key"
+                )
+            };
+            Ok(v)
+        })
+    }
+
+    #[inline]
+    pub fn is_ident_ref(&mut self) -> bool {
+        let cur = self.input().cur();
+        cur.is_word() && !cur.is_reserved(self.ctx())
+    }
+
+    #[inline]
+    pub fn peek_is_ident_ref(&mut self) -> bool {
+        let ctx = self.ctx();
+        peek!(self).is_some_and(|peek| peek.is_word() && !peek.is_reserved(ctx))
+    }
+
+    #[inline(always)]
+    pub fn eat_ident_ref(&mut self) -> bool {
+        if self.is_ident_ref() {
+            self.bump();
+            true
+        } else {
+            false
+        }
+    }
+
+    #[cold]
+    #[inline(never)]
+    pub fn eof_error(&mut self) -> Error {
+        debug_assert!(
+            self.input().cur() == Token::Eof,
+            "Parser should not call throw_eof_error() without knowing current token"
+        );
+        let pos = self.input().end_pos();
+        let last = Span { lo: pos, hi: pos };
+        Error::new(last, SyntaxError::Eof)
     }
 }
 
