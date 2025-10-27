@@ -245,7 +245,7 @@ impl<'a> CompilerImpl<'a> {
         }
 
         match expr {
-            Expr::Ident(i) if i.ctxt != self.es2020_optional_chaining_unresolved_ctxt => false,
+            Expr::Ident(i) if i.ctxt != self.unresolved_ctxt => false,
             _ => {
                 if is_call && self.config.assumptions.pure_getters {
                     !is_simple_member(expr)

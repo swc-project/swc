@@ -53,6 +53,7 @@ impl Pass for Compiler {
 
 struct CompilerImpl<'a> {
     config: &'a Config,
+    unresolved_ctxt: SyntaxContext,
 
     // ES2022: Private in object transformation state
     es2022_private_field_helper_vars: Vec<VarDeclarator>,
@@ -68,7 +69,6 @@ struct CompilerImpl<'a> {
 
     // ES2020: Optional chaining transformation state
     es2020_optional_chaining_vars: Vec<VarDeclarator>,
-    es2020_optional_chaining_unresolved_ctxt: SyntaxContext,
 }
 
 #[swc_trace]
@@ -76,6 +76,8 @@ impl<'a> CompilerImpl<'a> {
     fn new(config: &'a Config) -> Self {
         Self {
             config,
+            unresolved_ctxt: SyntaxContext::empty().apply_mark(config.unresolved_mark),
+
             es2022_private_field_helper_vars: Vec::new(),
             es2022_private_field_init_exprs: Vec::new(),
             es2022_injected_weakset_vars: FxHashSet::default(),
@@ -83,8 +85,6 @@ impl<'a> CompilerImpl<'a> {
             es2021_logical_assignment_vars: Vec::new(),
             es2020_nullish_coalescing_vars: Vec::new(),
             es2020_optional_chaining_vars: Vec::new(),
-            es2020_optional_chaining_unresolved_ctxt: SyntaxContext::empty()
-                .apply_mark(config.unresolved_mark),
         }
     }
 
