@@ -133,7 +133,6 @@ pub(crate) struct VarUsageInfo {
     infects_to: Vec<Access>,
     /// Only **string** properties.
     pub(crate) accessed_props: FxHashMap<Wtf8Atom, u32>,
-    pub(crate) accessed_props: FxHashMap<Atom, u32>,
 
     /// Tracks call sites for functions. Each inner Vec contains the arguments
     /// passed at that call site. Used for parameter inlining optimization.
