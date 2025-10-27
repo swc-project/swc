@@ -399,24 +399,194 @@ impl Optimizer<'_> {
     /// function body.
     ///
     /// This prevents inlining parameters that would conflict with hoisted
-    /// function declarations. For example:
+    /// function declarations or var declarations. For example:
     /// ```js
     /// function f(a) {
     ///     function a() { ... }
     /// }
+    /// function g(arg) {
+    ///     if (condition) {
+    ///         var arg = 2; // var is hoisted and shadows parameter
+    ///     }
+    /// }
     /// ```
-    /// We cannot inline `a` as `let a = value` because the function declaration
-    /// is hoisted.
+    /// We cannot inline `a` or `arg` as `let a = value` because the
+    /// declarations are hoisted.
     fn is_param_shadowed_by_fn_decl(&self, f: &Function, param_id: &Id) -> bool {
         if let Some(body) = &f.body {
-            for stmt in &body.stmts {
-                if let Stmt::Decl(Decl::Fn(fn_decl)) = stmt {
+            self.check_stmts_for_shadowing(&body.stmts, param_id)
+        } else {
+            false
+        }
+    }
+
+    /// Recursively check statements for shadowing declarations.
+    fn check_stmts_for_shadowing(&self, stmts: &[Stmt], param_id: &Id) -> bool {
+        for stmt in stmts {
+            match stmt {
+                // Check for function declarations
+                Stmt::Decl(Decl::Fn(fn_decl)) => {
                     if fn_decl.ident.to_id() == *param_id {
                         return true;
                     }
                 }
+                // Check for var declarations (which are hoisted)
+                Stmt::Decl(Decl::Var(var_decl)) if var_decl.kind == VarDeclKind::Var => {
+                    for decl in &var_decl.decls {
+                        if self.check_pat_for_id(&decl.name, param_id) {
+                            return true;
+                        }
+                    }
+                }
+                // Recursively check block statements
+                Stmt::Block(block) => {
+                    if self.check_stmts_for_shadowing(&block.stmts, param_id) {
+                        return true;
+                    }
+                }
+                // Recursively check if statements
+                Stmt::If(if_stmt) => {
+                    if self.check_stmt_for_shadowing(&if_stmt.cons, param_id) {
+                        return true;
+                    }
+                    if let Some(alt) = &if_stmt.alt {
+                        if self.check_stmt_for_shadowing(alt, param_id) {
+                            return true;
+                        }
+                    }
+                }
+                // Recursively check loops
+                Stmt::While(while_stmt) => {
+                    if self.check_stmt_for_shadowing(&while_stmt.body, param_id) {
+                        return true;
+                    }
+                }
+                Stmt::DoWhile(do_while) => {
+                    if self.check_stmt_for_shadowing(&do_while.body, param_id) {
+                        return true;
+                    }
+                }
+                Stmt::For(for_stmt) => {
+                    // Check init for var declarations
+                    if let Some(init) = &for_stmt.init {
+                        match init {
+                            VarDeclOrExpr::VarDecl(var_decl)
+                                if var_decl.kind == VarDeclKind::Var =>
+                            {
+                                for decl in &var_decl.decls {
+                                    if self.check_pat_for_id(&decl.name, param_id) {
+                                        return true;
+                                    }
+                                }
+                            }
+                            _ => {}
+                        }
+                    }
+                    if self.check_stmt_for_shadowing(&for_stmt.body, param_id) {
+                        return true;
+                    }
+                }
+                Stmt::ForIn(for_in) => {
+                    // Check left side for var declarations
+                    match &for_in.left {
+                        ForHead::VarDecl(var_decl) if var_decl.kind == VarDeclKind::Var => {
+                            for decl in &var_decl.decls {
+                                if self.check_pat_for_id(&decl.name, param_id) {
+                                    return true;
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+                    if self.check_stmt_for_shadowing(&for_in.body, param_id) {
+                        return true;
+                    }
+                }
+                Stmt::ForOf(for_of) => {
+                    // Check left side for var declarations
+                    match &for_of.left {
+                        ForHead::VarDecl(var_decl) if var_decl.kind == VarDeclKind::Var => {
+                            for decl in &var_decl.decls {
+                                if self.check_pat_for_id(&decl.name, param_id) {
+                                    return true;
+                                }
+                            }
+                        }
+                        _ => {}
+                    }
+                    if self.check_stmt_for_shadowing(&for_of.body, param_id) {
+                        return true;
+                    }
+                }
+                // Recursively check try-catch-finally
+                Stmt::Try(try_stmt) => {
+                    if self.check_stmts_for_shadowing(&try_stmt.block.stmts, param_id) {
+                        return true;
+                    }
+                    if let Some(handler) = &try_stmt.handler {
+                        if self.check_stmts_for_shadowing(&handler.body.stmts, param_id) {
+                            return true;
+                        }
+                    }
+                    if let Some(finalizer) = &try_stmt.finalizer {
+                        if self.check_stmts_for_shadowing(&finalizer.stmts, param_id) {
+                            return true;
+                        }
+                    }
+                }
+                // Recursively check switch statements
+                Stmt::Switch(switch) => {
+                    for case in &switch.cases {
+                        if self.check_stmts_for_shadowing(&case.cons, param_id) {
+                            return true;
+                        }
+                    }
+                }
+                // Recursively check labeled statements
+                Stmt::Labeled(labeled) => {
+                    if self.check_stmt_for_shadowing(&labeled.body, param_id) {
+                        return true;
+                    }
+                }
+                // Recursively check with statements
+                Stmt::With(with) => {
+                    if self.check_stmt_for_shadowing(&with.body, param_id) {
+                        return true;
+                    }
+                }
+                _ => {}
             }
         }
         false
+    }
+
+    /// Helper to check a single statement for shadowing.
+    fn check_stmt_for_shadowing(&self, stmt: &Stmt, param_id: &Id) -> bool {
+        match stmt {
+            Stmt::Block(block) => self.check_stmts_for_shadowing(&block.stmts, param_id),
+            _ => {
+                // For non-block statements, wrap in a slice and check
+                self.check_stmts_for_shadowing(std::slice::from_ref(stmt), param_id)
+            }
+        }
+    }
+
+    /// Check if a pattern contains a specific identifier.
+    fn check_pat_for_id(&self, pat: &Pat, param_id: &Id) -> bool {
+        match pat {
+            Pat::Ident(ident) => ident.id.to_id() == *param_id,
+            Pat::Array(array) => array.elems.iter().any(|elem| {
+                elem.as_ref()
+                    .map_or(false, |e| self.check_pat_for_id(e, param_id))
+            }),
+            Pat::Object(obj) => obj.props.iter().any(|prop| match prop {
+                ObjectPatProp::KeyValue(kv) => self.check_pat_for_id(&kv.value, param_id),
+                ObjectPatProp::Assign(assign) => assign.key.to_id() == *param_id,
+                ObjectPatProp::Rest(rest) => self.check_pat_for_id(&rest.arg, param_id),
+            }),
+            Pat::Rest(rest) => self.check_pat_for_id(&rest.arg, param_id),
+            Pat::Assign(assign) => self.check_pat_for_id(&assign.left, param_id),
+            _ => false,
+        }
     }
 }
