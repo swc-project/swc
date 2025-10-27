@@ -7854,11 +7854,11 @@
                         inputContainer
                     ], CLASSNAMES_DISABLE)), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(floatLabelType) || validateLabel(element, floatLabelType);
                 }
-                function setClearButton(isClear, element, inputObject, initial, internalCreateElement) {
-                    var button, container, makeElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(internalCreateElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : internalCreateElement;
+                function setClearButton(isClear, element, inputObject) {
+                    var button, container, makeElement = !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(!0) || _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az;
                     isClear ? (button = ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(makeElement) ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .createElement */ .az : makeElement)('span', {
                         className: CLASSNAMES_CLEARICON
-                    }), container = inputObject.container, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(initial) ? (inputObject.container.classList.contains(CLASSNAMES_FLOATINPUT) ? inputObject.container.querySelector('.' + CLASSNAMES_FLOATTEXT) : element).insertAdjacentElement('afterend', button) : container.appendChild(button), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container) && container.classList.contains(CLASSNAMES_FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
+                    }), container = inputObject.container, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(!0) ? (inputObject.container.classList.contains(CLASSNAMES_FLOATINPUT) ? inputObject.container.querySelector('.' + CLASSNAMES_FLOATTEXT) : element).insertAdjacentElement('afterend', button) : container.appendChild(button), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .isNullOrUndefined */ .le)(container) && container.classList.contains(CLASSNAMES_FLOATINPUT) && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         container
                     ], CLASSNAMES_INPUTGROUP), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__ /* .addClass */ .cn)([
                         button

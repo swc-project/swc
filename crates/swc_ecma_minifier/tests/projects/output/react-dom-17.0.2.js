@@ -3377,9 +3377,9 @@
    * @return {boolean} True if the event is supported.
    * @internal
    * @license Modernizr 3.0.0pre (Custom Build) | MIT
-   */ function(eventNameSuffix) {
+   */ function() {
         if (!canUseDOM) return !1;
-        var eventName = "on" + eventNameSuffix, isSupported = eventName in document;
+        var eventName = "oninput", isSupported = eventName in document;
         if (!isSupported) {
             var element = document.createElement("div");
             element.setAttribute(eventName, "return;"), isSupported = "function" == typeof element[eventName];

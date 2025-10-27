@@ -130,7 +130,7 @@ impl Optimizer<'_> {
             for call_site in call_sites {
                 // Get argument at this position, or None if implicit undefined
                 let arg_value: Option<Box<Expr>> = if param_idx < call_site.len() {
-                    Some(call_site[param_idx].clone())
+                    call_site[param_idx].clone()
                 } else {
                     None // Implicit undefined
                 };
@@ -160,17 +160,10 @@ impl Optimizer<'_> {
             }
 
             // If all call sites pass the same constant value, mark for inlining
-            // Currently, we only inline undefined values to match the original use case
-            // and avoid being too aggressive. This handles optional callbacks/parameters
-            // that are consistently omitted or explicitly undefined.
             if inlinable {
                 if let Some(Some(value)) = &common_value {
-                    // Check if the value is explicitly undefined
-                    if let Expr::Ident(id) = &**value {
-                        if id.ctxt == self.ctx.expr_ctx.unresolved_ctxt && id.sym == "undefined" {
-                            params_to_inline.push((param_idx, value.clone()));
-                        }
-                    }
+                    // Inline the constant value
+                    params_to_inline.push((param_idx, value.clone()));
                 } else if let Some(None) = common_value {
                     // All call sites have implicit undefined
                     let undefined_expr = Box::new(Expr::Ident(Ident::new(

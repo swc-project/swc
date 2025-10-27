@@ -136,9 +136,10 @@ pub(crate) struct VarUsageInfo {
 
     /// Tracks call sites for functions. Each inner Vec contains the arguments
     /// passed at that call site. Used for parameter inlining optimization.
-    /// Arguments beyond the call site's actual argument count are implicitly
-    /// undefined.
-    pub(crate) call_site_args: Option<Vec<Vec<Box<Expr>>>>,
+    /// Arguments are represented as Option<Box<Expr>> where:
+    /// - Some(expr) = explicit argument passed
+    /// - None = implicit undefined (argument not provided)
+    pub(crate) call_site_args: Option<Vec<Vec<Option<Box<Expr>>>>>,
 }
 
 impl Default for VarUsageInfo {
@@ -567,7 +568,7 @@ impl Storage for ProgramData {
         self.vars.get(&id).map(|v| v.as_ref())
     }
 
-    fn record_call_site_args(&mut self, callee_id: Id, args: Vec<Box<Expr>>) {
+    fn record_call_site_args(&mut self, callee_id: Id, args: &[Option<Box<Expr>>]) {
         let var = self.vars.entry(callee_id).or_default();
 
         // Initialize the call_site_args if it doesn't exist
@@ -575,9 +576,9 @@ impl Storage for ProgramData {
             var.call_site_args = Some(Vec::new());
         }
 
-        // Add this call site's arguments (moved, no clone needed)
+        // Add this call site's arguments (cloned from the slice)
         if let Some(ref mut call_sites) = var.call_site_args {
-            call_sites.push(args);
+            call_sites.push(args.to_vec());
         }
     }
 }

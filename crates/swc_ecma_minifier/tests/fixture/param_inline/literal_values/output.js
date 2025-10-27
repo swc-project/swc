@@ -1,8 +1,9 @@
 // Various literal types that can be inlined
-function literals(str, num, bool, nil) {
-    console.log(str, num, bool, nil);
-    return str + num;
+function literals() {
+    let str = "hello";
+    console.log(str, 42, true, null);
+    return str + 42;
 }
-literals("hello", 42, true, null);
-literals("hello", 42, true, null);
-literals("hello", 42, true, null);
+literals();
+literals();
+literals();

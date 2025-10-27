@@ -925,9 +925,9 @@
              *
              * @param {module:videojs} [vjs]
              *        The videojs library function
-             */ function autoSetupTimeout(wait, vjs) {
+             */ function autoSetupTimeout(vjs) {
                 // Protect against breakage in non-browser environments
-                isReal() && (vjs && (videojs$1 = vjs), global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(autoSetup, wait));
+                isReal() && (vjs && (videojs$1 = vjs), global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(autoSetup, 1));
             }
             /**
              * Used to set the internal tracking of window loaded state to true.
@@ -15171,7 +15171,7 @@
             } // Run Auto-load players
             // You have to wait at least once in case this script is loaded after your
             // video in the DOM (weird behavior only with minified version)
-            autoSetupTimeout(1, videojs), /**
+            autoSetupTimeout(videojs), /**
              * Current Video.js version. Follows [semantic versioning](https://semver.org/).
              *
              * @type {string}

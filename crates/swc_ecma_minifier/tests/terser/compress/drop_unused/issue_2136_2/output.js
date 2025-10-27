@@ -1,4 +1,4 @@
-function f(x) {
-    console.log(x);
+function f() {
+    console.log(2);
 }
-f(2);
+f();
