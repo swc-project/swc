@@ -96,17 +96,15 @@ impl Optimizer<'_> {
         // A function is a good candidate for body inlining when:
         // - It has a single call site (reduce_fns typically inlines single-use
         //   functions)
-        // - It's small (single statement)
         //
         // This check ensures parameter inlining effectively runs "after" function
         // body inlining by skipping functions that would be inlined anyway.
-        if (self.options.reduce_fns || self.options.reduce_vars) && call_sites.len() == 1 {
-            if let Some(body) = &f.body {
-                // Single statement functions are prime candidates for function body inlining
-                if body.stmts.len() == 1 {
-                    return;
-                }
-            }
+        //
+        // For single-call-site functions, parameter inlining doesn't save any bytes
+        // (we're just moving the value from call site to function body), and it can
+        // interfere with function body inlining which is a more powerful optimization.
+        if call_sites.len() == 1 {
+            return;
         }
 
         // Analyze each parameter
@@ -114,10 +112,17 @@ impl Optimizer<'_> {
 
         for (param_idx, param) in f.params.iter().enumerate() {
             // Only handle simple identifier parameters
-            let _param_id = match &param.pat {
+            let param_id = match &param.pat {
                 Pat::Ident(ident) => ident.id.to_id(),
                 _ => continue, // Skip destructuring, rest params, etc.
             };
+
+            // Check if this parameter is shadowed by a function declaration in the body
+            // Function declarations are hoisted and would conflict with the inlined
+            // `let` declaration
+            if self.is_param_shadowed_by_fn_decl(f, &param_id) {
+                continue;
+            }
 
             // Collect argument values for this parameter across all call sites
             // Use Option<Option<Box<Expr>>> to track:
@@ -375,5 +380,30 @@ impl Optimizer<'_> {
                 fn_id.1
             );
         }
+    }
+
+    /// Check if a parameter is shadowed by a function declaration in the
+    /// function body.
+    ///
+    /// This prevents inlining parameters that would conflict with hoisted
+    /// function declarations. For example:
+    /// ```js
+    /// function f(a) {
+    ///     function a() { ... }
+    /// }
+    /// ```
+    /// We cannot inline `a` as `let a = value` because the function declaration
+    /// is hoisted.
+    fn is_param_shadowed_by_fn_decl(&self, f: &Function, param_id: &Id) -> bool {
+        if let Some(body) = &f.body {
+            for stmt in &body.stmts {
+                if let Stmt::Decl(Decl::Fn(fn_decl)) = stmt {
+                    if fn_decl.ident.to_id() == *param_id {
+                        return true;
+                    }
+                }
+            }
+        }
+        false
     }
 }
