@@ -170,7 +170,7 @@ fn parse_jsx_attr_value<'a, P: Parser<'a>>(p: &mut P) -> PResult<JSXAttrValue> {
         let node = parse_jsx_expr_container(p)?;
         jsx_expr_container_to_jsx_attr_value(p, start, node)
     } else if cur.is_str() {
-        Ok(JSXAttrValue::Lit(Lit::Str(parse_str_lit(p))))
+        Ok(JSXAttrValue::Str(parse_str_lit(p)))
     } else if cur.is_jsx_tag_start() {
         let expr = parse_jsx_element(p)?;
         match expr {

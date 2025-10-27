@@ -941,7 +941,7 @@ impl Swcify for JSXAttrVal {
         match self {
             JSXAttrVal::Element(v) => JSXAttrValue::JSXElement(Box::new(v.swcify(ctx))),
             JSXAttrVal::Fragment(v) => JSXAttrValue::JSXFragment(v.swcify(ctx)),
-            JSXAttrVal::String(v) => JSXAttrValue::Lit(Lit::Str(v.swcify(ctx))),
+            JSXAttrVal::String(v) => JSXAttrValue::Str(v.swcify(ctx)),
             JSXAttrVal::Expr(v) => JSXAttrValue::JSXExprContainer(v.swcify(ctx)),
         }
     }

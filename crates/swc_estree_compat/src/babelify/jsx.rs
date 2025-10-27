@@ -4,7 +4,7 @@ use swc_ecma_ast::{
     JSXAttr, JSXAttrName, JSXAttrOrSpread, JSXAttrValue, JSXClosingElement, JSXClosingFragment,
     JSXElement, JSXElementChild, JSXElementName, JSXEmptyExpr, JSXExpr, JSXExprContainer,
     JSXFragment, JSXMemberExpr, JSXNamespacedName, JSXObject, JSXOpeningElement,
-    JSXOpeningFragment, JSXSpreadChild, JSXText, Lit,
+    JSXOpeningFragment, JSXSpreadChild, JSXText,
 };
 use swc_estree_ast::{
     flavor::Flavor, JSXAttrName as BabelJSXAttrName, JSXAttrVal, JSXAttribute,
@@ -222,17 +222,7 @@ impl Babelify for JSXAttrValue {
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            JSXAttrValue::Lit(lit) => {
-                // TODO(dwoznicki): Babel only seems to accept string literals here. Is that
-                // right?
-                match lit {
-                    Lit::Str(s) => JSXAttrVal::String(s.babelify(ctx)),
-                    _ => panic!(
-                        "illegal conversion: Cannot convert {:?} to JsxAttrVal::Lit",
-                        &lit
-                    ),
-                }
-            }
+            JSXAttrValue::Str(s) => JSXAttrVal::String(s.babelify(ctx)),
             JSXAttrValue::JSXExprContainer(e) => JSXAttrVal::Expr(e.babelify(ctx)),
             JSXAttrValue::JSXElement(e) => JSXAttrVal::Element(e.babelify(ctx)),
             JSXAttrValue::JSXFragment(f) => JSXAttrVal::Fragment(f.babelify(ctx)),

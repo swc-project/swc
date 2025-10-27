@@ -1006,7 +1006,7 @@ where
         let value = a
             .value
             .map(|v| match v {
-                JSXAttrValue::Lit(Lit::Str(s)) => {
+                JSXAttrValue::Str(s) => {
                     let value = transform_jsx_attr_str(&s.value);
 
                     Lit::Str(Str {
@@ -1022,7 +1022,6 @@ where
                 }) => e,
                 JSXAttrValue::JSXElement(element) => Box::new(self.jsx_elem_to_expr(*element)),
                 JSXAttrValue::JSXFragment(fragment) => Box::new(self.jsx_frag_to_expr(fragment)),
-                JSXAttrValue::Lit(lit) => Box::new(lit.into()),
                 JSXAttrValue::JSXExprContainer(JSXExprContainer {
                     span: _,
                     expr: JSXExpr::JSXEmptyExpr(_),
@@ -1588,7 +1587,7 @@ fn add_line_of_jsx_text<'a>(
 
 fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
     Some(match v {
-        JSXAttrValue::Lit(Lit::Str(s)) => {
+        JSXAttrValue::Str(s) => {
             let value = transform_jsx_attr_str(&s.value);
 
             Lit::Str(Str {
@@ -1598,7 +1597,6 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
             })
             .into()
         }
-        JSXAttrValue::Lit(lit) => Box::new(lit.into()),
         JSXAttrValue::JSXExprContainer(e) => match e.expr {
             JSXExpr::JSXEmptyExpr(_) => None?,
             JSXExpr::Expr(e) => e,
