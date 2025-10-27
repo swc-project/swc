@@ -7,7 +7,10 @@ use serde::{Deserialize, Serialize};
 use swc_common::{Span, SyntaxContext};
 use util::Config;
 
-pub use self::{amd::amd, common_js::common_js, system_js::system_js, umd::umd};
+pub use self::{
+    amd::amd, common_js::common_js, module_transform::ModuleTransform, system_js::system_js,
+    umd::umd,
+};
 
 #[macro_use]
 pub mod util;
@@ -16,6 +19,7 @@ pub mod common_js;
 pub mod import_analysis;
 pub(crate) mod module_decl_strip;
 pub(crate) mod module_ref_rewriter;
+pub mod module_transform;
 pub mod path;
 pub mod rewriter;
 pub mod system_js;

@@ -26,7 +26,7 @@ pub struct Config {
     pub config: InnerConfig,
 }
 
-struct SystemJs {
+pub struct SystemJs {
     unresolved_mark: Mark,
     resolver: Resolver,
     config: Config,
