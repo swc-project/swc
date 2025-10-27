@@ -85,7 +85,7 @@ jobs:
           comment-author: "github-actions[bot]"
           body-includes: "## Binary Sizes"
 
-      - name: Create or update comment
+      - name: Create or update PR comment
         if: github.event_name == 'pull_request'
         uses: peter-evans/create-or-update-comment@v4
         with:
@@ -93,3 +93,39 @@ jobs:
           issue-number: ${{ github.event.pull_request.number }}
           body-path: size_report.md
           edit-mode: replace
+
+      - name: Find existing commit comment
+        if: github.event_name == 'push'
+        id: find-commit-comment
+        run: |
+          COMMENTS=$(gh api repos/${{ github.repository }}/commits/${{ github.sha }}/comments \
+            --jq '.[] | select(.body | contains("## Binary Sizes")) | .id' | head -n 1)
+
+          if [ -n "$COMMENTS" ]; then
+            echo "comment_id=$COMMENTS" >> $GITHUB_OUTPUT
+          else
+            echo "comment_id=" >> $GITHUB_OUTPUT
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Create or update commit comment
+        if: github.event_name == 'push'
+        run: |
+          BODY=$(cat size_report.md)
+
+          if [ -n "${{ steps.find-commit-comment.outputs.comment_id }}" ]; then
+            gh api \
+              --method PATCH \
+              -H "Accept: application/vnd.github+json" \
+              repos/${{ github.repository }}/comments/${{ steps.find-commit-comment.outputs.comment_id }} \
+              -f body="$BODY"
+          else
+            gh api \
+              --method POST \
+              -H "Accept: application/vnd.github+json" \
+              repos/${{ github.repository }}/commits/${{ github.sha }}/comments \
+              -f body="$BODY"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
