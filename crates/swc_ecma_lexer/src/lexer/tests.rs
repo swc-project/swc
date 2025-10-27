@@ -1678,7 +1678,7 @@ fn issue_915_1() {
     );
 }
 
-const COLOR_JS_CODE: &str = include_str!("../../../swc_ecma_parser/colors.js");
+const COLOR_JS_CODE: &str = include_str!("../../../swc_ecma_parser/benches/files/colors.js");
 
 #[bench]
 fn lex_colors_js(b: &mut Bencher) {

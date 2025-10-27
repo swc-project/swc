@@ -5620,10 +5620,8 @@ name = "swc_ecma_lexer"
 version = "24.0.1"
 dependencies = [
  "bitflags 2.6.0",
- "codspeed-criterion-compat",
  "either",
  "num-bigint",
- "phf",
  "rustc-hash 2.1.1",
  "seq-macro",
  "serde",
@@ -5633,8 +5631,8 @@ dependencies = [
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
+ "swc_ecma_parser",
  "swc_ecma_visit",
- "swc_malloc",
  "testing",
  "tracing",
 ]
@@ -5732,17 +5730,22 @@ dependencies = [
 name = "swc_ecma_parser"
 version = "25.0.0"
 dependencies = [
+ "bitflags 2.6.0",
  "codspeed-criterion-compat",
  "either",
  "num-bigint",
  "pathdiff",
+ "phf",
  "pretty_assertions",
+ "rustc-hash 2.1.1",
+ "seq-macro",
  "serde",
  "serde_json",
+ "smartstring",
+ "stacker",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
- "swc_ecma_lexer",
  "swc_ecma_visit",
  "swc_malloc",
  "testing",
@@ -6586,7 +6589,6 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_codegen",
- "swc_ecma_lexer",
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_react",
