@@ -483,6 +483,12 @@ impl<I: Tokens> Parser<I> {
         self.input_mut().set_expr_allowed(false);
         self.expect_without_advance(Token::Gt)?;
         let span = Span::new_with_checked(start, self.input().cur_span().hi);
+
+        // Report grammar error for empty type argument list like `I<>`.
+        if params.is_empty() {
+            self.emit_err(span, SyntaxError::EmptyTypeArgumentList);
+        }
+
         Ok(Box::new(TsTypeParamInstantiation { span, params }))
     }
 

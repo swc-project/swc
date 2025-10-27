@@ -290,6 +290,7 @@ pub enum SyntaxError {
 
     ReservedTypeAssertion,
     ReservedArrowTypeParam,
+    EmptyTypeArgumentList,
 }
 
 impl SyntaxError {
@@ -745,6 +746,7 @@ impl SyntaxError {
                                                     as in `<T,>() => ...`."
                 .into(),
             SyntaxError::InvalidAssignTarget => "Invalid assignment target".into(),
+            SyntaxError::EmptyTypeArgumentList => "Type argument list cannot be empty.".into(),
         }
     }
 }
