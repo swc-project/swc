@@ -1,12 +1,9 @@
 use std::collections::HashMap;
 
-use inflector::Inflector;
 use serde::{Deserialize, Serialize};
-use swc_atoms::Atom;
 use swc_common::{errors::HANDLER, sync::Lrc, FileName, SourceMap};
-use swc_ecma_ast::{Expr, Ident};
+use swc_ecma_ast::Expr;
 use swc_ecma_parser::{parse_file_as_expr, Syntax};
-use swc_ecma_utils::quote_ident;
 
 use super::super::util;
 
@@ -59,32 +56,4 @@ pub(super) struct BuiltConfig {
     #[allow(dead_code)]
     pub globals: HashMap<String, Box<Expr>>,
     pub config: util::Config,
-}
-
-impl BuiltConfig {
-    pub fn global_name(&self, src: &str) -> Atom {
-        if !src.contains('/') {
-            return src.to_camel_case().into();
-        }
-
-        src.split('/').next_back().unwrap().to_camel_case().into()
-    }
-
-    pub fn determine_export_name(&self, filename: Lrc<FileName>) -> Ident {
-        match &*filename {
-            FileName::Real(ref path) => {
-                let s = match path.file_stem() {
-                    Some(stem) => self.global_name(&stem.to_string_lossy()),
-                    None => self.global_name(&path.display().to_string()),
-                };
-
-                quote_ident!(s).into()
-            }
-            FileName::Custom(s) => {
-                let s = self.global_name(s);
-                quote_ident!(s).into()
-            }
-            _ => unimplemented!("determine_export_name({:?})", filename),
-        }
-    }
 }

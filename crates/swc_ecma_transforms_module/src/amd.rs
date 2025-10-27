@@ -49,7 +49,6 @@ where
         lazy: config.lazy,
         export_interop_annotation: false,
         module_id,
-        umd_globals: Default::default(),
         source_map: None,
     };
 

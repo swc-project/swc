@@ -35,7 +35,6 @@ pub fn common_js(
         lazy: config.lazy,
         export_interop_annotation,
         module_id: None,
-        umd_globals: Default::default(),
         source_map: None,
     };
 

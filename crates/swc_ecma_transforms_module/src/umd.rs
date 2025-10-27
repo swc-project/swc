@@ -36,7 +36,6 @@ pub fn umd(
         lazy: built_config.config.lazy,
         export_interop_annotation: false,
         module_id: None,
-        umd_globals: built_config.globals,
         source_map: Some(cm),
     };
 

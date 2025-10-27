@@ -60,7 +60,6 @@ pub(crate) struct ModuleConfig {
     pub module_id: Option<String>,
 
     // UMD-specific
-    pub umd_globals: std::collections::HashMap<String, Box<Expr>>,
     pub source_map: Option<Lrc<SourceMap>>,
 }
 
