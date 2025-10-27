@@ -163,9 +163,8 @@ impl crate::input::Tokens for Lexer<'_> {
         self.state.token_value.take()
     }
 
-    fn scan_regex(&mut self) -> (TokenAndSpan, Option<(Atom, Atom)>) {
-        let start = self.cur_pos();
-        let (token, ret) = match self.read_regexp() {
+    fn scan_regex(&mut self, start: BytePos) -> (TokenAndSpan, Option<(Atom, Atom)>) {
+        let (token, ret) = match self.read_regexp(start) {
             Ok(ret) => (Token::Regex, Some(ret)),
             Err(error) => {
                 self.state.set_token_value(TokenValue::Error(error));

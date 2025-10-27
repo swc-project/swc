@@ -59,7 +59,7 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn get_token_value(&self) -> Option<&TokenValue>;
     fn set_token_value(&mut self, token_value: Option<TokenValue>);
 
-    fn scan_regex(&mut self) -> (TokenAndSpan, Option<(Atom, Atom)>);
+    fn scan_regex(&mut self, start: BytePos) -> (TokenAndSpan, Option<(Atom, Atom)>);
     fn scan_jsx_token(&mut self, allow_multiline_jsx_text: bool) -> TokenAndSpan;
     fn scan_jsx_open_el_terminal_token(&mut self) -> TokenAndSpan;
     fn rescan_jsx_open_el_terminal_token(&mut self, reset: BytePos) -> TokenAndSpan;
@@ -139,9 +139,9 @@ impl<I: Tokens> Buffer<I> {
         self.iter.get_token_value()
     }
 
-    pub(crate) fn scan_regex(&mut self) -> Option<(Atom, Atom)> {
+    pub(crate) fn scan_regex(&mut self, start: BytePos) -> Option<(Atom, Atom)> {
         let prev = self.cur;
-        let (t, ret) = self.iter.scan_regex();
+        let (t, ret) = self.iter.scan_regex(start);
         self.prev_span = prev.span;
         self.set_cur(t);
         ret

@@ -1,6 +1,7 @@
 use std::mem;
 
 use swc_atoms::Atom;
+use swc_common::BytePos;
 
 use crate::{
     error::Error,
@@ -162,8 +163,8 @@ impl<I: Tokens> Tokens for Capturing<I> {
         self.inner.set_token_value(token_value);
     }
 
-    fn scan_regex(&mut self) -> (TokenAndSpan, Option<(Atom, Atom)>) {
-        let result = self.inner.scan_regex();
+    fn scan_regex(&mut self, start: BytePos) -> (TokenAndSpan, Option<(Atom, Atom)>) {
+        let result = self.inner.scan_regex(start);
         self.capture(result.0);
         result
     }

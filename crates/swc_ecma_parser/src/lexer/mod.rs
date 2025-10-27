@@ -1785,10 +1785,13 @@ impl<'a> Lexer<'a> {
     }
 
     /// Expects current char to be '/'
-    pub(crate) fn read_regexp(&mut self) -> LexResult<(Atom, Atom)> {
-        debug_assert_eq!(self.cur(), Some('/'));
+    pub(crate) fn read_regexp(&mut self, start: BytePos) -> LexResult<(Atom, Atom)> {
+        unsafe {
+            // Safety: start is valid position, and cur() is Some('/')
+            self.input_mut().reset_to(start);
+        }
 
-        let start = self.cur_pos();
+        debug_assert_eq!(self.cur(), Some('/'));
 
         self.bump(); // bump '/'
 

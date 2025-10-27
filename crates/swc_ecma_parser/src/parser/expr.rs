@@ -2592,7 +2592,7 @@ impl<I: Tokens> Parser<I> {
         // Regexp
         debug_assert!(self.input().cur() == Token::Slash || self.input().cur() == Token::DivEq);
 
-        let Some((exp, flags)) = self.input_mut().scan_regex() else {
+        let Some((exp, flags)) = self.input_mut().scan_regex(start) else {
             let error = self.input_mut().expect_error_token_and_bump();
             return Err(error);
         };
