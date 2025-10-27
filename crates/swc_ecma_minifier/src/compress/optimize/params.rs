@@ -60,12 +60,19 @@ impl Optimizer<'_> {
             None => return,
         };
 
-        // Skip if function is exported or can't optimize
+        // Skip if function is exported, reassigned, or inlining is prevented
         if usage.flags.contains(VarUsageInfoFlags::EXPORTED)
             || usage.flags.contains(VarUsageInfoFlags::INLINE_PREVENTED)
-            || usage.flags.contains(VarUsageInfoFlags::USED_AS_REF)
             || usage.flags.contains(VarUsageInfoFlags::REASSIGNED)
         {
+            return;
+        }
+
+        // Skip if function is used as a reference/argument (not just called)
+        // Check if the function is used in ways other than being called directly
+        // USED_AS_ARG indicates the function is passed to another function, which means
+        // we don't have visibility into all call sites
+        if usage.flags.contains(VarUsageInfoFlags::USED_AS_ARG) {
             return;
         }
 
@@ -153,10 +160,17 @@ impl Optimizer<'_> {
             }
 
             // If all call sites pass the same constant value, mark for inlining
+            // Currently, we only inline undefined values to match the original use case
+            // and avoid being too aggressive. This handles optional callbacks/parameters
+            // that are consistently omitted or explicitly undefined.
             if inlinable {
-                if let Some(Some(value)) = common_value {
-                    // Explicit value passed at all call sites
-                    params_to_inline.push((param_idx, value));
+                if let Some(Some(value)) = &common_value {
+                    // Check if the value is explicitly undefined
+                    if let Expr::Ident(id) = &**value {
+                        if id.ctxt == self.ctx.expr_ctx.unresolved_ctxt && id.sym == "undefined" {
+                            params_to_inline.push((param_idx, value.clone()));
+                        }
+                    }
                 } else if let Some(None) = common_value {
                     // All call sites have implicit undefined
                     let undefined_expr = Box::new(Expr::Ident(Ident::new(

@@ -1,5 +1,6 @@
 // Mixed parameters - some inlinable, some not
-function mixed(foo, callback, debug) {
+function mixed(foo, callback) {
+    let debug;
     if (debug) console.log("Debug:", foo);
     return callback(foo);
 }
