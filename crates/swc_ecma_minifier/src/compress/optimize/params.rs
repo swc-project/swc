@@ -577,7 +577,7 @@ impl Optimizer<'_> {
             Pat::Ident(ident) => ident.id.to_id() == *param_id,
             Pat::Array(array) => array.elems.iter().any(|elem| {
                 elem.as_ref()
-                    .map_or(false, |e| self.check_pat_for_id(e, param_id))
+                    .is_some_and(|e| self.check_pat_for_id(e, param_id))
             }),
             Pat::Object(obj) => obj.props.iter().any(|prop| match prop {
                 ObjectPatProp::KeyValue(kv) => self.check_pat_for_id(&kv.value, param_id),
