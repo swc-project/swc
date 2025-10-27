@@ -1769,16 +1769,13 @@ fn has_use_strict(block: &BlockStmt) -> Option<Span> {
 }
 
 fn is_constructor(key: &Key) -> bool {
-    matches!(
-        &key,
-        Key::Public(PropName::Ident(IdentName {
-            sym: constructor,
-            ..
-        })) | Key::Public(PropName::Str(Str {
-            value: constructor,
-            ..
-        })) if &**constructor == "constructor"
-    )
+    if let Key::Public(PropName::Ident(IdentName { sym, .. })) = key {
+        sym.eq("constructor")
+    } else if let Key::Public(PropName::Str(Str { value, .. })) = key {
+        value.eq("constructor")
+    } else {
+        false
+    }
 }
 
 pub(crate) fn is_not_this(p: &Param) -> bool {

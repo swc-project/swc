@@ -282,7 +282,7 @@ impl<I: Tokens> Parser<I> {
                     syntax_error!(
                         self,
                         orig_str.span,
-                        SyntaxError::ImportBindingIsString(orig_str.value)
+                        SyntaxError::ImportBindingIsString(orig_str.value.to_string_lossy().into())
                     )
                 }
             }
@@ -651,7 +651,7 @@ impl<I: Tokens> Parser<I> {
                         ExportSpecifier::Namespace(namespace) => {
                             let export_name = match &namespace.name {
                                 ModuleExportName::Ident(i) => i.sym.clone(),
-                                ModuleExportName::Str(s) => s.value.clone(),
+                                ModuleExportName::Str(s) => s.value.to_string_lossy().into(),
                                 #[cfg(swc_ast_unknown)]
                                 _ => unreachable!(),
                             };

@@ -332,9 +332,7 @@ impl<I: Tokens> Buffer<I> {
         ret
     }
 
-    fn expect_string_token_and_bump(&mut self) -> (Wtf8Atom, Atom) {
-        let cur = *self.cur();
-    pub fn expect_string_token_and_bump(&mut self) -> (Atom, Atom) {
+    pub fn expect_string_token_and_bump(&mut self) -> (Wtf8Atom, Atom) {
         let cur = self.cur();
         let ret = cur.take_str(self);
         self.bump();
@@ -355,9 +353,7 @@ impl<I: Tokens> Buffer<I> {
         ret
     }
 
-    fn expect_template_token_and_bump(&mut self) -> (LexResult<Wtf8Atom>, Atom) {
-        let cur = *self.cur();
-    pub fn expect_template_token_and_bump(&mut self) -> (LexResult<Atom>, Atom) {
+    pub fn expect_template_token_and_bump(&mut self) -> (LexResult<Wtf8Atom>, Atom) {
         let cur = self.cur();
         let ret = cur.take_template(self);
         self.bump();

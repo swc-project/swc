@@ -1,7 +1,7 @@
 use std::fmt::Write;
 
 use either::Either;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
@@ -2211,7 +2211,7 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(arg_span, SyntaxError::TS1141);
             Str {
                 span: arg_span,
-                value: atom!(""),
+                value: Wtf8Atom::default(),
                 raw: Some(atom!("\"\"")),
             }
         };

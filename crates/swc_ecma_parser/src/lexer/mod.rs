@@ -2,13 +2,12 @@
 
 use std::{borrow::Cow, char, iter::FusedIterator, rc::Rc};
 
-use swc_atoms::{
-    wtf8::{Wtf8, Wtf8Buf},
-    AtomStoreCell,
-};
 use either::Either::{self, Left, Right};
 use smartstring::{LazyCompact, SmartString};
-use swc_atoms::{Atom, AtomStoreCell};
+use swc_atoms::{
+    wtf8::{CodePoint, Wtf8, Wtf8Buf},
+    Atom, AtomStoreCell,
+};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     input::{Input, StringInput},
@@ -22,7 +21,7 @@ use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::{
-        char_ext::{Char, CharExt},
+        char_ext::CharExt,
         comments_buffer::{BufferedComment, BufferedCommentKind, CommentsBuffer},
         jsx::xhtml,
         number::{parse_integer, LazyInteger},
@@ -68,6 +67,40 @@ static SINGLE_QUOTE_STRING_END_TABLE: SafeByteMatchTable =
 
 static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| !(b.is_ascii_alphanumeric() || b == b'_' || b == b'$'));
+
+/// Converts UTF-16 surrogate pair to Unicode code point.
+/// `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
+#[inline]
+const fn pair_to_code_point(high: u32, low: u32) -> u32 {
+    (high - 0xd800) * 0x400 + low - 0xdc00 + 0x10000
+}
+
+/// A Unicode escape sequence.
+///
+/// `\u Hex4Digits`, `\u Hex4Digits \u Hex4Digits`, or `\u{ HexDigits }`.
+#[derive(Debug)]
+pub enum UnicodeEscape {
+    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms a valid Unicode code point.
+    // Char cannot be in range 0xD800..=0xDFFF.
+    CodePoint(char),
+    // `\u Hex4Digits \u Hex4Digits`, which forms a valid Unicode astral code point.
+    // Char is in the range 0x10000..=0x10FFFF.
+    SurrogatePair(char),
+    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms an invalid Unicode code point.
+    // Code unit is in the range 0xD800..=0xDFFF.
+    LoneSurrogate(u32),
+}
+
+impl From<UnicodeEscape> for CodePoint {
+    fn from(value: UnicodeEscape) -> Self {
+        match value {
+            UnicodeEscape::CodePoint(c) | UnicodeEscape::SurrogatePair(c) => {
+                CodePoint::from_char(c)
+            }
+            UnicodeEscape::LoneSurrogate(u) => unsafe { CodePoint::from_u32_unchecked(u) },
+        }
+    }
+}
 
 pub type LexResult<T> = Result<T, crate::error::Error>;
 
@@ -1469,13 +1502,74 @@ impl<'a> Lexer<'a> {
             self.input_slice_to_cur(start)
         };
         let raw = self.atom(raw);
-        Ok(Token::str(value, raw, self))
+        Ok(Token::str(value.into(), raw, self))
     }
 
-    fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
+    // Modified based on <https://github.com/oxc-project/oxc/blob/f0e1510b44efdb1b0d9a09f950181b0e4c435abe/crates/oxc_parser/src/lexer/unicode.rs#L237>
+    /// Unicode code unit (`\uXXXX`).
+    ///
+    /// The opening `\u` must already have been consumed before calling this
+    /// method.
+    ///
+    /// See background info on surrogate pairs:
+    ///   * `https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae`
+    ///   * `https://mathiasbynens.be/notes/javascript-identifiers-es6`
+    fn read_unicode_code_unit(&mut self) -> LexResult<Option<UnicodeEscape>> {
+        const MIN_HIGH: u32 = 0xd800;
+        const MAX_HIGH: u32 = 0xdbff;
+        const MIN_LOW: u32 = 0xdc00;
+        const MAX_LOW: u32 = 0xdfff;
+
+        let Some(high) = self.read_int_u32::<16>(4)? else {
+            return Ok(None);
+        };
+        if let Some(ch) = char::from_u32(high) {
+            return Ok(Some(UnicodeEscape::CodePoint(ch)));
+        }
+
+        // The first code unit of a surrogate pair is always in the range from 0xD800 to
+        // 0xDBFF, and is called a high surrogate or a lead surrogate.
+        // Note: `high` must be >= `MIN_HIGH`, otherwise `char::from_u32` would have
+        // returned `Some`, and already exited.
+        debug_assert!(high >= MIN_HIGH);
+        let is_pair = high <= MAX_HIGH
+            && self.input().cur() == Some('\\')
+            && self.input().peek() == Some('u');
+        if !is_pair {
+            return Ok(Some(UnicodeEscape::LoneSurrogate(high)));
+        }
+
+        let before_second = self.input().cur_pos();
+
+        // Bump `\u`
+        self.input_mut().bump_bytes(2);
+
+        let Some(low) = self.read_int_u32::<16>(4)? else {
+            return Ok(None);
+        };
+
+        // The second code unit of a surrogate pair is always in the range from 0xDC00
+        // to 0xDFFF, and is called a low surrogate or a trail surrogate.
+        // If this isn't a valid pair, rewind to before the 2nd, and return the first
+        // only. The 2nd could be the first part of a valid pair.
+        if !(MIN_LOW..=MAX_LOW).contains(&low) {
+            unsafe {
+                // Safety: state is valid position because we got it from cur_pos()
+                self.input_mut().reset_to(before_second);
+            }
+            return Ok(Some(UnicodeEscape::LoneSurrogate(high)));
+        }
+
+        let code_point = pair_to_code_point(high, low);
+        // SAFETY: `high` and `low` have been checked to be in ranges which always yield
+        // a `code_point` which is a valid `char`
+        let ch = unsafe { char::from_u32_unchecked(code_point) };
+        Ok(Some(UnicodeEscape::SurrogatePair(ch)))
+    }
+
+    fn read_unicode_escape(&mut self) -> LexResult<UnicodeEscape> {
         debug_assert_eq!(self.cur(), Some('u'));
 
-        let mut chars = Vec::with_capacity(4);
         let mut is_curly = false;
 
         self.bump(); // 'u'
@@ -1522,7 +1616,11 @@ impl<'a> Lexer<'a> {
 
         match c {
             Some(c) => {
-                chars.push(c.into());
+                if is_curly && !self.eat(b'}') {
+                    self.error(state, SyntaxError::InvalidUnicodeEscape)?
+                }
+
+                Ok(UnicodeEscape::CodePoint(c))
             }
             _ => {
                 unsafe {
@@ -1530,44 +1628,26 @@ impl<'a> Lexer<'a> {
                     self.input_mut().reset_to(state);
                 }
 
-                chars.push(Char::from('\\'));
-                chars.push(Char::from('u'));
+                let Some(value) = self.read_unicode_code_unit()? else {
+                    self.error(
+                        state,
+                        SyntaxError::BadCharacterEscapeSequence {
+                            expected: if is_curly {
+                                "1-6 hex characters"
+                            } else {
+                                "4 hex characters"
+                            },
+                        },
+                    )?
+                };
 
-                if is_curly {
-                    chars.push(Char::from('{'));
-
-                    for _ in 0..6 {
-                        if let Some(c) = self.input().cur() {
-                            if c == '}' {
-                                break;
-                            }
-
-                            self.bump();
-
-                            chars.push(Char::from(c));
-                        } else {
-                            break;
-                        }
-                    }
-
-                    chars.push(Char::from('}'));
-                } else {
-                    for _ in 0..4 {
-                        if let Some(c) = self.input().cur() {
-                            self.bump();
-
-                            chars.push(Char::from(c));
-                        }
-                    }
+                if is_curly && !self.eat(b'}') {
+                    self.error(state, SyntaxError::InvalidUnicodeEscape)?
                 }
+
+                Ok(value)
             }
         }
-
-        if is_curly && !self.eat(b'}') {
-            self.error(state, SyntaxError::InvalidUnicodeEscape)?
-        }
-
-        Ok(chars)
     }
 
     #[cold]
@@ -1584,7 +1664,7 @@ impl<'a> Lexer<'a> {
     /// Read an escaped character for string literal.
     ///
     /// In template literal, we should preserve raw string.
-    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<Vec<Char>>> {
+    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<CodePoint>> {
         debug_assert_eq!(self.cur(), Some('\\'));
 
         let start = self.cur_pos();
@@ -1622,7 +1702,7 @@ impl<'a> Lexer<'a> {
                 self.bump(); // 'x'
 
                 match self.read_int_u32::<16>(2)? {
-                    Some(val) => return Ok(Some(vec![Char::from(val)])),
+                    Some(val) => return Ok(CodePoint::from_u32(val)),
                     None => self.error(
                         start,
                         SyntaxError::BadCharacterEscapeSequence {
@@ -1634,7 +1714,9 @@ impl<'a> Lexer<'a> {
 
             // read unicode escape sequences
             'u' => match self.read_unicode_escape() {
-                Ok(chars) => return Ok(Some(chars)),
+                Ok(value) => {
+                    return Ok(Some(value.into()));
+                }
                 Err(err) => self.error(start, err.into_kind())?,
             },
 
@@ -1646,7 +1728,7 @@ impl<'a> Lexer<'a> {
                     match self.cur() {
                         Some(next) if next.is_digit(8) => c,
                         // \0 is not an octal literal nor decimal literal.
-                        _ => return Ok(Some(vec!['\u{0000}'.into()])),
+                        _ => return Ok(Some(CodePoint::from_char('\u{0000}'))),
                     }
                 } else {
                     c
@@ -1673,7 +1755,7 @@ impl<'a> Lexer<'a> {
                                         .and_then(|value| value.checked_add(v as u8));
                                     match new_val {
                                         Some(val) => val,
-                                        None => return Ok(Some(vec![Char::from(value as char)])),
+                                        None => return Ok(CodePoint::from_u32(value as u32)),
                                     }
                                 } else {
                                     value * 8 + v as u8
@@ -1681,7 +1763,7 @@ impl<'a> Lexer<'a> {
 
                                 self.bump();
                             }
-                            _ => return Ok(Some(vec![Char::from(value as u32)])),
+                            _ => return Ok(CodePoint::from_u32(value as u32)),
                         }
                     }};
                 }
@@ -1689,7 +1771,7 @@ impl<'a> Lexer<'a> {
                 one!(false);
                 one!(true);
 
-                return Ok(Some(vec![Char::from(value as char)]));
+                return Ok(CodePoint::from_u32(value as u32));
             }
             _ => c,
         };
@@ -1699,7 +1781,7 @@ impl<'a> Lexer<'a> {
             self.input_mut().bump();
         }
 
-        Ok(Some(vec![c.into()]))
+        Ok(CodePoint::from_u32(c as u32))
     }
 
     /// Expects current char to be '/'
@@ -1881,23 +1963,29 @@ impl<'a> Lexer<'a> {
                         }
                     }
 
-                    let chars = self.read_unicode_escape()?;
+                    let value = self.read_unicode_escape()?;
 
-                    if let Some(c) = chars.first() {
-                        let valid = if first {
-                            c.is_ident_start()
-                        } else {
-                            c.is_ident_part()
-                        };
-
-                        if !valid {
+                    match value {
+                        UnicodeEscape::CodePoint(ch) => {
+                            let valid = if first {
+                                ch.is_ident_start()
+                            } else {
+                                ch.is_ident_part()
+                            };
+                            if !valid {
+                                self.emit_error(start, SyntaxError::InvalidIdentChar);
+                            }
+                            buf.push(ch);
+                        }
+                        UnicodeEscape::SurrogatePair(ch) => {
+                            buf.push(ch);
                             self.emit_error(start, SyntaxError::InvalidIdentChar);
                         }
-                    }
-
-                    for c in chars {
-                        buf.extend(c);
-                    }
+                        UnicodeEscape::LoneSurrogate(code_point) => {
+                            buf.push_str(format!("\\u{code_point:04X}").as_str());
+                            self.emit_error(start, SyntaxError::InvalidIdentChar);
+                        }
+                    };
 
                     slice_start = self.cur_pos();
                     continue;
@@ -1919,10 +2007,11 @@ impl<'a> Lexer<'a> {
             break;
         }
 
+        let end = self.cur_pos();
         let s = unsafe {
             // Safety: slice_start and end are valid position because we got them from
             // `self.input`
-            self.input_slice_to_cur(slice_start)
+            self.input_slice(slice_start, end)
         };
         let value = if !has_escape {
             // Fast path: raw slice is enough if there's no escape.
@@ -2172,7 +2261,7 @@ impl<'a> Lexer<'a> {
 
         let mut slice_start = self.input().cur_pos();
 
-        let mut buf: Option<String> = None;
+        let mut buf: Option<Wtf8Buf> = None;
 
         loop {
             let table = if quote == b'"' {
@@ -2185,34 +2274,39 @@ impl<'a> Lexer<'a> {
                 lexer: self,
                 table: table,
                 handle_eof: {
+                    let value_end = self.cur_pos();
                     let s = unsafe {
                             // Safety: slice_start and value_end are valid position because we
                             // got them from `self.input`
-                        self.input_slice_to_cur(slice_start)
+                        self.input_slice(slice_start, value_end)
                     };
 
                     self.emit_error(start, SyntaxError::UnterminatedStrLit);
 
-                    let raw = unsafe { self.input_slice_to_cur(start) };
-                    return Ok(Token::str(self.atom(s), self.atom(raw), self));
+                    let end = self.cur_pos();
+                    let raw = unsafe { self.input_slice(start, end) };
+                    return Ok(Token::str(self.wtf8_atom(Wtf8::from_str(s)), self.atom(raw), self));
                 },
             };
+            // dbg!(char::from_u32(fast_path_result as u32));
 
             match fast_path_result {
                 b'"' | b'\'' if fast_path_result == quote => {
+                    let value_end = self.cur_pos();
+
                     let value = if let Some(buf) = buf.as_mut() {
                         // `buf` only exist when there has escape.
-                        debug_assert!(unsafe { self.input_slice_to_cur(start).contains('\\') });
+                        debug_assert!(unsafe { self.input_slice(start, value_end).contains('\\') });
                         let s = unsafe {
                             // Safety: slice_start and value_end are valid position because we
                             // got them from `self.input`
-                            self.input_slice_to_cur(slice_start)
+                            self.input_slice(slice_start, value_end)
                         };
                         buf.push_str(s);
-                        self.atom(&*buf)
+                        self.wtf8_atom(&**buf)
                     } else {
-                        let s = unsafe { self.input_slice_to_cur(slice_start) };
-                        self.atom(s)
+                        let s = unsafe { self.input_slice(slice_start, value_end) };
+                        self.wtf8_atom(Wtf8::from_str(s))
                     };
 
                     unsafe {
@@ -2220,51 +2314,58 @@ impl<'a> Lexer<'a> {
                         self.input_mut().bump();
                     }
 
+                    let end = self.cur_pos();
                     let raw = unsafe {
                         // Safety: start and end are valid position because we got them from
                         // `self.input`
-                        self.input_slice_to_cur(start)
+                        self.input_slice(start, end)
                     };
                     let raw = self.atom(raw);
                     return Ok(Token::str(value, raw, self));
                 }
                 b'\\' => {
+                    let end = self.cur_pos();
                     let s = unsafe {
                         // Safety: start and end are valid position because we got them from
                         // `self.input`
-                        self.input_slice_to_cur(slice_start)
+                        self.input_slice(slice_start, end)
                     };
 
                     if buf.is_none() {
-                        buf = Some(s.to_string());
+                        buf = Some(Wtf8Buf::from_str(s));
                     } else {
                         buf.as_mut().unwrap().push_str(s);
                     }
 
-                    if let Some(chars) = self.read_escaped_char(false)? {
-                        for c in chars {
-                            buf.as_mut().unwrap().extend(c);
-                        }
+                    if let Some(escaped) = self.read_escaped_char(false)? {
+                        buf.as_mut().unwrap().push(escaped);
                     }
 
                     slice_start = self.cur_pos();
                     continue;
                 }
                 b'\n' | b'\r' => {
+                    let end = self.cur_pos();
                     let s = unsafe {
                         // Safety: start and end are valid position because we got them from
                         // `self.input`
-                        self.input_slice_to_cur(slice_start)
+                        self.input_slice(slice_start, end)
                     };
 
                     self.emit_error(start, SyntaxError::UnterminatedStrLit);
 
+                    let end = self.cur_pos();
+
                     let raw = unsafe {
                         // Safety: start and end are valid position because we got them from
                         // `self.input`
-                        self.input_slice_to_cur(start)
+                        self.input_slice(start, end)
                     };
-                    return Ok(Token::str(self.atom(s), self.atom(raw), self));
+                    return Ok(Token::str(
+                        self.wtf8_atom(Wtf8::from_str(s)),
+                        self.atom(raw),
+                        self,
+                    ));
                 }
                 _ => self.bump(),
             }

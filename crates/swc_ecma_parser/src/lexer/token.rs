@@ -345,15 +345,13 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn str(value: Wtf8Atom, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
-    pub fn str(value: Atom, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+    pub fn str(value: Wtf8Atom, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Str { value, raw }));
         Token::Str
     }
 
     #[inline(always)]
-    fn template(cooked: LexResult<Wtf8Atom>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
-    pub fn template(cooked: LexResult<Atom>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
+    pub fn template(cooked: LexResult<Wtf8Atom>, raw: Atom, lexer: &mut crate::Lexer<'a>) -> Self {
         lexer.set_token_value(Some(TokenValue::Template { cooked, raw }));
         Token::Template
     }
@@ -407,9 +405,7 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn take_str(self, buffer: &mut Self::Buffer) -> (Wtf8Atom, Atom) {
-    fn take_str(self, buffer: &mut Buffer<Lexer>) -> (Atom, Atom) {
-    pub fn take_str<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Atom, Atom) {
+    pub fn take_str<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Wtf8Atom, Atom) {
         buffer.expect_string_token_value()
     }
 
@@ -444,42 +440,21 @@ impl<'a> Token {
     }
 
     #[inline(always)]
-    fn is_template(&self) -> bool {
-        Token::Template.eq(self)
-    }
-
-    #[inline(always)]
-    fn take_template(self, buffer: &mut Self::Buffer) -> (LexResult<Wtf8Atom>, Atom) {
-    fn take_template(self, buffer: &mut Buffer<Lexer>) -> (LexResult<Atom>, Atom) {
-    pub fn take_template<I: Tokens>(self, buffer: &mut Buffer<I>) -> (LexResult<Atom>, Atom) {
+    pub fn take_template<I: Tokens>(self, buffer: &mut Buffer<I>) -> (LexResult<Wtf8Atom>, Atom) {
         buffer.expect_template_token_value()
     }
 
     #[inline(always)]
-    fn jsx_text(value: Atom, raw: Atom, lexer: &mut Self::Lexer) -> Self {
-        lexer.set_token_value(Some(TokenValue::Str {
-            value: value.into(),
-            raw,
-        }));
-    fn jsx_text(value: Atom, raw: Atom, lexer: &mut Lexer) -> Self {
-    pub fn jsx_text(value: Atom, raw: Atom, lexer: &mut Lexer) -> Self {
+    pub fn jsx_text(value: Wtf8Atom, raw: Atom, lexer: &mut Lexer) -> Self {
         lexer.set_token_value(Some(TokenValue::Str { value, raw }));
         Token::JSXText
     }
 
     #[inline(always)]
-    pub fn is_jsx_text(&self) -> bool {
-        Token::JSXText.eq(self)
-    }
-
-    #[inline(always)]
-    fn take_jsx_text(self, buffer: &mut Self::Buffer) -> (Atom, Atom) {
+    pub fn take_jsx_text<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Atom, Atom) {
         let (value, raw) = buffer.expect_string_token_value();
         // SAFETY: We set value as Atom in `jsx_text` method.
         (value.as_atom().cloned().unwrap(), raw)
-    fn take_jsx_text(self, buffer: &mut Buffer<Lexer>) -> (Atom, Atom) {
-    pub fn take_jsx_text<I: Tokens>(self, buffer: &mut Buffer<I>) -> (Atom, Atom) {
-        buffer.expect_string_token_value()
     }
 
     #[inline(always)]
