@@ -253,7 +253,7 @@ impl DecoratorPass {
             PropName::Ident(i) => (
                 Lit::Str(Str {
                     span: i.span,
-                    value: i.sym.clone(),
+                    value: i.sym.clone().into(),
                     raw: None,
                 })
                 .into(),
@@ -1043,7 +1043,7 @@ impl VisitMut for DecoratorPass {
                             Key::Private(k) => {
                                 name = Lit::Str(Str {
                                     span: DUMMY_SP,
-                                    value: k.name.clone(),
+                                    value: k.name.clone().into(),
                                     raw: None,
                                 })
                                 .into();

@@ -1,5 +1,5 @@
 use rustc_hash::FxHashSet;
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::Spanned;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
@@ -39,6 +39,14 @@ impl VisitMut for DuplicateKeys {
 struct PropFolder {
     getter_props: FxHashSet<Atom>,
     setter_props: FxHashSet<Atom>,
+}
+
+#[inline]
+fn atom_from_wtf8(value: &Wtf8Atom) -> Atom {
+    value
+        .as_str()
+        .map(Atom::from)
+        .unwrap_or_else(|| Atom::from(value.to_string_lossy()))
 }
 
 #[swc_trace]
@@ -106,14 +114,14 @@ impl VisitMut for PropNameFolder<'_> {
                         expr: Lit::Str(Str {
                             span,
                             raw: None,
-                            value: ident.sym.clone(),
+                            value: ident.sym.clone().into(),
                         })
                         .into(),
                     })
                 }
             }
             PropName::Str(s) => {
-                if !self.props.insert(s.value.clone()) {
+                if !self.props.insert(atom_from_wtf8(&s.value)) {
                     *name = PropName::Computed(ComputedPropName {
                         span: s.span,
                         expr: s.clone().into(),
@@ -123,7 +131,7 @@ impl VisitMut for PropNameFolder<'_> {
             PropName::Computed(ComputedPropName { expr, .. }) => {
                 // Computed property might collide
                 if let Expr::Lit(Lit::Str(Str { ref value, .. })) = &**expr {
-                    self.props.insert(value.clone());
+                    self.props.insert(atom_from_wtf8(value));
                 }
             }
             _ => {}

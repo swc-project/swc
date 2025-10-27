@@ -137,9 +137,10 @@ impl VisitMut for TypeOfSymbol {
         if let Some(body) = &f.body {
             if let Some(Stmt::Expr(first)) = body.stmts.first() {
                 if let Expr::Lit(Lit::Str(s)) = &*first.expr {
-                    match &*s.value {
-                        "@swc/helpers - typeof" | "@babel/helpers - typeof" => return,
-                        _ => {}
+                    if let Some(text) = s.value.as_str() {
+                        if matches!(text, "@swc/helpers - typeof" | "@babel/helpers - typeof") {
+                            return;
+                        }
                     }
                 }
             }
@@ -153,8 +154,12 @@ impl VisitMut for TypeOfSymbol {
 fn is_non_symbol_literal(e: &Expr) -> bool {
     match e {
         Expr::Lit(Lit::Str(Str { value, .. })) => matches!(
-            &**value,
-            "undefined" | "boolean" | "number" | "string" | "function"
+            value.as_str(),
+            Some("undefined")
+                | Some("boolean")
+                | Some("number")
+                | Some("string")
+                | Some("function")
         ),
         _ => false,
     }

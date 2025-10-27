@@ -454,7 +454,10 @@ impl FastDts {
 
         tpl.quasis.first().map(|element| Str {
             span: DUMMY_SP,
-            value: element.cooked.as_ref().unwrap_or(&element.raw).clone(),
+            value: element
+                .cooked
+                .clone()
+                .unwrap_or_else(|| element.raw.clone().into()),
             raw: None,
         })
     }

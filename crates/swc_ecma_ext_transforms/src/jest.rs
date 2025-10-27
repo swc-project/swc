@@ -107,7 +107,7 @@ impl VisitMut for Jest {
                                 is_type_only: false,
                                 ..
                             }) => {
-                                if HOIST_METHODS.contains(exported.atom()) {
+                                if HOIST_METHODS.contains(&exported.atom()) {
                                     self.imported.push(local.to_id());
                                 }
                             }

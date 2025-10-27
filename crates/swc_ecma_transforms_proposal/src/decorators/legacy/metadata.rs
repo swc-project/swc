@@ -335,7 +335,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                             op: op!("==="),
                             right: Box::new(Expr::Lit(Lit::Str(Str {
                                 span: DUMMY_SP,
-                                value: atom!("undefined"),
+                                value: atom!("undefined").into(),
                                 raw: None,
                             }))),
                         }
@@ -358,7 +358,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
                 right: Box::new(
                     Lit::Str(Str {
                         span: DUMMY_SP,
-                        value: atom!("undefined"),
+                        value: atom!("undefined").into(),
                         raw: None,
                     })
                     .into(),

@@ -782,7 +782,7 @@ impl VisitMut for FlowHelper<'_> {
                     arg: Some(
                         Lit::Str(Str {
                             span,
-                            value,
+                            value: value.into(),
                             raw: None,
                         })
                         .into(),
@@ -808,7 +808,7 @@ impl VisitMut for FlowHelper<'_> {
                     arg: Some(
                         Lit::Str(Str {
                             span,
-                            value,
+                            value: value.into(),
                             raw: None,
                         })
                         .into(),

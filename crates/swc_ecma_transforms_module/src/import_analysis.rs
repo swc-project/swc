@@ -6,7 +6,7 @@ use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_pass, Visit, VisitMut, VisitWith,
 };
 
-use crate::{module_decl_strip::LinkFlag, util::ImportInterop};
+use crate::{module_decl_strip::LinkFlag, util::ImportInterop, wtf8::str_to_atom};
 
 pub fn import_analyzer(import_interop: ImportInterop, ignore_dynamic: bool) -> impl Pass {
     visit_mut_pass(ImportAnalyzer {
@@ -80,15 +80,17 @@ impl Visit for ImportAnalyzer {
     }
 
     fn visit_import_decl(&mut self, n: &ImportDecl) {
-        let flag = self.flag_record.entry(n.src.value.clone()).or_default();
+        let src = str_to_atom(&n.src);
+        let flag = self.flag_record.entry(src).or_default();
         for s in &n.specifiers {
             *flag |= s.into();
         }
     }
 
     fn visit_named_export(&mut self, n: &NamedExport) {
-        if let Some(src) = n.src.clone() {
-            let flag = self.flag_record.entry(src.value).or_default();
+        if let Some(src) = &n.src {
+            let src_atom = str_to_atom(src);
+            let flag = self.flag_record.entry(src_atom).or_default();
             for s in &n.specifiers {
                 *flag |= s.into();
             }
@@ -96,7 +98,8 @@ impl Visit for ImportAnalyzer {
     }
 
     fn visit_export_all(&mut self, n: &ExportAll) {
-        *self.flag_record.entry(n.src.value.clone()).or_default() |= LinkFlag::EXPORT_STAR;
+        let src = str_to_atom(&n.src);
+        *self.flag_record.entry(src).or_default() |= LinkFlag::EXPORT_STAR;
     }
 
     fn visit_import(&mut self, _: &Import) {

@@ -2,7 +2,10 @@
 
 use std::{char, iter::FusedIterator, rc::Rc};
 
-use swc_atoms::AtomStoreCell;
+use swc_atoms::{
+    wtf8::{Wtf8, Wtf8Buf},
+    AtomStoreCell,
+};
 use swc_common::{
     comments::Comments,
     input::{Input, StringInput},
@@ -115,6 +118,11 @@ impl<'a> swc_ecma_lexer::common::lexer::Lexer<'a, TokenAndSpan> for Lexer<'a> {
     #[inline(always)]
     fn atom<'b>(&self, s: impl Into<std::borrow::Cow<'b, str>>) -> swc_atoms::Atom {
         self.atoms.atom(s)
+    }
+
+    #[inline(always)]
+    fn wtf8_atom<'b>(&self, s: impl Into<std::borrow::Cow<'b, Wtf8>>) -> swc_atoms::Wtf8Atom {
+        self.atoms.wtf8_atom(s)
     }
 }
 
@@ -332,7 +340,7 @@ impl Lexer<'_> {
         started_with_backtick: bool,
     ) -> LexResult<Token> {
         debug_assert!(self.cur() == Some(if started_with_backtick { '`' } else { '}' }));
-        let mut cooked = Ok(String::with_capacity(8));
+        let mut cooked = Ok(Wtf8Buf::with_capacity(8));
         self.bump(); // `}` or `\``
         let mut cooked_slice_start = self.cur_pos();
         let raw_slice_start = cooked_slice_start;
@@ -357,7 +365,7 @@ impl Lexer<'_> {
         while let Some(c) = self.cur() {
             if c == '`' {
                 consume_cooked!();
-                let cooked = cooked.map(|cooked| self.atoms.atom(cooked));
+                let cooked = cooked.map(|cooked| self.atoms.wtf8_atom(&*cooked));
                 let raw = raw_atom(self);
                 self.bump();
                 return Ok(if started_with_backtick {
@@ -369,7 +377,7 @@ impl Lexer<'_> {
                 });
             } else if c == '$' && self.input.peek() == Some('{') {
                 consume_cooked!();
-                let cooked = cooked.map(|cooked| self.atoms.atom(cooked));
+                let cooked = cooked.map(|cooked| self.atoms.wtf8_atom(&*cooked));
                 let raw = raw_atom(self);
                 self.input.bump_bytes(2);
                 return Ok(if started_with_backtick {
@@ -383,11 +391,9 @@ impl Lexer<'_> {
                 consume_cooked!();
 
                 match self.read_escaped_char(true) {
-                    Ok(Some(chars)) => {
+                    Ok(Some(escaped)) => {
                         if let Ok(ref mut cooked) = cooked {
-                            for c in chars {
-                                cooked.extend(c);
-                            }
+                            cooked.push(escaped);
                         }
                     }
                     Ok(None) => {}
@@ -416,7 +422,7 @@ impl Lexer<'_> {
                 self.bump();
 
                 if let Ok(ref mut cooked) = cooked {
-                    cooked.push(c);
+                    cooked.push_char(c);
                 }
                 cooked_slice_start = self.cur_pos();
             } else {

@@ -384,7 +384,7 @@ fn issue_328() {
                     spread: None,
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
                         span,
-                        value: atom!("test"),
+                        value: atom!("test").into(),
                         raw: Some(atom!("'test'")),
                     }))),
                 }],
@@ -413,7 +413,7 @@ hehe.";"#,
         ),
         Box::new(Expr::Lit(Lit::Str(Str {
             span,
-            value: atom!("okokhehe."),
+            value: atom!("okokhehe.").into(),
             raw: Some(atom!("\"ok\\\nok\\\nhehe.\"")),
         })))
     );

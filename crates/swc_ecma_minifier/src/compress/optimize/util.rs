@@ -1,10 +1,11 @@
 use std::{
+    borrow::Borrow,
     mem::take,
     ops::{Deref, DerefMut},
 };
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::Atom;
+use swc_atoms::{Atom, Wtf8Atom};
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
@@ -232,7 +233,7 @@ pub(crate) struct Finalizer<'a> {
     pub lits: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_array_access: &'a FxHashMap<Id, Box<Expr>>,
-    pub hoisted_props: &'a FxHashMap<(Id, Atom), Ident>,
+    pub hoisted_props: &'a FxHashMap<(Id, Wtf8Atom), Ident>,
 
     pub vars_to_remove: &'a FxHashSet<Id>,
 
@@ -358,9 +359,9 @@ impl VisitMut for Finalizer<'_> {
             Expr::Member(e) => {
                 if let Expr::Ident(obj) = &*e.obj {
                     let sym = match &e.prop {
-                        MemberProp::Ident(i) => &i.sym,
+                        MemberProp::Ident(i) => i.sym.borrow(),
                         MemberProp::Computed(e) => match &*e.expr {
-                            Expr::Ident(ident) => &ident.sym,
+                            Expr::Ident(ident) => ident.sym.borrow(),
                             Expr::Lit(Lit::Str(s)) => &s.value,
                             _ => return,
                         },
@@ -831,7 +832,7 @@ fn prop_name_from_ident(ident: Ident) -> PropName {
             span: ident.span,
             expr: Box::new(Expr::Lit(Lit::Str(Str {
                 span: ident.span,
-                value: ident.sym.clone(),
+                value: ident.sym.clone().into(),
                 raw: None,
             }))),
         })

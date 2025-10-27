@@ -43,7 +43,7 @@ impl VisitMut for DisplayName {
                     Lit::Str(Str {
                         span: prop.span,
                         raw: None,
-                        value: prop.sym.clone(),
+                        value: prop.sym.clone().into(),
                     })
                     .into(),
                 ),
@@ -56,7 +56,7 @@ impl VisitMut for DisplayName {
                     Lit::Str(Str {
                         span: ident.span,
                         raw: None,
-                        value: ident.sym.clone(),
+                        value: ident.sym.clone().into(),
                     })
                     .into(),
                 ),
@@ -73,7 +73,7 @@ impl VisitMut for DisplayName {
                     Lit::Str(Str {
                         span: DUMMY_SP,
                         raw: None,
-                        value: atom!("input"),
+                        value: atom!("input").into(),
                     })
                     .into(),
                 ),
@@ -89,7 +89,7 @@ impl VisitMut for DisplayName {
                 PropName::Ident(ref i) => Lit::Str(Str {
                     span: i.span,
                     raw: None,
-                    value: i.sym.clone(),
+                    value: i.sym.clone().into(),
                 })
                 .into(),
                 PropName::Str(ref s) => Lit::Str(s.clone()).into(),
@@ -110,7 +110,7 @@ impl VisitMut for DisplayName {
                 name: Some(
                     Lit::Str(Str {
                         span: ident.span,
-                        value: ident.sym.clone(),
+                        value: ident.sym.clone().into(),
                         raw: None,
                     })
                     .into(),
@@ -198,7 +198,9 @@ fn is_key_display_name(prop: &PropOrSpread) -> bool {
             | Prop::Setter(SetterProp { ref key, .. })
             | Prop::KeyValue(KeyValueProp { ref key, .. }) => match *key {
                 PropName::Ident(ref i) => i.sym == "displayName",
-                PropName::Str(ref s) => s.value == "displayName",
+                PropName::Str(ref s) => {
+                    matches!(s.value.as_str(), Some(value) if value == "displayName")
+                }
                 PropName::Num(..) => false,
                 PropName::BigInt(..) => false,
                 PropName::Computed(..) => false,

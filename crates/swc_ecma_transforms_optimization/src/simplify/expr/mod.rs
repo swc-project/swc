@@ -1,6 +1,10 @@
 use std::{borrow::Cow, iter, iter::once};
 
-use swc_atoms::{atom, Atom};
+use swc_atoms::{
+    atom,
+    wtf8::{CodePoint, Wtf8, Wtf8Buf},
+    Atom,
+};
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -582,39 +586,16 @@ where
     ctx.preserve_effects(span, Lit::Bool(Bool { value, span }).into(), orig)
 }
 
-fn nth_char(s: &str, mut idx: usize) -> Option<Cow<str>> {
-    if s.chars().any(|c| c.len_utf16() > 1) {
-        return None;
+/// Gets the `idx`-th UTF-16 code unit from the given [Wtf8].
+/// Surrogate pairs are splitted into high and low surrogates and counted
+/// separately.
+fn nth_char(s: &Wtf8, idx: usize) -> CodePoint {
+    match s.to_ill_formed_utf16().nth(idx) {
+        Some(c) =>
+        // SAFETY: `IllFormedUtf16CodeUnits` always returns code units in the range of UTF-16.
+        unsafe { CodePoint::from_u32_unchecked(c as u32) },
+        None => unreachable!("string is too short"),
     }
-
-    if !s.contains("\\ud") && !s.contains("\\uD") {
-        return Some(Cow::Owned(s.chars().nth(idx).unwrap().to_string()));
-    }
-
-    let mut iter = s.chars().peekable();
-
-    while let Some(c) = iter.next() {
-        if c == '\\' && iter.peek().copied() == Some('u') {
-            if idx == 0 {
-                let mut buf = String::new();
-                buf.push('\\');
-                buf.extend(iter.take(5));
-                return Some(Cow::Owned(buf));
-            } else {
-                for _ in 0..5 {
-                    iter.next();
-                }
-            }
-        }
-
-        if idx == 0 {
-            return Some(Cow::Owned(c.to_string()));
-        }
-
-        idx -= 1;
-    }
-
-    unreachable!("string is too short")
 }
 
 fn need_zero_for_this(e: &Expr) -> bool {
@@ -702,7 +683,7 @@ pub fn optimize_member_expr(
         _ => return,
     };
 
-    #[derive(Clone, PartialEq)]
+    #[derive(Clone, PartialEq, Debug)]
     enum KnownOp {
         /// [a, b].length
         Len,
@@ -773,6 +754,10 @@ pub fn optimize_member_expr(
             KnownOp::Len => {
                 *changed = true;
 
+                let Some(value) = value.as_str() else {
+                    return;
+                };
+
                 *expr = Lit::Num(Number {
                     value: value.chars().map(|c| c.len_utf16()).sum::<usize>() as _,
                     span: *span,
@@ -789,11 +774,12 @@ pub fn optimize_member_expr(
                     return;
                 }
 
-                let Some(value) = nth_char(value, idx as _) else {
-                    return;
-                };
-
+                let c = nth_char(value, idx as _);
                 *changed = true;
+
+                // `nth_char` always returns a code point within the UTF-16 range.
+                let mut value = Wtf8Buf::with_capacity(2);
+                value.push(c);
 
                 *expr = Lit::Str(Str {
                     raw: None,
@@ -1011,14 +997,13 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
     match op {
         op!(bin, "+") => {
             // It's string concatenation if either left or right is string.
-            if let (Known(l), Known(r)) = (
-                left.as_pure_string(expr_ctx),
-                right.as_pure_string(expr_ctx),
-            ) {
+            if let (Known(l), Known(r)) =
+                (left.as_pure_wtf8(expr_ctx), right.as_pure_wtf8(expr_ctx))
+            {
                 if left.is_str() || left.is_array_lit() || right.is_str() || right.is_array_lit() {
                     let mut l = l.into_owned();
 
-                    l.push_str(&r);
+                    l.push_wtf8(&r);
 
                     *changed = true;
 
@@ -1041,13 +1026,13 @@ pub fn optimize_bin_expr(expr_ctx: ExprCtx, expr: &mut Expr, changed: &mut bool)
                         if !left.may_have_side_effects(expr_ctx)
                             && !right.may_have_side_effects(expr_ctx)
                         {
-                            if let (Known(l), Known(r)) = (
-                                left.as_pure_string(expr_ctx),
-                                right.as_pure_string(expr_ctx),
-                            ) {
+                            if let (Known(l), Known(r)) =
+                                (left.as_pure_wtf8(expr_ctx), right.as_pure_wtf8(expr_ctx))
+                            {
                                 *changed = true;
 
-                                let value = format!("{l}{r}");
+                                let mut value = l.into_owned();
+                                value.push_wtf8(&r);
 
                                 *expr = Lit::Str(Str {
                                     raw: None,

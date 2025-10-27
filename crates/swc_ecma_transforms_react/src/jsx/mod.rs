@@ -10,7 +10,11 @@ use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
 use serde::{Deserialize, Serialize};
 use string_enum::StringEnum;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{
+    atom,
+    wtf8::{Wtf8, Wtf8Buf},
+    Atom, Wtf8Atom,
+};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     errors::HANDLER,
@@ -741,7 +745,7 @@ where
                                         PropName::Str(Str {
                                             span: i.span,
                                             raw: None,
-                                            value: i.sym,
+                                            value: i.sym.into(),
                                         })
                                     } else {
                                         PropName::Ident(i)
@@ -930,7 +934,7 @@ where
         Some(match c {
             JSXElementChild::JSXText(text) => {
                 // TODO(kdy1): Optimize
-                let value = jsx_text_to_str(&text.value);
+                let value = jsx_text_to_str(&*text.value);
                 let s = Str {
                     span: text.span,
                     raw: None,
@@ -1289,7 +1293,7 @@ where
                     Lit::Str(Str {
                         span,
                         raw: None,
-                        value: i.sym,
+                        value: i.sym.into(),
                     })
                     .into()
                 } else {
@@ -1367,7 +1371,7 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
                 PropName::Str(Str {
                     span,
                     raw: None,
-                    value: i.sym,
+                    value: i.sym.into(),
                 })
             } else {
                 PropName::Ident(i)
@@ -1403,7 +1407,101 @@ fn to_prop_name(n: JSXAttrName) -> PropName {
 /// - Decode entities on each line (individually).
 /// - Remove empty lines and join the rest with " ".
 #[inline]
-fn jsx_text_to_str(t: &str) -> Atom {
+fn jsx_text_to_str<'a, T>(t: &'a T) -> Wtf8Atom
+where
+    &'a T: Into<&'a Wtf8>,
+    T: ?Sized,
+{
+    let t = t.into();
+    // Fast path: JSX text is almost always valid UTF-8
+    if let Some(s) = t.as_str() {
+        return jsx_text_to_str_impl(s).into();
+    }
+
+    // Slow path: Handle Wtf8 with surrogates (extremely rare)
+    jsx_text_to_str_wtf8_impl(t)
+}
+
+/// Handle JSX text with surrogates
+fn jsx_text_to_str_wtf8_impl(t: &Wtf8) -> Wtf8Atom {
+    let mut acc: Option<Wtf8Buf> = None;
+    let mut only_line: Option<(usize, usize)> = None; // (start, end) byte positions
+    let mut first_non_whitespace: Option<usize> = Some(0);
+    let mut last_non_whitespace: Option<usize> = None;
+
+    let mut byte_pos = 0;
+    for cp in t.code_points() {
+        let c = cp.to_char_lossy();
+        let cp_value = cp.to_u32();
+
+        // Calculate byte length of this code point in WTF-8
+        let cp_byte_len = if cp_value < 0x80 {
+            1
+        } else if cp_value < 0x800 {
+            2
+        } else if cp_value < 0x10000 {
+            3
+        } else {
+            4
+        };
+
+        if is_line_terminator(c) {
+            if let (Some(first), Some(last)) = (first_non_whitespace, last_non_whitespace) {
+                add_line_of_jsx_text_wtf8(first, last, t, &mut acc, &mut only_line);
+            }
+            first_non_whitespace = None;
+        } else if !is_white_space_single_line(c) {
+            last_non_whitespace = Some(byte_pos + cp_byte_len);
+            if first_non_whitespace.is_none() {
+                first_non_whitespace.replace(byte_pos);
+            }
+        }
+
+        byte_pos += cp_byte_len;
+    }
+
+    // Handle final line
+    if let Some(first) = first_non_whitespace {
+        add_line_of_jsx_text_wtf8(first, t.len(), t, &mut acc, &mut only_line);
+    }
+
+    if let Some(acc) = acc {
+        acc.into()
+    } else if let Some((start, end)) = only_line {
+        t.slice(start, end).into()
+    } else {
+        Wtf8Atom::default()
+    }
+}
+
+/// Helper for adding lines of JSX text when handling Wtf8 with surrogates
+fn add_line_of_jsx_text_wtf8(
+    line_start: usize,
+    line_end: usize,
+    source: &Wtf8,
+    acc: &mut Option<Wtf8Buf>,
+    only_line: &mut Option<(usize, usize)>,
+) {
+    if let Some((only_start, only_end)) = only_line.take() {
+        // Second line - create accumulator
+        let mut buffer = Wtf8Buf::with_capacity(source.len());
+        buffer.push_wtf8(source.slice(only_start, only_end));
+        buffer.push_str(" ");
+        buffer.push_wtf8(source.slice(line_start, line_end));
+        *acc = Some(buffer);
+    } else if let Some(ref mut buffer) = acc {
+        // Subsequent lines
+        buffer.push_str(" ");
+        buffer.push_wtf8(source.slice(line_start, line_end));
+    } else {
+        // First line
+        *only_line = Some((line_start, line_end));
+    }
+}
+
+/// Internal implementation that works with &str
+#[inline]
+fn jsx_text_to_str_impl(t: &str) -> Atom {
     let mut acc: Option<String> = None;
     let mut only_line: Option<&str> = None;
     let mut first_non_whitespace: Option<usize> = Some(0);
@@ -1514,45 +1612,53 @@ fn jsx_attr_value_to_expr(v: JSXAttrValue) -> Option<Box<Expr>> {
     })
 }
 
-fn transform_jsx_attr_str(v: &str) -> String {
+fn transform_jsx_attr_str(v: &Wtf8) -> Wtf8Buf {
     let single_quote = false;
-    let mut buf = String::with_capacity(v.len());
-    let mut iter = v.chars().peekable();
+    let mut buf = Wtf8Buf::with_capacity(v.len());
+    let mut iter = v.code_points().peekable();
 
-    while let Some(c) = iter.next() {
-        match c {
-            '\u{0008}' => buf.push_str("\\b"),
-            '\u{000c}' => buf.push_str("\\f"),
-            ' ' => buf.push(' '),
+    while let Some(code_point) = iter.next() {
+        if let Some(c) = code_point.to_char() {
+            match c {
+                '\u{0008}' => buf.push_str("\\b"),
+                '\u{000c}' => buf.push_str("\\f"),
+                ' ' => buf.push_char(' '),
 
-            '\n' | '\r' | '\t' => {
-                buf.push(' ');
+                '\n' | '\r' | '\t' => {
+                    buf.push_char(' ');
 
-                while let Some(' ') = iter.peek() {
-                    iter.next();
+                    while let Some(next) = iter.peek() {
+                        if next.to_char() == Some(' ') {
+                            iter.next();
+                        } else {
+                            break;
+                        }
+                    }
+                }
+                '\u{000b}' => buf.push_str("\\v"),
+                '\0' => buf.push_str("\\x00"),
+
+                '\'' if single_quote => buf.push_str("\\'"),
+                '"' if !single_quote => buf.push_char('"'),
+
+                '\x01'..='\x0f' | '\x10'..='\x1f' => {
+                    buf.push_char(c);
+                }
+
+                '\x20'..='\x7e' => {
+                    //
+                    buf.push_char(c);
+                }
+                '\u{7f}'..='\u{ff}' => {
+                    buf.push_char(c);
+                }
+
+                _ => {
+                    buf.push_char(c);
                 }
             }
-            '\u{000b}' => buf.push_str("\\v"),
-            '\0' => buf.push_str("\\x00"),
-
-            '\'' if single_quote => buf.push_str("\\'"),
-            '"' if !single_quote => buf.push('\"'),
-
-            '\x01'..='\x0f' | '\x10'..='\x1f' => {
-                buf.push(c);
-            }
-
-            '\x20'..='\x7e' => {
-                //
-                buf.push(c);
-            }
-            '\u{7f}'..='\u{ff}' => {
-                buf.push(c);
-            }
-
-            _ => {
-                buf.push(c);
-            }
+        } else {
+            buf.push(code_point);
         }
     }
 

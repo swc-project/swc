@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use anyhow::Context;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
@@ -267,7 +269,10 @@ where
                 args.get_mut(0).into_iter().for_each(|x| {
                     if let ExprOrSpread { spread: None, expr } = x {
                         if let Expr::Lit(Lit::Str(Str { value, raw, .. })) = &mut **expr {
-                            *value = self.resolver.resolve(value.clone());
+                            *value = self
+                                .resolver
+                                .resolve(value.to_atom_lossy().into_owned())
+                                .into();
                             *raw = None;
                         }
                     }
@@ -292,9 +297,9 @@ where
                         .unwrap_or_default() =>
             {
                 let p = match prop {
-                    MemberProp::Ident(IdentName { sym, .. }) => &**sym,
+                    MemberProp::Ident(IdentName { sym, .. }) => Cow::Borrowed(&**sym),
                     MemberProp::Computed(ComputedPropName { expr, .. }) => match &**expr {
-                        Expr::Lit(Lit::Str(s)) => &s.value,
+                        Expr::Lit(Lit::Str(s)) => s.value.to_string_lossy(),
                         _ => return,
                     },
                     MemberProp::PrivateName(..) => return,
@@ -303,7 +308,7 @@ where
                 };
                 self.found_import_meta = true;
 
-                match p {
+                match &*p {
                     // new URL(module.uri, document.baseURI).href
                     "url" => {
                         *n = amd_import_meta_url(*span, self.module());
@@ -319,7 +324,7 @@ where
                             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                                 match &mut **expr {
                                     Expr::Lit(Lit::Str(s)) => {
-                                        s.value = atom!("toUrl");
+                                        s.value = atom!("toUrl").into();
                                         s.raw = None;
                                     }
                                     _ => unreachable!(),
@@ -345,7 +350,7 @@ where
                             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                                 match &mut **expr {
                                     Expr::Lit(Lit::Str(s)) => {
-                                        s.value = atom!("toUrl");
+                                        s.value = atom!("toUrl").into();
                                         s.raw = None;
                                     }
                                     _ => unreachable!(),

@@ -69,7 +69,7 @@ impl Optimizer<'_> {
 
                             *e = Lit::Str(Str {
                                 span: *span,
-                                value: obj.sym.clone(),
+                                value: obj.sym.clone().into(),
                                 raw: None,
                             })
                             .into();
@@ -256,6 +256,9 @@ impl Optimizer<'_> {
                     0 => {}
                     1 => {
                         if let Expr::Lit(Lit::Str(exp)) = &*args[0].expr {
+                            let Some(value) = exp.value.as_str() else {
+                                return;
+                            };
                             self.changed = true;
                             report_change!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/`",
@@ -264,7 +267,7 @@ impl Optimizer<'_> {
 
                             *e = Lit::Regex(Regex {
                                 span,
-                                exp: exp.value.as_ref().into(),
+                                exp: value.into(),
                                 flags: atom!(""),
                             })
                             .into();
@@ -274,6 +277,13 @@ impl Optimizer<'_> {
                         if let (Expr::Lit(Lit::Str(exp)), Expr::Lit(Lit::Str(flags))) =
                             (&*args[0].expr, &*args[1].expr)
                         {
+                            let Some(value) = exp.value.as_str() else {
+                                return;
+                            };
+                            let Some(flags) = flags.value.as_str() else {
+                                return;
+                            };
+
                             self.changed = true;
                             report_change!(
                                 "evaluate: Converting RegExpr call into a regexp literal `/{}/{}`",
@@ -283,8 +293,8 @@ impl Optimizer<'_> {
 
                             *e = Lit::Regex(Regex {
                                 span,
-                                exp: exp.value.as_ref().into(),
-                                flags: flags.value.as_ref().into(),
+                                exp: value.into(),
+                                flags: flags.into(),
                             })
                             .into();
                         }
@@ -353,7 +363,7 @@ impl Optimizer<'_> {
                                             expr: Lit::Str(Str {
                                                 span: p.span,
                                                 raw: None,
-                                                value: p.sym.clone(),
+                                                value: p.sym.clone().into(),
                                             })
                                             .into(),
                                         }));
@@ -365,7 +375,7 @@ impl Optimizer<'_> {
                                                 expr: Lit::Str(Str {
                                                     span: key.span,
                                                     raw: None,
-                                                    value: key.sym.clone(),
+                                                    value: key.sym.clone().into(),
                                                 })
                                                 .into(),
                                             }));

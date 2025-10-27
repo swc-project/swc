@@ -1,5 +1,5 @@
 use rustc_hash::FxHashMap;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::{comments::Comments, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, visit_mut_pass, VisitMut, VisitMutWith};
@@ -27,7 +27,7 @@ struct PureAnnotations<C>
 where
     C: Comments,
 {
-    imports: FxHashMap<Id, (Atom, Atom)>,
+    imports: FxHashMap<Id, (Wtf8Atom, Atom)>,
     comments: Option<C>,
 }
 
@@ -41,7 +41,9 @@ where
         // Pass 1: collect imports
         for item in &module.body {
             if let ModuleItem::ModuleDecl(ModuleDecl::Import(import)) = item {
-                let src_str = &*import.src.value;
+                let Some(src_str) = import.src.value.as_str() else {
+                    continue;
+                };
                 if src_str != "react" && src_str != "react-dom" {
                     continue;
                 }
@@ -50,9 +52,11 @@ where
                     let src = import.src.value.clone();
                     match specifier {
                         ImportSpecifier::Named(named) => {
-                            let imported = match &named.imported {
+                            let imported: Atom = match &named.imported {
                                 Some(ModuleExportName::Ident(imported)) => imported.sym.clone(),
-                                Some(ModuleExportName::Str(..)) => named.local.sym.clone(),
+                                Some(ModuleExportName::Str(s)) => {
+                                    s.value.to_atom_lossy().into_owned()
+                                }
                                 None => named.local.sym.clone(),
                                 #[cfg(swc_ast_unknown)]
                                 Some(_) => continue,
@@ -127,10 +131,15 @@ where
     }
 }
 
-fn is_pure(src: &Atom, specifier: &Atom) -> bool {
-    match &**src {
+fn is_pure(src: &Wtf8Atom, specifier: &Atom) -> bool {
+    let Some(src) = src.as_str() else {
+        return false;
+    };
+    let specifier = specifier.as_str();
+
+    match src {
         "react" => matches!(
-            &**specifier,
+            specifier,
             "cloneElement"
                 | "createContext"
                 | "createElement"
@@ -141,7 +150,7 @@ fn is_pure(src: &Atom, specifier: &Atom) -> bool {
                 | "memo"
                 | "lazy"
         ),
-        "react-dom" => matches!(&**specifier, "createPortal"),
+        "react-dom" => specifier == "createPortal",
         _ => false,
     }
 }

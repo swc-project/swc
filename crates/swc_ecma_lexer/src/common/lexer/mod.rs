@@ -1,11 +1,14 @@
 use std::borrow::Cow;
 
-use char::{Char, CharExt};
+use char::CharExt;
 use either::Either::{self, Left, Right};
 use num_bigint::BigInt as BigIntValue;
 use smartstring::{LazyCompact, SmartString};
 use state::State;
-use swc_atoms::Atom;
+use swc_atoms::{
+    wtf8::{CodePoint, Wtf8, Wtf8Buf},
+    Atom,
+};
 use swc_common::{
     comments::{Comment, CommentKind},
     input::{Input, StringInput},
@@ -62,6 +65,40 @@ static NOT_ASCII_ID_CONTINUE_TABLE: SafeByteMatchTable =
 static TEMPLATE_LITERAL_TABLE: SafeByteMatchTable =
     safe_byte_match_table!(|b| matches!(b, b'$' | b'`' | b'\\' | b'\r'));
 
+/// Converts UTF-16 surrogate pair to Unicode code point.
+/// `https://tc39.es/ecma262/#sec-utf16decodesurrogatepair`
+#[inline]
+const fn pair_to_code_point(high: u32, low: u32) -> u32 {
+    (high - 0xd800) * 0x400 + low - 0xdc00 + 0x10000
+}
+
+/// A Unicode escape sequence.
+///
+/// `\u Hex4Digits`, `\u Hex4Digits \u Hex4Digits`, or `\u{ HexDigits }`.
+#[derive(Debug)]
+pub enum UnicodeEscape {
+    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms a valid Unicode code point.
+    // Char cannot be in range 0xD800..=0xDFFF.
+    CodePoint(char),
+    // `\u Hex4Digits \u Hex4Digits`, which forms a valid Unicode astral code point.
+    // Char is in the range 0x10000..=0x10FFFF.
+    SurrogatePair(char),
+    // `\u Hex4Digits` or `\u{ HexDigits }`, which forms an invalid Unicode code point.
+    // Code unit is in the range 0xD800..=0xDFFF.
+    LoneSurrogate(u32),
+}
+
+impl From<UnicodeEscape> for CodePoint {
+    fn from(value: UnicodeEscape) -> Self {
+        match value {
+            UnicodeEscape::CodePoint(c) | UnicodeEscape::SurrogatePair(c) => {
+                CodePoint::from_char(c)
+            }
+            UnicodeEscape::LoneSurrogate(u) => unsafe { CodePoint::from_u32_unchecked(u) },
+        }
+    }
+}
+
 pub type LexResult<T> = Result<T, crate::error::Error>;
 
 fn remove_underscore(s: &str, has_underscore: bool) -> Cow<'_, str> {
@@ -92,6 +129,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     unsafe fn input_slice(&mut self, start: BytePos, end: BytePos) -> &'a str;
     fn input_uncons_while(&mut self, f: impl FnMut(char) -> bool) -> &'a str;
     fn atom<'b>(&self, s: impl Into<Cow<'b, str>>) -> swc_atoms::Atom;
+    fn wtf8_atom<'b>(&self, s: impl Into<Cow<'b, Wtf8>>) -> swc_atoms::Wtf8Atom;
     fn push_error(&mut self, error: crate::error::Error);
 
     #[inline(always)]
@@ -1116,13 +1154,74 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.input_slice(start, end)
         };
         let raw = self.atom(raw);
-        Ok(Self::Token::str(value, raw, self))
+        Ok(Self::Token::str(value.into(), raw, self))
     }
 
-    fn read_unicode_escape(&mut self) -> LexResult<Vec<Char>> {
+    // Modified based on <https://github.com/oxc-project/oxc/blob/f0e1510b44efdb1b0d9a09f950181b0e4c435abe/crates/oxc_parser/src/lexer/unicode.rs#L237>
+    /// Unicode code unit (`\uXXXX`).
+    ///
+    /// The opening `\u` must already have been consumed before calling this
+    /// method.
+    ///
+    /// See background info on surrogate pairs:
+    ///   * `https://mathiasbynens.be/notes/javascript-encoding#surrogate-formulae`
+    ///   * `https://mathiasbynens.be/notes/javascript-identifiers-es6`
+    fn read_unicode_code_unit(&mut self) -> LexResult<Option<UnicodeEscape>> {
+        const MIN_HIGH: u32 = 0xd800;
+        const MAX_HIGH: u32 = 0xdbff;
+        const MIN_LOW: u32 = 0xdc00;
+        const MAX_LOW: u32 = 0xdfff;
+
+        let Some(high) = self.read_int_u32::<16>(4)? else {
+            return Ok(None);
+        };
+        if let Some(ch) = char::from_u32(high) {
+            return Ok(Some(UnicodeEscape::CodePoint(ch)));
+        }
+
+        // The first code unit of a surrogate pair is always in the range from 0xD800 to
+        // 0xDBFF, and is called a high surrogate or a lead surrogate.
+        // Note: `high` must be >= `MIN_HIGH`, otherwise `char::from_u32` would have
+        // returned `Some`, and already exited.
+        debug_assert!(high >= MIN_HIGH);
+        let is_pair = high <= MAX_HIGH
+            && self.input().cur() == Some('\\')
+            && self.input().peek() == Some('u');
+        if !is_pair {
+            return Ok(Some(UnicodeEscape::LoneSurrogate(high)));
+        }
+
+        let before_second = self.input().cur_pos();
+
+        // Bump `\u`
+        self.input_mut().bump_bytes(2);
+
+        let Some(low) = self.read_int_u32::<16>(4)? else {
+            return Ok(None);
+        };
+
+        // The second code unit of a surrogate pair is always in the range from 0xDC00
+        // to 0xDFFF, and is called a low surrogate or a trail surrogate.
+        // If this isn't a valid pair, rewind to before the 2nd, and return the first
+        // only. The 2nd could be the first part of a valid pair.
+        if !(MIN_LOW..=MAX_LOW).contains(&low) {
+            unsafe {
+                // Safety: state is valid position because we got it from cur_pos()
+                self.input_mut().reset_to(before_second);
+            }
+            return Ok(Some(UnicodeEscape::LoneSurrogate(high)));
+        }
+
+        let code_point = pair_to_code_point(high, low);
+        // SAFETY: `high` and `low` have been checked to be in ranges which always yield
+        // a `code_point` which is a valid `char`
+        let ch = unsafe { char::from_u32_unchecked(code_point) };
+        Ok(Some(UnicodeEscape::SurrogatePair(ch)))
+    }
+
+    fn read_unicode_escape(&mut self) -> LexResult<UnicodeEscape> {
         debug_assert_eq!(self.cur(), Some('u'));
 
-        let mut chars = Vec::with_capacity(4);
         let mut is_curly = false;
 
         self.bump(); // 'u'
@@ -1169,7 +1268,11 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         match c {
             Some(c) => {
-                chars.push(c.into());
+                if is_curly && !self.eat(b'}') {
+                    self.error(state, SyntaxError::InvalidUnicodeEscape)?
+                }
+
+                Ok(UnicodeEscape::CodePoint(c))
             }
             _ => {
                 unsafe {
@@ -1177,44 +1280,26 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     self.input_mut().reset_to(state);
                 }
 
-                chars.push(Char::from('\\'));
-                chars.push(Char::from('u'));
+                let Some(value) = self.read_unicode_code_unit()? else {
+                    self.error(
+                        state,
+                        SyntaxError::BadCharacterEscapeSequence {
+                            expected: if is_curly {
+                                "1-6 hex characters"
+                            } else {
+                                "4 hex characters"
+                            },
+                        },
+                    )?
+                };
 
-                if is_curly {
-                    chars.push(Char::from('{'));
-
-                    for _ in 0..6 {
-                        if let Some(c) = self.input().cur() {
-                            if c == '}' {
-                                break;
-                            }
-
-                            self.bump();
-
-                            chars.push(Char::from(c));
-                        } else {
-                            break;
-                        }
-                    }
-
-                    chars.push(Char::from('}'));
-                } else {
-                    for _ in 0..4 {
-                        if let Some(c) = self.input().cur() {
-                            self.bump();
-
-                            chars.push(Char::from(c));
-                        }
-                    }
+                if is_curly && !self.eat(b'}') {
+                    self.error(state, SyntaxError::InvalidUnicodeEscape)?
                 }
+
+                Ok(value)
             }
         }
-
-        if is_curly && !self.eat(b'}') {
-            self.error(state, SyntaxError::InvalidUnicodeEscape)?
-        }
-
-        Ok(chars)
     }
 
     #[cold]
@@ -1231,7 +1316,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Self::Token> {
         let start = self.cur_pos();
 
-        let mut cooked = Ok(String::new());
+        let mut cooked = Ok(Wtf8Buf::new());
         let mut cooked_slice_start = start;
         let raw_slice_start = start;
 
@@ -1285,10 +1370,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                                 // got them from `self.input`
                                 self.input_slice(cooked_slice_start, last_pos)
                             };
-                            Ok(self.atom(s))
+                            Ok(self.wtf8_atom(Wtf8::from_str(s)))
                         } else {
                             consume_cooked!();
-                            cooked.map(|s| self.atom(s))
+                            cooked.map(|s| self.wtf8_atom(&*s))
                         };
 
                         let end = self.input().cur_pos();
@@ -1310,10 +1395,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     let cooked = if cooked_slice_start == raw_slice_start {
                         let last_pos = self.cur_pos();
                         let s = unsafe { self.input_slice(cooked_slice_start, last_pos) };
-                        Ok(self.atom(s))
+                        Ok(self.wtf8_atom(Wtf8::from_str(s)))
                     } else {
                         consume_cooked!();
-                        cooked.map(|s| self.atom(s))
+                        cooked.map(|s| self.wtf8_atom(&*s))
                     };
 
                     let end = self.input().cur_pos();
@@ -1333,7 +1418,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     }
 
                     if let Ok(ref mut cooked) = cooked {
-                        cooked.push('\n');
+                        cooked.push_char('\n');
                     }
                     cooked_slice_start = self.cur_pos();
                 }
@@ -1342,11 +1427,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     consume_cooked!();
 
                     match self.read_escaped_char(true) {
-                        Ok(Some(chars)) => {
+                        Ok(Some(escaped)) => {
                             if let Ok(ref mut cooked) = cooked {
-                                for c in chars {
-                                    cooked.extend(c);
-                                }
+                                cooked.push(escaped);
                             }
                         }
                         Ok(None) => {}
@@ -1365,7 +1448,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
     /// Read an escaped character for string literal.
     ///
     /// In template literal, we should preserve raw string.
-    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<Vec<Char>>> {
+    fn read_escaped_char(&mut self, in_template: bool) -> LexResult<Option<CodePoint>> {
         debug_assert_eq!(self.cur(), Some('\\'));
 
         let start = self.cur_pos();
@@ -1403,7 +1486,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 self.bump(); // 'x'
 
                 match self.read_int_u32::<16>(2)? {
-                    Some(val) => return Ok(Some(vec![Char::from(val)])),
+                    Some(val) => return Ok(CodePoint::from_u32(val)),
                     None => self.error(
                         start,
                         SyntaxError::BadCharacterEscapeSequence {
@@ -1415,7 +1498,9 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
             // read unicode escape sequences
             'u' => match self.read_unicode_escape() {
-                Ok(chars) => return Ok(Some(chars)),
+                Ok(value) => {
+                    return Ok(Some(value.into()));
+                }
                 Err(err) => self.error(start, err.into_kind())?,
             },
 
@@ -1427,7 +1512,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     match self.cur() {
                         Some(next) if next.is_digit(8) => c,
                         // \0 is not an octal literal nor decimal literal.
-                        _ => return Ok(Some(vec!['\u{0000}'.into()])),
+                        _ => return Ok(Some(CodePoint::from_char('\u{0000}'))),
                     }
                 } else {
                     c
@@ -1454,7 +1539,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                                         .and_then(|value| value.checked_add(v as u8));
                                     match new_val {
                                         Some(val) => val,
-                                        None => return Ok(Some(vec![Char::from(value as char)])),
+                                        None => return Ok(CodePoint::from_u32(value as u32)),
                                     }
                                 } else {
                                     value * 8 + v as u8
@@ -1462,7 +1547,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                                 self.bump();
                             }
-                            _ => return Ok(Some(vec![Char::from(value as u32)])),
+                            _ => return Ok(CodePoint::from_u32(value as u32)),
                         }
                     }};
                 }
@@ -1470,7 +1555,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                 one!(false);
                 one!(true);
 
-                return Ok(Some(vec![Char::from(value as char)]));
+                return Ok(CodePoint::from_u32(value as u32));
             }
             _ => c,
         };
@@ -1480,7 +1565,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
             self.input_mut().bump();
         }
 
-        Ok(Some(vec![c.into()]))
+        Ok(CodePoint::from_u32(c as u32))
     }
 
     /// Expects current char to be '/'
@@ -1665,23 +1750,29 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         }
                     }
 
-                    let chars = self.read_unicode_escape()?;
+                    let value = self.read_unicode_escape()?;
 
-                    if let Some(c) = chars.first() {
-                        let valid = if first {
-                            c.is_ident_start()
-                        } else {
-                            c.is_ident_part()
-                        };
-
-                        if !valid {
+                    match value {
+                        UnicodeEscape::CodePoint(ch) => {
+                            let valid = if first {
+                                ch.is_ident_start()
+                            } else {
+                                ch.is_ident_part()
+                            };
+                            if !valid {
+                                self.emit_error(start, SyntaxError::InvalidIdentChar);
+                            }
+                            buf.push(ch);
+                        }
+                        UnicodeEscape::SurrogatePair(ch) => {
+                            buf.push(ch);
                             self.emit_error(start, SyntaxError::InvalidIdentChar);
                         }
-                    }
-
-                    for c in chars {
-                        buf.extend(c);
-                    }
+                        UnicodeEscape::LoneSurrogate(code_point) => {
+                            buf.push_str(format!("\\u{code_point:04X}").as_str());
+                            self.emit_error(start, SyntaxError::InvalidIdentChar);
+                        }
+                    };
 
                     slice_start = self.cur_pos();
                     continue;
@@ -1964,7 +2055,7 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
         let mut slice_start = self.input().cur_pos();
 
-        let mut buf: Option<String> = None;
+        let mut buf: Option<Wtf8Buf> = None;
 
         loop {
             let table = if quote == b'"' {
@@ -1988,9 +2079,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
 
                     let end = self.cur_pos();
                     let raw = unsafe { self.input_slice(start, end) };
-                    return Ok(Self::Token::str(self.atom(s), self.atom(raw), self));
+                    return Ok(Self::Token::str(self.wtf8_atom(Wtf8::from_str(s)), self.atom(raw), self));
                 },
             };
+            // dbg!(char::from_u32(fast_path_result as u32));
 
             match fast_path_result {
                 b'"' | b'\'' if fast_path_result == quote => {
@@ -2005,10 +2097,10 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                             self.input_slice(slice_start, value_end)
                         };
                         buf.push_str(s);
-                        self.atom(&*buf)
+                        self.wtf8_atom(&**buf)
                     } else {
                         let s = unsafe { self.input_slice(slice_start, value_end) };
-                        self.atom(s)
+                        self.wtf8_atom(Wtf8::from_str(s))
                     };
 
                     unsafe {
@@ -2034,15 +2126,13 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                     };
 
                     if buf.is_none() {
-                        buf = Some(s.to_string());
+                        buf = Some(Wtf8Buf::from_str(s));
                     } else {
                         buf.as_mut().unwrap().push_str(s);
                     }
 
-                    if let Some(chars) = self.read_escaped_char(false)? {
-                        for c in chars {
-                            buf.as_mut().unwrap().extend(c);
-                        }
+                    if let Some(escaped) = self.read_escaped_char(false)? {
+                        buf.as_mut().unwrap().push(escaped);
                     }
 
                     slice_start = self.cur_pos();
@@ -2065,7 +2155,11 @@ pub trait Lexer<'a, TokenAndSpan>: Tokens<TokenAndSpan> + Sized {
                         // `self.input`
                         self.input_slice(start, end)
                     };
-                    return Ok(Self::Token::str(self.atom(s), self.atom(raw), self));
+                    return Ok(Self::Token::str(
+                        self.wtf8_atom(Wtf8::from_str(s)),
+                        self.atom(raw),
+                        self,
+                    ));
                 }
                 _ => self.bump(),
             }

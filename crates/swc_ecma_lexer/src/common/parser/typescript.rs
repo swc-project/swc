@@ -1,7 +1,7 @@
 use std::{fmt::Write, mem};
 
 use either::Either;
-use swc_atoms::{atom, Atom};
+use swc_atoms::{atom, Atom, Wtf8Atom};
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::*;
 
@@ -2233,7 +2233,7 @@ fn parse_ts_import_type<'a, P: Parser<'a>>(p: &mut P) -> PResult<TsImportType> {
         p.emit_err(arg_span, SyntaxError::TS1141);
         Str {
             span: arg_span,
-            value: atom!(""),
+            value: Wtf8Atom::default(),
             raw: Some(atom!("\"\"")),
         }
     };

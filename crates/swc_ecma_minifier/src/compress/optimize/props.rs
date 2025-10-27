@@ -1,3 +1,5 @@
+use std::borrow::Borrow;
+
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
@@ -99,7 +101,7 @@ impl Optimizer<'_> {
                                     }
                                 }
                                 PropName::Ident(i) => {
-                                    if let Some(v) = unknown_used_props.get_mut(&i.sym) {
+                                    if let Some(v) = unknown_used_props.get_mut(i.sym.borrow()) {
                                         *v = 0;
                                     }
                                 }
@@ -107,7 +109,7 @@ impl Optimizer<'_> {
                             }
                         }
                         Prop::Shorthand(p) => {
-                            if let Some(v) = unknown_used_props.get_mut(&p.sym) {
+                            if let Some(v) = unknown_used_props.get_mut(p.sym.borrow()) {
                                 *v = 0;
                             }
                         }
@@ -155,16 +157,22 @@ impl Optimizer<'_> {
 
                 let (key, suffix) = match &**prop {
                     Prop::KeyValue(p) => match &p.key {
-                        PropName::Ident(i) => (i.sym.clone(), i.sym.clone()),
+                        PropName::Ident(i) => (i.sym.clone().into(), i.sym.clone()),
                         PropName::Str(s) => (
                             s.value.clone(),
                             s.value
-                                .replace(|c: char| !Ident::is_valid_continue(c), "$")
+                                .code_points()
+                                .map(|c| {
+                                    c.to_char()
+                                        .filter(|&c| Ident::is_valid_start(c))
+                                        .unwrap_or('$')
+                                })
+                                .collect::<String>()
                                 .into(),
                         ),
                         _ => unreachable!(),
                     },
-                    Prop::Shorthand(p) => (p.sym.clone(), p.sym.clone()),
+                    Prop::Shorthand(p) => (p.sym.clone().into(), p.sym.clone()),
                     _ => unreachable!(),
                 };
 
@@ -203,7 +211,7 @@ impl Optimizer<'_> {
         };
         if let Expr::Ident(obj) = &*member.obj {
             let sym = match &member.prop {
-                MemberProp::Ident(i) => &i.sym,
+                MemberProp::Ident(i) => i.sym.borrow(),
                 MemberProp::Computed(e) => match &*e.expr {
                     Expr::Lit(Lit::Str(s)) => &s.value,
                     _ => return,

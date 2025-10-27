@@ -85,7 +85,9 @@ impl VisitMut for Shorthand {
                         }
                         .into()
                     }
-                    PropName::Str(s @ Str { span, .. }) if s.value == "__proto__" => {
+                    PropName::Str(s @ Str { span, .. })
+                        if s.value.as_str() == Some("__proto__") =>
+                    {
                         ComputedPropName {
                             span,
                             expr: s.into(),

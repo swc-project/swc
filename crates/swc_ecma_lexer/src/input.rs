@@ -449,7 +449,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
         t.take_num(self)
     }
 
-    fn expect_string_token_and_bump(&mut self) -> (swc_atoms::Atom, swc_atoms::Atom) {
+    fn expect_string_token_and_bump(&mut self) -> (swc_atoms::Wtf8Atom, swc_atoms::Atom) {
         let t = self.bump();
         t.take_str(self)
     }
@@ -467,7 +467,7 @@ impl<'a, I: Tokens<TokenAndSpan>> crate::common::parser::buffer::Buffer<'a> for 
     fn expect_template_token_and_bump(
         &mut self,
     ) -> (
-        crate::common::lexer::LexResult<swc_atoms::Atom>,
+        crate::common::lexer::LexResult<swc_atoms::Wtf8Atom>,
         swc_atoms::Atom,
     ) {
         let t = self.bump();
