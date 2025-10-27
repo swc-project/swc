@@ -564,7 +564,7 @@ mod tests {
                         name: JSXAttrName::Ident(IdentName::new(atom!("id"), span)),
                         value: Some(JSXAttrValue::Str(Str {
                             span,
-                            value: atom!("w < w"),
+                            value: atom!("w < w").into(),
                             raw: Some(atom!("\"w &lt; w\"")),
                         })),
                     })],
