@@ -285,7 +285,7 @@ impl<I: Tokens> Parser<I> {
             match cur.token {
                 Token::Str => {
                     let value = self.parse_str_lit();
-                    Ok(Some(JSXAttrValue::Lit(Lit::Str(value))))
+                    Ok(Some(JSXAttrValue::Str(value)))
                 }
                 Token::LBrace => {
                     let start = self.cur_pos();
@@ -562,11 +562,11 @@ mod tests {
                     attrs: vec![JSXAttrOrSpread::JSXAttr(JSXAttr {
                         span,
                         name: JSXAttrName::Ident(IdentName::new(atom!("id"), span)),
-                        value: Some(JSXAttrValue::Lit(Lit::Str(Str {
+                        value: Some(JSXAttrValue::Str(Str {
                             span,
                             value: atom!("w < w"),
                             raw: Some(atom!("\"w &lt; w\"")),
-                        }))),
+                        })),
                     })],
                     name: JSXElementName::Ident(Ident::new_no_ctxt(atom!("div"), span)),
                     self_closing: true,
