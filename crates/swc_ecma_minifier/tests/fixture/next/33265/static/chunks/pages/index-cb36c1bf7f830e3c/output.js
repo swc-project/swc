@@ -1033,7 +1033,8 @@
              * @returns {Readonly<T>}
              *
              * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze
-             */ function freeze(object, oc) {
+             */ function freeze(object) {
+                let oc;
                 return void 0 === oc && (oc = Object), oc && "function" == typeof oc.freeze ? oc.freeze(object) : object;
             }
             /**

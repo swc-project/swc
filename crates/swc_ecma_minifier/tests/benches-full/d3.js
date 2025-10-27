@@ -9746,7 +9746,8 @@ function(global, factory) {
         function step() {
             tick(), event.call("tick", simulation), alpha < alphaMin && (stepper.stop(), event.call("end", simulation));
         }
-        function tick(iterations) {
+        function tick() {
+            let iterations;
             var i, node, n = nodes.length;
             void 0 === iterations && (iterations = 1);
             for(var k = 0; k < iterations; ++k)for(alpha += (alphaTarget - alpha) * alphaDecay, forces.forEach(function(force) {

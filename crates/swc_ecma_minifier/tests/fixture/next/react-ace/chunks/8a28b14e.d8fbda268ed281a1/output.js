@@ -156,7 +156,8 @@
                         importCssString(item[0], item[1]);
                     });
                 }
-                function importCssString(cssText, id, target) {
+                function importCssString(cssText, id) {
+                    let target;
                     if ("undefined" != typeof document) {
                         if (cssCache) {
                             if (target) insertPendingStyles();

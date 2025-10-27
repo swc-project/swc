@@ -1047,7 +1047,8 @@
             }
             unexpected();
         });
-        function simple_statement(tmp) {
+        function simple_statement() {
+            let tmp;
             return new AST_SimpleStatement({
                 body: (tmp = expression(!0), semicolon(), tmp)
             });
