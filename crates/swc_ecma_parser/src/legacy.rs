@@ -5,7 +5,7 @@ pub mod token {
         fmt::{self, Debug, Display, Formatter},
     };
 
-    use swc_atoms::{atom, Atom, AtomStore};
+    use swc_atoms::{atom, Atom, AtomStore, Wtf8Atom};
     use swc_common::{Span, Spanned};
     use swc_ecma_ast::{AssignOp, BigIntValue, BinaryOp};
 
@@ -250,7 +250,7 @@ pub mod token {
         BackQuote,
         Template {
             raw: Atom,
-            cooked: LexResult<Atom>,
+            cooked: LexResult<Wtf8Atom>,
         },
         /// ':'
         Colon,
@@ -273,7 +273,7 @@ pub mod token {
 
         /// String literal. Span of this token contains quote.
         Str {
-            value: Atom,
+            value: Wtf8Atom,
             raw: Atom,
         },
 
@@ -974,7 +974,7 @@ pub mod token {
                 PlusPlus => write!(f, "++")?,
                 MinusMinus => write!(f, "--")?,
                 Tilde => write!(f, "~")?,
-                Str { value, raw } => write!(f, "string literal ({value}, {raw})")?,
+                Str { value, raw } => write!(f, "string literal ({value:?}, {raw})")?,
                 Regex(exp, flags) => write!(f, "regexp literal ({exp}, {flags})")?,
                 Num { value, raw, .. } => write!(f, "numeric literal ({value}, {raw})")?,
                 BigInt { value, raw } => write!(f, "bigint literal ({value}, {raw})")?,

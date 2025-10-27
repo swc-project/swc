@@ -5730,7 +5730,6 @@ dependencies = [
 name = "swc_ecma_parser"
 version = "25.0.0"
 dependencies = [
- "arrayvec",
  "bitflags 2.6.0",
  "codspeed-criterion-compat",
  "either",
