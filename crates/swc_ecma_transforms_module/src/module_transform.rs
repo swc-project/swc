@@ -204,8 +204,8 @@ where
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
-        if !self.config.ignore_dynamic {
-            if matches!(
+        if !self.config.ignore_dynamic
+            && matches!(
                 n,
                 Expr::Call(CallExpr {
                     callee: Callee::Import(Import {
@@ -214,10 +214,10 @@ where
                     }),
                     ..
                 })
-            ) {
-                self.handle_dynamic_import(n);
-                return;
-            }
+            )
+        {
+            self.handle_dynamic_import(n);
+            return;
         }
 
         if !self.config.preserve_import_meta {
