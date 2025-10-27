@@ -10638,8 +10638,7 @@
      * @param {Array} transforms The transformations to apply to the view.
      * @returns {Object} Returns an object containing the `start` and `end`
      *  positions of the view.
-     */ function(end, transforms) {
-                let start = 0;
+     */ function(start, end, transforms) {
                 for(var index = -1, length = transforms.length; ++index < length;){
                     var data = transforms[index], size = data.size;
                     switch(data.type){

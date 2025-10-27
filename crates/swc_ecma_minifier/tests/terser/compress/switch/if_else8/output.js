@@ -1,4 +1,4 @@
-function test(foo) {
-    return "bar" === foo ? "PASS" : "FAIL";
+function test() {
+    return "PASS";
 }
-console.log(test("bar"));
+console.log(test());

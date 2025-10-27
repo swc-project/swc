@@ -1418,8 +1418,7 @@
             function resolveSelection(view, doc, parsedSel) {
                 return Math.max(parsedSel.anchor, parsedSel.head) > doc.content.size ? null : selectionBetween(view, doc.resolve(parsedSel.anchor), doc.resolve(parsedSel.head));
             }
-            function skipClosingAndOpening($pos, mayOpen) {
-                let fromEnd = !0;
+            function skipClosingAndOpening($pos, fromEnd, mayOpen) {
                 for(var depth = $pos.depth, end = fromEnd ? $pos.end() : $pos.pos; depth > 0 && (fromEnd || $pos.indexAfter(depth) == $pos.node(depth).childCount);)depth--, end++, fromEnd = !1;
                 if (mayOpen) for(var next = $pos.node(depth).maybeChild($pos.indexAfter(depth)); next && !next.isLeaf;)next = next.firstChild, end++;
                 return end;

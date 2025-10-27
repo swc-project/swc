@@ -88,25 +88,6 @@ impl Optimizer<'_> {
             return;
         }
 
-        // Skip if this function is a candidate for function body inlining.
-        // Function body inlining can completely inline small functions which is
-        // more effective than parameter inlining. We should not interfere with
-        // that optimization by removing parameters first.
-        //
-        // A function is a good candidate for body inlining when:
-        // - It has a single call site (reduce_fns typically inlines single-use
-        //   functions)
-        //
-        // This check ensures parameter inlining effectively runs "after" function
-        // body inlining by skipping functions that would be inlined anyway.
-        //
-        // For single-call-site functions, parameter inlining doesn't save any bytes
-        // (we're just moving the value from call site to function body), and it can
-        // interfere with function body inlining which is a more powerful optimization.
-        if call_sites.len() == 1 {
-            return;
-        }
-
         // Analyze each parameter
         let mut params_to_inline: Vec<(usize, Box<Expr>)> = Vec::new();
 
@@ -121,6 +102,12 @@ impl Optimizer<'_> {
             // Function declarations are hoisted and would conflict with the inlined
             // `let` declaration
             if self.is_param_shadowed_by_fn_decl(f, &param_id) {
+                continue;
+            }
+
+            // Check if this parameter has the same name as the function itself
+            // This would cause shadowing issues when we create a `let` declaration
+            if param_id == *fn_id {
                 continue;
             }
 
@@ -182,8 +169,34 @@ impl Optimizer<'_> {
         }
 
         // Apply the parameter inlining transformation
+        // Only inline if we can inline a contiguous suffix of parameters to avoid
+        // creating parameter lists with "holes" that might confuse other optimizations
         if !params_to_inline.is_empty() {
-            self.apply_param_inlining(f, &params_to_inline, fn_id);
+            // Sort by parameter index to check for contiguity
+            let mut sorted_for_check = params_to_inline.clone();
+            sorted_for_check.sort_by_key(|(idx, _)| *idx);
+
+            // Check if the parameters form a contiguous suffix
+            let mut is_valid_suffix = true;
+            let total_params = f.params.len();
+            let first_inline_idx = sorted_for_check[0].0;
+
+            // Must start at some index and continue to the end
+            if first_inline_idx + sorted_for_check.len() != total_params {
+                is_valid_suffix = false;
+            } else {
+                // Check contiguity
+                for (i, (idx, _)) in sorted_for_check.iter().enumerate() {
+                    if *idx != first_inline_idx + i {
+                        is_valid_suffix = false;
+                        break;
+                    }
+                }
+            }
+
+            if is_valid_suffix {
+                self.apply_param_inlining(f, &params_to_inline, fn_id);
+            }
         }
     }
 

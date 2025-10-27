@@ -34,7 +34,7 @@
     LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
     OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
     PERFORMANCE OF THIS SOFTWARE.
-    ***************************************************************************** */ /* global Reflect, Promise */ var ua, browser, firefox, ie, edge, weChat, style, mouseHandlerNames, pointerEventNameMap, pointerHandlerNames, classAttr, subTypeDefaulters, _super, _ctx, _cachedFont, requestAnimationFrame, reCreateSeriesIndices, assertSeriesInitialized, initBase, _a, _b, _c, providerMethods, mountMethods, seriesType, nodeParsers, prepare, prepareView, updateDirectly, updateMethods, doConvertPixel, updateStreamModes, doDispatchAction, flushPendingActions, triggerUpdatedEvent, bindRenderedEvent, bindMouseEvent, clearColorPalette, render, renderComponents, renderSeries, performPostUpdateFuncs, createExtensionAPI, enableConnect, setTransitionOpt, markStatusToUpdate, applyChangedStates, defaultDimValueGetters, prepareInvertedIndex, getIndicesCtor, prepareStorage, getRawIndexWithoutIndices, getRawIndexWithIndices, getId, getIdNameFromStore, makeIdFromName, normalizeDimensions, validateDimensions, cloneListForMapAndSample, getInitialExtent, setItemDataAndSeriesIndex, transferProperties, checkNonStyleTansitionRefer, checkTransformPropRefer, extendStatics = function(d, b) {
+    ***************************************************************************** */ /* global Reflect, Promise */ var ua, browser, firefox, ie, edge, weChat, style, mouseHandlerNames, pointerEventNameMap, pointerHandlerNames, classAttr, subTypeDefaulters, _super, creator, _ctx, _cachedFont, requestAnimationFrame, reCreateSeriesIndices, assertSeriesInitialized, initBase, _a, _b, _c, providerMethods, mountMethods, seriesType, nodeParsers, prepare, prepareView, updateDirectly, updateMethods, doConvertPixel, updateStreamModes, doDispatchAction, flushPendingActions, triggerUpdatedEvent, bindRenderedEvent, bindMouseEvent, clearColorPalette, render, renderComponents, renderSeries, performPostUpdateFuncs, createExtensionAPI, enableConnect, setTransitionOpt, markStatusToUpdate, applyChangedStates, defaultDimValueGetters, prepareInvertedIndex, getIndicesCtor, prepareStorage, getRawIndexWithoutIndices, getRawIndexWithIndices, getId, getIdNameFromStore, makeIdFromName, normalizeDimensions, validateDimensions, cloneListForMapAndSample, getInitialExtent, setItemDataAndSeriesIndex, transferProperties, checkNonStyleTansitionRefer, checkTransformPropRefer, extendStatics = function(d, b) {
         return (extendStatics = Object.setPrototypeOf || ({
             __proto__: []
         }) instanceof Array && function(d, b) {
@@ -4273,7 +4273,7 @@
      * Make the name displayable. But we should
      * make sure it is not duplicated with user
      * specified name, so use '\0';
-     */ var DUMMY_COMPONENT_NAME_PREFIX = 'series\0';
+     */ var DUMMY_COMPONENT_NAME_PREFIX = 'series\0', INTERNAL_COMPONENT_ID_PREFIX = '\0_ec_\0';
     /**
      * If value is not array, then translate it to array.
      * @param  {*} value
@@ -4508,7 +4508,7 @@
      * @param {Object} cmptOption
      * @return {boolean}
      */ function isComponentIdInternal(cmptOption) {
-        return cmptOption && null != cmptOption.id && 0 === makeComparableKey(cmptOption.id).indexOf('\0_ec_\0');
+        return cmptOption && null != cmptOption.id && 0 === makeComparableKey(cmptOption.id).indexOf(INTERNAL_COMPONENT_ID_PREFIX);
     }
     /**
      * @param payload Contains dataIndex (means rawIndex) / dataIndexInside / name
@@ -27184,18 +27184,18 @@
                 totalWidth > availableSize.width && (totalWidth -= itemWidth - emptyItemWidth, itemWidth = emptyItemWidth, text = null);
                 var el = new Polygon({
                     shape: {
-                        points: function(x, itemWidth, itemHeight, head, tail) {
+                        points: function(x, y, itemWidth, itemHeight, head, tail) {
                             var points = [
                                 [
                                     head ? x : x - 5,
                                     0
                                 ],
                                 [
-                                    x + 0,
+                                    x + itemWidth,
                                     0
                                 ],
                                 [
-                                    x + 0,
+                                    x + itemWidth,
                                     0 + itemHeight
                                 ],
                                 [
@@ -27204,7 +27204,7 @@
                                 ]
                             ];
                             return tail || points.splice(2, 0, [
-                                x + 0 + 5,
+                                x + itemWidth + 5,
                                 0 + itemHeight / 2
                             ]), head || points.push([
                                 x,
@@ -29605,8 +29605,7 @@
             };
         }, GraphEdge;
     }();
-    function createGraphDataProxyMixin(dataName) {
-        let hostName = 'hostGraph';
+    function createGraphDataProxyMixin(hostName, dataName) {
         return {
             /**
              * @param Default 'value'. can be 'a', 'b', 'c', 'd', 'e'.
@@ -29670,7 +29669,7 @@
             }
         }), graph.update(), graph;
     }
-    mixin(GraphNode, createGraphDataProxyMixin('data')), mixin(GraphEdge, createGraphDataProxyMixin('edgeData'));
+    mixin(GraphNode, createGraphDataProxyMixin('hostGraph', 'data')), mixin(GraphEdge, createGraphDataProxyMixin('hostGraph', 'edgeData'));
     var GraphSeriesModel = /** @class */ function(_super) {
         function GraphSeriesModel() {
             var _this = null !== _super && _super.apply(this, arguments) || this;
@@ -35531,7 +35530,8 @@
                 });
             }
             return result;
-        }(_a[0], _a[1], 0, Math.PI), isIndividualMorphingPath(toPath) || (toPath.__oldBuildPath = toPath.buildPath, toPath.buildPath = morphingPathBuildPath), function(morphingPath, morphingData, morphT) {
+        }(_a[0], _a[1], 0, Math.PI), isIndividualMorphingPath(toPath) || (toPath.__oldBuildPath = toPath.buildPath, toPath.buildPath = morphingPathBuildPath), function(morphingPath, morphingData) {
+            let morphT = 0;
             morphingPath.__morphingData = morphingData, morphingPath.__morphT = morphT;
         }(toPath, morphingData, 0);
         var oldDone = animationOpts && animationOpts.done, oldAborted = animationOpts && animationOpts.aborted, oldDuring = animationOpts && animationOpts.during;
@@ -41365,7 +41365,7 @@
             NaN
         ];
     }
-    var DataZoomFeature = /** @class */ function(_super) {
+    var DATA_ZOOM_ID_BASE = INTERNAL_COMPONENT_ID_PREFIX + 'toolbox-dataZoom_', DataZoomFeature = /** @class */ function(_super) {
         function DataZoomFeature() {
             return null !== _super && _super.apply(this, arguments) || this;
         }
@@ -41495,7 +41495,31 @@
         }; // If both `xAxisIndex` `xAxisId` not set, it means 'all'.
         return null == setting.xAxisIndex && null == setting.xAxisId && (setting.xAxisIndex = 'all'), null == setting.yAxisIndex && null == setting.yAxisId && (setting.yAxisIndex = 'all'), setting;
     }
-    assert(null == internalOptionCreatorMap.get('dataZoom') && 'dataZoom'), internalOptionCreatorMap.set('dataZoom', 'dataZoom');
+    creator = function(ecModel) {
+        var toolboxModel = ecModel.getComponent('toolbox', 0);
+        if (toolboxModel) {
+            var dzFeatureModel = toolboxModel.getModel([
+                'feature',
+                'dataZoom'
+            ]), dzOptions = [], finderResult = parseFinder(ecModel, makeAxisFinder(dzFeatureModel));
+            return each(finderResult.xAxisModels, function(axisModel) {
+                return buildInternalOptions(axisModel, 'xAxis', 'xAxisIndex');
+            }), each(finderResult.yAxisModels, function(axisModel) {
+                return buildInternalOptions(axisModel, 'yAxis', 'yAxisIndex');
+            }), dzOptions;
+        }
+        function buildInternalOptions(axisModel, axisMainType, axisIndexPropName) {
+            var axisIndex = axisModel.componentIndex, newOpt = {
+                type: 'select',
+                $fromToolbox: !0,
+                // Default to be filter
+                filterMode: dzFeatureModel.get('filterMode', !0) || 'filter',
+                // Id for merge mapping.
+                id: DATA_ZOOM_ID_BASE + axisMainType + axisIndex
+            };
+            newOpt[axisIndexPropName] = axisIndex, dzOptions.push(newOpt);
+        }
+    }, assert(null == internalOptionCreatorMap.get('dataZoom') && creator), internalOptionCreatorMap.set('dataZoom', creator);
     var TooltipModel = /** @class */ function(_super) {
         function TooltipModel() {
             var _this = null !== _super && _super.apply(this, arguments) || this;

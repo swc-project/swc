@@ -1,4 +1,5 @@
 "use strict";
+let variant;
 var _a, util = require("@firebase/util"), tslib = require("tslib"), component = require("@firebase/component"), modularAPIs = require("@firebase/app"), logger$1 = require("@firebase/logger"), modularAPIs__namespace = /*#__PURE__*/ function(e) {
     if (e && e.__esModule) return e;
     var n = Object.create(null);
@@ -278,5 +279,5 @@ if (util.isBrowser() && void 0 !== self.firebase) {
     sdkVersion && sdkVersion.indexOf("LITE") >= 0 && logger.warn("\n    Warning: You are trying to load Firebase while using Firebase Performance standalone script.\n    You should load Firebase Performance with this instance of Firebase to avoid loading duplicate code.\n    ");
 }
 // Register `app` package.
-modularAPIs.registerVersion("@firebase/app-compat", "0.1.5", void 0), module.exports = firebase$1;
+modularAPIs.registerVersion("@firebase/app-compat", "0.1.5", variant), module.exports = firebase$1;
  //# sourceMappingURL=index.cjs.js.map
