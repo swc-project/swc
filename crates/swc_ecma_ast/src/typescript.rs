@@ -974,15 +974,6 @@ pub enum TsEnumMemberId {
     Str(Str),
 }
 
-// impl AsRef<Atom> for TsEnumMemberId {
-//     fn as_ref(&self) -> &Atom {
-//         match &self {
-//             TsEnumMemberId::Str(Str { value: ref sym, .. })
-//             | TsEnumMemberId::Ident(Ident { ref sym, .. }) => sym,
-//         }
-//     }
-// }
-
 #[ast_node("TsModuleDeclaration")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
