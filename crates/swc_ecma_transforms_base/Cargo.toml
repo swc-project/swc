@@ -48,9 +48,10 @@ swc_ecma_transforms_macros = { version = "1.0.1", path = "../swc_ecma_transforms
 swc_malloc                 = { version = "1.2.4", path = "../swc_malloc" }
 testing                    = { version = "16.0.0", path = "../testing" }
 
-# [[bench]]
-# harness = false
-# name    = "base"
-# [[bench]]
-# harness = false
-# name    = "parallel"
+[[bench]]
+harness = false
+name    = "base"
+
+[[bench]]
+harness = false
+name    = "parallel"
