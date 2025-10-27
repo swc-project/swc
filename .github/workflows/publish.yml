@@ -89,6 +89,7 @@ jobs:
     uses: ./.github/workflows/publish-npm-package.yml
     secrets: inherit
     with:
+      buildType: "nightly"
       package: ${{ matrix.package }}
       version: ${{ needs.determine-nightly-version.outputs.version }}
       buildCli: true
@@ -156,6 +157,7 @@ jobs:
     uses: ./.github/workflows/publish-npm-package.yml
     secrets: inherit
     with:
+      buildType: "stable"
       package: ${{ matrix.package }}
       version: ${{ inputs.version }}
       buildCli: true

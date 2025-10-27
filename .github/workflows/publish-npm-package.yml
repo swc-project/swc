@@ -26,6 +26,9 @@ permissions:
 on:
   workflow_call:
     inputs:
+      buildType:
+        type: string
+        required: true
       package:
         type: string
         required: true
@@ -293,7 +296,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: bindings-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
+          name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
           path: |
             packages/${{ inputs.package }}/swc*
             packages/${{ inputs.package }}/*.node
@@ -332,7 +335,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v5
         with:
-          name: bindings-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
+          name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-${{ matrix.settings.target }}
           path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
@@ -371,7 +374,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v5
         with:
-          name: bindings-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-gnu
+          name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-gnu
           path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
@@ -411,7 +414,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v5
         with:
-          name: bindings-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-musl
+          name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-x86_64-unknown-linux-musl
           path: ./packages/${{ inputs.package }}
       - name: List packages
         run: ls -R .
@@ -434,7 +437,7 @@ jobs:
   #     - name: Download artifacts
   #       uses: actions/download-artifact@v5
   #       with:
-  #         name: bindings-${{ inputs.package }}-${{ inputs.version}}-aarch64-unknown-linux-musl
+  #         name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-aarch64-unknown-linux-musl
   #         path: ./packages/${{ inputs.package }}
   #     - name: List packages
   #       run: ls -R .
@@ -493,7 +496,7 @@ jobs:
   #     - name: Download artifacts
   #       uses: actions/download-artifact@v5
   #       with:
-  #         name: bindings-${{ inputs.package }}-${{ inputs.version}}-armv7-unknown-linux-gnueabihf
+  #         name: bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-armv7-unknown-linux-gnueabihf
   #         path: ./packages/${{ inputs.package }}
   #     - name: List packages
   #       run: ls -R .
@@ -558,7 +561,7 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v5
         with:
-          pattern: "bindings-${{ inputs.package }}-${{ inputs.version}}-*"
+          pattern: "bindings-${{ inputs.buildType }}-${{ inputs.package }}-${{ inputs.version}}-*"
           path: ./packages/${{ inputs.package }}/artifacts
 
       - name: List binaries
